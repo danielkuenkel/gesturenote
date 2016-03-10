@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>GestureNote</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/generalSubPages.css">
+        <link rel="stylesheet" href="css/createProject.css">
+        <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="js/gotoPage.js"></script>
+        <script src="js/subPages.js"></script>
+        <script src="js/createProject.js"></script>
+    </head>
+    <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+        <!-- Container (Breadcrump) -->
+        <div class="container" id="breadcrumb">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a class="breadcrump-btn" onclick="gotoIndex()">Home</a></li>
+                    <li><a class="breadcrump-btn" onclick="gotoMainLanding()">Main menu</a></li>
+                    <li><a class="breadcrump-btn" onclick="gotoProjects()">Projects</a></li>
+                    <li class="active">Create project</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div id="custom-modal" class="modal fade custom-modal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 id="modal-title" class="modal-title">Modal Header</h4>
+                    </div>
+                    <div id="modal-body" class="modal-body">
+                        <p>Some text in the modal.</p>
+                    </div>
+                    <div id="modal-footer" class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Container (Landing Section) -->
+        <div class=" container-fluid text-center bg-grey" id="landingText">
+            <div class="container">
+                <h2>CREATE A NEW PROJECT</h2>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </div>
+        </div>
+
+        <div class="container mainContent">
+            <div class="row">
+
+                <!-- Formular -->
+                <div class="col-sm-12 col-md-6">
+
+                    <h3>Allgemeines</h3>
+                    <form role="form">
+
+
+                        <!-- project name -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="projectName" placeholder="Projektname einfügen">
+                                <label class="sr-only" for="projectName">Projektname</label>
+                                <span class="input-group-addon" data-toggle="modal" data-target="#custom-modal" onclick="onInfoClick('projectName')">
+                                    <i class="glyphicon glyphicon-question-sign"></i>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <!-- project description -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <textarea class="form-control" id="projectDescription" rows="5" placeholder="Beschreibung einfügen"></textarea>
+                                <label class="sr-only" for="projectDescription">Projektbeschreibung</label>
+                                <span class="input-group-addon" data-toggle="modal" data-target="#custom-modal" onclick="onInfoClick('description')">
+                                    <i class="glyphicon glyphicon-question-sign"></i>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <!-- manner dropdowns -->
+                        <div class="dropdown">
+                            <div class="btn-group btn-group-justified">
+
+                                <span class="input-group-addon">Projektphase</span>
+                                <div class="btn-group select" id="phaseSelect" role="group">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
+                                    <ul class="dropdown-menu option" role="menu">
+                                        <li id="elicitation"><a href="#">Ermittlung</a></li>
+                                        <li id="evaluation"><a href="#">Evaluierung</a></li>
+                                    </ul>
+                                </div>
+
+                                <span class="input-group-addon">Befragungsart</span>
+                                <div class="btn-group select" id="surveyTypeSelect" role="group">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
+                                    <ul class="dropdown-menu option" role="menu">
+                                        <li id="moderated"><a href="#">Moderiert</a></li>
+                                        <li id="unmoderated"><a href="#">Unmoderiert</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Pidoco URL -->
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input type="checkbox" onclick="togglePidocoURLInput()">Koppeln an Pidoco Prototypen</label>
+                            </div>
+                            <div class="form-group collapse" id="pidocoURLInput">
+                                <label class="sr-only" for="pidocoURL">Pidoco URL</label>
+                                <input type="text" class="form-control" id="pidocoURL" placeholder="Pidoco URL eingeben">
+                            </div>
+                        </div>
+
+
+                        <!-- project phases with dropdown -->
+                        <h3>Leitfaden</h3>
+
+                        <div class="form-group">
+                            <div class="btn-group btn-group-justified" role="group">
+
+                                <span class="input-group-addon" id="addPhaseStepSelectAddon">Phasenschritt</span>
+
+                                <div class="btn-group select dropup" id="addPhaseStepSelect" role="group">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                        <li class="dropdown-header">Fragebögen</li>
+                                        <li id="questionnaire"><a href="#">Fragebogen</a></li>
+                                        <li id="gus"><a href="#">GUS</a></li>
+                                        <li id="sus"><a href="#">SUS</a></li>
+                                        <li class="divider"></li>
+                                        <li class="dropdown-header">Songstiges</li>
+                                        <li id="letterOfAcceptance"><a href="#">Einverständniserklärung</a></li>
+                                        <li id="gestureTraining"><a href="#">Gestentraining</a></li>
+                                        <li id="szenario"><a href="#">Szenario-basierte Aufgabe</a></li>
+                                        <li id="observationGuide"><a href="#">Beobachtungsbogen</a></li>
+                                    </ul>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-info disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                </div>
+                                <span class="input-group-addon info-addon info-addon-disabled" id="info-addon-add-phases">
+                                    <i class="glyphicon glyphicon-question-sign"></i>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <!-- phase step list items -->
+                        <div class="form-group" id="phaseStepList"></div>
+
+
+                        <!-- submit button -->
+                        <button type="submit" class="btn btn-default "><span class="glyphicon glyphicon-save"></span> Projekt erstellen</button>
+
+                    </form>
+                </div>
+
+                <!-- Guidelines -->
+                <div class="col-sm-12 col-md-5 col-md-offset-1">
+                    <span class="create-styleguides-header"><h3><span class="glyphicon glyphicon-info-sign"></span> Styleguides</h3></span>
+                    <span id="styleguide-info">
+                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    </span>
+                    <br><br>
+                    <button type="button" class="btn btn-default btn-gn btn-block" data-toggle="modal" data-target="#custom-modal" onclick="onInfoClick('more infos')">more information</button>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            $('.select').on('click', '.option li', function ($e) {
+                $e.preventDefault();
+                var parentID = $(this).parents('.select').attr('id');
+                var itemText = $(this).children().text();
+                var listItemId = $(this).attr('id');
+                $('#' + parentID + ' .selected').attr('id', listItemId);
+                $('#' + parentID + ' .selected').text(itemText);
+                $('#' + parentID + ' .btn-default').removeClass('btn-danger');
+                $('#addPhaseStep').removeClass('disabled');
+                $('#info-addon-add-phases').removeClass('info-addon-disabled');
+            });
+
+            var URLInputActive = false;
+            function togglePidocoURLInput() {
+                if (URLInputActive) {
+                    URLInputActive = false;
+                    $("#pidocoURLInput").removeClass("in");
+                } else {
+                    URLInputActive = true;
+                    $("#pidocoURLInput").addClass("in");
+                }
+            }
+
+            $('.info-addon').on('click', function ($e) {
+                $e.preventDefault();
+                var brotherID = $(this).prevAll(".select:first").attr('id');
+                var selectedID = $('#' + brotherID + ' .selected').attr('id');
+
+                if (selectedID !== "unselected") {
+                    onInfoClick(selectedID);
+                    $('#custom-modal').modal('show');
+                }
+            });
+
+            $('#addPhaseStep').on('click', function ($e) {
+                $e.preventDefault();
+                
+                
+                var brotherID = $(this).parent().prevAll(".select:first").attr('id');
+                var selectedID = $('#' + brotherID + ' .selected').attr('id');
+                var childText = $('#' + brotherID + ' #' + selectedID).children().text();
+
+                if (selectedID !== 'unselected') {
+                    var formGroup = document.createElement('div');
+                    formGroup.setAttribute('class', 'form-group');
+                    formGroup.setAttribute('id', 'singlePhaseStep' + currentPhaseStepCount++);
+                    $('#phaseStepList').append(formGroup);
+
+
+                    var buttonGroup = document.createElement('div');
+                    buttonGroup.setAttribute('class', 'btn-group');
+                    formGroup.appendChild(buttonGroup);
+
+
+                    var button = document.createElement('button');
+                    button.setAttribute('class', 'btn btn-default');
+                    button.onclick = function ($e) {
+                        $e.preventDefault();
+                        moveElementUp(formGroup.getAttribute('id'));
+                    };
+                    buttonGroup.appendChild(button);
+
+                    var icon = document.createElement('span');
+                    icon.setAttribute('class', 'glyphicon glyphicon-arrow-up');
+                    button.appendChild(icon);
+
+
+                    button = document.createElement('button');
+                    button.setAttribute('class', 'btn btn-default');
+                    button.onclick = function ($e) {
+                        $e.preventDefault();
+                        moveElementDown(formGroup.getAttribute('id'));
+                    };
+                    buttonGroup.appendChild(button);
+
+                    icon = document.createElement('span');
+                    icon.setAttribute('class', 'glyphicon glyphicon-arrow-down');
+                    button.appendChild(icon);
+
+
+                    button = document.createElement('button');
+                    button.setAttribute('class', 'btn btn-default');
+                    button.onclick = function ($e) {
+                        $e.preventDefault();
+                        deleteElementById(formGroup.getAttribute('id'));
+                    };
+                    buttonGroup.appendChild(button);
+
+                    icon = document.createElement('span');
+                    icon.setAttribute('class', 'glyphicon glyphicon-trash');
+                    button.appendChild(icon);
+
+
+                    button = document.createElement('button');
+                    button.setAttribute('class', 'btn btn-default');
+                    button.onclick = function ($e) {
+                        $e.preventDefault();
+                        loadHTMLintoModal("#custom-modal .modal-body", "create-" + selectedID + ".html");
+                        $('#custom-modal').modal('show');
+                    };
+                    buttonGroup.appendChild(button);
+
+                    icon = document.createElement('span');
+                    icon.setAttribute('class', 'glyphicon glyphicon-cog');
+                    button.appendChild(icon);
+
+
+                    button = document.createElement('button');
+                    button.setAttribute('class', 'btn btn-default');
+                    buttonGroup.appendChild(button);
+                    button.appendChild(document.createTextNode(childText));
+                    button.onclick = function ($e) {
+                        $e.preventDefault();
+
+                    };
+
+                    checkCurrentListState();
+                }
+            });
+
+            function checkCurrentListState() {
+                var childList = $('#phaseStepList').children();
+
+                for (var i = 0; i < childList.length; i++) {
+                    var child = childList[i];
+                    var firstElement = $('#' + $(child).attr('id') + ' .btn-group :first-child');
+                    var secondElement = firstElement.next();
+
+                    firstElement.removeClass('disabled');
+                    secondElement.removeClass('disabled');
+
+                    if (i === 0) {
+                        firstElement.addClass('disabled');
+                    }
+                    if (i === childList.length - 1) {
+                        secondElement.addClass('disabled');
+                    }
+                }
+            }
+
+            function deleteElementById(id) {
+                var element = document.getElementById(id);
+                element.parentNode.removeChild(element);
+                checkCurrentListState();
+            }
+
+            function moveElementUp(id) {
+                var brotherId = $('#' + id).prev().attr('id');
+                $('#' + id).insertBefore('#' + brotherId).hide().show('slow');
+                checkCurrentListState();
+            }
+
+            function moveElementDown(id) {
+                var brotherId = $('#' + id).next().attr('id');
+                $('#' + id).insertAfter('#' + brotherId).hide().show('slow');
+                checkCurrentListState();
+            }
+            
+            function loadHTMLintoModal(modalId, url) {
+                $(modalId).load(url);
+            }
+        </script>
+
+    </body>
+</html>

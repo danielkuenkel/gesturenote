@@ -1,0 +1,47 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 06.03.2016, 14:56:49
+    Author     : danielkunkel
+*/
+
+.panel-create-project {
+    border: 4px solid #5bb85c;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    transition: box-shadow 0.15s;
+    cursor: pointer;
+    color: #5bb85c;
+    border-radius: 0px;
+}
+
+.panel-create-project:hover {
+    color: white;
+    background: #5bb85c;
+}
+
+.panel-create-project > .panel-heading:hover {
+  background-color: #5bb85c !important;
+  color: white !important;
+}
+
+.panel-create-project > .panel-heading {
+    background-color: rgba(204,255,154,0.3) !important;
+    padding: 25px;
+    padding-bottom: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #5bb85c !important;
+}
+
+#filterDropdown {
+    margin-bottom: 20px;
+}
+
+.filterButton {
+    word-spacing: -10px;
+}

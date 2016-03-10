@@ -1,0 +1,49 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 07.03.2016, 17:39:49
+    Author     : danielkunkel
+*/
+
+#projectDescription {
+    resize: vertical;
+    max-height: 400px;
+}
+
+.create-styleguides-header h3 {
+/*    margin-top: 0px;
+    padding: 0;*/
+    color: #5bb85c;
+}
+
+.input-group-addon {
+    cursor: pointer;
+    color: #818181;
+}
+
+.input-group-addon:hover {
+    color: #303030;
+}
+
+#addPhaseStepSelectAddon {
+    width: 3%;
+}
+#addPhaseStepSelect {
+    width: 6%;
+}
+
+.info-addon-disabled {
+    color: #bbbbbb;
+}
+
+.info-addon-disabled:hover {
+    cursor: not-allowed;
+    color: #bbbbbb;
+}
+
+#phaseStepList .form-group {
+    margin-top: 4px !important;
+}

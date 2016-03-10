@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>GestureNote</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/generalSubPages.css">
+        <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="js/gotoPage.js"></script>
+        <script src="js/register.js"></script>
+
+    </head>
+    <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>   
+                    </button>
+                    <a class="navbar-brand" href="index.html">GestureNote</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="index.html#about">ABOUT</a></li>
+                        <li><a href="index.html#services">SERVICES</a></li>
+                        <li><a href="index.html#contact">CONTACT</a></li>
+                        <li><a href="index.html#login">SIGN IN</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav> 
+        
+        <div class="line text-center"></div>
+
+        <!-- Breadcrump -->
+        <div class="container" id="breadcrumb">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a class="breadcrump-btn" onclick="gotoIndex()">Home</a></li>
+                    <li class="active">Register</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Header Section -->
+        <div class=" container-fluid text-center bg-grey" id="landingText">
+            <div class="container">
+                <span><h2>REGISTER</h2></span>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </div>
+        </div>
+
+        <!-- Main Content Container -->
+        <div class="container-fluid text-center">
+            <form role="form">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="form-group">
+                        <label for="input-forename" class="sr-only">Email address</label>
+                        <input type="email" class="form-control" id="input-forename" placeholder="Enter forename">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-surname" class="sr-only">Email address</label>
+                        <input type="email" class="form-control" id="input-surname" placeholder="Enter surname">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-email" class="sr-only">Email address</label>
+                        <input type="email" class="form-control" id="input-email" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-password" class="sr-only">Password</label>
+                        <input type="password" class="form-control" id="input-password" placeholder="Enter password">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="radio-inline"><input type="radio" name="optradio">I would like to take part in interesting studies as tester</label>
+                        <label class="radio-inline"><input type="radio" name="optradio">I want to create and evaluate studies</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-default btn-block" onclick="onRegisterSubmit()">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Fixed Footer -->
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-5">
+                    <ul class="nav nav-pills">
+                        <li role="presentation"><a href=""><span class="glyphicon glyphicon-copyright-mark"></span> DANIEL KUENKEL</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-7">
+                    <ul class="nav nav-pills navbar-right">
+                        <li role="presentation"><a href="#">forgot password</a></li>
+                        <li role="presentation"><a href="#">imprint</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>
