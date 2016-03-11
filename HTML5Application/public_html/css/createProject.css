@@ -13,12 +13,6 @@ and open the template in the editor.
     max-height: 400px;
 }
 
-.create-styleguides-header h3 {
-/*    margin-top: 0px;
-    padding: 0;*/
-    color: #5bb85c;
-}
-
 .input-group-addon {
     cursor: pointer;
     color: #818181;
@@ -46,4 +40,20 @@ and open the template in the editor.
 
 #phaseStepList .form-group {
     margin-top: 4px !important;
+}
+
+.inactive-button {
+    transition: none;
+}
+.inactive-button:hover
+{
+    box-shadow: none;
+    background: #fff;
+    border-color: #cccccc;
+}
+.inactive-button:
+{
+    box-shadow: none;
+    background: #fff;
+    border-color: #cccccc;
 }

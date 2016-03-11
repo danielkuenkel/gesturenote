@@ -23,9 +23,9 @@
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" onclick="gotoIndex()">Home</a></li>
-                    <li><a class="breadcrump-btn" onclick="gotoMainLanding()">Main menu</a></li>
-                    <li><a class="breadcrump-btn" onclick="gotoProjects()">Projects</a></li>
-                    <li class="active">Create project</li>
+                    <li><a class="breadcrump-btn" onclick="gotoMainLanding()">Hauptmenü</a></li>
+                    <li><a class="breadcrump-btn" onclick="gotoProjects()">Projekte</a></li>
+                    <li class="active">Neues Projekt</li>
                 </ol>
             </div>
         </div>
@@ -36,24 +36,15 @@
 
                 <!-- Modal content-->
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 id="modal-title" class="modal-title">Modal Header</h4>
-                    </div>
-                    <div id="modal-body" class="modal-body">
-                        <p>Some text in the modal.</p>
-                    </div>
-                    <div id="modal-footer" class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+
                 </div>
             </div>
         </div>
 
         <!-- Container (Landing Section) -->
-        <div class=" container-fluid text-center bg-grey" id="landingText">
+        <div class="container-fluid text-center bg-grey" id="landingText">
             <div class="container">
-                <h2>CREATE A NEW PROJECT</h2>
+                <h2>NEUES PROJEKT ERSTELLEN</h2>
                 <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
             </div>
         </div>
@@ -62,7 +53,7 @@
             <div class="row">
 
                 <!-- Formular -->
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-7">
 
                     <h3>Allgemeines</h3>
                     <form role="form">
@@ -73,7 +64,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id="projectName" placeholder="Projektname einfügen">
                                 <label class="sr-only" for="projectName">Projektname</label>
-                                <span class="input-group-addon" data-toggle="modal" data-target="#custom-modal" onclick="onInfoClick('projectName')">
+                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-projectName.html')">
                                     <i class="glyphicon glyphicon-question-sign"></i>
                                 </span>
                             </div>
@@ -85,7 +76,7 @@
                             <div class="input-group">
                                 <textarea class="form-control" id="projectDescription" rows="5" placeholder="Beschreibung einfügen"></textarea>
                                 <label class="sr-only" for="projectDescription">Projektbeschreibung</label>
-                                <span class="input-group-addon" data-toggle="modal" data-target="#custom-modal" onclick="onInfoClick('description')">
+                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-projectDescription.html')">
                                     <i class="glyphicon glyphicon-question-sign"></i>
                                 </span>
                             </div>
@@ -167,35 +158,47 @@
 
 
                         <!-- submit button -->
-                        <button type="submit" class="btn btn-default "><span class="glyphicon glyphicon-save"></span> Projekt erstellen</button>
-
+                        <button type="submit" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-save"></span> Projekt erstellen</button>
                     </form>
                 </div>
 
                 <!-- Guidelines -->
-                <div class="col-sm-12 col-md-5 col-md-offset-1">
-                    <span class="create-styleguides-header"><h3><span class="glyphicon glyphicon-info-sign"></span> Styleguides</h3></span>
+                <div class="col-sm-12 col-md-4 col-md-offset-1">
+                    <div class="gn"><h3>Guidelines</h3></div>
                     <span id="styleguide-info">
                         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                     </span>
                     <br><br>
-                    <button type="button" class="btn btn-default btn-gn btn-block" data-toggle="modal" data-target="#custom-modal" onclick="onInfoClick('more infos')">more information</button>
+                    <button type="button" class="btn btn-gn" onclick="loadHTMLintoModal('custom-modal', 'styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen abrufen</button>
                 </div>
             </div>
         </div>
 
 
         <script>
-            $('.select').on('click', '.option li', function ($e) {
-                $e.preventDefault();
+            $(document).ready(function () {
+                if (typeof (Storage) !== "undefined") {
+                    createSessionStorage();
+                } else {
+                    alert("Sorry, your browser do not support Web Session Storage.");
+                }
+            });
+
+
+
+            $('.select').on('click', '.option li', function (event) {
+                event.preventDefault();
                 var parentID = $(this).parents('.select').attr('id');
                 var itemText = $(this).children().text();
                 var listItemId = $(this).attr('id');
                 $('#' + parentID + ' .selected').attr('id', listItemId);
                 $('#' + parentID + ' .selected').text(itemText);
                 $('#' + parentID + ' .btn-default').removeClass('btn-danger');
-                $('#addPhaseStep').removeClass('disabled');
-                $('#info-addon-add-phases').removeClass('info-addon-disabled');
+
+                if (parentID === "addPhaseStepSelect") {
+                    $('#addPhaseStep').removeClass('disabled');
+                    $('#info-addon-add-phases').removeClass('info-addon-disabled');
+                }
             });
 
             var URLInputActive = false;
@@ -209,31 +212,30 @@
                 }
             }
 
-            $('.info-addon').on('click', function ($e) {
-                $e.preventDefault();
+            $('.info-addon').on('click', function (event) {
+                event.preventDefault();
                 var brotherID = $(this).prevAll(".select:first").attr('id');
                 var selectedID = $('#' + brotherID + ' .selected').attr('id');
 
                 if (selectedID !== "unselected") {
-                    onInfoClick(selectedID);
-                    $('#custom-modal').modal('show');
+                    loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-lg");
+//                    onInfoClick(selectedID);
+//                    $('#custom-modal').modal('show');
                 }
             });
 
-            $('#addPhaseStep').on('click', function ($e) {
-                $e.preventDefault();
-                
-                
+            $('#addPhaseStep').on('click', function (event) {
+                event.preventDefault();
+
                 var brotherID = $(this).parent().prevAll(".select:first").attr('id');
                 var selectedID = $('#' + brotherID + ' .selected').attr('id');
                 var childText = $('#' + brotherID + ' #' + selectedID).children().text();
 
                 if (selectedID !== 'unselected') {
                     var formGroup = document.createElement('div');
-                    formGroup.setAttribute('class', 'form-group');
+                    formGroup.setAttribute('class', 'form-group root');
                     formGroup.setAttribute('id', 'singlePhaseStep' + currentPhaseStepCount++);
                     $('#phaseStepList').append(formGroup);
-
 
                     var buttonGroup = document.createElement('div');
                     buttonGroup.setAttribute('class', 'btn-group');
@@ -241,11 +243,7 @@
 
 
                     var button = document.createElement('button');
-                    button.setAttribute('class', 'btn btn-default');
-                    button.onclick = function ($e) {
-                        $e.preventDefault();
-                        moveElementUp(formGroup.getAttribute('id'));
-                    };
+                    button.setAttribute('class', 'btn btn-default btn-up');
                     buttonGroup.appendChild(button);
 
                     var icon = document.createElement('span');
@@ -254,11 +252,7 @@
 
 
                     button = document.createElement('button');
-                    button.setAttribute('class', 'btn btn-default');
-                    button.onclick = function ($e) {
-                        $e.preventDefault();
-                        moveElementDown(formGroup.getAttribute('id'));
-                    };
+                    button.setAttribute('class', 'btn btn-default btn-down');
                     buttonGroup.appendChild(button);
 
                     icon = document.createElement('span');
@@ -267,11 +261,7 @@
 
 
                     button = document.createElement('button');
-                    button.setAttribute('class', 'btn btn-default');
-                    button.onclick = function ($e) {
-                        $e.preventDefault();
-                        deleteElementById(formGroup.getAttribute('id'));
-                    };
+                    button.setAttribute('class', 'btn btn-default btn-delete');
                     buttonGroup.appendChild(button);
 
                     icon = document.createElement('span');
@@ -281,10 +271,9 @@
 
                     button = document.createElement('button');
                     button.setAttribute('class', 'btn btn-default');
-                    button.onclick = function ($e) {
-                        $e.preventDefault();
-                        loadHTMLintoModal("#custom-modal .modal-body", "create-" + selectedID + ".html");
-                        $('#custom-modal').modal('show');
+                    button.onclick = function (event) {
+                        event.preventDefault();
+                        loadHTMLintoModal("custom-modal", "create-" + selectedID + ".html", "modal-lg");
                     };
                     buttonGroup.appendChild(button);
 
@@ -297,21 +286,19 @@
                     button.setAttribute('class', 'btn btn-default');
                     buttonGroup.appendChild(button);
                     button.appendChild(document.createTextNode(childText));
-                    button.onclick = function ($e) {
-                        $e.preventDefault();
-
+                    button.onclick = function (event) {
+                        event.preventDefault();
+                        loadHTMLintoModal("custom-modal", "create-" + selectedID + ".html", "modal-lg");
                     };
-
-                    checkCurrentListState();
+                    checkCurrentListState('phaseStepList');
                 }
             });
 
-            function checkCurrentListState() {
-                var childList = $('#phaseStepList').children();
-
+            function checkCurrentListState(listId) {
+                var childList = $('#' + listId).children();
                 for (var i = 0; i < childList.length; i++) {
                     var child = childList[i];
-                    var firstElement = $('#' + $(child).attr('id') + ' .btn-group :first-child');
+                    var firstElement = $(child).find('.btn-up');
                     var secondElement = firstElement.next();
 
                     firstElement.removeClass('disabled');
@@ -326,26 +313,52 @@
                 }
             }
 
-            function deleteElementById(id) {
-                var element = document.getElementById(id);
-                element.parentNode.removeChild(element);
-                checkCurrentListState();
+            $('body').on('click', '.btn-delete', function (event) {
+                event.stopPropagation();
+                var element = $(this).closest('.root');
+                var listId = (element).parent().attr('id');
+                $(element).remove();
+                checkCurrentListState(listId);
+            });
+
+            $('body').on('click', '.btn-up', function (event) {
+                event.stopPropagation();
+                moveElement("up", $(this));
+                checkCurrentListState($(this).closest('.root').parent().attr('id'));
+            });
+
+            $('body').on('click', '.btn-down', function (event) {
+                event.stopPropagation();
+                moveElement("down", $(this));
+                checkCurrentListState($(this).closest('.root').parent().attr('id'));
+            });
+
+            function moveElement(direction, which) {
+                var element = $(which).closest('.root');
+                var brother;
+
+                switch (direction) {
+                    case "up":
+                        brother = $(which).closest('.root').prev();
+                        $(element).insertBefore(brother);
+                        break;
+                    case "down":
+                        brother = $(which).closest('.root').next();
+                        $(element).insertAfter(brother);
+                        break;
+                }
             }
 
-            function moveElementUp(id) {
-                var brotherId = $('#' + id).prev().attr('id');
-                $('#' + id).insertBefore('#' + brotherId).hide().show('slow');
-                checkCurrentListState();
-            }
+            function loadHTMLintoModal(modalId, url, modalSize) {
+                $.get(url, modalId, function (data) {
+                    $('#' + modalId).find('.modal-content').html(data);
+                });
+                $('#' + modalId).modal('show');
+                $('#' + modalId).find('.modal-dialog').addClass(modalSize);
 
-            function moveElementDown(id) {
-                var brotherId = $('#' + id).next().attr('id');
-                $('#' + id).insertAfter('#' + brotherId).hide().show('slow');
-                checkCurrentListState();
-            }
-            
-            function loadHTMLintoModal(modalId, url) {
-                $(modalId).load(url);
+                $('#' + modalId).on('hidden.bs.modal', function () {
+                    $(this).removeData('bs.modal');
+                });
             }
         </script>
 

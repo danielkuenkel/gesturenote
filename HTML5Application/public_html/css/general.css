@@ -100,14 +100,14 @@ h4 {
 }
 .panel {
     border: 0px solid;
-    transition: box-shadow 0.15s;
     cursor: pointer;
     color: #818181;
     border-radius: 0px;
+    transition: box-shadow 0.15s;
 }
 .panel:hover {
-    box-shadow: 0px 5px 10px rgba(0,0,0, .3);
     color: #303030;
+    box-shadow: 0px 5px 10px rgba(0,0,0, .3);
 }
 
 .panel-custom-pink {
@@ -115,6 +115,7 @@ h4 {
     border-left-width: 1px;
     border-right-width: 1px;
     border-bottom-width: 1px;
+    border-radius: 6px;
 }
 
 .panel-custom-pink > .panel-heading {
@@ -126,6 +127,8 @@ h4 {
     border-top-color: #ca3667 !important;
     font-weight: bold;
     text-transform: uppercase;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 .panel-custom-pink > .panel-body{
@@ -138,6 +141,8 @@ h4 {
     background-color: white !important;
     border-width: 1px;
     border-color: #eeeeee !important;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 .panel-footer .btn:hover {
     /*border: 1px solid #ca3667;*/
@@ -185,18 +190,17 @@ footer .glyphicon {
     color: #ca3667;
 }
 
+.gn {
+    color: #B85B90;
+}
+
 .btn-gn {
-    border-color: #ca3667;
-    background-color: transparent;
-    border-width: 2px;
-    text-transform: uppercase;
+    color: white;
+    background: #B85B90;
 }
 .btn-gn:hover{
-    border-color: #ca3667;
-    background-color: #ca3667;
+    background: #99366E;
     color: white;
-    border-width: 2px;
-    font-weight: bold;
 }
 .btn-gn-green {
     background: #669933;
@@ -207,6 +211,20 @@ footer .glyphicon {
     background: #527b2b;
     color: #fff;
     border-color: #527b2b;
+}
+
+.btn {
+    transition: box-shadow 0.15s;
+}
+.btn:hover {
+    box-shadow: 0px 5px 10px rgba(0,0,0, .3);
+}
+.btn-success, .btn-gn {
+    border-radius: 24px;
+}
+.btn-lg {
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .footer-copyright {

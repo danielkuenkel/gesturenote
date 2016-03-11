@@ -6,19 +6,21 @@
 
 var currentPhaseStepCount = 0;
 
-function onInfoClick(whichInfo) {
-    var modalBodyText;
-    switch (whichInfo) {
-        case "description":
-            modalBodyText = "test test test";
-            break;
-        default:
-            modalBodyText = "default text";
-            break;
-    }
-    
-    // only for testing
-    modalBodyText = whichInfo;
+function createSessionStorage() {
+    createGUS();
+}
 
-    document.getElementById("modal-body").innerHTML = modalBodyText;
+function createGUS() {
+    var gus = new Array();
+    gus.push(new GUSItem("Ich denke, dass ich mir diese Geste sehr gut merken kann.", 5, false));
+    gus.push(new GUSItem("Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dieser Geste umzugehen.", 5, false));
+    gus.push(new GUSItem("Ich denke, dass sich diese Geste von anderen Gesten ausreichend unterscheidet.", 5, true));
+    sessionStorage.setItem('gus', JSON.stringify(gus));
+}
+
+
+function GUSItem(itemText, likertScale, reversed) {
+    this.itemText = itemText;
+    this.likertScale = likertScale;
+    this.reversed = reversed;
 }

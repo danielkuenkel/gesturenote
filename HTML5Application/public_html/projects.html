@@ -40,24 +40,27 @@
         <!-- Container (Panel Section) -->
         <div class="container mainContent">
 
-            <div class="panel panel-create-project" onclick="gotoCreateProject()">
-                <div class="panel-heading"><span class="glyphicon glyphicon-plus"></span> Ein neues Projekt erstellen</div>
-            </div>
+            <button type="submit" class="btn btn-success btn-lg btn-block" onclick="gotoCreateProject()"><span class="glyphicon glyphicon-plus"></span> Ein neues Projekt erstellen</button>
+            <!--            <div class="panel panel-create-project" onclick="gotoCreateProject()">
+                            <div class="panel-heading"><span class="glyphicon glyphicon-plus"></span> Ein neues Projekt erstellen</div>
+                        </div>-->
 
-            <div class="dropdown text-right" id="filterDropdown">
-                <div class="btn-group">
-                    <button class="btn btn-default filterButton"><span class="glyphicon glyphicon-sort"/> projects sorted by</button>
-                    <button class="btn btn-default" id="filterText">Date (newest first)</button>
+            <div class="form-group">
+                <div class="dropdown text-right" id="filterDropdown">
+                    <div class="btn-group">
+                        <button class="btn btn-default filterButton"><span class="glyphicon glyphicon-sort"/> projects sorted by</button>
+                        <button class="btn btn-default" id="filterText">Date (newest first)</button>
 
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-default dropdown-toggle" id="filterButton" type="button" data-toggle="dropdown"><span class="caret"/></button>
-                        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownmenu">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Date (newest first)</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Date (oldest first)</a></li>
-                            <li role="presentation" class="divider"></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Title (ASC)</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Title (DESC)</a></li>
-                        </ul>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-default dropdown-toggle" id="filterButton" type="button" data-toggle="dropdown"><span class="caret"/></button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownmenu">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Date (newest first)</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Date (oldest first)</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Title (ASC)</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Title (DESC)</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
