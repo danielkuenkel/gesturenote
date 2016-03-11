@@ -184,8 +184,6 @@
                 }
             });
 
-
-
             $('.select').on('click', '.option li', function (event) {
                 event.preventDefault();
                 var parentID = $(this).parents('.select').attr('id');
@@ -219,8 +217,6 @@
 
                 if (selectedID !== "unselected") {
                     loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-lg");
-//                    onInfoClick(selectedID);
-//                    $('#custom-modal').modal('show');
                 }
             });
 
@@ -315,6 +311,7 @@
 
             $('body').on('click', '.btn-delete', function (event) {
                 event.stopPropagation();
+                event.preventDefault();
                 var element = $(this).closest('.root');
                 var listId = (element).parent().attr('id');
                 $(element).remove();
@@ -323,12 +320,14 @@
 
             $('body').on('click', '.btn-up', function (event) {
                 event.stopPropagation();
+                event.preventDefault();
                 moveElement("up", $(this));
                 checkCurrentListState($(this).closest('.root').parent().attr('id'));
             });
 
             $('body').on('click', '.btn-down', function (event) {
                 event.stopPropagation();
+                event.preventDefault();
                 moveElement("down", $(this));
                 checkCurrentListState($(this).closest('.root').parent().attr('id'));
             });
