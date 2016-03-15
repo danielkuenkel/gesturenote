@@ -25,7 +25,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>   
                     </button>
-                    <a class="navbar-brand" href="#pageBody"><span class="glyphicon glyphicon-signal"></span> GestureNote</a>
+                    <a class="navbar-brand" href="#pageBody"><span class="glyphicon glyphicon-stats"></span> GestureNote</a>
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right">
@@ -39,7 +39,7 @@
         </nav>
 
         <div class="jumbotron text-center">
-            <h1><span class="glyphicon glyphicon-signal"></span> GestureNote</h1> 
+            <h1><span class="glyphicon glyphicon-stats"></span> GestureNote</h1> 
             <p>Specialized in usability engineering for gesture interaction</p> 
         </div>
         <div class="line text-center" data-spy="affix" data-offset-top="372"></div>
@@ -59,15 +59,21 @@
 
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2 form-group">
-                    <button type="button" class="btn btn-gn btn-block" id="btn-login" onclick="gotoMainLanding()">sign in</button>
+                    <button type="button" class="btn btn-gn btn-block btn-lg" id="btn-login" onclick="gotoMainLanding()">
+                        <span class="glyphicon glyphicon-log-in"></span> Einloggen
+                    </button>
                     <div class="btn-group btn-group-justified" id="forgot-register-button-group">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-gn btn-block" id="btn-forgot" onclick="gotoForgotPassword()">forgot password</button>
+                            <button type="button" class="btn btn-gn btn-block" id="btn-forgot" onclick="gotoForgotPassword()">
+                                <span class="glyphicon glyphicon-time"></span> Passwort vergessen
+                            </button>
 
                         </div>
                         <!--                        <span>OR</span>-->
                         <div class="btn-group">
-                            <button type="button" class="btn btn-gn btn-block" id="btn-register" onclick="gotoRegister()">create an account</button>
+                            <button type="button" class="btn btn-gn btn-block" id="btn-register" onclick="gotoRegister()">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Konto anlegen
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -79,10 +85,10 @@
         <!-- Container (About Section) -->
         <div id="about" class="container-fluid bg-grey">
             <div class="row">
-                <div class="col-sm-2 col-sm-offset-2">
+                <div class="col-sm-3 col-sm-offset-2">
                     <span class="glyphicon glyphicon-info-sign logo slideanim"></span>
                 </div>
-                <div class="col-sm-7 col-sm-offset-1">
+                <div class="col-sm-6 col-sm-offset-1">
                     <h2>About GestureNote</h2><br>
                     <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>

@@ -12,6 +12,7 @@
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
         <script src="js/gotoPage.js"></script>
         <script src="js/subPages.js"></script>
         <script src="js/createProject.js"></script>
@@ -111,11 +112,17 @@
                         <!-- Pidoco URL -->
                         <div class="form-group">
                             <div class="checkbox">
-                                <label><input type="checkbox" onclick="togglePidocoURLInput()">Koppeln an Pidoco Prototypen</label>
+                                <label><input type="checkbox" onclick="togglePidocoURLInput()" id="pidocoURLCheckbox">Koppeln an Pidoco Prototypen</label>
                             </div>
+
                             <div class="form-group collapse" id="pidocoURLInput">
-                                <label class="sr-only" for="pidocoURL">Pidoco URL</label>
-                                <input type="text" class="form-control" id="pidocoURL" placeholder="Pidoco URL eingeben">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="pidocoURL" placeholder="Pidoco URL eingeben">
+                                    <label class="sr-only" for="pidocoURL">Pidoco URL</label>
+                                    <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-pidoco.html')">
+                                        <i class="glyphicon glyphicon-question-sign"></i>
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
@@ -139,8 +146,8 @@
                                         <li class="dropdown-header">Songstiges</li>
                                         <li id="letterOfAcceptance"><a href="#">Einverständniserklärung</a></li>
                                         <li id="gestureTraining"><a href="#">Gestentraining</a></li>
-                                        <li id="szenario"><a href="#">Szenario-basierte Aufgabe</a></li>
-                                        <li id="observationGuide"><a href="#">Beobachtungsbogen</a></li>
+                                        <li id="scenario"><a href="#">Szenario-basierte Aufgabe</a></li>
+                                        <!--<li id="observationGuide"><a href="#">Beobachtungsbogen</a></li>-->
                                     </ul>
                                 </div>
                                 <div class="btn-group" role="group">
@@ -169,7 +176,8 @@
                         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                     </span>
                     <br><br>
-                    <button type="button" class="btn btn-gn" onclick="loadHTMLintoModal('custom-modal', 'styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen abrufen</button>
+                    <button type="button" class="btn btn-gn" onclick="loadHTMLintoModal('custom-modal', 'info-styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen abrufen</button>
+                    <button type="button" class="btn btn-danger" onclick="clearSessionStorage()">Reset Session Storage</button>
                 </div>
             </div>
         </div>
@@ -177,11 +185,18 @@
 
         <script>
             $(document).ready(function () {
+                createRandomColors();
+
                 if (typeof (Storage) !== "undefined") {
-                    createSessionStorage();
+                    checkSessionStorage();
                 } else {
                     alert("Sorry, your browser do not support Web Session Storage.");
                 }
+
+            });
+
+            $('.breadcrumb li a').on('click', function () {
+                clearSessionStorage();
             });
 
             $('.select').on('click', '.option li', function (event) {
@@ -197,26 +212,27 @@
                     $('#addPhaseStep').removeClass('disabled');
                     $('#info-addon-add-phases').removeClass('info-addon-disabled');
                 }
+
+                saveGeneralData();
             });
 
-            var URLInputActive = false;
             function togglePidocoURLInput() {
-                if (URLInputActive) {
-                    URLInputActive = false;
+                if ($("#pidocoURLInput").hasClass('in')) {
                     $("#pidocoURLInput").removeClass("in");
                 } else {
-                    URLInputActive = true;
                     $("#pidocoURLInput").addClass("in");
                 }
+
+                saveGeneralData();
             }
 
-            $('.info-addon').on('click', function (event) {
+            $('#info-addon-add-phases').on('click', function (event) {
                 event.preventDefault();
                 var brotherID = $(this).prevAll(".select:first").attr('id');
                 var selectedID = $('#' + brotherID + ' .selected').attr('id');
 
                 if (selectedID !== "unselected") {
-                    loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-lg");
+                    loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-md");
                 }
             });
 
@@ -228,67 +244,114 @@
                 var childText = $('#' + brotherID + ' #' + selectedID).children().text();
 
                 if (selectedID !== 'unselected') {
-                    var formGroup = document.createElement('div');
-                    formGroup.setAttribute('class', 'form-group root');
-                    formGroup.setAttribute('id', 'singlePhaseStep' + currentPhaseStepCount++);
-                    $('#phaseStepList').append(formGroup);
-
-                    var buttonGroup = document.createElement('div');
-                    buttonGroup.setAttribute('class', 'btn-group');
-                    formGroup.appendChild(buttonGroup);
-
-
-                    var button = document.createElement('button');
-                    button.setAttribute('class', 'btn btn-default btn-up');
-                    buttonGroup.appendChild(button);
-
-                    var icon = document.createElement('span');
-                    icon.setAttribute('class', 'glyphicon glyphicon-arrow-up');
-                    button.appendChild(icon);
-
-
-                    button = document.createElement('button');
-                    button.setAttribute('class', 'btn btn-default btn-down');
-                    buttonGroup.appendChild(button);
-
-                    icon = document.createElement('span');
-                    icon.setAttribute('class', 'glyphicon glyphicon-arrow-down');
-                    button.appendChild(icon);
-
-
-                    button = document.createElement('button');
-                    button.setAttribute('class', 'btn btn-default btn-delete');
-                    buttonGroup.appendChild(button);
-
-                    icon = document.createElement('span');
-                    icon.setAttribute('class', 'glyphicon glyphicon-trash');
-                    button.appendChild(icon);
-
-
-                    button = document.createElement('button');
-                    button.setAttribute('class', 'btn btn-default');
-                    button.onclick = function (event) {
-                        event.preventDefault();
-                        loadHTMLintoModal("custom-modal", "create-" + selectedID + ".html", "modal-lg");
-                    };
-                    buttonGroup.appendChild(button);
-
-                    icon = document.createElement('span');
-                    icon.setAttribute('class', 'glyphicon glyphicon-cog');
-                    button.appendChild(icon);
-
-
-                    button = document.createElement('button');
-                    button.setAttribute('class', 'btn btn-default');
-                    buttonGroup.appendChild(button);
-                    button.appendChild(document.createTextNode(childText));
-                    button.onclick = function (event) {
-                        event.preventDefault();
-                        loadHTMLintoModal("custom-modal", "create-" + selectedID + ".html", "modal-lg");
-                    };
-                    checkCurrentListState('phaseStepList');
+                    addPhaseStep('singlePhaseStep' + currentPhaseStepCount++, selectedID, childText, null);
+                    savePhases();
                 }
             });
+
+            function addPhaseStep(id, selectedID, childText, color) {
+                var formGroup = document.createElement('div');
+                formGroup.setAttribute('class', 'form-group root');
+                formGroup.setAttribute('id', id);
+                $('#phaseStepList').append(formGroup);
+
+                var buttonGroup = document.createElement('div');
+                buttonGroup.setAttribute('class', 'btn-group');
+                formGroup.appendChild(buttonGroup);
+
+
+                var button = document.createElement('button');
+                button.setAttribute('class', 'btn btn-default btn-up');
+                buttonGroup.appendChild(button);
+
+                var icon = document.createElement('span');
+                icon.setAttribute('class', 'glyphicon glyphicon-arrow-up');
+                button.appendChild(icon);
+
+
+                button = document.createElement('button');
+                button.setAttribute('class', 'btn btn-default btn-down');
+                buttonGroup.appendChild(button);
+
+                icon = document.createElement('span');
+                icon.setAttribute('class', 'glyphicon glyphicon-arrow-down');
+                button.appendChild(icon);
+
+
+                button = document.createElement('button');
+                button.setAttribute('class', 'btn btn-default btn-delete');
+                buttonGroup.appendChild(button);
+
+                icon = document.createElement('span');
+                icon.setAttribute('class', 'glyphicon glyphicon-trash');
+                button.appendChild(icon);
+
+
+                button = document.createElement('button');
+                button.setAttribute('class', 'btn btn-default btn-modify');
+                button.setAttribute('id', selectedID);
+                button.onclick = function (event) {
+                    event.preventDefault();
+                    currentIdForModal = id;
+                    loadHTMLintoModal("custom-modal", "create-" + selectedID + ".html", "modal-lg");
+                };
+                buttonGroup.appendChild(button);
+
+                icon = document.createElement('span');
+                icon.setAttribute('class', 'glyphicon glyphicon-cog');
+                button.appendChild(icon);
+
+                button = document.createElement('button');
+                button.setAttribute('class', 'btn btn-default btn-text-button');
+                buttonGroup.appendChild(button);
+
+                button.onclick = function (event) {
+                    event.preventDefault();
+                    currentIdForModal = id;
+                    loadHTMLintoModal("custom-modal", "create-" + selectedID + ".html", "modal-lg");
+                };
+
+                if (color === null)
+                {
+                    color = colors.pop();
+                }
+
+                icon = document.createElement('span');
+                icon.setAttribute('class', 'glyphicon glyphicon-tag');
+                icon.setAttribute('style', 'color: ' + color);
+                button.appendChild(icon);
+                button.appendChild(document.createTextNode(" " + childText));
+
+                checkCurrentListState('phaseStepList');
+
+                button = document.createElement('button');
+                button.setAttribute('class', 'btn btn-default');
+                buttonGroup.appendChild(button);
+                icon = document.createElement('span');
+                icon.setAttribute('class', 'glyphicon glyphicon-question-sign');
+                button.appendChild(icon);
+                
+                button.onclick = function (event) {
+                    event.preventDefault();
+                    loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-md");
+                };
+            }
+
+            function savePhases() {
+                var phases = new Array();
+                var itemList = document.getElementById('phaseStepList').childNodes;
+
+                for (var i = 0; i < itemList.length; i++) {
+                    var item = itemList[i];
+                    var id = $(item).attr('id');
+                    var selectedId = $(item).find('.btn-modify').attr('id');
+                    var itemText = $(item).find('.btn-text-button').text().trim();
+                    var color = $(item).find('.glyphicon-tag').css('color');
+                    phases.push(new PhaseItem(id, selectedId, itemText, color));
+                }
+
+                sessionStorage.setItem('project.phaseSteps', JSON.stringify(phases));
+            }
 
             function checkCurrentListState(listId) {
                 var childList = $('#' + listId).children();
@@ -313,9 +376,12 @@
                 event.stopPropagation();
                 event.preventDefault();
                 var element = $(this).closest('.root');
+                var elementId = $(element).attr('id');
                 var listId = (element).parent().attr('id');
                 $(element).remove();
                 checkCurrentListState(listId);
+                deleteSessionDataById(elementId + ".data");
+                savePhases();
             });
 
             $('body').on('click', '.btn-up', function (event) {
@@ -346,6 +412,7 @@
                         $(element).insertAfter(brother);
                         break;
                 }
+                savePhases();
             }
 
             function loadHTMLintoModal(modalId, url, modalSize) {
@@ -357,8 +424,13 @@
 
                 $('#' + modalId).on('hidden.bs.modal', function () {
                     $(this).removeData('bs.modal');
+                    $(this).find('.modal-dialog').removeClass(modalSize);
                 });
             }
+
+            $('#projectName, #projectDescription, #pidocoURL').focusout(function () {
+                saveGeneralData();
+            });
         </script>
 
     </body>

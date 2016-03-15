@@ -51,9 +51,3 @@ and open the template in the editor.
     background: #fff;
     border-color: #cccccc;
 }
-.inactive-button:
-{
-    box-shadow: none;
-    background: #fff;
-    border-color: #cccccc;
-}

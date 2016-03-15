@@ -30,7 +30,7 @@ $(document).ready(function () {
     navbarBrand.setAttribute("onClick", "checkLogin()");
     
     var logoIcon = navbarBrand.appendChild(document.createElement("span"));
-    logoIcon.setAttribute("class", "glyphicon glyphicon-signal");
+    logoIcon.setAttribute("class", "glyphicon glyphicon-stats");
     navbarBrand.appendChild(document.createTextNode(" GestureNote"));
     
     var signOutContainer = container.appendChild(document.createElement("div"));
