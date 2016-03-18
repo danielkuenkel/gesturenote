@@ -1,3 +1,15 @@
+<?php
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+sec_session_start();
+if (login_check($mysqli) == true) {
+    // Add your protected page content here!
+} else {
+//    print_r("logged out");
+    $_SESSION['user_id'] = 4;
+}
+//print_r($_SESSION);
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -107,7 +119,8 @@
                                 </div>
                             </div>
                         </div>
-
+                        
+                        <hr>
 
                         <!-- Pidoco URL -->
                         <div class="form-group">
@@ -125,7 +138,8 @@
                                 </div>
                             </div>
                         </div>
-
+                        
+                        <hr>
 
                         <!-- project phases with dropdown -->
                         <h3>Leitfaden</h3>
@@ -151,9 +165,9 @@
                                     </ul>
                                 </div>
                                 <div class="btn-group" role="group">
-                                    <button class="btn btn-info disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                    <button class="btn btn-info disabled toggable-button" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                                 </div>
-                                <span class="input-group-addon info-addon info-addon-disabled" id="info-addon-add-phases">
+                                <span class="input-group-addon info-addon info-addon-disabled toggable-info" id="info-addon-add-phases">
                                     <i class="glyphicon glyphicon-question-sign"></i>
                                 </span>
                             </div>
@@ -162,7 +176,8 @@
 
                         <!-- phase step list items -->
                         <div class="form-group" id="phaseStepList"></div>
-
+                        
+                        <hr>
 
                         <!-- submit button -->
                         <button type="submit" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-save"></span> Projekt erstellen</button>
@@ -199,18 +214,20 @@
                 clearSessionStorage();
             });
 
-            $('.select').on('click', '.option li', function (event) {
+            $('body').on('click', '.select .option li', function (event) {
                 event.preventDefault();
-                var parentID = $(this).parents('.select').attr('id');
+                var parent = $(this).closest('.select');
                 var itemText = $(this).children().text();
                 var listItemId = $(this).attr('id');
-                $('#' + parentID + ' .selected').attr('id', listItemId);
-                $('#' + parentID + ' .selected').text(itemText);
-                $('#' + parentID + ' .btn-default').removeClass('btn-danger');
-
-                if (parentID === "addPhaseStepSelect") {
-                    $('#addPhaseStep').removeClass('disabled');
-                    $('#info-addon-add-phases').removeClass('info-addon-disabled');
+                $(parent).find('.selected').attr('id', listItemId);
+                $(parent).find('.selected').text(itemText);
+                var parentID = parent.attr('id');
+                
+                console.log(parentID + ", " + itemText + ", "+ listItemId);
+                
+                if (parentID !== "phaseSelect" || parentID !== "surveyTypeSelect") {
+                    $('#' + parentID).parent().find('.toggable-button').removeClass('disabled');
+                    $('#' + parentID).parent().find('.toggable-info').removeClass('info-addon-disabled');
                 }
 
                 saveGeneralData();
@@ -322,7 +339,7 @@
                 button.appendChild(icon);
                 button.appendChild(document.createTextNode(" " + childText));
 
-                checkCurrentListState('phaseStepList');
+                checkCurrentListState($('#phaseStepList'));
 
                 button = document.createElement('button');
                 button.setAttribute('class', 'btn btn-default');
@@ -353,11 +370,11 @@
                 sessionStorage.setItem('project.phaseSteps', JSON.stringify(phases));
             }
 
-            function checkCurrentListState(listId) {
-                var childList = $('#' + listId).children();
+            function checkCurrentListState(itemContainer) {
+                var childList = $(itemContainer).children();
                 for (var i = 0; i < childList.length; i++) {
                     var child = childList[i];
-                    var firstElement = $(child).find('.btn-up');
+                    var firstElement = $(child).find('.btn-up').first();
                     var secondElement = firstElement.next();
 
                     firstElement.removeClass('disabled');
@@ -376,11 +393,9 @@
                 event.stopPropagation();
                 event.preventDefault();
                 var element = $(this).closest('.root');
-                var elementId = $(element).attr('id');
-                var listId = (element).parent().attr('id');
+                var parent = $(element).parent();
                 $(element).remove();
-                checkCurrentListState(listId);
-                deleteSessionDataById(elementId + ".data");
+                checkCurrentListState(parent);
                 savePhases();
             });
 
@@ -388,14 +403,14 @@
                 event.stopPropagation();
                 event.preventDefault();
                 moveElement("up", $(this));
-                checkCurrentListState($(this).closest('.root').parent().attr('id'));
+                checkCurrentListState($(this).closest('.root').parent());
             });
 
             $('body').on('click', '.btn-down', function (event) {
                 event.stopPropagation();
                 event.preventDefault();
                 moveElement("down", $(this));
-                checkCurrentListState($(this).closest('.root').parent().attr('id'));
+                checkCurrentListState($(this).closest('.root').parent());
             });
 
             function moveElement(direction, which) {

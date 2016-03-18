@@ -1,3 +1,8 @@
+<?php
+include_once 'includes/register.inc.php';
+include_once 'includes/functions.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -11,8 +16,11 @@
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
         <script src="js/gotoPage.js"></script>
         <script src="js/register.js"></script>
+        <script type="text/JavaScript" src="js/sha512.js"></script>  
+        <script type="text/JavaScript" src="js/forms.js"></script>
 
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -38,7 +46,7 @@
                 </div>
             </div>
         </nav> 
-        
+
         <div class="line text-center"></div>
 
         <!-- Breadcrump -->
@@ -61,32 +69,68 @@
 
         <!-- Main Content Container -->
         <div class="container-fluid text-center">
-            <form role="form">
+            <?php
+            if (!empty($error_msg)) {
+                echo $error_msg;
+            }
+            ?>
+            <form role="form" 
+                  action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>"
+                  method="post" 
+                  name="registration_form"
+                  id="registerform">
                 <div class="col-sm-6 col-sm-offset-3">
                     <div class="form-group">
-                        <label for="input-forename" class="sr-only">Email address</label>
-                        <input type="email" class="form-control" id="input-forename" placeholder="Enter forename">
+                        <label for="forename" class="sr-only">Vorname</label>
+                        <input type="text" class="form-control" name="forename" id="forename" placeholder="Vorname">
                     </div>
                     <div class="form-group">
-                        <label for="input-surname" class="sr-only">Email address</label>
-                        <input type="email" class="form-control" id="input-surname" placeholder="Enter surname">
+                        <label for="surname" class="sr-only">Nachname</label>
+                        <input type="text" class="form-control" name="surname" id="surname" placeholder="Nachname">
                     </div>
                     <div class="form-group">
-                        <label for="input-email" class="sr-only">Email address</label>
-                        <input type="email" class="form-control" id="input-email" placeholder="Enter email">
+                        <label for="email" class="sr-only">E-Mail-Adresse</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="E-Mail-Adresse">
                     </div>
                     <div class="form-group">
-                        <label for="input-password" class="sr-only">Password</label>
-                        <input type="password" class="form-control" id="input-password" placeholder="Enter password">
+                        <label for="password" class="sr-only">Passwort</label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Passwort">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword" class="sr-only">Passwort wiederholen</label>
+                        <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Passwort wiederholen">
                     </div>
 
-                    <div class="form-group">
-                        <label class="radio-inline"><input type="radio" name="optradio">I would like to take part in interesting studies as tester</label>
-                        <label class="radio-inline"><input type="radio" name="optradio">I want to create and evaluate studies</label>
+                    <div class="form-group" id="usertype">
+                        <label class="radio-inline"><input type="radio" name="usertype" value="tester">I would like to take part in interesting studies as tester</label>
+                        <label class="radio-inline"><input type="radio" name="usertype" value="evaluator">I want to create and evaluate studies</label>
                     </div>
 
-                    <button type="submit" class="btn btn-default btn-block" onclick="onRegisterSubmit()">Submit</button>
+                    <input type="button" class="btn btn-default btn-block" value="Register" id="btn-register"/>
+                </div>
             </form>
+
+<!--            <form action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>" 
+                  method="post" 
+                  name="registration_form">
+                Username: <input type='text' 
+                                 name='username' 
+                                 id='username' /><br>
+                Email: <input type="text" name="email" id="email" /><br>
+                Password: <input type="password"
+                                 name="password" 
+                                 id="password"/><br>
+                Confirm password: <input type="password" 
+                                         name="confirmpwd" 
+                                         id="confirmpwd" /><br>
+                <input type="button" 
+                       value="Register" 
+                       onclick="return regformhash($('#registerform'),
+                                       $('#forename'),
+                                       $('#email'),
+                                       $('#password'),
+                                       $('#confirmpwd'));" /> 
+            </form>-->
         </div>
     </div>
 
@@ -108,5 +152,26 @@
             </div>
         </div>
     </nav>
+
+    <script>
+        choosedUsertype = null;
+        
+        $("#btn-register").on('click', function (event) {
+            event.preventDefault();
+            
+            return regformhash($('#registerform'),
+                    $('#forename'),
+                    $('#surname'),
+                    $('#email'),
+                    $('#password'),
+                    $('#confirmPassword'),
+                    choosedUsertype
+                    );
+        });
+        
+        $('#usertype input').on('click', function() {
+            choosedUsertype = $(this).val();
+        });
+    </script>
 </body>
 </html>

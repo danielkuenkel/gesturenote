@@ -29,6 +29,13 @@ and open the template in the editor.
     width: 6%;
 }
 
+#addFormatSelectAddon {
+    width: 2%;
+}
+#addFormatSelect {
+    width: 8%;
+}
+
 .info-addon-disabled {
     color: #bbbbbb;
 }

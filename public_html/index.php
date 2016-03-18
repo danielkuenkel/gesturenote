@@ -1,3 +1,19 @@
+<?php
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+
+sec_session_start();
+$_SESSION['test'] = 'test';
+print_r($_SESSION);
+
+if (login_check($mysqli) == true) {
+    $logged = 'in';
+    print_r($logged);
+//    header('Location: mainLanding.php');
+} else {
+    $logged = 'out';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -13,6 +29,8 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="js/gotoPage.js"></script>
         <script src="js/index.js"></script>
+        <script type="text/JavaScript" src="js/sha512.js"></script> 
+        <script type="text/JavaScript" src="js/forms.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -44,42 +62,106 @@
         </div>
         <div class="line text-center" data-spy="affix" data-offset-top="372"></div>
 
+        <?php
+        if (isset($_GET['error'])) {
+            echo '<p class="error">Error Logging In!</p>';
+        }
+        ?> 
+
         <!-- Container (Login Section) -->
         <div id="login" class="container-fluid text-center">
+            <h2>LOGIN</h2>
 
-            <div class="row">
-                <h2>LOGIN</h2>
-                <div class="col-sm-offset-2 col-sm-4 form-group">
-                    <input type="email" class="form-control" id="input-email" size="50" placeholder="Email Address" required>
-                </div>
-                <div class="col-sm-4 form-group">
-                    <input type="password" class="form-control" id="input-password" size="50" placeholder="Password" required>
-                </div>
-            </div>
+            <!--            <form action="includes/process_login.php" method="post" name="login_form">                      
+                            Email: <input type="text" name="email" />
+                            Password: <input type="password" 
+                                             name="password" 
+                                             id="password"/>
+                            <input type="button" 
+                                   value="Login" 
+                                   onclick="formhash(this.form, this.form.password);" /> 
+                        </form>-->
 
-            <div class="row">
-                <div class="col-sm-8 col-sm-offset-2 form-group">
-                    <button type="button" class="btn btn-gn btn-block btn-lg" id="btn-login" onclick="gotoMainLanding()">
-                        <span class="glyphicon glyphicon-log-in"></span> Einloggen
-                    </button>
-                    <div class="btn-group btn-group-justified" id="forgot-register-button-group">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-gn btn-block" id="btn-forgot" onclick="gotoForgotPassword()">
-                                <span class="glyphicon glyphicon-time"></span> Passwort vergessen
-                            </button>
+            <form role="form" 
+                  action="includes/process_login.php"
+                  method="post" 
+                  name="login_form"
+                  id="loginform">
 
-                        </div>
-                        <!--                        <span>OR</span>-->
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-gn btn-block" id="btn-register" onclick="gotoRegister()">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Konto anlegen
-                            </button>
-                        </div>
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-4">
+                        <label for="email" class="sr-only">E-Mail-Adresse</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="E-Mail-Adresse">
                     </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="password" class="sr-only">Passwort</label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Passwort">
+                    </div>
+                </div>
+
+
+                <div class="col-sm-offset-2 col-sm-8">
+                    <!--<input type="button" class="btn btn-default btn-block" value="Einloggen" id="btn-login"/>-->
+                    <button type="button" class="btn btn-gn btn-block btn-lg" id="btn-login" onclick="formhash(this.form, this.form.password);">
+                        <span class="glyphicon glyphicon-log-in"></span> Einloggen
+                    </button>
+                </div>
+
+            </form>
+            <div class="col-sm-8 col-sm-offset-2 form-group">
+                <div class="btn-group btn-group-justified" id="forgot-register-button-group">
+                    <div class="btn-group ">
+                        <button type="button" class="btn btn-gn btn-block" id="btn-forgot" onclick="gotoForgotPassword()">
+                            <span class="glyphicon glyphicon-time"></span> Passwort vergessen
+                        </button>
+
+                    </div>
+                    <!--                        <span>OR</span>-->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-gn btn-block" id="btn-register" onclick="gotoRegister()">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Konto anlegen
+                        </button>
+                    </div>
+                </div></div>
         </div>
 
+
+
+
+
+        <!--            <div class="col-sm-offset-2 col-sm-4 form-group">
+                        <input type="email" class="form-control" id="input-email" size="50" placeholder="Email Address" required>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <input type="password" class="form-control" id="input-password" size="50" placeholder="Password" required>
+                    </div>-->
+
+
+        <!--        <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2 form-group">
+                        <button type="button" class="btn btn-gn btn-block btn-lg" id="btn-login" onclick="gotoMainLanding()">
+                            <span class="glyphicon glyphicon-log-in"></span> Einloggen
+                        </button>
+                        <div class="btn-group btn-group-justified" id="forgot-register-button-group">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-gn btn-block" id="btn-forgot" onclick="gotoForgotPassword()">
+                                    <span class="glyphicon glyphicon-time"></span> Passwort vergessen
+                                </button>
+        
+                            </div>
+                                                    <span>OR</span>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-gn btn-block" id="btn-register" onclick="gotoRegister()">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Konto anlegen
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
 
 
         <!-- Container (About Section) -->
@@ -189,27 +271,27 @@
         <!-- Add Google Maps -->
         <script src="http://maps.googleapis.com/maps/api/js"></script>
         <script>
-                                    var myCenter = new google.maps.LatLng(50.564726, 9.685376);
+                            var myCenter = new google.maps.LatLng(50.564726, 9.685376);
 
-                                    function initialize() {
-                                        var mapProp = {
-                                            center: myCenter,
-                                            zoom: 15,
-                                            scrollwheel: false,
-                                            draggable: false,
-                                            mapTypeId: google.maps.MapTypeId.ROADMAP
-                                        };
+                            function initialize() {
+                                var mapProp = {
+                                    center: myCenter,
+                                    zoom: 15,
+                                    scrollwheel: false,
+                                    draggable: false,
+                                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                                };
 
-                                        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+                                var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
-                                        var marker = new google.maps.Marker({
-                                            position: myCenter,
-                                        });
+                                var marker = new google.maps.Marker({
+                                    position: myCenter,
+                                });
 
-                                        marker.setMap(map);
-                                    }
+                                marker.setMap(map);
+                            }
 
-                                    google.maps.event.addDomListener(window, 'load', initialize);
+                            google.maps.event.addDomListener(window, 'load', initialize);
         </script>
 
         <footer class="container-fluid text-center">

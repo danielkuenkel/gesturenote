@@ -24,7 +24,7 @@ function createOriginGUS() {
 }
 
 function renderSessionStorageData() {
-    console.log(sessionStorage);
+//    console.log(sessionStorage);
     var phaseSteps = sessionStorage.getItem('project.phaseSteps');
     if (phaseSteps !== null)
     {

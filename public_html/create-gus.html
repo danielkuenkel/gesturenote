@@ -52,8 +52,6 @@
 </div>
 
 <script>
-    var gusItemId = 0;
-
     $(document).ready(function () {
         var originGUS = JSON.parse(sessionStorage.getItem('project.originGUS'));
         var customGUS = JSON.parse(sessionStorage.getItem(currentIdForModal + '.data'));
@@ -96,14 +94,14 @@
             }
         }
 
-        checkCurrentListState('list-container');
+        checkCurrentListState($('#list-container'));
     }
 
     $('#btn-add-gus-item').on('click', function () {
         var clone = document.getElementById('item-container').cloneNode(true);
         clone.setAttribute('class', 'form-group root');
         $('#list-container').append(clone);
-        checkCurrentListState('list-container');
+        checkCurrentListState($('#list-container'));
     });
     
     function onCloseClick() {

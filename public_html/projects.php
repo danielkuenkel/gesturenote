@@ -41,9 +41,6 @@
         <div class="container mainContent">
 
             <button type="submit" class="btn btn-success btn-lg btn-block" onclick="gotoCreateProject()"><span class="glyphicon glyphicon-plus"></span> Ein neues Projekt erstellen</button>
-            <!--            <div class="panel panel-create-project" onclick="gotoCreateProject()">
-                            <div class="panel-heading"><span class="glyphicon glyphicon-plus"></span> Ein neues Projekt erstellen</div>
-                        </div>-->
 
             <div class="form-group">
                 <div class="dropdown text-right" id="filterDropdown">
@@ -67,35 +64,35 @@
 
             <div class="row">
                 <div class="col-md-4 col-lg-3 col-sm-6">
-                    <div class="panel panel-custom-pink">
+                    <div class="panel panel-custom panel-custom-pink">
                         <div class="panel-heading">Projekt 1</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3 col-sm-6">
-                    <div class="panel panel-custom-pink">
+                    <div class="panel panel-custom panel-custom-pink">
                         <div class="panel-heading">Projekt 2</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3 col-sm-6">
-                    <div class="panel panel-custom-pink">
+                    <div class="panel panel-custom panel-custom-pink">
                         <div class="panel-heading">Projekt 3</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3 col-sm-6">
-                    <div class="panel panel-custom-pink">
+                    <div class="panel panel-custom panel-custom-pink">
                         <div class="panel-heading">Projekt 4</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3 col-sm-6">
-                    <div class="panel panel-custom-pink">
+                    <div class="panel panel-custom panel-custom-pink">
                         <div class="panel-heading">Projekt 5</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>

@@ -68,3 +68,11 @@ and open the template in the editor.
     text-transform: uppercase;
     color: #5bb85c !important;
 }
+
+.form-group-no-margin {
+    margin: 0;
+}
+.form-group-margin-top {
+    margin-top: 10px;
+    margin-bottom: 0px;
+}

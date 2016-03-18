@@ -1,3 +1,18 @@
+<?php
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+
+
+sec_session_start();
+print_r($_SESSION);
+
+if (login_check($mysqli) == true) {
+    // Add your protected page content here!
+} else {
+    print_r("logged out");
+//        header('Location: index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -34,34 +49,50 @@
                 <p>Please select the desired section.</p>
             </div>
         </div>
+        
+        
+        <?php if (login_check($mysqli) == true) : ?>
+            <p>Welcome <?php echo htmlentities($_SESSION['username']); ?>!</p>
+            <p>
+                This is an example protected page.  To access this page, users
+                must be logged in.  At some stage, we'll also check the role of
+                the user, so pages will be able to determine the type of user
+                authorised to access the page.
+            </p>
+            <p>Return to <a href="index.php">login page</a></p>
+        <?php else : ?>
+            <p>
+                <span class="error">You are not authorized to access this page.</span> Please <a href="index.php">login</a>.
+            </p>
+        <?php endif; ?>
 
         <!-- Container (Panel Section) -->
         <div class="container center-text mainContent">
 
             <div class="row">
                 <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-custom-pink" onclick="gotoProjects()">
+                    <div class="panel panel-custom panel-custom-pink" onclick="gotoProjects()">
                         <div class="panel-heading">Projects</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-custom-pink" onclick="gotoGestureStyleguides()">
+                    <div class="panel panel-custom panel-custom-pink" onclick="gotoGestureStyleguides()">
                         <div class="panel-heading">Gesture Styleguides</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-custom-pink" onclick="gotoGesturesCatalog()">
+                    <div class="panel panel-custom panel-custom-pink" onclick="gotoGesturesCatalog()">
                         <div class="panel-heading">Gesture Catalog</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-custom-pink" onclick="gotoProfile()">
+                    <div class="panel panel-custom panel-custom-pink" onclick="gotoProfile()">
                         <div class="panel-heading">Profile</div>
                         <div class="panel-footer">Edit your profile</div>
                         <!--<div class="panel-footer">Panel Footer</div>-->

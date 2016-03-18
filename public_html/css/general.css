@@ -98,14 +98,14 @@ h4 {
 .item span {
     font-style: normal;
 }
-.panel {
+.panel-custom {
     border: 0px solid;
     cursor: pointer;
     color: #818181;
     border-radius: 0px;
     transition: box-shadow 0.15s;
 }
-.panel:hover {
+.panel-custom:hover {
     color: #303030;
     box-shadow: 0px 5px 10px rgba(0,0,0, .3);
 }
@@ -203,14 +203,7 @@ footer .glyphicon {
     color: white;
 }
 .btn-gn-green {
-    background: #669933;
-    color: #fff;
-    border-color: #669933;
-}
-.btn-gn-green:hover {
-    background: #527b2b;
-    color: #fff;
-    border-color: #527b2b;
+    border-radius: 24px;
 }
 
 .btn {
@@ -219,9 +212,7 @@ footer .glyphicon {
 .btn:hover {
     box-shadow: 0px 5px 10px rgba(0,0,0, .3);
 }
-.btn-success, .btn-gn {
-    border-radius: 24px;
-}
+
 .btn-lg {
     font-weight: bold;
     text-transform: uppercase;

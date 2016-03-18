@@ -9,11 +9,11 @@ function goto(url) {
 }
 
 function gotoIndex() {
-    goto("index.html");
+    goto("index.php");
 }
 
 function gotoMainLanding() {
-    goto("mainLanding.html");
+    goto("mainLanding.php");
 }
 
 function gotoForgotPassword() {
@@ -21,25 +21,25 @@ function gotoForgotPassword() {
 }
 
 function gotoRegister() {
-    goto("register.html");
+    goto("register.php");
 }
 
 function gotoProjects() {
-    goto("projects.html");
+    goto("projects.php");
 }
 
 function gotoProfile() {
-    goto("profile.html");
+    goto("profile.php");
 }
 
 function gotoGestureStyleguides() {
-    goto("gestureStyleguides.html");
+    goto("gestureStyleguides.php");
 }
 
 function gotoGesturesCatalog() {
-    goto("gesturesCatalog.html");
+    goto("gesturesCatalog.php");
 }
 
 function gotoCreateProject() {
-    goto("createProject.html");
+    goto("createProject.php");
 }
