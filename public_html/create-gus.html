@@ -22,20 +22,16 @@
             <div class="col-md-2">
                 <div class="input-group">
                     <span class="input-group-addon">Likert</span>
-                    <input class="form-control input-likert text-center" type="text"/>
+                    <input class="form-control input-likert text-center" type="text" value="5"/>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="input-group">
                     <span class="input-group-addon">Negativ?</span>
 
-                    <div class="input-group-btn" data-toggle="buttons">
-                        <label class="btn btn-default active" id="btn-no">
-                            <input type="radio" name="options" checked> nein
-                        </label>
-                        <label class="btn btn-default" id="btn-yes">
-                            <input class="input" type="radio" name="options"> ja
-                        </label>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-toggle-checkbox" id="yes">Ja</button>
+                        <button class="btn btn-warning btn-toggle-checkbox active" id="no">Nein</button>
                     </div>
                 </div>
             </div>
@@ -45,6 +41,7 @@
     <div id="list-container"></div>
 
     <button type="button" class="btn btn-info" id="btn-add-gus-item"><span class="glyphicon glyphicon-plus"></span> Ein neues Item hinzufügen</button>
+    <button type="button" class="btn btn-warning" id="btn-reset-gus-item"><span class="glyphicon glyphicon-repeat"></span> Original GUS wiederherstellen</button>
 
 </div>
 <div id="modal-footer" class="modal-footer">
@@ -57,9 +54,9 @@
         var customGUS = JSON.parse(sessionStorage.getItem(currentIdForModal + '.data'));
         
         if (customGUS !== null) {
-            createGUSForm(customGUS);
+            renderData(customGUS);
         } else if (originGUS !== null) {
-            createGUSForm(originGUS);
+            renderData(originGUS);
         } else {
             alert("No GUS there");
         }
@@ -70,27 +67,23 @@
         placement: "top"
     });
 
-    function createGUSForm(gusItems) {
-        for (var i = 0; i < gusItems.length; i++) {
+    function renderData(data) {
+        for (var i = 0; i < data.length; i++) {
             var clone = document.getElementById('item-container').cloneNode(true);
             clone.setAttribute('class', 'form-group root');
             $(clone).appendTo('#list-container');
-            $(clone).find('.show-hole-text').attr('title', gusItems[i].itemText);
-            $(clone).find('.item-input-text').attr('value', gusItems[i].itemText);
-            $(clone).find('.input-likert').attr('value', gusItems[i].likertScale);
+            $(clone).find('.show-hole-text').attr('title', data[i].itemText);
+            $(clone).find('.item-input-text').attr('value', data[i].itemText);
+            $(clone).find('.input-likert').attr('value', data[i].likertScale);
 
-            if (gusItems[i].reversed === true)
+            if (data[i].reversed === true)
             {
-                $(clone).find('#btn-yes').addClass('active');
-                $(clone).find('#btn-yes .input').attr('checked');
-                $(clone).find('#btn-no').removeClass('active');
-                $(clone).find('#btn-no .input').removeAttr('checked');
-            } else
-            {
-                $(clone).find('#btn-no').addClass('active');
-                $(clone).find('#btn-no .input').attr('checked');
-                $(clone).find('#btn-yes').removeClass('active');
-                $(clone).find('#btn-yes .input').removeAttr('checked');
+                $(clone).find('#yes').addClass('active');
+                $(clone).find('#yes').addClass('btn-success');
+                $(clone).find('#yes').removeClass('btn-default');
+                $(clone).find('#no').removeClass('active');
+                $(clone).find('#no').removeClass('btn-warning');
+                $(clone).find('#no').addClass('btn-default');
             }
         }
 
@@ -101,6 +94,15 @@
         var clone = document.getElementById('item-container').cloneNode(true);
         clone.setAttribute('class', 'form-group root');
         $('#list-container').append(clone);
+        checkCurrentListState($('#list-container'));
+    });
+    
+    $('#btn-reset-gus-item').on('click', function () {
+        var originGUS = JSON.parse(sessionStorage.getItem('project.originGUS'));
+        if (originGUS !== null) {
+            $('#list-container').empty();
+            renderData(originGUS);
+        }
         checkCurrentListState($('#list-container'));
     });
     
@@ -117,8 +119,8 @@
             var item = itemList[i];
             var itemText = $(item).find('.item-input-text').val();
             var likertScale = parseInt($(item).find('.input-likert').val());
-            var reversed = $(item).find('#btn-yes').hasClass('active') ? true : false;
-            var gusItem = new GUSItem(itemText, likertScale, reversed);
+            var reversed = $(item).find('#yes').hasClass('active') ? true : false;
+            var gusItem = new UsabilityScaleItem(itemText, likertScale, reversed);
             customGUS.push(gusItem);
         }
 

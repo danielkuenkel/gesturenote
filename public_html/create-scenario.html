@@ -1,10 +1,33 @@
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
     <h4 class="modal-title" id="exampleModalLabel">Szenario-basierte Aufgabe</h4>
 </div>
 <div id="modal-body" class="modal-body">
-    inputs
+    Titel, Aufgabe, Beobachtungen
 </div>
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
+
+<script>
+    $(document).ready(function () {
+        var data = JSON.parse(sessionStorage.getItem(currentIdForModal + '.data'));
+        if (data !== null) {
+            renderData(data);
+        }
+    });
+
+    function onCloseClick() {
+        saveData();
+        currentIdForModal = null;
+    }
+
+    function renderData(data) {
+
+    }
+
+    function saveData() {
+        
+//        sessionStorage.setItem(currentIdForModal + ".data", JSON.stringify($('#declaration').val()));
+    }
+</script>

@@ -320,25 +320,25 @@
         }
     });
 
-    $('.btn-toggle-checkbox').on('click', function () {
-        if (!$(this).hasClass('.active')) {
-            if ($(this).attr('id') === 'yes') {
-                $(this).parent().find('#no').removeClass('btn-warning');
-                $(this).parent().find('#no').removeClass('active');
-                $(this).parent().find('#no').addClass('btn-default');
-                $(this).removeClass('btn-default');
-                $(this).addClass('btn-success');
-                $(this).addClass('active');
-            } else {
-                $(this).parent().find('#yes').removeClass('btn-success');
-                $(this).parent().find('#yes').removeClass('active');
-                $(this).parent().find('#yes').addClass('btn-default');
-                $(this).removeClass('btn-default');
-                $(this).addClass('btn-warning');
-                $(this).addClass('active');
-            }
-        }
-    });
+//    $('.btn-toggle-checkbox').on('click', function () {
+//        if (!$(this).hasClass('.active')) {
+//            if ($(this).attr('id') === 'yes') {
+//                $(this).parent().find('#no').removeClass('btn-warning');
+//                $(this).parent().find('#no').removeClass('active');
+//                $(this).parent().find('#no').addClass('btn-default');
+//                $(this).removeClass('btn-default');
+//                $(this).addClass('btn-success');
+//                $(this).addClass('active');
+//            } else {
+//                $(this).parent().find('#yes').removeClass('btn-success');
+//                $(this).parent().find('#yes').removeClass('active');
+//                $(this).parent().find('#yes').addClass('btn-default');
+//                $(this).removeClass('btn-default');
+//                $(this).addClass('btn-warning');
+//                $(this).addClass('active');
+//            }
+//        }
+//    });
 
     $('#addFormat').on('click', function (event) {
         event.preventDefault();
@@ -415,6 +415,26 @@
             }
         }
     }
+
+//    $('body').on('click', '.btn-toggle-checkbox', function () {
+//        if (!$(this).hasClass('.active')) {
+//            if ($(this).attr('id') === 'yes') {
+//                $(this).parent().find('#no').removeClass('btn-warning');
+//                $(this).parent().find('#no').removeClass('active');
+//                $(this).parent().find('#no').addClass('btn-default');
+//                $(this).removeClass('btn-default');
+//                $(this).addClass('btn-success');
+//                $(this).addClass('active');
+//            } else {
+//                $(this).parent().find('#yes').removeClass('btn-success');
+//                $(this).parent().find('#yes').removeClass('active');
+//                $(this).parent().find('#yes').addClass('btn-default');
+//                $(this).removeClass('btn-default');
+//                $(this).addClass('btn-warning');
+//                $(this).addClass('active');
+//            }
+//        }
+//    });
 
     function onCloseClick() {
         saveData();

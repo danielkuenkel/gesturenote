@@ -119,7 +119,7 @@ if (login_check($mysqli) == true) {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <hr>
 
                         <!-- Pidoco URL -->
@@ -138,7 +138,7 @@ if (login_check($mysqli) == true) {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <hr>
 
                         <!-- project phases with dropdown -->
@@ -176,7 +176,7 @@ if (login_check($mysqli) == true) {
 
                         <!-- phase step list items -->
                         <div class="form-group" id="phaseStepList"></div>
-                        
+
                         <hr>
 
                         <!-- submit button -->
@@ -215,7 +215,7 @@ if (login_check($mysqli) == true) {
             });
 
             $('body').on('click', '.select .option li', function (event) {
-                
+
                 event.preventDefault();
                 var parent = $(this).closest('.select');
                 var itemText = $(this).children().text();
@@ -223,9 +223,9 @@ if (login_check($mysqli) == true) {
                 $(parent).find('.selected').attr('id', listItemId);
                 $(parent).find('.selected').text(itemText);
                 var parentID = parent.attr('id');
-                
+
 //                console.log(parentID + ", " + itemText + ", "+ listItemId);
-                
+
                 if (parentID !== "phaseSelect" || parentID !== "surveyTypeSelect") {
                     $('#' + parentID).parent().find('.toggable-button').removeClass('disabled');
                     $('#' + parentID).parent().find('.toggable-info').removeClass('info-addon-disabled');
@@ -348,7 +348,7 @@ if (login_check($mysqli) == true) {
                 icon = document.createElement('span');
                 icon.setAttribute('class', 'glyphicon glyphicon-question-sign');
                 button.appendChild(icon);
-                
+
                 button.onclick = function (event) {
                     event.preventDefault();
                     loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-md");
@@ -414,10 +414,29 @@ if (login_check($mysqli) == true) {
                 checkCurrentListState($(this).closest('.root').parent());
             });
 
+            $('body').on('click', '.btn-toggle-checkbox', function () {
+                if (!$(this).hasClass('.active')) {
+                    if ($(this).attr('id') === 'yes') {
+                        $(this).parent().find('#no').removeClass('btn-warning');
+                        $(this).parent().find('#no').removeClass('active');
+                        $(this).parent().find('#no').addClass('btn-default');
+                        $(this).removeClass('btn-default');
+                        $(this).addClass('btn-success');
+                        $(this).addClass('active');
+                    } else {
+                        $(this).parent().find('#yes').removeClass('btn-success');
+                        $(this).parent().find('#yes').removeClass('active');
+                        $(this).parent().find('#yes').addClass('btn-default');
+                        $(this).removeClass('btn-default');
+                        $(this).addClass('btn-warning');
+                        $(this).addClass('active');
+                    }
+                }
+            });
+
             function moveElement(direction, which) {
                 var element = $(which).closest('.root');
                 var brother;
-
                 switch (direction) {
                     case "up":
                         brother = $(which).closest('.root').prev();
@@ -437,7 +456,6 @@ if (login_check($mysqli) == true) {
                 });
                 $('#' + modalId).modal('show');
                 $('#' + modalId).find('.modal-dialog').addClass(modalSize);
-
                 $('#' + modalId).on('hidden.bs.modal', function () {
                     $(this).removeData('bs.modal');
                     $(this).find('.modal-dialog').removeClass(modalSize);

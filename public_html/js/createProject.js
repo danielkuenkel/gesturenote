@@ -9,6 +9,7 @@ var currentIdForModal;
 var colors;
 function checkSessionStorage() {
     createOriginGUS();
+    createOriginSUS();
     renderSessionStorageData();
 }
 
@@ -16,10 +17,28 @@ function createOriginGUS() {
     if (sessionStorage.getItem('project.originGUS') === null)
     {
         var gus = new Array();
-        gus.push(new GUSItem("Ich denke, dass ich mir diese Geste sehr gut merken kann.", 5, false));
-        gus.push(new GUSItem("Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dieser Geste umzugehen.", 5, false));
-        gus.push(new GUSItem("Ich denke, dass sich diese Geste von anderen Gesten ausreichend unterscheidet.", 5, true));
+        gus.push(new UsabilityScaleItem("Ich denke, dass ich mir diese Geste sehr gut merken kann.", 5, false));
+        gus.push(new UsabilityScaleItem("Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dieser Geste umzugehen.", 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass sich diese Geste von anderen Gesten ausreichend unterscheidet.", 5, true));
         sessionStorage.setItem('project.originGUS', JSON.stringify(gus));
+    }
+}
+
+function createOriginSUS() {
+    if (sessionStorage.getItem('project.originSUS') === null)
+    {
+        var sus = new Array();
+        sus.push(new UsabilityScaleItem("Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.", 5, false));
+        sus.push(new UsabilityScaleItem("Ich fand das System unnötig komplex.", 5, true));
+        sus.push(new UsabilityScaleItem("Ich denke, das System war leicht zu benutzen.", 5, false));
+        sus.push(new UsabilityScaleItem("Ich denke, ich würde die  Unterstützung einer fachkundigen Person benötigen, um das System benutzen zu können.", 5, true));
+        sus.push(new UsabilityScaleItem("Ich fand, die verschiedenen Funktionen des Systems waren gut integriert.", 5, false));
+        sus.push(new UsabilityScaleItem("Ich halte das System für zu inkonsistent.", 5, true));
+        sus.push(new UsabilityScaleItem("Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dem System umzugehen.", 5, false));
+        sus.push(new UsabilityScaleItem("Ich fand das System sehr umständlich zu benutzen.", 5, true));
+        sus.push(new UsabilityScaleItem("Ich fühlte mich bei der Nutzung des Systems sehr sicher.", 5, false));
+        sus.push(new UsabilityScaleItem("Ich musste viele Dinge lernen, bevor ich  mit dem System arbeiten konnte.", 5, true));
+        sessionStorage.setItem('project.originSUS', JSON.stringify(sus));
     }
 }
 
@@ -87,7 +106,7 @@ function Project() {
     this.pidocoURL;
 }
 
-function GUSItem(itemText, likertScale, reversed) {
+function UsabilityScaleItem(itemText, likertScale, reversed) {
     this.itemText = itemText;
     this.likertScale = likertScale;
     this.reversed = reversed;
