@@ -215,6 +215,7 @@ if (login_check($mysqli) == true) {
             });
 
             $('body').on('click', '.select .option li', function (event) {
+                
                 event.preventDefault();
                 var parent = $(this).closest('.select');
                 var itemText = $(this).children().text();
@@ -223,7 +224,7 @@ if (login_check($mysqli) == true) {
                 $(parent).find('.selected').text(itemText);
                 var parentID = parent.attr('id');
                 
-                console.log(parentID + ", " + itemText + ", "+ listItemId);
+//                console.log(parentID + ", " + itemText + ", "+ listItemId);
                 
                 if (parentID !== "phaseSelect" || parentID !== "surveyTypeSelect") {
                     $('#' + parentID).parent().find('.toggable-button').removeClass('disabled');

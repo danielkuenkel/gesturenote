@@ -100,6 +100,13 @@ function PhaseItem(id, selectedId, itemText, color) {
     this.color = color;
 }
 
+function QuestionnaireItem(id, question, parameters, options) {
+    this.id = id;
+    this.question = question;
+    this.parameters = parameters;
+    this.options = options;
+}
+
 function createRandomColors() {
     colors = randomColor({hue: 'green', count: 25});
 }
