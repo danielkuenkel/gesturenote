@@ -8,7 +8,7 @@
 
         <div class="panel panel-default root" id="openQuestion">
             <div class="panel-heading">
-                Offene Frage
+                Offene Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
             </div>
             <div class="panel-body">
                 <div class="form-group form-group-no-margin">
@@ -29,7 +29,7 @@
 
         <div class="panel panel-default root" id="dichotomousQuestion">
             <div class="panel-heading">
-                Ja/nein-Frage
+                Ja/nein-Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
             </div>
             <div class="panel-body">
                 <div class="form-group form-group-no-margin">
@@ -50,7 +50,7 @@
 
         <div class="panel panel-default root" id="groupingQuestion">
             <div class="panel-heading">
-                Eingruppierungs-Frage
+                Eingruppierungs-Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
             </div>
             <div class="panel-body">
                 <div class="form-group form-group-no-margin">
@@ -107,7 +107,7 @@
 
         <div class="panel panel-default root" id="rating">
             <div class="panel-heading">
-                Rating
+                Rating <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
             </div>
             <div class="panel-body">
                 <div class="form-group form-group-no-margin">
@@ -173,7 +173,7 @@
 
         <div class="panel panel-default root" id="sumQuestion">
             <div class="panel-heading">
-                Summenfrage
+                Summenfrage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
             </div>
             <div class="panel-body">
                 <div class="form-group form-group-no-margin">
@@ -238,7 +238,7 @@
 
         <div class="panel panel-default root" id="ranking">
             <div class="panel-heading">
-                Ranking
+                Ranking <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
             </div>
             <div class="panel-body">
                 <div class="form-group form-group-no-margin">
@@ -320,26 +320,6 @@
         }
     });
 
-//    $('.btn-toggle-checkbox').on('click', function () {
-//        if (!$(this).hasClass('.active')) {
-//            if ($(this).attr('id') === 'yes') {
-//                $(this).parent().find('#no').removeClass('btn-warning');
-//                $(this).parent().find('#no').removeClass('active');
-//                $(this).parent().find('#no').addClass('btn-default');
-//                $(this).removeClass('btn-default');
-//                $(this).addClass('btn-success');
-//                $(this).addClass('active');
-//            } else {
-//                $(this).parent().find('#yes').removeClass('btn-success');
-//                $(this).parent().find('#yes').removeClass('active');
-//                $(this).parent().find('#yes').addClass('btn-default');
-//                $(this).removeClass('btn-default');
-//                $(this).addClass('btn-warning');
-//                $(this).addClass('active');
-//            }
-//        }
-//    });
-
     $('#addFormat').on('click', function (event) {
         event.preventDefault();
 
@@ -351,6 +331,7 @@
             $('#list-container').append(clone);
             checkCurrentListState($('#list-container'));
         }
+        updateBadges();
     });
 
     $('.btn-add-groupingQuestionOption').on('click', function (event) {
@@ -414,31 +395,6 @@
                 $(scaleItem).find('.item-input-text').val(text[i]);
             }
         }
-    }
-
-//    $('body').on('click', '.btn-toggle-checkbox', function () {
-//        if (!$(this).hasClass('.active')) {
-//            if ($(this).attr('id') === 'yes') {
-//                $(this).parent().find('#no').removeClass('btn-warning');
-//                $(this).parent().find('#no').removeClass('active');
-//                $(this).parent().find('#no').addClass('btn-default');
-//                $(this).removeClass('btn-default');
-//                $(this).addClass('btn-success');
-//                $(this).addClass('active');
-//            } else {
-//                $(this).parent().find('#yes').removeClass('btn-success');
-//                $(this).parent().find('#yes').removeClass('active');
-//                $(this).parent().find('#yes').addClass('btn-default');
-//                $(this).removeClass('btn-default');
-//                $(this).addClass('btn-warning');
-//                $(this).addClass('active');
-//            }
-//        }
-//    });
-
-    function onCloseClick() {
-        saveData();
-        currentIdForModal = null;
     }
 
     function renderData(data) {
@@ -521,6 +477,7 @@
         }
 
         checkCurrentListState(listContainer);
+        updateBadges();
     }
 
     function saveData() {
@@ -579,4 +536,55 @@
 
         sessionStorage.setItem(currentIdForModal + ".data", JSON.stringify(questionnaire));
     }
+
+    function onCloseClick() {
+        saveData();
+        currentIdForModal = null;
+    }
+
+    function updateBadges() {
+        var openQuestions = $('#list-container').children('#openQuestion');
+        for (var i = 0; i < openQuestions.length; i++) {
+            $(openQuestions[i]).find('.badgeId').text(i + 1);
+            $(openQuestions[i]).find('.badgeQuantity').text(openQuestions.length);
+        }
+        
+        var openQuestions = $('#list-container').children('#dichotomousQuestion');
+        for (var i = 0; i < openQuestions.length; i++) {
+            $(openQuestions[i]).find('.badgeId').text(i + 1);
+            $(openQuestions[i]).find('.badgeQuantity').text(openQuestions.length);
+        }
+        
+        var openQuestions = $('#list-container').children('#groupingQuestion');
+        for (var i = 0; i < openQuestions.length; i++) {
+            $(openQuestions[i]).find('.badgeId').text(i + 1);
+            $(openQuestions[i]).find('.badgeQuantity').text(openQuestions.length);
+        }
+        
+        var openQuestions = $('#list-container').children('#ranking');
+        for (var i = 0; i < openQuestions.length; i++) {
+            $(openQuestions[i]).find('.badgeId').text(i + 1);
+            $(openQuestions[i]).find('.badgeQuantity').text(openQuestions.length);
+        }
+        
+        var openQuestions = $('#list-container').children('#sumQuestion');
+        for (var i = 0; i < openQuestions.length; i++) {
+            $(openQuestions[i]).find('.badgeId').text(i + 1);
+            $(openQuestions[i]).find('.badgeQuantity').text(openQuestions.length);
+        }
+        
+        var openQuestions = $('#list-container').children('#rating');
+        for (var i = 0; i < openQuestions.length; i++) {
+            $(openQuestions[i]).find('.badgeId').text(i + 1);
+            $(openQuestions[i]).find('.badgeQuantity').text(openQuestions.length);
+        }
+    }
+
+    $('body').on('click', '.btn-up', function (event) {
+        updateBadges();
+    });
+
+    $('body').on('click', '.btn-down', function (event) {
+        updateBadges();
+    });
 </script>
