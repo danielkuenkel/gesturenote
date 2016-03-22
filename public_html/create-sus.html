@@ -4,35 +4,21 @@
 </div>
 <div id="modal-body" class="modal-body">
     <div class="form-group hidden" id="item-container">
-        <div class="row">
-            <div class="col-md-7">
-                <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
-                    <input class="form-control item-input-text" type="text" value=""/>
-                    <div class="input-group-btn">
-                        <button class="btn btn-default show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
-                    </div>
-                </div>
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon">Likert</span>
-                    <input class="form-control input-likert text-center" type="text" value="5"/>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="input-group">
-                    <span class="input-group-addon">Negativ?</span>
+            <input class="form-control item-input-text" type="text" value=""/>
 
-                    <div class="input-group-btn negative">
-                        <button class="btn btn-default btn-toggle-checkbox" id="yes">Ja</button>
-                        <button class="btn btn-warning btn-toggle-checkbox active" id="no">Nein</button>
-                    </div>
-                </div>
+            <div class="input-group-btn negative">
+                <button type="button" class="btn btn-default show-hole-text" data-toggle="tooltip" title="">
+                    <i class="glyphicon glyphicon-eye-open"></i>
+                </button>
+                <button class="btn btn-default switchButtonAddon">Negativ?</button>
+                <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
+                <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
             </div>
         </div>
     </div>
@@ -65,26 +51,6 @@
         placement: "top"
     });
 
-//    $('.btn-toggle-checkbox').on('click', function () {
-//        if (!$(this).hasClass('.active')) {
-//            if ($(this).attr('id') === 'yes') {
-//                $(this).parent().find('#no').removeClass('btn-warning');
-//                $(this).parent().find('#no').removeClass('active');
-//                $(this).parent().find('#no').addClass('btn-default');
-//                $(this).removeClass('btn-default');
-//                $(this).addClass('btn-success');
-//                $(this).addClass('active');
-//            } else {
-//                $(this).parent().find('#yes').removeClass('btn-success');
-//                $(this).parent().find('#yes').removeClass('active');
-//                $(this).parent().find('#yes').addClass('btn-default');
-//                $(this).removeClass('btn-default');
-//                $(this).addClass('btn-warning');
-//                $(this).addClass('active');
-//            }
-//        }
-//    });
-
     function renderData(data) {
         for (var i = 0; i < data.length; i++) {
             var clone = document.getElementById('item-container').cloneNode(true);
@@ -92,16 +58,11 @@
             $(clone).appendTo('#list-container');
             $(clone).find('.show-hole-text').attr('title', data[i].itemText);
             $(clone).find('.item-input-text').attr('value', data[i].itemText);
-            $(clone).find('.input-likert').attr('value', data[i].likertScale);
+//            $(clone).find('.input-likert').attr('value', data[i].likertScale);
 
             if (data[i].reversed === true)
             {
-                $(clone).find('#yes').addClass('active');
-                $(clone).find('#yes').addClass('btn-success');
-                $(clone).find('#yes').removeClass('btn-default');
-                $(clone).find('#no').removeClass('active');
-                $(clone).find('#no').removeClass('btn-warning');
-                $(clone).find('#no').addClass('btn-default');
+                toggleSwitch($(clone).find('.active'), $(clone).find('.inactive'));
             }
         }
 
@@ -136,9 +97,9 @@
         for (var i = 0; i < itemList.length; i++) {
             var item = itemList[i];
             var itemText = $(item).find('.item-input-text').val();
-            var likertScale = parseInt($(item).find('.input-likert').val());
-            var reversed = $(item).find('#yes').hasClass('active') ? true : false;
-            var gusItem = new UsabilityScaleItem(itemText, likertScale, reversed);
+//            var likertScale = parseInt($(item).find('.input-likert').val());
+            var reversed = $(item).find('#success').hasClass('active') ? true : false;
+            var gusItem = new UsabilityScaleItem(itemText, 5, reversed);
             customGUS.push(gusItem);
         }
 

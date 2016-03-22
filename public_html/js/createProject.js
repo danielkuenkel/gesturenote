@@ -19,7 +19,20 @@ function createOriginGUS() {
         var gus = new Array();
         gus.push(new UsabilityScaleItem("Ich denke, dass ich mir diese Geste sehr gut merken kann.", 5, false));
         gus.push(new UsabilityScaleItem("Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dieser Geste umzugehen.", 5, false));
-        gus.push(new UsabilityScaleItem("Ich denke, dass sich diese Geste von anderen Gesten ausreichend unterscheidet.", 5, true));
+        gus.push(new UsabilityScaleItem("Ich denke, dass sich diese Geste von anderen Gesten ausreichend unterscheidet.", 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass sich die Geste von alltäglichen Bewegungen ausreichend unterscheidet.", 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste zur Funktion passt.", 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste zu lang ist.", 5, true));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste zu komplex ist.", 5, true));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste prägnant ist.", 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste bequem ist.", 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Bewegung der Geste komisch ist.", 5, true));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste ermüdend ist.", 5, true));
+        gus.push(new UsabilityScaleItem("Ich denke, dass mich die Geste körperlich zu sehr fordert.", 5, true));
+        gus.push(new UsabilityScaleItem("Ich würde diese Geste gerne regelmäßig nutzen.", 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste andere Personen im Umfeld nicht beeinträchtigt oder stört.", 5, true));
+        gus.push(new UsabilityScaleItem("Die Geste ist peinlich.", 5, true));
+        gus.push(new UsabilityScaleItem("Ich fühle mich beim Ausführen der Geste wohl.", 5, false));
         sessionStorage.setItem('project.originGUS', JSON.stringify(gus));
     }
 }

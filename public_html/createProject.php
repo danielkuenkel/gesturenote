@@ -1,15 +1,3 @@
-<?php
-include_once 'includes/db_connect.php';
-include_once 'includes/functions.php';
-sec_session_start();
-if (login_check($mysqli) == true) {
-    // Add your protected page content here!
-} else {
-//    print_r("logged out");
-    $_SESSION['user_id'] = 4;
-}
-//print_r($_SESSION);
-?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -192,7 +180,7 @@ if (login_check($mysqli) == true) {
                     </span>
                     <br><br>
                     <button type="button" class="btn btn-gn" onclick="loadHTMLintoModal('custom-modal', 'info-styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen abrufen</button>
-                    <button type="button" class="btn btn-danger" onclick="clearSessionStorage()">Reset Session Storage</button>
+                    <button type="button" class="btn btn-danger" onclick="clearSessionStorage()" style="margin-top: 10px">Reset Session Storage</button>
                 </div>
             </div>
         </div>
@@ -415,24 +403,27 @@ if (login_check($mysqli) == true) {
             });
 
             $('body').on('click', '.btn-toggle-checkbox', function () {
-                if (!$(this).hasClass('.active')) {
-                    if ($(this).attr('id') === 'yes') {
-                        $(this).parent().find('#no').removeClass('btn-warning');
-                        $(this).parent().find('#no').removeClass('active');
-                        $(this).parent().find('#no').addClass('btn-default');
-                        $(this).removeClass('btn-default');
-                        $(this).addClass('btn-success');
-                        $(this).addClass('active');
-                    } else {
-                        $(this).parent().find('#yes').removeClass('btn-success');
-                        $(this).parent().find('#yes').removeClass('active');
-                        $(this).parent().find('#yes').addClass('btn-default');
-                        $(this).removeClass('btn-default');
-                        $(this).addClass('btn-warning');
-                        $(this).addClass('active');
-                    }
+                if ($(this).hasClass('inactive')) {
+                    toggleSwitch($(this).parent().children('.active'), $(this).parent().children('.inactive'));
                 }
             });
+            
+            $('body').on('click', '.switchButtonAddon', function () {
+                var activeButton = $(this).nextAll().filter('.active');
+                var inactiveButton = $(this).nextAll().filter('.inactive');
+                toggleSwitch(activeButton, inactiveButton);
+            });
+
+            function toggleSwitch(activeButton, inactiveButton) {
+                $(activeButton).removeClass('active');
+                $(activeButton).addClass('inactive');
+                $(activeButton).addClass('btn-default');
+                $(activeButton).removeClass('btn-' + $(activeButton).attr('id'));
+                $(inactiveButton).removeClass('inactive');
+                $(inactiveButton).addClass('active');
+                $(inactiveButton).removeClass('btn-default');
+                $(inactiveButton).addClass('btn-' + $(inactiveButton).attr('id'));
+            }
 
             function moveElement(direction, which) {
                 var element = $(which).closest('.root');
