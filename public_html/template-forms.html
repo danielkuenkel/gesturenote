@@ -1,0 +1,338 @@
+<div id="form-item-container" class="hidden">
+
+    <div class="panel panel-default root" id="openQuestion">
+        <div class="panel-heading">
+            Offene Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group form-group-no-margin">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="dichotomousQuestion">
+        <div class="panel-heading">
+            Ja/nein-Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group form-group-no-margin">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="Ja/nein-Frage"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="counter">
+        <div class="panel-heading">
+            Zähler <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group form-group-no-margin">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="groupingQuestion">
+        <div class="panel-heading">
+            Eingruppierungs-Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group form-group-no-margin">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung für die Eingruppierung"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group form-group-margin-top">
+                <div class="btn-group multiselect">
+                    <button class="btn btn-default switchButtonAddon">Auswahl mehrerer Items erlaubt?</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                </div>
+
+                <div class="btn-group optionalanswer">
+                    <button class="btn btn-default switchButtonAddon" style="margin-left: 10px;">Eigene Antwortmöglichkeit erlaubt?</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="form-group form-group-margin-top root hidden"  id="groupingQuestionItem">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text option" type="text" value="" placeholder="Auswahloption"/>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body option-container">
+                    Eingruppierungs-Optionen
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-info pull-right btn-add-groupingQuestionOption"><span class="glyphicon glyphicon-plus"></span> Neue Auswahloption hinzufügen</button>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="rating">
+        <div class="panel-heading">
+            Rating <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group form-group-no-margin">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung für die Eingruppierung"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="form-group form-group-margin-top root hidden"  id="ratingItem">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text optionQuestion" type="text" value="" placeholder="Frage"/>
+                    <span class="input-group-addon">Skala</span>
+
+                    <div class="input-group-btn select scaleSelect" role="group">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">3 </span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            <li id="scale_3"><a href="#">3 </a></li>
+                            <li id="scale_4"><a href="#">4 </a></li>
+                            <li id="scale_5"><a href="#">5 </a></li>
+                            <li id="scale_6"><a href="#">6 </a></li>
+                            <li id="scale_7"><a href="#">7 </a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ratingScaleItemContainer">
+                </div>
+            </div>
+
+            <div class="form-group form-group-margin-top hidden" id="ratingScaleItem">
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    <input class="form-control item-input-text option" type="text" value="" placeholder=""/>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body option-container">
+                    Rating-Optionen
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-info pull-right btn-add-ratingOption"><span class="glyphicon glyphicon-plus"></span> Neue Ratingoption hinzufügen</button>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="sumQuestion">
+        <div class="panel-heading">
+            Summenfrage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group form-group-no-margin">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
+                    </div>
+                </div>
+                <div class="input-group form-group-margin-top">
+                    <div class="input-group-btn">
+                        <span class="input-group-addon">Verteilung in</span>
+                        <div class="input-group-btn select scaleSelect" role="group">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected allocation" id="percent">Prozent </span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="percent"><a href="#">Prozent </a></li>
+                                <li id="points"><a href="#">Punkte </a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="input-group" style="margin-left: 10px;">
+                        <span class="input-group-addon">Maximum</span>
+                        <input class="form-control item-input-text maximum" type="text" value="" placeholder="z.B. 100"/>
+                    </div> 
+
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="form-group form-group-margin-top root hidden" id="sumQuestionItem">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text option" type="text" value="" placeholder="Antwort"/>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body option-container">
+                    Antworten der Summenfrage
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-info pull-right btn-add-sumQuestionOption"><span class="glyphicon glyphicon-plus"></span> Neue Antwort hinzufügen</button>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="ranking">
+        <div class="panel-heading">
+            Ranking <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group form-group-no-margin">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung für die Eingruppierung"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="form-group form-group-margin-top root hidden"  id="rankingItem">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text option" type="text" value="" placeholder="Rankingoption"/>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body option-container">
+                    Ranking-Optionen
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-info pull-right btn-add-rankingOption"><span class="glyphicon glyphicon-plus"></span> Neue Rankingoption hinzufügen</button>
+        </div>
+    </div>
+
+    <div class="root" id="help">
+        <div class="form-group root hidden" id="helpItem">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+                <span class="input-group-addon count-text">0</span>
+                <input class="form-control item-input-text option" type="text" value="" placeholder="Hilfetext"/>
+            </div>
+        </div>
+
+        <div class="option-container"></div>
+
+        <button class="btn btn-info toggable-button pull-right btn-add-help" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Hilfe hinzufügen</span></button>
+    </div>
+
+    <div class="root" id="wozExperiment">
+        <div class="form-group root hidden" id="wozExperimentItem">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+                <span class="input-group-addon">Geste</span>
+                <div class="input-group-btn select gestureSelect" role="group">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen </span><span class="caret"></span></button>
+                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                        <li id="scale_3"><a href="#">Testgeste </a></li>
+                    </ul>
+                </div>
+                <span class="input-group-addon">Trigger</span>
+                <input class="form-control item-input-text option" type="text" value="" placeholder="Triggertext"/>
+                <div class="input-group-btn select wozTriggerSelect" role="group">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                        <li id="gesture_recognized"><a href="#">wurde erkannt</a></li>
+                        <li id="gesture_not_recognized"><a href="#">wurde nicht erkannt</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="option-container"></div>
+
+        <button class="btn btn-info toggable-button pull-right btn-add-woz-experiment-item" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Trigger hinzufügen</span></button>
+    </div>
+
+</div>

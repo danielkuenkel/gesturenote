@@ -110,6 +110,14 @@ h4 {
     box-shadow: 0px 5px 10px rgba(0,0,0, .3);
 }
 
+/*.panel-default-shadow {
+    cursor: pointer;
+    transition: box-shadow 0.15s;
+}
+.panel-default-shadow:hover {
+    box-shadow: 0px 5px 10px rgba(0,0,0, .3);
+}*/
+
 .panel-custom-pink {
     border: 1px solid #B85B90;
     border-left-width: 1px;

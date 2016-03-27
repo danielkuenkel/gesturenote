@@ -56,8 +56,8 @@ and open the template in the editor.
 }
 
 .panel-create-project > .panel-heading:hover {
-  background-color: #5bb85c !important;
-  color: white !important;
+    background-color: #5bb85c !important;
+    color: white !important;
 }
 
 .panel-create-project > .panel-heading {
@@ -75,4 +75,84 @@ and open the template in the editor.
 .form-group-margin-top {
     margin-top: 10px;
     margin-bottom: 0px;
+}
+
+.btn-addon {
+    background: #eeeeee !important;
+    border-color: #cccccc !important;
+    color: #818181 !important;
+}
+
+.btn-addon:hover {
+    color: #303030 !important;
+    box-shadow: none;
+}
+
+
+/* Thumscrubber */
+.thumbscrubber {
+    position: relative;
+    display: inline-block;
+    border-radius: 4px;
+    overflow: hidden; 
+    width: 200px; 
+    height: 150px;
+}
+.thumbscrubber .ts-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.thumbscrubber .ts-inner > * {
+    display:block;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.thumbscrubber .ts-inner .ts-currslide {
+    opacity: 1;
+}
+
+.thumbscrubber.smooth .ts-inner > * {
+    transition: all .5s ease;
+}
+
+.gesture-thumbnail {
+    cursor: pointer;
+}
+.gesture-thumbnail:hover {
+    border-color: #5bb85c;
+}
+.gesture-thumbnail .panel-heading:hover {
+    color: #5bb85c;
+}
+
+.selected .panel-heading {
+    color: white !important;
+    background-color: #5bb85c;
+}
+
+.gesture-thumbnail .panel-heading {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.gesture-thumbnail .collapse .in .panel-heading {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.gesture-thumbnail .selected .collapse .in .panel-heading {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.description-text {
+    position: relative;
+    vertical-align:top;
+    margin-left: 10px;
 }

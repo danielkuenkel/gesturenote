@@ -1,0 +1,311 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
+    <h4 class="modal-title" id="exampleModalLabel">Gestenset zusammenstellen</h4>
+</div>
+<div id="modal-body" class="modal-body">
+
+    <div class="panel panel-default hidden gesture-thumbnail root" id="gesture-thumbnail">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <span class="title-text"></span>
+                <i class="glyphicon glyphicon-search gesture-details hidden"></i>
+                <!--<a data-toggle="collapse" href="#collapse1" data-parent="#ownExtractedGesturesContainer">Collapsible panel</a>-->
+                <span class="pull-right">
+
+                    <i class="glyphicon glyphicon-star gesture-assemble"></i>
+                    <!--                
+                                    <button class="btn btn-default gesture-details">Zeig mir mehr!</button>
+                                    <button class="btn btn-default"><i class="glyphicon glyphicon-star-empty pull-right"></i></button>-->
+                </span>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse">
+            <div class="panel-body">
+                <!--<div class="row">-->
+                <div class="thumbscrubber">
+                    <div class="preview hidden"></div>
+                    <div class="ts-inner"></div>
+                </div>
+                <!--</div>-->
+                <div class="description-text" style="display: inline-block">
+                </div>
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+    <!--<div id="item-container" class="hidden"></div>-->
+
+    <!--<div class="col-xs-6 col-md-4 hidden gesture-thumbnail" >-->
+    <!--<div class="row" >-->
+
+    <!--    <div class="panel panel-default gesture-thumbnail" id="gesture-thumbnail">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse1">Collapsible panel</a>
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">Panel Body</div>
+            </div>
+        </div>-->
+    <!--        <div class="panel panel-default hidden gesture-thumbnail" id="gesture-thumbnail">
+                <div class="panel-heading text-center hidden"><span class="glyphicon glyphicon-star"></span></div>
+                <div class="panel-body">
+                    <div class="thumbscrubber" style="width: 100%; height: 100px">
+                        <div class="preview hidden"></div>
+                        <div class="ts-inner"></div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <span class="heading-text" style="font-weight: bold;"></span><br/>
+                    <span class="description-text"></span></div>
+            </div>-->
+    <!--</div>-->
+
+    <div id="list-container">
+        <div class="panel panel-default root" id="ownExtractedGestures">
+            <div class="panel-heading clearfix">
+                <div style="margin-top: 4px; display: inline-block">Extrahierte studienspezifische Gesten 
+                    <div class="badges hidden" style="display: inline">
+                        <div class="badge badgeId">0</div> von 
+                        <div class="badge badgeQuantity">0</div> Gesten ausgewählt
+                    </div>
+                </div>
+                <div class="btn-group pull-right" id="useGesturesSwitch">
+                    <button class="btn btn-default switchButtonAddon">Nutzen?</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                </div>
+            </div>
+            <div class="panel-body hidden">
+                <div class="panel-group" id="ownExtractedGesturesContainer">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default root" id="gesetureCatalog">
+            <div class="panel-heading clearfix">
+                <div style="margin-top: 4px; display: inline-block">Gesten aus öffentlichem Gestenkatalog
+                    <div class="badges hidden" style="display: inline">
+                        <div class="badge badgeId">0</div> von 
+                        <div class="badge badgeQuantity">0</div> Gesten ausgewählt
+                    </div>
+                </div>
+                <div class="btn-group pull-right" id="useGesturesSwitch">
+                    <button class="btn btn-default switchButtonAddon">Nutzen?</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                </div>
+            </div>
+            <div class="panel-body hidden">
+                <div class="panel-group" id="gesetureCatalogContainer">
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default root" id="recordGesture">
+            <div class="panel-heading clearfix">
+                <div style="margin-top: 4px; display: inline-block">Neue Geste aufzeichnen</div>
+                <div class="btn-group pull-right" id="useGesturesSwitch">
+                    <button class="btn btn-default switchButtonAddon">Nutzen?</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                </div>
+            </div>
+            <div class="panel-body hidden">
+                <div class="panel-group" id="recordGestureContainer">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+<div id="modal-footer" class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var data = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+        if (data !== null) {
+            renderData(data);
+        }
+    });
+
+    function onCloseClick() {
+        saveData();
+        currentIdForModal = null;
+    }
+
+    function renderData(data) {
+        var ownExtractedGestures = 0;
+        var gesetureCatalog = 0;
+
+
+        for (var i = 0; i < data.length; i++) {
+            var clone = $('#gesture-thumbnail').clone();
+            clone.removeClass('hidden');
+            clone.attr('id', data[i].type + '.' + data[i].id);
+            clone.find('.title-text').text(data[i].title + " ");
+//            clone.find('.collapse').attr('id', clone.attr('id') + '.collapse');
+            clone.find('.description-text').text(data[i].description);
+            clone.find('.preview').text(data[i].previewImage);
+            switch (data[i].type) {
+                case "ownProject":
+                    $('#ownExtractedGesturesContainer').append(clone);
+                    if (ownExtractedGestures < 1 && data[i].used === true) {
+                        ownExtractedGestures++;
+                        $('#ownExtractedGestures .switchButtonAddon').click();
+                        togglePanelBody($('#ownExtractedGestures .panel-body'));
+                        togglePanelBadges($('#ownExtractedGestures .badges'));
+                    }
+                    break;
+                case "gestureCatalog":
+                    $('#gesetureCatalogContainer').append(clone);
+                    if (gesetureCatalog < 1 && data[i].used === true) {
+                        gesetureCatalog++;
+                        $('#gesetureCatalog .switchButtonAddon').click();
+                        togglePanelBody($('#gesetureCatalog .panel-body'));
+                        togglePanelBadges($('#gesetureCatalog .badges'));
+                    }
+                    break;
+            }
+
+            if (data[i].used === true) {
+                clone.addClass('selected');
+            }
+
+            for (var j = 0; j < data[i].images.length; j++) {
+                var img = document.createElement('img');
+                img.setAttribute('src', data[i].images[j]);
+                $(clone).find('.ts-inner').append(img);
+
+                if (j === parseInt(data[i].previewImage)) {
+                    $(img).addClass('ts-currslide');
+                }
+            }
+        }
+
+        updateBadges();
+    }
+
+    function saveData() {
+        var data = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+        var selectedGestures = new Array();
+        if ($('#ownExtractedGestures').find('#success').hasClass('active')) {
+            selectedGestures = $.merge(selectedGestures, $('#ownExtractedGesturesContainer').children('.selected'));
+        }
+        if ($('#gesetureCatalog').find('#success').hasClass('active')) {
+            selectedGestures = $.merge(selectedGestures, $('#gesetureCatalogContainer').children('.selected'));
+        }
+
+        var assembledGestures = new Array();
+
+        for (var i = 0; i < data.length; i++) {
+            var isAssembled = false;
+            var originItem = data[i];
+            for (var j = 0; j < selectedGestures.length; j++) {
+                var gesture = selectedGestures[j];
+                var type = $(gesture).attr('id').split('.')[0];
+                var id = parseInt($(gesture).attr('id').split('.')[1]);
+                if (originItem.id === id && originItem.type === type) {
+                    isAssembled = true;
+                    break;
+                }
+            }
+            assembledGestures.push(new Gesture(originItem.type, originItem.id, originItem.title, originItem.description, originItem.images, originItem.previewImage, originItem.videoUrl, isAssembled));
+        }
+        sessionStorage.setItem("predefinedGestureSet", JSON.stringify(assembledGestures));
+    }
+
+    $('.switchButtonAddon').on('click', function (event) {
+        event.preventDefault();
+        togglePanelBody($(this).closest('.root').find('.panel-body'));
+        togglePanelBadges($(this).closest('.root').find('.badges'));
+    });
+
+    $('.btn-toggle-checkbox').on('click', function (event) {
+        event.preventDefault();
+        if (!$(this).hasClass('active')) {
+            togglePanelBody($(this).closest('.root').find('.panel-body'));
+            togglePanelBadges($(this).closest('.root').find('.badges'));
+        }
+    });
+
+    function togglePanelBody(panelBody) {
+        if ($(panelBody).hasClass('hidden')) {
+            $(panelBody).removeClass('hidden');
+        } else {
+            $(panelBody).addClass('hidden');
+        }
+    }
+
+    function togglePanelBadges(badges) {
+        if (badges !== undefined) {
+            if ($(badges).hasClass('hidden')) {
+                $(badges).removeClass('hidden');
+            } else {
+                $(badges).addClass('hidden');
+            }
+        }
+    }
+
+    function updateBadges() {
+        var max = $('#ownExtractedGesturesContainer').children().length;
+        var selected = $('#ownExtractedGesturesContainer').children('.selected').length;
+        $('#ownExtractedGestures .badgeId').text(selected);
+        $('#ownExtractedGestures .badgeQuantity').text(max);
+
+        max = $('#gesetureCatalogContainer').children().length;
+        selected = $('#gesetureCatalogContainer').children('.selected').length;
+        $('#gesetureCatalog .badgeId').text(selected);
+        $('#gesetureCatalog .badgeQuantity').text(max);
+    }
+
+    $('.gesture-details').on('click', function (event) {
+        event.preventDefault();
+        toggleCollapse($(this).closest('.root').find('.panel-collapse'));
+    });
+
+    $('.title-text').on('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleCollapse($(this).closest('.root').find('.panel-collapse'));
+    });
+
+    function toggleCollapse(element) {
+        if (!$(element).hasClass('in')) {
+            var brothers = $(element).closest('.panel-group').children();
+            for (var i = 0; i < brothers.length; i++) {
+                $(brothers[i]).find('.panel-collapse').removeClass('in');
+            }
+            $(element).addClass('in');
+        } else {
+            $(element).removeClass('in');
+        }
+    }
+
+    $('.title-text').on('mouseover', function (event) {
+        event.preventDefault();
+        $(this).closest('.root').find('.gesture-details').removeClass('hidden');
+    });
+
+    $('.title-text').on('mouseleave', function (event) {
+        event.preventDefault();
+        $(this).closest('.root').find('.gesture-details').addClass('hidden');
+    });
+
+    $('.gesture-thumbnail').on('click', function (event) {
+        event.preventDefault();
+
+        if (!$(this).hasClass('selected')) {
+            $(this).addClass('selected');
+        } else {
+            $(this).removeClass('selected');
+        }
+        updateBadges();
+    });
+</script>

@@ -7,9 +7,13 @@
 var currentPhaseStepCount = 0;
 var currentIdForModal;
 var colors;
+var currentContainerList = null;
+
 function checkSessionStorage() {
     createOriginGUS();
     createOriginSUS();
+    createPredefinedGestures();
+    createPredefinedObservationForm();
     renderSessionStorageData();
 }
 
@@ -55,8 +59,71 @@ function createOriginSUS() {
     }
 }
 
+function createPredefinedGestures() {
+    if (sessionStorage.getItem('predefinedGestureSet') === null) {
+        var images = new Array();
+        images.push("http://placehold.it/200x150?text=1");
+        images.push("http://placehold.it/200x150?text=2");
+        images.push("http://placehold.it/200x150?text=3");
+        images.push("http://placehold.it/200x150?text=4");
+        images.push("http://placehold.it/200x150?text=5");
+
+        var gestures = new Array();
+        gestures.push(new Gesture("ownProject", 0, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung fg fdg. asdfkaölsdfaj sdö fasd föasd faös kdalökds föla sdöklasdf lökasdf ladf ölk gjsögi bjsföi vjadölfiadöli gsöldfjva ödifgsdöli a öldgöald f völadföl gasö ldfgaödf öladf ölgaöldfglösfg sfg löad lf alödg ölsfg bjl", images, 2, null, false));
+        gestures.push(new Gesture("ownProject", 1, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung hgdh d.", images, 1, null, false));
+        gestures.push(new Gesture("ownProject", 2, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung hdhhsr.", images, 2, null, false));
+        gestures.push(new Gesture("ownProject", 3, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung  wzhwsbf b.", images, 0, null, false));
+        gestures.push(new Gesture("ownProject", 4, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung rhsfgnsgk s dgh sfg.", images, 2, null, false));
+        gestures.push(new Gesture("gestureCatalog", 0, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Haha.", images, 1, null, false));
+        gestures.push(new Gesture("gestureCatalog", 1, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 2, null, false));
+        gestures.push(new Gesture("gestureCatalog", 2, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 2, null, false));
+        gestures.push(new Gesture("gestureCatalog", 3, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 0, null, false));
+
+        sessionStorage.setItem('predefinedGestureSet', JSON.stringify(gestures));
+    }
+}
+
+function createPredefinedObservationForm() {
+    if (sessionStorage.getItem('predefinedObversation') === null) {
+        var form = new Array();
+        form.push(new QuestionnaireItem('counter', 'Wie oft wurde die Geste falsch ausgeführt?', null, null));
+        form.push(new QuestionnaireItem('openQuestion', 'Was wurde sonst beobachtet?', null, null));
+        form.push(new QuestionnaireItem('dichotomousQuestion', 'Wurde die Hilfe genutzt?', null, null));
+        form.push(new QuestionnaireItem('groupingQuestion', 'Wurde Hilfe benötigt?', [false, false], ['ja', 'nein', 'ein wenig']));
+        sessionStorage.setItem('predefinedObversation', JSON.stringify(form));
+    }
+}
+
+function getGestureThumbnailImagesForId(type, id) {
+    var data = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+    for (var i = 0; i < data.length; i++) {
+        if (type === data[i].type && id === data[i].id) {
+            return data[i].images;
+        }
+    }
+}
+
+function getGestureThumbnailPreviewForId(type, id) {
+    var data = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+    for (var i = 0; i < data.length; i++) {
+        if (type === data[i].type && id === data[i].id) {
+            return data[i].previewImage;
+        }
+    }
+}
+
+function setGestureUsed(type, id) {
+    var data = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+    for (var i = 0; i < data.length; i++) {
+        if (type === data[i].type && id === data[i].id) {
+            return
+        } else {
+            return;
+        }
+    }
+}
+
 function renderSessionStorageData() {
-//    console.log(sessionStorage);
     var phaseSteps = sessionStorage.getItem('project.phaseSteps');
     if (phaseSteps !== null)
     {
@@ -86,9 +153,13 @@ function renderSessionStorageData() {
         }
         if (project.pidocoURL !== null)
         {
-            $('#pidocoURLCheckbox').prop('checked', true);
-            $('#pidocoURLInput').addClass('in');
+            toggleSwitch($('#pidocoURLSwitch').find('.active'), $('#pidocoURLSwitch').find('.inactive'));
+            $('#pidocoURLInput').removeClass('hidden');
             $('#pidocoURL').val(project.pidocoURL);
+        }
+        if (project.useGestures === true) {
+            $('#useGesturesSwitch #assemble-gesture-set').removeClass('hidden');
+            toggleSwitch($('#useGesturesSwitch #warning'), $('#useGesturesSwitch #success'));
         }
     }
 }
@@ -101,12 +172,14 @@ function saveGeneralData() {
     project.phase = $('#phaseSelect .selected').attr('id');
     project.surveyType = $('#surveyTypeSelect .selected').attr('id');
 
-    if ($('#pidocoURLInput').hasClass('in') && $('#pidocoURL').val().trim() !== "") {
+    if (!$('#pidocoURLInput').hasClass('hidden') && $('#pidocoURL').val().trim() !== "") {
         project.pidocoURL = $('#pidocoURL').val();
     } else
     {
         project.pidocoURL = null;
     }
+
+    project.useGestures = !$('#useGesturesSwitch #assemble-gesture-set').hasClass('hidden');
 
     sessionStorage.setItem('project', JSON.stringify(project));
 }
@@ -117,6 +190,7 @@ function Project() {
     this.phase;
     this.surveyType;
     this.pidocoURL;
+    this.useGestures;
 }
 
 function UsabilityScaleItem(itemText, likertScale, reversed) {
@@ -139,6 +213,25 @@ function QuestionnaireItem(id, question, parameters, options) {
     this.options = options;
 }
 
+function Scenario() {
+    this.title;
+    this.description;
+    this.woz;
+    this.help;
+    this.observations;
+}
+
+function Gesture(type, id, title, description, images, previewImage, videoUrl, used) {
+    this.type = type;
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.images = images;
+    this.previewImage = previewImage;
+    this.videoUrl = videoUrl;
+    this.used = used;
+}
+
 function createRandomColors() {
     colors = randomColor({hue: 'green', count: 25});
 }
@@ -148,6 +241,37 @@ function clearSessionStorage() {
 }
 
 function deleteSessionDataById(id) {
-    console.log("delete data for id: " + id);
     sessionStorage.removeItem(id);
 }
+
+//function loadjscssfile(filename, filetype) {
+//    if (filetype === "js") { //if filename is a external JavaScript file
+//        var fileref = document.createElement('script');
+//        fileref.setAttribute("type", "text/javascript");
+//        fileref.setAttribute("src", filename);
+//        console.log("load js: " + filename + ", type: " + filetype);
+//    } else if (filetype === "css") { //if filename is an external CSS file
+//        var fileref = document.createElement("link");
+//        fileref.setAttribute("rel", "stylesheet");
+//        fileref.setAttribute("type", "text/css");
+//        fileref.setAttribute("href", filename);
+//    }
+//    if (typeof fileref !== "undefined")
+//        document.getElementsByTagName("head")[0].appendChild(fileref);
+//}
+//
+//function removejscssfile(filename, filetype) {
+//    console.log("unload: " + filename + ", type: " + filetype);
+//    var targetelement = (filetype === "js") ? "script" : (filetype === "css") ? "link" : "none"; //determine element type to create nodelist from
+//    var targetattr = (filetype === "js") ? "src" : (filetype === "css") ? "href" : "none"; //determine corresponding attribute to test for
+//    var allsuspects = document.getElementsByTagName(targetelement);
+//    for (var i = allsuspects.length; i >= 0; i--) { //search backwards within nodelist for matching elements to remove
+//        if (allsuspects[i] &&
+//                allsuspects[i].getAttribute(targetattr) !== null &&
+//                allsuspects[i].getAttribute(targetattr).indexOf(filename) !== -1)
+//        {
+//            allsuspects[i].parentNode.removeChild(allsuspects[i]); //remove element by calling parentNode.removeChild() 
+//        }
+//
+//    }
+//}
