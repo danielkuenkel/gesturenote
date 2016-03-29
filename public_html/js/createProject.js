@@ -112,36 +112,59 @@ function getGestureThumbnailPreviewForId(type, id) {
     }
 }
 
-function arrangedGestures() {
+function assembledGestures() {
     var predefinedGestures = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
-    var arrangedGestures = new Array();
-    for (var i = 0; i < predefinedGestures.length; i++) {
-        if (predefinedGestures[i].used === true) {
-            arrangedGestures.push(predefinedGestures[i]);
+    if (predefinedGestures) {
+        var arrangedGestures = new Array();
+        for (var i = 0; i < predefinedGestures.length; i++) {
+            if (predefinedGestures[i].used === true) {
+                arrangedGestures.push(predefinedGestures[i]);
+            }
         }
+        return arrangedGestures;
     }
-    return arrangedGestures;
+    return null;
 }
 
 function getGestureById(id) {
     var predefinedGestures = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
     for (var i = 0; i < predefinedGestures.length; i++) {
-        if (predefinedGestures[i].id === id) {
+        if (parseInt(predefinedGestures[i].id) === parseInt(id)) {
             return predefinedGestures[i];
         }
     }
+    return null;
 }
 
-//function setGestureUsed(type, id) {
-//    var data = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
-//    for (var i = 0; i < data.length; i++) {
-//        if (type === data[i].type && id === data[i].id) {
-//            return;
-//        } else {
-//            return;
-//        }
-//    }
-//}
+function isGestureAssembled(id) {
+    var predefinedGestures = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+    for (var i = 0; i < predefinedGestures.length; i++) {
+        if (parseInt(predefinedGestures[i].id) === parseInt(id) && predefinedGestures[i].used === true) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function removeAssembledGestures() {
+    console.log("remove assembled gestures");
+    var phaseSteps = JSON.parse(sessionStorage.getItem('project.phaseSteps'));
+    if (phaseSteps && phaseSteps.length > 0) {
+        for (var i = 0; i < phaseSteps.length; i++) {
+            if (phaseSteps[i].selectedId === 'scenario' || phaseSteps[i].selectedId === 'gestureTraining') {
+                var data = JSON.parse(sessionStorage.getItem(phaseSteps[i].id + ".data"));
+                var scenario = new Scenario();
+                scenario.title = data.title;
+                scenario.description = data.description;
+                scenario.help = data.help;
+                scenario.observations = data.observations;
+                sessionStorage.setItem(phaseSteps[i].id + ".data", JSON.stringify(scenario));
+            }
+        }
+    }
+    sessionStorage.removeItem('predefinedGestureSet');
+    createPredefinedGestures();
+}
 
 function renderSessionStorageData() {
     var phaseSteps = sessionStorage.getItem('project.phaseSteps');

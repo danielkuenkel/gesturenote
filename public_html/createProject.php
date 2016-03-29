@@ -13,6 +13,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
+
         <script src="js/thumbscrubber.js"></script>
         <script src="js/gotoPage.js"></script>
         <script src="js/subPages.js"></script>
@@ -244,268 +245,267 @@
         </div>
 
 
-        <script src="js/w3-include-HTML.js"></script>
-
         <script>
-                        $(document).ready(function () {
-                            createRandomColors();
+            $(document).ready(function () {
+                createRandomColors();
 
-                            if (typeof (Storage) !== "undefined") {
-                                checkSessionStorage();
-                            } else {
-                                console.log("Sorry, your browser do not support Web Session Storage.");
-                            }
-                        });
+                if (typeof (Storage) !== "undefined") {
+                    checkSessionStorage();
+                } else {
+                    console.log("Sorry, your browser do not support Web Session Storage.");
+                }
+            });
 
-                        $('.breadcrumb li a').on('click', function () {
-                            clearSessionStorage();
-                        });
+            $('.breadcrumb li a').on('click', function () {
+                clearSessionStorage();
+            });
 
-                        $('body').on('click', '.select .option li', function (event) {
-                            event.preventDefault();
-                            var parent = $(this).closest('.select');
-                            var itemText = $(this).children().text();
-                            var listItemId = $(this).attr('id');
-                            $(parent).find('.selected').attr('id', listItemId);
-                            $(parent).find('.selected').text(itemText);
+            $('body').on('click', '.select .option li', function (event) {
+                event.preventDefault();
+                var parent = $(this).closest('.select');
+                var itemText = $(this).children().text();
+                var listItemId = $(this).attr('id');
+                $(parent).find('.selected').attr('id', listItemId);
+                $(parent).find('.selected').text(itemText);
 
-                            console.log(parent + ", " + itemText + ", " + listItemId);
+                console.log(parent + ", " + itemText + ", " + listItemId);
 
-                            if (parent.attr('id') !== "phaseSelect" || parent.attr('id') !== "surveyTypeSelect") {
-                                $(parent).parent().find('.toggable-button').removeClass('disabled');
-                                $(parent).parent().find('.toggable-info').removeClass('info-addon-disabled');
-                            }
+                if (parent.attr('id') !== "phaseSelect" || parent.attr('id') !== "surveyTypeSelect") {
+                    $(parent).parent().find('.toggable-button').removeClass('disabled');
+                    $(parent).parent().find('.toggable-info').removeClass('info-addon-disabled');
+                }
 
-                            saveGeneralData();
-                        });
+                saveGeneralData();
+            });
 
-                        function togglePidocoURLInput() {
-                            if ($("#pidocoURLInput").hasClass('hidden')) {
-                                showPidocoURLInput();
-                            } else {
-                                hidePidocoURLInput();
-                            }
-                        }
+            function togglePidocoURLInput() {
+                if ($("#pidocoURLInput").hasClass('hidden')) {
+                    showPidocoURLInput();
+                } else {
+                    hidePidocoURLInput();
+                }
+            }
 
-                        function showPidocoURLInput() {
-                            $("#pidocoURLInput").removeClass("hidden");
-                            saveGeneralData();
-                        }
+            function showPidocoURLInput() {
+                $("#pidocoURLInput").removeClass("hidden");
+                saveGeneralData();
+            }
 
-                        function hidePidocoURLInput() {
-                            $("#pidocoURLInput").addClass("hidden");
-                            saveGeneralData();
-                        }
+            function hidePidocoURLInput() {
+                $("#pidocoURLInput").addClass("hidden");
+                saveGeneralData();
+            }
 
-                        $('#info-addon-add-phases').on('click', function (event) {
-                            event.preventDefault();
-                            var brotherID = $(this).prevAll(".select:first").attr('id');
-                            var selectedID = $('#' + brotherID + ' .selected').attr('id');
+            $('#info-addon-add-phases').on('click', function (event) {
+                event.preventDefault();
+                var brotherID = $(this).prevAll(".select:first").attr('id');
+                var selectedID = $('#' + brotherID + ' .selected').attr('id');
 
-                            if (selectedID !== "unselected") {
-                                loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-md");
-                            }
-                        });
+                if (selectedID !== "unselected") {
+                    loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-md");
+                }
+            });
 
-                        $('#addPhaseStep').on('click', function (event) {
-                            event.preventDefault();
+            $('#addPhaseStep').on('click', function (event) {
+                event.preventDefault();
 
-                            var brotherID = $(this).parent().prevAll(".select:first").attr('id');
-                            var selectedID = $('#' + brotherID + ' .selected').attr('id');
-                            var childText = $('#' + brotherID + ' #' + selectedID).children().text();
+                var brotherID = $(this).parent().prevAll(".select:first").attr('id');
+                var selectedID = $('#' + brotherID + ' .selected').attr('id');
+                var childText = $('#' + brotherID + ' #' + selectedID).children().text();
 
-                            if (selectedID !== 'unselected') {
-                                addPhaseStep('singlePhaseStep' + currentPhaseStepCount++, selectedID, childText, null);
-                                savePhases();
-                            }
-                        });
+                if (selectedID !== 'unselected') {
+                    addPhaseStep('singlePhaseStep' + currentPhaseStepCount++, selectedID, childText, null);
+                    savePhases();
+                }
+            });
 
-                        function addPhaseStep(id, selectedID, childText, color) {
-                            var clone = $('#phaseStepItem').clone();
-                            clone.removeClass('hidden');
-                            clone.attr('id', id);
-                            $('#phaseStepList').append(clone);
+            function addPhaseStep(id, selectedID, childText, color) {
+                var clone = $('#phaseStepItem').clone();
+                clone.removeClass('hidden');
+                clone.attr('id', id);
+                $('#phaseStepList').append(clone);
 
-                            clone.find('.btn-delete').bind("click", {selectedID: selectedID, id: id}, function (event) {
-                                event.preventDefault();
-                                deleteSessionDataById(event.data.id + ".data");
-                            });
+                clone.find('.btn-delete').bind("click", {selectedID: selectedID, id: id}, function (event) {
+                    event.preventDefault();
+                    deleteSessionDataById(event.data.id + ".data");
+                });
 
-                            clone.find('.btn-modify').attr('id', selectedID);
-                            clone.find('.btn-modify').bind("click", {selectedID: selectedID, id: id}, function (event) {
-                                event.preventDefault();
-                                currentIdForModal = event.data.id;
-                                loadHTMLintoModal("custom-modal", "create-" + event.data.selectedID + ".html", "modal-lg");
-                            });
+                clone.find('.btn-modify').attr('id', selectedID);
+                clone.find('.btn-modify').bind("click", {selectedID: selectedID, id: id}, function (event) {
+                    event.preventDefault();
+                    currentIdForModal = event.data.id;
+                    loadHTMLintoModal("custom-modal", "create-" + event.data.selectedID + ".html", "modal-lg");
+                });
 
-                            clone.find('.glyphicon-tag').css('color', color === null ? color = colors.pop() : color);
-                            clone.find('.phase-step-format').text(" " + childText);
-                            clone.find('.btn-text-button').bind("click", {selectedID: selectedID, id: id}, function (event) {
-                                event.preventDefault();
-                                currentIdForModal = event.data.id;
-                                loadHTMLintoModal("custom-modal", "create-" + event.data.selectedID + ".html", "modal-lg");
-                            });
+                clone.find('.glyphicon-tag').css('color', color === null ? color = colors.pop() : color);
+                clone.find('.phase-step-format').text(" " + childText);
+                clone.find('.btn-text-button').bind("click", {selectedID: selectedID, id: id}, function (event) {
+                    event.preventDefault();
+                    currentIdForModal = event.data.id;
+                    loadHTMLintoModal("custom-modal", "create-" + event.data.selectedID + ".html", "modal-lg");
+                });
 
-                            clone.find('.btn-addon').bind('click', {selectedID: selectedID}, function (event) {
-                                event.preventDefault();
-                                loadHTMLintoModal("custom-modal", "info-" + event.data.selectedID + ".html", "modal-md");
-                            });
+                clone.find('.btn-addon').bind('click', {selectedID: selectedID}, function (event) {
+                    event.preventDefault();
+                    loadHTMLintoModal("custom-modal", "info-" + event.data.selectedID + ".html", "modal-md");
+                });
 
-                            checkCurrentListState($('#phaseStepList'));
-                        }
+                checkCurrentListState($('#phaseStepList'));
+            }
 
-                        function savePhases() {
-                            var phases = new Array();
-                            var itemList = document.getElementById('phaseStepList').childNodes;
+            function savePhases() {
+                var phases = new Array();
+                var itemList = document.getElementById('phaseStepList').childNodes;
 
-                            for (var i = 0; i < itemList.length; i++) {
-                                var item = itemList[i];
-                                var id = $(item).attr('id');
-                                var selectedId = $(item).find('.btn-modify').attr('id');
-                                var itemText = $(item).find('.btn-text-button').text().trim();
-                                var color = $(item).find('.glyphicon-tag').css('color');
-                                phases.push(new PhaseItem(id, selectedId, itemText, color));
-                            }
+                for (var i = 0; i < itemList.length; i++) {
+                    var item = itemList[i];
+                    var id = $(item).attr('id');
+                    var selectedId = $(item).find('.btn-modify').attr('id');
+                    var itemText = $(item).find('.btn-text-button').text().trim();
+                    var color = $(item).find('.glyphicon-tag').css('color');
+                    phases.push(new PhaseItem(id, selectedId, itemText, color));
+                }
 
-                            sessionStorage.setItem('project.phaseSteps', JSON.stringify(phases));
-                        }
+                sessionStorage.setItem('project.phaseSteps', JSON.stringify(phases));
+            }
 
-                        function checkCurrentListState(itemContainer) {
-                            var childList = $(itemContainer).children();
-                            for (var i = 0; i < childList.length; i++) {
-                                var child = childList[i];
-                                var firstElement = $(child).find('.btn-up').first();
-                                var secondElement = firstElement.next();
+            function checkCurrentListState(itemContainer) {
+                var childList = $(itemContainer).children();
+                for (var i = 0; i < childList.length; i++) {
+                    var child = childList[i];
+                    var firstElement = $(child).find('.btn-up').first();
+                    var secondElement = firstElement.next();
 
-                                firstElement.removeClass('disabled');
-                                secondElement.removeClass('disabled');
+                    firstElement.removeClass('disabled');
+                    secondElement.removeClass('disabled');
 
-                                if (i === 0) {
-                                    firstElement.addClass('disabled');
-                                }
-                                if (i === childList.length - 1) {
-                                    secondElement.addClass('disabled');
-                                }
-                            }
-                        }
+                    if (i === 0) {
+                        firstElement.addClass('disabled');
+                    }
+                    if (i === childList.length - 1) {
+                        secondElement.addClass('disabled');
+                    }
+                }
+            }
 
-                        $('body').on('click', '.btn-delete', function (event) {
-                            console.log('on delete click');
-                            event.stopPropagation();
-                            event.preventDefault();
-                            var element = $(this).closest('.root');
-                            var parent = $(element).parent();
-                            currentContainerList = parent;
-                            $(element).remove();
-                            checkCurrentListState(parent);
-                            savePhases();
-                        });
+            $('body').on('click', '.btn-delete', function (event) {
+                console.log('on delete click');
+                event.stopPropagation();
+                event.preventDefault();
+                var element = $(this).closest('.root');
+                var parent = $(element).parent();
+                currentContainerList = parent;
+                $(element).remove();
+                checkCurrentListState(parent);
+                savePhases();
+            });
 
-                        $('body').on('click', '.btn-up', function (event) {
-                            event.stopPropagation();
-                            event.preventDefault();
-                            moveElement("up", $(this));
-                            checkCurrentListState($(this).closest('.root').parent());
-                        });
+            $('body').on('click', '.btn-up', function (event) {
+                event.stopPropagation();
+                event.preventDefault();
+                moveElement("up", $(this));
+                checkCurrentListState($(this).closest('.root').parent());
+            });
 
-                        $('body').on('click', '.btn-down', function (event) {
-                            event.stopPropagation();
-                            event.preventDefault();
-                            moveElement("down", $(this));
-                            checkCurrentListState($(this).closest('.root').parent());
-                        });
+            $('body').on('click', '.btn-down', function (event) {
+                event.stopPropagation();
+                event.preventDefault();
+                moveElement("down", $(this));
+                checkCurrentListState($(this).closest('.root').parent());
+            });
 
-                        $('body').on('click', '.btn-toggle-checkbox', function (event) {
-                            event.preventDefault();
-                            if ($(this).hasClass('inactive')) {
-                                toggleSwitch($(this).parent().children('.active'), $(this).parent().children('.inactive'));
-                            }
-                        });
+            $('body').on('click', '.btn-toggle-checkbox', function (event) {
+                event.preventDefault();
+                if ($(this).hasClass('inactive')) {
+                    toggleSwitch($(this).parent().children('.active'), $(this).parent().children('.inactive'));
+                }
+            });
 
-                        $('body').on('click', '.switchButtonAddon', function (event) {
-                            event.preventDefault();
-                            var activeButton = $(this).nextAll().filter('.active');
-                            var inactiveButton = $(this).nextAll().filter('.inactive');
-                            toggleSwitch(activeButton, inactiveButton);
-                        });
+            $('body').on('click', '.switchButtonAddon', function (event) {
+                event.preventDefault();
+                var activeButton = $(this).nextAll().filter('.active');
+                var inactiveButton = $(this).nextAll().filter('.inactive');
+                toggleSwitch(activeButton, inactiveButton);
+            });
 
-                        function toggleSwitch(activeButton, inactiveButton) {
-                            $(activeButton).removeClass('active');
-                            $(activeButton).addClass('inactive');
-                            $(activeButton).addClass('btn-default');
-                            $(activeButton).removeClass('btn-' + $(activeButton).attr('id'));
-                            $(inactiveButton).removeClass('inactive');
-                            $(inactiveButton).addClass('active');
-                            $(inactiveButton).removeClass('btn-default');
-                            $(inactiveButton).addClass('btn-' + $(inactiveButton).attr('id'));
-                        }
+            function toggleSwitch(activeButton, inactiveButton) {
+                $(activeButton).removeClass('active');
+                $(activeButton).addClass('inactive');
+                $(activeButton).addClass('btn-default');
+                $(activeButton).removeClass('btn-' + $(activeButton).attr('id'));
+                $(inactiveButton).removeClass('inactive');
+                $(inactiveButton).addClass('active');
+                $(inactiveButton).removeClass('btn-default');
+                $(inactiveButton).addClass('btn-' + $(inactiveButton).attr('id'));
+            }
 
-                        function moveElement(direction, which) {
-                            var element = $(which).closest('.root');
-                            var brother;
-                            switch (direction) {
-                                case "up":
-                                    brother = $(which).closest('.root').prev();
-                                    $(element).insertBefore(brother);
-                                    break;
-                                case "down":
-                                    brother = $(which).closest('.root').next();
-                                    $(element).insertAfter(brother);
-                                    break;
-                            }
-                            savePhases();
-                        }
+            function moveElement(direction, which) {
+                var element = $(which).closest('.root');
+                var brother;
+                switch (direction) {
+                    case "up":
+                        brother = $(which).closest('.root').prev();
+                        $(element).insertBefore(brother);
+                        break;
+                    case "down":
+                        brother = $(which).closest('.root').next();
+                        $(element).insertAfter(brother);
+                        break;
+                }
+                savePhases();
+            }
 
-                        function loadHTMLintoModal(modalId, url, modalSize) {
-                            $.get(url, modalId, function (data) {
-                                $('#' + modalId).find('.modal-content').html(data);
-                            });
-                            $('#' + modalId).modal('show');
-                            $('#' + modalId).find('.modal-dialog').addClass(modalSize);
-                            $('#' + modalId).on('hidden.bs.modal', function () {
-                                $(this).removeData('bs.modal');
-                                $(this).find('.modal-dialog').removeClass(modalSize);
-                            });
-                        }
+            function loadHTMLintoModal(modalId, url, modalSize) {
+                $.get(url, modalId, function (data) {
+                    $('#' + modalId).find('.modal-content').html(data);
+                });
+                $('#' + modalId).modal('show');
+                $('#' + modalId).find('.modal-dialog').addClass(modalSize);
+                $('#' + modalId).on('hidden.bs.modal', function () {
+                    $(this).removeData('bs.modal');
+                    $(this).find('.modal-dialog').removeClass(modalSize);
+                });
+            }
 
-                        $('#projectName, #projectDescription, #pidocoURL').focusout(function () {
-                            saveGeneralData();
-                        });
+            $('#projectName, #projectDescription, #pidocoURL').focusout(function () {
+                saveGeneralData();
+            });
 
-                        $('#btn-pidoco-info').on('click', function (event) {
-                            event.preventDefault();
-                            loadHTMLintoModal('custom-modal', 'info-pidoco.html');
-                        });
+            $('#btn-pidoco-info').on('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'info-pidoco.html');
+            });
 
-                        $('#btn-use-gestures-info').on('click', function (event) {
-                            event.preventDefault();
-                            loadHTMLintoModal('custom-modal', 'info-use-gestures.html');
-                        });
+            $('#btn-use-gestures-info').on('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'info-use-gestures.html');
+            });
 
-                        function toggleGestureCatalog() {
-                            if ($("#assemble-gesture-set").hasClass('hidden')) {
-                                showAssembleGestures();
-                            } else {
-                                hideAssembleGestures();
-                            }
-                        }
+            function toggleGestureCatalog() {
+                if ($("#assemble-gesture-set").hasClass('hidden')) {
+                    showAssembleGestures();
+                } else {
+                    hideAssembleGestures();
+                }
+            }
 
-                        function showAssembleGestures() {
-                            $("#assemble-gesture-set").removeClass('hidden');
-                            saveGeneralData();
-                        }
+            function showAssembleGestures() {
+                $("#assemble-gesture-set").removeClass('hidden');
+                saveGeneralData();
+            }
 
-                        function hideAssembleGestures() {
-                            $("#assemble-gesture-set").addClass('hidden');
-                            saveGeneralData();
-                        }
+            function hideAssembleGestures() {
+                $("#assemble-gesture-set").addClass('hidden');
+                removeAssembledGestures();
+                saveGeneralData();
+            }
 
-                        function onAssembleGestureSetClick() {
-                            currentIdForModal = 'assembledGestureSet';
-                            loadHTMLintoModal('custom-modal', 'create-gesture-catalog.html', 'modal-lg');
-                        }
+            function onAssembleGestureSetClick() {
+                currentIdForModal = 'assembledGestureSet';
+                loadHTMLintoModal('custom-modal', 'create-gesture-catalog.html', 'modal-lg');
+            }
 
         </script>
-
+        <script src="js/w3-include-HTML.js"></script>
     </body>
 </html>

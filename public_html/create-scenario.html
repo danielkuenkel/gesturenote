@@ -105,16 +105,16 @@
 
 <script>
     $(document).ready(function () {
+        var woz = $('#form-item-container #wozExperiment').clone();
+        $('#wozExperimentContainer').append(woz);
+        renderAssembledGestures();
+
+        var help = $('#help').clone();
+        help.removeAttr('id');
+        $('#helpContainer').append(help);
+
         var data = JSON.parse(sessionStorage.getItem(currentIdForModal + '.data'));
         if (data !== null) {
-            var help = $('#help').clone();
-            help.removeAttr('id');
-            $('#helpContainer').append(help);
-
-            var woz = $('#form-item-container #wozExperiment').clone();
-            $('#wozExperimentContainer').append(woz);
-            
-            renderArrangedGestures();
             renderData(data, false);
         }
     });
@@ -123,18 +123,27 @@
         saveData();
         currentIdForModal = null;
     }
-    
-    function renderArrangedGestures() {
-        var gestures = arrangedGestures();
-        for(var i = 0; i < gestures.length; i++) {
+
+    function renderAssembledGestures() {
+        var gestures = assembledGestures();
+
+        if (gestures && gestures.length > 0) {
             var wozExperimentItem = $('#form-item-container').find('.gestureSelect');
-            var listItem = document.createElement('li');
-            listItem.setAttribute('id', gestures[i].id);
-            var link = document.createElement('a');
-            link.setAttribute('href', '#');
-            link.appendChild(document.createTextNode(gestures[i].title));
-            listItem.appendChild(link);
-            $(wozExperimentItem).find('.option').append(listItem);
+            $(wozExperimentItem).find('.option').empty();
+
+            for (var i = 0; i < gestures.length; i++) {
+                var listItem = document.createElement('li');
+                listItem.setAttribute('id', gestures[i].id);
+                var link = document.createElement('a');
+                link.setAttribute('href', '#');
+                link.appendChild(document.createTextNode(gestures[i].title));
+                listItem.appendChild(link);
+                $(wozExperimentItem).find('.option').append(listItem);
+            }
+        } else {
+            console.log('no gestures arranged');
+            $('#wozExperimentContainer').find('#no-gestures-assembled').removeClass('hidden');
+            $('#wozExperimentContainer').find('.btn-add-woz-experiment-item').addClass('hidden');
         }
     }
 
@@ -162,14 +171,27 @@
                 togglePanelBody($('#wozExperiment .panel-body'));
             }
 
-            container = $('#wozExperimentContainer');
-//            $('#useWozSwitch').find('#success').hasClass('active')
+            container = $('#wozExperimentContainer').find('.option-container');
 
-//            var woz = new Array();
-//
-//            for (var i = 0; i < wozItems.length; i++) {
-//                var item = wozItems[i];
-//            }
+            for (var i = 0; i < wozItems.length; i++) {
+                var item = wozItems[i];
+
+                if (isGestureAssembled(item[0].id))
+                {
+                    var clone = $('#wozExperimentItem').clone().removeClass('hidden')
+                    container.append(clone);
+                    $(clone).removeAttr('id');
+                    $(clone).find('.gestureSelect .selected').attr('id', item[0].id);
+                    $(clone).find('.option-gesture').val(item[0].title);
+                    $(clone).find('.option-trigger').val(item[1]);
+                }
+                else {
+                    $('#wozExperimentContainer').find('#assembled-gestures-removed').removeClass('hidden');
+                }
+
+//                var triggerId = $(wozItems[i]).find('.wozTriggerSelect .selected').attr('id');
+//                var triggerText = $(wozItems[i]).find('.wozTriggerSelect .option').find('#' + triggerId).first().text();
+            }
             checkCurrentListState(container);
         }
 
@@ -285,9 +307,10 @@
             for (var i = 0; i < wozItems.length; i++) {
                 var item = wozItems[i];
                 var gestureId = $(item).find('.gestureSelect .selected').attr('id');
-                
-                console.log(gestureId);
-//                woz.push();
+                var gesture = getGestureById(gestureId);
+//                var triggerId = $(wozItems[i]).find('.wozTriggerSelect .selected').attr('id');
+                var triggerText = $(wozItems[i]).find('.option-trigger').val();
+                woz.push([gesture, triggerText]);
             }
             scenario.woz = woz;
         }
