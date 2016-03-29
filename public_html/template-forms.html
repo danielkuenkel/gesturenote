@@ -305,30 +305,38 @@
 
     <div class="root" id="wozExperiment">
         <div class="form-group root hidden" id="wozExperimentItem">
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                    <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                    <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                </div>
-                <span class="input-group-addon">Geste</span>
-                <div class="input-group-btn select gestureSelect" role="group">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen </span><span class="caret"></span></button>
-                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                        <li id="scale_3"><a href="#">Testgeste </a></li>
-                    </ul>
-                </div>
-                <span class="input-group-addon">Trigger</span>
-                <input class="form-control item-input-text option" type="text" value="" placeholder="Triggertext"/>
-                <div class="input-group-btn select wozTriggerSelect" role="group">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
-                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                        <li id="gesture_recognized"><a href="#">wurde erkannt</a></li>
-                        <li id="gesture_not_recognized"><a href="#">wurde nicht erkannt</a></li>
-                    </ul>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                            <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                            <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                        <span class="input-group-addon">Geste</span>
+                        <input class="form-control item-input-text option-gesture readonly" type="text" value=""/>
+                        <div class="input-group-btn select gestureSelect" role="group">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <!--<li id="3"><a href="#">Testgeste</a></li>-->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="input-group" style="margin-top: 10px;">
+                        <span class="input-group-addon">Trigger</span>
+                        <input class="form-control item-input-text option-trigger" type="text" value="" placeholder="Triggertext"/>
+                        <div class="input-group-btn select wozTriggerSelect" role="group">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="gesture_recognized"><a href="#">wurde erkannt</a></li>
+                                <li id="gesture_not_recognized"><a href="#">wurde nicht erkannt</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
 
         <div class="option-container"></div>
 

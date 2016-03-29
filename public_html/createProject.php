@@ -262,20 +262,18 @@
                         });
 
                         $('body').on('click', '.select .option li', function (event) {
-
                             event.preventDefault();
                             var parent = $(this).closest('.select');
                             var itemText = $(this).children().text();
                             var listItemId = $(this).attr('id');
                             $(parent).find('.selected').attr('id', listItemId);
                             $(parent).find('.selected').text(itemText);
-                            var parentID = parent.attr('id');
 
-//                console.log(parentID + ", " + itemText + ", "+ listItemId);
+                            console.log(parent + ", " + itemText + ", " + listItemId);
 
-                            if (parentID !== "phaseSelect" || parentID !== "surveyTypeSelect") {
-                                $('#' + parentID).parent().find('.toggable-button').removeClass('disabled');
-                                $('#' + parentID).parent().find('.toggable-info').removeClass('info-addon-disabled');
+                            if (parent.attr('id') !== "phaseSelect" || parent.attr('id') !== "surveyTypeSelect") {
+                                $(parent).parent().find('.toggable-button').removeClass('disabled');
+                                $(parent).parent().find('.toggable-info').removeClass('info-addon-disabled');
                             }
 
                             saveGeneralData();

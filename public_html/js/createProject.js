@@ -69,15 +69,15 @@ function createPredefinedGestures() {
         images.push("http://placehold.it/200x150?text=5");
 
         var gestures = new Array();
-        gestures.push(new Gesture("ownProject", 0, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung fg fdg. asdfkaölsdfaj sdö fasd föasd faös kdalökds föla sdöklasdf lökasdf ladf ölk gjsögi bjsföi vjadölfiadöli gsöldfjva ödifgsdöli a öldgöald f völadföl gasö ldfgaödf öladf ölgaöldfglösfg sfg löad lf alödg ölsfg bjl", images, 2, null, false));
-        gestures.push(new Gesture("ownProject", 1, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung hgdh d.", images, 1, null, false));
-        gestures.push(new Gesture("ownProject", 2, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung hdhhsr.", images, 2, null, false));
-        gestures.push(new Gesture("ownProject", 3, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung  wzhwsbf b.", images, 0, null, false));
-        gestures.push(new Gesture("ownProject", 4, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung rhsfgnsgk s dgh sfg.", images, 2, null, false));
-        gestures.push(new Gesture("gestureCatalog", 0, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Haha.", images, 1, null, false));
-        gestures.push(new Gesture("gestureCatalog", 1, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 2, null, false));
-        gestures.push(new Gesture("gestureCatalog", 2, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 2, null, false));
-        gestures.push(new Gesture("gestureCatalog", 3, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 0, null, false));
+        gestures.push(new Gesture("ownProject", 1, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung fg fdg. asdfkaölsdfaj sdö fasd föasd faös kdalökds föla sdöklasdf lökasdf ladf ölk gjsögi bjsföi vjadölfiadöli gsöldfjva ödifgsdöli a öldgöald f völadföl gasö ldfgaödf öladf ölgaöldfglösfg sfg löad lf alödg ölsfg bjl", images, 2, null, false));
+        gestures.push(new Gesture("ownProject", 2, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung hgdh d.", images, 1, null, false));
+        gestures.push(new Gesture("ownProject", 3, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung hdhhsr.", images, 2, null, false));
+        gestures.push(new Gesture("ownProject", 4, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung  wzhwsbf b.", images, 0, null, false));
+        gestures.push(new Gesture("ownProject", 5, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung rhsfgnsgk s dgh sfg.", images, 2, null, false));
+        gestures.push(new Gesture("gestureCatalog", 6, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Haha.", images, 1, null, false));
+        gestures.push(new Gesture("gestureCatalog", 7, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 2, null, false));
+        gestures.push(new Gesture("gestureCatalog", 8, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 2, null, false));
+        gestures.push(new Gesture("gestureCatalog", 9, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 0, null, false));
 
         sessionStorage.setItem('predefinedGestureSet', JSON.stringify(gestures));
     }
@@ -112,16 +112,36 @@ function getGestureThumbnailPreviewForId(type, id) {
     }
 }
 
-function setGestureUsed(type, id) {
-    var data = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
-    for (var i = 0; i < data.length; i++) {
-        if (type === data[i].type && id === data[i].id) {
-            return
-        } else {
-            return;
+function arrangedGestures() {
+    var predefinedGestures = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+    var arrangedGestures = new Array();
+    for (var i = 0; i < predefinedGestures.length; i++) {
+        if (predefinedGestures[i].used === true) {
+            arrangedGestures.push(predefinedGestures[i]);
+        }
+    }
+    return arrangedGestures;
+}
+
+function getGestureById(id) {
+    var predefinedGestures = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+    for (var i = 0; i < predefinedGestures.length; i++) {
+        if (predefinedGestures[i].id === id) {
+            return predefinedGestures[i];
         }
     }
 }
+
+//function setGestureUsed(type, id) {
+//    var data = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+//    for (var i = 0; i < data.length; i++) {
+//        if (type === data[i].type && id === data[i].id) {
+//            return;
+//        } else {
+//            return;
+//        }
+//    }
+//}
 
 function renderSessionStorageData() {
     var phaseSteps = sessionStorage.getItem('project.phaseSteps');

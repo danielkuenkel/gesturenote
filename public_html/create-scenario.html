@@ -110,10 +110,11 @@
             var help = $('#help').clone();
             help.removeAttr('id');
             $('#helpContainer').append(help);
-            
+
             var woz = $('#form-item-container #wozExperiment').clone();
             $('#wozExperimentContainer').append(woz);
             
+            renderArrangedGestures();
             renderData(data, false);
         }
     });
@@ -121,6 +122,20 @@
     function onCloseClick() {
         saveData();
         currentIdForModal = null;
+    }
+    
+    function renderArrangedGestures() {
+        var gestures = arrangedGestures();
+        for(var i = 0; i < gestures.length; i++) {
+            var wozExperimentItem = $('#form-item-container').find('.gestureSelect');
+            var listItem = document.createElement('li');
+            listItem.setAttribute('id', gestures[i].id);
+            var link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(gestures[i].title));
+            listItem.appendChild(link);
+            $(wozExperimentItem).find('.option').append(listItem);
+        }
     }
 
     function renderData(data, forPrefiniedObservation)
@@ -257,7 +272,7 @@
     }
 
     function saveData() {
-        var wozItems = $('#wozExperimentContainer').children();
+        var wozItems = $('#wozExperimentContainer').find('.option-container').children();
         var helpItems = $('#helpContainer').find('.option-container').children();
         var obersvationItems = $('#observationsContainer').children();
 
@@ -267,9 +282,12 @@
 
         if ($('#useWozSwitch').find('#success').hasClass('active')) {
             var woz = new Array();
-
             for (var i = 0; i < wozItems.length; i++) {
                 var item = wozItems[i];
+                var gestureId = $(item).find('.gestureSelect .selected').attr('id');
+                
+                console.log(gestureId);
+//                woz.push();
             }
             scenario.woz = woz;
         }
@@ -407,8 +425,8 @@
         $(this).prev().find('.panel-body').append(clone);
         checkCurrentListState($(this).prev().find('.panel-body'));
     });
-    
-    $('.btn-add-woz-experiment-item').on('click', function(event) {
+
+    $('.btn-add-woz-experiment-item').on('click', function (event) {
         event.preventDefault();
         $(this).prev().append($('#wozExperimentItem').clone().removeClass('hidden'));
         checkCurrentListState($(this).prev());
@@ -432,7 +450,6 @@
     });
 
     function updateHelpItemCounter(container) {
-
         var children = container.children();
         for (var i = 0; i < children.length; i++) {
             $(children[i]).find('.count-text').text(i + 1);
@@ -449,5 +466,13 @@
 
     $('body').on('click', '.btn-delete', function (event) {
         updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
+    });
+
+    $('body').on('click', '.gestureSelect .option li, .wozTriggerSelect .option li', function () {
+        var parent = $(this).closest('.select');
+        var itemText = $(this).children().text();
+        var listItemId = $(this).attr('id');
+        $(parent).find('.selected').attr('id', listItemId);
+        $(parent).prev().val(itemText);
     });
 </script>
