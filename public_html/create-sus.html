@@ -34,8 +34,8 @@
 
 <script>
     $(document).ready(function () {
-        var originSUS = JSON.parse(sessionStorage.getItem('project.originSUS'));
-        var customSUS = JSON.parse(sessionStorage.getItem(currentIdForModal + '.data'));
+        var originSUS = getLocalItem('project.originSUS');
+        var customSUS = getLocalItem(currentIdForModal + '.data');
 
         if (customSUS !== null) {
             renderData(customSUS);
@@ -77,7 +77,7 @@
     });
 
     $('#btn-reset-sus-item').on('click', function () {
-        var originSUS = JSON.parse(sessionStorage.getItem('project.originSUS'));
+        var originSUS = getLocalItem('project.originSUS');
         if (originSUS !== null) {
             $('#list-container').empty();
             renderData(originSUS);
@@ -102,7 +102,6 @@
             var gusItem = new UsabilityScaleItem(itemText, 5, reversed);
             customGUS.push(gusItem);
         }
-
-        sessionStorage.setItem(currentIdForModal + ".data", JSON.stringify(customGUS));
+        setLocalItem(currentIdForModal + ".data", customGUS);
     }
 </script>

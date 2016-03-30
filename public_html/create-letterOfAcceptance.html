@@ -16,7 +16,7 @@
 
 <script>
     $(document).ready(function () {
-        var data = JSON.parse(sessionStorage.getItem(currentIdForModal + '.data'));
+        var data = getLocalItem(currentIdForModal + '.data');
         if (data !== null) {
             renderData(data);
         }
@@ -32,6 +32,6 @@
     }
 
     function saveData() {
-        sessionStorage.setItem(currentIdForModal + ".data", JSON.stringify($('#declaration').val()));
+        setLocalItem(currentIdForModal + ".data", $('#declaration').val());
     }
 </script>

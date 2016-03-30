@@ -35,7 +35,7 @@
 
 <script>
     $(document).ready(function () {
-        var data = JSON.parse(sessionStorage.getItem(currentIdForModal + '.data'));
+        var data = getLocalItem(currentIdForModal + '.data');
         if (data !== null) {
             renderData(data);
         }
@@ -168,8 +168,8 @@
 
             questionnaire.push(new QuestionnaireItem(id, question, parameters, options));
         }
-
-        sessionStorage.setItem(currentIdForModal + ".data", JSON.stringify(questionnaire));
+        
+        setLocalItem(currentIdForModal + '.data', questionnaire)
     }
 
     function onCloseClick() {

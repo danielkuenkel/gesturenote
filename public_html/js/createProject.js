@@ -9,6 +9,26 @@ var currentIdForModal;
 var colors;
 var currentContainerList = null;
 
+function setLocalItem(id, data) {
+    sessionStorage.setItem(id, JSON.stringify(data));
+}
+
+function getLocalItem(id) {
+    if (sessionStorage.getItem(id) !== null) {
+        return JSON.parse(sessionStorage.getItem(id));
+    } else {
+        return null;
+    }
+}
+
+function removeLocalItem(id) {
+    sessionStorage.removeItem(id);
+}
+
+function clearLocalItems() {
+    sessionStorage.clear();
+}
+
 function checkSessionStorage() {
     createOriginGUS();
     createOriginSUS();
@@ -18,7 +38,7 @@ function checkSessionStorage() {
 }
 
 function createOriginGUS() {
-    if (sessionStorage.getItem('project.originGUS') === null)
+    if (getLocalItem(PROJECT_ORIGIN_GUS) === null)
     {
         var gus = new Array();
         gus.push(new UsabilityScaleItem("Ich denke, dass ich mir diese Geste sehr gut merken kann.", 5, false));
@@ -37,12 +57,12 @@ function createOriginGUS() {
         gus.push(new UsabilityScaleItem("Ich denke, dass die Geste andere Personen im Umfeld nicht beeinträchtigt oder stört.", 5, true));
         gus.push(new UsabilityScaleItem("Die Geste ist peinlich.", 5, true));
         gus.push(new UsabilityScaleItem("Ich fühle mich beim Ausführen der Geste wohl.", 5, false));
-        sessionStorage.setItem('project.originGUS', JSON.stringify(gus));
+        setLocalItem(PROJECT_ORIGIN_GUS, gus);
     }
 }
 
 function createOriginSUS() {
-    if (sessionStorage.getItem('project.originSUS') === null)
+    if (getLocalItem(PROJECT_ORIGIN_SUS) === null)
     {
         var sus = new Array();
         sus.push(new UsabilityScaleItem("Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.", 5, false));
@@ -55,12 +75,12 @@ function createOriginSUS() {
         sus.push(new UsabilityScaleItem("Ich fand das System sehr umständlich zu benutzen.", 5, true));
         sus.push(new UsabilityScaleItem("Ich fühlte mich bei der Nutzung des Systems sehr sicher.", 5, false));
         sus.push(new UsabilityScaleItem("Ich musste viele Dinge lernen, bevor ich  mit dem System arbeiten konnte.", 5, true));
-        sessionStorage.setItem('project.originSUS', JSON.stringify(sus));
+        setLocalItem(PROJECT_ORIGIN_SUS, sus);
     }
 }
 
 function createPredefinedGestures() {
-    if (sessionStorage.getItem('predefinedGestureSet') === null) {
+    if (getLocalItem(PREDEFINED_GESTURE_SET) === null) {
         var images = new Array();
         images.push("http://placehold.it/200x150?text=1");
         images.push("http://placehold.it/200x150?text=2");
@@ -79,23 +99,23 @@ function createPredefinedGestures() {
         gestures.push(new Gesture("gestureCatalog", 8, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 2, null, false));
         gestures.push(new Gesture("gestureCatalog", 9, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 0, null, false));
 
-        sessionStorage.setItem('predefinedGestureSet', JSON.stringify(gestures));
+        setLocalItem(PREDEFINED_GESTURE_SET, gestures);
     }
 }
 
 function createPredefinedObservationForm() {
-    if (sessionStorage.getItem('predefinedObversation') === null) {
+    if (getLocalItem(PREDEFINED_OBSERVATIONS) === null) {
         var form = new Array();
         form.push(new QuestionnaireItem('counter', 'Wie oft wurde die Geste falsch ausgeführt?', null, null));
         form.push(new QuestionnaireItem('openQuestion', 'Was wurde sonst beobachtet?', null, null));
         form.push(new QuestionnaireItem('dichotomousQuestion', 'Wurde die Hilfe genutzt?', null, null));
         form.push(new QuestionnaireItem('groupingQuestion', 'Wurde Hilfe benötigt?', [false, false], ['ja', 'nein', 'ein wenig']));
-        sessionStorage.setItem('predefinedObversation', JSON.stringify(form));
+        setLocalItem(PREDEFINED_OBSERVATIONS, form);
     }
 }
 
 function getGestureThumbnailImagesForId(type, id) {
-    var data = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+    var data = getLocalItem(PREDEFINED_GESTURE_SET);
     for (var i = 0; i < data.length; i++) {
         if (type === data[i].type && id === data[i].id) {
             return data[i].images;
@@ -104,7 +124,7 @@ function getGestureThumbnailImagesForId(type, id) {
 }
 
 function getGestureThumbnailPreviewForId(type, id) {
-    var data = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+    var data = getLocalItem(PREDEFINED_GESTURE_SET);
     for (var i = 0; i < data.length; i++) {
         if (type === data[i].type && id === data[i].id) {
             return data[i].previewImage;
@@ -113,7 +133,7 @@ function getGestureThumbnailPreviewForId(type, id) {
 }
 
 function assembledGestures() {
-    var predefinedGestures = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+    var predefinedGestures = getLocalItem(PREDEFINED_GESTURE_SET);
     if (predefinedGestures) {
         var arrangedGestures = new Array();
         for (var i = 0; i < predefinedGestures.length; i++) {
@@ -127,7 +147,7 @@ function assembledGestures() {
 }
 
 function getGestureById(id) {
-    var predefinedGestures = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+    var predefinedGestures = getLocalItem(PREDEFINED_GESTURE_SET);
     for (var i = 0; i < predefinedGestures.length; i++) {
         if (parseInt(predefinedGestures[i].id) === parseInt(id)) {
             return predefinedGestures[i];
@@ -137,7 +157,7 @@ function getGestureById(id) {
 }
 
 function isGestureAssembled(id) {
-    var predefinedGestures = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+    var predefinedGestures = getLocalItem(PREDEFINED_GESTURE_SET);
     for (var i = 0; i < predefinedGestures.length; i++) {
         if (parseInt(predefinedGestures[i].id) === parseInt(id) && predefinedGestures[i].used === true) {
             return true;
@@ -148,29 +168,28 @@ function isGestureAssembled(id) {
 
 function removeAssembledGestures() {
     console.log("remove assembled gestures");
-    var phaseSteps = JSON.parse(sessionStorage.getItem('project.phaseSteps'));
+    var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
     if (phaseSteps && phaseSteps.length > 0) {
         for (var i = 0; i < phaseSteps.length; i++) {
             if (phaseSteps[i].selectedId === 'scenario' || phaseSteps[i].selectedId === 'gestureTraining') {
-                var data = JSON.parse(sessionStorage.getItem(phaseSteps[i].id + ".data"));
+                var data = JSON.parse(getLocalItem(phaseSteps[i].id + ".data"));
                 var scenario = new Scenario();
                 scenario.title = data.title;
                 scenario.description = data.description;
                 scenario.help = data.help;
                 scenario.observations = data.observations;
-                sessionStorage.setItem(phaseSteps[i].id + ".data", JSON.stringify(scenario));
+                setLocalItem(phaseSteps[i].id + ".data", scenario);
             }
         }
     }
-    sessionStorage.removeItem('predefinedGestureSet');
+    removeLocalItem(PREDEFINED_GESTURE_SET);
     createPredefinedGestures();
 }
 
 function renderSessionStorageData() {
-    var phaseSteps = sessionStorage.getItem('project.phaseSteps');
-    if (phaseSteps !== null)
+    var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
+    if (phaseSteps)
     {
-        phaseSteps = JSON.parse(phaseSteps);
         for (var i = 0; i < phaseSteps.length; i++) {
             var item = phaseSteps[i];
             addPhaseStep(item.id, item.selectedId, item.itemText, item.color);
@@ -181,9 +200,8 @@ function renderSessionStorageData() {
         }
     }
 
-    var project = sessionStorage.getItem('project');
-    if (project !== null) {
-        project = JSON.parse(project);
+    var project = getLocalItem('project');
+    if (project) {
         $('#projectName').val(project.name);
         $('#projectDescription').val(project.description);
         if (project.phase !== 'unselected') {
@@ -223,8 +241,7 @@ function saveGeneralData() {
     }
 
     project.useGestures = !$('#useGesturesSwitch #assemble-gesture-set').hasClass('hidden');
-
-    sessionStorage.setItem('project', JSON.stringify(project));
+    setLocalItem('project', project);
 }
 
 function Project() {
@@ -278,43 +295,3 @@ function Gesture(type, id, title, description, images, previewImage, videoUrl, u
 function createRandomColors() {
     colors = randomColor({hue: 'green', count: 25});
 }
-
-function clearSessionStorage() {
-    sessionStorage.clear();
-}
-
-function deleteSessionDataById(id) {
-    sessionStorage.removeItem(id);
-}
-
-//function loadjscssfile(filename, filetype) {
-//    if (filetype === "js") { //if filename is a external JavaScript file
-//        var fileref = document.createElement('script');
-//        fileref.setAttribute("type", "text/javascript");
-//        fileref.setAttribute("src", filename);
-//        console.log("load js: " + filename + ", type: " + filetype);
-//    } else if (filetype === "css") { //if filename is an external CSS file
-//        var fileref = document.createElement("link");
-//        fileref.setAttribute("rel", "stylesheet");
-//        fileref.setAttribute("type", "text/css");
-//        fileref.setAttribute("href", filename);
-//    }
-//    if (typeof fileref !== "undefined")
-//        document.getElementsByTagName("head")[0].appendChild(fileref);
-//}
-//
-//function removejscssfile(filename, filetype) {
-//    console.log("unload: " + filename + ", type: " + filetype);
-//    var targetelement = (filetype === "js") ? "script" : (filetype === "css") ? "link" : "none"; //determine element type to create nodelist from
-//    var targetattr = (filetype === "js") ? "src" : (filetype === "css") ? "href" : "none"; //determine corresponding attribute to test for
-//    var allsuspects = document.getElementsByTagName(targetelement);
-//    for (var i = allsuspects.length; i >= 0; i--) { //search backwards within nodelist for matching elements to remove
-//        if (allsuspects[i] &&
-//                allsuspects[i].getAttribute(targetattr) !== null &&
-//                allsuspects[i].getAttribute(targetattr).indexOf(filename) !== -1)
-//        {
-//            allsuspects[i].parentNode.removeChild(allsuspects[i]); //remove element by calling parentNode.removeChild() 
-//        }
-//
-//    }
-//}

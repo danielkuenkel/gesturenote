@@ -13,7 +13,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
-
+        <script src="js/constants.js"></script>
         <script src="js/thumbscrubber.js"></script>
         <script src="js/gotoPage.js"></script>
         <script src="js/subPages.js"></script>
@@ -219,7 +219,7 @@
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-danger btn-md" onclick="clearSessionStorage()"><i class="glyphicon glyphicon-trash"></i> Reset Session Storage</button>
+                                <button type="button" class="btn btn-danger btn-md" onclick="clearLocalItems()"><i class="glyphicon glyphicon-trash"></i> Reset Session Storage</button>
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-warning btn-md"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
@@ -244,6 +244,8 @@
             </div>
         </div>
 
+<!--<iframe src="http://www.apple.de" style="width:100%; height: 500px; border:none;" name="test" scrolling="yes" frameborder="0" align=aus marginheight="0" marginwidth="0"></iframe>-->
+
 
         <script>
             $(document).ready(function () {
@@ -257,7 +259,7 @@
             });
 
             $('.breadcrumb li a').on('click', function () {
-                clearSessionStorage();
+                clearLocalItems();
             });
 
             $('body').on('click', '.select .option li', function (event) {
@@ -268,7 +270,7 @@
                 $(parent).find('.selected').attr('id', listItemId);
                 $(parent).find('.selected').text(itemText);
 
-                console.log(parent + ", " + itemText + ", " + listItemId);
+//                console.log(parent + ", " + itemText + ", " + listItemId);
 
                 if (parent.attr('id') !== "phaseSelect" || parent.attr('id') !== "surveyTypeSelect") {
                     $(parent).parent().find('.toggable-button').removeClass('disabled');
@@ -365,8 +367,7 @@
                     var color = $(item).find('.glyphicon-tag').css('color');
                     phases.push(new PhaseItem(id, selectedId, itemText, color));
                 }
-
-                sessionStorage.setItem('project.phaseSteps', JSON.stringify(phases));
+                setLocalItem('project.phaseSteps', phases)
             }
 
             function checkCurrentListState(itemContainer) {
@@ -389,7 +390,6 @@
             }
 
             $('body').on('click', '.btn-delete', function (event) {
-                console.log('on delete click');
                 event.stopPropagation();
                 event.preventDefault();
                 var element = $(this).closest('.root');

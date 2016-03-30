@@ -113,8 +113,8 @@
         help.removeAttr('id');
         $('#helpContainer').append(help);
 
-        var data = JSON.parse(sessionStorage.getItem(currentIdForModal + '.data'));
-        if (data !== null) {
+        var data = getLocalItem(currentIdForModal + '.data');
+        if (data) {
             renderData(data, false);
         }
     });
@@ -379,8 +379,8 @@
             }
             scenario.observations = observations;
         }
-
-        sessionStorage.setItem(currentIdForModal + ".data", JSON.stringify(scenario));
+        
+        setLocalItem(currentIdForModal + ".data", scenario);
     }
 
     $('.switchButtonAddonPanel').on('click', function (event) {
@@ -422,11 +422,9 @@
         updateBadges($('#observationsContainer'), selectedID);
     });
 
-    $('#addPredefinedObservations').on('click', function (event) {
-        if (sessionStorage.getItem('predefinedObversation') !== null) {
-            var data = JSON.parse(sessionStorage.getItem('predefinedObversation'));
-
-            renderData(data, true);
+    $('#addPredefinedObservations').on('click', function () {
+        if (getLocalItem('predefinedObversation') !== null) {
+            renderData(getLocalItem('predefinedObversation'), true);
         }
     });
 
@@ -479,15 +477,15 @@
         }
     }
 
-    $('body').on('click', '.btn-up', function (event) {
+    $('body').on('click', '.btn-up', function () {
         updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
     });
 
-    $('body').on('click', '.btn-down', function (event) {
+    $('body').on('click', '.btn-down', function () {
         updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
     });
 
-    $('body').on('click', '.btn-delete', function (event) {
+    $('body').on('click', '.btn-delete', function () {
         updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
     });
 

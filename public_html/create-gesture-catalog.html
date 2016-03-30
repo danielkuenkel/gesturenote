@@ -72,9 +72,9 @@
                     </div>
                 </div>
                 <div class="btn-group pull-right" id="useGesturesSwitch">
-                    <button class="btn btn-default switchButtonAddon">Nutzen?</button>
-                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                    <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                    <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
                 </div>
             </div>
             <div class="panel-body hidden">
@@ -93,9 +93,9 @@
                     </div>
                 </div>
                 <div class="btn-group pull-right" id="useGesturesSwitch">
-                    <button class="btn btn-default switchButtonAddon">Nutzen?</button>
-                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                    <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                    <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
                 </div>
             </div>
             <div class="panel-body hidden">
@@ -108,9 +108,9 @@
             <div class="panel-heading clearfix">
                 <div style="margin-top: 4px; display: inline-block">Neue Geste aufzeichnen</div>
                 <div class="btn-group pull-right" id="useGesturesSwitch">
-                    <button class="btn btn-default switchButtonAddon">Nutzen?</button>
-                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                    <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                    <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
                 </div>
             </div>
             <div class="panel-body hidden">
@@ -129,7 +129,7 @@
 
 <script>
     $(document).ready(function () {
-        var data = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+        var data = getLocalItem('predefinedGestureSet');
         if (data !== null) {
             renderData(data);
         }
@@ -193,7 +193,7 @@
     }
 
     function saveData() {
-        var data = JSON.parse(sessionStorage.getItem('predefinedGestureSet'));
+        var data = getLocalItem('predefinedGestureSet');
         var selectedGestures = new Array();
         if ($('#ownExtractedGestures').find('#success').hasClass('active')) {
             selectedGestures = $.merge(selectedGestures, $('#ownExtractedGesturesContainer').children('.selected'));
@@ -218,16 +218,18 @@
             }
             assembledGestures.push(new Gesture(originItem.type, originItem.id, originItem.title, originItem.description, originItem.images, originItem.previewImage, originItem.videoUrl, isAssembled));
         }
-        sessionStorage.setItem("predefinedGestureSet", JSON.stringify(assembledGestures));
+        
+        setLocalItem("predefinedGestureSet", assembledGestures);
     }
 
-    $('.switchButtonAddon').on('click', function (event) {
+    $('.switchButtonAddonPanel').on('click', function (event) {
+        console.log($(this));
         event.preventDefault();
         togglePanelBody($(this).closest('.root').find('.panel-body'));
         togglePanelBadges($(this).closest('.root').find('.badges'));
     });
 
-    $('.btn-toggle-checkbox').on('click', function (event) {
+    $('.btn-toggle-checkbox-panel').on('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('active')) {
             togglePanelBody($(this).closest('.root').find('.panel-body'));
