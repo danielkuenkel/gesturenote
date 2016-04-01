@@ -33,6 +33,7 @@
     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
 
+<script type="text/javascript" src="js/template-forms.js"></script>
 <script>
     $(document).ready(function () {
         var data = getLocalItem(currentIdForModal + '.data');
@@ -51,18 +52,23 @@
             updateBadges($('#list-container'), data[i].id);
 
             switch (data[i].id) {
-                case 'groupingQuestion':
+                case DICHOTOMOUS_QUESTION:
                     var parameters = data[i].parameters;
-
-                    if (parameters[0] === true) {
-                        var active = $(clone).find('.multiselect').find('.active');
-                        var inactive = $(clone).find('.multiselect').find('.inactive');
-                        toggleSwitch(active, inactive);
+                    var aGestures = assembledGestures();
+                    if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
+                        $(clone).find('.gesture-select .switchButtonAddon').click();
                     }
                     if (parameters[1] === true) {
-                        var active = $(clone).find('.optionalanswer').find('.active');
-                        var inactive = $(clone).find('.optionalanswer').find('.inactive');
-                        toggleSwitch(active, inactive);
+                        $(clone).find('.justification .switchButtonAddon').click();
+                    }
+                    break;
+                case GROUPING_QUESTION:
+                    var parameters = data[i].parameters;
+                    if (parameters[0] === true) {
+                        $(clone).find('.multiselect .switchButtonAddon').click();
+                    }
+                    if (parameters[1] === true) {
+                        $(clone).find('.optionalanswer .switchButtonAddon').click();
                     }
 
                     var options = data[i].options;
@@ -73,7 +79,7 @@
                         checkCurrentListState($(clone).find('.option-container'));
                     }
                     break;
-                case 'rating':
+                case RATING:
                     var options = data[i].options;
                     for (var j = 0; j < options.length; j++) {
                         var option = $('#ratingItem').clone().removeClass('hidden');
@@ -86,7 +92,7 @@
                         renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 1, options[j]);
                     }
                     break;
-                case 'sumQuestion':
+                case SUM_QUESTION:
                     var parameters = data[i].parameters;
 
                     $(clone).find('.option').children('#' + parameters[0]).click();
@@ -100,7 +106,7 @@
                         checkCurrentListState($(clone).find('.option-container'));
                     }
                     break;
-                case 'ranking':
+                case RANKING:
                     var options = data[i].options;
                     for (var j = 0; j < options.length; j++) {
                         var option = $('#rankingItem').clone().removeClass('hidden');
@@ -126,160 +132,59 @@
             var parameters = null;
             var options = null;
 
-            if (id === 'groupingQuestion') {
-                parameters = new Array();
-                parameters.push($(item).find('.multiselect .active').attr('id') === 'success' ? true : false);
-                parameters.push($(item).find('.optionalanswer .active').attr('id') === 'success' ? true : false);
+            switch (id) {
+                case DICHOTOMOUS_QUESTION:
+                    parameters = new Array();
+                    parameters.push($(item).find('.gesture-select .active').attr('id') === 'success' ? true : false);
+                    parameters.push($(item).find('.justification .active').attr('id') === 'success' ? true : false);
+                    break;
+                case GROUPING_QUESTION:
+                    parameters = new Array();
+                    parameters.push($(item).find('.multiselect .active').attr('id') === 'success' ? true : false);
+                    parameters.push($(item).find('.optionalanswer .active').attr('id') === 'success' ? true : false);
 
-                options = new Array();
-                var groupingOptions = $(item).find('.option-container').children();
-                for (var j = 0; j < groupingOptions.length; j++) {
-                    options.push($(groupingOptions[j]).find('.option').val());
-                }
-            } else if (id === 'rating') {
-                options = new Array();
-                var optionList = $(item).find('.option-container').children();
-                for (var j = 0; j < optionList.length; j++) {
-                    var ratingOptions = ($(optionList[j]).find('.ratingScaleItemContainer').children());
-                    var tempArray = new Array();
-                    for (var k = 0; k < ratingOptions.length; k++) {
-                        tempArray.push($(ratingOptions[k]).find('.option').val());
+                    options = new Array();
+                    var groupingOptions = $(item).find('.option-container').children();
+                    for (var j = 0; j < groupingOptions.length; j++) {
+                        options.push($(groupingOptions[j]).find('.option').val());
                     }
-                    tempArray.push($(optionList[j]).find('.optionQuestion').val());
-                    options.push(tempArray);
-                }
-            } else if (id === 'sumQuestion') {
-                parameters = new Array();
-                parameters.push($(item).find('.allocation').attr('id'));
-                parameters.push($(item).find('.maximum').val());
+                    break;
+                case RATING:
+                    options = new Array();
+                    var optionList = $(item).find('.option-container').children();
+                    for (var j = 0; j < optionList.length; j++) {
+                        var ratingOptions = ($(optionList[j]).find('.ratingScaleItemContainer').children());
+                        var tempArray = new Array();
+                        for (var k = 0; k < ratingOptions.length; k++) {
+                            tempArray.push($(ratingOptions[k]).find('.option').val());
+                        }
+                        tempArray.push($(optionList[j]).find('.optionQuestion').val());
+                        options.push(tempArray);
+                    }
+                    break;
+                case SUM_QUESTION:
+                    parameters = new Array();
+                    parameters.push($(item).find('.allocation').attr('id'));
+                    parameters.push($(item).find('.maximum').val());
 
-                options = new Array();
-                var sumQuestionOptions = $(item).find('.option-container').children();
-                for (var j = 0; j < sumQuestionOptions.length; j++) {
-                    options.push($(sumQuestionOptions[j]).find('.option').val());
-                }
-            } else if (id === 'ranking') {
-                options = new Array();
-                var rankingOptions = $(item).find('.option-container').children();
-                for (var j = 0; j < rankingOptions.length; j++) {
-                    options.push($(rankingOptions[j]).find('.option').val());
-                }
+                    options = new Array();
+                    var sumQuestionOptions = $(item).find('.option-container').children();
+                    for (var j = 0; j < sumQuestionOptions.length; j++) {
+                        options.push($(sumQuestionOptions[j]).find('.option').val());
+                    }
+                    break;
+                case RANKING:
+                    options = new Array();
+                    var rankingOptions = $(item).find('.option-container').children();
+                    for (var j = 0; j < rankingOptions.length; j++) {
+                        options.push($(rankingOptions[j]).find('.option').val());
+                    }
+                    break;
             }
 
             questionnaire.push(new QuestionnaireItem(id, question, parameters, options));
         }
-        
-        setLocalItem(currentIdForModal + '.data', questionnaire)
+
+        setLocalItem(currentIdForModal + '.data', questionnaire);
     }
-
-    function onCloseClick() {
-        saveData();
-        currentIdForModal = null;
-    }
-
-
-
-// specific form functions
-
-    $('#addFormat').on('click', function (event) {
-        event.preventDefault();
-
-        var brotherID = $(this).parent().prevAll(".select:first").attr('id');
-        var selectedID = $('#' + brotherID + ' .selected').attr('id');
-
-        if (selectedID !== 'unselected') {
-            var clone = $('#form-item-container').find('#' + selectedID).clone(true);
-            $('#list-container').append(clone);
-            checkCurrentListState($('#list-container'));
-        }
-        updateBadges($('#list-container'), selectedID);
-    });
-
-    $('.btn-add-groupingQuestionOption').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        var clone = $('#groupingQuestionItem').clone().removeClass('hidden');
-        $(this).prev().find('.panel-body').append(clone);
-        checkCurrentListState($(this).prev().find('.panel-body'));
-    });
-
-    $('.btn-add-ratingOption').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        var clone = $('#ratingItem').clone().removeClass('hidden');
-        clone.removeAttr('id');
-        $(this).prev().find('.panel-body').append(clone);
-        checkCurrentListState($(this).prev().find('.panel-body'));
-        renderScaleItems($(clone).find('.ratingScaleItemContainer'), 3);
-        return false;
-    });
-
-    $('.btn-add-sumQuestionOption').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        var clone = $('#sumQuestionItem').clone().removeClass('hidden');
-        $(this).prev().find('.panel-body').append(clone);
-        checkCurrentListState($(this).prev().find('.panel-body'));
-    });
-
-    $('.btn-add-rankingOption').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        var clone = $('#rankingItem').clone().removeClass('hidden');
-        $(this).prev().find('.panel-body').append(clone);
-        checkCurrentListState($(this).prev().find('.panel-body'));
-    });
-
-    $('body').on('click', '.select .option li', function () {
-        var parent = $(this).closest('.select');
-        if ($(parent).hasClass('scaleSelect')) {
-            var scaleItemContainer = $(this).parents('.root').first().find('.ratingScaleItemContainer');
-            var scaleSelectCount = $(this).children().text().trim();
-            renderScaleItems(scaleItemContainer, scaleSelectCount, undefined);
-        }
-    });
-
-    function renderScaleItems(container, count, text)
-    {
-        $(container).empty();
-        for (var i = 0; i < count; i++)
-        {
-            var scaleItem = $('#ratingScaleItem').clone();
-            scaleItem.removeClass('hidden');
-            $(container).append(scaleItem);
-
-            if (i === 0) {
-                $(scaleItem).find('.input-group-addon').text("von " + (i + 1));
-                $(scaleItem).find('.item-input-text').attr('placeholder', 'z.B. trifft zu');
-            } else if (i === count - 1) {
-                $(scaleItem).find('.input-group-addon').text("bis " + (i + 1));
-                $(scaleItem).find('.item-input-text').attr('placeholder', 'z.B. trifft nicht zu');
-            } else {
-                $(scaleItem).find('.input-group-addon').text(i + 1);
-            }
-            if (text !== undefined) {
-                $(scaleItem).find('.item-input-text').val(text[i]);
-            }
-        }
-    }
-
-    function updateBadges(container, formatId) {
-        if (formatId === null) {
-            console.log('update all badges');
-        } else {
-            var children = container.children('#' + formatId);
-            for (var i = 0; i < children.length; i++) {
-                $(children[i]).find('.badgeId').text(i + 1);
-                $(children[i]).find('.badgeQuantity').text(children.length);
-            }
-        }
-    }
-
-    $('body').on('click', '.btn-up', function (event) {
-        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
-    });
-
-    $('body').on('click', '.btn-down', function (event) {
-        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
-    });
-
-    $('body').on('click', '.btn-delete', function (event) {
-        updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
-    });
 </script>

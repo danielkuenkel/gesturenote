@@ -25,13 +25,16 @@
 
     <div id="list-container"></div>
 
-    <button type="button" class="btn btn-info" id="btn-add-sus-item"><span class="glyphicon glyphicon-plus"></span> Ein neues Item hinzufügen</button>
     <button type="button" class="btn btn-warning" id="btn-reset-sus-item"><span class="glyphicon glyphicon-repeat"></span> Original SUS wiederherstellen</button>
+    <button type="button" class="btn btn-info pull-right" id="btn-add-sus-item"><span class="glyphicon glyphicon-plus"></span> Ein neues Item hinzufügen</button>
+    
 </div>
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
 
+
+<script type="text/javascript" src="js/template-forms.js"></script>
 <script>
     $(document).ready(function () {
         var originSUS = getLocalItem('project.originSUS');
@@ -84,11 +87,6 @@
         }
         checkCurrentListState($('#list-container'));
     });
-
-    function onCloseClick() {
-        saveData();
-        currentIdForModal = null;
-    }
 
     function saveData() {
         var customGUS = new Array();

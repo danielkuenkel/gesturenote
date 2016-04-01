@@ -26,19 +26,21 @@
 
     <div id="list-container"></div>
 
-    <button type="button" class="btn btn-info" id="btn-add-gus-item"><span class="glyphicon glyphicon-plus"></span> Ein neues Item hinzufügen</button>
     <button type="button" class="btn btn-warning" id="btn-reset-gus-item"><span class="glyphicon glyphicon-repeat"></span> Original GUS wiederherstellen</button>
+    <button type="button" class="btn btn-info pull-right" id="btn-add-gus-item"><span class="glyphicon glyphicon-plus"></span> Ein neues Item hinzufügen</button>
 
 </div>
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
 
+
+<script type="text/javascript" src="js/template-forms.js"></script>
 <script>
     $(document).ready(function () {
         var originGUS = getLocalItem('project.originGUS');
         var customGUS = getLocalItem(currentIdForModal + '.data');
-        
+
         if (customGUS !== null) {
             renderData(customGUS);
         } else if (originGUS !== null) {
@@ -77,7 +79,7 @@
         $('#list-container').append(clone);
         checkCurrentListState($('#list-container'));
     });
-    
+
     $('#btn-reset-gus-item').on('click', function () {
         var originGUS = getLocalItem('project.originGUS');
         if (originGUS !== null) {
@@ -86,16 +88,11 @@
         }
         checkCurrentListState($('#list-container'));
     });
-    
-    function onCloseClick() {
-        saveData();
-        currentIdForModal = null;
-    }
-    
+
     function saveData() {
         var customGUS = new Array();
         var itemList = document.getElementById('list-container').childNodes;
-        
+
         for (var i = 0; i < itemList.length; i++) {
             var item = itemList[i];
             var itemText = $(item).find('.item-input-text').val();

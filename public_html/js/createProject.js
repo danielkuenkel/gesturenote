@@ -54,7 +54,7 @@ function createOriginGUS() {
         gus.push(new UsabilityScaleItem("Ich denke, dass die Geste ermüdend ist.", 5, true));
         gus.push(new UsabilityScaleItem("Ich denke, dass mich die Geste körperlich zu sehr fordert.", 5, true));
         gus.push(new UsabilityScaleItem("Ich würde diese Geste gerne regelmäßig nutzen.", 5, false));
-        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste andere Personen im Umfeld nicht beeinträchtigt oder stört.", 5, true));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste andere Personen im Umfeld beeinträchtigt oder stört.", 5, true));
         gus.push(new UsabilityScaleItem("Die Geste ist peinlich.", 5, true));
         gus.push(new UsabilityScaleItem("Ich fühle mich beim Ausführen der Geste wohl.", 5, false));
         setLocalItem(PROJECT_ORIGIN_GUS, gus);
@@ -108,7 +108,7 @@ function createPredefinedObservationForm() {
         var form = new Array();
         form.push(new QuestionnaireItem('counter', 'Wie oft wurde die Geste falsch ausgeführt?', null, null));
         form.push(new QuestionnaireItem('openQuestion', 'Was wurde sonst beobachtet?', null, null));
-        form.push(new QuestionnaireItem('dichotomousQuestion', 'Wurde die Hilfe genutzt?', null, null));
+        form.push(new QuestionnaireItem('dichotomousQuestion', 'Wurde die Hilfe genutzt?', [false, false], null));
         form.push(new QuestionnaireItem('groupingQuestion', 'Wurde Hilfe benötigt?', [false, false], ['ja', 'nein', 'ein wenig']));
         setLocalItem(PREDEFINED_OBSERVATIONS, form);
     }
@@ -171,8 +171,8 @@ function removeAssembledGestures() {
     var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
     if (phaseSteps && phaseSteps.length > 0) {
         for (var i = 0; i < phaseSteps.length; i++) {
-            if (phaseSteps[i].selectedId === 'scenario' || phaseSteps[i].selectedId === 'gestureTraining') {
-                var data = JSON.parse(getLocalItem(phaseSteps[i].id + ".data"));
+            var data = getLocalItem(phaseSteps[i].id + ".data");
+            if (data && (phaseSteps[i].selectedId === 'scenario' || phaseSteps[i].selectedId === 'gestureTraining')) {
                 var scenario = new Scenario();
                 scenario.title = data.title;
                 scenario.description = data.description;
@@ -295,3 +295,138 @@ function Gesture(type, id, title, description, images, previewImage, videoUrl, u
 function createRandomColors() {
     colors = randomColor({hue: 'green', count: 25});
 }
+
+
+
+
+
+
+
+
+
+
+
+//function onCloseClick() {
+//    saveData();
+//    currentIdForModal = null;
+//}
+//
+//$('body').on('click','#addFormat', function (event) {
+//    event.preventDefault();
+//
+//    var brotherID = $(this).parent().prevAll(".select:first").attr('id');
+//    var selectedID = $('#' + brotherID + ' .selected').attr('id');
+//
+//    if (selectedID !== 'unselected') {
+//        var clone = $('#form-item-container').find('#' + selectedID).clone(true);
+//        $('#list-container').append(clone);
+//        checkCurrentListState($('#list-container'));
+//    }
+//    updateBadges($('#list-container'), selectedID);
+//});
+//
+//$('.btn-add-groupingQuestionOption').unbind('click').bind('click', function (event) {
+//    event.preventDefault();
+//    var clone = $('#groupingQuestionItem').clone().removeClass('hidden');
+//    $(this).prev().find('.panel-body').append(clone);
+//    checkCurrentListState($(this).prev().find('.panel-body'));
+//});
+//
+//$('.btn-add-ratingOption').unbind('click').bind('click', function (event) {
+//    event.preventDefault();
+//    var clone = $('#ratingItem').clone().removeClass('hidden');
+//    clone.removeAttr('id');
+//    $(this).prev().find('.panel-body').append(clone);
+//    checkCurrentListState($(this).prev().find('.panel-body'));
+//    renderScaleItems($(clone).find('.ratingScaleItemContainer'), 3);
+//    return false;
+//});
+//
+//$('.btn-add-sumQuestionOption').unbind('click').bind('click', function (event) {
+//    event.preventDefault();
+//    var clone = $('#sumQuestionItem').clone().removeClass('hidden');
+//    $(this).prev().find('.panel-body').append(clone);
+//    checkCurrentListState($(this).prev().find('.panel-body'));
+//});
+//
+//$('.btn-add-rankingOption').unbind('click').bind('click', function (event) {
+//    event.preventDefault();
+//    var clone = $('#rankingItem').clone().removeClass('hidden');
+//    $(this).prev().find('.panel-body').append(clone);
+//    checkCurrentListState($(this).prev().find('.panel-body'));
+//});
+//
+//$('body').on('click', '.select .option li', function () {
+//    var parent = $(this).closest('.select');
+//    if ($(parent).hasClass('scaleSelect')) {
+//        var scaleItemContainer = $(this).parents('.root').first().find('.ratingScaleItemContainer');
+//        var scaleSelectCount = $(this).children().text().trim();
+//        renderScaleItems(scaleItemContainer, scaleSelectCount, undefined);
+//    }
+//});
+//
+//function renderScaleItems(container, count, text)
+//{
+//    $(container).empty();
+//    for (var i = 0; i < count; i++)
+//    {
+//        var scaleItem = $('#ratingScaleItem').clone();
+//        scaleItem.removeClass('hidden');
+//        $(container).append(scaleItem);
+//
+//        if (i === 0) {
+//            $(scaleItem).find('.input-group-addon').text("von " + (i + 1));
+//            $(scaleItem).find('.item-input-text').attr('placeholder', 'z.B. trifft zu');
+//        } else if (i === count - 1) {
+//            $(scaleItem).find('.input-group-addon').text("bis " + (i + 1));
+//            $(scaleItem).find('.item-input-text').attr('placeholder', 'z.B. trifft nicht zu');
+//        } else {
+//            $(scaleItem).find('.input-group-addon').text(i + 1);
+//        }
+//        if (text !== undefined) {
+//            $(scaleItem).find('.item-input-text').val(text[i]);
+//        }
+//    }
+//}
+//$(document).ready(function () {
+//    function updateBadges(container, formatId) {
+//        if (formatId === null) {
+//            console.log('update all badges');
+//        } else {
+//            var children = container.children('#' + formatId);
+//            for (var i = 0; i < children.length; i++) {
+//                $(children[i]).find('.badgeId').text(i + 1);
+//                $(children[i]).find('.badgeQuantity').text(children.length);
+//            }
+//        }
+//    }
+//});
+//
+//
+//$('body').on('click', '.btn-up', function () {
+//    updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
+//});
+//
+//$('body').on('click', '.btn-down', function () {
+//    updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
+//});
+//
+//$('body').on('click', '.btn-delete', function () {
+//    updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
+//});
+//
+//$('.checkAssembledGestures').on('click', function (event) {
+//    console.log('checkAssembledGestures');
+//    var aGestures = assembledGestures();
+//    if (!aGestures || aGestures.length === 0) {
+//        if ($(this).attr('id') === 'success') {
+//            $(this).prevAll('.switchButtonAddon').first().click();
+//            $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
+//        } else if ($(this).hasClass('switchButtonAddon')) {
+//            var activeButton = $(this).nextAll().filter('.active');
+//            var inactiveButton = $(this).nextAll().filter('.inactive');
+//            $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
+//            toggleSwitch(activeButton, inactiveButton);
+//        }
+//    }
+//});

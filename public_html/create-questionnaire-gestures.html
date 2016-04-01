@@ -1,0 +1,192 @@
+<div class="modal-header" id="index">
+    <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
+    <h4 class="modal-title" id="exampleModalLabel">Fragebogen</h4>
+</div>
+<div id="modal-body" class="modal-body">
+
+    <div class="container-root" id="list-container"></div>
+
+    <div class="form-group">
+        <div class="btn-group btn-group-justified" role="group">
+
+            <span class="input-group-addon" id="addFormatSelectAddon">Format</span>
+
+            <div class="btn-group select" id="addFormatSelect" role="group">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
+                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                    <li id="openQuestion"><a href="#">Offene Frage</a></li>
+                    <li id="dichotomousQuestion"><a href="#">Ja/nein-Frage</a></li>
+                    <li id="groupingQuestion"><a href="#">Eingruppierungs-Frage</a></li>
+                    <li id="rating"><a href="#">Rating</a></li>
+                    <li id="sumQuestion"><a href="#">Summenfrage</a></li>
+                    <li id="ranking"><a href="#">Ranking</a></li>
+                </ul>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-info disabled toggable-button" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-warning" id="btn-reset-gus-item"><span class="glyphicon glyphicon-repeat"></span> Original Fragebogen wiederherstellen</button>
+
+</div>
+<div id="modal-footer" class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
+</div>
+
+<script type="text/javascript" src="js/template-forms.js"></script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            var data = getLocalItem(currentIdForModal + '.data');
+            if (data !== null) {
+                renderData(data);
+            }
+        });
+
+        function renderData(data) {
+            var listContainer = $('#list-container');
+
+            for (var i = 0; i < data.length; i++) {
+                var clone = $('#form-item-container').find('#' + data[i].id).clone(true);
+                $(clone).find('.question').val(data[i].question);
+                $('#list-container').append(clone);
+                updateBadges($('#list-container'), data[i].id);
+
+                switch (data[i].id) {
+                    case DICHOTOMOUS_QUESTION:
+                        var parameters = data[i].parameters;
+                        var aGestures = assembledGestures();
+                        if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
+                            $(clone).find('.gesture-select .switchButtonAddon').click();
+                        }
+                        if (parameters[1] === true) {
+                            $(clone).find('.justification .switchButtonAddon').click();
+                        }
+                        break;
+                    case GROUPING_QUESTION:
+                        var parameters = data[i].parameters;
+                        if (parameters[0] === true) {
+                            $(clone).find('.multiselect .switchButtonAddon').click();
+                        }
+                        if (parameters[1] === true) {
+                            $(clone).find('.optionalanswer .switchButtonAddon').click();
+                        }
+
+                        var options = data[i].options;
+                        for (var j = 0; j < options.length; j++) {
+                            var option = $('#groupingQuestionItem').clone().removeClass('hidden');
+                            $(option).find('.option').val(options[j]);
+                            $(clone).find('.option-container').append(option);
+                            checkCurrentListState($(clone).find('.option-container'));
+                        }
+                        break;
+                    case RATING:
+                        var options = data[i].options;
+                        for (var j = 0; j < options.length; j++) {
+                            var option = $('#ratingItem').clone().removeClass('hidden');
+                            $(option).find('.option').val(options[j]);
+                            $(clone).find('.option-container').append(option);
+                            $(option).find('.optionQuestion').val(options[j][options[j].length - 1]);
+                            $(option).find('.selected').text((options[j].length - 1) + " ");
+                            checkCurrentListState($(clone).find('.option-container'));
+
+                            renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 1, options[j]);
+                        }
+                        break;
+                    case SUM_QUESTION:
+                        var parameters = data[i].parameters;
+
+                        $(clone).find('.option').children('#' + parameters[0]).click();
+                        $(clone).find('.maximum').val(parameters[1]);
+
+                        var options = data[i].options;
+                        for (var j = 0; j < options.length; j++) {
+                            var option = $('#sumQuestionItem').clone().removeClass('hidden');
+                            $(option).find('.option').val(options[j]);
+                            $(clone).find('.option-container').append(option);
+                            checkCurrentListState($(clone).find('.option-container'));
+                        }
+                        break;
+                    case RANKING:
+                        var options = data[i].options;
+                        for (var j = 0; j < options.length; j++) {
+                            var option = $('#rankingItem').clone().removeClass('hidden');
+                            $(option).find('.option').val(options[j]);
+                            $(clone).find('.option-container').append(option);
+                            checkCurrentListState($(clone).find('.option-container'));
+                        }
+                        break;
+                }
+            }
+
+            checkCurrentListState(listContainer);
+        }
+
+        function saveData() {
+            var itemList = $('#list-container').children();
+            var questionnaire = new Array();
+
+            for (var i = 0; i < itemList.length; i++) {
+                var item = itemList[i];
+                var id = $(item).attr('id');
+                var question = $(item).find('.question').val();
+                var parameters = null;
+                var options = null;
+
+                switch (id) {
+                    case DICHOTOMOUS_QUESTION:
+                        parameters = new Array();
+                        parameters.push($(item).find('.gesture-select .active').attr('id') === 'success' ? true : false);
+                        parameters.push($(item).find('.justification .active').attr('id') === 'success' ? true : false);
+                        break;
+                    case GROUPING_QUESTION:
+                        parameters = new Array();
+                        parameters.push($(item).find('.multiselect .active').attr('id') === 'success' ? true : false);
+                        parameters.push($(item).find('.optionalanswer .active').attr('id') === 'success' ? true : false);
+
+                        options = new Array();
+                        var groupingOptions = $(item).find('.option-container').children();
+                        for (var j = 0; j < groupingOptions.length; j++) {
+                            options.push($(groupingOptions[j]).find('.option').val());
+                        }
+                        break;
+                    case RATING:
+                        options = new Array();
+                        var optionList = $(item).find('.option-container').children();
+                        for (var j = 0; j < optionList.length; j++) {
+                            var ratingOptions = ($(optionList[j]).find('.ratingScaleItemContainer').children());
+                            var tempArray = new Array();
+                            for (var k = 0; k < ratingOptions.length; k++) {
+                                tempArray.push($(ratingOptions[k]).find('.option').val());
+                            }
+                            tempArray.push($(optionList[j]).find('.optionQuestion').val());
+                            options.push(tempArray);
+                        }
+                        break;
+                    case SUM_QUESTION:
+                        parameters = new Array();
+                        parameters.push($(item).find('.allocation').attr('id'));
+                        parameters.push($(item).find('.maximum').val());
+
+                        options = new Array();
+                        var sumQuestionOptions = $(item).find('.option-container').children();
+                        for (var j = 0; j < sumQuestionOptions.length; j++) {
+                            options.push($(sumQuestionOptions[j]).find('.option').val());
+                        }
+                        break;
+                    case RANKING:
+                        options = new Array();
+                        var rankingOptions = $(item).find('.option-container').children();
+                        for (var j = 0; j < rankingOptions.length; j++) {
+                            options.push($(rankingOptions[j]).find('.option').val());
+                        }
+                        break;
+                }
+
+                questionnaire.push(new QuestionnaireItem(id, question, parameters, options));
+            }
+
+            setLocalItem(currentIdForModal + '.data', questionnaire);
+        }
+</script>

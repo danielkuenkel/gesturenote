@@ -14,6 +14,8 @@
     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
 
+
+<script type="text/javascript" src="js/template-forms.js"></script>
 <script>
     $(document).ready(function () {
         var data = getLocalItem(currentIdForModal + '.data');
@@ -21,11 +23,6 @@
             renderData(data);
         }
     });
-
-    function onCloseClick() {
-        saveData();
-        currentIdForModal = null;
-    }
 
     function renderData(data) {
         $('#declaration').val(data);

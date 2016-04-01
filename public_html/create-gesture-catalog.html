@@ -62,7 +62,7 @@
             </div>-->
     <!--</div>-->
 
-    <div id="list-container">
+    <div>
         <div class="panel panel-default root" id="ownExtractedGestures">
             <div class="panel-heading clearfix">
                 <div style="margin-top: 4px; display: inline-block">Extrahierte studienspezifische Gesten 
@@ -78,9 +78,7 @@
                 </div>
             </div>
             <div class="panel-body hidden">
-                <div class="panel-group" id="ownExtractedGesturesContainer">
-
-                </div>
+                <div class="panel-group root" id="list-container"></div>
             </div>
         </div>
 
@@ -99,8 +97,7 @@
                 </div>
             </div>
             <div class="panel-body hidden">
-                <div class="panel-group" id="gesetureCatalogContainer">
-                </div>
+                <div class="panel-group root" id="list-container"></div>
             </div>
         </div>
 
@@ -114,8 +111,7 @@
                 </div>
             </div>
             <div class="panel-body hidden">
-                <div class="panel-group" id="recordGestureContainer">
-                </div>
+                <div class="panel-group root" id="list-container"></div>
             </div>
         </div>
 
@@ -127,6 +123,8 @@
     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
 
+
+<script type="text/javascript" src="js/template-forms.js"></script>
 <script>
     $(document).ready(function () {
         var data = getLocalItem('predefinedGestureSet');
@@ -134,11 +132,6 @@
             renderData(data);
         }
     });
-
-    function onCloseClick() {
-        saveData();
-        currentIdForModal = null;
-    }
 
     function renderData(data) {
         var ownExtractedGestures = 0;
@@ -155,22 +148,20 @@
             clone.find('.preview').text(data[i].previewImage);
             switch (data[i].type) {
                 case "ownProject":
-                    $('#ownExtractedGesturesContainer').append(clone);
+                    $('#ownExtractedGestures #list-container').append(clone);
                     if (ownExtractedGestures < 1 && data[i].used === true) {
                         ownExtractedGestures++;
                         $('#ownExtractedGestures .switchButtonAddon').click();
-                        togglePanelBody($('#ownExtractedGestures .panel-body'));
-                        togglePanelBadges($('#ownExtractedGestures .badges'));
                     }
+                    updatePanelBadges($('#ownExtractedGestures #list-container'), 'selected', false);
                     break;
                 case "gestureCatalog":
-                    $('#gesetureCatalogContainer').append(clone);
+                    $('#gesetureCatalog #list-container').append(clone);
                     if (gesetureCatalog < 1 && data[i].used === true) {
                         gesetureCatalog++;
                         $('#gesetureCatalog .switchButtonAddon').click();
-                        togglePanelBody($('#gesetureCatalog .panel-body'));
-                        togglePanelBadges($('#gesetureCatalog .badges'));
                     }
+                    updatePanelBadges($('#gesetureCatalog #list-container'), 'selected', false);
                     break;
             }
 
@@ -189,17 +180,17 @@
             }
         }
 
-        updateBadges();
+        
     }
 
     function saveData() {
         var data = getLocalItem('predefinedGestureSet');
         var selectedGestures = new Array();
         if ($('#ownExtractedGestures').find('#success').hasClass('active')) {
-            selectedGestures = $.merge(selectedGestures, $('#ownExtractedGesturesContainer').children('.selected'));
+            selectedGestures = $.merge(selectedGestures, $('#ownExtractedGestures #list-container').children('.selected'));
         }
         if ($('#gesetureCatalog').find('#success').hasClass('active')) {
-            selectedGestures = $.merge(selectedGestures, $('#gesetureCatalogContainer').children('.selected'));
+            selectedGestures = $.merge(selectedGestures, $('#gesetureCatalog #list-container').children('.selected'));
         }
 
         var assembledGestures = new Array();
@@ -218,53 +209,47 @@
             }
             assembledGestures.push(new Gesture(originItem.type, originItem.id, originItem.title, originItem.description, originItem.images, originItem.previewImage, originItem.videoUrl, isAssembled));
         }
-        
         setLocalItem("predefinedGestureSet", assembledGestures);
     }
 
-    $('.switchButtonAddonPanel').on('click', function (event) {
-        console.log($(this));
-        event.preventDefault();
-        togglePanelBody($(this).closest('.root').find('.panel-body'));
-        togglePanelBadges($(this).closest('.root').find('.badges'));
-    });
+//    $('.switchButtonAddonPanel').on('click', function (event) {
+//        console.log($(this));
+//        event.preventDefault();
+//        togglePanelBody($(this).closest('.root').find('.panel-body'));
+//        togglePanelBadges($(this).closest('.root').find('.badges'));
+//    });
 
-    $('.btn-toggle-checkbox-panel').on('click', function (event) {
-        event.preventDefault();
-        if (!$(this).hasClass('active')) {
-            togglePanelBody($(this).closest('.root').find('.panel-body'));
-            togglePanelBadges($(this).closest('.root').find('.badges'));
-        }
-    });
+//    $('.btn-toggle-checkbox-panel').on('click', function (event) {
+//        event.preventDefault();
+//        if (!$(this).hasClass('active')) {
+//            togglePanelBody($(this).closest('.root').find('.panel-body'));
+//            togglePanelBadges($(this).closest('.root').find('.badges'));
+//        }
+//    });
 
-    function togglePanelBody(panelBody) {
-        if ($(panelBody).hasClass('hidden')) {
-            $(panelBody).removeClass('hidden');
-        } else {
-            $(panelBody).addClass('hidden');
-        }
-    }
+//    function togglePanelBody(panelBody) {
+//        if ($(panelBody).hasClass('hidden')) {
+//            $(panelBody).removeClass('hidden');
+//        } else {
+//            $(panelBody).addClass('hidden');
+//        }
+//    }
 
-    function togglePanelBadges(badges) {
-        if (badges !== undefined) {
-            if ($(badges).hasClass('hidden')) {
-                $(badges).removeClass('hidden');
-            } else {
-                $(badges).addClass('hidden');
-            }
-        }
-    }
+//    function togglePanelBadges(badges) {
+//        if (badges !== undefined) {
+//            if ($(badges).hasClass('hidden')) {
+//                $(badges).removeClass('hidden');
+//            } else {
+//                $(badges).addClass('hidden');
+//            }
+//        }
+//    }
 
-    function updateBadges() {
-        var max = $('#ownExtractedGesturesContainer').children().length;
-        var selected = $('#ownExtractedGesturesContainer').children('.selected').length;
-        $('#ownExtractedGestures .badgeId').text(selected);
-        $('#ownExtractedGestures .badgeQuantity').text(max);
-
-        max = $('#gesetureCatalogContainer').children().length;
-        selected = $('#gesetureCatalogContainer').children('.selected').length;
-        $('#gesetureCatalog .badgeId').text(selected);
-        $('#gesetureCatalog .badgeQuantity').text(max);
+    function updatePanelBadges(container) {
+        var max = $(container).children().length;
+        var selected = $(container).children('.selected').length;
+        $(container).parents().closest('.root').find('.badgeId').text(selected);
+        $(container).parents().closest('.root').find('.badgeQuantity').text(max);
     }
 
     $('.gesture-details').on('click', function (event) {
@@ -308,6 +293,6 @@
         } else {
             $(this).removeClass('selected');
         }
-        updateBadges();
+        updatePanelBadges($(this).closest('#list-container'));
     });
 </script>

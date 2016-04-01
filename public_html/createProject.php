@@ -168,7 +168,8 @@
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li class="dropdown-header">Fragebögen</li>
                                         <li id="questionnaire"><a href="#">Fragebogen</a></li>
-                                        <li id="gus"><a href="#">GUS</a></li>
+                                        <li id="gus"><a href="#">GUS (einzelne Geste)</a></li>
+                                        <li id="questionnaire-gestures"><a href="#">GUS (Allgemeine Fragen)</a></li>
                                         <li id="sus"><a href="#">SUS</a></li>
                                         <li class="divider"></li>
                                         <li class="dropdown-header">Songstiges</li>
@@ -429,6 +430,7 @@
             });
 
             function toggleSwitch(activeButton, inactiveButton) {
+//                console.log("toggleSwitch: " + activeButton.attr('id') + ", " + inactiveButton.attr('id'));
                 $(activeButton).removeClass('active');
                 $(activeButton).addClass('inactive');
                 $(activeButton).addClass('btn-default');
@@ -507,5 +509,6 @@
 
         </script>
         <script src="js/w3-include-HTML.js"></script>
+
     </body>
 </html>

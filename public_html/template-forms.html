@@ -26,7 +26,21 @@
             Ja/nein-Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
         </div>
         <div class="panel-body">
-            <div class="form-group form-group-no-margin">
+            <div class="alert alert-danger hidden" id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-warning-sign"></i> Bitte zuerst ein Gesteset für diese Studie zusammenstellen!</div>
+            <div class="form-group">
+                <div class="btn-group gesture-select">
+                    <button class="btn btn-default switchButtonAddon checkAssembledGestures">Auswahl einer oder mehrerer Gesten</button>
+                    <button class="btn btn-default btn-toggle-checkbox checkAssembledGestures inactive" id="success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox checkAssembledGestures active" id="warning">Nein</button>
+                </div>
+
+                <div class="btn-group justification">
+                    <button class="btn btn-default switchButtonAddon" style="margin-left: 10px;">Begründung</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                </div>
+            </div>
+            <div class="form-group form-group-margin-top">
                 <div class="input-group">
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
@@ -84,7 +98,7 @@
 
             <div class="form-group form-group-margin-top">
                 <div class="btn-group multiselect">
-                    <button class="btn btn-default switchButtonAddon">Auswahl mehrerer Items erlaubt?</button>
+                    <button class="btn btn-default switchButtonAddon">Auswahl mehrerer Antwortmöglichkeiten erlaubt?</button>
                     <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
                     <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
                 </div>
@@ -300,7 +314,7 @@
 
         <div class="option-container"></div>
 
-        <button class="btn btn-info toggable-button pull-right btn-add-help" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Hilfe hinzufügen</span></button>
+        <button type="button" class="btn btn-info pull-right btn-add-helpOption"><span class="glyphicon glyphicon-plus"></span> <span>Hilfe hinzufügen</span></button>
     </div>
 
     <div class="root" id="wozExperiment">
@@ -336,13 +350,13 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="alert alert-danger hidden" id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-warning-sign"></i> Bitte zuerst ein Gesteset für diese Studie zusammenstellen!</div>
         <div class="alert alert-warning hidden" id="assembled-gestures-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Eine oder mehrere Gesten aus dem zusammengestellten Gestenset sind nicht mehr verfügbar und wurden deshalb von dieser Liste gelöscht. Diese können nicht mehr als Trigger verwendet werden.</div>
 
         <div class="option-container"></div>
 
-        <button class="btn btn-info pull-right btn-add-woz-experiment-item" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Trigger hinzufügen</span></button>
+        <button class="btn btn-info pull-right btn-add-woz-experimentOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Trigger hinzufügen</span></button>
     </div>
 
 </div>

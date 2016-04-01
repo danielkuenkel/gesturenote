@@ -4,496 +4,522 @@
 </div>
 <div id="modal-body" class="modal-body">
 
-    <div id="list-container">
-
-        <div class="panel panel-default root" id="wozExperiment">
-            <div class="panel-heading clearfix">
-                <div class="panel-title">Allgemeines</div>
-            </div>
-            <div class="panel-body">
-                <div class="panel-group" id="generalContainer">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="scenarioTitle" placeholder="Aufgabentitel einfügen">
-                        <label class="sr-only" for="scenarioTitle">Aufgabentitel</label>
-                    </div>
-                    <div class="form-group">
-                        <textarea class="form-control" id="scenarioDescription" rows="5" placeholder="Aufgabenbeschreibung einfügen"></textarea>
-                        <label class="sr-only" for="scenarioDescription">Aufgabenbeschreibung</label>
-                    </div>
-                </div>
-            </div>
+    <div class="panel panel-default root" id="wozExperiment">
+        <div class="panel-heading clearfix">
+            <div class="panel-title">Allgemeines</div>
         </div>
-
-        <div class="panel panel-default root" id="wozExperiment">
-            <div class="panel-heading clearfix">
-                <div style="margin-top: 4px; display: inline-block">Wizard-of-Oz-Experiment</div>
-                <div class="btn-group pull-right" id="useWozSwitch">
-                    <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
-                    <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
-                </div>
-            </div>
-            <div class="panel-body hidden">
-                <div class="form-group container-root" id="wozExperimentContainer">
-
-                </div>
-            </div>
-        </div>
-
-        <div class="panel panel-default root" id="help-panel">
-            <div class="panel-heading clearfix">
-                <div style="margin-top: 4px; display: inline-block">Hilfe</div>
-                <div class="btn-group pull-right" id="helpSwitch">
-                    <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
-                    <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
-                </div>
-            </div>
-            <div class="panel-body hidden">
-                <div class="form-group container-root" id="helpContainer">
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="panel panel-default root" id="observations">
-            <div class="panel-heading clearfix">
-                <div style="margin-top: 4px; display: inline-block">Beobachtungen</div>
-                <div class="btn-group pull-right" id="useObservationsSwitch">
-                    <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
-                    <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
-                </div>
-            </div>
-            <div class="panel-body hidden">
-                <div class="form-group container-root" id="observationsContainer"></div>
-
+        <div class="panel-body">
+            <div class="panel-group" id="generalContainer">
                 <div class="form-group">
-                    <div class="btn-group btn-group-justified" role="group">
-
-                        <span class="input-group-addon" id="addFormatSelectAddon">Beobachtungsformat</span>
-
-                        <div class="btn-group select" id="addFormatSelect" role="group">
-                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
-                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                <li id="counter"><a href="#">Zähler</a></li>
-                                <li id="openQuestion"><a href="#">Offene Frage</a></li>
-                                <li id="dichotomousQuestion"><a href="#">Ja/nein-Frage</a></li>
-                                <li id="groupingQuestion"><a href="#">Eingruppierungs-Frage</a></li>
-                                <!--                                <li id="rating"><a href="#">Rating</a></li>
-                                                                <li id="sumQuestion"><a href="#">Summenfrage</a></li>
-                                                                <li id="ranking"><a href="#">Ranking</a></li>-->
-                            </ul>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-info disabled toggable-button" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                        </div>
-                    </div>
+                    <input type="text" class="form-control" id="scenarioTitle" placeholder="Aufgabentitel einfügen">
+                    <label class="sr-only" for="scenarioTitle">Aufgabentitel</label>
                 </div>
-
-                <button class="btn btn-info toggable-button pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>
+                <div class="form-group">
+                    <textarea class="form-control" id="scenarioDescription" rows="5" placeholder="Aufgabenbeschreibung einfügen"></textarea>
+                    <label class="sr-only" for="scenarioDescription">Aufgabenbeschreibung</label>
+                </div>
             </div>
         </div>
-
     </div>
+
+    <div class="panel panel-default root" id="wozExperiment">
+        <div class="panel-heading clearfix">
+            <div style="margin-top: 4px; display: inline-block">Wizard-of-Oz-Experiment</div>
+            <div class="btn-group pull-right" id="useWozSwitch">
+                <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
+                <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
+            </div>
+        </div>
+        <div class="panel-body hidden">
+            <div class="form-group container-root" id="wozExperimentContainer">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="help-panel">
+        <div class="panel-heading clearfix">
+            <div style="margin-top: 4px; display: inline-block">Hilfe</div>
+            <div class="btn-group pull-right" id="helpSwitch">
+                <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
+                <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
+            </div>
+        </div>
+        <div class="panel-body hidden">
+            <div class="form-group container-root" id="helpContainer">
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="observations">
+        <div class="panel-heading clearfix">
+            <div style="margin-top: 4px; display: inline-block">Beobachtungen</div>
+            <div class="btn-group pull-right" id="useObservationsSwitch">
+                <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
+                <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
+            </div>
+        </div>
+        <div class="panel-body hidden">
+            <div class="form-group container-root" id="list-container"></div>
+
+            <div class="form-group">
+                <div class="btn-group btn-group-justified" role="group">
+
+                    <span class="input-group-addon" id="addFormatSelectAddon">Beobachtungsformat</span>
+
+                    <div class="btn-group select" id="addFormatSelect" role="group">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            <li id="counter"><a href="#">Zähler</a></li>
+                            <li id="openQuestion"><a href="#">Offene Frage</a></li>
+                            <li id="dichotomousQuestion"><a href="#">Ja/nein-Frage</a></li>
+                            <li id="groupingQuestion"><a href="#">Eingruppierungs-Frage</a></li>
+                            <!--                                <li id="rating"><a href="#">Rating</a></li>
+                                                            <li id="sumQuestion"><a href="#">Summenfrage</a></li>
+                                                            <li id="ranking"><a href="#">Ranking</a></li>-->
+                        </ul>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-info disabled toggable-button" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-info toggable-button pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>
+        </div>
+    </div>
+
 
 </div>
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
 
+<script type="text/javascript" src="js/template-forms.js"></script>
 <script>
-    $(document).ready(function () {
-        var woz = $('#form-item-container #wozExperiment').clone();
-        $('#wozExperimentContainer').append(woz);
-        renderAssembledGestures();
+        $(document).ready(function () {
+            var woz = $('#form-item-container #wozExperiment').clone();
+            $('#wozExperimentContainer').append(woz);
+            renderAssembledGestures();
 
-        var help = $('#help').clone();
-        help.removeAttr('id');
-        $('#helpContainer').append(help);
+            var help = $('#help').clone();
+            help.removeAttr('id');
+            $('#helpContainer').append(help);
 
-        var data = getLocalItem(currentIdForModal + '.data');
-        if (data) {
-            renderData(data, false);
-        }
-    });
-
-    function onCloseClick() {
-        saveData();
-        currentIdForModal = null;
-    }
-
-    function renderAssembledGestures() {
-        var gestures = assembledGestures();
-
-        if (gestures && gestures.length > 0) {
-            var wozExperimentItem = $('#form-item-container').find('.gestureSelect');
-            $(wozExperimentItem).find('.option').empty();
-
-            for (var i = 0; i < gestures.length; i++) {
-                var listItem = document.createElement('li');
-                listItem.setAttribute('id', gestures[i].id);
-                var link = document.createElement('a');
-                link.setAttribute('href', '#');
-                link.appendChild(document.createTextNode(gestures[i].title));
-                listItem.appendChild(link);
-                $(wozExperimentItem).find('.option').append(listItem);
+            var data = getLocalItem(currentIdForModal + '.data');
+            if (data) {
+                renderData(data, false);
             }
-        } else {
-            console.log('no gestures arranged');
-            $('#wozExperimentContainer').find('#no-gestures-assembled').removeClass('hidden');
-            $('#wozExperimentContainer').find('.btn-add-woz-experiment-item').addClass('hidden');
+        });
+
+        function renderAssembledGestures() {
+            var gestures = assembledGestures();
+
+            if (gestures && gestures.length > 0) {
+                var wozExperimentItem = $('#form-item-container').find('.gestureSelect');
+                $(wozExperimentItem).find('.option').empty();
+
+                for (var i = 0; i < gestures.length; i++) {
+                    var listItem = document.createElement('li');
+                    listItem.setAttribute('id', gestures[i].id);
+                    var link = document.createElement('a');
+                    link.setAttribute('href', '#');
+                    link.appendChild(document.createTextNode(gestures[i].title));
+                    listItem.appendChild(link);
+                    $(wozExperimentItem).find('.option').append(listItem);
+                }
+            } else {
+                console.log('no gestures arranged');
+                $('#wozExperimentContainer').find('#no-gestures-assembled').removeClass('hidden');
+                $('#wozExperimentContainer').find('.btn-add-woz-experiment-item').addClass('hidden');
+            }
         }
-    }
 
-    function renderData(data, forPrefiniedObservation)
-    {
-        var wozItems = data.woz;
-        var helpItems = data.help;
-        var obeservationItems;
+        function renderData(data, forPrefiniedObservation)
+        {
+            var wozItems = data.woz;
+            var helpItems = data.help;
+            var obeservationItems;
 
-        if (!forPrefiniedObservation) {
-            obeservationItems = data.observations;
-        } else {
-            obeservationItems = data;
-        }
-
-
-        $('#scenarioTitle').val(data.title);
-        $('#scenarioDescription').val(data.description);
-
-        var container;
-
-        if (wozItems !== undefined && wozItems.length > 0) {
             if (!forPrefiniedObservation) {
-                $('#useWozSwitch .switchButtonAddonPanel').click();
-                togglePanelBody($('#wozExperiment .panel-body'));
+                obeservationItems = data.observations;
+            } else {
+                obeservationItems = data;
             }
 
-            container = $('#wozExperimentContainer').find('.option-container');
 
-            for (var i = 0; i < wozItems.length; i++) {
-                var item = wozItems[i];
+            $('#scenarioTitle').val(data.title);
+            $('#scenarioDescription').val(data.description);
 
-                if (isGestureAssembled(item[0].id))
-                {
-                    var clone = $('#wozExperimentItem').clone().removeClass('hidden')
-                    container.append(clone);
-                    $(clone).removeAttr('id');
-                    $(clone).find('.gestureSelect .selected').attr('id', item[0].id);
-                    $(clone).find('.option-gesture').val(item[0].title);
-                    $(clone).find('.option-trigger').val(item[1]);
+            var container;
+
+            if (wozItems !== undefined && wozItems.length > 0) {
+                if (!forPrefiniedObservation) {
+                    $('#useWozSwitch .switchButtonAddonPanel').click();
                 }
-                else {
-                    $('#wozExperimentContainer').find('#assembled-gestures-removed').removeClass('hidden');
-                }
+
+                container = $('#wozExperimentContainer').find('.option-container');
+
+                for (var i = 0; i < wozItems.length; i++) {
+                    var item = wozItems[i];
+
+                    if (isGestureAssembled(item[0].id))
+                    {
+                        var clone = $('#wozExperimentItem').clone().removeClass('hidden')
+                        container.append(clone);
+                        $(clone).removeAttr('id');
+                        $(clone).find('.gestureSelect .selected').attr('id', item[0].id);
+                        $(clone).find('.option-gesture').val(item[0].title);
+                        $(clone).find('.option-trigger').val(item[1]);
+                    } else {
+                        $('#wozExperimentContainer').find('#assembled-gestures-removed').removeClass('hidden');
+                    }
 
 //                var triggerId = $(wozItems[i]).find('.wozTriggerSelect .selected').attr('id');
 //                var triggerText = $(wozItems[i]).find('.wozTriggerSelect .option').find('#' + triggerId).first().text();
-            }
-            checkCurrentListState(container);
-        }
-
-        if (helpItems !== undefined && helpItems.length > 0) {
-            if (!forPrefiniedObservation) {
-                $('#helpSwitch .switchButtonAddonPanel').click();
-                togglePanelBody($('#help-panel .panel-body'));
-            }
-
-            container = $('#helpContainer').find('.option-container');
-
-            for (var i = 0; i < helpItems.length; i++) {
-                var clone = $('#helpItem').clone().removeClass('hidden');
-                clone.find('.option').val(helpItems[i]);
-                $(container).append(clone);
+                }
                 checkCurrentListState(container);
-                updateHelpItemCounter(container);
-            }
-            checkCurrentListState(container);
-        }
-
-        if (obeservationItems !== undefined && obeservationItems.length > 0) {
-            if (!forPrefiniedObservation) {
-                $('#useObservationsSwitch .switchButtonAddonPanel').click();
-                togglePanelBody($('#observations').find('.panel-body'));
             }
 
-            container = $('#observationsContainer');
-
-            for (var i = 0; i < obeservationItems.length; i++) {
-                var item = obeservationItems[i];
-                var clone = $('#form-item-container').find('#' + item.id).clone(true);
-                $(clone).find('.question').val(item.question);
-                container.append(clone);
-                updateBadges(container, item.id);
-
-                switch (item.id) {
-                    case 'groupingQuestion':
-                        var parameters = item.parameters;
-
-                        if (parameters[0] === true) {
-                            var active = $(clone).find('.multiselect').find('.active');
-                            var inactive = $(clone).find('.multiselect').find('.inactive');
-                            toggleSwitch(active, inactive);
-                        }
-                        if (parameters[1] === true) {
-                            var active = $(clone).find('.optionalanswer').find('.active');
-                            var inactive = $(clone).find('.optionalanswer').find('.inactive');
-                            toggleSwitch(active, inactive);
-                        }
-
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-                            var option = $('#groupingQuestionItem').clone().removeClass('hidden');
-                            $(option).find('.option').val(options[j]);
-                            $(clone).find('.option-container').append(option);
-                            checkCurrentListState($(clone).find('.option-container'));
-                        }
-                        break;
-                    case 'rating':
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-                            var option = $('#ratingItem').clone().removeClass('hidden');
-                            $(option).find('.option').val(options[j]);
-                            $(clone).find('.option-container').append(option);
-                            $(option).find('.optionQuestion').val(options[j][options[j].length - 1]);
-                            $(option).find('.selected').text((options[j].length - 1) + " ");
-                            checkCurrentListState($(clone).find('.option-container'));
-
-                            renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 1, options[j]);
-                        }
-                        break;
-                    case 'sumQuestion':
-                        var parameters = item.parameters;
-
-                        $(clone).find('.option').children('#' + parameters[0]).click();
-                        $(clone).find('.maximum').val(parameters[1]);
-
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-                            var option = $('#sumQuestionItem').clone().removeClass('hidden');
-                            $(option).find('.option').val(options[j]);
-                            $(clone).find('.option-container').append(option);
-                            checkCurrentListState($(clone).find('.option-container'));
-                        }
-                        break;
-                    case 'ranking':
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-                            var option = $('#rankingItem').clone().removeClass('hidden');
-                            $(option).find('.option').val(options[j]);
-                            $(clone).find('.option-container').append(option);
-                            checkCurrentListState($(clone).find('.option-container'));
-                        }
-                        break;
+            if (helpItems !== undefined && helpItems.length > 0) {
+                if (!forPrefiniedObservation) {
+                    $('#helpSwitch .switchButtonAddonPanel').click();
                 }
+
+                container = $('#helpContainer').find('.option-container');
+
+                for (var i = 0; i < helpItems.length; i++) {
+                    var clone = $('#helpItem').clone().removeClass('hidden');
+                    clone.find('.option').val(helpItems[i]);
+                    $(container).append(clone);
+                    checkCurrentListState(container);
+                    updateHelpItemCounter(container);
+                }
+                checkCurrentListState(container);
             }
-            checkCurrentListState(container);
+
+            if (obeservationItems !== undefined && obeservationItems.length > 0) {
+                if (!forPrefiniedObservation) {
+                    $('#useObservationsSwitch .switchButtonAddonPanel').click();
+                }
+
+                container = $('#list-container');
+
+                for (var i = 0; i < obeservationItems.length; i++) {
+                    var item = obeservationItems[i];
+                    var clone = $('#form-item-container').find('#' + item.id).clone(true);
+                    $(clone).find('.question').val(item.question);
+                    container.append(clone);
+                    updateBadges(container, item.id);
+
+                    switch (item.id) {
+                        case DICHOTOMOUS_QUESTION:
+                            var parameters = item.parameters;
+                            var aGestures = assembledGestures();
+                            if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
+                                $(clone).find('.gesture-select .switchButtonAddon').click();
+                            }
+                            if (parameters[1] === true) {
+                                $(clone).find('.justification .switchButtonAddon').click();
+                            }
+                            break;
+                        case GROUPING_QUESTION:
+                            var parameters = item.parameters;
+
+                            if (parameters[0] === true) {
+                                $(clone).find('.multiselect .switchButtonAddon').click();
+                            }
+                            if (parameters[1] === true) {
+                                $(clone).find('.optionalanswer .switchButtonAddon').click();
+                            }
+
+                            var options = item.options;
+                            for (var j = 0; j < options.length; j++) {
+                                var option = $('#groupingQuestionItem').clone().removeClass('hidden');
+                                $(option).find('.option').val(options[j]);
+                                $(clone).find('.option-container').append(option);
+                                checkCurrentListState($(clone).find('.option-container'));
+                            }
+                            break;
+                        case RATING:
+                            var options = item.options;
+                            for (var j = 0; j < options.length; j++) {
+                                var option = $('#ratingItem').clone().removeClass('hidden');
+                                $(option).find('.option').val(options[j]);
+                                $(clone).find('.option-container').append(option);
+                                $(option).find('.optionQuestion').val(options[j][options[j].length - 1]);
+                                $(option).find('.selected').text((options[j].length - 1) + " ");
+                                checkCurrentListState($(clone).find('.option-container'));
+
+                                renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 1, options[j]);
+                            }
+                            break;
+                        case SUM_QUESTION:
+                            var parameters = item.parameters;
+
+                            $(clone).find('.option').children('#' + parameters[0]).click();
+                            $(clone).find('.maximum').val(parameters[1]);
+
+                            var options = item.options;
+                            for (var j = 0; j < options.length; j++) {
+                                var option = $('#sumQuestionItem').clone().removeClass('hidden');
+                                $(option).find('.option').val(options[j]);
+                                $(clone).find('.option-container').append(option);
+                                checkCurrentListState($(clone).find('.option-container'));
+                            }
+                            break;
+                        case RANKING:
+                            var options = item.options;
+                            for (var j = 0; j < options.length; j++) {
+                                var option = $('#rankingItem').clone().removeClass('hidden');
+                                $(option).find('.option').val(options[j]);
+                                $(clone).find('.option-container').append(option);
+                                checkCurrentListState($(clone).find('.option-container'));
+                            }
+                            break;
+                    }
+                }
+                checkCurrentListState(container);
+            }
         }
-    }
 
-    function saveData() {
-        var wozItems = $('#wozExperimentContainer').find('.option-container').children();
-        var helpItems = $('#helpContainer').find('.option-container').children();
-        var obersvationItems = $('#observationsContainer').children();
+        function saveData() {
+            var wozItems = $('#wozExperimentContainer').find('.option-container').children();
+            var helpItems = $('#helpContainer').find('.option-container').children();
+            var obersvationItems = $('#list-container').children();
 
-        var scenario = new Scenario();
-        scenario.title = $('#scenarioTitle').val();
-        scenario.description = $('#scenarioDescription').val();
+            var scenario = new Scenario();
+            scenario.title = $('#scenarioTitle').val();
+            scenario.description = $('#scenarioDescription').val();
 
-        if ($('#useWozSwitch').find('#success').hasClass('active')) {
-            var woz = new Array();
-            for (var i = 0; i < wozItems.length; i++) {
-                var item = wozItems[i];
-                var gestureId = $(item).find('.gestureSelect .selected').attr('id');
-                var gesture = getGestureById(gestureId);
+            if ($('#useWozSwitch').find('#success').hasClass('active')) {
+                var woz = new Array();
+                for (var i = 0; i < wozItems.length; i++) {
+                    var item = wozItems[i];
+                    var gestureId = $(item).find('.gestureSelect .selected').attr('id');
+                    var gesture = getGestureById(gestureId);
 //                var triggerId = $(wozItems[i]).find('.wozTriggerSelect .selected').attr('id');
-                var triggerText = $(wozItems[i]).find('.option-trigger').val();
-                woz.push([gesture, triggerText]);
-            }
-            scenario.woz = woz;
-        }
-
-        if ($('#helpSwitch').find('#success').hasClass('active'))
-        {
-            var helpArray = new Array();
-
-            for (var i = 0; i < helpItems.length; i++) {
-                helpArray.push($(helpItems[i]).find('.option').val());
-            }
-            scenario.help = helpArray;
-        }
-
-        if ($('#useObservationsSwitch').find('#success').hasClass('active'))
-        {
-            var observations = new Array();
-            for (var i = 0; i < obersvationItems.length; i++) {
-                var item = obersvationItems[i];
-                var id = $(item).attr('id');
-                var question = $(item).find('.question').val();
-                var parameters = null;
-                var options = null;
-
-                if (id === 'groupingQuestion') {
-                    parameters = new Array();
-                    parameters.push($(item).find('.multiselect .active').attr('id') === 'success' ? true : false);
-                    parameters.push($(item).find('.optionalanswer .active').attr('id') === 'success' ? true : false);
-
-                    options = new Array();
-                    var groupingOptions = $(item).find('.option-container').children();
-                    for (var j = 0; j < groupingOptions.length; j++) {
-                        options.push($(groupingOptions[j]).find('.option').val());
-                    }
-                } else if (id === 'rating') {
-                    options = new Array();
-                    var optionList = $(item).find('.option-container').children();
-                    for (var j = 0; j < optionList.length; j++) {
-                        var ratingOptions = ($(optionList[j]).find('.ratingScaleItemContainer').children());
-                        var tempArray = new Array();
-                        for (var k = 0; k < ratingOptions.length; k++) {
-                            tempArray.push($(ratingOptions[k]).find('.option').val());
-                        }
-                        tempArray.push($(optionList[j]).find('.optionQuestion').val());
-                        options.push(tempArray);
-                    }
-                } else if (id === 'sumQuestion') {
-                    parameters = new Array();
-                    parameters.push($(item).find('.allocation').attr('id'));
-                    parameters.push($(item).find('.maximum').val());
-
-                    options = new Array();
-                    var sumQuestionOptions = $(item).find('.option-container').children();
-                    for (var j = 0; j < sumQuestionOptions.length; j++) {
-                        options.push($(sumQuestionOptions[j]).find('.option').val());
-                    }
-                } else if (id === 'ranking') {
-                    options = new Array();
-                    var rankingOptions = $(item).find('.option-container').children();
-                    for (var j = 0; j < rankingOptions.length; j++) {
-                        options.push($(rankingOptions[j]).find('.option').val());
-                    }
+                    var triggerText = $(wozItems[i]).find('.option-trigger').val();
+                    woz.push([gesture, triggerText]);
                 }
-
-                observations.push(new QuestionnaireItem(id, question, parameters, options));
+                scenario.woz = woz;
             }
-            scenario.observations = observations;
+
+            if ($('#helpSwitch').find('#success').hasClass('active'))
+            {
+                var helpArray = new Array();
+
+                for (var i = 0; i < helpItems.length; i++) {
+                    helpArray.push($(helpItems[i]).find('.option').val());
+                }
+                scenario.help = helpArray;
+            }
+
+            if ($('#useObservationsSwitch').find('#success').hasClass('active'))
+            {
+                var observations = new Array();
+                for (var i = 0; i < obersvationItems.length; i++) {
+                    var item = obersvationItems[i];
+                    var id = $(item).attr('id');
+                    var question = $(item).find('.question').val();
+                    var parameters = null;
+                    var options = null;
+
+                    switch (id) {
+                        case DICHOTOMOUS_QUESTION:
+                            parameters = new Array();
+                            parameters.push($(item).find('.gesture-select .active').attr('id') === 'success' ? true : false);
+                            parameters.push($(item).find('.justification .active').attr('id') === 'success' ? true : false);
+                            break;
+                        case GROUPING_QUESTION:
+                            parameters = new Array();
+                            parameters.push($(item).find('.multiselect .active').attr('id') === 'success' ? true : false);
+                            parameters.push($(item).find('.optionalanswer .active').attr('id') === 'success' ? true : false);
+
+                            options = new Array();
+                            var groupingOptions = $(item).find('.option-container').children();
+                            for (var j = 0; j < groupingOptions.length; j++) {
+                                options.push($(groupingOptions[j]).find('.option').val());
+                            }
+                            break;
+                        case RATING:
+                            options = new Array();
+                            var optionList = $(item).find('.option-container').children();
+                            for (var j = 0; j < optionList.length; j++) {
+                                var ratingOptions = ($(optionList[j]).find('.ratingScaleItemContainer').children());
+                                var tempArray = new Array();
+                                for (var k = 0; k < ratingOptions.length; k++) {
+                                    tempArray.push($(ratingOptions[k]).find('.option').val());
+                                }
+                                tempArray.push($(optionList[j]).find('.optionQuestion').val());
+                                options.push(tempArray);
+                            }
+                            break;
+                        case SUM_QUESTION:
+                            parameters = new Array();
+                            parameters.push($(item).find('.allocation').attr('id'));
+                            parameters.push($(item).find('.maximum').val());
+
+                            options = new Array();
+                            var sumQuestionOptions = $(item).find('.option-container').children();
+                            for (var j = 0; j < sumQuestionOptions.length; j++) {
+                                options.push($(sumQuestionOptions[j]).find('.option').val());
+                            }
+                            break;
+                        case RANKING:
+                            options = new Array();
+                            var rankingOptions = $(item).find('.option-container').children();
+                            for (var j = 0; j < rankingOptions.length; j++) {
+                                options.push($(rankingOptions[j]).find('.option').val());
+                            }
+                            break;
+                    }
+
+                    observations.push(new QuestionnaireItem(id, question, parameters, options));
+                }
+                scenario.observations = observations;
+            }
+
+            setLocalItem(currentIdForModal + ".data", scenario);
         }
-        
-        setLocalItem(currentIdForModal + ".data", scenario);
-    }
 
-    $('.switchButtonAddonPanel').on('click', function (event) {
-        event.preventDefault();
-        togglePanelBody($(this).closest('.root').find('.panel-body'));
-//        togglePanelBadges($(this).closest('.root').find('.badges'));
-    });
-
-    $('.btn-toggle-checkbox-panel').on('click', function (event) {
-        event.preventDefault();
-        if (!$(this).hasClass('active')) {
-            togglePanelBody($(this).closest('.root').find('.panel-body'));
-//            togglePanelBadges($(this).closest('.root').find('.badges'));
-        }
-    });
-
-    function togglePanelBody(panelBody) {
-        if ($(panelBody).hasClass('hidden')) {
-            $(panelBody).removeClass('hidden');
-        } else {
-            $(panelBody).addClass('hidden');
-        }
-    }
-
-
+        $('#addPredefinedObservations').on('click', function () {
+            if (getLocalItem('predefinedObversation') !== null) {
+                renderData(getLocalItem('predefinedObversation'), true);
+            }
+        });
+//
+//    $('.switchButtonAddonPanel').on('click', function (event) {
+//        event.preventDefault();
+//        togglePanelBody($(this).closest('.root').find('.panel-body'));
+//    });
+//
+//    $('.btn-toggle-checkbox-panel').on('click', function (event) {
+//        event.preventDefault();
+//        if (!$(this).hasClass('active')) {
+//            togglePanelBody($(this).closest('.root').find('.panel-body'));
+//        }
+//    });
+//
+//    function togglePanelBody(panelBody) {
+//        if ($(panelBody).hasClass('hidden')) {
+//            $(panelBody).removeClass('hidden');
+//        } else {
+//            $(panelBody).addClass('hidden');
+//        }
+//    }
+//
+//
 // specific form functions
+//
+//    $('#addFormat').on('click', function (event) {
+//        event.preventDefault();
+//
+//        var brotherID = $(this).parent().prevAll(".select:first").attr('id');
+//        var selectedID = $('#' + brotherID + ' .selected').attr('id');
+//
+//        if (selectedID !== 'unselected') {
+//            var clone = $('#form-item-container').find('#' + selectedID).clone(true);
+//            $('#list-container').append(clone);
+//            checkCurrentListState($('#list-container'));
+//        }
+//        updateBadges($('#list-container'), selectedID);
+//
+//    });
+//
+//
+//
+//    function updateBadges(container, formatId) {
+//        if (formatId === null) {
+//            console.log('update all badges');
+//        } else {
+//            var children = container.children('#' + formatId);
+//            for (var i = 0; i < children.length; i++) {
+//                $(children[i]).find('.badgeId').text(i + 1);
+//                $(children[i]).find('.badgeQuantity').text(children.length);
+//            }
+//        }
+//    }
 
-    $('#addFormat').on('click', function (event) {
-        event.preventDefault();
-
-        var brotherID = $(this).parent().prevAll(".select:first").attr('id');
-        var selectedID = $('#' + brotherID + ' .selected').attr('id');
-
-        if (selectedID !== 'unselected') {
-            var clone = $('#form-item-container').find('#' + selectedID).clone(true);
-            $('#observationsContainer').append(clone);
-            checkCurrentListState($('#observationsContainer'));
-        }
-        updateBadges($('#observationsContainer'), selectedID);
-    });
-
-    $('#addPredefinedObservations').on('click', function () {
-        if (getLocalItem('predefinedObversation') !== null) {
-            renderData(getLocalItem('predefinedObversation'), true);
-        }
-    });
-
-    function updateBadges(container, formatId) {
-        if (formatId === null) {
-            console.log('update all badges');
-        } else {
-            var children = container.children('#' + formatId);
-            for (var i = 0; i < children.length; i++) {
-                $(children[i]).find('.badgeId').text(i + 1);
-                $(children[i]).find('.badgeQuantity').text(children.length);
-            }
-        }
-    }
-
-    $('.btn-add-groupingQuestionOption').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        var clone = $('#groupingQuestionItem').clone().removeClass('hidden');
-        $(this).prev().find('.panel-body').append(clone);
-        checkCurrentListState($(this).prev().find('.panel-body'));
-    });
-
-    $('.btn-add-woz-experiment-item').on('click', function (event) {
-        event.preventDefault();
-        $(this).prev().append($('#wozExperimentItem').clone().removeClass('hidden'));
-        checkCurrentListState($(this).prev());
-    });
-
-    $('.btn-add-help').on('click', function (event) {
-        event.preventDefault();
-        $(this).prev().append($('#helpItem').clone().removeClass('hidden'));
-        checkCurrentListState($(this).prev());
-        updateHelpItemCounter($(this).prev());
-    });
-
-    $('body').on('click', '#help .btn-up', function (event) {
-        event.preventDefault();
-        updateHelpItemCounter($(this).closest('.option-container'));
-    });
-
-    $('body').on('click', '#help .btn-down', function (event) {
-        event.preventDefault();
-        updateHelpItemCounter($(this).closest('.option-container'));
-    });
-
-    function updateHelpItemCounter(container) {
-        var children = container.children();
-        for (var i = 0; i < children.length; i++) {
-            $(children[i]).find('.count-text').text(i + 1);
-        }
-    }
-
-    $('body').on('click', '.btn-up', function () {
-        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
-    });
-
-    $('body').on('click', '.btn-down', function () {
-        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
-    });
-
-    $('body').on('click', '.btn-delete', function () {
-        updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
-    });
-
-    $('body').on('click', '.gestureSelect .option li, .wozTriggerSelect .option li', function () {
-        var parent = $(this).closest('.select');
-        var itemText = $(this).children().text();
-        var listItemId = $(this).attr('id');
-        $(parent).find('.selected').attr('id', listItemId);
-        $(parent).prev().val(itemText);
-    });
+//    $('.btn-add-groupingQuestionOption').unbind('click').bind('click', function (event) {
+//        event.preventDefault();
+//        var clone = $('#groupingQuestionItem').clone().removeClass('hidden');
+//        $(this).prev().find('.panel-body').append(clone);
+//        checkCurrentListState($(this).prev().find('.panel-body'));
+//    });
+//
+//        $('.btn-add-woz-experimentOption').on('click', function (event) {
+//            event.preventDefault();
+//            $(this).prev().append($('#wozExperimentItem').clone().removeClass('hidden'));
+//            checkCurrentListState($(this).prev());
+//        });
+//
+//        $('.btn-add-help').on('click', function (event) {
+//            event.preventDefault();
+//            $(this).prev().append($('#helpItem').clone().removeClass('hidden'));
+//            checkCurrentListState($(this).prev());
+//            updateHelpItemCounter($(this).prev());
+//        });
+//
+//        $('body').on('click', '#help .btn-up', function (event) {
+//            event.preventDefault();
+//            updateHelpItemCounter($(this).closest('.option-container'));
+//        });
+//
+//        $('body').on('click', '#help .btn-down', function (event) {
+//            event.preventDefault();
+//            updateHelpItemCounter($(this).closest('.option-container'));
+//        });
+//
+//        function updateHelpItemCounter(container) {
+//            var children = container.children();
+//            for (var i = 0; i < children.length; i++) {
+//                $(children[i]).find('.count-text').text(i + 1);
+//            }
+//        }
+//
+//    $('body').on('click', '.btn-up', function () {
+//        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
+//    });
+//
+//    $('body').on('click', '.btn-down', function () {
+//        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
+//    });
+//
+//    $('body').on('click', '.btn-delete', function () {
+//        updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
+//    });
+//
+//        $('body').on('click', '.gestureSelect .option li, .wozTriggerSelect .option li', function () {
+//            var parent = $(this).closest('.select');
+//            var itemText = $(this).children().text();
+//            var listItemId = $(this).attr('id');
+//            $(parent).find('.selected').attr('id', listItemId);
+//            $(parent).prev().val(itemText);
+//        });
+//
+//    $('.checkAssembledGestures').on('click', function (event) {
+//        event.preventDefault();
+//        event.stopPropagation();
+//        
+//        var aGestures = assembledGestures();
+//        if (!aGestures || aGestures.length === 0) {
+//            if ($(this).attr('id') === 'success') {
+//                console.log("on success click");
+//                $(this).prevAll('.switchButtonAddon').first().click();
+//                $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
+//            } else if ($(this).hasClass('switchButtonAddon')) {
+//                console.log('on switch button click');
+//                var activeButton = $(this).nextAll().filter('.active');
+//                var inactiveButton = $(this).nextAll().filter('.inactive');
+//                $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
+//                toggleSwitch(activeButton, inactiveButton);
+//            }
+//        }
+//    });
 </script>
