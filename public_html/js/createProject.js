@@ -8,6 +8,7 @@ var currentPhaseStepCount = 0;
 var currentIdForModal;
 var colors;
 var currentContainerList = null;
+var currentFunctionTriggerId = 0;
 
 function setLocalItem(id, data) {
     sessionStorage.setItem(id, JSON.stringify(data));
@@ -34,6 +35,8 @@ function checkSessionStorage() {
     createOriginSUS();
     createPredefinedGestures();
     createPredefinedObservationForm();
+    createPredefinedGestureQuestionnaire();
+    createdPredefinedGestureTriggers();
     renderSessionStorageData();
 }
 
@@ -135,12 +138,14 @@ function getGestureThumbnailPreviewForId(type, id) {
 function assembledGestures() {
     var predefinedGestures = getLocalItem(PREDEFINED_GESTURE_SET);
     if (predefinedGestures) {
+
         var arrangedGestures = new Array();
         for (var i = 0; i < predefinedGestures.length; i++) {
             if (predefinedGestures[i].used === true) {
                 arrangedGestures.push(predefinedGestures[i]);
             }
         }
+//        console.log(arrangedGestures);
         return arrangedGestures;
     }
     return null;
@@ -186,6 +191,63 @@ function removeAssembledGestures() {
     createPredefinedGestures();
 }
 
+function removeAssembledFunctions() {
+    console.log("remove assembled functions");
+
+}
+
+function createPredefinedGestureQuestionnaire() {
+    if (getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE) === null) {
+        var form = new Array();
+        form.push(new QuestionnaireItem('dichotomousQuestion', 'Ich denke, dass ich mir eine oder mehrere Gesten nicht gut merken kann.', [true, false], null));
+        form.push(new QuestionnaireItem('dichotomousQuestion', 'Ich denke, dass eine oder mehrere Gesten nicht ergonomisch sind', [true, true], null));
+        form.push(new QuestionnaireItem('dichotomousQuestion', 'Ich glaube, dass die meisten Menschen mit einer oder mehreren Gesten nicht lernen können damit umzugehen.', [true, false], null));
+        form.push(new QuestionnaireItem('dichotomousQuestion', 'Ich glaube, dass die meisten Menschen eine oder mehrere Gesten nicht einfach ausführen können.', [true, true], null));
+        form.push(new QuestionnaireItem('dichotomousQuestion', 'Ich denke, dass eine oder mehrere Gesten nicht zu den anderen Gesten passen', [true, true], null));
+        form.push(new QuestionnaireItem('dichotomousQuestion', 'Ich denke, dass sich eine oder mehrere Gesten nicht ausreichend von alltäglichen Bewegungen unterscheiden.', [true, false], null));
+        form.push(new QuestionnaireItem('dichotomousQuestion', 'Ich denke, dass eine oder mehrere Gesten nicht zu ihren Funktionen passen. ', [true, false], null));
+        form.push(new QuestionnaireItem('dichotomousQuestion', 'Ich denke, dass eine oder mehrere Gesten zu lang sind.', [true, false], null));
+        form.push(new QuestionnaireItem('dichotomousQuestion', 'Ich denke, dass eine oder mehrere Gesten zu komplex sind.', [true, false], null));
+        setLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE, form);
+    }
+}
+
+function createdPredefinedGestureTriggers() {
+    if (getLocalItem(PREDEFINED_GESTURE_TRIGGERS) === null) {
+        var triggers = new Array();
+        triggers.push(new Trigger(0, TRIGGER_CRITERIA, "wurde erkannt"));
+        triggers.push(new Trigger(1, TRIGGER_CRITERIA, "wurde nicht erkannt"));
+        setLocalItem(PREDEFINED_GESTURE_TRIGGERS, triggers);
+    }
+}
+
+function getFunctionById(id) {
+    var functions = getLocalItem(FUNCTIONS_SET);
+    for (var i = 0; i < functions.length; i++) {
+        if (parseInt(functions[i].id) === parseInt(id)) {
+            return functions[i];
+        }
+    }
+    return null;
+}
+
+function getTrigger(id, type) {
+    var gestureTriggers = getLocalItem(PREDEFINED_GESTURE_TRIGGERS);
+    var functions = getLocalItem(FUNCTIONS_SET);
+    var triggers
+    if (functions !== null) {
+        triggers = $.merge(functions, gestureTriggers);
+    } else {
+        triggers = gestureTriggers;
+    }
+    for (var i = 0; i < triggers.length; i++) {
+        if (triggers[i].type === type && parseInt(triggers[i].id) === parseInt(id)) {
+            return triggers[i];
+        }
+    }
+    return null;
+}
+
 function renderSessionStorageData() {
     var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
     if (phaseSteps)
@@ -222,6 +284,10 @@ function renderSessionStorageData() {
             $('#useGesturesSwitch #assemble-gesture-set').removeClass('hidden');
             toggleSwitch($('#useGesturesSwitch #warning'), $('#useGesturesSwitch #success'));
         }
+        if (project.useFunctions === true) {
+            $('#useFunctionsSwitch #assemble-functions-set').removeClass('hidden');
+            toggleSwitch($('#useFunctionsSwitch #warning'), $('#useFunctionsSwitch #success'));
+        }
     }
 }
 
@@ -241,6 +307,7 @@ function saveGeneralData() {
     }
 
     project.useGestures = !$('#useGesturesSwitch #assemble-gesture-set').hasClass('hidden');
+    project.useFunctions = !$('#useFunctionsSwitch #assemble-functions-set').hasClass('hidden');
     setLocalItem('project', project);
 }
 
@@ -251,6 +318,7 @@ function Project() {
     this.surveyType;
     this.pidocoURL;
     this.useGestures;
+    this.useFunctions;
 }
 
 function UsabilityScaleItem(itemText, likertScale, reversed) {
@@ -281,6 +349,12 @@ function Scenario() {
     this.observations;
 }
 
+function Help() {
+    this.option;
+    this.useGestureHelp;
+    this.gestureId;
+}
+
 function Gesture(type, id, title, description, images, previewImage, videoUrl, used) {
     this.type = type;
     this.id = id;
@@ -292,141 +366,12 @@ function Gesture(type, id, title, description, images, previewImage, videoUrl, u
     this.used = used;
 }
 
+function Trigger(id, type, title) {
+    this.id = id;
+    this.type = type;
+    this.title = title;
+}
+
 function createRandomColors() {
     colors = randomColor({hue: 'green', count: 25});
 }
-
-
-
-
-
-
-
-
-
-
-
-//function onCloseClick() {
-//    saveData();
-//    currentIdForModal = null;
-//}
-//
-//$('body').on('click','#addFormat', function (event) {
-//    event.preventDefault();
-//
-//    var brotherID = $(this).parent().prevAll(".select:first").attr('id');
-//    var selectedID = $('#' + brotherID + ' .selected').attr('id');
-//
-//    if (selectedID !== 'unselected') {
-//        var clone = $('#form-item-container').find('#' + selectedID).clone(true);
-//        $('#list-container').append(clone);
-//        checkCurrentListState($('#list-container'));
-//    }
-//    updateBadges($('#list-container'), selectedID);
-//});
-//
-//$('.btn-add-groupingQuestionOption').unbind('click').bind('click', function (event) {
-//    event.preventDefault();
-//    var clone = $('#groupingQuestionItem').clone().removeClass('hidden');
-//    $(this).prev().find('.panel-body').append(clone);
-//    checkCurrentListState($(this).prev().find('.panel-body'));
-//});
-//
-//$('.btn-add-ratingOption').unbind('click').bind('click', function (event) {
-//    event.preventDefault();
-//    var clone = $('#ratingItem').clone().removeClass('hidden');
-//    clone.removeAttr('id');
-//    $(this).prev().find('.panel-body').append(clone);
-//    checkCurrentListState($(this).prev().find('.panel-body'));
-//    renderScaleItems($(clone).find('.ratingScaleItemContainer'), 3);
-//    return false;
-//});
-//
-//$('.btn-add-sumQuestionOption').unbind('click').bind('click', function (event) {
-//    event.preventDefault();
-//    var clone = $('#sumQuestionItem').clone().removeClass('hidden');
-//    $(this).prev().find('.panel-body').append(clone);
-//    checkCurrentListState($(this).prev().find('.panel-body'));
-//});
-//
-//$('.btn-add-rankingOption').unbind('click').bind('click', function (event) {
-//    event.preventDefault();
-//    var clone = $('#rankingItem').clone().removeClass('hidden');
-//    $(this).prev().find('.panel-body').append(clone);
-//    checkCurrentListState($(this).prev().find('.panel-body'));
-//});
-//
-//$('body').on('click', '.select .option li', function () {
-//    var parent = $(this).closest('.select');
-//    if ($(parent).hasClass('scaleSelect')) {
-//        var scaleItemContainer = $(this).parents('.root').first().find('.ratingScaleItemContainer');
-//        var scaleSelectCount = $(this).children().text().trim();
-//        renderScaleItems(scaleItemContainer, scaleSelectCount, undefined);
-//    }
-//});
-//
-//function renderScaleItems(container, count, text)
-//{
-//    $(container).empty();
-//    for (var i = 0; i < count; i++)
-//    {
-//        var scaleItem = $('#ratingScaleItem').clone();
-//        scaleItem.removeClass('hidden');
-//        $(container).append(scaleItem);
-//
-//        if (i === 0) {
-//            $(scaleItem).find('.input-group-addon').text("von " + (i + 1));
-//            $(scaleItem).find('.item-input-text').attr('placeholder', 'z.B. trifft zu');
-//        } else if (i === count - 1) {
-//            $(scaleItem).find('.input-group-addon').text("bis " + (i + 1));
-//            $(scaleItem).find('.item-input-text').attr('placeholder', 'z.B. trifft nicht zu');
-//        } else {
-//            $(scaleItem).find('.input-group-addon').text(i + 1);
-//        }
-//        if (text !== undefined) {
-//            $(scaleItem).find('.item-input-text').val(text[i]);
-//        }
-//    }
-//}
-//$(document).ready(function () {
-//    function updateBadges(container, formatId) {
-//        if (formatId === null) {
-//            console.log('update all badges');
-//        } else {
-//            var children = container.children('#' + formatId);
-//            for (var i = 0; i < children.length; i++) {
-//                $(children[i]).find('.badgeId').text(i + 1);
-//                $(children[i]).find('.badgeQuantity').text(children.length);
-//            }
-//        }
-//    }
-//});
-//
-//
-//$('body').on('click', '.btn-up', function () {
-//    updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
-//});
-//
-//$('body').on('click', '.btn-down', function () {
-//    updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
-//});
-//
-//$('body').on('click', '.btn-delete', function () {
-//    updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
-//});
-//
-//$('.checkAssembledGestures').on('click', function (event) {
-//    console.log('checkAssembledGestures');
-//    var aGestures = assembledGestures();
-//    if (!aGestures || aGestures.length === 0) {
-//        if ($(this).attr('id') === 'success') {
-//            $(this).prevAll('.switchButtonAddon').first().click();
-//            $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
-//        } else if ($(this).hasClass('switchButtonAddon')) {
-//            var activeButton = $(this).nextAll().filter('.active');
-//            var inactiveButton = $(this).nextAll().filter('.inactive');
-//            $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
-//            toggleSwitch(activeButton, inactiveButton);
-//        }
-//    }
-//});

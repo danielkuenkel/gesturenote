@@ -300,27 +300,55 @@
     </div>
 
     <div class="root" id="help">
-        <div class="form-group root hidden" id="helpItem">
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                    <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                    <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                </div>
-                <span class="input-group-addon count-text">0</span>
-                <input class="form-control item-input-text option" type="text" value="" placeholder="Hilfetext"/>
-            </div>
-        </div>
 
         <div class="option-container"></div>
 
         <button type="button" class="btn btn-info pull-right btn-add-helpOption"><span class="glyphicon glyphicon-plus"></span> <span>Hilfe hinzufügen</span></button>
+
+        <div class="panel panel-default root hidden" id="helpItem">
+            <div class="panel-body">
+                <div class="alert alert-danger hidden" id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-warning-sign"></i> Bitte zuerst ein Gesteset für diese Studie zusammenstellen!</div>
+                <div class="alert alert-warning hidden" id="assembled-gestures-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Die zugewiesene Geste aus dem zusammengestellten Gestenset ist nicht mehr verfügbar.</div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                            <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                            <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                        <span class="input-group-addon count-text">0</span>
+                        <input class="form-control item-input-text option-text" type="text" value="" placeholder="Hilfetext"/>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-margin-top">
+                    <div class="input-group">
+                        <div class="input-group-btn" id="useGestureHelpSwitch">
+                            <button class="btn btn-default switchButtonAddon checkAssembledGestures">Geste bei Bedarf nochmals anzeigen?</button>
+                            <button class="btn btn-default btn-toggle-checkbox checkAssembledGestures inactive" id="success">Ja</button>
+                            <button class="btn btn-warning btn-toggle-checkbox checkAssembledGestures active" id="warning">Nein</button>
+                        </div>
+                        <span class="input-group-addon">Geste</span>
+                        <input class="form-control item-input-text option-gesture readonly" type="text" value=""/>
+                        <div class="input-group-btn select gestureSelect" role="group">
+                            <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="root" id="wozExperiment">
         <div class="form-group root hidden" id="wozExperimentItem">
             <div class="panel panel-default">
                 <div class="panel-body">
+                    <div class="alert alert-warning hidden" id="assembled-gestures-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Eine Geste aus dem Gestenset ist nicht mehr verfügbar. Diese kann nicht mehr verwendet werden.</div>
+                    <div class="alert alert-warning hidden" id="assembled-trigger-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Ein Trigger aus dem erstellten Set ist nicht mehr verfügbar. Dieser kann nicht mehr verwendet werden.</div>
+
                     <div class="input-group">
                         <div class="input-group-btn">
                             <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
@@ -330,7 +358,7 @@
                         <span class="input-group-addon">Geste</span>
                         <input class="form-control item-input-text option-gesture readonly" type="text" value=""/>
                         <div class="input-group-btn select gestureSelect" role="group">
-                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                            <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                 <!--<li id="3"><a href="#">Testgeste</a></li>-->
                             </ul>
@@ -339,11 +367,11 @@
                     <div class="input-group" style="margin-top: 10px;">
                         <span class="input-group-addon">Trigger</span>
                         <input class="form-control item-input-text option-trigger" type="text" value="" placeholder="Triggertext"/>
-                        <div class="input-group-btn select wozTriggerSelect" role="group">
+                        <div class="input-group-btn select triggerSelect wozTriggerSelect" role="group">
                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                <li id="gesture_recognized"><a href="#">wurde erkannt</a></li>
-                                <li id="gesture_not_recognized"><a href="#">wurde nicht erkannt</a></li>
+                                <!--                                <li id="gesture_recognized"><a href="#">wurde erkannt</a></li>
+                                                                <li id="gesture_not_recognized"><a href="#">wurde nicht erkannt</a></li>-->
                             </ul>
                         </div>
                     </div>
@@ -352,11 +380,31 @@
         </div>
 
         <div class="alert alert-danger hidden" id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-warning-sign"></i> Bitte zuerst ein Gesteset für diese Studie zusammenstellen!</div>
-        <div class="alert alert-warning hidden" id="assembled-gestures-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Eine oder mehrere Gesten aus dem zusammengestellten Gestenset sind nicht mehr verfügbar und wurden deshalb von dieser Liste gelöscht. Diese können nicht mehr als Trigger verwendet werden.</div>
 
         <div class="option-container"></div>
 
         <button class="btn btn-info pull-right btn-add-woz-experimentOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Trigger hinzufügen</span></button>
+    </div>
+
+
+    <div class="root" id="functions">
+
+        <div class="option-container"></div>
+
+        <div class="text-right">
+            <button type="button" class="btn btn-info btn-add-functionsOption"><span class="glyphicon glyphicon-plus"></span> <span>Funktion hinzufügen</span></button>
+        </div>
+
+        <div class="form-group root hidden" id="functionsItem">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+                <input class="form-control item-input-text option" type="text" value="" placeholder="Funktionsname"/>
+            </div>
+        </div>
     </div>
 
 </div>

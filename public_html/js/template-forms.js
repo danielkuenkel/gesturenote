@@ -80,11 +80,23 @@ $('body').on('click', '.btn-add-helpOption', function (event) {
     }
 });
 
+$('body').on('click', '.btn-add-functionsOption', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
+        var clone = $('#functionsItem').clone();
+        clone.removeClass('hidden');
+        clone.removeAttr('id');
+        $(this).parent().prev().append(clone);
+        checkCurrentListState($(this).parent().prev());
+    }
+});
+
 $('body').on('click', '.select .option li', function (event) {
     if (event.handled !== true)
     {
         event.handled = true;
-        console.log('test');
         var parent = $(this).closest('.select');
         if ($(parent).hasClass('scaleSelect')) {
             var scaleItemContainer = $(this).parents('.root').first().find('.ratingScaleItemContainer');
@@ -93,6 +105,7 @@ $('body').on('click', '.select .option li', function (event) {
         }
     }
 });
+
 
 function renderScaleItems(container, count, text)
 {
@@ -157,12 +170,12 @@ $('body').on('click', '.btn-delete', function (event) {
  * specific help up/down button actions 
  */
 
-$('body').on('click', '#help .btn-up', function (event) {
+$('body').on('click', '#helpContainer .btn-up', function (event) {
     event.preventDefault();
     updateHelpItemCounter($(this).closest('.option-container'));
 });
 
-$('body').on('click', '#help .btn-down', function (event) {
+$('body').on('click', '#helpContainer .btn-down', function (event) {
     event.preventDefault();
     updateHelpItemCounter($(this).closest('.option-container'));
 });
@@ -179,21 +192,26 @@ function updateHelpItemCounter(container) {
  * It's for the alert showing in dichotomous question container 
  */
 
-$('.checkAssembledGestures').unbind('click').bind('click', function (event) {
-    console.log('checkAssembledGestures: ');
-    
-    event.preventDefault();
-    var aGestures = assembledGestures();
-    if (!aGestures || aGestures.length === 0) {
-        event.stopPropagation();
-        if ($(this).attr('id') === 'success') {
-            $(this).parent().find('.switchButtonAddon').click();
-            $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
-        } else if ($(this).hasClass('switchButtonAddon')) {
-            var activeButton = $(this).nextAll().filter('#success');
-            var inactiveButton = $(this).nextAll().filter('#warning');
-            $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
-            toggleSwitch(activeButton, inactiveButton);
+$('body').on('click', '.checkAssembledGestures', function (event) {
+    if (event.handled !== true)
+    {
+//        console.log('checkAssembledGestures: ');
+        event.handled = true;
+        event.preventDefault();
+        var aGestures = assembledGestures();
+        if (!aGestures || aGestures.length === 0) {
+            event.stopPropagation();
+            if ($(this).attr('id') === 'success') {
+                $(this).parent().find('.switchButtonAddon').click();
+                $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
+            } else if ($(this).hasClass('switchButtonAddon')) {
+                var activeButton = $(this).nextAll().filter('#success');
+                var inactiveButton = $(this).nextAll().filter('#warning');
+                $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
+                toggleSwitch(activeButton, inactiveButton);
+            } else {
+                $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
+            }
         }
     }
 });
@@ -204,14 +222,14 @@ $('.checkAssembledGestures').unbind('click').bind('click', function (event) {
  */
 
 $('.switchButtonAddonPanel').unbind('click').bind('click', function (event) {
-    console.log('switchButtonAddonPanel');
+//    console.log('switchButtonAddonPanel');
     event.preventDefault();
     togglePanelBody($(this).closest('.root').find('.panel-body'));
     togglePanelBadges($(this).closest('.root').find('.badges'));
 });
 
 $('.btn-toggle-checkbox-panel').unbind('click').bind('click', function (event) {
-    console.log('btn-toggle-checkbox-panel');
+//    console.log('btn-toggle-checkbox-panel');
     event.preventDefault();
     if (!$(this).hasClass('active')) {
         togglePanelBody($(this).closest('.root').find('.panel-body'));
@@ -242,10 +260,95 @@ function togglePanelBadges(badges) {
  * Actions for the gesture select dropdown
  */
 
+function renderAssembledGestures() {
+    var gestures = assembledGestures();
+    console.log(gestures);
+
+    if (gestures && gestures.length > 0) {
+        var wozExperimentItem = $('#form-item-container').find('.gestureSelect');
+        $(wozExperimentItem).find('.option').empty();
+
+        for (var i = 0; i < gestures.length; i++) {
+            var listItem = document.createElement('li');
+            listItem.setAttribute('id', gestures[i].id);
+            var link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(gestures[i].title));
+            listItem.appendChild(link);
+            $(wozExperimentItem).find('.option').append(listItem);
+            $('#form-item-container').find('.gestureSelect .dropdown-toggle').removeClass('disabled');
+        }
+    } else {
+        console.log('no gestures arranged');
+        $('#form-item-container').find('.gestureSelect .dropdown-toggle').addClass('disabled');
+        $('#wozExperimentContainer').find('#no-gestures-assembled').removeClass('hidden');
+        $('#wozExperimentContainer').find('.btn-add-woz-experiment-item').addClass('hidden');
+    }
+}
+
+function renderAssembledFunctions() {
+    var triggers = getLocalItem(PREDEFINED_GESTURE_TRIGGERS);
+    var triggerDropdown = $('#form-item-container').find('.triggerSelect');
+    $(triggerDropdown).find('.option').empty();
+
+    var listItem;
+
+    for (var i = 0; i < triggers.length; i++) {
+        if (i === 0) {
+            listItem = document.createElement('li');
+            listItem.setAttribute('class', 'dropdown-header');
+            listItem.appendChild(document.createTextNode('Gestentrigger'));
+            triggerDropdown.find('.option').append(listItem);
+        }
+
+        listItem = document.createElement('li');
+        listItem.setAttribute('id', TRIGGER_CRITERIA + '_' + triggers[i].id);
+
+        var link = document.createElement('a');
+        link.setAttribute('href', '#');
+        link.appendChild(document.createTextNode(triggers[i].title));
+        listItem.appendChild(link);
+        $(triggerDropdown).find('.option').append(listItem);
+    }
+
+    var functions = getLocalItem(FUNCTIONS_SET);
+
+    if (functions && functions.length > 0) {
+        for (var i = 0; i < functions.length; i++) {
+            if (i === 0) {
+                listItem = document.createElement('li');
+                listItem.setAttribute('class', 'divider');
+                triggerDropdown.find('.option').append(listItem);
+
+                listItem = document.createElement('li');
+                listItem.setAttribute('class', 'dropdown-header');
+                listItem.appendChild(document.createTextNode('Funktionstrigger'));
+                triggerDropdown.find('.option').append(listItem);
+            }
+
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', functions[i].type + '_' + functions[i].id);
+
+            var link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(functions[i].title));
+            listItem.appendChild(link);
+            $(triggerDropdown).find('.option').append(listItem);
+        }
+    }
+}
+
 $('body').on('click', '.gestureSelect .option li, .wozTriggerSelect .option li', function () {
     var parent = $(this).closest('.select');
     var itemText = $(this).children().text();
     var listItemId = $(this).attr('id');
     $(parent).find('.selected').attr('id', listItemId);
     $(parent).prev().val(itemText);
+
+    if ($(parent).closest('.select').hasClass('gestureSelect')) {
+        $(this).closest('.root').find('#assembled-gestures-removed').addClass('hidden');
+    }
+    if ($(parent).closest('.select').hasClass('wozTriggerSelect')) {
+        $(this).closest('.root').find('#assembled-trigger-removed').addClass('hidden');
+    }
 });

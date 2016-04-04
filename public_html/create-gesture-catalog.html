@@ -127,7 +127,7 @@
 <script type="text/javascript" src="js/template-forms.js"></script>
 <script>
     $(document).ready(function () {
-        var data = getLocalItem('predefinedGestureSet');
+        var data = getLocalItem(PREDEFINED_GESTURE_SET);
         if (data !== null) {
             renderData(data);
         }
@@ -209,7 +209,7 @@
             }
             assembledGestures.push(new Gesture(originItem.type, originItem.id, originItem.title, originItem.description, originItem.images, originItem.previewImage, originItem.videoUrl, isAssembled));
         }
-        setLocalItem("predefinedGestureSet", assembledGestures);
+        setLocalItem(PREDEFINED_GESTURE_SET, assembledGestures);
     }
 
 //    $('.switchButtonAddonPanel').on('click', function (event) {

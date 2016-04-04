@@ -9,6 +9,11 @@ var PROJECT_ORIGIN_SUS = 'project.originSUS';
 var PROJECT_PHASE_STEPS = 'project.phaseSteps';
 var PREDEFINED_GESTURE_SET = 'predefinedGestureSet';
 var PREDEFINED_OBSERVATIONS = 'predefinedObversation';
+var PREDEFINED_GESTURE_QUESTIONNAIRE = 'predefinedGestureQuestionnaire';
+var PREDEFINED_GESTURE_TRIGGERS = 'predefinedGestureTriggers';
+var FUNCTIONS_SET = 'functions';
+var TRIGGER_CRITERIA = 'trigger_criteria';
+var TRIGGER_FUNCTION = 'trigger_function';
 
 // questionnaire formats
 var DICHOTOMOUS_QUESTION = 'dichotomousQuestion';

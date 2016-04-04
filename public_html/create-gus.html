@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
-    <h4 class="modal-title" id="exampleModalLabel">Gesture Usability Scale (GUS)</h4>
+    <h4 class="modal-title" id="exampleModalLabel">Gesture Usability Scale - Fragen zu einzelner Geste</h4>
 </div>
 <div id="modal-body" class="modal-body">
 
@@ -26,7 +26,7 @@
 
     <div id="list-container"></div>
 
-    <button type="button" class="btn btn-warning" id="btn-reset-gus-item"><span class="glyphicon glyphicon-repeat"></span> Original GUS wiederherstellen</button>
+    <button type="button" class="btn btn-warning" id="btn-reset-origin-data"><span class="glyphicon glyphicon-repeat"></span> Original GUS wiederherstellen</button>
     <button type="button" class="btn btn-info pull-right" id="btn-add-gus-item"><span class="glyphicon glyphicon-plus"></span> Ein neues Item hinzufügen</button>
 
 </div>
@@ -38,15 +38,15 @@
 <script type="text/javascript" src="js/template-forms.js"></script>
 <script>
     $(document).ready(function () {
-        var originGUS = getLocalItem('project.originGUS');
-        var customGUS = getLocalItem(currentIdForModal + '.data');
+        var originData = getLocalItem(PROJECT_ORIGIN_GUS);
+        var customData = getLocalItem(currentIdForModal + '.data');
 
-        if (customGUS !== null) {
-            renderData(customGUS);
-        } else if (originGUS !== null) {
-            renderData(originGUS);
+        if (customData !== null) {
+            renderData(customData);
+        } else if (originData !== null) {
+            renderData(originData);
         } else {
-            alert("No GUS there");
+            alert("No predefined data there");
         }
     });
 
@@ -80,11 +80,11 @@
         checkCurrentListState($('#list-container'));
     });
 
-    $('#btn-reset-gus-item').on('click', function () {
-        var originGUS = getLocalItem('project.originGUS');
-        if (originGUS !== null) {
+    $('#btn-reset-origin-data').on('click', function () {
+        var data = getLocalItem(PROJECT_ORIGIN_GUS);
+        if (data !== null) {
             $('#list-container').empty();
-            renderData(originGUS);
+            renderData(data);
         }
         checkCurrentListState($('#list-container'));
     });

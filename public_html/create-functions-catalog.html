@@ -1,0 +1,61 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
+    <h4 class="modal-title" id="exampleModalLabel">Set von Funktionen erstellen</h4>
+</div>
+<div id="modal-body" class="modal-body">
+
+    <div class="root" id="list-container"></div>
+
+</div>
+<div id="modal-footer" class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
+</div>
+
+
+<script type="text/javascript" src="js/template-forms.js"></script>
+<script>
+        $(document).ready(function () {
+            var functions = $('#form-item-container #functions').clone();
+            $('#list-container').append(functions);
+
+            var data = getLocalItem(FUNCTIONS_SET);
+            if (data !== null) {
+                renderData(data);
+            }
+        });
+
+        function renderData(data) {
+            for (var i = 0; i < data.length; i++) {
+                var clone = $('#functionsItem').clone().removeClass('hidden');
+                clone.find('.option').val(data[i].title);
+                var id = parseInt(data[i].id);
+                clone.attr('id', data[i].type + '_' + id);
+                $('#list-container').find('.option-container').append(clone);
+
+                if (currentFunctionTriggerId <= id) {
+                    currentFunctionTriggerId = id + 1;
+                }
+            }
+            checkCurrentListState($('#list-container').find('.option-container'));
+        }
+
+        function saveData() {
+            var functions = new Array();
+            var elements = $('#list-container').find('.option-container').children();
+            for (var i = 0; i < elements.length; i++) {
+                var triggerId;
+                var element = elements[i];
+                if ($(element).attr('id') !== undefined) {
+                    var splitId = $(element).attr('id').split('_');
+                    if (splitId[0] + '_' + splitId[1] === TRIGGER_FUNCTION) {
+                        triggerId = splitId[2];
+                    }
+                } else {
+                    triggerId = currentFunctionTriggerId;
+                    currentFunctionTriggerId++;
+                }
+                functions.push(new Trigger(triggerId, TRIGGER_FUNCTION, $(elements[i]).find('.option').val()));
+            }
+            setLocalItem(FUNCTIONS_SET, functions);
+        }
+</script>

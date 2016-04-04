@@ -4,7 +4,7 @@
 </div>
 <div id="modal-body" class="modal-body">
 
-    <div class="panel panel-default root" id="wozExperiment">
+    <div class="panel panel-default root" id="general">
         <div class="panel-heading clearfix">
             <div class="panel-title">Allgemeines</div>
         </div>
@@ -85,12 +85,12 @@
                         </ul>
                     </div>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-info disabled toggable-button" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                        <button class="btn btn-info disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                     </div>
                 </div>
             </div>
 
-            <button class="btn btn-info toggable-button pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>
+            <button class="btn btn-info pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>
         </div>
     </div>
 
@@ -106,6 +106,7 @@
             var woz = $('#form-item-container #wozExperiment').clone();
             $('#wozExperimentContainer').append(woz);
             renderAssembledGestures();
+            renderAssembledFunctions();
 
             var help = $('#help').clone();
             help.removeAttr('id');
@@ -116,29 +117,6 @@
                 renderData(data, false);
             }
         });
-
-        function renderAssembledGestures() {
-            var gestures = assembledGestures();
-
-            if (gestures && gestures.length > 0) {
-                var wozExperimentItem = $('#form-item-container').find('.gestureSelect');
-                $(wozExperimentItem).find('.option').empty();
-
-                for (var i = 0; i < gestures.length; i++) {
-                    var listItem = document.createElement('li');
-                    listItem.setAttribute('id', gestures[i].id);
-                    var link = document.createElement('a');
-                    link.setAttribute('href', '#');
-                    link.appendChild(document.createTextNode(gestures[i].title));
-                    listItem.appendChild(link);
-                    $(wozExperimentItem).find('.option').append(listItem);
-                }
-            } else {
-                console.log('no gestures arranged');
-                $('#wozExperimentContainer').find('#no-gestures-assembled').removeClass('hidden');
-                $('#wozExperimentContainer').find('.btn-add-woz-experiment-item').addClass('hidden');
-            }
-        }
 
         function renderData(data, forPrefiniedObservation)
         {
@@ -164,39 +142,57 @@
                 }
 
                 container = $('#wozExperimentContainer').find('.option-container');
+                var clone = $('#wozExperimentItem').clone().removeClass('hidden');
+                $(clone).removeAttr('id');
+                container.append(clone);
 
                 for (var i = 0; i < wozItems.length; i++) {
-                    var item = wozItems[i];
-
-                    if (isGestureAssembled(item[0].id))
+                    var gesture = wozItems[i][0];
+                    if (gesture && isGestureAssembled(gesture.id))
                     {
-                        var clone = $('#wozExperimentItem').clone().removeClass('hidden')
-                        container.append(clone);
-                        $(clone).removeAttr('id');
-                        $(clone).find('.gestureSelect .selected').attr('id', item[0].id);
-                        $(clone).find('.option-gesture').val(item[0].title);
-                        $(clone).find('.option-trigger').val(item[1]);
+                        $(clone).find('.gestureSelect .selected').attr('id', gesture.id);
+                        $(clone).find('.option-gesture').val(gesture.title);
+//                        
                     } else {
-                        $('#wozExperimentContainer').find('#assembled-gestures-removed').removeClass('hidden');
+                        $(clone).find('#assembled-gestures-removed').removeClass('hidden');
                     }
 
-//                var triggerId = $(wozItems[i]).find('.wozTriggerSelect .selected').attr('id');
-//                var triggerText = $(wozItems[i]).find('.wozTriggerSelect .option').find('#' + triggerId).first().text();
+                    var trigger = wozItems[i][1];
+                    if (trigger && getTrigger(trigger.id, trigger.type) !== null) {
+                        $(clone).find('.option-trigger').val(trigger.title);
+                        $(clone).find('.wozTriggerSelect .selected').attr('id', trigger.type + '_' + trigger.id);
+                    } else {
+                        $(clone).find('#assembled-trigger-removed').removeClass('hidden');
+                    }
                 }
                 checkCurrentListState(container);
             }
 
-            if (helpItems !== undefined && helpItems.length > 0) {
+            if (helpItems !== undefined) {
                 if (!forPrefiniedObservation) {
                     $('#helpSwitch .switchButtonAddonPanel').click();
                 }
 
                 container = $('#helpContainer').find('.option-container');
-
                 for (var i = 0; i < helpItems.length; i++) {
                     var clone = $('#helpItem').clone().removeClass('hidden');
-                    clone.find('.option').val(helpItems[i]);
+                    clone.find('.option-text').val(helpItems[i].option);
                     $(container).append(clone);
+
+                    if (helpItems[i].useGestureHelp === true) {
+                        var gestureId = helpItems[i].gestureId;
+
+                        if (gestureId !== null && !isGestureAssembled(gestureId)) {
+                            $(clone).find('#assembled-gestures-removed').removeClass('hidden');
+                        } else if (gestureId !== null) {
+                            var gesture = getGestureById(gestureId);
+                            $(clone).find('.gestureSelect .selected').attr('id', gesture.id);
+                            $(clone).find('.option-gesture').val(gesture.title);
+                            $(clone).find('.switchButtonAddon').click();
+                            $(clone).find('.gestureSelect .dropdown-toggle').removeClass('disabled');
+                        }
+                    }
+
                     checkCurrentListState(container);
                     updateHelpItemCounter(container);
                 }
@@ -292,32 +288,45 @@
             var wozItems = $('#wozExperimentContainer').find('.option-container').children();
             var helpItems = $('#helpContainer').find('.option-container').children();
             var obersvationItems = $('#list-container').children();
-
             var scenario = new Scenario();
             scenario.title = $('#scenarioTitle').val();
             scenario.description = $('#scenarioDescription').val();
-
             if ($('#useWozSwitch').find('#success').hasClass('active')) {
                 var woz = new Array();
                 for (var i = 0; i < wozItems.length; i++) {
                     var item = wozItems[i];
                     var gestureId = $(item).find('.gestureSelect .selected').attr('id');
                     var gesture = getGestureById(gestureId);
-//                var triggerId = $(wozItems[i]).find('.wozTriggerSelect .selected').attr('id');
-                    var triggerText = $(wozItems[i]).find('.option-trigger').val();
-                    woz.push([gesture, triggerText]);
+                    var triggerSplitId = $(wozItems[i]).find('.wozTriggerSelect .selected').attr('id').split('_');
+                    var trigger = getTrigger(triggerSplitId[2], triggerSplitId[0] + '_' + triggerSplitId[1]);
+                    if (gesture && trigger) {
+                        woz.push([gesture, trigger]);
+                    }
                 }
                 scenario.woz = woz;
             }
 
             if ($('#helpSwitch').find('#success').hasClass('active'))
             {
-                var helpArray = new Array();
-
+                var scenarioHelp = new Array();
+                var options = new Array();
                 for (var i = 0; i < helpItems.length; i++) {
-                    helpArray.push($(helpItems[i]).find('.option').val());
+                    var item = helpItems[i];
+                    var help = new Help();
+                    help.option = $(item).find('.option-text').val().trim();
+                    help.useGestureHelp = $(item).find('#useGestureHelpSwitch').find('#success').hasClass('active') ? true : false;
+                    help.gestureId = $(item).find('.selected').attr('id') !== "unselected" ? $(item).find('.selected').attr('id') : null;
+
+                    if (help.option !== "" || help.useGestureHelp === true) {
+                        scenarioHelp.push(help);
+                    }
                 }
-                scenario.help = helpArray;
+
+                if (scenarioHelp.length > 0) {
+                    scenario.help = scenarioHelp;
+                } else {
+                    scenario.help = undefined;
+                }
             }
 
             if ($('#useObservationsSwitch').find('#success').hasClass('active'))
@@ -329,7 +338,6 @@
                     var question = $(item).find('.question').val();
                     var parameters = null;
                     var options = null;
-
                     switch (id) {
                         case DICHOTOMOUS_QUESTION:
                             parameters = new Array();
@@ -340,7 +348,6 @@
                             parameters = new Array();
                             parameters.push($(item).find('.multiselect .active').attr('id') === 'success' ? true : false);
                             parameters.push($(item).find('.optionalanswer .active').attr('id') === 'success' ? true : false);
-
                             options = new Array();
                             var groupingOptions = $(item).find('.option-container').children();
                             for (var j = 0; j < groupingOptions.length; j++) {
@@ -364,7 +371,6 @@
                             parameters = new Array();
                             parameters.push($(item).find('.allocation').attr('id'));
                             parameters.push($(item).find('.maximum').val());
-
                             options = new Array();
                             var sumQuestionOptions = $(item).find('.option-container').children();
                             for (var j = 0; j < sumQuestionOptions.length; j++) {
@@ -389,137 +395,40 @@
         }
 
         $('#addPredefinedObservations').on('click', function () {
-            if (getLocalItem('predefinedObversation') !== null) {
-                renderData(getLocalItem('predefinedObversation'), true);
+            if (getLocalItem(PREDEFINED_OBSERVATIONS) !== null) {
+                renderData(getLocalItem(PREDEFINED_OBSERVATIONS), true);
             }
         });
-//
-//    $('.switchButtonAddonPanel').on('click', function (event) {
-//        event.preventDefault();
-//        togglePanelBody($(this).closest('.root').find('.panel-body'));
-//    });
-//
-//    $('.btn-toggle-checkbox-panel').on('click', function (event) {
-//        event.preventDefault();
-//        if (!$(this).hasClass('active')) {
-//            togglePanelBody($(this).closest('.root').find('.panel-body'));
-//        }
-//    });
-//
-//    function togglePanelBody(panelBody) {
-//        if ($(panelBody).hasClass('hidden')) {
-//            $(panelBody).removeClass('hidden');
-//        } else {
-//            $(panelBody).addClass('hidden');
-//        }
-//    }
-//
-//
-// specific form functions
-//
-//    $('#addFormat').on('click', function (event) {
-//        event.preventDefault();
-//
-//        var brotherID = $(this).parent().prevAll(".select:first").attr('id');
-//        var selectedID = $('#' + brotherID + ' .selected').attr('id');
-//
-//        if (selectedID !== 'unselected') {
-//            var clone = $('#form-item-container').find('#' + selectedID).clone(true);
-//            $('#list-container').append(clone);
-//            checkCurrentListState($('#list-container'));
-//        }
-//        updateBadges($('#list-container'), selectedID);
-//
-//    });
-//
-//
-//
-//    function updateBadges(container, formatId) {
-//        if (formatId === null) {
-//            console.log('update all badges');
-//        } else {
-//            var children = container.children('#' + formatId);
-//            for (var i = 0; i < children.length; i++) {
-//                $(children[i]).find('.badgeId').text(i + 1);
-//                $(children[i]).find('.badgeQuantity').text(children.length);
-//            }
-//        }
-//    }
+        $('#useWozSwitch .switchButtonAddonPanel').on('click', function (event) {
+            var aGestures = assembledGestures();
+            if (!$(this).find('#success').hasClass('active') && (!aGestures || aGestures.length === 0)) {
+                $('#wozExperimentContainer').find('.btn-add-woz-experimentOption').addClass('hidden');
+            }
+        });
+        $('#useWozSwitch .btn-toggle-checkbox-panel').on('click').bind('click', function (event) {
+            var aGestures = assembledGestures();
+            if ($(this).attr('id') === 'success' && (!aGestures || aGestures.length === 0)) {
+                $('#wozExperimentContainer').find('.btn-add-woz-experimentOption').addClass('hidden');
+            }
+        });
 
-//    $('.btn-add-groupingQuestionOption').unbind('click').bind('click', function (event) {
-//        event.preventDefault();
-//        var clone = $('#groupingQuestionItem').clone().removeClass('hidden');
-//        $(this).prev().find('.panel-body').append(clone);
-//        checkCurrentListState($(this).prev().find('.panel-body'));
-//    });
-//
-//        $('.btn-add-woz-experimentOption').on('click', function (event) {
-//            event.preventDefault();
-//            $(this).prev().append($('#wozExperimentItem').clone().removeClass('hidden'));
-//            checkCurrentListState($(this).prev());
-//        });
-//
-//        $('.btn-add-help').on('click', function (event) {
-//            event.preventDefault();
-//            $(this).prev().append($('#helpItem').clone().removeClass('hidden'));
-//            checkCurrentListState($(this).prev());
-//            updateHelpItemCounter($(this).prev());
-//        });
-//
-//        $('body').on('click', '#help .btn-up', function (event) {
-//            event.preventDefault();
-//            updateHelpItemCounter($(this).closest('.option-container'));
-//        });
-//
-//        $('body').on('click', '#help .btn-down', function (event) {
-//            event.preventDefault();
-//            updateHelpItemCounter($(this).closest('.option-container'));
-//        });
-//
-//        function updateHelpItemCounter(container) {
-//            var children = container.children();
-//            for (var i = 0; i < children.length; i++) {
-//                $(children[i]).find('.count-text').text(i + 1);
-//            }
-//        }
-//
-//    $('body').on('click', '.btn-up', function () {
-//        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
-//    });
-//
-//    $('body').on('click', '.btn-down', function () {
-//        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
-//    });
-//
-//    $('body').on('click', '.btn-delete', function () {
-//        updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
-//    });
-//
-//        $('body').on('click', '.gestureSelect .option li, .wozTriggerSelect .option li', function () {
-//            var parent = $(this).closest('.select');
-//            var itemText = $(this).children().text();
-//            var listItemId = $(this).attr('id');
-//            $(parent).find('.selected').attr('id', listItemId);
-//            $(parent).prev().val(itemText);
-//        });
-//
-//    $('.checkAssembledGestures').on('click', function (event) {
-//        event.preventDefault();
-//        event.stopPropagation();
-//        
-//        var aGestures = assembledGestures();
-//        if (!aGestures || aGestures.length === 0) {
-//            if ($(this).attr('id') === 'success') {
-//                console.log("on success click");
-//                $(this).prevAll('.switchButtonAddon').first().click();
-//                $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
-//            } else if ($(this).hasClass('switchButtonAddon')) {
-//                console.log('on switch button click');
-//                var activeButton = $(this).nextAll().filter('.active');
-//                var inactiveButton = $(this).nextAll().filter('.inactive');
-//                $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
-//                toggleSwitch(activeButton, inactiveButton);
-//            }
-//        }
-//    });
+        $('body').on('click', '#helpContainer #useGestureHelpSwitch .checkAssembledGestures', function (event) {
+            event.preventDefault();
+            var dropDownToggle = $(this).closest('.root').find('.gestureSelect .dropdown-toggle');
+
+            if ($(this).attr('id') === 'success') {
+                dropDownToggle.removeClass('disabled');
+            } else if ($(this).attr('id') === 'warning') {
+                dropDownToggle.addClass('disabled');
+            } else if ($(this).hasClass('switchButtonAddon')) {
+
+                var activeButton = $(this).nextAll().filter('.active');
+//                console.log(activeButton);
+                if (activeButton.attr('id') === 'success') {
+                    dropDownToggle.removeClass('disabled');
+                } else {
+                    dropDownToggle.addClass('disabled');
+                }
+            }
+        });
 </script>

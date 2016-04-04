@@ -138,7 +138,7 @@
 
 
                         <!-- Use of well/predefined gestures -->
-                        <h3>Verwendung von Gesten</h3>
+                        <h3>Verwendung von Gesten und Funktionen</h3>
 
                         <div class="form-group">
                             <div class="btn-group" id="useGesturesSwitch">
@@ -147,6 +147,21 @@
                                 <button class="btn btn-warning btn-toggle-checkbox active" id="warning" onclick="hideAssembleGestures()">Nein</button>
                                 <button class="btn btn-default hidden" id="assemble-gesture-set" onclick="onAssembleGestureSetClick()">
                                     <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Gestenset zusammenstellen</span></button>
+                                <button class="btn btn-addon" id="btn-use-gestures-info">
+                                    <i class="glyphicon glyphicon-question-sign"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Use of well/predefined functions -->
+
+                        <div class="form-group">
+                            <div class="btn-group" id="useFunctionsSwitch">
+                                <button class="btn btn-default switchButtonAddon" onclick="toggleFunctionsCatalog()">Funktionen für die Studie nutzen?</button>
+                                <button class="btn btn-default btn-toggle-checkbox inactive" id="success" onclick="showFunctions()">Ja</button>
+                                <button class="btn btn-warning btn-toggle-checkbox active" id="warning" onclick="hideFunctions()">Nein</button>
+                                <button class="btn btn-default hidden" id="assemble-functions-set" onclick="onFunctionsClick()">
+                                    <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Funktionen zusammenstellen</span></button>
                                 <button class="btn btn-addon" id="btn-use-gestures-info">
                                     <i class="glyphicon glyphicon-question-sign"></i>
                                 </button>
@@ -505,6 +520,30 @@
             function onAssembleGestureSetClick() {
                 currentIdForModal = 'assembledGestureSet';
                 loadHTMLintoModal('custom-modal', 'create-gesture-catalog.html', 'modal-lg');
+            }
+
+            function toggleFunctionsCatalog() {
+                if ($("#assemble-functions-set").hasClass('hidden')) {
+                    showFunctions();
+                } else {
+                    hideFunctions();
+                }
+            }
+
+            function showFunctions() {
+                $("#assemble-functions-set").removeClass('hidden');
+                saveGeneralData();
+            }
+
+            function hideFunctions() {
+                $("#assemble-functions-set").addClass('hidden');
+                removeAssembledFunctions();
+                saveGeneralData();
+            }
+
+            function onFunctionsClick() {
+                currentIdForModal = 'assembledFunctionsSet';
+                loadHTMLintoModal('custom-modal', 'create-functions-catalog.html', 'modal-lg');
             }
 
         </script>
