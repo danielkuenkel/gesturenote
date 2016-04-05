@@ -142,17 +142,18 @@
                 }
 
                 container = $('#wozExperimentContainer').find('.option-container');
-                var clone = $('#wozExperimentItem').clone().removeClass('hidden');
-                $(clone).removeAttr('id');
-                container.append(clone);
+
 
                 for (var i = 0; i < wozItems.length; i++) {
+                    var clone = $('#wozExperimentItem').clone().removeClass('hidden');
+                    $(clone).removeAttr('id');
+                    container.append(clone);
+
                     var gesture = wozItems[i][0];
                     if (gesture && isGestureAssembled(gesture.id))
                     {
                         $(clone).find('.gestureSelect .selected').attr('id', gesture.id);
                         $(clone).find('.option-gesture').val(gesture.title);
-//                        
                     } else {
                         $(clone).find('#assembled-gestures-removed').removeClass('hidden');
                     }
@@ -299,6 +300,7 @@
                     var gesture = getGestureById(gestureId);
                     var triggerSplitId = $(wozItems[i]).find('.wozTriggerSelect .selected').attr('id').split('_');
                     var trigger = getTrigger(triggerSplitId[2], triggerSplitId[0] + '_' + triggerSplitId[1]);
+
                     if (gesture && trigger) {
                         woz.push([gesture, trigger]);
                     }
