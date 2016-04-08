@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
+    <h4 class="modal-title" id="exampleModalLabel">Prototypen</h4>
+</div>
+<div id="modal-body" class="modal-body">
+
+    <!--<img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 5px;">-->
+
+    <div class="container-root" id="list-container"></div>
+
+    <div class="form-group">
+        <div class="btn-group btn-group-justified" role="group">
+
+            <span class="input-group-addon" id="addFormatSelectAddon">Prototyp Format</span>
+
+            <div class="btn-group select" id="addFormatSelect" role="group">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
+                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                    <li id="pidoco"><a href="#">Pidoco</a></li>
+                    <li id="web"><a href="#">Webseite</a></li>
+                    <li id="image"><a href="#">Bild</a></li>
+                    <li id="video"><a href="#">Video</a></li>
+                </ul>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-info toggable-button disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="modal-footer" class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
+</div>
+
+
+<script type="text/javascript" src="js/template-forms.js"></script>
+<script>
+        $(document).ready(function () {
+
+        });
+
+        $('.show-hole-text').tooltip({
+            container: 'body',
+            placement: "top"
+        });
+
+        function renderData(data) {
+
+        }
+
+        function saveData() {
+
+        }
+</script>

@@ -37,70 +37,70 @@
 
 <script type="text/javascript" src="js/template-forms.js"></script>
 <script>
-    $(document).ready(function () {
-        var originData = getLocalItem(PROJECT_ORIGIN_GUS);
-        var customData = getLocalItem(currentIdForModal + '.data');
+        $(document).ready(function () {
+            var originData = getLocalItem(PROJECT_ORIGIN_GUS);
+            var customData = getLocalItem(currentIdForModal + '.data');
 
-        if (customData !== null) {
-            renderData(customData);
-        } else if (originData !== null) {
-            renderData(originData);
-        } else {
-            alert("No predefined data there");
+            if (customData !== null) {
+                renderData(customData);
+            } else if (originData !== null) {
+                renderData(originData);
+            } else {
+                alert("No predefined data there");
+            }
+        });
+
+        $('.show-hole-text').tooltip({
+            container: 'body',
+            placement: "top"
+        });
+
+        function renderData(data) {
+            for (var i = 0; i < data.length; i++) {
+                var clone = document.getElementById('item-container').cloneNode(true);
+                clone.setAttribute('class', 'form-group root');
+                $(clone).appendTo('#list-container');
+                $(clone).addClass(data[i].dimension);
+                $(clone).find('.show-hole-text').attr('title', data[i].itemText);
+                $(clone).find('.item-input-text').attr('value', data[i].itemText);
+
+                if (data[i].reversed === true)
+                {
+                    $(clone).find('.switchButtonAddon').click();
+                }
+            }
+
+            checkCurrentListState($('#list-container'));
         }
-    });
 
-    $('.show-hole-text').tooltip({
-        container: 'body',
-        placement: "top"
-    });
-
-    function renderData(data) {
-        for (var i = 0; i < data.length; i++) {
+        $('#btn-add-gus-item').on('click', function () {
             var clone = document.getElementById('item-container').cloneNode(true);
             clone.setAttribute('class', 'form-group root');
-            $(clone).appendTo('#list-container');
-            $(clone).find('.show-hole-text').attr('title', data[i].itemText);
-            $(clone).find('.item-input-text').attr('value', data[i].itemText);
-//            $(clone).find('.input-likert').attr('value', data[i].likertScale);
+            $('#list-container').append(clone);
+            checkCurrentListState($('#list-container'));
+        });
 
-            if (data[i].reversed === true)
-            {
-                toggleSwitch($(clone).find('.active'), $(clone).find('.inactive'));
+        $('#btn-reset-origin-data').on('click', function () {
+            var data = getLocalItem(PROJECT_ORIGIN_GUS);
+            if (data !== null) {
+                $('#list-container').empty();
+                renderData(data);
             }
+            checkCurrentListState($('#list-container'));
+        });
+
+        function saveData() {
+            var customGUS = new Array();
+            var itemList = document.getElementById('list-container').childNodes;
+
+            for (var i = 0; i < itemList.length; i++) {
+                var item = itemList[i];
+                var itemText = $(item).find('.item-input-text').val();
+                var reversed = $(item).find('#success').hasClass('active') ? true : false;
+                var dimension = getDimensionByElement($(item));
+                var gusItem = new UsabilityScaleItem(itemText, dimension, 5, reversed);
+                customGUS.push(gusItem);
+            }
+            setLocalItem(currentIdForModal + ".data", customGUS);
         }
-
-        checkCurrentListState($('#list-container'));
-    }
-
-    $('#btn-add-gus-item').on('click', function () {
-        var clone = document.getElementById('item-container').cloneNode(true);
-        clone.setAttribute('class', 'form-group root');
-        $('#list-container').append(clone);
-        checkCurrentListState($('#list-container'));
-    });
-
-    $('#btn-reset-origin-data').on('click', function () {
-        var data = getLocalItem(PROJECT_ORIGIN_GUS);
-        if (data !== null) {
-            $('#list-container').empty();
-            renderData(data);
-        }
-        checkCurrentListState($('#list-container'));
-    });
-
-    function saveData() {
-        var customGUS = new Array();
-        var itemList = document.getElementById('list-container').childNodes;
-
-        for (var i = 0; i < itemList.length; i++) {
-            var item = itemList[i];
-            var itemText = $(item).find('.item-input-text').val();
-//            var likertScale = parseInt($(item).find('.input-likert').val());
-            var reversed = $(item).find('#success').hasClass('active') ? true : false;
-            var gusItem = new UsabilityScaleItem(itemText, 5, reversed);
-            customGUS.push(gusItem);
-        }
-        setLocalItem(currentIdForModal + ".data", customGUS);
-    }
 </script>

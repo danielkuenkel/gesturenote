@@ -22,6 +22,22 @@
         </div>
     </div>
 
+    <div class="panel panel-default root elicitation hidden" id="elicitationPanel">
+        <div class="panel-heading clearfix">
+            <div>Trigger in der Gestenermittlung</div>
+            <!--            <div class="btn-group pull-right" id="useWozSwitch">
+                            <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                            <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
+                            <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
+                        </div>-->
+        </div>
+        <div class="panel-body">
+            <div class="form-group container-root" id="elicitationContainer">
+
+            </div>
+        </div>
+    </div>
+
     <div class="panel panel-default root" id="wozExperiment">
         <div class="panel-heading clearfix">
             <div style="margin-top: 4px; display: inline-block">Wizard-of-Oz-Experiment</div>
@@ -85,7 +101,7 @@
                         </ul>
                     </div>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-info disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                        <button class="btn btn-info toggable-button disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                     </div>
                 </div>
             </div>
@@ -105,8 +121,22 @@
         $(document).ready(function () {
             var woz = $('#form-item-container #wozExperiment').clone();
             $('#wozExperimentContainer').append(woz);
+
+            if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION) {
+                var eliciation = $('#form-item-container #elicitation').clone();
+                $('#elicitationContainer').append(eliciation);
+//                $('#elicitationPanel').removeClass('hidden');
+                $(document).find('.elicitation').removeClass('hidden');
+                $(document).find('.evaluation').addClass('hidden');
+            } else {
+                $(document).find('.elicitation').addClass('hidden');
+                $(document).find('.evaluation').removeClass('hidden');
+            }
+
+            checkSurveyType();
             renderAssembledGestures();
-            renderAssembledFunctions();
+            renderAssembledTriggers();
+            renderPredefinedFeedback();
 
             var help = $('#help').clone();
             help.removeAttr('id');
@@ -117,6 +147,18 @@
                 renderData(data, false);
             }
         });
+
+        function checkSurveyType() {
+            if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+                $('#form-item-container').find('#wozExperimentItem .feedback-input').removeClass('col-md-12');
+                $('#form-item-container').find('#wozExperimentItem .feedback-input').addClass('col-md-6');
+                $('#form-item-container').find('#wozExperimentItem .recognition-stepper').removeClass('hidden');
+            } else {
+                $('#form-item-container #wozExperimentItem').find('.feedback-input').removeClass('col-md-6');
+                $('#form-item-container #wozExperimentItem').find('.feedback-input').addClass('col-md-12');
+                $('#form-item-container #wozExperimentItem').find('.recognition-stepper').addClass('hidden');
+            }
+        }
 
         function renderData(data, forPrefiniedObservation)
         {
@@ -143,28 +185,37 @@
 
                 container = $('#wozExperimentContainer').find('.option-container');
 
-
                 for (var i = 0; i < wozItems.length; i++) {
+                    var gesture = wozItems[i].gesture;
+                    var trigger = wozItems[i].trigger;
+                    var feedback = wozItems[i].feedback;
+                    var recognitionTime = wozItems[i].recognitionTime;
+
                     var clone = $('#wozExperimentItem').clone().removeClass('hidden');
                     $(clone).removeAttr('id');
                     container.append(clone);
 
-                    var gesture = wozItems[i][0];
                     if (gesture && isGestureAssembled(gesture.id))
                     {
-                        $(clone).find('.gestureSelect .selected').attr('id', gesture.id);
                         $(clone).find('.option-gesture').val(gesture.title);
+                        $(clone).find('.gestureSelect .selected').attr('id', gesture.id);
                     } else {
                         $(clone).find('#assembled-gestures-removed').removeClass('hidden');
                     }
 
-                    var trigger = wozItems[i][1];
-                    if (trigger && getTrigger(trigger.id, trigger.type) !== null) {
+                    if (trigger && getTriggerById(trigger.id) !== null) {
                         $(clone).find('.option-trigger').val(trigger.title);
-                        $(clone).find('.wozTriggerSelect .selected').attr('id', trigger.type + '_' + trigger.id);
+                        $(clone).find('.triggerSelect .selected').attr('id', trigger.id);
                     } else {
                         $(clone).find('#assembled-trigger-removed').removeClass('hidden');
                     }
+
+                    if (feedback) {
+                        $(clone).find('.option-feedback').val(feedback.title);
+                        $(clone).find('feedbackSelect .selected').attr('id', feedback.id);
+                    }
+
+                    $(clone).find('.stepper-text').val(recognitionTime);
                 }
                 checkCurrentListState(container);
             }
@@ -209,12 +260,13 @@
 
                 for (var i = 0; i < obeservationItems.length; i++) {
                     var item = obeservationItems[i];
-                    var clone = $('#form-item-container').find('#' + item.id).clone(true);
+                    var clone = $('#form-item-container').find('#' + item.type).clone(true);
                     $(clone).find('.question').val(item.question);
+                    clone.addClass(item.dimension);
                     container.append(clone);
-                    updateBadges(container, item.id);
+                    updateBadges(container, item.type);
 
-                    switch (item.id) {
+                    switch (item.type) {
                         case DICHOTOMOUS_QUESTION:
                             var parameters = item.parameters;
                             var aGestures = assembledGestures();
@@ -227,7 +279,6 @@
                             break;
                         case GROUPING_QUESTION:
                             var parameters = item.parameters;
-
                             if (parameters[0] === true) {
                                 $(clone).find('.multiselect .switchButtonAddon').click();
                             }
@@ -243,42 +294,42 @@
                                 checkCurrentListState($(clone).find('.option-container'));
                             }
                             break;
-                        case RATING:
-                            var options = item.options;
-                            for (var j = 0; j < options.length; j++) {
-                                var option = $('#ratingItem').clone().removeClass('hidden');
-                                $(option).find('.option').val(options[j]);
-                                $(clone).find('.option-container').append(option);
-                                $(option).find('.optionQuestion').val(options[j][options[j].length - 1]);
-                                $(option).find('.selected').text((options[j].length - 1) + " ");
-                                checkCurrentListState($(clone).find('.option-container'));
-
-                                renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 1, options[j]);
-                            }
-                            break;
-                        case SUM_QUESTION:
-                            var parameters = item.parameters;
-
-                            $(clone).find('.option').children('#' + parameters[0]).click();
-                            $(clone).find('.maximum').val(parameters[1]);
-
-                            var options = item.options;
-                            for (var j = 0; j < options.length; j++) {
-                                var option = $('#sumQuestionItem').clone().removeClass('hidden');
-                                $(option).find('.option').val(options[j]);
-                                $(clone).find('.option-container').append(option);
-                                checkCurrentListState($(clone).find('.option-container'));
-                            }
-                            break;
-                        case RANKING:
-                            var options = item.options;
-                            for (var j = 0; j < options.length; j++) {
-                                var option = $('#rankingItem').clone().removeClass('hidden');
-                                $(option).find('.option').val(options[j]);
-                                $(clone).find('.option-container').append(option);
-                                checkCurrentListState($(clone).find('.option-container'));
-                            }
-                            break;
+//                        case RATING:
+//                            var options = item.options;
+//                            for (var j = 0; j < options.length; j++) {
+//                                var option = $('#ratingItem').clone().removeClass('hidden');
+//                                $(option).find('.option').val(options[j]);
+//                                $(clone).find('.option-container').append(option);
+//                                $(option).find('.optionQuestion').val(options[j][options[j].length - 1]);
+//                                $(option).find('.selected').text((options[j].length - 1) + " ");
+//                                checkCurrentListState($(clone).find('.option-container'));
+//
+//                                renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 1, options[j]);
+//                            }
+//                            break;
+//                        case SUM_QUESTION:
+//                            var parameters = item.parameters;
+//
+//                            $(clone).find('.option').children('#' + parameters[0]).click();
+//                            $(clone).find('.maximum').val(parameters[1]);
+//
+//                            var options = item.options;
+//                            for (var j = 0; j < options.length; j++) {
+//                                var option = $('#sumQuestionItem').clone().removeClass('hidden');
+//                                $(option).find('.option').val(options[j]);
+//                                $(clone).find('.option-container').append(option);
+//                                checkCurrentListState($(clone).find('.option-container'));
+//                            }
+//                            break;
+//                        case RANKING:
+//                            var options = item.options;
+//                            for (var j = 0; j < options.length; j++) {
+//                                var option = $('#rankingItem').clone().removeClass('hidden');
+//                                $(option).find('.option').val(options[j]);
+//                                $(clone).find('.option-container').append(option);
+//                                checkCurrentListState($(clone).find('.option-container'));
+//                            }
+//                            break;
                     }
                 }
                 checkCurrentListState(container);
@@ -292,17 +343,21 @@
             var scenario = new Scenario();
             scenario.title = $('#scenarioTitle').val();
             scenario.description = $('#scenarioDescription').val();
+
             if ($('#useWozSwitch').find('#success').hasClass('active')) {
                 var woz = new Array();
                 for (var i = 0; i < wozItems.length; i++) {
                     var item = wozItems[i];
                     var gestureId = $(item).find('.gestureSelect .selected').attr('id');
                     var gesture = getGestureById(gestureId);
-                    var triggerSplitId = $(wozItems[i]).find('.wozTriggerSelect .selected').attr('id').split('_');
-                    var trigger = getTrigger(triggerSplitId[2], triggerSplitId[0] + '_' + triggerSplitId[1]);
+                    var triggerSplitId = $(item).find('.triggerSelect .selected').attr('id');
+                    var trigger = getTriggerById(triggerSplitId);
+                    var feedbackId = $(item).find('.feedbackSelect .selected').attr('id');
+                    var feedback = getFeedbackById(feedbackId);
+                    var gestureRecognitionTime = $(item).find('.stepper-text').val();
 
                     if (gesture && trigger) {
-                        woz.push([gesture, trigger]);
+                        woz.push(new WOZ(gesture, trigger, feedback, gestureRecognitionTime));
                     }
                 }
                 scenario.woz = woz;
@@ -336,11 +391,12 @@
                 var observations = new Array();
                 for (var i = 0; i < obersvationItems.length; i++) {
                     var item = obersvationItems[i];
-                    var id = $(item).attr('id');
+                    var type = $(item).attr('id');
+                    var dimension = getDimensionByElement($(item));
                     var question = $(item).find('.question').val();
                     var parameters = null;
                     var options = null;
-                    switch (id) {
+                    switch (type) {
                         case DICHOTOMOUS_QUESTION:
                             parameters = new Array();
                             parameters.push($(item).find('.gesture-select .active').attr('id') === 'success' ? true : false);
@@ -356,39 +412,39 @@
                                 options.push($(groupingOptions[j]).find('.option').val());
                             }
                             break;
-                        case RATING:
-                            options = new Array();
-                            var optionList = $(item).find('.option-container').children();
-                            for (var j = 0; j < optionList.length; j++) {
-                                var ratingOptions = ($(optionList[j]).find('.ratingScaleItemContainer').children());
-                                var tempArray = new Array();
-                                for (var k = 0; k < ratingOptions.length; k++) {
-                                    tempArray.push($(ratingOptions[k]).find('.option').val());
-                                }
-                                tempArray.push($(optionList[j]).find('.optionQuestion').val());
-                                options.push(tempArray);
-                            }
-                            break;
-                        case SUM_QUESTION:
-                            parameters = new Array();
-                            parameters.push($(item).find('.allocation').attr('id'));
-                            parameters.push($(item).find('.maximum').val());
-                            options = new Array();
-                            var sumQuestionOptions = $(item).find('.option-container').children();
-                            for (var j = 0; j < sumQuestionOptions.length; j++) {
-                                options.push($(sumQuestionOptions[j]).find('.option').val());
-                            }
-                            break;
-                        case RANKING:
-                            options = new Array();
-                            var rankingOptions = $(item).find('.option-container').children();
-                            for (var j = 0; j < rankingOptions.length; j++) {
-                                options.push($(rankingOptions[j]).find('.option').val());
-                            }
-                            break;
+//                        case RATING:
+//                            options = new Array();
+//                            var optionList = $(item).find('.option-container').children();
+//                            for (var j = 0; j < optionList.length; j++) {
+//                                var ratingOptions = ($(optionList[j]).find('.ratingScaleItemContainer').children());
+//                                var tempArray = new Array();
+//                                for (var k = 0; k < ratingOptions.length; k++) {
+//                                    tempArray.push($(ratingOptions[k]).find('.option').val());
+//                                }
+//                                tempArray.push($(optionList[j]).find('.optionQuestion').val());
+//                                options.push(tempArray);
+//                            }
+//                            break;
+//                        case SUM_QUESTION:
+//                            parameters = new Array();
+//                            parameters.push($(item).find('.allocation').attr('id'));
+//                            parameters.push($(item).find('.maximum').val());
+//                            options = new Array();
+//                            var sumQuestionOptions = $(item).find('.option-container').children();
+//                            for (var j = 0; j < sumQuestionOptions.length; j++) {
+//                                options.push($(sumQuestionOptions[j]).find('.option').val());
+//                            }
+//                            break;
+//                        case RANKING:
+//                            options = new Array();
+//                            var rankingOptions = $(item).find('.option-container').children();
+//                            for (var j = 0; j < rankingOptions.length; j++) {
+//                                options.push($(rankingOptions[j]).find('.option').val());
+//                            }
+//                            break;
                     }
 
-                    observations.push(new QuestionnaireItem(id, question, parameters, options));
+                    observations.push(new QuestionnaireItem(type, dimension, question, parameters, options));
                 }
                 scenario.observations = observations;
             }

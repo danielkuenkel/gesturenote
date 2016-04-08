@@ -5,7 +5,11 @@
 <div id="modal-body" class="modal-body">
 
     <div class="container-root" id="list-container"></div>
+    <!--<button type="button" class="btn btn-info pull-right" id="btn-add-predefined-gesture-questionnaire"><span class="glyphicon glyphicon-plus"></span> Vordefinierte Fragen hinzufügen</button>-->
 
+</div>
+<hr style="margin: 0;">
+<div class="modal-body" >
     <div class="form-group">
         <div class="btn-group btn-group-justified" role="group">
 
@@ -28,9 +32,19 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-warning" id="btn-reset-origin-data"><span class="glyphicon glyphicon-repeat"></span> Original Fragebogen wiederherstellen</button>
-    <!--<button type="button" class="btn btn-info pull-right" id="btn-add-predefined-gesture-questionnaire"><span class="glyphicon glyphicon-plus"></span> Vordefinierte Fragen hinzufügen</button>-->
-
+    <h3>Vordefinierte Fragen</h3>
+    <!--<button type="button" class="btn btn-warning" id="btn-reset-origin-data"><span class="glyphicon glyphicon-repeat"></span> Original Fragebogen wiederherstellen</button>-->
+    <div id="dimension-btn-group">
+        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="acceptability">Akzeptanz</button>
+        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="cognitive_stress">Kognitive Belastung</button>
+        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="ergonomics">Ergonomie</button>
+        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="feasability">Realisierbarkeit</button>
+        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="learnability">Erlernbarkeit</button>
+        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="mental_model">Mentales Modell</button>
+        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="reliability">Zuverlässigkeit</button>
+        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="usability">Nutzbarkeit</button>
+        <button type="button" class="btn btn-default btn-toggle" id="all">Alle</button>
+    </div>
 </div>
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
@@ -39,30 +53,44 @@
 <script type="text/javascript" src="js/template-forms.js"></script>
 <script type="text/javascript">
         $(document).ready(function () {
-            var originData = getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE);
-            var customData = getLocalItem(currentIdForModal + '.data');
+            checkDimensions();
+//            var originData = getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE);
+            var data = getLocalItem(currentIdForModal + '.data');
 
-            if (customData !== null) {
-                renderData(customData);
-            } else if (originData !== null) {
-                renderData(originData);
-            } else {
-                alert("No predefined data there");
+            if (data !== null) {
+                renderData(data);
             }
+//            else if (originData !== null) {
+//                renderData(originData);
+//            } else {
+//                alert("No predefined data there");
+//            }
         });
 
         function renderData(data) {
             var listContainer = $('#list-container');
 
             for (var i = 0; i < data.length; i++) {
-                var clone = $('#form-item-container').find('#' + data[i].id).clone(true);
-                $(clone).find('.question').val(data[i].question);
+                var item = data[i];
+                var clone = $('#form-item-container').find('#' + item.type).clone(true);
+                $(clone).find('.question').val(item.question);
+                $(clone).addClass(item.dimension);
                 $(listContainer).append(clone);
-                updateBadges($('#list-container'), data[i].id);
+                updateBadges($('#list-container'), item.type);
 
-                switch (data[i].id) {
+                if (item.dimension !== DIMENSION_ANY) {
+                    $(clone).find('.btn-delete').addClass('hidden');
+                    var dimensionButton = $('#dimension-btn-group').find('#' + item.dimension);
+                    if (dimensionButton) {
+                        $(dimensionButton).addClass('active');
+                        $(dimensionButton).addClass('btn-info');
+                        $(dimensionButton).removeClass('inactive');
+                    }
+                }
+
+                switch (item.type) {
                     case DICHOTOMOUS_QUESTION:
-                        var parameters = data[i].parameters;
+                        var parameters = item.parameters;
                         var aGestures = assembledGestures();
                         if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
                             $(clone).find('.gesture-select .switchButtonAddon').click();
@@ -72,7 +100,7 @@
                         }
                         break;
                     case GROUPING_QUESTION:
-                        var parameters = data[i].parameters;
+                        var parameters = item.parameters;
                         if (parameters[0] === true) {
                             $(clone).find('.multiselect .switchButtonAddon').click();
                         }
@@ -80,7 +108,7 @@
                             $(clone).find('.optionalanswer .switchButtonAddon').click();
                         }
 
-                        var options = data[i].options;
+                        var options = item.options;
                         for (var j = 0; j < options.length; j++) {
                             var option = $('#groupingQuestionItem').clone().removeClass('hidden');
                             $(option).find('.option').val(options[j]);
@@ -89,7 +117,7 @@
                         }
                         break;
                     case RATING:
-                        var options = data[i].options;
+                        var options = item.options;
                         for (var j = 0; j < options.length; j++) {
                             var option = $('#ratingItem').clone().removeClass('hidden');
                             $(option).find('.option').val(options[j]);
@@ -102,12 +130,12 @@
                         }
                         break;
                     case SUM_QUESTION:
-                        var parameters = data[i].parameters;
+                        var parameters = item.parameters;
 
                         $(clone).find('.option').children('#' + parameters[0]).click();
                         $(clone).find('.maximum').val(parameters[1]);
 
-                        var options = data[i].options;
+                        var options = item.options;
                         for (var j = 0; j < options.length; j++) {
                             var option = $('#sumQuestionItem').clone().removeClass('hidden');
                             $(option).find('.option').val(options[j]);
@@ -116,7 +144,7 @@
                         }
                         break;
                     case RANKING:
-                        var options = data[i].options;
+                        var options = item.options;
                         for (var j = 0; j < options.length; j++) {
                             var option = $('#rankingItem').clone().removeClass('hidden');
                             $(option).find('.option').val(options[j]);
@@ -127,6 +155,7 @@
                 }
             }
 
+            checkDimensionItems();
             checkCurrentListState(listContainer);
         }
 
@@ -136,12 +165,13 @@
 
             for (var i = 0; i < itemList.length; i++) {
                 var item = itemList[i];
-                var id = $(item).attr('id');
+                var type = $(item).attr('id');
+                var dimension = getDimensionByElement($(item));
                 var question = $(item).find('.question').val();
                 var parameters = null;
                 var options = null;
 
-                switch (id) {
+                switch (type) {
                     case DICHOTOMOUS_QUESTION:
                         parameters = new Array();
                         parameters.push($(item).find('.gesture-select .active').attr('id') === 'success' ? true : false);
@@ -191,7 +221,7 @@
                         break;
                 }
 
-                questionnaire.push(new QuestionnaireItem(id, question, parameters, options));
+                questionnaire.push(new QuestionnaireItem(type, dimension, question, parameters, options));
             }
 
             setLocalItem(currentIdForModal + '.data', questionnaire);
@@ -206,6 +236,100 @@
             checkCurrentListState($('#list-container'));
         });
 
+        $('#dimension-btn-group .btn-toggle').on('click', function (event) {
+            if ($(this).hasClass('active')) {
+                removeQuestionaireItems($(this).attr('id'));
+                $(this).removeClass('active');
+                $(this).removeClass('btn-info');
+                $(this).addClass('inactive');
+
+                if ($(this).attr('id') === 'all') {
+                    var children = $(this).parent().children('.btn-toggle');
+                    $(children).filter('.active').removeClass('btn-info');
+                    $(children).filter('.active').addClass('inactive');
+                    $(children).filter('.active').removeClass('active');
+                    $(this).text('Alle');
+                } else {
+                    $(this).parent().find('#all').removeClass('active');
+                    $(this).parent().find('#all').removeClass('btn-info');
+                    $(this).parent().find('#all').text('Alle');
+                }
+            } else {
+                addQuestionnaireItems($(this).attr('id'));
+                $(this).addClass('active');
+                $(this).addClass('btn-info');
+                $(this).removeClass('inactive');
+
+                if ($(this).attr('id') === 'all') {
+                    var children = $(this).parent().children('.btn-toggle');
+                    $(children).filter('.inactive').addClass('btn-info');
+                    $(children).filter('.inactive').addClass('active');
+                    $(children).filter('.inactive').removeClass('inactive');
+                    $(this).text('Keine');
+                } else {
+                    checkDimensionItems();
+                }
+            }
+        });
+
+        function checkDimensionItems() {
+            var dimensions = $('#dimension-btn-group').children('.btn-dimension');
+            var inactiveDimensions = dimensions.filter('.inactive');
+            if (inactiveDimensions.length <= 0) {
+                $('#dimension-btn-group').find('#all').addClass('active');
+                $('#dimension-btn-group').find('#all').removeClass('inactive');
+                $('#dimension-btn-group').find('#all').addClass('btn-info');
+                $('#dimension-btn-group').find('#all').text('Keine');
+            }
+        }
+
+        function addQuestionnaireItems(dimension) {
+            if (dimension === 'all') {
+                var dimensions = $('#dimension-btn-group').children('.btn-dimension');
+                for (var i = 0; i < dimensions.length; i++) {
+                    var dimensionButton = dimensions[i];
+                    if (!$(dimensionButton).hasClass('hidden') && !$(dimensionButton).hasClass('active')) {
+                        renderData(getPredefinedQuestionnaireItemsByDimension($(dimensionButton).attr('id')));
+                    }
+                }
+            } else {
+                renderData(getPredefinedQuestionnaireItemsByDimension(dimension));
+            }
+        }
+
+        function getPredefinedQuestionnaireItemsByDimension(dimension) {
+            var predefinedQuestionnaire = getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE);
+            var questionnaire = new Array();
+            for (var i = 0; i < predefinedQuestionnaire.length; i++) {
+                if (predefinedQuestionnaire[i].dimension === dimension) {
+                    questionnaire.push(predefinedQuestionnaire[i]);
+                }
+            }
+            return questionnaire;
+        }
+
+        function removeQuestionaireItems(dimension) {
+            var itemList = $('#list-container').children();
+            for (var i = 0; i < itemList.length; i++) {
+                var item = itemList[i];
+                var itemDimension = getDimensionByElement($(item));
+                if (itemDimension !== DIMENSION_ANY) {
+                    if (dimension === 'all' || itemDimension === dimension) {
+                        $(item).find('.btn-delete').click();
+                    }
+                }
+            }
+        }
+
+        function checkDimensions() {
+            var predefinedQuestionnaire = getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE);
+            for (var i = 0; i < predefinedQuestionnaire.length; i++) {
+                if ($('#dimension-btn-group').find('#' + predefinedQuestionnaire[i].dimension)) {
+                    $('#dimension-btn-group').find('#' + predefinedQuestionnaire[i].dimension).removeClass('hidden');
+                    $('#dimension-btn-group').find('#' + predefinedQuestionnaire[i].dimension).addClass('inactive');
+                }
+            }
+        }
 //        $('#btn-add-predefined-gesture-questionnaire').on('click', function () {
 //            if (getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE) !== null) {
 //                renderData(getLocalItem('predefinedGestureQuestionnaire'), true);

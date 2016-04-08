@@ -10,16 +10,19 @@
         <link rel="stylesheet" href="css/createProject.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
+        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/thumbscrubber.js"></script>
         <script src="js/gotoPage.js"></script>
         <script src="js/subPages.js"></script>
         <script src="js/createProject.js"></script>
     </head>
-    <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
+    <body>
 
         <div w3-include-HTML="template-forms.html"></div>
 
@@ -114,24 +117,20 @@
 
                         <hr>
 
-                        <!-- Pidoco URL -->
+                        <!-- Demonstrator -->
+                        <h3>Prototypen & Demonstratoren</h3>
                         <div class="form-group">
-                            <div class="btn-group" id="pidocoURLSwitch">
-                                <button class="btn btn-default switchButtonAddon" onclick="togglePidocoURLInput()">An Pidoco Prototypen koppeln?</button>
-                                <button class="btn btn-default btn-toggle-checkbox inactive" id="success" onclick="showPidocoURLInput()">Ja</button>
-                                <button class="btn btn-warning btn-toggle-checkbox active" id="warning" onclick="hidePidocoURLInput()">Nein</button>
-                                <button class="btn btn-addon" id="btn-pidoco-info">
+                            <div class="btn-group" id="usePrototypesSwitch">
+                                <button class="btn btn-default switchButtonAddon saveData">Prototypen benutzen?</button>
+                                <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="success">Ja</button>
+                                <button class="btn btn-warning btn-toggle-checkbox saveData active" id="warning">Nein</button>
+                                <button class="btn btn-default supplement hidden" id="assemble-prototypes-set">
+                                    <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Prototypen koppeln</span></button>
+                                <button class="btn btn-addon" id="btn-prototypes-info">
                                     <i class="glyphicon glyphicon-question-sign"></i>
                                 </button>
                             </div>
                         </div>
-
-                        <form>
-                            <div class="form-group hidden" id="pidocoURLInput">
-                                <input type="text"  class="form-control" id="pidocoURL" placeholder="Pidoco URL eingeben">
-                                <label class="sr-only" for="pidocoURL">Pidoco URL</label>
-                            </div> 
-                        </form>
 
 
                         <hr>
@@ -142,10 +141,10 @@
 
                         <div class="form-group">
                             <div class="btn-group" id="useGesturesSwitch">
-                                <button class="btn btn-default switchButtonAddon" onclick="toggleGestureCatalog()">Gesten für die Studie nutzen?</button>
-                                <button class="btn btn-default btn-toggle-checkbox inactive" id="success" onclick="showAssembleGestures()">Ja</button>
-                                <button class="btn btn-warning btn-toggle-checkbox active" id="warning" onclick="hideAssembleGestures()">Nein</button>
-                                <button class="btn btn-default hidden" id="assemble-gesture-set" onclick="onAssembleGestureSetClick()">
+                                <button class="btn btn-default switchButtonAddon saveData">Gesten für die Studie nutzen?</button>
+                                <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="success">Ja</button>
+                                <button class="btn btn-warning btn-toggle-checkbox saveData active" id="warning">Nein</button>
+                                <button class="btn btn-default supplement hidden" id="assemble-gesture-set">
                                     <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Gestenset zusammenstellen</span></button>
                                 <button class="btn btn-addon" id="btn-use-gestures-info">
                                     <i class="glyphicon glyphicon-question-sign"></i>
@@ -153,16 +152,16 @@
                             </div>
                         </div>
 
-                        <!-- Use of well/predefined functions -->
+                        <!-- Use of well/predefined trigger -->
 
                         <div class="form-group">
-                            <div class="btn-group" id="useFunctionsSwitch">
-                                <button class="btn btn-default switchButtonAddon" onclick="toggleFunctionsCatalog()">Funktionen für die Studie nutzen?</button>
-                                <button class="btn btn-default btn-toggle-checkbox inactive" id="success" onclick="showFunctions()">Ja</button>
-                                <button class="btn btn-warning btn-toggle-checkbox active" id="warning" onclick="hideFunctions()">Nein</button>
-                                <button class="btn btn-default hidden" id="assemble-functions-set" onclick="onFunctionsClick()">
-                                    <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Funktionen zusammenstellen</span></button>
-                                <button class="btn btn-addon" id="btn-use-gestures-info">
+                            <div class="btn-group" id="useTriggerSwitch">
+                                <button class="btn btn-default switchButtonAddon saveData">Trigger für die Studie nutzen?</button>
+                                <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="success">Ja</button>
+                                <button class="btn btn-warning btn-toggle-checkbox saveData active" id="warning">Nein</button>
+                                <button class="btn btn-default supplement hidden" id="assemble-trigger-set">
+                                    <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Trigger erstellen</span></button>
+                                <button class="btn btn-addon" id="btn-use-trigger-info">
                                     <i class="glyphicon glyphicon-question-sign"></i>
                                 </button>
                             </div>
@@ -274,9 +273,66 @@
                 }
             });
 
+
             $('.breadcrumb li a').on('click', function () {
                 clearLocalItems();
             });
+
+            $('#assemble-prototypes-set').on('click', function (event) {
+                event.preventDefault();
+                currentIdForModal = 'assembledPrototypesSet';
+                loadHTMLintoModal('custom-modal', 'create-prototypes-catalog.html', 'modal-lg');
+            });
+            
+            $('#usePrototypesSwitch #warning, #usePrototypesSwitch .switchButtonAddon').on('click', function (event) {
+                event.preventDefault();
+                if (!$(this).parent().find('#warning').hasClass('active') === true) {
+                    removeAssembledPrototypes();
+                }
+            });
+
+            $('#assemble-gesture-set').on('click', function (event) {
+                event.preventDefault();
+                currentIdForModal = 'assembledGestureSet';
+                loadHTMLintoModal('custom-modal', 'create-gesture-catalog.html', 'modal-lg');
+            });
+
+            $('#useGesturesSwitch #warning, #useGesturesSwitch .switchButtonAddon').on('click', function (event) {
+                event.preventDefault();
+                if (!$(this).parent().find('#warning').hasClass('active') === true) {
+                    removeAssembledGestures();
+                }
+            });
+
+            $('#assemble-trigger-set').on('click', function (event) {
+                event.preventDefault();
+                currentIdForModal = 'assembledTriggerSet';
+                loadHTMLintoModal('custom-modal', 'create-trigger-catalog.html', 'modal-lg');
+            });
+
+            $('#useTriggerSwitch #warning, #useTriggerSwitch .switchButtonAddon').on('click', function (event) {
+                event.preventDefault();
+                if (!$(this).parent().find('#warning').hasClass('active') === true) {
+                    removeAssembledTrigger();
+                }
+            });
+
+            $('#btn-prototypes-info').on('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'info-prototypes.html');
+            });
+
+            $('#btn-use-gestures-info').on('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'info-use-gestures.html');
+            });
+
+            $('#btn-use-trigger-info').on('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'info-use-trigger.html');
+            });
+
+
 
             $('body').on('click', '.select .option li', function (event) {
                 event.preventDefault();
@@ -296,23 +352,6 @@
                 saveGeneralData();
             });
 
-            function togglePidocoURLInput() {
-                if ($("#pidocoURLInput").hasClass('hidden')) {
-                    showPidocoURLInput();
-                } else {
-                    hidePidocoURLInput();
-                }
-            }
-
-            function showPidocoURLInput() {
-                $("#pidocoURLInput").removeClass("hidden");
-                saveGeneralData();
-            }
-
-            function hidePidocoURLInput() {
-                $("#pidocoURLInput").addClass("hidden");
-                saveGeneralData();
-            }
 
             $('#info-addon-add-phases').on('click', function (event) {
                 event.preventDefault();
@@ -345,7 +384,7 @@
 
                 clone.find('.btn-delete').bind("click", {selectedID: selectedID, id: id}, function (event) {
                     event.preventDefault();
-                    deleteSessionDataById(event.data.id + ".data");
+                    removeLocalItem(event.data.id + ".data");
                 });
 
                 clone.find('.btn-modify').attr('id', selectedID);
@@ -435,6 +474,10 @@
                 if ($(this).hasClass('inactive')) {
                     toggleSwitch($(this).parent().children('.active'), $(this).parent().children('.inactive'));
                 }
+
+                if ($(this).hasClass('saveData')) {
+                    saveGeneralData();
+                }
             });
 
             $('body').on('click', '.switchButtonAddon', function (event) {
@@ -442,10 +485,13 @@
                 var activeButton = $(this).nextAll().filter('.active');
                 var inactiveButton = $(this).nextAll().filter('.inactive');
                 toggleSwitch(activeButton, inactiveButton);
+
+                if ($(this).hasClass('saveData')) {
+                    saveGeneralData();
+                }
             });
 
             function toggleSwitch(activeButton, inactiveButton) {
-//                console.log("toggleSwitch: " + activeButton.attr('id') + ", " + inactiveButton.attr('id'));
                 $(activeButton).removeClass('active');
                 $(activeButton).addClass('inactive');
                 $(activeButton).addClass('btn-default');
@@ -454,6 +500,15 @@
                 $(inactiveButton).addClass('active');
                 $(inactiveButton).removeClass('btn-default');
                 $(inactiveButton).addClass('btn-' + $(inactiveButton).attr('id'));
+
+                var supplements = $(activeButton).parent().children('.supplement');
+                if (supplements.length > 0) {
+                    if ($(supplements).hasClass('hidden')) {
+                        $(supplements).removeClass('hidden');
+                    } else {
+                        $(supplements).addClass('hidden');
+                    }
+                }
             }
 
             function moveElement(direction, which) {
@@ -482,68 +537,6 @@
                     $(this).removeData('bs.modal');
                     $(this).find('.modal-dialog').removeClass(modalSize);
                 });
-            }
-
-            $('#projectName, #projectDescription, #pidocoURL').focusout(function () {
-                saveGeneralData();
-            });
-
-            $('#btn-pidoco-info').on('click', function (event) {
-                event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'info-pidoco.html');
-            });
-
-            $('#btn-use-gestures-info').on('click', function (event) {
-                event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'info-use-gestures.html');
-            });
-
-            function toggleGestureCatalog() {
-                if ($("#assemble-gesture-set").hasClass('hidden')) {
-                    showAssembleGestures();
-                } else {
-                    hideAssembleGestures();
-                }
-            }
-
-            function showAssembleGestures() {
-                $("#assemble-gesture-set").removeClass('hidden');
-                saveGeneralData();
-            }
-
-            function hideAssembleGestures() {
-                $("#assemble-gesture-set").addClass('hidden');
-                removeAssembledGestures();
-                saveGeneralData();
-            }
-
-            function onAssembleGestureSetClick() {
-                currentIdForModal = 'assembledGestureSet';
-                loadHTMLintoModal('custom-modal', 'create-gesture-catalog.html', 'modal-lg');
-            }
-
-            function toggleFunctionsCatalog() {
-                if ($("#assemble-functions-set").hasClass('hidden')) {
-                    showFunctions();
-                } else {
-                    hideFunctions();
-                }
-            }
-
-            function showFunctions() {
-                $("#assemble-functions-set").removeClass('hidden');
-                saveGeneralData();
-            }
-
-            function hideFunctions() {
-                $("#assemble-functions-set").addClass('hidden');
-                removeAssembledFunctions();
-                saveGeneralData();
-            }
-
-            function onFunctionsClick() {
-                currentIdForModal = 'assembledFunctionsSet';
-                loadHTMLintoModal('custom-modal', 'create-functions-catalog.html', 'modal-lg');
             }
 
         </script>

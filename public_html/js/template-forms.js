@@ -14,18 +14,27 @@ function onCloseClick() {
  * common form format functions 
  */
 
-$('#addFormat').on('click', function (event) {
-    event.preventDefault();
+$('body').on('click', '#addFormat', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
 
-    var brotherID = $(this).parent().prevAll(".select:first").attr('id');
-    var selectedID = $('#' + brotherID + ' .selected').attr('id');
+        var brotherID = $(this).parent().prevAll(".select:first").attr('id');
+        var selectedID = $('#' + brotherID + ' .selected').attr('id');
 
-    if (selectedID !== 'unselected') {
-        var clone = $('#form-item-container').find('#' + selectedID).clone(true);
-        $('#list-container').append(clone);
-        checkCurrentListState($('#list-container'));
+        if (selectedID !== 'unselected') {
+            var clone = $('#form-item-container').find('#' + selectedID).clone(true);
+            $('#list-container').append(clone);
+            checkCurrentListState($('#list-container'));
+
+//            if(selectedID === PROTOTYPE_IMAGE) {
+//                clone.find('.imageAreaContent').attr('id', getRandomId());
+//                console.log(clone.find('.imageAreaContent').attr('id'));
+//            }
+        }
+        updateBadges($('#list-container'), selectedID);
     }
-    updateBadges($('#list-container'), selectedID);
 });
 
 $('.btn-add-groupingQuestionOption').unbind('click').bind('click', function (event) {
@@ -80,16 +89,36 @@ $('body').on('click', '.btn-add-helpOption', function (event) {
     }
 });
 
-$('body').on('click', '.btn-add-functionsOption', function (event) {
+$('body').on('click', '.btn-add-triggerOption', function (event) {
     if (event.handled !== true)
     {
         event.handled = true;
         event.preventDefault();
-        var clone = $('#functionsItem').clone();
+        var clone = $('#triggerItem').clone();
         clone.removeClass('hidden');
         clone.removeAttr('id');
         $(this).parent().prev().append(clone);
         checkCurrentListState($(this).parent().prev());
+    }
+});
+
+$('body').on('click', '.btn-add-gestureTrainingOption', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
+        $(this).prev().append($('#gestureTrainingItem').clone().removeClass('hidden'));
+        checkCurrentListState($(this).prev());
+    }
+});
+
+$('body').on('click', '.btn-add-elicitationOption', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
+        $(this).prev().append($('#elicitationItem').clone().removeClass('hidden'));
+        checkCurrentListState($(this).prev());
     }
 });
 
@@ -195,7 +224,6 @@ function updateHelpItemCounter(container) {
 $('body').on('click', '.checkAssembledGestures', function (event) {
     if (event.handled !== true)
     {
-//        console.log('checkAssembledGestures: ');
         event.handled = true;
         event.preventDefault();
         var aGestures = assembledGestures();
@@ -262,7 +290,6 @@ function togglePanelBadges(badges) {
 
 function renderAssembledGestures() {
     var gestures = assembledGestures();
-    console.log(gestures);
 
     if (gestures && gestures.length > 0) {
         var wozExperimentItem = $('#form-item-container').find('.gestureSelect');
@@ -277,68 +304,74 @@ function renderAssembledGestures() {
             listItem.appendChild(link);
             $(wozExperimentItem).find('.option').append(listItem);
             $('#form-item-container').find('.gestureSelect .dropdown-toggle').removeClass('disabled');
+            $('#form-item-container').find('.option-gesture').attr('placeholder', 'Bitte wählen');
         }
     } else {
         console.log('no gestures arranged');
         $('#form-item-container').find('.gestureSelect .dropdown-toggle').addClass('disabled');
         $('#wozExperimentContainer').find('#no-gestures-assembled').removeClass('hidden');
         $('#wozExperimentContainer').find('.btn-add-woz-experiment-item').addClass('hidden');
+        $('#form-item-container').find('.gestureSelect .dropdown-toggle').addClass('disabled');
+        $('#form-item-container').find('.option-gesture').attr('placeholder', 'Kein Gestenset vorhanden');
     }
 }
 
-function renderAssembledFunctions() {
-    var triggers = getLocalItem(PREDEFINED_GESTURE_TRIGGERS);
-    var triggerDropdown = $('#form-item-container').find('.triggerSelect');
-    $(triggerDropdown).find('.option').empty();
+function renderPredefinedFeedback() {
+    var feedback = getLocalItem(PREDEFINED_GESTURE_FEEDBACK);
 
+    var triggerDropdown = $('#form-item-container').find('.feedbackSelect');
+    $(triggerDropdown).find('.option').empty();
     var listItem;
 
-    for (var i = 0; i < triggers.length; i++) {
+    for (var i = 0; i < feedback.length; i++) {
         if (i === 0) {
             listItem = document.createElement('li');
-            listItem.setAttribute('class', 'dropdown-header');
-            listItem.appendChild(document.createTextNode('Gestentrigger'));
-            triggerDropdown.find('.option').append(listItem);
-        }
-
-        listItem = document.createElement('li');
-        listItem.setAttribute('id', TRIGGER_CRITERIA + '_' + triggers[i].id);
-
-        var link = document.createElement('a');
-        link.setAttribute('href', '#');
-        link.appendChild(document.createTextNode(triggers[i].title));
-        listItem.appendChild(link);
-        $(triggerDropdown).find('.option').append(listItem);
-    }
-
-    var functions = getLocalItem(FUNCTIONS_SET);
-
-    if (functions && functions.length > 0) {
-        for (var i = 0; i < functions.length; i++) {
-            if (i === 0) {
-                listItem = document.createElement('li');
-                listItem.setAttribute('class', 'divider');
-                triggerDropdown.find('.option').append(listItem);
-
-                listItem = document.createElement('li');
-                listItem.setAttribute('class', 'dropdown-header');
-                listItem.appendChild(document.createTextNode('Funktionstrigger'));
-                triggerDropdown.find('.option').append(listItem);
-            }
-
-            listItem = document.createElement('li');
-            listItem.setAttribute('id', functions[i].type + '_' + functions[i].id);
+            listItem.setAttribute('id', 'unselected');
 
             var link = document.createElement('a');
             link.setAttribute('href', '#');
-            link.appendChild(document.createTextNode(functions[i].title));
+            link.appendChild(document.createTextNode('Keines'));
             listItem.appendChild(link);
             $(triggerDropdown).find('.option').append(listItem);
         }
+
+        listItem = document.createElement('li');
+        listItem.setAttribute('id', feedback[i].id);
+
+        var link = document.createElement('a');
+        link.setAttribute('href', '#');
+        link.appendChild(document.createTextNode(feedback[i].title));
+        listItem.appendChild(link);
+        $(triggerDropdown).find('.option').append(listItem);
     }
 }
 
-$('body').on('click', '.gestureSelect .option li, .wozTriggerSelect .option li', function () {
+function renderAssembledTriggers() {
+    var triggers = getLocalItem(TRIGGER_SET);
+    var triggerDropdown = $('#form-item-container').find('.triggerSelect');
+    $(triggerDropdown).find('.option').empty();
+
+    if (triggers && triggers.length > 0) {
+        $(triggerDropdown).find('.dropdown-toggle').removeClass('disabled');
+        var listItem;
+        for (var i = 0; i < triggers.length; i++) {
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', triggers[i].id);
+
+            var link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(triggers[i].title));
+            listItem.appendChild(link);
+            $(triggerDropdown).find('.option').append(listItem);
+        }
+        $('body').find('.option-trigger').attr('placeholder', 'Bitte wählen');
+    } else {
+        $(triggerDropdown).find('.dropdown-toggle').addClass('disabled');
+        $('body').find('.option-trigger').attr('placeholder', 'Kein Triggerset vorhanden');
+    }
+}
+
+$('body').on('click', '.gestureSelect .option li, .triggerSelect .option li, .feedbackSelect .option li, .repeatsSelect .option li', function () {
     var parent = $(this).closest('.select');
     var itemText = $(this).children().text();
     var listItemId = $(this).attr('id');
@@ -348,7 +381,83 @@ $('body').on('click', '.gestureSelect .option li, .wozTriggerSelect .option li',
     if ($(parent).closest('.select').hasClass('gestureSelect')) {
         $(this).closest('.root').find('#assembled-gestures-removed').addClass('hidden');
     }
-    if ($(parent).closest('.select').hasClass('wozTriggerSelect')) {
+    if ($(parent).closest('.select').hasClass('triggerSelect')) {
         $(this).closest('.root').find('#assembled-trigger-removed').addClass('hidden');
     }
+    if ($(parent).closest('.select').hasClass('feedbackSelect')) {
+        if (listItemId === 'unselected') {
+            $(parent).find('.selected').val("");
+        }
+    }
 });
+
+$('body').on('click', '.simple-stepper .btn-stepper-decrease', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
+        var min = parseInt($(this).val());
+        var currentValue = parseInt($(this).closest('.simple-stepper').find('.stepper-text').val());
+        if (currentValue > min) {
+            currentValue--;
+        } else {
+            currentValue = min;
+        }
+        $(this).closest('.simple-stepper').find('.stepper-text').val(currentValue);
+    }
+});
+
+$('body').on('click', '.simple-stepper .btn-stepper-increase', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
+        var max = parseInt($(this).val());
+        var currentValue = parseInt($(this).closest('.simple-stepper').find('.stepper-text').val());
+        if (currentValue < max) {
+            currentValue++;
+        } else {
+            currentValue = max;
+        }
+        $(this).closest('.simple-stepper').find('.stepper-text').val(currentValue);
+    }
+});
+
+$('.choosePrototypeImage').on('click', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        $(this).closest('.root').find('.imageUpload').click();
+    }
+});
+
+$('.imageUpload').change(function (event) {
+    event.preventDefault();
+    var imageAreaContent = $(this).parent().find('.imageAreaContent');
+    var imageArea = $(this).parent().find('.imageArea');
+    readFile(this.files[0], function (event) {
+        $(imageAreaContent).attr("src", event.target.result);
+        $(imageArea).removeClass('hidden');
+        $(imageArea).parent().find('.choosePrototypeImage .btn-text').text('Anderes Bild auswählen');
+        $(imageArea).parent().find('.choosePrototypeImage .btn-icon').removeClass('glyphicon-picture');
+        $(imageArea).parent().find('.choosePrototypeImage .btn-icon').addClass('glyphicon-refresh');
+    });
+});
+
+$('.btn-delete-image').on('click', function(event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        $(this).next().attr('src', '');
+        $(this).parent().addClass('hidden');
+        $(this).closest('.root').find('.choosePrototypeImage .btn-text').text('Bild auswählen');
+        $(this).closest('.root').find('.choosePrototypeImage .btn-icon').removeClass('glyphicon-refresh');
+        $(this).closest('.root').find('.choosePrototypeImage .btn-icon').addClass('glyphicon-picture');
+    }
+});
+
+function readFile(file, onLoadCallback) {
+    var reader = new FileReader();
+    reader.onload = onLoadCallback;
+    reader.readAsDataURL(file);
+}
