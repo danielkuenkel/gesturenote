@@ -12,9 +12,13 @@ var PREDEFINED_GESTURE_SET = 'predefinedGestureSet';
 var PREDEFINED_OBSERVATIONS = 'predefinedObversation';
 var PREDEFINED_GESTURE_QUESTIONNAIRE = 'predefinedGestureQuestionnaire';
 var PREDEFINED_GESTURE_FEEDBACK = 'predefinedGestureFeedback';
-var FEEDBACK_PREDEFINED = 'feedback_predefined';
-var FEEDBACK_CUSTOM = 'feedback_custom';
-var TRIGGER_SET = 'triggers';
+var FEEDBACK_PREDEFINED = 'predefinedFeedback';
+var FEEDBACK_CUSTOM = 'customFeedback';
+
+var ASSEMBLED_PROTOTYPES = 'assembledPrototypes';
+//var ASSEMBLED_GESTURES = 'assembledGestures';
+var ASSEMBLED_TRIGGER = 'assembledTrigger';
+
 var TYPE_TRIGGER = 'trigger';
 var TYPE_SURVEY_UNMODERATED = 'unmoderated';
 var TYPE_PHASE_ELICITATION = 'elicitation';
@@ -31,6 +35,7 @@ var PROTOTYPE_PIDOCO = 'pidoco';
 var PROTOTYPE_WEB = 'web';
 var PROTOTYPE_IMAGE = 'image';
 var PROTOTYPE_VIDEO = 'video';
+var PROTOTYPE_VIDEO_EMBED = 'videoEmbed';
 
 // questionnaire dimensions
 var DIMENSION_ANY = 'any';
@@ -42,3 +47,8 @@ var DIMENSION_USABILITY = 'usability'; // Nutzbarkeit
 var DIMENSION_ACCEPTABILITY = 'acceptability'; // (soziale) Akzeptanz
 var DIMENSION_FEASIBILITY = 'feasability'; // Realisierbarkeit
 var DIMENSION_RELIABILITY = 'reliability'; // Zuverlässigkeit
+
+// url types
+TYPE_URL_PIDOCO_EDIT = 'pidocoEdit';
+TYPE_URL_PIDOCO_EMBED = 'pidocoEmbed';
+TYPE_URL_VIDEO_EMBED = 'videoEmbed';

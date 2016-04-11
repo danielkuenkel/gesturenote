@@ -546,22 +546,44 @@
             Pidoco <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
         </div>
         <div class="panel-body">
-            <div class="form-group form-group-no-margin">
+            <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                         <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                         <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
                     </div>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="Titel"/>
-                    <!--                    <div class="input-group-btn">
-                                            <button class="btn btn-default show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
-                                        </div>-->
+                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
                 </div>
-                <input class="form-control item-input-text option" type="text" value="" placeholder="Pidoco-URL" style="margin-top: 10px;"/>
             </div>
+            <div class="form-group">
+                <div class="alert alert-warning hidden" id="pidoco-edit-url-invalid" role="alert" style="margin-bottom: 10px;"><i class="glyphicon glyphicon-warning-sign"></i> Die eingegebene Bearbeitungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein.</div>
+                <div class="input-group">
+                    <input class="form-control item-input-text pidoco-edit-url enter-key" type="text" value="" placeholder="Pidoco Bearbeitungs-URL"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default checkInput checkPidocoEditURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text">Überprüfen</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="alert alert-warning hidden" id="pidoco-embed-url-invalid" role="alert" style="margin-bottom: 10px;"><i class="glyphicon glyphicon-warning-sign"></i> Die eingegebene Einbettinungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein.</div>
+                <div class="input-group">
+                    <input class="form-control item-input-text pidoco-embed-url enter-key" type="text" value="" placeholder="Pidoco Einbettungs-URL"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default checkInput checkPidocoEmbedURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text">Überprüfen</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-danger hidden" id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-warning-sign"></i> Bitte zuerst ein Gesteset für diese Studie zusammenstellen!</div>
+            <div class="btn-group transmit-gestures-select hidden">
+                <button class="btn btn-default switchButtonAddon checkAssembledGestures">Gestenset an Pidoco koppeln?</button>
+                <button class="btn btn-default btn-toggle-checkbox checkAssembledGestures inactive" id="success">Ja</button>
+                <button class="btn btn-warning btn-toggle-checkbox checkAssembledGestures active" id="warning">Nein</button>
+            </div>
+            <button class="btn btn-default hidden" id="transmitGestures"><i class="glyphicon glyphicon-transfer"></i> Gesten an Pidoco übertragen</button>
         </div>
     </div>
+
 
     <div class="panel panel-default root" id="web">
         <div class="panel-heading">
@@ -575,9 +597,9 @@
                         <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                         <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
                     </div>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="Titel"/>
+                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
                 </div>
-                <input class="form-control item-input-text option" type="text" value="" placeholder="Webseiten-URL" style="margin-top: 10px;"/>
+                <input class="form-control item-input-text website-url" type="text" value="" placeholder="Webseiten-URL" style="margin-top: 10px;"/>
             </div>
         </div>
     </div>
@@ -594,13 +616,13 @@
                         <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                         <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
                     </div>
-                    <input class="form-control item-input-text image-title" type="text" value="" placeholder="Titel"/>
+                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default choosePrototypeImage"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text">Bild auswählen</span></button>
                     </div>
                 </div>
 
-                <input class="imageUpload hidden" name="" type="file" accept="image/jpeg, image/gif, image/png">
+                <input class="imageUpload hidden" name="" type="file" accept="image/jpeg, image/gif, image/png" />
                 <div class="imageArea hidden" style="margin-top: 10px; width: 100%; height: auto; position: relative;">
                     <button class="btn btn-default btn-danger btn-delete-image" style="position: absolute; margin: 10px; right: 0px;"><span class="glyphicon glyphicon-trash"></span> Bild löschen</button>
                     <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 4px;" />
@@ -608,5 +630,71 @@
             </div>
         </div>
     </div>
+
+    <div class="panel panel-default root" id="video">
+        <div class="panel-heading">
+            Video <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group form-group-no-margin">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default choosePrototypeVideo"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text">Video auswählen</span></button>
+                    </div>
+                </div>
+
+                <!--<iframe class="videoContainer" width="560" height="315" src="https://www.youtube.com/embed/sYbH-COwR64" frameborder="0" allowfullscreen></iframe>-->
+
+                <input class="videoUpload hidden" name="" type="file" accept="video/mp4" />
+                <div class="videoArea hidden" style="margin-top: 10px; width: 100%; height: auto; position: relative;">
+                    <!--<button class="btn btn-default btn-danger btn-delete-image" style="position: absolute; margin: 10px; right: 0px;"><span class="glyphicon glyphicon-trash"></span> Video löschen</button>-->
+                    <!--<img class="videoAreaContent" src="" alt="..." />-->
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/sYbH-COwR64" frameborder="0" allowfullscreen></iframe>
+                    <video class="videoAreaContent" style="width: 100%; border-radius: 4px;" controls>
+                        <!--<source id="videoSource" src="" type="video/mp4" />-->
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="videoEmbed">
+        <div class="panel-heading">
+            Videoeinbettung <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
+                </div>
+            </div>
+
+            <div class="alert alert-warning hidden" id="video-embed-url-invalid" role="alert" style="margin-top: 10px; margin-bottom: 0px;"><i class="glyphicon glyphicon-warning-sign"></i> Die eingegebene Videoeinbettungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein.</div>
+
+            <div class="form-group form-group-margin-top">
+                <div class="input-group">
+                    <input class="form-control item-input-text video-embed-url enter-key" type="text" value="" placeholder="Videoeinbettungs-URL"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default checkInput checkVideoEmbedURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text">Überprüfen</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="videoContainer hidden" style="margin-top: 10px; margin-bottom: 0px;">
+            </div>
+        </div>
+    </div>
+
 
 </div>

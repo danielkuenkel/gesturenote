@@ -141,7 +141,7 @@
 
                         <div class="form-group">
                             <div class="btn-group" id="useGesturesSwitch">
-                                <button class="btn btn-default switchButtonAddon saveData">Gesten für die Studie nutzen?</button>
+                                <button class="btn btn-default switchButtonAddon saveData">Gesten nutzen?</button>
                                 <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="success">Ja</button>
                                 <button class="btn btn-warning btn-toggle-checkbox saveData active" id="warning">Nein</button>
                                 <button class="btn btn-default supplement hidden" id="assemble-gesture-set">
@@ -156,7 +156,7 @@
 
                         <div class="form-group">
                             <div class="btn-group" id="useTriggerSwitch">
-                                <button class="btn btn-default switchButtonAddon saveData">Trigger für die Studie nutzen?</button>
+                                <button class="btn btn-default switchButtonAddon saveData">Trigger nutzen?</button>
                                 <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="success">Ja</button>
                                 <button class="btn btn-warning btn-toggle-checkbox saveData active" id="warning">Nein</button>
                                 <button class="btn btn-default supplement hidden" id="assemble-trigger-set">
@@ -280,7 +280,7 @@
 
             $('#assemble-prototypes-set').on('click', function (event) {
                 event.preventDefault();
-                currentIdForModal = 'assembledPrototypesSet';
+                currentIdForModal = ASSEMBLED_PROTOTYPES;
                 loadHTMLintoModal('custom-modal', 'create-prototypes-catalog.html', 'modal-lg');
             });
             
@@ -293,7 +293,7 @@
 
             $('#assemble-gesture-set').on('click', function (event) {
                 event.preventDefault();
-                currentIdForModal = 'assembledGestureSet';
+                currentIdForModal = PREDEFINED_GESTURE_SET;
                 loadHTMLintoModal('custom-modal', 'create-gesture-catalog.html', 'modal-lg');
             });
 
@@ -306,7 +306,7 @@
 
             $('#assemble-trigger-set').on('click', function (event) {
                 event.preventDefault();
-                currentIdForModal = 'assembledTriggerSet';
+                currentIdForModal = ASSEMBLED_TRIGGER;
                 loadHTMLintoModal('custom-modal', 'create-trigger-catalog.html', 'modal-lg');
             });
 

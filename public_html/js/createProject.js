@@ -392,6 +392,13 @@ function Trigger(id, type, title) {
     this.title = title;
 }
 
+function Prototype(type, title, options, data) {
+    this.type = type;
+    this.title = title;
+    this.options = options;
+    this.data = data;
+}
+
 function createRandomColors() {
     colors = randomColor({hue: 'green', count: 25});
 }
