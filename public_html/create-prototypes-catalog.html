@@ -42,7 +42,7 @@
             }
 
             $(window).resize(function () {
-                console.log('window resized');
+//                console.log('window resized');
                 var $allVideos = $("iframe[src*='www.youtube.com'], iframe[src*='player.vimeo.com']");
                 // Resize all videos according to their own aspect ratio
                 $allVideos.each(function () {
@@ -64,6 +64,7 @@
                 var item = data[i];
                 var clone = $('#form-item-container').find('#' + item.type).clone();
                 clone.find('.title').val(item.title);
+                clone.attr('name', item.id);
                 $('#list-container').append(clone);
                 updateBadges($('#list-container'), item.type);
 
@@ -76,6 +77,10 @@
                         if (item.options[1]) {
                             $(clone).find('.pidoco-embed-url').val(item.options[1]);
                             $(clone).find('.checkPidocoEmbedURL').click();
+                        }
+                        if (item.options[2] === true) {
+                            $(clone).find('.transmit-gestures-select .switchButtonAddon').click();
+                            $(clone).find('#transmitGestures').removeClass('hidden');
                         }
                         break;
                     case PROTOTYPE_WEB:
@@ -109,9 +114,14 @@
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
                 var type = $(item).attr('id');
+                var name = $(item).attr('name');
                 var title = $(item).find('.title').val();
                 var options = new Array();
                 var data = null;
+
+                if (name === undefined || name === null) {
+                    name = chance.natural();
+                }
 
                 switch (type) {
                     case PROTOTYPE_PIDOCO:
@@ -127,6 +137,9 @@
                         } else {
                             options.push(null);
                         }
+
+                        options.push($(item).find('.transmit-gestures-select #success').hasClass('active'));
+
                         break;
                     case PROTOTYPE_WEB:
                         options.push($(item).find('.website-url').val());
@@ -147,16 +160,18 @@
                 }
 
                 if (options.length > 0 || data !== null) {
-                    assembledData.push(new Prototype(type, title, options, data));
+                    assembledData.push(new Prototype(name, type, title, options, data));
                 }
             }
             setLocalItem(ASSEMBLED_PROTOTYPES, assembledData);
         }
 
-        $('.transmit-gestures-select .checkAssembledGestures').on('click', function (event) {
-            if ($(this).closest('.root').find('.transmit-gestures-select #success').hasClass('inactive')) {
-                console.log('pidocoUseGestures');
+        $('.transmit-gestures-select .checkAssembledGestures').unbind('click').bind('click', function (event) {
+            var aGestures = assembledGestures();
+            if (aGestures && $(this).closest('.root').find('.transmit-gestures-select #success').hasClass('inactive')) {
                 $(this).closest('.root').find('#transmitGestures').removeClass('hidden');
+            } else {
+                $(this).closest('.root').find('#transmitGestures').addClass('hidden');
             }
         });
 

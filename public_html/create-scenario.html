@@ -18,6 +18,16 @@
                     <textarea class="form-control" id="scenarioDescription" rows="5" placeholder="Aufgabenbeschreibung einfügen"></textarea>
                     <label class="sr-only" for="scenarioDescription">Aufgabenbeschreibung</label>
                 </div>
+                <div class="form-group">
+                    <div class="input-group"> 
+                        <span class="input-group-addon">Prototyp als Szene</span>
+                        <input class="form-control item-input-text option-prototype readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <div class="input-group-btn select prototypeSelect" role="group">
+                            <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -137,6 +147,7 @@
             renderAssembledGestures();
             renderAssembledTriggers();
             renderPredefinedFeedback();
+            renderAssembledPrototypes();
 
             var help = $('#help').clone();
             help.removeAttr('id');

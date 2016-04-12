@@ -196,7 +196,7 @@ function removeAssembledGestures() {
 }
 
 function removeAssembledTrigger() {
-    removeLocalItem(TRIGGER_SET);
+    removeLocalItem(ASSEMBLED_TRIGGER);
 }
 
 function createPredefinedGestureQuestionnaire() {
@@ -235,7 +235,7 @@ function getFeedbackById(id) {
 }
 
 function getTriggerById(id) {
-    var triggers = getLocalItem(TRIGGER_SET);
+    var triggers = getLocalItem(ASSEMBLED_TRIGGER);
     if (triggers) {
         for (var i = 0; i < triggers.length; i++) {
             if (parseInt(triggers[i].id) === parseInt(id)) {
@@ -286,6 +286,10 @@ function renderSessionStorageData() {
             $('#useTriggerSwitch .switchButtonAddon').click();
         }
     }
+}
+
+function removeAssembledPrototypes() {
+    removeLocalItem(ASSEMBLED_PROTOTYPES);
 }
 
 
@@ -392,7 +396,8 @@ function Trigger(id, type, title) {
     this.title = title;
 }
 
-function Prototype(type, title, options, data) {
+function Prototype(id, type, title, options, data) {
+    this.id = id;
     this.type = type;
     this.title = title;
     this.options = options;

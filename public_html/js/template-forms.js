@@ -27,7 +27,7 @@ $('body').on('click', '#addFormat', function (event) {
             var clone = $('#form-item-container').find('#' + selectedID).clone(true);
             $('#list-container').append(clone);
             checkCurrentListState($('#list-container'));
-
+            
 //            if(selectedID === PROTOTYPE_IMAGE) {
 //                clone.find('.imageAreaContent').attr('id', getRandomId());
 //                console.log(clone.find('.imageAreaContent').attr('id'));
@@ -94,7 +94,7 @@ $('body').on('click', '.btn-add-triggerOption', function (event) {
     {
         event.handled = true;
         event.preventDefault();
-        var clone = $('#triggerItem').clone();
+        var clone = $('#triggerItem').clone(true);
         clone.removeClass('hidden');
         clone.removeAttr('id');
         $(this).parent().prev().append(clone);
@@ -347,7 +347,7 @@ function renderPredefinedFeedback() {
 }
 
 function renderAssembledTriggers() {
-    var triggers = getLocalItem(TRIGGER_SET);
+    var triggers = getLocalItem(ASSEMBLED_TRIGGER);
     var triggerDropdown = $('#form-item-container').find('.triggerSelect');
     $(triggerDropdown).find('.option').empty();
 
@@ -371,7 +371,32 @@ function renderAssembledTriggers() {
     }
 }
 
-$('body').on('click', '.gestureSelect .option li, .triggerSelect .option li, .feedbackSelect .option li, .repeatsSelect .option li', function () {
+function renderAssembledPrototypes() {
+    var prototypes = getLocalItem(ASSEMBLED_PROTOTYPES);
+    var prototypeDropdown = $('body').find('.prototypeSelect');
+    $(prototypeDropdown).find('.option').empty();
+
+    if (prototypes && prototypes.length > 0) {
+        $(prototypeDropdown).find('.dropdown-toggle').removeClass('disabled');
+        var listItem;
+        for (var i = 0; i < prototypes.length; i++) {
+            listItem = document.createElement('li');
+//            listItem.setAttribute('id', prototypes[i].id);
+
+            var link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(prototypes[i].title));
+            listItem.appendChild(link);
+            $(prototypeDropdown).find('.option').append(listItem);
+        }
+        $('body').find('.option-trigger').attr('placeholder', 'Bitte wählen');
+    } else {
+        $(prototypeDropdown).find('.dropdown-toggle').addClass('disabled');
+        $('body').find('.option-prototype').attr('placeholder', 'Keine Prototypen vorhanden');
+    }
+}
+
+$('body').on('click', '.gestureSelect .option li, .triggerSelect .option li, .feedbackSelect .option li, .repeatsSelect .option li, .prototypeSelect .option li', function () {
     var parent = $(this).closest('.select');
     var itemText = $(this).children().text();
     var listItemId = $(this).attr('id');

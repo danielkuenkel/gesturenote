@@ -16,6 +16,7 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
+        <script src="http://chancejs.com/chance.min.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/thumbscrubber.js"></script>
         <script src="js/gotoPage.js"></script>
