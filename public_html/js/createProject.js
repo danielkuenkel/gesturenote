@@ -84,10 +84,10 @@ function createPredefinedGestures() {
     if (getLocalItem(PREDEFINED_GESTURE_SET) === null) {
         var images = new Array();
         images.push("http://placehold.it/200x150?text=1");
-//        images.push("http://placehold.it/200x150?text=2");
-//        images.push("http://placehold.it/200x150?text=3");
-//        images.push("http://placehold.it/200x150?text=4");
-//        images.push("http://placehold.it/200x150?text=5");
+        images.push("http://placehold.it/200x150?text=2");
+        images.push("http://placehold.it/200x150?text=3");
+        images.push("http://placehold.it/200x150?text=4");
+        images.push("http://placehold.it/200x150?text=5");
 
         var gestures = new Array();
         gestures.push(new Gesture("ownProject", 1, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist .", images, 2, null, false));
