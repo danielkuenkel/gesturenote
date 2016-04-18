@@ -166,3 +166,8 @@ textarea {
 .btn-dropdown:focus {
     outline: none;
 }
+
+.show-dropdown {
+    outline: none !important;
+    cursor: pointer;
+}

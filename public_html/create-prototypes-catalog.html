@@ -7,12 +7,11 @@
     <div class="container-root" id="list-container"></div>
 
     <div class="form-group">
-        <div class="btn-group btn-group-justified" role="group">
-
-            <span class="input-group-addon" id="addFormatSelectAddon">Prototyp Format</span>
-
-            <div class="btn-group select" id="addFormatSelect" role="group">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
+        <div class="input-group">
+            <span class="input-group-addon">Prototyp Format</span>
+            <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+            <div class="input-group-btn select" id="addFormatSelect" role="group">
+                <button class="btn btn-default btn-dropdown" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                     <li id="pidoco"><a href="#">Pidoco</a></li>
                     <li id="web"><a href="#">Webseite</a></li>
@@ -20,9 +19,7 @@
                     <!--<li id="video"><a href="#">Video</a></li>-->
                     <li id="videoEmbed"><a href="#">Videoeinbettung</a></li>
                 </ul>
-            </div>
-            <div class="btn-group" role="group">
-                <button class="btn btn-info toggable-button disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                <button class="btn btn-info disabled dropdown-disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
         </div>
     </div>
@@ -61,7 +58,7 @@
             }, 100);
         });
 
-        $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
+        $('#custom-modal').on('hide.bs.modal', function (event) {
             if (!event.handled && closeClicked) {
                 closeClicked = false;
 
@@ -89,6 +86,8 @@
                     event.stopImmediatePropagation();
                     return false;
                 }
+                
+                $('#custom-modal').unbind('hide.bs.modal');
             }
         });
 

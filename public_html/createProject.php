@@ -96,7 +96,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Projektphase</span>
-                                <input class="form-control item-input-text option-phase text-center readonly" type="text" value="Bitte wählen"/>
+                                <input class="form-control item-input-text option-phase show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="phaseSelect" role="group">
                                     <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -110,7 +110,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Befragungsart</span>
-                                <input class="form-control item-input-text option-survey-type text-center readonly" type="text" value="Bitte wählen"/>
+                                <input class="form-control item-input-text option-survey-type show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="surveyTypeSelect" role="group">
                                     <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -121,29 +121,6 @@
                             </div>
                         </div>
 
-
-                        <!--                        <div class="dropdown">
-                                                    <div class="btn-group btn-group-justified">-->
-
-<!--                                <span class="input-group-addon">Projektphase</span>
-                                <div class="btn-group select" id="phaseSelect" role="group">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
-                                    <ul class="dropdown-menu option" role="menu">
-                                        <li id="elicitation"><a href="#">Ermittlung</a></li>
-                                        <li id="evaluation"><a href="#">Evaluierung</a></li>
-                                    </ul>
-                                </div>-->
-
-<!--                                <span class="input-group-addon">Befragungsart</span>
-                                <div class="btn-group select" id="surveyTypeSelect" role="group">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
-                                    <ul class="dropdown-menu option" role="menu">
-                                        <li id="moderated"><a href="#">Moderiert</a></li>
-                                        <li id="unmoderated"><a href="#">Unmoderiert</a></li>
-                                    </ul>
-                                </div>-->
-                        <!--                            </div>
-                                                </div>-->
 
                         <hr>
 
@@ -205,7 +182,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Phasenschritt</span>
-                                <input class="form-control item-input-text option-survey-type text-center readonly" type="text" value="Bitte wählen"/>
+                                <input class="form-control item-input-text option-survey-type show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="phaseStepSelect"  role="group">
                                     <button class="btn btn-default btn-dropdown" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option" role="menu">
@@ -292,7 +269,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Aufzeichnung</span>
-                                <input class="form-control item-input-text option-record text-center readonly" type="text" value="Bitte wählen"/>
+                                <input class="form-control item-input-text option-record show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="recordSelect" role="group">
                                     <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -430,7 +407,12 @@
                     saveGeneralData();
                 }
             });
-
+            
+            $('body').on('click', '.show-dropdown', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                $(this).next().find('[data-toggle=dropdown]').dropdown('toggle');
+            });
 
             $('#info-addon-add-phases').on('click', function (event) {
                 event.preventDefault();
