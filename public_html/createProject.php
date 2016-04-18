@@ -93,22 +93,27 @@
 
 
                         <!-- manner dropdowns -->
-                        <div class="dropdown">
-                            <div class="btn-group btn-group-justified">
-
+                        <div class="form-group">
+                            <div class="input-group">
                                 <span class="input-group-addon">Projektphase</span>
-                                <div class="btn-group select" id="phaseSelect" role="group">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
-                                    <ul class="dropdown-menu option" role="menu">
+                                <input class="form-control item-input-text option-phase text-center readonly" type="text" value="Bitte wählen"/>
+                                <div class="input-group-btn select saveGeneralData" id="phaseSelect" role="group">
+                                    <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="elicitation"><a href="#">Ermittlung</a></li>
                                         <li id="evaluation"><a href="#">Evaluierung</a></li>
                                     </ul>
                                 </div>
+                            </div>
+                        </div>
 
+                        <div class="form-group">
+                            <div class="input-group">
                                 <span class="input-group-addon">Befragungsart</span>
-                                <div class="btn-group select" id="surveyTypeSelect" role="group">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
-                                    <ul class="dropdown-menu option" role="menu">
+                                <input class="form-control item-input-text option-survey-type text-center readonly" type="text" value="Bitte wählen"/>
+                                <div class="input-group-btn select saveGeneralData" id="surveyTypeSelect" role="group">
+                                    <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="moderated"><a href="#">Moderiert</a></li>
                                         <li id="unmoderated"><a href="#">Unmoderiert</a></li>
                                     </ul>
@@ -116,15 +121,39 @@
                             </div>
                         </div>
 
+
+                        <!--                        <div class="dropdown">
+                                                    <div class="btn-group btn-group-justified">-->
+
+<!--                                <span class="input-group-addon">Projektphase</span>
+                                <div class="btn-group select" id="phaseSelect" role="group">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
+                                    <ul class="dropdown-menu option" role="menu">
+                                        <li id="elicitation"><a href="#">Ermittlung</a></li>
+                                        <li id="evaluation"><a href="#">Evaluierung</a></li>
+                                    </ul>
+                                </div>-->
+
+<!--                                <span class="input-group-addon">Befragungsart</span>
+                                <div class="btn-group select" id="surveyTypeSelect" role="group">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
+                                    <ul class="dropdown-menu option" role="menu">
+                                        <li id="moderated"><a href="#">Moderiert</a></li>
+                                        <li id="unmoderated"><a href="#">Unmoderiert</a></li>
+                                    </ul>
+                                </div>-->
+                        <!--                            </div>
+                                                </div>-->
+
                         <hr>
 
                         <!-- Demonstrator -->
                         <h3>Prototypen & Demonstratoren</h3>
                         <div class="form-group">
                             <div class="btn-group" id="usePrototypesSwitch">
-                                <button class="btn btn-default switchButtonAddon saveData">Prototypen benutzen?</button>
-                                <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="yes" name="btn-success">Ja</button>
-                                <button class="btn btn-warning btn-toggle-checkbox saveData active" id="no" name="btn-warning">Nein</button>
+                                <button class="btn btn-default switchButtonAddon">Prototypen benutzen?</button>
+                                <button class="btn btn-default btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
+                                <button class="btn btn-warning btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
                                 <button class="btn btn-default supplement hidden" id="assemble-prototypes-set">
                                     <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Prototypen koppeln</span></button>
                                 <button class="btn btn-addon" id="btn-prototypes-info">
@@ -142,9 +171,9 @@
 
                         <div class="form-group">
                             <div class="btn-group" id="useGesturesSwitch">
-                                <button class="btn btn-default switchButtonAddon saveData">Gesten nutzen?</button>
-                                <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="yes" name="btn-success">Ja</button>
-                                <button class="btn btn-warning btn-toggle-checkbox saveData active" id="no" name="btn-warning">Nein</button>
+                                <button class="btn btn-default switchButtonAddon">Gesten nutzen?</button>
+                                <button class="btn btn-default btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
+                                <button class="btn btn-warning btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
                                 <button class="btn btn-default supplement hidden" id="assemble-gesture-set">
                                     <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Gestenset zusammenstellen</span></button>
                                 <button class="btn btn-addon" id="btn-use-gestures-info">
@@ -157,9 +186,9 @@
 
                         <div class="form-group">
                             <div class="btn-group" id="useTriggerSwitch">
-                                <button class="btn btn-default switchButtonAddon saveData">Trigger nutzen?</button>
-                                <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="yes" name="btn-success">Ja</button>
-                                <button class="btn btn-warning btn-toggle-checkbox saveData active" id="no" name="btn-warning">Nein</button>
+                                <button class="btn btn-default switchButtonAddon">Trigger nutzen?</button>
+                                <button class="btn btn-default btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
+                                <button class="btn btn-warning btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
                                 <button class="btn btn-default supplement hidden" id="assemble-trigger-set">
                                     <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Trigger erstellen</span></button>
                                 <button class="btn btn-addon" id="btn-use-trigger-info">
@@ -174,13 +203,12 @@
                         <h3>Leitfaden</h3>
 
                         <div class="form-group">
-                            <div class="btn-group btn-group-justified" role="group">
-
-                                <span class="input-group-addon" id="addPhaseStepSelectAddon">Phasenschritt</span>
-
-                                <div class="btn-group select dropup" id="addPhaseStepSelect" role="group">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
-                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            <div class="input-group">
+                                <span class="input-group-addon">Phasenschritt</span>
+                                <input class="form-control item-input-text option-survey-type text-center readonly" type="text" value="Bitte wählen"/>
+                                <div class="input-group-btn select saveGeneralData" id="phaseStepSelect"  role="group">
+                                    <button class="btn btn-default btn-dropdown" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option" role="menu">
                                         <li class="dropdown-header">Fragebögen</li>
                                         <li id="questionnaire"><a href="#">Fragebogen</a></li>
                                         <li id="gus"><a href="#">GUS (einzelne Geste)</a></li>
@@ -191,17 +219,43 @@
                                         <li id="letterOfAcceptance"><a href="#">Einverständniserklärung</a></li>
                                         <li id="gestureTraining"><a href="#">Gestentraining</a></li>
                                         <li id="scenario"><a href="#">Szenario-basierte Aufgabe</a></li>
-                                        <!--<li id="observationGuide"><a href="#">Beobachtungsbogen</a></li>-->
                                     </ul>
+                                    <button class="btn btn-info disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                    <button class="btn btn-addon disabled dropdown-disabled" id="info-addon-add-phases">
+                                        <i class="glyphicon glyphicon-question-sign"></i>
+                                    </button>
                                 </div>
-                                <div class="btn-group" role="group">
-                                    <button class="btn btn-info disabled toggable-button" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                </div>
-                                <span class="input-group-addon info-addon info-addon-disabled toggable-info" id="info-addon-add-phases">
-                                    <i class="glyphicon glyphicon-question-sign"></i>
-                                </span>
                             </div>
                         </div>
+
+                        <!--                        <div class="form-group">
+                                                    <div class="btn-group btn-group-justified" role="group">
+                        
+                                                        <span class="input-group-addon" id="addPhaseStepSelectAddon">Phasenschritt</span>
+                        
+                                                        <div class="btn-group select dropup" id="addPhaseStepSelect" role="group">
+                                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
+                                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                                <li class="dropdown-header">Fragebögen</li>
+                                                                <li id="questionnaire"><a href="#">Fragebogen</a></li>
+                                                                <li id="gus"><a href="#">GUS (einzelne Geste)</a></li>
+                                                                <li id="questionnaire-gestures"><a href="#">GUS (Allgemeine Fragen)</a></li>
+                                                                <li id="sus"><a href="#">SUS</a></li>
+                                                                <li class="divider"></li>
+                                                                <li class="dropdown-header">Songstiges</li>
+                                                                <li id="letterOfAcceptance"><a href="#">Einverständniserklärung</a></li>
+                                                                <li id="gestureTraining"><a href="#">Gestentraining</a></li>
+                                                                <li id="scenario"><a href="#">Szenario-basierte Aufgabe</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="btn-group" role="group">
+                                                            <button class="btn btn-info disabled toggable-button" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                                        </div>
+                                                        <span class="input-group-addon info-addon info-addon-disabled toggable-info" id="info-addon-add-phases">
+                                                            <i class="glyphicon glyphicon-question-sign"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>-->
 
 
                         <!-- phase step list items -->
@@ -232,6 +286,25 @@
 
                         <hr>
 
+                        <!-- project phases with dropdown -->
+                        <h3>Was & Wer?</h3>
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">Aufzeichnung</span>
+                                <input class="form-control item-input-text option-record text-center readonly" type="text" value="Bitte wählen"/>
+                                <div class="input-group-btn select saveGeneralData" id="recordSelect" role="group">
+                                    <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                        <li id="videoAudio"><a href="#">Video & Audio</a></li>
+                                        <li id="videoAudioScreen"><a href="#">Video, Audio & Bildschirm</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
                             <div class="btn-group">
@@ -255,7 +328,7 @@
                         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                     </span>
                     <br><br>
-                    <button type="button" class="btn btn-gn" onclick="loadHTMLintoModal('custom-modal', 'info-styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen abrufen</button>
+                    <button type="button" class="btn btn-gn" onclick="loadHTMLintoModal('custom-modal', 'info-styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
                 </div>
             </div>
         </div>
@@ -333,45 +406,46 @@
                 loadHTMLintoModal('custom-modal', 'info-use-trigger.html');
             });
 
-
-
             $('body').on('click', '.select .option li', function (event) {
                 event.preventDefault();
+
+                if ($(this).hasClass('dropdown-header') || $(this).hasClass('divider')) {
+                    return false;
+                }
+
                 var parent = $(this).closest('.select');
                 var itemText = $(this).children().text();
                 var listItemId = $(this).attr('id');
                 $(parent).find('.selected').attr('id', listItemId);
-                $(parent).find('.selected').text(itemText);
+                $(parent).prev().val(itemText);
 
-//                console.log(parent + ", " + itemText + ", " + listItemId);
-                saveGeneralData();
-
-                if (parent.attr('id') !== "phaseSelect" || parent.attr('id') !== "surveyTypeSelect") {
-                    $(parent).parent().find('.toggable-button').removeClass('disabled');
-                    $(parent).parent().find('.toggable-info').removeClass('info-addon-disabled');
+                var disabledElements = $(parent).children('.dropdown-disabled');
+                if (disabledElements.length > 0) {
+                    for (var i = 0; i < disabledElements.length; i++) {
+                        $(disabledElements[i]).removeClass('disabled');
+                    }
+                }
+                
+                if(parent.hasClass('saveGeneralData')) {
+                    saveGeneralData();
                 }
             });
 
 
             $('#info-addon-add-phases').on('click', function (event) {
                 event.preventDefault();
-                var brotherID = $(this).prevAll(".select:first").attr('id');
-                var selectedID = $('#' + brotherID + ' .selected').attr('id');
-
-                if (selectedID !== "unselected") {
+                if (!$(this).hasClass('disabled')) {
+                    var selectedID = $(this).parent().find('.selected').attr('id');
                     loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-md");
                 }
             });
 
             $('#addPhaseStep').on('click', function (event) {
                 event.preventDefault();
-
-                var brotherID = $(this).parent().prevAll(".select:first").attr('id');
-                var selectedID = $('#' + brotherID + ' .selected').attr('id');
-                var childText = $('#' + brotherID + ' #' + selectedID).children().text();
-
-                if (selectedID !== 'unselected') {
-                    addPhaseStep('singlePhaseStep' + currentPhaseStepCount++, selectedID, childText, null);
+                var selectedID = $(this).parent().find('.selected').attr('id');
+                if (!$(this).hasClass('disabled') && selectedID !== 'unselected') {
+                    var selectedText = $(this).parent().prev().val();
+                    addPhaseStep(chance.natural(), selectedID, selectedText, null);
                     savePhases();
                 }
             });
@@ -408,21 +482,6 @@
                 });
 
                 checkCurrentListState($('#phaseStepList'));
-            }
-
-            function savePhases() {
-                var phases = new Array();
-                var itemList = document.getElementById('phaseStepList').childNodes;
-
-                for (var i = 0; i < itemList.length; i++) {
-                    var item = itemList[i];
-                    var id = $(item).attr('id');
-                    var selectedId = $(item).find('.btn-modify').attr('id');
-                    var itemText = $(item).find('.btn-text-button').text().trim();
-                    var color = $(item).find('.glyphicon-tag').css('color');
-                    phases.push(new PhaseItem(id, selectedId, itemText, color));
-                }
-                setLocalItem('project.phaseSteps', phases)
             }
 
             function checkCurrentListState(itemContainer) {
@@ -479,7 +538,7 @@
                     }
                 }
 
-                if ($(this).hasClass('saveData')) {
+                if ($(this).hasClass('saveGeneralData')) {
                     saveGeneralData();
                 }
             });
@@ -492,14 +551,9 @@
                 if (activeButton.length === 0) {
                     activeButton = null;
                     inactiveButton = $(this).next();
-                    
+
                 }
                 inactiveButton.click();
-//                toggleSwitch(activeButton, inactiveButton);
-
-                if ($(this).hasClass('saveData')) {
-                    saveGeneralData();
-                }
             });
 
             function toggleSwitch(activeButton, inactiveButton) {

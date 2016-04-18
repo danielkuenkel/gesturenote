@@ -18,20 +18,17 @@ function onCloseClick() {
  */
 
 $('body').on('click', '#addFormat', function (event) {
-    if (event.handled !== true)
+    event.preventDefault();
+    if (event.handled !== true && !$(this).hasClass('disabled'))
     {
         event.handled = true;
-        event.preventDefault();
-
-        var brotherID = $(this).parent().prevAll(".select:first").attr('id');
-        var selectedID = $('#' + brotherID + ' .selected').attr('id');
-
+        var selectedID = $(this).parent().find('.selected').attr('id');
         if (selectedID !== 'unselected') {
             var clone = $('#form-item-container').find('#' + selectedID).clone(true);
             $('#list-container').append(clone);
             checkCurrentListState($('#list-container'));
+            updateBadges($('#list-container'), selectedID);
         }
-        updateBadges($('#list-container'), selectedID);
     }
 });
 
@@ -425,25 +422,25 @@ function renderAssembledPrototypes() {
     }
 }
 
-$('body').on('click', '.gestureSelect .option li, .triggerSelect .option li, .feedbackSelect .option li, .repeatsSelect .option li, .prototypeSelect .option li', function () {
-    var parent = $(this).closest('.select');
-    var itemText = $(this).children().text();
-    var listItemId = $(this).attr('id');
-    $(parent).find('.selected').attr('id', listItemId);
-    $(parent).prev().val(itemText);
-
-    if ($(parent).closest('.select').hasClass('gestureSelect')) {
-        $(this).closest('.root').find('#assembled-gestures-removed').addClass('hidden');
-    }
-    if ($(parent).closest('.select').hasClass('triggerSelect')) {
-        $(this).closest('.root').find('#assembled-trigger-removed').addClass('hidden');
-    }
-    if ($(parent).closest('.select').hasClass('feedbackSelect')) {
-        if (listItemId === 'unselected') {
-            $(parent).find('.selected').val("");
-        }
-    }
-});
+//$('body').on('click', '.gestureSelect .option li, .triggerSelect .option li, .feedbackSelect .option li, .repeatsSelect .option li, .prototypeSelect .option li', function () {
+//    var parent = $(this).closest('.select');
+//    var itemText = $(this).children().text();
+//    var listItemId = $(this).attr('id');
+//    $(parent).find('.selected').attr('id', listItemId);
+//    $(parent).prev().val(itemText);
+//
+//    if ($(parent).closest('.select').hasClass('gestureSelect')) {
+//        $(this).closest('.root').find('#assembled-gestures-removed').addClass('hidden');
+//    }
+//    if ($(parent).closest('.select').hasClass('triggerSelect')) {
+//        $(this).closest('.root').find('#assembled-trigger-removed').addClass('hidden');
+//    }
+//    if ($(parent).closest('.select').hasClass('feedbackSelect')) {
+//        if (listItemId === 'unselected') {
+//            $(parent).find('.selected').val("");
+//        }
+//    }
+//});
 
 $('body').on('click', '.simple-stepper .btn-stepper-decrease', function (event) {
     if (event.handled !== true)

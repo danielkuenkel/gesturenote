@@ -18,8 +18,8 @@
                     <i class="glyphicon glyphicon-eye-open"></i>
                 </button>
                 <button class="btn btn-default switchButtonAddon">Negativ?</button>
-                <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
-                <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
             </div>
         </div>
     </div>
@@ -96,7 +96,7 @@
             for (var i = 0; i < itemList.length; i++) {
                 var item = itemList[i];
                 var itemText = $(item).find('.item-input-text').val();
-                var reversed = $(item).find('#success').hasClass('active') ? true : false;
+                var reversed = $(item).find('#yes').hasClass('active') ? true : false;
                 var dimension = getDimensionByElement($(item));
                 var gusItem = new UsabilityScaleItem(itemText, dimension, 5, reversed);
                 customGUS.push(gusItem);

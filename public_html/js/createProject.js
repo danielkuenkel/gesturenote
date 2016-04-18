@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-var currentPhaseStepCount = 0;
 var currentIdForModal;
 var colors;
 var currentContainerList = null;
@@ -252,10 +251,10 @@ function renderSessionStorageData() {
         for (var i = 0; i < phaseSteps.length; i++) {
             var item = phaseSteps[i];
             addPhaseStep(item.id, item.selectedId, item.itemText, item.color);
-            var id = parseInt(item.id.charAt(item.id.length - 1));
-            if (currentPhaseStepCount <= id) {
-                currentPhaseStepCount = id + 1;
-            }
+//            var id = parseInt(item.id.charAt(item.id.length - 1));
+//            if (currentPhaseStepCount <= id) {
+//                currentPhaseStepCount = id + 1;
+//            }
         }
     }
 
@@ -264,25 +263,28 @@ function renderSessionStorageData() {
         $('#projectName').val(project.name);
         $('#projectDescription').val(project.description);
         if (project.phase !== 'unselected') {
-            $('#phaseSelect .selected').attr('id', project.phase);
-            $('#phaseSelect .selected').text($('#phaseSelect #' + project.phase + ' a').text());
+            $('#phaseSelect').find('#' + project.phase).click();
+//            $('#phaseSelect .selected').text($('#phaseSelect #' + project.phase + ' a').text());
         }
         if (project.surveyType !== 'unselected') {
-            $('#surveyTypeSelect .selected').attr('id', project.surveyType);
-            $('#surveyTypeSelect .selected').text($('#surveyTypeSelect #' + project.surveyType + ' a').text());
+            $('#surveyTypeSelect').find('#' + project.surveyType).click();
+//            $('#surveyTypeSelect .selected').attr('id', project.surveyType);
+//            $('#surveyTypeSelect .selected').text($('#surveyTypeSelect #' + project.surveyType + ' a').text());
         }
+
         if (project.usePrototypes === true)
         {
             $('#usePrototypesSwitch .switchButtonAddon').click();
-//            toggleSwitch($('#pidocoURLSwitch').find('.active'), $('#pidocoURLSwitch').find('.inactive'));
-//            $('#pidocoURLInput').removeClass('hidden');
-//            $('#pidocoURL').val(project.pidocoURL);
         }
         if (project.useGestures === true) {
             $('#useGesturesSwitch .switchButtonAddon').click();
         }
         if (project.useTrigger === true) {
             $('#useTriggerSwitch .switchButtonAddon').click();
+        }
+
+        if (project.recordType !== 'unselected') {
+            $('#recordSelect').find('#' + project.recordType).click();
         }
     }
 }
@@ -301,7 +303,25 @@ function saveGeneralData() {
     project.usePrototypes = !$('#assemble-prototypes-set').hasClass('hidden');
     project.useGestures = !$('#assemble-gesture-set').hasClass('hidden');
     project.useTrigger = !$('#assemble-trigger-set').hasClass('hidden');
+    project.recordType = $('#recordSelect .selected').attr('id');
     setLocalItem(PROJECT, project);
+
+    savePhases();
+}
+
+function savePhases() {
+    var phases = new Array();
+    var phaseSteps = $('#phaseStepList').children();
+
+    for (var i = 0; i < phaseSteps.length; i++) {
+        var item = phaseSteps[i];
+        var id = $(item).attr('id');
+        var selectedId = $(item).find('.btn-modify').attr('id');
+        var itemText = $(item).find('.btn-text-button').text().trim();
+        var color = $(item).find('.glyphicon-tag').css('color');
+        phases.push(new PhaseItem(id, selectedId, itemText, color));
+    }
+    setLocalItem(PROJECT_PHASE_STEPS, phases);
 }
 
 function Project() {
@@ -431,7 +451,7 @@ function getDimensionByElement(element) {
 function getPrototypeById(id) {
     var prototypes = getLocalItem(ASSEMBLED_PROTOTYPES);
     for (var i = 0; i < prototypes.length; i++) {
-        if (prototypes[i].id === id) {
+        if (parseInt(prototypes[i].id) === parseInt(id)) {
             return prototypes[i];
         }
     }
@@ -439,7 +459,6 @@ function getPrototypeById(id) {
 }
 
 function appendAlert(target, alertType) {
-    console.log('append alert: ' + alertType);
     var alert = $('#form-item-container').find('#' + alertType).clone();
     $(target).find('.alert-' + alert.attr('id')).append(alert);
 }

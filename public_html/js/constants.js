@@ -63,3 +63,4 @@ ALERT_NO_TITLE = 'no-title';
 ALERT_PIDOCO_EDIT_URL_INVALID = 'pidoco-edit-url-invalid';
 ALERT_PIDOCO_EMBED_URL_INVALID = 'pidoco-embed-url-invalid';
 ALERT_VIDEO_EMBED_URL_INVALID = 'video-embed-url-invalid';
+ALERT_ASSEMBLED_PROTOTYPE_REMOVED = 'assembled-prototype-removed';

@@ -61,7 +61,7 @@
             }, 100);
         });
 
-        $('#custom-modal').on('hide.bs.modal', function (event) {
+        $('#custom-modal').unbind('hide.bs.modal').bind('hide.bs.modal', function (event) {
             if (!event.handled && closeClicked) {
                 closeClicked = false;
 
