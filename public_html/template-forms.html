@@ -26,7 +26,7 @@
             Ja/nein-Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
         </div>
         <div class="panel-body">
-            <div class="alert alert-danger hidden" id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> Bitte zuerst ein Gesteset für diese Studie zusammenstellen!</div>
+
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-btn">
@@ -41,19 +41,89 @@
                 </div>
             </div>
 
+            <div class="alert-space alert-no-gestures-assembled"></div>
+
             <div class="form-group form-group-margin-top">
-                <div class="btn-group gesture-select evaluation">
-                    <button class="btn btn-default switchButtonAddon checkAssembledGestures">Auswahl einer oder mehrerer Gesten</button>
-                    <button class="btn btn-default btn-toggle-checkbox checkAssembledGestures inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox checkAssembledGestures active" id="warning">Nein</button>
+                <div class="btn-group gesture-select" style="margin-right: 10px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Auswahl einer oder mehrerer Gesten</button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
                 </div>
 
-                <div class="btn-group justification">
-                    <button class="btn btn-default switchButtonAddon" style="margin-left: 10px;">Begründung</button>
-                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                <div class="btn-group justification" style="margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Begründung</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="alternativeQuestion">
+        <div class="panel-heading">
+            Alternativfrage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="Alternativfrage"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-space alert-no-gestures-assembled"></div>
+            <div class="alert-space alert-assembled-gesture-removed"></div>
+            <div class="alert-space alert-no-trigger-assembled"></div>
+            <div class="alert-space alert-assembled-trigger-removed"></div>
+
+            <div class="form-group form-group-no-margin">
+                <div class="btn-group" style="margin-right: 10px;margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Alternative</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="gestures" name="btn-success">Gesten</button>
+                    <button class="btn btn-success btn-toggle-checkbox active" id="triggers" name="btn-success">Funktionen</button>
+                </div>
+                <div class="btn-group alternativeSwitch" style="margin-right: 10px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">für die</button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-gestures-assembled inactive" id="alternativeGesture" name="btn-success">Geste</button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-trigger-assembled inactive" id="alternativeTrigger" name="btn-success">Funktion</button>
+                </div>
+                <div class="btn-group justification" style="margin-right: 10px;margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Begründung</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                </div>
+            </div>
+
+            <div class="form-group form-group-no-margin alternativeGestureSelect hidden">
+                <div class="input-group">
+                    <span class="input-group-addon">Geste</span>
+                    <input class="form-control item-input-text option-gesture readonly" type="text" value=""/>
+                    <div class="input-group-btn select gestureSelect" role="group">
+                        <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group form-group-no-margin alternativeTriggerSelect hidden">
+                <div class="input-group">
+                    <span class="input-group-addon">Trigger</span>
+                    <input class="form-control item-input-text option-trigger readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <div class="input-group-btn select triggerSelect" role="group">
+                        <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -100,14 +170,14 @@
             <div class="form-group form-group-margin-top">
                 <div class="btn-group multiselect">
                     <button class="btn btn-default switchButtonAddon">Auswahl mehrerer Antworten erlaubt?</button>
-                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
 
                 <div class="btn-group optionalanswer">
                     <button class="btn btn-default switchButtonAddon" style="margin-left: 10px;">Eigene Antwort erlaubt?</button>
-                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
             </div>
 
@@ -308,10 +378,8 @@
 
         <div class="panel panel-default root hidden" id="helpItem">
             <div class="panel-body">
-                <div class="alert alert-danger hidden" id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> Bitte zuerst ein Gesteset für diese Studie zusammenstellen!</div>
-                <div class="alert alert-warning hidden" id="assembled-gestures-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Die zugewiesene Geste aus dem zusammengestellten Gestenset ist nicht mehr verfügbar.</div>
 
-                <div class="form-group form-group-no-margin">
+                <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-btn">
                             <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
@@ -323,14 +391,17 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 evaluation" style="padding: 0; margin-top: 10px;">
-                    <div class="btn-group" id="useGestureHelpSwitch" style="margin: 0; padding: 0">
-                        <button class="btn btn-default switchButtonAddon checkAssembledGestures">Geste bei Bedarf nochmals anzeigen?</button>
-                        <button class="btn btn-default btn-toggle-checkbox checkAssembledGestures inactive" id="success">Ja</button>
-                        <button class="btn btn-warning btn-toggle-checkbox checkAssembledGestures active" id="warning">Nein</button>
+                <div class="alert-space alert-no-gestures-assembled"></div>
+                <div class="alert-space alert-assembled-gesture-removed"></div>
+
+                <div class="col-md-6 evaluation" style="padding: 0; margin-bottom: 10px;">
+                    <div class="btn-group" id="useGestureHelpSwitch">
+                        <button class="btn btn-default switchButtonAddon">Geste bei Bedarf nochmals anzeigen?</button>
+                        <button class="btn btn-default btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
+                        <button class="btn btn-warning btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
                     </div>
                 </div>
-                <div class="col-md-6 evaluation" style="padding: 0px; margin-top: 10px;">
+                <div class="col-md-6 evaluation" style="padding: 0px;">
                     <div class="input-group">
                         <span class="input-group-addon">Geste</span>
                         <input class="form-control item-input-text option-gesture readonly" type="text" value=""/>
@@ -347,10 +418,9 @@
 
     <div class="root" id="elicitation">
         <div class="form-group root hidden" id="elicitationItem">
-            <!--            <div class="panel panel-default">
-                            <div class="panel-body">-->
-            <div class="alert alert-warning hidden" id="assembled-trigger-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Ein Trigger aus dem erstellten Set ist nicht mehr verfügbar. Dieser kann nicht mehr verwendet werden.</div>
 
+            <div class="alert-space alert-assembled-trigger-removed"></div>
+            
             <div class="input-group">
                 <div class="input-group-btn">
                     <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
@@ -359,29 +429,27 @@
                 </div>
                 <span class="input-group-addon">Trigger</span>
                 <input class="form-control item-input-text option-trigger readonly" type="text" value="" placeholder="Bitte wählen"/>
-                <div class="input-group-btn select triggerSelect wozTriggerSelect" role="group">
+                <div class="input-group-btn select triggerSelect" role="group">
                     <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                     <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
                 </div>
             </div>
-
-            <!--                </div>
-                        </div>-->
         </div>
-
-        <div class="alert alert-danger hidden" id="no-trigger-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> Bitte zuerst ein Triggerset für diese Studie erstellen!</div>
-
+        
+        <div class="alert-space alert-no-trigger-assembled"></div>
+        
         <div class="option-container"></div>
 
-        <button class="btn btn-info pull-right btn-add-elicitationOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Element hinzufügen</span></button>
+        <button class="btn btn-info pull-right btn-add-elicitationOption hidden" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Element hinzufügen</span></button>
     </div>
 
     <div class="root" id="wozExperiment">
         <div class="form-group root hidden" id="wozExperimentItem">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="alert alert-warning hidden" id="assembled-gestures-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Eine Geste aus dem Gestenset ist nicht mehr verfügbar. Diese kann nicht mehr verwendet werden.</div>
-                    <div class="alert alert-warning hidden" id="assembled-trigger-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Ein Trigger aus dem erstellten Set ist nicht mehr verfügbar. Dieser kann nicht mehr verwendet werden.</div>
+                    
+                    <div class="alert-space alert-assembled-gesture-removed"></div>
+                    <div class="alert-space alert-assembled-trigger-removed"></div>
 
                     <div class="input-group">
                         <div class="input-group-btn">
@@ -439,12 +507,10 @@
                 </div>
             </div>
         </div>
-
-        <div class="alert alert-danger hidden" id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> Bitte zuerst ein Gesteset für diese Studie zusammenstellen!</div>
-
+       
         <div class="option-container"></div>
 
-        <button class="btn btn-info pull-right btn-add-woz-experimentOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>WoZ-Element hinzufügen</span></button>
+        <button class="btn btn-info pull-right btn-add-woz-experimentOption hidden" type="button"><span class="glyphicon glyphicon-plus"></span> <span>WoZ-Element hinzufügen</span></button>
     </div>
 
 
@@ -473,8 +539,8 @@
             <div class="panel panel-default">
                 <div class="panel-body">
 
-                    <div class="alert alert-warning hidden" id="assembled-gestures-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Eine Geste aus dem Gestenset ist nicht mehr verfügbar. Diese kann nicht mehr verwendet werden.</div>
-                    <div class="alert alert-warning hidden" id="assembled-trigger-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Ein Trigger aus dem erstellten Set ist nicht mehr verfügbar. Dieser kann nicht mehr verwendet werden.</div>
+                    <div class="alert-space alert-assembled-gesture-removed"></div>
+                    <div class="alert-space alert-assembled-trigger-removed"></div>
 
                     <div class="input-group">
                         <div class="input-group-btn">
@@ -533,7 +599,7 @@
             </div>
         </div>
 
-        <div class="alert alert-danger hidden" id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> Bitte zuerst ein Gesteset für diese Studie zusammenstellen!</div>
+        <div class="alert-space alert-no-gestures-assembled"></div>
 
         <div class="option-container"></div>
 
@@ -547,6 +613,7 @@
         </div>
         <div class="panel-body">
             <div class="form-group">
+                <div class="alert-space alert-no-title"></div>
                 <div class="input-group">
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
@@ -557,7 +624,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="alert alert-warning hidden" id="pidoco-edit-url-invalid" role="alert" style="margin-bottom: 10px;"><i class="glyphicon glyphicon-alert"></i> Die eingegebene Bearbeitungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein.</div>
+                <div class="alert-space alert-pidoco-edit-url-invalid"></div>
+
                 <div class="input-group">
                     <input class="form-control item-input-text pidoco-edit-url enter-key" type="text" value="" placeholder="Pidoco Bearbeitungs-URL"/>
                     <div class="input-group-btn">
@@ -565,8 +633,10 @@
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
-                <div class="alert alert-warning hidden" id="pidoco-embed-url-invalid" role="alert" style="margin-bottom: 10px;"><i class="glyphicon glyphicon-alert"></i> Die eingegebene Simluations-URL wird nicht unterstützt oder scheint nicht korrekt zu sein.</div>
+                <div class="alert-space alert-pidoco-embed-url-invalid"></div>
+
                 <div class="input-group">
                     <input class="form-control item-input-text pidoco-embed-url enter-key" type="text" value="" placeholder="Pidoco Simulations-URL"/>
                     <div class="input-group-btn">
@@ -574,13 +644,17 @@
                     </div>
                 </div>
             </div>
-            <div class="alert alert-danger hidden" id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> Bitte zuerst ein Gesteset für diese Studie zusammenstellen!</div>
-            <div class="btn-group transmit-gestures-select hidden" style="margin-right: 10px;">
-                <button class="btn btn-default switchButtonAddon checkAssembledGestures">Gestenset an Pidoco koppeln?</button>
-                <button class="btn btn-default btn-toggle-checkbox checkAssembledGestures inactive" id="success">Ja</button>
-                <button class="btn btn-warning btn-toggle-checkbox checkAssembledGestures active" id="warning">Nein</button>
+
+            <div class="alert-space alert-no-gestures-assembled"></div>
+
+            <div class="form-group">
+                <div class="btn-group transmit-gestures-select hidden" style="margin-right: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Gestenset an Pidoco koppeln?</button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
+                </div>
+                <button class="btn btn-default hidden" id="transmitGestures"><i class="glyphicon glyphicon-share-alt"></i> <span>Gesten an Pidoco übertragen</span></button>
             </div>
-            <button class="btn btn-default hidden" id="transmitGestures"><i class="glyphicon glyphicon-share-alt"></i> <span>Gesten an Pidoco übertragen</span></button>
         </div>
     </div>
 
@@ -590,6 +664,7 @@
             Webseite <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
         </div>
         <div class="panel-body">
+            <div class="alert-space alert-no-title"></div>
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
                     <div class="input-group-btn">
@@ -599,6 +674,8 @@
                     </div>
                     <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
                 </div>
+            </div>
+            <div class="form-group form-group-margin-top">
                 <input class="form-control item-input-text website-url" type="text" value="" placeholder="Webseiten-URL" style="margin-top: 10px;"/>
             </div>
         </div>
@@ -609,6 +686,7 @@
             Bild <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
         </div>
         <div class="panel-body">
+            <div class="alert-space alert-no-title"></div>
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
                     <div class="input-group-btn">
@@ -636,6 +714,7 @@
             Video <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
         </div>
         <div class="panel-body">
+            <div class="alert-space alert-no-title"></div>
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
                     <div class="input-group-btn">
@@ -655,7 +734,7 @@
                 <div class="videoArea hidden" style="margin-top: 10px; width: 100%; height: auto; position: relative;">
                     <!--<button class="btn btn-default btn-danger btn-delete-image" style="position: absolute; margin: 10px; right: 0px;"><span class="glyphicon glyphicon-trash"></span> Video löschen</button>-->
                     <!--<img class="videoAreaContent" src="" alt="..." />-->
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/sYbH-COwR64" frameborder="0" allowfullscreen></iframe>
+                    <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/sYbH-COwR64" frameborder="0" allowfullscreen></iframe>-->
                     <video class="videoAreaContent" style="width: 100%; border-radius: 4px;" controls>
                         <!--<source id="videoSource" src="" type="video/mp4" />-->
                     </video>
@@ -669,6 +748,7 @@
             Videoeinbettung <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
         </div>
         <div class="panel-body">
+            <div class="alert-space alert-no-title"></div>
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-btn">
@@ -680,7 +760,7 @@
                 </div>
             </div>
 
-            <div class="alert alert-warning hidden" id="video-embed-url-invalid" role="alert" style="margin-top: 10px; margin-bottom: 0px;"><i class="glyphicon glyphicon-alert"></i> Die eingegebene Videoeinbettungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein.</div>
+            <div class="alert-space alert-video-embed-url-invalid"></div>
 
             <div class="form-group form-group-margin-top">
                 <div class="input-group">
@@ -696,5 +776,18 @@
         </div>
     </div>
 
+
+
+    <!-- ALERTS -->
+
+    <div class="alert alert-danger"  id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> Bitte zuerst ein Gestenset für diese Studie zusammenstellen!</div>
+    <div class="alert alert-warning" id="assembled-gesture-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Die verknüpfte Geste aus dem Gestenset ist nicht mehr verfügbar.</div>
+    <div class="alert alert-danger"  id="no-trigger-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> Bitte zuerst ein Triggerset für diese Studie erstellen!</div>
+    <div class="alert alert-warning" id="assembled-trigger-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Der verknüpfte Trigger ist nicht mehr verfügbar!</div>
+    <div class="alert alert-danger"  id="no-title" role="alert"><i class="glyphicon glyphicon-alert"></i> Bitte einen Titel angeben!</div>
+    <div class="alert alert-warning" id="assembled-prototype-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Der verknüpfte Prototyp nicht mehr verfügbar!</div>
+    <div class="alert alert-warning" id="pidoco-embed-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> Die eingegebene Simluations-URL wird nicht unterstützt oder scheint nicht korrekt zu sein.</div>
+    <div class="alert alert-warning" id="pidoco-edit-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> Die eingegebene Bearbeitungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein.</div>
+    <div class="alert alert-warning" id="video-embed-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> Die eingegebene Videoeinbettungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein.</div>
 
 </div>

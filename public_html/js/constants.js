@@ -25,6 +25,7 @@ var TYPE_PHASE_ELICITATION = 'elicitation';
 
 // questionnaire formats
 var DICHOTOMOUS_QUESTION = 'dichotomousQuestion';
+var ALTERNATIVE_QUESTION = 'alternativeQuestion';
 var GROUPING_QUESTION = 'groupingQuestion';
 var RATING = 'rating';
 var SUM_QUESTION = 'sumQuestion';
@@ -52,3 +53,13 @@ var DIMENSION_RELIABILITY = 'reliability'; // Zuverlässigkeit
 TYPE_URL_PIDOCO_EDIT = 'pidocoEdit';
 TYPE_URL_PIDOCO_EMBED = 'pidocoEmbed';
 TYPE_URL_VIDEO_EMBED = 'videoEmbed';
+
+// alerts
+ALERT_NO_GESTURES_ASSEMBLED = 'no-gestures-assembled';
+ALERT_ASSEMBLED_GESTURE_REMOVED = 'assembled-gesture-removed';
+ALERT_NO_TRIGGER_ASSEMBLED = 'no-trigger-assembled';
+ALERT_ASSEMBLED_TRIGGER_REMOVED = 'assembled-trigger-removed';
+ALERT_NO_TITLE = 'no-title';
+ALERT_PIDOCO_EDIT_URL_INVALID = 'pidoco-edit-url-invalid';
+ALERT_PIDOCO_EMBED_URL_INVALID = 'pidoco-embed-url-invalid';
+ALERT_VIDEO_EMBED_URL_INVALID = 'video-embed-url-invalid';

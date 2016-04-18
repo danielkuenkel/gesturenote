@@ -20,8 +20,8 @@
                 </div>
                 <div class="btn-group" id="useSingleTrainingSwitch">
                     <button class="btn btn-default switchButtonAddon">Gesten nacheinander trainieren?</button>
-                    <button class="btn btn-default btn-toggle-checkbox inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox active" id="warning">Nein</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
             </div>
         </div>
@@ -43,8 +43,8 @@
             <div style="margin-top: 4px; display: inline-block">Beobachtungen</div>
             <div class="btn-group pull-right" id="useObservationsSwitch">
                 <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
-                <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
-                <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
+                <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
+                <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
             </div>
         </div>
         <div class="panel-body hidden">
@@ -90,7 +90,7 @@
             $('#trainingContainer').append(training);
 
             if (!assembledGestures()) {
-                $(training).find('#no-gestures-assembled').removeClass('hidden');
+                appendAlert(training, ALERT_NO_GESTURES_ASSEMBLED);
                 $(training).find('.btn-add-gestureTrainingOption').addClass('hidden');
             }
 
@@ -148,12 +148,12 @@
                         $(clone).find('.option-gesture').val(gesture.title);
                         $(clone).find('.gestureSelect .selected').attr('id', gesture.id);
                     } else {
-                        $(clone).find('#assembled-gestures-removed').removeClass('hidden');
+                        appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                     }
 
                     if (trigger) {
                         if (!getTriggerById(trigger.id)) {
-                            $(clone).find('#assembled-trigger-removed').removeClass('hidden');
+                            appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
                         } else {
                             $(clone).find('.option-trigger').val(trigger.title);
                             $(clone).find('.triggerSelect .selected').attr('id', trigger.id);
@@ -261,7 +261,7 @@
             var training = new Training();
             training.title = $('#trainingTitle').val();
             training.description = $('#trainingDescription').val();
-            training.useSingleTraining = $('#useSingleTrainingSwitch #success').hasClass('active') ? true : false;
+            training.useSingleTraining = $('#useSingleTrainingSwitch #yes').hasClass('active') ? true : false;
 
             if (traningItems) {
                 var set = new Array();
@@ -282,7 +282,7 @@
                 training.training = set;
             }
 
-            if ($('#useObservationsSwitch').find('#success').hasClass('active'))
+            if ($('#useObservationsSwitch').find('#yes').hasClass('active'))
             {
                 var observations = new Array();
                 for (var i = 0; i < obersvationItems.length; i++) {
@@ -295,13 +295,13 @@
                     switch (type) {
                         case DICHOTOMOUS_QUESTION:
                             parameters = new Array();
-                            parameters.push($(item).find('.gesture-select .active').attr('id') === 'success' ? true : false);
-                            parameters.push($(item).find('.justification .active').attr('id') === 'success' ? true : false);
+                            parameters.push($(item).find('.gesture-select .active').attr('id') === 'yes' ? true : false);
+                            parameters.push($(item).find('.justification .active').attr('id') === 'yes' ? true : false);
                             break;
                         case GROUPING_QUESTION:
                             parameters = new Array();
-                            parameters.push($(item).find('.multiselect .active').attr('id') === 'success' ? true : false);
-                            parameters.push($(item).find('.optionalanswer .active').attr('id') === 'success' ? true : false);
+                            parameters.push($(item).find('.multiselect .active').attr('id') === 'yes' ? true : false);
+                            parameters.push($(item).find('.optionalanswer .active').attr('id') === 'yes' ? true : false);
                             options = new Array();
                             var groupingOptions = $(item).find('.option-container').children();
                             for (var j = 0; j < groupingOptions.length; j++) {
@@ -348,23 +348,23 @@
             setLocalItem(currentIdForModal + ".data", training);
         }
 
-        $('#addPredefinedObservations').on('click', function () {
-            if (getLocalItem(PREDEFINED_OBSERVATIONS) !== null) {
-                renderData(getLocalItem(PREDEFINED_OBSERVATIONS), true);
-            }
-        });
+//        $('#addPredefinedObservations').on('click', function () {
+//            if (getLocalItem(PREDEFINED_OBSERVATIONS) !== null) {
+//                renderData(getLocalItem(PREDEFINED_OBSERVATIONS), true);
+//            }
+//        });
 
-        $('#useWozSwitch .switchButtonAddonPanel').on('click', function (event) {
-            var aGestures = assembledGestures();
-            if (!$(this).find('#success').hasClass('active') && (!aGestures || aGestures.length === 0)) {
-                $('#wozExperimentContainer').find('.btn-add-woz-experimentOption').addClass('hidden');
-            }
-        });
-
-        $('#useWozSwitch .btn-toggle-checkbox-panel').on('click').bind('click', function (event) {
-            var aGestures = assembledGestures();
-            if ($(this).attr('id') === 'success' && (!aGestures || aGestures.length === 0)) {
-                $('#wozExperimentContainer').find('.btn-add-woz-experimentOption').addClass('hidden');
-            }
-        });
+//        $('#useWozSwitch .switchButtonAddonPanel').on('click', function (event) {
+//            var aGestures = assembledGestures();
+//            if (!$(this).find('#success').hasClass('active') && (!aGestures || aGestures.length === 0)) {
+//                $('#wozExperimentContainer').find('.btn-add-woz-experimentOption').addClass('hidden');
+//            }
+//        });
+//
+//        $('#useWozSwitch .btn-toggle-checkbox-panel').on('click').bind('click', function (event) {
+//            var aGestures = assembledGestures();
+//            if ($(this).attr('id') === 'yes' && (!aGestures || aGestures.length === 0)) {
+//                $('#wozExperimentContainer').find('.btn-add-woz-experimentOption').addClass('hidden');
+//            }
+//        });
 </script>

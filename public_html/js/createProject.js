@@ -8,7 +8,6 @@ var currentPhaseStepCount = 0;
 var currentIdForModal;
 var colors;
 var currentContainerList = null;
-var currentFunctionTriggerId = 0;
 
 function setLocalItem(id, data) {
     sessionStorage.setItem(id, JSON.stringify(data));
@@ -92,15 +91,15 @@ function createPredefinedGestures() {
 //        images.push("http://placehold.it/200x150?text=5");
 
         var gestures = new Array();
-        gestures.push(new Gesture("ownProject", 1, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung fg fdg. asdfkaölsdfaj sdö fasd föasd faös kdalökds föla sdöklasdf lökasdf ladf ölk gjsögi bjsföi vjadölfiadöli gsöldfjva ödifgsdöli a öldgöald f völadföl gasö ldfgaödf öladf ölgaöldfglösfg sfg löad lf alödg ölsfg bjl", images, 2, null, false));
-        gestures.push(new Gesture("ownProject", 2, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung hgdh d.", images, 1, null, false));
-        gestures.push(new Gesture("ownProject", 3, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung hdhhsr.", images, 2, null, false));
-        gestures.push(new Gesture("ownProject", 4, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung  wzhwsbf b.", images, 0, null, false));
-        gestures.push(new Gesture("ownProject", 5, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung rhsfgnsgk s dgh sfg.", images, 2, null, false));
-        gestures.push(new Gesture("gestureCatalog", 6, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Haha.", images, 1, null, false));
-        gestures.push(new Gesture("gestureCatalog", 7, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 2, null, false));
-        gestures.push(new Gesture("gestureCatalog", 8, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 2, null, false));
-        gestures.push(new Gesture("gestureCatalog", 9, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist eine lange lange Beschreibung.", images, 0, null, false));
+        gestures.push(new Gesture("ownProject", 1, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist .", images, 2, null, false));
+        gestures.push(new Gesture("ownProject", 2, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies .", images, 1, null, false));
+        gestures.push(new Gesture("ownProject", 3, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung hdhhsr.", images, 2, null, false));
+        gestures.push(new Gesture("ownProject", 4, "Dies ist ein Gestentitel " + (gestures.length + 1), "wzhwsbf b.", images, 0, null, false));
+        gestures.push(new Gesture("ownProject", 5, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung rhsfgnsgk s dgh sfg.", images, 2, null, false));
+        gestures.push(new Gesture("gestureCatalog", 6, "Dies ist ein Gestentitel " + (gestures.length + 1), "lange Haha.", images, 1, null, false));
+        gestures.push(new Gesture("gestureCatalog", 7, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", images, 2, null, false));
+        gestures.push(new Gesture("gestureCatalog", 8, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", images, 2, null, false));
+        gestures.push(new Gesture("gestureCatalog", 9, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", images, 0, null, false));
 
         setLocalItem(PREDEFINED_GESTURE_SET, gestures);
     }
@@ -340,6 +339,8 @@ function QuestionnaireItem(type, dimension, question, parameters, options) {
 function Scenario() {
     this.title;
     this.description;
+    this.scene;
+    this.elicitationTrigger;
     this.woz;
     this.help;
     this.observations;
@@ -418,11 +419,27 @@ function getDimensionByElement(element) {
     dimensions.push(DIMENSION_MENTAL_MODEL);
     dimensions.push(DIMENSION_RELIABILITY);
     dimensions.push(DIMENSION_USABILITY);
-    
+
     for (var i = 0; i < dimensions.length; i++) {
         if ($(element).hasClass(dimensions[i]) === true) {
             return dimensions[i];
         }
     }
     return DIMENSION_ANY;
+}
+
+function getPrototypeById(id) {
+    var prototypes = getLocalItem(ASSEMBLED_PROTOTYPES);
+    for (var i = 0; i < prototypes.length; i++) {
+        if (prototypes[i].id === id) {
+            return prototypes[i];
+        }
+    }
+    return null;
+}
+
+function appendAlert(target, alertType) {
+    console.log('append alert: ' + alertType);
+    var alert = $('#form-item-container').find('#' + alertType).clone();
+    $(target).find('.alert-' + alert.attr('id')).append(alert);
 }

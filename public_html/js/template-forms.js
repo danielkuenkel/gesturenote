@@ -3,7 +3,10 @@
  * when clicked outside of a modal 
  */
 
+var closeClicked = false;
+
 function onCloseClick() {
+    closeClicked = true;
     saveData();
     currentIdForModal = null;
 }
@@ -27,11 +30,6 @@ $('body').on('click', '#addFormat', function (event) {
             var clone = $('#form-item-container').find('#' + selectedID).clone(true);
             $('#list-container').append(clone);
             checkCurrentListState($('#list-container'));
-            
-//            if(selectedID === PROTOTYPE_IMAGE) {
-//                clone.find('.imageAreaContent').attr('id', getRandomId());
-//                console.log(clone.find('.imageAreaContent').attr('id'));
-//            }
         }
         updateBadges($('#list-container'), selectedID);
     }
@@ -216,31 +214,60 @@ function updateHelpItemCounter(container) {
     }
 }
 
+
+/*
+ * Specific alternative switch functionalities
+ */
+
+$('.alternativeSwitch .check').unbind('click').bind('click', function (event) {
+    $(this).closest('.root').find('.alternativeGestureSelect').addClass('hidden');
+    $(this).closest('.root').find('.alternativeTriggerSelect').addClass('hidden');
+
+    if ($(this).hasClass(ALERT_NO_GESTURES_ASSEMBLED)) {
+        if (assembledGestures()) {
+            $(this).closest('.root').find('.alternativeGestureSelect').removeClass('hidden');
+        }
+    } else if ($(this).hasClass(ALERT_NO_TRIGGER_ASSEMBLED)) {
+        if (getLocalItem(ASSEMBLED_TRIGGER)) {
+            $(this).closest('.root').find('.alternativeTriggerSelect').removeClass('hidden');
+        }
+    }
+});
+
 /* 
  * Check if there are assembled gestures (a gesture set)
  * It's for the alert showing in dichotomous question container 
+ * 
+ * reset: remove alerts
  */
 
-$('body').on('click', '.checkAssembledGestures', function (event) {
+$('body').on('click', '.check', function (event) {
+
     if (event.handled !== true)
     {
         event.handled = true;
         event.preventDefault();
-        var aGestures = assembledGestures();
-        if (!aGestures || aGestures.length === 0) {
-            event.stopPropagation();
-            if ($(this).attr('id') === 'success') {
-                $(this).parent().find('.switchButtonAddon').click();
-                $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
-            } else if ($(this).hasClass('switchButtonAddon')) {
-                var activeButton = $(this).nextAll().filter('#success');
-                var inactiveButton = $(this).nextAll().filter('#warning');
-                $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
-                toggleSwitch(activeButton, inactiveButton);
-            } else {
-                $(this).closest('.panel-body').find('#no-gestures-assembled').removeClass('hidden');
+
+        $(this).closest('.root').find('.alert-space').empty();
+
+        if ($(this).hasClass(ALERT_NO_GESTURES_ASSEMBLED)) {
+            if (!assembledGestures()) {
+                appendAlert($(this).closest('.root'), ALERT_NO_GESTURES_ASSEMBLED);
+            }
+        } else if ($(this).hasClass(ALERT_NO_TRIGGER_ASSEMBLED)) {
+            if (!getLocalItem(ASSEMBLED_TRIGGER)) {
+                appendAlert($(this).closest('.root'), ALERT_NO_TRIGGER_ASSEMBLED);
             }
         }
+    }
+});
+
+$('body').on('click', '.reset', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
+        $(this).closest('.root').find('.alert-space').empty();
     }
 });
 
@@ -249,15 +276,7 @@ $('body').on('click', '.checkAssembledGestures', function (event) {
  * toggable panel with switch button 
  */
 
-$('.switchButtonAddonPanel').unbind('click').bind('click', function (event) {
-//    console.log('switchButtonAddonPanel');
-    event.preventDefault();
-    togglePanelBody($(this).closest('.root').find('.panel-body'));
-    togglePanelBadges($(this).closest('.root').find('.badges'));
-});
-
 $('.btn-toggle-checkbox-panel').unbind('click').bind('click', function (event) {
-//    console.log('btn-toggle-checkbox-panel');
     event.preventDefault();
     if (!$(this).hasClass('active')) {
         togglePanelBody($(this).closest('.root').find('.panel-body'));
@@ -291,9 +310,9 @@ function togglePanelBadges(badges) {
 function renderAssembledGestures() {
     var gestures = assembledGestures();
 
-    if (gestures && gestures.length > 0) {
-        var wozExperimentItem = $('#form-item-container').find('.gestureSelect');
-        $(wozExperimentItem).find('.option').empty();
+    if (gestures) {
+        var dropdown = $('#form-item-container').find('.gestureSelect');
+        $(dropdown).find('.option').empty();
 
         for (var i = 0; i < gestures.length; i++) {
             var listItem = document.createElement('li');
@@ -302,25 +321,25 @@ function renderAssembledGestures() {
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode(gestures[i].title));
             listItem.appendChild(link);
-            $(wozExperimentItem).find('.option').append(listItem);
+            $(dropdown).find('.option').append(listItem);
             $('#form-item-container').find('.gestureSelect .dropdown-toggle').removeClass('disabled');
             $('#form-item-container').find('.option-gesture').attr('placeholder', 'Bitte wählen');
         }
     } else {
-        console.log('no gestures arranged');
-        $('#form-item-container').find('.gestureSelect .dropdown-toggle').addClass('disabled');
-        $('#wozExperimentContainer').find('#no-gestures-assembled').removeClass('hidden');
-        $('#wozExperimentContainer').find('.btn-add-woz-experiment-item').addClass('hidden');
         $('#form-item-container').find('.gestureSelect .dropdown-toggle').addClass('disabled');
         $('#form-item-container').find('.option-gesture').attr('placeholder', 'Kein Gestenset vorhanden');
     }
 }
 
+/* 
+ * Actions for the feedback select dropdown
+ */
+
 function renderPredefinedFeedback() {
     var feedback = getLocalItem(PREDEFINED_GESTURE_FEEDBACK);
 
-    var triggerDropdown = $('#form-item-container').find('.feedbackSelect');
-    $(triggerDropdown).find('.option').empty();
+    var dropdown = $('#form-item-container').find('.feedbackSelect');
+    $(dropdown).find('.option').empty();
     var listItem;
 
     for (var i = 0; i < feedback.length; i++) {
@@ -332,7 +351,7 @@ function renderPredefinedFeedback() {
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode('Keines'));
             listItem.appendChild(link);
-            $(triggerDropdown).find('.option').append(listItem);
+            $(dropdown).find('.option').append(listItem);
         }
 
         listItem = document.createElement('li');
@@ -342,34 +361,43 @@ function renderPredefinedFeedback() {
         link.setAttribute('href', '#');
         link.appendChild(document.createTextNode(feedback[i].title));
         listItem.appendChild(link);
-        $(triggerDropdown).find('.option').append(listItem);
+        $(dropdown).find('.option').append(listItem);
     }
 }
 
+/* 
+ * Actions for the trigger select dropdown
+ */
+
 function renderAssembledTriggers() {
     var triggers = getLocalItem(ASSEMBLED_TRIGGER);
-    var triggerDropdown = $('#form-item-container').find('.triggerSelect');
-    $(triggerDropdown).find('.option').empty();
+    var dropdown = $('#form-item-container').find('.triggerSelect');
+    $(dropdown).find('.option').empty();
 
     if (triggers && triggers.length > 0) {
-        $(triggerDropdown).find('.dropdown-toggle').removeClass('disabled');
+        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
         var listItem;
         for (var i = 0; i < triggers.length; i++) {
             listItem = document.createElement('li');
             listItem.setAttribute('id', triggers[i].id);
+//            console.log(triggers[i].id)
 
             var link = document.createElement('a');
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode(triggers[i].title));
             listItem.appendChild(link);
-            $(triggerDropdown).find('.option').append(listItem);
+            $(dropdown).find('.option').append(listItem);
         }
         $('body').find('.option-trigger').attr('placeholder', 'Bitte wählen');
     } else {
-        $(triggerDropdown).find('.dropdown-toggle').addClass('disabled');
+        $(dropdown).find('.dropdown-toggle').addClass('disabled');
         $('body').find('.option-trigger').attr('placeholder', 'Kein Triggerset vorhanden');
     }
 }
+
+/* 
+ * Actions for the prototype select dropdown
+ */
 
 function renderAssembledPrototypes() {
     var prototypes = getLocalItem(ASSEMBLED_PROTOTYPES);
@@ -379,9 +407,10 @@ function renderAssembledPrototypes() {
     if (prototypes && prototypes.length > 0) {
         $(prototypeDropdown).find('.dropdown-toggle').removeClass('disabled');
         var listItem;
+
         for (var i = 0; i < prototypes.length; i++) {
             listItem = document.createElement('li');
-//            listItem.setAttribute('id', prototypes[i].id);
+            listItem.setAttribute('id', prototypes[i].id);
 
             var link = document.createElement('a');
             link.setAttribute('href', '#');
@@ -389,7 +418,7 @@ function renderAssembledPrototypes() {
             listItem.appendChild(link);
             $(prototypeDropdown).find('.option').append(listItem);
         }
-        $('body').find('.option-trigger').attr('placeholder', 'Bitte wählen');
+        $('body').find('.option-prototype').attr('placeholder', 'Bitte wählen');
     } else {
         $(prototypeDropdown).find('.dropdown-toggle').addClass('disabled');
         $('body').find('.option-prototype').attr('placeholder', 'Keine Prototypen vorhanden');
@@ -592,6 +621,8 @@ $('body').on('click', '.checkVideoEmbedURL', function (event) {
         var inputContainer = $(this).closest('.form-group');
         var button = $(this);
 
+        $(this).closest('.root').find('.alert-' + ALERT_VIDEO_EMBED_URL_INVALID).empty();
+
         if (url && url.trim() !== "" && urlIsValid(url, TYPE_URL_VIDEO_EMBED)) {
             // check the video URL if they is valid. works for vimeo & youtube
             videoContainer.html(url);
@@ -602,7 +633,6 @@ $('body').on('click', '.checkVideoEmbedURL', function (event) {
             console.log('url valid: ' + video.data('aspectRatio') + ", " + video.attr('height') + ", " + video.attr('width') + ', ' + newWidth);
             video.attr('width', newWidth);
             video.attr('height', newWidth * video.data('aspectRatio'));
-            $(this).closest('.root').find('#video-embed-url-invalid').addClass('hidden');
             inputContainer.removeClass('has-error');
             inputContainer.addClass('has-success');
             button.removeClass('btn-danger');
@@ -611,16 +641,17 @@ $('body').on('click', '.checkVideoEmbedURL', function (event) {
         } else if (url && url.trim() !== "") {
             videoContainer.addClass('hidden');
             videoContainer.html('');
-            $(this).closest('.root').find('#video-embed-url-invalid').removeClass('hidden');
             inputContainer.removeClass('has-success');
             inputContainer.addClass('has-error');
             button.removeClass('btn-success');
             button.addClass('btn-danger');
             inputField.focus();
+
+            var alert = $('#form-item-container').find('#' + ALERT_VIDEO_EMBED_URL_INVALID).clone();
+            $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
         } else {
             videoContainer.addClass('hidden');
             videoContainer.html('');
-            $(this).closest('.root').find('#video-embed-url-invalid').addClass('hidden');
             button.removeClass('btn-success');
             button.removeClass('btn-danger');
             inputContainer.removeClass('has-success');
@@ -640,6 +671,7 @@ $('body').on('click', '.checkPidocoEditURL', function (event) {
             var container = $(this).closest('.form-group');
             var button = $(this);
             var inputField = $(this).closest('.root').find('.pidoco-edit-url');
+            $(this).closest('.root').find('.alert-' + ALERT_PIDOCO_EDIT_URL_INVALID).empty();
             // check the URL if they is valid.
             if (urlIsValid(url, TYPE_URL_PIDOCO_EDIT))
             {
@@ -648,17 +680,18 @@ $('body').on('click', '.checkPidocoEditURL', function (event) {
                 container.addClass('has-success');
                 button.removeClass('btn-danger');
                 button.addClass('btn-success');
-                container.find('#pidoco-edit-url-invalid').addClass('hidden');
                 inputField.blur();
+
             } else {
                 $(this).closest('.root').find('.pidocoUseGestures').addClass('hidden');
                 container.removeClass('has-success');
                 container.addClass('has-error');
                 button.removeClass('btn-success');
                 button.addClass('btn-danger');
-                container.find('#pidoco-edit-url-invalid').removeClass('hidden');
                 inputField.focus();
 
+                var alert = $('#form-item-container').find('#' + ALERT_PIDOCO_EDIT_URL_INVALID).clone();
+                $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
             }
         }
     }
@@ -674,6 +707,7 @@ $('body').on('click', '.checkPidocoEmbedURL', function (event) {
             var container = $(this).closest('.form-group');
             var button = $(this);
             var inputField = $(this).closest('.root').find('.pidoco-embed-url');
+            $(this).closest('.root').find('.alert-' + ALERT_PIDOCO_EMBED_URL_INVALID).empty();
             // check the URL if they is valid.
             // example: https://pidoco.com/rabbit/prototype/result/172450/page781496647/plain
             if (urlIsValid(url, TYPE_URL_PIDOCO_EMBED))
@@ -682,15 +716,17 @@ $('body').on('click', '.checkPidocoEmbedURL', function (event) {
                 container.addClass('has-success');
                 button.removeClass('btn-danger');
                 button.addClass('btn-success');
-                container.find('#pidoco-embed-url-invalid').addClass('hidden');
                 inputField.blur();
+
             } else {
                 container.removeClass('has-success');
                 container.addClass('has-error');
                 button.removeClass('btn-success');
                 button.addClass('btn-danger');
-                container.find('#pidoco-embed-url-invalid').removeClass('hidden');
                 inputField.focus();
+
+                var alert = $('#form-item-container').find('#' + ALERT_PIDOCO_EMBED_URL_INVALID).clone();
+                $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
             }
         }
     }

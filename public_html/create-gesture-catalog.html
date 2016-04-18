@@ -73,8 +73,8 @@
                 </div>
                 <div class="btn-group pull-right" id="useGesturesSwitch">
                     <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
-                    <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
+                    <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
                 </div>
             </div>
             <div class="panel-body hidden">
@@ -92,8 +92,8 @@
                 </div>
                 <div class="btn-group pull-right" id="useGesturesSwitch">
                     <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
-                    <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
+                    <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
                 </div>
             </div>
             <div class="panel-body hidden">
@@ -106,8 +106,8 @@
                 <div style="margin-top: 4px; display: inline-block">Neue Geste aufzeichnen</div>
                 <div class="btn-group pull-right" id="useGesturesSwitch">
                     <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
-                    <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="warning">Nein</button>
+                    <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
                 </div>
             </div>
             <div class="panel-body hidden">
@@ -186,10 +186,10 @@
     function saveData() {
         var data = getLocalItem('predefinedGestureSet');
         var selectedGestures = new Array();
-        if ($('#ownExtractedGestures').find('#success').hasClass('active')) {
+        if ($('#ownExtractedGestures').find('#yes').hasClass('active')) {
             selectedGestures = $.merge(selectedGestures, $('#ownExtractedGestures #list-container').children('.selected'));
         }
-        if ($('#gesetureCatalog').find('#success').hasClass('active')) {
+        if ($('#gesetureCatalog').find('#yes').hasClass('active')) {
             selectedGestures = $.merge(selectedGestures, $('#gesetureCatalog #list-container').children('.selected'));
         }
 

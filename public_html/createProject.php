@@ -11,7 +11,7 @@
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
-        
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
@@ -123,8 +123,8 @@
                         <div class="form-group">
                             <div class="btn-group" id="usePrototypesSwitch">
                                 <button class="btn btn-default switchButtonAddon saveData">Prototypen benutzen?</button>
-                                <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="success">Ja</button>
-                                <button class="btn btn-warning btn-toggle-checkbox saveData active" id="warning">Nein</button>
+                                <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="yes" name="btn-success">Ja</button>
+                                <button class="btn btn-warning btn-toggle-checkbox saveData active" id="no" name="btn-warning">Nein</button>
                                 <button class="btn btn-default supplement hidden" id="assemble-prototypes-set">
                                     <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Prototypen koppeln</span></button>
                                 <button class="btn btn-addon" id="btn-prototypes-info">
@@ -143,8 +143,8 @@
                         <div class="form-group">
                             <div class="btn-group" id="useGesturesSwitch">
                                 <button class="btn btn-default switchButtonAddon saveData">Gesten nutzen?</button>
-                                <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="success">Ja</button>
-                                <button class="btn btn-warning btn-toggle-checkbox saveData active" id="warning">Nein</button>
+                                <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="yes" name="btn-success">Ja</button>
+                                <button class="btn btn-warning btn-toggle-checkbox saveData active" id="no" name="btn-warning">Nein</button>
                                 <button class="btn btn-default supplement hidden" id="assemble-gesture-set">
                                     <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Gestenset zusammenstellen</span></button>
                                 <button class="btn btn-addon" id="btn-use-gestures-info">
@@ -158,8 +158,8 @@
                         <div class="form-group">
                             <div class="btn-group" id="useTriggerSwitch">
                                 <button class="btn btn-default switchButtonAddon saveData">Trigger nutzen?</button>
-                                <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="success">Ja</button>
-                                <button class="btn btn-warning btn-toggle-checkbox saveData active" id="warning">Nein</button>
+                                <button class="btn btn-default btn-toggle-checkbox saveData inactive" id="yes" name="btn-success">Ja</button>
+                                <button class="btn btn-warning btn-toggle-checkbox saveData active" id="no" name="btn-warning">Nein</button>
                                 <button class="btn btn-default supplement hidden" id="assemble-trigger-set">
                                     <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Trigger erstellen</span></button>
                                 <button class="btn btn-addon" id="btn-use-trigger-info">
@@ -235,7 +235,7 @@
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-danger btn-md" onclick="clearLocalItems()"><i class="glyphicon glyphicon-trash"></i> Reset Session Storage</button>
+                                <button type="button" class="btn btn-danger btn-md" onclick="clearLocalItems()"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-warning btn-md"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
@@ -284,10 +284,10 @@
                 currentIdForModal = ASSEMBLED_PROTOTYPES;
                 loadHTMLintoModal('custom-modal', 'create-prototypes-catalog.html', 'modal-lg');
             });
-            
-            $('#usePrototypesSwitch #warning, #usePrototypesSwitch .switchButtonAddon').on('click', function (event) {
+
+            $('#usePrototypesSwitch #no, #usePrototypesSwitch .switchButtonAddon').on('click', function (event) {
                 event.preventDefault();
-                if (!$(this).parent().find('#warning').hasClass('active') === true) {
+                if (!$(this).parent().find('#no').hasClass('active') === true) {
                     removeAssembledPrototypes();
                 }
             });
@@ -298,9 +298,9 @@
                 loadHTMLintoModal('custom-modal', 'create-gesture-catalog.html', 'modal-lg');
             });
 
-            $('#useGesturesSwitch #warning, #useGesturesSwitch .switchButtonAddon').on('click', function (event) {
+            $('#useGesturesSwitch #no, #useGesturesSwitch .switchButtonAddon').on('click', function (event) {
                 event.preventDefault();
-                if (!$(this).parent().find('#warning').hasClass('active') === true) {
+                if (!$(this).parent().find('#no').hasClass('active') === true) {
                     removeAssembledGestures();
                 }
             });
@@ -311,9 +311,9 @@
                 loadHTMLintoModal('custom-modal', 'create-trigger-catalog.html', 'modal-lg');
             });
 
-            $('#useTriggerSwitch #warning, #useTriggerSwitch .switchButtonAddon').on('click', function (event) {
+            $('#useTriggerSwitch #no, #useTriggerSwitch .switchButtonAddon').on('click', function (event) {
                 event.preventDefault();
-                if (!$(this).parent().find('#warning').hasClass('active') === true) {
+                if (!$(this).parent().find('#no').hasClass('active') === true) {
                     removeAssembledTrigger();
                 }
             });
@@ -344,13 +344,12 @@
                 $(parent).find('.selected').text(itemText);
 
 //                console.log(parent + ", " + itemText + ", " + listItemId);
+                saveGeneralData();
 
                 if (parent.attr('id') !== "phaseSelect" || parent.attr('id') !== "surveyTypeSelect") {
                     $(parent).parent().find('.toggable-button').removeClass('disabled');
                     $(parent).parent().find('.toggable-info').removeClass('info-addon-disabled');
                 }
-
-                saveGeneralData();
             });
 
 
@@ -473,7 +472,11 @@
             $('body').on('click', '.btn-toggle-checkbox', function (event) {
                 event.preventDefault();
                 if ($(this).hasClass('inactive')) {
-                    toggleSwitch($(this).parent().children('.active'), $(this).parent().children('.inactive'));
+                    if ($(this).parent().children('.active').length === 0) {
+                        toggleSwitch(null, $(this));
+                    } else {
+                        toggleSwitch($(this).parent().children('.active'), $(this));
+                    }
                 }
 
                 if ($(this).hasClass('saveData')) {
@@ -485,7 +488,14 @@
                 event.preventDefault();
                 var activeButton = $(this).nextAll().filter('.active');
                 var inactiveButton = $(this).nextAll().filter('.inactive');
-                toggleSwitch(activeButton, inactiveButton);
+
+                if (activeButton.length === 0) {
+                    activeButton = null;
+                    inactiveButton = $(this).next();
+                    
+                }
+                inactiveButton.click();
+//                toggleSwitch(activeButton, inactiveButton);
 
                 if ($(this).hasClass('saveData')) {
                     saveGeneralData();
@@ -493,14 +503,16 @@
             });
 
             function toggleSwitch(activeButton, inactiveButton) {
-                $(activeButton).removeClass('active');
-                $(activeButton).addClass('inactive');
-                $(activeButton).addClass('btn-default');
-                $(activeButton).removeClass('btn-' + $(activeButton).attr('id'));
+                if (activeButton) {
+                    $(activeButton).removeClass('active');
+                    $(activeButton).addClass('inactive');
+                    $(activeButton).addClass('btn-default');
+                    $(activeButton).removeClass($(activeButton).attr('name'));
+                }
                 $(inactiveButton).removeClass('inactive');
                 $(inactiveButton).addClass('active');
                 $(inactiveButton).removeClass('btn-default');
-                $(inactiveButton).addClass('btn-' + $(inactiveButton).attr('id'));
+                $(inactiveButton).addClass($(inactiveButton).attr('name'));
 
                 var supplements = $(activeButton).parent().children('.supplement');
                 if (supplements.length > 0) {

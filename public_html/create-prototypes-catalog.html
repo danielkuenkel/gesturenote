@@ -36,6 +36,8 @@
 <script type="text/javascript" src="js/template-forms.js"></script>
 <script>
         $(document).ready(function () {
+            closeClicked = false;
+
             var data = getLocalItem(ASSEMBLED_PROTOTYPES);
             if (data !== null) {
                 renderData(data);
@@ -57,6 +59,37 @@
             setTimeout(function () {
                 window.dispatchEvent(new Event('resize'));
             }, 100);
+        });
+
+        $('#custom-modal').on('hide.bs.modal', function (event) {
+            if (!event.handled && closeClicked) {
+                closeClicked = false;
+
+                event.handled = true;
+                var items = $('#list-container').children();
+                var hasTitles = true;
+                for (var i = 0; i < items.length; i++) {
+                    var item = items[i];
+                    var title = $(item).find('.title').val();
+
+                    if (title.trim() === '') {
+                        
+                        if ($(item).find('.alert-' + ALERT_NO_TITLE).children().length === 0) {
+                            var alert = $('#form-item-container').find('#' + ALERT_NO_TITLE).clone();
+                            $(item).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
+//                            $('#form-item-container').find('#no-title').clone().insertBefore($(item).find('.title').closest('.alert-space'));
+                            $(item).find('.title').closest('.form-group').addClass('has-error');
+                        }
+                        hasTitles = false;
+                    }
+                }
+
+                if (!hasTitles) {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                    return false;
+                }
+            }
         });
 
         function renderData(data) {
@@ -166,7 +199,7 @@
             setLocalItem(ASSEMBLED_PROTOTYPES, assembledData);
         }
 
-        $('.transmit-gestures-select .checkAssembledGestures').unbind('click').bind('click', function (event) {
+        $('.transmit-gestures-select .check').unbind('click').bind('click', function (event) {
             var aGestures = assembledGestures();
             if (aGestures && $(this).closest('.root').find('.transmit-gestures-select #success').hasClass('inactive')) {
                 $(this).closest('.root').find('#transmitGestures').removeClass('hidden');

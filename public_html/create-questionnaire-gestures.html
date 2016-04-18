@@ -24,6 +24,7 @@
                     <li id="rating"><a href="#">Rating</a></li>
                     <li id="sumQuestion"><a href="#">Summenfrage</a></li>
                     <li id="ranking"><a href="#">Ranking</a></li>
+                    <li id="alternativeQuestion"><a href="#">Alternativfrage</a></li>
                 </ul>
             </div>
             <div class="btn-group" role="group">
@@ -56,6 +57,9 @@
             checkDimensions();
 //            var originData = getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE);
             var data = getLocalItem(currentIdForModal + '.data');
+
+            renderAssembledGestures();
+            renderAssembledTriggers();
 
             if (data !== null) {
                 renderData(data);
@@ -97,6 +101,37 @@
                         }
                         if (parameters[1] === true) {
                             $(clone).find('.justification .switchButtonAddon').click();
+                        }
+                        break;
+                    case ALTERNATIVE_QUESTION:
+                        var parameters = item.parameters;
+                        if(parameters[0] === 'gestures') {
+                            $(clone).find('#gestures').click();
+                        }
+                        
+                        if (parameters[1] === 'gesture') {
+                            if(assembledGestures()) {
+                                $(clone).find('#alternativeGesture').click();
+                            }
+                            
+                            if (isGestureAssembled(parameters[2].id)) {
+                                $(clone).find('.option-gesture').val(parameters[2].title);
+                                $(clone).find('.gestureSelect .selected').attr('id', parameters[2].id);
+                            } else {
+                                appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
+                            }
+                        } else if (parameters[1] === 'trigger') {
+                            if(getLocalItem(ASSEMBLED_TRIGGER))
+                            {
+                                $(clone).find('#alternativeTrigger').click();
+                            }
+                            
+                            if (getTriggerById(parameters[2].id)) {
+                                $(clone).find('.option-trigger').val(parameters[2].title);
+                                $(clone).find('.triggerSelect .selected').attr('id', parameters[2].id);
+                            } else {
+                                appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
+                            }
                         }
                         break;
                     case GROUPING_QUESTION:
@@ -174,13 +209,31 @@
                 switch (type) {
                     case DICHOTOMOUS_QUESTION:
                         parameters = new Array();
-                        parameters.push($(item).find('.gesture-select .active').attr('id') === 'success' ? true : false);
-                        parameters.push($(item).find('.justification .active').attr('id') === 'success' ? true : false);
+                        parameters.push($(item).find('.gesture-select .active').attr('id') === 'yes' ? true : false);
+                        parameters.push($(item).find('.justification .active').attr('id') === 'yes' ? true : false);
+                        break;
+                    case ALTERNATIVE_QUESTION:
+                        parameters = new Array();
+                        parameters.push($(item).find('#gestures').hasClass('active') ? 'gestures' : 'triggers');
+                        
+                        if (assembledGestures() && $(item).find('.alternativeSwitch .active').attr('id') === 'alternativeGesture') {
+                            var gestureId = $(item).find('.gestureSelect .selected').attr('id');
+                            if (gestureId !== 'unselected') {
+                                parameters.push('gesture');
+                                parameters.push(getGestureById(gestureId));
+                            }
+                        } else if (getLocalItem(ASSEMBLED_TRIGGER) && $(item).find('.alternativeSwitch .active').attr('id') === 'alternativeTrigger') {
+                            var triggerId = $(item).find('.triggerSelect .selected').attr('id');
+                            if (triggerId !== 'unselected') {
+                                parameters.push('trigger');
+                                parameters.push(getTriggerById(triggerId));
+                            }
+                        }
                         break;
                     case GROUPING_QUESTION:
                         parameters = new Array();
-                        parameters.push($(item).find('.multiselect .active').attr('id') === 'success' ? true : false);
-                        parameters.push($(item).find('.optionalanswer .active').attr('id') === 'success' ? true : false);
+                        parameters.push($(item).find('.multiselect .active').attr('id') === 'yes' ? true : false);
+                        parameters.push($(item).find('.optionalanswer .active').attr('id') === 'yes' ? true : false);
 
                         options = new Array();
                         var groupingOptions = $(item).find('.option-container').children();

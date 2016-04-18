@@ -138,13 +138,13 @@
                 switch (type) {
                     case DICHOTOMOUS_QUESTION:
                         parameters = new Array();
-                        parameters.push($(item).find('.gesture-select .active').attr('id') === 'success' ? true : false);
-                        parameters.push($(item).find('.justification .active').attr('id') === 'success' ? true : false);
+                        parameters.push($(item).find('.gesture-select .active').attr('id') === 'yes' ? true : false);
+                        parameters.push($(item).find('.justification .active').attr('id') === 'yes' ? true : false);
                         break;
                     case GROUPING_QUESTION:
                         parameters = new Array();
-                        parameters.push($(item).find('.multiselect .active').attr('id') === 'success' ? true : false);
-                        parameters.push($(item).find('.optionalanswer .active').attr('id') === 'success' ? true : false);
+                        parameters.push($(item).find('.multiselect .active').attr('id') === 'yes' ? true : false);
+                        parameters.push($(item).find('.optionalanswer .active').attr('id') === 'yes' ? true : false);
 
                         options = new Array();
                         var groupingOptions = $(item).find('.option-container').children();

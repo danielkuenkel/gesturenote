@@ -31,10 +31,6 @@
                 var id = parseInt(data[i].id);
                 clone.attr('id', data[i].type + '_' + id);
                 $('#list-container').find('.option-container').append(clone);
-
-                if (currentFunctionTriggerId <= id) {
-                    currentFunctionTriggerId = id + 1;
-                }
             }
             checkCurrentListState($('#list-container').find('.option-container'));
         }
@@ -51,8 +47,7 @@
                         triggerId = splitId[1];
                     }
                 } else {
-                    triggerId = currentFunctionTriggerId;
-                    currentFunctionTriggerId++;
+                    triggerId = chance.natural();
                 }
                 trigger.push(new Trigger(triggerId, TYPE_TRIGGER, $(elements[i]).find('.option').val()));
             }
