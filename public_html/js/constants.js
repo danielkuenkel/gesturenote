@@ -38,6 +38,11 @@ var PROTOTYPE_IMAGE = 'image';
 var PROTOTYPE_VIDEO = 'video';
 var PROTOTYPE_VIDEO_EMBED = 'videoEmbed';
 
+// gesture types
+var GESTURE_OWN_PROJECT = 'ownProject';
+var GESTURE_CATALOG = 'catalog';
+var GESTURE_RECORDED = 'recorded';
+
 // questionnaire dimensions
 var DIMENSION_ANY = 'any';
 var DIMENSION_ERGONOMICS = 'ergonomics'; // Ergonomie
@@ -50,17 +55,23 @@ var DIMENSION_FEASIBILITY = 'feasability'; // Realisierbarkeit
 var DIMENSION_RELIABILITY = 'reliability'; // Zuverlässigkeit
 
 // url types
-TYPE_URL_PIDOCO_EDIT = 'pidocoEdit';
-TYPE_URL_PIDOCO_EMBED = 'pidocoEmbed';
-TYPE_URL_VIDEO_EMBED = 'videoEmbed';
+var TYPE_URL_PIDOCO_EDIT = 'pidocoEdit';
+var TYPE_URL_PIDOCO_EMBED = 'pidocoEmbed';
+var TYPE_URL_VIDEO_EMBED = 'videoEmbed';
 
 // alerts
-ALERT_NO_GESTURES_ASSEMBLED = 'no-gestures-assembled';
-ALERT_ASSEMBLED_GESTURE_REMOVED = 'assembled-gesture-removed';
-ALERT_NO_TRIGGER_ASSEMBLED = 'no-trigger-assembled';
-ALERT_ASSEMBLED_TRIGGER_REMOVED = 'assembled-trigger-removed';
-ALERT_NO_TITLE = 'no-title';
-ALERT_PIDOCO_EDIT_URL_INVALID = 'pidoco-edit-url-invalid';
-ALERT_PIDOCO_EMBED_URL_INVALID = 'pidoco-embed-url-invalid';
-ALERT_VIDEO_EMBED_URL_INVALID = 'video-embed-url-invalid';
-ALERT_ASSEMBLED_PROTOTYPE_REMOVED = 'assembled-prototype-removed';
+var ALERT_NO_GESTURES_ASSEMBLED = 'no-gestures-assembled';
+var ALERT_ASSEMBLED_GESTURE_REMOVED = 'assembled-gesture-removed';
+var ALERT_NO_TRIGGER_ASSEMBLED = 'no-trigger-assembled';
+var ALERT_ASSEMBLED_TRIGGER_REMOVED = 'assembled-trigger-removed';
+var ALERT_NO_TITLE = 'no-title';
+var ALERT_PIDOCO_EDIT_URL_INVALID = 'pidoco-edit-url-invalid';
+var ALERT_PIDOCO_EMBED_URL_INVALID = 'pidoco-embed-url-invalid';
+var ALERT_VIDEO_EMBED_URL_INVALID = 'video-embed-url-invalid';
+var ALERT_ASSEMBLED_PROTOTYPE_REMOVED = 'assembled-prototype-removed';
+
+// sort
+var SORT_ASC = 'asc';
+var SORT_DESC = 'desc';
+var SORT_OLDEST = 'oldest';
+var SORT_NEWEST = 'newest';
