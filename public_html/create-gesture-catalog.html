@@ -36,19 +36,21 @@
                     </div>
                 </div>
                 <div class="btn-group pull-right" id="useGesturesSwitch">
-                    <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                    <button class="btn btn-default switchButtonAddon">Nutzen?</button>
                     <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
                 </div>
             </div>
+
             <div class="panel-body hidden">
                 <div class="panel-group">
                     <div class="form-group">
                         <div class="input-group">
-                            <input class="form-control item-input-text search" type="text" value="" placeholder="Suchbegriff eingeben"/>
+                            <span class="input-group-addon">Suchen</span>
+                            <input class="form-control item-input-text search" id="filterOwnExtractedGestures" type="text" value="" placeholder="Suchbegriff eingeben"/>
                             <span class="input-group-addon">Sortierung</span>
                             <input class="form-control item-input-text option-phase show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
-                            <div class="input-group-btn select" id="sortOwnExtractedGesturesSelect" role="group">
+                            <div class="input-group-btn select sortGestures" id="sortOwnExtractedGestures" role="group">
                                 <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                     <li class="dropdown-header">Datum</li>
@@ -63,7 +65,10 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="panel-group root" id="list-container"></div>
+
+                <div class="alert-space alert-no-search-results"></div>
             </div>
         </div>
 
@@ -76,13 +81,38 @@
                     </div>
                 </div>
                 <div class="btn-group pull-right" id="useGesturesSwitch">
-                    <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                    <button class="btn btn-default switchButtonAddon">Nutzen?</button>
                     <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
                 </div>
             </div>
             <div class="panel-body hidden">
+
+                <div class="panel-group">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input class="form-control item-input-text search" id="filterCatalogGestures" type="text" value="" placeholder="Suchbegriff eingeben"/>
+                            <span class="input-group-addon">Sortierung</span>
+                            <input class="form-control item-input-text option-phase show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+                            <div class="input-group-btn select sortGestures" id="sortCatalogGestures" role="group">
+                                <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    <li class="dropdown-header">Datum</li>
+                                    <li id="oldest"><a href="#">Älteste zuerst</a></li>
+                                    <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Gestentitel</li>
+                                    <li id="asc"><a href="#">A bis Z</a></li>
+                                    <li id="desc"><a href="#">Z bis A</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="panel-group root" id="list-container"></div>
+
+                <div class="alert-space alert-no-search-results"></div>
             </div>
         </div>
 
@@ -90,7 +120,7 @@
             <div class="panel-heading clearfix">
                 <div style="margin-top: 4px; display: inline-block">Neue Geste aufzeichnen</div>
                 <div class="btn-group pull-right" id="useGesturesSwitch">
-                    <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                    <button class="btn btn-default switchButtonAddon">Nutzen?</button>
                     <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
                 </div>
@@ -111,74 +141,86 @@
 
 <script type="text/javascript" src="js/template-forms.js"></script>
 <script>
-        $(document).ready(function () {
-            var data = getLocalItem(PREDEFINED_GESTURE_SET);
-            if (data !== null) {
-                renderData(data);
-            }
-        });
-
-        function renderData(data, isSorting) {
+        function renderData(data, isFilterData) {
             var ownExtractedGestures = 0;
             var gesetureCatalog = 0;
-            
-            $('#ownExtractedGestures #list-container').empty();
-            $('#gesetureCatalog #list-container').empty();
 
-
-            for (var i = 0; i < data.length; i++) {
-                var clone = $('#gesture-thumbnail').clone();
-                clone.removeClass('hidden');
-                clone.attr('id', data[i].type + '.' + data[i].id);
-                clone.find('.title-text').text(data[i].title + " ");
+            if (!isFilterData) {
+                for (var i = 0; i < data.length; i++) {
+                    var clone = $('#gesture-thumbnail').clone();
+                    clone.removeClass('hidden');
+                    clone.attr('id', data[i].type + '.' + data[i].id);
+                    clone.find('.title-text').text(data[i].title + " ");
 //            clone.find('.collapse').attr('id', clone.attr('id') + '.collapse');
-                clone.find('.description-text').text(data[i].description);
-                clone.find('.preview').text(data[i].previewImage);
-                switch (data[i].type) {
-                    case GESTURE_OWN_PROJECT:
-                        $('#ownExtractedGestures #list-container').append(clone);
-                        if (ownExtractedGestures < 1 && data[i].used === true) {
-                            ownExtractedGestures++;
-                            $('#ownExtractedGestures .switchButtonAddon #yes').click();
+                    clone.find('.description-text').text(data[i].description);
+                    clone.find('.preview').text(data[i].previewImage);
+                    switch (data[i].type) {
+                        case GESTURE_OWN_PROJECT:
+                            if (i === 0) {
+                                $('#ownExtractedGestures #list-container').empty();
+                            }
+
+                            $('#ownExtractedGestures #list-container').append(clone);
+
+                            if (ownExtractedGestures < 1 && data[i].used === true) {
+                                ownExtractedGestures++;
+                                $('#ownExtractedGestures #useGesturesSwitch #yes').click();
+                            }
+                            updatePanelBadges($('#ownExtractedGestures #list-container'), 'selected', false);
+                            break;
+                        case GESTURE_CATALOG:
+                            if (i === 0) {
+                                $('#gestureCatalog #list-container').empty();
+                            }
+
+                            $('#gestureCatalog #list-container').append(clone);
+
+                            if (gesetureCatalog < 1 && data[i].used === true) {
+                                gesetureCatalog++;
+                                $('#gestureCatalog #useGesturesSwitch #yes').click();
+                            }
+                            updatePanelBadges($('#gestureCatalog #list-container'), 'selected', false);
+                            break;
+                    }
+
+                    if (data[i].used === true) {
+                        clone.addClass('selected');
+                    }
+
+                    for (var j = 0; j < data[i].images.length; j++) {
+                        var img = document.createElement('img');
+                        img.setAttribute('src', data[i].images[j]);
+                        $(clone).find('.ts-inner').append(img);
+
+                        if (j === parseInt(data[i].previewImage)) {
+                            $(img).addClass('ts-currslide');
                         }
-                        updatePanelBadges($('#ownExtractedGestures #list-container'), 'selected', false);
-                        break;
-                    case GESTURE_CATALOG:
-                        $('#gesetureCatalog #list-container').append(clone);
-                        if (gesetureCatalog < 1 && data[i].used === true) {
-                            gesetureCatalog++;
-                            $('#gesetureCatalog .switchButtonAddon #yes').click();
+                    }
+                }
+            } else {
+                var gestures = data[0].type === GESTURE_OWN_PROJECT ? $('#ownExtractedGestures #list-container').children() : $('#gestureCatalog #list-container').children();
+                for (var i = 0; i < gestures.length; i++) {
+                    var gestureId = $(gestures[i]).attr('id').split('.')[1];
+                    $(gestures[i]).addClass('hidden');
+                    for (var j = 0; j < data.length; j++) {
+                        if (parseInt(gestureId) === parseInt(data[j].id)) {
+                            $(gestures[i]).removeClass('hidden');
                         }
-                        updatePanelBadges($('#gesetureCatalog #list-container'), 'selected', false);
-                        break;
-                }
-
-                if (data[i].used === true) {
-                    clone.addClass('selected');
-                }
-
-                for (var j = 0; j < data[i].images.length; j++) {
-                    var img = document.createElement('img');
-                    img.setAttribute('src', data[i].images[j]);
-                    $(clone).find('.ts-inner').append(img);
-
-                    if (j === parseInt(data[i].previewImage)) {
-                        $(img).addClass('ts-currslide');
                     }
                 }
             }
-
-
         }
 
         function saveData() {
-            var data = getLocalItem('predefinedGestureSet');
+            var data = getLocalItem(PREDEFINED_GESTURE_SET);
             var selectedGestures = new Array();
+
             if ($('#ownExtractedGestures').find('#yes').hasClass('active')) {
                 selectedGestures = $.merge(selectedGestures, $('#ownExtractedGestures #list-container').children('.selected'));
             }
-            if ($('#gesetureCatalog').find('#yes').hasClass('active')) {
-                selectedGestures = $.merge(selectedGestures, $('#gesetureCatalog #list-container').children('.selected'));
+
+            if ($('#gestureCatalog').find('#yes').hasClass('active')) {
+                selectedGestures = $.merge(selectedGestures, $('#gestureCatalog #list-container').children('.selected'));
             }
 
             var assembledGestures = new Array();
@@ -200,39 +242,6 @@
             setLocalItem(PREDEFINED_GESTURE_SET, assembledGestures);
         }
 
-//    $('.switchButtonAddonPanel').on('click', function (event) {
-//        console.log($(this));
-//        event.preventDefault();
-//        togglePanelBody($(this).closest('.root').find('.panel-body'));
-//        togglePanelBadges($(this).closest('.root').find('.badges'));
-//    });
-
-//    $('.btn-toggle-checkbox-panel').on('click', function (event) {
-//        event.preventDefault();
-//        if (!$(this).hasClass('active')) {
-//            togglePanelBody($(this).closest('.root').find('.panel-body'));
-//            togglePanelBadges($(this).closest('.root').find('.badges'));
-//        }
-//    });
-
-//    function togglePanelBody(panelBody) {
-//        if ($(panelBody).hasClass('hidden')) {
-//            $(panelBody).removeClass('hidden');
-//        } else {
-//            $(panelBody).addClass('hidden');
-//        }
-//    }
-
-//    function togglePanelBadges(badges) {
-//        if (badges !== undefined) {
-//            if ($(badges).hasClass('hidden')) {
-//                $(badges).removeClass('hidden');
-//            } else {
-//                $(badges).addClass('hidden');
-//            }
-//        }
-//    }
-
         function updatePanelBadges(container) {
             var max = $(container).children().length;
             var selected = $(container).children('.selected').length;
@@ -240,15 +249,21 @@
             $(container).parents().closest('.root').find('.badgeQuantity').text(max);
         }
 
-        $('.gesture-details').on('click', function (event) {
+        $('body').on('click', '.gesture-thumbnail .gesture-details', function (event) {
             event.preventDefault();
-            toggleCollapse($(this).closest('.root').find('.panel-collapse'));
+            if (!event.handled) {
+                event.handled = true;
+                toggleCollapse($(this).closest('.root').find('.panel-collapse'));
+            }
         });
 
-        $('.title-text').on('click', function (event) {
+        $('body').on('click', '.gesture-thumbnail .title-text', function (event) {
             event.preventDefault();
-            event.stopPropagation();
-            toggleCollapse($(this).closest('.root').find('.panel-collapse'));
+            if (!event.handled) {
+                event.handled = true;
+                event.stopPropagation();
+                toggleCollapse($(this).closest('.root').find('.panel-collapse'));
+            }
         });
 
         function toggleCollapse(element) {
@@ -263,64 +278,65 @@
             }
         }
 
-        $('.title-text').on('mouseover', function (event) {
+        $('body').on('mouseover', '.gesture-thumbnail .title-text', function (event) {
             event.preventDefault();
             $(this).closest('.root').find('.gesture-details').removeClass('hidden');
         });
 
-        $('.title-text').on('mouseleave', function (event) {
+        $('body').on('mouseleave', '.gesture-thumbnail .title-text', function (event) {
             event.preventDefault();
             $(this).closest('.root').find('.gesture-details').addClass('hidden');
         });
 
-        $('.gesture-thumbnail').on('click', function (event) {
+        $('body').on('click', '.gesture-thumbnail', function (event) {
             event.preventDefault();
+            if (!event.handled) {
+                event.handled = true;
 
-            if (!$(this).hasClass('selected')) {
-                $(this).addClass('selected');
-            } else {
-                $(this).removeClass('selected');
+                if (!$(this).hasClass('selected')) {
+                    $(this).addClass('selected');
+                } else {
+                    $(this).removeClass('selected');
+                }
+                updatePanelBadges($(this).closest('#list-container'));
             }
-            updatePanelBadges($(this).closest('#list-container'));
         });
 
-        $('body').on('click', '#sortOwnExtractedGesturesSelect .option li', function (event) {
+        $('.sortGestures .option li').unbind('click').bind('click', function (event) {
             event.preventDefault();
+
             if ($(this).hasClass('dropdown-header') || $(this).hasClass('divider')) {
                 return false;
             }
-            
-            var originArray = getLocalItem(PREDEFINED_GESTURE_SET);
-            var filteredArray = new Array();
-            var otherElementsArray = new Array();
-            for (var i = 0; i < originArray.length; i++) {
-                if (originArray[i].type === GESTURE_OWN_PROJECT) {
-                    filteredArray.push(originArray[i]);
-                }
-                else {
-                    otherElementsArray.push(originArray[i]);
-                }
-            }
 
-            switch ($(this).attr('id')) {
+            saveData();
+            var parentId = $(this).closest('.select').attr('id');
+            var gestureType = parentId === 'sortOwnExtractedGestures' ? GESTURE_OWN_PROJECT : GESTURE_CATALOG;
+            renderData(sortGestures(gestureType, $(this).attr('id')));
+
+            if ($(this).closest('.input-group').find('.search').val().trim() !== "") {
+                $(this).closest('.input-group').find('.search').trigger('keyup');
+            }
+        });
+
+        function sortGestures(gestureType, sortType) {
+            var array = getGesturesByType(gestureType);
+            switch (sortType) {
                 case SORT_ASC:
-                    filteredArray.sort(sortBy('title', false));
+                    array.sort(sortBy('title', false));
                     break;
                 case SORT_DESC:
-                    filteredArray.sort(sortBy('title', true));
+                    array.sort(sortBy('title', true));
                     break;
                 case SORT_NEWEST:
-                    filteredArray.sort(sortBy('timestamp', true));
+                    array.sort(sortBy('timestamp', true));
                     break;
                 case SORT_OLDEST:
-                    filteredArray.sort(sortBy('timestamp', false));
+                    array.sort(sortBy('timestamp', false));
                     break;
             }
-            
-            var newArray = $.merge(filteredArray, otherElementsArray);
-            console.log(newArray);
-            renderData(newArray);
-        });
+            return array;
+        }
 
         function sortBy(key, reverse) {
 
@@ -350,6 +366,51 @@
                 }
                 return 0;
             };
-
         }
+
+        function filterGestures(gestures, filter) {
+            var array = new Array();
+            for (var i = 0; i < gestures.length; i++) {
+                if (gestures[i].title.search(new RegExp(filter, "i")) > -1) {
+                    array.push(gestures[i]);
+                }
+            }
+            return array;
+        }
+
+        $('body').on('keyup', '.search', function (event) {
+            event.preventDefault();
+            if (!event.handled) {
+                event.handled = true;
+                var filter = $(this).val();
+                var gestureType = $(this).attr('id') === 'filterOwnExtractedGestures' ? GESTURE_OWN_PROJECT : GESTURE_CATALOG;
+                var sortType = $(this).closest('.input-group').find('.select .selected').attr('id');
+                var container = $(this).closest('.root').find('#list-container');
+                container.removeClass('hidden');
+
+                if (filter.trim() !== "") {
+                    saveData();
+                    var fGestures = filterGestures(sortGestures(gestureType, sortType), filter.trim());
+                    if (fGestures.length > 0) {
+                        removeAlert($(this).closest('.root'), ALERT_NO_SEARCH_RESULTS);
+                        renderData(fGestures, true);
+                    } else {
+                        container.addClass('hidden');
+                        appendAlert($(this).closest('.root'), ALERT_NO_SEARCH_RESULTS);
+                    }
+                } else {
+                    removeAlert($(this).closest('.root'), ALERT_NO_SEARCH_RESULTS);
+                    renderData(sortGestures(gestureType, sortType));
+                }
+            }
+        });
+
+        $(document).ready(function () {
+            var data = getLocalItem(PREDEFINED_GESTURE_SET);
+            if (data !== null) {
+                renderData(data);
+            }
+            $('#ownExtractedGestures .sortGestures #newest').click();
+            $('#gestureCatalog .sortGestures #newest').click();
+        });
 </script>

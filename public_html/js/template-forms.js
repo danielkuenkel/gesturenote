@@ -273,11 +273,18 @@ $('body').on('click', '.reset', function (event) {
  * toggable panel with switch button 
  */
 
-$('.btn-toggle-checkbox-panel').unbind('click').bind('click', function (event) {
+$('body').on('click', '.btn-toggle-checkbox-panel', function (event) {
     event.preventDefault();
-    if (!$(this).hasClass('active')) {
-        togglePanelBody($(this).closest('.root').find('.panel-body'));
-        togglePanelBadges($(this).closest('.root').find('.badges'));
+    if (!event.handled) {
+        event.handled = true;
+        var panelBody = $(this).closest('.root').find('.panel-body');
+        if ($(this).attr('id') === 'yes' && panelBody.hasClass('hidden')) {
+            togglePanelBody(panelBody);
+            togglePanelBadges($(this).closest('.root').find('.badges'));
+        } else if ($(this).attr('id') === 'no' && !panelBody.hasClass('hidden')) {
+            togglePanelBody(panelBody);
+            togglePanelBadges($(this).closest('.root').find('.badges'));
+        }
     }
 });
 

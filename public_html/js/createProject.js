@@ -92,13 +92,13 @@ function createPredefinedGestures() {
         var gestures = new Array();
         gestures.push(new Gesture(GESTURE_OWN_PROJECT, 1, 1451606400, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist .", images, 2, null, false));
         gestures.push(new Gesture(GESTURE_OWN_PROJECT, 2, 1451692800, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies .", images, 1, null, false));
-        gestures.push(new Gesture(GESTURE_OWN_PROJECT, 3, 1451779200, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung hdhhsr.", images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_OWN_PROJECT, 4, 1451865600, "Dies ist ein Gestentitel " + (gestures.length + 1), "wzhwsbf b.", images, 0, null, false));
+        gestures.push(new Gesture(GESTURE_OWN_PROJECT, 3, 1451779200, "Geste Hand Kreisen ", "Beschreibung hdhhsr.", images, 2, null, false));
+        gestures.push(new Gesture(GESTURE_OWN_PROJECT, 4, 1451865600, "Fuß nach hinten ziehen", "wzhwsbf b.", images, 0, null, false));
         gestures.push(new Gesture(GESTURE_OWN_PROJECT, 5, 1451952000, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung rhsfgnsgk s dgh sfg.", images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_CATALOG, 1451606400, 6, "Dies ist ein Gestentitel " + (gestures.length + 1), "lange Haha.", images, 1, null, false));
-        gestures.push(new Gesture(GESTURE_CATALOG, 1451692800, 7, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_CATALOG, 1451779200, 8, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_CATALOG, 1451865600, 9, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", images, 0, null, false));
+        gestures.push(new Gesture(GESTURE_CATALOG, 6, 1451606400, "Dies ist ein Gestentitel " + (gestures.length + 1), "lange Haha.", images, 1, null, false));
+        gestures.push(new Gesture(GESTURE_CATALOG, 7, 1451692800, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", images, 2, null, false));
+        gestures.push(new Gesture(GESTURE_CATALOG, 8, 1451779200, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", images, 2, null, false));
+        gestures.push(new Gesture(GESTURE_CATALOG, 9, 1451865600, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", images, 0, null, false));
 
         setLocalItem(PREDEFINED_GESTURE_SET, gestures);
     }
@@ -171,6 +171,28 @@ function isGestureAssembled(id) {
         }
     }
     return false;
+}
+
+function getGesturesByType(type) {
+    var gestures = getLocalItem(PREDEFINED_GESTURE_SET);
+    var array = new Array();
+    for (var i = 0; i < gestures.length; i++) {
+        if (gestures[i].type === type) {
+            array.push(gestures[i]);
+        }
+    }
+    return array;
+}
+
+function getAllOtherGestures(type) {
+    var gestures = getLocalItem(PREDEFINED_GESTURE_SET);
+    var array = new Array();
+    for (var i = 0; i < gestures.length; i++) {
+        if (gestures[i].type !== type) {
+            array.push(gestures[i]);
+        }
+    }
+    return array;
 }
 
 function removeAssembledGestures() {
@@ -460,6 +482,13 @@ function getPrototypeById(id) {
 }
 
 function appendAlert(target, alertType) {
-    var alert = $('#form-item-container').find('#' + alertType).clone();
-    $(target).find('.alert-' + alert.attr('id')).append(alert);
+    var children = $(target).find('.alert-' + alertType).find('#' + alertType);
+    if (children.length === 0) {
+        var alert = $('#form-item-container').find('#' + alertType).clone();
+        $(target).find('.alert-' + alert.attr('id')).append(alert);
+    }
+}
+
+function removeAlert(target, alertType) {
+    $(target).find('.alert-' + alertType).empty();
 }

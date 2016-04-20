@@ -69,6 +69,7 @@ var ALERT_PIDOCO_EDIT_URL_INVALID = 'pidoco-edit-url-invalid';
 var ALERT_PIDOCO_EMBED_URL_INVALID = 'pidoco-embed-url-invalid';
 var ALERT_VIDEO_EMBED_URL_INVALID = 'video-embed-url-invalid';
 var ALERT_ASSEMBLED_PROTOTYPE_REMOVED = 'assembled-prototype-removed';
+var ALERT_NO_SEARCH_RESULTS = 'no-search-results';
 
 // sort
 var SORT_ASC = 'asc';
