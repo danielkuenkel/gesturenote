@@ -166,7 +166,7 @@
                                 ownExtractedGestures++;
                                 $('#ownExtractedGestures #useGesturesSwitch #yes').click();
                             }
-                            updatePanelBadges($('#ownExtractedGestures #list-container'), 'selected', false);
+                            
                             break;
                         case GESTURE_CATALOG:
                             if (i === 0) {
@@ -179,7 +179,7 @@
                                 gesetureCatalog++;
                                 $('#gestureCatalog #useGesturesSwitch #yes').click();
                             }
-                            updatePanelBadges($('#gestureCatalog #list-container'), 'selected', false);
+                            
                             break;
                     }
 
@@ -209,6 +209,9 @@
                     }
                 }
             }
+            
+            updatePanelBadges($('#ownExtractedGestures #list-container'));
+            updatePanelBadges($('#gestureCatalog #list-container'));
         }
 
         function saveData() {
@@ -245,6 +248,8 @@
         function updatePanelBadges(container) {
             var max = $(container).children().length;
             var selected = $(container).children('.selected').length;
+            console.log($(container).children('.selected'));
+            
             $(container).parents().closest('.root').find('.badgeId').text(selected);
             $(container).parents().closest('.root').find('.badgeQuantity').text(max);
         }
