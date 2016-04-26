@@ -248,7 +248,6 @@
         function updatePanelBadges(container) {
             var max = $(container).children().length;
             var selected = $(container).children('.selected').length;
-            console.log($(container).children('.selected'));
             
             $(container).parents().closest('.root').find('.badgeId').text(selected);
             $(container).parents().closest('.root').find('.badgeQuantity').text(max);

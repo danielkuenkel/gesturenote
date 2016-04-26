@@ -244,7 +244,6 @@ $('body').on('click', '.check', function (event) {
     {
         event.handled = true;
         event.preventDefault();
-
         $(this).closest('.root').find('.alert-space').empty();
 
         if ($(this).hasClass(ALERT_NO_GESTURES_ASSEMBLED)) {
@@ -273,18 +272,19 @@ $('body').on('click', '.reset', function (event) {
  * toggable panel with switch button 
  */
 
-$('body').on('click', '.btn-toggle-checkbox-panel', function (event) {
+$('.btn-toggle-checkbox-panel').unbind('click').bind('click', function (event) {
     event.preventDefault();
-    if (!event.handled) {
-        event.handled = true;
-        var panelBody = $(this).closest('.root').find('.panel-body');
-        if ($(this).attr('id') === 'yes' && panelBody.hasClass('hidden')) {
-            togglePanelBody(panelBody);
-            togglePanelBadges($(this).closest('.root').find('.badges'));
-        } else if ($(this).attr('id') === 'no' && !panelBody.hasClass('hidden')) {
-            togglePanelBody(panelBody);
-            togglePanelBadges($(this).closest('.root').find('.badges'));
-        }
+
+    console.log('btn-toggle-checkbox-panel clicked');
+
+    var panelBody = $(this).closest('.root').find('.panel-body');
+
+    if ($(this).attr('id') === 'yes' && panelBody.hasClass('hidden')) {
+        togglePanelBody(panelBody);
+        togglePanelBadges($(this).closest('.root').find('.badges'));
+    } else if ($(this).attr('id') === 'no' && !panelBody.hasClass('hidden')) {
+        togglePanelBody(panelBody);
+        togglePanelBadges($(this).closest('.root').find('.badges'));
     }
 });
 
