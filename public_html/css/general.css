@@ -204,10 +204,12 @@ footer .glyphicon {
 
 .btn-gn {
     color: white;
+    border-color: #B85B90;
     background: #B85B90;
 }
 .btn-gn:hover{
     background: #99366E;
+    border-color: #99366E;
     color: white;
 }
 .btn-gn-green {

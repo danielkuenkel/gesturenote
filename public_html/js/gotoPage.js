@@ -43,3 +43,7 @@ function gotoGesturesCatalog() {
 function gotoCreateProject() {
     goto("createProject.php");
 }
+
+function gotoCreateProjectPreview() {
+    goto("createProjectPreview.php");
+}

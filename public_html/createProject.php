@@ -21,11 +21,12 @@
         <script src="js/thumbscrubber.js"></script>
         <script src="js/gotoPage.js"></script>
         <script src="js/subPages.js"></script>
+        <script src="js/storage.js"></script>
         <script src="js/createProject.js"></script>
     </head>
     <body>
 
-        <div w3-include-HTML="template-forms.html"></div>
+        <div w3-include-HTML="template-inputs.html"></div>
 
         <!-- Container (Breadcrump) -->
         <div class="container" id="breadcrumb">
@@ -205,35 +206,6 @@
                             </div>
                         </div>
 
-                        <!--                        <div class="form-group">
-                                                    <div class="btn-group btn-group-justified" role="group">
-                        
-                                                        <span class="input-group-addon" id="addPhaseStepSelectAddon">Phasenschritt</span>
-                        
-                                                        <div class="btn-group select dropup" id="addPhaseStepSelect" role="group">
-                                                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected" id="unselected">Bitte wählen</span><span class="pull-right"><span class="caret"></span></span></button>
-                                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                                                <li class="dropdown-header">Fragebögen</li>
-                                                                <li id="questionnaire"><a href="#">Fragebogen</a></li>
-                                                                <li id="gus"><a href="#">GUS (einzelne Geste)</a></li>
-                                                                <li id="questionnaire-gestures"><a href="#">GUS (Allgemeine Fragen)</a></li>
-                                                                <li id="sus"><a href="#">SUS</a></li>
-                                                                <li class="divider"></li>
-                                                                <li class="dropdown-header">Songstiges</li>
-                                                                <li id="letterOfAcceptance"><a href="#">Einverständniserklärung</a></li>
-                                                                <li id="gestureTraining"><a href="#">Gestentraining</a></li>
-                                                                <li id="scenario"><a href="#">Szenario-basierte Aufgabe</a></li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="btn-group" role="group">
-                                                            <button class="btn btn-info disabled toggable-button" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                                        </div>
-                                                        <span class="input-group-addon info-addon info-addon-disabled toggable-info" id="info-addon-add-phases">
-                                                            <i class="glyphicon glyphicon-question-sign"></i>
-                                                        </span>
-                                                    </div>
-                                                </div>-->
-
 
                         <!-- phase step list items -->
                         <div class="form-group" id="phaseStepList"></div>
@@ -285,10 +257,10 @@
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-danger btn-md" onclick="clearLocalItems()"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
+                                <button type="button" class="btn btn-danger btn-md" id="clearData"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
                             </div>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-warning btn-md"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
+                                <button type="button" class="btn btn-warning btn-md" onclick="gotoCreateProjectPreview()"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-save"></span> Projekt erstellen</button>
@@ -587,6 +559,12 @@
                     $(this).find('.modal-dialog').removeClass(modalSize);
                 });
             }
+            
+            $('#clearData').on('click', function(event) {
+                event.preventDefault();
+                clearLocalItems();
+                location.reload(true);
+            });
 
         </script>
         <script src="js/w3-include-HTML.js"></script>
