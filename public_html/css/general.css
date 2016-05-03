@@ -299,3 +299,7 @@ footer .glyphicon {
         font-size: 150px;
     }
 }
+
+li.selected {
+    background-color: #e7e7e7;
+}

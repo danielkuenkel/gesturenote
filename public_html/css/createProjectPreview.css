@@ -18,3 +18,12 @@ and open the template in the editor.
     position: fixed;
     top: 53px;
 }
+
+#btn-phaseStepSelect {
+    border-radius: 0px;
+}
+
+#preview-bar-top {
+    z-index: 9999;
+    background-color: #303030;
+}
