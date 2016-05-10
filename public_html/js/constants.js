@@ -21,7 +21,9 @@ var ASSEMBLED_TRIGGER = 'assembledTrigger';
 
 var TYPE_TRIGGER = 'trigger';
 var TYPE_SURVEY_UNMODERATED = 'unmoderated';
+var TYPE_SURVEY_MODERATED = 'moderated';
 var TYPE_PHASE_ELICITATION = 'elicitation';
+var TYPE_PHASE_EVALUATION = 'evaluation';
 
 // questionnaire formats
 var DICHOTOMOUS_QUESTION = 'dichotomousQuestion';
@@ -76,3 +78,7 @@ var SORT_ASC = 'asc';
 var SORT_DESC = 'desc';
 var SORT_OLDEST = 'oldest';
 var SORT_NEWEST = 'newest';
+
+// view
+VIEW_MODERATOR = 'moderator';
+VIEW_TESTER = 'tester';

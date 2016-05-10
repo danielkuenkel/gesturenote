@@ -32,44 +32,23 @@
 
             <div class="input-group">
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-default btn-gn">Mederator</button>
-                    <button type="button" class="btn btn-default">Tester</button>
+                    <button type="button" class="btn btn-default btn-gn" id="btnViewModerator">Moderator</button>
+                    <button type="button" class="btn btn-default" id="btnViewTester">Tester</button>
                 </div>
-                <!--<span class="input-group-addon">Projektphase</span>-->
                 <input class="form-control item-input-text option-phase-steps show-dropdown text-center readonly" type="text" value=""/>
                 <div class="input-group-btn phaseStepsSelect select" role="group">
-                    <button class="btn btn-default btn-dropdown dropdown-toggle" id="btn-phaseStepSelect" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
-                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-<!--                        <li id="elicitation"><a href="#">Ermittlung</a></li>
-                        <li id="evaluation"><a href="#">Evaluierung</a></li>-->
+                    <button class="btn btn-default btn-dropdown dropdown-toggle" id="btn-phaseStepSelect" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                    <ul class="dropdown-menu option" role="menu">
                     </ul>
                     <button type="button" class="btn btn-danger" onclick="gotoCreateProject()"><i class="glyphicon glyphicon-remove"></i> Schließen</button>
                 </div>
-                <!--                <div class="input-group-btn">
-                                    
-                                </div>-->
             </div>
         </div>
 
-        <!--        <nav class="navbar navbar-default navbar-fixed-top">
-                    <div class="navbar-header" style="top: 10px; left: 15px; position: absolute;">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-default btn-gn">Mederator</button>
-                            <button type="button" class="btn btn-sm btn-default">Tester</button>
-                        </div>
-        
-                    </div>
-                    <div style="width: 100%;">
-                        <div class="navbar-header pull-right" style="top: 10px; right: 15px; position: relative">
-                            <button type="button" class="btn btn-sm btn-danger" onclick="gotoCreateProject()"><i class="glyphicon glyphicon-remove"></i> Vorschau schließen</button>
-                        </div>
-                    </div>
-                </nav>-->
-
         <div id="progressTop">
             <div class="progress">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 50%">
-                    50%
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%">
+                    0%
                 </div>
             </div>
         </div>
@@ -115,21 +94,24 @@
                     console.log("Sorry, your browser do not support Web Session Storage.");
                 }
             });
-            
+
             $('body').on('click', '.select .option li', function (event) {
                 event.preventDefault();
 
 //                if ($(this).hasClass('dropdown-header') || $(this).hasClass('divider')) {
 //                    return false;
 //                }
-    
+
                 var parent = $(this).closest('.select');
                 var itemText = $(this).children().text();
                 var listItemId = $(this).attr('id');
-                $(parent).find('.selected').attr('id', listItemId);
+                $(parent).find('.chosen').attr('id', listItemId);
                 $(parent).prev().val(itemText);
                 $(this).parent().children('li').removeClass('selected');
                 $(this).addClass('selected');
+                console.log('click: ' + listItemId);
+
+                updateProgress();
 
 //                var disabledElements = $(parent).children('.dropdown-disabled');
 //                if (disabledElements.length > 0) {
@@ -138,11 +120,29 @@
 //                    }
 //                }
             });
-            
-            $('body').on('click', '.show-dropdown', function(event) {
+
+            $('body').on('click', '.show-dropdown', function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 $(this).next().find('[data-toggle=dropdown]').dropdown('toggle');
+            });
+
+            $('#btnViewModerator').on('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('btn-gn') && !$(this).hasClass('disabled')) {
+                    $(this).addClass('btn-gn');
+                    $('#btnViewTester').removeClass('btn-gn');
+                    currentView = VIEW_MODERATOR;
+                }
+            });
+
+            $('#btnViewTester').on('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('btn-gn')) {
+                    $(this).addClass('btn-gn');
+                    $('#btnViewModerator').removeClass('btn-gn');
+                    currentView = VIEW_TESTER;
+                }
             });
         </script>
         <script src="js/w3-include-HTML.js"></script>

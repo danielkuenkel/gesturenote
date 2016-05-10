@@ -70,9 +70,10 @@
 
 
                         <!-- project name -->
+
                         <div class="form-group">
                             <div class="input-group">
-                                <input type="text" class="form-control" id="projectName" placeholder="Projektname einfügen">
+                                <input type="text" class="form-control" id="projectName" placeholder="Projektname einfügen" required>
                                 <label class="sr-only" for="projectName">Projektname</label>
                                 <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-projectName.html')">
                                     <i class="glyphicon glyphicon-question-sign"></i>
@@ -97,7 +98,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Projektphase</span>
-                                <input class="form-control item-input-text option-phase show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+                                <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="phaseSelect" role="group">
                                     <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -111,7 +112,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Befragungsart</span>
-                                <input class="form-control item-input-text option-survey-type show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+                                <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="surveyTypeSelect" role="group">
                                     <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -260,7 +261,7 @@
                                 <button type="button" class="btn btn-danger btn-md" id="clearData"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
                             </div>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-warning btn-md" onclick="gotoCreateProjectPreview()"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
+                                <button type="button" class="btn btn-warning btn-md" id="previewProject"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-save"></span> Projekt erstellen</button>
@@ -374,13 +375,13 @@
                         $(disabledElements[i]).removeClass('disabled');
                     }
                 }
-                
-                if(parent.hasClass('saveGeneralData')) {
+
+                if (parent.hasClass('saveGeneralData')) {
                     saveGeneralData();
                 }
             });
-            
-            $('body').on('click', '.show-dropdown', function(event) {
+
+            $('body').on('click', '.show-dropdown', function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 $(this).next().find('[data-toggle=dropdown]').dropdown('toggle');
@@ -559,13 +560,53 @@
                     $(this).find('.modal-dialog').removeClass(modalSize);
                 });
             }
-            
-            $('#clearData').on('click', function(event) {
+
+            $('#clearData').on('click', function (event) {
                 event.preventDefault();
                 clearLocalItems();
                 location.reload(true);
             });
 
+            $('#previewProject').on('click', function (event) {
+                event.preventDefault();
+                if (checkInputs() === true) {
+                    gotoCreateProjectPreview();
+                }
+            });
+
+            function checkInputs() {
+                resetErrors();
+                var errors = 0;
+
+                if ($('#projectName').val().trim() === "") {
+                    $('#projectName').closest('.form-group').addClass('has-error');
+                    errors++;
+                }
+
+                if ($('#projectDescription').val().trim() === "") {
+                    $('#projectDescription').closest('.form-group').addClass('has-error');
+                    errors++;
+                }
+
+                if ($('#phaseSelect').find('.selected').attr('id') === 'unselected') {
+                    $('#phaseSelect').closest('.form-group').addClass('has-error');
+                    errors++;
+                }
+
+                if ($('#surveyTypeSelect').find('.selected').attr('id') === 'unselected') {
+                    $('#surveyTypeSelect').closest('.form-group').addClass('has-error');
+                    errors++;
+                }
+
+                return errors === 0;
+            }
+
+            function resetErrors() {
+                $('#projectName').closest('.form-group').removeClass('has-error');
+                $('#projectDescription').closest('.form-group').removeClass('has-error');
+                $('#phaseSelect').closest('.form-group').removeClass('has-error');
+                $('#surveyTypeSelect').closest('.form-group').removeClass('has-error');
+            }
         </script>
         <script src="js/w3-include-HTML.js"></script>
 
