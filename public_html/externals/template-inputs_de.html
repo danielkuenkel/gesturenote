@@ -549,7 +549,7 @@
                             <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
                         </div>
                         <span class="input-group-addon">Trigger</span>
-                        <input class="form-control item-input-text option-trigger readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
                         <div class="input-group-btn select triggerSelect" role="group">
                             <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -558,7 +558,7 @@
 
                     <div class="input-group evaluation" style="margin-top: 10px;">
                         <span class="input-group-addon">Geste</span>
-                        <input class="form-control item-input-text option-gesture readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
                         <div class="input-group-btn select gestureSelect" role="group">
                             <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -568,7 +568,7 @@
                     <div class="col-md-6" style="padding: 0; margin-top: 10px;">
                         <div class="input-group">
                             <span class="input-group-addon">Feedback</span>
-                            <input class="form-control item-input-text option-feedback readonly" type="text" value="" placeholder="Bitte wählen"/>
+                            <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
                             <div class="input-group-btn select feedbackSelect" role="group">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -775,20 +775,5 @@
             </div>
         </div>
     </div>
-
-
-
-    <!-- ALERTS -->
-
-    <div class="alert alert-danger"  id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> Bitte zuerst ein Gestenset für diese Studie zusammenstellen!</div>
-    <div class="alert alert-warning" id="assembled-gesture-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Die verknüpfte Geste aus dem Gestenset ist nicht mehr verfügbar.</div>
-    <div class="alert alert-danger"  id="no-trigger-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> Bitte zuerst ein Triggerset für diese Studie erstellen!</div>
-    <div class="alert alert-warning" id="assembled-trigger-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Der verknüpfte Trigger ist nicht mehr verfügbar!</div>
-    <div class="alert alert-danger"  id="no-title" role="alert"><i class="glyphicon glyphicon-alert"></i> Bitte einen Titel angeben!</div>
-    <div class="alert alert-warning" id="assembled-prototype-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> Der verknüpfte Prototyp ist nicht mehr verfügbar!</div>
-    <div class="alert alert-warning" id="pidoco-embed-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> Die eingegebene Simluations-URL wird nicht unterstützt oder scheint nicht korrekt zu sein.</div>
-    <div class="alert alert-warning" id="pidoco-edit-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> Die eingegebene Bearbeitungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein.</div>
-    <div class="alert alert-warning" id="video-embed-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> Die eingegebene Videoeinbettungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein.</div>
-    <div class="alert alert-warning" id="no-search-results" role="alert"><i class="glyphicon glyphicon-alert"></i> Für den Suchbegriff gibt es keine Treffer.</div>
-
+    
 </div>

@@ -212,18 +212,18 @@
                         break;
                     case ALTERNATIVE_QUESTION:
                         parameters = new Array();
-                        parameters.push($(item).find('#gestures').hasClass('active') ? 'gestures' : 'triggers');
+                        parameters.push($(item).find('#gestures').hasClass('active') ? ALTERNATIVE_GESTURES : ALTERNATIVE_TRIGGERS);
 
                         if (assembledGestures() && $(item).find('.alternativeSwitch .active').attr('id') === 'alternativeGesture') {
                             var gestureId = $(item).find('.gestureSelect .selected').attr('id');
                             if (gestureId !== 'unselected') {
-                                parameters.push('gesture');
+                                parameters.push(ALTERNATIVE_FOR_GESTURE);
                                 parameters.push(getGestureById(gestureId));
                             }
                         } else if (getLocalItem(ASSEMBLED_TRIGGER) && $(item).find('.alternativeSwitch .active').attr('id') === 'alternativeTrigger') {
                             var triggerId = $(item).find('.triggerSelect .selected').attr('id');
                             if (triggerId !== 'unselected') {
-                                parameters.push('trigger');
+                                parameters.push(ALTERNATIVE_FOR_TRIGGER);
                                 parameters.push(getTriggerById(triggerId));
                             }
                         }

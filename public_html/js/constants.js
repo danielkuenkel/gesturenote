@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 
+// path externals
+PATH_EXTERNALS = 'externals/';
+
+// project specific constants
 var PROJECT = 'project';
 var PROJECT_ORIGIN_GUS = 'project.originGUS';
 var PROJECT_ORIGIN_SUS = 'project.originSUS';
@@ -25,7 +29,17 @@ var TYPE_SURVEY_MODERATED = 'moderated';
 var TYPE_PHASE_ELICITATION = 'elicitation';
 var TYPE_PHASE_EVALUATION = 'evaluation';
 
+// phase step formats
+var QUESTIONNAIRE = 'questionnaire';
+var GUS_SINGLE_GESTURES = 'gus';
+var GUS_MULTIPLE_GESTURES = 'questionnaireGestures';
+var SUS = 'sus';
+var LETTER_OF_ACCEPTANCE = 'letterOfAcceptance';
+var GESTURE_TRAINING = 'gestureTraining';
+var SCENARIO = 'scenario';
+
 // questionnaire formats
+var OPEN_QUESTION = 'openQuestion';
 var DICHOTOMOUS_QUESTION = 'dichotomousQuestion';
 var ALTERNATIVE_QUESTION = 'alternativeQuestion';
 var GROUPING_QUESTION = 'groupingQuestion';
@@ -72,6 +86,7 @@ var ALERT_PIDOCO_EMBED_URL_INVALID = 'pidoco-embed-url-invalid';
 var ALERT_VIDEO_EMBED_URL_INVALID = 'video-embed-url-invalid';
 var ALERT_ASSEMBLED_PROTOTYPE_REMOVED = 'assembled-prototype-removed';
 var ALERT_NO_SEARCH_RESULTS = 'no-search-results';
+var ALERT_NO_PHASE_DATA = 'no-phase-data';
 
 // sort
 var SORT_ASC = 'asc';
@@ -80,5 +95,19 @@ var SORT_OLDEST = 'oldest';
 var SORT_NEWEST = 'newest';
 
 // view
-VIEW_MODERATOR = 'moderator';
-VIEW_TESTER = 'tester';
+var VIEW_MODERATOR = 'moderator';
+var VIEW_TESTER = 'tester';
+
+// scales
+var PERCENT = 'percent';
+var POINTS = 'points';
+
+// alternatives
+ALTERNATIVE_GESTURES = 'gestures';
+ALTERNATIVE_TRIGGERS = 'triggers';
+ALTERNATIVE_FOR_GESTURE = 'gesture';
+ALTERNATIVE_FOR_TRIGGER = 'trigger';
+
+// languages
+LANGUAGE_EN = 'en';
+LANGUAGE_DE = 'de';

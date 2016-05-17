@@ -1,0 +1,156 @@
+<div id="preview-item-container" class="hidden">
+
+    <!-- questionnaire container -->
+    <div class="panel panel-default root" id="questionnaire">
+        <div class="panel-heading">
+            Fragen & Aufforderungen
+        </div>
+        <div class="panel-body question-container"></div>
+    </div>
+
+
+    <!-- single question format items -->
+    <span class="label label-default" id="option-item" style="margin-right: 3px; display: inline-block"></span>
+
+    <div id="rating-item">
+        <div id="rating-header"></div>
+        <div id="scales-container" style="margin-top: -6px;"></div>
+    </div>
+
+
+    <!-- single question formats -->
+    <div class="panel panel-default root" id="openQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div class="question"></div>
+            <span class="label label-default hidden" id="dimension"></span>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="dichotomousQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div class="question"></div>
+            <span class="label label-default hidden" id="select-gestures">Auswahl einer oder mehrerer Gesten</span>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="dimension"></span>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="alternativeQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div class="question"></div>
+            <span class="label label-default hidden" id="dimension"></span>
+            <span class="label label-default hidden" id="alternative">Alternative</span>
+            <span class="label label-default hidden" id="alternativeFor">für</span>
+            <div id="title"></div>
+            <div class="hidden" id="gesture-container">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="groupingQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div class="question"></div>
+            <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            <span class="label label-default hidden" id="dimension"></span>
+            <div>Eingruppierungs-Optionen</div>
+            <div class="option-container"></div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="rating" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div class="question"></div>
+            <span class="label label-default hidden" id="dimension"></span>
+            <div>Rating-Optionen</div>
+            <div class="option-container"></div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="sumQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div class="question"></div>
+            <span class="label label-default hidden" id="dimension"></span>
+            <div id="distribution-container"></div>
+            <div>Antworten der Summenfrage</div>
+            <div class="option-container"></div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="ranking" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div class="question"></div>
+            <span class="label label-default hidden" id="dimension"></span>
+            <div>Ranking-Optionen</div>
+            <div class="option-container"></div>
+        </div>
+    </div>
+
+
+    <!-- SUS container & item -->
+    <div class="panel panel-default root" id="sus">
+        <div class="panel-heading">
+            System Usability Scale Items
+        </div>
+        <div class="panel-body question-container"></div>
+    </div>
+
+    <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div>
+                <span class="question"></span> 
+                <span class="label label-danger hidden" id="reversed"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- GUS container & item -->
+    <div class="panel panel-default root" id="gus">
+        <div class="panel-heading">
+            Gesture Usability Scale Items
+        </div>
+        <div class="panel-body question-container"></div>
+    </div>
+
+    <div class="panel panel-default root" id="gusItem" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div>
+                <span class="question"></span> 
+                <span class="label label-default hidden" id="dimension"></span> 
+                <span class="label label-danger hidden" id="reversed"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- gesture questionnaire container -->
+    <div class="panel panel-default root" id="questionnaireGestures">
+        <div class="panel-heading">
+            Fragen & Aufforderungen
+        </div>
+        <div class="panel-body question-container"></div>
+    </div>
+
+    <div class="panel panel-default root" id="letterOfAcceptance">
+        <div class="panel-heading"></div>
+        <div class="panel-body letter-text"></div>
+    </div>
+
+    <!-- gesture training container -->
+    <div class="root" id="gestureTraining">
+        <div class="panel panel-default" id="general">
+            <div class="panel-heading"></div>
+            <div class="panel-body">
+                <div id="description"></div>
+                <div class="label label-default" id="trainingSteps"></div> 
+            </div>
+        </div>
+        <div class="panel panel-default" id="training">
+            <div class="panel-heading"></div>
+            <div class="panel-body">
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -60,7 +60,7 @@ if (login_check($mysqli) == true) {
             <h1><span class="glyphicon glyphicon-stats"></span> GestureNote</h1> 
             <p>Specialized in usability engineering for gesture interaction</p> 
         </div>
-        <div class="line text-center" data-spy="affix" data-offset-top="372"></div>
+        <div class="line text-center" data-spy="affix" data-offset-top="100"></div>
 
         <?php
         if (isset($_GET['error'])) {

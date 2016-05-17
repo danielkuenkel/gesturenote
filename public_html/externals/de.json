@@ -1,0 +1,40 @@
+{
+    "close": "Schließen",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "reversed": "negiert",
+    "maximum": "Maximum",
+    "dimensions": {
+        "ergonomics": "Ergonomie",
+        "learnability": "Erlernbarkeit",
+        "mental_model": "Mentales Modell",
+        "cognitive_stress": "Kognitive Belastung",
+        "usability": "Nutzbarkeit",
+        "acceptability": "Akzeptanz",
+        "feasability": "Realisierbarkeit",
+        "reliability": "Zuverlässigkeit"
+    },
+    "formats": {
+        "questionnaire": "Fragebogen",
+        "gus": "GUS (einzelne Gesten)",
+        "questionnaireGestures": "GUS (Allgemeine Frage)",
+        "sus": "SUS",
+        "letterOfAcceptance": "Einverständniserklärung",
+        "gestureTraining": "Gestentraining",
+        "scenario": "Szenario-basierte Aufgabe"
+    },
+    "scales": {
+        "percent": "Prozent",
+        "points": "Punkte"
+    },
+    "phaseType": {
+        "elicitation": "Ermittlung",
+        "evaluation": "Evaluierung"
+    },
+    "surveyType": {
+        "moderated": "Moderiert",
+        "unmoderated": "Unmoderiert"
+    },
+    "singleGestureTraining": "Gesten all nacheinander trainieren",
+    "multiGestureTraining": "Gesten alle auf einmal trainieren"
+}

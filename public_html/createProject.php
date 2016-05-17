@@ -1,3 +1,7 @@
+<?php
+include './includes/language.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,21 +16,33 @@
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
 
+<!--<script src="http://www.w3schools.com/lib/w3data.js"></script>-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="http://chancejs.com/chance.min.js"></script>
         <script src="js/constants.js"></script>
-        <script src="js/thumbscrubber.js"></script>
-        <script src="js/gotoPage.js"></script>
-        <script src="js/subPages.js"></script>
         <script src="js/storage.js"></script>
+        <script src="js/language.js"></script>
+        <script src="js/externals.js"></script>
+        <script src="js/alert.js"></script>
+        <script src="js/gotoPage.js"></script>        
+        <script src="js/thumbscrubber.js"></script>
+        <script src="js/subPages.js"></script>
         <script src="js/createProject.js"></script>
     </head>
     <body>
 
-        <div w3-include-HTML="template-inputs.html"></div>
+
+        <div id="alerts"></div>
+        <div id="template-inputs"></div>
+        <!--        <div w3-include-HTML="template-inputs.html"></div>
+                <div w3-include-HTML="alerts.html"></div>-->
+
+<!--        <script>
+    w3IncludeHTML();
+</script>-->
 
         <!-- Container (Breadcrump) -->
         <div class="container" id="breadcrumb">
@@ -102,8 +118,8 @@
                                 <div class="input-group-btn select saveGeneralData" id="phaseSelect" role="group">
                                     <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                        <li id="elicitation"><a href="#">Ermittlung</a></li>
-                                        <li id="evaluation"><a href="#">Evaluierung</a></li>
+                                        <li id="elicitation"><a href="#"><?php echo $lang->phaseType->elicitation ?></a></li>
+                                        <li id="evaluation"><a href="#"><?php echo $lang->phaseType->evaluation ?></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -116,8 +132,8 @@
                                 <div class="input-group-btn select saveGeneralData" id="surveyTypeSelect" role="group">
                                     <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                        <li id="moderated"><a href="#">Moderiert</a></li>
-                                        <li id="unmoderated"><a href="#">Unmoderiert</a></li>
+                                        <li id="moderated"><a href="#"><?php echo $lang->surveyType->moderated ?></a></li>
+                                        <li id="unmoderated"><a href="#"><?php echo $lang->surveyType->unmoderated ?></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -189,15 +205,15 @@
                                     <button class="btn btn-default btn-dropdown" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option" role="menu">
                                         <li class="dropdown-header">Fragebögen</li>
-                                        <li id="questionnaire"><a href="#">Fragebogen</a></li>
-                                        <li id="gus"><a href="#">GUS (einzelne Geste)</a></li>
-                                        <li id="questionnaire-gestures"><a href="#">GUS (Allgemeine Fragen)</a></li>
-                                        <li id="sus"><a href="#">SUS</a></li>
+                                        <li id="questionnaire"><a href="#"><?php echo $lang->formats->questionnaire ?></a></li>
+                                        <li id="gus"><a href="#"><?php echo $lang->formats->gus ?></a></li>
+                                        <li id="questionnaireGestures"><a href="#"><?php echo $lang->formats->questionnaireGestures ?></a></li>
+                                        <li id="sus"><a href="#"><?php echo $lang->formats->sus ?></a></li>
                                         <li class="divider"></li>
                                         <li class="dropdown-header">Songstiges</li>
-                                        <li id="letterOfAcceptance"><a href="#">Einverständniserklärung</a></li>
-                                        <li id="gestureTraining"><a href="#">Gestentraining</a></li>
-                                        <li id="scenario"><a href="#">Szenario-basierte Aufgabe</a></li>
+                                        <li id="letterOfAcceptance"><a href="#"><?php echo $lang->formats->letterOfAcceptance ?></a></li>
+                                        <li id="gestureTraining"><a href="#"><?php echo $lang->formats->gestureTraining ?></a></li>
+                                        <li id="scenario"><a href="#"><?php echo $lang->formats->scenario ?></a></li>
                                     </ul>
                                     <button class="btn btn-info disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                                     <button class="btn btn-addon disabled dropdown-disabled" id="info-addon-add-phases">
@@ -290,12 +306,21 @@
             $(document).ready(function () {
                 createRandomColors();
 
+                checkLanguage();
+
+                var externals = new Array();
+                externals.push(['#alerts', PATH_EXTERNALS + 'alerts_' + currentLanguage + '.html']);
+                externals.push(['#template-inputs', PATH_EXTERNALS + 'template-inputs_' + currentLanguage + '.html']);
+                loadExternals(externals);
+            });
+
+            function onAllExternalsLoadedSuccessfully() {
                 if (typeof (Storage) !== "undefined") {
                     checkSessionStorage();
                 } else {
                     console.log("Sorry, your browser do not support Web Session Storage.");
                 }
-            });
+            }
 
 
             $('.breadcrumb li a').on('click', function () {
@@ -608,7 +633,6 @@
                 $('#surveyTypeSelect').closest('.form-group').removeClass('has-error');
             }
         </script>
-        <script src="js/w3-include-HTML.js"></script>
 
     </body>
 </html>

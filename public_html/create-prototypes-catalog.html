@@ -70,11 +70,8 @@
                     var title = $(item).find('.title').val();
 
                     if (title.trim() === '') {
-                        
                         if ($(item).find('.alert-' + ALERT_NO_TITLE).children().length === 0) {
-                            var alert = $('#form-item-container').find('#' + ALERT_NO_TITLE).clone();
-                            $(item).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
-//                            $('#form-item-container').find('#no-title').clone().insertBefore($(item).find('.title').closest('.alert-space'));
+                            appendAlert($(item).closest('.root'), ALERT_NO_TITLE);
                             $(item).find('.title').closest('.form-group').addClass('has-error');
                         }
                         hasTitles = false;

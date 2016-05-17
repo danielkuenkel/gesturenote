@@ -22,22 +22,22 @@ function createOriginGUS() {
     if (getLocalItem(PROJECT_ORIGIN_GUS) === null)
     {
         var gus = new Array();
-        gus.push(new UsabilityScaleItem("Ich denke, dass ich mir diese Geste sehr gut merken kann.", DIMENSION_ANY, 5, false));
-        gus.push(new UsabilityScaleItem("Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dieser Geste umzugehen.", DIMENSION_ANY, 5, false));
-        gus.push(new UsabilityScaleItem("Ich denke, dass sich diese Geste von anderen Gesten ausreichend unterscheidet.", DIMENSION_ANY, 5, false));
-        gus.push(new UsabilityScaleItem("Ich denke, dass sich die Geste von alltäglichen Bewegungen ausreichend unterscheidet.", DIMENSION_ANY, 5, false));
-        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste zur Funktion passt.", DIMENSION_ANY, 5, false));
-        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste zu lang ist.", DIMENSION_ANY, 5, true));
-        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste zu komplex ist.", DIMENSION_ANY, 5, true));
-        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste prägnant ist.", DIMENSION_ANY, 5, false));
-        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste bequem ist.", DIMENSION_ANY, 5, false));
-        gus.push(new UsabilityScaleItem("Ich denke, dass die Bewegung der Geste komisch ist.", DIMENSION_ANY, 5, true));
-        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste ermüdend ist.", DIMENSION_ANY, 5, true));
-        gus.push(new UsabilityScaleItem("Ich denke, dass mich die Geste körperlich zu sehr fordert.", DIMENSION_ANY, 5, true));
-        gus.push(new UsabilityScaleItem("Ich würde diese Geste gerne regelmäßig nutzen.", DIMENSION_ANY, 5, false));
-        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste andere Personen im Umfeld beeinträchtigt oder stört.", DIMENSION_ANY, 5, true));
-        gus.push(new UsabilityScaleItem("Die Geste ist peinlich.", DIMENSION_ANY, 5, true));
-        gus.push(new UsabilityScaleItem("Ich fühle mich beim Ausführen der Geste wohl.", DIMENSION_ANY, 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass ich mir diese Geste sehr gut merken kann.", DIMENSION_LERNABILITY, 5, false));
+        gus.push(new UsabilityScaleItem("Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dieser Geste umzugehen.", DIMENSION_LERNABILITY, 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass sich diese Geste von anderen Gesten ausreichend unterscheidet.", DIMENSION_MENTAL_MODEL, 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass sich die Geste von alltäglichen Bewegungen ausreichend unterscheidet.", DIMENSION_FEASIBILITY, 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste zur Funktion passt.", DIMENSION_MENTAL_MODEL, 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste zu lang ist.", DIMENSION_ERGONOMICS, 5, true));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste zu komplex ist.", DIMENSION_ERGONOMICS, 5, true));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste prägnant ist.", DIMENSION_ERGONOMICS, 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste bequem ist.", DIMENSION_ERGONOMICS, 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Bewegung der Geste komisch ist.", DIMENSION_ERGONOMICS, 5, true));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste ermüdend ist.", DIMENSION_ERGONOMICS, 5, true));
+        gus.push(new UsabilityScaleItem("Ich denke, dass mich die Geste körperlich zu sehr fordert.", DIMENSION_ERGONOMICS, 5, true));
+        gus.push(new UsabilityScaleItem("Ich würde diese Geste gerne regelmäßig nutzen.", DIMENSION_ACCEPTABILITY, 5, false));
+        gus.push(new UsabilityScaleItem("Ich denke, dass die Geste andere Personen im Umfeld beeinträchtigt oder stört.", DIMENSION_ACCEPTABILITY, 5, true));
+        gus.push(new UsabilityScaleItem("Die Geste ist peinlich.", DIMENSION_ACCEPTABILITY, 5, true));
+        gus.push(new UsabilityScaleItem("Ich fühle mich beim Ausführen der Geste wohl.", DIMENSION_ACCEPTABILITY, 5, false));
         setLocalItem(PROJECT_ORIGIN_GUS, gus);
     }
 }
@@ -459,16 +459,4 @@ function getPrototypeById(id) {
         }
     }
     return null;
-}
-
-function appendAlert(target, alertType) {
-    var children = $(target).find('.alert-' + alertType).find('#' + alertType);
-    if (children.length === 0) {
-        var alert = $('#form-item-container').find('#' + alertType).clone();
-        $(target).find('.alert-' + alert.attr('id')).append(alert);
-    }
-}
-
-function removeAlert(target, alertType) {
-    $(target).find('.alert-' + alertType).empty();
 }

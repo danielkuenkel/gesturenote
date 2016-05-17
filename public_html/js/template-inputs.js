@@ -651,8 +651,9 @@ $('body').on('click', '.checkVideoEmbedURL', function (event) {
             button.addClass('btn-danger');
             inputField.focus();
 
-            var alert = $('#form-item-container').find('#' + ALERT_VIDEO_EMBED_URL_INVALID).clone();
-            $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
+            appendAlert($(this).closest('.root'), ALERT_VIDEO_EMBED_URL_INVALID);
+//            var alert = $('#form-item-container').find('#' + ALERT_VIDEO_EMBED_URL_INVALID).clone();
+//            $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
         } else {
             videoContainer.addClass('hidden');
             videoContainer.html('');
@@ -693,9 +694,10 @@ $('body').on('click', '.checkPidocoEditURL', function (event) {
                 button.removeClass('btn-success');
                 button.addClass('btn-danger');
                 inputField.focus();
-
-                var alert = $('#form-item-container').find('#' + ALERT_PIDOCO_EDIT_URL_INVALID).clone();
-                $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
+                
+                appendAlert($(this).closest('.root'), ALERT_PIDOCO_EDIT_URL_INVALID);
+//                var alert = $('#form-item-container').find('#' + ALERT_PIDOCO_EDIT_URL_INVALID).clone();
+//                $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
             }
         }
     }
@@ -729,8 +731,9 @@ $('body').on('click', '.checkPidocoEmbedURL', function (event) {
                 button.addClass('btn-danger');
                 inputField.focus();
 
-                var alert = $('#form-item-container').find('#' + ALERT_PIDOCO_EMBED_URL_INVALID).clone();
-                $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
+                appendAlert($(this).closest('.root'), ALERT_PIDOCO_EMBED_URL_INVALID);
+//                var alert = $('#form-item-container').find('#' + ALERT_PIDOCO_EMBED_URL_INVALID).clone();
+//                $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
             }
         }
     }
