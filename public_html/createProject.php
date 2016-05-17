@@ -392,7 +392,16 @@ include './includes/language.php';
                 var itemText = $(this).children().text();
                 var listItemId = $(this).attr('id');
                 $(parent).find('.selected').attr('id', listItemId);
-                $(parent).prev().val(itemText);
+                
+                if($(parent).prev().is('input')) {
+                    console.log('is input');
+                    $(parent).prev().val(itemText);
+                } else {
+                    console.log('has no input nearby');
+                    $(parent).find('.selected').text(itemText);
+                }
+                
+                
 
                 var disabledElements = $(parent).children('.dropdown-disabled');
                 if (disabledElements.length > 0) {

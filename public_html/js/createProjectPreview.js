@@ -3,7 +3,6 @@ function checkStorage() {
 //        console.log('there are phase steps');
         initialize();
         renderPhases();
-        updatePager();
 
     } else {
 //        console.log('there are no phase steps');
