@@ -1,0 +1,87 @@
+<div id="input-item-container" class="hidden">
+
+    <div class="panel panel-default root" id="questionnaire">
+        <div class="panel-heading">
+            Fragebogen
+        </div>
+        <div class="panel-body question-container">
+
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="openQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <label class="question" for="openQuestionInput"></label>
+            <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="dichotomousQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <label class="question" for="dichotomousQuestionInput"></label><br>
+            <!--<div class="form-group form-group-margin-top">-->
+            <div class="btn-group switch" style="">
+                <!--<button class="btn btn-default switchButtonAddon"></button>-->
+                <button class="btn btn-default btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
+                <button class="btn btn-warning btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
+            </div>
+            <!--</div>-->
+
+            <div class="hidden" id="justification">
+                <label for="justificationInput">Begründung</label>
+                <textarea class="form-control" id="justificationInput" rows="3" placeholder="Bitte Begründung angeben"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="groupingQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <label class="question" for="groupingQuestionInput"></label>
+            <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            <!--<form role="form" class="option-container"></form>-->
+            <div class="option-container"></div>
+            <div class="checkbox hidden" id="option-item-checkbox">
+                <label><input type="checkbox" value=""><span class="option-text"></span></label>
+            </div>
+            <div class="checkbox hidden" id="option-item-optionalanswer-checkbox">
+                <label><input type="checkbox" value="">
+                    <input type="text" class="form-control">
+                </label>
+            </div>
+            <div class="radio hidden" id="option-item-radio">
+                <label><input type="radio" name="optradio"><span class="option-text"></span></label>
+            </div>
+            <div class="radio hidden" id="option-item-optionalanswer-radio">
+                <label><input type="radio" name="optradio">
+                    <input type="text" class="form-control">
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="counter" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <label class="question" for="counterQuestionInput"></label>
+            <!--<div class="row">-->
+            <!--<div class="col-xs-6 col-sm-4">-->
+            <div class="input-group simple-stepper" style="max-width: 130px;">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-stepper-decrease" value="0">
+                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only">weniger</span>
+                    </button>
+                </div>
+                <input type="text" class="form-control readonly text-center stepper-text" value="0">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-stepper-increase" value="10">
+                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only">mehr</span>
+                    </button>
+                </div>
+            </div>
+            <!--</div>-->
+            <!--</div>-->
+
+        </div>
+    </div>
+
+</div>

@@ -18,11 +18,11 @@
                     <textarea class="form-control" id="trainingDescription" rows="5" placeholder="Trainingsbeschreibung einfügen"></textarea>
                     <label class="sr-only" for="scenarioDescription">Trainingsbeschreibung</label>
                 </div>
-                <div class="btn-group" id="useSingleTrainingSwitch">
+<!--                <div class="btn-group" id="useSingleTrainingSwitch">
                     <button class="btn btn-default switchButtonAddon">Gesten nacheinander trainieren?</button>
                     <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
@@ -119,9 +119,9 @@
             $('#trainingTitle').val(data.title);
             $('#trainingDescription').val(data.description);
 
-            if (data.useSingleTraining) {
-                $('#useSingleTrainingSwitch .switchButtonAddon').click();
-            }
+//            if (data.useSingleTraining) {
+//                $('#useSingleTrainingSwitch .switchButtonAddon').click();
+//            }
 
             var container;
 
@@ -184,10 +184,10 @@
                         case DICHOTOMOUS_QUESTION:
                             var parameters = item.parameters;
                             var aGestures = assembledGestures();
-                            if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
-                                $(clone).find('.gesture-select .switchButtonAddon').click();
-                            }
-                            if (parameters[1] === true) {
+//                            if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
+//                                $(clone).find('.gesture-select .switchButtonAddon').click();
+//                            }
+                            if (parameters[0] === true) {
                                 $(clone).find('.justification .switchButtonAddon').click();
                             }
                             break;
@@ -257,7 +257,7 @@
             var training = new Training();
             training.title = $('#trainingTitle').val();
             training.description = $('#trainingDescription').val();
-            training.useSingleTraining = $('#useSingleTrainingSwitch #yes').hasClass('active') ? true : false;
+//            training.useSingleTraining = $('#useSingleTrainingSwitch #yes').hasClass('active') ? true : false;
 
             if (traningItems) {
                 var set = new Array();
@@ -291,7 +291,7 @@
                     switch (type) {
                         case DICHOTOMOUS_QUESTION:
                             parameters = new Array();
-                            parameters.push($(item).find('.gesture-select .active').attr('id') === 'yes' ? true : false);
+//                            parameters.push($(item).find('.gesture-select .active').attr('id') === 'yes' ? true : false);
                             parameters.push($(item).find('.justification .active').attr('id') === 'yes' ? true : false);
                             break;
                         case GROUPING_QUESTION:

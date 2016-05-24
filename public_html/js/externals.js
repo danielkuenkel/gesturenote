@@ -25,3 +25,15 @@ function loadExternals(externals) {
         }
     }
 }
+
+function loadHTMLintoModal(modalId, url, modalSize) {
+    $.get(url, modalId, function (data) {
+        $('#' + modalId).find('.modal-content').html(data);
+    });
+    $('#' + modalId).modal('show');
+    $('#' + modalId).find('.modal-dialog').addClass(modalSize);
+    $('#' + modalId).on('hidden.bs.modal', function () {
+        $(this).removeData('bs.modal');
+        $(this).find('.modal-dialog').removeClass(modalSize);
+    });
+}

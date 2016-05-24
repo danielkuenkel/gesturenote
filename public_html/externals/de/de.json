@@ -2,7 +2,6 @@
     "close": "Schließen",
     "next": "Weiter",
     "previous": "Zurück",
-    "reversed": "negiert",
     "maximum": "Maximum",
     "dimensions": {
         "ergonomics": "Ergonomie",
@@ -35,6 +34,13 @@
         "moderated": "Moderiert",
         "unmoderated": "Unmoderiert"
     },
-    "singleGestureTraining": "Gesten alle nacheinander trainieren",
-    "multiGestureTraining": "Gesten alle auf einmal trainieren"
+    "gesture": "Geste",
+    "gestures": "Gesten",
+    "repeats": "Wiederholungen",
+    "none": "keine",
+    "nones": "keines",
+    "trigger": "Trigger",
+    "feedback": "Feedback",
+    "task": "Aufgabe",
+    "description": "Beschreibung"
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 include './includes/language.php';
 ?>
 
@@ -28,6 +28,7 @@ include './includes/language.php';
         <script src="js/alert.js"></script>
         <script src="js/gotoPage.js"></script>        
         <script src="js/thumbscrubber.js"></script>
+        
         <script src="js/createProjectPreview.js"></script>
     </head>
     <body>
@@ -92,10 +93,11 @@ include './includes/language.php';
 
             <div id="viewModerator" class="hidden">
                 <div class="row">
-                    <div class="col-md-6 col-lg-4">
+                    <div class="col-md-6 col-lg-4" style="margin-bottom: 20px;">
                         <div id="web-rtc-placeholder">
                             <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
                         </div>
+
                         <div class="phase-content-left">
 
                         </div>
@@ -106,15 +108,15 @@ include './includes/language.php';
                 </div>
             </div>
 
-<!--            <nav>
-                <ul class="pager">
-                    <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Zurück</a></li>
-                    <li class="next disabled"><a href="#">Weiter <span aria-hidden="true">&rarr;</span></a></li>
-                </ul>
-            </nav>-->
+            <!--            <nav>
+                            <ul class="pager">
+                                <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Zurück</a></li>
+                                <li class="next disabled"><a href="#">Weiter <span aria-hidden="true">&rarr;</span></a></li>
+                            </ul>
+                        </nav>-->
         </div>
 
-
+        <script src="js/template-forms.js"></script>
         <script>
             var currentView;
 
@@ -122,11 +124,14 @@ include './includes/language.php';
                 checkLanguage();
 
                 var externals = new Array();
-                externals.push(['#alerts', PATH_EXTERNALS + 'alerts_' + currentLanguage + '.html']);
-                externals.push(['#template-forms', PATH_EXTERNALS + 'template-forms_' + currentLanguage + '.html']);
-                externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews_' + currentLanguage + '.html']);
+                var path = PATH_EXTERNALS + '/' + currentLanguage + '/';
+                externals.push(['#alerts', path + 'alerts.html']);
+                externals.push(['#template-forms', path + 'template-inputs.html']);
+                externals.push(['#template-previews', path + 'template-previews.html']);
                 loadExternals(externals);
             });
+
+//            $(window).resize()
 
             function onAllExternalsLoadedSuccessfully() {
                 if (typeof (Storage) !== "undefined") {
@@ -140,14 +145,14 @@ include './includes/language.php';
             $('.previous').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
-                    $('.phaseStepsSelect .dropdown-menu .selected').prev().click();
+                    previousStep();
                 }
             });
 
             $('.next').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
-                    $('.phaseStepsSelect .dropdown-menu .selected').next().click();
+                    nextStep();
                 }
             });
 

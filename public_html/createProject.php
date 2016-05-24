@@ -309,8 +309,8 @@ include './includes/language.php';
                 checkLanguage();
 
                 var externals = new Array();
-                externals.push(['#alerts', PATH_EXTERNALS + 'alerts_' + currentLanguage + '.html']);
-                externals.push(['#template-inputs', PATH_EXTERNALS + 'template-inputs_' + currentLanguage + '.html']);
+                externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
+                externals.push(['#template-inputs', PATH_EXTERNALS + '/' + currentLanguage + '/template-create.html']);
                 loadExternals(externals);
             });
 
@@ -392,16 +392,16 @@ include './includes/language.php';
                 var itemText = $(this).children().text();
                 var listItemId = $(this).attr('id');
                 $(parent).find('.selected').attr('id', listItemId);
-                
-                if($(parent).prev().is('input')) {
+
+                if ($(parent).prev().is('input')) {
                     console.log('is input');
                     $(parent).prev().val(itemText);
                 } else {
                     console.log('has no input nearby');
                     $(parent).find('.selected').text(itemText);
                 }
-                
-                
+
+
 
                 var disabledElements = $(parent).children('.dropdown-disabled');
                 if (disabledElements.length > 0) {
@@ -583,17 +583,17 @@ include './includes/language.php';
                 savePhases();
             }
 
-            function loadHTMLintoModal(modalId, url, modalSize) {
-                $.get(url, modalId, function (data) {
-                    $('#' + modalId).find('.modal-content').html(data);
-                });
-                $('#' + modalId).modal('show');
-                $('#' + modalId).find('.modal-dialog').addClass(modalSize);
-                $('#' + modalId).on('hidden.bs.modal', function () {
-                    $(this).removeData('bs.modal');
-                    $(this).find('.modal-dialog').removeClass(modalSize);
-                });
-            }
+//            function loadHTMLintoModal(modalId, url, modalSize) {
+//                $.get(url, modalId, function (data) {
+//                    $('#' + modalId).find('.modal-content').html(data);
+//                });
+//                $('#' + modalId).modal('show');
+//                $('#' + modalId).find('.modal-dialog').addClass(modalSize);
+//                $('#' + modalId).on('hidden.bs.modal', function () {
+//                    $(this).removeData('bs.modal');
+//                    $(this).find('.modal-dialog').removeClass(modalSize);
+//                });
+//            }
 
             $('#clearData').on('click', function (event) {
                 event.preventDefault();

@@ -100,7 +100,7 @@
         <div class="panel-body">
             <div>
                 <span class="question"></span> 
-                <span class="label label-danger hidden" id="reversed"></span>
+                <span class="label label-danger hidden" id="reversed">negiert</span>
             </div>
         </div>
     </div>
@@ -119,7 +119,7 @@
             <div>
                 <span class="question"></span> 
                 <span class="label label-default hidden" id="dimension"></span> 
-                <span class="label label-danger hidden" id="reversed"></span>
+                <span class="label label-danger hidden" id="reversed">negiert</span>
             </div>
         </div>
     </div>
@@ -133,7 +133,9 @@
     </div>
 
     <div class="panel panel-default root" id="letterOfAcceptance">
-        <div class="panel-heading"></div>
+        <div class="panel-heading">
+            Einverständniserklärung
+        </div>
         <div class="panel-body letter-text"></div>
     </div>
 
@@ -142,15 +144,98 @@
         <div class="panel panel-default" id="general">
             <div class="panel-heading"></div>
             <div class="panel-body">
+
                 <div id="description"></div>
-                <div class="label label-default" id="trainingSteps"></div> 
             </div>
         </div>
         <div class="panel panel-default" id="training">
-            <div class="panel-heading"></div>
+            <div class="panel-heading">
+                <span class="panel-heading-text"></span>
+            </div>
             <div class="panel-body">
+                <div class="row" id="gestureThumbnailContainer"></div>
+                <button type="button" class="btn btn-default pull-right" id="next-gesture"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+                <button type="button" class="btn btn-success pull-right" id="training-done">Fertig</button>
+            </div>
+        </div>
+        <div class="panel panel-default" id="observations">
+            <div class="panel-heading">
+                Beobachtungen
+            </div>
+            <div class="panel-body question-container"></div>
+        </div>
+    </div>
+
+    <!-- gesture image thumbnail -->
+    <img class="gestureImage" id="gestureThumbnailImage">
+
+    <!-- gesture thumbnail -->
+    <div class="col-sm-6 col-md-6 col-lg-4 root" id="gestureThumbnail">
+        <div class="ellipsis" id="title"></div>
+        <!--<div class="panel panel-default gestureThumbnail">-->
+        <!--<div class="panel-heading ellipsis"></div>-->
+        <!--<div class="panel-body">-->
+        <div class="imageContainer" style="margin-bottom: 10px;"></div>
+        <div class="label label-default" id="repeats"></div>
+        <div class="label label-default" id="trigger"></div>
+        <div class="label label-default" id="feedback"></div><br>
+        <button type="button" class="btn btn-default trigger pull-right" style="margin-top: 6px; margin-bottom: 10px;"><i class="glyphicon glyphicon-eye-open"></i> <span>Training</span></button>
+        <!--<button type="button" class="btn btn-default pull-right moreInfo"><i class="glyphicon glyphicon-search"></i> Mehr <span class="hidden-md hidden-lg">Informationen</span></button>-->
+        <!--</div>-->
+    </div>
+    <!--</div>-->
+
+    <!-- gesture training container -->
+    <div class="root" id="scenario">
+        <div class="panel panel-default" id="general">
+            <div class="panel-heading">Allgemeines</div>
+            <div class="panel-body">
+                <div id="task"></div>
+                <div id="description"></div>
+                <button type="button" class="btn btn-default hidden" id="scene" style="margin-top: 6px;">Hinterlegte Szene anzeigen</button>
+            </div>
+        </div>
+        <div class="panel panel-default" id="wozExperiment">
+            <div class="panel-heading">Wizard-of-Oz-Experiment</div>
+            <div class="panel-body">
+                <div class="row woz-container"></div>
+            </div>
+        </div>
+        <div class="panel panel-default" id="help">
+            <div class="panel-heading">Hilfe</div>
+            <div class="panel-body help-container"></div>
+        </div>
+        <div class="panel panel-default" id="observations">
+            <div class="panel-heading">
+                Beobachtungen
+            </div>
+            <div class="panel-body question-container"></div>
+        </div>
+    </div>
+
+    <div class="col-sm-4 col-md-6 col-lg-4" id="wozItem">
+        <div class="panel panel-default">
+            <div class="panel-heading ellipsis"></div>
+            <div class="panel-body">
+                <!--<div id="task"></div>-->
+                <div id="description"></div>
+                <div class="imageContainer" style="margin-bottom: 10px;"></div>
+                <button type="button" class="btn btn-default btn-block ellipsis" id="trigger"></button>
             </div>
         </div>
     </div>
+
+    <div id="helpItem" style="margin-top: 6px;">
+        <div class="row">
+            <div class="col-xs-7 col-md-8 help-title"></div>
+            <div class="col-xs-5 col-md-4">
+                <button type="button" class="btn btn-default pull-right"><i class="glyphicon glyphicon-gift"></i> Hilfe anbieten</button>
+            </div>
+        </div>
+    </div>
+
+    <iframe id="web" src="" frameborder="0" allowfullscreen style="width: 100%; height: auto"></iframe>
+    
+    <iframe id="pidoco" src="" frameborder="0" allowfullscreen style="width: 100%; height: auto;"></iframe>
 
 </div>

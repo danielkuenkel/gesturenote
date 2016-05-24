@@ -11,7 +11,7 @@ class language {
     public $data;
 
     function __construct($language) {
-        $data = file_get_contents("externals/" . $language . ".json");
+        $data = file_get_contents("externals/" . $language . "/" . $language . ".json");
         $this->data = json_decode($data);
     }
 

@@ -413,10 +413,21 @@ function renderAssembledPrototypes() {
         var listItem;
 
         for (var i = 0; i < prototypes.length; i++) {
+            var link = document.createElement('a');
+            if (i === 0) {
+                listItem = document.createElement('li');
+                listItem.setAttribute('id', 'unselected');
+
+                link.setAttribute('href', '#');
+                link.appendChild(document.createTextNode('keines'));
+                listItem.appendChild(link);
+                $(prototypeDropdown).find('.option').append(listItem);
+            }
+
             listItem = document.createElement('li');
             listItem.setAttribute('id', prototypes[i].id);
 
-            var link = document.createElement('a');
+            link = document.createElement('a');
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode(prototypes[i].title));
             listItem.appendChild(link);
@@ -694,7 +705,7 @@ $('body').on('click', '.checkPidocoEditURL', function (event) {
                 button.removeClass('btn-success');
                 button.addClass('btn-danger');
                 inputField.focus();
-                
+
                 appendAlert($(this).closest('.root'), ALERT_PIDOCO_EDIT_URL_INVALID);
 //                var alert = $('#form-item-container').find('#' + ALERT_PIDOCO_EDIT_URL_INVALID).clone();
 //                $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
@@ -746,7 +757,8 @@ function urlIsValid(url, type) {
             regEx = /https:\/\/pidoco.com\/rabbit\/edit\/[0-9]+#page\/page[0-9]+/;
             break;
         case TYPE_URL_PIDOCO_EMBED:
-            regEx = /https:\/\/pidoco.com\/rabbit\/prototype\/result\/[0-9]+\/page[0-9]+\//;
+            https://pidoco.com/rabbit/api/prototypes/172450/pages/page648229105.xhtml?mode=plain&api_key=kzhIRzrEw4dmNbIvLfhvwL0c6tmUWL7Ek9PaiHNg
+            regEx = /https:\/\/pidoco.com\/rabbit\/api\/prototypes\/[0-9]+\/pages\/page[0-9]+/;
             break;
         case TYPE_URL_VIDEO_EMBED:
             if (

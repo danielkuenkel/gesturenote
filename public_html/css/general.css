@@ -33,6 +33,12 @@ h4 {
     font-weight: bold;
 }
 
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .navbar-brand {
     cursor: pointer;
 }
@@ -306,4 +312,14 @@ footer .glyphicon {
 
 li.selected {
     background-color: #e7e7e7;
+}
+
+.checkbox .option-text, .radio .option-text {
+    position: relative;
+    top: -4px;
+}
+
+.checkbox .form-control, .radio .form-control {
+    position: relative;
+    top: -6px;
 }

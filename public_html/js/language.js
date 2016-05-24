@@ -16,7 +16,7 @@ function checkLanguage() {
         console.log('language: deutsch');
     }
 
-    $.getJSON('externals/' + currentLanguage + '.json', function (data) {
+    $.getJSON('externals/' + currentLanguage + '/' + currentLanguage + '.json', function (data) {
         translation = data;
     });
 }

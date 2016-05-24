@@ -24,3 +24,23 @@ function removeLocalItem(id) {
 function clearLocalItems() {
     localStorage.clear();
 }
+
+function getGestureById(id) {
+    var predefinedGestures = getLocalItem(PREDEFINED_GESTURE_SET);
+    for (var i = 0; i < predefinedGestures.length; i++) {
+        if (parseInt(predefinedGestures[i].id) === parseInt(id)) {
+            return predefinedGestures[i];
+        }
+    }
+    return null;
+}
+
+function getSceneById(id) {
+    var prototypes = getLocalItem(ASSEMBLED_PROTOTYPES);
+    for (var i = 0; i < prototypes.length; i++) {
+        if (parseInt(prototypes[i].id) === parseInt(id)) {
+            return prototypes[i];
+        }
+    }
+    return null;
+}

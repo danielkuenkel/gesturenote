@@ -453,9 +453,11 @@ function getDimensionByElement(element) {
 
 function getPrototypeById(id) {
     var prototypes = getLocalItem(ASSEMBLED_PROTOTYPES);
-    for (var i = 0; i < prototypes.length; i++) {
-        if (parseInt(prototypes[i].id) === parseInt(id)) {
-            return prototypes[i];
+    if (prototypes && prototypes.length > 0) {
+        for (var i = 0; i < prototypes.length; i++) {
+            if (parseInt(prototypes[i].id) === parseInt(id)) {
+                return prototypes[i];
+            }
         }
     }
     return null;

@@ -5,7 +5,9 @@
  */
 
 // path externals
-PATH_EXTERNALS = 'externals/';
+var PATH_EXTERNALS = 'externals/';
+
+var GESTURE_THUMBNAIL_SCROLLING_SPEED = 100;
 
 // project specific constants
 var PROJECT = 'project';
