@@ -12,11 +12,11 @@ include './includes/language.php';
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/createProject.css">
+        <link rel="stylesheet" href="css/gesture.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
 
-<!--<script src="http://www.w3schools.com/lib/w3data.js"></script>-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
@@ -31,18 +31,14 @@ include './includes/language.php';
         <script src="js/thumbscrubber.js"></script>
         <script src="js/subPages.js"></script>
         <script src="js/createProject.js"></script>
+        <script src="js/gesture.js"></script>
     </head>
     <body>
 
-
+        <!-- externals -->
         <div id="alerts"></div>
+        <div id="template-gesture"></div>
         <div id="template-inputs"></div>
-        <!--        <div w3-include-HTML="template-inputs.html"></div>
-                <div w3-include-HTML="alerts.html"></div>-->
-
-<!--        <script>
-    w3IncludeHTML();
-</script>-->
 
         <!-- Container (Breadcrump) -->
         <div class="container" id="breadcrumb">
@@ -57,12 +53,11 @@ include './includes/language.php';
         </div>
 
         <!-- Modal -->
-        <div id="custom-modal" class="modal fade custom-modal" role="dialog">
+        <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
                 <div class="modal-content">
-
                 </div>
             </div>
         </div>
@@ -214,6 +209,7 @@ include './includes/language.php';
                                         <li id="letterOfAcceptance"><a href="#"><?php echo $lang->formats->letterOfAcceptance ?></a></li>
                                         <li id="gestureTraining"><a href="#"><?php echo $lang->formats->gestureTraining ?></a></li>
                                         <li id="scenario"><a href="#"><?php echo $lang->formats->scenario ?></a></li>
+                                        <li id="slideshow"><a href="#"><?php echo $lang->formats->slideshow ?></a></li>
                                     </ul>
                                     <button class="btn btn-info disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                                     <button class="btn btn-addon disabled dropdown-disabled" id="info-addon-add-phases">
@@ -310,6 +306,7 @@ include './includes/language.php';
 
                 var externals = new Array();
                 externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
+                externals.push(['#template-gesture', PATH_EXTERNALS + '/' + currentLanguage + '/template-gesture.html']);
                 externals.push(['#template-inputs', PATH_EXTERNALS + '/' + currentLanguage + '/template-create.html']);
                 loadExternals(externals);
             });

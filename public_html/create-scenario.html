@@ -125,7 +125,6 @@
             var woz = $('#form-item-container #wozExperiment').clone();
             $('#wozExperimentContainer').append(woz);
 
-
             if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION) {
                 var eliciation = $('#form-item-container #elicitation').clone();
                 $('#elicitationContainer').append(eliciation);
@@ -252,7 +251,7 @@
 
                     if (feedback) {
                         $(clone).find('.option-feedback').val(feedback.title);
-                        $(clone).find('feedbackSelect .selected').attr('id', feedback.id);
+                        $(clone).find('.feedbackSelect .selected').attr('id', feedback.id);
                     }
 
                     $(clone).find('.stepper-text').val(recognitionTime);

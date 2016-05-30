@@ -19,17 +19,20 @@
         if (scene) {
             renderData(scene);
         }
-        console.log(scene);
+//        console.log(scene);
     });
 
     function renderData(data) {
         var source = getPreviewContainer(VIEW_MODERATOR);
         var container = $(source).find('#' + data.type).clone().removeAttr('id');
-        console.log(container);
+        container.find('.type').text(translation.prototypes[data.type]);
+        container.find('.title').text(data.title);
+        console.log(data);
         $('#list-container').append(container);
 
         switch (data.type) {
             case PROTOTYPE_IMAGE:
+                container.find('.imageAreaContent').attr('src', data.data);
                 break;
             case PROTOTYPE_VIDEO:
                 // not assembled and saved
@@ -37,10 +40,32 @@
             case PROTOTYPE_VIDEO_EMBED:
                 break;
             case PROTOTYPE_PIDOCO:
-                container.attr('src', data.options[1]);
+                container.find('.web-frame').attr('src', data.options[1]);
+                container.find('.btn-url').on('click', function (event) {
+                    event.preventDefault();
+                    var win = window.open(data.options[1]);
+                    if (win) {
+                        //Browser has allowed it to be opened
+                        win.focus();
+                    } else {
+                        //Broswer has blocked it
+                        alert('Please allow popups for this site');
+                    }
+                });
                 break;
             case PROTOTYPE_WEB:
-                container.attr('src', data.options[0]);
+                container.find('.web-frame').attr('src', data.options[0]);
+                container.find('.btn-url').on('click', function (event) {
+                    event.preventDefault();
+                    var win = window.open(data.options[0]);
+                    if (win) {
+                        //Browser has allowed it to be opened
+                        win.focus();
+                    } else {
+                        //Broswer has blocked it
+                        alert('Please allow popups for this site');
+                    }
+                });
                 break;
         }
     }

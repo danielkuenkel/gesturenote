@@ -1,0 +1,372 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
+    <h4 class="modal-title">Slideshow</h4>
+</div>
+<div id="modal-body" class="modal-body">
+
+    <div class="panel panel-default root" id="general">
+        <div class="panel-heading clearfix">
+            <div class="panel-title">Allgemeines</div>
+        </div>
+        <div class="panel-body">
+            <div class="panel-group" id="generalContainer">
+                <div class="form-group">
+                    <label class="sr-only" for="slideshowTitle">Titel</label>
+                    <input type="text" class="form-control" id="slideshowTitle" placeholder="Titel einfügen">
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="slideshowDescription">Beschreibung</label>
+                    <textarea class="form-control" id="slideshowDescription" rows="5" placeholder="Slideshowbeschreibung einfügen"></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-group" id="slideshowTypeSwitch">
+                            <button class="btn btn-default btn-addon switchButtonAddon">Was soll abgefragt werden?</button>
+                            <button class="btn btn-success btn-toggle-checkbox active" id="gestures" name="btn-success">Gesten</button>
+                            <button class="btn btn-default btn-toggle-checkbox inactive" id="trigger" name="btn-success">Trigger</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group simple-stepper">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default btn-addon">Zeit für die Antwort (Sekunden)</button>
+                                <button type="button" class="btn btn-default btn-stepper-decrease" value="2">
+                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Sekunde weniger</span>
+                                </button>
+                            </div>
+                            <input type="text" class="form-control readonly text-center stepper-text" id="answerTime" value="3">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default btn-stepper-increase" value="10">
+                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Sekunde mehr</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="slideshow">
+        <div class="panel-heading clearfix">
+            <div class="panel-title">Elemente</div>
+        </div>
+        <div class="panel-body">
+            <div class="panel-group" id="slideshowContainer">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="observations">
+        <div class="panel-heading clearfix">
+            <div style="margin-top: 4px; display: inline-block">Beobachtungen</div>
+            <div class="btn-group pull-right" id="useObservationsSwitch">
+                <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
+                <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
+            </div>
+        </div>
+        <div class="panel-body hidden">
+            <div class="form-group container-root" id="list-container"></div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Beobachtungsformat</span>
+                    <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+                    <div class="input-group-btn select" id="addFormatSelect" role="group">
+                        <button class="btn btn-default btn-dropdown" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            <li id="counter"><a href="#">Zähler</a></li>
+                            <li id="openQuestion"><a href="#">Offene Frage</a></li>
+                            <li id="dichotomousQuestion"><a href="#">Ja/nein-Frage</a></li>
+                            <li id="groupingQuestion"><a href="#">Eingruppierungs-Frage</a></li>
+                        </ul>
+                        <button class="btn btn-info disabled dropdown-disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                    </div>
+                </div>
+            </div>
+
+            <!--<button class="btn btn-info pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>-->
+        </div>
+    </div>
+
+</div>
+<div id="modal-footer" class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
+</div>
+
+
+<script type="text/javascript" src="js/template-inputs.js"></script>
+<script>
+        $(document).ready(function () {
+            var slideshow = $('#form-item-container #slideshow').clone();
+            $('#slideshowContainer').append(slideshow);
+
+            if (!assembledGestures()) {
+                appendAlert(slideshow, ALERT_NO_GESTURES_ASSEMBLED);
+                $(slideshow).find('.btn-add-slideshowOption').addClass('hidden');
+            }
+
+            var trigger = getLocalItem(ASSEMBLED_TRIGGER);
+            if (trigger === null) {
+                appendAlert(slideshow, ALERT_NO_TRIGGER_ASSEMBLED);
+                $(slideshow).find('.btn-add-slideshowOption').addClass('hidden');
+            }
+
+            renderAssembledGestures();
+            renderAssembledTriggers();
+
+            var data = getLocalItem(currentIdForModal + '.data');
+//            console.log("gestentrainingsdaten: " + data + ", " + currentIdForModal);
+            if (data) {
+                renderData(data, false);
+            }
+        });
+
+        function renderData(data, forPrefiniedObservation)
+        {
+            var slideshowItems = data.slideshow;
+            var obeservationItems;
+
+            if (!forPrefiniedObservation) {
+                obeservationItems = data.observations;
+            } else {
+                obeservationItems = data;
+            }
+
+            $('#slideshowTitle').val(data.title);
+            $('#slideshowDescription').val(data.description);
+            $('#slideshowTypeSwitch #' + data.slideshowFor).click();
+            $('#answerTime').val(data.answerTime);
+
+//            if (data.useSingleTraining) {
+//                $('#useSingleTrainingSwitch .switchButtonAddon').click();
+//            }
+
+            var container;
+
+            if (slideshowItems !== undefined && slideshowItems.length > 0) {
+
+                container = $('#slideshowContainer').find('.option-container');
+
+                for (var i = 0; i < slideshowItems.length; i++) {
+                    var gesture = slideshowItems[i].gesture;
+                    var trigger = slideshowItems[i].trigger;
+
+                    var clone = $('#slideshowItem').clone().removeClass('hidden');
+                    $(clone).removeAttr('id');
+                    container.append(clone);
+
+                    if (gesture && isGestureAssembled(gesture.id))
+                    {
+                        $(clone).find('.option-gesture').val(gesture.title);
+                        $(clone).find('.gestureSelect .selected').attr('id', gesture.id);
+                    } else {
+                        appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
+                    }
+
+                    if (trigger) {
+                        if (!getTriggerById(trigger.id)) {
+                            appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
+                        } else {
+                            $(clone).find('.option-trigger').val(trigger.title);
+                            $(clone).find('.triggerSelect .selected').attr('id', trigger.id);
+                        }
+                    }
+
+//                    if (feedback) {
+//                        $(clone).find('.option-feedback').val(feedback.title);
+//                        $(clone).find('.feedbackSelect .selected').attr('id', feedback.id);
+//                    }
+//                    $(clone).find('.stepper-text').val(parseInt(repeats));
+                }
+                checkCurrentListState(container);
+            }
+
+            if (obeservationItems !== undefined && obeservationItems.length > 0) {
+                if (!forPrefiniedObservation) {
+                    $('#useObservationsSwitch .switchButtonAddonPanel').click();
+                }
+
+                container = $('#list-container');
+
+                for (var i = 0; i < obeservationItems.length; i++) {
+                    var item = obeservationItems[i];
+                    var clone = $('#form-item-container').find('#' + item.type).clone(true);
+                    clone.addClass(item.dimension);
+                    $(clone).find('.question').val(item.question);
+                    container.append(clone);
+                    updateBadges(container, item.type);
+
+                    switch (item.type) {
+                        case DICHOTOMOUS_QUESTION:
+                            var parameters = item.parameters;
+                            var aGestures = assembledGestures();
+//                            if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
+//                                $(clone).find('.gesture-select .switchButtonAddon').click();
+//                            }
+                            if (parameters[0] === true) {
+                                $(clone).find('.justification .switchButtonAddon').click();
+                            }
+                            break;
+                        case GROUPING_QUESTION:
+                            var parameters = item.parameters;
+
+                            if (parameters[0] === true) {
+                                $(clone).find('.multiselect .switchButtonAddon').click();
+                            }
+                            if (parameters[1] === true) {
+                                $(clone).find('.optionalanswer .switchButtonAddon').click();
+                            }
+
+                            var options = item.options;
+                            for (var j = 0; j < options.length; j++) {
+                                var option = $('#groupingQuestionItem').clone().removeClass('hidden');
+                                $(option).find('.option').val(options[j]);
+                                $(clone).find('.option-container').append(option);
+                                checkCurrentListState($(clone).find('.option-container'));
+                            }
+                            break;
+                        case RATING:
+                            var options = item.options;
+                            for (var j = 0; j < options.length; j++) {
+                                var option = $('#ratingItem').clone().removeClass('hidden');
+                                $(option).find('.option').val(options[j]);
+                                $(clone).find('.option-container').append(option);
+                                $(option).find('.optionQuestion').val(options[j][options[j].length - 1]);
+                                $(option).find('.selected').text((options[j].length - 1) + " ");
+                                checkCurrentListState($(clone).find('.option-container'));
+
+                                renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 1, options[j]);
+                            }
+                            break;
+                        case SUM_QUESTION:
+                            var parameters = item.parameters;
+
+                            $(clone).find('.option').children('#' + parameters[0]).click();
+                            $(clone).find('.maximum').val(parameters[1]);
+
+                            var options = item.options;
+                            for (var j = 0; j < options.length; j++) {
+                                var option = $('#sumQuestionItem').clone().removeClass('hidden');
+                                $(option).find('.option').val(options[j]);
+                                $(clone).find('.option-container').append(option);
+                                checkCurrentListState($(clone).find('.option-container'));
+                            }
+                            break;
+                        case RANKING:
+                            var options = item.options;
+                            for (var j = 0; j < options.length; j++) {
+                                var option = $('#rankingItem').clone().removeClass('hidden');
+                                $(option).find('.option').val(options[j]);
+                                $(clone).find('.option-container').append(option);
+                                checkCurrentListState($(clone).find('.option-container'));
+                            }
+                            break;
+                    }
+                }
+                checkCurrentListState(container);
+            }
+        }
+
+        function saveData() {
+            var slideshowItems = $('#slideshowContainer').find('.option-container').children();
+            var obersvationItems = $('#list-container').children();
+
+            var slideshow = new Slideshow();
+            slideshow.title = $('#slideshowTitle').val();
+            slideshow.description = $('#slideshowDescription').val();
+            slideshow.slideshowFor = $('#slideshowTypeSwitch .active').attr('id');
+            slideshow.answerTime = $('#answerTime').val();
+
+            if (slideshowItems) {
+                var set = new Array();
+                for (var i = 0; i < slideshowItems.length; i++) {
+                    var item = slideshowItems[i];
+                    var gestureId = $(item).find('.gestureSelect .selected').attr('id');
+                    var gesture = getGestureById(gestureId);
+                    var triggerSplitId = $(item).find('.triggerSelect .selected').attr('id');
+                    var trigger = getTriggerById(triggerSplitId);
+//                    var feedbackId = $(item).find('.feedbackSelect .selected').attr('id');
+//                    var feedback = getFeedbackById(feedbackId);
+
+                    if (gesture && trigger) {
+                        set.push(new SlideshowItem(gesture, trigger));
+                    }
+                }
+                slideshow.slideshow = set;
+            }
+
+            if ($('#useObservationsSwitch').find('#yes').hasClass('active'))
+            {
+                var observations = new Array();
+                for (var i = 0; i < obersvationItems.length; i++) {
+                    var item = obersvationItems[i];
+                    var type = $(item).attr('id');
+                    var dimension = getDimensionByElement($(item));
+                    var question = $(item).find('.question').val();
+                    var parameters = null;
+                    var options = null;
+                    switch (type) {
+                        case DICHOTOMOUS_QUESTION:
+                            parameters = new Array();
+//                            parameters.push($(item).find('.gesture-select .active').attr('id') === 'yes' ? true : false);
+                            parameters.push($(item).find('.justification .active').attr('id') === 'yes' ? true : false);
+                            break;
+                        case GROUPING_QUESTION:
+                            parameters = new Array();
+                            parameters.push($(item).find('.multiselect .active').attr('id') === 'yes' ? true : false);
+                            parameters.push($(item).find('.optionalanswer .active').attr('id') === 'yes' ? true : false);
+                            options = new Array();
+                            var groupingOptions = $(item).find('.option-container').children();
+                            for (var j = 0; j < groupingOptions.length; j++) {
+                                options.push($(groupingOptions[j]).find('.option').val());
+                            }
+                            break;
+                        case RATING:
+                            options = new Array();
+                            var optionList = $(item).find('.option-container').children();
+                            for (var j = 0; j < optionList.length; j++) {
+                                var ratingOptions = ($(optionList[j]).find('.ratingScaleItemContainer').children());
+                                var tempArray = new Array();
+                                for (var k = 0; k < ratingOptions.length; k++) {
+                                    tempArray.push($(ratingOptions[k]).find('.option').val());
+                                }
+                                tempArray.push($(optionList[j]).find('.optionQuestion').val());
+                                options.push(tempArray);
+                            }
+                            break;
+                        case SUM_QUESTION:
+                            parameters = new Array();
+                            parameters.push($(item).find('.allocation').attr('id'));
+                            parameters.push($(item).find('.maximum').val());
+                            options = new Array();
+                            var sumQuestionOptions = $(item).find('.option-container').children();
+                            for (var j = 0; j < sumQuestionOptions.length; j++) {
+                                options.push($(sumQuestionOptions[j]).find('.option').val());
+                            }
+                            break;
+                        case RANKING:
+                            options = new Array();
+                            var rankingOptions = $(item).find('.option-container').children();
+                            for (var j = 0; j < rankingOptions.length; j++) {
+                                options.push($(rankingOptions[j]).find('.option').val());
+                            }
+                            break;
+                    }
+
+                    observations.push(new QuestionnaireItem(type, dimension, question, parameters, options));
+                }
+                slideshow.observations = observations;
+            }
+
+            setLocalItem(currentIdForModal + ".data", slideshow);
+        }
+
+//        $('#addPredefinedObservations').on('click', function () {
+//            if (getLocalItem(PREDEFINED_OBSERVATIONS) !== null) {
+//                renderData(getLocalItem(PREDEFINED_OBSERVATIONS), true);
+//            }
+//        });
+</script>

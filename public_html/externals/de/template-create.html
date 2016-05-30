@@ -605,6 +605,79 @@
 
         <button class="btn btn-info pull-right btn-add-gestureTrainingOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Trainingselement hinzufügen</span></button>
     </div>
+    
+    <div class="root" id="slideshow">
+        <div class="form-group root hidden" id="slideshowItem">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <div class="alert-space alert-assembled-gesture-removed"></div>
+                    <div class="alert-space alert-assembled-trigger-removed"></div>
+
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                            <button class="btn btn-default btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                            <button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                        <span class="input-group-addon">Trigger</span>
+                        <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <div class="input-group-btn select triggerSelect" role="group">
+                            <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                        </div>
+                    </div>
+
+                    <div class="input-group evaluation" style="margin-top: 10px;">
+                        <span class="input-group-addon">Geste</span>
+                        <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <div class="input-group-btn select gestureSelect" role="group">
+                            <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                        </div>
+                    </div>
+
+<!--                    <div class="col-md-6" style="padding: 0; margin-top: 10px;">
+                        <div class="input-group">
+                            <span class="input-group-addon">Feedback</span>
+                            <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                            <div class="input-group-btn select feedbackSelect" role="group">
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="padding: 0px; margin-top: 10px;">
+                        <div class="col-md-11 col-md-offset-1" style="padding: 0px;">
+                            <div class="input-group simple-stepper">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default btn-addon">Wiederholungen der Geste</button>
+                                    <button type="button" class="btn btn-default btn-stepper-decrease" value="1">
+                                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eins weniger</span>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control readonly text-center stepper-text" value="5">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-stepper-increase" value="10">
+                                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eins mehr</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+
+                </div>
+            </div>
+        </div>
+
+        <div class="alert-space alert-no-gestures-assembled"></div>
+        <div class="alert-space alert-no-trigger-assembled"></div>
+
+        <div class="option-container"></div>
+
+        <button class="btn btn-info pull-right btn-add-slideshowOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Slideshowelement hinzufügen</span></button>
+    </div>
 
 
     <div class="panel panel-default root" id="pidoco">

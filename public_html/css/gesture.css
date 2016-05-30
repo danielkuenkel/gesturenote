@@ -1,0 +1,42 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 28.05.2016, 13:31:55
+    Author     : danielkunkel
+*/
+
+.gesture-modal-preview .imageContainer, .gesture-thumbnail .imageContainer {
+    border-radius: 4px;
+    overflow: hidden; 
+    width: 100%; 
+}
+
+.gesture-modal-preview .mouseScrollable, .gesture-thumbnail .mouseScrollable {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.gestureImage {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+}
+
+.gesture-modal-preview .progress, .gesture-thumbnail .progress {
+    height: 8px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;    
+}
+
+.gesture-modal-preview .progress-bar, .gesture-thumbnail .progress-bar {
+    transition-duration: 0.1s;
+/*    -webkit-transition: none !important;
+    transition: none !important;*/
+}
+
+.gesture-modal-preview .gestureControls {
+    margin-top: 10px;
+}

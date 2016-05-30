@@ -1,0 +1,171 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Modal Header</h4>
+</div>
+
+<div class="modal-body root gesture-modal-preview">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="imageContainer mouseScrollable"></div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+            </div>
+            <div class="text-center gesture-controls" style="margin-bottom: 10px;">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="play"><i class="glyphicon glyphicon-play"></i></button>
+                    <button type="button" class="btn btn-default" id="stop"><i class="glyphicon glyphicon-stop"></i></button>
+                    <button type="button" class="btn btn-default" id="stepBackward"><i class="glyphicon glyphicon-step-backward"></i></button>
+                    <button type="button" class="btn btn-default" id="stepForward"><i class="glyphicon glyphicon-step-forward"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="gesture-type"></div>
+            <div class="body-type"></div><br>
+            <div class="description"></div>
+        </div>
+    </div>
+
+</div>
+
+<div id="modal-footer" class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var gesture = getGestureById(currentGestureId);
+        if (gesture !== null) {
+            renderData(gesture);
+        }
+    });
+
+    function renderData(data) {
+        console.log('render gesture info modal for id: ' + data.id);
+
+        var root = $(currentModalId).find('.modal-content');
+        renderGestureImages(root.find('.imageContainer'), data.images, data.previewImage);
+        updateModalProgress(root.find('.imageContainer'));
+
+        $(root).find('.modal-title').text(data.title);
+        $(root).find('.description').html(data.description);
+        console.log(data);
+        $(root).find('.gesture-type').text(translation.gestureType + ': ' + translation.gestureTypes[data.gestureType]);
+        $(root).find('.body-type').text(translation.bodyType + ': ' + translation.bodyTypes[data.bodyType]);
+    }
+
+//    $('body').on('mouseenter', '.imageContainer', function (event) {
+//        event.preventDefault();
+//        if (!$(this).hasClass('mouseScrollable')) {
+//            playThroughThumbnails($(this), 0);
+//        }
+//    });
+
+//    var currentSlide, prevSlide;
+//    $('body').on('mousemove', '.mouseScrollable', function (event) {
+//        clearTimer();
+//        var innerWidth = $(this).innerWidth();
+//        var numslides = $(this).children().length;
+//
+//        if (event.type === 'mousemove') {
+//            var x = event.pageX - $(this).offset().left;
+//            currentSlide = Math.floor(x / (innerWidth / numslides)) + 1;
+//
+//            if (currentSlide !== prevSlide) {
+//                $(this).children('.active').addClass('hidden');
+//                $(this).children('.active').removeClass('active');
+//                $(this).find(':nth-child(' + currentSlide + ')').removeClass('hidden');
+//                $(this).find(':nth-child(' + currentSlide + ')').addClass('active');
+//                prevSlide = currentSlide;
+//                updateModalProgress();
+//            }
+//            return false;
+//        }
+//    });
+
+//    $('body').on('mouseleave', '.imageContainer', function (event) {
+//        event.preventDefault();
+//        prevSlide = 0;
+//        resetThumbnails($(this));
+//    });
+
+//$('body').on('mouseenter', '.panel-body .moreInfo', function (event) {
+//    event.preventDefault();
+//    $(this).addClass('btn-info');
+//});
+
+//$('body').on('mouseleave', '.panel-body .moreInfo', function (event) {
+//    event.preventDefault();
+//    $(this).removeClass('btn-info');
+//});
+
+//$('body').on('click', '.moreInfo', function (event) {
+//    event.preventDefault();
+//    renderModal(getGestureById($(this).closest('.root').attr('id')));
+//    $('#moreInfosModal').modal('show');
+//});
+
+//$('body').on('click', '.trigger', function (event) {
+//    event.preventDefault();
+//    var gesture = getGestureById($(this).closest('.root').attr('id'));
+//    console.log("trigger clicked: " + gesture.id);
+//});
+
+//$("#moreInfosModal").on('hidden.bs.modal', function () {
+//    $(this).find('.imageContainer').empty();
+//});
+
+//    $('#play').on('click', function (event) {
+//        event.preventDefault();
+//        if (!$(this).hasClass('active')) {
+//            $(this).addClass('active');
+//            playThroughThumbnails($(this).closest('.root').find('.imageContainer'), 0);
+//        }
+//    });
+//
+//    $('#stop').on('click', function (event) {
+//        event.preventDefault();
+//        $('#play').removeClass('active');
+//        resetThumbnails($(this).closest('.root').find('.imageContainer'));
+//    });
+//
+//    $('#stepForward').on('click', function (event) {
+//        event.preventDefault();
+//        clearTimer();
+//        $('#play').removeClass('active');
+//        stepForward($(this).closest('.root').find('.imageContainer'));
+//    });
+//
+//    var mouseDownInterval;
+//    $('#stepForward').on('mousedown', function (event) {
+//        event.preventDefault();
+//        clearTimer();
+//        $('#play').removeClass('active');
+//        mouseDownInterval = setInterval(function (container) {
+//            console.log(container);
+//            stepForward(container);
+//        }, 100, $(this).closest('.root').find('.imageContainer'));
+//    });
+//
+//    $('#stepForward, #stepBackward').on('mouseup', function (event) {
+//        event.preventDefault();
+//        clearTimer();
+//        $('#play').removeClass('active');
+//        clearInterval(mouseDownInterval);
+//    });
+//
+//    $('#stepBackward').on('click', function (event) {
+//        event.preventDefault();
+//        $('#play').removeClass('active');
+//        stepBackward($(this).closest('.root').find('.imageContainer'));
+//    });
+//
+//    $('#stepBackward').on('mousedown', function (event) {
+//        event.preventDefault();
+//        clearTimer();
+//        mouseDownInterval = setInterval(function (container) {
+//            console.log(container);
+//            stepBackward(container);
+//        }, 100, $(this).closest('.root').find('.imageContainer'));
+//    });
+</script>

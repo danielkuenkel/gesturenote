@@ -758,7 +758,7 @@ function urlIsValid(url, type) {
             break;
         case TYPE_URL_PIDOCO_EMBED:
             https://pidoco.com/rabbit/api/prototypes/172450/pages/page648229105.xhtml?mode=plain&api_key=kzhIRzrEw4dmNbIvLfhvwL0c6tmUWL7Ek9PaiHNg
-            regEx = /https:\/\/pidoco.com\/rabbit\/api\/prototypes\/[0-9]+\/pages\/page[0-9]+/;
+                    regEx = /https:\/\/pidoco.com\/rabbit\/api\/prototypes\/[0-9]+\/pages\/page[0-9]+/;
             break;
         case TYPE_URL_VIDEO_EMBED:
             if (
@@ -788,5 +788,18 @@ $('body').on("keyup", '.enter-key', function (event) {
         $(this).parent().find('.checkInput').removeClass('btn-success');
         $(this).closest('.form-group').removeClass('has-success');
         $(this).closest('.form-group').removeClass('has-error');
+    }
+});
+
+
+// slideshow
+$('body').on('click', '.btn-add-slideshowOption', function (event) {
+    console.log('on btn-add-slideshowOption clicked');
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
+        $(this).prev().append($('#slideshowItem').clone().removeClass('hidden'));
+        checkCurrentListState($(this).prev());
     }
 });

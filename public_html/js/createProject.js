@@ -70,15 +70,15 @@ function createPredefinedGestures() {
         images.push("http://placehold.it/200x150?text=5");
 
         var gestures = new Array();
-        gestures.push(new Gesture(GESTURE_OWN_PROJECT, 1, 1451606400, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist .", images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_OWN_PROJECT, 2, 1451692800, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies .", images, 1, null, false));
-        gestures.push(new Gesture(GESTURE_OWN_PROJECT, 3, 1451779200, "Geste Hand Kreisen ", "Beschreibung hdhhsr.", images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_OWN_PROJECT, 4, 1451865600, "Fuß nach hinten ziehen", "wzhwsbf b.", images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_OWN_PROJECT, 5, 1451952000, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung rhsfgnsgk s dgh sfg.", images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_CATALOG, 6, 1451606400, "Dies ist ein Gestentitel " + (gestures.length + 1), "lange Haha.", images, 1, null, false));
-        gestures.push(new Gesture(GESTURE_CATALOG, 7, 1451692800, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_CATALOG, 8, 1451779200, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_CATALOG, 9, 1451865600, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", images, 0, null, false));
+        gestures.push(new Gesture(GESTURE_OWN_PROJECT, chance.natural(), 1451606400, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies ist .", TYPE_GESTURE_DISCRETE, TYPE_BODY_FULL, images, 2, null, false));
+        gestures.push(new Gesture(GESTURE_OWN_PROJECT, chance.natural(), 1451692800, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies .", TYPE_GESTURE_POSE, TYPE_BODY_HAND, images, 1, null, false));
+        gestures.push(new Gesture(GESTURE_OWN_PROJECT, chance.natural(), 1451779200, "Geste Hand Kreisen ", "Beschreibung hdhhsr.", TYPE_GESTURE_DISCRETE, TYPE_BODY_UPPER, images, 2, null, false));
+        gestures.push(new Gesture(GESTURE_OWN_PROJECT, chance.natural(), 1451865600, "Fuß nach hinten ziehen", "wzhwsbf b.", TYPE_GESTURE_DISCRETE, TYPE_BODY_FULL, images, 0, null, false));
+        gestures.push(new Gesture(GESTURE_OWN_PROJECT, chance.natural(), 1451952000, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung rhsfgnsgk s dgh sfg.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 2, null, false));
+        gestures.push(new Gesture(GESTURE_CATALOG, chance.natural(), 1451606400, "Dies ist ein Gestentitel " + (gestures.length + 1), "lange Haha.", TYPE_GESTURE_POSE, TYPE_BODY_FULL, images, 1, null, false));
+        gestures.push(new Gesture(GESTURE_CATALOG, chance.natural(), 1451692800, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_POSE, TYPE_BODY_HAND, images, 2, null, false));
+        gestures.push(new Gesture(GESTURE_CATALOG, chance.natural(), 1451779200, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_UPPER, images, 2, null, false));
+        gestures.push(new Gesture(GESTURE_CATALOG, chance.natural(), 1451865600, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
 
         setLocalItem(PREDEFINED_GESTURE_SET, gestures);
     }
@@ -396,12 +396,28 @@ function Help() {
     this.gestureId;
 }
 
-function Gesture(type, id, timestamp, title, description, images, previewImage, videoUrl, used) {
+function Slideshow() {
+    this.title;
+    this.description;
+    this.slideshowFor;
+    this.answerTime;
+    this.slideshow;
+    this.observations;
+}
+
+function SlideshowItem(gesture, trigger) {
+    this.gesture = gesture;
+    this.trigger = trigger;
+}
+
+function Gesture(type, id, timestamp, title, description, gestureType, bodyType, images, previewImage, videoUrl, used) {
     this.type = type;
     this.id = id;
     this.timestamp = timestamp;
     this.title = title;
     this.description = description;
+    this.gestureType = gestureType;
+    this.bodyType = bodyType;
     this.images = images;
     this.previewImage = previewImage;
     this.videoUrl = videoUrl;

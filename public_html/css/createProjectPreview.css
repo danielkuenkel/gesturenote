@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : danielkunkel
 */
 
-.progress {
+#progressTop .progress {
     border-radius: 0px;
     /*height: 24px;*/
     -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3);
@@ -52,6 +52,10 @@ and open the template in the editor.
     color: #303030;
     /*padding: 0;*/
     /*margin: 0;*/
+}
+
+.title {
+    color: black;
 }
 
 #rating-header {

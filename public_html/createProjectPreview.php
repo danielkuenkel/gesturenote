@@ -12,6 +12,7 @@ include './includes/language.php';
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/createProjectPreview.css">
+        <link rel="stylesheet" href="css/gesture.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
@@ -26,7 +27,8 @@ include './includes/language.php';
         <script src="js/language.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/alert.js"></script>
-        <script src="js/gotoPage.js"></script>        
+        <script src="js/gotoPage.js"></script>       
+        <script src="js/gesture.js"></script>
         <script src="js/thumbscrubber.js"></script>
         
         <script src="js/createProjectPreview.js"></script>
@@ -34,6 +36,7 @@ include './includes/language.php';
     <body>
 
         <div id="alerts"></div>
+        <div id="template-gesture"></div>
         <div id="template-forms"></div>
         <div id="template-previews"></div>
 
@@ -126,6 +129,7 @@ include './includes/language.php';
                 var externals = new Array();
                 var path = PATH_EXTERNALS + '/' + currentLanguage + '/';
                 externals.push(['#alerts', path + 'alerts.html']);
+                externals.push(['#template-gesture', path + 'template-gesture.html']);
                 externals.push(['#template-forms', path + 'template-inputs.html']);
                 externals.push(['#template-previews', path + 'template-previews.html']);
                 loadExternals(externals);

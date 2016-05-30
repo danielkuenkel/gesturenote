@@ -6,22 +6,37 @@
 
     <div class="panel panel-default hidden gesture-thumbnail root" id="gesture-thumbnail">
         <div class="panel-heading">
-            <h4 class="panel-title">
-                <span class="title-text"></span>
-                <i class="glyphicon glyphicon-search gesture-details hidden"></i>
-                <span class="pull-right">
-                    <i class="glyphicon glyphicon-star gesture-assemble"></i>
-                </span>
-            </h4>
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default gesture-assemble"><i class="glyphicon glyphicon-star"></i></button>
+                <button type="button" class="btn btn-default gesture-details"><i class="glyphicon glyphicon-eye-open"></i></button>
+            </div>
+
+            <span class="title-text ellipsis" style="margin-left: 10px; position: relative; top: 2px;"></span>
         </div>
         <div class="panel-collapse collapse">
             <div class="panel-body">
-                <div class="thumbscrubber">
-                    <div class="preview hidden"></div>
-                    <div class="ts-inner"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="imageContainer mouseScrollable"></div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="gesture-type"></div>
+                        <div class="body-type"></div><br>
+                        <div class="description"></div>
+                        <div style="margin-top: 10px;">
+                            <button type="button" class="btn btn-success gesture-assemble-description btn-block"><i class="glyphicon glyphicon-star"></i> Zum Set hinzufügen</button>
+                            <button type="button" class="btn btn-danger gesture-unassemble-description btn-block hidden"><i class="glyphicon glyphicon-star-empty"></i> Vom Set entfernen</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="description-text" style="display: inline-block">
-                </div>
+                <!--                <div class="thumbscrubber">
+                                    <div class="preview hidden"></div>
+                                    <div class="ts-inner"></div>
+                                </div>
+                                <div class="description-text" style="display: inline-block"></div>-->
             </div>
         </div>
     </div>
@@ -49,7 +64,7 @@
                             <span class="input-group-addon">Suchen</span>
                             <input class="form-control item-input-text search" id="filterOwnExtractedGestures" type="text" value="" placeholder="Suchbegriff eingeben"/>
                             <span class="input-group-addon">Sortierung</span>
-                            <input class="form-control item-input-text option-phase show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+                            <input class="form-control item-input-text option-phase show-dropdown text-center readonly" tabindex="-1" type="text" value="Bitte wählen"/>
                             <div class="input-group-btn select sortGestures" id="sortOwnExtractedGestures" role="group">
                                 <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -93,7 +108,7 @@
                         <div class="input-group">
                             <input class="form-control item-input-text search" id="filterCatalogGestures" type="text" value="" placeholder="Suchbegriff eingeben"/>
                             <span class="input-group-addon">Sortierung</span>
-                            <input class="form-control item-input-text option-phase show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+                            <input class="form-control item-input-text option-phase show-dropdown text-center readonly" tabindex="-1" type="text" value="Bitte wählen"/>
                             <div class="input-group-btn select sortGestures" id="sortCatalogGestures" role="group">
                                 <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -146,14 +161,19 @@
             var gesetureCatalog = 0;
 
             if (!isFilterData) {
+                console.log(data);
                 for (var i = 0; i < data.length; i++) {
+
                     var clone = $('#gesture-thumbnail').clone();
                     clone.removeClass('hidden');
                     clone.attr('id', data[i].type + '.' + data[i].id);
                     clone.find('.title-text').text(data[i].title + " ");
-//            clone.find('.collapse').attr('id', clone.attr('id') + '.collapse');
-                    clone.find('.description-text').text(data[i].description);
-                    clone.find('.preview').text(data[i].previewImage);
+                    clone.find('.description').text(data[i].description);
+//                    clone.find('.preview').text(data[i].previewImage);
+//                    clone.find('gesture-type').text();
+                    clone.find('.gesture-type').text(translation.gestureType + ': ' + translation.gestureTypes[data[i].gestureType]);
+                    clone.find('.body-type').text(translation.bodyType + ': ' + translation.bodyTypes[data[i].bodyType]);
+
                     switch (data[i].type) {
                         case GESTURE_OWN_PROJECT:
                             if (i === 0) {
@@ -166,7 +186,7 @@
                                 ownExtractedGestures++;
                                 $('#ownExtractedGestures #useGesturesSwitch #yes').click();
                             }
-                            
+
                             break;
                         case GESTURE_CATALOG:
                             if (i === 0) {
@@ -179,23 +199,24 @@
                                 gesetureCatalog++;
                                 $('#gestureCatalog #useGesturesSwitch #yes').click();
                             }
-                            
+
                             break;
                     }
 
                     if (data[i].used === true) {
-                        clone.addClass('selected');
+                        clone.find('.gesture-assemble').click();
                     }
 
-                    for (var j = 0; j < data[i].images.length; j++) {
-                        var img = document.createElement('img');
-                        img.setAttribute('src', data[i].images[j]);
-                        $(clone).find('.ts-inner').append(img);
-
-                        if (j === parseInt(data[i].previewImage)) {
-                            $(img).addClass('ts-currslide');
-                        }
-                    }
+                    renderGestureImages(clone.find('.imageContainer'), data[i].images, data[i].previewImage);
+//                    for (var j = 0; j < data[i].images.length; j++) {
+//                        var img = document.createElement('img');
+//                        img.setAttribute('src', data[i].images[j]);
+//                        $(clone).find('.ts-inner').append(img);
+//
+//                        if (j === parseInt(data[i].previewImage)) {
+//                            $(img).addClass('ts-currslide');
+//                        }
+//                    }
                 }
             } else {
                 var gestures = data[0].type === GESTURE_OWN_PROJECT ? $('#ownExtractedGestures #list-container').children() : $('#gestureCatalog #list-container').children();
@@ -209,7 +230,7 @@
                     }
                 }
             }
-            
+
             updatePanelBadges($('#ownExtractedGestures #list-container'));
             updatePanelBadges($('#gestureCatalog #list-container'));
         }
@@ -240,7 +261,7 @@
                         break;
                     }
                 }
-                assembledGestures.push(new Gesture(originItem.type, originItem.id, originItem.timestamp, originItem.title, originItem.description, originItem.images, originItem.previewImage, originItem.videoUrl, isAssembled));
+                assembledGestures.push(new Gesture(originItem.type, originItem.id, originItem.timestamp, originItem.title, originItem.description, originItem.gestureType, originItem.bodyType, originItem.images, originItem.previewImage, originItem.videoUrl, isAssembled));
             }
             setLocalItem(PREDEFINED_GESTURE_SET, assembledGestures);
         }
@@ -248,24 +269,15 @@
         function updatePanelBadges(container) {
             var max = $(container).children().length;
             var selected = $(container).children('.selected').length;
-            
+
             $(container).parents().closest('.root').find('.badgeId').text(selected);
             $(container).parents().closest('.root').find('.badgeQuantity').text(max);
         }
 
-        $('body').on('click', '.gesture-thumbnail .gesture-details', function (event) {
+        $('body').on('click', '.gesture-thumbnail, .gesture-details', function (event) {
             event.preventDefault();
             if (!event.handled) {
                 event.handled = true;
-                toggleCollapse($(this).closest('.root').find('.panel-collapse'));
-            }
-        });
-
-        $('body').on('click', '.gesture-thumbnail .title-text', function (event) {
-            event.preventDefault();
-            if (!event.handled) {
-                event.handled = true;
-                event.stopPropagation();
                 toggleCollapse($(this).closest('.root').find('.panel-collapse'));
             }
         });
@@ -282,26 +294,27 @@
             }
         }
 
-        $('body').on('mouseover', '.gesture-thumbnail .title-text', function (event) {
-            event.preventDefault();
-            $(this).closest('.root').find('.gesture-details').removeClass('hidden');
-        });
-
-        $('body').on('mouseleave', '.gesture-thumbnail .title-text', function (event) {
-            event.preventDefault();
-            $(this).closest('.root').find('.gesture-details').addClass('hidden');
-        });
-
-        $('body').on('click', '.gesture-thumbnail', function (event) {
+        $('body').on('click', '.gesture-assemble, .gesture-assemble-description, .gesture-unassemble-description', function (event) {
             event.preventDefault();
             if (!event.handled) {
+//                console.log('assemble clicked: ' + $(this).closest('.gesture-thumbnail').hasClass('selected'));
                 event.handled = true;
+                var thumbnail = $(this).closest('.gesture-thumbnail');
 
-                if (!$(this).hasClass('selected')) {
-                    $(this).addClass('selected');
+                if (!$(this).closest('.gesture-thumbnail').hasClass('selected')) {
+                    thumbnail.addClass('selected');
+                    thumbnail.addClass('panel-success');
+                    thumbnail.find('.gesture-assemble').addClass('btn-success');
+                    thumbnail.find('.gesture-assemble-description').addClass('hidden');
+                    thumbnail.find('.gesture-unassemble-description').removeClass('hidden');
                 } else {
-                    $(this).removeClass('selected');
+                    thumbnail.removeClass('selected');
+                    thumbnail.removeClass('panel-success');
+                    thumbnail.find('.gesture-assemble').removeClass('btn-success');
+                    thumbnail.find('.gesture-assemble-description').removeClass('hidden');
+                    thumbnail.find('.gesture-unassemble-description').addClass('hidden');
                 }
+
                 updatePanelBadges($(this).closest('#list-container'));
             }
         });
@@ -386,13 +399,14 @@
             event.preventDefault();
             if (!event.handled) {
                 event.handled = true;
-                var filter = $(this).val();
+
                 var gestureType = $(this).attr('id') === 'filterOwnExtractedGestures' ? GESTURE_OWN_PROJECT : GESTURE_CATALOG;
                 var sortType = $(this).closest('.input-group').find('.select .selected').attr('id');
+                var filter = $(this).val();
                 var container = $(this).closest('.root').find('#list-container');
                 container.removeClass('hidden');
 
-                if (filter.trim() !== "") {
+                if (filter.trim() !== "" && event.keyCode !== 27) {
                     saveData();
                     var fGestures = filterGestures(sortGestures(gestureType, sortType), filter.trim());
                     if (fGestures.length > 0) {
@@ -405,13 +419,22 @@
                 } else {
                     removeAlert($(this).closest('.root'), ALERT_NO_SEARCH_RESULTS);
                     renderData(sortGestures(gestureType, sortType));
+
+                    if (event.keyCode === 27) {
+                        resetInput($(this));
+                    }
                 }
             }
         });
 
+        function resetInput(inputField) {
+            $(inputField).val('');
+        }
+
         $(document).ready(function () {
             var data = getLocalItem(PREDEFINED_GESTURE_SET);
             if (data !== null) {
+                currentModalId = '#custom-modal';
                 renderData(data);
             }
             $('#ownExtractedGestures .sortGestures #newest').click();

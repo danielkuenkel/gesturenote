@@ -20,7 +20,8 @@
         "sus": "SUS",
         "letterOfAcceptance": "Einverständniserklärung",
         "gestureTraining": "Gestentraining",
-        "scenario": "Szenario-basierte Aufgabe"
+        "scenario": "Szenario-basierte Aufgabe",
+        "slideshow": "Slideshow"
     },
     "scales": {
         "percent": "Prozent",
@@ -33,6 +34,25 @@
     "surveyType": {
         "moderated": "Moderiert",
         "unmoderated": "Unmoderiert"
+    },
+    "prototypes": {
+        "pidoco": "Pidoco",
+        "web": "Webseite",
+        "image": "Bild",
+        "video": "Video",
+        "videoEmbed": "Video Embed"
+    },
+    "gestureType": "Gestentyp",
+    "bodyType": "Körperteile",
+    "gestureTypes": {
+        "discrete": "Diskrete Geste",
+        "pose": "Pose",
+        "continuous": "Kontinuierliche Geste"
+    },
+    "bodyTypes": {
+        "full": "Ganzkörper",
+        "upper": "Oberkörper",
+        "hand": "Hand"
     },
     "gesture": "Geste",
     "gestures": "Gesten",

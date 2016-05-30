@@ -61,6 +61,16 @@ var GESTURE_OWN_PROJECT = 'ownProject';
 var GESTURE_CATALOG = 'catalog';
 var GESTURE_RECORDED = 'recorded';
 
+// general gesture types
+var TYPE_GESTURE_DISCRETE = 'discrete';
+var TYPE_GESTURE_POSE = 'pose';
+var TYPE_GESTURE_CONTINUOUS = 'continuous';
+
+// gesture body types
+var TYPE_BODY_FULL = 'full';
+var TYPE_BODY_UPPER = 'upper';
+var TYPE_BODY_HAND = 'hand';
+
 // questionnaire dimensions
 var DIMENSION_ANY = 'any';
 var DIMENSION_ERGONOMICS = 'ergonomics'; // Ergonomie
@@ -105,11 +115,7 @@ var PERCENT = 'percent';
 var POINTS = 'points';
 
 // alternatives
-ALTERNATIVE_GESTURES = 'gestures';
-ALTERNATIVE_TRIGGERS = 'triggers';
-ALTERNATIVE_FOR_GESTURE = 'gesture';
-ALTERNATIVE_FOR_TRIGGER = 'trigger';
-
-// languages
-LANGUAGE_EN = 'en';
-LANGUAGE_DE = 'de';
+var ALTERNATIVE_GESTURES = 'gestures';
+var ALTERNATIVE_TRIGGERS = 'triggers';
+var ALTERNATIVE_FOR_GESTURE = 'gesture';
+var ALTERNATIVE_FOR_TRIGGER = 'trigger';

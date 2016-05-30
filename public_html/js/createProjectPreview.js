@@ -273,13 +273,14 @@ function getGestureTrainingPreview(source, container, data) {
 
 var currentGestureIndex = 0;
 function nextGesture(source, container, data) {
+    source = $('#template-gesture');
     var training = data[currentGestureIndex];
     var gesture = training.gesture;
     var repeats = training.repeats;
     var trigger = training.trigger;
     var feedback = training.feedback;
 
-    var thumbnail = $(source).find('#gestureThumbnail').clone();
+    var thumbnail = $(source).find('#preview-panel-gesture-training').clone();
     $(container).find('#gestureThumbnailContainer').empty();
     $(container).find('#gestureThumbnailContainer').append(thumbnail);
     thumbnail.attr('id', gesture.id);
@@ -313,7 +314,7 @@ function getScenarioPreview(source, container, data) {
     if (data.scene) {
         $(container).find('#general #scene').removeClass('hidden');
         $(container).find('#general #scene').unbind('click').bind('click', function (event) {
-            console.log('scene clicked');
+//            console.log('scene clicked');
             currentSceneId = data.scene;
             event.preventDefault();
             loadHTMLintoModal('custom-modal', 'preview-scene.html', 'modal-lg');
@@ -340,98 +341,98 @@ function getScenarioPreview(source, container, data) {
 
 
 // gesture thumbnail
-var currentSlide, prevSlide;
-function renderGestureImages(container, images, preview) {
-    for (var j = 0; j < images.length; j++) {
-        var image = $('#gestureThumbnailImage').clone();
-        image.attr('src', images[j]);
-        image.removeAttr('id');
-        container.append(image);
-
-        if ($(container).hasClass('mouseScrollable')) {
-            $(container).unbind('mousemove').bind('mousemove', function (event) {
-//            $('body').on('mousemove', '.mouseScrollable', function (event) {
-                clearTimer();
-                var innerWidth = $(this).innerWidth();
-                var numslides = $(this).children().length;
-
-                if (event.type === 'mousemove') {
-                    var x = event.pageX - $(this).offset().left;
-                    currentSlide = Math.floor(x / (innerWidth / numslides)) + 1;
-
-                    if (currentSlide !== prevSlide) {
-                        $(this).children('.active').addClass('hidden');
-                        $(this).children('.active').removeClass('active');
-                        $(this).find(':nth-child(' + currentSlide + ')').removeClass('hidden');
-                        $(this).find(':nth-child(' + currentSlide + ')').addClass('active');
-                        prevSlide = currentSlide;
-                    }
-                    return false;
-                }
-            });
-        } else {
-            $(container).unbind('mouseenter').bind('mouseenter', function (event) {
-                event.preventDefault();
-                playThroughThumbnails($(this), 0);
-            });
-        }
-
-
-        $(container).unbind('mouseleave').bind('mouseleave', function (event) {
-            event.preventDefault();
-            prevSlide = 0;
-            resetThumbnails($(this));
-        });
-
-        if (j !== preview) {
-            image.addClass('hidden');
-        } else {
-            image.addClass('previewImage');
-            image.addClass('active');
-        }
-    }
-}
-
-function playThroughThumbnails(container, current) {
-    var children = $(container).children();
-
-    if (current >= children.length - 1)
-        current = 0;
-    else
-        current++;
-
-    for (var i = 0; i < children.length; i++) {
-        if (i === current) {
-            $(children[i]).removeClass('hidden');
-            $(children[i]).addClass('active');
-        } else {
-            $(children[i]).addClass('hidden');
-            $(children[i]).removeClass('active');
-        }
-    }
-
-    gestureThumbnail = setTimeout(function () {
-        playThroughThumbnails(container, current);
-    }, GESTURE_THUMBNAIL_SCROLLING_SPEED);
-}
-
-function resetThumbnails(container) {
-    clearTimer();
-    var children = $(container).children();
-    for (var i = 0; i < children.length; i++) {
-        if ($(children[i]).hasClass('previewImage')) {
-            $(children[i]).removeClass('hidden');
-            $(children[i]).addClass('active');
-        } else {
-            $(children[i]).addClass('hidden');
-            $(children[i]).removeClass('active');
-        }
-    }
-}
-
-function clearTimer() {
-    clearTimeout(gestureThumbnail);
-}
+//var currentSlide, prevSlide;
+//function renderGestureImages(container, images, preview) {
+//    for (var j = 0; j < images.length; j++) {
+//        var image = $('#gestureThumbnailImage').clone();
+//        image.attr('src', images[j]);
+//        image.removeAttr('id');
+//        container.append(image);
+//
+//        if ($(container).hasClass('mouseScrollable')) {
+//            $(container).unbind('mousemove').bind('mousemove', function (event) {
+////            $('body').on('mousemove', '.mouseScrollable', function (event) {
+//                clearTimer();
+//                var innerWidth = $(this).innerWidth();
+//                var numslides = $(this).children().length;
+//
+//                if (event.type === 'mousemove') {
+//                    var x = event.pageX - $(this).offset().left;
+//                    currentSlide = Math.floor(x / (innerWidth / numslides)) + 1;
+//
+//                    if (currentSlide !== prevSlide) {
+//                        $(this).children('.active').addClass('hidden');
+//                        $(this).children('.active').removeClass('active');
+//                        $(this).find(':nth-child(' + currentSlide + ')').removeClass('hidden');
+//                        $(this).find(':nth-child(' + currentSlide + ')').addClass('active');
+//                        prevSlide = currentSlide;
+//                    }
+//                    return false;
+//                }
+//            });
+//        } else {
+//            $(container).unbind('mouseenter').bind('mouseenter', function (event) {
+//                event.preventDefault();
+//                playThroughThumbnails($(this), 0);
+//            });
+//        }
+//
+//
+//        $(container).unbind('mouseleave').bind('mouseleave', function (event) {
+//            event.preventDefault();
+//            prevSlide = 0;
+//            resetThumbnails($(this));
+//        });
+//
+//        if (j !== preview) {
+//            image.addClass('hidden');
+//        } else {
+//            image.addClass('previewImage');
+//            image.addClass('active');
+//        }
+//    }
+//}
+//
+//function playThroughThumbnails(container, current) {
+//    var children = $(container).children();
+//
+//    if (current >= children.length - 1)
+//        current = 0;
+//    else
+//        current++;
+//
+//    for (var i = 0; i < children.length; i++) {
+//        if (i === current) {
+//            $(children[i]).removeClass('hidden');
+//            $(children[i]).addClass('active');
+//        } else {
+//            $(children[i]).addClass('hidden');
+//            $(children[i]).removeClass('active');
+//        }
+//    }
+//
+//    gestureThumbnail = setTimeout(function () {
+//        playThroughThumbnails(container, current);
+//    }, GESTURE_THUMBNAIL_SCROLLING_SPEED);
+//}
+//
+//function resetThumbnails(container) {
+//    clearTimer();
+//    var children = $(container).children();
+//    for (var i = 0; i < children.length; i++) {
+//        if ($(children[i]).hasClass('previewImage')) {
+//            $(children[i]).removeClass('hidden');
+//            $(children[i]).addClass('active');
+//        } else {
+//            $(children[i]).addClass('hidden');
+//            $(children[i]).removeClass('active');
+//        }
+//    }
+//}
+//
+//function clearTimer() {
+//    clearTimeout(gestureThumbnail);
+//}
 
 // dichotomous question
 function renderDichotomousQuestion(item, parameters) {
@@ -518,7 +519,7 @@ function getQuestionnaireInputs(source, container, data) {
         $(item).find('.question').text(i + 1 + '. ' + data[i].question);
         $(container).find('.question-container').append(item);
 
-        console.log('clone: ' + data[i].type + ', from: ' + source.attr('id'));
+//        console.log('clone: ' + data[i].type + ', from: ' + source.attr('id'));
 
         if (data[i].dimension !== DIMENSION_ANY) {
             $(item).find('#dimension').removeClass('hidden');
@@ -573,12 +574,13 @@ function renderGroupingQuestionInput(source, item, parameters, options) {
 }
 
 function getWOZPreview(source, container, data) {
+    source = $("#template-gesture");
     for (var i = 0; i < data.length; i++) {
-        var item = $(source).find('#wozItem').clone();
+        var item = $(source).find('#preview-panel-gesture-woz').clone();
         item.removeAttr('id');
         item.find('.help-title').text((i + 1) + ". " + data[i].option);
         $(container).find('.woz-container').append(item);
-        console.log(data);
+//        console.log(data);
 
         if (data[i].gesture) {
             item.find('.panel-heading').text(data[i].gesture.title);
@@ -594,20 +596,33 @@ function getWOZPreview(source, container, data) {
     return container;
 }
 
+var currentGestureId;
+var currentModalId;
 function getHelpPreview(source, container, data) {
     for (var i = 0; i < data.length; i++) {
         var item = $(source).find('#helpItem').clone();
         item.removeAttr('id');
         item.find('.help-title').text((i + 1) + ". " + data[i].option);
         $(container).find('.help-container').append(item);
-        console.log(container);
+//        console.log(container);
 
         var gesture = null;
         if (data[i].useGestureHelp === true) {
             gesture = getGestureById(data[i].gestureId);
+            item.find('#show-gesture').removeClass('hidden');
+            item.find('#show-gesture').attr('name', gesture.id);
+            item.find('#show-gesture').on('click', function (event) {
+                event.preventDefault();
+                currentGestureId = $(this).attr('name');
+                currentModalId = '#custom-modal';
+                loadHTMLintoModal('custom-modal', 'info-gesture.html', 'modal-lg');
+            });
+//            console.log(gesture);
+        } else {
+            item.find('#show-gesture').remove();
         }
 
-        console.log(gesture);
+
 
     }
     return container;

@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 
+// languages
+var LANGUAGE_EN = 'en';
+var LANGUAGE_DE = 'de';
+
 var currentLanguage = LANGUAGE_EN;
 var translation = null;
 
