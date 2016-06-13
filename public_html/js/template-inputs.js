@@ -221,13 +221,17 @@ $('.alternativeSwitch .check').unbind('click').bind('click', function (event) {
     $(this).closest('.root').find('.alternativeTriggerSelect').addClass('hidden');
 
     if ($(this).hasClass(ALERT_NO_GESTURES_ASSEMBLED)) {
-        if (assembledGestures()) {
-            $(this).closest('.root').find('.alternativeGestureSelect').removeClass('hidden');
-        }
+        assembledGestures(function (gestures) {
+            if (gestures) {
+                $(this).closest('.root').find('.alternativeGestureSelect').removeClass('hidden');
+            }
+        });
     } else if ($(this).hasClass(ALERT_NO_TRIGGER_ASSEMBLED)) {
-        if (getLocalItem(ASSEMBLED_TRIGGER)) {
-            $(this).closest('.root').find('.alternativeTriggerSelect').removeClass('hidden');
-        }
+        getLocalItem(ASSEMBLED_TRIGGER, function (data) {
+            if (data) {
+                $(this).closest('.root').find('.alternativeTriggerSelect').removeClass('hidden');
+            }
+        });
     }
 });
 
@@ -247,13 +251,17 @@ $('body').on('click', '.check', function (event) {
         $(this).closest('.root').find('.alert-space').empty();
 
         if ($(this).hasClass(ALERT_NO_GESTURES_ASSEMBLED)) {
-            if (!assembledGestures()) {
-                appendAlert($(this).closest('.root'), ALERT_NO_GESTURES_ASSEMBLED);
-            }
+            assembledGestures(function (gestures) {
+                if (!gestures) {
+                    appendAlert($(this).closest('.root'), ALERT_NO_GESTURES_ASSEMBLED);
+                }
+            });
         } else if ($(this).hasClass(ALERT_NO_TRIGGER_ASSEMBLED)) {
-            if (!getLocalItem(ASSEMBLED_TRIGGER)) {
-                appendAlert($(this).closest('.root'), ALERT_NO_TRIGGER_ASSEMBLED);
-            }
+            getLocalItem(ASSEMBLED_TRIGGER, function (data) {
+                if (!data) {
+                    appendAlert($(this).closest('.root'), ALERT_NO_TRIGGER_ASSEMBLED);
+                }
+            });
         }
     }
 });
@@ -275,7 +283,7 @@ $('body').on('click', '.reset', function (event) {
 $('.btn-toggle-checkbox-panel').unbind('click').bind('click', function (event) {
     event.preventDefault();
 
-    console.log('btn-toggle-checkbox-panel clicked');
+//    console.log('btn-toggle-checkbox-panel clicked');
 
     var panelBody = $(this).closest('.root').find('.panel-body');
 
@@ -299,11 +307,19 @@ function togglePanelBody(panelBody) {
 function togglePanelBadges(badges) {
     if (badges !== undefined || badges !== null) {
         if ($(badges).hasClass('hidden')) {
-            $(badges).removeClass('hidden');
+            showPanelBadges(badges);
         } else {
-            $(badges).addClass('hidden');
+            hidePanelBadges(badges);
         }
     }
+}
+
+function hidePanelBadges(badges) {
+    $(badges).addClass('hidden');
+}
+
+function showPanelBadges(badges) {
+    $(badges).removeClass('hidden');
 }
 
 
@@ -313,7 +329,6 @@ function togglePanelBadges(badges) {
 
 function renderAssembledGestures() {
     var gestures = assembledGestures();
-
     if (gestures) {
         var dropdown = $('#form-item-container').find('.gestureSelect');
         $(dropdown).find('.option').empty();
@@ -341,7 +356,6 @@ function renderAssembledGestures() {
 
 function renderPredefinedFeedback() {
     var feedback = getLocalItem(PREDEFINED_GESTURE_FEEDBACK);
-
     var dropdown = $('#form-item-container').find('.feedbackSelect');
     $(dropdown).find('.option').empty();
     var listItem;
@@ -439,26 +453,6 @@ function renderAssembledPrototypes() {
         $('body').find('.option-prototype').attr('placeholder', 'Keine Prototypen vorhanden');
     }
 }
-
-//$('body').on('click', '.gestureSelect .option li, .triggerSelect .option li, .feedbackSelect .option li, .repeatsSelect .option li, .prototypeSelect .option li', function () {
-//    var parent = $(this).closest('.select');
-//    var itemText = $(this).children().text();
-//    var listItemId = $(this).attr('id');
-//    $(parent).find('.selected').attr('id', listItemId);
-//    $(parent).prev().val(itemText);
-//
-//    if ($(parent).closest('.select').hasClass('gestureSelect')) {
-//        $(this).closest('.root').find('#assembled-gestures-removed').addClass('hidden');
-//    }
-//    if ($(parent).closest('.select').hasClass('triggerSelect')) {
-//        $(this).closest('.root').find('#assembled-trigger-removed').addClass('hidden');
-//    }
-//    if ($(parent).closest('.select').hasClass('feedbackSelect')) {
-//        if (listItemId === 'unselected') {
-//            $(parent).find('.selected').val("");
-//        }
-//    }
-//});
 
 $('body').on('click', '.simple-stepper .btn-stepper-decrease', function (event) {
     if (event.handled !== true)
@@ -794,7 +788,7 @@ $('body').on("keyup", '.enter-key', function (event) {
 
 // slideshow
 $('body').on('click', '.btn-add-slideshowOption', function (event) {
-    console.log('on btn-add-slideshowOption clicked');
+//    console.log('on btn-add-slideshowOption clicked');
     if (event.handled !== true)
     {
         event.handled = true;
@@ -803,3 +797,121 @@ $('body').on('click', '.btn-add-slideshowOption', function (event) {
         checkCurrentListState($(this).prev());
     }
 });
+
+
+
+// gus dimension handling
+function renderDimensions(target) {
+    var dimensions = translation.dimensions;
+
+    for (var key in dimensions) {
+        if (dimensions.hasOwnProperty(key)) {
+            var value = dimensions[key];
+            var button = document.createElement('button');
+            $(button).addClass('btn btn-default btn-toggle btn-dimension hidden');
+            $(button).attr('id', key);
+            $(button).text(value);
+            $(target).prepend(button);
+        }
+    }
+}
+
+$('body').on('click', '#dimension-btn-group .btn-toggle', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+
+        if ($(this).hasClass('active')) {
+            removeQuestionaireItems($(this).attr('id'));
+            $(this).removeClass('active');
+            $(this).removeClass('btn-info');
+            $(this).addClass('inactive');
+
+            if ($(this).attr('id') === 'all') {
+                var children = $(this).parent().children('.btn-toggle');
+                $(children).filter('.active').removeClass('btn-info');
+                $(children).filter('.active').addClass('inactive');
+                $(children).filter('.active').removeClass('active');
+                $(this).text('Alle');
+            } else {
+                $(this).parent().find('#all').removeClass('active');
+                $(this).parent().find('#all').removeClass('btn-info');
+                $(this).parent().find('#all').text('Alle');
+            }
+        } else {
+            addQuestionnaireItems($(this).attr('id'));
+            $(this).addClass('active');
+            $(this).addClass('btn-info');
+            $(this).removeClass('inactive');
+
+            if ($(this).attr('id') === 'all') {
+                var children = $(this).parent().children('.btn-toggle');
+                $(children).filter('.inactive').addClass('btn-info');
+                $(children).filter('.inactive').addClass('active');
+                $(children).filter('.inactive').removeClass('inactive');
+                $(this).text('Keine');
+            } else {
+                checkDimensionItems();
+            }
+        }
+    }
+});
+
+function checkDimensionItems() {
+    var dimensions = $('#dimension-btn-group').children('.btn-dimension');
+    var inactiveDimensions = dimensions.filter('.inactive');
+    if (inactiveDimensions.length <= 0) {
+        $('#dimension-btn-group').find('#all').addClass('active');
+        $('#dimension-btn-group').find('#all').removeClass('inactive');
+        $('#dimension-btn-group').find('#all').addClass('btn-info');
+        $('#dimension-btn-group').find('#all').text('Keine');
+    }
+}
+
+function addQuestionnaireItems(dimension) {
+    if (dimension === 'all') {
+        var dimensions = $('#dimension-btn-group').children('.btn-dimension');
+        for (var i = 0; i < dimensions.length; i++) {
+            var dimensionButton = dimensions[i];
+            if (!$(dimensionButton).hasClass('hidden') && !$(dimensionButton).hasClass('active')) {
+                renderData(getPredefinedQuestionnaireItemsByDimension($(dimensionButton).attr('id')));
+            }
+        }
+    } else {
+        renderData(getPredefinedQuestionnaireItemsByDimension(dimension));
+    }
+}
+
+var currentGUS = null;
+function getPredefinedQuestionnaireItemsByDimension(dimension) {
+    var predefinedQuestionnaire = currentGUS === GUS_SINGLE_GESTURES ? getLocalItem(PROJECT_ORIGIN_GUS) : getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE);
+    var questionnaire = new Array();
+    for (var i = 0; i < predefinedQuestionnaire.length; i++) {
+        if (predefinedQuestionnaire[i].dimension === dimension) {
+            questionnaire.push(predefinedQuestionnaire[i]);
+        }
+    }
+    return questionnaire;
+}
+
+function removeQuestionaireItems(dimension) {
+    var itemList = $('#list-container').children();
+    for (var i = 0; i < itemList.length; i++) {
+        var item = itemList[i];
+        var itemDimension = getDimensionByElement($(item));
+        if (itemDimension !== DIMENSION_ANY) {
+            if (dimension === 'all' || itemDimension === dimension) {
+                $(item).find('.btn-delete').click();
+            }
+        }
+    }
+}
+
+function checkDimensions(predefinedQuestionnaire) {
+    for (var i = 0; i < predefinedQuestionnaire.length; i++) {
+        if ($('#dimension-btn-group').find('#' + predefinedQuestionnaire[i].dimension)) {
+            $('#dimension-btn-group').find('#' + predefinedQuestionnaire[i].dimension).removeClass('hidden');
+            $('#dimension-btn-group').find('#' + predefinedQuestionnaire[i].dimension).addClass('inactive');
+        }
+    }
+}

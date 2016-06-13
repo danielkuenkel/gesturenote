@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 
+// alert constants
+var ALERT_NO_WEBSOCKETS = 'no-websockets';
+
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);
     

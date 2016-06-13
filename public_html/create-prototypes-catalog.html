@@ -40,6 +40,7 @@
                 renderData(data);
             }
 
+
             $(window).resize(function () {
 //                console.log('window resized');
                 var $allVideos = $("iframe[src*='www.youtube.com'], iframe[src*='player.vimeo.com']");
@@ -62,7 +63,7 @@
             if (!event.handled && closeClicked) {
                 closeClicked = false;
                 event.handled = true;
-                
+
                 var items = $('#list-container').children();
                 var hasTitles = true;
                 for (var i = 0; i < items.length; i++) {
@@ -83,7 +84,7 @@
                     event.stopImmediatePropagation();
                     return false;
                 }
-                
+
                 $(this).unbind('hide.bs.modal');
             }
         });

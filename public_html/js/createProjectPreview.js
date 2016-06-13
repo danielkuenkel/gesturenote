@@ -114,14 +114,41 @@ function getCurrentPhase() {
 }
 
 function renderTesterView() {
-//    console.log(getPreviewItem());
+    $('.alert-space').empty();
+    $('#viewTester .phase-content-right').append(getInputItem());
 }
 
 function renderModeratorView() {
-    var rightContent = getPreviewItem();
-    $('#viewModerator .phase-content-right').append(rightContent);
+    $('.alert-space').empty();
+    $('#viewModerator .phase-content-right').append(getPreviewItem());
 }
 
+// tester preview
+function getInputItem() {
+    var currentPhase = getCurrentPhase();
+    var currentPhaseData = getLocalItem(currentPhase.id + '.data');
+    var source = getPreviewContainer(currentView);
+    console.log('clone: ' + currentPhase.selectedId + ', from: ' + source.attr('id'));
+    var container = $(source).find('#' + currentPhase.selectedId).clone(false).removeAttr('id');
+    console.log(currentPhaseData);
+    var item = null;
+
+    switch (currentPhase.selectedId) {
+        case GUS_SINGLE_GESTURES:
+            item = getGUSInput(source, container, currentPhaseData);
+            break;
+        case GUS_MULTIPLE_GESTURES:
+            item = getQuestionnaireInput(source, container, currentPhaseData);
+            break;
+        case SUS:
+            item = getSUSInput(source, container, currentPhaseData);
+            break;
+    }
+
+    return item;
+}
+
+// moderator preview
 function getPreviewItem() {
     var currentPhase = getCurrentPhase();
     var currentPhaseData = getLocalItem(currentPhase.id + '.data');
@@ -129,34 +156,34 @@ function getPreviewItem() {
     console.log('clone: ' + currentPhase.selectedId + ', from: ' + source.attr('id'));
     var container = $(source).find('#' + currentPhase.selectedId).clone(false).removeAttr('id');
     console.log(currentPhaseData);
-    var previewItem = null;
+    var item = null;
 
     switch (currentPhase.selectedId) {
         case QUESTIONNAIRE:
-            previewItem = getQuestionnairePreview(source, container, currentPhaseData);
+            item = getQuestionnairePreview(source, container, currentPhaseData);
             break;
         case GUS_SINGLE_GESTURES:
-            previewItem = getGUSPreview(source, container, currentPhaseData);
+            item = getGUSPreview(source, container, currentPhaseData);
             break;
         case GUS_MULTIPLE_GESTURES:
-            previewItem = getQuestionnairePreview(source, container, currentPhaseData);
+            item = getQuestionnairePreview(source, container, currentPhaseData);
             break;
         case SUS:
-            previewItem = getSUSPreview(source, container, currentPhaseData);
+            item = getSUSPreview(source, container, currentPhaseData);
             break;
         case LETTER_OF_ACCEPTANCE:
-            previewItem = getLetterOfAcceptancePreview(container, currentPhaseData);
+            item = getLetterOfAcceptancePreview(container, currentPhaseData);
             break;
         case GESTURE_TRAINING:
-            previewItem = getGestureTrainingPreview(source, container, currentPhaseData);
+            item = getGestureTrainingPreview(source, container, currentPhaseData);
             break;
         case SCENARIO:
-            previewItem = getScenarioPreview(source, container, currentPhaseData)
+            item = getScenarioPreview(source, container, currentPhaseData)
             break;
     }
 
 //    console.log(previewItem);
-    return previewItem;
+    return item;
 }
 
 function getPreviewContainer(selector) {
@@ -204,7 +231,7 @@ function getQuestionnairePreview(source, container, data) {
 function getSUSPreview(source, container, data) {
     for (var i = 0; i < data.length; i++) {
         var item = $(source).find('#susItem').clone(false).removeAttr('id');
-        $(item).find('.question').text(i + 1 + '. ' + data[i].itemText);
+        $(item).find('.question').text(i + 1 + '. ' + data[i].question);
         $(container).find('.question-container').append(item);
         if (data[i].reversed === true) {
             $(item).find('#reversed').removeClass('hidden');
@@ -216,7 +243,7 @@ function getSUSPreview(source, container, data) {
 function getGUSPreview(source, container, data) {
     for (var i = 0; i < data.length; i++) {
         var item = $(source).find('#gusItem').clone(false).removeAttr('id');
-        $(item).find('.question').text(i + 1 + '. ' + data[i].itemText);
+        $(item).find('.question').text(i + 1 + '. ' + data[i].question);
         $(container).find('.question-container').append(item);
         if (data[i].reversed === true) {
             $(item).find('#reversed').removeClass('hidden');
@@ -624,6 +651,26 @@ function getHelpPreview(source, container, data) {
 
 
 
+    }
+    return container;
+}
+
+
+// input items for Tester
+function getGUSInput(source, container, data) {
+    for (var i = 0; i < data.length; i++) {
+        var item = $(source).find('#gusItem').clone(false).removeAttr('id');
+        $(item).find('.question').text(i + 1 + '. ' + data[i].question);
+        $(container).find('.question-container').append(item);
+    }
+    return container;
+}
+
+function getSUSInput(source, container, data) {
+    for (var i = 0; i < data.length; i++) {
+        var item = $(source).find('#susItem').clone(false).removeAttr('id');
+        $(item).find('.question').text(i + 1 + '. ' + data[i].question);
+        $(container).find('.question-container').append(item);
     }
     return container;
 }

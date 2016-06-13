@@ -156,12 +156,15 @@
 
 <script type="text/javascript" src="js/template-inputs.js"></script>
 <script>
+        currentGestureSet = null;
+
         function renderData(data, isFilterData) {
             var ownExtractedGestures = 0;
             var gesetureCatalog = 0;
 
             if (!isFilterData) {
-                console.log(data);
+//                currentGestureSet = data;
+//                console.log(data);
                 for (var i = 0; i < data.length; i++) {
 
                     var clone = $('#gesture-thumbnail').clone();
@@ -217,6 +220,7 @@
 //                            $(img).addClass('ts-currslide');
 //                        }
 //                    }
+
                 }
             } else {
                 var gestures = data[0].type === GESTURE_OWN_PROJECT ? $('#ownExtractedGestures #list-container').children() : $('#gestureCatalog #list-container').children();
@@ -233,10 +237,12 @@
 
             updatePanelBadges($('#ownExtractedGestures #list-container'));
             updatePanelBadges($('#gestureCatalog #list-container'));
+            console.log("data rendered");
         }
 
         function saveData() {
-            var data = getLocalItem(PREDEFINED_GESTURE_SET);
+            var predefinedGestureSet = getLocalItem(PREDEFINED_GESTURE_SET);
+
             var selectedGestures = new Array();
 
             if ($('#ownExtractedGestures').find('#yes').hasClass('active')) {
@@ -249,9 +255,9 @@
 
             var assembledGestures = new Array();
 
-            for (var i = 0; i < data.length; i++) {
+            for (var i = 0; i < predefinedGestureSet.length; i++) {
                 var isAssembled = false;
-                var originItem = data[i];
+                var originItem = predefinedGestureSet[i];
                 for (var j = 0; j < selectedGestures.length; j++) {
                     var gesture = selectedGestures[j];
                     var type = $(gesture).attr('id').split('.')[0];
@@ -264,11 +270,12 @@
                 assembledGestures.push(new Gesture(originItem.type, originItem.id, originItem.timestamp, originItem.title, originItem.description, originItem.gestureType, originItem.bodyType, originItem.images, originItem.previewImage, originItem.videoUrl, isAssembled));
             }
             setLocalItem(PREDEFINED_GESTURE_SET, assembledGestures);
+            currentGestureSet = assembledGestures;
         }
 
         function updatePanelBadges(container) {
-            var max = $(container).children().length;
-            var selected = $(container).children('.selected').length;
+            var max = $(container).children().not('.hidden').length;
+            var selected = $(container).children('.selected').not('.hidden').length;
 
             $(container).parents().closest('.root').find('.badgeId').text(selected);
             $(container).parents().closest('.root').find('.badgeQuantity').text(max);
@@ -325,7 +332,7 @@
             if ($(this).hasClass('dropdown-header') || $(this).hasClass('divider')) {
                 return false;
             }
-
+            console.log("sort choosed");
             saveData();
             var parentId = $(this).closest('.select').attr('id');
             var gestureType = parentId === 'sortOwnExtractedGestures' ? GESTURE_OWN_PROJECT : GESTURE_CATALOG;
@@ -410,9 +417,11 @@
                     saveData();
                     var fGestures = filterGestures(sortGestures(gestureType, sortType), filter.trim());
                     if (fGestures.length > 0) {
+                        showPanelBadges($(this).closest('.root').find('.badges'));
                         removeAlert($(this).closest('.root'), ALERT_NO_SEARCH_RESULTS);
                         renderData(fGestures, true);
                     } else {
+                        hidePanelBadges($(this).closest('.root').find('.badges'));
                         container.addClass('hidden');
                         appendAlert($(this).closest('.root'), ALERT_NO_SEARCH_RESULTS);
                     }
@@ -422,6 +431,7 @@
 
                     if (event.keyCode === 27) {
                         resetInput($(this));
+                        showPanelBadges($(this).closest('.root').find('.badges'));
                     }
                 }
             }
@@ -431,13 +441,25 @@
             $(inputField).val('');
         }
 
+        function getGesturesByType(type) {
+//            var gestures = getLocalItem(PREDEFINED_GESTURE_SET);
+            var array = new Array();
+            for (var i = 0; i < currentGestureSet.length; i++) {
+                if (currentGestureSet[i].type === type) {
+                    array.push(currentGestureSet[i]);
+                }
+            }
+            return array;
+        }
+
         $(document).ready(function () {
             var data = getLocalItem(PREDEFINED_GESTURE_SET);
-            if (data !== null) {
+            if (data) {
                 currentModalId = '#custom-modal';
                 renderData(data);
+                currentGestureSet = data;
+                $('#ownExtractedGestures .sortGestures #newest').click();
+                $('#gestureCatalog .sortGestures #newest').click();
             }
-            $('#ownExtractedGestures .sortGestures #newest').click();
-            $('#gestureCatalog .sortGestures #newest').click();
         });
 </script>

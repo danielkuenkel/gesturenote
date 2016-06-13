@@ -118,4 +118,4 @@ var POINTS = 'points';
 var ALTERNATIVE_GESTURES = 'gestures';
 var ALTERNATIVE_TRIGGERS = 'triggers';
 var ALTERNATIVE_FOR_GESTURE = 'gesture';
-var ALTERNATIVE_FOR_TRIGGER = 'trigger';
+var ALTERNATIVE_FOR_TRIGGER = 'trigger'; 

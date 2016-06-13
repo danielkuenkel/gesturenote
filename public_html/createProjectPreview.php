@@ -23,6 +23,7 @@ include './includes/language.php';
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="http://chancejs.com/chance.min.js"></script>
         <script src="js/constants.js"></script>
+        <script src="js/localforage.js"></script>
         <script src="js/storage.js"></script>
         <script src="js/language.js"></script>
         <script src="js/externals.js"></script>
@@ -30,7 +31,6 @@ include './includes/language.php';
         <script src="js/gotoPage.js"></script>       
         <script src="js/gesture.js"></script>
         <script src="js/thumbscrubber.js"></script>
-        
         <script src="js/createProjectPreview.js"></script>
     </head>
     <body>
@@ -90,8 +90,12 @@ include './includes/language.php';
 
             <div class="alert-space alert-no-phase-data"></div>
 
-            <div id="viewTester" class="hidden">
-                tester
+            <div id="viewTester" class="hidden container">
+                <!--<div class="row">-->
+                    <div class="phase-content-right">
+
+                    </div>
+                <!--</div>-->
             </div>
 
             <div id="viewModerator" class="hidden">

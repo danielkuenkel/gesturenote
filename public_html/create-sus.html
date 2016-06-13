@@ -60,8 +60,8 @@
                 clone.setAttribute('class', 'form-group root');
                 $(clone).appendTo('#list-container');
                 $(clone).addClass(data[i].dimension);
-                $(clone).find('.show-hole-text').attr('title', data[i].itemText);
-                $(clone).find('.item-input-text').attr('value', data[i].itemText);
+                $(clone).find('.show-hole-text').attr('title', data[i].question);
+                $(clone).find('.item-input-text').attr('value', data[i].question);
 
                 if (data[i].reversed === true)
                 {
@@ -94,10 +94,10 @@
 
             for (var i = 0; i < itemList.length; i++) {
                 var item = itemList[i];
-                var itemText = $(item).find('.item-input-text').val();
+                var question = $(item).find('.item-input-text').val();
                 var reversed = $(item).find('#yes').hasClass('active') ? true : false;
                 var dimension = getDimensionByElement($(item));
-                var gusItem = new UsabilityScaleItem(itemText, dimension, 5, reversed);
+                var gusItem = new UsabilityScaleItem(question, dimension, 5, reversed);
                 customGUS.push(gusItem);
             }
             setLocalItem(currentIdForModal + ".data", customGUS);

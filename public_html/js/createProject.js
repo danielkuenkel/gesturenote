@@ -14,13 +14,12 @@ function checkSessionStorage() {
     createPredefinedGestures();
     createPredefinedObservationForm();
     createPredefinedGestureQuestionnaire();
-    createdPredefinedGestureFeedback();
+    createPredefinedGestureFeedback();
     renderSessionStorageData();
 }
 
 function createOriginGUS() {
-    if (getLocalItem(PROJECT_ORIGIN_GUS) === null)
-    {
+    if (getLocalItem(PROJECT_ORIGIN_GUS) === null) {
         var gus = new Array();
         gus.push(new UsabilityScaleItem("Ich denke, dass ich mir diese Geste sehr gut merken kann.", DIMENSION_LERNABILITY, 5, false));
         gus.push(new UsabilityScaleItem("Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dieser Geste umzugehen.", DIMENSION_LERNABILITY, 5, false));
@@ -43,8 +42,7 @@ function createOriginGUS() {
 }
 
 function createOriginSUS() {
-    if (getLocalItem(PROJECT_ORIGIN_SUS) === null)
-    {
+    if (getLocalItem(PROJECT_ORIGIN_SUS) === null) {
         var sus = new Array();
         sus.push(new UsabilityScaleItem("Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.", DIMENSION_ANY, 5, false));
         sus.push(new UsabilityScaleItem("Ich fand das System unnötig komplex.", DIMENSION_ANY, 5, true));
@@ -61,7 +59,8 @@ function createOriginSUS() {
 }
 
 function createPredefinedGestures() {
-    if (getLocalItem(PREDEFINED_GESTURE_SET) === null) {
+    if (getLocalItem(PREDEFINED_GESTURE_SET) === null)
+    {
         var images = new Array();
         images.push("http://placehold.it/200x150?text=1");
         images.push("http://placehold.it/200x150?text=2");
@@ -85,7 +84,8 @@ function createPredefinedGestures() {
 }
 
 function createPredefinedObservationForm() {
-    if (getLocalItem(PREDEFINED_OBSERVATIONS) === null) {
+    if (getLocalItem(PREDEFINED_OBSERVATIONS) === null)
+    {
         var form = new Array();
         form.push(new QuestionnaireItem('counter', DIMENSION_MENTAL_MODEL, 'Wie oft wurde die Geste falsch ausgeführt?', null, null));
         form.push(new QuestionnaireItem('openQuestion', DIMENSION_ANY, 'Was wurde sonst beobachtet?', null, null));
@@ -93,110 +93,6 @@ function createPredefinedObservationForm() {
         form.push(new QuestionnaireItem('groupingQuestion', DIMENSION_MENTAL_MODEL, 'Wurde Hilfe benötigt?', [false, false], ['ja', 'nein', 'ein wenig']));
         setLocalItem(PREDEFINED_OBSERVATIONS, form);
     }
-}
-
-function getGestureThumbnailImagesForId(type, id) {
-    var data = getLocalItem(PREDEFINED_GESTURE_SET);
-    for (var i = 0; i < data.length; i++) {
-        if (type === data[i].type && id === data[i].id) {
-            return data[i].images;
-        }
-    }
-}
-
-function getGestureThumbnailPreviewForId(type, id) {
-    var data = getLocalItem(PREDEFINED_GESTURE_SET);
-    for (var i = 0; i < data.length; i++) {
-        if (type === data[i].type && id === data[i].id) {
-            return data[i].previewImage;
-        }
-    }
-}
-
-function assembledGestures() {
-    var predefinedGestures = getLocalItem(PREDEFINED_GESTURE_SET);
-    if (predefinedGestures) {
-
-        var arrangedGestures = new Array();
-        for (var i = 0; i < predefinedGestures.length; i++) {
-            if (predefinedGestures[i].used === true) {
-                arrangedGestures.push(predefinedGestures[i]);
-            }
-        }
-        if (arrangedGestures.length > 0) {
-            return arrangedGestures;
-        } else {
-            return null;
-        }
-
-    }
-    return null;
-}
-
-function getGestureById(id) {
-    var predefinedGestures = getLocalItem(PREDEFINED_GESTURE_SET);
-    for (var i = 0; i < predefinedGestures.length; i++) {
-        if (parseInt(predefinedGestures[i].id) === parseInt(id)) {
-            return predefinedGestures[i];
-        }
-    }
-    return null;
-}
-
-function isGestureAssembled(id) {
-    var predefinedGestures = getLocalItem(PREDEFINED_GESTURE_SET);
-    for (var i = 0; i < predefinedGestures.length; i++) {
-        if (parseInt(predefinedGestures[i].id) === parseInt(id) && predefinedGestures[i].used === true) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function getGesturesByType(type) {
-    var gestures = getLocalItem(PREDEFINED_GESTURE_SET);
-    var array = new Array();
-    for (var i = 0; i < gestures.length; i++) {
-        if (gestures[i].type === type) {
-            array.push(gestures[i]);
-        }
-    }
-    return array;
-}
-
-function getAllOtherGestures(type) {
-    var gestures = getLocalItem(PREDEFINED_GESTURE_SET);
-    var array = new Array();
-    for (var i = 0; i < gestures.length; i++) {
-        if (gestures[i].type !== type) {
-            array.push(gestures[i]);
-        }
-    }
-    return array;
-}
-
-function removeAssembledGestures() {
-    console.log("remove assembled gestures");
-    var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
-    if (phaseSteps && phaseSteps.length > 0) {
-        for (var i = 0; i < phaseSteps.length; i++) {
-            var data = getLocalItem(phaseSteps[i].id + ".data");
-            if (data && (phaseSteps[i].selectedId === 'scenario' || phaseSteps[i].selectedId === 'gestureTraining')) {
-                var scenario = new Scenario();
-                scenario.title = data.title;
-                scenario.description = data.description;
-                scenario.help = data.help;
-                scenario.observations = data.observations;
-                setLocalItem(phaseSteps[i].id + ".data", scenario);
-            }
-        }
-    }
-    removeLocalItem(PREDEFINED_GESTURE_SET);
-    createPredefinedGestures();
-}
-
-function removeAssembledTrigger() {
-    removeLocalItem(ASSEMBLED_TRIGGER);
 }
 
 function createPredefinedGestureQuestionnaire() {
@@ -215,35 +111,13 @@ function createPredefinedGestureQuestionnaire() {
     }
 }
 
-function createdPredefinedGestureFeedback() {
+function createPredefinedGestureFeedback() {
     if (getLocalItem(PREDEFINED_GESTURE_FEEDBACK) === null) {
         var feedback = new Array();
         feedback.push(new Feedback(0, FEEDBACK_PREDEFINED, "wurde erkannt"));
         feedback.push(new Feedback(1, FEEDBACK_PREDEFINED, "wurde nicht erkannt"));
         setLocalItem(PREDEFINED_GESTURE_FEEDBACK, feedback);
     }
-}
-
-function getFeedbackById(id) {
-    var feedback = getLocalItem(PREDEFINED_GESTURE_FEEDBACK);
-    for (var i = 0; i < feedback.length; i++) {
-        if (parseInt(feedback[i].id) === parseInt(id)) {
-            return feedback[i];
-        }
-    }
-    return null;
-}
-
-function getTriggerById(id) {
-    var triggers = getLocalItem(ASSEMBLED_TRIGGER);
-    if (triggers) {
-        for (var i = 0; i < triggers.length; i++) {
-            if (parseInt(triggers[i].id) === parseInt(id)) {
-                return triggers[i];
-            }
-        }
-    }
-    return null;
 }
 
 function renderSessionStorageData() {
@@ -253,14 +127,11 @@ function renderSessionStorageData() {
         for (var i = 0; i < phaseSteps.length; i++) {
             var item = phaseSteps[i];
             addPhaseStep(item.id, item.selectedId, item.itemText, item.color);
-//            var id = parseInt(item.id.charAt(item.id.length - 1));
-//            if (currentPhaseStepCount <= id) {
-//                currentPhaseStepCount = id + 1;
-//            }
         }
     }
 
     var project = getLocalItem(PROJECT);
+    console.log(project);
     if (project) {
         $('#projectName').val(project.name);
         $('#projectDescription').val(project.description);
@@ -290,11 +161,6 @@ function renderSessionStorageData() {
         }
     }
 }
-
-function removeAssembledPrototypes() {
-    removeLocalItem(ASSEMBLED_PROTOTYPES);
-}
-
 
 function saveGeneralData() {
     var project = new Project();
@@ -336,8 +202,8 @@ function Project() {
     this.useTrigger;
 }
 
-function UsabilityScaleItem(itemText, dimension, likertScale, reversed) {
-    this.itemText = itemText;
+function UsabilityScaleItem(question, dimension, likertScale, reversed) {
+    this.question = question;
     this.dimension = dimension;
     this.likertScale = likertScale;
     this.reversed = reversed;
@@ -465,16 +331,4 @@ function getDimensionByElement(element) {
         }
     }
     return DIMENSION_ANY;
-}
-
-function getPrototypeById(id) {
-    var prototypes = getLocalItem(ASSEMBLED_PROTOTYPES);
-    if (prototypes && prototypes.length > 0) {
-        for (var i = 0; i < prototypes.length; i++) {
-            if (parseInt(prototypes[i].id) === parseInt(id)) {
-                return prototypes[i];
-            }
-        }
-    }
-    return null;
 }

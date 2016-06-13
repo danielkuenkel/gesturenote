@@ -23,7 +23,9 @@ include './includes/language.php';
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="http://chancejs.com/chance.min.js"></script>
         <script src="js/constants.js"></script>
+        <script src="js/localforage.js"></script>
         <script src="js/storage.js"></script>
+        <script src="js/storageFunctions.js"></script>
         <script src="js/language.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/alert.js"></script>
@@ -391,10 +393,10 @@ include './includes/language.php';
                 $(parent).find('.selected').attr('id', listItemId);
 
                 if ($(parent).prev().is('input')) {
-                    console.log('is input');
+//                    console.log('is input');
                     $(parent).prev().val(itemText);
                 } else {
-                    console.log('has no input nearby');
+//                    console.log('has no input nearby');
                     $(parent).find('.selected').text(itemText);
                 }
 
