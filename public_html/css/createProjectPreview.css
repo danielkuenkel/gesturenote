@@ -36,10 +36,10 @@ and open the template in the editor.
     background-color: #303030;
 }
 
-#web-rtc-placeholder {
+.web-rtc-placeholder {
     border-radius: 5px;
     border: 1px solid #eeeeee;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 #justification {

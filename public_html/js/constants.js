@@ -39,6 +39,7 @@ var SUS = 'sus';
 var LETTER_OF_ACCEPTANCE = 'letterOfAcceptance';
 var GESTURE_TRAINING = 'gestureTraining';
 var SCENARIO = 'scenario';
+var SLIDESHOW = 'slideshow';
 
 // questionnaire formats
 var OPEN_QUESTION = 'openQuestion';
@@ -99,6 +100,7 @@ var ALERT_VIDEO_EMBED_URL_INVALID = 'video-embed-url-invalid';
 var ALERT_ASSEMBLED_PROTOTYPE_REMOVED = 'assembled-prototype-removed';
 var ALERT_NO_SEARCH_RESULTS = 'no-search-results';
 var ALERT_NO_PHASE_DATA = 'no-phase-data';
+var ALERT_WAITING_FOR_TRAINING_GESTURE = 'waiting-for-training-gesture';
 
 // sort
 var SORT_ASC = 'asc';

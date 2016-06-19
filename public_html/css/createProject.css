@@ -58,11 +58,3 @@ and open the template in the editor.
     background: #fff;
     border-color: #cccccc;
 }
-
-.readonly {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;          
-}

@@ -10,24 +10,65 @@
             <div class="panel-body">
                 <!--<div id="task"></div>-->
                 <div id="description"></div>
-                <div class="imageContainer" style="margin-bottom: 10px;"></div>
+                <div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>
                 <button type="button" class="btn btn-default btn-block ellipsis" id="trigger"></button>
             </div>
         </div>
-    </div>
+    </div>   
 
-    <!-- gesture training panel -->
-    <div class="col-sm-6 col-md-6 col-lg-4 root" id="preview-panel-gesture-training">
-        <!--<div class="ellipsis" ></div>-->
+    <!-- gesture training panel for moderator -->
+<!--    <div class="col-sm-6 col-md-6 col-lg-4 root" id="moderator-panel-gesture-training">
+        <div class="ellipsis" ></div>
         <div class="panel panel-default">
             <div class="panel-heading ellipsis" id="title"></div>
             <div class="panel-body">
-                <div class="imageContainer" style="margin-bottom: 10px;"></div>
-                <div class="label label-default" id="repeats"></div>
-                <div class="label label-default" id="trigger"></div>
-                <div class="label label-default" id="feedback"></div><br>
+                <div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>
+                <div style="margin-bottom: 10px;">
+                    <div class="label label-default" id="repeats"></div>
+                    <div class="label label-default" id="trigger"></div>
+                    <div class="label label-default" id="feedback"></div>
+                </div>
+
+                <button type="button" class="btn btn-default btn-trigger pull-right" style="margin-top: 6px; margin-bottom: 10px;"><i class="glyphicon glyphicon-eye-open"></i> <span>Training</span></button>
+                <button type="button" class="btn btn-default pull-right moreInfo"><i class="glyphicon glyphicon-search"></i> Mehr <span class="hidden-md hidden-lg">Informationen</span></button>
+            </div>
+        </div>
+    </div>-->
+
+    <!-- gesture training panel for tester -->
+<!--    <div class="col-sm-6 col-md-6 col-lg-4 root" id="tester-panel-gesture-training-unmoderated">
+        <div class="panel panel-default">
+            <div class="panel-heading ellipsis" id="title"></div>
+            <div class="panel-body">
+                <div class="imageContainer autoplay" style="margin-bottom: 10px;"></div>
+                                <div class="label label-default" id="repeats"></div>
+                                <div class="label label-default" id="trigger"></div>
+                                <div class="label label-default" id="feedback"></div><br>
                 <button type="button" class="btn btn-default trigger pull-right" style="margin-top: 6px; margin-bottom: 10px;"><i class="glyphicon glyphicon-eye-open"></i> <span>Training</span></button>
-                <!--<button type="button" class="btn btn-default pull-right moreInfo"><i class="glyphicon glyphicon-search"></i> Mehr <span class="hidden-md hidden-lg">Informationen</span></button>-->
+                <button type="button" class="btn btn-default pull-right moreInfo"><i class="glyphicon glyphicon-search"></i> Mehr <span class="hidden-md hidden-lg">Informationen</span></button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-6 col-md-6 col-lg-4 root" id="tester-panel-gesture-training-moderated">
+        <div class="panel panel-default">
+            <div class="panel-heading ellipsis" id="title"></div>
+            <div class="panel-body">
+                <div class="imageContainer autoplay" style="margin-bottom: 10px;"></div>
+                                <div class="label label-default" id="repeats"></div>
+                                <div class="label label-default" id="trigger"></div>
+                                <div class="label label-default" id="feedback"></div><br>
+                <button type="button" class="btn btn-default trigger pull-right" style="margin-top: 6px; margin-bottom: 10px;"><i class="glyphicon glyphicon-eye-open"></i> <span>Training</span></button>
+                <button type="button" class="btn btn-default pull-right moreInfo"><i class="glyphicon glyphicon-search"></i> Mehr <span class="hidden-md hidden-lg">Informationen</span></button>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="col-sm-6 col-md-6 col-lg-4 root" id="tester-panel-gesture-training-moderated">
+        <div class="panel panel-default">
+            <div class="panel-heading ellipsis" id="title"></div>
+            <div class="panel-body">
+                <div class="imageContainer autoplay" style="margin-bottom: 10px;"></div>
             </div>
         </div>
     </div>

@@ -5,14 +5,15 @@
  */
 
 $(window).load(function () {
-    $('body').on('mouseenter', '.imageContainer', function (event) {
+    $('body').on('mouseenter', '.previewGesture', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('mouseScrollable')) {
+            clearTimer();
             playThroughThumbnails($(this), 0);
         }
     });
 
-    $('body').on('mouseleave', '.imageContainer', function (event) {
+    $('body').on('mouseleave', '.previewGesture', function (event) {
         event.preventDefault();
         prevSlide = 0;
         resetThumbnails($(this));
@@ -115,12 +116,15 @@ function renderGestureImages(container, images, preview) {
             image.addClass('active');
         }
     }
+    if($(container).hasClass('autoplay')) {
+        playThroughThumbnails(container);
+    }
 }
 
-var gestureThumbnail;
+var gestureThumbnailTimer;
 function playThroughThumbnails(container) {
     stepForward(container);
-    gestureThumbnail = setTimeout(function () {
+    gestureThumbnailTimer = setTimeout(function () {
         playThroughThumbnails(container);
     }, GESTURE_THUMBNAIL_SCROLLING_SPEED);
 }
@@ -167,7 +171,7 @@ function resetThumbnails(container) {
 }
 
 function clearTimer() {
-    clearTimeout(gestureThumbnail);
+    clearTimeout(gestureThumbnailTimer);
 }
 
 function updateModalProgress(container) {

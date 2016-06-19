@@ -117,7 +117,7 @@
 
                             if (isGestureAssembled(parameters[2].id)) {
                                 $(clone).find('.option-gesture').val(parameters[2].title);
-                                $(clone).find('.gestureSelect .selected').attr('id', parameters[2].id);
+                                $(clone).find('.gestureSelect .chosen').attr('id', parameters[2].id);
                             } else {
                                 appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                             }
@@ -129,7 +129,7 @@
 
                             if (getTriggerById(parameters[2].id)) {
                                 $(clone).find('.option-trigger').val(parameters[2].title);
-                                $(clone).find('.triggerSelect .selected').attr('id', parameters[2].id);
+                                $(clone).find('.triggerSelect .chosen').attr('id', parameters[2].id);
                             } else {
                                 appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
                             }
@@ -159,7 +159,7 @@
                             $(option).find('.option').val(options[j]);
                             $(clone).find('.option-container').append(option);
                             $(option).find('.optionQuestion').val(options[j][options[j].length - 1]);
-                            $(option).find('.selected').text((options[j].length - 1) + " ");
+                            $(option).find('.chosen').text((options[j].length - 1) + " ");
                             checkCurrentListState($(clone).find('.option-container'));
 
                             renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 1, options[j]);
@@ -218,13 +218,13 @@
                         parameters.push($(item).find('#gestures').hasClass('active') ? ALTERNATIVE_GESTURES : ALTERNATIVE_TRIGGERS);
 
                         if (assembledGestures() && $(item).find('.alternativeSwitch .active').attr('id') === 'alternativeGesture') {
-                            var gestureId = $(item).find('.gestureSelect .selected').attr('id');
+                            var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
                             if (gestureId !== 'unselected') {
                                 parameters.push(ALTERNATIVE_FOR_GESTURE);
                                 parameters.push(getGestureById(gestureId));
                             }
                         } else if (getLocalItem(ASSEMBLED_TRIGGER) && $(item).find('.alternativeSwitch .active').attr('id') === 'alternativeTrigger') {
-                            var triggerId = $(item).find('.triggerSelect .selected').attr('id');
+                            var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
                             if (triggerId !== 'unselected') {
                                 parameters.push(ALTERNATIVE_FOR_TRIGGER);
                                 parameters.push(getTriggerById(triggerId));

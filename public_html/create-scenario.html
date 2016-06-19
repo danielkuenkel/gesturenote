@@ -26,7 +26,7 @@
                         <span class="input-group-addon">Prototyp als Szene</span>
                         <input class="form-control item-input-text option-prototype show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
                         <div class="input-group-btn select prototypeSelect" role="group">
-                            <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                            <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
         <div class="panel-heading clearfix">
             <div style="margin-top: 4px; display: inline-block">Wizard-of-Oz-Experiment</div>
             <div class="btn-group pull-right" id="useWozSwitch">
-                <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                <button class="btn btn-default switchButtonAddon">Nutzen?</button>
                 <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
                 <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
             </div>
@@ -66,7 +66,7 @@
         <div class="panel-heading clearfix">
             <div style="margin-top: 4px; display: inline-block">Hilfe</div>
             <div class="btn-group pull-right" id="helpSwitch">
-                <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                <button class="btn btn-default switchButtonAddon">Nutzen?</button>
                 <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
                 <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
             </div>
@@ -84,7 +84,7 @@
         <div class="panel-heading clearfix">
             <div style="margin-top: 4px; display: inline-block">Beobachtungen</div>
             <div class="btn-group pull-right" id="useObservationsSwitch">
-                <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
+                <button class="btn btn-default switchButtonAddon">Nutzen?</button>
                 <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
                 <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
             </div>
@@ -97,7 +97,7 @@
                     <span class="input-group-addon">Beobachtungsformat</span>
                     <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                     <div class="input-group-btn select" id="addFormatSelect" role="group">
-                        <button class="btn btn-default btn-dropdown" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                        <button class="btn btn-default btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                             <li id="counter"><a href="#">Zähler</a></li>
                             <li id="openQuestion"><a href="#">Offene Frage</a></li>
@@ -189,8 +189,8 @@
             if (data.scene) {
                 var scene = getPrototypeById(data.scene);
                 if (scene) {
-                    $('#general .prototypeSelect .selected').attr('id', scene.id);
-                    $('#general').find('.option-prototype').val(scene.title);
+                    $('#general .prototypeSelect').find('#' + scene.id).click();
+//                    $('#general').find('.option-prototype').val(scene.title);
                 } else {
                     appendAlert($('#general'), ALERT_ASSEMBLED_PROTOTYPE_REMOVED);
                 }
@@ -204,8 +204,8 @@
                         var clone = $('#form-item-container').find('#elicitationItem').clone().removeClass('hidden');
                         $('#elicitationContainer #elicitation .option-container').append(clone);
                         if (getTriggerById(elicitationTrigger[i].id) !== null) {
-                            $(clone).find('.selected').attr('id', elicitationTrigger[i].id);
-                            $(clone).find('.option-trigger').val(elicitationTrigger[i].title);
+                            $(clone).find('#' + elicitationTrigger[i].id).click();
+//                            $(clone).find('.option-trigger').val(elicitationTrigger[i].title);
                         } else {
                             appendAlert($(clone), ALERT_ASSEMBLED_TRIGGER_REMOVED);
                         }
@@ -216,10 +216,10 @@
 
 
             var container;
-
+            console.log(wozItems);
             if (wozItems !== undefined && wozItems.length > 0) {
                 if (!forPrefiniedObservation) {
-                    $('#useWozSwitch .switchButtonAddonPanel').click();
+                    $('#useWozSwitch .switchButtonAddon').click();
                 }
 
                 container = $('#wozExperimentContainer').find('.option-container');
@@ -236,22 +236,23 @@
 
                     if (gesture && isGestureAssembled(gesture.id))
                     {
-                        $(clone).find('.option-gesture').val(gesture.title);
-                        $(clone).find('.gestureSelect .selected').attr('id', gesture.id);
+                        $(clone).find('.gestureSelect #' + gesture.id).click();
+//                        $(clone).find('.option-gesture').val(gesture.title);
+//                        $(clone).find('.gestureSelect .chosen').attr('id', gesture.id);
                     } else {
                         appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                     }
 
                     if (trigger && getTriggerById(trigger.id) !== null) {
-                        $(clone).find('.option-trigger').val(trigger.title);
-                        $(clone).find('.triggerSelect .selected').attr('id', trigger.id);
+//                        $(clone).find('.option-trigger').val(trigger.title);
+                        $(clone).find('.triggerSelect #' + trigger.id).click();
                     } else {
                         appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
                     }
 
                     if (feedback) {
                         $(clone).find('.option-feedback').val(feedback.title);
-                        $(clone).find('.feedbackSelect .selected').attr('id', feedback.id);
+                        $(clone).find('.feedbackSelect #' + feedback.id).click();
                     }
 
                     $(clone).find('.stepper-text').val(recognitionTime);
@@ -261,7 +262,7 @@
 
             if (helpItems !== undefined) {
                 if (!forPrefiniedObservation) {
-                    $('#helpSwitch .switchButtonAddonPanel').click();
+                    $('#helpSwitch .switchButtonAddon').click();
                 }
 
                 container = $('#helpContainer').find('.option-container');
@@ -277,7 +278,7 @@
                             appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                         } else if (gestureId !== null) {
                             var gesture = getGestureById(gestureId);
-                            $(clone).find('.gestureSelect .selected').attr('id', gesture.id);
+                            $(clone).find('.gestureSelect .chosen').attr('id', gesture.id);
                             $(clone).find('.option-gesture').val(gesture.title);
                             $(clone).find('.switchButtonAddon').click();
                             $(clone).find('.gestureSelect .dropdown-toggle').removeClass('disabled');
@@ -292,7 +293,7 @@
 
             if (obeservationItems !== undefined && obeservationItems.length > 0) {
                 if (!forPrefiniedObservation) {
-                    $('#useObservationsSwitch .switchButtonAddonPanel').click();
+                    $('#useObservationsSwitch .switchButtonAddon').click();
                 }
 
                 container = $('#list-container');
@@ -343,12 +344,13 @@
             var wozItems = $('#wozExperimentContainer').find('.option-container').children();
             var helpItems = $('#helpContainer').find('.option-container').children();
             var obersvationItems = $('#list-container').children();
+
             var scenario = new Scenario();
             scenario.title = $('#scenarioTitle').val();
             scenario.description = $('#scenarioDescription').val();
 
-            if ($('#general .prototypeSelect .selected').attr('id') !== 'unselected') {
-                scenario.scene = $('#general .prototypeSelect .selected').attr('id');
+            if ($('#general .prototypeSelect .chosen').attr('id') !== 'unselected') {
+                scenario.scene = $('#general .prototypeSelect .chosen').attr('id');
             }
 
             var elicitatonTrigger = $('#elicitationContainer #elicitation .option-container').children();
@@ -357,20 +359,21 @@
                     elicitatonTrigger.length > 0) {
                 var triggerArray = new Array();
                 for (var i = 0; i < elicitatonTrigger.length; i++) {
-                    triggerArray.push(getTriggerById($(elicitatonTrigger[i]).find('.triggerSelect .selected').attr('id')));
+                    triggerArray.push(getTriggerById($(elicitatonTrigger[i]).find('.triggerSelect .chosen').attr('id')));
                 }
                 scenario.elicitationTrigger = triggerArray;
             }
 
+            
             if ($('#useWozSwitch').find('#yes').hasClass('active')) {
                 var woz = new Array();
                 for (var i = 0; i < wozItems.length; i++) {
                     var item = wozItems[i];
-                    var gestureId = $(item).find('.gestureSelect .selected').attr('id');
+                    var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
                     var gesture = getGestureById(gestureId);
-                    var triggerSplitId = $(item).find('.triggerSelect .selected').attr('id');
+                    var triggerSplitId = $(item).find('.triggerSelect .chosen').attr('id');
                     var trigger = getTriggerById(triggerSplitId);
-                    var feedbackId = $(item).find('.feedbackSelect .selected').attr('id');
+                    var feedbackId = $(item).find('.feedbackSelect .chosen').attr('id');
                     var feedback = getFeedbackById(feedbackId);
                     var gestureRecognitionTime = $(item).find('.stepper-text').val();
 
@@ -378,6 +381,7 @@
                         woz.push(new WOZ(gesture, trigger, feedback, gestureRecognitionTime));
                     }
                 }
+                console.log(woz);
                 scenario.woz = woz;
             }
 
@@ -390,7 +394,7 @@
                     var help = new Help();
                     help.option = $(item).find('.option-text').val().trim();
                     help.useGestureHelp = $(item).find('#useGestureHelpSwitch').find('#yes').hasClass('active') ? true : false;
-                    help.gestureId = $(item).find('.selected').attr('id') !== "unselected" ? $(item).find('.selected').attr('id') : null;
+                    help.gestureId = $(item).find('.chosen').attr('id') !== "unselected" ? $(item).find('.chosen').attr('id') : null;
 
                     if (help.option !== "" || help.useGestureHelp === true) {
                         scenarioHelp.push(help);

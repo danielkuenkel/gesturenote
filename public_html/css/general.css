@@ -162,9 +162,9 @@ h4 {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-.panel-footer .btn:hover {
-    /*border: 1px solid #ca3667;*/
-    /*background-color: #fff !important;*/
+/*.panel-footer .btn:hover {
+    border: 1px solid #ca3667;
+    background-color: #fff !important;
     color: #ca3667 !important;
 }
 .panel-footer h3 {
@@ -177,7 +177,7 @@ h4 {
 .panel-footer .btn {
     margin: 15px 0;
     background-color: #303030;
-}
+}*/
 
 
 .navbar {
@@ -322,4 +322,16 @@ li.selected {
 .checkbox .form-control, .radio .form-control {
     position: relative;
     top: -6px;
+}
+
+label .question {
+    font-weight: bold !important;
+}
+
+.readonly {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;          
 }

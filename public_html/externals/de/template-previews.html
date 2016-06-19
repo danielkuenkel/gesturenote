@@ -1,19 +1,25 @@
 <div id="preview-item-container" class="hidden">
 
     <!-- questionnaire container -->
-    <div class="panel panel-default root" id="questionnaire">
-        <div class="panel-heading">
-            Fragen & Aufforderungen
+    <div class="row root" id="questionnaire">
+        <div class="col-md-4" id="column-left"></div>
+        <div class="col-md-8" id="column-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Fragen & Aufforderungen
+                </div>
+                <div class="panel-body question-container"></div>
+            </div>
         </div>
-        <div class="panel-body question-container"></div>
     </div>
+
 
 
     <!-- single question format items -->
     <span class="label label-default" id="option-item" style="margin-right: 3px; display: inline-block"></span>
 
     <div id="rating-item">
-        <div id="rating-header"></div>
+        <span id="rating-header"></span> <span class="label label-danger hidden" id="reversed">negiert</span>
         <div id="scales-container" style="margin-top: -6px;"></div>
     </div>
 
@@ -89,11 +95,16 @@
 
 
     <!-- SUS container & item -->
-    <div class="panel panel-default root" id="sus">
-        <div class="panel-heading">
-            System Usability Scale Items
+    <div class="row root" id="sus">
+        <div class="col-md-4" id="column-left"></div>
+        <div class="col-md-8" id="column-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    System Usability Scale Items
+                </div>
+                <div class="panel-body question-container"></div>
+            </div>
         </div>
-        <div class="panel-body question-container"></div>
     </div>
 
     <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
@@ -107,11 +118,16 @@
 
 
     <!-- GUS container & item -->
-    <div class="panel panel-default root" id="gus">
-        <div class="panel-heading">
-            Gesture Usability Scale Items
+    <div class="row root" id="gus">
+        <div class="col-md-4" id="column-left"></div>
+        <div class="col-md-8" id="column-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Gesture Usability Scale Items
+                </div>
+                <div class="panel-body question-container"></div>
+            </div>
         </div>
-        <div class="panel-body question-container"></div>
     </div>
 
     <div class="panel panel-default root" id="gusItem" style="margin-bottom: 5px;">
@@ -125,72 +141,154 @@
     </div>
 
     <!-- gesture questionnaire container -->
-    <div class="panel panel-default root" id="questionnaireGestures">
-        <div class="panel-heading">
-            Fragen & Aufforderungen
+    <div class="row root" id="questionnaireGestures">
+        <div class="col-md-4" id="column-left"></div>
+        <div class="col-md-8" id="column-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Fragen & Aufforderungen
+                </div>
+                <div class="panel-body question-container"></div>
+            </div>
         </div>
-        <div class="panel-body question-container"></div>
     </div>
 
-    <div class="panel panel-default root" id="letterOfAcceptance">
-        <div class="panel-heading">
-            Einverständniserklärung
+
+    <div class="row root" id="letterOfAcceptance">
+        <div class="col-md-6 col-lg-4" id="column-left"></div>
+        <div class="col-md-6 col-lg-8" id="column-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Einverständniserklärung
+                </div>
+                <div class="panel-body letter-text"></div>
+            </div>
         </div>
-        <div class="panel-body letter-text"></div>
     </div>
+
 
     <!-- gesture training container -->
-    <div class="root" id="gestureTraining">
-        <div class="panel panel-default" id="general">
-            <div class="panel-heading"></div>
-            <div class="panel-body">
+    <div class="row root" id="gestureTraining">
+        <div class="col-md-6" id="column-left">
+            <div class="panel panel-default" id="training">
+                <div class="panel-heading">
+                    <span class="panel-heading-text"></span>
+                </div>
+                <div class="panel-body">
+                    <div id="trainingContainer"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" id="column-right">
+            <div class="panel panel-default" id="general">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
 
-                <div id="description"></div>
+                    <div id="description"></div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="observations">
+                <div class="panel-heading">
+                    Beobachtungen
+                </div>
+                <div class="panel-body question-container"></div>
             </div>
         </div>
-        <div class="panel panel-default" id="training">
-            <div class="panel-heading">
-                <span class="panel-heading-text"></span>
+    </div>
+
+    <div id="trainingItemModerator" class="row">
+        <div class="col-sm-6 col-md-12 col-lg-6 left" style="margin-bottom: 10px;">
+            <div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>
+            <button type="button" class="btn btn-info btn-block" id="trigger-training"><span class="text">Trainieren</span></button>
+        </div>
+        <div class="col-sm-6 col-md-12 col-lg-6 right">
+            <div style="margin-bottom: 10px;">
+                <div id="title"></div>
+                <div id="repeats"></div>
+                <div id="trigger"></div>
+                <div id="feedback"></div>
             </div>
-            <div class="panel-body">
-                <div class="row" id="gestureThumbnailContainer"></div>
-                <button type="button" class="btn btn-default pull-right" id="next-gesture"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-                <button type="button" class="btn btn-success pull-right" id="training-done">Fertig</button>
+            <button type="button" class="btn btn-success btn-block disabled" id="next-gesture"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+            <button type="button" class="btn btn-success btn-block disabled hidden" id="training-done">Fertig</button>
+        </div>
+    </div>
+
+    <!-- slideshow container -->
+    <div class="row root" id="slideshow">
+        <div class="col-md-6" id="column-left">
+            <div class="panel panel-default" id="slides">
+                <div class="panel-heading">
+                    <span class="panel-heading-text"></span>
+                </div>
+                <div class="panel-body">
+                    <div class="row" id="slidesContainer"></div>
+                </div>
             </div>
         </div>
-        <div class="panel panel-default" id="observations">
-            <div class="panel-heading">
-                Beobachtungen
+        <div class="col-md-6" id="column-right">
+            <div class="panel panel-default" id="general">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <div id="description"></div>
+                </div>
             </div>
-            <div class="panel-body question-container"></div>
+
+            <div class="panel panel-default" id="observations">
+                <div class="panel-heading">
+                    Beobachtungen
+                </div>
+                <div class="panel-body question-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="slideshowItem" class="row" style="padding-left: 15px; padding-right: 15px;">
+        <div class="col-md-6 left" style="margin-bottom: 10px;">
+            <div class="triggerContainer"></div>
+            <div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>
+            <button type="button" class="btn btn-info btn-block" id="trigger-slide"><span class="text">Auffordern</span></button>
+        </div>
+        <div class="col-md-6 right">
+            <div class="triggerContainer"></div>
+            <div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>
+            <div class="btn-group-vertical btn-block">
+                <button type="button" class="btn btn-danger disabled" id="wrong-slide"><span class="text">Falsch</span></button>
+                <button type="button" class="btn btn-success disabled" id="correct-slide"><span class="text">Richtig</span></button>
+                <button type="button" class="btn btn-warning disabled" id="next-slide"><span class="text">Überspringen</span></button>
+            </div>
         </div>
     </div>
 
     <!-- scenario container -->
-    <div class="root" id="scenario">
-        <div class="panel panel-default" id="general">
-            <div class="panel-heading">Allgemeines</div>
-            <div class="panel-body">
-                <div id="task"></div>
-                <div id="description"></div>
-                <button type="button" class="btn btn-default hidden" id="scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Szene anzeigen</button>
+    <div  class="row root" id="scenario">
+        <div class="col-md-7 col-lg-8" id="column-left">
+            <div class="panel panel-default" id="wozExperiment">
+                <div class="panel-heading">Wizard-of-Oz-Experiment</div>
+                <div class="panel-body">
+                    <div class="row woz-container"></div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="help">
+                <div class="panel-heading">Hilfe</div>
+                <div class="panel-body help-container"></div>
             </div>
         </div>
-        <div class="panel panel-default" id="wozExperiment">
-            <div class="panel-heading">Wizard-of-Oz-Experiment</div>
-            <div class="panel-body">
-                <div class="row woz-container"></div>
+
+        <div class="col-md-5 col-lg-4" id="colume-right">
+            <div class="panel panel-default" id="general">
+                <div class="panel-heading">Allgemeines</div>
+                <div class="panel-body">
+                    <div id="task"></div>
+                    <div id="description"></div>
+                    <button type="button" class="btn btn-default hidden" id="scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Szene anzeigen</button>
+                </div>
             </div>
-        </div>
-        <div class="panel panel-default" id="help">
-            <div class="panel-heading">Hilfe</div>
-            <div class="panel-body help-container"></div>
-        </div>
-        <div class="panel panel-default" id="observations">
-            <div class="panel-heading">
-                Beobachtungen
+            <div class="panel panel-default" id="observations">
+                <div class="panel-heading">
+                    Beobachtungen
+                </div>
+                <div class="panel-body question-container"></div>
             </div>
-            <div class="panel-body question-container"></div>
         </div>
     </div>
 

@@ -21,7 +21,9 @@ include './includes/language.php';
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
         <script src="http://chancejs.com/chance.min.js"></script>
+        <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/localforage.js"></script>
         <script src="js/storage.js"></script>
@@ -113,7 +115,7 @@ include './includes/language.php';
                                 <span class="input-group-addon">Projektphase</span>
                                 <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="phaseSelect" role="group">
-                                    <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="elicitation"><a href="#"><?php echo $lang->phaseType->elicitation ?></a></li>
                                         <li id="evaluation"><a href="#"><?php echo $lang->phaseType->evaluation ?></a></li>
@@ -127,7 +129,7 @@ include './includes/language.php';
                                 <span class="input-group-addon">Befragungsart</span>
                                 <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="surveyTypeSelect" role="group">
-                                    <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="moderated"><a href="#"><?php echo $lang->surveyType->moderated ?></a></li>
                                         <li id="unmoderated"><a href="#"><?php echo $lang->surveyType->unmoderated ?></a></li>
@@ -199,7 +201,7 @@ include './includes/language.php';
                                 <span class="input-group-addon">Phasenschritt</span>
                                 <input class="form-control item-input-text option-survey-type show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="phaseStepSelect"  role="group">
-                                    <button class="btn btn-default btn-dropdown" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option" role="menu">
                                         <li class="dropdown-header">Fragebögen</li>
                                         <li id="questionnaire"><a href="#"><?php echo $lang->formats->questionnaire ?></a></li>
@@ -227,13 +229,13 @@ include './includes/language.php';
 
                         <div class="form-group hidden root" id="phaseStepItem">
                             <div class="btn-group">
-                                <button class="btn btn-default btn-up" title="Weiter nach oben">
+                                <button class="btn btn-default btn-up saveGeneralData" title="Weiter nach oben">
                                     <i class="glyphicon glyphicon-arrow-up"></i>
                                 </button>
-                                <button class="btn btn-default btn-down" title="Weiter nach unten">
+                                <button class="btn btn-default btn-down saveGeneralData" title="Weiter nach unten">
                                     <i class="glyphicon glyphicon-arrow-down"></i>
                                 </button>
-                                <button class="btn btn-default btn-delete" title="Löschen">
+                                <button class="btn btn-default btn-delete saveGeneralData" title="Löschen">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </button>
                                 <button class="btn btn-default btn-modify" title="Bearbeiten">
@@ -258,7 +260,7 @@ include './includes/language.php';
                                 <span class="input-group-addon">Aufzeichnung</span>
                                 <input class="form-control item-input-text option-record show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="recordSelect" role="group">
-                                    <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="videoAudio"><a href="#">Video & Audio</a></li>
                                         <li id="videoAudioScreen"><a href="#">Video, Audio & Bildschirm</a></li>
@@ -380,57 +382,30 @@ include './includes/language.php';
                 loadHTMLintoModal('custom-modal', 'info-use-trigger.html');
             });
 
-            $('body').on('click', '.select .option li', function (event) {
-                event.preventDefault();
+//            $('body').on('click', '.select .option li', function (event) {
+//                event.preventDefault();
+//                console.log('click on project');
+//                var parent = $(this).closest('.select');
+//                
+//            });
 
-                if ($(this).hasClass('dropdown-header') || $(this).hasClass('divider')) {
-                    return false;
-                }
-
-                var parent = $(this).closest('.select');
-                var itemText = $(this).children().text();
-                var listItemId = $(this).attr('id');
-                $(parent).find('.selected').attr('id', listItemId);
-
-                if ($(parent).prev().is('input')) {
-//                    console.log('is input');
-                    $(parent).prev().val(itemText);
-                } else {
-//                    console.log('has no input nearby');
-                    $(parent).find('.selected').text(itemText);
-                }
-
-
-
-                var disabledElements = $(parent).children('.dropdown-disabled');
-                if (disabledElements.length > 0) {
-                    for (var i = 0; i < disabledElements.length; i++) {
-                        $(disabledElements[i]).removeClass('disabled');
-                    }
-                }
-
-                if (parent.hasClass('saveGeneralData')) {
-                    saveGeneralData();
-                }
-            });
-
-            $('body').on('click', '.show-dropdown', function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-                $(this).next().find('[data-toggle=dropdown]').dropdown('toggle');
-            });
+//            $('body').on('click', '.show-dropdown', function (event) {
+//                event.preventDefault();
+//                event.stopPropagation();
+//                $(this).next().find('[data-toggle=dropdown]').dropdown('toggle');
+//            });
 
             $('#info-addon-add-phases').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
-                    var selectedID = $(this).parent().find('.selected').attr('id');
+                    var selectedID = $(this).parent().find('.chosen').attr('id');
                     loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-md");
                 }
             });
 
             $('#addPhaseStep').on('click', function (event) {
                 event.preventDefault();
-                var selectedID = $(this).parent().find('.selected').attr('id');
+                var selectedID = $(this).parent().find('.chosen').attr('id');
                 if (!$(this).hasClass('disabled') && selectedID !== 'unselected') {
                     var selectedText = $(this).parent().prev().val();
                     addPhaseStep(chance.natural(), selectedID, selectedText, null);
@@ -472,115 +447,115 @@ include './includes/language.php';
                 checkCurrentListState($('#phaseStepList'));
             }
 
-            function checkCurrentListState(itemContainer) {
-                var childList = $(itemContainer).children();
-                for (var i = 0; i < childList.length; i++) {
-                    var child = childList[i];
-                    var firstElement = $(child).find('.btn-up').first();
-                    var secondElement = firstElement.next();
+//            function checkCurrentListState(itemContainer) {
+//                var childList = $(itemContainer).children();
+//                for (var i = 0; i < childList.length; i++) {
+//                    var child = childList[i];
+//                    var firstElement = $(child).find('.btn-up').first();
+//                    var secondElement = firstElement.next();
+//
+//                    firstElement.removeClass('disabled');
+//                    secondElement.removeClass('disabled');
+//
+//                    if (i === 0) {
+//                        firstElement.addClass('disabled');
+//                    }
+//                    if (i === childList.length - 1) {
+//                        secondElement.addClass('disabled');
+//                    }
+//                }
+//            }
 
-                    firstElement.removeClass('disabled');
-                    secondElement.removeClass('disabled');
-
-                    if (i === 0) {
-                        firstElement.addClass('disabled');
-                    }
-                    if (i === childList.length - 1) {
-                        secondElement.addClass('disabled');
-                    }
-                }
-            }
-
-            $('body').on('click', '.btn-delete', function (event) {
-                event.stopPropagation();
-                event.preventDefault();
-                var element = $(this).closest('.root');
-                var parent = $(element).parent();
-                currentContainerList = parent;
-                $(element).remove();
-                checkCurrentListState(parent);
-                savePhases();
-            });
-
-            $('body').on('click', '.btn-up', function (event) {
-                event.stopPropagation();
-                event.preventDefault();
-                moveElement("up", $(this));
-                checkCurrentListState($(this).closest('.root').parent());
-            });
-
-            $('body').on('click', '.btn-down', function (event) {
-                event.stopPropagation();
-                event.preventDefault();
-                moveElement("down", $(this));
-                checkCurrentListState($(this).closest('.root').parent());
-            });
-
-            $('body').on('click', '.btn-toggle-checkbox', function (event) {
-                event.preventDefault();
-                if ($(this).hasClass('inactive')) {
-                    if ($(this).parent().children('.active').length === 0) {
-                        toggleSwitch(null, $(this));
-                    } else {
-                        toggleSwitch($(this).parent().children('.active'), $(this));
-                    }
-                }
-
-                if ($(this).hasClass('saveGeneralData')) {
-                    saveGeneralData();
-                }
-            });
-
-            $('body').on('click', '.switchButtonAddon', function (event) {
-                event.preventDefault();
-                var activeButton = $(this).nextAll().filter('.active');
-                var inactiveButton = $(this).nextAll().filter('.inactive');
-
-                if (activeButton.length === 0) {
-                    activeButton = null;
-                    inactiveButton = $(this).next();
-
-                }
-                inactiveButton.click();
-            });
-
-            function toggleSwitch(activeButton, inactiveButton) {
-                if (activeButton) {
-                    $(activeButton).removeClass('active');
-                    $(activeButton).addClass('inactive');
-                    $(activeButton).addClass('btn-default');
-                    $(activeButton).removeClass($(activeButton).attr('name'));
-                }
-                $(inactiveButton).removeClass('inactive');
-                $(inactiveButton).addClass('active');
-                $(inactiveButton).removeClass('btn-default');
-                $(inactiveButton).addClass($(inactiveButton).attr('name'));
-
-                var supplements = $(activeButton).parent().children('.supplement');
-                if (supplements.length > 0) {
-                    if ($(supplements).hasClass('hidden')) {
-                        $(supplements).removeClass('hidden');
-                    } else {
-                        $(supplements).addClass('hidden');
-                    }
-                }
-            }
-
-            function moveElement(direction, which) {
-                var element = $(which).closest('.root');
-                var brother;
-                switch (direction) {
-                    case "up":
-                        brother = $(which).closest('.root').prev();
-                        $(element).insertBefore(brother);
-                        break;
-                    case "down":
-                        brother = $(which).closest('.root').next();
-                        $(element).insertAfter(brother);
-                        break;
-                }
-                savePhases();
-            }
+//            $('body').on('click', '.btn-delete', function (event) {
+//                event.stopPropagation();
+//                event.preventDefault();
+//                var element = $(this).closest('.root');
+//                var parent = $(element).parent();
+//                currentContainerList = parent;
+//                $(element).remove();
+//                checkCurrentListState(parent);
+//                savePhases();
+//            });
+//
+//            $('body').on('click', '.btn-up', function (event) {
+//                event.stopPropagation();
+//                event.preventDefault();
+//                moveElement("up", $(this));
+//                checkCurrentListState($(this).closest('.root').parent());
+//            });
+//
+//            $('body').on('click', '.btn-down', function (event) {
+//                event.stopPropagation();
+//                event.preventDefault();
+//                moveElement("down", $(this));
+//                checkCurrentListState($(this).closest('.root').parent());
+//            });
+//
+//            $('body').on('click', '.btn-toggle-checkbox', function (event) {
+//                event.preventDefault();
+//                if ($(this).hasClass('inactive')) {
+//                    if ($(this).parent().children('.active').length === 0) {
+//                        toggleSwitch(null, $(this));
+//                    } else {
+//                        toggleSwitch($(this).parent().children('.active'), $(this));
+//                    }
+//                }
+//
+//                if ($(this).hasClass('saveGeneralData')) {
+//                    saveGeneralData();
+//                }
+//            });
+//
+//            $('body').on('click', '.switchButtonAddon', function (event) {
+//                event.preventDefault();
+//                var activeButton = $(this).nextAll().filter('.active');
+//                var inactiveButton = $(this).nextAll().filter('.inactive');
+//
+//                if (activeButton.length === 0) {
+//                    activeButton = null;
+//                    inactiveButton = $(this).next();
+//
+//                }
+//                inactiveButton.click();
+//            });
+//
+//            function toggleSwitch(activeButton, inactiveButton) {
+//                if (activeButton) {
+//                    $(activeButton).removeClass('active');
+//                    $(activeButton).addClass('inactive');
+//                    $(activeButton).addClass('btn-default');
+//                    $(activeButton).removeClass($(activeButton).attr('name'));
+//                }
+//                $(inactiveButton).removeClass('inactive');
+//                $(inactiveButton).addClass('active');
+//                $(inactiveButton).removeClass('btn-default');
+//                $(inactiveButton).addClass($(inactiveButton).attr('name'));
+//
+//                var supplements = $(activeButton).parent().children('.supplement');
+//                if (supplements.length > 0) {
+//                    if ($(supplements).hasClass('hidden')) {
+//                        $(supplements).removeClass('hidden');
+//                    } else {
+//                        $(supplements).addClass('hidden');
+//                    }
+//                }
+//            }
+//
+//            function moveElement(direction, which) {
+//                var element = $(which).closest('.root');
+//                var brother;
+//                switch (direction) {
+//                    case "up":
+//                        brother = $(which).closest('.root').prev();
+//                        $(element).insertBefore(brother);
+//                        break;
+//                    case "down":
+//                        brother = $(which).closest('.root').next();
+//                        $(element).insertAfter(brother);
+//                        break;
+//                }
+//                savePhases();
+//            }
 
 //            function loadHTMLintoModal(modalId, url, modalSize) {
 //                $.get(url, modalId, function (data) {
@@ -603,6 +578,7 @@ include './includes/language.php';
             $('#previewProject').on('click', function (event) {
                 event.preventDefault();
                 if (checkInputs() === true) {
+                    saveGeneralData();
                     gotoCreateProjectPreview();
                 }
             });
@@ -621,12 +597,12 @@ include './includes/language.php';
                     errors++;
                 }
 
-                if ($('#phaseSelect').find('.selected').attr('id') === 'unselected') {
+                if ($('#phaseSelect').find('.chosen').attr('id') === 'unselected') {
                     $('#phaseSelect').closest('.form-group').addClass('has-error');
                     errors++;
                 }
 
-                if ($('#surveyTypeSelect').find('.selected').attr('id') === 'unselected') {
+                if ($('#surveyTypeSelect').find('.chosen').attr('id') === 'unselected') {
                     $('#surveyTypeSelect').closest('.form-group').addClass('has-error');
                     errors++;
                 }

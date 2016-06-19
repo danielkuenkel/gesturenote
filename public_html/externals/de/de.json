@@ -62,5 +62,6 @@
     "trigger": "Trigger",
     "feedback": "Feedback",
     "task": "Aufgabe",
-    "description": "Beschreibung"
+    "description": "Beschreibung",
+    "title" : "Titel"
 }

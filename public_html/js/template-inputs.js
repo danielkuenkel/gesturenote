@@ -19,10 +19,11 @@ function onCloseClick() {
 
 $('body').on('click', '#addFormat', function (event) {
     event.preventDefault();
+
     if (event.handled !== true && !$(this).hasClass('disabled'))
     {
         event.handled = true;
-        var selectedID = $(this).parent().find('.selected').attr('id');
+        var selectedID = $(this).parent().find('.chosen').attr('id');
         if (selectedID !== 'unselected') {
             var clone = $('#form-item-container').find('#' + selectedID).clone(true);
             $('#list-container').append(clone);
@@ -117,12 +118,11 @@ $('body').on('click', '.btn-add-elicitationOption', function (event) {
     }
 });
 
-$('body').on('click', '.select .option li', function (event) {
+$('body').on('click', '.scaleSelect .option li', function (event) {
     if (event.handled !== true)
     {
         event.handled = true;
-        var parent = $(this).closest('.select');
-        if ($(parent).hasClass('scaleSelect')) {
+        if (!$(this).hasClass('selected')) {
             var scaleItemContainer = $(this).parents('.root').first().find('.ratingScaleItemContainer');
             var scaleSelectCount = $(this).children().text().trim();
             renderScaleItems(scaleItemContainer, scaleSelectCount, undefined);
@@ -157,7 +157,7 @@ function renderScaleItems(container, count, text)
 
 function updateBadges(container, selector) {
     if (selector !== null) {
-        var children = container.children('#' + selector);
+        var children = $(container).children('#' + selector);
         for (var i = 0; i < children.length; i++) {
             $(children[i]).find('.badgeId').text(i + 1);
             $(children[i]).find('.badgeQuantity').text(children.length);
@@ -235,256 +235,124 @@ $('.alternativeSwitch .check').unbind('click').bind('click', function (event) {
     }
 });
 
-/* 
- * Check if there are assembled gestures (a gesture set)
- * It's for the alert showing in dichotomous question container 
- * 
- * reset: remove alerts
- */
-
-$('body').on('click', '.check', function (event) {
-
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        event.preventDefault();
-        $(this).closest('.root').find('.alert-space').empty();
-
-        if ($(this).hasClass(ALERT_NO_GESTURES_ASSEMBLED)) {
-            assembledGestures(function (gestures) {
-                if (!gestures) {
-                    appendAlert($(this).closest('.root'), ALERT_NO_GESTURES_ASSEMBLED);
-                }
-            });
-        } else if ($(this).hasClass(ALERT_NO_TRIGGER_ASSEMBLED)) {
-            getLocalItem(ASSEMBLED_TRIGGER, function (data) {
-                if (!data) {
-                    appendAlert($(this).closest('.root'), ALERT_NO_TRIGGER_ASSEMBLED);
-                }
-            });
-        }
-    }
-});
-
-$('body').on('click', '.reset', function (event) {
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        event.preventDefault();
-        $(this).closest('.root').find('.alert-space').empty();
-    }
-});
-
-
-/* 
- * toggable panel with switch button 
- */
-
-$('.btn-toggle-checkbox-panel').unbind('click').bind('click', function (event) {
-    event.preventDefault();
-
-//    console.log('btn-toggle-checkbox-panel clicked');
-
-    var panelBody = $(this).closest('.root').find('.panel-body');
-
-    if ($(this).attr('id') === 'yes' && panelBody.hasClass('hidden')) {
-        togglePanelBody(panelBody);
-        togglePanelBadges($(this).closest('.root').find('.badges'));
-    } else if ($(this).attr('id') === 'no' && !panelBody.hasClass('hidden')) {
-        togglePanelBody(panelBody);
-        togglePanelBadges($(this).closest('.root').find('.badges'));
-    }
-});
-
-function togglePanelBody(panelBody) {
-    if ($(panelBody).hasClass('hidden')) {
-        $(panelBody).removeClass('hidden');
-    } else {
-        $(panelBody).addClass('hidden');
-    }
-}
-
-function togglePanelBadges(badges) {
-    if (badges !== undefined || badges !== null) {
-        if ($(badges).hasClass('hidden')) {
-            showPanelBadges(badges);
-        } else {
-            hidePanelBadges(badges);
-        }
-    }
-}
-
-function hidePanelBadges(badges) {
-    $(badges).addClass('hidden');
-}
-
-function showPanelBadges(badges) {
-    $(badges).removeClass('hidden');
-}
+///* 
+// * Check if there are assembled gestures (a gesture set)
+// * It's for the alert showing in dichotomous question container 
+// * 
+// * reset: remove alerts
+// */
+//
+//$('body').on('click', '.check', function (event) {
+//
+//    if (event.handled !== true)
+//    {
+//        event.handled = true;
+//        event.preventDefault();
+//        $(this).closest('.root').find('.alert-space').empty();
+//
+//        if ($(this).hasClass(ALERT_NO_GESTURES_ASSEMBLED)) {
+//            assembledGestures(function (gestures) {
+//                if (!gestures) {
+//                    appendAlert($(this).closest('.root'), ALERT_NO_GESTURES_ASSEMBLED);
+//                }
+//            });
+//        } else if ($(this).hasClass(ALERT_NO_TRIGGER_ASSEMBLED)) {
+//            getLocalItem(ASSEMBLED_TRIGGER, function (data) {
+//                if (!data) {
+//                    appendAlert($(this).closest('.root'), ALERT_NO_TRIGGER_ASSEMBLED);
+//                }
+//            });
+//        }
+//    }
+//});
+//
+//$('body').on('click', '.reset', function (event) {
+//    if (event.handled !== true)
+//    {
+//        event.handled = true;
+//        event.preventDefault();
+//        $(this).closest('.root').find('.alert-space').empty();
+//    }
+//});
 
 
-/* 
- * Actions for the gesture select dropdown
- */
+///* 
+// * toggable panel with switch button 
+// */
+//
+//$('.btn-toggle-checkbox-panel').unbind('click').bind('click', function (event) {
+//    event.preventDefault();
+//
+////    console.log('btn-toggle-checkbox-panel clicked');
+//
+//    var panelBody = $(this).closest('.root').find('.panel-body');
+//
+//    if ($(this).attr('id') === 'yes' && panelBody.hasClass('hidden')) {
+//        togglePanelBody(panelBody);
+//        togglePanelBadges($(this).closest('.root').find('.badges'));
+//    } else if ($(this).attr('id') === 'no' && !panelBody.hasClass('hidden')) {
+//        togglePanelBody(panelBody);
+//        togglePanelBadges($(this).closest('.root').find('.badges'));
+//    }
+//});
+//
+//function togglePanelBody(panelBody) {
+//    if ($(panelBody).hasClass('hidden')) {
+//        $(panelBody).removeClass('hidden');
+//    } else {
+//        $(panelBody).addClass('hidden');
+//    }
+//}
+//
+//function togglePanelBadges(badges) {
+//    if (badges !== undefined || badges !== null) {
+//        if ($(badges).hasClass('hidden')) {
+//            showPanelBadges(badges);
+//        } else {
+//            hidePanelBadges(badges);
+//        }
+//    }
+//}
+//
+//function hidePanelBadges(badges) {
+//    $(badges).addClass('hidden');
+//}
+//
+//function showPanelBadges(badges) {
+//    $(badges).removeClass('hidden');
+//}
 
-function renderAssembledGestures() {
-    var gestures = assembledGestures();
-    if (gestures) {
-        var dropdown = $('#form-item-container').find('.gestureSelect');
-        $(dropdown).find('.option').empty();
-
-        for (var i = 0; i < gestures.length; i++) {
-            var listItem = document.createElement('li');
-            listItem.setAttribute('id', gestures[i].id);
-            var link = document.createElement('a');
-            link.setAttribute('href', '#');
-            link.appendChild(document.createTextNode(gestures[i].title));
-            listItem.appendChild(link);
-            $(dropdown).find('.option').append(listItem);
-            $('#form-item-container').find('.gestureSelect .dropdown-toggle').removeClass('disabled');
-            $('#form-item-container').find('.option-gesture').attr('placeholder', 'Bitte wählen');
-        }
-    } else {
-        $('#form-item-container').find('.gestureSelect .dropdown-toggle').addClass('disabled');
-        $('#form-item-container').find('.option-gesture').attr('placeholder', 'Kein Gestenset vorhanden');
-    }
-}
-
-/* 
- * Actions for the feedback select dropdown
- */
-
-function renderPredefinedFeedback() {
-    var feedback = getLocalItem(PREDEFINED_GESTURE_FEEDBACK);
-    var dropdown = $('#form-item-container').find('.feedbackSelect');
-    $(dropdown).find('.option').empty();
-    var listItem;
-
-    for (var i = 0; i < feedback.length; i++) {
-        if (i === 0) {
-            listItem = document.createElement('li');
-            listItem.setAttribute('id', 'unselected');
-
-            var link = document.createElement('a');
-            link.setAttribute('href', '#');
-            link.appendChild(document.createTextNode('Keines'));
-            listItem.appendChild(link);
-            $(dropdown).find('.option').append(listItem);
-        }
-
-        listItem = document.createElement('li');
-        listItem.setAttribute('id', feedback[i].id);
-
-        var link = document.createElement('a');
-        link.setAttribute('href', '#');
-        link.appendChild(document.createTextNode(feedback[i].title));
-        listItem.appendChild(link);
-        $(dropdown).find('.option').append(listItem);
-    }
-}
-
-/* 
- * Actions for the trigger select dropdown
- */
-
-function renderAssembledTriggers() {
-    var triggers = getLocalItem(ASSEMBLED_TRIGGER);
-    var dropdown = $('#form-item-container').find('.triggerSelect');
-    $(dropdown).find('.option').empty();
-
-    if (triggers && triggers.length > 0) {
-        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
-        var listItem;
-        for (var i = 0; i < triggers.length; i++) {
-            listItem = document.createElement('li');
-            listItem.setAttribute('id', triggers[i].id);
-//            console.log(triggers[i].id)
-
-            var link = document.createElement('a');
-            link.setAttribute('href', '#');
-            link.appendChild(document.createTextNode(triggers[i].title));
-            listItem.appendChild(link);
-            $(dropdown).find('.option').append(listItem);
-        }
-        $('body').find('.option-trigger').attr('placeholder', 'Bitte wählen');
-    } else {
-        $(dropdown).find('.dropdown-toggle').addClass('disabled');
-        $('body').find('.option-trigger').attr('placeholder', 'Kein Triggerset vorhanden');
-    }
-}
-
-/* 
- * Actions for the prototype select dropdown
- */
-
-function renderAssembledPrototypes() {
-    var prototypes = getLocalItem(ASSEMBLED_PROTOTYPES);
-    var prototypeDropdown = $('body').find('.prototypeSelect');
-    $(prototypeDropdown).find('.option').empty();
-
-    if (prototypes && prototypes.length > 0) {
-        $(prototypeDropdown).find('.dropdown-toggle').removeClass('disabled');
-        var listItem;
-
-        for (var i = 0; i < prototypes.length; i++) {
-            var link = document.createElement('a');
-            if (i === 0) {
-                listItem = document.createElement('li');
-                listItem.setAttribute('id', 'unselected');
-
-                link.setAttribute('href', '#');
-                link.appendChild(document.createTextNode('keines'));
-                listItem.appendChild(link);
-                $(prototypeDropdown).find('.option').append(listItem);
-            }
-
-            listItem = document.createElement('li');
-            listItem.setAttribute('id', prototypes[i].id);
-
-            link = document.createElement('a');
-            link.setAttribute('href', '#');
-            link.appendChild(document.createTextNode(prototypes[i].title));
-            listItem.appendChild(link);
-            $(prototypeDropdown).find('.option').append(listItem);
-        }
-        $('body').find('.option-prototype').attr('placeholder', 'Bitte wählen');
-    } else {
-        $(prototypeDropdown).find('.dropdown-toggle').addClass('disabled');
-        $('body').find('.option-prototype').attr('placeholder', 'Keine Prototypen vorhanden');
-    }
-}
-
-$('body').on('click', '.simple-stepper .btn-stepper-decrease', function (event) {
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        event.preventDefault();
-        var min = parseInt($(this).val());
-        var currentValue = parseInt($(this).closest('.simple-stepper').find('.stepper-text').val());
-        if (currentValue > min) {
-            currentValue--;
-        } else {
-            currentValue = min;
-        }
-        $(this).closest('.simple-stepper').find('.stepper-text').val(currentValue);
-    }
-});
-
-$('body').on('click', '.simple-stepper .btn-stepper-increase', function (event) {
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        event.preventDefault();
-        var max = parseInt($(this).val());
-        var currentValue = parseInt($(this).closest('.simple-stepper').find('.stepper-text').val());
-        if (currentValue < max) {
-            currentValue++;
-        } else {
-            currentValue = max;
-        }
-        $(this).closest('.simple-stepper').find('.stepper-text').val(currentValue);
-    }
-});
+//$('body').on('click', '.simple-stepper .btn-stepper-decrease', function (event) {
+//    if (event.handled !== true)
+//    {
+//        event.handled = true;
+//        event.preventDefault();
+//        var min = parseInt($(this).val());
+//        var currentValue = parseInt($(this).closest('.simple-stepper').find('.stepper-text').val());
+//        if (currentValue > min) {
+//            currentValue--;
+//        } else {
+//            currentValue = min;
+//        }
+//        $(this).closest('.simple-stepper').find('.stepper-text').val(currentValue);
+//    }
+//});
+//
+//$('body').on('click', '.simple-stepper .btn-stepper-increase', function (event) {
+//    if (event.handled !== true)
+//    {
+//        event.handled = true;
+//        event.preventDefault();
+//        var max = parseInt($(this).val());
+//        var currentValue = parseInt($(this).closest('.simple-stepper').find('.stepper-text').val());
+//        if (currentValue < max) {
+//            currentValue++;
+//        } else {
+//            currentValue = max;
+//        }
+//        $(this).closest('.simple-stepper').find('.stepper-text').val(currentValue);
+//    }
+//});
 
 $('body').on('click', '.choosePrototypeImage', function (event) {
     if (event.handled !== true)

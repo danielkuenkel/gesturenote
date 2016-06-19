@@ -131,7 +131,7 @@ function renderSessionStorageData() {
     }
 
     var project = getLocalItem(PROJECT);
-    console.log(project);
+//    console.log(project);
     if (project) {
         $('#projectName').val(project.name);
         $('#projectDescription').val(project.description);
@@ -166,14 +166,13 @@ function saveGeneralData() {
     var project = new Project();
     project.name = $('#projectName').val();
     project.description = $('#projectDescription').val();
-    project.phase = $('#phaseSelect .selected').attr('id');
-    project.surveyType = $('#surveyTypeSelect .selected').attr('id');
+    project.phase = $('#phaseSelect .chosen').attr('id');
+    project.surveyType = $('#surveyTypeSelect .chosen').attr('id');
     project.usePrototypes = !$('#assemble-prototypes-set').hasClass('hidden');
     project.useGestures = !$('#assemble-gesture-set').hasClass('hidden');
     project.useTrigger = !$('#assemble-trigger-set').hasClass('hidden');
-    project.recordType = $('#recordSelect .selected').attr('id');
+    project.recordType = $('#recordSelect .chosen').attr('id');
     setLocalItem(PROJECT, project);
-
     savePhases();
 }
 
@@ -308,10 +307,6 @@ function Prototype(id, type, title, options, data) {
     this.title = title;
     this.options = options;
     this.data = data;
-}
-
-function createRandomColors() {
-    colors = randomColor({hue: 'green', count: 25});
 }
 
 function getDimensionByElement(element) {
