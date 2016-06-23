@@ -141,8 +141,7 @@
 
                     if (gesture && isGestureAssembled(gesture.id))
                     {
-                        $(clone).find('.option-gesture').val(gesture.title);
-                        $(clone).find('.gestureSelect .chosen').attr('id', gesture.id);
+                        $(clone).find('.gestureSelect #' + gesture.id).click();
                     } else {
                         appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                     }
@@ -151,14 +150,12 @@
                         if (!getTriggerById(trigger.id)) {
                             appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
                         } else {
-                            $(clone).find('.option-trigger').val(trigger.title);
-                            $(clone).find('.triggerSelect .chosen').attr('id', trigger.id);
+                            $(clone).find('.triggerSelect #' + trigger.id).click();
                         }
                     }
 
                     if (feedback) {
-                        $(clone).find('.option-feedback').val(feedback.title);
-                        $(clone).find('.feedbackSelect .chosen').attr('id', feedback.id);
+                        $(clone).find('.feedbackSelect #' + feedback.id).click();
                     }
                     $(clone).find('.stepper-text').val(parseInt(repeats));
                 }

@@ -55,10 +55,12 @@ function renderPhases() {
 }
 
 function previousStep() {
+//    $(window).scrollTop(0);
     $('.phaseStepsSelect .dropdown-menu .selected').prev().click();
 }
 
 function nextStep() {
+//    $(window).scrollTop(0);
     $('.phaseStepsSelect .dropdown-menu .selected').next().click();
 }
 
@@ -143,6 +145,9 @@ function renderTesterView() {
         case LETTER_OF_ACCEPTANCE:
             item = getLetterOfAcceptanceInput(container, currentPhaseData);
             break;
+        case SLIDESHOW:
+            item = getSlideshowForTester(source, container, currentPhaseData);
+            break;
     }
 
     $('#viewTester #phase-content').empty().append(item);
@@ -156,6 +161,7 @@ function renderModeratorView() {
     var source = getPreviewContainer(currentView);
     console.log('clone: ' + currentPhase.selectedId + ', from: ' + source.attr('id'));
     var container = $(source).find('#' + currentPhase.selectedId).clone(false).removeAttr('id');
+    $(container).find('#column-left').css('opacity', '0');
     console.log(currentPhaseData);
     var item = null;
 
@@ -187,8 +193,13 @@ function renderModeratorView() {
     }
 
     $('#viewModerator #phase-content').empty().append(item);
-//    $('#viewModerator #column-left').prepend($('#web-rtc-placeholder').clone().removeAttr('id').removeClass('hidden'));
-    $(window).resize();
+
+    TweenMax.from($('#phase-content #column-right'), .2, {y: -60, opacity: 0});
+    if ($(document).scrollTop()) {
+        $(document).scrollTop(0);
+    }
+
+    updateRTCHeight($('#phase-content #column-left').width());
 }
 
 function getPreviewContainer(selector) {
@@ -285,7 +296,9 @@ function getGestureTrainingPreview(source, container, data) {
     return container;
 }
 
-
+/*
+ * gesture training
+ */
 var currentGestureTrainingIndex = 0;
 var trainingTriggered = false;
 function renderTrainingForModerator(source, itemId, container, data) {
@@ -305,6 +318,12 @@ function renderTrainingForModerator(source, itemId, container, data) {
     item.find('#title').text(translation.title + ": " + gesture.title);
     item.find('#repeats').text(translation.repeats + ": " + repeats);
     item.find('#trigger').text(translation.trigger + ": " + trigger.title);
+    item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+
+//    console.log(gesture);
+//    renderGesturePopoverPreview(gesture, function () {
+//
+//    });
 
     if (feedback) {
         item.find('#feedback').text(translation.feedback + ": " + feedback.title);
@@ -312,7 +331,7 @@ function renderTrainingForModerator(source, itemId, container, data) {
         item.find('#feedback').text(translation.feedback + ": " + translation.nones);
     }
 
-    item.find('#trigger-training').bind('click', function (event) {
+    item.find('#trigger-training').on('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
             $(item).find('.disabled').removeClass('disabled');
@@ -323,7 +342,7 @@ function renderTrainingForModerator(source, itemId, container, data) {
         }
     });
 
-    item.find('#next-gesture').bind('click', function (event) {
+    item.find('#next-gesture').on('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
             currentGestureTrainingIndex++;
@@ -334,7 +353,7 @@ function renderTrainingForModerator(source, itemId, container, data) {
         }
     });
 
-    item.find('#training-done').bind('click', function (event) {
+    item.find('#training-done').on('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
             trainingTriggered = false;
@@ -354,34 +373,13 @@ function renderTrainingForModerator(source, itemId, container, data) {
         $(container).find('#next-gesture').addClass('hidden');
         $(container).find('#training-done').removeClass('hidden');
     }
-
-    renderGestureImages($(container).find('.imageContainer'), gesture.images, gesture.previewImage);
 }
 
-
-//function showGesture(thumbnailId, container, data) {
-//    var training;
-//    if (currentGestureTrainingIndex === null) {
-//        appendAlert(container, ALERT_WAITING_FOR_TRAINING_GESTURE);
-//        return false;
-//    } else {
-//        removeAlert(container, ALERT_WAITING_FOR_TRAINING_GESTURE);
-//        training = data[currentGestureTrainingIndex];
-//    }
-//
-//    var gesture = training.gesture;
-//
-//    var thumbnail = $('#template-gesture').find('#' + thumbnailId).clone();
-//    $(container).find('#gestureThumbnailContainer').empty();
-//    $(container).find('#gestureThumbnailContainer').append(thumbnail);
-//    thumbnail.attr('id', gesture.id);
-//    thumbnail.find('#title').text(gesture.title);
-//
-//    renderGestureImages(thumbnail.find('.imageContainer'), gesture.images, gesture.previewImage);
-//}
-
-// gesture training
-var currentSlide = 0;
+/*
+ * slideshow
+ */
+var currentSlideIndex = 0;
+var slideTriggered = false;
 function getSlideshowPreview(source, container, data) {
 
     // general data section
@@ -389,7 +387,7 @@ function getSlideshowPreview(source, container, data) {
     $(container).find('#general #description').text(data.description);
 
     // slideshow section
-    currentSlide = 0;
+    currentSlideIndex = 0;
     renderSlide(source, 'slideshowItem', container, data);
 
     // observation section
@@ -401,28 +399,40 @@ function getSlideshowPreview(source, container, data) {
 }
 
 function renderSlide(source, itemId, container, data) {
-    $(container).find('#slides .panel-heading-text').text('Slide ' + (currentSlide + 1) + ' von ' + data.slideshow.length);
+    $(container).find('#slides .panel-heading-text').text('Slide ' + (currentSlideIndex + 1) + ' von ' + data.slideshow.length);
     $(container).find('#slidesContainer').empty();
     var item = $(source).find('#' + itemId).clone().removeAttr('id');
+
     $(container).find('#slidesContainer').append(item);
-    var slide = data.slideshow[currentSlide];
+    var slide = data.slideshow[currentSlideIndex];
+    item.find('.btn-popover-gesture-preview').attr('name', slide.gesture.id);
+    $(item).find('#responseTime').text(data.answerTime + ' Sekunden');
 
     var imageContainer;
     console.log(data.slideshowFor);
     if (data.slideshowFor === 'trigger') {
-        $(item).find('.left .triggerContainer').addClass('hidden');
+        $(item).find('#searched').text(slide.trigger.title);
+        $(item).find('#given').text(slide.gesture.title);
+        $(item).find('.btn-popover-gesture-preview').remove();
+//        $(item).find('.left .triggerContainer').addClass('hidden');
+        $(container).find('#search-trigger').removeClass('hidden');
         imageContainer = $(item).find('.left .imageContainer');
     } else {
-        $(item).find('.right .triggerContainer').addClass('hidden');
+        $(item).find('#searched').text(slide.gesture.title);
+        $(item).find('#given').text(slide.trigger.title);
+//        $(item).find('.right .triggerContainer').addClass('hidden');
         imageContainer = $(item).find('.right .imageContainer');
+        $(container).find('#search-gestures').removeClass('hidden');
     }
 
-    renderGestureImages(imageContainer, slide.gesture.images, slide.gesture.previewImage);
-    $(item).find('.triggerContainer').text(slide.trigger.title);
+//    renderGestureImages(imageContainer, slide.gesture.images, slide.gesture.previewImage, function() {
+//        
+//    });
 
     $(item).find('#trigger-slide').on('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
+            slideTriggered = true;
             $(item).find('.disabled').removeClass('disabled');
             $(this).addClass('disabled');
         } else {
@@ -433,7 +443,8 @@ function renderSlide(source, itemId, container, data) {
     $(item).find('#wrong-slide').on('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
-            currentSlide = 0;
+            currentSlideIndex = 0;
+            slideTriggered = false;
             $(item).find('.disabled').removeClass('disabled');
             renderSlide(source, itemId, container, data);
         } else {
@@ -441,7 +452,12 @@ function renderSlide(source, itemId, container, data) {
         }
     });
 
-    if (data.slideshow.length === 1 || currentSlide >= data.slideshow.length - 1) {
+    if (slideTriggered) {
+        $(item).find('.disabled').removeClass('disabled');
+        item.find('#trigger-slide').addClass('disabled');
+    }
+
+    if (data.slideshow.length === 1 || currentSlideIndex >= data.slideshow.length - 1) {
         $(item).find('#correct-slide, #next-slide').on('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
@@ -450,12 +466,13 @@ function renderSlide(source, itemId, container, data) {
                 wobble($(item).find('#trigger-slide'));
             }
         });
-    } else if (currentSlide < data.slideshow.length) {
+    } else if (currentSlideIndex < data.slideshow.length) {
         $(item).find('#correct-slide, #next-slide').on('click', function (event) {
             event.preventDefault();
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
-                currentSlide++;
+                slideTriggered = false;
+                currentSlideIndex++;
                 renderSlide(source, itemId, container, data);
             } else {
                 wobble($(item).find('#trigger-slide'));
@@ -477,10 +494,9 @@ function getScenarioPreview(source, container, data) {
     //scene
     if (data.scene) {
         $(container).find('#general #scene').removeClass('hidden');
-        $(container).find('#general #scene').unbind('click').bind('click', function (event) {
-//            console.log('scene clicked');
-            currentSceneId = data.scene;
+        $(container).find('#general #scene').on('click', function (event) {
             event.preventDefault();
+            currentSceneId = data.scene;
             loadHTMLintoModal('custom-modal', 'preview-scene.html', 'modal-lg');
         });
     }
@@ -607,24 +623,36 @@ function renderGroupingQuestionInput(source, item, parameters, options) {
 }
 
 function getWOZPreview(source, container, data) {
-    source = $("#template-gesture");
+//    source = $("#template-gesture");
     for (var i = 0; i < data.length; i++) {
-        var item = $(source).find('#preview-panel-gesture-woz').clone();
+        var item = $(source).find('#wozItem').clone();
         item.removeAttr('id');
-        item.find('.help-title').text((i + 1) + ". " + data[i].option);
         $(container).find('.woz-container').append(item);
 //        console.log(data);
+        var gesture = data[i].gesture;
 
-        if (data[i].gesture) {
-            item.find('.panel-heading').text(data[i].gesture.title);
-            renderGestureImages(item.find('.imageContainer'), data[i].gesture.images, data[i].gesture.previewImage);
+//            item.find('.panel-heading').text(data[i].gesture.title);
+        console.log(gesture);
+        if (gesture) {
+            item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+//            item.find('.btn-popover-gesture-preview').on('click', function (event) {
+//                event.preventDefault();
+//                renderGesturePopoverPreview($('body'), gesture, function() {
+//                    
+//                });
+//            });
         }
 
-        if (data[i].feedback) {
-            item.find('#trigger').text(data[i].feedback.title);
-        } else if (data[i].trigger) {
-            item.find('#trigger').text(data[i].trigger.title);
-        }
+
+//        if (data[i].feedback) {
+//            item.find('#trigger').text(data[i].feedback.title);
+//        } else if (data[i].trigger) {
+//            item.find('#trigger').text(data[i].trigger.title);
+//        }
+
+//        if (i < data.length - 1) {
+//            $(container).find('.woz-container').append(seperator);
+//        }
     }
     return container;
 }
@@ -632,6 +660,7 @@ function getWOZPreview(source, container, data) {
 var currentGestureId;
 var currentModalId;
 function getHelpPreview(source, container, data) {
+    var seperator = document.createElement('hr');
     for (var i = 0; i < data.length; i++) {
         var item = $(source).find('#helpItem').clone();
         item.removeAttr('id');
@@ -639,24 +668,28 @@ function getHelpPreview(source, container, data) {
         $(container).find('.help-container').append(item);
 //        console.log(container);
 
-        var gesture = null;
+        var gesture;
         if (data[i].useGestureHelp === true) {
             gesture = getGestureById(data[i].gestureId);
-            item.find('#show-gesture').removeClass('hidden');
-            item.find('#show-gesture').attr('name', gesture.id);
-            item.find('#show-gesture').on('click', function (event) {
-                event.preventDefault();
-                currentGestureId = $(this).attr('name');
-                currentModalId = '#custom-modal';
-                loadHTMLintoModal('custom-modal', 'info-gesture.html', 'modal-lg');
-            });
+            item.find('.btn-popover-gesture-preview').removeClass('hidden');
+            item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+//            item.find('.btn-popover-gesture-preview').on('click', function (event) {
+//                event.preventDefault();
+//                renderGesturePopoverPreview($('body'), gesture, function() {
+//                    console.log($('#popover-gesture'));
+//                });
+////                currentGestureId = $(this).attr('name');
+////                currentModalId = '#custom-modal';
+////                loadHTMLintoModal('custom-modal', 'info-gesture.html', 'modal-lg');
+//            });
 //            console.log(gesture);
         } else {
-            item.find('#show-gesture').remove();
+            item.find('.btn-popover-gesture-preview').remove();
         }
 
-
-
+        if (i < data.length - 1) {
+            $(container).find('.help-container').append(seperator);
+        }
     }
     return container;
 }
@@ -744,7 +777,7 @@ function renderSumQuestionInput(source, item, parameters, options) {
         sumQuestionItem.find('.btn-stepper-increase').val(parameters[1]);
         item.find('.option-container').append(sumQuestionItem);
 
-        $(sumQuestionItem).find('.stepper-text').bind('change', function (event) {
+        $(sumQuestionItem).find('.stepper-text').on('change', function (event) {
             event.preventDefault();
         });
     }
@@ -842,9 +875,73 @@ function renderTrainingForModeratedTester(source, container, data) {
 
 function getLetterOfAcceptanceInput(container, data) {
     $(container).find('.letter-text').text(data);
-    $(container).find('#letter-agreed').bind('click', function (event) {
+    $(container).find('#letter-agreed').on('click', function (event) {
         event.preventDefault();
         nextStep();
     });
     return container;
+}
+
+function getSlideshowForTester(source, container, data) {
+    // general data section
+    $(container).find('.headline').text(data.title);
+    $(container).find('.description').text(data.description);
+
+    if (data.slideshow.length === 0) {
+        appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
+        return false;
+    }
+
+    if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+
+    } else {
+        if (slideTriggered) {
+            renderSlideshowForModeratedTester(source, container, data);
+//            renderTrainingForModeratedTester(source, container, data.training);
+        } else {
+            appendAlert($(container), ALERT_WAITING_FORT_SLIDESHOW);
+        }
+    }
+    return container;
+}
+
+function renderSlideshowForModeratedTester(source, container, data) {
+    var slideData = data.slideshow[currentSlideIndex];
+    var item = $(source).find('#slideshowItemModeratedTester').clone().removeAttr('id');
+    $(container).find('#slideshowContainer').append(item);
+
+    var progress = $(container).find('.progress');
+    progress.removeClass('active');
+    progress.removeClass('hidden');
+
+    var timeline = new TimelineMax({paused: true, delay: 1, onComplete: onAnswerTimeExpired, onCompleteParams: [container]});
+    timeline.add("start", 0)
+            .to(progress.find('.progress-bar'), parseInt(data.answerTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start")
+            .to($(container).find('.gestureContainer .headline, .triggerContainer .headline'), parseInt(data.answerTime), {color: '#d9534f', ease: Power0.easeNone}, "start");
+
+    if (data.slideshowFor === 'trigger') {
+        $(item).find('.gestureContainer').removeClass('hidden');
+        renderGestureImages(item.find('.imageContainer'), slideData.gesture.images, slideData.gesture.previewImage, function () {
+            timeline.play();
+        });
+    } else {
+        $(item).find('.triggerContainer').removeClass('hidden');
+        $(item).find('.triggerContainer .trigger-title').text(slideData.trigger.title);
+        timeline.play();
+    }
+}
+
+function renderSlideshowForUnmoderatedTester() {
+
+}
+
+function onAnswerTimeExpired(container) {
+    $(container).find('.gestureContainer .headline, .triggerContainer .headline').text(translation.timesUp);
+    TweenMax.to(container.find('.imageContainer, .trigger-title'), .1, {autoAlpha: 0});
+    TweenMax.to(container.find('#slideshowContainer, .progress'), .1, {delay: 2, autoAlpha: 0, onComplete: onHideSlideComplete, onCompleteParams: [container]});
+}
+
+function onHideSlideComplete(container) {
+    container.find('#slideshowContainer').addClass('hidden');
+    appendAlert($(container), ALERT_WAITING_FORT_SLIDESHOW);
 }

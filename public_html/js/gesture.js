@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+var popoverVisible = false;
 $(window).load(function () {
     $('body').on('mouseenter', '.previewGesture', function (event) {
         event.preventDefault();
@@ -69,7 +70,6 @@ $(window).load(function () {
         clearTimer();
         resetPlayButton();
         mouseDownInterval = setInterval(function (container) {
-            console.log(container);
             stepForward(container);
         }, 100, $(this).closest('.root').find('.imageContainer'));
     });
@@ -95,30 +95,95 @@ $(window).load(function () {
             stepBackward(container);
         }, 100, $(this).closest('.root').find('.imageContainer'));
     });
+
+    $('body').on('click', '.btn-popover-gesture-preview', function (event) {
+        event.preventDefault();
+        var gesture = getGestureById($(this).attr('name'));
+
+
+        if (!popoverVisible) {
+            showCursor($(this), CURSOR_PROGRESS);
+            popoverVisible = true;
+            $(this).addClass('active');
+            var btn = $(this);
+
+            renderGesturePopoverPreview(gesture, function () {
+                var popover = $('#popover-gesture');
+                var top = btn.offset().top - (popover.height()) + 0;
+                var left = btn.offset().left + (btn.width() / 2) - ((popover.width() - 27) / 2);
+                popover.css({left: left, top: top});
+                playThroughThumbnails(popover.find('.imageContainer'));
+                TweenMax.to(popover, .2, {autoAlpha: 1});
+                hideCursor(btn, CURSOR_POINTER);
+            });
+        } else {
+            resetPopover();
+            $(this).removeClass('active');
+        }
+    });
+
+    $('body').on('mouseleave', '.btn-popover-gesture-preview', function (event) {
+        event.preventDefault();
+        $(this).removeClass('active');
+        resetPopover();
+    });
 });
 
+function resetPopover() {
+    var popover = $('#popover-gesture');
+    popoverVisible = false;
+    resetThumbnails(popover.find('.imageContainer'));
+    TweenMax.to(popover, .1, {autoAlpha: 0, onComplete: onResetTweenComplete()});
+}
+
+function onResetTweenComplete() {
+    $('#popover-gesture').remove();
+    
+}
 
 function resetPlayButton() {
     $('#play').removeClass('active');
 }
 
-function renderGestureImages(container, images, preview) {
-    for (var j = 0; j < images.length; j++) {
-        var image = $('#gestureThumbnailImage').clone().removeClass('hidden');
-        image.attr('src', images[j]);
-        image.removeAttr('id');
-        container.append(image);
+var originalImageWidth = 0;
+function renderGestureImages(container, images, preview, callback) {
+    var numImagesLoaded = 0;
+    $.each(images, function (key, value) {
+        var image = document.createElement('img');
+        $(image).addClass('gestureImage');
 
-        if (j !== preview) {
-            image.addClass('hidden');
-        } else {
-            image.addClass('previewImage');
-            image.addClass('active');
-        }
-    }
-    if($(container).hasClass('autoplay')) {
-        playThroughThumbnails(container);
-    }
+        image.onload = function () {
+            container.append(image);
+
+            if (numImagesLoaded !== preview) {
+                $(this).addClass('hidden');
+            } else {
+                $(this).addClass('previewImage');
+                $(this).addClass('active');
+            }
+
+            if (numImagesLoaded === images.length - 1) {
+                if ($(container).hasClass('autoplay')) {
+                    playThroughThumbnails(container);
+                }
+                callback();
+//                setTimeout(callback(), 500);
+            }
+            numImagesLoaded++;
+        };
+        image.src = value;
+    });
+}
+
+function renderGesturePopoverPreview(gesture, callback) {
+    var popover = $('#popover-gesture-preview').clone();
+    popover.attr('id', 'popover-gesture');
+    $('body').append(popover);
+
+    renderGestureImages($(popover).find('.imageContainer'), gesture.images, gesture.previewImage, function () {
+        popover.find('.panel-heading').text(gesture.title);
+        callback();
+    });
 }
 
 var gestureThumbnailTimer;

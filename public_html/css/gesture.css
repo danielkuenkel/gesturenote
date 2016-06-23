@@ -9,6 +9,8 @@ and open the template in the editor.
 */
 
 .gesture-modal-preview .imageContainer, .gesture-thumbnail .imageContainer {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
     border-radius: 4px;
     overflow: hidden; 
     width: 100%; 
@@ -23,6 +25,7 @@ and open the template in the editor.
     max-width: 100%;
     max-height: 100%;
     width: 100%;
+    overflow: hidden; 
 }
 
 .gesture-modal-preview .progress, .gesture-thumbnail .progress {
@@ -33,10 +36,18 @@ and open the template in the editor.
 
 .gesture-modal-preview .progress-bar, .gesture-thumbnail .progress-bar {
     transition-duration: 0.1s;
-/*    -webkit-transition: none !important;
-    transition: none !important;*/
+    /*    -webkit-transition: none !important;
+        transition: none !important;*/
 }
 
 .gesture-modal-preview .gestureControls {
     margin-top: 10px;
+}
+
+#popover-gesture {
+    z-index: 100;
+    border-radius: 4px;
+    -webkit-box-shadow: rgba(0,0,0,0.8) 0px 5px 10px;
+    -moz-box-shadow: rgba(0,0,0,0.8) 0 5px 10px;
+    box-shadow: 0px 5px 10px rgba(0,0,0, .3);
 }

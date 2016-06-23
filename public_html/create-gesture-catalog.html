@@ -210,17 +210,9 @@
                         clone.find('.gesture-assemble').click();
                     }
 
-                    renderGestureImages(clone.find('.imageContainer'), data[i].images, data[i].previewImage);
-//                    for (var j = 0; j < data[i].images.length; j++) {
-//                        var img = document.createElement('img');
-//                        img.setAttribute('src', data[i].images[j]);
-//                        $(clone).find('.ts-inner').append(img);
-//
-//                        if (j === parseInt(data[i].previewImage)) {
-//                            $(img).addClass('ts-currslide');
-//                        }
-//                    }
-
+                    renderGestureImages(clone.find('.imageContainer'), data[i].images, data[i].previewImage, function() {
+                        console.log('images loaded');
+                    });
                 }
             } else {
                 var gestures = data[0].type === GESTURE_OWN_PROJECT ? $('#ownExtractedGestures #list-container').children() : $('#gestureCatalog #list-container').children();
@@ -237,7 +229,6 @@
 
             updatePanelBadges($('#ownExtractedGestures #list-container'));
             updatePanelBadges($('#gestureCatalog #list-container'));
-            console.log("data rendered");
         }
 
         function saveData() {

@@ -23,6 +23,7 @@ include './includes/language.php';
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
         <script src="http://chancejs.com/chance.min.js"></script>
+<!--        <script src="js/jquery.sequentialLoad.js"></script>-->
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/localforage.js"></script>
@@ -136,14 +137,49 @@ include './includes/language.php';
                             externals.push(['#template-previews', path + 'template-previews.html']);
                             loadExternals(externals);
                         });
-
+                        
+//                        var lastScrollTop;
                         $(window).on('resize', function () {
-                            var contentLeftWidth = $('#phase-content #column-left').width();
-                            TweenMax.to($('#web-rtc-placeholder'), .2, {width: contentLeftWidth, onUpdate: onResizeUpdate});
+//                            console.log('resize: ' + $(document).scrollTop());
+                            if (!$('#phase-content #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0)) {
+                                updateRTCHeight($('#phase-content #column-left').width());
+
+                            } 
+//                            else if ($(document).scrollTop() < 0) {
+//                                $(document).scrollTop(0);
+//                            }
+//                            lastScrollTop = $(document).scrollTop();
                         });
 
-                        function onResizeUpdate() {
-                            $('#phase-content #column-left').css('margin-top', $('#web-rtc-placeholder').height() + 20);
+                        function updateRTCHeight(newWidth) {
+                            TweenMax.to($('#web-rtc-placeholder'), .1, {width: newWidth, onComplete: onResizeComplete});
+                        }
+
+                        function onResizeComplete() {
+                            var ratio = $('#web-rtc-placeholder').width() / $('#web-rtc-placeholder').height();
+                            $('#web-rtc-placeholder').attr('ratio', ratio);
+                            TweenMax.to($('#phase-content #column-left'), .2, {css: {marginTop: $('#web-rtc-placeholder').height() + 20, opacity: 1.0}});
+                        }
+
+                        var resetRTCTimeout;
+                        $(window).scroll(function () {
+                            if ($('#phase-content #column-left').hasClass('rtc-scalable')) {
+                                if ($(document).scrollTop() <= 0 && ($('#phase-content #column-left').width() !== $('#web-rtc-placeholder').width() || $('#web-rtc-placeholder').height() !== $('#phase-content #column-left').offset().top - 20)) {
+                                    resetRTCTimeout = setTimeout(resetRTC(), 100);
+                                    return false;
+                                } else {
+                                    clearTimeout(resetRTCTimeout);
+                                }
+
+                                var ratio = $('#web-rtc-placeholder').attr('ratio');
+                                var newHeight = Math.min($('#phase-content #column-left').offset().top - 20 - parseInt($('#mainContent').css('padding-top')), Math.max($('#phase-content #column-left').offset().top - $(document).scrollTop() - 20 - parseInt($('#mainContent').css('padding-top')), 170));
+                                $('#web-rtc-placeholder').width(Math.min(newHeight * ratio, $('#phase-content #column-left').width()));
+                            }
+                        });
+
+                        function resetRTC() {
+                            clearTimeout(resetRTCTimeout);
+                            $(window).resize();
                         }
 
                         function onAllExternalsLoadedSuccessfully() {

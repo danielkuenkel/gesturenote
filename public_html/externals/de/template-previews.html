@@ -169,7 +169,7 @@
 
     <!-- gesture training container -->
     <div class="row root" id="gestureTraining">
-        <div class="col-md-6" id="column-left">
+        <div class="col-md-6 rtc-scalable" id="column-left">
             <div class="panel panel-default" id="training">
                 <div class="panel-heading">
                     <span class="panel-heading-text"></span>
@@ -198,16 +198,20 @@
 
     <div id="trainingItemModerator" class="row">
         <div class="col-sm-6 col-md-12 col-lg-6 left" style="margin-bottom: 10px;">
-            <div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>
-            <button type="button" class="btn btn-info btn-block" id="trigger-training"><span class="text">Trainieren</span></button>
-        </div>
-        <div class="col-sm-6 col-md-12 col-lg-6 right">
-            <div style="margin-bottom: 10px;">
+            <!--<div class="imageContainer previewGesture"></div>-->
+            <div>
                 <div id="title"></div>
                 <div id="repeats"></div>
                 <div id="trigger"></div>
                 <div id="feedback"></div>
             </div>
+        </div>
+        <div class="col-sm-6 col-md-12 col-lg-6 right">
+            <div class="btn-group-vertical btn-block">
+                <button type="button" class="btn btn-default btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
+                <button type="button" class="btn btn-info" id="trigger-training"><span class="text">Trainieren</span></button>
+            </div>
+
             <button type="button" class="btn btn-success btn-block disabled" id="next-gesture"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
             <button type="button" class="btn btn-success btn-block disabled hidden" id="training-done">Fertig</button>
         </div>
@@ -215,7 +219,7 @@
 
     <!-- slideshow container -->
     <div class="row root" id="slideshow">
-        <div class="col-md-6" id="column-left">
+        <div class="col-md-6 rtc-scalable" id="column-left">
             <div class="panel panel-default" id="slides">
                 <div class="panel-heading">
                     <span class="panel-heading-text"></span>
@@ -229,7 +233,9 @@
             <div class="panel panel-default" id="general">
                 <div class="panel-heading"></div>
                 <div class="panel-body">
-                    <div id="description"></div>
+                    <p id="description"></p>
+                    <span class="label label-default hidden" id="search-gestures">Es werden Gesten für Funktionen erfragt</span> 
+                    <span class="label label-danger hidden" id="seach-trigger">Es werden Funktionen für Gesten erfragt</span>
                 </div>
             </div>
 
@@ -243,14 +249,21 @@
     </div>
 
     <div id="slideshowItem" class="row" style="padding-left: 15px; padding-right: 15px;">
-        <div class="col-md-6 left" style="margin-bottom: 10px;">
-            <div class="triggerContainer"></div>
-            <div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>
-            <button type="button" class="btn btn-info btn-block" id="trigger-slide"><span class="text">Auffordern</span></button>
+        <div class="col-xs-6 left" style="margin-bottom: 10px;">
+            <div class="triggerContainer">
+                <div>Erfragt wird: <span id="searched" style="color: #303030"></span></div>
+                <div>Gezeigt wird: <span id="given" style="color: #303030"></span></div>
+                <div>Antwortzeit: <span id="responseTime" style="color: #303030"></span></div>
+            </div>
+            <!--<div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>-->
+            <div class="btn-group-vertical btn-block" style="margin-top: 20px">
+                <button type="button" class="btn btn-default btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
+                <button type="button" class="btn btn-info" id="trigger-slide"><span class="text">Auffordern</span></button>
+            </div>
         </div>
-        <div class="col-md-6 right">
-            <div class="triggerContainer"></div>
-            <div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>
+        <div class="col-xs-6 right">
+            <!--<div class="triggerContainer"></div>-->
+            <!--<div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>-->
             <div class="btn-group-vertical btn-block">
                 <button type="button" class="btn btn-danger disabled" id="wrong-slide"><span class="text">Falsch</span></button>
                 <button type="button" class="btn btn-success disabled" id="correct-slide"><span class="text">Richtig</span></button>
@@ -261,20 +274,40 @@
 
     <!-- scenario container -->
     <div  class="row root" id="scenario">
-        <div class="col-md-7 col-lg-8" id="column-left">
-            <div class="panel panel-default" id="wozExperiment">
+        <div class="col-md-7 col-lg-8 rtc-scalable" id="column-left">
+            <div class="panel panel-default">
                 <div class="panel-heading">Wizard-of-Oz-Experiment</div>
                 <div class="panel-body">
-                    <div class="row woz-container"></div>
+                    <div class="row">
+                        <div class="col-lg-6" id="wozExperiment" style="margin-bottom: 20px;">
+                            <h4 style="margin-top: 0px; margin-bottom: 10px">Simulationselemente</h4>
+                            <div class="row woz-container"></div>
+                        </div>
+
+                        <div class="col-lg-6" id="help">
+                            <h4 style="margin-top: 0px; margin-bottom: 10px">Hilfe</h4>
+                            <div class="help-container"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="panel panel-default" id="help">
-                <div class="panel-heading">Hilfe</div>
-                <div class="panel-body help-container"></div>
-            </div>
+
+
+
+
+            <!--            <div class="panel panel-default" id="wozExperiment">
+                            <div class="panel-heading">Wizard-of-Oz-Experiment</div>
+                            <div class="panel-body">
+                                <div class="row woz-container"></div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default" id="help">
+                            <div class="panel-heading">Hilfe</div>
+                            <div class="panel-body help-container"></div>
+                        </div>-->
         </div>
 
-        <div class="col-md-5 col-lg-4" id="colume-right">
+        <div class="col-md-5 col-lg-4" id="column-right">
             <div class="panel panel-default" id="general">
                 <div class="panel-heading">Allgemeines</div>
                 <div class="panel-body">
@@ -292,13 +325,22 @@
         </div>
     </div>
 
-    <div class="panel panel-default" id="helpItem" style="margin-bottom: 6px;">
-        <div class="panel-body">
-            <div class="help-title"></div>
-            <div class="btn-group" style="margin-top: 10px;">
-                <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-gift"></i> Hilfe anbieten</button>
-                <button type="button" class="btn btn-default hidden" id="show-gesture"><i class="glyphicon glyphicon-eye-open"></i> Geste zeigen</button>
-            </div>
+    <div class="col-xs-6 col-sm-4 col-md-6" id="wozItem">
+
+        <!--<div id="task"></div>-->
+        <div id="description"></div>
+        <!--<div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>-->
+        <div class="btn-group-vertical btn-block">
+            <button type="button" class="btn btn-default btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
+            <button type="button" class="btn btn-info ellipsis" id="trigger">Simulieren</button>
+        </div>
+    </div> 
+
+    <div id="helpItem" style="margin-bottom: 6px;">
+        <div class="help-title"></div>
+        <div class="btn-group" style="margin-top: 10px;">
+            <button type="button" class="btn btn-default btn-popover-gesture-preview hidden"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
+            <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-gift"></i> Hilfe anbieten</button>
         </div>
     </div>
 

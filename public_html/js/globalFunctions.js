@@ -4,6 +4,15 @@
  * and open the template in the editor.
  */
 
+
+function showCursor(target, cursor) {
+    $(target).css({cursor: cursor});
+}
+
+function hideCursor(target, cursor) {
+    $(target).css({cursor: cursor});
+}
+
 function createRandomColors() {
     colors = randomColor({hue: 'green', count: 25});
 }

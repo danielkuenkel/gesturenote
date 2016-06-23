@@ -63,5 +63,6 @@
     "feedback": "Feedback",
     "task": "Aufgabe",
     "description": "Beschreibung",
-    "title" : "Titel"
+    "title": "Titel",
+    "timesUp": "Die Zeit ist abgelaufen"
 }

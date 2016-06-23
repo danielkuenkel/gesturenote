@@ -101,6 +101,7 @@ var ALERT_ASSEMBLED_PROTOTYPE_REMOVED = 'assembled-prototype-removed';
 var ALERT_NO_SEARCH_RESULTS = 'no-search-results';
 var ALERT_NO_PHASE_DATA = 'no-phase-data';
 var ALERT_WAITING_FOR_TRAINING_GESTURE = 'waiting-for-training-gesture';
+var ALERT_WAITING_FORT_SLIDESHOW = 'waiting-for-slideshow';
 
 // sort
 var SORT_ASC = 'asc';
@@ -121,3 +122,8 @@ var ALTERNATIVE_GESTURES = 'gestures';
 var ALTERNATIVE_TRIGGERS = 'triggers';
 var ALTERNATIVE_FOR_GESTURE = 'gesture';
 var ALTERNATIVE_FOR_TRIGGER = 'trigger'; 
+
+// cursors
+var CURSOR_PROGRESS = 'progress';
+var CURSOR_DEFAULT = 'default';
+var CURSOR_POINTER = 'pointer';

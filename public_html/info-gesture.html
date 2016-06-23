@@ -44,14 +44,16 @@
         console.log('render gesture info modal for id: ' + data.id);
 
         var root = $(currentModalId).find('.modal-content');
-        renderGestureImages(root.find('.imageContainer'), data.images, data.previewImage);
-        updateModalProgress(root.find('.imageContainer'));
 
-        $(root).find('.modal-title').text(data.title);
-        $(root).find('.description').html(data.description);
-        console.log(data);
-        $(root).find('.gesture-type').text(translation.gestureType + ': ' + translation.gestureTypes[data.gestureType]);
-        $(root).find('.body-type').text(translation.bodyType + ': ' + translation.bodyTypes[data.bodyType]);
+        renderGestureImages(root.find('.imageContainer'), data.images, data.previewImage, function () {
+            updateModalProgress(root.find('.imageContainer'));
+
+            $(root).find('.modal-title').text(data.title);
+            $(root).find('.description').html(data.description);
+            console.log(data);
+            $(root).find('.gesture-type').text(translation.gestureType + ': ' + translation.gestureTypes[data.gestureType]);
+            $(root).find('.body-type').text(translation.bodyType + ': ' + translation.bodyTypes[data.bodyType]);
+        });
     }
 
 //    $('body').on('mouseenter', '.imageContainer', function (event) {
