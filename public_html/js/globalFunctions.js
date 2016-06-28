@@ -462,33 +462,61 @@ function onWobbleComplete() {
     wobbling = false;
 }
 
-$(document).on('click', '.btn-checkbox', function (event) {
+$(document).on('click', '.btn-checkbox, .btn-radio', function (event) {
     if (event.handled !== true)
     {
-        console.log($(this).hasClass('btn-checkbox-checked'));
         event.handled = true;
-        if ($(this).hasClass('btn-checkbox-checked')) {
-            $(this).removeClass('btn-checkbox-checked');
-            $(this).find('#over').removeClass('hidden');
+        if ($(this).hasClass('btn-checkbox') && $(this).hasClass('btn-option-checked')) {
+            $(this).removeClass('btn-option-checked');
+            $(this).find('#normal').removeClass('hidden');
             $(this).find('#checked').addClass('hidden');
         } else {
-            $(this).addClass('btn-checkbox-checked');
+            if ($(this).hasClass('btn-radio')) {
+                var children = $(this).closest('.root').children('#radio, #radio-optionalanswer').find('.btn-radio');
+                $(children).removeClass('btn-option-checked');
+                $(children).find('#normal').removeClass('hidden');
+                $(children).find('#checked').addClass('hidden');
+            }
+
+            $(this).addClass('btn-option-checked');
             $(this).find('#over, #normal').addClass('hidden');
             $(this).find('#checked').removeClass('hidden');
         }
     }
 });
 
-$(document).on('mouseover', '.btn-checkbox', function (event) {
-    if (!$(this).hasClass('btn-checkbox-checked')) {
+$(document).on('focus focusin select', '.optionalInput', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        console.log('focus in');
+        if ($(this).val().trim() === '') {
+            $(this).parent().find('.btn-radio, .btn-checkbox').click();
+        }
+    }
+});
+
+$(document).on('focusout', '.optionalInput', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        var btnChecked = $(this).parent().find('.btn-option-checked');
+        if ($(this).val().trim() === '') {
+            btnChecked.click();
+        }
+    }
+});
+
+$(document).on('mouseover', '.btn-checkbox, .btn-radio', function () {
+    if (!$(this).hasClass('btn-option-checked')) {
         $(this).find('#normal, #checked').addClass('hidden');
         $(this).find('#over').removeClass('hidden');
     }
 
 });
 
-$(document).on('mouseleave', '.btn-checkbox', function (event) {
-    if (!$(this).hasClass('btn-checkbox-checked')) {
+$(document).on('mouseleave', '.btn-checkbox, .btn-radio', function () {
+    if (!$(this).hasClass('btn-option-checked')) {
         $(this).find('#normal').removeClass('hidden');
         $(this).find('#over, #checked').addClass('hidden');
     }

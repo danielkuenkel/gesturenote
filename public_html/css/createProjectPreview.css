@@ -135,38 +135,38 @@ and open the template in the editor.
     box-shadow: 0px 4px 7px rgba(0,0,0, .2);
 }*/
 
-.btn-checkbox {
+.btn-checkbox, .btn-radio {
     border: none;
     margin-top: 5px;
 }
 
-.btn-checkbox #icons {
+.btn-checkbox #icons, .btn-radio #icons {
     font-size: 14pt;
     position: relative;
     top: -1px;
 }
 
-.btn-checkbox .option-text {
+.btn-checkbox .option-text, .btn-radio .option-text {
     position: relative;
-    top: -1px;
+    top: -2px;
 }
 
-.btn-checkbox:hover {
+.btn-checkbox:hover, .btn-radio:hover {
     background-color: #5bb85c;    
     color: #fff !important;
 }
 
-.btn-checkbox:hover > .option-text {
+.btn-checkbox:hover > .option-text, .btn-radio:hover > .option-text {
     color: #fff !important;
     font-weight: bold;
 }
 
-.btn-checkbox-checked {
+.btn-option-checked {
     background-color: #5bb85c;
     color: #fff !important;
 }
 
-.btn-checkbox-checked .option-text {
+.btn-option-checked .option-text {
     color: #fff !important;
     font-weight: bold;
 }

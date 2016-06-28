@@ -42,13 +42,13 @@ function renderGroupingQuestionPreview(source, item, parameters, options) {
 function renderGroupingQuestionInput(item, parameters, options) {
     var optionType = parameters[0] === true ? 'checkbox' : 'radio';
     for (var i = 0; i < options.length; i++) {
-        var option = $(item).find('#btn-' + optionType).clone().removeClass('hidden').removeAttr('id');
+        var option = $('#item-container-inputs').find('#' + optionType).clone().removeClass('hidden');
         option.find('.option-text').text(options[i]);
         $(item).find('.option-container').append(option);
     }
 
     if (parameters[1] === true) {
-        var option = $(item).find('#btn-' + optionType + '-optionalanswer').clone().removeClass('hidden').removeAttr('id');
+        var option = $('#item-container-inputs').find('#' + optionType + '-optionalanswer').clone().removeClass('hidden');
         $(item).find('.option-container').append(option);
     }
 }
@@ -83,7 +83,7 @@ function renderGroupingQuestionGUSPreview(source, item, parameters, options) {
 function renderGroupingQuestionGUSInput(item, parameters, options) {
     var optionType = parameters[0] === true ? 'checkbox' : 'radio';
     for (var i = 0; i < options.length; i++) {
-        var option = $(item).find('#option-item-' + optionType).clone().removeClass('hidden').removeAttr('id');
+        var option = $('#item-container-inputs').find('#' + optionType).clone().removeClass('hidden');
         $(item).find('.option-container').append(option);
 
         if (parameters[2] === 'triggers') {
@@ -102,7 +102,7 @@ function renderGroupingQuestionGUSInput(item, parameters, options) {
     }
 
     if (parameters[1] === true) {
-        var option = $(item).find('#option-item-justification').clone().removeClass('hidden').removeAttr('id');
+        var option = $(item).find('#option-item-justification').clone().removeClass('hidden');
         $(item).find('.option-container').append(option);
     }
 }
@@ -134,12 +134,16 @@ function renderRatingInput(item, options) {
         var ratingItem = $('#item-container-inputs').find('#rating-item').clone().removeAttr('id');
         ratingItem.find('#rating-header').text(options[j][options[j].length - 2]);
         for (var k = 0; k < options[j].length - 2; k++) {
-            var optionItem = $('#item-container-inputs').find('#rating-scale-item').clone(false).removeAttr('id');
+            var optionItem = $('#item-container-inputs').find('#radio').clone(false);
             optionItem.find('.option-text').text(options[j][k]);
             ratingItem.find('#scales-container').append(optionItem);
         }
-
+        
         item.find('.option-container').append(ratingItem);
+        if (j < options.length - 1) {
+            var horizontalLine = document.createElement('hr');
+            item.find('.option-container').append(horizontalLine);
+        }
     }
 }
 

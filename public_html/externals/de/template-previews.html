@@ -568,80 +568,23 @@
     <div class="panel panel-default root" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <p class="question"></p> 
-            <div class="root option-container"></div>
-
-            <div class="hidden" id="btn-checkbox">
-                <button class="btn btn-default btn-checkbox" name="success">
-                    <span id="icons" style="margin-right: 6px">
-                        <i class="fa fa-circle-o" id="normal"></i>
-                        <i class="fa fa-circle hidden" id="over"></i>
-                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                    </span>
-                    <span class="option-text"></span></button>
-            </div>
-
-
-            <!--            <div class="checkbox hidden" id="option-item-checkbox">
-                            <label>
-                                <input type="checkbox" value=""><span class="option-text"></span>
-                            </label>
-                        </div>-->
-
-            <div class="hidden" id="btn-checkbox-optionalanswer" style="width: 100%">
-                <button class="btn btn-default btn-checkbox" name="success">
-                    <span id="icons" style="margin-right: 6px">
-                        <i class="fa fa-circle-o" id="normal"></i>
-                        <i class="fa fa-circle hidden" id="over"></i>
-                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                    </span>
-                    <span class="option-text">Eigene Antwort(en)</span>
-                </button>
-                <textarea class="form-control" id="optionalanswerInput" rows="3"></textarea>
-            </div>
-
-            <!--            <div class="checkbox hidden" id="option-item-optionalanswer-checkbox">
-                            <label>
-                                <input type="checkbox" value="">
-                                <textarea class="form-control" id="optionalanswerInput" rows="3"></textarea>
-                            </label>
-                        </div>-->
-
-            <div class="hidden" id="btn-radio">
-                <button class="btn btn-default btn-checkbox" name="success">
-                    <i class="fa fa-circle-o" id="normal" style="margin-right: 6px"></i>
-                    <i class="fa fa-circle hidden" id="checked" style="margin-right: 6px"></i>
-                    <span class="option-text"></span></button>
-            </div>
-
-            <!--            <div class="radio hidden" id="option-item-radio">
-                            <label><input type="radio" name="optradio">
-                                <span class="option-text"></span>
-                            </label>
-                        </div>-->
-
-            <div class="radio hidden" id="option-item-optionalanswer-radio">
-                <label>
-                    <input type="radio" name="optradio">
-                    <textarea class="form-control" id="optionalanswerInput" rows="3"></textarea>
-                </label>
-            </div>
-
+            <div class="root option-container root"></div>
         </div>
     </div>
 
     <div class="panel panel-default root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <p class="question"></p> 
-            <div class="option-container" style="margin-top: 20px;"></div>
+            <div class="option-container root"></div>
 
-            <div class="checkbox hidden" id="option-item-checkbox" style="margin-top: 10px;">
+<!--            <div class="checkbox hidden" id="option-item-checkbox" style="margin-top: 10px;">
                 <label><input type="checkbox" value=""><span class="option-text"></span></label>
             </div>
             <div class="radio hidden" id="option-item-radio" style="margin-top: 10px;">
                 <label><input type="radio" name="optradio">
                     <span class="option-text"></span>
                 </label>
-            </div>
+            </div>-->
             <div class="hidden" id="option-item-justification" style="margin-top: 20px;">
                 <label for="optionalanswerInput">Begründung(en)</label>
                 <textarea class="form-control" id="optionalanswerInput" rows="3"></textarea>
@@ -669,29 +612,23 @@
         </div>
     </div>
 
-    <div class="panel panel-default root" id="rating" style="margin-bottom: 5px;">
+    <div class="panel panel-default root" id="rating">
         <div class="panel-body">
             <p class="question"></p> 
-            <div class="option-container"></div>
+            <div class="option-container root"></div>
         </div>
     </div>
 
     <div id="rating-item">
-        <p id="rating-header"></p>
-        <form action="" id="scales-container">
-        </form>
-    </div>
-
-    <div class="radio" id="rating-scale-item">
-        <label><input type="radio" name="optradio">
-            <span class="option-text"></span>
-        </label>
+        <div id="rating-header"></div>
+        <div class="root" id="scales-container">
+        </div>
     </div>
 
     <div class="panel panel-default root" id="sumQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <p class="question"></p> 
-            <div class="option-container"></div>
+            <div class="option-container root"></div>
         </div>
     </div>
 
@@ -721,7 +658,7 @@
     <div class="panel panel-default root" id="ranking" style="margin-bottom: 5px;">
         <div class="panel-body">
             <p class="question"></p> 
-            <div class="option-container"></div>
+            <div class="option-container root"></div>
         </div>
     </div>
 
@@ -732,5 +669,53 @@
         </div>
         <span class="option-text" style="margin-left: 5px;"></span>
     </div>
+    
+    
+
+    <div id="checkbox">
+        <button class="btn btn-default btn-checkbox" name="success">
+            <span id="icons" style="margin-right: 6px">
+                <i class="fa fa-circle-o" id="normal"></i>
+                <i class="fa fa-circle hidden" id="over"></i>
+                <i class="fa fa-check-circle hidden" id="checked"></i>
+            </span>
+            <span class="option-text"></span></button>
+    </div>
+
+    <div id="checkbox-optionalanswer" style="width: 100%">
+        <button class="btn btn-default btn-checkbox" name="success" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px">
+            <span id="icons" style="margin-right: 6px">
+                <i class="fa fa-circle-o" id="normal"></i>
+                <i class="fa fa-circle hidden" id="over"></i>
+                <i class="fa fa-check-circle hidden" id="checked"></i>
+            </span>
+            <span class="option-text">Eigene Antwort(en)</span>
+        </button>
+        <textarea class="form-control optionalInput" rows="3" style="border-top-left-radius: 0px;"></textarea>
+    </div>
+
+    <div id="radio">
+        <button class="btn btn-default btn-radio" name="success">
+            <span id="icons" style="margin-right: 6px">
+                <i class="fa fa-circle-o" id="normal"></i>
+                <i class="fa fa-circle hidden" id="over"></i>
+                <i class="fa fa-check-circle hidden" id="checked"></i>
+            </span>
+            <span class="option-text"></span>
+        </button>
+    </div>
+
+    <div id="radio-optionalanswer" style="width: 100%">
+        <button class="btn btn-default btn-radio" name="success" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px">
+            <span id="icons" style="margin-right: 6px">
+                <i class="fa fa-circle-o" id="normal"></i>
+                <i class="fa fa-circle hidden" id="over"></i>
+                <i class="fa fa-check-circle hidden" id="checked"></i>
+            </span>
+            <span class="option-text">Eigene Antwort(en)</span>
+        </button>
+        <textarea class="form-control optionalInput" rows="3" style="border-top-left-radius: 0px;"></textarea>
+    </div>
+
 
 </div>
