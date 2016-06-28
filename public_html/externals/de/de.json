@@ -3,6 +3,16 @@
     "next": "Weiter",
     "previous": "Zurück",
     "maximum": "Maximum",
+    "mainDimensions": {
+        "ergonomics": "Zweckmäßigkeit",
+        "learnability": "Zweckmäßigkeit",
+        "mental_model": "Effizienz",
+        "cognitive_stress": "Effizienz",
+        "usability": "Zufriedenheit",
+        "acceptability": "Zufriedenheit",
+        "feasability": "Zufriedenheit",
+        "reliability": "Zufriedenheit"
+    },
     "dimensions": {
         "ergonomics": "Ergonomie",
         "learnability": "Erlernbarkeit",

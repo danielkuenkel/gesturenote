@@ -1,4 +1,4 @@
-<div id="preview-item-container" class="hidden">
+<div id="item-container-moderator" class="hidden">
 
     <!-- questionnaire container -->
     <div class="row root" id="questionnaire">
@@ -12,7 +12,6 @@
             </div>
         </div>
     </div>
-
 
 
     <!-- single question format items -->
@@ -59,6 +58,17 @@
             <div class="question"></div>
             <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
             <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            <span class="label label-default hidden" id="dimension"></span>
+            <div>Eingruppierungs-Optionen</div>
+            <div class="option-container"></div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div class="question"></div>
+            <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
             <span class="label label-default hidden" id="dimension"></span>
             <div>Eingruppierungs-Optionen</div>
             <div class="option-container"></div>
@@ -196,7 +206,7 @@
         </div>
     </div>
 
-    <div id="trainingItemModerator" class="row">
+    <div id="trainingItem" class="row">
         <div class="col-sm-6 col-md-12 col-lg-6 left" style="margin-bottom: 10px;">
             <!--<div class="imageContainer previewGesture"></div>-->
             <div>
@@ -208,12 +218,12 @@
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6 right">
             <div class="btn-group-vertical btn-block">
-                <button type="button" class="btn btn-default btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
-                <button type="button" class="btn btn-info" id="trigger-training"><span class="text">Trainieren</span></button>
+                <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
+                <button type="button" class="btn btn-info btn-shadow" id="trigger-training"><span class="text">Trainieren</span></button>
             </div>
 
-            <button type="button" class="btn btn-success btn-block disabled" id="next-gesture"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-            <button type="button" class="btn btn-success btn-block disabled hidden" id="training-done">Fertig</button>
+            <button type="button" class="btn btn-success btn-shadow btn-block disabled" id="next-gesture"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+            <button type="button" class="btn btn-success btn-shadow btn-block disabled hidden" id="training-done">Fertig</button>
         </div>
     </div>
 
@@ -255,19 +265,16 @@
                 <div>Gezeigt wird: <span id="given" style="color: #303030"></span></div>
                 <div>Antwortzeit: <span id="responseTime" style="color: #303030"></span></div>
             </div>
-            <!--<div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>-->
             <div class="btn-group-vertical btn-block" style="margin-top: 20px">
-                <button type="button" class="btn btn-default btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
-                <button type="button" class="btn btn-info" id="trigger-slide"><span class="text">Auffordern</span></button>
+                <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
+                <button type="button" class="btn btn-info btn-shadow" id="trigger-slide"><span class="text">Auffordern</span></button>
             </div>
         </div>
         <div class="col-xs-6 right">
-            <!--<div class="triggerContainer"></div>-->
-            <!--<div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>-->
             <div class="btn-group-vertical btn-block">
-                <button type="button" class="btn btn-danger disabled" id="wrong-slide"><span class="text">Falsch</span></button>
-                <button type="button" class="btn btn-success disabled" id="correct-slide"><span class="text">Richtig</span></button>
-                <button type="button" class="btn btn-warning disabled" id="next-slide"><span class="text">Überspringen</span></button>
+                <button type="button" class="btn btn-danger btn-shadow disabled" id="wrong-slide"><span class="text">Falsch</span></button>
+                <button type="button" class="btn btn-success btn-shadow disabled" id="correct-slide"><span class="text">Richtig</span></button>
+                <button type="button" class="btn btn-warning btn-shadow disabled" id="next-slide"><span class="text">Überspringen</span></button>
             </div>
         </div>
     </div>
@@ -291,20 +298,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-            <!--            <div class="panel panel-default" id="wozExperiment">
-                            <div class="panel-heading">Wizard-of-Oz-Experiment</div>
-                            <div class="panel-body">
-                                <div class="row woz-container"></div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default" id="help">
-                            <div class="panel-heading">Hilfe</div>
-                            <div class="panel-body help-container"></div>
-                        </div>-->
         </div>
 
         <div class="col-md-5 col-lg-4" id="column-right">
@@ -313,7 +306,7 @@
                 <div class="panel-body">
                     <div id="task"></div>
                     <div id="description"></div>
-                    <button type="button" class="btn btn-default hidden" id="scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Szene anzeigen</button>
+                    <button type="button" class="btn btn-default btn-shadow hidden" id="scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Szene anzeigen</button>
                 </div>
             </div>
             <div class="panel panel-default" id="observations">
@@ -331,16 +324,16 @@
         <div id="description"></div>
         <!--<div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>-->
         <div class="btn-group-vertical btn-block">
-            <button type="button" class="btn btn-default btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
-            <button type="button" class="btn btn-info ellipsis" id="trigger">Simulieren</button>
+            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
+            <button type="button" class="btn btn-info btn-shadow ellipsis" id="trigger">Simulieren</button>
         </div>
     </div> 
 
     <div id="helpItem" style="margin-bottom: 6px;">
         <div class="help-title"></div>
         <div class="btn-group" style="margin-top: 10px;">
-            <button type="button" class="btn btn-default btn-popover-gesture-preview hidden"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
-            <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-gift"></i> Hilfe anbieten</button>
+            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
+            <button type="button" class="btn btn-info btn-shadow"><i class="glyphicon glyphicon-gift"></i> Hilfe anbieten</button>
         </div>
     </div>
 
@@ -348,14 +341,14 @@
         <span>Titel: </span><span class="title"></span><br/>
         <span>Typ: </span><div class="label label-default type"></div><br/><br/>
         <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 100%; height: 400px; pointer-events: none;"></iframe>
-        <button type="button" class="btn btn-default btn-block btn-url" aria-label="Link in neuem Fenster öffnen"><i class="glyphicon glyphicon-link"></i> Link in neuem Fenster öffnen</button>
+        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="Link in neuem Fenster öffnen"><i class="glyphicon glyphicon-link"></i> Link in neuem Fenster öffnen</button>
     </div>
 
     <div id="pidoco">
         <span>Titel: </span><span class="title"></span><br/>
         <span>Typ: </span><div class="label label-default type"></div><br/><br/>
         <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 100%; height: 400px; pointer-events: none;"></iframe>
-        <button type="button" class="btn btn-default btn-block btn-url" aria-label="Link in neuem Fenster öffnen"><i class="glyphicon glyphicon-link"></i> Link in neuem Fenster öffnen</button>
+        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="Link in neuem Fenster öffnen"><i class="glyphicon glyphicon-link"></i> Link in neuem Fenster öffnen</button>
     </div>
 
     <div id="image">
@@ -367,6 +360,377 @@
     <div class="videoEmbed">
         <span>Titel: </span><span class="title"></span><br/>
         <span>Typ: </span><div class="label label-default type"></div><br/><br/>
+    </div>
+
+</div>
+
+
+<div id="item-container-tester" class="hidden">
+
+    <div class="root" id="letterOfAcceptance">
+        <h3 class="headline">Einverständniserklärung</h3>
+        <hr>
+        <div class="letter-text"></div>
+        <hr>
+        <div>
+            <button type="button" class="btn btn-success btn-shadow" id="letter-agreed">Ich bin einverstanden</button>
+            <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline">Ich bin nicht einverstanden</button>
+        </div>
+    </div>
+
+    <div class="root" id="questionnaire">
+        <h3 class="headline">Fragebogen</h3>
+        <hr>
+        <div class="question-container"></div>
+        <hr>
+        <button class="next btn btn-success pull-right">Weiter <span aria-hidden="true">&rarr;</span></button>
+    </div>
+
+
+    <!-- SUS container & item -->
+    <div class="root" id="sus">
+        <h3 class="headline">Fragebogen</h3>
+        <hr>
+        <div class="question-container"></div>
+        <hr>
+        <button class="next btn btn-success pull-right">Weiter <span aria-hidden="true">&rarr;</span></button>
+    </div>
+
+    <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div>
+                <span class="question"></span> 
+                <form action="">
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">
+                            <span class="option-text">1 (Stimme voll zu)</span></label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">
+                            <span class="option-text">2</span></label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">
+                            <span class="option-text">3</span></label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">
+                            <span class="option-text">4</span></label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">
+                            <span class="option-text">5 (Stimme überhaupt nicht zu)</span></label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- GUS container & item -->
+    <div class="root" id="gus">
+        <h3 class="headline">Fragebogen</h3>
+        <hr>
+        <div class="question-container"></div>
+        <hr>
+        <button class="next btn btn-success pull-right">Weiter <span aria-hidden="true">&rarr;</span></button>
+    </div>
+
+    <div class="panel panel-default root" id="gusItem" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div>
+                <span class="question"></span> 
+                <form action="">
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">
+                            <span class="option-text">1 (Stimme voll zu)</span></label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">
+                            <span class="option-text">2</span></label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">
+                            <span class="option-text">3</span></label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">
+                            <span class="option-text">4</span></label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">
+                            <span class="option-text">5 (Stimme überhaupt nicht zu)</span></label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- gesture questionnaire container & item -->
+    <div class="root" id="questionnaireGestures">
+        <h3 class="headline">Fragebogen</h3>
+        <hr>
+        <div class="question-container"></div>
+        <hr>
+        <button class="next btn btn-success pull-right">Weiter <span aria-hidden="true">&rarr;</span></button>
+    </div>
+
+    <!-- gesture training container -->
+    <div class="root" id="gestureTraining">
+        <h3 class="headline"></h3>
+        <div class="description"></div>
+        <hr>
+        <div class="alert-space alert-waiting-for-training-gesture"></div>
+        <div id="trainingContainer"></div>
+    </div>
+
+    <div id="trainingItemModerated" class="row">
+        <div class="col-sm-6 right" style="margin-bottom: 10px;">
+            <div>
+                <div id="title"></div>
+                <div id="repeats"></div>
+                <div id="trigger"></div>
+                <div id="feedback"></div>
+            </div>
+        </div>
+        <div class="col-sm-6 left">
+            <div class="imageContainer autoplay"></div>
+        </div>
+
+    </div>
+
+    <div id="trainingItemUnmoderated" class="row">
+        <div class="col-sm-6 col-md-12 col-lg-6 left" style="margin-bottom: 10px;">
+            <div class="imageContainer autoplay" style="margin-bottom: 10px;"></div>
+        </div>
+        <div class="col-sm-6 col-md-12 col-lg-6 right">
+            <div style="margin-bottom: 10px;">
+                <div id="title"></div>
+                <div id="repeats"></div>
+                <div id="trigger"></div>
+                <div id="feedback"></div>
+            </div>
+            <button type="button" class="btn btn-success btn-shadow btn-block hidden" id="next-gesture"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+            <button type="button" class="btn btn-success btn-shadow btn-block hidden" id="training-done">Fertig</button>
+        </div>
+    </div>
+
+    <!-- slideshow container -->
+    <div class="root" id="slideshow">
+        <h3 class="headline"></h3>
+        <div class="description"></div>
+        <hr>
+        <div class="alert-space alert-waiting-for-slideshow"></div>
+        <div class="progress progress-slideshow hidden">
+            <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                <!--<span class="sr-only">40% Complete (success)</span>-->
+            </div>
+        </div>
+        <div id="slideshowContainer"></div>
+    </div>
+
+    <div id="slideshowItemModeratedTester" class="text-center">
+        <div class="gestureContainer hidden">
+            <p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Nennen Sie die Funktion für folgende Geste</p>
+            <div class="imageContainer autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
+        </div>
+        <div class="triggerContainer hidden">
+            <p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Zeigen Sie die Geste für die Funktion</p>
+            <div class="trigger-title" style="font-size: 50pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
+        </div>
+    </div>
+
+</div>
+
+<div id="item-container-inputs" class="hidden">
+
+    <div class="panel panel-default root" id="openQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question"></p> 
+            <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="dichotomousQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question"></p>
+            <div class="btn-group switch" style="">
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
+                <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
+            </div>
+
+            <div class="hidden" id="justification">
+                <label for="justificationInput">Begründung</label>
+                <textarea class="form-control" id="justificationInput" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="groupingQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question"></p> 
+            <div class="root option-container"></div>
+
+            <div class="hidden" id="btn-checkbox">
+                <button class="btn btn-default btn-checkbox" name="success">
+                    <span id="icons" style="margin-right: 6px">
+                        <i class="fa fa-circle-o" id="normal"></i>
+                        <i class="fa fa-circle hidden" id="over"></i>
+                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                    </span>
+                    <span class="option-text"></span></button>
+            </div>
+
+
+            <!--            <div class="checkbox hidden" id="option-item-checkbox">
+                            <label>
+                                <input type="checkbox" value=""><span class="option-text"></span>
+                            </label>
+                        </div>-->
+
+            <div class="hidden" id="btn-checkbox-optionalanswer" style="width: 100%">
+                <button class="btn btn-default btn-checkbox" name="success">
+                    <span id="icons" style="margin-right: 6px">
+                        <i class="fa fa-circle-o" id="normal"></i>
+                        <i class="fa fa-circle hidden" id="over"></i>
+                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                    </span>
+                    <span class="option-text">Eigene Antwort(en)</span>
+                </button>
+                <textarea class="form-control" id="optionalanswerInput" rows="3"></textarea>
+            </div>
+
+            <!--            <div class="checkbox hidden" id="option-item-optionalanswer-checkbox">
+                            <label>
+                                <input type="checkbox" value="">
+                                <textarea class="form-control" id="optionalanswerInput" rows="3"></textarea>
+                            </label>
+                        </div>-->
+
+            <div class="hidden" id="btn-radio">
+                <button class="btn btn-default btn-checkbox" name="success">
+                    <i class="fa fa-circle-o" id="normal" style="margin-right: 6px"></i>
+                    <i class="fa fa-circle hidden" id="checked" style="margin-right: 6px"></i>
+                    <span class="option-text"></span></button>
+            </div>
+
+            <!--            <div class="radio hidden" id="option-item-radio">
+                            <label><input type="radio" name="optradio">
+                                <span class="option-text"></span>
+                            </label>
+                        </div>-->
+
+            <div class="radio hidden" id="option-item-optionalanswer-radio">
+                <label>
+                    <input type="radio" name="optradio">
+                    <textarea class="form-control" id="optionalanswerInput" rows="3"></textarea>
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question"></p> 
+            <div class="option-container" style="margin-top: 20px;"></div>
+
+            <div class="checkbox hidden" id="option-item-checkbox" style="margin-top: 10px;">
+                <label><input type="checkbox" value=""><span class="option-text"></span></label>
+            </div>
+            <div class="radio hidden" id="option-item-radio" style="margin-top: 10px;">
+                <label><input type="radio" name="optradio">
+                    <span class="option-text"></span>
+                </label>
+            </div>
+            <div class="hidden" id="option-item-justification" style="margin-top: 20px;">
+                <label for="optionalanswerInput">Begründung(en)</label>
+                <textarea class="form-control" id="optionalanswerInput" rows="3"></textarea>
+            </div>
+            <button type="button" class="btn btn-default btn-sm btn-popover-gesture-preview hidden" id="btn-show-gesture" style="margin-left: 10px; margin-top: -10px"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="counter" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question"></p>
+            <div class="input-group simple-stepper" style="max-width: 130px;">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only">weniger</span>
+                    </button>
+                </div>
+                <input type="text" class="form-control readonly text-center stepper-text" value="0">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
+                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only">mehr</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="rating" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question"></p> 
+            <div class="option-container"></div>
+        </div>
+    </div>
+
+    <div id="rating-item">
+        <p id="rating-header"></p>
+        <form action="" id="scales-container">
+        </form>
+    </div>
+
+    <div class="radio" id="rating-scale-item">
+        <label><input type="radio" name="optradio">
+            <span class="option-text"></span>
+        </label>
+    </div>
+
+    <div class="panel panel-default root" id="sumQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question"></p> 
+            <div class="option-container"></div>
+        </div>
+    </div>
+
+    <div id="sumQuestion-item" style="margin-bottom: 5px;">
+
+        <form class="form-inline" role="form">
+
+            <div class="input-group simple-stepper" style="max-width: 140px">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only">weniger</span>
+                    </button>
+                </div>
+                <input type="text" class="form-control readonly text-center stepper-text" value="0">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
+                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only">mehr</span>
+                    </button>
+                </div>
+            </div>
+            <label class="option-text" style="margin-left: 5px"></label>
+
+        </form>
+
+    </div>
+
+    <div class="panel panel-default root" id="ranking" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question"></p> 
+            <div class="option-container"></div>
+        </div>
+    </div>
+
+    <div class="root" id="ranking-item" style="margin-bottom: 5px;">
+        <div class="btn-group">
+            <button class="btn btn-default btn-shadow btn-up"><i class="glyphicon glyphicon-arrow-up"></i></button>
+            <button class="btn btn-default btn-shadow btn-down"><i class="glyphicon glyphicon-arrow-down"></i></button> 
+        </div>
+        <span class="option-text" style="margin-left: 5px;"></span>
     </div>
 
 </div>

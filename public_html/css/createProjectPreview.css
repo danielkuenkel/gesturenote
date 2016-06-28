@@ -40,6 +40,14 @@ and open the template in the editor.
     border-radius: 5px;
     border: 1px solid #eeeeee;
 }
+.web-rtc-placeholder img, #resize-sign {
+    user-drag: none; 
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
 
 #column-left {
     margin-top: 20px;
@@ -100,13 +108,65 @@ and open the template in the editor.
 }
 
 .progress-bar-slideshow {
-  -webkit-transition: initial !important;
-  -o-transition: initial !important;
-  transition: initial !important;
+    -webkit-transition: initial !important;
+    -o-transition: initial !important;
+    transition: initial !important;
 }
 
 .progress-bar-slideshow.active, .progress-slideshow.active .progress-bar {
-  -webkit-animation: initial !important;
-  -o-animation: initial !important;
-  animation: initial !important;
+    -webkit-animation: initial !important;
+    -o-animation: initial !important;
+    animation: initial !important;
+}
+
+#btn-toggle-rtc-fixed {
+    border-top-left-radius: 3px;
+    border-bottom-right-radius: 7px;
+    color: #303030;
+}
+#btn-toggle-rtc-fixed:hover {
+    background-color: #99366E;
+    color: #eeeeee;
+}
+
+/*#draggableRTC {
+    -webkit-box-shadow: 0px 4px 7px rgba(0,0,0, .2);
+    -moz-box-shadow: 0px 4px 7px rgba(0,0,0, .2);
+    box-shadow: 0px 4px 7px rgba(0,0,0, .2);
+}*/
+
+.btn-checkbox {
+    border: none;
+    margin-top: 5px;
+}
+
+.btn-checkbox #icons {
+    font-size: 14pt;
+    position: relative;
+    top: -1px;
+}
+
+.btn-checkbox .option-text {
+    position: relative;
+    top: -1px;
+}
+
+.btn-checkbox:hover {
+    background-color: #5bb85c;    
+    color: #fff !important;
+}
+
+.btn-checkbox:hover > .option-text {
+    color: #fff !important;
+    font-weight: bold;
+}
+
+.btn-checkbox-checked {
+    background-color: #5bb85c;
+    color: #fff !important;
+}
+
+.btn-checkbox-checked .option-text {
+    color: #fff !important;
+    font-weight: bold;
 }

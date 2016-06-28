@@ -22,9 +22,9 @@ $(document).on('click', '.select .option li', function (event) {
     if (!event.handled) {
         event.handled = true;
 
-//    console.log('global click select');
+        console.log('global click select');
 
-        if ($(this).hasClass('dropdown-header') || $(this).hasClass('divider')) {
+        if ($(this).hasClass('dropdown-header') || $(this).hasClass('divider') || $(this).hasClass('selected')) {
             return false;
         }
 
@@ -159,7 +159,6 @@ function checkCurrentListState(itemContainer) {
  */
 $(document).on('click', '.btn-toggle-checkbox', function (event) {
     event.preventDefault();
-    console.log($(this) + event.handled);
     if (!event.handled) {
         event.handled = true;
 
@@ -462,3 +461,35 @@ function wobble(elements) {
 function onWobbleComplete() {
     wobbling = false;
 }
+
+$(document).on('click', '.btn-checkbox', function (event) {
+    if (event.handled !== true)
+    {
+        console.log($(this).hasClass('btn-checkbox-checked'));
+        event.handled = true;
+        if ($(this).hasClass('btn-checkbox-checked')) {
+            $(this).removeClass('btn-checkbox-checked');
+            $(this).find('#over').removeClass('hidden');
+            $(this).find('#checked').addClass('hidden');
+        } else {
+            $(this).addClass('btn-checkbox-checked');
+            $(this).find('#over, #normal').addClass('hidden');
+            $(this).find('#checked').removeClass('hidden');
+        }
+    }
+});
+
+$(document).on('mouseover', '.btn-checkbox', function (event) {
+    if (!$(this).hasClass('btn-checkbox-checked')) {
+        $(this).find('#normal, #checked').addClass('hidden');
+        $(this).find('#over').removeClass('hidden');
+    }
+
+});
+
+$(document).on('mouseleave', '.btn-checkbox', function (event) {
+    if (!$(this).hasClass('btn-checkbox-checked')) {
+        $(this).find('#normal').removeClass('hidden');
+        $(this).find('#over, #checked').addClass('hidden');
+    }
+});

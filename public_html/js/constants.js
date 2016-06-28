@@ -46,6 +46,7 @@ var OPEN_QUESTION = 'openQuestion';
 var DICHOTOMOUS_QUESTION = 'dichotomousQuestion';
 var ALTERNATIVE_QUESTION = 'alternativeQuestion';
 var GROUPING_QUESTION = 'groupingQuestion';
+var GROUPING_QUESTION_GUS = 'groupingQuestionGUS';
 var RATING = 'rating';
 var SUM_QUESTION = 'sumQuestion';
 var RANKING = 'ranking';
@@ -121,9 +122,12 @@ var POINTS = 'points';
 var ALTERNATIVE_GESTURES = 'gestures';
 var ALTERNATIVE_TRIGGERS = 'triggers';
 var ALTERNATIVE_FOR_GESTURE = 'gesture';
-var ALTERNATIVE_FOR_TRIGGER = 'trigger'; 
+var ALTERNATIVE_FOR_TRIGGER = 'trigger';
 
 // cursors
-var CURSOR_PROGRESS = 'progress';
+var CURSOR_AUTO = 'auto';
 var CURSOR_DEFAULT = 'default';
 var CURSOR_POINTER = 'pointer';
+var CURSOR_PROGRESS = 'progress';
+var CURSOR_MOVE = 'move';
+var CURSOR_NWSE_RESIZE = 'nwse-resize';

@@ -2,31 +2,25 @@
     <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
     <h4 class="modal-title" id="exampleModalLabel">Gesture Usability Scale - Fragen zu einzelner Geste</h4>
 </div>
+
+<div class="modal-body">
+    <h4 style="margin: 0">Faktoren</h4>
+    <div id="dimension-btn-group">
+        <button type="button" class="btn btn-default btn-toggle" id="all">Alle</button>
+    </div>
+</div>
+<hr class="hidden" id="factor-seperator" style="margin: 0;">
 <div id="modal-body" class="modal-body">
 
     <div id="list-container"></div>
 
-    <!--<button type="button" class="btn btn-warning" id="btn-reset-origin-data"><span class="glyphicon glyphicon-repeat"></span> Original GUS wiederherstellen</button>-->
-    <!--<button type="button" class="btn btn-info pull-right" id="btn-add-gus-item"><span class="glyphicon glyphicon-plus"></span> Ein neues Item hinzufügen</button>-->
+    <!--<button type="button" class="btn btn-warning btn-shadow" id="btn-reset-origin-data"><span class="glyphicon glyphicon-repeat"></span> Original GUS wiederherstellen</button>-->
+    <!--<button type="button" class="btn btn-info btn-shadow pull-right" id="btn-add-gus-item"><span class="glyphicon glyphicon-plus"></span> Ein neues Item hinzufügen</button>-->
 
 </div>
-<hr style="margin: 0;">
-<div class="modal-body">
-    <h4 style="margin: 0">Faktoren</h4>
-    <div id="dimension-btn-group">
-        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="acceptability">Akzeptanz</button>
-        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="cognitive_stress">Kognitive Belastung</button>
-        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="ergonomics">Ergonomie</button>
-        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="feasability">Realisierbarkeit</button>
-        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="learnability">Erlernbarkeit</button>
-        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="mental_model">Mentales Modell</button>
-        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="reliability">Zuverlässigkeit</button>
-        <button type="button" class="btn btn-default btn-toggle btn-dimension hidden" id="usability">Nutzbarkeit</button>
-        <button type="button" class="btn btn-default btn-toggle" id="all">Alle</button>
-    </div>
-</div>
+
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
+    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
 
 
@@ -52,26 +46,34 @@
 
         function renderData(data) {
             var listContainer = $('#list-container');
+            var dimensions = translation.dimensions;
+            var mainDimensions = translation.mainDimensions;
 
             for (var i = 0; i < data.length; i++) {
                 var item = data[i];
+                var dimension = item.dimension;
                 var clone = $('#form-item-container').find('#gusSingle').clone(true);
                 $(clone).find('.question').val(item.question);
                 $(clone).find('.show-hole-text').attr('title', data[i].itemText);
-                $(clone).addClass(item.dimension);
+                $(clone).addClass(dimension);
                 $(listContainer).append(clone);
 //                updateBadges($('#list-container'), item.type);
 
-                if (item.dimension !== DIMENSION_ANY) {
+                if (dimension !== DIMENSION_ANY) {
+
                     $(clone).find('.btn-delete').addClass('hidden');
-                    var dimensionButton = $('#dimension-btn-group').find('#' + item.dimension);
+                    var dimensionButton = $('#dimension-btn-group').find('#' + dimension);
                     if (dimensionButton) {
                         $(dimensionButton).addClass('active');
                         $(dimensionButton).addClass('btn-info');
                         $(dimensionButton).removeClass('inactive');
                     }
+                    $(clone).find('#factor-primary').text(dimensions[dimension]);
+                    $(clone).find('#factor-main').text(mainDimensions[dimension]);
+                } else {
+                    $(clone).find('#item-factors').addClass('hidden');
                 }
-                
+
                 if (data[i].reversed === true)
                 {
                     $(clone).find('.switchButtonAddon').click();

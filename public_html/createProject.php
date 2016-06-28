@@ -115,7 +115,7 @@ include './includes/language.php';
                                 <span class="input-group-addon">Projektphase</span>
                                 <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="phaseSelect" role="group">
-                                    <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="elicitation"><a href="#"><?php echo $lang->phaseType->elicitation ?></a></li>
                                         <li id="evaluation"><a href="#"><?php echo $lang->phaseType->evaluation ?></a></li>
@@ -129,7 +129,7 @@ include './includes/language.php';
                                 <span class="input-group-addon">Befragungsart</span>
                                 <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="surveyTypeSelect" role="group">
-                                    <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="moderated"><a href="#"><?php echo $lang->surveyType->moderated ?></a></li>
                                         <li id="unmoderated"><a href="#"><?php echo $lang->surveyType->unmoderated ?></a></li>
@@ -145,10 +145,10 @@ include './includes/language.php';
                         <h3>Prototypen & Demonstratoren</h3>
                         <div class="form-group">
                             <div class="btn-group" id="usePrototypesSwitch">
-                                <button class="btn btn-default switchButtonAddon">Prototypen benutzen?</button>
-                                <button class="btn btn-default btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
-                                <button class="btn btn-warning btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
-                                <button class="btn btn-default supplement hidden" id="assemble-prototypes-set">
+                                <button class="btn btn-default btn-shadow switchButtonAddon">Prototypen benutzen?</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
+                                <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
+                                <button class="btn btn-default btn-shadow supplement hidden" id="assemble-prototypes-set">
                                     <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Prototypen koppeln</span></button>
                                 <button class="btn btn-addon" id="btn-prototypes-info">
                                     <i class="glyphicon glyphicon-question-sign"></i>
@@ -165,10 +165,10 @@ include './includes/language.php';
 
                         <div class="form-group">
                             <div class="btn-group" id="useGesturesSwitch">
-                                <button class="btn btn-default switchButtonAddon">Gesten nutzen?</button>
-                                <button class="btn btn-default btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
-                                <button class="btn btn-warning btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
-                                <button class="btn btn-default supplement hidden" id="assemble-gesture-set">
+                                <button class="btn btn-default btn-shadow switchButtonAddon">Gesten nutzen?</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
+                                <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
+                                <button class="btn btn-default btn-shadow supplement hidden" id="assemble-gesture-set">
                                     <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Gestenset zusammenstellen</span></button>
                                 <button class="btn btn-addon" id="btn-use-gestures-info">
                                     <i class="glyphicon glyphicon-question-sign"></i>
@@ -180,10 +180,10 @@ include './includes/language.php';
 
                         <div class="form-group">
                             <div class="btn-group" id="useTriggerSwitch">
-                                <button class="btn btn-default switchButtonAddon">Trigger nutzen?</button>
-                                <button class="btn btn-default btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
-                                <button class="btn btn-warning btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
-                                <button class="btn btn-default supplement hidden" id="assemble-trigger-set">
+                                <button class="btn btn-default btn-shadow switchButtonAddon">Trigger nutzen?</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
+                                <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
+                                <button class="btn btn-default btn-shadow supplement hidden" id="assemble-trigger-set">
                                     <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Trigger erstellen</span></button>
                                 <button class="btn btn-addon" id="btn-use-trigger-info">
                                     <i class="glyphicon glyphicon-question-sign"></i>
@@ -201,7 +201,7 @@ include './includes/language.php';
                                 <span class="input-group-addon">Phasenschritt</span>
                                 <input class="form-control item-input-text option-survey-type show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="phaseStepSelect"  role="group">
-                                    <button class="btn btn-default btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option" role="menu">
                                         <li class="dropdown-header">Fragebögen</li>
                                         <li id="questionnaire"><a href="#"><?php echo $lang->formats->questionnaire ?></a></li>
@@ -215,8 +215,8 @@ include './includes/language.php';
                                         <li id="scenario"><a href="#"><?php echo $lang->formats->scenario ?></a></li>
                                         <li id="slideshow"><a href="#"><?php echo $lang->formats->slideshow ?></a></li>
                                     </ul>
-                                    <button class="btn btn-info disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                    <button class="btn btn-addon disabled dropdown-disabled" id="info-addon-add-phases">
+                                    <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                                    <button class="btn btn-addon btn-shadow disabled dropdown-disabled" id="info-addon-add-phases">
                                         <i class="glyphicon glyphicon-question-sign"></i>
                                     </button>
                                 </div>
@@ -229,19 +229,19 @@ include './includes/language.php';
 
                         <div class="form-group hidden root" id="phaseStepItem">
                             <div class="btn-group">
-                                <button class="btn btn-default btn-up saveGeneralData" title="Weiter nach oben">
+                                <button class="btn btn-default btn-shadow btn-up saveGeneralData" title="Weiter nach oben">
                                     <i class="glyphicon glyphicon-arrow-up"></i>
                                 </button>
-                                <button class="btn btn-default btn-down saveGeneralData" title="Weiter nach unten">
+                                <button class="btn btn-default btn-shadow btn-down saveGeneralData" title="Weiter nach unten">
                                     <i class="glyphicon glyphicon-arrow-down"></i>
                                 </button>
-                                <button class="btn btn-default btn-delete saveGeneralData" title="Löschen">
+                                <button class="btn btn-default btn-shadow btn-delete saveGeneralData" title="Löschen">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </button>
-                                <button class="btn btn-default btn-modify" title="Bearbeiten">
+                                <button class="btn btn-default btn-shadow btn-modify" title="Bearbeiten">
                                     <i class="glyphicon glyphicon-cog"></i>
                                 </button>
-                                <button class="btn btn-default btn-text-button">
+                                <button class="btn btn-default btn-shadow btn-text-button">
                                     <span class="glyphicon glyphicon-tag"></span><span class="phase-step-format"></span>
                                 </button>
                                 <button class="btn btn-addon">
@@ -260,7 +260,7 @@ include './includes/language.php';
                                 <span class="input-group-addon">Aufzeichnung</span>
                                 <input class="form-control item-input-text option-record show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="recordSelect" role="group">
-                                    <button class="btn btn-default btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="videoAudio"><a href="#">Video & Audio</a></li>
                                         <li id="videoAudioScreen"><a href="#">Video, Audio & Bildschirm</a></li>
@@ -274,13 +274,13 @@ include './includes/language.php';
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-danger btn-md" id="clearData"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
+                                <button type="button" class="btn btn-danger btn-shadow btn-md" id="clearData"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
                             </div>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-warning btn-md" id="previewProject"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
+                                <button type="button" class="btn btn-warning btn-shadow btn-md" id="previewProject"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
                             </div>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-save"></span> Projekt erstellen</button>
+                                <button type="button" class="btn btn-success btn-shadow btn-lg"><span class="glyphicon glyphicon-save"></span> Projekt erstellen</button>
                             </div>
                         </div>
 
@@ -294,7 +294,7 @@ include './includes/language.php';
                         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                     </span>
                     <br><br>
-                    <button type="button" class="btn btn-gn" onclick="loadHTMLintoModal('custom-modal', 'info-styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                    <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
                 </div>
             </div>
         </div>

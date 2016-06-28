@@ -26,7 +26,7 @@
                         <span class="input-group-addon">Prototyp als Szene</span>
                         <input class="form-control item-input-text option-prototype show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
                         <div class="input-group-btn select prototypeSelect" role="group">
-                            <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
                         </div>
                     </div>
@@ -50,9 +50,9 @@
         <div class="panel-heading clearfix">
             <div style="margin-top: 4px; display: inline-block">Wizard-of-Oz-Experiment</div>
             <div class="btn-group pull-right" id="useWozSwitch">
-                <button class="btn btn-default switchButtonAddon">Nutzen?</button>
-                <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
-                <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
+                <button class="btn btn-default btn-shadow switchButtonAddon">Nutzen?</button>
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
+                <button class="btn btn-warning btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
             </div>
         </div>
         <div class="panel-body hidden">
@@ -66,9 +66,9 @@
         <div class="panel-heading clearfix">
             <div style="margin-top: 4px; display: inline-block">Hilfe</div>
             <div class="btn-group pull-right" id="helpSwitch">
-                <button class="btn btn-default switchButtonAddon">Nutzen?</button>
-                <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
-                <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
+                <button class="btn btn-default btn-shadow switchButtonAddon">Nutzen?</button>
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
+                <button class="btn btn-warning btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
             </div>
         </div>
         <div class="panel-body hidden">
@@ -84,9 +84,9 @@
         <div class="panel-heading clearfix">
             <div style="margin-top: 4px; display: inline-block">Beobachtungen</div>
             <div class="btn-group pull-right" id="useObservationsSwitch">
-                <button class="btn btn-default switchButtonAddon">Nutzen?</button>
-                <button class="btn btn-default btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
-                <button class="btn btn-warning btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
+                <button class="btn btn-default btn-shadow switchButtonAddon">Nutzen?</button>
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
+                <button class="btn btn-warning btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
             </div>
         </div>
         <div class="panel-body hidden">
@@ -97,26 +97,26 @@
                     <span class="input-group-addon">Beobachtungsformat</span>
                     <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                     <div class="input-group-btn select" id="addFormatSelect" role="group">
-                        <button class="btn btn-default btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                             <li id="counter"><a href="#">Zähler</a></li>
                             <li id="openQuestion"><a href="#">Offene Frage</a></li>
                             <li id="dichotomousQuestion"><a href="#">Ja/nein-Frage</a></li>
                             <li id="groupingQuestion"><a href="#">Eingruppierungs-Frage</a></li>
                         </ul>
-                        <button class="btn btn-info disabled dropdown-disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                        <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                     </div>
                 </div>
             </div>
 
-            <button class="btn btn-info pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>
+            <button class="btn btn-info btn-shadow pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>
         </div>
     </div>
 
 
 </div>
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
+    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
 
 <script type="text/javascript" src="js/template-inputs.js"></script>

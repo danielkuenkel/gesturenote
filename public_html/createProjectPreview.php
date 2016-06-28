@@ -13,6 +13,8 @@ include './includes/language.php';
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/createProjectPreview.css">
         <link rel="stylesheet" href="css/gesture.css">
+        <link rel="stylesheet" href="css/custom-controls.css">
+        <link rel="stylesheet" href="externals/font-awesome/css/font-awesome.min.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
@@ -36,6 +38,9 @@ include './includes/language.php';
         <script src="js/gesture.js"></script>
         <script src="js/thumbscrubber.js"></script>
         <script src="js/createProjectPreview.js"></script>
+        <script src="js/renderForms.js"></script>
+        <script src="js/moderator.js"></script>
+        <script src="js/tester.js"></script>
 
     </head>
     <body>
@@ -90,6 +95,10 @@ include './includes/language.php';
             </ul>
         </nav>
 
+        <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 99; top: 150px; left:100px; display: block">
+            <img src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
+        </div>
+
         <!-- main content -->
         <div class="mainContent" id="mainContent" style="padding-top: 145px; padding-left: 20px; padding-right: 20px;">
 
@@ -100,24 +109,18 @@ include './includes/language.php';
             </div>
 
             <div id="viewModerator" class="hidden">
-                <div id="web-rtc-placeholder" class="web-rtc-placeholder" style="position: fixed">
-                    <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
+                <div id="pinnedRTC" style="position: fixed">
+                    <div id="web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
+                        <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
+                        <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
+                            <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
+                        </div>
+                    </div>
                 </div>
+
 
                 <div id="phase-content"></div>
 
-                <!--                <div class="row">
-                                    <div class="col-md-6 col-lg-4" id="column-left" style="margin-bottom: 20px;">
-                
-                
-                                        <div class="phase-content-left">
-                
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-8 phase-content-right" id="column-right">
-                
-                                    </div>
-                                </div>-->
             </div>
 
         </div>
@@ -133,20 +136,19 @@ include './includes/language.php';
                             var path = PATH_EXTERNALS + '/' + currentLanguage + '/';
                             externals.push(['#alerts', path + 'alerts.html']);
                             externals.push(['#template-gesture', path + 'template-gesture.html']);
-                            externals.push(['#template-forms', path + 'template-inputs.html']);
                             externals.push(['#template-previews', path + 'template-previews.html']);
                             loadExternals(externals);
                         });
-                        
+
 //                        var lastScrollTop;
                         $(window).on('resize', function () {
 //                            console.log('resize: ' + $(document).scrollTop());
-                            if (!$('#phase-content #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0)) {
+                            if (!$('#pinnedRTC').hasClass('hidden') && (!$('#phase-content #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
                                 updateRTCHeight($('#phase-content #column-left').width());
-
-                            } 
-//                            else if ($(document).scrollTop() < 0) {
+                            }
+//                            else if ($(document).scrollTop() > 0) {
 //                                $(document).scrollTop(0);
+//                                updateRTCHeight($('#phase-content #column-left').width());
 //                            }
 //                            lastScrollTop = $(document).scrollTop();
                         });
@@ -163,7 +165,7 @@ include './includes/language.php';
 
                         var resetRTCTimeout;
                         $(window).scroll(function () {
-                            if ($('#phase-content #column-left').hasClass('rtc-scalable')) {
+                            if ($('#phase-content #column-left').hasClass('rtc-scalable') && !$('#pinnedRTC').hasClass('hidden')) {
                                 if ($(document).scrollTop() <= 0 && ($('#phase-content #column-left').width() !== $('#web-rtc-placeholder').width() || $('#web-rtc-placeholder').height() !== $('#phase-content #column-left').offset().top - 20)) {
                                     resetRTCTimeout = setTimeout(resetRTC(), 100);
                                     return false;
@@ -198,7 +200,7 @@ include './includes/language.php';
                             }
                         });
 
-                        $('.next').on('click', function (event) {
+                        $('body').on('click', '.next', function (event) {
                             event.preventDefault();
                             if (!$(this).hasClass('disabled')) {
                                 nextStep();
@@ -206,11 +208,13 @@ include './includes/language.php';
                         });
 
                         $('body').on('click', '.phaseStepsSelect .option li', function (event) {
-                            setTimeout(function () {
-                                updateProgress();
-                                renderPhaseStep();
-                                updatePager();
-                            }, 50);
+                            if (!$(this).hasClass('selected')) {
+                                setTimeout(function () {
+                                    updateProgress();
+                                    renderPhaseStep();
+                                    updatePager();
+                                }, 50);
+                            }
                         });
 
                         $('#btnViewModerator').on('click', function (event) {
@@ -225,6 +229,7 @@ include './includes/language.php';
                             event.preventDefault();
                             if (!$(this).hasClass('btn-gn')) {
                                 showTesterView();
+                                pinRTC();
                                 renderPhaseStepForTester();
                             }
                         });
@@ -260,29 +265,43 @@ include './includes/language.php';
                             $('.phase-content-right').empty();
                         }
 
-                        function renderPhaseStepForTester() {
-                            resetRenderedContent();
-                            var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
-                            var data = getLocalItem(currentStepId + ".data");
-
-                            console.log(data);
-                            if (data || (data && $.isArray(data) && data.length > 0)) {
-                                renderTesterView();
-                            } else {
-                                appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-                            }
-                        }
-
                         function renderPhaseStepForModerator() {
                             resetRenderedContent();
                             var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
                             var data = getLocalItem(currentStepId + ".data");
                             if (data || (data && $.isArray(data) && data.length > 0)) {
-                                renderModeratorView();
+                                Moderator.renderView();
                             } else {
                                 appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
                             }
                         }
+
+                        function renderPhaseStepForTester() {
+                            resetRenderedContent();
+                            var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
+                            var data = getLocalItem(currentStepId + ".data");
+
+                            if (data || (data && $.isArray(data) && data.length > 0)) {
+                                Tester.renderView();
+                            } else {
+                                appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
+                            }
+                        }
+
+                        $('#btn-toggle-rtc-fixed').on('click', function (event) {
+                            event.preventDefault();
+                            if ($(this).hasClass('selected')) {
+                                $(this).removeClass('selected');
+                                $(this).find('.glyphicon').removeClass('glyphicon-pushpin');
+                                $(this).find('.glyphicon').addClass('glyphicon-new-window');
+                                pinRTC();
+                            } else {
+                                $(this).addClass('selected');
+                                $(this).find('.glyphicon').removeClass('glyphicon-new-window');
+                                $(this).find('.glyphicon').addClass('glyphicon-pushpin');
+                                dragRTC();
+                            }
+                        });
 
         </script>
     </body>

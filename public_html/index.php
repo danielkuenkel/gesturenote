@@ -30,7 +30,7 @@ if (login_check($mysqli) == true) {
         <script src="js/gotoPage.js"></script>
         <script src="js/index.js"></script>
         <script type="text/JavaScript" src="js/sha512.js"></script> 
-        <script type="text/JavaScript" src="js/forms.js"></script>
+        <script type="text/JavaScript" src="js/checkForms.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 

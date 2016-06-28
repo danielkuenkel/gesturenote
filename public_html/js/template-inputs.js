@@ -46,8 +46,11 @@ $('.btn-add-ratingOption').unbind('click').bind('click', function (event) {
     clone.removeAttr('id');
     $(this).prev().find('.panel-body').append(clone);
     checkCurrentListState($(this).prev().find('.panel-body'));
+    $(clone).find('.chosen').attr('id', 3);
+    $(clone).find('.show-dropdown').val(3);
+    $(clone).find('#scale_3').addClass('selected');
     renderScaleItems($(clone).find('.ratingScaleItemContainer'), 3);
-    return false;
+//    return false;
 });
 
 $('.btn-add-sumQuestionOption').unbind('click').bind('click', function (event) {
@@ -119,20 +122,22 @@ $('body').on('click', '.btn-add-elicitationOption', function (event) {
 });
 
 $('body').on('click', '.scaleSelect .option li', function (event) {
+    event.preventDefault();
     if (event.handled !== true)
     {
         event.handled = true;
         if (!$(this).hasClass('selected')) {
-            var scaleItemContainer = $(this).parents('.root').first().find('.ratingScaleItemContainer');
+            var scaleItemContainer = $(this).closest('.root').find('.ratingScaleItemContainer');
             var scaleSelectCount = $(this).children().text().trim();
             renderScaleItems(scaleItemContainer, scaleSelectCount, undefined);
         }
     }
-});
 
+});
 
 function renderScaleItems(container, count, text)
 {
+    console.log(container);
     $(container).empty();
     for (var i = 0; i < count; i++)
     {
@@ -676,7 +681,7 @@ function renderDimensions(target) {
         if (dimensions.hasOwnProperty(key)) {
             var value = dimensions[key];
             var button = document.createElement('button');
-            $(button).addClass('btn btn-default btn-toggle btn-dimension hidden');
+            $(button).addClass('btn btn-default btn-shadow btn-toggle btn-dimension hidden');
             $(button).attr('id', key);
             $(button).text(value);
             $(target).prepend(button);
@@ -696,6 +701,8 @@ $('body').on('click', '#dimension-btn-group .btn-toggle', function (event) {
             $(this).addClass('inactive');
 
             if ($(this).attr('id') === 'all') {
+                $('#factor-seperator').addClass('hidden');
+
                 var children = $(this).parent().children('.btn-toggle');
                 $(children).filter('.active').removeClass('btn-info');
                 $(children).filter('.active').addClass('inactive');
@@ -705,6 +712,7 @@ $('body').on('click', '#dimension-btn-group .btn-toggle', function (event) {
                 $(this).parent().find('#all').removeClass('active');
                 $(this).parent().find('#all').removeClass('btn-info');
                 $(this).parent().find('#all').text('Alle');
+                checkDimensionItems();
             }
         } else {
             addQuestionnaireItems($(this).attr('id'));
@@ -713,6 +721,8 @@ $('body').on('click', '#dimension-btn-group .btn-toggle', function (event) {
             $(this).removeClass('inactive');
 
             if ($(this).attr('id') === 'all') {
+                $('#factor-seperator').removeClass('hidden');
+
                 var children = $(this).parent().children('.btn-toggle');
                 $(children).filter('.inactive').addClass('btn-info');
                 $(children).filter('.inactive').addClass('active');
@@ -727,7 +737,16 @@ $('body').on('click', '#dimension-btn-group .btn-toggle', function (event) {
 
 function checkDimensionItems() {
     var dimensions = $('#dimension-btn-group').children('.btn-dimension');
+    var shownDimensions = $('#dimension-btn-group').children('.btn-dimension:not(:hidden)');
     var inactiveDimensions = dimensions.filter('.inactive');
+
+    if (inactiveDimensions.length === shownDimensions.length) {
+        $('#factor-seperator').addClass('hidden');
+
+    } else {
+        $('#factor-seperator').removeClass('hidden');
+    }
+
     if (inactiveDimensions.length <= 0) {
         $('#dimension-btn-group').find('#all').addClass('active');
         $('#dimension-btn-group').find('#all').removeClass('inactive');

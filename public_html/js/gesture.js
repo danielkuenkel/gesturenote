@@ -138,7 +138,7 @@ function resetPopover() {
 
 function onResetTweenComplete() {
     $('#popover-gesture').remove();
-    
+
 }
 
 function resetPlayButton() {
@@ -166,7 +166,9 @@ function renderGestureImages(container, images, preview, callback) {
                 if ($(container).hasClass('autoplay')) {
                     playThroughThumbnails(container);
                 }
-                callback();
+                if (callback !== null) {
+                    callback();
+                }
 //                setTimeout(callback(), 500);
             }
             numImagesLoaded++;
