@@ -10,14 +10,17 @@ function renderDichotomousQuestionPreview(item, parameters) {
     if (parameters[0] === true) {
         item.find('#select-gestures').removeClass('hidden');
     }
+
     if (parameters[1] === true) {
         item.find('#justification').removeClass('hidden');
+    } else {
+        item.find('#no-justification').removeClass('hidden');
     }
 }
 
 function renderDichotomousQuestionInput(item, parameters) {
     if (parameters[1] === true) {
-        item.find('#justification').removeClass('hidden');
+        item.find('.panel-body').append($('#item-container-inputs').find('#justification').clone());
     }
 }
 
@@ -27,7 +30,10 @@ function renderDichotomousQuestionInput(item, parameters) {
 function renderGroupingQuestionPreview(source, item, parameters, options) {
     if (parameters[0] === true) {
         item.find('#multiselect').removeClass('hidden');
+    } else {
+        item.find('#singleselect').removeClass('hidden');
     }
+
     if (parameters[1] === true) {
         item.find('#optionalanswer').removeClass('hidden');
     }
@@ -45,6 +51,7 @@ function renderGroupingQuestionInput(item, parameters, options) {
         var option = $('#item-container-inputs').find('#' + optionType).clone().removeClass('hidden');
         option.find('.option-text').text(options[i]);
         $(item).find('.option-container').append(option);
+        $(item).find('.option-container').append(document.createElement('br'));
     }
 
     if (parameters[1] === true) {
@@ -59,9 +66,14 @@ function renderGroupingQuestionInput(item, parameters, options) {
 function renderGroupingQuestionGUSPreview(source, item, parameters, options) {
     if (parameters[0] === true) {
         item.find('#multiselect').removeClass('hidden');
+    } else {
+        item.find('#singleselect').removeClass('hidden');
     }
+
     if (parameters[1] === true) {
         item.find('#justification').removeClass('hidden');
+    } else {
+        item.find('#no-justification').removeClass('hidden');
     }
 
     for (var i = 0; i < options.length; i++) {
@@ -95,10 +107,11 @@ function renderGroupingQuestionGUSInput(item, parameters, options) {
             var gesture = getGestureById(options[i]);
             option.find('.option-text').text(gesture.title);
 
-            var button = $(item).find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
+            var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
             button.attr('name', gesture.id);
             option.append(button);
         }
+        $(item).find('.option-container').append(document.createElement('br'));
     }
 
     if (parameters[1] === true) {
@@ -137,8 +150,9 @@ function renderRatingInput(item, options) {
             var optionItem = $('#item-container-inputs').find('#radio').clone(false);
             optionItem.find('.option-text').text(options[j][k]);
             ratingItem.find('#scales-container').append(optionItem);
+            ratingItem.find('#scales-container').append(document.createElement('br'));
         }
-        
+
         item.find('.option-container').append(ratingItem);
         if (j < options.length - 1) {
             var horizontalLine = document.createElement('hr');
@@ -206,18 +220,94 @@ function renderRankingInput(item, options) {
 /*
  * alternative question
  */
-function renderAlternativeQuestionPreview(source, item, parameters) {
-    $(item).find('#alternative').removeClass('hidden');
-    $(item).find('#alternative').text('Alternative ' + parameters[0]);
-    $(item).find('#alternativeFor').removeClass('hidden');
-    $(item).find('#alternativeFor').text('für ' + parameters[1]);
-    $(item).find('#title').text(parameters[2].title);
+function renderAlternativeQuestionPreview(item, parameters) {
+    if (parameters[1] === true) {
+        $(item).find('#optionalanswer').removeClass('hidden');
+    }
 
-    if (parameters[0] === ALTERNATIVE_GESTURES) {
-        $(item).find('#gesture-container').removeClass('hidden');
+    if (parameters[0] === true) {
+        $(item).find('#justification').removeClass('hidden');
+    } else {
+        $(item).find('#no-justification').removeClass('hidden');
+    }
+
+    if (parameters[2] === 'gestures' && parameters[3] === 'gesture') {
+        $(item).find('#gesturesForGesture').removeClass('hidden');
+    } else if (parameters[2] === 'gestures' && parameters[3] === 'trigger') {
+        $(item).find('#gesturesForTrigger').removeClass('hidden');
+    } else if (parameters[2] === 'triggers' && parameters[3] === 'trigger') {
+        $(item).find('#triggersForTrigger').removeClass('hidden');
+    } else {
+        $(item).find('#triggersForGesture').removeClass('hidden');
     }
 }
 
-function renderAlternativeQuestionInput(item, parameters) {
+function renderAlternativeQuestionInput(item, data) {
+    var parameters = data.parameters;
+    var options;
+    console.log(parameters)
+    if (parameters[2] === 'gestures') {
+        options = assembledGestures();
+    } else {
+        options = getLocalItem(ASSEMBLED_TRIGGER);
+    }
 
+    for (var i = 0; i < options.length; i++) {
+        if ((singleGUSGesture && singleGUSGesture.id !== options[i].id) || (parameters[4] && parameters[4].id !== options[i].id)) {
+            var optionButton = $('#item-container-inputs').find('#checkbox').clone();
+            optionButton.find('.option-text').html(options[i].title);
+            item.find('.option-container').append(optionButton);
+            item.find('.option-container').append(document.createElement('br'));
+
+            if (parameters[2] === 'gestures') {
+                var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
+                button.attr('name', options[i].id);
+                optionButton.append(button);
+            }
+        }
+    }
+
+    if (parameters[1] === true) {
+        var optionalAnswer = $('#item-container-inputs').find('#checkbox-optionalanswer').clone();
+        item.find('.option-container').append(optionalAnswer);
+    }
+
+    if (parameters[0] === true) {
+        var justification = $('#item-container-inputs').find('#justification').clone();
+        item.find('.option-container').append(justification);
+    }
+}
+
+/*
+ * gus & sus
+ */
+
+function renderGUSSinglePreview(item, data) {
+    console.log(data);
+    if (data.parameters[0] === true) {
+        $(item).find('#reversed').removeClass('hidden');
+    }
+    if (data.dimension !== DIMENSION_ANY) {
+        $(item).find('#item-factors').removeClass('hidden');
+        $(item).find('#factor-primary').text(translation.dimensions[data.dimension]);
+        $(item).find('#factor-main').text(translation.mainDimensions[data.dimension]);
+    }
+}
+function renderGUSSingleInput(item, options) {
+    for (var i = 0; i < options.length; i++) {
+        var radioButton = $('#item-container-inputs').find('#radio').clone();
+        radioButton.find('.option-text').html(options[i]);
+        item.find('.option-container').append(radioButton);
+        item.find('.option-container').append(document.createElement('br'));
+    }
+}
+
+var susOptions = ['Stimme gar nicht zu', 'Stimme eher nicht zu', 'Teils-teils', 'Stimme eher zu', 'Stimme voll und ganz zu'];
+function renderSusInput(item) {
+    for (var i = 0; i < susOptions.length; i++) {
+        var radioButton = $('#item-container-inputs').find('#radio').clone();
+        radioButton.find('.option-text').html(susOptions[i]);
+        item.find('.option-container').append(radioButton);
+        item.find('.option-container').append(document.createElement('br'));
+    }
 }

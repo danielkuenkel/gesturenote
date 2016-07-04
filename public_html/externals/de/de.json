@@ -1,4 +1,5 @@
 {
+    "done": "Fertig",
     "close": "Schließen",
     "next": "Weiter",
     "previous": "Zurück",
@@ -25,8 +26,8 @@
     },
     "formats": {
         "questionnaire": "Fragebogen",
-        "gus": "GUS (einzelne Gesten)",
-        "questionnaireGestures": "GUS (Allgemeine Frage)",
+        "gus": "GUS (einzelne Geste)",
+        "questionnaireGestures": "GUS (Mehrere Gesten)",
         "sus": "SUS",
         "letterOfAcceptance": "Einverständniserklärung",
         "gestureTraining": "Gestentraining",
@@ -74,5 +75,8 @@
     "task": "Aufgabe",
     "description": "Beschreibung",
     "title": "Titel",
-    "timesUp": "Die Zeit ist abgelaufen"
+    "timesUp": "Die Zeit ist abgelaufen",
+    "age": "Alter",
+    "from": "von",
+    "to": "bis"
 }

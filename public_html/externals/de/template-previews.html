@@ -36,6 +36,7 @@
             <div class="question"></div>
             <span class="label label-default hidden" id="select-gestures">Auswahl einer oder mehrerer Gesten</span>
             <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
             <span class="label label-default hidden" id="dimension"></span>
         </div>
     </div>
@@ -43,13 +44,13 @@
     <div class="panel panel-default root" id="alternativeQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div class="question"></div>
-            <span class="label label-default hidden" id="dimension"></span>
-            <span class="label label-default hidden" id="alternative">Alternative</span>
-            <span class="label label-default hidden" id="alternativeFor">für</span>
-            <div id="title"></div>
-            <div class="hidden" id="gesture-container">
-
-            </div>
+            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="gesturesForGesture">Es werden alternative Gesten für die Geste gesucht</span>
+            <span class="label label-default hidden" id="triggersForGesture">Es werden alternative Funktionen für die Geste gesucht</span>
+            <span class="label label-default hidden" id="triggersForTrigger">Es werden alternative Funktionen für die Funktion gesucht</span>
+            <span class="label label-default hidden" id="gesturesForTrigger">Es werden alternative Gesten für die Funktion gesucht</span>
         </div>
     </div>
 
@@ -57,6 +58,7 @@
         <div class="panel-body">
             <div class="question"></div>
             <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+            <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
             <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
             <span class="label label-default hidden" id="dimension"></span>
             <div>Eingruppierungs-Optionen</div>
@@ -67,9 +69,16 @@
     <div class="panel panel-default root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div class="question"></div>
+            <div class="hidden" style="width: 100%" id="item-factors">
+                <div class="label label-info" id="factor-primary"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-primary" id="factor-main"></div>
+            </div>
             <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+            <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
             <span class="label label-default hidden" id="justification">Mit Begründung</span>
-            <span class="label label-default hidden" id="dimension"></span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <!--<span class="label label-default hidden" id="dimension"></span>-->
             <div>Eingruppierungs-Optionen</div>
             <div class="option-container"></div>
         </div>
@@ -119,10 +128,8 @@
 
     <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <div>
-                <span class="question"></span> 
-                <span class="label label-danger hidden" id="reversed">negiert</span>
-            </div>
+            <div class="question"></div> 
+            <span class="label label-danger hidden" id="reversed">negiert</span>
         </div>
     </div>
 
@@ -140,12 +147,16 @@
         </div>
     </div>
 
-    <div class="panel panel-default root" id="gusItem" style="margin-bottom: 5px;">
+    <div class="panel panel-default root" id="gusSingle" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <div>
-                <span class="question"></span> 
-                <span class="label label-default hidden" id="dimension"></span> 
-                <span class="label label-danger hidden" id="reversed">negiert</span>
+            <div class="question"></div>
+            <div style="display: inline;">
+                <div class="hidden" id="item-factors" style="display: inline-block">
+                    <div class="label label-info" id="factor-primary"></div>
+                    <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                    <div class="label label-primary" id="factor-main"></div>
+                </div>
+                <div class="label label-danger hidden" id="reversed" style="display: inline-block">negiert</div>
             </div>
         </div>
     </div>
@@ -389,7 +400,7 @@
 
     <!-- SUS container & item -->
     <div class="root" id="sus">
-        <h3 class="headline">Fragebogen</h3>
+        <h3 class="headline">Fragebogen zum System</h3>
         <hr>
         <div class="question-container"></div>
         <hr>
@@ -400,74 +411,32 @@
         <div class="panel-body">
             <div>
                 <span class="question"></span> 
-                <form action="">
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">
-                            <span class="option-text">1 (Stimme voll zu)</span></label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">
-                            <span class="option-text">2</span></label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">
-                            <span class="option-text">3</span></label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">
-                            <span class="option-text">4</span></label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">
-                            <span class="option-text">5 (Stimme überhaupt nicht zu)</span></label>
-                    </div>
-                </form>
+                <div class="option-container root"></div>
             </div>
         </div>
     </div>
 
     <!-- GUS container & item -->
     <div class="root" id="gus">
-        <h3 class="headline">Fragebogen</h3>
+        <h3 class="headline">Fragebogen zur Geste</h3>
+        <div class="row">
+            <div class="col-sm-6 right" style="margin-bottom: 10px;">
+                <div id="title"></div>
+            </div>
+            <div class="col-sm-6 left">
+                <div class="imageContainer autoplay"></div>
+            </div>
+        </div>
         <hr>
         <div class="question-container"></div>
         <hr>
         <button class="next btn btn-success pull-right">Weiter <span aria-hidden="true">&rarr;</span></button>
     </div>
 
-    <div class="panel panel-default root" id="gusItem" style="margin-bottom: 5px;">
-        <div class="panel-body">
-            <div>
-                <span class="question"></span> 
-                <form action="">
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">
-                            <span class="option-text">1 (Stimme voll zu)</span></label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">
-                            <span class="option-text">2</span></label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">
-                            <span class="option-text">3</span></label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">
-                            <span class="option-text">4</span></label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">
-                            <span class="option-text">5 (Stimme überhaupt nicht zu)</span></label>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <!-- gesture questionnaire container & item -->
     <div class="root" id="questionnaireGestures">
-        <h3 class="headline">Fragebogen</h3>
+        <h3 class="headline">Fragebogen zu den Gesten</h3>
         <hr>
         <div class="question-container"></div>
         <hr>
@@ -495,7 +464,6 @@
         <div class="col-sm-6 left">
             <div class="imageContainer autoplay"></div>
         </div>
-
     </div>
 
     <div id="trainingItemUnmoderated" class="row">
@@ -521,14 +489,25 @@
         <hr>
         <div class="alert-space alert-waiting-for-slideshow"></div>
         <div class="progress progress-slideshow hidden">
-            <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                <!--<span class="sr-only">40% Complete (success)</span>-->
-            </div>
+            <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
         </div>
         <div id="slideshowContainer"></div>
     </div>
 
-    <div id="slideshowItemModeratedTester" class="text-center">
+    <div id="slideshowItemModerated" class="text-center">
+        <div class="gestureContainer hidden">
+            <p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Nennen Sie die Funktion für folgende Geste</p>
+            <div class="imageContainer autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
+        </div>
+        <div class="triggerContainer hidden">
+            <p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Zeigen Sie die Geste für die Funktion</p>
+            <div class="trigger-title" style="font-size: 50pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
+        </div>
+    </div>
+
+    <div id="slideshowItemUnmoderated" class="text-center">
+        <button class="btn btn-xl btn-success btn-shadow hidden" id="startSlideshow" name="btn-success">Starten</button>
+
         <div class="gestureContainer hidden">
             <p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Nennen Sie die Funktion für folgende Geste</p>
             <div class="imageContainer autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
@@ -555,13 +534,13 @@
             <p class="question"></p>
             <div class="btn-group switch" style="">
                 <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
-                <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox reset no-gestures-assembled inactive" id="no" name="btn-success">Nein</button>
             </div>
 
-            <div class="hidden" id="justification">
-                <label for="justificationInput">Begründung</label>
-                <textarea class="form-control" id="justificationInput" rows="3"></textarea>
-            </div>
+            <!--            <div class="hidden" id="justification">
+                            <label for="justificationInput">Begründung</label>
+                            <textarea class="form-control" id="justificationInput" rows="3"></textarea>
+                        </div>-->
         </div>
     </div>
 
@@ -577,19 +556,19 @@
             <p class="question"></p> 
             <div class="option-container root"></div>
 
-<!--            <div class="checkbox hidden" id="option-item-checkbox" style="margin-top: 10px;">
-                <label><input type="checkbox" value=""><span class="option-text"></span></label>
-            </div>
-            <div class="radio hidden" id="option-item-radio" style="margin-top: 10px;">
-                <label><input type="radio" name="optradio">
-                    <span class="option-text"></span>
-                </label>
-            </div>-->
+            <!--            <div class="checkbox hidden" id="option-item-checkbox" style="margin-top: 10px;">
+                            <label><input type="checkbox" value=""><span class="option-text"></span></label>
+                        </div>
+                        <div class="radio hidden" id="option-item-radio" style="margin-top: 10px;">
+                            <label><input type="radio" name="optradio">
+                                <span class="option-text"></span>
+                            </label>
+                        </div>-->
             <div class="hidden" id="option-item-justification" style="margin-top: 20px;">
                 <label for="optionalanswerInput">Begründung(en)</label>
                 <textarea class="form-control" id="optionalanswerInput" rows="3"></textarea>
             </div>
-            <button type="button" class="btn btn-default btn-sm btn-popover-gesture-preview hidden" id="btn-show-gesture" style="margin-left: 10px; margin-top: -10px"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
+
         </div>
     </div>
 
@@ -608,6 +587,15 @@
                         <span class="glyphicon glyphicon-plus"></span><span class="sr-only">mehr</span>
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="gusSingle" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div>
+                <span class="question"></span> 
+                <div class="option-container root"></div>
             </div>
         </div>
     </div>
@@ -669,11 +657,18 @@
         </div>
         <span class="option-text" style="margin-left: 5px;"></span>
     </div>
-    
-    
 
-    <div id="checkbox">
-        <button class="btn btn-default btn-checkbox" name="success">
+    <div class="panel panel-default root" id="alternativeQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question"></p>
+            <div class="option-container root"></div>
+        </div>
+    </div>
+
+
+
+    <div class="btn-group" id="checkbox">
+        <button class="btn btn-default btn-checkbox" name="primary">
             <span id="icons" style="margin-right: 6px">
                 <i class="fa fa-circle-o" id="normal"></i>
                 <i class="fa fa-circle hidden" id="over"></i>
@@ -683,7 +678,7 @@
     </div>
 
     <div id="checkbox-optionalanswer" style="width: 100%">
-        <button class="btn btn-default btn-checkbox" name="success" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px">
+        <button class="btn btn-default btn-checkbox" name="primary" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px">
             <span id="icons" style="margin-right: 6px">
                 <i class="fa fa-circle-o" id="normal"></i>
                 <i class="fa fa-circle hidden" id="over"></i>
@@ -694,8 +689,8 @@
         <textarea class="form-control optionalInput" rows="3" style="border-top-left-radius: 0px;"></textarea>
     </div>
 
-    <div id="radio">
-        <button class="btn btn-default btn-radio" name="success">
+    <div class="btn-group" id="radio">
+        <button class="btn btn-default btn-radio" name="primary">
             <span id="icons" style="margin-right: 6px">
                 <i class="fa fa-circle-o" id="normal"></i>
                 <i class="fa fa-circle hidden" id="over"></i>
@@ -706,7 +701,7 @@
     </div>
 
     <div id="radio-optionalanswer" style="width: 100%">
-        <button class="btn btn-default btn-radio" name="success" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px">
+        <button class="btn btn-default btn-radio" name="primary" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px">
             <span id="icons" style="margin-right: 6px">
                 <i class="fa fa-circle-o" id="normal"></i>
                 <i class="fa fa-circle hidden" id="over"></i>
@@ -717,5 +712,11 @@
         <textarea class="form-control optionalInput" rows="3" style="border-top-left-radius: 0px;"></textarea>
     </div>
 
+    <div id="justification">
+        <label for="justificationInput">Begründung(en)</label>
+        <textarea class="form-control" id="justificationInput" rows="3"></textarea>
+    </div>
+
+    <button type="button" class="btn btn-default btn-popover-gesture-preview" id="btn-show-gesture" style="border: none; height: 39px"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
 
 </div>

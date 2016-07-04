@@ -30,7 +30,7 @@
     <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
 
-<script type="text/javascript" src="js/template-inputs.js"></script>
+<script type="text/javascript" src="js/template-create.js"></script>
 <script>
         $(document).ready(function () {
             var data = getLocalItem(currentIdForModal + '.data');
@@ -41,157 +41,19 @@
 
         function renderData(data) {
             var listContainer = $('#list-container');
-
             for (var i = 0; i < data.length; i++) {
-                var item = data[i];
-                var clone = $('#form-item-container').find('#' + item.type).clone(true);
-                $(clone).find('.question').val(item.question);
-                clone.addClass(item.dimension);
-                $('#list-container').append(clone);
-                updateBadges($('#list-container'), item.type);
-
-                switch (item.type) {
-                    case DICHOTOMOUS_QUESTION:
-                        var parameters = item.parameters;
-                        var aGestures = assembledGestures();
-                        if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
-                            $(clone).find('.gesture-select .switchButtonAddon').click();
-                        }
-                        if (parameters[1] === true) {
-                            $(clone).find('.justification .switchButtonAddon').click();
-                        }
-                        break;
-                    case GROUPING_QUESTION:
-                        var parameters = item.parameters;
-                        if (parameters[0] === true) {
-                            $(clone).find('.multiselect .switchButtonAddon').click();
-                        }
-                        if (parameters[1] === true) {
-                            $(clone).find('.optionalanswer .switchButtonAddon').click();
-                        }
-
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-                            var option = $('#groupingQuestionItem').clone().removeClass('hidden');
-                            $(option).find('.option').val(options[j]);
-                            $(clone).find('.option-container').append(option);
-                            checkCurrentListState($(clone).find('.option-container'));
-                        }
-                        break;
-                    case RATING:
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-                            var option = $('#ratingItem').clone().removeClass('hidden');
-                            $(option).find('.option').val(options[j]);
-                            $(clone).find('.option-container').append(option);
-                            $(option).find('.optionQuestion').val(options[j][options[j].length - 2]);
-                            $(option).find('.chosen').attr('id', (options[j].length - 2));
-                            $(option).find('.show-dropdown').val(options[j].length - 2);
-                            $(option).find('#scale_' + (options[j].length - 2)).addClass('selected');
-                            checkCurrentListState($(clone).find('.option-container'));
-
-                            renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 2, options[j]);
-                            
-                            if(options[j][options[j].length - 1] === true) {
-                                $(option).find('#yes').click();
-                            }
-                        }
-                        break;
-                    case SUM_QUESTION:
-                        var parameters = item.parameters;
-
-                        $(clone).find('.option').children('#' + parameters[0]).click();
-                        $(clone).find('.maximum').val(parameters[1]);
-
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-                            var option = $('#sumQuestionItem').clone().removeClass('hidden');
-                            $(option).find('.option').val(options[j]);
-                            $(clone).find('.option-container').append(option);
-                            checkCurrentListState($(clone).find('.option-container'));
-                        }
-                        break;
-                    case RANKING:
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-                            var option = $('#rankingItem').clone().removeClass('hidden');
-                            $(option).find('.option').val(options[j]);
-                            $(clone).find('.option-container').append(option);
-                            checkCurrentListState($(clone).find('.option-container'));
-                        }
-                        break;
-                }
+                renderFormatItem(listContainer, data[i]);
+                updateBadges(listContainer, data[i].type);
             }
-
             checkCurrentListState(listContainer);
         }
 
         function saveData() {
             var itemList = $('#list-container').children();
             var questionnaire = new Array();
-
             for (var i = 0; i < itemList.length; i++) {
-                var item = itemList[i];
-                var type = $(item).attr('id');
-                var dimension = getDimensionByElement($(item));
-                var question = $(item).find('.question').val();
-                var parameters = null;
-                var options = null;
-
-                switch (type) {
-                    case DICHOTOMOUS_QUESTION:
-                        parameters = new Array();
-                        parameters.push($(item).find('.gesture-select .active').attr('id') === 'yes' ? true : false);
-                        parameters.push($(item).find('.justification .active').attr('id') === 'yes' ? true : false);
-                        break;
-                    case GROUPING_QUESTION:
-                        parameters = new Array();
-                        parameters.push($(item).find('.multiselect .active').attr('id') === 'yes' ? true : false);
-                        parameters.push($(item).find('.optionalanswer .active').attr('id') === 'yes' ? true : false);
-
-                        options = new Array();
-                        var groupingOptions = $(item).find('.option-container').children();
-                        for (var j = 0; j < groupingOptions.length; j++) {
-                            options.push($(groupingOptions[j]).find('.option').val());
-                        }
-                        break;
-                    case RATING:
-                        options = new Array();
-                        var optionList = $(item).find('.option-container').children();
-                        for (var j = 0; j < optionList.length; j++) {
-                            var ratingOptions = ($(optionList[j]).find('.ratingScaleItemContainer').children());
-                            var tempArray = new Array();
-                            for (var k = 0; k < ratingOptions.length; k++) {
-                                tempArray.push($(ratingOptions[k]).find('.option').val());
-                            }
-                            tempArray.push($(optionList[j]).find('.optionQuestion').val());
-                            tempArray.push($(optionList[j]).find('.negative').find('#yes').hasClass('active'));
-                            options.push(tempArray);
-                        }
-                        break;
-                    case SUM_QUESTION:
-                        parameters = new Array();
-                        parameters.push($(item).find('.allocation').attr('id'));
-                        parameters.push($(item).find('.maximum').val());
-
-                        options = new Array();
-                        var sumQuestionOptions = $(item).find('.option-container').children();
-                        for (var j = 0; j < sumQuestionOptions.length; j++) {
-                            options.push($(sumQuestionOptions[j]).find('.option').val());
-                        }
-                        break;
-                    case RANKING:
-                        options = new Array();
-                        var rankingOptions = $(item).find('.option-container').children();
-                        for (var j = 0; j < rankingOptions.length; j++) {
-                            options.push($(rankingOptions[j]).find('.option').val());
-                        }
-                        break;
-                }
-
-                questionnaire.push(new QuestionnaireItem(type, dimension, question, parameters, options));
+                questionnaire.push(getFormatData(itemList[i]));
             }
-
             setLocalItem(currentIdForModal + '.data', questionnaire);
         }
 </script>

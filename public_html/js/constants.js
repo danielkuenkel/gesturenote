@@ -50,6 +50,8 @@ var GROUPING_QUESTION_GUS = 'groupingQuestionGUS';
 var RATING = 'rating';
 var SUM_QUESTION = 'sumQuestion';
 var RANKING = 'ranking';
+var COUNTER = 'ranking';
+var GUS_SINGLE = 'gusSingle';
 
 // prototype formats
 var PROTOTYPE_PIDOCO = 'pidoco';

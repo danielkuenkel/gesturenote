@@ -22,8 +22,6 @@ $(document).on('click', '.select .option li', function (event) {
     if (!event.handled) {
         event.handled = true;
 
-        console.log('global click select');
-
         if ($(this).hasClass('dropdown-header') || $(this).hasClass('divider') || $(this).hasClass('selected')) {
             return false;
         }
@@ -127,33 +125,6 @@ function checkCurrentListState(itemContainer) {
 }
 
 
-/* 
- * Check if there are assembled gestures (a gesture set)
- * It's for the alert showing in dichotomous question container 
- * 
- * reset: remove alerts
- */
-
-//$('body').on('click', '.check', function (event) {
-//
-//    if (event.handled !== true)
-//    {
-//        event.handled = true;
-//        event.preventDefault();
-//
-//    }
-//});
-//
-//$('body').on('click', '.reset', function (event) {
-//    if (event.handled !== true)
-//    {
-//        event.handled = true;
-//        event.preventDefault();
-//        $(this).closest('.root').find('.alert-space').empty();
-//    }
-//});
-
-
 /*
  * specific switch buttons 
  */
@@ -198,20 +169,16 @@ $(document).on('click', '.btn-toggle-checkbox', function (event) {
 $(document).on('click', '.switchButtonAddon', function (event) {
     event.preventDefault();
     if (!event.handled) {
-
         event.handled = true;
         var activeButton = $(this).nextAll().filter('.active');
-        var inactiveButton = $(this).nextAll().filter('.inactive');
 
-//        console.log(activeButton);
-
-
-        if (activeButton.length === 0) {
+        if (activeButton.nextAll().filter('.btn-toggle-checkbox').length === 0 || activeButton.length === 0) {
             activeButton = null;
             inactiveButton = $(this).next();
 
+        } else {
+            inactiveButton = activeButton.next();
         }
-        console.log(inactiveButton);
         inactiveButton.click();
     }
 });
@@ -322,10 +289,11 @@ $(document).on('click', '.simple-stepper .btn-stepper-increase', function (event
  * Actions for the gesture select dropdown
  */
 
-function renderAssembledGestures() {
+function renderAssembledGestures(targetContainer) {
     var gestures = assembledGestures();
     if (gestures) {
-        var dropdown = $('#form-item-container').find('.gestureSelect');
+        var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
+        var dropdown = target === null ? $('#form-item-container').find('.gestureSelect') : $(target).find('.gestureSelect');
         $(dropdown).find('.option').empty();
 
         for (var i = 0; i < gestures.length; i++) {
@@ -335,13 +303,14 @@ function renderAssembledGestures() {
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode(gestures[i].title));
             listItem.appendChild(link);
+            ;
             $(dropdown).find('.option').append(listItem);
-            $('#form-item-container').find('.gestureSelect .dropdown-toggle').removeClass('disabled');
-            $('#form-item-container').find('.option-gesture').attr('placeholder', 'Bitte wählen');
+            $(target).find('.gestureSelect .dropdown-toggle').removeClass('disabled');
+            $(target).find('.option-gesture').attr('placeholder', 'Bitte wählen');
         }
     } else {
-        $('#form-item-container').find('.gestureSelect .dropdown-toggle').addClass('disabled');
-        $('#form-item-container').find('.option-gesture').attr('placeholder', 'Kein Gestenset vorhanden');
+        $(target).find('.gestureSelect .dropdown-toggle').addClass('disabled');
+        $(target).find('.option-gesture').attr('placeholder', 'Kein Gestenset vorhanden');
     }
 }
 
@@ -393,7 +362,6 @@ function renderAssembledTriggers() {
         for (var i = 0; i < triggers.length; i++) {
             listItem = document.createElement('li');
             listItem.setAttribute('id', triggers[i].id);
-//            console.log(triggers[i].id)
 
             var link = document.createElement('a');
             link.setAttribute('href', '#');
@@ -489,8 +457,8 @@ $(document).on('focus focusin select', '.optionalInput', function (event) {
     if (event.handled !== true)
     {
         event.handled = true;
-        console.log('focus in');
-        if ($(this).val().trim() === '') {
+        if (($(this).val().trim() === '' && !$(this).parent().find('.btn-radio, .btn-checkbox').hasClass('btn-option-checked')) ||
+                ($(this).val().trim() !== '' && !$(this).parent().find('.btn-radio, .btn-checkbox').hasClass('btn-option-checked'))) {
             $(this).parent().find('.btn-radio, .btn-checkbox').click();
         }
     }
@@ -519,5 +487,11 @@ $(document).on('mouseleave', '.btn-checkbox, .btn-radio', function () {
     if (!$(this).hasClass('btn-option-checked')) {
         $(this).find('#normal').removeClass('hidden');
         $(this).find('#over, #checked').addClass('hidden');
+    }
+});
+
+$(document).on('slide change', '.custom-range-slider', function () {
+    if ($(this).hasClass('saveGeneralData')) {
+        saveGeneralData();
     }
 });

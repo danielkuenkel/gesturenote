@@ -126,3 +126,13 @@ function getPrototypeById(id) {
 function removeAssembledPrototypes() {
     removeLocalItem(ASSEMBLED_PROTOTYPES);
 }
+
+function getPhaseById(id) {
+    var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
+    for (var i = 0; i < phaseSteps.length; i++) {
+        if (parseInt(phaseSteps[i].id) === parseInt(id)) {
+            return phaseSteps[i];
+        }
+    }
+    return null;
+}

@@ -13,9 +13,11 @@ include './includes/language.php';
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/createProject.css">
         <link rel="stylesheet" href="css/gesture.css">
+        <link rel="stylesheet" href="bootstrap-datepicker/css/bootstrap-datepicker3.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap-slider/css/bootstrap-slider.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -23,6 +25,71 @@ include './includes/language.php';
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
         <script src="http://chancejs.com/chance.min.js"></script>
+
+        <script src="bootstrap-slider/js/bootstrap-slider.js"></script>
+        <script src="bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.ar.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.az.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.bg.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.bs.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.ca.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.cs.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.cy.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.da.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.de.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.el.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.en-GB.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.es.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.et.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.eu.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.fa.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.fi.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.fo.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.fr-CH.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.gl.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.he.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.hr.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.hu.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.hy.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.id.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.is.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.it.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.it-CH.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.ja.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.ka.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.kh.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.kk.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.kr.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.lt.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.lv.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.mk.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.ms.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.nb.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.nl.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.nl-BE.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.no.min.js" charset="UTF-8"></script>
+        <!--<script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.pl.js" charset="UTF-8"></script>-->
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.pt-BR.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.pt.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.ro.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.rs.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.rs-latin.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.ru.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.sk.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.sl.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.sq.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.sr.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.sr-latin.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.sv.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.sw.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.th.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.tr.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.uk.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>
+        <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-TW.min.js" charset="UTF-8"></script>
+
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/localforage.js"></script>
@@ -36,6 +103,7 @@ include './includes/language.php';
         <script src="js/subPages.js"></script>
         <script src="js/createProject.js"></script>
         <script src="js/gesture.js"></script>
+
     </head>
     <body>
 
@@ -253,19 +321,49 @@ include './includes/language.php';
                         <hr>
 
                         <!-- project phases with dropdown -->
-                        <h3>Was & Wer?</h3>
+                        <h3>Wer, Was & Wann?</h3>
+
+                        <div class="form-group" id="ageSlider">
+                            <span class="slider-from" name="age">von</span>
+                            <input class="custom-range-slider saveGeneralData" type="text" value="" data-slider-step="1"/>
+                            <span class="slider-to">bis</span>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="btn-group" id="genderSwitch">
+                                <button class="btn btn-default btn-shadow switchButtonAddon">Geschlecht</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="female" name="btn-success">weiblich</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="male" name="btn-success">männlich</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="identical" name="btn-success">egal</button>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Aufzeichnung</span>
                                 <input class="form-control item-input-text option-record show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="recordSelect" role="group">
-                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-bottom-right-radius: 0px; border-top-right-radius: 0px;"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="videoAudio"><a href="#">Video & Audio</a></li>
                                         <li id="videoAudioScreen"><a href="#">Video, Audio & Bildschirm</a></li>
                                     </ul>
+                                    <button class="btn btn-addon btn-shadow disabled dropdown-disabled" id="info-record">
+                                        <i class="glyphicon glyphicon-question-sign"></i>
+                                    </button>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div id="from-To-datepicker">
+                            <div class="input-daterange input-group" id="datepicker">
+                                <span class="input-group-addon">Von</span>
+                                <input type="text" class="input form-control readonly" id="start" name="start" />
+                                <span class="input-group-addon">bis</span>
+                                <input type="text" class="input form-control readonly" id="end" name="end" />
+                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-projectDescription.html')">
+                                    <i class="glyphicon glyphicon-question-sign"></i>
+                                </span>
                             </div>
                         </div>
 
@@ -313,9 +411,39 @@ include './includes/language.php';
                 externals.push(['#template-gesture', PATH_EXTERNALS + '/' + currentLanguage + '/template-gesture.html']);
                 externals.push(['#template-inputs', PATH_EXTERNALS + '/' + currentLanguage + '/template-create.html']);
                 loadExternals(externals);
+
+                $('#from-To-datepicker .input-daterange').datepicker({
+                    calendarWeeks: true,
+                    todayHighlight: true,
+                    todayBtn: true,
+                    clearBtn: true,
+                    daysOfWeekHighlighted: "0,6",
+                    language: currentLanguage
+                });
+
+
+                $('#from-To-datepicker .input-daterange').on("changeDate", function () {
+                    saveGeneralData();
+                });
+
+                $('#from-To-datepicker .input-daterange input').on("clearDate", function () {
+                    saveGeneralData();
+                });
             });
 
             function onAllExternalsLoadedSuccessfully() {
+                // get min and max age from datebase
+                var ageMin = 18;
+                var ageMax = 100;
+                if (getLocalItem(PROJECT).ageRange) {
+//                    $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: getLocalItem(PROJECT).ageRange.ageRange});
+                } else {
+                    $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: [23, 50]});
+                }
+
+                $('#ageSlider .slider-from').text(translation[$('#ageSlider .slider-from').attr('name')] + " " + translation.from + " " + ageMin);
+                $('#ageSlider .slider-to').text(translation.to + " " + ageMax);
+
                 if (typeof (Storage) !== "undefined") {
                     checkSessionStorage();
                 } else {
@@ -382,20 +510,7 @@ include './includes/language.php';
                 loadHTMLintoModal('custom-modal', 'info-use-trigger.html');
             });
 
-//            $('body').on('click', '.select .option li', function (event) {
-//                event.preventDefault();
-//                console.log('click on project');
-//                var parent = $(this).closest('.select');
-//                
-//            });
-
-//            $('body').on('click', '.show-dropdown', function (event) {
-//                event.preventDefault();
-//                event.stopPropagation();
-//                $(this).next().find('[data-toggle=dropdown]').dropdown('toggle');
-//            });
-
-            $('#info-addon-add-phases').on('click', function (event) {
+            $('#info-addon-add-phases, #info-record').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
                     var selectedID = $(this).parent().find('.chosen').attr('id');
@@ -446,128 +561,6 @@ include './includes/language.php';
 
                 checkCurrentListState($('#phaseStepList'));
             }
-
-//            function checkCurrentListState(itemContainer) {
-//                var childList = $(itemContainer).children();
-//                for (var i = 0; i < childList.length; i++) {
-//                    var child = childList[i];
-//                    var firstElement = $(child).find('.btn-up').first();
-//                    var secondElement = firstElement.next();
-//
-//                    firstElement.removeClass('disabled');
-//                    secondElement.removeClass('disabled');
-//
-//                    if (i === 0) {
-//                        firstElement.addClass('disabled');
-//                    }
-//                    if (i === childList.length - 1) {
-//                        secondElement.addClass('disabled');
-//                    }
-//                }
-//            }
-
-//            $('body').on('click', '.btn-delete', function (event) {
-//                event.stopPropagation();
-//                event.preventDefault();
-//                var element = $(this).closest('.root');
-//                var parent = $(element).parent();
-//                currentContainerList = parent;
-//                $(element).remove();
-//                checkCurrentListState(parent);
-//                savePhases();
-//            });
-//
-//            $('body').on('click', '.btn-up', function (event) {
-//                event.stopPropagation();
-//                event.preventDefault();
-//                moveElement("up", $(this));
-//                checkCurrentListState($(this).closest('.root').parent());
-//            });
-//
-//            $('body').on('click', '.btn-down', function (event) {
-//                event.stopPropagation();
-//                event.preventDefault();
-//                moveElement("down", $(this));
-//                checkCurrentListState($(this).closest('.root').parent());
-//            });
-//
-//            $('body').on('click', '.btn-toggle-checkbox', function (event) {
-//                event.preventDefault();
-//                if ($(this).hasClass('inactive')) {
-//                    if ($(this).parent().children('.active').length === 0) {
-//                        toggleSwitch(null, $(this));
-//                    } else {
-//                        toggleSwitch($(this).parent().children('.active'), $(this));
-//                    }
-//                }
-//
-//                if ($(this).hasClass('saveGeneralData')) {
-//                    saveGeneralData();
-//                }
-//            });
-//
-//            $('body').on('click', '.switchButtonAddon', function (event) {
-//                event.preventDefault();
-//                var activeButton = $(this).nextAll().filter('.active');
-//                var inactiveButton = $(this).nextAll().filter('.inactive');
-//
-//                if (activeButton.length === 0) {
-//                    activeButton = null;
-//                    inactiveButton = $(this).next();
-//
-//                }
-//                inactiveButton.click();
-//            });
-//
-//            function toggleSwitch(activeButton, inactiveButton) {
-//                if (activeButton) {
-//                    $(activeButton).removeClass('active');
-//                    $(activeButton).addClass('inactive');
-//                    $(activeButton).addClass('btn-default');
-//                    $(activeButton).removeClass($(activeButton).attr('name'));
-//                }
-//                $(inactiveButton).removeClass('inactive');
-//                $(inactiveButton).addClass('active');
-//                $(inactiveButton).removeClass('btn-default');
-//                $(inactiveButton).addClass($(inactiveButton).attr('name'));
-//
-//                var supplements = $(activeButton).parent().children('.supplement');
-//                if (supplements.length > 0) {
-//                    if ($(supplements).hasClass('hidden')) {
-//                        $(supplements).removeClass('hidden');
-//                    } else {
-//                        $(supplements).addClass('hidden');
-//                    }
-//                }
-//            }
-//
-//            function moveElement(direction, which) {
-//                var element = $(which).closest('.root');
-//                var brother;
-//                switch (direction) {
-//                    case "up":
-//                        brother = $(which).closest('.root').prev();
-//                        $(element).insertBefore(brother);
-//                        break;
-//                    case "down":
-//                        brother = $(which).closest('.root').next();
-//                        $(element).insertAfter(brother);
-//                        break;
-//                }
-//                savePhases();
-//            }
-
-//            function loadHTMLintoModal(modalId, url, modalSize) {
-//                $.get(url, modalId, function (data) {
-//                    $('#' + modalId).find('.modal-content').html(data);
-//                });
-//                $('#' + modalId).modal('show');
-//                $('#' + modalId).find('.modal-dialog').addClass(modalSize);
-//                $('#' + modalId).on('hidden.bs.modal', function () {
-//                    $(this).removeData('bs.modal');
-//                    $(this).find('.modal-dialog').removeClass(modalSize);
-//                });
-//            }
 
             $('#clearData').on('click', function (event) {
                 event.preventDefault();

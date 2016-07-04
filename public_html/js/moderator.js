@@ -20,10 +20,10 @@ var Moderator = {
                 item = Moderator.getQuestionnaire(source, container, currentPhaseData, true);
                 break;
             case GUS_SINGLE_GESTURES:
-                item = Moderator.getGUS(source, container, currentPhaseData);
+                item = Moderator.getQuestionnaire(source, container, currentPhaseData.gus, true);
                 break;
             case GUS_MULTIPLE_GESTURES:
-                item = Moderator.getQuestionnaire(source, container, currentPhaseData, true);
+                item = Moderator.getQuestionnaire(source, container, currentPhaseData.gus, true);
                 break;
             case SUS:
                 item = Moderator.getSUS(source, container, currentPhaseData);
@@ -62,8 +62,9 @@ var Moderator = {
             $(container).find('.question-container').append(item);
 
             if (data[i].dimension !== DIMENSION_ANY) {
-                $(item).find('#dimension').removeClass('hidden');
-                $(item).find('#dimension').text(translation.dimensions[data[i].dimension]);
+                $(item).find('#item-factors').removeClass('hidden');
+                $(item).find('#factor-primary').text(translation.dimensions[data[i].dimension]);
+                $(item).find('#factor-main').text(translation.mainDimensions[data[i].dimension]);
             }
 
             var parameters = data[i].parameters;
@@ -76,6 +77,10 @@ var Moderator = {
                         break;
                     case GROUPING_QUESTION:
                         renderGroupingQuestionPreview(source, item, parameters, options);
+                        break;
+                    case GUS_SINGLE:
+                        console.log(data[i].type);
+                        renderGUSSinglePreview(item, data[i]);
                         break;
                     case GROUPING_QUESTION_GUS:
                         renderGroupingQuestionGUSPreview(source, item, parameters, options);
@@ -90,7 +95,7 @@ var Moderator = {
                         renderRankingPreview(source, item, options);
                         break;
                     case ALTERNATIVE_QUESTION:
-                        renderAlternativeQuestionPreview(source, item, parameters);
+                        renderAlternativeQuestionPreview(item, parameters);
                         break;
                 }
             } else {
@@ -133,16 +138,20 @@ var Moderator = {
         return container;
     },
     getGUS: function getGUS(source, container, data) {
-        for (var i = 0; i < data.length; i++) {
-            var item = $(source).find('#gusItem').clone(false).removeAttr('id');
-            $(item).find('.question').text(i + 1 + '. ' + data[i].question);
-            $(container).find('.question-container').append(item);
-            if (data[i].reversed === true) {
-                $(item).find('#reversed').removeClass('hidden');
-            }
-            if (data[i].dimension !== DIMENSION_ANY) {
-                $(item).find('#dimension').removeClass('hidden');
-                $(item).find('#dimension').text(translation.dimensions[data[i].dimension]);
+        if (data.gus && data.gus.length > 0)
+        {
+            for (var i = 0; i < data.gus.length; i++) {
+                var item = $(source).find('#gusItem').clone(false).removeAttr('id');
+                $(item).find('.question').text(i + 1 + '. ' + data.gus[i].question);
+                $(container).find('.question-container').append(item);
+                if (data.gus[i].reversed === true) {
+                    $(item).find('#reversed').removeClass('hidden');
+                }
+                if (data.gus[i].dimension !== DIMENSION_ANY) {
+                    $(item).find('#item-factors').removeClass('hidden');
+                    $(item).find('#factor-primary').text(translation.dimensions[data.gus[i].dimension]);
+                    $(item).find('#factor-main').text(translation.mainDimensions[data.gus[i].dimension]);
+                }
             }
         }
         return container;
@@ -303,6 +312,8 @@ var Moderator = {
             $(item).find('#correct-slide, #next-slide').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
+                    currentSlideIndex = 0;
+                    slideTriggered = false;
                     nextStep();
                 } else {
                     wobble($(item).find('#trigger-slide'));

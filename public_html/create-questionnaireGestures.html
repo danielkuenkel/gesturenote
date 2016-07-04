@@ -20,14 +20,13 @@
     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
 
-<script type="text/javascript" src="js/template-inputs.js"></script>
+<script type="text/javascript" src="js/template-create.js"></script>
 <script type="text/javascript">
         $(document).ready(function () {
             renderDimensions($('#dimension-btn-group'));
 
             currentGUS = GUS_MULTIPLE_GESTURES;
             checkDimensions(getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE));
-//            var originData = getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE);
             var data = getLocalItem(currentIdForModal + '.data');
 
             renderAssembledGestures();
@@ -36,262 +35,301 @@
             if (data !== null) {
                 renderData(data);
             }
-//            else if (originData !== null) {
-//                renderData(originData);
-//            } else {
-//                alert("No predefined data there");
-//            }
         });
 
         function renderData(data) {
             var listContainer = $('#list-container');
-            var dimensions = translation.dimensions;
-            var mainDimensions = translation.mainDimensions;
-
-            for (var i = 0; i < data.length; i++) {
-                var item = data[i];
-                var dimension = item.dimension;
-                var clone = $('#form-item-container').find('#' + item.type).clone(true);
-                $(clone).find('.question').val(item.question);
-                $(clone).addClass(dimension);
-                $(listContainer).append(clone);
-                updateBadges($('#list-container'), item.type);
-
-                if (dimension !== DIMENSION_ANY) {
-                    $(clone).find('#item-factors').removeClass('hidden');
-                    $(clone).find('.btn-delete').addClass('hidden');
-                    var dimensionButton = $('#dimension-btn-group').find('#' + dimension);
-                    if (dimensionButton) {
-                        $(dimensionButton).addClass('active');
-                        $(dimensionButton).addClass('btn-info');
-                        $(dimensionButton).removeClass('inactive');
-                    }
-                    $(clone).find('#factor-primary').text(dimensions[dimension]);
-                    $(clone).find('#factor-main').text(mainDimensions[dimension]);
-                }
-
-                switch (item.type) {
-                    case DICHOTOMOUS_QUESTION:
-                        var parameters = item.parameters;
-                        var aGestures = assembledGestures();
-                        if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
-                            $(clone).find('.gesture-select .switchButtonAddon').click();
-                        }
-                        if (parameters[1] === true) {
-                            $(clone).find('.justification .switchButtonAddon').click();
-                        }
-                        break;
-                    case ALTERNATIVE_QUESTION:
-                        var parameters = item.parameters;
-                        if (parameters[0] === 'gestures') {
-                            $(clone).find('#gestures').click();
-                        }
-
-                        if (parameters[1] === 'gesture') {
-                            if (assembledGestures()) {
-                                $(clone).find('#alternativeGesture').click();
-                            }
-
-                            if (isGestureAssembled(parameters[2].id)) {
-                                $(clone).find('.option-gesture').val(parameters[2].title);
-                                $(clone).find('.gestureSelect .chosen').attr('id', parameters[2].id);
-                            } else {
-                                appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
-                            }
-                        } else if (parameters[1] === 'trigger') {
-                            if (getLocalItem(ASSEMBLED_TRIGGER))
-                            {
-                                $(clone).find('#alternativeTrigger').click();
-                            }
-
-                            if (getTriggerById(parameters[2].id)) {
-                                $(clone).find('.option-trigger').val(parameters[2].title);
-                                $(clone).find('.triggerSelect .chosen').attr('id', parameters[2].id);
-                            } else {
-                                appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
-                            }
-                        }
-                        break;
-                    case GROUPING_QUESTION:
-                        var parameters = item.parameters;
-                        if (parameters[0] === true) {
-                            $(clone).find('.multiselect .switchButtonAddon').click();
-                        }
-                        if (parameters[1] === true) {
-                            $(clone).find('.optionalanswer .switchButtonAddon').click();
-                        }
-
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-                            var option = $(clone).find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
-                            $(option).find('.option').val(options[j]);
-                            $(clone).find('.option-container').append(option);
-                            checkCurrentListState($(clone).find('.option-container'));
-                        }
-                        break;
-                    case GROUPING_QUESTION_GUS:
-                        var parameters = item.parameters;
-                        if (parameters[0] === true) {
-                            $(clone).find('.multiselect .switchButtonAddon').click();
-                        }
-                        if (parameters[1] === true) {
-                            $(clone).find('.justification .switchButtonAddon').click();
-                        }
-//                        console.log($(clone).find('.optionselect #' + parameters[2]))
-//                        $(clone).find('.optionselect #' + parameters[2]).unbind('click').bind('click');
-                        $(clone).find('.optionselect #' + parameters[2]).click();
-                        console.log(options);
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-
-                            var option = $(clone).find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
-                            option.removeAttr('id');
-                            $(option).find('.option').val(options[j]);
-                            console.log(option);
-                            $(clone).find('.option-container').append(option);
-                            checkCurrentListState($(clone).find('.option-container'));
-                        }
-
-                        break;
-                    case RATING:
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-                            var option = $('#ratingItem').clone().removeClass('hidden');
-                            $(option).find('.option').val(options[j]);
-                            $(clone).find('.option-container').append(option);
-                            $(option).find('.optionQuestion').val(options[j][options[j].length - 1]);
-                            $(option).find('.chosen').text((options[j].length - 1) + " ");
-                            checkCurrentListState($(clone).find('.option-container'));
-
-                            renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 1, options[j]);
-                        }
-                        break;
-                    case SUM_QUESTION:
-                        var parameters = item.parameters;
-
-                        $(clone).find('.option').children('#' + parameters[0]).click();
-                        $(clone).find('.maximum').val(parameters[1]);
-
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-                            var option = $('#sumQuestionItem').clone().removeClass('hidden');
-                            $(option).find('.option').val(options[j]);
-                            $(clone).find('.option-container').append(option);
-                            checkCurrentListState($(clone).find('.option-container'));
-                        }
-                        break;
-                    case RANKING:
-                        var options = item.options;
-                        for (var j = 0; j < options.length; j++) {
-                            var option = $('#rankingItem').clone().removeClass('hidden');
-                            $(option).find('.option').val(options[j]);
-                            $(clone).find('.option-container').append(option);
-                            checkCurrentListState($(clone).find('.option-container'));
-                        }
-                        break;
-                }
+            for (var i = 0; i < data.gus.length; i++) {
+                renderFormatItem(listContainer, data.gus[i]);
+                updateBadges(listContainer, data.gus[i].type);
             }
-
             checkDimensionItems();
             checkCurrentListState(listContainer);
+            
+//
+//            if (data.gus && data.gus.length > 0) {
+//                for (var i = 0; i < data.gus.length; i++) {
+//                    var item = data.gus[i];
+//                    var dimension = item.dimension;
+//                    var clone = $('#form-item-container').find('#' + item.type).clone(true);
+//                    $(clone).find('.question').val(item.question);
+//                    $(clone).addClass(dimension);
+//                    $(listContainer).append(clone);
+//                    updateBadges($('#list-container'), item.type);
+
+//                    if (dimension !== DIMENSION_ANY) {
+//                        $(clone).find('#item-factors').removeClass('hidden');
+//                        $(clone).find('.btn-delete').addClass('hidden');
+//                        var dimensionButton = $('#dimension-btn-group').find('#' + dimension);
+//                        if (dimensionButton) {
+//                            $(dimensionButton).addClass('active');
+//                            $(dimensionButton).addClass('btn-info');
+//                            $(dimensionButton).removeClass('inactive');
+//                        }
+//                        var dimensions = translation.dimensions;
+//                        var mainDimensions = translation.mainDimensions;
+//                        $(clone).find('#factor-primary').text(dimensions[dimension]);
+//                        $(clone).find('#factor-main').text(mainDimensions[dimension]);
+//                    }
+
+//                    switch (item.type) {
+//                        case DICHOTOMOUS_QUESTION:
+//                            var parameters = item.parameters;
+//                            var aGestures = assembledGestures();
+//                            if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
+//                                $(clone).find('.gesture-select .switchButtonAddon').click();
+//                            }
+//                            if (parameters[1] === true) {
+//                                $(clone).find('.justification .switchButtonAddon').click();
+//                            }
+//                            break;
+//                        case ALTERNATIVE_QUESTION:
+//                            var parameters = item.parameters;
+//                            if (parameters[0] === 'gestures') {
+//                                $(clone).find('#gestures').click();
+//                            }
+//
+//                            if (parameters[1] === 'gesture') {
+//                                if (assembledGestures()) {
+//                                    $(clone).find('#alternativeGesture').click();
+//                                }
+//
+//                                if (isGestureAssembled(parameters[2].id)) {
+//                                    $(clone).find('.option-gesture').val(parameters[2].title);
+//                                    $(clone).find('.gestureSelect .chosen').attr('id', parameters[2].id);
+//                                } else {
+//                                    appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
+//                                }
+//                            } else if (parameters[1] === 'trigger') {
+//                                if (getLocalItem(ASSEMBLED_TRIGGER))
+//                                {
+//                                    $(clone).find('#alternativeTrigger').click();
+//                                }
+//
+//                                if (getTriggerById(parameters[2].id)) {
+//                                    $(clone).find('.option-trigger').val(parameters[2].title);
+//                                    $(clone).find('.triggerSelect .chosen').attr('id', parameters[2].id);
+//                                } else {
+//                                    appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
+//                                }
+//                            }
+//                            break;
+//                        case GROUPING_QUESTION:
+//                            var parameters = item.parameters;
+//                            if (parameters[0] === true) {
+//                                $(clone).find('.multiselect .switchButtonAddon').click();
+//                            }
+//                            if (parameters[1] === true) {
+//                                $(clone).find('.optionalanswer .switchButtonAddon').click();
+//                            }
+//
+//                            var options = item.options;
+//                            for (var j = 0; j < options.length; j++) {
+//                                var option = $(clone).find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
+//                                $(option).find('.option').val(options[j]);
+//                                $(clone).find('.option-container').append(option);
+//                                checkCurrentListState($(clone).find('.option-container'));
+//                            }
+//                            break;
+//                        case GROUPING_QUESTION_GUS:
+//                            var parameters = item.parameters;
+//                            if (parameters[0] === true) {
+//                                $(clone).find('.multiselect .switchButtonAddon').click();
+//                            }
+//                            if (parameters[1] === true) {
+//                                $(clone).find('.justification .switchButtonAddon').click();
+//                            }
+//                            console.log($(clone).find('.optionselect #' + parameters[2]));
+////                        $(clone).find('.optionselect #' + parameters[2]).unbind('click').bind('click');
+//
+//                            $('.optionselect #gestures').unbind('click').bind('click', function (event) {
+//                                console.log('gestures clicked');
+//                                event.preventDefault();
+//                                var aGestures = assembledGestures();
+//                                var container = $(this).closest('.root').find('.option-container');
+//                                container.find('.groupingQuestionItem').remove();
+//
+//                                if (aGestures !== null) {
+//                                    for (var i = 0; i < aGestures.length; i++) {
+//                                        var item = $(this).closest('.root').find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
+//                                        item.addClass('groupingQuestionItem');
+//                                        item.find('.option').val(aGestures[i].title);
+//                                        item.find('.option').attr('id', aGestures[i].id);
+//                                        container.append(item);
+//                                    }
+//                                    checkCurrentListState(container);
+//                                }
+//                            });
+//
+//                            $('.optionselect #triggers').unbind('click').bind('click', function (event) {
+//                                event.preventDefault();
+//                                var triggers = getLocalItem(ASSEMBLED_TRIGGER);
+//                                var container = $(this).closest('.root').find('.option-container');
+//                                container.find('.groupingQuestionItem').remove();
+//
+//                                if (triggers !== null) {
+//                                    for (var i = 0; i < triggers.length; i++) {
+//                                        var item = $(this).closest('.root').find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
+//                                        item.addClass('groupingQuestionItem');
+//                                        item.find('.option').val(triggers[i].title);
+//                                        item.find('.option').attr('id', triggers[i].id);
+//                                        container.append(item);
+//                                    }
+//                                    checkCurrentListState(container);
+//                                }
+//                            });
+//
+//                            $(clone).find('.optionselect #' + parameters[2]).click();
+//
+//                            break;
+//                        case RATING:
+//                            var options = item.options;
+//                            for (var j = 0; j < options.length; j++) {
+//                                var option = $('#ratingItem').clone().removeClass('hidden');
+//                                $(option).find('.option').val(options[j]);
+//                                $(clone).find('.option-container').append(option);
+//                                $(option).find('.optionQuestion').val(options[j][options[j].length - 1]);
+//                                $(option).find('.chosen').text((options[j].length - 1) + " ");
+//                                checkCurrentListState($(clone).find('.option-container'));
+//
+//                                renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 1, options[j]);
+//                            }
+//                            break;
+//                        case SUM_QUESTION:
+//                            var parameters = item.parameters;
+//
+//                            $(clone).find('.option').children('#' + parameters[0]).click();
+//                            $(clone).find('.maximum').val(parameters[1]);
+//
+//                            var options = item.options;
+//                            for (var j = 0; j < options.length; j++) {
+//                                var option = $('#sumQuestionItem').clone().removeClass('hidden');
+//                                $(option).find('.option').val(options[j]);
+//                                $(clone).find('.option-container').append(option);
+//                                checkCurrentListState($(clone).find('.option-container'));
+//                            }
+//                            break;
+//                        case RANKING:
+//                            var options = item.options;
+//                            for (var j = 0; j < options.length; j++) {
+//                                var option = $('#rankingItem').clone().removeClass('hidden');
+//                                $(option).find('.option').val(options[j]);
+//                                $(clone).find('.option-container').append(option);
+//                                checkCurrentListState($(clone).find('.option-container'));
+//                            }
+//                            break;
+//                    }
+//                }
+//
+//                checkDimensionItems();
+//                checkCurrentListState(listContainer);
+//            }
         }
 
         function saveData() {
             var itemList = $('#list-container').children();
             var questionnaire = new Array();
-
             for (var i = 0; i < itemList.length; i++) {
-                var item = itemList[i];
-                var type = $(item).attr('id');
-                var dimension = getDimensionByElement($(item));
-                var question = $(item).find('.question').val();
-                var parameters = null;
-                var options = null;
-
-                switch (type) {
-                    case DICHOTOMOUS_QUESTION:
-                        parameters = new Array();
-                        parameters.push($(item).find('.gesture-select .active').attr('id') === 'yes' ? true : false);
-                        parameters.push($(item).find('.justification .active').attr('id') === 'yes' ? true : false);
-                        break;
-                    case ALTERNATIVE_QUESTION:
-                        parameters = new Array();
-                        parameters.push($(item).find('#gestures').hasClass('active') ? ALTERNATIVE_GESTURES : ALTERNATIVE_TRIGGERS);
-
-                        if (assembledGestures() && $(item).find('.alternativeSwitch .active').attr('id') === 'alternativeGesture') {
-                            var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
-                            if (gestureId !== 'unselected') {
-                                parameters.push(ALTERNATIVE_FOR_GESTURE);
-                                parameters.push(getGestureById(gestureId));
-                            }
-                        } else if (getLocalItem(ASSEMBLED_TRIGGER) && $(item).find('.alternativeSwitch .active').attr('id') === 'alternativeTrigger') {
-                            var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
-                            if (triggerId !== 'unselected') {
-                                parameters.push(ALTERNATIVE_FOR_TRIGGER);
-                                parameters.push(getTriggerById(triggerId));
-                            }
-                        }
-                        break;
-                    case GROUPING_QUESTION:
-                        parameters = new Array();
-                        parameters.push($(item).find('.multiselect .active').attr('id') === 'yes' ? true : false);
-                        parameters.push($(item).find('.optionalanswer .active').attr('id') === 'yes' ? true : false);
-
-                        options = new Array();
-                        var groupingOptions = $(item).find('.option-container').children();
-                        for (var j = 0; j < groupingOptions.length; j++) {
-                            options.push($(groupingOptions[j]).find('.option').val());
-                        }
-                        break;
-                    case GROUPING_QUESTION_GUS:
-                        parameters = new Array();
-                        parameters.push($(item).find('.multiselect .active').attr('id') === 'yes' ? true : false);
-                        parameters.push($(item).find('.justification .active').attr('id') === 'yes' ? true : false);
-                        parameters.push($(item).find('.optionselect .active').attr('id'));
-
-                        options = new Array();
-                        var groupingOptions = $(item).find('.option-container').children();
-                        for (var j = 0; j < groupingOptions.length; j++) {
-                            options.push($(groupingOptions[j]).find('.option').attr('id'));
-                        }
-                        break;
-                    case RATING:
-                        options = new Array();
-                        var optionList = $(item).find('.option-container').children();
-                        for (var j = 0; j < optionList.length; j++) {
-                            var ratingOptions = ($(optionList[j]).find('.ratingScaleItemContainer').children());
-                            var tempArray = new Array();
-                            for (var k = 0; k < ratingOptions.length; k++) {
-                                tempArray.push($(ratingOptions[k]).find('.option').val());
-                            }
-                            tempArray.push($(optionList[j]).find('.optionQuestion').val());
-                            options.push(tempArray);
-                        }
-                        break;
-                    case SUM_QUESTION:
-                        parameters = new Array();
-                        parameters.push($(item).find('.allocation').attr('id'));
-                        parameters.push($(item).find('.maximum').val());
-
-                        options = new Array();
-                        var sumQuestionOptions = $(item).find('.option-container').children();
-                        for (var j = 0; j < sumQuestionOptions.length; j++) {
-                            options.push($(sumQuestionOptions[j]).find('.option').val());
-                        }
-                        break;
-                    case RANKING:
-                        options = new Array();
-                        var rankingOptions = $(item).find('.option-container').children();
-                        for (var j = 0; j < rankingOptions.length; j++) {
-                            options.push($(rankingOptions[j]).find('.option').val());
-                        }
-                        break;
-                }
-
-                questionnaire.push(new QuestionnaireItem(type, dimension, question, parameters, options));
+                questionnaire.push(getFormatData(itemList[i]));
             }
+            setLocalItem(currentIdForModal + '.data', {gus: questionnaire});
+            
+            
+//            var itemList = $('#list-container').children();
+//            var questionnaire = new Array();
 
-            setLocalItem(currentIdForModal + '.data', questionnaire);
+//            for (var i = 0; i < itemList.length; i++) {
+//                var item = itemList[i];
+//                var type = $(item).attr('id');
+//                var dimension = getDimensionByElement($(item));
+//                var question = $(item).find('.question').val();
+//                var parameters = null;
+//                var options = null;
+//
+//                switch (type) {
+//                    case DICHOTOMOUS_QUESTION:
+//                        parameters = new Array();
+//                        parameters.push($(item).find('.gesture-select .active').attr('id') === 'yes' ? true : false);
+//                        parameters.push($(item).find('.justification .active').attr('id') === 'yes' ? true : false);
+//                        break;
+//                    case ALTERNATIVE_QUESTION:
+//                        parameters = new Array();
+//                        parameters.push($(item).find('#gestures').hasClass('active') ? ALTERNATIVE_GESTURES : ALTERNATIVE_TRIGGERS);
+//
+//                        if (assembledGestures() && $(item).find('.alternativeSwitch .active').attr('id') === 'alternativeGesture') {
+//                            var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
+//                            if (gestureId !== 'unselected') {
+//                                parameters.push(ALTERNATIVE_FOR_GESTURE);
+//                                parameters.push(getGestureById(gestureId));
+//                            }
+//                        } else if (getLocalItem(ASSEMBLED_TRIGGER) && $(item).find('.alternativeSwitch .active').attr('id') === 'alternativeTrigger') {
+//                            var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
+//                            if (triggerId !== 'unselected') {
+//                                parameters.push(ALTERNATIVE_FOR_TRIGGER);
+//                                parameters.push(getTriggerById(triggerId));
+//                            }
+//                        }
+//                        break;
+//                    case GROUPING_QUESTION:
+//                        parameters = new Array();
+//                        parameters.push($(item).find('.multiselect .active').attr('id') === 'yes' ? true : false);
+//                        parameters.push($(item).find('.optionalanswer .active').attr('id') === 'yes' ? true : false);
+//
+//                        options = new Array();
+//                        var groupingOptions = $(item).find('.option-container').children();
+//                        for (var j = 0; j < groupingOptions.length; j++) {
+//                            options.push($(groupingOptions[j]).find('.option').val());
+//                        }
+//                        break;
+//                    case GROUPING_QUESTION_GUS:
+//                        parameters = new Array();
+//                        parameters.push($(item).find('.multiselect .active').attr('id') === 'yes' ? true : false);
+//                        parameters.push($(item).find('.justification .active').attr('id') === 'yes' ? true : false);
+//                        parameters.push($(item).find('.optionselect .active').attr('id'));
+//
+//                        options = new Array();
+//                        var groupingOptions = $(item).find('.option-container').children();
+//                        for (var j = 0; j < groupingOptions.length; j++) {
+//                            options.push($(groupingOptions[j]).find('.option').attr('id'));
+//                        }
+//                        break;
+//                    case RATING:
+//                        options = new Array();
+//                        var optionList = $(item).find('.option-container').children();
+//                        for (var j = 0; j < optionList.length; j++) {
+//                            var ratingOptions = ($(optionList[j]).find('.ratingScaleItemContainer').children());
+//                            var tempArray = new Array();
+//                            for (var k = 0; k < ratingOptions.length; k++) {
+//                                tempArray.push($(ratingOptions[k]).find('.option').val());
+//                            }
+//                            tempArray.push($(optionList[j]).find('.optionQuestion').val());
+//                            options.push(tempArray);
+//                        }
+//                        break;
+//                    case SUM_QUESTION:
+//                        parameters = new Array();
+//                        parameters.push($(item).find('.allocation').attr('id'));
+//                        parameters.push($(item).find('.maximum').val());
+//
+//                        options = new Array();
+//                        var sumQuestionOptions = $(item).find('.option-container').children();
+//                        for (var j = 0; j < sumQuestionOptions.length; j++) {
+//                            options.push($(sumQuestionOptions[j]).find('.option').val());
+//                        }
+//                        break;
+//                    case RANKING:
+//                        options = new Array();
+//                        var rankingOptions = $(item).find('.option-container').children();
+//                        for (var j = 0; j < rankingOptions.length; j++) {
+//                            options.push($(rankingOptions[j]).find('.option').val());
+//                        }
+//                        break;
+//                }
+//
+//                questionnaire.push(new QuestionnaireItem(type, dimension, question, parameters, options));
+//            }
+//
+//            setLocalItem(currentIdForModal + '.data', {gus: questionnaire});
         }
 
 //        $('#btn-reset-origin-data').on('click', function () {
@@ -303,40 +341,5 @@
 //            checkCurrentListState($('#list-container'));
 //        });
 
-        $('body').on('click', '.optionselect #gestures', function (event) {
-            console.log('gestures clicked');
-            event.preventDefault();
-            var aGestures = assembledGestures();
-            var container = $(this).closest('.root').find('.option-container');
-            container.find('.groupingQuestionItem').remove();
 
-            if (aGestures !== null) {
-                for (var i = 0; i < aGestures.length; i++) {
-                    var item = $(this).closest('.root').find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
-                    item.addClass('groupingQuestionItem');
-                    item.find('.option').val(aGestures[i].title);
-                    item.find('.option').attr('id', aGestures[i].id);
-                    container.append(item);
-                }
-                checkCurrentListState(container);
-            }
-        });
-
-        $('body').on('click', '.optionselect #triggers', function (event) {
-            event.preventDefault();
-            var triggers = getLocalItem(ASSEMBLED_TRIGGER);
-            var container = $(this).closest('.root').find('.option-container');
-            container.find('.groupingQuestionItem').remove();
-
-            if (triggers !== null) {
-                for (var i = 0; i < triggers.length; i++) {
-                    var item = $(this).closest('.root').find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
-                    item.addClass('groupingQuestionItem');
-                    item.find('.option').val(triggers[i].title);
-                    item.find('.option').attr('id', triggers[i].id);
-                    container.append(item);
-                }
-                checkCurrentListState(container);
-            }
-        });
 </script>

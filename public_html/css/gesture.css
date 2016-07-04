@@ -21,11 +21,29 @@ and open the template in the editor.
     border-bottom-right-radius: 0px;
 }
 
+.imageContainer {
+    border-radius: 4px;
+    overflow: hidden; 
+    width: 100%; 
+}
+
+.mouseScrollable {
+    cursor: ew-resize;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
 .gestureImage {
     max-width: 100%;
     max-height: 100%;
     width: 100%;
-    overflow: hidden; 
+    
+    user-drag: none; 
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .gesture-modal-preview .progress, .gesture-thumbnail .progress {
