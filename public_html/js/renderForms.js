@@ -46,9 +46,11 @@ function renderGroupingQuestionPreview(source, item, parameters, options) {
 }
 
 function renderGroupingQuestionInput(item, parameters, options) {
+    console.log(item);
     var optionType = parameters[0] === true ? 'checkbox' : 'radio';
     for (var i = 0; i < options.length; i++) {
         var option = $('#item-container-inputs').find('#' + optionType).clone().removeClass('hidden');
+
         option.find('.option-text').text(options[i]);
         $(item).find('.option-container').append(option);
         $(item).find('.option-container').append(document.createElement('br'));

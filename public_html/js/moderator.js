@@ -69,7 +69,7 @@ var Moderator = {
 
             var parameters = data[i].parameters;
             var options = data[i].options;
-
+            
             if (isPreview) {
                 switch (data[i].type) {
                     case DICHOTOMOUS_QUESTION:
@@ -104,6 +104,7 @@ var Moderator = {
                         renderDichotomousQuestionInput(item, parameters);
                         break;
                     case GROUPING_QUESTION:
+                        console.log(item);
                         renderGroupingQuestionInput(item, parameters, options);
                         break;
                     case GROUPING_QUESTION_GUS:
