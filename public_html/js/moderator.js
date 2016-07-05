@@ -357,6 +357,9 @@ var Moderator = {
         // help section
         if (data.help && data.help.length > 0) {
             Moderator.renderHelp(source, container, data.help);
+        } else {
+            $(container).find('#help').remove();
+            $(container).find('#wozExperiment').removeClass('col-lg-6').addClass('col-lg-12');
         }
 
         // observation section
