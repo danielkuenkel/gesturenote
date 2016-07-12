@@ -2,22 +2,27 @@
 
     <div class="panel panel-default root" id="openQuestion">
         <div class="panel-heading">
-            Offene Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Offene Frage <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-info" id="factor-primary"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
                 <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
+                    <!--                    <div class="input-group-btn">
+                                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>-->
                     <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
@@ -29,23 +34,28 @@
 
     <div class="panel panel-default root" id="dichotomousQuestion">
         <div class="panel-heading">
-            Ja/nein-Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Ja/nein-Frage <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
 
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-info" id="factor-primary"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
                 <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
             </div>
 
             <div class="form-group">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
+                    <!--                    <div class="input-group-btn">
+                                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>-->
                     <input class="form-control item-input-text question" type="text" value="" placeholder="Ja/nein-Frage"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
@@ -56,14 +66,14 @@
             <div class="alert-space alert-no-gestures-assembled"></div>
 
             <div class="form-group form-group-margin-top">
-                <div class="btn-group gesture-select" style="margin-right: 10px; margin-bottom: 10px;">
-                    <button class="btn btn-default btn-shadow switchButtonAddon">Auswahl einer oder mehrerer Gesten</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
-                </div>
+                <!--                <div class="btn-group gesture-select" style="margin-right: 10px; margin-bottom: 10px;">
+                                    <button class="btn btn-default switchButtonAddon">Auswahl einer oder mehrerer Gesten</button>
+                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
+                                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
+                                </div>-->
 
                 <div class="btn-group justification" style="margin-bottom: 10px;">
-                    <button class="btn btn-default btn-shadow switchButtonAddon">Begründung</button>
+                    <button class="btn btn-default switchButtonAddon">Begründung</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
@@ -73,22 +83,28 @@
 
     <div class="panel panel-default root" id="alternativeQuestion">
         <div class="panel-heading">
-            Alternativfrage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Alternativfrage <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Alternativfrage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-info" id="factor-primary"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
                 <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
             </div>
 
             <div class="form-group">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
+                    <!--                    <div class="input-group-btn">
+                                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>-->
                     <input class="form-control item-input-text question" type="text" value="" placeholder="Alternativfrage"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
@@ -100,25 +116,29 @@
             <div class="alert-space alert-assembled-gesture-removed"></div>
             <div class="alert-space alert-no-trigger-assembled"></div>
             <div class="alert-space alert-assembled-trigger-removed"></div>
+            <div class="alert-space alert-no-feedback-assembled"></div>
+            <div class="alert-space alert-assembled-feedback-removed"></div>
 
             <div class="form-group form-group-no-margin">
-                <div class="btn-group" style="margin-right: 10px;margin-bottom: 10px;">
-                    <button class="btn btn-default btn-shadow switchButtonAddon">Alternative</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="gestures" name="btn-success">Gesten</button>
-                    <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="triggers" name="btn-success">Funktionen</button>
+                <div class="btn-group alternative" style="margin-right: 10px;margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Alternative</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="gestures" name="btn-success">Gesten</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-trigger-assembled inactive" id="triggers" name="btn-success">Funktionen</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-feedback-assembled inactive" id="feedbacks" name="btn-success">Feedback</button>
                 </div>
-                <div class="btn-group alternativeSwitch" style="margin-right: 10px; margin-bottom: 10px;">
-                    <button class="btn btn-default btn-shadow switchButtonAddon">für die</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="alternativeGesture" name="btn-success">Geste</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-trigger-assembled inactive" id="alternativeTrigger" name="btn-success">Funktion</button>
+                <div class="btn-group alternativeFor" style="margin-right: 10px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">für</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="alternativeGesture" name="btn-success">die Geste</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-trigger-assembled inactive" id="alternativeTrigger" name="btn-success">die Funktion</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-feedback-assembled inactive" id="alternativeFeedback" name="btn-success">das Feedback</button>
                 </div>
                 <div class="btn-group justification" style="margin-right: 10px;margin-bottom: 10px;">
-                    <button class="btn btn-default btn-shadow switchButtonAddon">Begründung</button>
+                    <button class="btn btn-default switchButtonAddon">Begründung</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
                 <div class="btn-group optionalanswer" style="margin-right: 10px;margin-bottom: 10px;">
-                    <button class="btn btn-default btn-shadow switchButtonAddon">Eigene Antwort erlaubt?</button>
+                    <button class="btn btn-default switchButtonAddon">Eigene Antwort erlaubt?</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
@@ -147,21 +167,38 @@
                 </div>
             </div>
 
+            <div class="form-group form-group-no-margin alternativeFeedbackSelect hidden">
+                <div class="input-group">
+                    <span class="input-group-addon">Feedback</span>
+                    <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <div class="input-group-btn select feedbackSelect" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <div class="panel panel-default root" id="counter">
         <div class="panel-heading">
-            Zähler <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Zähler <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Zähler <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
+                    <!--                    <div class="input-group-btn">
+                                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>-->
                     <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
@@ -173,22 +210,28 @@
 
     <div class="panel panel-default root" id="groupingQuestion">
         <div class="panel-heading">
-            Eingruppierungs-Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Eingruppierungs-Frage <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Eingruppierungs-Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-info" id="factor-primary"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
                 <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
+                    <!--                    <div class="input-group-btn">
+                                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>-->
                     <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung für die Eingruppierung"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
@@ -204,7 +247,7 @@
                 </div>
 
                 <div class="btn-group optionalanswer">
-                    <button class="btn btn-default btn-shadow switchButtonAddon" style="margin-left: 10px;">Eigene Antwort erlaubt?</button>
+                    <button class="btn btn-default switchButtonAddon" style="margin-left: 10px;">Eigene Antwort erlaubt?</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
@@ -235,81 +278,87 @@
 
     <div class="panel panel-default root" id="groupingQuestionGUS">
         <div class="panel-heading">
-            Eingruppierungs-Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Eingruppierungs-Frage <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Eingruppierungs-Frage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
 
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-info" id="factor-primary"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
                 <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
             </div>
+
+            <div class="alert-space alert-no-gestures-assembled"></div>
+            <div class="alert-space alert-assembled-gesture-removed"></div>
+            <div class="alert-space alert-no-trigger-assembled"></div>
+            <div class="alert-space alert-assembled-trigger-removed"></div>
+            <div class="alert-space alert-no-feedback-assembled"></div>
+            <div class="alert-space alert-assembled-feedback-removed"></div>
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung für die Eingruppierung"/>
+                    <!--                    <div class="input-group-btn">
+                                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>-->
+                    <input class="form-control item-input-text question readonly" type="text" value="" placeholder="Frage oder Aufforderung für die Eingruppierung"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-12 col-md-6" style="margin-top: 10px;">
-                        <div class="btn-group multiselect">
-                            <button class="btn btn-default switchButtonAddon">Auswahl mehrerer Antworten erlaubt?</button>
-                            <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                            <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6" style="margin-top: 10px;">
-                        <div class="btn-group justification">
-                            <button class="btn btn-default btn-shadow switchButtonAddon">Begründung</button>
-                            <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                            <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6" style="margin-top: 10px;">
-                        <div class="btn-group optionselect">
-                            <button class="btn btn-default switchButtonAddon">Optionen</button>
-                            <button class="btn btn-default btn-toggle-checkbox check no-gestures-assembled inactive" id="gestures" name="btn-success">Gesten</button>
-                            <button class="btn btn-default btn-toggle-checkbox check no-trigger-assembled inactive" id="triggers" name="btn-success">Funktionen</button>
-                        </div>
-                    </div>
+            <div class="form-group" style="margin-top: 10px; margin-bottom: -10px">
+                <div class="btn-group multiselect" style="margin-right: 10px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Auswahl mehrerer Antworten erlaubt?</button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
 
-            </div>
+                <div class="btn-group justification" style="margin-right: 10px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Begründung</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                </div>
 
-            <hr>
-
-            <div class="form-group form-group-margin-top root hidden" id="groupingQuestionItem">
-                <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
-                    <input class="form-control item-input-text option readonly" type="text" value="" placeholder="Auswahloption"/>
+                <div class="btn-group optionselect" style="margin-right: 10px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Optionen</button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-gestures-assembled inactive" id="gestures" name="btn-success">Gesten</button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-trigger-assembled inactive" id="triggers" name="btn-success">Funktionen</button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-feedback-assembled inactive" id="feedbacks" name="btn-success">Feedback</button>
                 </div>
             </div>
 
-            <div class="alert-space alert-no-gestures-assembled"></div>
-            <div class="alert-space alert-no-trigger-assembled"></div>
 
-            <div class="panel panel-default">
-
-                <div class="panel-body option-container">
-                    Eingruppierungs-Optionen
-                </div>
-            </div>
+            <!--            <hr>
+            
+                        <div class="form-group form-group-margin-top root hidden" id="groupingQuestionItem">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                    <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                    <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                </div>
+                                <input class="form-control item-input-text option readonly" type="text" value="" placeholder="Auswahloption"/>
+                            </div>
+                        </div>
+            
+                        <div class="alert-space alert-no-gestures-assembled"></div>
+                        <div class="alert-space alert-no-trigger-assembled"></div>
+            
+                        <div class="panel panel-default">
+            
+                            <div class="panel-body option-container">
+                                Eingruppierungs-Optionen
+                            </div>
+                        </div>-->
 
             <!--<button type="button" class="btn btn-info btn-shadow pull-right btn-add-groupingQuestionOption"><span class="glyphicon glyphicon-plus"></span> Neue Auswahloption hinzufügen</button>-->
         </div>
@@ -317,22 +366,28 @@
 
     <div class="panel panel-default root" id="rating">
         <div class="panel-heading">
-            Rating <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Rating <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Rating <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-info" id="factor-primary"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
                 <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
+                    <!--                    <div class="input-group-btn">
+                                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>-->
                     <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung für die Eingruppierung"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
@@ -356,7 +411,7 @@
                 <div class="input-group" style="margin-top: 10px;">
 
                     <div class="input-group-btn negative">
-                        <button class="btn btn-default btn-shadow switchButtonAddon">Negativ?</button>
+                        <button class="btn btn-default switchButtonAddon">Negativ?</button>
                         <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                         <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                     </div>
@@ -401,22 +456,28 @@
 
     <div class="panel panel-default root" id="sumQuestion">
         <div class="panel-heading">
-            Summenfrage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Summenfrage <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Summenfrage <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-info" id="factor-primary"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
                 <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
+                    <!--                    <div class="input-group-btn">
+                                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>-->
                     <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
@@ -468,22 +529,28 @@
 
     <div class="panel panel-default root" id="ranking">
         <div class="panel-heading">
-            Ranking <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Ranking <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Ranking <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-info" id="factor-primary"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
                 <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
+                    <!--                    <div class="input-group-btn">
+                                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>-->
                     <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung für die Eingruppierung"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
@@ -540,7 +607,7 @@
 
                 <div class="col-md-6 evaluation" style="padding: 0; margin-bottom: 10px;">
                     <div class="btn-group" id="useGestureHelpSwitch">
-                        <button class="btn btn-default btn-shadow switchButtonAddon">Geste bei Bedarf nochmals anzeigen?</button>
+                        <button class="btn btn-default switchButtonAddon">Geste bei Bedarf nochmals anzeigen?</button>
                         <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
                         <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
                     </div>
@@ -594,6 +661,7 @@
 
                     <div class="alert-space alert-assembled-gesture-removed"></div>
                     <div class="alert-space alert-assembled-trigger-removed"></div>
+                    <div class="alert-space alert-assembled-feedback-removed"></div>
 
                     <div class="input-group">
                         <div class="input-group-btn">
@@ -633,7 +701,7 @@
                         <div class="col-md-11 col-md-offset-1" style="padding: 0px;">
                             <div class="input-group simple-stepper">
                                 <div class="input-group-btn">
-                                    <button class="btn btn-default btn-addon">Gestenerkennungszeit (Sekunden)</button>
+                                    <button class="btn btn-default btn-addon">Reaktionszeit (Sekunden)</button>
                                     <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
                                         <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Sekunde weniger</span>
                                     </button>
@@ -654,7 +722,7 @@
 
         <div class="option-container"></div>
 
-        <button class="btn btn-info btn-shadow pull-right btn-add-woz-experimentOption hidden" type="button"><span class="glyphicon glyphicon-plus"></span> <span>WoZ-Element hinzufügen</span></button>
+        <button class="btn btn-info btn-shadow pull-right btn-add-woz-experimentOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>WoZ-Element hinzufügen</span></button>
     </div>
 
 
@@ -685,6 +753,7 @@
 
                     <div class="alert-space alert-assembled-gesture-removed"></div>
                     <div class="alert-space alert-assembled-trigger-removed"></div>
+                    <div class="alert-space alert-assembled-feedback-removed"></div>
 
                     <div class="input-group">
                         <div class="input-group-btn">
@@ -709,7 +778,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="padding: 0; margin-top: 10px;">
+                    <div style="padding: 0; margin-top: 10px;">
                         <div class="input-group">
                             <span class="input-group-addon">Feedback</span>
                             <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
@@ -720,8 +789,9 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="padding: 0px; margin-top: 10px;">
-                        <div class="col-md-11 col-md-offset-1" style="padding: 0px;">
+                    <div class="row" style="margin-top: 10px">
+
+                        <div class="col-md-6" id="repeats-stepper" style="margin-bottom: 10px">
                             <div class="input-group simple-stepper">
                                 <div class="input-group-btn">
                                     <button class="btn btn-default btn-shadow btn-addon">Wiederholungen der Geste</button>
@@ -737,13 +807,35 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-6 hidden" id="recognition-stepper" style="margin-bottom: 10px">
+                            <div class="input-group simple-stepper">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default btn-addon">Reaktionszeit (Sekunden)</button>
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Sekunde weniger</span>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control readonly text-center stepper-text" value="3">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
+                                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Sekunde mehr</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
+
 
                 </div>
             </div>
         </div>
 
         <div class="alert-space alert-no-gestures-assembled"></div>
+        <div class="alert-space alert-no-trigger-assembled"></div>
+        <div class="alert-space alert-no-feedback-assembled"></div>
 
         <div class="option-container"></div>
 
@@ -826,19 +918,25 @@
 
     <div class="panel panel-default root" id="pidoco">
         <div class="panel-heading">
-            Pidoco <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Pidoco <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Pidoco <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
             <div class="form-group">
                 <div class="alert-space alert-no-title"></div>
-                <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
-                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
-                </div>
+                <!--<div class="input-group">-->
+                <!--                    <div class="input-group-btn">
+                                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                    </div>-->
+                <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
+                <!--</div>-->
             </div>
             <div class="form-group">
                 <div class="alert-space alert-pidoco-edit-url-invalid"></div>
@@ -866,7 +964,7 @@
 
             <div class="form-group">
                 <div class="btn-group transmit-gestures-select hidden" style="margin-right: 10px;">
-                    <button class="btn btn-default btn-shadow switchButtonAddon">Gestenset an Pidoco koppeln?</button>
+                    <button class="btn btn-default switchButtonAddon">Gestenset an Pidoco koppeln?</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
                 </div>
@@ -878,19 +976,25 @@
 
     <div class="panel panel-default root" id="web">
         <div class="panel-heading">
-            Webseite <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Webseite <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Webseite <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
             <div class="alert-space alert-no-title"></div>
             <div class="form-group form-group-no-margin">
-                <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
-                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
-                </div>
+                <!--<div class="input-group">-->
+                <!--                    <div class="input-group-btn">
+                                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                    </div>-->
+                <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
+                <!--</div>-->
             </div>
             <div class="form-group form-group-margin-top">
                 <input class="form-control item-input-text website-url" type="text" value="" placeholder="Webseiten-URL" style="margin-top: 10px;"/>
@@ -900,17 +1004,23 @@
 
     <div class="panel panel-default root" id="image">
         <div class="panel-heading">
-            Bild <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Bild <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Bild <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
             <div class="alert-space alert-no-title"></div>
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
+                    <!--                    <div class="input-group-btn">
+                                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>-->
                     <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow choosePrototypeImage"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text">Bild auswählen</span></button>
@@ -928,17 +1038,23 @@
 
     <div class="panel panel-default root" id="video">
         <div class="panel-heading">
-            Video <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Video <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Video <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
             <div class="alert-space alert-no-title"></div>
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
+                    <!--                    <div class="input-group-btn">
+                                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>-->
                     <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow choosePrototypeVideo"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text">Video auswählen</span></button>
@@ -962,19 +1078,25 @@
 
     <div class="panel panel-default root" id="videoEmbed">
         <div class="panel-heading">
-            Videoeinbettung <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Videoeinbettung <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Videoeinbettung <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
             <div class="alert-space alert-no-title"></div>
             <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
-                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
-                </div>
+                <!--<div class="input-group">-->
+                <!--                    <div class="input-group-btn">
+                                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                    </div>-->
+                <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
+                <!--</div>-->
             </div>
 
             <div class="alert-space alert-video-embed-url-invalid"></div>
@@ -995,29 +1117,35 @@
 
     <div class="panel panel-default root" id="gusSingle">
         <div class="panel-heading">
-            Gesten Rating <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Gesten Rating <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+            <!--Gesten Rating <div class="badge badgeId">0</div> von <div class="badge badgeQuantity">0</div>-->
         </div>
         <div class="panel-body">
             <div>
                 <div  style="width: 100%" id="item-factors">
-                    <div class="label label-info" id="factor-primary"></div>
-                    <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
                     <div class="label label-primary" id="factor-main"></div>
+                    <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                    <div class="label label-info" id="factor-primary"></div>
                 </div>
 
                 <div class="input-group" style="margin-top: 5px;">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
-                    <input class="form-control item-input-text question" type="text" value=""/>
+                    <!--                    <div class="input-group-btn">
+                                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>-->
+                    <input class="form-control item-input-text question readonly" type="text" value=""/>
 
                     <div class="input-group-btn negative">
                         <button type="button" class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title="">
                             <i class="glyphicon glyphicon-eye-open"></i>
                         </button>
-                        <button class="btn btn-default btn-shadow switchButtonAddon">Negativ?</button>
+                        <button class="btn btn-default switchButtonAddon">Negativ?</button>
                         <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                         <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                     </div>
@@ -1025,7 +1153,6 @@
 
             </div>
         </div>
-
     </div>
 
     <div class="form-group root" id="sus">
@@ -1041,9 +1168,74 @@
                 <button type="button" class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title="">
                     <i class="glyphicon glyphicon-eye-open"></i>
                 </button>
-                <button class="btn btn-default btn-shadow switchButtonAddon">Negativ?</button>
+                <button class="btn btn-default switchButtonAddon">Negativ?</button>
                 <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                 <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="text">
+        <div class="panel-heading">
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Text <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+        </div>
+        <div class="panel-body">
+            <div>
+                <div class="input-group" style="margin-top: 5px;">
+
+                    <input class="form-control item-input-text" type="text" value=""/>
+
+                    <div class="input-group-btn negative">
+                        <!--                        <button type="button" class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title="">
+                                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                                </button>-->
+                        <button class="btn btn-default switchButtonAddon">Negativ?</button>
+                        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger">Ja</button>
+                        <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="sound">
+        <div class="panel-heading">
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Sound <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
+        </div>
+        <div class="panel-body">
+            <div class="alert-space alert-no-title"></div>
+            <div class="form-group form-group-no-margin">
+                <div class="input-group">
+
+                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-shadow chooseFeedbackSound"><i class="btn-icon fa fa-volume-up"></i> <span class="btn-text">Sounddatei auswählen</span></button>
+                    </div>
+                </div>
+
+                <input class="soundUpload hidden" name="" type="file" accept="audio/mp3" />
+
+                <div class="audioPlayer hidden" style="margin-top: 10px">
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-shadow" id="play"><i class="glyphicon glyphicon-play"></i></button>
+                        <button class="btn btn-default btn-shadow" id="pause"><i class="glyphicon glyphicon-pause"></i></button>
+                        <button class="btn btn-default btn-shadow" id="stop"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button class="btn btn-danger btn-shadow btn-delete-sound"><i class="fa fa-trash"></i> Sound löschen</button>
+                    </div>
+
+                    <audio class="audio-holder" src="" preload="auto"></audio>
+                </div>
             </div>
         </div>
     </div>

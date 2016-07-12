@@ -25,6 +25,7 @@ include './includes/language.php';
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
         <script src="http://chancejs.com/chance.min.js"></script>
+        <script src="color-thief/color-thief.js"></script>
 <!--        <script src="js/jquery.sequentialLoad.js"></script>-->
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
@@ -76,13 +77,31 @@ include './includes/language.php';
             </div>
         </div>
 
-        <!-- Modal -->
+        <!-- modals -->
         <div id="custom-modal" class="modal fade custom-modal" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
                 <div class="modal-content">
 
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="help-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Hilfe</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="help-text" style="color: #303030"></p>
+                        <div class="imageContainer autoplay hidden"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-lg btn-info btn-block" data-dismiss="modal"><span class="text">Okay</span></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -100,15 +119,15 @@ include './includes/language.php';
         </div>
 
         <!-- main content -->
-        <div class="mainContent" id="mainContent" style="padding-top: 145px; padding-left: 20px; padding-right: 20px;">
+        <div class="mainContent" id="mainContent" style="padding-top: 145px;">
 
             <div class="alert-space alert-no-phase-data"></div>
 
-            <div id="viewTester" class="hidden container">
+            <div id="viewTester" class="hidden">
                 <div id="phase-content"></div>
             </div>
 
-            <div id="viewModerator" class="hidden">
+            <div id="viewModerator" class="hidden" style="padding-left: 20px; padding-right: 20px;">
                 <div id="pinnedRTC" style="position: fixed">
                     <div id="web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
                         <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
@@ -118,11 +137,8 @@ include './includes/language.php';
                     </div>
                 </div>
 
-
                 <div id="phase-content"></div>
-
             </div>
-
         </div>
 
         <script src="js/template-forms.js"></script>

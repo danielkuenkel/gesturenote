@@ -10,7 +10,7 @@ var Moderator = {
         var currentPhase = getCurrentPhase();
         var currentPhaseData = getLocalItem(currentPhase.id + '.data');
         var source = getSourceContainer(currentView);
-        console.log('clone: ' + currentPhase.selectedId + ', from: ' + source.attr('id'));
+//        console.log('clone: ' + currentPhase.selectedId + ', from: ' + source.attr('id'));
         var container = $(source).find('#' + currentPhase.selectedId).clone(false).removeAttr('id');
         $(container).find('#column-left').css('opacity', '0');
 
@@ -57,7 +57,8 @@ var Moderator = {
     },
     getQuestionnaire: function getQuestionnaire(source, container, data, isPreview) {
         for (var i = 0; i < data.length; i++) {
-            var item = $(source).find('#' + data[i].type).clone(false).removeAttr('id');
+            var item = $(source).find('#' + data[i].type).clone().removeAttr('id');
+//            console.log('clone: ' + data[i].type + " form: " + source.attr('id'));
             $(item).find('.question').text(i + 1 + '. ' + data[i].question);
             $(container).find('.question-container').append(item);
 
@@ -69,7 +70,7 @@ var Moderator = {
 
             var parameters = data[i].parameters;
             var options = data[i].options;
-            
+
             if (isPreview) {
                 switch (data[i].type) {
                     case DICHOTOMOUS_QUESTION:
@@ -79,7 +80,6 @@ var Moderator = {
                         renderGroupingQuestionPreview(source, item, parameters, options);
                         break;
                     case GUS_SINGLE:
-                        console.log(data[i].type);
                         renderGUSSinglePreview(item, data[i]);
                         break;
                     case GROUPING_QUESTION_GUS:
@@ -104,7 +104,6 @@ var Moderator = {
                         renderDichotomousQuestionInput(item, parameters);
                         break;
                     case GROUPING_QUESTION:
-                        console.log(item);
                         renderGroupingQuestionInput(item, parameters, options);
                         break;
                     case GROUPING_QUESTION_GUS:
@@ -117,7 +116,7 @@ var Moderator = {
                         renderSumQuestionInput(item, parameters, options);
                         break;
                     case RANKING:
-                        renderRankingInput(source, item, options);
+                        renderRankingInput(item, options);
                         break;
                     case ALTERNATIVE_QUESTION:
                         renderAlternativeQuestionInput(source, item, parameters);
@@ -174,35 +173,52 @@ var Moderator = {
     },
     renderGestureTraining: function renderGestureTraining(source, container, data) {
         var training = data[currentGestureTrainingIndex];
+        console.log(training);
         var gesture = training.gesture;
         var repeats = training.repeats;
         var trigger = training.trigger;
-        var feedback = training.feedback;
+        var feedback = getFeedbackById(training.feedbackId);
 
         $(container).find('#training .panel-heading-text').text('Geste ' + (currentGestureTrainingIndex + 1) + ' von ' + data.length);
 
         var item = $(source).find('#trainingItem').clone().removeAttr('id');
         $(container).find('#trainingContainer').empty();
         $(container).find('#trainingContainer').append(item);
-        item.find('#title').text(translation.title + ": " + gesture.title);
-        item.find('#repeats').text(translation.repeats + ": " + repeats);
-        item.find('#trigger').text(translation.trigger + ": " + trigger.title);
+        item.find('#title .address').text(translation.title + ":");
+        item.find('#title .text').text(gesture.title);
+        item.find('#repeats .address').text(translation.repeats + ":");
+        item.find('#repeats .text').text(repeats);
+        item.find('#trigger .address').text(translation.trigger + ":");
+        item.find('#trigger .text').text(trigger.title);
         item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
 
+        item.find('#feedback .address').text(translation.feedback + ":");
         if (feedback) {
-            item.find('#feedback').text(translation.feedback + ": " + feedback.title);
+            item.find('#feedback .text').text(feedback.title);
         } else {
-            item.find('#feedback').text(translation.feedback + ": " + translation.nones);
+            item.find('#feedback .text').text(translation.nones);
         }
 
         item.find('#trigger-training').on('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
-                $(item).find('.disabled').removeClass('disabled');
+                $(item).find('#trigger-feedback').removeClass('disabled');
                 $(this).addClass('disabled');
                 trainingTriggered = true;
             } else {
-                wobble(item.find('#next-gesture, #training-done'));
+                wobble(item.find('#trigger-feedback'));
+            }
+        });
+
+        item.find('#trigger-feedback').on('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                $(item).find('#next-gesture, #training-done').removeClass('disabled');
+//                $(this).addClass('disabled');
+//                feedbackTriggered = true;
+                triggeredFeedback = feedback;
+            } else if (triggeredFeedback === null) {
+                wobble(item.find('#trigger-training'));
             }
         });
 
@@ -211,9 +227,10 @@ var Moderator = {
             if (!$(this).hasClass('disabled')) {
                 currentGestureTrainingIndex++;
                 trainingTriggered = false;
+                triggeredFeedback = null;
                 Moderator.renderGestureTraining(source, container, data);
             } else {
-                wobble(item.find('#trigger-training'));
+                wobble(item.find('#trigger-training, #trigger-feedback'));
             }
         });
 
@@ -221,15 +238,18 @@ var Moderator = {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 trainingTriggered = false;
+                triggeredFeedback = null;
                 currentGestureTrainingIndex = 0;
                 nextStep();
             } else {
-                wobble(item.find('#trigger-training'));
+                wobble(item.find('#trigger-training, #trigger-feedback'));
             }
         });
 
-        if (trainingTriggered) {
-            $(item).find('.disabled').removeClass('disabled');
+        if (triggeredFeedback !== null) {
+
+        } else if (trainingTriggered) {
+            $(item).find('#next-gesture, #training-done, #trigger-feedback').removeClass('disabled');
             item.find('#trigger-training').addClass('disabled');
         }
 
@@ -335,9 +355,9 @@ var Moderator = {
         }
     },
     getScenario: function getScenario(source, container, data) {
-
-        $(container).find('#general #task').text(translation.task + ": " + data.title);
-        $(container).find('#general #description').text(translation.description + ": " + data.description);
+        triggeredHelp, triggeredWoz = null;
+        $(container).find('#general #task').text(translation.taskTitle + ": " + data.title);
+        $(container).find('#general #description').text(translation.task + ": " + data.description);
 
         //scene
         if (data.scene) {
@@ -367,14 +387,48 @@ var Moderator = {
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
         }
 
+        // controls handling
+        if (scenarioStartTriggered) {
+            enableControls();
+        } else {
+            $(container).find('#start-scenario').click(function (event) {
+                event.preventDefault();
+                enableControls();
+                scenarioStartTriggered = true;
+                wobble([container.find('#woz-controls'), $('#web-rtc-placeholder')]);
+            });
+        }
+
+        function enableControls() {
+            $(container).find('#start-scenario').remove();
+
+            var wozItems = $(container).find('.woz-container .disabled');
+            wozItems.removeClass('disabled');
+
+            var helpItems = $(container).find('.help-container .disabled');
+            helpItems.removeClass('disabled');
+        }
+
         return container;
     },
     renderWOZ: function renderWOZ(source, container, data) {
         for (var i = 0; i < data.length; i++) {
+//            console.log(data[i]);
             var item = $(source).find('#wozItem').clone();
             item.removeAttr('id');
             $(container).find('.woz-container').append(item);
             var gesture = data[i].gesture;
+
+            item.find('#trigger-woz').click({wozData: data[i]}, function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    triggeredHelp = null;
+                    triggeredWoz = event.data.wozData;
+                } else {
+                    $(document).scrollTop(0);
+                    wobble(container.find('#general'));
+                }
+            });
 
             if (gesture) {
                 item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
@@ -385,14 +439,25 @@ var Moderator = {
     renderHelp: function renderHelp(source, container, data) {
         var seperator = document.createElement('hr');
         for (var i = 0; i < data.length; i++) {
+//            console.log(data[i]);
             var item = $(source).find('#helpItem').clone();
             item.removeAttr('id');
             item.find('.help-title').text((i + 1) + ". " + data[i].option);
             $(container).find('.help-container').append(item);
 
-            var gesture;
+            item.find('#offer-help').click({helpData: data[i]}, function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    triggeredWoz = null;
+                    triggeredHelp = event.data.helpData;
+                } else {
+                    $(document).scrollTop(0);
+                    wobble(container.find('#general'));
+                }
+            });
+
             if (data[i].useGestureHelp === true) {
-                gesture = getGestureById(data[i].gestureId);
+                var gesture = getGestureById(data[i].gestureId);
                 item.find('.btn-popover-gesture-preview').removeClass('hidden');
                 item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
             } else {

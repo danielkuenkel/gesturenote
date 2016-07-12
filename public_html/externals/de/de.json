@@ -72,11 +72,17 @@
     "nones": "keines",
     "trigger": "Trigger",
     "feedback": "Feedback",
+    "taskTitle": "Aufgabentitel",
     "task": "Aufgabe",
     "description": "Beschreibung",
     "title": "Titel",
     "timesUp": "Die Zeit ist abgelaufen",
     "age": "Alter",
     "from": "von",
-    "to": "bis"
+    "to": "bis",
+    "more": "mehr",
+    "less": "weniger",
+    "for": "für",
+    "text": "Text",
+    "sound": "Sound"
 }

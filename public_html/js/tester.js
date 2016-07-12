@@ -10,9 +10,8 @@ var Tester = {
         var currentPhase = getCurrentPhase();
         var currentPhaseData = getLocalItem(currentPhase.id + '.data');
         var source = getSourceContainer(currentView);
-        console.log('clone: ' + currentPhase.selectedId + ', from: ' + source.attr('id'));
+//        console.log('clone: ' + currentPhase.selectedId + ', from: ' + source.attr('id'));
         var container = $(source).find('#' + currentPhase.selectedId).clone(false).removeAttr('id');
-//        console.log(currentPhaseData);
         var item = null;
         switch (currentPhase.selectedId) {
             case QUESTIONNAIRE:
@@ -36,6 +35,9 @@ var Tester = {
             case SLIDESHOW:
                 item = Tester.getSlideshow(source, container, currentPhaseData);
                 break;
+            case SCENARIO:
+                item = Tester.getScenario(container, currentPhaseData);
+                break;
         }
 
         $('#viewTester #phase-content').empty().append(item);
@@ -55,11 +57,10 @@ var Tester = {
     getQuestionnaire: function getQuestionnaire(container, data) {
         for (var i = 0; i < data.length; i++) {
 
-//            console.log(data);
+
             var item = $('#item-container-inputs').find('#' + data[i].type).clone(false).removeAttr('id');
             $(item).find('.question').text(i + 1 + '. ' + data[i].question);
             $(container).find('.question-container').append(item);
-
 
             if (data[i].dimension !== DIMENSION_ANY) {
                 $(item).find('#dimension').removeClass('hidden');
@@ -77,7 +78,7 @@ var Tester = {
                     renderGroupingQuestionInput(item, parameters, options);
                     break;
                 case GROUPING_QUESTION_GUS:
-                    renderGroupingQuestionGUSInput(item, parameters, options);
+                    renderGroupingQuestionGUSInput(item, parameters);
                     break;
                 case RATING:
                     renderRatingInput(item, options);
@@ -157,6 +158,38 @@ var Tester = {
             item.find('#feedback').text(translation.feedback + ": " + translation.nones);
         }
 
+        if (triggeredFeedback) {
+            var feedbackHint = $('#item-container-tester').find('#feedback-hint').clone();
+            feedbackHint.attr('id', 'workingFeedbackHint');
+            feedbackHint.find('#btn-close-hint').remove();
+            $('body').find('#workingFeedbackHint').remove();
+            $('body').append(feedbackHint);
+
+            switch (triggeredFeedback.type) {
+                case TYPE_FEEDBACK_TEXT:
+                    feedbackHint.find('.hint-content').prepend($('#item-container-tester').find('#feedback-hint-text-content').clone().removeAttr('id'));
+                    feedbackHint.find('#text-start').text(translation.gesture + " ");
+                    feedbackHint.find('#gesture-title').text(trainingData.gesture.title + " ");
+                    feedbackHint.find('#gesture-for').text(translation.for + " ");
+                    feedbackHint.find('#trigger-title').text(trainingData.trigger.title + " ");
+                    feedbackHint.find('#feedback-title').text(triggeredFeedback.title);
+                    TweenMax.to(feedbackHint.find('.progress-bar'), 4, {delay: 2, width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: hideHint, onCompleteParams: [feedbackHint]});
+                    break;
+
+                case TYPE_FEEDBACK_SOUND:
+                    feedbackHint.find('.hint-content').prepend($('#item-container-tester').find('#feedback-hint-sound-content').clone().removeAttr('id'));
+                    var audioHolder = feedbackHint.find('.audio-holder')[0];
+                    $(audioHolder).attr('src', triggeredFeedback.data);
+
+                    audioHolder.addEventListener("loadedmetadata", function () {
+                        audioHolder.play();
+                        TweenMax.to(feedbackHint.find('.progress-bar'), audioHolder.duration, {delay: 0.3, width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: hideHint, onCompleteParams: [feedbackHint]});
+                    });
+                    break;
+            }
+            triggeredFeedback = null;
+        }
+
         renderGestureImages(item.find('.imageContainer'), trainingData.gesture.images, trainingData.gesture.previewImage, null);
     },
     renderUnmoderatedTraining: function renderUnmoderatedTraining(source, container, data) {
@@ -208,7 +241,7 @@ var Tester = {
             if (slideTriggered) {
                 Tester.renderModeratedSlideshow(source, container, data);
             } else {
-                appendAlert($(container), ALERT_WAITING_FORT_SLIDESHOW);
+                appendAlert($(container), ALERT_WAITING_FOR_SLIDESHOW);
             }
         }
         return container;
@@ -245,13 +278,10 @@ var Tester = {
             $(item).find('#startSlideshow').text(translation.next);
         }
 
-        console.log(currentSlideIndex + ". " + data.slideshow.length);
-
         if (trainingIsActive) {
             var slideData = data.slideshow[currentSlideIndex];
 
             var progress = $(container).find('.progress');
-            console.log(progress);
             progress.removeClass('active');
             progress.removeClass('hidden');
 
@@ -283,6 +313,122 @@ var Tester = {
                 Tester.renderUnmoderatedSlideshow(source, container, data, true);
             }
         });
+    },
+    getScenario: function getScenario(container, data) {
+//        console.log(data);
+        var scene = getPrototypeById(data.scene);
+//        console.log(scene);
+//        console.log(container);
+        var sceneItem = $('#item-container-tester').find('#' + scene.type).clone().removeAttr('id');
+        container.find('#scene-container').append(sceneItem);
+        container.find('#more-text').text(translation.more);
+        container.find('#less-text').text(translation.less);
+        container.find('#task-header').text(translation.task + ":");
+        container.find('#task-text').text(data.description);
+        container.find('#generalPanel #btn-show-scenario-info').on('click', function (event) {
+            event.preventDefault();
+            showScenarioInfos(container.find('#generalPanel'));
+            $(this).addClass('hidden');
+        });
+        container.find('#generalPanel #btn-hide-scenario-info').on('click', function (event) {
+            event.preventDefault();
+            hideScenarioInfos(container.find('#generalPanel'));
+            $(this).addClass('hidden');
+        });
+
+        switch (scene.type) {
+            case PROTOTYPE_WEB:
+                sceneItem.attr('src', scene.options[0]);
+                break;
+            case PROTOTYPE_IMAGE:
+                sceneItem[0].onload = function () {
+                    var image = sceneItem[0];
+                    var colorThief = new ColorThief();
+                    var dominantColor = colorThief.getColor(image);
+                    container.find('#scene-container').css("backgroundColor", "rgb(" + dominantColor[0] + "," + dominantColor[1] + "," + dominantColor[2] + ")");
+                };
+                sceneItem[0].src = scene.data;
+                break;
+            case PROTOTYPE_PIDOCO:
+                break;
+            case PROTOTYPE_VIDEO_EMBED:
+                break;
+        }
+
+        $(window).resize(function () {
+            var height = $(window).height() - 145 - 54;
+            sceneItem.height(height);
+            $(container).find('#woz-scenario-text-container').height(height);
+        }).resize();
+
+        if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+            container.find('#generalPanelContent').removeClass('hidden');
+            container.find('#generalPanel #btn-show-scenario-info').click();
+            container.find('#start-controls').removeClass('hidden');
+            sceneItem.addClass('hidden');
+
+            container.find('#start-scene').click(function (event) {
+                container.find('#start-controls').addClass('hidden');
+                container.find('#normal-controls').removeClass('hidden');
+                sceneItem.removeClass('hidden');
+                container.find('#generalPanel #btn-hide-scenario-info').click();
+            });
+        } else {
+            container.find('#getting-help').remove();
+            container.find('#normal-controls').removeClass('hidden');
+
+            // handle scenario start state
+            if (scenarioStartTriggered) {
+                sceneItem.removeClass('hidden');
+                container.find('.alert-space').remove();
+            } else {
+                sceneItem.addClass('hidden');
+                appendAlert($(container), ALERT_WAITING_FOR_SCENARIO_START);
+                container.find('#generalPanel #btn-show-scenario-info').click();
+                container.find('#generalPanelContent').removeClass('hidden');
+            }
+
+            // handle triggered help
+            if (triggeredHelp) {
+                var helpModal = $('body').find('#help-modal');
+//                console.log(triggeredHelp);
+                helpModal.find('#help-text').text(triggeredHelp.option);
+
+                if (triggeredHelp.useGestureHelp === true && triggeredHelp.gestureId) {
+                    var gesture = getGestureById(triggeredHelp.gestureId);
+                    helpModal.find('.imageContainer').removeClass('hidden');
+                    renderGestureImages(helpModal.find('.imageContainer'), gesture.images, gesture.previewImage);
+                } else {
+                    helpModal.find('.imageContainer').addClass('hidden');
+                }
+
+                helpModal.modal('show');
+
+                helpModal.on('hidden.bs.modal', function () {
+                    triggeredHelp = null;
+                });
+            }
+
+            // handle triggered woz
+            if (triggeredWoz && scene.type !== PROTOTYPE_PIDOCO) {
+//                console.log(triggeredWoz);
+                $(container).find('#woz-scenario-text-container').removeClass('hidden');
+                $(container).find('#text-start').text(translation.gesture + " ");
+                $(container).find('#gesture-title').text(triggeredWoz.gesture.title + " ");
+                $(container).find('#gesture-for').text(translation.for + " ");
+                $(container).find('#trigger-title').text(triggeredWoz.trigger.title + " ");
+                $(container).find('#feedback-title').text(triggeredWoz.feedback.title);
+                var hideTween = TweenMax.to($(container).find('#woz-scenario-text-container'), .3, {autoAlpha: 0, paused: true});
+                triggeredWoz = null;
+
+                $(container).find('#btn-close-woz-hint').click(function (event) {
+                    event.preventDefault();
+                    hideTween.play();
+                });
+            }
+        }
+
+        return container;
     }
 };
 
@@ -294,7 +440,7 @@ function onAnswerTimeExpired(container) {
 
 function onHideSlideComplete(container) {
     container.find('#slideshowContainer').addClass('hidden');
-    appendAlert($(container), ALERT_WAITING_FORT_SLIDESHOW);
+    appendAlert($(container), ALERT_WAITING_FOR_SLIDESHOW);
 }
 
 function onUnmoderatedAnswerTimeExpired(source, container, data) {
@@ -311,4 +457,23 @@ function onHideUnmoderatedSlideComplete(source, container, data) {
     progress.find('.progress-bar').css({width: '100%', backgroundColor: "#5bb85c"});
     TweenMax.to(container.find('#slideshowContainer'), 0, {autoAlpha: 1});
     Tester.renderUnmoderatedSlideshow(source, container, data, false);
+}
+
+
+function showScenarioInfos(target) {
+    $(target).find('#btn-hide-scenario-info').removeClass('hidden');
+    $(target).find('#generalPanelContent').removeClass('hidden');
+}
+
+function hideScenarioInfos(target) {
+    $(target).find('#btn-show-scenario-info').removeClass('hidden');
+    $(target).find('#generalPanelContent').addClass('hidden');
+}
+
+function hideHint(hint) {
+    TweenMax.to(hint, .2, {autoAlpha: 0, onComplete: onhideHintComplete, onCompleteParams: [hint]});
+}
+
+function onhideHintComplete(hint) {
+    $(hint).remove();
 }

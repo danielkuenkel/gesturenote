@@ -78,17 +78,6 @@ textarea {
     margin-bottom: 0px;
 }
 
-.btn-addon {
-    background: #eeeeee !important;
-    border-color: #cccccc !important;
-    color: #818181 !important;
-}
-
-.btn-addon:hover {
-    color: #303030 !important;
-    box-shadow: none;
-}
-
 
 /* Thumscrubber 
 .thumbscrubber {

@@ -8,6 +8,7 @@
 var PATH_EXTERNALS = 'externals/';
 
 var GESTURE_THUMBNAIL_SCROLLING_SPEED = 100;
+var ELEMENT_MOVE_TRANSITION_DURATION = 0.2;
 
 // project specific constants
 var PROJECT = 'project';
@@ -18,18 +19,21 @@ var PREDEFINED_GESTURE_SET = 'predefinedGestureSet';
 var PREDEFINED_OBSERVATIONS = 'predefinedObversation';
 var PREDEFINED_GESTURE_QUESTIONNAIRE = 'predefinedGestureQuestionnaire';
 var PREDEFINED_GESTURE_FEEDBACK = 'predefinedGestureFeedback';
-var FEEDBACK_PREDEFINED = 'predefinedFeedback';
-var FEEDBACK_CUSTOM = 'customFeedback';
 
+var PREDEFINED_FEEDBACK = 'predefinedFeedback';
 var ASSEMBLED_PROTOTYPES = 'assembledPrototypes';
-//var ASSEMBLED_GESTURES = 'assembledGestures';
 var ASSEMBLED_TRIGGER = 'assembledTrigger';
+var ASSEMBLED_FEEDBACK = 'assembledFeedback';
 
 var TYPE_TRIGGER = 'trigger';
 var TYPE_SURVEY_UNMODERATED = 'unmoderated';
 var TYPE_SURVEY_MODERATED = 'moderated';
 var TYPE_PHASE_ELICITATION = 'elicitation';
 var TYPE_PHASE_EVALUATION = 'evaluation';
+
+// feedback types
+var TYPE_FEEDBACK_TEXT = 'text';
+var TYPE_FEEDBACK_SOUND = 'sound';
 
 // phase step formats
 var QUESTIONNAIRE = 'questionnaire';
@@ -91,21 +95,6 @@ var TYPE_URL_PIDOCO_EDIT = 'pidocoEdit';
 var TYPE_URL_PIDOCO_EMBED = 'pidocoEmbed';
 var TYPE_URL_VIDEO_EMBED = 'videoEmbed';
 
-// alerts
-var ALERT_NO_GESTURES_ASSEMBLED = 'no-gestures-assembled';
-var ALERT_ASSEMBLED_GESTURE_REMOVED = 'assembled-gesture-removed';
-var ALERT_NO_TRIGGER_ASSEMBLED = 'no-trigger-assembled';
-var ALERT_ASSEMBLED_TRIGGER_REMOVED = 'assembled-trigger-removed';
-var ALERT_NO_TITLE = 'no-title';
-var ALERT_PIDOCO_EDIT_URL_INVALID = 'pidoco-edit-url-invalid';
-var ALERT_PIDOCO_EMBED_URL_INVALID = 'pidoco-embed-url-invalid';
-var ALERT_VIDEO_EMBED_URL_INVALID = 'video-embed-url-invalid';
-var ALERT_ASSEMBLED_PROTOTYPE_REMOVED = 'assembled-prototype-removed';
-var ALERT_NO_SEARCH_RESULTS = 'no-search-results';
-var ALERT_NO_PHASE_DATA = 'no-phase-data';
-var ALERT_WAITING_FOR_TRAINING_GESTURE = 'waiting-for-training-gesture';
-var ALERT_WAITING_FORT_SLIDESHOW = 'waiting-for-slideshow';
-
 // sort
 var SORT_ASC = 'asc';
 var SORT_DESC = 'desc';
@@ -125,6 +114,7 @@ var ALTERNATIVE_GESTURES = 'gestures';
 var ALTERNATIVE_TRIGGERS = 'triggers';
 var ALTERNATIVE_FOR_GESTURE = 'gesture';
 var ALTERNATIVE_FOR_TRIGGER = 'trigger';
+var ALTERNATIVE_FOR_FEEDBACK = 'feedback';
 
 // cursors
 var CURSOR_AUTO = 'auto';

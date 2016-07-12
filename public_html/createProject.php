@@ -13,6 +13,7 @@ include './includes/language.php';
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/createProject.css">
         <link rel="stylesheet" href="css/gesture.css">
+        <link rel="stylesheet" href="externals/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="bootstrap-datepicker/css/bootstrap-datepicker3.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
@@ -156,6 +157,7 @@ include './includes/language.php';
 
                         <div class="form-group">
                             <div class="input-group">
+                                <span class="input-group-addon">Projektname</span>
                                 <input type="text" class="form-control" id="projectName" placeholder="Projektname einfügen" required>
                                 <label class="sr-only" for="projectName">Projektname</label>
                                 <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-projectName.html')">
@@ -168,6 +170,7 @@ include './includes/language.php';
                         <!-- project description -->
                         <div class="form-group">
                             <div class="input-group">
+                                <span class="input-group-addon">Projektbeschreibung</span>
                                 <textarea class="form-control" id="projectDescription" rows="5" placeholder="Beschreibung einfügen"></textarea>
                                 <label class="sr-only" for="projectDescription">Projektbeschreibung</label>
                                 <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-projectDescription.html')">
@@ -213,7 +216,7 @@ include './includes/language.php';
                         <h3>Prototypen & Demonstratoren</h3>
                         <div class="form-group">
                             <div class="btn-group" id="usePrototypesSwitch">
-                                <button class="btn btn-default btn-shadow switchButtonAddon">Prototypen benutzen?</button>
+                                <button class="btn btn-default switchButtonAddon">Prototypen benutzen?</button>
                                 <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
                                 <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
                                 <button class="btn btn-default btn-shadow supplement hidden" id="assemble-prototypes-set">
@@ -233,7 +236,7 @@ include './includes/language.php';
 
                         <div class="form-group">
                             <div class="btn-group" id="useGesturesSwitch">
-                                <button class="btn btn-default btn-shadow switchButtonAddon">Gesten nutzen?</button>
+                                <button class="btn btn-default switchButtonAddon">Gesten nutzen?</button>
                                 <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
                                 <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
                                 <button class="btn btn-default btn-shadow supplement hidden" id="assemble-gesture-set">
@@ -248,12 +251,27 @@ include './includes/language.php';
 
                         <div class="form-group">
                             <div class="btn-group" id="useTriggerSwitch">
-                                <button class="btn btn-default btn-shadow switchButtonAddon">Trigger nutzen?</button>
+                                <button class="btn btn-default switchButtonAddon">Trigger nutzen?</button>
                                 <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
                                 <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
                                 <button class="btn btn-default btn-shadow supplement hidden" id="assemble-trigger-set">
                                     <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Trigger erstellen</span></button>
                                 <button class="btn btn-addon" id="btn-use-trigger-info">
+                                    <i class="glyphicon glyphicon-question-sign"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Use of well/predefined feedback -->
+
+                        <div class="form-group">
+                            <div class="btn-group" id="useFeedbackSwitch">
+                                <button class="btn btn-default switchButtonAddon">Feedback nutzen?</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
+                                <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
+                                <button class="btn btn-default btn-shadow supplement hidden" id="assemble-feedback-set">
+                                    <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Feedback erstellen</span></button>
+                                <button class="btn btn-addon" id="btn-use-feedback-info">
                                     <i class="glyphicon glyphicon-question-sign"></i>
                                 </button>
                             </div>
@@ -331,7 +349,7 @@ include './includes/language.php';
 
                         <div class="form-group">
                             <div class="btn-group" id="genderSwitch">
-                                <button class="btn btn-default btn-shadow switchButtonAddon">Geschlecht</button>
+                                <button class="btn btn-default switchButtonAddon">Geschlecht</button>
                                 <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="female" name="btn-success">weiblich</button>
                                 <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="male" name="btn-success">männlich</button>
                                 <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="identical" name="btn-success">egal</button>
@@ -357,7 +375,7 @@ include './includes/language.php';
 
                         <div id="from-To-datepicker">
                             <div class="input-daterange input-group" id="datepicker">
-                                <span class="input-group-addon">Von</span>
+                                <span class="input-group-addon">Studie läuft von</span>
                                 <input type="text" class="input form-control readonly" id="start" name="start" />
                                 <span class="input-group-addon">bis</span>
                                 <input type="text" class="input form-control readonly" id="end" name="end" />
@@ -435,7 +453,7 @@ include './includes/language.php';
                 // get min and max age from datebase
                 var ageMin = 18;
                 var ageMax = 100;
-                if (getLocalItem(PROJECT).ageRange) {
+                if (getLocalItem(PROJECT) && getLocalItem(PROJECT).ageRange) {
 //                    $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: getLocalItem(PROJECT).ageRange.ageRange});
                 } else {
                     $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: [23, 50]});
@@ -492,6 +510,19 @@ include './includes/language.php';
                 event.preventDefault();
                 if (!$(this).parent().find('#no').hasClass('active') === true) {
                     removeAssembledTrigger();
+                }
+            });
+
+            $('#assemble-feedback-set').on('click', function (event) {
+                event.preventDefault();
+                currentIdForModal = ASSEMBLED_FEEDBACK;
+                loadHTMLintoModal('custom-modal', 'create-feedback-catalog.html', 'modal-lg');
+            });
+            
+            $('#useFeedbackSwitch #no, #useFeedbackSwitch .switchButtonAddon').on('click', function (event) {
+                event.preventDefault();
+                if (!$(this).parent().find('#no').hasClass('active') === true) {
+                    removeAssembledFeedback();
                 }
             });
 

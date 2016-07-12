@@ -1,8 +1,12 @@
 var currentGestureTrainingIndex = 0;
 var trainingTriggered = false;
+var triggeredFeedback = null;
 var currentSlideIndex = 0;
 var slideTriggered = false;
 var currentSceneId;
+var scenarioStartTriggered = false;
+var triggeredWoz = null;
+var triggeredHelp = null;
 
 function checkStorage() {
     if (getLocalItem(PROJECT_PHASE_STEPS) && getLocalItem(PROJECT_PHASE_STEPS).length > 0) {
@@ -61,12 +65,16 @@ function renderPhases() {
 }
 
 function previousStep() {
-//    $(window).scrollTop(0);
+    scenarioStartTriggered = false;
+    triggeredHelp = null;
+    triggeredWoz = null;
     $('.phaseStepsSelect .dropdown-menu .selected').prev().click();
 }
 
 function nextStep() {
-//    $(window).scrollTop(0);
+    scenarioStartTriggered = false;
+    triggeredHelp = null;
+    triggeredWoz = null;
     $('.phaseStepsSelect .dropdown-menu .selected').next().click();
 }
 
@@ -128,7 +136,7 @@ function getSourceContainer(selector) {
 var draggable = null;
 var resizable = false;
 var resizing = false;
-var DRAGGABLE_MAX_WIDTH = 750;
+var DRAGGABLE_MAX_WIDTH = 1250;
 var DRAGGABLE_MIN_WIDTH = 250;
 function dragRTC() {
     $('#web-rtc-placeholder').width(DRAGGABLE_MAX_WIDTH - 150);

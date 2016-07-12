@@ -100,8 +100,7 @@ $(window).load(function () {
         event.preventDefault();
         var gesture = getGestureById($(this).attr('name'));
 
-
-        if (!popoverVisible) {
+        if (!popoverVisible && !$(this).hasClass('disabled')) {
             showCursor($(this), CURSOR_PROGRESS);
             popoverVisible = true;
             $(this).addClass('active');
@@ -148,6 +147,7 @@ function resetPlayButton() {
 var originalImageWidth = 0;
 function renderGestureImages(container, images, preview, callback) {
     var numImagesLoaded = 0;
+    $(container).empty();
     $.each(images, function (key, value) {
         var image = document.createElement('img');
         $(image).addClass('gestureImage');
@@ -166,7 +166,7 @@ function renderGestureImages(container, images, preview, callback) {
                 if ($(container).hasClass('autoplay')) {
                     playThroughThumbnails(container);
                 }
-                if (callback !== null) {
+                if (callback !== null && callback !== undefined) {
                     callback();
                 }
 //                setTimeout(callback(), 500);

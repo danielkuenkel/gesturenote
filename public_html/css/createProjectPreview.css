@@ -88,13 +88,13 @@ and open the template in the editor.
     padding-right: 20px;
 }
 
-.progress-bar-slideshow {
+.progress-bar-slideshow, .progress-bar-hint {
     -webkit-transition: initial !important;
     -o-transition: initial !important;
     transition: initial !important;
 }
 
-.progress-bar-slideshow.active, .progress-slideshow.active .progress-bar {
+.progress-bar-slideshow.active, .progress-slideshow.active .progress-bar, .progress-bar-hint.active, .progress-hint.active .progress-bar {
     -webkit-animation: initial !important;
     -o-animation: initial !important;
     animation: initial !important;
@@ -108,4 +108,70 @@ and open the template in the editor.
 #btn-toggle-rtc-fixed:hover {
     background-color: #99366E;
     color: #eeeeee;
+}
+
+#generalPanel {
+    padding: 10px 20px 10px 20px; 
+    width: 100%; 
+    background-color: #fff; 
+    position:fixed; 
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.7);
+    /*cursor: pointer;*/
+}
+
+#btn-show-scenario-info, #btn-hide-scenario-info {
+    color: #303030;
+}
+#btn-show-scenario-info:hover, #btn-hide-scenario-info:hover {
+    color: #303030;
+}
+
+#woz-scenario-text {
+    color: white;
+    font-size: 30pt;
+    padding: 20px 35px 25px 35px;
+    line-height: 1.2em;
+    word-spacing: 0.2em;
+    background-color: rgba(0,0,0,.75);
+    max-width: 700px;
+    border-radius: 30px;
+    text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.6);
+    align-self: center;
+}
+
+.hint {
+    z-index: 1000;
+    text-align: center;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    /* May want to do this if there is risk the container may be narrower than the element inside */
+    /*white-space: nowrap;*/
+    background-color: rgba(0,0,0,0.3);
+}
+
+.hint:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em; /* Adjusts for spacing */
+}
+
+.hint-content {
+    display: inline-block;
+    vertical-align: middle;
+    width: 700px;
+    color: white;
+    font-size: 30pt;
+    padding: 20px 35px 25px 35px;
+    line-height: 1.2em;
+    word-spacing: 0.2em;
+    background-color: rgba(0,0,0,.75);
+    max-width: 1000px;
+    min-width: 500px;
+    border-radius: 30px;
+    text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.6);
 }

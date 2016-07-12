@@ -33,45 +33,60 @@ $('body').on('click', '#addFormat', function (event) {
     }
 });
 
-$('.btn-add-groupingQuestionOption').unbind('click').bind('click', function (event) {
+$(document).on('click', '.btn-add-groupingQuestionOption', function (event) {
     event.preventDefault();
-    var clone = $('#groupingQuestionItem').clone().removeClass('hidden');
-    $(this).prev().find('.panel-body').append(clone);
-    checkCurrentListState($(this).prev().find('.panel-body'));
-});
-
-$('.btn-add-ratingOption').unbind('click').bind('click', function (event) {
-    event.preventDefault();
-    var clone = $('#ratingItem').clone().removeClass('hidden');
-    clone.removeAttr('id');
-    $(this).prev().find('.panel-body').append(clone);
-    checkCurrentListState($(this).prev().find('.panel-body'));
-    $(clone).find('.chosen').attr('id', 3);
-    $(clone).find('.show-dropdown').val(3);
-    $(clone).find('#scale_3').addClass('selected');
-    renderScaleItems($(clone).find('.ratingScaleItemContainer'), 3);
-//    return false;
-});
-
-$('.btn-add-sumQuestionOption').unbind('click').bind('click', function (event) {
-    event.preventDefault();
-    var clone = $('#sumQuestionItem').clone().removeClass('hidden');
-    $(this).prev().find('.panel-body').append(clone);
-    checkCurrentListState($(this).prev().find('.panel-body'));
-});
-
-$('.btn-add-rankingOption').unbind('click').bind('click', function (event) {
-    event.preventDefault();
-    var clone = $('#rankingItem').clone().removeClass('hidden');
-    $(this).prev().find('.panel-body').append(clone);
-    checkCurrentListState($(this).prev().find('.panel-body'));
-});
-
-$('body').on('click', '.btn-add-woz-experimentOption', function (event) {
     if (event.handled !== true)
     {
         event.handled = true;
-        event.preventDefault();
+        var clone = $('#groupingQuestionItem').clone().removeClass('hidden');
+        $(this).prev().find('.panel-body').append(clone);
+        checkCurrentListState($(this).prev().find('.panel-body'));
+    }
+});
+
+$(document).on('click', '.btn-add-ratingOption', function (event) {
+    event.preventDefault();
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        var clone = $('#ratingItem').clone().removeClass('hidden');
+        clone.removeAttr('id');
+        $(this).prev().find('.panel-body').append(clone);
+        checkCurrentListState($(this).prev().find('.panel-body'));
+        $(clone).find('.chosen').attr('id', 3);
+        $(clone).find('.show-dropdown').val(3);
+        $(clone).find('#scale_3').addClass('selected');
+        renderScaleItems($(clone).find('.ratingScaleItemContainer'), 3);
+    }
+});
+
+$(document).on('click', '.btn-add-sumQuestionOption', function (event) {
+    event.preventDefault();
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        var clone = $('#sumQuestionItem').clone().removeClass('hidden');
+        $(this).prev().find('.panel-body').append(clone);
+        checkCurrentListState($(this).prev().find('.panel-body'));
+    }
+});
+
+$(document).on('click', '.btn-add-rankingOption', function (event) {
+    event.preventDefault();
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        var clone = $('#rankingItem').clone().removeClass('hidden');
+        $(this).prev().find('.panel-body').append(clone);
+        checkCurrentListState($(this).prev().find('.panel-body'));
+    }
+});
+
+$('body').on('click', '.btn-add-woz-experimentOption', function (event) {
+    event.preventDefault();
+    if (event.handled !== true)
+    {
+        event.handled = true;
         $(this).prev().append($('#wozExperimentItem').clone().removeClass('hidden'));
         checkCurrentListState($(this).prev());
     }
@@ -226,8 +241,6 @@ $('body').on('click', '.alternativeSwitch .check', function (event) {
     $(this).closest('.root').find('.alternativeGestureSelect').addClass('hidden');
     $(this).closest('.root').find('.alternativeTriggerSelect').addClass('hidden');
 
-    console.log($(this).hasClass(ALERT_NO_GESTURES_ASSEMBLED));
-
     if ($(this).hasClass(ALERT_NO_GESTURES_ASSEMBLED)) {
         if (assembledGestures() !== null) {
             $(this).closest('.root').find('.alternativeGestureSelect').removeClass('hidden');
@@ -274,6 +287,62 @@ $('body').on('click', '.btn-delete-image', function (event) {
         $(this).closest('.root').find('.choosePrototypeImage .btn-icon').removeClass('glyphicon-refresh');
         $(this).closest('.root').find('.choosePrototypeImage .btn-icon').addClass('glyphicon-picture');
     }
+});
+
+$('body').on('click', '.chooseFeedbackSound', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        $(this).closest('.root').find('.soundUpload').click();
+    }
+});
+
+$('body').on('change', '.soundUpload', function (event) {
+    event.preventDefault();
+    var dataHolder = $(this).parent().find('.audio-holder');
+    var audioPlayer = $(this).parent().find('.audioPlayer');
+    var control = $(this);
+    console.log(this.files[0]);
+    readFile(this.files[0], function (event) {
+        $(dataHolder).attr("src", event.target.result);
+        $(audioPlayer).removeClass('hidden');
+        $(audioPlayer).parent().find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
+        $(audioPlayer).parent().find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-volume-up');
+        $(audioPlayer).parent().find('.chooseFeedbackSound .btn-icon').addClass('glyphicon glyphicon-refresh');
+        control.replaceWith(control = control.clone(true));
+    });
+});
+
+$('body').on('click', '.btn-delete-sound', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        $(this).next().attr('src', '');
+        $(this).closest('.audioPlayer').addClass('hidden');
+        $(this).closest('.root').find('.chooseFeedbackSound .btn-text').text('Sounddatei auswählen');
+        $(this).closest('.root').find('.chooseFeedbackSound .btn-icon').removeClass('glyphicon glyphicon-refresh');
+        $(this).closest('.root').find('.chooseFeedbackSound .btn-icon').addClass('fa fa-volume-up');
+        $(this).closest('.root').find('#stop').click();
+    }
+});
+
+$('body').on('click', '.audioPlayer #play', function (event) {
+    event.preventDefault();
+    var audioElement = $(this).closest('.audioPlayer').find('.audio-holder')[0];
+    audioElement.play();
+});
+
+$('body').on('click', '.audioPlayer #pause', function (event) {
+    event.preventDefault();
+    var audioElement = $(this).closest('.audioPlayer').find('.audio-holder')[0];
+    audioElement.pause();
+});
+
+$('body').on('click', '.audioPlayer #stop', function (event) {
+    event.preventDefault();
+    var audioElement = $(this).closest('.audioPlayer').find('.audio-holder')[0];
+    audioElement.pause();
+    audioElement.currentTime = 0;
 });
 
 $('body').on('click', '.choosePrototypeVideo', function (event) {
@@ -542,7 +611,6 @@ $('body').on("keyup", '.enter-key', function (event) {
 
 // slideshow
 $('body').on('click', '.btn-add-slideshowOption', function (event) {
-//    console.log('on btn-add-slideshowOption clicked');
     if (event.handled !== true)
     {
         event.handled = true;
@@ -571,7 +639,6 @@ function renderDimensions(target) {
 }
 
 $('body').on('click', '#dimension-btn-group .btn-toggle', function (event) {
-    console.log('dimesino button clicked');
     if (event.handled !== true)
     {
         event.handled = true;
@@ -638,7 +705,6 @@ function checkDimensionItems() {
 }
 
 function addQuestionnaireItems(dimension) {
-    console.log('add item');
     if (dimension === 'all') {
         var dimensions = $('#dimension-btn-group').children('.btn-dimension');
         for (var i = 0; i < dimensions.length; i++) {
@@ -654,7 +720,6 @@ function addQuestionnaireItems(dimension) {
 
 var currentGUS = null;
 function getPredefinedQuestionnaireItemsByDimension(dimension) {
-    console.log('dimension: ' + dimension)
     var predefinedQuestionnaire = currentGUS === GUS_SINGLE_GESTURES ? getLocalItem(PROJECT_ORIGIN_GUS) : getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE);
     var questionnaire = new Array();
     for (var i = 0; i < predefinedQuestionnaire.length; i++) {
@@ -706,11 +771,11 @@ function renderFormatItem(target, data) {
     switch (data.type) {
         case DICHOTOMOUS_QUESTION:
             var aGestures = assembledGestures();
-            if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
-                $(clone).find('.gesture-select .switchButtonAddon').click();
-            }
+//            if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
+//                $(clone).find('.gesture-select .switchButtonAddon').click();
+//            }
 
-            if (parameters[1] === true) {
+            if (parameters[0] === true) {
                 $(clone).find('.justification .switchButtonAddon').click();
             }
             break;
@@ -722,11 +787,13 @@ function renderFormatItem(target, data) {
                 $(clone).find('.optionalanswer .switchButtonAddon').click();
             }
 
-            for (var j = 0; j < options.length; j++) {
-                var option = $('#groupingQuestionItem').clone().removeClass('hidden');
-                $(option).find('.option').val(options[j]);
-                $(clone).find('.option-container').append(option);
-                checkCurrentListState($(clone).find('.option-container'));
+            if (options) {
+                for (var j = 0; j < options.length; j++) {
+                    var option = $('#groupingQuestionItem').clone().removeClass('hidden');
+                    $(option).find('.option').val(options[j]);
+                    $(clone).find('.option-container').append(option);
+                    checkCurrentListState($(clone).find('.option-container'));
+                }
             }
             break;
         case GROUPING_QUESTION_GUS:
@@ -736,64 +803,66 @@ function renderFormatItem(target, data) {
             if (parameters[1] === true) {
                 $(clone).find('.justification .switchButtonAddon').click();
             }
-            console.log($(clone).find('.optionselect #' + parameters[2]));
+//            console.log($(clone).find('.optionselect #' + parameters[2]));
 //                        $(clone).find('.optionselect #' + parameters[2]).unbind('click').bind('click');
 
-            $('.optionselect #gestures').unbind('click').bind('click', function (event) {
-                console.log('gestures clicked');
-                event.preventDefault();
-                var aGestures = assembledGestures();
-                var container = $(this).closest('.root').find('.option-container');
-                container.find('.groupingQuestionItem').remove();
-
-                if (aGestures !== null) {
-                    for (var i = 0; i < aGestures.length; i++) {
-                        var item = $(this).closest('.root').find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
-                        item.addClass('groupingQuestionItem');
-                        item.find('.option').val(aGestures[i].title);
-                        item.find('.option').attr('id', aGestures[i].id);
-                        container.append(item);
-                    }
-                    checkCurrentListState(container);
-                }
-            });
-
-            $('.optionselect #triggers').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                var triggers = getLocalItem(ASSEMBLED_TRIGGER);
-                var container = $(this).closest('.root').find('.option-container');
-                container.find('.groupingQuestionItem').remove();
-
-                if (triggers !== null) {
-                    for (var i = 0; i < triggers.length; i++) {
-                        var item = $(this).closest('.root').find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
-                        item.addClass('groupingQuestionItem');
-                        item.find('.option').val(triggers[i].title);
-                        item.find('.option').attr('id', triggers[i].id);
-                        container.append(item);
-                    }
-                    checkCurrentListState(container);
-                }
-            });
+//            $('.optionselect #gestures').unbind('click').bind('click', function (event) {
+////                console.log('gestures clicked');
+//                event.preventDefault();
+//                var aGestures = assembledGestures();
+//                var container = $(this).closest('.root').find('.option-container');
+//                container.find('.groupingQuestionItem').remove();
+//
+//                if (aGestures !== null) {
+//                    for (var i = 0; i < aGestures.length; i++) {
+//                        var item = $(this).closest('.root').find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
+//                        item.addClass('groupingQuestionItem');
+//                        item.find('.option').val(aGestures[i].title);
+//                        item.find('.option').attr('id', aGestures[i].id);
+//                        container.append(item);
+//                    }
+//                    checkCurrentListState(container);
+//                }
+//            });
+//
+//            $('.optionselect #triggers').unbind('click').bind('click', function (event) {
+//                event.preventDefault();
+//                var triggers = getLocalItem(ASSEMBLED_TRIGGER);
+//                var container = $(this).closest('.root').find('.option-container');
+//                container.find('.groupingQuestionItem').remove();
+//
+//                if (triggers !== null) {
+//                    for (var i = 0; i < triggers.length; i++) {
+//                        var item = $(this).closest('.root').find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
+//                        item.addClass('groupingQuestionItem');
+//                        item.find('.option').val(triggers[i].title);
+//                        item.find('.option').attr('id', triggers[i].id);
+//                        container.append(item);
+//                    }
+//                    checkCurrentListState(container);
+//                }
+//            });
 
             $(clone).find('.optionselect #' + parameters[2]).click();
 
             break;
         case RATING:
-            for (var j = 0; j < options.length; j++) {
-                var option = $('#ratingItem').clone().removeClass('hidden');
-                $(option).find('.option').val(options[j]);
-                $(clone).find('.option-container').append(option);
-                $(option).find('.optionQuestion').val(options[j][options[j].length - 2]);
-                $(option).find('.chosen').attr('id', (options[j].length - 2));
-                $(option).find('.show-dropdown').val(options[j].length - 2);
-                $(option).find('#scale_' + (options[j].length - 2)).addClass('selected');
-                checkCurrentListState($(clone).find('.option-container'));
+            if (options) {
+                for (var j = 0; j < options.length; j++) {
+                    var option = $('#ratingItem').clone().removeClass('hidden');
+                    $(option).find('.option').val(options[j]);
+                    $(clone).find('.option-container').append(option);
+                    $(option).find('.optionQuestion').val(options[j][options[j].length - 2]);
+                    $(option).find('.chosen').attr('id', (options[j].length - 2));
+                    $(option).find('.show-dropdown').val(options[j].length - 2);
+                    $(option).find('#scale_' + (options[j].length - 2)).addClass('selected');
+                    checkCurrentListState($(clone).find('.option-container'));
 
-                renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 2, options[j]);
+                    renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 2, options[j]);
 
-                if (options[j][options[j].length - 1] === true) {
-                    $(option).find('#yes').click();
+                    if (options[j][options[j].length - 1] === true) {
+                        $(option).find('#yes').click();
+                    }
                 }
             }
             break;
@@ -801,19 +870,23 @@ function renderFormatItem(target, data) {
             $(clone).find('.option').children('#' + parameters[0]).click();
             $(clone).find('.maximum').val(parameters[1]);
 
-            for (var j = 0; j < options.length; j++) {
-                var option = $('#sumQuestionItem').clone().removeClass('hidden');
-                $(option).find('.option').val(options[j]);
-                $(clone).find('.option-container').append(option);
-                checkCurrentListState($(clone).find('.option-container'));
+            if (options) {
+                for (var j = 0; j < options.length; j++) {
+                    var option = $('#sumQuestionItem').clone().removeClass('hidden');
+                    $(option).find('.option').val(options[j]);
+                    $(clone).find('.option-container').append(option);
+                    checkCurrentListState($(clone).find('.option-container'));
+                }
             }
             break;
         case RANKING:
-            for (var j = 0; j < options.length; j++) {
-                var option = $('#rankingItem').clone().removeClass('hidden');
-                $(option).find('.option').val(options[j]);
-                $(clone).find('.option-container').append(option);
-                checkCurrentListState($(clone).find('.option-container'));
+            if (options) {
+                for (var j = 0; j < options.length; j++) {
+                    var option = $('#rankingItem').clone().removeClass('hidden');
+                    $(option).find('.option').val(options[j]);
+                    $(clone).find('.option-container').append(option);
+                    checkCurrentListState($(clone).find('.option-container'));
+                }
             }
             break;
         case ALTERNATIVE_QUESTION:
@@ -824,14 +897,12 @@ function renderFormatItem(target, data) {
                 $(clone).find('.optionalanswer .switchButtonAddon').click();
             }
 
-            if (parameters[2] === 'gestures') {
-                $(clone).find('#gestures').click();
-            }
+            $(clone).find('.alternative #' + parameters[2]).click();
 
             var currentPhase = getPhaseById(currentIdForModal);
             if (currentPhase && currentPhase.selectedId === GUS_SINGLE_GESTURES) {
                 $(clone).find('#alternativeTrigger').remove();
-                $(clone).find('.alternativeSwitch').addClass('hidden');
+                $(clone).find('.alternativeFor').addClass('hidden');
                 break;
             }
 
@@ -862,6 +933,18 @@ function renderFormatItem(target, data) {
                 } else {
                     appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
                 }
+            } else if (parameters[3] === 'feedbacks') {
+                if (getLocalItem(ASSEMBLED_FEEDBACK))
+                {
+                    $(clone).find('#alternativeFeedback').click();
+                }
+
+                if (getTriggerById(parameters[4].id)) {
+                    $(clone).find('.option-feedback').val(parameters[4].title);
+                    $(clone).find('.feedbackSelect .chosen').attr('id', parameters[4].id);
+                } else {
+                    appendAlert(clone, ALERT_ASSEMBLED_FEEDBACK_REMOVED);
+                }
             }
             break;
         case GUS_SINGLE:
@@ -874,7 +957,7 @@ function renderFormatItem(target, data) {
     var dimension = data.dimension;
     if (dimension !== DIMENSION_ANY) {
         $(clone).find('#item-factors').removeClass('hidden');
-        $(clone).find('.btn-delete').addClass('hidden');
+//        $(clone).find('.btn-delete').addClass('hidden');
         var dimensionButton = $('#dimension-btn-group').find('#' + dimension);
         if (dimensionButton) {
             $(dimensionButton).addClass('active');
@@ -898,7 +981,7 @@ function getFormatData(element) {
     switch (type) {
         case DICHOTOMOUS_QUESTION:
             parameters = new Array();
-            parameters.push($(element).find('.gesture-select .active').attr('id') === 'yes' ? true : false);
+//            parameters.push($(element).find('.gesture-select .active').attr('id') === 'yes' ? true : false);
             parameters.push($(element).find('.justification .active').attr('id') === 'yes' ? true : false);
             break;
         case GROUPING_QUESTION:
@@ -917,12 +1000,6 @@ function getFormatData(element) {
             parameters.push($(element).find('.multiselect .active').attr('id') === 'yes' ? true : false);
             parameters.push($(element).find('.justification .active').attr('id') === 'yes' ? true : false);
             parameters.push($(element).find('.optionselect .active').attr('id'));
-
-            options = new Array();
-            var groupingOptions = $(element).find('.option-container').children();
-            for (var j = 0; j < groupingOptions.length; j++) {
-                options.push($(groupingOptions[j]).find('.option').attr('id'));
-            }
             break;
         case RATING:
             options = new Array();
@@ -958,9 +1035,11 @@ function getFormatData(element) {
             break;
         case ALTERNATIVE_QUESTION:
             parameters = new Array();
+
             parameters.push($(element).find('.justification #yes').hasClass('active'));
             parameters.push($(element).find('.optionalanswer #yes').hasClass('active'));
-            parameters.push($(element).find('#gestures').hasClass('active') ? ALTERNATIVE_GESTURES : ALTERNATIVE_TRIGGERS);
+            parameters.push($(element).find('.alternative').find('.active').attr('id'));
+            console.log(parameters);
             var aGestures = assembledGestures();
             var aTriggers = getLocalItem(ASSEMBLED_TRIGGER);
 //            options = new Array();
@@ -971,34 +1050,26 @@ function getFormatData(element) {
                 break;
             }
 
-//            if ($(element).find('#gestures').hasClass('active')) {
-//                for (var i = 0; i < aGestures.length; i++) {
-//                    if (gusTargetGestureId === null || gusTargetGestureId !== aGestures[i].id) {
-//                        options.push(aGestures[i]);
-//                    }
-//                }
-//            } else {
-//                for (var i = 0; i < aTriggers.length; i++) {
-//                    options.push(aTriggers[i]);
-//                }
-//            }
-
-            if (aGestures && $(element).find('.alternativeSwitch .active').attr('id') === 'alternativeGesture') {
+            if (aGestures && $(element).find('.alternativeFor .active').attr('id') === 'alternativeGesture') {
                 var gestureId = $(element).find('.alternativeGestureSelect .chosen').attr('id');
-                console.log($(element).find('.alternativeGestureSelect'));
                 if (gestureId !== 'unselected') {
                     parameters.push(ALTERNATIVE_FOR_GESTURE);
                     parameters.push(getGestureById(gestureId));
                 }
 
-            } else if (aTriggers && $(element).find('.alternativeSwitch .active').attr('id') === 'alternativeTrigger') {
+            } else if (aTriggers && $(element).find('.alternativeFor .active').attr('id') === 'alternativeTrigger') {
                 var triggerId = $(element).find('.triggerSelect .chosen').attr('id');
                 if (triggerId !== 'unselected') {
                     parameters.push(ALTERNATIVE_FOR_TRIGGER);
                     parameters.push(getTriggerById(triggerId));
                 }
+            } else if (aTriggers && $(element).find('.alternativeFor .active').attr('id') === 'alternativeFeedback') {
+                var feedbackId = $(element).find('.feebackSelect .chosen').attr('id');
+                if (feedbackId !== 'unselected') {
+                    parameters.push(ALTERNATIVE_FOR_FEEDBACK);
+                    parameters.push(feedbackId);
+                }
             }
-            console.log(parameters);
             break;
         case GUS_SINGLE:
             parameters = new Array();

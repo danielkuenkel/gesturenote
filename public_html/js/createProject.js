@@ -22,7 +22,7 @@ var gusOptions = ['Trifft gar nicht zu', 'Trifft eher nicht zu', 'Teils-teils', 
 function createOriginGUS() {
     if (getLocalItem(PROJECT_ORIGIN_GUS) === null) {
         var gus = new Array();
-        gus.push(new QuestionnaireItem(ALTERNATIVE_QUESTION, DIMENSION_COGNITIVE_STRESS, 'Ich denke, dass es zu dieser Geste alternative Gesten gibt.', [true, 'gestures', 'gesture'], null));
+        gus.push(new QuestionnaireItem(ALTERNATIVE_QUESTION, DIMENSION_COGNITIVE_STRESS, 'Ich denke, dass es zu dieser Geste alternative Gesten gibt.', [true, false, 'gestures', 'gesture'], null));
         gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_LERNABILITY, 'Ich denke, dass ich mir diese Geste sehr gut merken kann.', [false], gusOptions));
         gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_LERNABILITY, 'Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dieser Geste umzugehen.', [false], gusOptions));
         gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_MENTAL_MODEL, 'Ich denke, dass sich diese Geste von anderen Gesten ausreichend unterscheidet.', [false], gusOptions));
@@ -114,11 +114,11 @@ function createPredefinedGestureQuestionnaire() {
 }
 
 function createPredefinedGestureFeedback() {
-    if (getLocalItem(PREDEFINED_GESTURE_FEEDBACK) === null) {
+    if (getLocalItem(PREDEFINED_FEEDBACK) === null) {
         var feedback = new Array();
-        feedback.push(new Feedback(0, FEEDBACK_PREDEFINED, "wurde erkannt"));
-        feedback.push(new Feedback(1, FEEDBACK_PREDEFINED, "wurde nicht erkannt"));
-        setLocalItem(PREDEFINED_GESTURE_FEEDBACK, feedback);
+        feedback.push(new Feedback(0, TYPE_FEEDBACK_TEXT, "wurde erkannt", [false], null));
+        feedback.push(new Feedback(1, TYPE_FEEDBACK_TEXT, "wurde nicht erkannt", [true], null));
+        setLocalItem(PREDEFINED_FEEDBACK, feedback);
     }
 }
 
@@ -149,7 +149,6 @@ function renderSessionStorageData() {
         if (project.surveyType !== 'unselected') {
             $('#surveyTypeSelect').find('#' + project.surveyType).click();
         }
-
         if (project.usePrototypes === true) {
             $('#usePrototypesSwitch #yes').click();
         }
@@ -158,6 +157,9 @@ function renderSessionStorageData() {
         }
         if (project.useTrigger === true) {
             $('#useTriggerSwitch #yes').click();
+        }
+        if (project.useFeedback === true) {
+            $('#useFeedbackSwitch #yes').click();
         }
         if (project.recordType !== 'unselected') {
             $('#recordSelect').find('#' + project.recordType).click();
@@ -188,10 +190,11 @@ function saveGeneralData() {
     project.usePrototypes = !$('#assemble-prototypes-set').hasClass('hidden');
     project.useGestures = !$('#assemble-gesture-set').hasClass('hidden');
     project.useTrigger = !$('#assemble-trigger-set').hasClass('hidden');
+    project.useFeedback = !$('#assemble-feedback-set').hasClass('hidden');
     project.recordType = $('#recordSelect .chosen').attr('id');
     project.gender = $('#genderSwitch').find('.active').attr('id');
     project.ageRange = $('#ageSlider .custom-range-slider').attr('value');
-    console.log($('#ageSlider .custom-range-slider').attr('value'));
+//    console.log($('#ageSlider .custom-range-slider').attr('value'));
     $('#from-To-datepicker .input-daterange input').each(function () {
         var formattedDate = $(this).datepicker('getDate');
 
@@ -236,6 +239,7 @@ function Project() {
     this.usePrototypes;
     this.useGestures;
     this.useTrigger;
+    this.useFeedback;
     this.dateFrom;
     this.dateTo;
     this.gender;
@@ -282,17 +286,18 @@ function Training() {
     this.observations;
 }
 
-function TrainingItem(gesture, trigger, feedback, repeats) {
+function TrainingItem(gesture, trigger, feedbackId, repeats, recognitionTime) {
     this.gesture = gesture;
     this.trigger = trigger;
-    this.feedback = feedback;
+    this.feedbackId = feedbackId;
     this.repeats = repeats;
+    this.recognitionTime = recognitionTime;
 }
 
-function WOZ(gesture, trigger, feedback, recognitionTime) {
+function WOZ(gesture, trigger, feedbackId, recognitionTime) {
     this.gesture = gesture;
     this.trigger = trigger;
-    this.feedback = feedback;
+    this.feedbackId = feedbackId;
     this.recognitionTime = recognitionTime;
 }
 
@@ -330,10 +335,12 @@ function Gesture(type, id, timestamp, title, description, gestureType, bodyType,
     this.used = used;
 }
 
-function Feedback(id, type, title) {
+function Feedback(id, type, title, parameters, data) {
     this.id = id;
     this.type = type;
     this.title = title;
+    this.parameters = parameters;
+    this.data = data;
 }
 
 function Trigger(id, type, title) {

@@ -70,9 +70,9 @@
         <div class="panel-body">
             <div class="question"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
-                <div class="label label-info" id="factor-primary"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
                 <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
             </div>
             <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
             <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
@@ -152,9 +152,9 @@
             <div class="question"></div>
             <div style="display: inline;">
                 <div class="hidden" id="item-factors" style="display: inline-block">
-                    <div class="label label-info" id="factor-primary"></div>
-                    <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
                     <div class="label label-primary" id="factor-main"></div>
+                    <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                    <div class="label label-info" id="factor-primary"></div>
                 </div>
                 <div class="label label-danger hidden" id="reversed" style="display: inline-block">negiert</div>
             </div>
@@ -221,16 +221,17 @@
         <div class="col-sm-6 col-md-12 col-lg-6 left" style="margin-bottom: 10px;">
             <!--<div class="imageContainer previewGesture"></div>-->
             <div>
-                <div id="title"></div>
-                <div id="repeats"></div>
-                <div id="trigger"></div>
-                <div id="feedback"></div>
+                <div id="title"><span class="address"></span> <span class="text" style="color: #303030"></span></div>
+                <div id="repeats"><span class="address"></span> <span class="text" style="color: #303030"></span></div>
+                <div id="trigger"><span class="address"></span> <span class="text" style="color: #303030"></span></div>
+                <div id="feedback"><span class="address"></span> <span class="text" style="color: #303030"></span></div>
             </div>
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6 right">
             <div class="btn-group-vertical btn-block">
                 <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
                 <button type="button" class="btn btn-info btn-shadow" id="trigger-training"><span class="text">Trainieren</span></button>
+                <button type="button" class="btn btn-info btn-shadow disabled" id="trigger-feedback"><span class="text">Feedback geben</span></button>
             </div>
 
             <button type="button" class="btn btn-success btn-shadow btn-block disabled" id="next-gesture"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
@@ -293,7 +294,7 @@
     <!-- scenario container -->
     <div  class="row root" id="scenario">
         <div class="col-md-7 col-lg-8 rtc-scalable" id="column-left">
-            <div class="panel panel-default">
+            <div class="panel panel-default" id="woz-controls">
                 <div class="panel-heading">Wizard-of-Oz-Experiment</div>
                 <div class="panel-body">
                     <div class="row">
@@ -317,7 +318,8 @@
                 <div class="panel-body">
                     <div id="task"></div>
                     <div id="description"></div>
-                    <button type="button" class="btn btn-default btn-shadow hidden" id="scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Szene anzeigen</button>
+                    <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Szene anzeigen</button>
+                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="start-scenario" style="margin-top: 6px;">Jetzt starten</button>
                 </div>
             </div>
             <div class="panel panel-default" id="observations">
@@ -336,15 +338,15 @@
         <!--<div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>-->
         <div class="btn-group-vertical btn-block">
             <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
-            <button type="button" class="btn btn-info btn-shadow ellipsis" id="trigger">Simulieren</button>
+            <button type="button" class="btn btn-info btn-shadow ellipsis disabled" id="trigger-woz">Simulieren</button>
         </div>
     </div> 
 
     <div id="helpItem" style="margin-bottom: 6px;">
         <div class="help-title"></div>
         <div class="btn-group" style="margin-top: 10px;">
+            <button type="button" class="btn btn-info btn-shadow disabled" id="offer-help"><i class="fa fa-life-ring"></i> Hilfe anbieten</button>
             <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
-            <button type="button" class="btn btn-info btn-shadow"><i class="glyphicon glyphicon-gift"></i> Hilfe anbieten</button>
         </div>
     </div>
 
@@ -378,7 +380,7 @@
 
 <div id="item-container-tester" class="hidden">
 
-    <div class="root" id="letterOfAcceptance">
+    <div class="container root" id="letterOfAcceptance">
         <h3 class="headline">Einverständniserklärung</h3>
         <hr>
         <div class="letter-text"></div>
@@ -389,7 +391,7 @@
         </div>
     </div>
 
-    <div class="root" id="questionnaire">
+    <div class="container root" id="questionnaire">
         <h3 class="headline">Fragebogen</h3>
         <hr>
         <div class="question-container"></div>
@@ -399,7 +401,7 @@
 
 
     <!-- SUS container & item -->
-    <div class="root" id="sus">
+    <div class="container root" id="sus">
         <h3 class="headline">Fragebogen zum System</h3>
         <hr>
         <div class="question-container"></div>
@@ -417,7 +419,7 @@
     </div>
 
     <!-- GUS container & item -->
-    <div class="root" id="gus">
+    <div class="container root" id="gus">
         <h3 class="headline">Fragebogen zur Geste</h3>
         <div class="row">
             <div class="col-sm-6 right" style="margin-bottom: 10px;">
@@ -435,7 +437,7 @@
 
 
     <!-- gesture questionnaire container & item -->
-    <div class="root" id="questionnaireGestures">
+    <div class="container root" id="questionnaireGestures">
         <h3 class="headline">Fragebogen zu den Gesten</h3>
         <hr>
         <div class="question-container"></div>
@@ -444,7 +446,7 @@
     </div>
 
     <!-- gesture training container -->
-    <div class="root" id="gestureTraining">
+    <div class="container root" id="gestureTraining">
         <h3 class="headline"></h3>
         <div class="description"></div>
         <hr>
@@ -483,7 +485,7 @@
     </div>
 
     <!-- slideshow container -->
-    <div class="root" id="slideshow">
+    <div class="container root" id="slideshow">
         <h3 class="headline"></h3>
         <div class="description"></div>
         <hr>
@@ -518,6 +520,77 @@
         </div>
     </div>
 
+    <!-- scenario container -->
+    <div class="root" id="scenario" style="width: 100%;">
+
+        <div style="position: absolute; top:54px; width: 100%; height:auto;">
+            <div id="scene-container" class="text-center" style="position: absolute; width: 100%; height:auto; overflow:auto"></div>
+            <div id="woz-scenario-text-container" class="hidden" style="width: 100%; position: absolute; display: flex; justify-content: center;">
+                <div id="woz-scenario-text" class="text-center" style="position: relative;margin: 0 auto;">
+                    <span id="text-start"></span>
+                    <em><span id="gesture-title"></span></em>
+                    <span id="gesture-for"></span>
+                    <em><span id="trigger-title"></span></em>
+                    <span id="feedback-title"></span>
+                    <button type="button" class="btn btn-xl btn-info btn-block" id="btn-close-woz-hint" style="margin-top: 20px"><span class="text">Okay</span></button>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="generalPanel" style="width: 100%">
+            <div class="alert-space alert-waiting-for-scenario-start" style="margin-top: 10px"></div>
+            <div id="generalPanelContent" class="hidden" style="width: 100%">
+                <div id="task-header"></div>
+                <div id="task-text" style="color: #303030; line-height: 1.2em"></div>
+                <hr>
+            </div>
+
+            <div class="text-center hidden" id="normal-controls">
+                <button class="btn btn-link" id="btn-show-scenario-info"><i class="glyphicon glyphicon-menu-down text-center"></i> <span id="more-text"></span></button>
+                <button class="btn btn-link hidden" id="btn-hide-scenario-info"><i class="glyphicon glyphicon-menu-up text-center"></i> <span id="less-text"></span></button>
+                <button type="button" class="btn btn-info pull-right" id="getting-help"><i class="fa fa-life-ring"></i> <span class="text">Hilfe anfordern</span></button>
+            </div>
+
+            <div class="text-center hidden" id="start-controls">
+                <button type="button" class="btn btn-success btn-lg" id="start-scene"><span class="text">Los geht's</span></button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!--<object id="web" type="text/html" data="" style="position: absolute; width:100%; height:700px"></object>-->
+    <!--<div id="web" style="width: 100%; height:400px; background-color: #0088cc"></div>-->
+    <iframe id="web" class="web-frame" src="" frameborder="0" style="width: 100%;" scrolling="yes"></iframe>
+
+    <img id="image" style="width: auto;">
+
+
+    <!-- hints and hinte contents-->
+    <div id="feedback-hint" class="hint">
+        <div class="hint-content">
+
+            <button type="button" class="btn btn-xl btn-info btn-block" id="btn-close-hint" style="margin-top: 20px"><span class="text">Okay</span></button>
+            <div class="progress progress-hint" style="height: 60px; border-radius: 10px; margin-top: 20px">
+                <div class="progress-bar progress-bar-info progress-bar-hint" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="feedback-hint-text-content">
+        <span id="text-start">test</span>
+        <em><span id="gesture-title">test</span></em>
+        <span id="gesture-for">test</span>
+        <em><span id="trigger-title">test</span></em>
+        <span id="feedback-title">test</span>
+    </div>
+
+    <div id="feedback-hint-sound-content">
+        <i class="fa fa-volume-up" style="font-size: 80pt"></i>
+        <audio class="audio-holder" src="" preload="auto"></audio>
+    </div>
+
 </div>
 
 <div id="item-container-inputs" class="hidden">
@@ -547,7 +620,7 @@
     <div class="panel panel-default root" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <p class="question"></p> 
-            <div class="root option-container root"></div>
+            <div class="option-container root"></div>
         </div>
     </div>
 
@@ -592,7 +665,7 @@
         </div>
     </div>
 
-    <div class="panel panel-default root" id="rating">
+    <div class="panel panel-default root" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
             <p class="question"></p> 
             <div class="option-container root"></div>
@@ -601,8 +674,7 @@
 
     <div id="rating-item">
         <div id="rating-header"></div>
-        <div class="root" id="scales-container">
-        </div>
+        <div class="root" id="scales-container"></div>
     </div>
 
     <div class="panel panel-default root" id="sumQuestion" style="margin-bottom: 5px;">
@@ -624,7 +696,7 @@
                 </div>
                 <input type="text" class="form-control readonly text-center stepper-text" value="0">
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
+                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="0">
                         <span class="glyphicon glyphicon-plus"></span><span class="sr-only">mehr</span>
                     </button>
                 </div>

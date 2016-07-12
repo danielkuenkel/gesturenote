@@ -7,11 +7,11 @@
  * dichotomous question
  */
 function renderDichotomousQuestionPreview(item, parameters) {
-    if (parameters[0] === true) {
-        item.find('#select-gestures').removeClass('hidden');
-    }
+//    if (parameters[0] === true) {
+//        item.find('#select-gestures').removeClass('hidden');
+//    }
 
-    if (parameters[1] === true) {
+    if (parameters[0] === true) {
         item.find('#justification').removeClass('hidden');
     } else {
         item.find('#no-justification').removeClass('hidden');
@@ -19,7 +19,7 @@ function renderDichotomousQuestionPreview(item, parameters) {
 }
 
 function renderDichotomousQuestionInput(item, parameters) {
-    if (parameters[1] === true) {
+    if (parameters[0] === true) {
         item.find('.panel-body').append($('#item-container-inputs').find('#justification').clone());
     }
 }
@@ -46,11 +46,10 @@ function renderGroupingQuestionPreview(source, item, parameters, options) {
 }
 
 function renderGroupingQuestionInput(item, parameters, options) {
-    console.log(item);
     var optionType = parameters[0] === true ? 'checkbox' : 'radio';
+
     for (var i = 0; i < options.length; i++) {
         var option = $('#item-container-inputs').find('#' + optionType).clone().removeClass('hidden');
-
         option.find('.option-text').text(options[i]);
         $(item).find('.option-container').append(option);
         $(item).find('.option-container').append(document.createElement('br'));
@@ -66,6 +65,13 @@ function renderGroupingQuestionInput(item, parameters, options) {
  * grouping question GUS
  */
 function renderGroupingQuestionGUSPreview(source, item, parameters, options) {
+    var options;
+    if (parameters[2] === 'gestures') {
+        options = assembledGestures();
+    } else {
+        options = getLocalItem(ASSEMBLED_TRIGGER);
+    }
+
     if (parameters[0] === true) {
         item.find('#multiselect').removeClass('hidden');
     } else {
@@ -83,35 +89,48 @@ function renderGroupingQuestionGUSPreview(source, item, parameters, options) {
         item.find('.option-container').append(optionItem);
 
         if (parameters[2] === 'triggers') {
-            var trigger = getTriggerById(options[i]);
+            var trigger = getTriggerById(options[i].id);
             optionItem.text(trigger.title);
         }
 
         if (parameters[2] === 'gestures') {
-            var gesture = getGestureById(options[i]);
+            var gesture = getGestureById(options[i].id);
             optionItem.text(gesture.title);
         }
     }
 }
 
-function renderGroupingQuestionGUSInput(item, parameters, options) {
+function renderGroupingQuestionGUSInput(item, parameters) {
     var optionType = parameters[0] === true ? 'checkbox' : 'radio';
+
+    var options;
+    if (parameters[2] === 'gestures') {
+        options = assembledGestures();
+    } else {
+        options = getLocalItem(ASSEMBLED_TRIGGER);
+    }
+
+    console.log(options);
+
     for (var i = 0; i < options.length; i++) {
         var option = $('#item-container-inputs').find('#' + optionType).clone().removeClass('hidden');
         $(item).find('.option-container').append(option);
 
         if (parameters[2] === 'triggers') {
-            var trigger = getTriggerById(options[i]);
+            var trigger = getTriggerById(options[i].id);
             option.find('.option-text').text(trigger.title);
         }
 
         if (parameters[2] === 'gestures') {
-            var gesture = getGestureById(options[i]);
-            option.find('.option-text').text(gesture.title);
+            var gesture = getGestureById(options[i].id);
+            if (gesture) {
+                option.find('.option-text').text(gesture.title);
 
-            var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
-            button.attr('name', gesture.id);
-            option.append(button);
+                var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
+                button.attr('name', gesture.id);
+                option.append(button);
+            }
+
         }
         $(item).find('.option-container').append(document.createElement('br'));
     }
@@ -179,22 +198,31 @@ function renderSumQuestionPreview(source, item, parameters, options) {
     }
 
 
-    for (var j = 0; j < options.length; j++) {
+    for (var i = 0; i < options.length; i++) {
         var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
-        optionItem.text(options[j]);
+        optionItem.text(options[i]);
         item.find('.option-container').append(optionItem);
     }
 }
 
 function renderSumQuestionInput(item, parameters, options) {
-    for (var j = 0; j < options.length; j++) {
+    for (var i = 0; i < options.length; i++) {
+        var maxSum = parameters[1];
         var sumQuestionItem = $('#item-container-inputs').find('#sumQuestion-item').clone().removeAttr('id');
-        sumQuestionItem.find('.option-text').html(options[j]);
-        sumQuestionItem.find('.btn-stepper-increase').val(parameters[1]);
+        sumQuestionItem.find('.option-text').html(options[i]);
+        sumQuestionItem.find('.btn-stepper-increase').val(maxSum);
         item.find('.option-container').append(sumQuestionItem);
 
         $(sumQuestionItem).find('.stepper-text').on('change', function (event) {
             event.preventDefault();
+            var steppers = item.find('.option-container .simple-stepper .stepper-text');
+            var sum = 0;
+            for (var j = 0; j < steppers.length; j++) {
+                sum += parseInt($(steppers[j]).val());
+            }
+            if (sum > maxSum) {
+                $(this).val(parseInt($(this).val()) - 1);
+            }
         });
     }
 }
@@ -211,11 +239,13 @@ function renderRankingPreview(source, item, options) {
 }
 
 function renderRankingInput(item, options) {
-    for (var j = 0; j < options.length; j++) {
-        var ratingItem = $('#item-container-inputs').find('#ranking-item').clone().removeAttr('id');
-        ratingItem.find('.option-text').html(options[j]);
-        item.find('.option-container').append(ratingItem);
-        checkCurrentListState(item.find('.option-container'));
+    if (options) {
+        for (var j = 0; j < options.length; j++) {
+            var ratingItem = $('#item-container-inputs').find('#ranking-item').clone().removeAttr('id');
+            ratingItem.find('.option-text').html(options[j]);
+            item.find('.option-container').append(ratingItem);
+            checkCurrentListState(item.find('.option-container'));
+        }
     }
 }
 
@@ -247,27 +277,29 @@ function renderAlternativeQuestionPreview(item, parameters) {
 function renderAlternativeQuestionInput(item, data) {
     var parameters = data.parameters;
     var options;
-    console.log(parameters)
     if (parameters[2] === 'gestures') {
         options = assembledGestures();
     } else {
         options = getLocalItem(ASSEMBLED_TRIGGER);
     }
 
-    for (var i = 0; i < options.length; i++) {
-        if ((singleGUSGesture && singleGUSGesture.id !== options[i].id) || (parameters[4] && parameters[4].id !== options[i].id)) {
-            var optionButton = $('#item-container-inputs').find('#checkbox').clone();
-            optionButton.find('.option-text').html(options[i].title);
-            item.find('.option-container').append(optionButton);
-            item.find('.option-container').append(document.createElement('br'));
+    if (options) {
+        for (var i = 0; i < options.length; i++) {
+            if ((singleGUSGesture && singleGUSGesture.id !== options[i].id) || (parameters[4] && parameters[4].id !== options[i].id)) {
+                var optionButton = $('#item-container-inputs').find('#checkbox').clone();
+                optionButton.find('.option-text').html(options[i].title);
+                item.find('.option-container').append(optionButton);
+                item.find('.option-container').append(document.createElement('br'));
 
-            if (parameters[2] === 'gestures') {
-                var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
-                button.attr('name', options[i].id);
-                optionButton.append(button);
+                if (parameters[2] === 'gestures') {
+                    var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
+                    button.attr('name', options[i].id);
+                    optionButton.append(button);
+                }
             }
         }
     }
+
 
     if (parameters[1] === true) {
         var optionalAnswer = $('#item-container-inputs').find('#checkbox-optionalanswer').clone();
@@ -285,7 +317,6 @@ function renderAlternativeQuestionInput(item, data) {
  */
 
 function renderGUSSinglePreview(item, data) {
-    console.log(data);
     if (data.parameters[0] === true) {
         $(item).find('#reversed').removeClass('hidden');
     }

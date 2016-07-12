@@ -83,17 +83,17 @@ function removeAssembledGestures() {
     createPredefinedGestures();
 }
 
-function getFeedbackById(id) {
-    var feedback = getLocalItem(PREDEFINED_GESTURE_FEEDBACK);
-    if (feedback !== null) {
-        for (var i = 0; i < feedback.length; i++) {
-            if (parseInt(feedback[i].id) === parseInt(id)) {
-                return feedback[i];
-            }
-        }
-    }
-    return null;
-}
+//function getFeedbackById(id) {
+//    var feedback = getLocalItem(PREDEFINED_GESTURE_FEEDBACK);
+//    if (feedback !== null) {
+//        for (var i = 0; i < feedback.length; i++) {
+//            if (parseInt(feedback[i].id) === parseInt(id)) {
+//                return feedback[i];
+//            }
+//        }
+//    }
+//    return null;
+//}
 
 function getTriggerById(id) {
     var triggers = getLocalItem(ASSEMBLED_TRIGGER);
@@ -125,6 +125,22 @@ function getPrototypeById(id) {
 
 function removeAssembledPrototypes() {
     removeLocalItem(ASSEMBLED_PROTOTYPES);
+}
+
+function getFeedbackById(id) {
+    var feedback = getLocalItem(ASSEMBLED_FEEDBACK);
+    if (feedback !== null) {
+        for (var i = 0; i < feedback.length; i++) {
+            if (parseInt(feedback[i].id) === parseInt(id)) {
+                return feedback[i];
+            }
+        }
+    }
+    return null;
+}
+
+function removeAssembledFeedback() {
+    removeLocalItem(ASSEMBLED_FEEDBACK);
 }
 
 function getPhaseById(id) {

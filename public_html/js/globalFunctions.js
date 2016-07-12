@@ -17,6 +17,19 @@ function createRandomColors() {
     colors = randomColor({hue: 'green', count: 25});
 }
 
+function sortByKey(array, key, reverse) {
+    return array.sort(function (a, b) {
+        var x = a[key];
+        var y = b[key];
+        if (reverse) {
+            x = b[key];
+            y = a[key];
+        }
+
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
+
 $(document).on('click', '.select .option li', function (event) {
     event.preventDefault();
     if (!event.handled) {
@@ -71,10 +84,10 @@ $(document).on('click', '.btn-up', function (event) {
     event.stopPropagation();
     if (!event.handled) {
         event.handled = true;
-        moveElement("up", $(this), $(this).hasClass('saveGeneralData'));
-        checkCurrentListState($(this).closest('.root').parent());
+        if (!$(this).hasClass('disabled')) {
+            moveElement("up", $(this), $(this).hasClass('saveGeneralData'));
+        }
     }
-
 });
 
 $(document).on('click', '.btn-down', function (event) {
@@ -82,26 +95,98 @@ $(document).on('click', '.btn-down', function (event) {
     event.stopPropagation();
     if (!event.handled) {
         event.handled = true;
-        moveElement("down", $(this), $(this).hasClass('saveGeneralData'));
-        checkCurrentListState($(this).closest('.root').parent());
+        if (!$(this).hasClass('disabled')) {
+            moveElement("down", $(this), $(this).hasClass('saveGeneralData'));
+        }
     }
 });
 
 function moveElement(direction, which, save) {
     var element = $(which).closest('.root');
     var brother;
+
+    $(element).find('.btn-up').addClass('disabled');
+    $(element).find('.btn-down').addClass('disabled');
+    $(element).find('.btn-delete').addClass('disabled');
+
     switch (direction) {
         case "up":
             brother = $(which).closest('.root').prev();
-            $(element).insertBefore(brother);
+            $(brother).find('.btn-up').addClass('disabled');
+            $(brother).find('.btn-down').addClass('disabled');
+            $(brother).find('.btn-delete').addClass('disabled');
+
+            var offset = element.offset().top - brother.offset().top;
+            var heightBrother = brother.outerHeight(true);
+            var heightElement = element.outerHeight(true);
+
+            var timeline = new TimelineMax({onComplete: onMoveUpComplete, onCompleteParams: [element, brother, save]});
+            timeline.add("start", 0)
+                    .to(element, .2, {y: -offset}, "start")
+                    .to(brother, .2, {y: heightBrother === heightElement ? offset : heightElement}, "start")
+                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: .2}, "start")
+                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: 1, delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start")
+                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: .2}, "start")
+                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: 1, delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start");
             break;
         case "down":
             brother = $(which).closest('.root').next();
-            $(element).insertAfter(brother);
+            $(brother).find('.btn-up').addClass('disabled');
+            $(brother).find('.btn-down').addClass('disabled');
+            $(brother).find('.btn-delete').addClass('disabled');
+
+            var offset = brother.offset().top - element.offset().top;
+            var heightBrother = brother.outerHeight(true);
+            var heightElement = element.outerHeight(true);
+
+            var timeline = new TimelineMax({onComplete: onMoveDownComplete, onCompleteParams: [element, brother, save]});
+            timeline.add("start", 0)
+                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION, {y: heightBrother === heightElement ? offset : heightBrother}, "start")
+                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION, {y: -offset}, "start")
+                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: .2}, "start")
+                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: 1, delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start")
+                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: .2}, "start")
+                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: 1, delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start");
+
             break;
     }
+}
+
+function onMoveUpComplete(element, brother, save) {
+    var timeline = new TimelineMax();
+    timeline.add("start", 0)
+            .to(element, 0, {y: 0}, "start")
+            .to(brother, 0, {y: 0}, "start");
+    $(element).insertBefore(brother);
+
     if (save === true) {
         savePhases();
+    }
+
+    $(element).find('.btn-delete').removeClass('disabled');
+    $(brother).find('.btn-delete').removeClass('disabled');
+    checkCurrentListState(element.closest('.root').parent());
+    if (element.parent().find('.badge').length > 0) {
+        updateBadges(element.parent(), element.attr('id'));
+    }
+}
+
+function onMoveDownComplete(element, brother, save) {
+    var timeline = new TimelineMax();
+    timeline.add("start", 0)
+            .to(element, 0, {y: 0}, "start")
+            .to(brother, 0, {y: 0}, "start");
+    $(element).insertAfter(brother);
+
+    if (save === true) {
+        savePhases();
+    }
+
+    $(element).find('.btn-delete').removeClass('disabled');
+    $(brother).find('.btn-delete').removeClass('disabled');
+    checkCurrentListState(element.closest('.root').parent());
+    if (element.parent().find('.badge').length > 0) {
+        updateBadges(element.parent(), element.attr('id'));
     }
 }
 
@@ -161,6 +246,8 @@ $(document).on('click', '.btn-toggle-checkbox', function (event) {
                 appendAlert($(this).closest('.root'), ALERT_NO_GESTURES_ASSEMBLED);
             } else if ($(this).hasClass(ALERT_NO_TRIGGER_ASSEMBLED) && getLocalItem(ASSEMBLED_TRIGGER) === null) {
                 appendAlert($(this).closest('.root'), ALERT_NO_TRIGGER_ASSEMBLED);
+            } else if ($(this).hasClass(ALERT_NO_FEEDBACK_ASSEMBLED) && getLocalItem(ASSEMBLED_FEEDBACK) === null) {
+                appendAlert($(this).closest('.root'), ALERT_NO_FEEDBACK_ASSEMBLED);
             }
         }
     }
@@ -291,8 +378,8 @@ $(document).on('click', '.simple-stepper .btn-stepper-increase', function (event
 
 function renderAssembledGestures(targetContainer) {
     var gestures = assembledGestures();
-    if (gestures) {
-        var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
+    var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
+    if (gestures !== null) {
         var dropdown = target === null ? $('#form-item-container').find('.gestureSelect') : $(target).find('.gestureSelect');
         $(dropdown).find('.option').empty();
 
@@ -303,7 +390,7 @@ function renderAssembledGestures(targetContainer) {
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode(gestures[i].title));
             listItem.appendChild(link);
-            ;
+
             $(dropdown).find('.option').append(listItem);
             $(target).find('.gestureSelect .dropdown-toggle').removeClass('disabled');
             $(target).find('.option-gesture').attr('placeholder', 'Bitte wählen');
@@ -318,34 +405,34 @@ function renderAssembledGestures(targetContainer) {
  * Actions for the feedback select dropdown
  */
 
-function renderPredefinedFeedback() {
-    var feedback = getLocalItem(PREDEFINED_GESTURE_FEEDBACK);
-    var dropdown = $('#form-item-container').find('.feedbackSelect');
-    $(dropdown).find('.option').empty();
-    var listItem;
-
-    for (var i = 0; i < feedback.length; i++) {
-        if (i === 0) {
-            listItem = document.createElement('li');
-            listItem.setAttribute('id', 'unselected');
-
-            var link = document.createElement('a');
-            link.setAttribute('href', '#');
-            link.appendChild(document.createTextNode('Keines'));
-            listItem.appendChild(link);
-            $(dropdown).find('.option').append(listItem);
-        }
-
-        listItem = document.createElement('li');
-        listItem.setAttribute('id', feedback[i].id);
-
-        var link = document.createElement('a');
-        link.setAttribute('href', '#');
-        link.appendChild(document.createTextNode(feedback[i].title));
-        listItem.appendChild(link);
-        $(dropdown).find('.option').append(listItem);
-    }
-}
+//function renderPredefinedFeedback() {
+//    var feedback = getLocalItem(PREDEFINED_GESTURE_FEEDBACK);
+//    var dropdown = $('#form-item-container').find('.feedbackSelect');
+//    $(dropdown).find('.option').empty();
+//    var listItem;
+//
+//    for (var i = 0; i < feedback.length; i++) {
+//        if (i === 0) {
+//            listItem = document.createElement('li');
+//            listItem.setAttribute('id', 'unselected');
+//
+//            var link = document.createElement('a');
+//            link.setAttribute('href', '#');
+//            link.appendChild(document.createTextNode('Keines'));
+//            listItem.appendChild(link);
+//            $(dropdown).find('.option').append(listItem);
+//        }
+//
+//        listItem = document.createElement('li');
+//        listItem.setAttribute('id', feedback[i].id);
+//
+//        var link = document.createElement('a');
+//        link.setAttribute('href', '#');
+//        link.appendChild(document.createTextNode(feedback[i].title));
+//        listItem.appendChild(link);
+//        $(dropdown).find('.option').append(listItem);
+//    }
+//}
 
 /* 
  * Actions for the trigger select dropdown
@@ -414,6 +501,56 @@ function renderAssembledPrototypes() {
     } else {
         $(prototypeDropdown).find('.dropdown-toggle').addClass('disabled');
         $('body').find('.option-prototype').attr('placeholder', 'Keine Prototypen vorhanden');
+    }
+}
+
+/* 
+ * Actions for the feedback selection dropdown
+ */
+
+function renderAssembledFeedback(targetContainer) {
+    var feedback = getLocalItem(ASSEMBLED_FEEDBACK);
+    var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
+    if (feedback !== null) {
+//        console.log(feedback);
+        feedback = sortByKey(feedback, 'type', true);
+        var currentType = null;
+//        console.log(feedback);
+
+        var dropdown = target === null ? $('#form-item-container').find('.feedbackSelect') : $(target).find('.feedbackSelect');
+        $(dropdown).find('.option').empty();
+
+        for (var i = 0; i < feedback.length; i++) {
+            var type = feedback[i].type;
+            if (currentType !== type) {
+                currentType = type;
+
+                if (i > 0) {
+                    var divider = document.createElement('li');
+                    $(divider).addClass('divider');
+                    $(dropdown).find('.option').append(divider);
+                }
+
+                var header = document.createElement('li');
+                $(header).addClass('dropdown-header');
+                $(header).text(translation[type]);
+                $(dropdown).find('.option').append(header);
+            }
+
+            var listItem = document.createElement('li');
+            listItem.setAttribute('id', feedback[i].id);
+            var link = document.createElement('a');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(feedback[i].title));
+            listItem.appendChild(link);
+
+            $(dropdown).find('.option').append(listItem);
+            $(target).find('.feedbackSelect .dropdown-toggle').removeClass('disabled');
+            $(target).find('.option-feedback').attr('placeholder', 'Bitte wählen');
+        }
+    } else {
+        $(target).find('.feedbackSelect .dropdown-toggle').addClass('disabled');
+        $(target).find('.option-feedback').attr('placeholder', 'Keine Feedbacks vorhanden');
     }
 }
 

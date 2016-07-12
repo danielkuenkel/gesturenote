@@ -84,6 +84,7 @@ h4 {
     top: 50px;
     width: 100%;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
+    /*background-color: rgb(0,0,0);*/
 }
 .container-fluid {
     padding: 60px 50px;
@@ -409,4 +410,76 @@ label .question {
 .slider-handle.green::before {
     color: #726204;
     background-color: #5bb85c
+}
+
+.switchButtonAddon {
+    background-color: #eeeeee;
+    color: #696969;
+}
+.switchButtonAddon:hover {
+    background-color: #eeeeee;
+    border-color: #cccccc;
+    color: #303030 !important;
+}
+
+.input-group-addon {
+    color: #696969 !important;
+}
+.input-group-addon:hover {
+    color: #303030 !important;
+}
+
+.btn-addon {
+    background: #eeeeee !important;
+    border-color: #cccccc !important;
+    color: #696969 !important;
+}
+
+.btn-addon:hover {
+    color: #303030 !important;
+    box-shadow: none;
+}
+
+.text-1px-border
+{
+    text-shadow: 
+        -1px -1px 0px #000,
+        0px -1px 0px #000,
+        1px -1px 0px #000,
+        -1px  0px 0px #000,
+        1px  0px 0px #000,
+        -1px  1px 0px #000,
+        0px  1px 0px #000,
+        1px  1px 0px #000;
+}
+
+.text-2px-border
+{
+    text-shadow: 
+        /* first layer at 1px */
+        -1px -1px 0px #000,
+        0px -1px 0px #000,
+        1px -1px 0px #000,
+        -1px  0px 0px #000,
+        1px  0px 0px #000,
+        -1px  1px 0px #000,
+        0px  1px 0px #000,
+        1px  1px 0px #000,
+        /* second layer at 2px */
+        -2px -2px 0px #000,
+        -1px -2px 0px #000,
+        0px -2px 0px #000,
+        1px -2px 0px #000,
+        2px -2px 0px #000,
+        2px -1px 0px #000,
+        2px  0px 0px #000,
+        2px  1px 0px #000,
+        2px  2px 0px #000,
+        1px  2px 0px #000,
+        0px  2px 0px #000,
+        -1px  2px 0px #000,
+        -2px  2px 0px #000,
+        -2px  1px 0px #000,
+        -2px  0px 0px #000,
+        -2px -1px 0px #000;
 }

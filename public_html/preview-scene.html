@@ -23,7 +23,7 @@
     });
 
     function renderData(data) {
-        var source = getPreviewContainer(VIEW_MODERATOR);
+        var source = getSourceContainer(VIEW_MODERATOR);
         var container = $(source).find('#' + data.type).clone().removeAttr('id');
         container.find('.type').text(translation.prototypes[data.type]);
         container.find('.title').text(data.title);
