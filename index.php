@@ -37,15 +37,15 @@ if (login_check($mysqli) == true) {
 
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
-<!--                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>   
-                    </button>
-                    <a class="navbar-brand" href="#pageBody"><span class="glyphicon glyphicon-stats"></span> GestureNote</a>
-                </div>-->
+                <!--                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>   
+                                    </button>
+                                    <a class="navbar-brand" href="#pageBody"><span class="glyphicon glyphicon-stats"></span> GestureNote</a>
+                                </div>-->
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#about">ABOUT</a></li>
@@ -153,7 +153,7 @@ if (login_check($mysqli) == true) {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-block btn-lg btn-success hidden" id="btn-close">Schließen</button>
-                        <button type="button" class="btn btn-block btn-lg btn-gn" id="btn-register">Registrieren</button>
+                        <button type="button" class="btn btn-block btn-lg btn-gn disabled" id="btn-register">Registrieren</button>
                     </div>
                 </div>
             </div>
@@ -188,7 +188,7 @@ if (login_check($mysqli) == true) {
                                 </div>
                                 <div class="btn-group-vertical btn-block">
                                     <button type="button" class="btn btn-lg btn-success" id="btn-login"><i class="glyphicon glyphicon-log-in"></i> Einloggen</button>
-                                    <button type="button" class="btn btn-lg btn-primary" id="btn-forgot"><i class="glyphicon glyphicon-time"></i> Passwort vergessen</button>
+                                    <button type="button" class="btn btn-lg btn-primary disabled" id="btn-forgot"><i class="glyphicon glyphicon-time"></i> Passwort vergessen</button>
                                     <button type="button" class="btn btn-lg btn-gn" id="btn-open-register">Registrieren</button>
                                 </div>
                             </form>
@@ -214,46 +214,46 @@ if (login_check($mysqli) == true) {
         </div>
 
 
-<!--        <div class="container-fluid bg-grey" id="about">
-            <div class="container">
-                <div class="col-sm-4">
-                    <i class="glyphicon glyphicon-info-sign" style="font-size: 220pt; color: #f6f6f6; text-shadow: -3px -3px rgba(0,0,0,0.1);"></i>
-                </div>
-                <div class="col-sm-8">
-                    <div class="info">
-                        <div class="page-header">
-                            <h2>About GestureNote</h2>
+        <!--        <div class="container-fluid bg-grey" id="about">
+                    <div class="container">
+                        <div class="col-sm-4">
+                            <i class="glyphicon glyphicon-info-sign" style="font-size: 220pt; color: #f6f6f6; text-shadow: -3px -3px rgba(0,0,0,0.1);"></i>
                         </div>
-                        <div class="info-text">
-                            <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <div class="col-sm-8">
+                            <div class="info">
+                                <div class="page-header">
+                                    <h2>About GestureNote</h2>
+                                </div>
+                                <div class="info-text">
+                                    <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                </div>
+                            </div>
                         </div>
+        
+        
                     </div>
                 </div>
-
-
-            </div>
-        </div>
-
-        <div class="container-fluid">
-            <div class="container">
-                <div class="col-sm-4">
-                    <i class="glyphicon glyphicon-star" style="font-size: 220pt; color: #fff; text-shadow: -3px -3px rgba(0,0,0,0.1);"></i>
-                </div>
-                <div class="col-sm-8">
-                    <div class="info">
-                        <div class="page-header">
-                            <h2>Warum GestureNote?</h2>
+        
+                <div class="container-fluid">
+                    <div class="container">
+                        <div class="col-sm-4">
+                            <i class="glyphicon glyphicon-star" style="font-size: 220pt; color: #fff; text-shadow: -3px -3px rgba(0,0,0,0.1);"></i>
                         </div>
-                        <div class="info-text">
-                            <p><strong>MISSION:</strong> Mit GestureNote möchten wir die Erforschung und Verbreitung von Gesteninteraktionen aus der Nische holen.</p><br>
-                            <p><strong>VISION:</strong> Es ist immer noch sehr mühsam und aufwendig Gestendesignstudien durchzuführen. Sei es die Erstellung von geeigneten Fragebögen oder die Durchführung der Befragung. Gesture bietet alles, was ein Gestendesigner für eine erste wichtige Machbarkeitsstudie im Kontext von Gesteninteraktionen benötigt. Darüber hinaus stellt GestureNote komfortable und flexibel anpasspare Messinstrumente für Gestenstudien bereit.</p>
+                        <div class="col-sm-8">
+                            <div class="info">
+                                <div class="page-header">
+                                    <h2>Warum GestureNote?</h2>
+                                </div>
+                                <div class="info-text">
+                                    <p><strong>MISSION:</strong> Mit GestureNote möchten wir die Erforschung und Verbreitung von Gesteninteraktionen aus der Nische holen.</p><br>
+                                    <p><strong>VISION:</strong> Es ist immer noch sehr mühsam und aufwendig Gestendesignstudien durchzuführen. Sei es die Erstellung von geeigneten Fragebögen oder die Durchführung der Befragung. Gesture bietet alles, was ein Gestendesigner für eine erste wichtige Machbarkeitsstudie im Kontext von Gesteninteraktionen benötigt. Darüber hinaus stellt GestureNote komfortable und flexibel anpasspare Messinstrumente für Gestenstudien bereit.</p>
+                                </div>
+                            </div>
+        
                         </div>
                     </div>
-
-                </div>
-            </div>
-        </div>-->
+                </div>-->
 
         <!-- Container (Services Section) -->
         <div id="services" class="container-fluid text-center bg-grey">
@@ -324,8 +324,8 @@ if (login_check($mysqli) == true) {
                         </div>
                         <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
                         <div class="row">
-                            <div class="col-sm-12 form-group">
-                                <button class="btn btn-default btn-gn btn-sm btn-block" type="submit">Send</button>
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-gn pull-right disabled" id="btn-send-feedback"><i class="fa fa-paper-plane" aria-hidden="true"></i> Senden</button>
                             </div>
                         </div>	
                     </div>
@@ -336,7 +336,7 @@ if (login_check($mysqli) == true) {
         <div id="googleMap" style="height:400px;width:100%;"></div>
 
         <!-- Add Google Maps -->
-        <script src="http://maps.googleapis.com/maps/api/js"></script>
+        <script src="http://maps.googleapis.com/maps/api/js?AIzaSyCJq3GgzBj-Mxa5q5VT6krtn0Nj2Dj0weM"></script>
         <script>
             var myCenter = new google.maps.LatLng(50.564726, 9.685376);
 
@@ -442,14 +442,18 @@ if (login_check($mysqli) == true) {
             var form = null;
             $('#btn-login').on('click', function (event) {
                 event.preventDefault();
-                form = 'login';
-                loginFormhash($('#login-form'), $('#login-form #email'), $('#login-form #password'));
+                if (!$(this).hasClass('disabled')) {
+                    form = 'login';
+                    loginFormhash($('#login-form'), $('#login-form #email'), $('#login-form #password'));
+                }
             });
 
             $('#btn-forgot').on('click', function (event) {
                 event.preventDefault();
-                form = 'forgot';
-                forgotFormhash($('#login-form'), $('#login-form #email'));
+                if (!$(this).hasClass('disabled')) {
+                    form = 'forgot';
+                    forgotFormhash($('#login-form'), $('#login-form #email'));
+                }
             });
 
             $('#login-form').on('submit', function (event) {
@@ -468,8 +472,10 @@ if (login_check($mysqli) == true) {
 
             $('#btn-register').on('click', function (event) {
                 event.preventDefault();
-                var userType = $('#modal-register #userType').find('.btn-option-checked').attr('id');
-                registerFormhash($('#register-form'), userType);
+                if (!$(this).hasClass('disabled')) {
+                    var userType = $('#modal-register #userType').find('.btn-option-checked').attr('id');
+                    registerFormhash($('#register-form'), userType);
+                }
             });
 
             $('#register-form').on('submit', function (event) {
