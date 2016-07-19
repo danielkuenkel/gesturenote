@@ -51,6 +51,19 @@ var Moderator = {
 
         updateRTCHeight($('#phase-content #column-left').width());
     },
+    renderNoDataView: function renderNoDataView() {
+        var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
+        $('#viewModerator #phase-content').append(alert);
+        appendAlert(alert, ALERT_NO_PHASE_DATA);
+
+        TweenMax.from($('#phase-content #column-right'), .2, {y: -60, opacity: 0});
+
+        if ($(document).scrollTop() > 0) {
+            $(document).scrollTop(0);
+        }
+
+        updateRTCHeight($('#phase-content #column-left').width());
+    },
     getLetterOfAcceptance: function getLetterOfAcceptance(container, data) {
         $(container).find('.letter-text').text(data);
         return container;
@@ -173,7 +186,7 @@ var Moderator = {
     },
     renderGestureTraining: function renderGestureTraining(source, container, data) {
         var training = data[currentGestureTrainingIndex];
-        console.log(training);
+//        console.log(training);
         var gesture = training.gesture;
         var repeats = training.repeats;
         var trigger = training.trigger;
@@ -194,7 +207,24 @@ var Moderator = {
 
         item.find('#feedback .address').text(translation.feedback + ":");
         if (feedback) {
-            item.find('#feedback .text').text(feedback.title);
+            var icon = document.createElement('i');
+            var label = document.createElement('div');
+            $(label).addClass('label label-default');
+
+            switch (feedback.type) {
+                case TYPE_FEEDBACK_SOUND:
+                    $(label).text(' Sound');
+                    $(icon).addClass('fa fa-volume-up');
+                    break;
+                case TYPE_FEEDBACK_TEXT:
+                    $(label).text(' Text');
+                    $(icon).addClass('fa fa-font');
+                    break;
+            }
+
+            item.find('#feedback .text').text(" " + feedback.title);
+            $(label).prepend(icon);
+            item.find('#feedback .text').prepend(label);
         } else {
             item.find('#feedback .text').text(translation.nones);
         }

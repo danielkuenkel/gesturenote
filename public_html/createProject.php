@@ -117,9 +117,9 @@ include './includes/language.php';
         <div class="container" id="breadcrumb">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" onclick="gotoIndex()">Home</a></li>
-                    <li><a class="breadcrump-btn" onclick="gotoMainLanding()">Hauptmenü</a></li>
-                    <li><a class="breadcrump-btn" onclick="gotoProjects()">Projekte</a></li>
+                    <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
+                    <li><a class="breadcrump-btn" id="btn-projects">Projekte</a></li>
                     <li class="active">Neues Projekt</li>
                 </ol>
             </div>
@@ -136,12 +136,12 @@ include './includes/language.php';
         </div>
 
         <!-- Container (Landing Section) -->
-        <div class="container-fluid text-center bg-grey" id="landingText">
-            <div class="container">
-                <h2>NEUES PROJEKT ERSTELLEN</h2>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-            </div>
-        </div>
+        <!--        <div class="container-fluid text-center bg-grey" id="landingText">
+                    <div class="container">
+                        <h2>NEUES PROJEKT ERSTELLEN</h2>
+                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                    </div>
+                </div>-->
 
         <div class="container mainContent">
             <div class="row">
@@ -186,12 +186,18 @@ include './includes/language.php';
                                 <span class="input-group-addon">Projektphase</span>
                                 <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="phaseSelect" role="group">
-                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="elicitation"><a href="#"><?php echo $lang->phaseType->elicitation ?></a></li>
                                         <li id="evaluation"><a href="#"><?php echo $lang->phaseType->evaluation ?></a></li>
                                     </ul>
+                                    <button class="btn btn-addon btn-shadow" id="btn-info-phase">
+                                        <i class="glyphicon glyphicon-question-sign"></i>
+                                    </button>
                                 </div>
+<!--                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-project-phase.html')">
+                                    <i class="glyphicon glyphicon-question-sign"></i>
+                                </span>-->
                             </div>
                         </div>
 
@@ -200,12 +206,18 @@ include './includes/language.php';
                                 <span class="input-group-addon">Befragungsart</span>
                                 <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="surveyTypeSelect" role="group">
-                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="moderated"><a href="#"><?php echo $lang->surveyType->moderated ?></a></li>
                                         <li id="unmoderated"><a href="#"><?php echo $lang->surveyType->unmoderated ?></a></li>
                                     </ul>
+                                    <button class="btn btn-addon btn-shadow disabled dropdown-disabled" id="btn-info-survey-type">
+                                        <i class="glyphicon glyphicon-question-sign"></i>
+                                    </button>
                                 </div>
+<!--                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-project-survey-type.html')">
+                                    <i class="glyphicon glyphicon-question-sign"></i>
+                                </span>-->
                             </div>
                         </div>
 
@@ -379,7 +391,7 @@ include './includes/language.php';
                                 <input type="text" class="input form-control readonly" id="start" name="start" />
                                 <span class="input-group-addon">bis</span>
                                 <input type="text" class="input form-control readonly" id="end" name="end" />
-                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-projectDescription.html')">
+                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-period.html')">
                                     <i class="glyphicon glyphicon-question-sign"></i>
                                 </span>
                             </div>
@@ -390,10 +402,10 @@ include './includes/language.php';
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-danger btn-shadow btn-md" id="clearData"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
+                                <button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
                             </div>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-warning btn-shadow btn-md" id="previewProject"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
+                                <button type="button" class="btn btn-warning btn-shadow btn-md" id="btn-preview-project"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success btn-shadow btn-lg"><span class="glyphicon glyphicon-save"></span> Projekt erstellen</button>
@@ -469,7 +481,6 @@ include './includes/language.php';
                 }
             }
 
-
             $('.breadcrumb li a').on('click', function () {
                 clearLocalItems();
             });
@@ -518,12 +529,22 @@ include './includes/language.php';
                 currentIdForModal = ASSEMBLED_FEEDBACK;
                 loadHTMLintoModal('custom-modal', 'create-feedback-catalog.html', 'modal-lg');
             });
-            
+
             $('#useFeedbackSwitch #no, #useFeedbackSwitch .switchButtonAddon').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).parent().find('#no').hasClass('active') === true) {
                     removeAssembledFeedback();
                 }
+            });
+
+            $('#btn-info-phase').on('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'info-project-phase.html');
+            });
+
+            $('#btn-info-survey-type').on('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'info-project-survey-type.html');
             });
 
             $('#btn-prototypes-info').on('click', function (event) {
@@ -539,6 +560,11 @@ include './includes/language.php';
             $('#btn-use-trigger-info').on('click', function (event) {
                 event.preventDefault();
                 loadHTMLintoModal('custom-modal', 'info-use-trigger.html');
+            });
+
+            $('#btn-use-feedback-info').on('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'info-use-feedback.html');
             });
 
             $('#info-addon-add-phases, #info-record').on('click', function (event) {
@@ -593,13 +619,13 @@ include './includes/language.php';
                 checkCurrentListState($('#phaseStepList'));
             }
 
-            $('#clearData').on('click', function (event) {
+            $('#btn-clear-data').on('click', function (event) {
                 event.preventDefault();
                 clearLocalItems();
                 location.reload(true);
             });
 
-            $('#previewProject').on('click', function (event) {
+            $('#btn-preview-project').on('click', function (event) {
                 event.preventDefault();
                 if (checkInputs() === true) {
                     saveGeneralData();

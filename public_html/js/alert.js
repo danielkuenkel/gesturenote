@@ -4,6 +4,22 @@
  * and open the template in the editor.
  */
 
+
+// login/register alerts
+var ALERT_GENERAL_ERROR = 'general-error';
+var ALERT_MISSING_FIELDS = 'missing-fields';
+var ALERT_LOGIN_FAILED = 'login-failed';
+var ALERT_ACCOUNT_LOGGED = 'account-logged';
+var ALERT_INVALID_EMAIL = 'invalid-email';
+var ALERT_WRONG_PASSWORD = 'wrong-password';
+var ALERT_PASSWORD_SHORT = 'password-short';
+var ALERT_PASSWORD_INVALID = 'password-invalid';
+var ALERT_PASSWORDS_NOT_MATCHING = 'passwords-not-matching';
+var ALERT_INVALID_BIRTHDAY = 'invalid-birthday';
+var ALERT_USER_EXISTS = 'user-exists';
+var ALERT_NO_USER_EXISTS = 'no-user-exists';
+var ALERT_REGISTER_SUCCESS = 'register-success';
+
 // alert constants
 var ALERT_NO_WEBSOCKETS = 'no-websockets';
 var ALERT_NO_GESTURES_ASSEMBLED = 'no-gestures-assembled';

@@ -121,7 +121,7 @@ include './includes/language.php';
         <!-- main content -->
         <div class="mainContent" id="mainContent" style="padding-top: 145px;">
 
-            <div class="alert-space alert-no-phase-data"></div>
+            <!--<div class="alert-space alert-no-phase-data"></div>-->
 
             <div id="viewTester" class="hidden">
                 <div id="phase-content"></div>
@@ -277,8 +277,8 @@ include './includes/language.php';
                         }
 
                         function resetRenderedContent() {
-                            $('.phase-content-left').empty();
-                            $('.phase-content-right').empty();
+                            $('#viewTester').find('#phase-content').empty();
+                            $('#viewModerator').find('#phase-content').empty();
                         }
 
                         function renderPhaseStepForModerator() {
@@ -288,7 +288,7 @@ include './includes/language.php';
                             if (data || (data && $.isArray(data) && data.length > 0)) {
                                 Moderator.renderView();
                             } else {
-                                appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
+                                Moderator.renderNoDataView();
                             }
                         }
 
@@ -300,7 +300,7 @@ include './includes/language.php';
                             if (data || (data && $.isArray(data) && data.length > 0)) {
                                 Tester.renderView();
                             } else {
-                                appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
+                                Tester.renderNoDataView();
                             }
                         }
 

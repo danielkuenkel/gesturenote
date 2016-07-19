@@ -88,13 +88,17 @@ and open the template in the editor.
     padding-right: 20px;
 }
 
-.progress-bar-slideshow, .progress-bar-hint {
+.progress-bar-slideshow, 
+.progress-bar-training, 
+.progress-bar-hint {
     -webkit-transition: initial !important;
     -o-transition: initial !important;
     transition: initial !important;
 }
 
-.progress-bar-slideshow.active, .progress-slideshow.active .progress-bar, .progress-bar-hint.active, .progress-hint.active .progress-bar {
+.progress-bar-slideshow.active, .progress-slideshow.active .progress-bar, 
+.progress-bar-training.active, .progress-training.active .progress-bar,
+.progress-bar-hint.active, .progress-hint.active .progress-bar {
     -webkit-animation: initial !important;
     -o-animation: initial !important;
     animation: initial !important;

@@ -46,6 +46,15 @@ var Tester = {
             $(document).scrollTop(0);
         }
     },
+    renderNoDataView: function renderNoDataView() {
+        var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
+        $('#viewTester #phase-content').empty().append(alert);
+        appendAlert(alert, ALERT_NO_PHASE_DATA);
+        TweenMax.from($('#phase-content'), .2, {y: -60, opacity: 0});
+        if ($(document).scrollTop() > 0) {
+            $(document).scrollTop(0);
+        }
+    },
     getLetterOfAcceptance: function getLetterOfAcceptance(container, data) {
         $(container).find('.letter-text').text(data);
         $(container).find('#letter-agreed').on('click', function (event) {
@@ -148,45 +157,18 @@ var Tester = {
         var item = $(source).find('#trainingItemModerated').clone().removeAttr('id');
         $(container).append(item);
 
-        item.find('#title').text(translation.title + ": " + trainingData.gesture.title);
-        item.find('#repeats').text(translation.repeats + ": " + trainingData.repeats);
-        item.find('#trigger').text(translation.trigger + ": " + trainingData.trigger.title);
-
-        if (trainingData.feedback) {
-            item.find('#feedback').text(translation.feedback + ": " + trainingData.feedback.title);
-        } else {
-            item.find('#feedback').text(translation.feedback + ": " + translation.nones);
-        }
+//        item.find('#title').text(translation.title + ": " + trainingData.gesture.title);
+//        item.find('#repeats').text(translation.repeats + ": " + trainingData.repeats);
+//        item.find('#trigger').text(translation.trigger + ": " + trainingData.trigger.title);
+//
+//        if (trainingData.feedback) {
+//            item.find('#feedback').text(translation.feedback + ": " + trainingData.feedback.title);
+//        } else {
+//            item.find('#feedback').text(translation.feedback + ": " + translation.nones);
+//        }
 
         if (triggeredFeedback) {
-            var feedbackHint = $('#item-container-tester').find('#feedback-hint').clone();
-            feedbackHint.attr('id', 'workingFeedbackHint');
-            feedbackHint.find('#btn-close-hint').remove();
-            $('body').find('#workingFeedbackHint').remove();
-            $('body').append(feedbackHint);
-
-            switch (triggeredFeedback.type) {
-                case TYPE_FEEDBACK_TEXT:
-                    feedbackHint.find('.hint-content').prepend($('#item-container-tester').find('#feedback-hint-text-content').clone().removeAttr('id'));
-                    feedbackHint.find('#text-start').text(translation.gesture + " ");
-                    feedbackHint.find('#gesture-title').text(trainingData.gesture.title + " ");
-                    feedbackHint.find('#gesture-for').text(translation.for + " ");
-                    feedbackHint.find('#trigger-title').text(trainingData.trigger.title + " ");
-                    feedbackHint.find('#feedback-title').text(triggeredFeedback.title);
-                    TweenMax.to(feedbackHint.find('.progress-bar'), 4, {delay: 2, width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: hideHint, onCompleteParams: [feedbackHint]});
-                    break;
-
-                case TYPE_FEEDBACK_SOUND:
-                    feedbackHint.find('.hint-content').prepend($('#item-container-tester').find('#feedback-hint-sound-content').clone().removeAttr('id'));
-                    var audioHolder = feedbackHint.find('.audio-holder')[0];
-                    $(audioHolder).attr('src', triggeredFeedback.data);
-
-                    audioHolder.addEventListener("loadedmetadata", function () {
-                        audioHolder.play();
-                        TweenMax.to(feedbackHint.find('.progress-bar'), audioHolder.duration, {delay: 0.3, width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: hideHint, onCompleteParams: [feedbackHint]});
-                    });
-                    break;
-            }
+            appendHint(source, $('body'), trainingData, TYPE_SURVEY_MODERATED);
             triggeredFeedback = null;
         }
 
@@ -200,20 +182,47 @@ var Tester = {
         item.find('#title').text(translation.title + ": " + trainingData.gesture.title);
         item.find('#repeats').text(translation.repeats + ": " + trainingData.repeats);
         item.find('#trigger').text(translation.trigger + ": " + trainingData.trigger.title);
-
-        if (trainingData.feedback) {
-            item.find('#feedback').text(translation.feedback + ": " + trainingData.feedback.title);
-        } else {
-            item.find('#feedback').text(translation.feedback + ": " + translation.nones);
-        }
+        var repeatsLeft = trainingData.repeats;
 
         renderGestureImages(item.find('.imageContainer'), trainingData.gesture.images, trainingData.gesture.previewImage, null);
-        if (data.length === 1 || currentGestureTrainingIndex >= data.length - 1) {
-            item.find('#training-done').removeClass('hidden');
-        } else {
-            item.find('#next-gesture').removeClass('hidden');
+
+//        if (trainingData.feedback) {
+//            item.find('#feedback').text(translation.feedback + ": " + trainingData.feedback.title);
+//        } else {
+//            item.find('#feedback').text(translation.feedback + ": " + translation.nones);
+//        }
+        // training handler
+        item.find('#start-training, #repeat-training').on('click', function (event) {
+            event.preventDefault();
+//            currentGestureTrainingIndex++;
+//            Tester.renderUnmoderatedTraining(source, container, data);
+            $(item).find('#training-controls').addClass('hidden');
+            $(item).find('.progress-training').removeClass('hidden');
+            TweenMax.to(item.find('.progress-bar'), trainingData.recognitionTime, {width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: onTrainingTimesUp});
+        });
+
+        function onTrainingTimesUp() {
+            repeatsLeft--;
+
+            appendHint(source, $('body'), trainingData, TYPE_SURVEY_UNMODERATED);
+            $(item).find('#training-controls').removeClass('hidden');
+            $(item).find('.progress-training').addClass('hidden');
+            item.find('.progress-bar').css({width: "100%"});
+
+            if (repeatsLeft === 0) {
+                item.find('#start-training, #repeat-training').addClass('hidden');
+                if (data.length === 1 || currentGestureTrainingIndex >= data.length - 1) {
+                    item.find('#training-done').removeClass('hidden');
+                } else {
+                    item.find('#next-gesture').removeClass('hidden');
+                }
+            } else {
+                item.find('#start-training').addClass('hidden');
+                item.find('#repeat-training').removeClass('hidden');
+            }
         }
 
+        // done & next step
         item.find('#next-gesture').on('click', function (event) {
             event.preventDefault();
             currentGestureTrainingIndex++;
@@ -468,12 +477,4 @@ function showScenarioInfos(target) {
 function hideScenarioInfos(target) {
     $(target).find('#btn-show-scenario-info').removeClass('hidden');
     $(target).find('#generalPanelContent').addClass('hidden');
-}
-
-function hideHint(hint) {
-    TweenMax.to(hint, .2, {autoAlpha: 0, onComplete: onhideHintComplete, onCompleteParams: [hint]});
-}
-
-function onhideHintComplete(hint) {
-    $(hint).remove();
 }

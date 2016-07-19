@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/projects.css">
+        <link rel="stylesheet" href="externals/font-awesome/css/font-awesome.min.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -22,8 +23,8 @@
         <div class="container" id="breadcrumb">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" onclick="gotoIndex()">Home</a></li>
-                    <li><a class="breadcrump-btn" onclick="gotoMainLanding()">Main menu</a></li>
+                    <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
                     <li class="active">Projects</li>
                 </ol>
             </div>
@@ -32,7 +33,7 @@
         <!-- Container (Landing Section) -->
         <div class=" container-fluid text-center bg-grey" id="landingText">
             <div class="container">
-                <h2>PROJECTS</h2>
+                <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> PROJEKTE</h1>
                 <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
             </div>
         </div>
@@ -64,35 +65,35 @@
 
             <div class="row">
                 <div class="col-md-4 col-lg-3 col-sm-6">
-                    <div class="panel panel-custom panel-custom-pink">
+                    <div class="panel panel-default btn-panel btn-shadow">
                         <div class="panel-heading">Projekt 1</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3 col-sm-6">
-                    <div class="panel panel-custom panel-custom-pink">
+                    <div class="panel panel-default btn-panel btn-shadow">
                         <div class="panel-heading">Projekt 2</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3 col-sm-6">
-                    <div class="panel panel-custom panel-custom-pink">
+                    <div class="panel panel-default btn-panel btn-shadow">
                         <div class="panel-heading">Projekt 3</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3 col-sm-6">
-                    <div class="panel panel-custom panel-custom-pink">
+                    <div class="panel panel-default btn-panel btn-shadow">
                         <div class="panel-heading">Projekt 4</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3 col-sm-6">
-                    <div class="panel panel-custom panel-custom-pink">
+                    <div class="panel panel-default btn-panel btn-shadow">
                         <div class="panel-heading">Projekt 5</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">Panel Footer</div>

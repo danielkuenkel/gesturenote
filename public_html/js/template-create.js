@@ -867,7 +867,7 @@ function renderFormatItem(target, data) {
             }
             break;
         case SUM_QUESTION:
-            $(clone).find('.option').children('#' + parameters[0]).click();
+            $(clone).find('.allocationSelect #' + parameters[0]).click();
             $(clone).find('.maximum').val(parameters[1]);
 
             if (options) {
@@ -957,7 +957,6 @@ function renderFormatItem(target, data) {
     var dimension = data.dimension;
     if (dimension !== DIMENSION_ANY) {
         $(clone).find('#item-factors').removeClass('hidden');
-//        $(clone).find('.btn-delete').addClass('hidden');
         var dimensionButton = $('#dimension-btn-group').find('#' + dimension);
         if (dimensionButton) {
             $(dimensionButton).addClass('active');
@@ -981,7 +980,6 @@ function getFormatData(element) {
     switch (type) {
         case DICHOTOMOUS_QUESTION:
             parameters = new Array();
-//            parameters.push($(element).find('.gesture-select .active').attr('id') === 'yes' ? true : false);
             parameters.push($(element).find('.justification .active').attr('id') === 'yes' ? true : false);
             break;
         case GROUPING_QUESTION:
@@ -1017,7 +1015,7 @@ function getFormatData(element) {
             break;
         case SUM_QUESTION:
             parameters = new Array();
-            parameters.push($(element).find('.allocation').attr('id'));
+            parameters.push($(element).find('.allocationSelect .chosen').attr('id'));
             parameters.push($(element).find('.maximum').val());
 
             options = new Array();
@@ -1042,7 +1040,6 @@ function getFormatData(element) {
             console.log(parameters);
             var aGestures = assembledGestures();
             var aTriggers = getLocalItem(ASSEMBLED_TRIGGER);
-//            options = new Array();
 
             var currentPhase = getPhaseById(currentIdForModal);
             if (currentPhase && currentPhase.selectedId === GUS_SINGLE_GESTURES) {

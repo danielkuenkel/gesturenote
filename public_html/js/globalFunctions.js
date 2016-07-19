@@ -402,39 +402,6 @@ function renderAssembledGestures(targetContainer) {
 }
 
 /* 
- * Actions for the feedback select dropdown
- */
-
-//function renderPredefinedFeedback() {
-//    var feedback = getLocalItem(PREDEFINED_GESTURE_FEEDBACK);
-//    var dropdown = $('#form-item-container').find('.feedbackSelect');
-//    $(dropdown).find('.option').empty();
-//    var listItem;
-//
-//    for (var i = 0; i < feedback.length; i++) {
-//        if (i === 0) {
-//            listItem = document.createElement('li');
-//            listItem.setAttribute('id', 'unselected');
-//
-//            var link = document.createElement('a');
-//            link.setAttribute('href', '#');
-//            link.appendChild(document.createTextNode('Keines'));
-//            listItem.appendChild(link);
-//            $(dropdown).find('.option').append(listItem);
-//        }
-//
-//        listItem = document.createElement('li');
-//        listItem.setAttribute('id', feedback[i].id);
-//
-//        var link = document.createElement('a');
-//        link.setAttribute('href', '#');
-//        link.appendChild(document.createTextNode(feedback[i].title));
-//        listItem.appendChild(link);
-//        $(dropdown).find('.option').append(listItem);
-//    }
-//}
-
-/* 
  * Actions for the trigger select dropdown
  */
 
@@ -632,3 +599,119 @@ $(document).on('slide change', '.custom-range-slider', function () {
         saveGeneralData();
     }
 });
+
+
+// hint handling
+function appendHint(source, target, data, surveyType) {
+    removeHint($(target).find('#hint'));
+
+    var hint = $(source).find('#feedback-hint').clone();
+    hint.attr('id', 'hint');
+    $('body').append(hint);
+    renderDataForHint(data, hint, source, surveyType);
+
+    switch (surveyType) {
+        case TYPE_SURVEY_MODERATED:
+            hint.find('#btn-close-hint').remove();
+            break;
+        case TYPE_SURVEY_UNMODERATED:
+            hint.find('.progress-hint').remove();
+            break;
+    }
+}
+
+function renderDataForHint(data, hint, source, surveyType) {
+    console.log(data);
+    var feedback = getFeedbackById(data.feedbackId);
+    switch (feedback.type) {
+        case TYPE_FEEDBACK_TEXT:
+            hint.find('.hint-content').prepend($(source).find('#feedback-hint-text-content').clone().removeAttr('id'));
+            hint.find('#text-start').text(translation.gesture + " ");
+            hint.find('#gesture-title').text(data.gesture.title + " ");
+            hint.find('#gesture-for').text(translation.for + " ");
+            hint.find('#trigger-title').text(data.trigger.title + " ");
+            hint.find('#feedback-title').text(feedback.title);
+            if (surveyType === TYPE_SURVEY_MODERATED) {
+                TweenMax.to(hint.find('.progress-bar'), 4, {delay: 2, width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: hideHint, onCompleteParams: [hint]});
+            }
+            break;
+
+        case TYPE_FEEDBACK_SOUND:
+            hint.find('.hint-content').prepend($(source).find('#feedback-hint-sound-content').clone().removeAttr('id'));
+            var audioHolder = hint.find('.audio-holder')[0];
+            $(audioHolder).attr('src', feedback.data);
+
+            audioHolder.addEventListener("loadedmetadata", function () {
+                audioHolder.play();
+                if (surveyType === TYPE_SURVEY_MODERATED) {
+                    TweenMax.to(hint.find('.progress-bar'), audioHolder.duration, {delay: .3, width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: hideHint, onCompleteParams: [hint]});
+                }
+            });
+            break;
+    }
+
+    hint.find('#btn-close-hint').on('click', function (event) {
+        event.preventDefault();
+        hideHint(hint);
+    });
+}
+
+function hideHint(hint) {
+    TweenMax.to(hint, .2, {autoAlpha: 0, onComplete: onhideHintComplete, onCompleteParams: [hint]});
+}
+
+function onhideHintComplete(hint) {
+    removeHint(hint);
+}
+
+function removeHint(hint) {
+    $(hint).remove();
+}
+
+
+///*
+// * dropdown renderings
+// */
+//
+//function renderDayDropdown(targetContainer) {
+//    var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
+//    var dropdown = target === null ? $('#form-item-container').find('.daySelect') : $(target).find('.daySelect');
+//    $(dropdown).find('.option').empty();
+//
+//    for (var i = 0; i < 31; i++) {
+//        var listItem = document.createElement('li');
+//        listItem.setAttribute('id', i + 1);
+//        var link = document.createElement('a');
+//        link.setAttribute('href', '#');
+//        link.appendChild(document.createTextNode(i + 1));
+//        listItem.appendChild(link);
+//
+//        $(dropdown).find('.option').append(listItem);
+//    }
+//
+//    $(target).find('.daySelect .dropdown-toggle').removeClass('disabled');
+//    $(target).find('.item-input-text').attr('placeholder', 'Bitte wählen');
+//}
+//
+//function renderMonthDropdown(targetContainer) {
+//    var months = translation.months;
+//    var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
+//    var dropdown = target === null ? $('#form-item-container').find('.monthSelect') : $(target).find('.monthSelect');
+//    $(dropdown).find('.option').empty();
+//
+//    $.each(months, function (key, value) {
+//        //display the key and value pair
+////        console.log(k + ' is ' + v);
+//        var listItem = document.createElement('li');
+//        listItem.setAttribute('id', key);
+//        var link = document.createElement('a');
+//        link.setAttribute('href', '#');
+//        link.appendChild(document.createTextNode(value));
+//        listItem.appendChild(link);
+//
+//        $(dropdown).find('.option').append(listItem);
+//    });
+//
+//    $(target).find('.monthSelect .dropdown-toggle').removeClass('disabled');
+//    $(target).find('.item-input-text').attr('placeholder', 'Bitte wählen');
+//}

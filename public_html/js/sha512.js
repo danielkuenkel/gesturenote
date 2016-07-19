@@ -164,7 +164,6 @@ function str2rstr_utf8(input)
   var i = -1;
   var x, y;
 
-    console.log(input + " lenght: ");
   while(++i < input.length)
   {
     /* Decode utf-16 surrogate pairs */

@@ -1,5 +1,14 @@
 <div id="item-container-moderator" class="hidden">
 
+    <!-- alerts -->
+    <div class="row root" id="no-phase-data">
+        <div class="col-md-4" id="column-left"></div>
+        <div class="col-md-8" id="column-right">
+            <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+
+
     <!-- questionnaire container -->
     <div class="row root" id="questionnaire">
         <div class="col-md-4" id="column-left"></div>
@@ -380,6 +389,13 @@
 
 <div id="item-container-tester" class="hidden">
 
+    <!-- alerts -->
+    <div class="container root" id="no-phase-data">
+        <div class="alert-space alert-no-phase-data"></div>
+    </div>
+
+    <!-- main formats -->
+
     <div class="container root" id="letterOfAcceptance">
         <h3 class="headline">Einverständniserklärung</h3>
         <hr>
@@ -468,20 +484,31 @@
         </div>
     </div>
 
-    <div id="trainingItemUnmoderated" class="row">
-        <div class="col-sm-6 col-md-12 col-lg-6 left" style="margin-bottom: 10px;">
-            <div class="imageContainer autoplay" style="margin-bottom: 10px;"></div>
+    <div id="trainingItemUnmoderated">
+        <!--<div class="col-sm-6 col-md-12 col-lg-6 left" style="">-->
+        <div class="imageContainer autoplay" style="max-width: 600px; margin: auto"></div>
+
+        <div id="training-controls" style="margin-top: 20px;">
+            <button class="btn btn-xl btn-block btn-success btn-shadow" id="start-training" name="btn-success"><span class="text">Jetzt starten</span></button>
+            <button class="btn btn-xl btn-block btn-info btn-shadow hidden" id="repeat-training" name="btn-success"><span class="text">Geste nochmal ausführen</span></button>
+            <button class="btn btn-xl btn-block btn-success btn-shadow hidden" id="next-gesture" name="btn-success"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+            <button class="btn btn-xl btn-block btn-success btn-shadow hidden" id="training-done" name="btn-success"><span class="text">Fertig</span></button>
         </div>
-        <div class="col-sm-6 col-md-12 col-lg-6 right">
-            <div style="margin-bottom: 10px;">
-                <div id="title"></div>
-                <div id="repeats"></div>
-                <div id="trigger"></div>
-                <div id="feedback"></div>
-            </div>
-            <button type="button" class="btn btn-success btn-shadow btn-block hidden" id="next-gesture"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-            <button type="button" class="btn btn-success btn-shadow btn-block hidden" id="training-done">Fertig</button>
+
+        <div class="progress progress-training hidden" style="margin-top: 20px; height: 73px; border-radius: 10px">
+            <div class="progress-bar progress-bar-training progress-bar-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
         </div>
+        <!--</div>-->
+        <!--        <div class="col-sm-6 col-md-12 col-lg-6 right">
+                    <div style="margin-bottom: 10px;">
+                        <div id="title"></div>
+                        <div id="repeats"></div>
+                        <div id="trigger"></div>
+                        <div id="feedback"></div>
+                    </div>
+                    <button type="button" class="btn btn-success btn-shadow btn-block hidden" id="next-gesture"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+                    <button type="button" class="btn btn-success btn-shadow btn-block hidden" id="training-done">Fertig</button>
+                </div>-->
     </div>
 
     <!-- slideshow container -->
@@ -490,8 +517,8 @@
         <div class="description"></div>
         <hr>
         <div class="alert-space alert-waiting-for-slideshow"></div>
-        <div class="progress progress-slideshow hidden">
-            <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+        <div class="progress progress-slideshow hidden" style="border-radius: 10px; height: 73px;">
+            <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
         </div>
         <div id="slideshowContainer"></div>
     </div>
@@ -508,7 +535,7 @@
     </div>
 
     <div id="slideshowItemUnmoderated" class="text-center">
-        <button class="btn btn-xl btn-success btn-shadow hidden" id="startSlideshow" name="btn-success">Starten</button>
+        <button class="btn btn-xl btn-block btn-success btn-shadow hidden" id="startSlideshow" name="btn-success">Jetzt Starten</button>
 
         <div class="gestureContainer hidden">
             <p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Nennen Sie die Funktion für folgende Geste</p>
@@ -567,23 +594,23 @@
     <img id="image" style="width: auto;">
 
 
-    <!-- hints and hinte contents-->
+    <!-- hints and hint contents-->
     <div id="feedback-hint" class="hint">
         <div class="hint-content">
 
             <button type="button" class="btn btn-xl btn-info btn-block" id="btn-close-hint" style="margin-top: 20px"><span class="text">Okay</span></button>
-            <div class="progress progress-hint" style="height: 60px; border-radius: 10px; margin-top: 20px">
+            <div class="progress progress-hint" style="height: 73px; border-radius: 10px; margin-top: 20px">
                 <div class="progress-bar progress-bar-info progress-bar-hint" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
             </div>
         </div>
     </div>
 
     <div id="feedback-hint-text-content">
-        <span id="text-start">test</span>
-        <em><span id="gesture-title">test</span></em>
-        <span id="gesture-for">test</span>
-        <em><span id="trigger-title">test</span></em>
-        <span id="feedback-title">test</span>
+        <span id="text-start"></span>
+        <em><span id="gesture-title"></span></em>
+        <span id="gesture-for"></span>
+        <em><span id="trigger-title"></span></em>
+        <span id="feedback-title"></span>
     </div>
 
     <div id="feedback-hint-sound-content">

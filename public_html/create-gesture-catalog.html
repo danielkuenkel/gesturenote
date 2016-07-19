@@ -32,11 +32,7 @@
                         </div>
                     </div>
                 </div>
-                <!--                <div class="thumbscrubber">
-                                    <div class="preview hidden"></div>
-                                    <div class="ts-inner"></div>
-                                </div>
-                                <div class="description-text" style="display: inline-block"></div>-->
+
             </div>
         </div>
     </div>
@@ -133,15 +129,20 @@
 
         <div class="panel panel-default root" id="recordGesture">
             <div class="panel-heading clearfix">
-                <div style="margin-top: 4px; display: inline-block">Neue Geste aufzeichnen</div>
+                <div style="margin-top: 4px; display: inline-block">Aufgezeichnete Gesten</div>
                 <div class="btn-group pull-right" id="useGesturesSwitch">
                     <button class="btn btn-default switchButtonAddon">Nutzen?</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
                 </div>
             </div>
+
             <div class="panel-body hidden">
-                <div class="panel-group root" id="list-container"></div>
+                <!--<div class="panel-group">-->
+                <button class="btn btn-success btn-block btn-shadow" id="btn-start-abort-recording"><span class="btn-text">Neue Geste aufzeichnen</span></button>
+                <!--<button class="btn btn-danger btn-block btn-shadow hidden" id="btn-abort-recording">Aufzeichnung abbrechen</button>-->
+                <!--</div>-->
+                <div class="panel-group root" id="list-container">test</div>
             </div>
         </div>
 
@@ -163,8 +164,6 @@
             var gesetureCatalog = 0;
 
             if (!isFilterData) {
-//                currentGestureSet = data;
-//                console.log(data);
                 for (var i = 0; i < data.length; i++) {
 
                     var clone = $('#gesture-thumbnail').clone();
@@ -172,8 +171,6 @@
                     clone.attr('id', data[i].type + '.' + data[i].id);
                     clone.find('.title-text').text(data[i].title + " ");
                     clone.find('.description').text(data[i].description);
-//                    clone.find('.preview').text(data[i].previewImage);
-//                    clone.find('gesture-type').text();
                     clone.find('.gesture-type').text(translation.gestureType + ': ' + translation.gestureTypes[data[i].gestureType]);
                     clone.find('.body-type').text(translation.bodyType + ': ' + translation.bodyTypes[data[i].bodyType]);
 
@@ -339,53 +336,20 @@
             switch (sortType) {
                 case SORT_ASC:
                     array = sortByKey(array, 'title', false);
-//                    array.sort(sortBy('title', false));
                     break;
                 case SORT_DESC:
                     array = sortByKey(array, 'title', true);
-//                    array.sort(sortBy('title', true));
                     break;
                 case SORT_NEWEST:
                     array = sortByKey(array, 'timestamp', true);
-//                    array.sort(sortBy('timestamp', true));
                     break;
                 case SORT_OLDEST:
                     array = sortByKey(array, 'timestamp', false);
-//                    array.sort(sortBy('timestamp', false));
                     break;
             }
             return array;
         }
 
-//        function sortBy(key, reverse) {
-//
-//            // Move smaller items towards the front
-//            // or back of the array depending on if
-//            // we want to sort the array in reverse
-//            // order or not.
-//            var moveSmaller = reverse ? 1 : -1;
-//
-//            // Move larger items towards the front
-//            // or back of the array depending on if
-//            // we want to sort the array in reverse
-//            // order or not.
-//            var moveLarger = reverse ? -1 : 1;
-//
-//            /**
-//             * @param  {*} a
-//             * @param  {*} b
-//             * @return {Number}
-//             */
-//            return function (a, b) {
-//                if (a[key] < b[key]) {
-//                    return moveSmaller;
-//                }
-//                if (a[key] > b[key]) {
-//                    return moveLarger;
-//                }
-//                return 0;
-//            };
-//        }
 
         function filterGestures(gestures, filter) {
             var array = new Array();
@@ -437,7 +401,6 @@
         }
 
         function getGesturesByType(type) {
-//            var gestures = getLocalItem(PREDEFINED_GESTURE_SET);
             var array = new Array();
             for (var i = 0; i < currentGestureSet.length; i++) {
                 if (currentGestureSet[i].type === type) {
@@ -455,6 +418,26 @@
                 currentGestureSet = data;
                 $('#ownExtractedGestures .sortGestures #newest').click();
                 $('#gestureCatalog .sortGestures #newest').click();
+            }
+        });
+
+        var recording = false;
+        $('#btn-start-abort-recording').on('click', function (event) {
+            event.preventDefault();
+            if (!event.handled) {
+                event.handled = true;
+
+                if (recording) {
+                    recording = false;
+                    $(this).find('.btn-text').text('Neue Geste aufzeichnen');
+                    $(this).removeClass('btn-danger').addClass('btn-success');
+                    $('#recordGesture #list-container').removeClass('hidden');
+                } else {
+                    recording = true;
+                    $(this).find('.btn-text').text('Aufzeichnung abbrechen');
+                    $(this).removeClass('btn-success').addClass('btn-danger');
+                    $('#recordGesture #list-container').addClass('hidden');
+                }
             }
         });
 </script>

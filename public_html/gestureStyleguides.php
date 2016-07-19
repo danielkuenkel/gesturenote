@@ -7,13 +7,14 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
+        <link rel="stylesheet" href="externals/font-awesome/css/font-awesome.min.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="js/gotoPage.js"></script>
         <script src="js/subPages.js"></script>
-        <script src="js/gestureCatalog.js"></script>
+        <!--<script src="js/gestureCatalog.js"></script>-->
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -21,9 +22,9 @@
         <div class="container" id="breadcrumb">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" onclick="gotoIndex()">Home</a></li>
-                    <li><a class="breadcrump-btn" onclick="gotoMainLanding()">Main menu</a></li>
-                    <li class="active">Gestures Catalog</li>
+                    <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
+                    <li class="active">Gestures Styleguides</li>
                 </ol>
             </div>
         </div>
@@ -31,7 +32,7 @@
         <!-- Container (Landing Section) -->
         <div class=" container-fluid text-center bg-grey" id="landingText">
             <div class="container">
-                <span><h2>GESTURES CATALOG</h2></span>
+                <h1><i class="fa fa-map-signs" style="font-size: 60pt" aria-hidden="true"></i> GESTEN STYLEGUIDES</h1>
             </div>
         </div>
 

@@ -15,15 +15,21 @@ body {
     padding-bottom: 70px;
 }
 
+.modal {
+    padding-top: 30px;
+    padding-bottom: 100px;
+    z-index: 10000;
+}
+
 textarea:hover, 
 input:hover, 
 textarea:active, 
 input:active, 
 textarea:focus, 
 input:focus
-/*button:focus,
+button:focus,
 button:active,
-button:hover*/
+button:hover
 {
     outline:0px !important;
     -webkit-appearance:none;
@@ -36,18 +42,18 @@ button:hover*/
 }
 
 h2 {
-    font-size: 24px;
-    text-transform: uppercase;
+    /*font-size: 24px;*/
+    /*text-transform: uppercase;*/
     color: #303030;
-    font-weight: 600;
-    margin-bottom: 30px;
+    /*font-weight: 600;*/
+    /*margin-bottom: 30px;*/
 }
 h4 {
-    font-size: 19px;
+    /*font-size: 19px;*/
     line-height: 1.375em;
     color: #303030;
-    font-weight: 400;
-    margin-bottom: 30px;
+    /*font-weight: 400;*/
+    /*margin-bottom: 30px;*/
 }  
 
 .font-bold {
@@ -58,6 +64,18 @@ h4 {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.progress-bar {
+    -webkit-transition: initial !important;
+    -o-transition: initial !important;
+    transition: initial !important;
+}
+
+.progress-bar.active, .progress.active .progress-bar {
+    -webkit-animation: initial !important;
+    -o-animation: initial !important;
+    animation: initial !important;
 }
 
 .navbar-brand {
@@ -87,7 +105,8 @@ h4 {
     /*background-color: rgb(0,0,0);*/
 }
 .container-fluid {
-    padding: 60px 50px;
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
 .bg-grey {
     background-color: #f6f6f6;
@@ -96,21 +115,43 @@ h4 {
     color: #5bb85c;
     font-size: 50px;
 }
-.logo {
+.icon-lg {
     color: #5bb85c;
-    font-size: 200px;
+    font-size: 60px;
 }
-.thumbnail {
+.icon-xl {
+    color: #5bb85c;
+    font-size: 80px;
+}
+.icon-xxl {
+    color: #5bb85c;
+    font-size: 100px;
+}
+
+.panel-heading h2 {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    width: 65%;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    font-weight: bold;
+}
+
+
+/*.thumbnail {
     padding: 0 0 15px 0;
     border: none;
     border-radius: 0;
-}
-.thumbnail img {
+}*/
+/*.thumbnail img {
     width: 100%;
     height: 100%;
     margin-bottom: 10px;
-}
-.carousel-control.right, .carousel-control.left {
+}*/
+/*.carousel-control.right, .carousel-control.left {
     background-image: none;
     color: #f4511e;
 }
@@ -119,8 +160,8 @@ h4 {
 }
 .carousel-indicators li.active {
     background-color: #f4511e;
-}
-.item h4 {
+}*/
+/*.item h4 {
     font-size: 19px;
     line-height: 1.375em;
     font-weight: 400;
@@ -140,7 +181,7 @@ h4 {
 .panel-custom:hover {
     color: #303030;
     box-shadow: 0px 5px 10px rgba(0,0,0, .3);
-}
+}*/
 
 /*.panel-default-shadow {
     cursor: pointer;
@@ -150,7 +191,7 @@ h4 {
     box-shadow: 0px 5px 10px rgba(0,0,0, .3);
 }*/
 
-.panel-custom-pink {
+/*.panel-custom-pink {
     border: 1px solid #B85B90;
     border-left-width: 1px;
     border-right-width: 1px;
@@ -183,8 +224,11 @@ h4 {
     border-color: #eeeeee !important;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-}
+}*/
 
+.btn-panel {
+    cursor: pointer;
+}
 
 .navbar {
     margin-bottom: 0;
@@ -282,21 +326,21 @@ footer .glyphicon {
     text-decoration: underline;
 }
 
-.slideanim {visibility:hidden;}
+/*.slideanim {visibility:hidden;}
 .slide {
     animation-name: slide;
     -webkit-animation-name: slide;	
     animation-duration: 0.3s;	
     -webkit-animation-duration: 0.3s;
     visibility: visible;			
-}
+}*/
 
 .breadcrumb {
     background-color: transparent;
     padding: 70px 15px 0px 15px;
 }
 
-@keyframes slide {
+/*@keyframes slide {
     0% {
         opacity: 0;
         -webkit-transform: translateY(70%);
@@ -330,7 +374,7 @@ footer .glyphicon {
     .logo {
         font-size: 150px;
     }
-}
+}*/
 
 li.selected {
     background-color: #e7e7e7;
@@ -482,4 +526,21 @@ label .question {
         -2px  1px 0px #000,
         -2px  0px 0px #000,
         -2px -1px 0px #000;
+}
+
+
+.recorder {
+    border-radius: 4px;
+    overflow: hidden; 
+    width: 100%; 
+}
+
+.recorder #recorder-video {
+    transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+    -moz-transform:rotateY(180deg); /* Firefox */
+}
+
+.recorder #seek-bar, .recorder #trim-seek-bar, .recorder #trim-bar {
+    cursor: pointer;
 }
