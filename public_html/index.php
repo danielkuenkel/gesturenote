@@ -5,8 +5,6 @@ include_once 'includes/functions.php';
 session_start();
 if (login_check($mysqli) == true) {
     header('Location: dashboard.php');
-} else {
-    
 }
 ?>
 <!DOCTYPE html>
@@ -242,9 +240,8 @@ if (login_check($mysqli) == true) {
                     </div>
                     <div class="col-sm-9">
                         <h2>Our Values</h2><br>
-                        <p><strong>MISSION:</strong> Our mission lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><br>
-                        <p><strong>VISION:</strong> Our vision Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <p><strong>MISSION:</strong> Mit GestureNote möchten wir die Erforschung und Verbreitung von Gesteninteraktionen aus der Nische holen.</p><br>
+                        <p><strong>VISION:</strong> Es ist immer noch sehr mühsam und aufwendig Gestendesignstudien durchzuführen. Sei es die Erstellung von geeigneten Fragebögen oder die Durchführung der Befragung. Gesture bietet alles, was ein Gestendesigner für eine erste wichtige Machbarkeitsstudie im Kontext von Gesteninteraktionen benötigt. Darüber hinaus stellt GestureNote komfortable und flexibel anpasspare Messinstrumente für Gestenstudien bereit.</p>
                     </div>
                 </div>
             </div>
@@ -252,42 +249,46 @@ if (login_check($mysqli) == true) {
 
         <!-- Container (Services Section) -->
         <div id="services" class="container-fluid text-center bg-grey">
-            <h2>SERVICES</h2>
-            <h4>What we offer</h4>
-            <br>
-            <div class="row">
-                <div class="col-sm-2 col-sm-offset-3">
-                    <span class="glyphicon glyphicon-off logo-small"></span>
-                    <h4>POWER</h4>
-                    <p>Lorem ipsum dolor sit amet..</p>
+            <div class="container">
+                <h2>SERVICES</h2>
+                <h4>Was bietet GestureNote</h4>
+                <br>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <span class="glyphicon glyphicon-off logo-small"></span>
+                        <h4>REMOTE USABILITY TESTS</h4>
+                        <p>Befragen Sie einfach und umkompliziert ihre Zielgruppe - Weltweit!</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="glyphicon glyphicon-lock logo-small"></span>
+                        <h4>MEHR ALS NUR GESTEN</h4>
+                        <p>Der Einsatz beschränkt sich nicht nur auf die Gesteninteraktion.</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="glyphicon glyphicon-heart logo-small"></span>
+                        <h4>EINFACHE PROJEKTERSTELLUNG</h4>
+                        <p>Schnelle und einfache Erstellung von Leitfäden.</p>
+                    </div>
                 </div>
-                <div class="col-sm-2">
-                    <span class="glyphicon glyphicon-heart logo-small"></span>
-                    <h4>LOVE</h4>
-                    <p>Lorem ipsum dolor sit amet..</p>
-                </div>
-                <div class="col-sm-2">
-                    <span class="glyphicon glyphicon-lock logo-small"></span>
-                    <h4>JOB DONE</h4>
-                    <p>Lorem ipsum dolor sit amet..</p>
-                </div>
-            </div>
-            <br><br>
-            <div class="row">
-                <div class="col-sm-2 col-sm-offset-3">
-                    <span class="glyphicon glyphicon-leaf logo-small"></span>
-                    <h4>GREEN</h4>
-                    <p>Lorem ipsum dolor sit amet..</p>
-                </div>
-                <div class="col-sm-2">
-                    <span class="glyphicon glyphicon-certificate logo-small"></span>
-                    <h4>CERTIFIED</h4>
-                    <p>Lorem ipsum dolor sit amet..</p>
-                </div>
-                <div class="col-sm-2">
-                    <span class="glyphicon glyphicon-wrench logo-small"></span>
-                    <h4 style="color:#303030;">HARD WORK</h4>
-                    <p>Lorem ipsum dolor sit amet..</p>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <span class="glyphicon glyphicon-leaf logo-small"></span>
+                        <h4>MESSINSTRUMENTE</h4>
+                        <p>Gesture Usability Scales, Beobachtungsleitfäden, etc. Speziell entwickelt für Gesteninteraktionen.</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="glyphicon glyphicon-certificate logo-small"></span>
+                        <h4>AKTUELLE TECHNOLOGIEN</h4>
+                        <p>Lorem ipsum dolor sit amet.</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="glyphicon glyphicon-wrench logo-small"></span>
+                        <h4>AKTUELLE TECHNOLOGIEN</h4>
+                        <p>Einsatz von AJAX, WebRTC und aktuellen Frameworks.</p>
+                    </div>
+                </div><br/><br/>
+                <div class="row">
+                    <button class="btn btn-gn">Hier mehr erfahren</button>
                 </div>
             </div>
         </div>
@@ -295,29 +296,31 @@ if (login_check($mysqli) == true) {
 
         <!-- Container (Contact Section) -->
         <div id="contact" class="container-fluid">
-            <h2 class="text-center">CONTACT</h2>
-            <div class="row">
-                <div class="col-sm-5">
-                    <p>Contact us and we'll get back to you within 24 hours.</p>
-                    <p><span class="glyphicon glyphicon-map-marker"></span> Hochschule Fulda - University of Applied Sciences, 36037 Fulda, Germany</p>
-                    <!--<p><span class="glyphicon glyphicon-phone"></span> +00 1515151515</p>-->
-                    <p><span class="glyphicon glyphicon-envelope"></span> Daniel.Kuenkel@informatik.hs-fulda.de</p>	   
-                </div>
-                <div class="col-sm-7">
-                    <div class="row">
-                        <div class="col-sm-6 form-group">
-                            <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
-                        </div>
-                        <div class="col-sm-6 form-group">
-                            <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
-                        </div>
+            <div class="container">
+                <h2>KONTAKT</h2>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <p>Contact us and we'll get back to you within 24 hours.</p>
+                        <p><span class="glyphicon glyphicon-map-marker"></span> Hochschule Fulda - University of Applied Sciences, 36037 Fulda, Germany</p>
+                        <!--<p><span class="glyphicon glyphicon-phone"></span> +00 1515151515</p>-->
+                        <p><span class="glyphicon glyphicon-envelope"></span> Daniel.Kuenkel@informatik.hs-fulda.de</p>	   
                     </div>
-                    <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
-                    <div class="row">
-                        <div class="col-sm-12 form-group">
-                            <button class="btn btn-default btn-gn btn-sm btn-block" type="submit">Send</button>
+                    <div class="col-sm-7">
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+                            </div>
                         </div>
-                    </div>	
+                        <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+                        <div class="row">
+                            <div class="col-sm-12 form-group">
+                                <button class="btn btn-default btn-gn btn-sm btn-block" type="submit">Send</button>
+                            </div>
+                        </div>	
+                    </div>
                 </div>
             </div>
         </div>
