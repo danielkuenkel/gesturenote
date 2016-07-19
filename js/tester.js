@@ -420,13 +420,14 @@ var Tester = {
 
             // handle triggered woz
             if (triggeredWoz && scene.type !== PROTOTYPE_PIDOCO) {
-//                console.log(triggeredWoz);
+                console.log(triggeredWoz);
+                var feedback = getFeedbackById(triggeredWoz.feedbackId);
                 $(container).find('#woz-scenario-text-container').removeClass('hidden');
                 $(container).find('#text-start').text(translation.gesture + " ");
                 $(container).find('#gesture-title').text(triggeredWoz.gesture.title + " ");
                 $(container).find('#gesture-for').text(translation.for + " ");
                 $(container).find('#trigger-title').text(triggeredWoz.trigger.title + " ");
-                $(container).find('#feedback-title').text(triggeredWoz.feedback.title);
+                $(container).find('#feedback-title').text(feedback.title);
                 var hideTween = TweenMax.to($(container).find('#woz-scenario-text-container'), .3, {autoAlpha: 0, paused: true});
                 triggeredWoz = null;
 

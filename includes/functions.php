@@ -137,7 +137,7 @@ function login_check($mysqli) {
                 $stmt->fetch();
                 $login_check = hash('sha512', $password . $user_browser);
 
-                if (hash_equals($login_check, $login_string)) {
+                if (strcmp($login_check, $login_string) == 0) {
                     // Logged In!!!! 
                     return true;
                 } else {

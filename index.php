@@ -479,9 +479,6 @@ if (login_check($mysqli) == true) {
                 var date = parseInt($('#register-form #date').val().trim());
                 var month = parseInt($('#register-form #month').val().trim());
                 var year = parseInt($('#register-form #year').val().trim());
-//                var birthday = new Date(year, month, date);
-
-//                console.log(date + ", " + month + ", " + year + ", " + birthday);
                 register({forename: forename, surname: surname, email: email, p: p, date: date, month: month, year: year, userType: userType});
             });
 

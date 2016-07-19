@@ -83,7 +83,8 @@ h4 {
 }
 
 .jumbotron {
-    background: url('../img/jumbotron-background.png') repeat center center;
+    background: url('../img/footer_lodyas.jpg') repeat center;
+    /*background: url('../img/jumbotron-background.png') repeat center center;*/
     background-color: #5bb85c;
     color: #fff;
     padding: 160px 25px 110px 25px;
