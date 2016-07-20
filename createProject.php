@@ -101,7 +101,6 @@ include './includes/language.php';
         <script src="js/alert.js"></script>
         <script src="js/gotoPage.js"></script>        
         <script src="js/thumbscrubber.js"></script>
-        <script src="js/subPages.js"></script>
         <script src="js/createProject.js"></script>
         <script src="js/gesture.js"></script>
 
@@ -196,9 +195,6 @@ include './includes/language.php';
                                         <i class="glyphicon glyphicon-question-sign"></i>
                                     </button>
                                 </div>
-<!--                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-project-phase.html')">
-                                    <i class="glyphicon glyphicon-question-sign"></i>
-                                </span>-->
                             </div>
                         </div>
 
@@ -216,9 +212,6 @@ include './includes/language.php';
                                         <i class="glyphicon glyphicon-question-sign"></i>
                                     </button>
                                 </div>
-<!--                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-project-survey-type.html')">
-                                    <i class="glyphicon glyphicon-question-sign"></i>
-                                </span>-->
                             </div>
                         </div>
 
@@ -435,7 +428,7 @@ include './includes/language.php';
             $(document).ready(function () {
                 checkLanguage(function () {
                     createRandomColors();
-                    
+
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
                     externals.push(['#template-gesture', PATH_EXTERNALS + '/' + currentLanguage + '/template-gesture.html']);
@@ -464,6 +457,8 @@ include './includes/language.php';
             });
 
             function onAllExternalsLoadedSuccessfully() {
+                renderSubPageElements();
+                
                 // get min and max age from datebase
                 var ageMin = 18;
                 var ageMax = 100;

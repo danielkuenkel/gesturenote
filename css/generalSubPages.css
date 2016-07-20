@@ -16,7 +16,7 @@ and open the template in the editor.
     background-color: #B85B90;
     z-index: 9998;
     margin-bottom: 60px;
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .mainContent {

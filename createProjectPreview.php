@@ -26,10 +26,9 @@ include './includes/language.php';
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
         <script src="http://chancejs.com/chance.min.js"></script>
         <script src="color-thief/color-thief.js"></script>
-<!--        <script src="js/jquery.sequentialLoad.js"></script>-->
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
-        <script src="js/localforage.js"></script>
+        <!--<script src="js/localforage.js"></script>-->
         <script src="js/storage.js"></script>
         <script src="js/storageFunctions.js"></script>
         <script src="js/language.js"></script>
@@ -144,16 +143,15 @@ include './includes/language.php';
         <script src="js/template-forms.js"></script>
         <script>
                         var currentView;
-
                         $(document).ready(function () {
-                            checkLanguage();
-
-                            var externals = new Array();
-                            var path = PATH_EXTERNALS + '/' + currentLanguage + '/';
-                            externals.push(['#alerts', path + 'alerts.html']);
-                            externals.push(['#template-gesture', path + 'template-gesture.html']);
-                            externals.push(['#template-previews', path + 'template-previews.html']);
-                            loadExternals(externals);
+                            checkLanguage(function () {
+                                var externals = new Array();
+                                var path = PATH_EXTERNALS + '/' + currentLanguage + '/';
+                                externals.push(['#alerts', path + 'alerts.html']);
+                                externals.push(['#template-gesture', path + 'template-gesture.html']);
+                                externals.push(['#template-previews', path + 'template-previews.html']);
+                                loadExternals(externals);
+                            });
                         });
 
 //                        var lastScrollTop;

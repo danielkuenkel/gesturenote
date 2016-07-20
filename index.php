@@ -37,7 +37,7 @@ if (login_check($mysqli) == true) {
 
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
-                <div class="navbar-header">
+<!--                <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -45,7 +45,7 @@ if (login_check($mysqli) == true) {
                         <span class="icon-bar"></span>   
                     </button>
                     <a class="navbar-brand" href="#pageBody"><span class="glyphicon glyphicon-stats"></span> GestureNote</a>
-                </div>
+                </div>-->
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#about">ABOUT</a></li>
@@ -58,7 +58,7 @@ if (login_check($mysqli) == true) {
         </nav>
 
         <div class="jumbotron text-center">
-            <h1><span class="glyphicon glyphicon-stats"></span> GestureNote</h1> 
+            <div><h1><i class="glyphicon glyphicon-stats"></i> GestureNote <sup><span class="label label-success" style="position: relative; font-size: 8pt; top: -15px">ALPHA</span></sup></h1></div>
             <p>Specialized in usability engineering for gesture interaction</p> 
         </div>
         <div class="line text-center" data-spy="affix" data-offset-top="376"></div>
