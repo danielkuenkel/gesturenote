@@ -112,6 +112,7 @@ include './includes/language.php';
         <div id="alerts"></div>
         <div id="template-gesture"></div>
         <div id="template-inputs"></div>
+        <div id="templage-subpages"></div>
 
         <!-- Container (Breadcrump) -->
         <div class="container" id="breadcrumb">
@@ -432,32 +433,33 @@ include './includes/language.php';
 
         <script>
             $(document).ready(function () {
-                createRandomColors();
+                checkLanguage(function () {
+                    createRandomColors();
+                    
+                    var externals = new Array();
+                    externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
+                    externals.push(['#template-gesture', PATH_EXTERNALS + '/' + currentLanguage + '/template-gesture.html']);
+                    externals.push(['#template-inputs', PATH_EXTERNALS + '/' + currentLanguage + '/template-create.html']);
+                    externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
+                    loadExternals(externals);
 
-                checkLanguage();
-
-                var externals = new Array();
-                externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
-                externals.push(['#template-gesture', PATH_EXTERNALS + '/' + currentLanguage + '/template-gesture.html']);
-                externals.push(['#template-inputs', PATH_EXTERNALS + '/' + currentLanguage + '/template-create.html']);
-                loadExternals(externals);
-
-                $('#from-To-datepicker .input-daterange').datepicker({
-                    calendarWeeks: true,
-                    todayHighlight: true,
-                    todayBtn: true,
-                    clearBtn: true,
-                    daysOfWeekHighlighted: "0,6",
-                    language: currentLanguage
-                });
+                    $('#from-To-datepicker .input-daterange').datepicker({
+                        calendarWeeks: true,
+                        todayHighlight: true,
+                        todayBtn: true,
+                        clearBtn: true,
+                        daysOfWeekHighlighted: "0,6",
+                        language: currentLanguage
+                    });
 
 
-                $('#from-To-datepicker .input-daterange').on("changeDate", function () {
-                    saveGeneralData();
-                });
+                    $('#from-To-datepicker .input-daterange').on("changeDate", function () {
+                        saveGeneralData();
+                    });
 
-                $('#from-To-datepicker .input-daterange input').on("clearDate", function () {
-                    saveGeneralData();
+                    $('#from-To-datepicker .input-daterange input').on("clearDate", function () {
+                        saveGeneralData();
+                    });
                 });
             });
 

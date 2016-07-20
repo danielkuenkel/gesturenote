@@ -29,10 +29,14 @@ textarea:focus,
 input:focus
 button:focus,
 button:active,
+button:visited,
 button:hover
 {
     outline:0px !important;
     -webkit-appearance:none;
+}
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+    outline: 0;
 }
 
 .form-control:focus{
@@ -84,8 +88,7 @@ h4 {
 
 .jumbotron {
     background: url('../img/footer_lodyas.jpg') repeat center;
-    /*background: url('../img/jumbotron-background.png') repeat center center;*/
-    background-color: #5bb85c;
+    background-color: #303030;
     color: #fff;
     padding: 160px 25px 110px 25px;
     margin-bottom: 0;
@@ -107,7 +110,7 @@ h4 {
 }
 .container-fluid {
     padding-top: 40px;
-    padding-bottom: 40px;
+    padding-bottom: 80px;
 }
 .bg-grey {
     background-color: #f6f6f6;

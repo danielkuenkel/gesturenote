@@ -13,19 +13,25 @@
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="js/alert.js"></script>
+        <script src="js/externals.js"></script>
+        <script src="js/language.js"></script>
         <script src="js/gotoPage.js"></script>
-        <script src="js/subPages.js"></script>
-        <script src="js/projects.js"></script>
+        <script src="js/globalFunctions.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
+        <!-- externals -->
+        <div id="alerts"></div>
+        <div id="templage-subpages"></div>
+        
         <!-- Container (Breadcrump) -->
         <div class="container" id="breadcrumb">
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
-                    <li class="active">Projects</li>
+                    <li class="active">Projekte</li>
                 </ol>
             </div>
         </div>
@@ -63,7 +69,7 @@
                 </div>
             </div>
 
-            <div class="row">
+<!--            <div class="row">
                 <div class="col-md-4 col-lg-3 col-sm-6">
                     <div class="panel panel-default btn-panel btn-shadow">
                         <div class="panel-heading">Projekt 1</div>
@@ -99,10 +105,25 @@
                         <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
-            </div>
+            </div>-->
+            
         </div>
 
         <script>
+            $(document).ready(function () {
+                checkLanguage(function () {
+                    var externals = new Array();
+                    externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
+                    externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
+                    loadExternals(externals);
+                });
+            });
+
+            function onAllExternalsLoadedSuccessfully() {
+                console.log('onAllExternalsLoadedSuccessfully');
+                renderSubPageElements();
+            }
+
             $(".dropdown-menu").on('click', 'li a', function () {
                 //alert($(this).val());
 //                $(".btn:first-child").text($(this).text());

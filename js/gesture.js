@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+var GESTURE_THUMBNAIL_SCROLLING_SPEED = 100;
 var popoverVisible = false;
 $(window).load(function () {
     $('body').on('mouseenter', '.previewGesture', function (event) {

@@ -12,19 +12,25 @@
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="js/alert.js"></script>
+        <script src="js/externals.js"></script>
+        <script src="js/language.js"></script>
         <script src="js/gotoPage.js"></script>
-        <script src="js/subPages.js"></script>
-        <!--<script src="js/gestureCatalog.js"></script>-->
+        <script src="js/globalFunctions.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
+        <!-- externals -->
+        <div id="alerts"></div>
+        <div id="templage-subpages"></div>
+        
         <!-- Container (Breadcrump) -->
         <div class="container" id="breadcrumb">
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
-                    <li class="active">Profile</li>
+                    <li class="active">Profil</li>
                 </ol>
             </div>
         </div>
@@ -35,6 +41,22 @@
                 <h1><i class="fa fa-user" style="font-size: 60pt" aria-hidden="true"></i> BENUTZERPROFIL</h1>
             </div>
         </div>
+        
+         <script>
+            $(document).ready(function () {
+                checkLanguage(function () {
+                    var externals = new Array();
+                    externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
+                    externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
+                    loadExternals(externals);
 
+                });
+            });
+
+            function onAllExternalsLoadedSuccessfully() {
+                renderSubPageElements();
+            }
+        </script>
+        
     </body>
 </html>

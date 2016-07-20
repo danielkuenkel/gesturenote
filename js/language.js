@@ -11,7 +11,7 @@ var LANGUAGE_DE = 'de';
 var currentLanguage = LANGUAGE_EN;
 var translation = null;
 
-function checkLanguage() {
+function checkLanguage(callback) {
     if (navigator.language.indexOf(LANGUAGE_EN) > -1) {
         currentLanguage = LANGUAGE_EN;
         console.log('language: english');
@@ -22,5 +22,6 @@ function checkLanguage() {
 
     $.getJSON('externals/' + currentLanguage + '/' + currentLanguage + '.json', function (data) {
         translation = data;
+        callback();
     });
 }

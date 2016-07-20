@@ -21,7 +21,6 @@ if (login_check($mysqli) == true) {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="js/gotoPage.js"></script>
-        <script src="js/index.js"></script>
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/checkForms.js"></script>
         <script type="text/JavaScript" src="js/ajax.js"></script>
@@ -52,7 +51,7 @@ if (login_check($mysqli) == true) {
                         <li><a href="#about">ABOUT</a></li>
                         <li><a href="#services">SERVICES</a></li>
                         <li><a href="#contact">CONTACT</a></li>
-                        <li><a href="#login"><span class="glyphicon glyphicon-log-in"></span> SING IN</a></li>
+                        <li><a href="#login"><span class="glyphicon glyphicon-log-in"></span> SIGN IN</a></li>
                     </ul>
                 </div>
             </div>
@@ -215,34 +214,43 @@ if (login_check($mysqli) == true) {
         </div>
 
 
-        <!-- Container (… Section) -->
         <div class="container-fluid bg-grey" id="about">
             <div class="container">
-
-                <div class="info">
-                    <div class="page-header">
-                        <h2><i class="glyphicon glyphicon-info-sign icon-lg"></i> About GestureNote</h2>
-                    </div>
-                    <div class="info-text">
-                        <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <div class="col-sm-4">
+                    <i class="glyphicon glyphicon-info-sign" style="font-size: 220pt; color: #f6f6f6; text-shadow: -3px -3px rgba(0,0,0,0.1);"></i>
+                </div>
+                <div class="col-sm-8">
+                    <div class="info">
+                        <div class="page-header">
+                            <h2>About GestureNote</h2>
+                        </div>
+                        <div class="info-text">
+                            <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
                     </div>
                 </div>
+
 
             </div>
         </div>
 
         <div class="container-fluid">
             <div class="container">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <i class="glyphicon glyphicon-star icon-lg"></i>
+                <div class="col-sm-4">
+                    <i class="glyphicon glyphicon-star" style="font-size: 220pt; color: #fff; text-shadow: -3px -3px rgba(0,0,0,0.1);"></i>
+                </div>
+                <div class="col-sm-8">
+                    <div class="info">
+                        <div class="page-header">
+                            <h2>Warum GestureNote?</h2>
+                        </div>
+                        <div class="info-text">
+                            <p><strong>MISSION:</strong> Mit GestureNote möchten wir die Erforschung und Verbreitung von Gesteninteraktionen aus der Nische holen.</p><br>
+                            <p><strong>VISION:</strong> Es ist immer noch sehr mühsam und aufwendig Gestendesignstudien durchzuführen. Sei es die Erstellung von geeigneten Fragebögen oder die Durchführung der Befragung. Gesture bietet alles, was ein Gestendesigner für eine erste wichtige Machbarkeitsstudie im Kontext von Gesteninteraktionen benötigt. Darüber hinaus stellt GestureNote komfortable und flexibel anpasspare Messinstrumente für Gestenstudien bereit.</p>
+                        </div>
                     </div>
-                    <div class="col-sm-9">
-                        <h2>Our Values</h2><br>
-                        <p><strong>MISSION:</strong> Mit GestureNote möchten wir die Erforschung und Verbreitung von Gesteninteraktionen aus der Nische holen.</p><br>
-                        <p><strong>VISION:</strong> Es ist immer noch sehr mühsam und aufwendig Gestendesignstudien durchzuführen. Sei es die Erstellung von geeigneten Fragebögen oder die Durchführung der Befragung. Gesture bietet alles, was ein Gestendesigner für eine erste wichtige Machbarkeitsstudie im Kontext von Gesteninteraktionen benötigt. Darüber hinaus stellt GestureNote komfortable und flexibel anpasspare Messinstrumente für Gestenstudien bereit.</p>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -278,8 +286,8 @@ if (login_check($mysqli) == true) {
                     </div>
                     <div class="col-sm-4">
                         <span class="glyphicon glyphicon-certificate logo-small"></span>
-                        <h4>AKTUELLE TECHNOLOGIEN</h4>
-                        <p>Lorem ipsum dolor sit amet.</p>
+                        <h4>GUIDELINES</h4>
+                        <p>Sie wissen nicht weiter? Wir bieten Ihnen Guidelines für gute Gesten an.</p>
                     </div>
                     <div class="col-sm-4">
                         <span class="glyphicon glyphicon-wrench logo-small"></span>
@@ -382,11 +390,11 @@ if (login_check($mysqli) == true) {
 
         <script>
             $(document).ready(function () {
-                checkLanguage();
-
-                var externals = new Array();
-                externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
-                loadExternals(externals);
+                checkLanguage(function () {
+                    var externals = new Array();
+                    externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
+                    loadExternals(externals);
+                });
             });
 
             function onAllExternalsLoadedSuccessfully() {
@@ -452,7 +460,6 @@ if (login_check($mysqli) == true) {
 
                 if (form === 'login') {
                     var data = {email: $('#login-form #email').val().trim(), p: $('#login-form #p').val()};
-                    console.log(data);
                     login(data);
                 } else if (form === 'forgot') {
                     forgot({email: $('#login-form #email').val().trim()});

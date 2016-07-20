@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
+        <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="externals/font-awesome/css/font-awesome.min.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
@@ -19,6 +20,7 @@
         <script src="js/gotoPage.js"></script>
         <script src="js/subPages.js"></script>
         <script src="js/globalFunctions.js"></script>
+        <script src="js/gesture.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -62,21 +64,34 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-block btn-success disabled" id="btn-extract-gesture"><i class="glyphicon glyphicon-scissors"></i> Geste extrahieren</button
+                            <button class="btn btn-block btn-success disabled" id="btn-extract-gesture"><i class="glyphicon glyphicon-scissors"></i> Geste extrahieren</button>
                         </div>
-                    </div>
-                    <div class="hidden" id="save-controls">
-                        
-                        <div class="imageContainer previewGesture mouseScrollable"></div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                        </div>
-
-                        <button class="btn btn-block btn-success disabled" id="btn-save-gesture"><i class="glyphicon glyphicon-scissors"></i> Geste extrahieren</button
+                        <!--                        <div id="screenshot-holder" class="imageContainer autoplay"></div>-->
                     </div>
                 </div>
-            </div>
+                <div class="hidden" id="save-controls" style="width: 100%">
+                    <div class="imageContainer autoplay" id="previewGesture"></div>
+                    <!--                    <div class="progress">
+                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                                        </div>-->
 
+                    <div id=""
+                    <div class="form-group" style="margin-top: 10px">
+                        <div class="input-group">
+                            <span class="input-group-addon">Gestenname</span>
+                            <input type="text" class="form-control" id="gestureName" placeholder="Name einfügen" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Gestenbeschreibung</span>
+                            <textarea type="text" class="form-control" id="gestureDescription" placeholder="Beschreibung einfügen" rows="3" required></textarea>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-block btn-success disabled" id="btn-save-gesture"><i class="glyphicon glyphicon-scissors"></i> Geste speichern</button>
+                </div>
+            </div>
         </div>
 
         <script>
@@ -118,7 +133,7 @@
                         height: 240
                     },
                     recorderType: RecordRTC.WhammyRecorder,
-                    frameInterval: 60   // setTimeout interval, quality strength
+                    frameInterval: 40   // setTimeout interval, quality strength
                 };
                 recordRTC = RecordRTC(liveStream, options);
                 recordRTC.startRecording();
@@ -230,6 +245,42 @@
                     var beginningWidth = $('.recorder #gesture-beginning').width();
                     if (gestureStartMarked && currentSeekWidth > beginningWidth) {
                         $('.recorder #btn-extract-gesture').removeClass('disabled');
+                        $('.recorder #btn-extract-gesture').on('click', function (event) {
+                            event.preventDefault();
+                            $('.recorder #recorder-video').removeAttr('loop');
+                            $('.recorder #btn-stop').click();
+
+                            var video = $('.recorder #recorder-video')[0];
+                            var totalWidth = $('.recorder #seek-bar').width();
+                            var startTimeOffset = ($('.recorder #gesture-beginning').width() / totalWidth) * video.duration;
+                            var endTimeOffset = (($('.recorder #gesture-beginning').width() + $('.recorder #gesture-execution').width()) / totalWidth) * video.duration;
+                            console.log(startTimeOffset + ", " + endTimeOffset);
+                            $('.recorder #playback-controls').addClass('hidden');
+
+                            var shotsArray = new Array();
+                            video.currentTime = startTimeOffset;
+                            video.addEventListener('play', function () {
+                                var canvas = document.createElement('canvas');
+                                canvas.width = $('.recorder #recorder-video').width();
+                                canvas.height = $('.recorder #recorder-video').height();
+                                var ctx_draw = canvas.getContext('2d');
+                                draw_interval = setInterval(function () {
+                                    ctx_draw.drawImage(video, 0, 0, canvas.width, canvas.height);
+                                    shotsArray.push(canvas.toDataURL('image/jpeg'));
+                                }, 150);
+                            }, false);
+                            $('.recorder #btn-play').click();
+
+                            setTimeout(offsetReached, (endTimeOffset - startTimeOffset) * 1000);
+                            function offsetReached() {
+                                clearInterval(draw_interval);
+                                video.pause();
+                                console.log(shotsArray.length);
+                                renderGestureImages($('.recorder #previewGesture'), shotsArray, 0, function () {
+                                    showSave();
+                                });
+                            }
+                        });
 
                         var totalWidth = $('.recorder #seek-bar').width();
                         var gestureWidth = currentSeekWidth - beginningWidth;
@@ -240,6 +291,8 @@
                         wobble($('.recorder #btn-mark-start'));
                     }
                 });
+
+
             }
 
             function resetTrimControls() {
@@ -247,6 +300,12 @@
                 $('.recorder #gesture-execution').css({width: '0%'});
                 $('.recorder #gesture-ending').css({width: '0%'});
                 $('.recorder #btn-mark-end, .recorder #btn-extract-gesture').addClass('disabled');
+            }
+
+            function showSave() {
+                $('.recorder #save-controls').removeClass('hidden');
+                $('.recorder #recorder-video').addClass('hidden');
+                $('.recorder .gesture-recorder-controls').addClass('hidden');
             }
         </script>
 

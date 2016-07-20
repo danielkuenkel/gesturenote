@@ -30,6 +30,15 @@ function sortByKey(array, key, reverse) {
     });
 }
 
+function renderSubPageElements() {
+    var header = $('#header-footer-container').find('#sub-page-header').clone().removeAttr('id');
+    header.insertBefore($('body').find('#breadcrumb'));
+
+    var footer = $('#header-footer-container').find('#sub-page-footer').clone().removeAttr('id');
+    $('body').append(footer);
+    footer.find('#btn-imprint').text(translation.imprint);
+}
+
 $(document).on('click', '.select .option li', function (event) {
     event.preventDefault();
     if (!event.handled) {

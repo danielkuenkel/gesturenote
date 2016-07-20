@@ -4,10 +4,6 @@
  * and open the template in the editor.
  */
 
-// path externals
-var PATH_EXTERNALS = 'externals/';
-
-var GESTURE_THUMBNAIL_SCROLLING_SPEED = 100;
 var ELEMENT_MOVE_TRANSITION_DURATION = 0.2;
 
 // project specific constants

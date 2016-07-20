@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-
+var PATH_EXTERNALS = 'externals/';
 function loadExternals(externals) {
     var externalsLoaded = 0;
 
