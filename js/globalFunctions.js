@@ -635,13 +635,13 @@ function renderDataForHint(data, hint, source, surveyType) {
     switch (feedback.type) {
         case TYPE_FEEDBACK_TEXT:
             hint.find('.hint-content').prepend($(source).find('#feedback-hint-text-content').clone().removeAttr('id'));
-            hint.find('#text-start').text(translation.gesture + " ");
-            hint.find('#gesture-title').text(data.gesture.title + " ");
-            hint.find('#gesture-for').text(translation.for + " ");
-            hint.find('#trigger-title').text(data.trigger.title + " ");
+//            hint.find('#text-start').text(translation.gesture + " ");
+//            hint.find('#gesture-title').text(data.gesture.title + " ");
+//            hint.find('#gesture-for').text(translation.for + " ");
+//            hint.find('#trigger-title').text(data.trigger.title + " ");
             hint.find('#feedback-title').text(feedback.title);
             if (surveyType === TYPE_SURVEY_MODERATED) {
-                TweenMax.to(hint.find('.progress-bar'), 4, {delay: 2, width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: hideHint, onCompleteParams: [hint]});
+                TweenMax.to(hint.find('.progress-bar'), 5, {width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: hideHint, onCompleteParams: [hint]});
             }
             break;
 

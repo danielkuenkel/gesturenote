@@ -116,8 +116,8 @@ function createPredefinedGestureQuestionnaire() {
 function createPredefinedGestureFeedback() {
     if (getLocalItem(PREDEFINED_FEEDBACK) === null) {
         var feedback = new Array();
-        feedback.push(new Feedback(0, TYPE_FEEDBACK_TEXT, "wurde erkannt", [false], null));
-        feedback.push(new Feedback(1, TYPE_FEEDBACK_TEXT, "wurde nicht erkannt", [true], null));
+        feedback.push(new Feedback(0, TYPE_FEEDBACK_TEXT, "Geste wurde erkannt", [false], null));
+        feedback.push(new Feedback(1, TYPE_FEEDBACK_TEXT, "Geste wurde nicht erkannt", [true], null));
         setLocalItem(PREDEFINED_FEEDBACK, feedback);
     }
 }

@@ -36,7 +36,7 @@ var Tester = {
                 item = Tester.getSlideshow(source, container, currentPhaseData);
                 break;
             case SCENARIO:
-                item = Tester.getScenario(container, currentPhaseData);
+                item = Tester.getScenario(source, container, currentPhaseData);
                 break;
         }
 
@@ -323,7 +323,7 @@ var Tester = {
             }
         });
     },
-    getScenario: function getScenario(container, data) {
+    getScenario: function getScenario(source, container, data) {
 //        console.log(data);
         var scene = getPrototypeById(data.scene);
 //        console.log(scene);
@@ -420,21 +420,8 @@ var Tester = {
 
             // handle triggered woz
             if (triggeredWoz && scene.type !== PROTOTYPE_PIDOCO) {
-                console.log(triggeredWoz);
-                var feedback = getFeedbackById(triggeredWoz.feedbackId);
-                $(container).find('#woz-scenario-text-container').removeClass('hidden');
-                $(container).find('#text-start').text(translation.gesture + " ");
-                $(container).find('#gesture-title').text(triggeredWoz.gesture.title + " ");
-                $(container).find('#gesture-for').text(translation.for + " ");
-                $(container).find('#trigger-title').text(triggeredWoz.trigger.title + " ");
-                $(container).find('#feedback-title').text(feedback.title);
-                var hideTween = TweenMax.to($(container).find('#woz-scenario-text-container'), .3, {autoAlpha: 0, paused: true});
+                appendHint(source, $('body'), triggeredWoz, TYPE_SURVEY_MODERATED);
                 triggeredWoz = null;
-
-                $(container).find('#btn-close-woz-hint').click(function (event) {
-                    event.preventDefault();
-                    hideTween.play();
-                });
             }
         }
 
