@@ -100,6 +100,7 @@ include './includes/language.php';
         <script src="js/externals.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/gotoPage.js"></script>       
+        <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/project-create.js"></script>
 
@@ -391,15 +392,9 @@ include './includes/language.php';
 
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
-                            </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-warning btn-shadow btn-md" id="btn-preview-project"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
-                            </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-success btn-shadow btn-lg"><span class="glyphicon glyphicon-save"></span> Projekt erstellen</button>
-                            </div>
+                            <button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
+                            <button type="button" class="btn btn-warning btn-shadow btn-md" id="btn-preview-project"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
+                            <button type="button" class="btn btn-success btn-shadow btn-lg" id="btn-save-project"><i class="glyphicon glyphicon-save"></i> Projekt erstellen</button>
                         </div>
 
                     </form>
@@ -557,7 +552,7 @@ include './includes/language.php';
                 event.preventDefault();
                 loadHTMLintoModal('custom-modal', 'info-use-feedback.html');
             });
-            
+
             $('#btn-info-record').on('click', function (event) {
                 event.preventDefault();
                 loadHTMLintoModal('custom-modal', 'info-record.html');
@@ -626,6 +621,14 @@ include './includes/language.php';
                 if (checkInputs() === true) {
                     saveGeneralData();
                     gotoCreateProjectPreview();
+                }
+            });
+
+            $('#btn-save-project').on('click', function (event) {
+                event.preventDefault();
+                if (checkInputs() === true) {
+                    saveGeneralData();
+                    saveProjectData();
                 }
             });
 

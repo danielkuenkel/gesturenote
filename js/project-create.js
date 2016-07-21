@@ -375,3 +375,10 @@ function getDimensionByElement(element) {
     }
     return DIMENSION_ANY;
 }
+
+function saveProjectData() {
+    var generalData = getLocalItem(PROJECT);
+    var submitData = {generalData: generalData};
+    console.log(submitData);
+    saveProject(submitData);
+}

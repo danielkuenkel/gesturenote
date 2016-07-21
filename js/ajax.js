@@ -42,7 +42,6 @@ function register(data) {
         type: 'post',
         success: function (data) {
             resetAlerts();
-            console.log(data);
             if (data.status === 'emailExists') {
                 showAlert($('#modal-register'), ALERT_USER_EXISTS);
             } else if (data.status === 'success') {
@@ -57,6 +56,28 @@ function register(data) {
         },
         error: function (xhr, desc, err) {
             showAlert($('#modal-register'), ALERT_GENERAL_ERROR);
+            console.log(xhr);
+            console.log("Details: " + desc + "\nError:" + err);
+        }
+    });
+}
+
+function saveProject(data) {
+    $.ajax({
+        url: 'includes/save-project.php',
+        data: data,
+        type: 'post',
+        success: function (data) {
+            console.log(data);
+            if (data.status === 'success') {
+//                appendAlert($('body'), ALERT_REGISTER_SUCCESS);
+
+            } else if (data.status === 'error') {
+                appendAlert($('body'), ALERT_GENERAL_ERROR);
+            }
+        },
+        error: function (xhr, desc, err) {
+            appendAlert($('body'), ALERT_GENERAL_ERROR);
             console.log(xhr);
             console.log("Details: " + desc + "\nError:" + err);
         }
