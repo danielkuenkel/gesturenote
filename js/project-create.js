@@ -313,6 +313,7 @@ function Slideshow() {
     this.slideshowFor;
     this.answerTime;
     this.slideshow;
+    this.identification;
     this.observations;
 }
 

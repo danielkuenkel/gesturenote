@@ -699,6 +699,54 @@
         </div>
     </div>
 
+    <div class="root" id="identification">
+        <div class="form-group root hidden" id="identificationItem">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <div class="alert-space alert-assembled-gesture-removed"></div>
+                    <div class="alert-space alert-assembled-trigger-removed"></div>
+
+                    <div class="input-group" id="group-trigger">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                        <span class="input-group-addon">Trigger</span>
+                        <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <div class="input-group-btn select triggerSelect" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                        </div>
+                    </div>
+
+                    <div class="input-group" id="group-gesture">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                        <span class="input-group-addon">Geste</span>
+                        <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <div class="input-group-btn select gestureSelect" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="alert-space alert-no-gestures-assembled"></div>
+        <div class="alert-space alert-no-trigger-assembled"></div>
+
+        <div class="option-container"></div>
+
+        <button class="btn btn-info btn-shadow pull-right btn-add-identificationOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Identifikationselement hinzufügen</span></button>
+    </div>
+
     <div class="root" id="gestureTraining">
         <div class="form-group root hidden" id="gestureTrainingItem">
             <div class="panel panel-default">
