@@ -308,6 +308,13 @@ footer .glyphicon {
     border-radius: 13px;
 }
 
+.btn-show-info {
+    cursor: pointer;
+}
+.btn-show-info:hover {
+    color: #303030   
+}
+
 .footer-copyright {
     letter-spacing: 1px;
     margin-top: 18px;

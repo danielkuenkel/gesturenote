@@ -28,7 +28,6 @@ include './includes/language.php';
         <script src="color-thief/color-thief.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
-        <!--<script src="js/localforage.js"></script>-->
         <script src="js/storage.js"></script>
         <script src="js/storageFunctions.js"></script>
         <script src="js/language.js"></script>
@@ -37,7 +36,7 @@ include './includes/language.php';
         <script src="js/gotoPage.js"></script>       
         <script src="js/gesture.js"></script>
         <script src="js/thumbscrubber.js"></script>
-        <script src="js/createProjectPreview.js"></script>
+        <script src="js/project-preview.js"></script>
         <script src="js/renderForms.js"></script>
         <script src="js/moderator.js"></script>
         <script src="js/tester.js"></script>

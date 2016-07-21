@@ -99,10 +99,9 @@ include './includes/language.php';
         <script src="js/language.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/alert.js"></script>
-        <script src="js/gotoPage.js"></script>        
-        <script src="js/thumbscrubber.js"></script>
-        <script src="js/createProject.js"></script>
+        <script src="js/gotoPage.js"></script>       
         <script src="js/gesture.js"></script>
+        <script src="js/project-create.js"></script>
 
     </head>
     <body>
@@ -146,15 +145,12 @@ include './includes/language.php';
         <div class="container mainContent">
             <div class="row">
 
-                <!-- Formular -->
                 <div class="col-sm-12 col-md-7">
 
-                    <h3>Allgemeines</h3>
+                    <h3>Allgemeines <span class="btn-show-info"><i class="glyphicon glyphicon-question-sign"></i></span></h3>
                     <form role="form">
 
-
                         <!-- project name -->
-
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Projektname</span>
@@ -208,7 +204,7 @@ include './includes/language.php';
                                         <li id="moderated"><a href="#"><?php echo $lang->surveyType->moderated ?></a></li>
                                         <li id="unmoderated"><a href="#"><?php echo $lang->surveyType->unmoderated ?></a></li>
                                     </ul>
-                                    <button class="btn btn-addon btn-shadow disabled dropdown-disabled" id="btn-info-survey-type">
+                                    <button class="btn btn-addon btn-shadow" id="btn-info-survey-type">
                                         <i class="glyphicon glyphicon-question-sign"></i>
                                     </button>
                                 </div>
@@ -370,9 +366,9 @@ include './includes/language.php';
                                     <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-bottom-right-radius: 0px; border-top-right-radius: 0px;"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="videoAudio"><a href="#">Video & Audio</a></li>
-                                        <li id="videoAudioScreen"><a href="#">Video, Audio & Bildschirm</a></li>
+                                        <!--<li id="videoAudioScreen"><a href="#">Video, Audio & Bildschirm</a></li>-->
                                     </ul>
-                                    <button class="btn btn-addon btn-shadow disabled dropdown-disabled" id="info-record">
+                                    <button class="btn btn-addon btn-shadow" id="btn-info-record">
                                         <i class="glyphicon glyphicon-question-sign"></i>
                                     </button>
                                 </div>
@@ -421,8 +417,6 @@ include './includes/language.php';
             </div>
         </div>
 
-<!--<iframe src="http://www.apple.de" style="width:100%; height: 500px; border:none;" name="test" scrolling="yes" frameborder="0" align=aus marginheight="0" marginwidth="0"></iframe>-->
-
 
         <script>
             $(document).ready(function () {
@@ -458,7 +452,7 @@ include './includes/language.php';
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
-                
+
                 // get min and max age from datebase
                 var ageMin = 18;
                 var ageMax = 100;
@@ -563,8 +557,13 @@ include './includes/language.php';
                 event.preventDefault();
                 loadHTMLintoModal('custom-modal', 'info-use-feedback.html');
             });
+            
+            $('#btn-info-record').on('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'info-record.html');
+            });
 
-            $('#info-addon-add-phases, #info-record').on('click', function (event) {
+            $('#info-addon-add-phases').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
                     var selectedID = $(this).parent().find('.chosen').attr('id');

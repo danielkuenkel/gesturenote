@@ -77,17 +77,17 @@ function gotoProfile() {
 }
 
 function gotoGestureStyleguides() {
-    goto("gestureStyleguides.php");
+    goto("gesture-styleguides.php");
 }
 
 function gotoGesturesCatalog() {
-    goto("gesturesCatalog.php");
+    goto("gestures-catalog.php");
 }
 
 function gotoCreateProject() {
-    goto("createProject.php");
+    goto("project-create.php");
 }
 
 function gotoCreateProjectPreview() {
-    goto("createProjectPreview.php");
+    goto("project-preview.php");
 }
