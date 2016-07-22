@@ -452,6 +452,8 @@ $('body').on('click', '.checkVideoEmbedURL', function (event) {
         var videoContainer = $(this).closest('.root').find('.videoContainer');
         var inputContainer = $(this).closest('.form-group');
         var button = $(this);
+        var ratio = $(this).closest('.root').find('.ratioSelect .chosen').attr('id');
+//        console.log(ratio);
 
         $(this).closest('.root').find('.alert-' + ALERT_VIDEO_EMBED_URL_INVALID).empty();
 
@@ -460,11 +462,12 @@ $('body').on('click', '.checkVideoEmbedURL', function (event) {
             videoContainer.html(url);
             videoContainer.removeClass('hidden');
             var video = $(this).closest('.root').find('.videoContainer iframe');
-            var newWidth = videoContainer.width();
-            video.data('aspectRatio', video.attr('height') / video.attr('width'));
-            console.log('url valid: ' + video.data('aspectRatio') + ", " + video.attr('height') + ", " + video.attr('width') + ', ' + newWidth);
-            video.attr('width', newWidth);
-            video.attr('height', newWidth * video.data('aspectRatio'));
+            $(video).addClass('embed-responsive-item');
+//            var newWidth = videoContainer.width();
+//            video.data('aspectRatio', video.attr('height') / video.attr('width'));
+//            console.log('url valid: ' + video.data('aspectRatio') + ", " + video.attr('height') + ", " + video.attr('width') + ', ' + newWidth);
+//            video.attr('width', newWidth);
+//            video.attr('height', newWidth * video.data('aspectRatio'));
             inputContainer.removeClass('has-error');
             inputContainer.addClass('has-success');
             button.removeClass('btn-danger');
@@ -480,8 +483,6 @@ $('body').on('click', '.checkVideoEmbedURL', function (event) {
             inputField.focus();
 
             appendAlert($(this).closest('.root'), ALERT_VIDEO_EMBED_URL_INVALID);
-//            var alert = $('#form-item-container').find('#' + ALERT_VIDEO_EMBED_URL_INVALID).clone();
-//            $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
         } else {
             videoContainer.addClass('hidden');
             videoContainer.html('');
@@ -491,6 +492,19 @@ $('body').on('click', '.checkVideoEmbedURL', function (event) {
             inputContainer.removeClass('has-error');
             inputField.focus();
         }
+
+        $(this).closest('.root').find('.ratioSelect .option li').on('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('selected')) {
+                var ratio = $(this).attr('id');
+                var videoContainer = $(this).closest('.root').find('.videoContainer');
+                if (ratio === 'ratio_16_9') {
+                    $(videoContainer).removeClass('embed-responsive-4by3').addClass('embed-responsive-16by9');
+                } else {
+                    $(videoContainer).removeClass('embed-responsive-16by9').addClass('embed-responsive-4by3');
+                }
+            }
+        });
     }
 });
 

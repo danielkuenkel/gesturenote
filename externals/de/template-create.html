@@ -951,7 +951,7 @@
         </div>
     </div>
 
-    <div class="panel panel-default root" id="video">
+<!--    <div class="panel panel-default root" id="video">
         <div class="panel-heading">
             <div class="btn-group" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
@@ -971,20 +971,14 @@
                     </div>
                 </div>
 
-                <!--<iframe class="videoContainer" width="560" height="315" src="https://www.youtube.com/embed/sYbH-COwR64" frameborder="0" allowfullscreen></iframe>-->
-
                 <input class="videoUpload hidden" name="" type="file" accept="video/mp4" />
                 <div class="videoArea hidden" style="margin-top: 10px; width: 100%; height: auto; position: relative;">
-                    <!--<button class="btn btn-default btn-danger btn-delete-image" style="position: absolute; margin: 10px; right: 0px;"><span class="glyphicon glyphicon-trash"></span> Video löschen</button>-->
-                    <!--<img class="videoAreaContent" src="" alt="..." />-->
-                    <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/sYbH-COwR64" frameborder="0" allowfullscreen></iframe>-->
                     <video class="videoAreaContent" style="width: 100%; border-radius: 4px;" controls>
-                        <!--<source id="videoSource" src="" type="video/mp4" />-->
                     </video>
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <div class="panel panel-default root" id="videoEmbed">
         <div class="panel-heading">
@@ -1003,10 +997,23 @@
                     <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Verhältnis</span>
+                    <input class="form-control item-input-text option-ratio show-dropdown readonly" type="text" value="16:9" placeholder=""/>
+                    <div class="input-group-btn select ratioSelect" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="ratio_16_9"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            <li id="ratio_16_9"><a href="#">16:9</a></li>
+                            <li id="ratio_4_3"><a href="#">4:3</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
             <div class="alert-space alert-video-embed-url-invalid"></div>
 
-            <div class="form-group form-group-margin-top">
+            <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon">URL</span>
                     <input class="form-control item-input-text video-embed-url enter-key" type="text" value="" placeholder="Videoeinbettungs-URL"/>
@@ -1016,8 +1023,7 @@
                 </div>
             </div>
 
-            <div class="videoContainer hidden" style="margin-top: 10px; margin-bottom: 0px;">
-            </div>
+            <div class="videoContainer embed-responsive embed-responsive-16by9 hidden" style="margin-top: 10px; margin-bottom: 0px;"></div>
         </div>
     </div>
 

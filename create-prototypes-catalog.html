@@ -41,22 +41,22 @@
             }
 
 
-            $(window).resize(function () {
-//                console.log('window resized');
-                var $allVideos = $("iframe[src*='www.youtube.com'], iframe[src*='player.vimeo.com']");
-                // Resize all videos according to their own aspect ratio
-                $allVideos.each(function () {
-                    var video = $(this);
-                    // Get parent width of this video
-                    var newWidth = video.parent().width();
-                    video.attr('width', newWidth);
-                    video.attr('height', newWidth * video.data('aspectRatio'));
-                });
-            });
-
-            setTimeout(function () {
-                window.dispatchEvent(new Event('resize'));
-            }, 100);
+//            $(window).resize(function () {
+////                console.log('window resized');
+//                var $allVideos = $("iframe[src*='www.youtube.com'], iframe[src*='player.vimeo.com']");
+//                // Resize all videos according to their own aspect ratio
+//                $allVideos.each(function () {
+//                    var video = $(this);
+//                    // Get parent width of this video
+//                    var newWidth = video.parent().width();
+//                    video.attr('width', newWidth);
+//                    video.attr('height', newWidth * video.data('aspectRatio'));
+//                });
+//            });
+//
+//            setTimeout(function () {
+//                window.dispatchEvent(new Event('resize'));
+//            }, 100);
         });
 
         $('#custom-modal').on('hide.bs.modal', function (event) {
@@ -100,21 +100,21 @@
 
                 switch (item.type) {
                     case PROTOTYPE_PIDOCO:
-                        if (item.options[0]) {
-                            $(clone).find('.pidoco-edit-url').val(item.options[0]);
+                        if (item.data[0]) {
+                            $(clone).find('.pidoco-edit-url').val(item.data[0]);
                             $(clone).find('.checkPidocoEditURL').click();
                         }
-                        if (item.options[1]) {
-                            $(clone).find('.pidoco-embed-url').val(item.options[1]);
+                        if (item.data[1]) {
+                            $(clone).find('.pidoco-embed-url').val(item.data[1]);
                             $(clone).find('.checkPidocoEmbedURL').click();
                         }
-                        if (item.options[2] === true) {
+                        if (item.data[2] === true) {
                             $(clone).find('.transmit-gestures-select .switchButtonAddon').click();
                             $(clone).find('#transmitGestures').removeClass('hidden');
                         }
                         break;
                     case PROTOTYPE_WEB:
-                        $(clone).find('.website-url').val(item.options[0]);
+                        $(clone).find('.website-url').val(item.data[0]);
                         break;
                     case PROTOTYPE_IMAGE:
                         if (item.data) {
@@ -127,9 +127,10 @@
                         }
                         break;
                     case PROTOTYPE_VIDEO_EMBED:
-                        if (item.options[0]) {
-                            $(clone).find('.video-embed-url').val(item.options[0]);
+                        if (item.data[0]) {
+                            $(clone).find('.video-embed-url').val(item.data[0]);
                             $(clone).find('.checkVideoEmbedURL').click();
+                            $(clone).find('.ratioSelect #' + item.options[0]).click();
                         }
                         break;
                 }
@@ -147,7 +148,7 @@
                 var name = $(item).attr('name');
                 var title = $(item).find('.title').val();
                 var options = new Array();
-                var data = null;
+                var data = new Array();
 
                 if (name === undefined || name === null) {
                     name = chance.natural();
@@ -157,22 +158,22 @@
                     case PROTOTYPE_PIDOCO:
                         var pidocoEditUrl = $(item).find('.pidoco-edit-url').val();
                         if (urlIsValid(pidocoEditUrl, TYPE_URL_PIDOCO_EDIT)) {
-                            options.push(pidocoEditUrl);
+                            data.push(pidocoEditUrl);
                         } else {
-                            options.push(null);
+                            data.push(null);
                         }
                         var pidocoEmbedUrl = $(item).find('.pidoco-embed-url').val();
                         if (urlIsValid(pidocoEmbedUrl, TYPE_URL_PIDOCO_EMBED)) {
-                            options.push(pidocoEmbedUrl);
+                            data.push(pidocoEmbedUrl);
                         } else {
-                            options.push(null);
+                            data.push(null);
                         }
 
                         options.push($(item).find('.transmit-gestures-select #success').hasClass('active'));
 
                         break;
                     case PROTOTYPE_WEB:
-                        options.push($(item).find('.website-url').val());
+                        data.push($(item).find('.website-url').val());
                         break;
                     case PROTOTYPE_IMAGE:
                         if ($(item).find('.imageArea').hasClass('hidden') !== true) {
@@ -181,15 +182,16 @@
                         break;
                     case PROTOTYPE_VIDEO_EMBED:
                         var videoEmbedUrl = $(item).find('.video-embed-url').val();
+                        options.push($(item).find('.ratioSelect .chosen').attr('id'));
                         if (urlIsValid(videoEmbedUrl, TYPE_URL_VIDEO_EMBED)) {
-                            options.push(videoEmbedUrl);
+                            data.push(videoEmbedUrl);
                         } else {
-                            options.push(null);
+                            data.push(null);
                         }
                         break;
                 }
 
-                if (options.length > 0 || data !== null) {
+                if (data.length > 0) {
                     assembledData.push(new Prototype(name, type, title, options, data));
                 }
             }
