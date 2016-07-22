@@ -634,6 +634,24 @@ $('body').on('click', '.btn-add-slideshowOption', function (event) {
     }
 });
 
+// identification
+$('body').on('click', '.btn-add-identificationOption', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
+        var item = $('#identificationItem').clone().removeClass('hidden');
+        $(this).prev().append(item);
+        var identificationFor = $('#identificationTypeSwitch').find('active').attr('id');
+        if (identificationFor === 'gestures') {
+            $(item).find('#group-trigger').addClass('hidden');
+        } else {
+            $(item).find('#group-gestures').addClass('hidden');
+        }
+        checkCurrentListState($(this).prev());
+    }
+});
+
 
 
 // gus dimension handling

@@ -300,6 +300,7 @@ include './includes/language.php';
                                         <li class="divider"></li>
                                         <li class="dropdown-header">Songstiges</li>
                                         <li id="letterOfAcceptance"><a href="#"><?php echo $lang->formats->letterOfAcceptance ?></a></li>
+                                        <li id="identification"><a href="#"><?php echo $lang->formats->identification ?></a></li>
                                         <li id="gestureTraining"><a href="#"><?php echo $lang->formats->gestureTraining ?></a></li>
                                         <li id="scenario"><a href="#"><?php echo $lang->formats->scenario ?></a></li>
                                         <li id="slideshow"><a href="#"><?php echo $lang->formats->slideshow ?></a></li>
@@ -392,7 +393,7 @@ include './includes/language.php';
 
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
-                            <button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
+                            <!--<button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>-->
                             <button type="button" class="btn btn-warning btn-shadow btn-md" id="btn-preview-project"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
                             <button type="button" class="btn btn-success btn-shadow btn-lg" id="btn-save-project"><i class="glyphicon glyphicon-save"></i> Projekt erstellen</button>
                         </div>
