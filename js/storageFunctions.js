@@ -34,14 +34,12 @@ function getGestureThumbnailPreviewForId(type, id) {
 }
 
 function assembledGestures() {
-    var predefinedGestures = getLocalItem(PREDEFINED_GESTURE_SET);
-    if (predefinedGestures) {
+    var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
+    if (gestures && gestures.length > 0) {
 
         var arrangedGestures = new Array();
-        for (var i = 0; i < predefinedGestures.length; i++) {
-            if (predefinedGestures[i].used === true) {
-                arrangedGestures.push(predefinedGestures[i]);
-            }
+        for (var i = 0; i < gestures.length; i++) {
+            arrangedGestures.push(getGestureById(gestures[i]));
         }
         if (arrangedGestures.length > 0) {
             return arrangedGestures;
@@ -53,18 +51,43 @@ function assembledGestures() {
     }
 }
 
+function assembleGesture(id) {
+    var aGestures = getLocalItem(ASSEMBLED_GESTURE_SET);
+    if (aGestures) {
+        aGestures.push(id);
+    } else {
+        aGestures = new Array();
+        aGestures.push(id);
+    }
+    setLocalItem(ASSEMBLED_GESTURE_SET, aGestures);
+}
+
 function isGestureAssembled(id) {
-    var predefinedGestures = getLocalItem(PREDEFINED_GESTURE_SET);
-    for (var i = 0; i < predefinedGestures.length; i++) {
-        if (parseInt(predefinedGestures[i].id) === parseInt(id) && predefinedGestures[i].used === true) {
-            return true;
+    var aGestures = getLocalItem(ASSEMBLED_GESTURE_SET);
+    if (aGestures && aGestures.length > 0) {
+        for (var i = 0; i < aGestures.length; i++) {
+            if (parseInt(aGestures[i]) === parseInt(id)) {
+                return true;
+            }
         }
     }
+
     return false;
 }
 
+function reassembleGesture(id) {
+    var aGestures = getLocalItem(ASSEMBLED_GESTURE_SET);
+    if (aGestures && aGestures.length > 0) {
+        for (var i = 0; i < aGestures.length; i++) {
+            if (parseInt(aGestures[i]) === parseInt(id)) {
+                aGestures.splice(i, 1);
+            }
+        }
+    }
+    setLocalItem(ASSEMBLED_GESTURE_SET, aGestures);
+}
+
 function removeAssembledGestures() {
-    console.log("remove assembled gestures");
     var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
     if (phaseSteps && phaseSteps.length > 0) {
         for (var i = 0; i < phaseSteps.length; i++) {
@@ -99,20 +122,20 @@ function removeAssembledTrigger() {
     removeLocalItem(ASSEMBLED_TRIGGER);
 }
 
-function getPrototypeById(id) {
-    var prototypes = getLocalItem(ASSEMBLED_PROTOTYPES);
-    if (prototypes && prototypes.length > 0) {
-        for (var i = 0; i < prototypes.length; i++) {
-            if (parseInt(prototypes[i].id) === parseInt(id)) {
-                return prototypes[i];
+function getSceneById(id) {
+    var scenes = getLocalItem(ASSEMBLED_SCENES);
+    if (scenes && scenes.length > 0) {
+        for (var i = 0; i < scenes.length; i++) {
+            if (parseInt(scenes[i].id) === parseInt(id)) {
+                return scenes[i];
             }
         }
     }
     return null;
 }
 
-function removeAssembledPrototypes() {
-    removeLocalItem(ASSEMBLED_PROTOTYPES);
+function removeAssembledScenes() {
+    removeLocalItem(ASSEMBLED_SCENES);
 }
 
 function getFeedbackById(id) {

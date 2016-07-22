@@ -607,6 +607,7 @@
     </div>
 
     <div class="root" id="wozExperiment">
+
         <div class="form-group root hidden" id="wozExperimentItem">
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -614,6 +615,7 @@
                     <div class="alert-space alert-assembled-gesture-removed"></div>
                     <div class="alert-space alert-assembled-trigger-removed"></div>
                     <div class="alert-space alert-assembled-feedback-removed"></div>
+                    <div class="alert-space alert-assembled-scene-removed"></div>
 
                     <div class="input-group">
                         <div class="input-group-btn">
@@ -643,6 +645,17 @@
                             <span class="input-group-addon">Feedback</span>
                             <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
                             <div class="input-group-btn select feedbackSelect" role="group">
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 scene-input" style="padding: 0; margin-top: 10px;">
+                        <div class="input-group">
+                            <span class="input-group-addon">Transition</span>
+                            <input class="form-control item-input-text option-scene show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                            <div class="input-group-btn select sceneSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
                             </div>
@@ -701,40 +714,35 @@
 
     <div class="root" id="identification">
         <div class="form-group root hidden" id="identificationItem">
-            <div class="panel panel-default">
-                <div class="panel-body">
 
-                    <div class="alert-space alert-assembled-gesture-removed"></div>
-                    <div class="alert-space alert-assembled-trigger-removed"></div>
+            <div class="alert-space alert-assembled-gesture-removed"></div>
+            <div class="alert-space alert-assembled-trigger-removed"></div>
 
-                    <div class="input-group" id="group-trigger">
-                        <div class="input-group-btn">
-                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                        </div>
-                        <span class="input-group-addon">Trigger</span>
-                        <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
-                        <div class="input-group-btn select triggerSelect" role="group">
-                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
-                        </div>
-                    </div>
+            <div class="input-group" id="group-trigger">
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+                <span class="input-group-addon">Trigger</span>
+                <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                <div class="input-group-btn select triggerSelect" role="group">
+                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                    <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                </div>
+            </div>
 
-                    <div class="input-group" id="group-gesture">
-                        <div class="input-group-btn">
-                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                        </div>
-                        <span class="input-group-addon">Geste</span>
-                        <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
-                        <div class="input-group-btn select gestureSelect" role="group">
-                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
-                        </div>
-                    </div>
-
+            <div class="input-group" id="group-gestures">
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+                <span class="input-group-addon">Geste</span>
+                <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                <div class="input-group-btn select gestureSelect" role="group">
+                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                    <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
                 </div>
             </div>
         </div>
@@ -742,9 +750,9 @@
         <div class="alert-space alert-no-gestures-assembled"></div>
         <div class="alert-space alert-no-trigger-assembled"></div>
 
-        <div class="option-container"></div>
+        <div class="option-container hidden"></div>
 
-        <button class="btn btn-info btn-shadow pull-right btn-add-identificationOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Identifikationselement hinzufügen</span></button>
+        <button class="btn btn-info btn-shadow pull-right hidden btn-add-identificationOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Identifikationselement hinzufügen</span></button>
     </div>
 
     <div class="root" id="gestureTraining">
@@ -825,10 +833,7 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-
 
                 </div>
             </div>
@@ -986,7 +991,7 @@
                     <span class="input-group-addon">Titel</span>
                     <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow choosePrototypeImage"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text">Bild auswählen</span></button>
+                        <button class="btn btn-default btn-shadow chooseSceneImage"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text">Bild auswählen</span></button>
                     </div>
                 </div>
 
@@ -999,34 +1004,34 @@
         </div>
     </div>
 
-<!--    <div class="panel panel-default root" id="video">
-        <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
-                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+    <!--    <div class="panel panel-default root" id="video">
+            <div class="panel-heading">
+                <div class="btn-group" style="margin-right: 10px">
+                    <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+                <span>Video <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
             </div>
-            <span>Video <span class="badge badgeId">0</span> von <span class="badge badgeQuantity">0</span></span>
-        </div>
-        <div class="panel-body">
-            <div class="alert-space alert-no-title"></div>
-            <div class="form-group form-group-no-margin">
-                <div class="input-group">
-                    <span class="input-group-addon">Titel</span>
-                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow choosePrototypeVideo"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text">Video auswählen</span></button>
+            <div class="panel-body">
+                <div class="alert-space alert-no-title"></div>
+                <div class="form-group form-group-no-margin">
+                    <div class="input-group">
+                        <span class="input-group-addon">Titel</span>
+                        <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
+                        <div class="input-group-btn">
+                            <button class="btn btn-default btn-shadow choosePrototypeVideo"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text">Video auswählen</span></button>
+                        </div>
+                    </div>
+    
+                    <input class="videoUpload hidden" name="" type="file" accept="video/mp4" />
+                    <div class="videoArea hidden" style="margin-top: 10px; width: 100%; height: auto; position: relative;">
+                        <video class="videoAreaContent" style="width: 100%; border-radius: 4px;" controls>
+                        </video>
                     </div>
                 </div>
-
-                <input class="videoUpload hidden" name="" type="file" accept="video/mp4" />
-                <div class="videoArea hidden" style="margin-top: 10px; width: 100%; height: auto; position: relative;">
-                    <video class="videoAreaContent" style="width: 100%; border-radius: 4px;" controls>
-                    </video>
-                </div>
             </div>
-        </div>
-    </div>-->
+        </div>-->
 
     <div class="panel panel-default root" id="videoEmbed">
         <div class="panel-heading">

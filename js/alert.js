@@ -28,11 +28,11 @@ var ALERT_NO_TRIGGER_ASSEMBLED = 'no-trigger-assembled';
 var ALERT_ASSEMBLED_TRIGGER_REMOVED = 'assembled-trigger-removed';
 var ALERT_NO_FEEDBACK_ASSEMBLED = 'no-feedback-assembled';
 var ALERT_ASSEMBLED_FEEDBACK_REMOVED = 'assembled-feedback-removed';
+var ALERT_ASSEMBLED_SCENE_REMOVED = 'assembled-scene-removed';
 var ALERT_NO_TITLE = 'no-title';
 var ALERT_PIDOCO_EDIT_URL_INVALID = 'pidoco-edit-url-invalid';
 var ALERT_PIDOCO_EMBED_URL_INVALID = 'pidoco-embed-url-invalid';
 var ALERT_VIDEO_EMBED_URL_INVALID = 'video-embed-url-invalid';
-var ALERT_ASSEMBLED_PROTOTYPE_REMOVED = 'assembled-prototype-removed';
 var ALERT_NO_SEARCH_RESULTS = 'no-search-results';
 var ALERT_NO_PHASE_DATA = 'no-phase-data';
 var ALERT_WAITING_FOR_TRAINING_GESTURE = 'waiting-for-training-gesture';
@@ -51,4 +51,8 @@ function appendAlert(target, alertType) {
 
 function removeAlert(target, alertType) {
     $(target).find('.alert-' + alertType).empty();
+}
+
+function clearAlerts(target) {
+    $(target).find('.alert-space').children().remove();
 }

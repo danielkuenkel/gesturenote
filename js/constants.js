@@ -17,7 +17,8 @@ var PREDEFINED_GESTURE_QUESTIONNAIRE = 'predefinedGestureQuestionnaire';
 var PREDEFINED_GESTURE_FEEDBACK = 'predefinedGestureFeedback';
 
 var PREDEFINED_FEEDBACK = 'predefinedFeedback';
-var ASSEMBLED_PROTOTYPES = 'assembledPrototypes';
+var ASSEMBLED_GESTURE_SET = 'assembledGestureSet';
+var ASSEMBLED_SCENES = 'assembledScenes';
 var ASSEMBLED_TRIGGER = 'assembledTrigger';
 var ASSEMBLED_FEEDBACK = 'assembledFeedback';
 
@@ -53,16 +54,16 @@ var RANKING = 'ranking';
 var COUNTER = 'ranking';
 var GUS_SINGLE = 'gusSingle';
 
-// prototype formats
-var PROTOTYPE_PIDOCO = 'pidoco';
-var PROTOTYPE_WEB = 'web';
-var PROTOTYPE_IMAGE = 'image';
-var PROTOTYPE_VIDEO = 'video';
-var PROTOTYPE_VIDEO_EMBED = 'videoEmbed';
+// scene formats
+var SCENE_PIDOCO = 'pidoco';
+var SCENE_WEB = 'web';
+var SCENE_IMAGE = 'image';
+var SCENE_VIDEO = 'video';
+var SCENE_VIDEO_EMBED = 'videoEmbed';
 
 // gesture types
-var GESTURE_OWN_PROJECT = 'ownProject';
-var GESTURE_CATALOG = 'catalog';
+var GESTURE_OWN = 'own';
+var GESTURE_PUBLIC = 'public';
 var GESTURE_RECORDED = 'recorded';
 
 // general gesture types

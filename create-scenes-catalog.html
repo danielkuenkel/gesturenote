@@ -1,14 +1,12 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
-    <h4 class="modal-title" id="exampleModalLabel">Prototypen zusammenstellen</h4>
+    <h4 class="modal-title" id="exampleModalLabel">Szenen-Katalog</h4>
 </div>
 <div id="modal-body" class="modal-body">
 
-    <div class="container-root" id="list-container"></div>
-
-    <div class="form-group">
+    <div class="form-group form-group-margin-top">
         <div class="input-group">
-            <span class="input-group-addon">Prototyp Format</span>
+            <span class="input-group-addon">Szenen-Format</span>
             <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
             <div class="input-group-btn select" id="addFormatSelect" role="group">
                 <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
@@ -23,6 +21,10 @@
             </div>
         </div>
     </div>
+</div>
+<hr>
+<div id="modal-body" class="modal-body">
+    <div class="container-root" id="list-container"></div>
 
 </div>
 <div id="modal-footer" class="modal-footer">
@@ -35,7 +37,7 @@
         $(document).ready(function () {
             closeClicked = false;
 
-            var data = getLocalItem(ASSEMBLED_PROTOTYPES);
+            var data = getLocalItem(ASSEMBLED_SCENES);
             if (data !== null) {
                 renderData(data);
             }
@@ -99,7 +101,7 @@
                 updateBadges($('#list-container'), item.type);
 
                 switch (item.type) {
-                    case PROTOTYPE_PIDOCO:
+                    case SCENE_PIDOCO:
                         if (item.data[0]) {
                             $(clone).find('.pidoco-edit-url').val(item.data[0]);
                             $(clone).find('.checkPidocoEditURL').click();
@@ -113,20 +115,20 @@
                             $(clone).find('#transmitGestures').removeClass('hidden');
                         }
                         break;
-                    case PROTOTYPE_WEB:
+                    case SCENE_WEB:
                         $(clone).find('.website-url').val(item.data[0]);
                         break;
-                    case PROTOTYPE_IMAGE:
+                    case SCENE_IMAGE:
                         if (item.data) {
                             $(clone).find('.imageAreaContent').attr("src", item.data);
                             $(clone).find('.imageArea').removeClass('hidden');
-                            $(clone).find('.choosePrototypeImage .btn-text').text('Anderes Bild auswählen');
-                            $(clone).find('.choosePrototypeImage .btn-icon').removeClass('glyphicon-picture');
-                            $(clone).find('.choosePrototypeImage .btn-icon').addClass('glyphicon-refresh');
+                            $(clone).find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
+                            $(clone).find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture');
+                            $(clone).find('.chooseSceneImage .btn-icon').addClass('glyphicon-refresh');
 //                            control.replaceWith(control = control.clone(true));
                         }
                         break;
-                    case PROTOTYPE_VIDEO_EMBED:
+                    case SCENE_VIDEO_EMBED:
                         if (item.data[0]) {
                             $(clone).find('.video-embed-url').val(item.data[0]);
                             $(clone).find('.checkVideoEmbedURL').click();
@@ -155,7 +157,7 @@
                 }
 
                 switch (type) {
-                    case PROTOTYPE_PIDOCO:
+                    case SCENE_PIDOCO:
                         var pidocoEditUrl = $(item).find('.pidoco-edit-url').val();
                         if (urlIsValid(pidocoEditUrl, TYPE_URL_PIDOCO_EDIT)) {
                             data.push(pidocoEditUrl);
@@ -172,15 +174,15 @@
                         options.push($(item).find('.transmit-gestures-select #success').hasClass('active'));
 
                         break;
-                    case PROTOTYPE_WEB:
+                    case SCENE_WEB:
                         data.push($(item).find('.website-url').val());
                         break;
-                    case PROTOTYPE_IMAGE:
+                    case SCENE_IMAGE:
                         if ($(item).find('.imageArea').hasClass('hidden') !== true) {
                             data = $(item).find('.imageAreaContent').attr('src');
                         }
                         break;
-                    case PROTOTYPE_VIDEO_EMBED:
+                    case SCENE_VIDEO_EMBED:
                         var videoEmbedUrl = $(item).find('.video-embed-url').val();
                         options.push($(item).find('.ratioSelect .chosen').attr('id'));
                         if (urlIsValid(videoEmbedUrl, TYPE_URL_VIDEO_EMBED)) {
@@ -195,7 +197,7 @@
                     assembledData.push(new Prototype(name, type, title, options, data));
                 }
             }
-            setLocalItem(ASSEMBLED_PROTOTYPES, assembledData);
+            setLocalItem(ASSEMBLED_SCENES, assembledData);
         }
 
         $('.transmit-gestures-select .check').unbind('click').bind('click', function (event) {

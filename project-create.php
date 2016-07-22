@@ -119,8 +119,8 @@ include './includes/language.php';
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
-                    <li><a class="breadcrump-btn" id="btn-projects">Projekte</a></li>
-                    <li class="active">Neues Projekt</li>
+                    <li><a class="breadcrump-btn" id="btn-projects">Studien</a></li>
+                    <li class="active">Neue Studie</li>
                 </ol>
             </div>
         </div>
@@ -138,28 +138,32 @@ include './includes/language.php';
         <!-- Container (Landing Section) -->
         <!--        <div class="container-fluid text-center bg-grey" id="landingText">
                     <div class="container">
-                        <h2>NEUES PROJEKT ERSTELLEN</h2>
+                        <h2>NEUES STUDIE ERSTELLEN</h2>
                         <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
                     </div>
                 </div>-->
 
-        <div class="container mainContent">
+        <div class="container mainContent" >
             <div class="row">
 
                 <div class="col-sm-12 col-md-7">
 
-                    <h3>Allgemeines <span class="btn-show-info"><i class="glyphicon glyphicon-question-sign"></i></span></h3>
+                    <div class="page-header">
+                        <h3>Allgemeines <span class="btn-show-info"><i class="glyphicon glyphicon-question-sign"></i></span></h3>
+                    </div>
+
                     <form role="form">
 
                         <!-- project name -->
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon">Projektname</span>
-                                <input type="text" class="form-control" id="projectName" placeholder="Projektname einfügen" required>
-                                <label class="sr-only" for="projectName">Projektname</label>
-                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-projectName.html')">
-                                    <i class="glyphicon glyphicon-question-sign"></i>
-                                </span>
+                                <span class="input-group-addon">Studienname</span>
+                                <label class="sr-only" for="projectName">Studienname</label>
+                                <input type="text" class="form-control" id="projectName" placeholder="Studienname einfügen" required>
+
+<!--                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-projectName.html')">
+    <i class="glyphicon glyphicon-question-sign"></i>
+</span>-->
                             </div>
                         </div>
 
@@ -167,12 +171,13 @@ include './includes/language.php';
                         <!-- project description -->
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon">Projektbeschreibung</span>
+                                <span class="input-group-addon">Studienbeschreibung</span>
+                                <label class="sr-only" for="projectDescription">Studienbeschreibung</label>
                                 <textarea class="form-control" id="projectDescription" rows="5" placeholder="Beschreibung einfügen"></textarea>
-                                <label class="sr-only" for="projectDescription">Projektbeschreibung</label>
-                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-projectDescription.html')">
-                                    <i class="glyphicon glyphicon-question-sign"></i>
-                                </span>
+
+<!--                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-projectDescription.html')">
+     <i class="glyphicon glyphicon-question-sign"></i>
+ </span>-->
                             </div>
                         </div>
 
@@ -180,17 +185,17 @@ include './includes/language.php';
                         <!-- manner dropdowns -->
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon">Projektphase</span>
+                                <span class="input-group-addon">Studienphase</span>
                                 <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="phaseSelect" role="group">
-                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="elicitation"><a href="#"><?php echo $lang->phaseType->elicitation ?></a></li>
                                         <li id="evaluation"><a href="#"><?php echo $lang->phaseType->evaluation ?></a></li>
                                     </ul>
-                                    <button class="btn btn-addon btn-shadow" id="btn-info-phase">
-                                        <i class="glyphicon glyphicon-question-sign"></i>
-                                    </button>
+                                    <!--                                    <button class="btn btn-addon btn-shadow" id="btn-info-phase">
+                                                                            <i class="glyphicon glyphicon-question-sign"></i>
+                                                                        </button>-->
                                 </div>
                             </div>
                         </div>
@@ -200,52 +205,76 @@ include './includes/language.php';
                                 <span class="input-group-addon">Befragungsart</span>
                                 <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="surveyTypeSelect" role="group">
-                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="moderated"><a href="#"><?php echo $lang->surveyType->moderated ?></a></li>
                                         <li id="unmoderated"><a href="#"><?php echo $lang->surveyType->unmoderated ?></a></li>
                                     </ul>
-                                    <button class="btn btn-addon btn-shadow" id="btn-info-survey-type">
-                                        <i class="glyphicon glyphicon-question-sign"></i>
-                                    </button>
+                                    <!--                                    <button class="btn btn-addon btn-shadow" id="btn-info-survey-type">
+                                                                            <i class="glyphicon glyphicon-question-sign"></i>
+                                                                        </button>-->
                                 </div>
                             </div>
                         </div>
 
+                        <!--                        <hr>
+                        
+                                                 Demonstrator 
+                                                <h3>Szenen</h3>
+                        -->
 
-                        <hr>
 
-                        <!-- Demonstrator -->
-                        <h3>Prototypen & Demonstratoren</h3>
+                        <!--                        <br><hr>-->
+
+
+                        <!-- Use of well/predefined gestures -->
+                        <div class="page-header">
+                            <h3>Kataloge <span class="btn-show-info"><i class="glyphicon glyphicon-question-sign"></i></span></h3>
+                        </div>
+
                         <div class="form-group">
-                            <div class="btn-group" id="usePrototypesSwitch">
-                                <button class="btn btn-default switchButtonAddon">Prototypen benutzen?</button>
-                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
-                                <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
-                                <button class="btn btn-default btn-shadow supplement hidden" id="assemble-prototypes-set">
-                                    <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Prototypen koppeln</span></button>
-                                <button class="btn btn-addon" id="btn-prototypes-info">
-                                    <i class="glyphicon glyphicon-question-sign"></i>
+                            <!--                            <div class="btn-group" id="useScenesSwitch">
+                                                            <button class="btn btn-default switchButtonAddon">Szenen nutzen?</button>
+                                                            <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
+                                                            <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
+                                                            <button class="btn btn-default btn-shadow supplement hidden" id="assemble-scenes-set">
+                                                                <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span></button>
+                                                                                            <button class="btn btn-addon" id="btn-scenes-info">
+                                                                                                <i class="glyphicon glyphicon-question-sign"></i>
+                                                                                            </button>
+                                                                                        </div>-->
+                            <div class="btn-group" id="scenes-catalog">
+                                <button class="btn btn-default btn-group-addon">Szenen</button>
+                                <button class="btn btn-default btn-shadow" id="assemble-scenes-set">
+                                    <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span>
+                                </button>
+                                <button class="btn btn-default btn-shadow" id="remove-scenes-set">
+                                    <i class="glyphicon glyphicon-trash"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog löschen</span>
                                 </button>
                             </div>
                         </div>
 
-
-                        <hr>
-
-
-                        <!-- Use of well/predefined gestures -->
-                        <h3>Verwendung von Gesten und Funktionen</h3>
-
                         <div class="form-group">
-                            <div class="btn-group" id="useGesturesSwitch">
-                                <button class="btn btn-default switchButtonAddon">Gesten nutzen?</button>
-                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
-                                <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
-                                <button class="btn btn-default btn-shadow supplement hidden" id="assemble-gesture-set">
-                                    <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Gestenset zusammenstellen</span></button>
-                                <button class="btn btn-addon" id="btn-use-gestures-info">
-                                    <i class="glyphicon glyphicon-question-sign"></i>
+                            <!--                            <div class="btn-group" id="useGesturesSwitch">
+                                                            <button class="btn btn-default switchButtonAddon">Gesten nutzen?</button>
+                                                            <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
+                                                            <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
+                                                            <button class="btn btn-default btn-shadow supplement hidden" id="assemble-gesture-set">
+                                                                <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span></button>-->
+                            <!--                                <button class="btn btn-addon" id="btn-use-gestures-info">
+                                                                <i class="glyphicon glyphicon-question-sign"></i>
+                                                            </button>-->
+                            <!--</div>-->
+                            <div class="btn-group" id="gestures-catalog">
+                                <button class="btn btn-default btn-group-addon">Gesten</button>
+                                <button class="btn btn-default btn-shadow" id="assemble-gesture-set">
+                                    <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog zusammenstellen</span>
+                                </button>
+                                <button class="btn btn-default btn-shadow" id="show-gesture-set">
+                                    <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Studien-Gesten-Set</span>
+                                </button>
+                                <button class="btn btn-default btn-shadow" id="remove-gesture-set">
+                                    <i class="glyphicon glyphicon-trash"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog löschen</span>
                                 </button>
                             </div>
                         </div>
@@ -253,14 +282,23 @@ include './includes/language.php';
                         <!-- Use of well/predefined trigger -->
 
                         <div class="form-group">
-                            <div class="btn-group" id="useTriggerSwitch">
-                                <button class="btn btn-default switchButtonAddon">Trigger nutzen?</button>
-                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
-                                <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
-                                <button class="btn btn-default btn-shadow supplement hidden" id="assemble-trigger-set">
-                                    <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Trigger erstellen</span></button>
-                                <button class="btn btn-addon" id="btn-use-trigger-info">
-                                    <i class="glyphicon glyphicon-question-sign"></i>
+                            <!--                            <div class="btn-group" id="useTriggerSwitch">
+                                                            <button class="btn btn-default switchButtonAddon">Funktionen nutzen?</button>
+                                                            <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
+                                                            <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
+                                                            <button class="btn btn-default btn-shadow supplement hidden" id="assemble-trigger-set">
+                                                                <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span></button>
+                                                                                            <button class="btn btn-addon" id="btn-use-trigger-info">
+                                                                                                <i class="glyphicon glyphicon-question-sign"></i>
+                                                                                            </button>
+                                                        </div>-->
+                            <div class="btn-group" id="trigger-catalog">
+                                <button class="btn btn-default btn-group-addon">Funktionen</button>
+                                <button class="btn btn-default btn-shadow" id="assemble-trigger-set">
+                                    <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span>
+                                </button>
+                                <button class="btn btn-default btn-shadow" id="remove-trigger-set">
+                                    <i class="glyphicon glyphicon-trash"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog löschen</span>
                                 </button>
                             </div>
                         </div>
@@ -268,22 +306,32 @@ include './includes/language.php';
                         <!-- Use of well/predefined feedback -->
 
                         <div class="form-group">
-                            <div class="btn-group" id="useFeedbackSwitch">
-                                <button class="btn btn-default switchButtonAddon">Feedback nutzen?</button>
-                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
-                                <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
-                                <button class="btn btn-default btn-shadow supplement hidden" id="assemble-feedback-set">
-                                    <i class="glyphicon glyphicon-th"></i> <span class="hidden-md hidden-xs hidden-sm">Feedback erstellen</span></button>
-                                <button class="btn btn-addon" id="btn-use-feedback-info">
-                                    <i class="glyphicon glyphicon-question-sign"></i>
+                            <!--                            <div class="btn-group" id="useFeedbackSwitch">
+                                                            <button class="btn btn-default switchButtonAddon">Feedback nutzen?</button>
+                                                            <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
+                                                            <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
+                                                            <button class="btn btn-default btn-shadow supplement hidden" id="assemble-feedback-set">
+                                                                <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span></button>
+                                                                                            <button class="btn btn-addon" id="btn-use-feedback-info">
+                                                                                                <i class="glyphicon glyphicon-question-sign"></i>
+                                                                                            </button>
+                                                        </div>-->
+
+                            <div class="btn-group" id="feedback-catalog">
+                                <button class="btn btn-default btn-group-addon">Szenen</button>
+                                <button class="btn btn-default btn-shadow" id="assemble-feedback-set">
+                                    <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span>
+                                </button>
+                                <button class="btn btn-default btn-shadow" id="remove-feedback-set">
+                                    <i class="glyphicon glyphicon-trash"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog löschen</span>
                                 </button>
                             </div>
                         </div>
 
-                        <hr>
 
-                        <!-- project phases with dropdown -->
-                        <h3>Leitfaden</h3>
+                        <div class="page-header">
+                            <h3>Leitfaden <span class="btn-show-info"><i class="glyphicon glyphicon-question-sign"></i></span></h3>
+                        </div>
 
                         <div class="form-group">
                             <div class="input-group">
@@ -340,10 +388,12 @@ include './includes/language.php';
                             </div>
                         </div>
 
-                        <hr>
+                        <!--<br><hr><br>-->
 
-                        <!-- project phases with dropdown -->
-                        <h3>Wer, Was & Wann?</h3>
+                        <!-- panel functionalities -->
+                        <div class="page-header">
+                            <h3>Wer, Was & Wann <span class="btn-show-info"><i class="glyphicon glyphicon-question-sign"></i></span></h3>
+                        </div>
 
                         <div class="form-group" id="ageSlider">
                             <span class="slider-from" name="age">von</span>
@@ -354,9 +404,9 @@ include './includes/language.php';
                         <div class="form-group">
                             <div class="btn-group" id="genderSwitch">
                                 <button class="btn btn-default switchButtonAddon">Geschlecht</button>
-                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="female" name="btn-success">weiblich</button>
-                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="male" name="btn-success">männlich</button>
-                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="identical" name="btn-success">egal</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="female" name="btn-success"><i class="fa fa-venus" aria-hidden="true"></i> weiblich</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="male" name="btn-success"><i class="fa fa-mars" aria-hidden="true"></i> männlich</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="identical" name="btn-success"><i class="fa fa-genderless" aria-hidden="true"></i> egal</button>
                             </div>
                         </div>
 
@@ -365,14 +415,14 @@ include './includes/language.php';
                                 <span class="input-group-addon">Aufzeichnung</span>
                                 <input class="form-control item-input-text option-record show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
                                 <div class="input-group-btn select saveGeneralData" id="recordSelect" role="group">
-                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-bottom-right-radius: 0px; border-top-right-radius: 0px;"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="videoAudio"><a href="#">Video & Audio</a></li>
                                         <!--<li id="videoAudioScreen"><a href="#">Video, Audio & Bildschirm</a></li>-->
                                     </ul>
-                                    <button class="btn btn-addon btn-shadow" id="btn-info-record">
-                                        <i class="glyphicon glyphicon-question-sign"></i>
-                                    </button>
+                                    <!--                                    <button class="btn btn-addon btn-shadow" id="btn-info-record">
+                                                                            <i class="glyphicon glyphicon-question-sign"></i>
+                                                                        </button>-->
                                 </div>
                             </div>
                         </div>
@@ -383,9 +433,9 @@ include './includes/language.php';
                                 <input type="text" class="input form-control readonly" id="start" name="start" />
                                 <span class="input-group-addon">bis</span>
                                 <input type="text" class="input form-control readonly" id="end" name="end" />
-                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-period.html')">
+<!--                                <span class="input-group-addon" onclick="loadHTMLintoModal('custom-modal', 'info-period.html')">
                                     <i class="glyphicon glyphicon-question-sign"></i>
-                                </span>
+                                </span>-->
                             </div>
                         </div>
 
@@ -394,8 +444,8 @@ include './includes/language.php';
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
                             <!--<button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>-->
-                            <button type="button" class="btn btn-warning btn-shadow btn-md" id="btn-preview-project"><i class="glyphicon glyphicon-eye-open"></i> Vorschau des Projekts</button>
-                            <button type="button" class="btn btn-success btn-shadow btn-lg" id="btn-save-project"><i class="glyphicon glyphicon-save"></i> Projekt erstellen</button>
+                            <button type="button" class="btn btn-warning btn-shadow btn-md" id="btn-preview-project"><i class="glyphicon glyphicon-eye-open"></i> Vorschau der Studie</button>
+                            <button type="button" class="btn btn-success btn-shadow btn-lg" id="btn-save-project"><i class="glyphicon glyphicon-save"></i> Studie speichern</button>
                         </div>
 
                     </form>
@@ -472,17 +522,18 @@ include './includes/language.php';
                 clearLocalItems();
             });
 
-            $('#assemble-prototypes-set').on('click', function (event) {
+            $('#assemble-scenes-set').on('click', function (event) {
+
                 event.preventDefault();
-                currentIdForModal = ASSEMBLED_PROTOTYPES;
-                loadHTMLintoModal('custom-modal', 'create-prototypes-catalog.html', 'modal-lg');
+                currentIdForModal = ASSEMBLED_SCENES;
+                loadHTMLintoModal('custom-modal', 'create-scenes-catalog.html', 'modal-lg');
             });
 
-            $('#usePrototypesSwitch #no, #usePrototypesSwitch .switchButtonAddon').on('click', function (event) {
+            $('#useScenesSwitch #no').on('click', function (event) {
                 event.preventDefault();
-                if (!$(this).parent().find('#no').hasClass('active') === true) {
-                    removeAssembledPrototypes();
-                }
+//                if (!$(this).parent().find('#no').hasClass('active') === true) {
+                removeAssembledScenes();
+//                }
             });
 
             $('#assemble-gesture-set').on('click', function (event) {
@@ -534,9 +585,9 @@ include './includes/language.php';
                 loadHTMLintoModal('custom-modal', 'info-project-survey-type.html');
             });
 
-            $('#btn-prototypes-info').on('click', function (event) {
+            $('#btn-scenes-info').on('click', function (event) {
                 event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'info-prototypes.html');
+                loadHTMLintoModal('custom-modal', 'info-scenes.html');
             });
 
             $('#btn-use-gestures-info').on('click', function (event) {

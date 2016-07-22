@@ -66,6 +66,8 @@ $(document).on('click', '.select .option li', function (event) {
         if (parent.hasClass('saveGeneralData')) {
             saveGeneralData();
         }
+
+        $(this).trigger('change');
     }
 });
 
@@ -86,6 +88,7 @@ $(document).on('click', '.btn-delete', function (event) {
     if ($(this).hasClass('saveGeneralData')) {
         savePhases();
     }
+    updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
 });
 
 $(document).on('click', '.btn-up', function (event) {
@@ -393,11 +396,12 @@ function renderAssembledGestures(targetContainer) {
         $(dropdown).find('.option').empty();
 
         for (var i = 0; i < gestures.length; i++) {
+            var gesture = gestures[i];
             var listItem = document.createElement('li');
-            listItem.setAttribute('id', gestures[i].id);
+            listItem.setAttribute('id', gesture.id);
             var link = document.createElement('a');
             link.setAttribute('href', '#');
-            link.appendChild(document.createTextNode(gestures[i].title));
+            link.appendChild(document.createTextNode(gesture.title));
             listItem.appendChild(link);
 
             $(dropdown).find('.option').append(listItem);
@@ -443,9 +447,9 @@ function renderAssembledTriggers() {
  * Actions for the prototype select dropdown
  */
 
-function renderAssembledPrototypes() {
-    var prototypes = getLocalItem(ASSEMBLED_PROTOTYPES);
-    var prototypeDropdown = $('body').find('.prototypeSelect');
+function renderAssembledScenes() {
+    var prototypes = getLocalItem(ASSEMBLED_SCENES);
+    var prototypeDropdown = $('body').find('.sceneSelect');
     $(prototypeDropdown).find('.option').empty();
 
     if (prototypes && prototypes.length > 0) {
@@ -456,10 +460,10 @@ function renderAssembledPrototypes() {
             var link = document.createElement('a');
             if (i === 0) {
                 listItem = document.createElement('li');
-                listItem.setAttribute('id', 'unselected');
+                listItem.setAttribute('id', 'none');
 
                 link.setAttribute('href', '#');
-                link.appendChild(document.createTextNode('keines'));
+                link.appendChild(document.createTextNode(translation.none));
                 listItem.appendChild(link);
                 $(prototypeDropdown).find('.option').append(listItem);
             }
@@ -473,10 +477,10 @@ function renderAssembledPrototypes() {
             listItem.appendChild(link);
             $(prototypeDropdown).find('.option').append(listItem);
         }
-        $('body').find('.option-prototype').attr('placeholder', 'Bitte wählen');
+        $('body').find('.option-scene').attr('placeholder', 'Bitte wählen');
     } else {
         $(prototypeDropdown).find('.dropdown-toggle').addClass('disabled');
-        $('body').find('.option-prototype').attr('placeholder', 'Keine Prototypen vorhanden');
+        $('body').find('.option-scene').attr('placeholder', 'Keine Szene vorhanden');
     }
 }
 
@@ -630,7 +634,7 @@ function appendHint(source, target, data, surveyType) {
 }
 
 function renderDataForHint(data, hint, source, surveyType) {
-    console.log(data);
+//    console.log(data);
     var feedback = getFeedbackById(data.feedbackId);
     switch (feedback.type) {
         case TYPE_FEEDBACK_TEXT:
@@ -675,4 +679,125 @@ function onhideHintComplete(hint) {
 
 function removeHint(hint) {
     $(hint).remove();
+}
+
+
+// pagination handling
+var paginationMaxPages;
+function initPagination(pagination, dataLength, maxElements) {
+    $(pagination).children('.clickable-pagination-item').remove();
+    paginationMaxPages = Math.ceil(dataLength / maxElements);
+    var paginationClipping = parseInt($(pagination).attr('itemprop').split('_')[1]);
+    var currentIndex = isNaN(parseInt($(pagination).find('.active').text())) ? 1 : parseInt($(pagination).find('.active').text());
+
+    for (var i = 0; i < Math.min(paginationClipping, paginationMaxPages); i++) {
+        var listItem = getPaginationItem(i + 1);
+        $(listItem).insertBefore($(pagination).find('#btn-next-page'));
+
+        if (currentIndex !== null && currentIndex === (i + 1)) {
+            $(listItem).click();
+        }
+    }
+}
+
+$(document).on('click', '.pagination li', function (event) {
+    event.preventDefault();
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        var pagination = $(this).closest('.pagination');
+        if (!$(this).hasClass('active') && $(this).hasClass('clickable-pagination-item')) {
+            $(pagination).find('.active').removeClass('active');
+            $(this).addClass('active');
+            $(this).trigger('indexChanged', [parseInt($(this).text()) - 1]);
+        } else {
+            var direction = $(this).attr('id');
+            var currentIndex = parseInt($(this).closest('.pagination').find('.active').text());
+            switch (direction) {
+                case 'btn-first-page':
+                    shiftPaginationFirstPage(pagination);
+                    break;
+                case 'btn-previous-page':
+                    var previousIndexButton = $(pagination).find('.active').prev();
+                    if ($(previousIndexButton).hasClass('clickable-pagination-item')) {
+                        $(previousIndexButton).click();
+                    } else if (currentIndex > 1) {
+                        shiftPaginationBackward(pagination);
+                    }
+                    break;
+                case 'btn-next-page':
+                    var nextIndexButton = $(pagination).find('.active').next();
+                    if ($(nextIndexButton).hasClass('clickable-pagination-item')) {
+                        $(nextIndexButton).click();
+                    } else if (currentIndex < paginationMaxPages) {
+                        shiftPaginationForward(pagination);
+                    }
+                    break;
+                case 'btn-last-page':
+                    shiftPaginationLastPage(pagination);
+                    break;
+            }
+        }
+    }
+});
+
+function shiftPaginationForward(pagination) {
+    var paginationItems = $(pagination).find('.clickable-pagination-item');
+    for (var i = 0; i < paginationItems.length; i++) {
+        var item = paginationItems[i];
+        $(item).find('#index-text').text(parseInt($(item).text()) + 1);
+    }
+    $(pagination).find('.active').removeClass('active').click();
+}
+
+function shiftPaginationBackward(pagination) {
+    var paginationItems = $(pagination).find('.clickable-pagination-item');
+    for (var i = 0; i < paginationItems.length; i++) {
+        var item = paginationItems[i];
+        $(item).find('#index-text').text(parseInt($(item).text()) - 1);
+    }
+    $(pagination).find('.active').removeClass('active').click();
+}
+
+function shiftPaginationLastPage(pagination) {
+    var paginationItems = $(pagination).find('.clickable-pagination-item');
+    if (paginationItems.length === paginationMaxPages) {
+        $(pagination).find('#btn-next-page').prev().click();
+    } else {
+        var indexStart = paginationMaxPages + 1 - paginationItems.length;
+        for (var i = 0; i < paginationItems.length; i++) {
+            var item = paginationItems[i];
+            $(item).find('#index-text').text(indexStart++);
+
+            if (i === paginationItems.length - 1) {
+                $(pagination).find('#btn-next-page').prev().click();
+            }
+        }
+    }
+}
+function shiftPaginationFirstPage(pagination) {
+    var paginationItems = $(pagination).find('.clickable-pagination-item');
+    if (paginationItems.length === paginationMaxPages) {
+        $(pagination).find('#btn-previous-page').next().click();
+    } else {
+        for (var i = 0; i < paginationItems.length; i++) {
+            var item = paginationItems[i];
+            $(item).find('#index-text').text(i + 1);
+
+            if (i === paginationItems.length - 1) {
+                $(pagination).find('#btn-previous-page').next().click();
+            }
+        }
+    }
+}
+
+function getPaginationItem(text) {
+    var listItem = document.createElement('li');
+    $(listItem).addClass('clickable-pagination-item');
+    var href = document.createElement('a');
+    $(href).text(text);
+    $(href).attr('id', 'index-text');
+    $(href).attr('href', '#');
+    $(listItem).append(href);
+    return listItem;
 }

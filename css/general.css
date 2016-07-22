@@ -39,11 +39,47 @@ button:hover
     outline: 0;
 }
 
+.btn-group-addon {
+    cursor: default;
+    background-color: #eeeeee;
+    color: #696969;
+}
+
+.btn-group-addon:hover {
+    background-color: #eeeeee;
+    border-color: #cccccc;
+    color: #303030 !important;
+}
+
 .form-control:focus{
     border-color: #cccccc;
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+
+/*input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button;
+  cursor: pointer;
+}*/
+
+.pagination-custom > li > a:focus,
+.pagination-custom > li > a:hover,
+.pagination-custom > li > span:focus,
+.pagination-custom > li > span:hover {
+    z-index: 3;
+    color: #303030;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+/*.pagination-custom > li > a {
+    color: #303030 !important;
+}*/
+
+/*.pagination-custom > li > a:active, .pagination-custom > li > span:active {
+    background-color: #303030!important;
+    color: #FFFFFF !important;
+}*/
 
 h2 {
     /*font-size: 24px;*/

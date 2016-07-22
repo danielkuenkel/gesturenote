@@ -15,7 +15,7 @@
 <!--<script type="text/javascript" src="js/template-inputs.js"></script>-->
 <script>
     $(document).ready(function () {
-        var scene = getPrototypeById(currentSceneId);
+        var scene = getSceneById(currentSceneId);
         if (scene) {
             renderData(scene);
         }
@@ -31,15 +31,15 @@
         $('#list-container').append(container);
 
         switch (data.type) {
-            case PROTOTYPE_IMAGE:
+            case SCENE_IMAGE:
                 container.find('.imageAreaContent').attr('src', data.data);
                 break;
-            case PROTOTYPE_VIDEO:
+            case SCENE_VIDEO:
                 // not assembled and saved
                 break;
-            case PROTOTYPE_VIDEO_EMBED:
+            case SCENE_VIDEO_EMBED:
                 break;
-            case PROTOTYPE_PIDOCO:
+            case SCENE_PIDOCO:
                 container.find('.web-frame').attr('src', data.options[1]);
                 container.find('.btn-url').on('click', function (event) {
                     event.preventDefault();
@@ -53,7 +53,7 @@
                     }
                 });
                 break;
-            case PROTOTYPE_WEB:
+            case SCENE_WEB:
                 container.find('.web-frame').attr('src', data.options[0]);
                 container.find('.btn-url').on('click', function (event) {
                     event.preventDefault();

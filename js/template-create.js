@@ -26,7 +26,7 @@ $('body').on('click', '#addFormat', function (event) {
         var selectedID = $(this).parent().find('.chosen').attr('id');
         if (selectedID !== 'unselected') {
             var clone = $('#form-item-container').find('#' + selectedID).clone(true);
-            $('#list-container').append(clone);
+            $('#list-container').prepend(clone);
             checkCurrentListState($('#list-container'));
             updateBadges($('#list-container'), selectedID);
         }
@@ -199,14 +199,14 @@ $('body').on('click', '.btn-down', function (event) {
         updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
     }
 });
-
-$('body').on('click', '.btn-delete', function (event) {
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
-    }
-});
+//
+//$('body').on('click', '.btn-delete', function (event) {
+//    if (event.handled !== true)
+//    {
+//        event.handled = true;
+//        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
+//    }
+//});
 
 
 /* 
@@ -253,7 +253,7 @@ $('body').on('click', '.alternativeSwitch .check', function (event) {
     }
 });
 
-$('body').on('click', '.choosePrototypeImage', function (event) {
+$('body').on('click', '.chooseSceneImage', function (event) {
     if (event.handled !== true)
     {
         event.handled = true;
@@ -270,9 +270,9 @@ $('body').on('change', '.imageUpload', function (event) {
     readFile(this.files[0], function (event) {
         $(imageAreaContent).attr("src", event.target.result);
         $(imageArea).removeClass('hidden');
-        $(imageArea).parent().find('.choosePrototypeImage .btn-text').text('Anderes Bild auswählen');
-        $(imageArea).parent().find('.choosePrototypeImage .btn-icon').removeClass('glyphicon-picture');
-        $(imageArea).parent().find('.choosePrototypeImage .btn-icon').addClass('glyphicon-refresh');
+        $(imageArea).parent().find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
+        $(imageArea).parent().find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture');
+        $(imageArea).parent().find('.chooseSceneImage .btn-icon').addClass('glyphicon-refresh');
         control.replaceWith(control = control.clone(true));
     });
 });
@@ -283,9 +283,9 @@ $('body').on('click', '.btn-delete-image', function (event) {
         event.handled = true;
         $(this).next().attr('src', '');
         $(this).parent().addClass('hidden');
-        $(this).closest('.root').find('.choosePrototypeImage .btn-text').text('Bild auswählen');
-        $(this).closest('.root').find('.choosePrototypeImage .btn-icon').removeClass('glyphicon-refresh');
-        $(this).closest('.root').find('.choosePrototypeImage .btn-icon').addClass('glyphicon-picture');
+        $(this).closest('.root').find('.chooseSceneImage .btn-text').text('Bild auswählen');
+        $(this).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('glyphicon-refresh');
+        $(this).closest('.root').find('.chooseSceneImage .btn-icon').addClass('glyphicon-picture');
     }
 });
 
@@ -640,13 +640,16 @@ $('body').on('click', '.btn-add-identificationOption', function (event) {
     {
         event.handled = true;
         event.preventDefault();
-        var item = $('#identificationItem').clone().removeClass('hidden');
+        var item = $('#identificationItem').clone().removeClass('hidden').removeAttr('id');
         $(this).prev().append(item);
-        var identificationFor = $('#identificationTypeSwitch').find('active').attr('id');
+        var identificationFor = $('#identificationTypeSwitch').find('.active').attr('id');
+
         if (identificationFor === 'gestures') {
-            $(item).find('#group-trigger').addClass('hidden');
+            $(item).find('#group-gestures').remove();
+//            $(item).find('#group-trigger').removeClass('hidden');
         } else {
-            $(item).find('#group-gestures').addClass('hidden');
+            $(item).find('#group-trigger').remove();
+//            $(item).find('#group-gestures').removeClass('hidden');
         }
         checkCurrentListState($(this).prev());
     }
@@ -1069,7 +1072,7 @@ function getFormatData(element) {
             parameters.push($(element).find('.justification #yes').hasClass('active'));
             parameters.push($(element).find('.optionalanswer #yes').hasClass('active'));
             parameters.push($(element).find('.alternative').find('.active').attr('id'));
-            console.log(parameters);
+//            console.log(parameters);
             var aGestures = assembledGestures();
             var aTriggers = getLocalItem(ASSEMBLED_TRIGGER);
 

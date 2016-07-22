@@ -5,14 +5,21 @@
 <div id="modal-body" class="modal-body">
 
     <div class="panel panel-default hidden gesture-thumbnail root" id="gesture-thumbnail">
-        <div class="panel-heading">
+        <div class="panel-heading" style=" text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
+
             <div class="btn-group btn-group-sm">
                 <button type="button" class="btn btn-default btn-shadow gesture-assemble"><i class="glyphicon glyphicon-star"></i></button>
                 <button type="button" class="btn btn-default btn-shadow gesture-details"><i class="glyphicon glyphicon-eye-open"></i></button>
             </div>
-
             <span class="title-text ellipsis" style="margin-left: 10px; position: relative; top: 2px;"></span>
+
+            <div class="panel-title pull-right">
+                <span class="label label-default" id="gesture-source" style="position: relative; top: -1px;"></span>
+            </div>
+            <div class="clearfix"></div>
+
         </div>
+
         <div class="panel-collapse collapse">
             <div class="panel-body">
                 <div class="row">
@@ -37,117 +44,70 @@
         </div>
     </div>
 
-    <div>
-        <div class="panel panel-default root" id="ownExtractedGestures">
-            <div class="panel-heading clearfix">
-                <div style="margin-top: 4px; display: inline-block">Extrahierte studienspezifische Gesten 
-                    <div class="badges hidden" style="display: inline">
-                        <div class="badge badgeId">0</div> von 
-                        <div class="badge badgeQuantity">0</div> Gesten ausgewählt
+    <div id="item-view">
+        <div class="panel-group">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Filter</span>
+                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
+                    <div class="input-group-btn select" id="filterGestures" role="group">
+                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            <li id="all" class="selected"><a href="#">Alle</a></li>
+                            <li id="own"><a href="#">Eigene</a></li>
+                            <li id="public"><a href="#">Öffentliche</a></li>
+                        </ul>
                     </div>
-                </div>
-                <div class="btn-group pull-right" id="useGesturesSwitch">
-                    <button class="btn btn-default switchButtonAddon">Nutzen?</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
+                    <span class="input-group-addon">Sortierung</span>
+                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Bitte wählen"/>
+                    <div class="input-group-btn select" id="sortGestures" role="group">
+                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            <li class="dropdown-header">Datum</li>
+                            <li id="oldest"><a href="#">Älteste zuerst</a></li>
+                            <li id="newest"><a href="#">Neueste zuerst</a></li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Gestentitel</li>
+                            <li id="asc"><a href="#">A bis Z</a></li>
+                            <li id="desc"><a href="#">Z bis A</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-
-            <div class="panel-body hidden">
-                <div class="panel-group">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon">Suchen</span>
-                            <input class="form-control item-input-text search" id="filterOwnExtractedGestures" type="text" value="" placeholder="Suchbegriff eingeben"/>
-                            <span class="input-group-addon">Sortierung</span>
-                            <input class="form-control item-input-text option-phase show-dropdown text-center readonly" tabindex="-1" type="text" value="Bitte wählen"/>
-                            <div class="input-group-btn select sortGestures" id="sortOwnExtractedGestures" role="group">
-                                <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
-                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                    <li class="dropdown-header">Datum</li>
-                                    <li id="oldest"><a href="#">Älteste zuerst</a></li>
-                                    <li id="newest"><a href="#">Neueste zuerst</a></li>
-                                    <li class="divider"></li>
-                                    <li class="dropdown-header">Gestentitel</li>
-                                    <li id="asc"><a href="#">A bis Z</a></li>
-                                    <li id="desc"><a href="#">Z bis A</a></li>
-                                </ul>
-                            </div>
-                        </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Suchen</span>
+                    <input class="form-control item-input-text search" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
+                    <span class="input-group-addon">Einträge pro Seite</span>
+                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="10"/>
+                    <div class="input-group-btn select" id="resultsCountSelect" role="group">
+                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_10"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            <li id="results_10" class="selected"><a href="#">10</a></li>
+                            <li id="results_50"><a href="#">50</a></li>
+                            <li id="results_100"><a href="#">100</a></li>
+                        </ul>
                     </div>
                 </div>
-
-                <div class="panel-group root" id="list-container"></div>
-
-                <div class="alert-space alert-no-search-results"></div>
             </div>
         </div>
 
-        <div class="panel panel-default root" id="gestureCatalog">
-            <div class="panel-heading clearfix">
-                <div style="margin-top: 4px; display: inline-block">Gesten aus öffentlichem Gestenkatalog
-                    <div class="badges hidden" style="display: inline">
-                        <div class="badge badgeId">0</div> von 
-                        <div class="badge badgeQuantity">0</div> Gesten ausgewählt
-                    </div>
-                </div>
-                <div class="btn-group pull-right" id="useGesturesSwitch">
-                    <button class="btn btn-default switchButtonAddon">Nutzen?</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
-                </div>
-            </div>
-            <div class="panel-body hidden">
-
-                <div class="panel-group">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input class="form-control item-input-text search" id="filterCatalogGestures" type="text" value="" placeholder="Suchbegriff eingeben"/>
-                            <span class="input-group-addon">Sortierung</span>
-                            <input class="form-control item-input-text option-phase show-dropdown text-center readonly" tabindex="-1" type="text" value="Bitte wählen"/>
-                            <div class="input-group-btn select sortGestures" id="sortCatalogGestures" role="group">
-                                <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="selected hidden" id="unselected"></span><span class="caret"></span></button>
-                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                    <li class="dropdown-header">Datum</li>
-                                    <li id="oldest"><a href="#">Älteste zuerst</a></li>
-                                    <li id="newest"><a href="#">Neueste zuerst</a></li>
-                                    <li class="divider"></li>
-                                    <li class="dropdown-header">Gestentitel</li>
-                                    <li id="asc"><a href="#">A bis Z</a></li>
-                                    <li id="desc"><a href="#">Z bis A</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel-group root" id="list-container"></div>
-
-                <div class="alert-space alert-no-search-results"></div>
-            </div>
+        <div class="text-center custom-pagination" id="gesture-pager">
+            <nav>
+                <ul class="pagination pagination-custom" itemprop="clipping_2">
+                    <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                    <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                    <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                    <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                </ul>
+            </nav>
         </div>
 
-        <div class="panel panel-default root" id="recordGesture">
-            <div class="panel-heading clearfix">
-                <div style="margin-top: 4px; display: inline-block">Aufgezeichnete Gesten</div>
-                <div class="btn-group pull-right" id="useGesturesSwitch">
-                    <button class="btn btn-default switchButtonAddon">Nutzen?</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
-                </div>
-            </div>
 
-            <div class="panel-body hidden">
-                <div class="form-group">
-                    <button class="btn btn-success btn-block btn-shadow" id="btn-start-abort-recording"><span class="btn-text">Neue Geste aufzeichnen</span></button>
-                    <!--<button class="btn btn-danger btn-block btn-shadow hidden" id="btn-abort-recording">Aufzeichnung abbrechen</button>-->
-                </div>
-                <div class="panel-group root" id="list-container"></div>
-            </div>
-        </div>
+        <div class="panel-group container-root root" id="list-container"></div>
 
+        <div class="alert-space alert-no-search-results"></div>
     </div>
-
 
 </div>
 <div id="modal-footer" class="modal-footer">
@@ -159,114 +119,48 @@
 <script>
         currentGestureSet = null;
 
-        function renderData(data, isFilterData) {
-            var ownExtractedGestures = 0;
-            var gesetureCatalog = 0;
+        function renderData(data) {
+            currentData = data;
+            initPagination($('#gesture-pager .pagination'), data.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+            updateView(0);
+        }
 
-            if (!isFilterData) {
-                for (var i = 0; i < data.length; i++) {
+        function updateView(index) {
+            $('#list-container').empty();
 
-                    var clone = $('#gesture-thumbnail').clone();
-                    clone.removeClass('hidden');
-                    clone.attr('id', data[i].type + '.' + data[i].id);
-                    clone.find('.title-text').text(data[i].title + " ");
-                    clone.find('.description').text(data[i].description);
-                    clone.find('.gesture-type').text(translation.gestureType + ': ' + translation.gestureTypes[data[i].gestureType]);
-                    clone.find('.body-type').text(translation.bodyType + ': ' + translation.bodyTypes[data[i].bodyType]);
+            var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
+            var viewFromIndex = index * listCount;
+            var viewToIndex = Math.min((index + 1) * listCount, currentData.length);
+            for (var i = viewFromIndex; i < viewToIndex; i++) {
 
-                    switch (data[i].type) {
-                        case GESTURE_OWN_PROJECT:
-                            if (i === 0) {
-                                $('#ownExtractedGestures #list-container').empty();
-                            }
+                var clone = $('#gesture-thumbnail').clone();
+                clone.removeClass('hidden');
+                clone.attr('id', currentData[i].id);
+                clone.find('.title-text').text(currentData[i].title + " ");
+                clone.find('.description').text(currentData[i].description);
+                clone.find('.gesture-type').text(translation.gestureType + ': ' + translation.gestureTypes[currentData[i].gestureType]);
+                clone.find('.body-type').text(translation.bodyType + ': ' + translation.bodyTypes[currentData[i].bodyType]);
+                clone.find('#gesture-source').text(translation.gestureSources[currentData[i].type]);
+                $('#list-container').append(clone);
 
-                            $('#ownExtractedGestures #list-container').append(clone);
-
-                            if (ownExtractedGestures < 1 && data[i].used === true) {
-                                ownExtractedGestures++;
-                                $('#ownExtractedGestures #useGesturesSwitch #yes').click();
-                            }
-
-                            break;
-                        case GESTURE_CATALOG:
-                            if (i === 0) {
-                                $('#gestureCatalog #list-container').empty();
-                            }
-
-                            $('#gestureCatalog #list-container').append(clone);
-
-                            if (gesetureCatalog < 1 && data[i].used === true) {
-                                gesetureCatalog++;
-                                $('#gestureCatalog #useGesturesSwitch #yes').click();
-                            }
-
-                            break;
-                    }
-
-                    if (data[i].used === true) {
-                        clone.find('.gesture-assemble').click();
-                    }
-
-                    renderGestureImages(clone.find('.imageContainer'), data[i].images, data[i].previewImage, function () {
-                        console.log('images loaded');
-                    });
-                }
-            } else {
-                var gestures = data[0].type === GESTURE_OWN_PROJECT ? $('#ownExtractedGestures #list-container').children() : $('#gestureCatalog #list-container').children();
-                for (var i = 0; i < gestures.length; i++) {
-                    var gestureId = $(gestures[i]).attr('id').split('.')[1];
-                    $(gestures[i]).addClass('hidden');
-                    for (var j = 0; j < data.length; j++) {
-                        if (parseInt(gestureId) === parseInt(data[j].id)) {
-                            $(gestures[i]).removeClass('hidden');
-                        }
-                    }
+                if (isGestureAssembled(currentData[i].id)) {
+                    clone.find('.gesture-assemble').click();
                 }
             }
-
-            updatePanelBadges($('#ownExtractedGestures #list-container'));
-            updatePanelBadges($('#gestureCatalog #list-container'));
         }
 
         function saveData() {
-            var predefinedGestureSet = getLocalItem(PREDEFINED_GESTURE_SET);
+            var currentGestures = $('#list-container').children();
 
-            var selectedGestures = new Array();
-
-            if ($('#ownExtractedGestures').find('#yes').hasClass('active')) {
-                selectedGestures = $.merge(selectedGestures, $('#ownExtractedGestures #list-container').children('.selected'));
-            }
-
-            if ($('#gestureCatalog').find('#yes').hasClass('active')) {
-                selectedGestures = $.merge(selectedGestures, $('#gestureCatalog #list-container').children('.selected'));
-            }
-
-            var assembledGestures = new Array();
-
-            for (var i = 0; i < predefinedGestureSet.length; i++) {
-                var isAssembled = false;
-                var originItem = predefinedGestureSet[i];
-                for (var j = 0; j < selectedGestures.length; j++) {
-                    var gesture = selectedGestures[j];
-                    var type = $(gesture).attr('id').split('.')[0];
-                    var id = parseInt($(gesture).attr('id').split('.')[1]);
-                    if (originItem.id === id && originItem.type === type) {
-                        isAssembled = true;
-                        break;
-                    }
+            for (var j = 0; j < currentGestures.length; j++) {
+                var gesture = currentGestures[j];
+                var id = parseInt($(gesture).attr('id'));
+                if ($(gesture).hasClass('selected') && !isGestureAssembled(id)) {
+                    assembleGesture(id);
+                } else if (!$(gesture).hasClass('selected') && isGestureAssembled(id)) {
+                    reassembleGesture(id);
                 }
-                assembledGestures.push(new Gesture(originItem.type, originItem.id, originItem.timestamp, originItem.title, originItem.description, originItem.gestureType, originItem.bodyType, originItem.images, originItem.previewImage, originItem.videoUrl, isAssembled));
             }
-            setLocalItem(PREDEFINED_GESTURE_SET, assembledGestures);
-            currentGestureSet = assembledGestures;
-        }
-
-        function updatePanelBadges(container) {
-            var max = $(container).children().not('.hidden').length;
-            var selected = $(container).children('.selected').not('.hidden').length;
-
-            $(container).parents().closest('.root').find('.badgeId').text(selected);
-            $(container).parents().closest('.root').find('.badgeQuantity').text(max);
         }
 
         $('body').on('click', '.gesture-thumbnail, .gesture-details', function (event) {
@@ -274,6 +168,14 @@
             if (!event.handled) {
                 event.handled = true;
                 toggleCollapse($(this).closest('.root').find('.panel-collapse'));
+
+                if ($(this).find('.panel-collapse').hasClass('in')) {
+                    var gestureId = $(this).closest('.gesture-thumbnail').attr('id');
+                    var gesture = getGestureById(gestureId);
+                    renderGestureImages($(this).closest('.gesture-thumbnail').find('.imageContainer'), gesture.images, gesture.previewImage, function () {
+                        console.log('images loaded');
+                    });
+                }
             }
         });
 
@@ -292,7 +194,6 @@
         $('body').on('click', '.gesture-assemble, .gesture-assemble-description, .gesture-unassemble-description', function (event) {
             event.preventDefault();
             if (!event.handled) {
-//                console.log('assemble clicked: ' + $(this).closest('.gesture-thumbnail').hasClass('selected'));
                 event.handled = true;
                 var thumbnail = $(this).closest('.gesture-thumbnail');
 
@@ -302,37 +203,55 @@
                     thumbnail.find('.gesture-assemble').addClass('btn-success');
                     thumbnail.find('.gesture-assemble-description').addClass('hidden');
                     thumbnail.find('.gesture-unassemble-description').removeClass('hidden');
+                    thumbnail.find('#gesture-source').addClass('label-success');
                 } else {
                     thumbnail.removeClass('selected');
                     thumbnail.removeClass('panel-success');
                     thumbnail.find('.gesture-assemble').removeClass('btn-success');
                     thumbnail.find('.gesture-assemble-description').removeClass('hidden');
                     thumbnail.find('.gesture-unassemble-description').addClass('hidden');
+                    thumbnail.find('#gesture-source').removeClass('label-success');
                 }
-
-                updatePanelBadges($(this).closest('#list-container'));
             }
         });
 
-        $('.sortGestures .option li').unbind('click').bind('click', function (event) {
+        $('#filterGestures .option li').unbind('change').bind('change', function (event) {
             event.preventDefault();
 
-            if ($(this).hasClass('dropdown-header') || $(this).hasClass('divider')) {
-                return false;
-            }
-            console.log("sort choosed");
             saveData();
-            var parentId = $(this).closest('.select').attr('id');
-            var gestureType = parentId === 'sortOwnExtractedGestures' ? GESTURE_OWN_PROJECT : GESTURE_CATALOG;
-            renderData(sortGestures(gestureType, $(this).attr('id')));
+            renderData(sortGestures());
 
-            if ($(this).closest('.input-group').find('.search').val().trim() !== "") {
-                $(this).closest('.input-group').find('.search').trigger('keyup');
+            if ($('#searched-input').val().trim() !== "") {
+                $('#searched-input').trigger('keyup');
             }
         });
 
-        function sortGestures(gestureType, sortType) {
-            var array = getGesturesByType(gestureType);
+        $('#sortGestures .option li').unbind('change').bind('change', function (event) {
+            event.preventDefault();
+
+            saveData();
+            renderData(sortGestures());
+
+            if ($('#searched-input').val().trim() !== "") {
+                $('#searched-input').trigger('keyup');
+            }
+        });
+
+        $('#resultsCountSelect').unbind('change').bind('change', function (event) {
+            event.preventDefault();
+
+            saveData();
+            renderData(currentData);
+
+            if ($('#searched-input').val().trim() !== "") {
+                $('#searched-input').trigger('keyup');
+            }
+        });
+
+        function sortGestures() {
+            var array = getFilteredGestures($('#filterGestures .chosen').attr('id'));
+            var sortType = $('#sortGestures .chosen').attr('id');
+
             switch (sortType) {
                 case SORT_ASC:
                     array = sortByKey(array, 'title', false);
@@ -351,7 +270,7 @@
         }
 
 
-        function filterGestures(gestures, filter) {
+        function searchThroughGestures(gestures, filter) {
             var array = new Array();
             for (var i = 0; i < gestures.length; i++) {
                 if (gestures[i].title.search(new RegExp(filter, "i")) > -1) {
@@ -365,32 +284,28 @@
             event.preventDefault();
             if (!event.handled) {
                 event.handled = true;
-
-                var gestureType = $(this).attr('id') === 'filterOwnExtractedGestures' ? GESTURE_OWN_PROJECT : GESTURE_CATALOG;
-                var sortType = $(this).closest('.input-group').find('.select .selected').attr('id');
+                saveData();
                 var filter = $(this).val();
-                var container = $(this).closest('.root').find('#list-container');
+                var container = $('#list-container');
                 container.removeClass('hidden');
 
                 if (filter.trim() !== "" && event.keyCode !== 27) {
-                    saveData();
-                    var fGestures = filterGestures(sortGestures(gestureType, sortType), filter.trim());
-                    if (fGestures.length > 0) {
+                    var matchedGestures = searchThroughGestures(sortGestures(), filter.trim());
+                    if (matchedGestures.length > 0) {
                         showPanelBadges($(this).closest('.root').find('.badges'));
-                        removeAlert($(this).closest('.root'), ALERT_NO_SEARCH_RESULTS);
-                        renderData(fGestures, true);
+                        removeAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
+                        renderData(matchedGestures, true);
                     } else {
                         hidePanelBadges($(this).closest('.root').find('.badges'));
                         container.addClass('hidden');
-                        appendAlert($(this).closest('.root'), ALERT_NO_SEARCH_RESULTS);
+                        appendAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
                     }
                 } else {
-                    removeAlert($(this).closest('.root'), ALERT_NO_SEARCH_RESULTS);
-                    renderData(sortGestures(gestureType, sortType));
+                    removeAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
+                    renderData(sortGestures());
 
                     if (event.keyCode === 27) {
                         resetInput($(this));
-                        showPanelBadges($(this).closest('.root').find('.badges'));
                     }
                 }
             }
@@ -400,11 +315,23 @@
             $(inputField).val('');
         }
 
-        function getGesturesByType(type) {
+        function getFilteredGestures(gestureSource) {
             var array = new Array();
-            for (var i = 0; i < currentGestureSet.length; i++) {
-                if (currentGestureSet[i].type === type) {
-                    array.push(currentGestureSet[i]);
+            if (!gestureSource) {
+                gestureSource = $('#filterGestures').find('.chosen').attr('id');
+            }
+
+
+            var allGestures = getLocalItem(PREDEFINED_GESTURE_SET);
+
+            if (gestureSource === 'all') {
+                return allGestures;
+            } else {
+                for (var i = 0; i < allGestures.length; i++) {
+
+                    if (allGestures[i].type === gestureSource) {
+                        array.push(allGestures[i]);
+                    }
                 }
             }
             return array;
@@ -412,12 +339,10 @@
 
         $(document).ready(function () {
             var data = getLocalItem(PREDEFINED_GESTURE_SET);
+
             if (data) {
                 currentModalId = '#custom-modal';
-                renderData(data);
-                currentGestureSet = data;
-                $('#ownExtractedGestures .sortGestures #newest').click();
-                $('#gestureCatalog .sortGestures #newest').click();
+                $('#sortGestures #newest').click();
             }
         });
 
@@ -438,6 +363,15 @@
                     $(this).removeClass('btn-success').addClass('btn-danger');
                     $('#recordGesture #list-container').addClass('hidden');
                 }
+            }
+        });
+
+        $('body').on('indexChanged', '.pagination', function (event, index) {
+            event.preventDefault();
+            if (!event.handled) {
+                event.handled = true;
+                saveData();
+                updateView(index);
             }
         });
 </script>

@@ -80,11 +80,16 @@
         "upper": "Oberkörper",
         "hand": "Hand"
     },
+    "gestureSources": {
+        "own": "Eigene",
+        "public": "Öffentlich",
+        "recorded": "Aufgezeichnete"
+    },
     "gesture": "Geste",
     "gestures": "Gesten",
     "repeats": "Wiederholungen",
-    "none": "keine",
-    "nones": "keines",
+    "none": "Keine",
+    "nones": "Keines",
     "trigger": "Trigger",
     "feedback": "Feedback",
     "taskTitle": "Aufgabentitel",

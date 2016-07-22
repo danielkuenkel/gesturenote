@@ -22,7 +22,7 @@
                     <div class="col-md-6">
                         <div class="btn-group" id="identificationTypeSwitch">
                             <button class="btn btn-default switchButtonAddon">Was soll identifiziert werden?</button>
-                            <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="gestures" name="btn-success">Gesten</button>
+                            <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="gestures" name="btn-success">Gesten</button>
                             <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="trigger" name="btn-success">Trigger</button>
                         </div>
                     </div>
@@ -99,25 +99,40 @@
 
 <script type="text/javascript" src="js/template-create.js"></script>
 <script>
+        $('#identificationTypeSwitch .btn-toggle-checkbox').on('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('active')) {
+                var container = $('#identificationContainer');
+                clearAlerts(container);
+
+                if ($(this).attr('id') === 'gestures') {
+                    var trigger = getLocalItem(ASSEMBLED_TRIGGER);
+                    if (trigger && trigger.length > 0) {
+                        renderAssembledTriggers();
+                        $(container).find('.btn-add-identificationOption').removeClass('hidden');
+                        $(container).find('.option-container').removeClass('hidden');
+                    } else {
+                        appendAlert(container, ALERT_NO_TRIGGER_ASSEMBLED);
+                        $(container).find('.btn-add-identificationOption').addClass('hidden');
+                        $(container).find('.option-container').addClass('hidden');
+                    }
+                } else if ($(this).attr('id') === 'trigger') {
+                    if (assembledGestures()) {
+                        renderAssembledGestures();
+                        $(container).find('.btn-add-identificationOption').removeClass('hidden');
+                        $(container).find('.option-container').removeClass('hidden');
+                    } else {
+                        appendAlert(container, ALERT_NO_GESTURES_ASSEMBLED);
+                        $(container).find('.btn-add-identificationOption').addClass('hidden');
+                        $(container).find('.option-container').addClass('hidden');
+                    }
+                }
+            }
+        });
+
         $(document).ready(function () {
             var identification = $('#form-item-container #identification').clone();
             $('#identificationContainer').append(identification);
-
-            if (assembledGestures()) {
-                renderAssembledGestures();
-            } else {
-                appendAlert(identification, ALERT_NO_GESTURES_ASSEMBLED);
-                $(identification).find('.btn-add-identificationOption').addClass('hidden');
-            }
-
-            var trigger = getLocalItem(ASSEMBLED_TRIGGER);
-            if (trigger && trigger.length > 0) {
-                renderAssembledTriggers();
-            } else {
-                appendAlert(identification, ALERT_NO_TRIGGER_ASSEMBLED);
-                $(identification).find('.btn-add-identificationOption').addClass('hidden');
-            }
-
 
             var data = getLocalItem(currentIdForModal + '.data');
             if (data) {
@@ -135,33 +150,35 @@
             $('#answerTime').val(data.answerTime);
 
             var container;
-
             if (identificationItems !== undefined && identificationItems.length > 0) {
 
                 container = $('#identificationContainer').find('.option-container');
-
+//                console.log(identificationItems);
                 for (var i = 0; i < identificationItems.length; i++) {
-                    var gesture = identificationItems[i].gesture;
-                    var trigger = identificationItems[i].trigger;
-
                     var clone = $('#identificationItem').clone().removeClass('hidden');
                     $(clone).removeAttr('id');
                     container.append(clone);
 
-                    if (gesture && isGestureAssembled(gesture.id))
-                    {
-                        $(clone).find('.gestureSelect #' + gesture.id).click();
+                    if ($('#identificationTypeSwitch .active').attr('id') === 'gestures') {
+                        $(clone).find('#group-gestures').remove();
+                        var trigger = identificationItems[i].trigger;
+                        if (trigger) {
+                            if (!getTriggerById(trigger.id)) {
+                                appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
+                            } else {
+                                $(clone).find('.triggerSelect #' + trigger.id).click();
+                            }
+                        }
                     } else {
-                        appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
-                    }
-
-                    if (trigger) {
-                        if (!getTriggerById(trigger.id)) {
-                            appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
+                        $(clone).find('#group-trigger').remove();
+                        var gesture = identificationItems[i].gesture;
+                        if (gesture && isGestureAssembled(gesture.id)) {
+                            $(clone).find('.gestureSelect #' + gesture.id).click();
                         } else {
-                            $(clone).find('.triggerSelect #' + trigger.id).click();
+                            appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                         }
                     }
+
                 }
                 checkCurrentListState(container);
             }
@@ -203,13 +220,14 @@
                 var set = new Array();
                 for (var i = 0; i < identificationItems.length; i++) {
                     var item = identificationItems[i];
-                    var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
-                    var gesture = getGestureById(gestureId);
-                    var triggerSplitId = $(item).find('.triggerSelect .chosen').attr('id');
-                    var trigger = getTriggerById(triggerSplitId);
-
-                    if (gesture && trigger) {
-                        set.push(new SlideshowItem(gesture, trigger));
+                    if ($('#identificationTypeSwitch .active').attr('id') === 'gestures') {
+                        var triggerSplitId = $(item).find('.triggerSelect .chosen').attr('id');
+                        var trigger = getTriggerById(triggerSplitId);
+                        set.push(new SlideshowItem(null, trigger));
+                    } else {
+                        var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
+                        var gesture = getGestureById(gestureId);
+                        set.push(new SlideshowItem(gesture, null));
                     }
                 }
                 identification.identification = set;

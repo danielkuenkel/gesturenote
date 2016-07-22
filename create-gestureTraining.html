@@ -130,16 +130,11 @@
                 container = $('#trainingContainer').find('.option-container');
 
                 for (var i = 0; i < trainingItems.length; i++) {
-                    var gesture = trainingItems[i].gesture;
-                    var trigger = trainingItems[i].trigger;
-                    var feedbackId = trainingItems[i].feedbackId;
-                    var repeats = trainingItems[i].repeats;
-                    var recognitionTime = trainingItems[i].recognitionTime;
-
                     var clone = $('#gestureTrainingItem').clone().removeClass('hidden');
                     $(clone).removeAttr('id');
                     container.append(clone);
 
+                    var gesture = getGestureById(trainingItems[i].gestureId);
                     if (gesture && isGestureAssembled(gesture.id))
                     {
                         $(clone).find('.gestureSelect #' + gesture.id).click();
@@ -147,6 +142,7 @@
                         appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                     }
 
+                    var trigger = getTriggerById(trainingItems[i].triggerId);
                     if (trigger) {
                         if (!getTriggerById(trigger.id)) {
                             appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
@@ -155,6 +151,7 @@
                         }
                     }
 
+                    var feedbackId = trainingItems[i].feedbackId;
                     if (feedbackId) {
                         var feedback = getFeedbackById(feedbackId);
                         if (feedback) {
@@ -163,12 +160,13 @@
                             appendAlert(clone, ALERT_ASSEMBLED_FEEDBACK_REMOVED);
                         }
                     }
-//                    console.log(trainingItems[i]);
+
+                    var repeats = trainingItems[i].repeats;
                     $(clone).find('#repeats-stepper .stepper-text').val(parseInt(repeats));
                     if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
                         $(clone).find('#recognition-stepper').removeClass('hidden');
+                        var recognitionTime = trainingItems[i].recognitionTime;
                         $(clone).find('#recognition-stepper').val(parseInt(recognitionTime));
-//                        $(clone).find('#repeats-stepper').removeClass('col-md-12').addClass('col-md-6');
                     }
                 }
                 checkCurrentListState(container);
@@ -209,15 +207,15 @@
                     var item = traningItems[i];
                     var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
                     var gesture = getGestureById(gestureId);
-                    var triggerSplitId = $(item).find('.triggerSelect .chosen').attr('id');
-                    var trigger = getTriggerById(triggerSplitId);
+                    var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
+                    var trigger = getTriggerById(triggerId);
                     var feedbackId = $(item).find('.feedbackSelect .chosen').attr('id');
                     var feedback = getFeedbackById(feedbackId);
                     var repeats = $(item).find('#repeats-stepper .stepper-text').val();
                     var recognitionTime = $(item).find('#recognition-stepper .stepper-text').val();
 
                     if (gesture && trigger && feedback) {
-                        set.push(new TrainingItem(gesture, trigger, feedbackId, repeats, recognitionTime));
+                        set.push(new TrainingItem(gestureId, triggerId, feedbackId, repeats, recognitionTime));
                     }
                 }
                 training.training = set;

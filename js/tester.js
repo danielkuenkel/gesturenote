@@ -325,7 +325,7 @@ var Tester = {
     },
     getScenario: function getScenario(source, container, data) {
 //        console.log(data);
-        var scene = getPrototypeById(data.scene);
+        var scene = getSceneById(data.scene);
 //        console.log(scene);
 //        console.log(container);
         var sceneItem = $('#item-container-tester').find('#' + scene.type).clone().removeAttr('id');
@@ -346,10 +346,10 @@ var Tester = {
         });
 
         switch (scene.type) {
-            case PROTOTYPE_WEB:
+            case SCENE_WEB:
                 sceneItem.attr('src', scene.options[0]);
                 break;
-            case PROTOTYPE_IMAGE:
+            case SCENE_IMAGE:
                 sceneItem[0].onload = function () {
                     var image = sceneItem[0];
                     var colorThief = new ColorThief();
@@ -358,9 +358,9 @@ var Tester = {
                 };
                 sceneItem[0].src = scene.data;
                 break;
-            case PROTOTYPE_PIDOCO:
+            case SCENE_PIDOCO:
                 break;
-            case PROTOTYPE_VIDEO_EMBED:
+            case SCENE_VIDEO_EMBED:
                 break;
         }
 
@@ -419,7 +419,7 @@ var Tester = {
             }
 
             // handle triggered woz
-            if (triggeredWoz && scene.type !== PROTOTYPE_PIDOCO) {
+            if (triggeredWoz && scene.type !== SCENE_PIDOCO) {
                 appendHint(source, $('body'), triggeredWoz, TYPE_SURVEY_MODERATED);
                 triggeredWoz = null;
             }
