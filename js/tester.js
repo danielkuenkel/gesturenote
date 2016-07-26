@@ -339,7 +339,6 @@ var Tester = {
         return container;
     },
     renderModeratedSlideshow: function renderModeratedSlideshow(source, container, data) {
-        console.log(data);
         var slideData = data.slideshow[currentSlideIndex];
         var item = $(source).find('#slideshowItemModerated').clone().removeAttr('id');
         $(container).find('#slideshowContainer').append(item);
@@ -575,7 +574,6 @@ function renderSceneItem(source, container, sceneId) {
             }
 
             sceneItem.height(height);
-//            console.log(sceneItem.width());
         }).resize();
 
         return sceneItem;

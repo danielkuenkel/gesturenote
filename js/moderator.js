@@ -505,7 +505,6 @@ var Moderator = {
     },
     renderWOZ: function renderWOZ(source, container, data) {
         for (var i = 0; i < data.length; i++) {
-//            console.log(data[i]);
             var item = $(source).find('#wozItem').clone();
             item.removeAttr('id');
             $(container).find('.woz-container').append(item);
@@ -542,7 +541,6 @@ var Moderator = {
             if (transitionScene) {
                 item.find('#btn-show-transition-scene').click({sceneId: data[i].transitionId}, function (event) {
                     event.preventDefault();
-                    console.log(event.data.sceneId);
                     currentSceneId = event.data.sceneId;
                     loadHTMLintoModal('scene-modal', 'preview-scene.html', 'modal-lg');
                 });
@@ -555,7 +553,6 @@ var Moderator = {
     renderHelp: function renderHelp(source, container, data) {
         var seperator = document.createElement('hr');
         for (var i = 0; i < data.length; i++) {
-//            console.log(data[i]);
             var item = $(source).find('#helpItem').clone();
             item.removeAttr('id');
             item.find('.help-title').text((i + 1) + ". " + data[i].option);
