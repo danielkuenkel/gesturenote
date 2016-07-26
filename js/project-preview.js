@@ -1,12 +1,15 @@
 var currentGestureTrainingIndex = 0;
 var trainingTriggered = false;
 var triggeredFeedback = null;
+var slideshowStartTriggered = false;
 var currentSlideIndex = 0;
 var slideTriggered = false;
 var currentSceneId;
 var scenarioStartTriggered = false;
 var triggeredWoz = null;
 var triggeredHelp = null;
+var currentTriggeredSceneId = null;
+var gestureTrainingStartTriggered = false;
 
 function checkStorage() {
     if (getLocalItem(PROJECT_PHASE_STEPS) && getLocalItem(PROJECT_PHASE_STEPS).length > 0) {
@@ -66,6 +69,8 @@ function renderPhases() {
 
 function previousStep() {
     scenarioStartTriggered = false;
+    gestureTrainingStartTriggered = false;
+    slideshowStartTriggered = false;
     triggeredHelp = null;
     triggeredWoz = null;
     $('.phaseStepsSelect .dropdown-menu .selected').prev().click();
@@ -73,6 +78,8 @@ function previousStep() {
 
 function nextStep() {
     scenarioStartTriggered = false;
+    gestureTrainingStartTriggered = false;
+    slideshowStartTriggered = false;
     triggeredHelp = null;
     triggeredWoz = null;
     $('.phaseStepsSelect .dropdown-menu .selected').next().click();

@@ -46,7 +46,7 @@ and open the template in the editor.
     -ms-user-select: none;
 }
 
-.gesture-modal-preview .progress, .gesture-thumbnail .progress {
+/*.gesture-modal-preview .progress, .gesture-thumbnail .progress {
     height: 8px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;    
@@ -54,11 +54,11 @@ and open the template in the editor.
 
 .gesture-modal-preview .progress-bar, .gesture-thumbnail .progress-bar {
     transition-duration: 0.1s;
-    /*    -webkit-transition: none !important;
-        transition: none !important;*/
-}
+        -webkit-transition: none !important;
+        transition: none !important;
+}*/
 
-.gesture-modal-preview .gestureControls {
+.gestureControls {
     margin-top: 10px;
 }
 
@@ -68,4 +68,14 @@ and open the template in the editor.
     -webkit-box-shadow: rgba(0,0,0,0.8) 0px 5px 10px;
     -moz-box-shadow: rgba(0,0,0,0.8) 0 5px 10px;
     box-shadow: 0px 5px 10px rgba(0,0,0, .3);
+}
+
+.gesture-progress {
+    height: 4px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.gesture-progress-bar {
+    height: 100%;
 }

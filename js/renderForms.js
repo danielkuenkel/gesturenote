@@ -66,19 +66,19 @@ function renderGroupingQuestionInput(item, parameters, options) {
  */
 function renderGroupingQuestionGUSPreview(source, item, parameters, options) {
     var options;
-    if (parameters[2] === 'gestures') {
+    if (parameters[3] === 'gestures') {
         options = assembledGestures();
     } else {
         options = getLocalItem(ASSEMBLED_TRIGGER);
     }
 
-    if (parameters[0] === true) {
+    if (parameters[1] === true) {
         item.find('#multiselect').removeClass('hidden');
     } else {
         item.find('#singleselect').removeClass('hidden');
     }
 
-    if (parameters[1] === true) {
+    if (parameters[2] === true) {
         item.find('#justification').removeClass('hidden');
     } else {
         item.find('#no-justification').removeClass('hidden');
@@ -88,12 +88,12 @@ function renderGroupingQuestionGUSPreview(source, item, parameters, options) {
         var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
         item.find('.option-container').append(optionItem);
 
-        if (parameters[2] === 'triggers') {
+        if (parameters[3] === 'triggers') {
             var trigger = getTriggerById(options[i].id);
             optionItem.text(trigger.title);
         }
 
-        if (parameters[2] === 'gestures') {
+        if (parameters[3] === 'gestures') {
             var gesture = getGestureById(options[i].id);
             optionItem.text(gesture.title);
         }
@@ -101,10 +101,11 @@ function renderGroupingQuestionGUSPreview(source, item, parameters, options) {
 }
 
 function renderGroupingQuestionGUSInput(item, parameters) {
-    var optionType = parameters[0] === true ? 'checkbox' : 'radio';
+    var optionType = parameters[1] === true ? 'checkbox' : 'radio';
 
+    console.log(parameters);
     var options;
-    if (parameters[2] === 'gestures') {
+    if (parameters[3] === 'gestures') {
         options = assembledGestures();
     } else {
         options = getLocalItem(ASSEMBLED_TRIGGER);
@@ -116,12 +117,12 @@ function renderGroupingQuestionGUSInput(item, parameters) {
         var option = $('#item-container-inputs').find('#' + optionType).clone().removeClass('hidden');
         $(item).find('.option-container').append(option);
 
-        if (parameters[2] === 'triggers') {
+        if (parameters[3] === 'triggers') {
             var trigger = getTriggerById(options[i].id);
             option.find('.option-text').text(trigger.title);
         }
 
-        if (parameters[2] === 'gestures') {
+        if (parameters[3] === 'gestures') {
             var gesture = getGestureById(options[i].id);
             if (gesture) {
                 option.find('.option-text').text(gesture.title);
@@ -135,7 +136,7 @@ function renderGroupingQuestionGUSInput(item, parameters) {
         $(item).find('.option-container').append(document.createElement('br'));
     }
 
-    if (parameters[1] === true) {
+    if (parameters[2] === true) {
         var option = $(item).find('#option-item-justification').clone().removeClass('hidden');
         $(item).find('.option-container').append(option);
     }
@@ -317,13 +318,13 @@ function renderAlternativeQuestionInput(item, data) {
  */
 
 function renderGUSSinglePreview(item, data) {
-    if (data.parameters[0] === true) {
+    if (data.parameters[1] === true) {
         $(item).find('#reversed').removeClass('hidden');
     }
     if (data.dimension !== DIMENSION_ANY) {
         $(item).find('#item-factors').removeClass('hidden');
         $(item).find('#factor-primary').text(translation.dimensions[data.dimension]);
-        $(item).find('#factor-main').text(translation.mainDimensions[data.dimension]);
+        $(item).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(data.dimension)]);
     }
 }
 function renderGUSSingleInput(item, options) {

@@ -150,9 +150,12 @@ textarea {
     margin-left: 10px;
 }
 
-#dimension-btn-group .btn-toggle {
-    margin-top: 10px;
-    margin-right: 10px;
+.dimension-btn-group {
+    margin-top: -5px;
+}
+
+.dimension-btn-group .btn-toggle {
+    margin-right: 8px;
 }
 
 .btn-dropdown:focus {

@@ -33,7 +33,6 @@ function sortByKey(array, key, reverse) {
 function renderSubPageElements() {
     var header = $('#header-footer-container').find('#sub-page-header').clone().removeAttr('id');
     header.insertBefore($('body').find('#breadcrumb'));
-
     var footer = $('#header-footer-container').find('#sub-page-footer').clone().removeAttr('id');
     $('body').append(footer);
     footer.find('#btn-imprint').text(translation.imprint);
@@ -43,7 +42,6 @@ $(document).on('click', '.select .option li', function (event) {
     event.preventDefault();
     if (!event.handled) {
         event.handled = true;
-
         if ($(this).hasClass('dropdown-header') || $(this).hasClass('divider') || $(this).hasClass('selected')) {
             return false;
         }
@@ -55,7 +53,6 @@ $(document).on('click', '.select .option li', function (event) {
         $(parent).prev().val(itemText);
         $(this).parent().children('li').removeClass('selected');
         $(this).addClass('selected');
-
         var disabledElements = $(parent).children('.dropdown-disabled');
         if (disabledElements.length > 0) {
             for (var i = 0; i < disabledElements.length; i++) {
@@ -70,13 +67,11 @@ $(document).on('click', '.select .option li', function (event) {
         $(this).trigger('change');
     }
 });
-
 $(document).on('click', '.show-dropdown', function (event) {
     event.preventDefault();
     event.stopPropagation();
     $(this).next().find('[data-toggle=dropdown]').dropdown('toggle');
 });
-
 $(document).on('click', '.btn-delete', function (event) {
     event.stopPropagation();
     event.preventDefault();
@@ -90,7 +85,6 @@ $(document).on('click', '.btn-delete', function (event) {
     }
     updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
 });
-
 $(document).on('click', '.btn-up', function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -101,7 +95,6 @@ $(document).on('click', '.btn-up', function (event) {
         }
     }
 });
-
 $(document).on('click', '.btn-down', function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -112,53 +105,48 @@ $(document).on('click', '.btn-down', function (event) {
         }
     }
 });
-
 function moveElement(direction, which, save) {
     var element = $(which).closest('.root');
     var brother;
-
     $(element).find('.btn-up').addClass('disabled');
     $(element).find('.btn-down').addClass('disabled');
     $(element).find('.btn-delete').addClass('disabled');
-
     switch (direction) {
         case "up":
             brother = $(which).closest('.root').prev();
             $(brother).find('.btn-up').addClass('disabled');
             $(brother).find('.btn-down').addClass('disabled');
             $(brother).find('.btn-delete').addClass('disabled');
-
             var offset = element.offset().top - brother.offset().top;
             var heightBrother = brother.outerHeight(true);
             var heightElement = element.outerHeight(true);
-
+            var opacityElement = $(element).css('opacity');
+            var opacityBrother = $(brother).css('opacity');
             var timeline = new TimelineMax({onComplete: onMoveUpComplete, onCompleteParams: [element, brother, save]});
             timeline.add("start", 0)
                     .to(element, .2, {y: -offset}, "start")
-                    .to(brother, .2, {y: heightBrother === heightElement ? offset : heightElement}, "start")
-                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: .2}, "start")
-                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: 1, delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start")
-                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: .2}, "start")
-                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: 1, delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start");
+                    .to(brother, .2, {y: heightBrother === heightElement ? offset : heightElement}, "start");
+//                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {}, "start")
+//                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start")
+//                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {}, "start")
+//                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start");
             break;
         case "down":
             brother = $(which).closest('.root').next();
             $(brother).find('.btn-up').addClass('disabled');
             $(brother).find('.btn-down').addClass('disabled');
             $(brother).find('.btn-delete').addClass('disabled');
-
             var offset = brother.offset().top - element.offset().top;
             var heightBrother = brother.outerHeight(true);
             var heightElement = element.outerHeight(true);
-
             var timeline = new TimelineMax({onComplete: onMoveDownComplete, onCompleteParams: [element, brother, save]});
             timeline.add("start", 0)
                     .to(element, ELEMENT_MOVE_TRANSITION_DURATION, {y: heightBrother === heightElement ? offset : heightBrother}, "start")
-                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION, {y: -offset}, "start")
-                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: .2}, "start")
-                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: 1, delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start")
-                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: .2}, "start")
-                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {opacity: 1, delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start");
+                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION, {y: -offset}, "start");
+//                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {}, "start")
+//                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start")
+//                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {}, "start")
+//                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start");
 
             break;
     }
@@ -170,7 +158,6 @@ function onMoveUpComplete(element, brother, save) {
             .to(element, 0, {y: 0}, "start")
             .to(brother, 0, {y: 0}, "start");
     $(element).insertBefore(brother);
-
     if (save === true) {
         savePhases();
     }
@@ -178,7 +165,7 @@ function onMoveUpComplete(element, brother, save) {
     $(element).find('.btn-delete').removeClass('disabled');
     $(brother).find('.btn-delete').removeClass('disabled');
     checkCurrentListState(element.closest('.root').parent());
-    if (element.parent().find('.badge').length > 0) {
+    if (element.parent().find('.badgeId').length > 0) {
         updateBadges(element.parent(), element.attr('id'));
     }
 }
@@ -189,7 +176,6 @@ function onMoveDownComplete(element, brother, save) {
             .to(element, 0, {y: 0}, "start")
             .to(brother, 0, {y: 0}, "start");
     $(element).insertAfter(brother);
-
     if (save === true) {
         savePhases();
     }
@@ -197,7 +183,7 @@ function onMoveDownComplete(element, brother, save) {
     $(element).find('.btn-delete').removeClass('disabled');
     $(brother).find('.btn-delete').removeClass('disabled');
     checkCurrentListState(element.closest('.root').parent());
-    if (element.parent().find('.badge').length > 0) {
+    if (element.parent().find('.badgeId').length > 0) {
         updateBadges(element.parent(), element.attr('id'));
     }
 }
@@ -208,10 +194,8 @@ function checkCurrentListState(itemContainer) {
         var child = childList[i];
         var firstElement = $(child).find('.btn-up').first();
         var secondElement = firstElement.next();
-
         firstElement.removeClass('disabled');
         secondElement.removeClass('disabled');
-
         if (i === 0) {
             firstElement.addClass('disabled');
         }
@@ -229,8 +213,6 @@ $(document).on('click', '.btn-toggle-checkbox', function (event) {
     event.preventDefault();
     if (!event.handled) {
         event.handled = true;
-
-
         if ($(this).hasClass('inactive')) {
             if ($(this).parent().children('.active').length === 0) {
                 toggleSwitch(null, $(this));
@@ -253,7 +235,6 @@ $(document).on('click', '.btn-toggle-checkbox', function (event) {
 
         if ($(this).hasClass('check')) {
             $(this).closest('.root').find('.alert-space').empty();
-
             if ($(this).hasClass(ALERT_NO_GESTURES_ASSEMBLED) && assembledGestures() === null) {
                 appendAlert($(this).closest('.root'), ALERT_NO_GESTURES_ASSEMBLED);
             } else if ($(this).hasClass(ALERT_NO_TRIGGER_ASSEMBLED) && getLocalItem(ASSEMBLED_TRIGGER) === null) {
@@ -262,26 +243,25 @@ $(document).on('click', '.btn-toggle-checkbox', function (event) {
                 appendAlert($(this).closest('.root'), ALERT_NO_FEEDBACK_ASSEMBLED);
             }
         }
+
+        $(this).trigger('change');
     }
 });
-
 $(document).on('click', '.switchButtonAddon', function (event) {
     event.preventDefault();
     if (!event.handled) {
         event.handled = true;
+        var inactiveButton;
         var activeButton = $(this).nextAll().filter('.active');
-
         if (activeButton.nextAll().filter('.btn-toggle-checkbox').length === 0 || activeButton.length === 0) {
             activeButton = null;
             inactiveButton = $(this).next();
-
         } else {
             inactiveButton = activeButton.next();
         }
         inactiveButton.click();
     }
 });
-
 function toggleSwitch(activeButton, inactiveButton) {
     if (activeButton) {
         $(activeButton).removeClass('active');
@@ -293,7 +273,6 @@ function toggleSwitch(activeButton, inactiveButton) {
     $(inactiveButton).addClass('active');
     $(inactiveButton).removeClass('btn-default');
     $(inactiveButton).addClass($(inactiveButton).attr('name'));
-
     var supplements = $(activeButton).parent().children('.supplement');
     if (supplements.length > 0) {
         if ($(supplements).hasClass('hidden')) {
@@ -365,7 +344,6 @@ $(document).on('click', '.simple-stepper .btn-stepper-decrease', function (event
         $(this).closest('.simple-stepper').find('.stepper-text').trigger('change');
     }
 });
-
 $(document).on('click', '.simple-stepper .btn-stepper-increase', function (event) {
     event.preventDefault();
     if (event.handled !== true)
@@ -382,8 +360,6 @@ $(document).on('click', '.simple-stepper .btn-stepper-increase', function (event
         $(this).closest('.simple-stepper').find('.stepper-text').trigger('change');
     }
 });
-
-
 /* 
  * Actions for the gesture select dropdown
  */
@@ -394,7 +370,6 @@ function renderAssembledGestures(targetContainer) {
     if (gestures !== null) {
         var dropdown = target === null ? $('#form-item-container').find('.gestureSelect') : $(target).find('.gestureSelect');
         $(dropdown).find('.option').empty();
-
         for (var i = 0; i < gestures.length; i++) {
             var gesture = gestures[i];
             var listItem = document.createElement('li');
@@ -403,7 +378,6 @@ function renderAssembledGestures(targetContainer) {
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode(gesture.title));
             listItem.appendChild(link);
-
             $(dropdown).find('.option').append(listItem);
             $(target).find('.gestureSelect .dropdown-toggle').removeClass('disabled');
             $(target).find('.option-gesture').attr('placeholder', 'Bitte wählen');
@@ -422,14 +396,12 @@ function renderAssembledTriggers() {
     var triggers = getLocalItem(ASSEMBLED_TRIGGER);
     var dropdown = $('#form-item-container').find('.triggerSelect');
     $(dropdown).find('.option').empty();
-
     if (triggers && triggers.length > 0) {
         $(dropdown).find('.dropdown-toggle').removeClass('disabled');
         var listItem;
         for (var i = 0; i < triggers.length; i++) {
             listItem = document.createElement('li');
             listItem.setAttribute('id', triggers[i].id);
-
             var link = document.createElement('a');
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode(triggers[i].title));
@@ -448,38 +420,34 @@ function renderAssembledTriggers() {
  */
 
 function renderAssembledScenes() {
-    var prototypes = getLocalItem(ASSEMBLED_SCENES);
-    var prototypeDropdown = $('body').find('.sceneSelect');
-    $(prototypeDropdown).find('.option').empty();
-
-    if (prototypes && prototypes.length > 0) {
-        $(prototypeDropdown).find('.dropdown-toggle').removeClass('disabled');
+    var scenes = getLocalItem(ASSEMBLED_SCENES);
+    var dropdown = $('body').find('.sceneSelect');
+    $(dropdown).find('.option').empty();
+    if (scenes && scenes.length > 0) {
+        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
         var listItem;
-
-        for (var i = 0; i < prototypes.length; i++) {
+        for (var i = 0; i < scenes.length; i++) {
             var link = document.createElement('a');
             if (i === 0) {
                 listItem = document.createElement('li');
                 listItem.setAttribute('id', 'none');
-
                 link.setAttribute('href', '#');
                 link.appendChild(document.createTextNode(translation.none));
                 listItem.appendChild(link);
-                $(prototypeDropdown).find('.option').append(listItem);
+                $(dropdown).find('.option').append(listItem);
             }
 
             listItem = document.createElement('li');
-            listItem.setAttribute('id', prototypes[i].id);
-
+            listItem.setAttribute('id', scenes[i].id);
             link = document.createElement('a');
             link.setAttribute('href', '#');
-            link.appendChild(document.createTextNode(prototypes[i].title));
+            link.appendChild(document.createTextNode(scenes[i].title));
             listItem.appendChild(link);
-            $(prototypeDropdown).find('.option').append(listItem);
+            $(dropdown).find('.option').append(listItem);
         }
         $('body').find('.option-scene').attr('placeholder', 'Bitte wählen');
     } else {
-        $(prototypeDropdown).find('.dropdown-toggle').addClass('disabled');
+        $(dropdown).find('.dropdown-toggle').addClass('disabled');
         $('body').find('.option-scene').attr('placeholder', 'Keine Szene vorhanden');
     }
 }
@@ -492,19 +460,26 @@ function renderAssembledFeedback(targetContainer) {
     var feedback = getLocalItem(ASSEMBLED_FEEDBACK);
     var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
     if (feedback !== null) {
-//        console.log(feedback);
         feedback = sortByKey(feedback, 'type', true);
         var currentType = null;
-//        console.log(feedback);
 
         var dropdown = target === null ? $('#form-item-container').find('.feedbackSelect') : $(target).find('.feedbackSelect');
         $(dropdown).find('.option').empty();
-
+        var listItem;
         for (var i = 0; i < feedback.length; i++) {
+            var link = document.createElement('a');
+            if (i === 0) {
+                listItem = document.createElement('li');
+                listItem.setAttribute('id', 'none');
+                link.setAttribute('href', '#');
+                link.appendChild(document.createTextNode(translation.nones));
+                listItem.appendChild(link);
+                $(dropdown).find('.option').append(listItem);
+            }
+
             var type = feedback[i].type;
             if (currentType !== type) {
                 currentType = type;
-
                 if (i > 0) {
                     var divider = document.createElement('li');
                     $(divider).addClass('divider');
@@ -517,13 +492,12 @@ function renderAssembledFeedback(targetContainer) {
                 $(dropdown).find('.option').append(header);
             }
 
-            var listItem = document.createElement('li');
+            listItem = document.createElement('li');
             listItem.setAttribute('id', feedback[i].id);
-            var link = document.createElement('a');
+            link = document.createElement('a');
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode(feedback[i].title));
             listItem.appendChild(link);
-
             $(dropdown).find('.option').append(listItem);
             $(target).find('.feedbackSelect .dropdown-toggle').removeClass('disabled');
             $(target).find('.option-feedback').attr('placeholder', 'Bitte wählen');
@@ -569,7 +543,6 @@ $(document).on('click', '.btn-checkbox, .btn-radio', function (event) {
         }
     }
 });
-
 $(document).on('focus focusin select', '.optionalInput', function (event) {
     if (event.handled !== true)
     {
@@ -580,7 +553,6 @@ $(document).on('focus focusin select', '.optionalInput', function (event) {
         }
     }
 });
-
 $(document).on('focusout', '.optionalInput', function (event) {
     if (event.handled !== true)
     {
@@ -591,7 +563,6 @@ $(document).on('focusout', '.optionalInput', function (event) {
         }
     }
 });
-
 $(document).on('mouseover', '.btn-checkbox, .btn-radio', function () {
     if (!$(this).hasClass('btn-option-checked')) {
         $(this).find('#normal, #checked').addClass('hidden');
@@ -599,42 +570,41 @@ $(document).on('mouseover', '.btn-checkbox, .btn-radio', function () {
     }
 
 });
-
 $(document).on('mouseleave', '.btn-checkbox, .btn-radio', function () {
     if (!$(this).hasClass('btn-option-checked')) {
         $(this).find('#normal').removeClass('hidden');
         $(this).find('#over, #checked').addClass('hidden');
     }
 });
-
 $(document).on('slide change', '.custom-range-slider', function () {
     if ($(this).hasClass('saveGeneralData')) {
         saveGeneralData();
     }
 });
-
-
 // hint handling
 function appendHint(source, target, data, surveyType) {
-    removeHint($(target).find('#hint'));
-
-    var hint = $(source).find('#feedback-hint').clone();
-    hint.attr('id', 'hint');
-    $('body').append(hint);
-    renderDataForHint(data, hint, source, surveyType);
-
-    switch (surveyType) {
-        case TYPE_SURVEY_MODERATED:
-            hint.find('#btn-close-hint').remove();
-            break;
-        case TYPE_SURVEY_UNMODERATED:
-            hint.find('.progress-hint').remove();
-            break;
+    if (data.feedbackId !== 'none') {
+        removeHint($(target).find('#hint'));
+        var hint = $(source).find('#feedback-hint').clone();
+        hint.attr('id', 'hint');
+        $('body').append(hint);
+        renderDataForHint(data, hint, source, surveyType);
+        switch (surveyType) {
+            case TYPE_SURVEY_MODERATED:
+                hint.find('#btn-close-hint').remove();
+                break;
+            case TYPE_SURVEY_UNMODERATED:
+                hint.find('.progress-hint').remove();
+                break;
+        }
+        return hint;
     }
+
+    return null;
 }
 
 function renderDataForHint(data, hint, source, surveyType) {
-//    console.log(data);
+    console.log(data);
     var feedback = getFeedbackById(data.feedbackId);
     switch (feedback.type) {
         case TYPE_FEEDBACK_TEXT:
@@ -648,12 +618,10 @@ function renderDataForHint(data, hint, source, surveyType) {
                 TweenMax.to(hint.find('.progress-bar'), 5, {width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: hideHint, onCompleteParams: [hint]});
             }
             break;
-
         case TYPE_FEEDBACK_SOUND:
             hint.find('.hint-content').prepend($(source).find('#feedback-hint-sound-content').clone().removeAttr('id'));
             var audioHolder = hint.find('.audio-holder')[0];
             $(audioHolder).attr('src', feedback.data);
-
             audioHolder.addEventListener("loadedmetadata", function () {
                 audioHolder.play();
                 if (surveyType === TYPE_SURVEY_MODERATED) {
@@ -674,6 +642,7 @@ function hideHint(hint) {
 }
 
 function onhideHintComplete(hint) {
+    $(hint).trigger('hint.hidden');
     removeHint(hint);
 }
 
@@ -689,11 +658,9 @@ function initPagination(pagination, dataLength, maxElements) {
     paginationMaxPages = Math.ceil(dataLength / maxElements);
     var paginationClipping = parseInt($(pagination).attr('itemprop').split('_')[1]);
     var currentIndex = isNaN(parseInt($(pagination).find('.active').text())) ? 1 : parseInt($(pagination).find('.active').text());
-
     for (var i = 0; i < Math.min(paginationClipping, paginationMaxPages); i++) {
         var listItem = getPaginationItem(i + 1);
         $(listItem).insertBefore($(pagination).find('#btn-next-page'));
-
         if (currentIndex !== null && currentIndex === (i + 1)) {
             $(listItem).click();
         }
@@ -740,7 +707,6 @@ $(document).on('click', '.pagination li', function (event) {
         }
     }
 });
-
 function shiftPaginationForward(pagination) {
     var paginationItems = $(pagination).find('.clickable-pagination-item');
     for (var i = 0; i < paginationItems.length; i++) {
@@ -768,7 +734,6 @@ function shiftPaginationLastPage(pagination) {
         for (var i = 0; i < paginationItems.length; i++) {
             var item = paginationItems[i];
             $(item).find('#index-text').text(indexStart++);
-
             if (i === paginationItems.length - 1) {
                 $(pagination).find('#btn-next-page').prev().click();
             }
@@ -783,7 +748,6 @@ function shiftPaginationFirstPage(pagination) {
         for (var i = 0; i < paginationItems.length; i++) {
             var item = paginationItems[i];
             $(item).find('#index-text').text(i + 1);
-
             if (i === paginationItems.length - 1) {
                 $(pagination).find('#btn-previous-page').next().click();
             }
@@ -800,4 +764,59 @@ function getPaginationItem(text) {
     $(href).attr('href', '#');
     $(listItem).append(href);
     return listItem;
+}
+
+function getMainDimensionForDimension(dimension) {
+    var mainDimensions = translation.mainDimensionsForDimension;
+//    console.log(mainDimensions[dimension]);
+    return mainDimensions[dimension];
+//    $.each(dimensions, function (key, value) {
+//        if (dimension === key) {
+//            console.log("return " + value);
+//            return value;
+//        }
+//    });
+//    return DIMENSION_ANY;
+}
+
+function getDimensionByElement(element) {
+    var dimensions = new Array();
+    dimensions.push(DIMENSION_ACCEPTABILITY);
+    dimensions.push(DIMENSION_COGNITIVE_STRESS);
+    dimensions.push(DIMENSION_ERGONOMICS);
+    dimensions.push(DIMENSION_FEASIBILITY);
+    dimensions.push(DIMENSION_LERNABILITY);
+    dimensions.push(DIMENSION_MENTAL_MODEL);
+    dimensions.push(DIMENSION_RELIABILITY);
+    dimensions.push(DIMENSION_USABILITY);
+    for (var i = 0; i < dimensions.length; i++) {
+        if ($(element).hasClass(dimensions[i]) === true) {
+            return dimensions[i];
+        }
+    }
+    return DIMENSION_ANY;
+}
+
+// tab navigation handling
+$(document).on('click', '.nav-tabs li', function (event) {
+    event.preventDefault();
+    if (!event.handled && !$(this).hasClass('active')) {
+        event.handled = true;
+        $(this).parent().find('.active').removeClass('active');
+        $(this).addClass('active');
+        $(this).trigger('change');
+    }
+});
+
+function getAssembledItems(source) {
+    var array = new Array();
+    if (source && source.length > 0) {
+        for (var i = 0; i < source.length; i++) {
+            if (source[i].parameters[0] === true) {
+                array.push(source[i]);
+            }
+        }
+        return array;
+    }
+    return null;
 }

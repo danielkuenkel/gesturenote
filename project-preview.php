@@ -13,7 +13,6 @@ include './includes/language.php';
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/createProjectPreview.css">
         <link rel="stylesheet" href="css/gesture.css">
-        <link rel="stylesheet" href="css/custom-controls.css">
         <link rel="stylesheet" href="externals/font-awesome/css/font-awesome.min.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
@@ -76,7 +75,7 @@ include './includes/language.php';
         </div>
 
         <!-- modals -->
-        <div id="custom-modal" class="modal fade custom-modal" role="dialog">
+        <div id="scene-modal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->

@@ -214,7 +214,7 @@ if (login_check($mysqli) == true) {
         </div>
 
 
-        <div class="container-fluid bg-grey" id="about">
+<!--        <div class="container-fluid bg-grey" id="about">
             <div class="container">
                 <div class="col-sm-4">
                     <i class="glyphicon glyphicon-info-sign" style="font-size: 220pt; color: #f6f6f6; text-shadow: -3px -3px rgba(0,0,0,0.1);"></i>
@@ -253,7 +253,7 @@ if (login_check($mysqli) == true) {
 
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <!-- Container (Services Section) -->
         <div id="services" class="container-fluid text-center bg-grey">
@@ -269,8 +269,8 @@ if (login_check($mysqli) == true) {
                     </div>
                     <div class="col-sm-4">
                         <span class="glyphicon glyphicon-lock logo-small"></span>
-                        <h4>MEHR ALS NUR GESTEN</h4>
-                        <p>Der Einsatz beschränkt sich nicht nur auf die Gesteninteraktion.</p>
+                        <h4>DESIGN VON GESTEN</h4>
+                        <p>Die Designphasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluierung</em> werden unterstützt.</p>
                     </div>
                     <div class="col-sm-4">
                         <span class="glyphicon glyphicon-heart logo-small"></span>

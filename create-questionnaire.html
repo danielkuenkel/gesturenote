@@ -4,9 +4,7 @@
 </div>
 <div id="modal-body" class="modal-body">
 
-    <div class="container-root" id="list-container"></div>
-
-    <div class="form-group">
+    <div class="form-group form-group-no-margin">
         <div class="input-group">
             <span class="input-group-addon">Format</span>
             <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
@@ -24,7 +22,10 @@
             </div>
         </div>
     </div>
-
+</div>
+<hr style="margin: 0;">
+<div id="modal-body" class="modal-body">
+    <div class="container-root" id="list-container"></div>
 </div>
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
@@ -51,7 +52,7 @@
         function saveData() {
             var itemList = $('#list-container').children();
             var questionnaire = new Array();
-            for (var i = 0; i < itemList.length; i++) {
+            for (var i = itemList.length; i--; ) {
                 questionnaire.push(getFormatData(itemList[i]));
             }
             setLocalItem(currentIdForModal + '.data', questionnaire);

@@ -19,14 +19,19 @@
     "previous": "Zurück",
     "maximum": "Maximum",
     "mainDimensions": {
-        "ergonomics": "Zweckmäßigkeit",
-        "learnability": "Zweckmäßigkeit",
-        "mental_model": "Effizienz",
-        "cognitive_stress": "Effizienz",
-        "usability": "Zufriedenheit",
-        "acceptability": "Zufriedenheit",
-        "feasability": "Zufriedenheit",
-        "reliability": "Zufriedenheit"
+        "effectiveness": "Zweckmäßigkeit",
+        "effinciency": "Effizienz",
+        "satisfaction": "Zufriedenheit"
+    },
+    "mainDimensionsForDimension": {
+        "ergonomics": "effectiveness",
+        "learnability": "effinciency",
+        "mental_model": "effectiveness",
+        "cognitive_stress": "satisfaction",
+        "usability": "effectiveness",
+        "acceptability": "satisfaction",
+        "feasability": "effinciency",
+        "reliability": "effinciency"
     },
     "dimensions": {
         "ergonomics": "Ergonomie",
@@ -61,7 +66,7 @@
         "moderated": "Moderiert",
         "unmoderated": "Unmoderiert"
     },
-    "prototypes": {
+    "scenes": {
         "pidoco": "Pidoco",
         "web": "Webseite",
         "image": "Bild",
@@ -90,7 +95,7 @@
     "repeats": "Wiederholungen",
     "none": "Keine",
     "nones": "Keines",
-    "trigger": "Trigger",
+    "trigger": "Funktion",
     "feedback": "Feedback",
     "taskTitle": "Aufgabentitel",
     "task": "Aufgabe",
@@ -105,5 +110,6 @@
     "for": "für",
     "text": "Text",
     "sound": "Sound",
-    "imprint": "Impressum"
+    "imprint": "Impressum",
+    "simulate": "simulieren"
 }

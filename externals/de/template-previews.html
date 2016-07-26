@@ -213,8 +213,8 @@
             <div class="panel panel-default" id="general">
                 <div class="panel-heading"></div>
                 <div class="panel-body">
-
                     <div id="description"></div>
+                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-training" style="margin-top: 6px;">Jetzt starten</button>
                 </div>
             </div>
             <div class="panel panel-default" id="observations">
@@ -239,7 +239,7 @@
         <div class="col-sm-6 col-md-12 col-lg-6 right">
             <div class="btn-group-vertical btn-block">
                 <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
-                <button type="button" class="btn btn-info btn-shadow" id="trigger-training"><span class="text">Trainieren</span></button>
+                <button type="button" class="btn btn-info btn-shadow disabled" id="trigger-training"><span class="text">Trainieren</span></button>
                 <button type="button" class="btn btn-info btn-shadow disabled" id="trigger-feedback"><span class="text">Feedback geben</span></button>
             </div>
 
@@ -267,6 +267,7 @@
                     <p id="description"></p>
                     <span class="label label-default hidden" id="search-gestures">Es werden Gesten für Funktionen erfragt</span> 
                     <span class="label label-danger hidden" id="seach-trigger">Es werden Funktionen für Gesten erfragt</span>
+                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;">Jetzt starten</button>
                 </div>
             </div>
 
@@ -327,7 +328,7 @@
                 <div class="panel-body">
                     <div id="task"></div>
                     <div id="description"></div>
-                    <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Szene anzeigen</button>
+                    <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Start-Szene anzeigen</button>
                     <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="start-scenario" style="margin-top: 6px;">Jetzt starten</button>
                 </div>
             </div>
@@ -343,10 +344,12 @@
     <div class="col-xs-6 col-sm-4 col-md-6" id="wozItem" style="margin-bottom: 10px;">
 
         <!--<div id="task"></div>-->
-        <div id="description"></div>
-        <!--<div class="imageContainer previewGesture" style="margin-bottom: 10px;"></div>-->
+        <!--<div id="description"></div>-->
+        <div id="gesture-title" style=""></div>
+        <div id="trigger-title" style=""></div>
         <div class="btn-group-vertical btn-block">
             <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
+            <button type="button" class="btn btn-default btn-shadow" id="btn-show-transition-scene"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Transitions-Szene zeigen</span></button>
             <button type="button" class="btn btn-info btn-shadow ellipsis disabled" id="trigger-woz">Simulieren</button>
         </div>
     </div> 
@@ -379,9 +382,12 @@
         <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 4px;" />
     </div>
 
-    <div class="videoEmbed">
+    <div id="videoEmbed">
         <span>Titel: </span><span class="title"></span><br/>
         <span>Typ: </span><div class="label label-default type"></div><br/><br/>
+
+        <!-- embed-responsive-16by9 or embed-responsive-4by3 -->
+        <div class="videoContainer embed-responsive"></div>
     </div>
 
 </div>
@@ -442,7 +448,18 @@
                 <div id="title"></div>
             </div>
             <div class="col-sm-6 left">
-                <div class="imageContainer autoplay"></div>
+                <div class="imageContainer mouseScrollable"></div>
+                <div class="progress gesture-progress">
+                    <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                </div>
+                <div class="text-center gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
         <hr>
@@ -463,59 +480,67 @@
 
     <!-- gesture training container -->
     <div class="container root" id="gestureTraining">
-        <h3 class="headline"></h3>
-        <div class="description"></div>
-        <hr>
+        <div id="general">
+            <h3 class="headline"></h3>
+            <div class="description"></div>
+            <hr>
+        </div>
         <div class="alert-space alert-waiting-for-training-gesture"></div>
         <div id="trainingContainer"></div>
     </div>
 
     <div id="trainingItemModerated" class="row">
-        <div class="col-sm-6 right" style="margin-bottom: 10px;">
+        <div class="col-sm-12 col-lg-6" style="margin-bottom: 10px;">
             <div>
-                <div id="title"></div>
-                <div id="repeats"></div>
-                <div id="trigger"></div>
-                <div id="feedback"></div>
+                <div id="title"><span class="address"></span> <span class="text" style="color: #303030"></span></div>
+                <div id="repeats"><span class="address"></span> <span class="text" style="color: #303030"></span></div>
+                <div id="trigger"><span class="address"></span> <span class="text" style="color: #303030"></span></div>
+                <div id="feedback"><span class="address"></span> <span class="text" style="color: #303030"></span></div>
             </div>
         </div>
-        <div class="col-sm-6 left">
+        <div class="col-sm-12 col-lg-6">
             <div class="imageContainer autoplay"></div>
         </div>
     </div>
 
     <div id="trainingItemUnmoderated">
-        <!--<div class="col-sm-6 col-md-12 col-lg-6 left" style="">-->
-        <div class="imageContainer autoplay" style="max-width: 600px; margin: auto"></div>
-
-        <div id="training-controls" style="margin-top: 20px;">
-            <button class="btn btn-xl btn-block btn-success btn-shadow" id="start-training" name="btn-success"><span class="text">Jetzt starten</span></button>
-            <button class="btn btn-xl btn-block btn-info btn-shadow hidden" id="repeat-training" name="btn-success"><span class="text">Geste nochmal ausführen</span></button>
-            <button class="btn btn-xl btn-block btn-success btn-shadow hidden" id="next-gesture" name="btn-success"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-            <button class="btn btn-xl btn-block btn-success btn-shadow hidden" id="training-done" name="btn-success"><span class="text">Fertig</span></button>
+        <div class="row">
+            <div class="col-sm-12" style="height: 73px">
+                <div id="training-controls">
+                    <button class="btn btn-xl btn-block btn-success btn-shadow" id="start-training" name="btn-success"><span class="text">Jetzt Starten</span></button>
+                    <button class="btn btn-xl btn-block btn-success btn-shadow hidden" id="start-single-training" name="btn-success"><span class="text">Gesten-Training beginnen</span></button>
+                    <button class="btn btn-xl btn-block btn-info btn-shadow hidden" id="repeat-training" name="btn-success"><span class="text">Geste nochmal ausführen</span></button>
+                    <button class="btn btn-xl btn-block btn-success btn-shadow hidden" id="next-gesture" name="btn-success"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+                    <button class="btn btn-xl btn-block btn-success btn-shadow hidden" id="training-done" name="btn-success"><span class="text">Fertig</span></button>
+                </div>
+                <div class="progress progress-training hidden" style="height: 100%; border-radius: 10px">
+                    <div class="progress-bar progress-bar-training progress-bar-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+                </div>
+            </div>
         </div>
+        <div class="row hidden" style="margin-top: 20px" id="training-data">
+            <div class="col-sm-12 col-lg-6">
+                <div style="margin-bottom: 10px;">
+                    <div id="title"><span class="address"></span> <span class="text" style="color: #303030"></span></div>
+                    <div id="repeats"><span class="address"></span> <span class="text" style="color: #303030"></span></div>
+                    <div id="trigger"><span class="address"></span> <span class="text" style="color: #303030"></span></div>
+                    <div id="feedback"><span class="address"></span> <span class="text" style="color: #303030"></span></div>
+                </div>
+            </div>
 
-        <div class="progress progress-training hidden" style="margin-top: 20px; height: 73px; border-radius: 10px">
-            <div class="progress-bar progress-bar-training progress-bar-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+            <div class="col-sm-12 col-lg-6" style="">
+                <div class="imageContainer autoplay" style="max-width: 600px; margin: auto;"></div>
+            </div>
         </div>
-        <!--</div>-->
-        <!--        <div class="col-sm-6 col-md-12 col-lg-6 right">
-                    <div style="margin-bottom: 10px;">
-                        <div id="title"></div>
-                        <div id="repeats"></div>
-                        <div id="trigger"></div>
-                        <div id="feedback"></div>
-                    </div>
-                    <button type="button" class="btn btn-success btn-shadow btn-block hidden" id="next-gesture"><span class="text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-                    <button type="button" class="btn btn-success btn-shadow btn-block hidden" id="training-done">Fertig</button>
-                </div>-->
     </div>
 
     <!-- slideshow container -->
     <div class="container root" id="slideshow">
-        <h3 class="headline"></h3>
-        <div class="description"></div>
-        <hr>
+        <div id="general">
+            <h3 class="headline"></h3>
+            <div class="description"></div>
+            <hr>
+        </div>
         <div class="alert-space alert-waiting-for-slideshow"></div>
         <div class="progress progress-slideshow hidden" style="border-radius: 10px; height: 73px;">
             <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
@@ -525,11 +550,11 @@
 
     <div id="slideshowItemModerated" class="text-center">
         <div class="gestureContainer hidden">
-            <p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Nennen Sie die Funktion für folgende Geste</p>
+            <!--<p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Nennen Sie die Funktion für folgende Geste</p>-->
             <div class="imageContainer autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
         </div>
         <div class="triggerContainer hidden">
-            <p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Zeigen Sie die Geste für die Funktion</p>
+            <!--<p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Zeigen Sie die Geste für die Funktion</p>-->
             <div class="trigger-title" style="font-size: 50pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
         </div>
     </div>
@@ -538,11 +563,11 @@
         <button class="btn btn-xl btn-block btn-success btn-shadow hidden" id="startSlideshow" name="btn-success">Jetzt Starten</button>
 
         <div class="gestureContainer hidden">
-            <p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Nennen Sie die Funktion für folgende Geste</p>
+            <!--<p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Nennen Sie die Funktion für folgende Geste</p>-->
             <div class="imageContainer autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
         </div>
         <div class="triggerContainer hidden">
-            <p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Zeigen Sie die Geste für die Funktion</p>
+            <!--<p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Zeigen Sie die Geste für die Funktion</p>-->
             <div class="trigger-title" style="font-size: 50pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
         </div>
     </div>
@@ -550,48 +575,45 @@
     <!-- scenario container -->
     <div class="root" id="scenario" style="width: 100%;">
 
-        <!--        <div style="position: absolute; top:54px; width: 100%; height:auto;">
-                    <div id="scene-container" class="text-center" style="position: absolute; width: 100%; height:auto; overflow:auto"></div>
-                    <div id="woz-scenario-text-container" class="hidden" style="width: 100%; position: absolute; display: flex; justify-content: center;">
-                        <div id="woz-scenario-text" class="text-center" style="position: relative;margin: 0 auto;">
-                            <span id="text-start"></span>
-                            <em><span id="gesture-title"></span></em>
-                            <span id="gesture-for"></span>
-                            <em><span id="trigger-title"></span></em>
-                            <span id="feedback-title"></span>
-                            <button type="button" class="btn btn-xl btn-info btn-block" id="btn-close-woz-hint" style="margin-top: 20px"><span class="text">Okay</span></button>
-                        </div>
-                    </div>
-                </div>-->
-
-
-        <div id="generalPanel" style="width: 100%">
-            <div class="alert-space alert-waiting-for-scenario-start" style="margin-top: 10px"></div>
-            <div id="generalPanelContent" class="hidden" style="width: 100%">
-                <div id="task-header"></div>
-                <div id="task-text" style="color: #303030; line-height: 1.2em"></div>
-                <hr>
-            </div>
-
-            <div class="text-center hidden" id="normal-controls">
-                <button class="btn btn-link" id="btn-show-scenario-info"><i class="glyphicon glyphicon-menu-down text-center"></i> <span id="more-text"></span></button>
-                <button class="btn btn-link hidden" id="btn-hide-scenario-info"><i class="glyphicon glyphicon-menu-up text-center"></i> <span id="less-text"></span></button>
-                <button type="button" class="btn btn-info pull-right" id="getting-help"><i class="fa fa-life-ring"></i> <span class="text">Hilfe anfordern</span></button>
-            </div>
-
-            <div class="text-center hidden" id="start-controls">
-                <button type="button" class="btn btn-success btn-lg" id="start-scene"><span class="text">Los geht's</span></button>
-            </div>
+        <div style="position: absolute; width: 100%; height:auto;" id="scenePanel">
+            <div id="scene-container" class="text-center" style="position: absolute; width: 100%; height:auto; overflow:auto"></div>
         </div>
 
-
+        <div class="hidden" id="generalPanel" style="width: 100%"></div>
     </div>
 
-    <!--<object id="web" type="text/html" data="" style="position: absolute; width:100%; height:700px"></object>-->
-    <!--<div id="web" style="width: 100%; height:400px; background-color: #0088cc"></div>-->
+    <div id="scenario-panel-moderated">
+        <div class="alert-space alert-waiting-for-scenario-start" style="margin-top: 10px"></div>
+    </div>
+
+    <div id="scenario-panel-unmoderated" style="width: 100%">
+        <div id="info-content" class="hidden" style="width: 100%">
+            <div id="task-header"></div>
+            <div id="task-text" style="color: #303030; line-height: 1.2em"></div>
+            <hr>
+        </div>
+
+        <div class="text-center hidden" id="normal-controls">
+            <button class="btn btn-link" id="btn-show-scenario-info"><i class="glyphicon glyphicon-menu-down text-center"></i> <span id="more-text"></span></button>
+            <button class="btn btn-link hidden" id="btn-hide-scenario-info"><i class="glyphicon glyphicon-menu-up text-center"></i> <span id="less-text"></span></button>
+            <button type="button" class="btn btn-info pull-right" id="getting-help"><i class="fa fa-life-ring"></i> <span class="text">Hilfe anfordern</span></button>
+        </div>
+
+        <div class="text-center hidden" id="start-controls">
+            <button type="button" class="btn btn-success btn-lg" id="start-scene"><span class="text">Los geht's</span></button>
+        </div>
+    </div>    
+
     <iframe id="web" class="web-frame" src="" frameborder="0" style="width: 100%;" scrolling="yes"></iframe>
 
+    <iframe id="pidoco" class="web-frame" src="" frameborder="0" style="width: 100%;" scrolling="yes"></iframe>
+
     <img id="image" style="width: auto;">
+
+    <!-- embed-responsive-16by9 or embed-responsive-4by3 -->
+    <div id="videoEmbed" style="margin: auto">
+        <div class="videoContainer embed-responsive"></div>
+    </div>
 
 
     <!-- hints and hint contents-->
@@ -783,7 +805,7 @@
     <div class="btn-group" id="radio">
         <button class="btn btn-default btn-radio" name="primary">
             <span id="icons" style="margin-right: 6px">
-                <i class="fa fa-circle-o" id="normal"></i>
+                <i class="fa fa-circle-thin" id="normal"></i>
                 <i class="fa fa-circle hidden" id="over"></i>
                 <i class="fa fa-check-circle hidden" id="checked"></i>
             </span>
@@ -794,7 +816,7 @@
     <div id="radio-optionalanswer" style="width: 100%">
         <button class="btn btn-default btn-radio" name="primary" style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px">
             <span id="icons" style="margin-right: 6px">
-                <i class="fa fa-circle-o" id="normal"></i>
+                <i class="fa fa-circle-thin" id="normal"></i>
                 <i class="fa fa-circle hidden" id="over"></i>
                 <i class="fa fa-check-circle hidden" id="checked"></i>
             </span>

@@ -21,7 +21,7 @@ var Tester = {
                 item = Tester.getGUS(container, currentPhaseData);
                 break;
             case GUS_MULTIPLE_GESTURES:
-                item = Tester.getQuestionnaire(container, currentPhaseData.gus);
+                item = Tester.getQuestionnaire(container, getAssembledItems(currentPhaseData.gus));
                 break;
             case SUS:
                 item = Tester.getSUS(source, container, currentPhaseData);
@@ -65,11 +65,9 @@ var Tester = {
     },
     getQuestionnaire: function getQuestionnaire(container, data) {
         for (var i = 0; i < data.length; i++) {
-
-
             var item = $('#item-container-inputs').find('#' + data[i].type).clone(false).removeAttr('id');
-            $(item).find('.question').text(i + 1 + '. ' + data[i].question);
-            $(container).find('.question-container').append(item);
+            $(item).find('.question').text(data.length - i + '. ' + data[i].question);
+            $(container).find('.question-container').prepend(item);
 
             if (data[i].dimension !== DIMENSION_ANY) {
                 $(item).find('#dimension').removeClass('hidden');
@@ -116,7 +114,7 @@ var Tester = {
             renderGestureImages(container.find('.imageContainer'), gesture.images, gesture.previewImage, null);
         }
 
-        container = Tester.getQuestionnaire(container, data.gus);
+        container = Tester.getQuestionnaire(container, getAssembledItems(data.gus));
         return container;
     },
     getSUS: function getSUS(source, container, data) {
@@ -143,6 +141,10 @@ var Tester = {
         if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
             Tester.renderUnmoderatedTraining(source, container, data.training);
         } else {
+            if (gestureTrainingStartTriggered) {
+                container.find('#general').addClass('hidden');
+            }
+
             if (trainingTriggered) {
                 Tester.renderModeratedTraining(source, container, data.training);
             } else {
@@ -157,48 +159,121 @@ var Tester = {
         var item = $(source).find('#trainingItemModerated').clone().removeAttr('id');
         $(container).append(item);
 
-//        item.find('#title').text(translation.title + ": " + trainingData.gesture.title);
-//        item.find('#repeats').text(translation.repeats + ": " + trainingData.repeats);
-//        item.find('#trigger').text(translation.trigger + ": " + trainingData.trigger.title);
-//
-//        if (trainingData.feedback) {
-//            item.find('#feedback').text(translation.feedback + ": " + trainingData.feedback.title);
-//        } else {
-//            item.find('#feedback').text(translation.feedback + ": " + translation.nones);
-//        }
+        var gesture = getGestureById(trainingData.gestureId);
+        var trigger = getTriggerById(trainingData.triggerId);
+        var feedback = getFeedbackById(trainingData.feedbackId);
+
+        item.find('#title .address').text(translation.title + ":");
+        item.find('#title .text').text(gesture.title);
+        item.find('#trigger .address').text(translation.trigger + ":");
+        item.find('#trigger .text').text(trigger.title);
+        item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+        item.find('#feedback .address').text(translation.feedback + ":");
+
+        if (feedback) {
+            var icon = document.createElement('i');
+            var label = document.createElement('div');
+            $(label).addClass('label label-default');
+
+            switch (feedback.type) {
+                case TYPE_FEEDBACK_SOUND:
+                    $(label).text(' Sound');
+                    $(icon).addClass('fa fa-volume-up');
+                    break;
+                case TYPE_FEEDBACK_TEXT:
+                    $(label).text(' Text');
+                    $(icon).addClass('fa fa-font');
+                    break;
+            }
+
+            item.find('#feedback .text').text(" " + feedback.title);
+            $(label).prepend(icon);
+            item.find('#feedback .text').prepend(label);
+        } else {
+            item.find('#feedback .text').text(translation.nones);
+        }
 
         if (triggeredFeedback) {
             appendHint(source, $('body'), trainingData, TYPE_SURVEY_MODERATED);
             triggeredFeedback = null;
         }
 
-        renderGestureImages(item.find('.imageContainer'), trainingData.gesture.images, trainingData.gesture.previewImage, null);
+        renderGestureImages(item.find('.imageContainer'), gesture.images, gesture.previewImage, null);
     },
     renderUnmoderatedTraining: function renderUnmoderatedTraining(source, container, data) {
         var trainingData = data[currentGestureTrainingIndex];
+        var gesture = getGestureById(trainingData.gestureId);
+        var trigger = getTriggerById(trainingData.triggerId);
+        var feedback = getFeedbackById(trainingData.feedbackId);
+        var repeatsLeft = trainingData.repeats;
         var item = $(source).find('#trainingItemUnmoderated').clone().removeAttr('id');
         $(container).find('#trainingContainer').empty();
         $(container).find('#trainingContainer').append(item);
-        item.find('#title').text(translation.title + ": " + trainingData.gesture.title);
-        item.find('#repeats').text(translation.repeats + ": " + trainingData.repeats);
-        item.find('#trigger').text(translation.trigger + ": " + trainingData.trigger.title);
-        var repeatsLeft = trainingData.repeats;
+        item.find('#title .address').text(translation.title + ":");
+        item.find('#title .text').text(gesture.title);
+        item.find('#repeats .address').text(translation.repeats + ":");
+        item.find('#repeats .text').text(repeatsLeft);
+        item.find('#trigger .address').text(translation.trigger + ":");
+        item.find('#trigger .text').text(trigger.title);
+        item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+        item.find('#feedback .address').text(translation.feedback + ":");
 
-        renderGestureImages(item.find('.imageContainer'), trainingData.gesture.images, trainingData.gesture.previewImage, null);
+        if (feedback) {
+            var icon = document.createElement('i');
+            var label = document.createElement('div');
+            $(label).addClass('label label-default');
 
-//        if (trainingData.feedback) {
-//            item.find('#feedback').text(translation.feedback + ": " + trainingData.feedback.title);
-//        } else {
-//            item.find('#feedback').text(translation.feedback + ": " + translation.nones);
-//        }
-        // training handler
-        item.find('#start-training, #repeat-training').on('click', function (event) {
+            switch (feedback.type) {
+                case TYPE_FEEDBACK_SOUND:
+                    $(label).text(' Sound');
+                    $(icon).addClass('fa fa-volume-up');
+                    break;
+                case TYPE_FEEDBACK_TEXT:
+                    $(label).text(' Text');
+                    $(icon).addClass('fa fa-font');
+                    break;
+            }
+
+            item.find('#feedback .text').text(" " + feedback.title);
+            $(label).prepend(icon);
+            item.find('#feedback .text').prepend(label);
+        } else {
+            item.find('#feedback .text').text(translation.nones);
+        }
+
+        if (gestureTrainingStartTriggered) {
+            container.find('#general').addClass('hidden');
+            item.find('#start-training').addClass('hidden');
+            item.find('#start-single-training').removeClass('hidden');
+            item.find('#start-single-training').addClass('disabled');
+            item.find('#training-data').removeClass('hidden');
+            renderGestureImages(item.find('.imageContainer'), gesture.images, gesture.previewImage, function () {
+                item.find('#start-single-training').removeClass('disabled');
+            });
+        }
+
+        // start state handling
+        item.find('#start-training').on('click', function (event) {
             event.preventDefault();
-//            currentGestureTrainingIndex++;
-//            Tester.renderUnmoderatedTraining(source, container, data);
-            $(item).find('#training-controls').addClass('hidden');
-            $(item).find('.progress-training').removeClass('hidden');
-            TweenMax.to(item.find('.progress-bar'), trainingData.recognitionTime, {width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: onTrainingTimesUp});
+            $(this).addClass('hidden');
+            gestureTrainingStartTriggered = true;
+            container.find('#general').addClass('hidden');
+            item.find('#start-single-training, #training-data').removeClass('hidden');
+            item.find('#start-single-training').addClass('disabled');
+
+            renderGestureImages(item.find('.imageContainer'), gesture.images, gesture.previewImage, function () {
+                item.find('#start-single-training').removeClass('disabled');
+            });
+        });
+
+        // training handler
+        item.find('#start-single-training, #repeat-training').on('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                $(item).find('#training-controls').addClass('hidden');
+                $(item).find('.progress-training').removeClass('hidden');
+                TweenMax.to(item.find('.progress-bar-training'), trainingData.recognitionTime, {width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: onTrainingTimesUp});
+            }
         });
 
         function onTrainingTimesUp() {
@@ -210,14 +285,15 @@ var Tester = {
             item.find('.progress-bar').css({width: "100%"});
 
             if (repeatsLeft === 0) {
-                item.find('#start-training, #repeat-training').addClass('hidden');
+                item.find('#training-data').addClass('hidden');
+                item.find('#start-single-training, #repeat-training').addClass('hidden');
                 if (data.length === 1 || currentGestureTrainingIndex >= data.length - 1) {
                     item.find('#training-done').removeClass('hidden');
                 } else {
                     item.find('#next-gesture').removeClass('hidden');
                 }
             } else {
-                item.find('#start-training').addClass('hidden');
+                item.find('#start-single-training').addClass('hidden');
                 item.find('#repeat-training').removeClass('hidden');
             }
         }
@@ -226,11 +302,13 @@ var Tester = {
         item.find('#next-gesture').on('click', function (event) {
             event.preventDefault();
             currentGestureTrainingIndex++;
+            item.find('#training-data').removeClass('hidden');
             Tester.renderUnmoderatedTraining(source, container, data);
         });
         item.find('#training-done').on('click', function (event) {
             event.preventDefault();
             currentGestureTrainingIndex = 0;
+            gestureTrainingStartTriggered = false;
             nextStep();
         });
     },
@@ -244,9 +322,14 @@ var Tester = {
             return false;
         }
 
+        if (slideshowStartTriggered) {
+            $(container).find('#general').remove();
+        }
+
         if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
             Tester.renderUnmoderatedSlideshow(source, container, data);
         } else {
+
             if (slideTriggered) {
                 Tester.renderModeratedSlideshow(source, container, data);
             } else {
@@ -256,6 +339,7 @@ var Tester = {
         return container;
     },
     renderModeratedSlideshow: function renderModeratedSlideshow(source, container, data) {
+        console.log(data);
         var slideData = data.slideshow[currentSlideIndex];
         var item = $(source).find('#slideshowItemModerated').clone().removeAttr('id');
         $(container).find('#slideshowContainer').append(item);
@@ -267,27 +351,35 @@ var Tester = {
         var timeline = new TimelineMax({paused: true, delay: 1, onComplete: onAnswerTimeExpired, onCompleteParams: [container]});
         timeline.add("start", 0)
                 .to(progress.find('.progress-bar'), parseInt(data.answerTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start")
-                .to($(container).find('.gestureContainer .headline, .triggerContainer .headline'), parseInt(data.answerTime), {color: '#d9534f', ease: Power0.easeNone}, "start");
+//                .to($(container).find('.gestureContainer .headline, .triggerContainer .headline'), parseInt(data.answerTime), {color: '#d9534f', ease: Power0.easeNone}, "start");
 
         if (data.slideshowFor === 'trigger') {
+            var gesture = getGestureById(slideData.gestureId);
             $(item).find('.gestureContainer').removeClass('hidden');
-            renderGestureImages(item.find('.imageContainer'), slideData.gesture.images, slideData.gesture.previewImage, function () {
+            renderGestureImages(item.find('.imageContainer'), gesture.images, gesture.previewImage, function () {
                 timeline.play();
             });
         } else {
+            var trigger = getTriggerById(slideData.triggerId);
             $(item).find('.triggerContainer').removeClass('hidden');
-            $(item).find('.triggerContainer .trigger-title').text(slideData.trigger.title);
+            $(item).find('.triggerContainer .trigger-title').text(trigger.title);
             timeline.play();
         }
     },
-    renderUnmoderatedSlideshow: function renderUnmoderatedSlideshow(source, container, data, trainingIsActive) {
+    renderUnmoderatedSlideshow: function renderUnmoderatedSlideshow(source, container, data, isActive) {
         var item = $(source).find('#slideshowItemUnmoderated').clone().removeAttr('id');
         $(container).find('#slideshowContainer').empty().append(item);
+
         if (currentSlideIndex === data.slideshow.length) {
             $(item).find('#startSlideshow').text(translation.next);
         }
 
-        if (trainingIsActive) {
+        if (slideshowStartTriggered) {
+            $(container).find('#general').remove();
+        }
+
+        if (isActive) {
+
             var slideData = data.slideshow[currentSlideIndex];
 
             var progress = $(container).find('.progress');
@@ -300,13 +392,15 @@ var Tester = {
                     .to($(container).find('.gestureContainer .headline, .triggerContainer .headline'), parseInt(data.answerTime), {color: '#d9534f', ease: Power0.easeNone}, "start");
 
             if (data.slideshowFor === 'trigger') {
+                var gesture = getGestureById(slideData.gestureId);
                 $(item).find('.gestureContainer').removeClass('hidden');
-                renderGestureImages(item.find('.imageContainer'), slideData.gesture.images, slideData.gesture.previewImage, function () {
+                renderGestureImages(item.find('.imageContainer'), gesture.images, gesture.previewImage, function () {
                     timeline.play();
                 });
             } else {
+                var trigger = getTriggerById(slideData.triggerId);
                 $(item).find('.triggerContainer').removeClass('hidden');
-                $(item).find('.triggerContainer .trigger-title').text(slideData.trigger.title);
+                $(item).find('.triggerContainer .trigger-title').text(trigger.title);
                 timeline.play();
             }
         } else {
@@ -317,90 +411,73 @@ var Tester = {
             event.preventDefault();
             if (currentSlideIndex >= data.slideshow.length) {
                 currentSlideIndex = 0;
+                slideshowStartTriggered = false;
                 nextStep();
             } else {
+                slideshowStartTriggered = true;
                 Tester.renderUnmoderatedSlideshow(source, container, data, true);
             }
         });
     },
     getScenario: function getScenario(source, container, data) {
-//        console.log(data);
-        var scene = getSceneById(data.scene);
-//        console.log(scene);
-//        console.log(container);
-        var sceneItem = $('#item-container-tester').find('#' + scene.type).clone().removeAttr('id');
-        container.find('#scene-container').append(sceneItem);
-        container.find('#more-text').text(translation.more);
-        container.find('#less-text').text(translation.less);
-        container.find('#task-header').text(translation.task + ":");
-        container.find('#task-text').text(data.description);
-        container.find('#generalPanel #btn-show-scenario-info').on('click', function (event) {
-            event.preventDefault();
-            showScenarioInfos(container.find('#generalPanel'));
-            $(this).addClass('hidden');
-        });
-        container.find('#generalPanel #btn-hide-scenario-info').on('click', function (event) {
-            event.preventDefault();
-            hideScenarioInfos(container.find('#generalPanel'));
-            $(this).addClass('hidden');
-        });
+        var sceneItem;
 
-        switch (scene.type) {
-            case SCENE_WEB:
-                sceneItem.attr('src', scene.options[0]);
-                break;
-            case SCENE_IMAGE:
-                sceneItem[0].onload = function () {
-                    var image = sceneItem[0];
-                    var colorThief = new ColorThief();
-                    var dominantColor = colorThief.getColor(image);
-                    container.find('#scene-container').css("backgroundColor", "rgb(" + dominantColor[0] + "," + dominantColor[1] + "," + dominantColor[2] + ")");
-                };
-                sceneItem[0].src = scene.data;
-                break;
-            case SCENE_PIDOCO:
-                break;
-            case SCENE_VIDEO_EMBED:
-                break;
+        if (scenarioStartTriggered) {
+            if (currentTriggeredSceneId) {
+                sceneItem = renderSceneItem(source, container, currentTriggeredSceneId);
+            } else {
+                sceneItem = renderSceneItem(source, container, data.scene);
+            }
         }
 
-        $(window).resize(function () {
-            var height = $(window).height() - 145 - 54;
-            sceneItem.height(height);
-            $(container).find('#woz-scenario-text-container').height(height);
-        }).resize();
-
         if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
-            container.find('#generalPanelContent').removeClass('hidden');
+            var panelContent = $(source).find('#scenario-panel-unmoderated').clone();
+            container.find('#generalPanel').append(panelContent);
+            panelContent.find('#more-text').text(translation.more);
+            panelContent.find('#less-text').text(translation.less);
+            panelContent.find('#task-header').text(translation.task + ":");
+            panelContent.find('#task-text').text(data.description);
+
+            container.find('#generalPanel').removeClass('hidden');
+            container.find('#info-content').removeClass('hidden');
             container.find('#generalPanel #btn-show-scenario-info').click();
             container.find('#start-controls').removeClass('hidden');
-            sceneItem.addClass('hidden');
 
-            container.find('#start-scene').click(function (event) {
+            container.find('#btn-show-scenario-info').on('click', function (event) {
+                event.preventDefault();
+                showScenarioInfos(container);
+                $(this).addClass('hidden');
+            });
+            container.find('#btn-hide-scenario-info').on('click', function (event) {
+                event.preventDefault();
+                hideScenarioInfos(container);
+                $(this).addClass('hidden');
+            });
+
+            container.find('#start-scene').click(function () {
                 container.find('#start-controls').addClass('hidden');
                 container.find('#normal-controls').removeClass('hidden');
+
+                sceneItem = renderSceneItem(source, container, data.scene);
                 sceneItem.removeClass('hidden');
-                container.find('#generalPanel #btn-hide-scenario-info').click();
+                sceneItem.css({marginTop: '54px'});
+                container.find('#btn-hide-scenario-info').click();
             });
         } else {
-            container.find('#getting-help').remove();
-            container.find('#normal-controls').removeClass('hidden');
-
             // handle scenario start state
             if (scenarioStartTriggered) {
                 sceneItem.removeClass('hidden');
-                container.find('.alert-space').remove();
+                clearAlerts(container);
             } else {
-                sceneItem.addClass('hidden');
+                var panelContent = $(source).find('#scenario-panel-moderated').clone();
+                container.find('#generalPanel').append(panelContent);
+                container.find('#generalPanel').removeClass('hidden');
                 appendAlert($(container), ALERT_WAITING_FOR_SCENARIO_START);
-                container.find('#generalPanel #btn-show-scenario-info').click();
-                container.find('#generalPanelContent').removeClass('hidden');
             }
 
             // handle triggered help
             if (triggeredHelp) {
                 var helpModal = $('body').find('#help-modal');
-//                console.log(triggeredHelp);
                 helpModal.find('#help-text').text(triggeredHelp.option);
 
                 if (triggeredHelp.useGestureHelp === true && triggeredHelp.gestureId) {
@@ -420,14 +497,90 @@ var Tester = {
 
             // handle triggered woz
             if (triggeredWoz && scene.type !== SCENE_PIDOCO) {
-                appendHint(source, $('body'), triggeredWoz, TYPE_SURVEY_MODERATED);
-                triggeredWoz = null;
+                var hint = appendHint(source, $('body'), triggeredWoz, TYPE_SURVEY_MODERATED);
+
+                var transitionScene = getSceneById(triggeredWoz.transitionId);
+                currentTriggeredSceneId = triggeredWoz.transitionId
+                if (hint !== null) {
+                    $(hint).on('hint.hidden', function () {
+                        if (transitionScene) {
+                            renderSceneItem(source, container, triggeredWoz.transitionId);
+                        }
+                        triggeredWoz = null;
+                    });
+                } else {
+                    if (transitionScene) {
+                        renderSceneItem(source, container, triggeredWoz.transitionId);
+                    }
+                    triggeredWoz = null;
+                }
             }
         }
 
         return container;
     }
 };
+
+function renderSceneItem(source, container, sceneId) {
+    if (sceneId !== 'none' || sceneId !== null) {
+        var scene = getSceneById(sceneId);
+
+        var sceneItem = $(source).find('#' + scene.type).clone().removeAttr('id');
+        container.find('#scene-container').empty().append(sceneItem);
+
+        switch (scene.type) {
+            case SCENE_WEB:
+                sceneItem.attr('src', scene.data[0]);
+                break;
+            case SCENE_IMAGE:
+                sceneItem[0].onload = function () {
+                    var image = sceneItem[0];
+                    var colorThief = new ColorThief();
+                    var dominantColor = colorThief.getColor(image);
+                    container.find('#scene-container').css("backgroundColor", "rgb(" + dominantColor[0] + "," + dominantColor[1] + "," + dominantColor[2] + ")");
+                };
+                sceneItem[0].src = scene.data;
+                break;
+            case SCENE_PIDOCO:
+                sceneItem[0].src = scene.data;
+                break;
+            case SCENE_VIDEO_EMBED:
+                sceneItem.find('.videoContainer').addClass(scene.options[0] === 'ratio_16_9' ? 'embed-responsive-16by9' : 'embed-responsive-4by3');
+                sceneItem.find('.videoContainer').html(scene.data);
+                var video = $(sceneItem).find('iframe');
+                var src = video.attr('src');
+                video.attr('src', src + "?autoplay=1");
+                $(video).addClass('embed-responsive-item');
+                container.find('#scene-container').css("backgroundColor", "rgb(0,0,0)");
+                break;
+        }
+
+        $(window).resize(function () {
+            var height;
+            if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+                height = $(window).height() - 145 - 54;
+            } else {
+                height = $(window).height() - 145;
+            }
+
+            if (scene.type === SCENE_VIDEO_EMBED) {
+                var width;
+                if (scene.options[0] === 'ratio_16_9') {
+                    width = height / 9 * 16;
+                } else {
+                    width = height / 3 * 4;
+                }
+                width = Math.min($(window).width(), width);
+                sceneItem.width(width);
+            }
+
+            sceneItem.height(height);
+//            console.log(sceneItem.width());
+        }).resize();
+
+        return sceneItem;
+    }
+}
 
 function onAnswerTimeExpired(container) {
     $(container).find('.gestureContainer .headline, .triggerContainer .headline').text(translation.timesUp);
@@ -459,10 +612,10 @@ function onHideUnmoderatedSlideComplete(source, container, data) {
 
 function showScenarioInfos(target) {
     $(target).find('#btn-hide-scenario-info').removeClass('hidden');
-    $(target).find('#generalPanelContent').removeClass('hidden');
+    $(target).find('#info-content').removeClass('hidden');
 }
 
 function hideScenarioInfos(target) {
     $(target).find('#btn-show-scenario-info').removeClass('hidden');
-    $(target).find('#generalPanelContent').addClass('hidden');
+    $(target).find('#info-content').addClass('hidden');
 }

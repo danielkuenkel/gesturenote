@@ -11,8 +11,6 @@
     <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
 </div>
 
-
-<!--<script type="text/javascript" src="js/template-inputs.js"></script>-->
 <script>
     $(document).ready(function () {
         var scene = getSceneById(currentSceneId);
@@ -20,27 +18,31 @@
             renderData(scene);
         }
 //        console.log(scene);
+
+        $('#scene-modal').on('hidden.bs.modal', function () {
+            $('#list-container').empty();
+        });
     });
 
     function renderData(data) {
         var source = getSourceContainer(VIEW_MODERATOR);
         var container = $(source).find('#' + data.type).clone().removeAttr('id');
-        container.find('.type').text(translation.prototypes[data.type]);
+        container.find('.type').text(translation.scenes[data.type]);
         container.find('.title').text(data.title);
-        console.log(data);
         $('#list-container').append(container);
 
         switch (data.type) {
             case SCENE_IMAGE:
                 container.find('.imageAreaContent').attr('src', data.data);
                 break;
-            case SCENE_VIDEO:
-                // not assembled and saved
-                break;
             case SCENE_VIDEO_EMBED:
+                container.find('.videoContainer').addClass(data.options[0] === 'ratio_16_9' ? 'embed-responsive-16by9' : 'embed-responsive-4by3');
+                container.find('.videoContainer').html(data.data[0]);
+                var video = $(container).find('.videoContainer iframe');
+                $(video).addClass('embed-responsive-item');
                 break;
             case SCENE_PIDOCO:
-                container.find('.web-frame').attr('src', data.options[1]);
+                container.find('.web-frame').attr('src', data.data[1]);
                 container.find('.btn-url').on('click', function (event) {
                     event.preventDefault();
                     var win = window.open(data.options[1]);
@@ -49,12 +51,12 @@
                         win.focus();
                     } else {
                         //Broswer has blocked it
-                        alert('Please allow popups for this site');
+                        console.log('Please allow popups for this site');
                     }
                 });
                 break;
             case SCENE_WEB:
-                container.find('.web-frame').attr('src', data.options[0]);
+                container.find('.web-frame').attr('src', data.data[0]);
                 container.find('.btn-url').on('click', function (event) {
                     event.preventDefault();
                     var win = window.open(data.options[0]);
@@ -63,7 +65,7 @@
                         win.focus();
                     } else {
                         //Broswer has blocked it
-                        alert('Please allow popups for this site');
+                        console.log('Please allow popups for this site');
                     }
                 });
                 break;

@@ -44,57 +44,69 @@ $(window).load(function () {
         }
     });
 
-    $('body').on('click', '#play', function (event) {
+    $('body').on('click', '#btn-play-gesture', function (event) {
         event.preventDefault();
+        event.stopPropagation();
         if (!$(this).hasClass('active')) {
             $(this).addClass('active');
             playThroughThumbnails($(this).closest('.root').find('.imageContainer'), 0);
         }
     });
 
-    $('body').on('click', '#stop', function (event) {
+    $('body').on('click', '#btn-stop-gesture', function (event) {
         event.preventDefault();
+        event.stopPropagation();
+        currentGestureContainer = $(this).parent();
         resetPlayButton();
         resetThumbnails($(this).closest('.root').find('.imageContainer'));
     });
 
-    $('body').on('click', '#stepForward', function (event) {
+    $('body').on('click', '#btn-step-forward-gesture', function (event) {
         event.preventDefault();
+        event.stopPropagation();
         clearTimer();
+        currentGestureContainer = $(this).parent();
         resetPlayButton();
         stepForward($(this).closest('.root').find('.imageContainer'));
     });
 
     var mouseDownInterval;
-    $('body').on('mousedown', '#stepForward', function (event) {
+    $('body').on('mousedown', '#btn-step-forward-gesture', function (event) {
         event.preventDefault();
+        event.stopPropagation();
         clearTimer();
+        currentGestureContainer = $(this).parent();
         resetPlayButton();
         mouseDownInterval = setInterval(function (container) {
             stepForward(container);
-        }, 100, $(this).closest('.root').find('.imageContainer'));
+        }, 200, $(this).closest('.root').find('.imageContainer'));
     });
 
-    $('body').on('mouseup', '#stepForward, #stepBackward', function (event) {
+    $('body').on('mouseup', '#btn-step-forward-gesture, #btn-step-backward-gesture', function (event) {
         event.preventDefault();
+        event.stopPropagation();
         clearTimer();
+        currentGestureContainer = $(this).parent();
         resetPlayButton();
         clearInterval(mouseDownInterval);
     });
 
-    $('body').on('click', '#stepBackward', function (event) {
+    $('body').on('click', '#btn-step-backward-gesture', function (event) {
         event.preventDefault();
+        event.stopPropagation();
+        currentGestureContainer = $(this).parent();
         resetPlayButton();
         stepBackward($(this).closest('.root').find('.imageContainer'));
     });
 
-    $('body').on('mousedown', '#stepBackward', function (event) {
+    $('body').on('mousedown', '#btn-step-backward-gesture', function (event) {
         event.preventDefault();
+        event.stopPropagation();
         clearTimer();
         mouseDownInterval = setInterval(function (container) {
             console.log(container);
             stepBackward(container);
-        }, 100, $(this).closest('.root').find('.imageContainer'));
+        }, 200, $(this).closest('.root').find('.imageContainer'));
     });
 
     $('body').on('click', '.btn-popover-gesture-preview', function (event) {
@@ -142,28 +154,28 @@ function onResetTweenComplete() {
 }
 
 function resetPlayButton() {
-    $('#play').removeClass('active');
+    $(currentGestureContainer).parent().find('#btn-play-gesture').removeClass('active');
 }
 
 var originalImageWidth = 0;
 function renderGestureImages(container, images, preview, callback) {
     var numImagesLoaded = 0;
+    currentGestureContainer = container;
     $(container).empty();
-    $.each(images, function (key, value) {
+    for (var i = 0; i < images.length; i++) {
         var image = document.createElement('img');
         $(image).addClass('gestureImage');
+        container.append(image);
+        if (i === preview) {
+            $(image).addClass('previewImage active');
+
+        } else {
+            $(image).addClass('hidden');
+        }
 
         image.onload = function () {
-            container.append(image);
-
-            if (numImagesLoaded !== preview) {
-                $(this).addClass('hidden');
-            } else {
-                $(this).addClass('previewImage');
-                $(this).addClass('active');
-            }
-
             if (numImagesLoaded === images.length - 1) {
+                resetThumbnails(container);
                 if ($(container).hasClass('autoplay')) {
                     playThroughThumbnails(container);
                 }
@@ -174,8 +186,8 @@ function renderGestureImages(container, images, preview, callback) {
             }
             numImagesLoaded++;
         };
-        image.src = value;
-    });
+        image.src = images[i];
+    }
 }
 
 function renderGesturePopoverPreview(gesture, callback) {

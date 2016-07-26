@@ -58,3 +58,15 @@ and open the template in the editor.
     background: #fff;
     border-color: #cccccc;
 }
+
+#gusSingle.used, #groupingQuestionGUS.used {
+    opacity: 1.0;
+    -webkit-filter: none;
+    filter: none;
+}
+
+#gusSingle.not-used, #groupingQuestionGUS.not-used {
+    opacity: 0.35;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}

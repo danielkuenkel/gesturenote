@@ -29,6 +29,7 @@ $('body').on('click', '#addFormat', function (event) {
             $('#list-container').prepend(clone);
             checkCurrentListState($('#list-container'));
             updateBadges($('#list-container'), selectedID);
+            TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
         }
     }
 });
@@ -87,7 +88,11 @@ $('body').on('click', '.btn-add-woz-experimentOption', function (event) {
     if (event.handled !== true)
     {
         event.handled = true;
-        $(this).prev().append($('#wozExperimentItem').clone().removeClass('hidden'));
+        var wozItem = $('#wozExperimentItem').clone().removeClass('hidden');
+        if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION) {
+            $(wozItem).find('.evaluation').addClass('hidden');
+        }
+        $(this).prev().append(wozItem);
         checkCurrentListState($(this).prev());
     }
 });
@@ -184,21 +189,21 @@ function updateBadges(container, selector) {
     }
 }
 
-$('body').on('click', '.btn-up', function (event) {
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
-    }
-});
-
-$('body').on('click', '.btn-down', function (event) {
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
-    }
-});
+//$('body').on('click', '.btn-up', function (event) {
+//    if (event.handled !== true)
+//    {
+//        event.handled = true;
+//        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
+//    }
+//});
+//
+//$('body').on('click', '.btn-down', function (event) {
+//    if (event.handled !== true)
+//    {
+//        event.handled = true;
+//        updateBadges($(this).closest('.container-root'), $(this).closest('.root').attr('id'));
+//    }
+//});
 //
 //$('body').on('click', '.btn-delete', function (event) {
 //    if (event.handled !== true)
@@ -452,7 +457,7 @@ $('body').on('click', '.checkVideoEmbedURL', function (event) {
         var videoContainer = $(this).closest('.root').find('.videoContainer');
         var inputContainer = $(this).closest('.form-group');
         var button = $(this);
-        var ratio = $(this).closest('.root').find('.ratioSelect .chosen').attr('id');
+//        var ratio = $(this).closest('.root').find('.ratioSelect .chosen').attr('id');
 //        console.log(ratio);
 
         $(this).closest('.root').find('.alert-' + ALERT_VIDEO_EMBED_URL_INVALID).empty();
@@ -592,15 +597,16 @@ function urlIsValid(url, type) {
                     regEx = /https:\/\/pidoco.com\/rabbit\/api\/prototypes\/[0-9]+\/pages\/page[0-9]+/;
             break;
         case TYPE_URL_VIDEO_EMBED:
+            console.log(url);
             if (
                     url.toLowerCase().indexOf("<iframe") >= 0
                     && url.toLowerCase().indexOf("width=") >= 0
                     && url.toLowerCase().indexOf("height=") >= 0
-                    && url.toLowerCase().indexOf("height=") >= 0
                     && url.toLowerCase().indexOf("src=") >= 0
                     && url.toLowerCase().indexOf("</iframe>") >= 0
-                    && (/www.youtube.com\/embed\/[A-z0-9]+/.test(url)
-                            || /player.vimeo.com\/video\/[A-z0-9]+/.test(url))
+//                    && (/www.youtube.com\/embed\/[A-z0-9]+/.test(url)
+//                            || /player.vimeo.com\/video\/[A-z0-9]+/.test(url)
+//                            )
                     )
             {
                 return true;
@@ -663,31 +669,35 @@ function renderDimensions(target) {
 
     for (var key in dimensions) {
         if (dimensions.hasOwnProperty(key)) {
+
             var value = dimensions[key];
+            var mainDimension = getMainDimensionForDimension(key);
             var button = document.createElement('button');
             $(button).addClass('btn btn-default btn-shadow btn-toggle btn-dimension hidden');
             $(button).attr('id', key);
             $(button).text(value);
-            $(target).prepend(button);
+            $(target).find('#container-' + mainDimension + " .dimension-btn-group").prepend(button);
         }
     }
 }
 
-$('body').on('click', '#dimension-btn-group .btn-toggle', function (event) {
+$('body').on('click', '.dimension-btn-group .btn-toggle', function (event) {
     if (event.handled !== true)
     {
         event.handled = true;
+        var dimensionContainer = $(this).closest('.dimension-container').find('.dimension-btn-group');
+        var mainDimension = $(this).closest('.dimension-container').attr('id').split('-')[1];
 
         if ($(this).hasClass('active')) {
-            removeQuestionaireItems($(this).attr('id'));
+            removeQuestionaireItems(mainDimension, $(this).attr('id'));
             $(this).removeClass('active');
             $(this).removeClass('btn-info');
             $(this).addClass('inactive');
 
             if ($(this).attr('id') === 'all') {
-                $('#factor-seperator').addClass('hidden');
+//                $('#factor-seperator').addClass('hidden');
 
-                var children = $(this).parent().children('.btn-toggle');
+                var children = $(dimensionContainer).children('.btn-toggle');
                 $(children).filter('.active').removeClass('btn-info');
                 $(children).filter('.active').addClass('inactive');
                 $(children).filter('.active').removeClass('active');
@@ -696,16 +706,16 @@ $('body').on('click', '#dimension-btn-group .btn-toggle', function (event) {
                 $(this).parent().find('#all').removeClass('active');
                 $(this).parent().find('#all').removeClass('btn-info');
                 $(this).parent().find('#all').text('Alle');
-                checkDimensionItems();
+                checkDimensionItems(dimensionContainer);
             }
         } else {
-            addQuestionnaireItems($(this).attr('id'));
+            addQuestionnaireItems(dimensionContainer, $(this).attr('id'));
             $(this).addClass('active');
             $(this).addClass('btn-info');
             $(this).removeClass('inactive');
 
             if ($(this).attr('id') === 'all') {
-                $('#factor-seperator').removeClass('hidden');
+//                $('#factor-seperator').removeClass('hidden');
 
                 var children = $(this).parent().children('.btn-toggle');
                 $(children).filter('.inactive').addClass('btn-info');
@@ -713,35 +723,35 @@ $('body').on('click', '#dimension-btn-group .btn-toggle', function (event) {
                 $(children).filter('.inactive').removeClass('inactive');
                 $(this).text('Keine');
             } else {
-                checkDimensionItems();
+                checkDimensionItems(dimensionContainer);
             }
         }
     }
 });
 
-function checkDimensionItems() {
-    var dimensions = $('#dimension-btn-group').children('.btn-dimension');
-    var shownDimensions = $('#dimension-btn-group').children('.btn-dimension:not(:hidden)');
+function checkDimensionItems(dimensionContainer) {
+    var dimensions = $(dimensionContainer).children('.btn-dimension');
+    var shownDimensions = $(dimensionContainer).children('.btn-dimension:not(:hidden)');
     var inactiveDimensions = dimensions.filter('.inactive');
 
-    if (inactiveDimensions.length === shownDimensions.length) {
-        $('#factor-seperator').addClass('hidden');
-
-    } else {
-        $('#factor-seperator').removeClass('hidden');
-    }
+//    if (inactiveDimensions.length === shownDimensions.length) {
+//        $('#factor-seperator').addClass('hidden');
+//
+//    } else {
+//        $('#factor-seperator').removeClass('hidden');
+//    }
 
     if (inactiveDimensions.length <= 0) {
-        $('#dimension-btn-group').find('#all').addClass('active');
-        $('#dimension-btn-group').find('#all').removeClass('inactive');
-        $('#dimension-btn-group').find('#all').addClass('btn-info');
-        $('#dimension-btn-group').find('#all').text('Keine');
+        $(dimensionContainer).find('#all').addClass('active');
+        $(dimensionContainer).find('#all').removeClass('inactive');
+        $(dimensionContainer).find('#all').addClass('btn-info');
+        $(dimensionContainer).find('#all').text('Keine');
     }
 }
 
-function addQuestionnaireItems(dimension) {
+function addQuestionnaireItems(container, dimension) {
     if (dimension === 'all') {
-        var dimensions = $('#dimension-btn-group').children('.btn-dimension');
+        var dimensions = $(container).children('.btn-dimension');
         for (var i = 0; i < dimensions.length; i++) {
             var dimensionButton = dimensions[i];
             if (!$(dimensionButton).hasClass('hidden') && !$(dimensionButton).hasClass('active')) {
@@ -765,13 +775,13 @@ function getPredefinedQuestionnaireItemsByDimension(dimension) {
     return {gus: questionnaire};
 }
 
-function removeQuestionaireItems(dimension) {
+function removeQuestionaireItems(mainDimension, dimension) {
     var itemList = $('#list-container').children();
     for (var i = 0; i < itemList.length; i++) {
         var item = itemList[i];
         var itemDimension = getDimensionByElement($(item));
         if (itemDimension !== DIMENSION_ANY) {
-            if (dimension === 'all' || itemDimension === dimension) {
+            if ((dimension === 'all' && mainDimension === getMainDimensionForDimension(itemDimension)) || itemDimension === dimension) {
                 var itemId = $(item).attr('id');
                 $(item).find('.btn-delete').click();
                 updateBadges($('#list-container'), itemId);
@@ -780,12 +790,41 @@ function removeQuestionaireItems(dimension) {
     }
 }
 
-function checkDimensions(predefinedQuestionnaire) {
+function checkDimensions(target, predefinedQuestionnaire) {
     for (var i = 0; i < predefinedQuestionnaire.length; i++) {
-        if ($('#dimension-btn-group').find('#' + predefinedQuestionnaire[i].dimension)) {
-            $('#dimension-btn-group').find('#' + predefinedQuestionnaire[i].dimension).removeClass('hidden');
-            $('#dimension-btn-group').find('#' + predefinedQuestionnaire[i].dimension).addClass('inactive');
+        if ($(target).find('#' + predefinedQuestionnaire[i].dimension)) {
+            $(target).find('#' + predefinedQuestionnaire[i].dimension).removeClass('hidden');
+            $(target).find('#' + predefinedQuestionnaire[i].dimension).addClass('inactive');
         }
+    }
+}
+
+$('body').on('click', '.btn-use', function (event) {
+    event.preventDefault();
+    if (!event.handled) {
+        event.handled = true;
+        if ($(this).hasClass('used')) {
+            $(this).removeClass('used btn-success').addClass('not-used');
+            $(this).closest('.root').removeClass('used');
+            $(this).closest('.root').addClass('not-used');
+        } else {
+            $(this).removeClass('not-used').addClass('used btn-success');
+            $(this).closest('.root').removeClass('not-used');
+            $(this).closest('.root').addClass('used');
+        }
+        checkUsedItems($(this).closest('.root'));
+    }
+});
+
+function checkUsedItems(element) {
+    var dimension = getDimensionByElement(element);
+    var mainDimension = getMainDimensionForDimension(dimension);
+    var usedDimensionElements = element.parent().children('.' + dimension).find('.used');
+
+    if (usedDimensionElements.length > 0) {
+
+    } else {
+        $('#dimension-controls #' + dimension).click();
     }
 }
 
@@ -798,14 +837,14 @@ function renderFormatItem(target, data) {
     var clone = $('#form-item-container').find('#' + data.type).clone();
     $(clone).find('.question').val(data.question);
     clone.addClass(data.dimension);
-    target.append(clone);
+    target.prepend(clone);
 
     var parameters = data.parameters;
     var options = data.options;
 
     switch (data.type) {
         case DICHOTOMOUS_QUESTION:
-            var aGestures = assembledGestures();
+//            var aGestures = assembledGestures();
 //            if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
 //                $(clone).find('.gesture-select .switchButtonAddon').click();
 //            }
@@ -833,12 +872,15 @@ function renderFormatItem(target, data) {
             break;
         case GROUPING_QUESTION_GUS:
             if (parameters[0] === true) {
-                $(clone).find('.multiselect .switchButtonAddon').click();
+                $(clone).find('.btn-use').click();
             }
             if (parameters[1] === true) {
+                $(clone).find('.multiselect .switchButtonAddon').click();
+            }
+            if (parameters[2] === true) {
                 $(clone).find('.justification .switchButtonAddon').click();
             }
-//            console.log($(clone).find('.optionselect #' + parameters[2]));
+            console.log($(clone).find('.optionselect #' + parameters[3]).click());
 //                        $(clone).find('.optionselect #' + parameters[2]).unbind('click').bind('click');
 
 //            $('.optionselect #gestures').unbind('click').bind('click', function (event) {
@@ -926,13 +968,16 @@ function renderFormatItem(target, data) {
             break;
         case ALTERNATIVE_QUESTION:
             if (parameters[0] === true) {
-                $(clone).find('.justification .switchButtonAddon').click();
+                $(clone).find('.btn-use').click();
             }
             if (parameters[1] === true) {
+                $(clone).find('.justification .switchButtonAddon').click();
+            }
+            if (parameters[2] === true) {
                 $(clone).find('.optionalanswer .switchButtonAddon').click();
             }
 
-            $(clone).find('.alternative #' + parameters[2]).click();
+            $(clone).find('.alternative #' + parameters[3]).click();
 
             var currentPhase = getPhaseById(currentIdForModal);
             if (currentPhase && currentPhase.selectedId === GUS_SINGLE_GESTURES) {
@@ -941,12 +986,12 @@ function renderFormatItem(target, data) {
                 break;
             }
 
-            if (parameters[3] === 'gesture') {
+            if (parameters[4] === 'gesture') {
                 if (assembledGestures()) {
                     $(clone).find('#alternativeGesture').click();
                 }
 
-                var gesture = parameters[4];
+                var gesture = parameters[5];
                 if (gesture) {
                     if (isGestureAssembled(gesture.id)) {
                         $(clone).find('.option-gesture').val(gesture.title);
@@ -956,27 +1001,27 @@ function renderFormatItem(target, data) {
                     }
                 }
 
-            } else if (parameters[3] === 'trigger') {
+            } else if (parameters[4] === 'trigger') {
                 if (getLocalItem(ASSEMBLED_TRIGGER))
                 {
                     $(clone).find('#alternativeTrigger').click();
                 }
 
-                if (getTriggerById(parameters[4].id)) {
-                    $(clone).find('.option-trigger').val(parameters[4].title);
-                    $(clone).find('.triggerSelect .chosen').attr('id', parameters[4].id);
+                if (getTriggerById(parameters[5].id)) {
+                    $(clone).find('.option-trigger').val(parameters[5].title);
+                    $(clone).find('.triggerSelect .chosen').attr('id', parameters[5].id);
                 } else {
                     appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
                 }
-            } else if (parameters[3] === 'feedbacks') {
+            } else if (parameters[4] === 'feedbacks') {
                 if (getLocalItem(ASSEMBLED_FEEDBACK))
                 {
                     $(clone).find('#alternativeFeedback').click();
                 }
 
-                if (getTriggerById(parameters[4].id)) {
-                    $(clone).find('.option-feedback').val(parameters[4].title);
-                    $(clone).find('.feedbackSelect .chosen').attr('id', parameters[4].id);
+                if (getTriggerById(parameters[5].id)) {
+                    $(clone).find('.option-feedback').val(parameters[5].title);
+                    $(clone).find('.feedbackSelect .chosen').attr('id', parameters[5].id);
                 } else {
                     appendAlert(clone, ALERT_ASSEMBLED_FEEDBACK_REMOVED);
                 }
@@ -984,6 +1029,9 @@ function renderFormatItem(target, data) {
             break;
         case GUS_SINGLE:
             if (parameters[0] === true) {
+                $(clone).find('.btn-use').click();
+            }
+            if (parameters[1] === true) {
                 $(clone).find('.switchButtonAddon').click();
             }
             break;
@@ -992,7 +1040,7 @@ function renderFormatItem(target, data) {
     var dimension = data.dimension;
     if (dimension !== DIMENSION_ANY) {
         $(clone).find('#item-factors').removeClass('hidden');
-        var dimensionButton = $('#dimension-btn-group').find('#' + dimension);
+        var dimensionButton = $('.dimension-btn-group').find('#' + dimension);
         if (dimensionButton) {
             $(dimensionButton).addClass('active');
             $(dimensionButton).addClass('btn-info');
@@ -1001,7 +1049,7 @@ function renderFormatItem(target, data) {
         var dimensions = translation.dimensions;
         var mainDimensions = translation.mainDimensions;
         $(clone).find('#factor-primary').text(dimensions[dimension]);
-        $(clone).find('#factor-main').text(mainDimensions[dimension]);
+        $(clone).find('#factor-main').text(mainDimensions[getMainDimensionForDimension(dimension)]);
     }
 }
 
@@ -1030,6 +1078,7 @@ function getFormatData(element) {
             break;
         case GROUPING_QUESTION_GUS:
             parameters = new Array();
+            parameters.push($(element).find('.btn-use').hasClass('used'));
             parameters.push($(element).find('.multiselect .active').attr('id') === 'yes' ? true : false);
             parameters.push($(element).find('.justification .active').attr('id') === 'yes' ? true : false);
             parameters.push($(element).find('.optionselect .active').attr('id'));
@@ -1069,6 +1118,7 @@ function getFormatData(element) {
         case ALTERNATIVE_QUESTION:
             parameters = new Array();
 
+            parameters.push($(element).find('.btn-use').hasClass('used'));
             parameters.push($(element).find('.justification #yes').hasClass('active'));
             parameters.push($(element).find('.optionalanswer #yes').hasClass('active'));
             parameters.push($(element).find('.alternative').find('.active').attr('id'));
@@ -1105,6 +1155,7 @@ function getFormatData(element) {
             break;
         case GUS_SINGLE:
             parameters = new Array();
+            parameters.push($(element).find('.btn-use').hasClass('used'));
             parameters.push($(element).find('.negative #yes').hasClass('active'));
             options = gusOptions;
             break;

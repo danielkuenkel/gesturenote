@@ -35,16 +35,16 @@
         </div>
     </div>
 
-    <div class="panel panel-default root elicitation hidden" id="elicitationPanel">
-        <div class="panel-heading clearfix">
-            <div>Trigger in der Gestenermittlung</div>
-        </div>
-        <div class="panel-body">
-            <div class="form-group container-root" id="elicitationContainer">
-
+    <!--    <div class="panel panel-default root elicitation hidden" id="elicitationPanel">
+            <div class="panel-heading clearfix">
+                <div>Trigger in der Gestenermittlung</div>
             </div>
-        </div>
-    </div>
+            <div class="panel-body">
+                <div class="form-group container-root" id="elicitationContainer">
+    
+                </div>
+            </div>
+        </div>-->
 
     <div class="panel panel-default root" id="wozExperimentPanel">
         <div class="panel-heading clearfix">
@@ -88,7 +88,6 @@
             </div>
         </div>
         <div class="panel-body hidden">
-            <div class="form-group container-root" id="list-container"></div>
 
             <div class="form-group">
                 <div class="input-group">
@@ -108,6 +107,9 @@
             </div>
 
             <button class="btn btn-info btn-shadow pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>
+
+            <div class="form-group container-root" id="list-container" style="margin-top: 65px"></div>
+
         </div>
     </div>
 
@@ -123,17 +125,17 @@
             var woz = $('#form-item-container #wozExperiment').clone().removeAttr('id');
             $('#wozExperimentContainer').append(woz);
 
-            if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION) {
-                var eliciation = $('#form-item-container #elicitation').clone();
-                $('#elicitationContainer').append(eliciation);
-                $('#elicitationPanel').removeClass('hidden');
-
-                if (getLocalItem(ASSEMBLED_TRIGGER)) {
-                    $(eliciation).find('.btn-add-elicitationOption').removeClass('hidden');
-                } else {
-                    appendAlert($(eliciation), ALERT_NO_TRIGGER_ASSEMBLED);
-                }
-            }
+//            if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION) {
+//                var eliciation = $('#form-item-container #elicitation').clone();
+//                $('#elicitationContainer').append(eliciation);
+//                $('#elicitationPanel').removeClass('hidden');
+//
+//                if (getLocalItem(ASSEMBLED_TRIGGER)) {
+//                    $(eliciation).find('.btn-add-elicitationOption').removeClass('hidden');
+//                } else {
+//                    appendAlert($(eliciation), ALERT_NO_TRIGGER_ASSEMBLED);
+//                }
+//            }
 
             if (assembledGestures()) {
                 renderAssembledGestures();
@@ -190,7 +192,7 @@
         {
             var wozItems = data.woz;
             var helpItems = data.help;
-            var elicitationTrigger = data.elicitationTrigger;
+//            var elicitationTrigger = data.elicitationTrigger;
             var obeservationItems;
 
             if (!forPrefiniedObservation) {
@@ -204,45 +206,54 @@
             $('#scenarioDescription').val(data.description);
 
             if (data.scene) {
-                var scene = getSceneById(data.scene);
-                if (scene) {
-                    $('#general .prototypeSelect').find('#' + scene.id).click();
+
+                if (data.scene === 'none') {
+                    $('#general .sceneSelect').find('#none').click();
                 } else {
-                    appendAlert($('#general'), ALERT_ASSEMBLED_SCENE_REMOVED);
+                    var scene = getSceneById(data.scene);
+                    if (scene) {
+                        $('#general .sceneSelect').find('#' + scene.id).click();
+                    } else {
+                        appendAlert($('#general'), ALERT_ASSEMBLED_SCENE_REMOVED);
+                    }
                 }
+
             }
 
             var container;
-            if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION)
-            {
-                $('#wozExperimentPanel').addClass('hidden');
-                if (getLocalItem(ASSEMBLED_TRIGGER) && elicitationTrigger !== undefined && elicitationTrigger.length > 0) {
-                    container = $('#elicitationContainer').find('.option-container');
-                    for (var i = 0; i < elicitationTrigger.length; i++) {
-
-                        var clone = $('#form-item-container').find('#elicitationItem').clone().removeClass('hidden');
-                        container.append(clone);
-                        if (getTriggerById(elicitationTrigger[i].id) !== null) {
-                            $(clone).find('#' + elicitationTrigger[i].id).click();
-                        } else {
-                            appendAlert($(clone), ALERT_ASSEMBLED_TRIGGER_REMOVED);
-                        }
-                    }
-                    checkCurrentListState($('#elicitationContainer #elicitation .option-container'));
+//            if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION)
+//            {
+//                $('#wozExperimentPanel').addClass('hidden');
+//                if (getLocalItem(ASSEMBLED_TRIGGER) && elicitationTrigger !== undefined && elicitationTrigger.length > 0) {
+//                    container = $('#elicitationContainer').find('.option-container');
+//                    for (var i = 0; i < elicitationTrigger.length; i++) {
+//
+//                        var clone = $('#form-item-container').find('#elicitationItem').clone().removeClass('hidden');
+//                        container.append(clone);
+//                        if (getTriggerById(elicitationTrigger[i].id) !== null) {
+//                            $(clone).find('#' + elicitationTrigger[i].id).click();
+//                        } else {
+//                            appendAlert($(clone), ALERT_ASSEMBLED_TRIGGER_REMOVED);
+//                        }
+//                    }
+//                    checkCurrentListState($('#elicitationContainer #elicitation .option-container'));
+//                }
+//            } else {
+            if (wozItems !== undefined && wozItems.length > 0) {
+                if (!forPrefiniedObservation) {
+                    $('#useWozSwitch .switchButtonAddon').click();
                 }
-            } else {
-                if (wozItems !== undefined && wozItems.length > 0) {
-                    if (!forPrefiniedObservation) {
-                        $('#useWozSwitch .switchButtonAddon').click();
-                    }
 
-                    container = $('#wozExperimentContainer').find('.option-container');
+                container = $('#wozExperimentContainer').find('.option-container');
 
-                    for (var i = 0; i < wozItems.length; i++) {
-                        var clone = $('#wozExperimentItem').clone().removeClass('hidden');
-                        $(clone).removeAttr('id');
-                        container.append(clone);
+                for (var i = 0; i < wozItems.length; i++) {
+                    var clone = $('#wozExperimentItem').clone().removeClass('hidden');
+                    $(clone).removeAttr('id');
+                    container.append(clone);
 
+                    if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION) {
+                        $(clone).find('.evaluation').addClass('hidden');
+                    } else {
                         var gesture = getGestureById(wozItems[i].gestureId);
                         if (gesture && isGestureAssembled(gesture.id))
                         {
@@ -250,39 +261,42 @@
                         } else {
                             appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                         }
+                    }
 
-                        var trigger = getTriggerById(wozItems[i].triggerId);
-                        if (trigger && getTriggerById(trigger.id) !== null) {
-                            $(clone).find('.triggerSelect #' + trigger.id).click();
-                        } else {
-                            appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
-                        }
+                    var trigger = getTriggerById(wozItems[i].triggerId);
+                    if (trigger && getTriggerById(trigger.id) !== null) {
+                        $(clone).find('.triggerSelect #' + trigger.id).click();
+                    } else {
+                        appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
+                    }
 
-
+                    if (wozItems[i].feedbackId === 'none') {
+                        $(clone).find('.feedbackSelect #none').click();
+                    } else {
                         var feedback = getFeedbackById(wozItems[i].feedbackId);
                         if (feedback) {
                             $(clone).find('.feedbackSelect #' + feedback.id).click();
                         } else {
                             appendAlert(clone, ALERT_ASSEMBLED_FEEDBACK_REMOVED);
                         }
-
-
-                        if (wozItems[i].transitionId === 'none') {
-                            $(clone).find('.sceneSelect #none').click();
-                        } else {
-                            var scene = getSceneById(wozItems[i].transitionId);
-                            if (scene) {
-                                $(clone).find('.sceneSelect #' + scene.id).click();
-                            } else {
-                                appendAlert(clone, ALERT_ASSEMBLED_SCENE_REMOVED);
-                            }
-                        }
-
-                        $(clone).find('.stepper-text').val(wozItems[i].recognitionTime);
                     }
-                    checkCurrentListState(container);
+
+                    if (wozItems[i].transitionId === 'none') {
+                        $(clone).find('.sceneSelect #none').click();
+                    } else {
+                        var scene = getSceneById(wozItems[i].transitionId);
+                        if (scene) {
+                            $(clone).find('.sceneSelect #' + scene.id).click();
+                        } else {
+                            appendAlert(clone, ALERT_ASSEMBLED_SCENE_REMOVED);
+                        }
+                    }
+
+                    $(clone).find('.stepper-text').val(wozItems[i].recognitionTime);
                 }
+                checkCurrentListState(container);
             }
+//            }
 
             if (helpItems !== undefined) {
                 if (!forPrefiniedObservation) {
@@ -339,8 +353,8 @@
             scenario.title = $('#scenarioTitle').val();
             scenario.description = $('#scenarioDescription').val();
 
-            if ($('#general .prototypeSelect .chosen').attr('id') !== 'unselected') {
-                scenario.scene = $('#general .prototypeSelect .chosen').attr('id');
+            if ($('#general .sceneSelect .chosen').attr('id') !== 'unselected') {
+                scenario.scene = $('#general .sceneSelect .chosen').attr('id');
             }
 
             var elicitatonTrigger = $('#elicitationContainer #elicitation .option-container').children();
@@ -363,13 +377,26 @@
                     var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
                     var trigger = getTriggerById(triggerId);
                     var feedbackId = $(item).find('.feedbackSelect .chosen').attr('id');
-                    var feedback = getFeedbackById(feedbackId);
+                    var feedback;
+                    if(feedbackId === 'none') {
+                        feedback = 'none';
+                    } else {
+                        feedback = getFeedbackById(feedbackId);
+                    }
+                    
                     var transitionId = $(item).find('.sceneSelect .chosen').attr('id');
                     var gestureRecognitionTime = $(item).find('.stepper-text').val();
 
-                    if (gesture && trigger && feedback) {
-                        woz.push(new WOZ(gestureId, triggerId, feedbackId, transitionId, gestureRecognitionTime));
+                    if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION) {
+                        if (trigger && feedback) {
+                            woz.push(new WOZ(null, triggerId, feedbackId, transitionId, gestureRecognitionTime));
+                        }
+                    } else {
+                        if (gesture && trigger && feedback) {
+                            woz.push(new WOZ(gestureId, triggerId, feedbackId, transitionId, gestureRecognitionTime));
+                        }
                     }
+
                 }
                 scenario.woz = woz;
             }
@@ -400,7 +427,7 @@
             if ($('#useObservationsSwitch').find('#yes').hasClass('active') && obersvationItems.length > 0)
             {
                 var questionnaire = new Array();
-                for (var i = 0; i < obersvationItems.length; i++) {
+                for (var i = obersvationItems.length; i--; ) {
                     questionnaire.push(getFormatData(obersvationItems[i]));
                 }
                 scenario.observations = questionnaire;

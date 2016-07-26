@@ -68,8 +68,7 @@
             </div>
         </div>
         <div class="panel-body hidden">
-            <div class="form-group container-root" id="list-container"></div>
-
+            
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon">Beobachtungsformat</span>
@@ -86,6 +85,8 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="form-group container-root" id="list-container"></div>
 
             <!--<button class="btn btn-info pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>-->
         </div>
@@ -220,9 +221,8 @@
             var obersvationItems = $('#list-container').children();
             if ($('#useObservationsSwitch').find('#yes').hasClass('active') && obersvationItems.length > 0)
             {
-
                 var questionnaire = new Array();
-                for (var i = 0; i < obersvationItems.length; i++) {
+                for (var i = obersvationItems.length; i--; ) {
                     questionnaire.push(getFormatData(obersvationItems[i]));
                 }
                 slideshow.observations = questionnaire;

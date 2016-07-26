@@ -16,7 +16,6 @@ var PREDEFINED_OBSERVATIONS = 'predefinedObversation';
 var PREDEFINED_GESTURE_QUESTIONNAIRE = 'predefinedGestureQuestionnaire';
 var PREDEFINED_GESTURE_FEEDBACK = 'predefinedGestureFeedback';
 
-var PREDEFINED_FEEDBACK = 'predefinedFeedback';
 var ASSEMBLED_GESTURE_SET = 'assembledGestureSet';
 var ASSEMBLED_SCENES = 'assembledScenes';
 var ASSEMBLED_TRIGGER = 'assembledTrigger';
@@ -76,8 +75,12 @@ var TYPE_BODY_FULL = 'full';
 var TYPE_BODY_UPPER = 'upper';
 var TYPE_BODY_HAND = 'hand';
 
-// questionnaire dimensions
-var DIMENSION_ANY = 'any';
+// gus & questionnaire dimensions
+var DIMENSION_MAIN_EFFECTIVENESS = 'effectiveness';
+var DIMENSION_MAIN_EFFICIENCY = 'effinciency';
+var DIMENSION_MAIN_SATIFACTION = 'satisfaction';
+
+var DIMENSION_ANY = 'any'; //espiacially for custom questionnaire items
 var DIMENSION_ERGONOMICS = 'ergonomics'; // Ergonomie
 var DIMENSION_LERNABILITY = 'learnability'; // Erlernbarkeit
 var DIMENSION_MENTAL_MODEL = 'mental_model'; // Mentales Modell

@@ -22,23 +22,23 @@ var gusOptions = ['Trifft gar nicht zu', 'Trifft eher nicht zu', 'Teils-teils', 
 function createOriginGUS() {
     if (getLocalItem(PROJECT_ORIGIN_GUS) === null) {
         var gus = new Array();
-        gus.push(new QuestionnaireItem(ALTERNATIVE_QUESTION, DIMENSION_COGNITIVE_STRESS, 'Ich denke, dass es zu dieser Geste alternative Gesten gibt.', [true, false, 'gestures', 'gesture'], null));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_LERNABILITY, 'Ich denke, dass ich mir diese Geste sehr gut merken kann.', [false], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_LERNABILITY, 'Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dieser Geste umzugehen.', [false], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_MENTAL_MODEL, 'Ich denke, dass sich diese Geste von anderen Gesten ausreichend unterscheidet.', [false], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_FEASIBILITY, 'Ich denke, dass sich die Geste von alltäglichen Bewegungen ausreichend unterscheidet.', [false], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_MENTAL_MODEL, 'Ich denke, dass die Geste zur Funktion passt.', [false], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste zu lang ist.', [true], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste zu komplex ist.', [true], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste prägnant ist.', [false], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste bequem ist.', [false], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Bewegung der Geste komisch ist.', [true], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste ermüdend ist.', [true], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass mich die Geste körperlich zu sehr fordert.', [true], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ACCEPTABILITY, 'Ich würde diese Geste gerne regelmäßig nutzen.', [false], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ACCEPTABILITY, 'Ich denke, dass die Geste andere Personen im Umfeld beeinträchtigt oder stört.', [true], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ACCEPTABILITY, 'Die Geste ist peinlich.', [true], gusOptions));
-        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ACCEPTABILITY, 'Ich fühle mich beim Ausführen der Geste wohl.', [false], gusOptions));
+        gus.push(new QuestionnaireItem(ALTERNATIVE_QUESTION, DIMENSION_COGNITIVE_STRESS, 'Ich denke, dass es zu dieser Geste alternative Gesten gibt.', [true, true, false, 'gestures', 'gesture'], null));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_LERNABILITY, 'Ich denke, dass ich mir diese Geste sehr gut merken kann.', [true, false], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_LERNABILITY, 'Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dieser Geste umzugehen.', [true, false], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_MENTAL_MODEL, 'Ich denke, dass sich diese Geste von anderen Gesten ausreichend unterscheidet.', [true, false], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_FEASIBILITY, 'Ich denke, dass sich die Geste von alltäglichen Bewegungen ausreichend unterscheidet.', [true, false], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_MENTAL_MODEL, 'Ich denke, dass die Geste zur Funktion passt.', [true, false], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste zu lang ist.', [true, true], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste zu komplex ist.', [true, true], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste prägnant ist.', [true, false], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste bequem ist.', [true, false], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Bewegung der Geste komisch ist.', [true, true], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste ermüdend ist.', [true, true], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass mich die Geste körperlich zu sehr fordert.', [true, true], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ACCEPTABILITY, 'Ich würde diese Geste gerne regelmäßig nutzen.', [true, false], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ACCEPTABILITY, 'Ich denke, dass die Geste andere Personen im Umfeld beeinträchtigt oder stört.', [true, true], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ACCEPTABILITY, 'Die Geste ist peinlich.', [true, true], gusOptions));
+        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ACCEPTABILITY, 'Ich fühle mich beim Ausführen der Geste wohl.', [true, false], gusOptions));
         setLocalItem(PROJECT_ORIGIN_GUS, gus);
     }
 }
@@ -129,11 +129,11 @@ function createPredefinedGestureQuestionnaire() {
 }
 
 function createPredefinedGestureFeedback() {
-    if (getLocalItem(PREDEFINED_FEEDBACK) === null) {
+    if (getLocalItem(ASSEMBLED_FEEDBACK) === null) {
         var feedback = new Array();
         feedback.push(new Feedback(0, TYPE_FEEDBACK_TEXT, "Geste wurde erkannt", [false], null));
         feedback.push(new Feedback(1, TYPE_FEEDBACK_TEXT, "Geste wurde nicht erkannt", [true], null));
-        setLocalItem(PREDEFINED_FEEDBACK, feedback);
+        setLocalItem(ASSEMBLED_FEEDBACK, feedback);
     }
 }
 
@@ -193,6 +193,8 @@ function renderSessionStorageData() {
                 $(this).datepicker('setDate', dateTo);
             }
         });
+        
+        updateGestureCatalogButtons();
     }
 }
 
@@ -366,31 +368,12 @@ function Trigger(id, type, title) {
     this.title = title;
 }
 
-function Prototype(id, type, title, options, data) {
+function Scene(id, type, title, options, data) {
     this.id = id;
     this.type = type;
     this.title = title;
     this.options = options;
     this.data = data;
-}
-
-function getDimensionByElement(element) {
-    var dimensions = new Array();
-    dimensions.push(DIMENSION_ACCEPTABILITY);
-    dimensions.push(DIMENSION_COGNITIVE_STRESS);
-    dimensions.push(DIMENSION_ERGONOMICS);
-    dimensions.push(DIMENSION_FEASIBILITY);
-    dimensions.push(DIMENSION_LERNABILITY);
-    dimensions.push(DIMENSION_MENTAL_MODEL);
-    dimensions.push(DIMENSION_RELIABILITY);
-    dimensions.push(DIMENSION_USABILITY);
-
-    for (var i = 0; i < dimensions.length; i++) {
-        if ($(element).hasClass(dimensions[i]) === true) {
-            return dimensions[i];
-        }
-    }
-    return DIMENSION_ANY;
 }
 
 function saveProjectData() {

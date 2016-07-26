@@ -51,22 +51,6 @@
             checkCurrentListState($('#list-container'));
         }
 
-        $('#btn-add-sus-item').on('click', function () {
-            var clone = document.getElementById('item-container').cloneNode(true);
-            clone.setAttribute('class', 'form-group root');
-            $('#list-container').append(clone);
-            checkCurrentListState($('#list-container'));
-        });
-
-        $('#btn-reset-origin-data').on('click', function () {
-            var data = getLocalItem(PROJECT_ORIGIN_SUS);
-            if (data !== null) {
-                $('#list-container').empty();
-                renderData(data);
-            }
-            checkCurrentListState($('#list-container'));
-        });
-
         function saveData() {
             var customGUS = new Array();
             var itemList = document.getElementById('list-container').childNodes;
@@ -81,4 +65,21 @@
             }
             setLocalItem(currentIdForModal + ".data", customGUS);
         }
+
+        $('#btn-add-sus-item').on('click', function () {
+            var newItem = $('#form-item-container').find('#sus').clone();
+            $('#list-container').append(newItem);
+            checkCurrentListState($('#list-container'));
+        });
+
+        $('#btn-reset-origin-data').on('click', function () {
+            var data = getLocalItem(PROJECT_ORIGIN_SUS);
+            if (data !== null) {
+                $('#list-container').empty();
+                renderData(data);
+            }
+            checkCurrentListState($('#list-container'));
+        });
+
+
 </script>

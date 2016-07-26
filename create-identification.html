@@ -26,7 +26,7 @@
                             <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="trigger" name="btn-success">Trigger</button>
                         </div>
                     </div>
-                    <div class="col-md-6">
+<!--                    <div class="col-md-6">
                         <div class="input-group simple-stepper">
                             <div class="input-group-btn">
                                 <button class="btn btn-default btn-shadow btn-addon">Zeit für die Antwort (Sekunden)</button>
@@ -41,7 +41,7 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -68,7 +68,6 @@
             </div>
         </div>
         <div class="panel-body hidden">
-            <div class="form-group container-root" id="list-container"></div>
 
             <div class="form-group">
                 <div class="input-group">
@@ -86,6 +85,8 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group container-root" id="list-container"></div>
 
             <!--<button class="btn btn-info pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>-->
         </div>
@@ -153,7 +154,6 @@
             if (identificationItems !== undefined && identificationItems.length > 0) {
 
                 container = $('#identificationContainer').find('.option-container');
-//                console.log(identificationItems);
                 for (var i = 0; i < identificationItems.length; i++) {
                     var clone = $('#identificationItem').clone().removeClass('hidden');
                     $(clone).removeAttr('id');
@@ -161,7 +161,7 @@
 
                     if ($('#identificationTypeSwitch .active').attr('id') === 'gestures') {
                         $(clone).find('#group-gestures').remove();
-                        var trigger = identificationItems[i].trigger;
+                        var trigger = getTriggerById(identificationItems[i].triggerId);
                         if (trigger) {
                             if (!getTriggerById(trigger.id)) {
                                 appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
@@ -171,7 +171,7 @@
                         }
                     } else {
                         $(clone).find('#group-trigger').remove();
-                        var gesture = identificationItems[i].gesture;
+                        var gesture = getGestureById(identificationItems[i].gestureId);
                         if (gesture && isGestureAssembled(gesture.id)) {
                             $(clone).find('.gestureSelect #' + gesture.id).click();
                         } else {
@@ -221,13 +221,11 @@
                 for (var i = 0; i < identificationItems.length; i++) {
                     var item = identificationItems[i];
                     if ($('#identificationTypeSwitch .active').attr('id') === 'gestures') {
-                        var triggerSplitId = $(item).find('.triggerSelect .chosen').attr('id');
-                        var trigger = getTriggerById(triggerSplitId);
-                        set.push(new SlideshowItem(null, trigger));
+                        var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
+                        set.push(new SlideshowItem(null, triggerId));
                     } else {
                         var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
-                        var gesture = getGestureById(gestureId);
-                        set.push(new SlideshowItem(gesture, null));
+                        set.push(new SlideshowItem(gestureId, null));
                     }
                 }
                 identification.identification = set;
@@ -236,9 +234,8 @@
             var obersvationItems = $('#list-container').children();
             if ($('#useObservationsSwitch').find('#yes').hasClass('active') && obersvationItems.length > 0)
             {
-
                 var questionnaire = new Array();
-                for (var i = 0; i < obersvationItems.length; i++) {
+                for (var i = obersvationItems.length; i--; ) {
                     questionnaire.push(getFormatData(obersvationItems[i]));
                 }
                 identification.observations = questionnaire;
@@ -246,4 +243,11 @@
 
             setLocalItem(currentIdForModal + ".data", identification);
         }
+
+
+        $('#identificationTypeSwitch').on('change', function () {
+            var activeId = $(this).find('.active').attr('id');
+            var idenficationItems = $('#identificationContainer').find('.option-container').children();
+            $(idenficationItems).has('#group-' + activeId).remove();
+        });
 </script>

@@ -4,9 +4,7 @@
 </div>
 <div id="modal-body" class="modal-body">
 
-    <div class="container-root" id="list-container"></div>
-
-    <div class="form-group">
+    <div class="form-group form-group-no-margin">
         <div class="input-group">
             <span class="input-group-addon">Feedback Format</span>
             <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
@@ -20,7 +18,10 @@
             </div>
         </div>
     </div>
-
+</div>
+<hr style="margin: 0;">
+<div id="modal-body" class="modal-body">
+    <div class="container-root" id="list-container"></div>
 </div>
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
@@ -33,45 +34,41 @@
             closeClicked = false;
 
             var data = getLocalItem(ASSEMBLED_FEEDBACK);
-            if(data === null) {
-                setLocalItem(ASSEMBLED_FEEDBACK, getLocalItem(PREDEFINED_FEEDBACK));
-                data = getLocalItem(ASSEMBLED_FEEDBACK);
-            }
-            
+
             if (data !== null) {
                 renderData(data);
             }
         });
 
-//        $('#custom-modal').on('hide.bs.modal', function (event) {
-//            if (!event.handled && closeClicked) {
-//                closeClicked = false;
-//                event.handled = true;
-//
-//                var items = $('#list-container').children();
-//                var hasTitles = true;
-//                for (var i = 0; i < items.length; i++) {
-//                    var item = items[i];
-//                    var title = $(item).find('.title').val();
-//
-//                    if (title.trim() === '') {
-//                        if ($(item).find('.alert-' + ALERT_NO_TITLE).children().length === 0) {
-//                            appendAlert($(item).closest('.root'), ALERT_NO_TITLE);
-//                            $(item).find('.title').closest('.form-group').addClass('has-error');
-//                        }
-//                        hasTitles = false;
-//                    }
-//                }
-//
-//                if (!hasTitles) {
-//                    event.preventDefault();
-//                    event.stopImmediatePropagation();
-//                    return false;
-//                }
-//
-//                $(this).unbind('hide.bs.modal');
-//            }
-//        });
+        //        $('#custom-modal').on('hide.bs.modal', function (event) {
+        //            if (!event.handled && closeClicked) {
+        //                closeClicked = false;
+        //                event.handled = true;
+        //
+        //                var items = $('#list-container').children();
+        //                var hasTitles = true;
+        //                for (var i = 0; i < items.length; i++) {
+        //                    var item = items[i];
+        //                    var title = $(item).find('.title').val();
+        //
+        //                    if (title.trim() === '') {
+        //                        if ($(item).find('.alert-' + ALERT_NO_TITLE).children().length === 0) {
+        //                            appendAlert($(item).closest('.root'), ALERT_NO_TITLE);
+        //                            $(item).find('.title').closest('.form-group').addClass('has-error');
+        //                        }
+        //                        hasTitles = false;
+        //                    }
+        //                }
+        //
+        //                if (!hasTitles) {
+        //                    event.preventDefault();
+        //                    event.stopImmediatePropagation();
+        //                    return false;
+        //                }
+        //
+        //                $(this).unbind('hide.bs.modal');
+        //            }
+        //        });
 
         function renderData(data) {
             console.log(data);
@@ -90,7 +87,7 @@
                         }
                         break;
                     case TYPE_FEEDBACK_SOUND:
-                        if(data[i].data !== null) {
+                        if (data[i].data !== null) {
                             $(clone).find('.audio-holder').attr('src', data[i].data);
                             $(clone).find('.audioPlayer').removeClass('hidden');
                         }
@@ -107,14 +104,10 @@
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
                 var type = $(item).attr('id');
-                var id = $(item).attr('name') !== undefined || null ? $(item).attr('name') : chance.natural();
+                var id = $(item).attr('name') === undefined || null ? chance.natural() : $(item).attr('name');
                 var title = $(item).find('.item-input-text').val();
                 var parameters = new Array();
                 var data = null;
-
-                if (name === undefined || name === null) {
-                    name = chance.natural();
-                }
 
                 switch (type) {
                     case TYPE_FEEDBACK_TEXT:
@@ -123,13 +116,11 @@
                         break;
                     case TYPE_FEEDBACK_SOUND:
                         parameters = null;
-                        console.log(id);
                         data = $(item).find('.audio-holder').attr('src');
                         assembledData.push(new Feedback(id, type, title, parameters, data));
                         break;
                 }
             }
-            console.log(assembledData);
             setLocalItem(ASSEMBLED_FEEDBACK, assembledData);
         }
 </script>

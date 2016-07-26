@@ -88,22 +88,7 @@ function reassembleGesture(id) {
 }
 
 function removeAssembledGestures() {
-    var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
-    if (phaseSteps && phaseSteps.length > 0) {
-        for (var i = 0; i < phaseSteps.length; i++) {
-            var data = getLocalItem(phaseSteps[i].id + ".data");
-            if (data && (phaseSteps[i].selectedId === 'scenario' || phaseSteps[i].selectedId === 'gestureTraining')) {
-                var scenario = new Scenario();
-                scenario.title = data.title;
-                scenario.description = data.description;
-                scenario.help = data.help;
-                scenario.observations = data.observations;
-                setLocalItem(phaseSteps[i].id + ".data", scenario);
-            }
-        }
-    }
-    removeLocalItem(PREDEFINED_GESTURE_SET);
-    createPredefinedGestures();
+    removeLocalItem(ASSEMBLED_GESTURE_SET);
 }
 
 function getTriggerById(id) {

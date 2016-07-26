@@ -1,14 +1,32 @@
 <div class="modal-header" id="index">
     <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
-    <h4 class="modal-title" id="exampleModalLabel">Gesture Usability Scale - Allgemeine Fragen</h4>
+    <h4 class="modal-title" id="exampleModalLabel">Gesture Usability Scale - Mehrere Gesten</h4>
 </div>
-<div class="modal-body">
-    <h4 style="margin: 0">Faktoren</h4>
-    <div id="dimension-btn-group">
-        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+
+<div id="modal-body" class="modal-body">
+
+    <div id="dimension-controls">
+        <div class="dimension-container" id="container-effectiveness">
+            <h4 style="margin-top: 0px; color: #3379b7">Zweckmäßigkeit</h4>
+            <div class="dimension-btn-group">
+                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+            </div>
+        </div>
+        <div class="dimension-container" id="container-effinciency">
+            <h4 style="margin-top: 15px; color: #3379b7">Effizienz</h4>
+            <div class="dimension-btn-group">
+                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+            </div>
+        </div>
+        <div class="dimension-container" id="container-satisfaction">
+            <h4 style="margin-top: 15px; color: #3379b7">Zufriedenheit</h4>
+            <div class="dimension-btn-group">
+                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+            </div>
+        </div>
     </div>
 </div>
-<hr class="hidden" id="factor-seperator" style="margin: 0;">
+<hr id="factor-seperator" style="margin: 0;">
 <div id="modal-body" class="modal-body">
 
     <div class="container-root" id="list-container"></div>
@@ -23,10 +41,9 @@
 <script type="text/javascript" src="js/template-create.js"></script>
 <script type="text/javascript">
         $(document).ready(function () {
-            renderDimensions($('#dimension-btn-group'));
-
             currentGUS = GUS_MULTIPLE_GESTURES;
-            checkDimensions(getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE));
+            renderDimensions($('#dimension-controls'));
+            checkDimensions($('#dimension-controls'), getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE));
             var data = getLocalItem(currentIdForModal + '.data');
 
             renderAssembledGestures();
@@ -50,7 +67,7 @@
         function saveData() {
             var itemList = $('#list-container').children();
             var questionnaire = new Array();
-            for (var i = 0; i < itemList.length; i++) {
+            for (var i = itemList.length; i--; ) {
                 questionnaire.push(getFormatData(itemList[i]));
             }
             setLocalItem(currentIdForModal + '.data', {gus: questionnaire});

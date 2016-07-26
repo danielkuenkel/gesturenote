@@ -20,10 +20,10 @@ var Moderator = {
                 item = Moderator.getQuestionnaire(source, container, currentPhaseData, true);
                 break;
             case GUS_SINGLE_GESTURES:
-                item = Moderator.getQuestionnaire(source, container, currentPhaseData.gus, true);
+                item = Moderator.getQuestionnaire(source, container, getAssembledItems(currentPhaseData.gus), true);
                 break;
             case GUS_MULTIPLE_GESTURES:
-                item = Moderator.getQuestionnaire(source, container, currentPhaseData.gus, true);
+                item = Moderator.getQuestionnaire(source, container, getAssembledItems(currentPhaseData.gus), true);
                 break;
             case SUS:
                 item = Moderator.getSUS(source, container, currentPhaseData);
@@ -72,13 +72,13 @@ var Moderator = {
         for (var i = 0; i < data.length; i++) {
             var item = $(source).find('#' + data[i].type).clone().removeAttr('id');
 //            console.log('clone: ' + data[i].type + " form: " + source.attr('id'));
-            $(item).find('.question').text(i + 1 + '. ' + data[i].question);
-            $(container).find('.question-container').append(item);
+            $(item).find('.question').text(data.length - i + '. ' + data[i].question);
+            $(container).find('.question-container').prepend(item);
 
             if (data[i].dimension !== DIMENSION_ANY) {
                 $(item).find('#item-factors').removeClass('hidden');
                 $(item).find('#factor-primary').text(translation.dimensions[data[i].dimension]);
-                $(item).find('#factor-main').text(translation.mainDimensions[data[i].dimension]);
+                $(item).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(data[i].dimension)]);
             }
 
             var parameters = data[i].parameters;
@@ -186,11 +186,10 @@ var Moderator = {
     },
     renderGestureTraining: function renderGestureTraining(source, container, data) {
         var training = data[currentGestureTrainingIndex];
-//        console.log(training);
-        var gesture = training.gesture;
-        var repeats = training.repeats;
-        var trigger = training.trigger;
+        var gesture = getGestureById(training.gestureId);
+        var trigger = getTriggerById(training.triggerId);
         var feedback = getFeedbackById(training.feedbackId);
+        var repeats = training.repeats;
 
         $(container).find('#training .panel-heading-text').text('Geste ' + (currentGestureTrainingIndex + 1) + ' von ' + data.length);
 
@@ -204,8 +203,8 @@ var Moderator = {
         item.find('#trigger .address').text(translation.trigger + ":");
         item.find('#trigger .text').text(trigger.title);
         item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
-
         item.find('#feedback .address').text(translation.feedback + ":");
+
         if (feedback) {
             var icon = document.createElement('i');
             var label = document.createElement('div');
@@ -229,6 +228,19 @@ var Moderator = {
             item.find('#feedback .text').text(translation.nones);
         }
 
+        if (gestureTrainingStartTriggered) {
+            item.find('#trigger-training').removeClass('disabled');
+            container.find('#btn-start-training').addClass('hidden');
+        }
+
+        container.find('#btn-start-training').click(function (event) {
+            event.preventDefault();
+            $(this).addClass('hidden');
+            gestureTrainingStartTriggered = true;
+            item.find('#trigger-training').removeClass('disabled');
+            wobble([container.find('#trainingContainer'), $('#web-rtc-placeholder')]);
+        });
+
         item.find('#trigger-training').on('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
@@ -236,7 +248,11 @@ var Moderator = {
                 $(this).addClass('disabled');
                 trainingTriggered = true;
             } else {
-                wobble(item.find('#trigger-feedback'));
+                if (gestureTrainingStartTriggered) {
+                    wobble(item.find('#trigger-feedback'));
+                } else {
+                    wobble(container.find('#btn-start-training'));
+                }
             }
         });
 
@@ -248,7 +264,11 @@ var Moderator = {
 //                feedbackTriggered = true;
                 triggeredFeedback = feedback;
             } else if (triggeredFeedback === null) {
-                wobble(item.find('#trigger-training'));
+                if (gestureTrainingStartTriggered) {
+                    wobble(item.find('#trigger-training'));
+                } else {
+                    wobble(container.find('#btn-start-training'));
+                }
             }
         });
 
@@ -260,7 +280,11 @@ var Moderator = {
                 triggeredFeedback = null;
                 Moderator.renderGestureTraining(source, container, data);
             } else {
-                wobble(item.find('#trigger-training, #trigger-feedback'));
+                if (gestureTrainingStartTriggered) {
+                    wobble(item.find('#trigger-training, #trigger-feedback'));
+                } else {
+                    wobble(container.find('#btn-start-training'));
+                }
             }
         });
 
@@ -269,10 +293,15 @@ var Moderator = {
             if (!$(this).hasClass('disabled')) {
                 trainingTriggered = false;
                 triggeredFeedback = null;
+                gestureTrainingStartTriggered = false;
                 currentGestureTrainingIndex = 0;
                 nextStep();
             } else {
-                wobble(item.find('#trigger-training, #trigger-feedback'));
+                if (gestureTrainingStartTriggered) {
+                    wobble(item.find('#trigger-training, #trigger-feedback'));
+                } else {
+                    wobble(container.find('#btn-start-training'));
+                }
             }
         });
 
@@ -294,42 +323,59 @@ var Moderator = {
         $(container).find('#general .panel-heading').text(data.title);
         $(container).find('#general #description').text(data.description);
 
-        if (currentView === VIEW_MODERATOR) {
-            // slideshow section
-            Moderator.renderSlide(source, container, data);
+//        if (currentView === VIEW_MODERATOR) {
+        // slideshow section
+        Moderator.renderSlide(source, container, data);
 
-            // observation section
-            if (data.observations && data.observations.length > 0) {
-                Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
-            }
-        } else {
-
+        // observation section
+        if (data.observations && data.observations.length > 0) {
+            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
         }
+//        } else {
+//
+//        }
         return container;
     },
     renderSlide: function renderSlide(source, container, data) {
+        var slide = data.slideshow[currentSlideIndex];
+        var gesture = getGestureById(slide.gestureId);
+        var trigger = getTriggerById(slide.triggerId);
+
         $(container).find('#slides .panel-heading-text').text('Slide ' + (currentSlideIndex + 1) + ' von ' + data.slideshow.length);
         $(container).find('#slidesContainer').empty();
         var item = $(source).find('#slideshowItem').clone().removeAttr('id');
-
         $(container).find('#slidesContainer').append(item);
-        var slide = data.slideshow[currentSlideIndex];
-        item.find('.btn-popover-gesture-preview').attr('name', slide.gesture.id);
+
+        item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
         $(item).find('#responseTime').text(data.answerTime + ' Sekunden');
 
         var imageContainer;
         if (data.slideshowFor === 'trigger') {
-            $(item).find('#searched').text(slide.trigger.title);
-            $(item).find('#given').text(slide.gesture.title);
+            $(item).find('#searched').text(trigger.title);
+            $(item).find('#given').text(gesture.title);
             $(item).find('.btn-popover-gesture-preview').remove();
             $(container).find('#search-trigger').removeClass('hidden');
             imageContainer = $(item).find('.left .imageContainer');
         } else {
-            $(item).find('#searched').text(slide.gesture.title);
-            $(item).find('#given').text(slide.trigger.title);
+            $(item).find('#searched').text(gesture.title);
+            $(item).find('#given').text(trigger.title);
             imageContainer = $(item).find('.right .imageContainer');
             $(container).find('#search-gestures').removeClass('hidden');
         }
+
+        if (slideshowStartTriggered) {
+            $(container).find('#btn-start-slideshow').remove();
+        } else {
+            $(item).find('#trigger-slide').addClass('disabled');
+        }
+
+        $(container).find('#btn-start-slideshow').click(function (event) {
+            event.preventDefault();
+            slideshowStartTriggered = true;
+            $(this).remove();
+            $(item).find('#trigger-slide').removeClass('disabled');
+            wobble([container.find('#slidesContainer'), $('#web-rtc-placeholder')]);
+        });
 
         $(item).find('#trigger-slide').on('click', function (event) {
             event.preventDefault();
@@ -338,7 +384,11 @@ var Moderator = {
                 $(item).find('.disabled').removeClass('disabled');
                 $(this).addClass('disabled');
             } else {
-                wobble($(item).find('#correct-slide, #next-slide, #wrong-slide'));
+                if (slideshowStartTriggered) {
+                    wobble($(item).find('#correct-slide, #next-slide, #wrong-slide'));
+                } else {
+                    wobble($(container).find('#btn-start-slideshow'));
+                }
             }
         });
 
@@ -350,7 +400,11 @@ var Moderator = {
                 $(item).find('.disabled').removeClass('disabled');
                 Moderator.renderSlide(source, container, data);
             } else {
-                wobble($(item).find('#trigger-slide'));
+                if (slideshowStartTriggered) {
+                    wobble($(item).find('#trigger-slide'));
+                } else {
+                    wobble($(container).find('#btn-start-slideshow'));
+                }
             }
         });
 
@@ -367,7 +421,11 @@ var Moderator = {
                     slideTriggered = false;
                     nextStep();
                 } else {
-                    wobble($(item).find('#trigger-slide'));
+                    if (slideshowStartTriggered) {
+                        wobble($(item).find('#trigger-slide'));
+                    } else {
+                        wobble($(container).find('#btn-start-slideshow'));
+                    }
                 }
             });
         } else if (currentSlideIndex < data.slideshow.length) {
@@ -379,7 +437,11 @@ var Moderator = {
                     currentSlideIndex++;
                     Moderator.renderSlide(source, container, data);
                 } else {
-                    wobble($(item).find('#trigger-slide'));
+                    if (slideshowStartTriggered) {
+                        wobble($(item).find('#trigger-slide'));
+                    } else {
+                        wobble($(container).find('#btn-start-slideshow'));
+                    }
                 }
             });
         }
@@ -395,7 +457,7 @@ var Moderator = {
             $(container).find('#general #scene').on('click', function (event) {
                 event.preventDefault();
                 currentSceneId = data.scene;
-                loadHTMLintoModal('custom-modal', 'preview-scene.html', 'modal-lg');
+                loadHTMLintoModal('scene-modal', 'preview-scene.html', 'modal-lg');
             });
         }
 
@@ -447,7 +509,7 @@ var Moderator = {
             var item = $(source).find('#wozItem').clone();
             item.removeAttr('id');
             $(container).find('.woz-container').append(item);
-            var gesture = data[i].gesture;
+
 
             item.find('#trigger-woz').click({wozData: data[i]}, function (event) {
                 event.preventDefault();
@@ -460,8 +522,32 @@ var Moderator = {
                 }
             });
 
+            var trigger = getTriggerById(data[i].triggerId);
+            if (trigger) {
+                item.find('#trigger-title').text(trigger.title);
+            } else {
+                item.find('#trigger-title').remove();
+            }
+
+            var gesture = getGestureById(data[i].gestureId);
             if (gesture) {
+                item.find('#gesture-title').text(gesture.title);
                 item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+            } else {
+                item.find('#gesture-title').remove();
+                item.find('.btn-popover-gesture-preview').remove();
+            }
+
+            var transitionScene = getSceneById(data[i].transitionId);
+            if (transitionScene) {
+                item.find('#btn-show-transition-scene').click({sceneId: data[i].transitionId}, function (event) {
+                    event.preventDefault();
+                    console.log(event.data.sceneId);
+                    currentSceneId = event.data.sceneId;
+                    loadHTMLintoModal('scene-modal', 'preview-scene.html', 'modal-lg');
+                });
+            } else {
+                item.find('#btn-show-transition-scene').remove();
             }
         }
         return container;

@@ -13,15 +13,15 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">Titel</span>
-                        <input type="text" class="form-control" id="trainingTitle" placeholder="Titel einfügen">
                         <label class="sr-only" for="scenarioTitle">Titel</label>
+                        <input type="text" class="form-control" id="trainingTitle" placeholder="Titel einfügen">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">Beschreibung</span>
-                        <textarea class="form-control" id="trainingDescription" rows="5" placeholder="Trainingsbeschreibung einfügen"></textarea>
                         <label class="sr-only" for="scenarioDescription">Trainingsbeschreibung</label>
+                        <textarea class="form-control" id="trainingDescription" rows="5" placeholder="Trainingsbeschreibung einfügen"></textarea>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,6 @@
             </div>
         </div>
         <div class="panel-body hidden">
-            <div class="form-group container-root" id="list-container"></div>
 
             <div class="form-group">
                 <div class="input-group">
@@ -67,6 +66,8 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group container-root" id="list-container"></div>
 
             <!--<button class="btn btn-info pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>-->
         </div>
@@ -151,9 +152,11 @@
                         }
                     }
 
-                    var feedbackId = trainingItems[i].feedbackId;
-                    if (feedbackId) {
-                        var feedback = getFeedbackById(feedbackId);
+                    if (trainingItems[i].feedbackId === 'none') {
+                        $(clone).find('.feedbackSelect #none').click();
+                    } else {
+                        
+                        var feedback = getFeedbackById(trainingItems[i].feedbackId);
                         if (feedback) {
                             $(clone).find('.feedbackSelect #' + feedback.id).click();
                         } else {
@@ -210,10 +213,15 @@
                     var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
                     var trigger = getTriggerById(triggerId);
                     var feedbackId = $(item).find('.feedbackSelect .chosen').attr('id');
-                    var feedback = getFeedbackById(feedbackId);
+                    var feedback;
+                    if(feedbackId === 'none') {
+                        feedback = 'none';
+                    } else {
+                        feedback = getFeedbackById(feedbackId);
+                    }
                     var repeats = $(item).find('#repeats-stepper .stepper-text').val();
                     var recognitionTime = $(item).find('#recognition-stepper .stepper-text').val();
-
+                    
                     if (gesture && trigger && feedback) {
                         set.push(new TrainingItem(gestureId, triggerId, feedbackId, repeats, recognitionTime));
                     }
@@ -225,7 +233,7 @@
             if ($('#useObservationsSwitch').find('#yes').hasClass('active') && obersvationItems.length > 0)
             {
                 var questionnaire = new Array();
-                for (var i = 0; i < obersvationItems.length; i++) {
+                for (var i = obersvationItems.length; i--; ) {
                     questionnaire.push(getFormatData(obersvationItems[i]));
                 }
                 training.observations = questionnaire;
