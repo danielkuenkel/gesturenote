@@ -88,6 +88,10 @@
                 $(this).unbind('hide.bs.modal');
             }
         });
+        
+        $('#custom-modal').on('hidden.bs.modal', function (event) {
+            $('#list-container').empty();
+        });
 
         function renderData(data) {
             for (var i = 0; i < data.length; i++) {

@@ -301,6 +301,58 @@
         </div>
     </div>
 
+
+    <!-- slideshow container -->
+    <div class="row root" id="identification">
+        <div class="col-md-6 rtc-scalable" id="column-left">
+            <div class="panel panel-default" id="slides">
+                <div class="panel-heading">
+                    <span class="panel-heading-text"></span>
+                </div>
+                <div class="panel-body">
+                    <div class="row" id="identificationContainer"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" id="column-right">
+            <div class="panel panel-default" id="general">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <p id="description"></p>
+                    <span class="label label-default hidden" id="search-gestures">Es werden Gesten ermittelt</span> 
+                    <span class="label label-danger hidden" id="seach-trigger">Es werden Funktionen ermittelt</span>
+                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-identification" style="margin-top: 6px;">Jetzt starten</button>
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="observations">
+                <div class="panel-heading">
+                    Beobachtungen
+                </div>
+                <div class="panel-body question-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="identificationItem" class="row" style="padding-left: 15px; padding-right: 15px;">
+        <div class="col-xs-6 left" style="margin-bottom: 10px;">
+            <div class="triggerContainer">
+                <div id="search"><span class="address">Ermittelt wird:</span> <span class="text" style="color: #303030"></span></div>
+                <div id="search-for"><span class="address">Für:</span> <span class="text" style="color: #303030"></span></div>
+                <div id="gesture-repeats" class="hidden"><span class="address">Geste wiederholen:</span> <span class="text" style="color: #303030"></span></div>
+            </div>
+        </div>
+        <div class="col-xs-6 right">
+            <div class="btn-group-vertical btn-block">
+                <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="text">Geste zeigen</span></button>
+                <button type="button" class="btn btn-info btn-shadow" id="trigger-identification"><span class="text">Auffordern</span></button>
+                <button type="button" class="btn btn-success btn-shadow disabled" id="next-identification"><span class="text">Weiter</span></button>
+                <button type="button" class="btn btn-success btn-shadow disabled" id="done-identification"><span class="text">Fertig</span></button>
+            </div>
+        </div>
+    </div>
+
+
     <!-- scenario container -->
     <div  class="row root" id="scenario">
         <div class="col-md-7 col-lg-8 rtc-scalable" id="column-left">
@@ -568,6 +620,67 @@
         </div>
         <div class="triggerContainer hidden">
             <!--<p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Zeigen Sie die Geste für die Funktion</p>-->
+            <div class="trigger-title" style="font-size: 50pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
+        </div>
+    </div>
+
+    <!-- identification container -->
+    <div class="container root" id="identification">
+        <div id="general">
+            <h3 class="headline"></h3>
+            <div class="description"></div>
+            <hr>
+        </div>
+        <div class="alert-space alert-waiting-for-identification"></div>
+        <div class="progress progress-identification hidden" style="border-radius: 10px; height: 73px;">
+            <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+        </div>
+        <div id="identificationContainer"></div>
+    </div>
+
+    <div id="identificationItemModerated">
+        <div id="gesture-identification">
+            <div class="col-lg-6 text-center">
+                <div class="imageContainer previewGesture" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
+                <div class="text-center gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="trigger-name">Funktionsname</label>
+                    <input class="form-control" name="trigger-name" id="trigger-name">
+                </div>
+                <div class="form-group">
+                    <label for="trigger-name">Begründung</label>
+                    <textarea class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div id="trigger-identification">
+
+        </div>
+        <div class="gestureContainer hidden">
+
+        </div>
+        <div class="triggerContainer hidden">
+            <div class="trigger-title" style="font-size: 50pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
+        </div>
+    </div>
+
+    <div id="identificationItemUnmoderated" class="text-center">
+        <button class="btn btn-xl btn-block btn-success btn-shadow hidden" id="startSlideshow" name="btn-success">Jetzt Starten</button>
+
+        <div class="gestureContainer hidden">
+            <div class="imageContainer autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
+        </div>
+        <div class="triggerContainer hidden">
             <div class="trigger-title" style="font-size: 50pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
         </div>
     </div>

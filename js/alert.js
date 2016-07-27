@@ -37,6 +37,7 @@ var ALERT_NO_SEARCH_RESULTS = 'no-search-results';
 var ALERT_NO_PHASE_DATA = 'no-phase-data';
 var ALERT_WAITING_FOR_TRAINING_GESTURE = 'waiting-for-training-gesture';
 var ALERT_WAITING_FOR_SLIDESHOW = 'waiting-for-slideshow';
+var ALERT_WAITING_FOR_IDENTIFICATION = 'waiting-for-identification';
 var ALERT_WAITING_FOR_SCENARIO_START = 'waiting-for-scenario-start';
 
 function appendAlert(target, alertType) {

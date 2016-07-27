@@ -23,25 +23,25 @@
                         <div class="btn-group" id="identificationTypeSwitch">
                             <button class="btn btn-default switchButtonAddon">Was soll identifiziert werden?</button>
                             <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="gestures" name="btn-success">Gesten</button>
-                            <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="trigger" name="btn-success">Trigger</button>
+                            <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="trigger" name="btn-success">Funktionen</button>
                         </div>
                     </div>
-<!--                    <div class="col-md-6">
+                    <div class="col-md-6 hidden" id="gesture-repeats-stepper">
                         <div class="input-group simple-stepper">
                             <div class="input-group-btn">
-                                <button class="btn btn-default btn-shadow btn-addon">Zeit für die Antwort (Sekunden)</button>
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="2">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Sekunde weniger</span>
+                                <button class="btn btn-default btn-shadow btn-addon">Wiederholungen der Geste</button>
+                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Wiederholung weniger</span>
                                 </button>
                             </div>
-                            <input type="text" class="form-control readonly text-center stepper-text" id="answerTime" value="3">
+                            <input type="text" class="form-control readonly text-center stepper-text" value="1">
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Sekunde mehr</span>
+                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
+                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Wiederholung mehr</span>
                                 </button>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                 </div>
             </div>
         </div>
@@ -100,33 +100,69 @@
 
 <script type="text/javascript" src="js/template-create.js"></script>
 <script>
-        $('#identificationTypeSwitch .btn-toggle-checkbox').on('click', function (event) {
-            event.preventDefault();
-            if (!$(this).hasClass('active')) {
-                var container = $('#identificationContainer');
-                clearAlerts(container);
+//        $('#identificationTypeSwitch .btn-toggle-checkbox').on('click', function (event) {
+//            event.preventDefault();
+//            if (!$(this).hasClass('active')) {
+//                var container = $('#identificationContainer');
+//                clearAlerts(container);
+//
+//                if ($(this).attr('id') === 'gestures') {
+//                    var trigger = getLocalItem(ASSEMBLED_TRIGGER);
+//                    if (trigger && trigger.length > 0) {
+//                        renderAssembledTriggers();
+//                        $(container).find('.btn-add-identificationOption').removeClass('hidden');
+//                        $(container).find('.option-container').removeClass('hidden');
+//                    } else {
+//                        appendAlert(container, ALERT_NO_TRIGGER_ASSEMBLED);
+//                        $(container).find('.btn-add-identificationOption').addClass('hidden');
+//                        $(container).find('.option-container').addClass('hidden');
+//                    }
+//                } else if ($(this).attr('id') === 'trigger') {
+//                    if (assembledGestures()) {
+//                        renderAssembledGestures();
+//                        $(container).find('.btn-add-identificationOption').removeClass('hidden');
+//                        $(container).find('.option-container').removeClass('hidden');
+//                    } else {
+//                        appendAlert(container, ALERT_NO_GESTURES_ASSEMBLED);
+//                        $(container).find('.btn-add-identificationOption').addClass('hidden');
+//                        $(container).find('.option-container').addClass('hidden');
+//                    }
+//                }
+//            }
+//        });
 
-                if ($(this).attr('id') === 'gestures') {
-                    var trigger = getLocalItem(ASSEMBLED_TRIGGER);
-                    if (trigger && trigger.length > 0) {
-                        renderAssembledTriggers();
-                        $(container).find('.btn-add-identificationOption').removeClass('hidden');
-                        $(container).find('.option-container').removeClass('hidden');
-                    } else {
-                        appendAlert(container, ALERT_NO_TRIGGER_ASSEMBLED);
-                        $(container).find('.btn-add-identificationOption').addClass('hidden');
-                        $(container).find('.option-container').addClass('hidden');
-                    }
-                } else if ($(this).attr('id') === 'trigger') {
-                    if (assembledGestures()) {
-                        renderAssembledGestures();
-                        $(container).find('.btn-add-identificationOption').removeClass('hidden');
-                        $(container).find('.option-container').removeClass('hidden');
-                    } else {
-                        appendAlert(container, ALERT_NO_GESTURES_ASSEMBLED);
-                        $(container).find('.btn-add-identificationOption').addClass('hidden');
-                        $(container).find('.option-container').addClass('hidden');
-                    }
+        $('#identificationTypeSwitch').on('change', function () {
+            var container = $('#identificationContainer');
+            clearAlerts(container);
+
+            var activeId = $(this).find('.active').attr('id');
+            var idenficationItems = $(container).find('.option-container').children();
+            $(idenficationItems).has('#group-' + activeId).remove();
+
+            if ($(this).find('.active').attr('id') === $('#identificationTypeSwitch #gestures').attr('id')) {
+                $('#gesture-repeats-stepper').removeClass('hidden');
+
+                var trigger = getLocalItem(ASSEMBLED_TRIGGER);
+                if (trigger && trigger.length > 0) {
+                    renderAssembledTriggers();
+                    $(container).find('.btn-add-identificationOption').removeClass('hidden');
+                    $(container).find('.option-container').removeClass('hidden');
+                } else {
+                    appendAlert(container, ALERT_NO_TRIGGER_ASSEMBLED);
+                    $(container).find('.btn-add-identificationOption').addClass('hidden');
+                    $(container).find('.option-container').addClass('hidden');
+                }
+            } else {
+                $('#gesture-repeats-stepper').addClass('hidden');
+
+                if (assembledGestures()) {
+                    renderAssembledGestures();
+                    $(container).find('.btn-add-identificationOption').removeClass('hidden');
+                    $(container).find('.option-container').removeClass('hidden');
+                } else {
+                    appendAlert(container, ALERT_NO_GESTURES_ASSEMBLED);
+                    $(container).find('.btn-add-identificationOption').addClass('hidden');
+                    $(container).find('.option-container').addClass('hidden');
                 }
             }
         });
@@ -141,27 +177,28 @@
             }
         });
 
+
         function renderData(data, forPrefiniedObservation)
         {
             var identificationItems = data.identification;
 
             $('#identificationTitle').val(data.title);
             $('#identificationDescription').val(data.description);
-            $('#identificationTypeSwitch #' + data.slideshowFor).click();
-            $('#answerTime').val(data.answerTime);
+            $('#identificationTypeSwitch #' + data.identificationFor).click();
+            $('#gesture-repeats-stepper .stepper-text').val(data.identificationRepeats);
 
             var container;
             if (identificationItems !== undefined && identificationItems.length > 0) {
 
                 container = $('#identificationContainer').find('.option-container');
                 for (var i = 0; i < identificationItems.length; i++) {
-                    var clone = $('#identificationItem').clone().removeClass('hidden');
+                    var clone = $('#form-item-container').find('#identificationItem').clone();
                     $(clone).removeAttr('id');
                     container.append(clone);
 
-                    if ($('#identificationTypeSwitch .active').attr('id') === 'gestures') {
+                    if (data.identificationFor === 'gestures') {
                         $(clone).find('#group-gestures').remove();
-                        var trigger = getTriggerById(identificationItems[i].triggerId);
+                        var trigger = getTriggerById(identificationItems[i]);
                         if (trigger) {
                             if (!getTriggerById(trigger.id)) {
                                 appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
@@ -171,7 +208,7 @@
                         }
                     } else {
                         $(clone).find('#group-trigger').remove();
-                        var gesture = getGestureById(identificationItems[i].gestureId);
+                        var gesture = getGestureById(identificationItems[i]);
                         if (gesture && isGestureAssembled(gesture.id)) {
                             $(clone).find('.gestureSelect #' + gesture.id).click();
                         } else {
@@ -210,11 +247,11 @@
             var identificationItems = $('#identificationContainer').find('.option-container').children();
             var obersvationItems = $('#list-container').children();
 
-            var identification = new Slideshow();
+            var identification = new Identification();
             identification.title = $('#identificationTitle').val();
             identification.description = $('#identificationDescription').val();
-            identification.slideshowFor = $('#identificationTypeSwitch .active').attr('id');
-            identification.answerTime = $('#answerTime').val();
+            identification.identificationFor = $('#identificationTypeSwitch .active').attr('id');
+            identification.identificationRepeats = $('#gesture-repeats-stepper .stepper-text').val();
 
             if (identificationItems) {
                 var set = new Array();
@@ -222,10 +259,10 @@
                     var item = identificationItems[i];
                     if ($('#identificationTypeSwitch .active').attr('id') === 'gestures') {
                         var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
-                        set.push(new SlideshowItem(null, triggerId));
+                        set.push(triggerId);
                     } else {
                         var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
-                        set.push(new SlideshowItem(gestureId, null));
+                        set.push(gestureId);
                     }
                 }
                 identification.identification = set;
@@ -244,10 +281,4 @@
             setLocalItem(currentIdForModal + ".data", identification);
         }
 
-
-        $('#identificationTypeSwitch').on('change', function () {
-            var activeId = $(this).find('.active').attr('id');
-            var idenficationItems = $('#identificationContainer').find('.option-container').children();
-            $(idenficationItems).has('#group-' + activeId).remove();
-        });
 </script>

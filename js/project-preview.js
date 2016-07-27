@@ -10,6 +10,9 @@ var triggeredWoz = null;
 var triggeredHelp = null;
 var currentTriggeredSceneId = null;
 var gestureTrainingStartTriggered = false;
+var currentIdentificationIndex = 0;
+var identificationTriggered = false;
+var identificationStartTriggered = false;
 
 function checkStorage() {
     if (getLocalItem(PROJECT_PHASE_STEPS) && getLocalItem(PROJECT_PHASE_STEPS).length > 0) {

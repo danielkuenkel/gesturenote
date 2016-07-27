@@ -96,6 +96,7 @@
     "none": "Keine",
     "nones": "Keines",
     "trigger": "Funktion",
+    "triggers": "Funktionen",
     "feedback": "Feedback",
     "taskTitle": "Aufgabentitel",
     "task": "Aufgabe",
@@ -108,8 +109,11 @@
     "more": "mehr",
     "less": "weniger",
     "for": "für",
+    "For": "Für",
+    "of": "von",
     "text": "Text",
     "sound": "Sound",
     "imprint": "Impressum",
-    "simulate": "simulieren"
+    "simulate": "simulieren",
+    "identified": "Ermittelt wird"
 }

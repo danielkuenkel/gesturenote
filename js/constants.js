@@ -40,6 +40,7 @@ var LETTER_OF_ACCEPTANCE = 'letterOfAcceptance';
 var GESTURE_TRAINING = 'gestureTraining';
 var SCENARIO = 'scenario';
 var SLIDESHOW = 'slideshow';
+var IDENTIFICATION = 'identification';
 
 // questionnaire formats
 var OPEN_QUESTION = 'openQuestion';

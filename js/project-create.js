@@ -340,6 +340,15 @@ function SlideshowItem(gestureId, triggerId) {
     this.triggerId = triggerId;
 }
 
+function Identification() {
+    this.title;
+    this.description;
+    this.identificationFor;
+    this.identificationRepeats;
+    this.identification;
+    this.observations;
+}
+
 function Gesture(type, id, timestamp, title, description, gestureType, bodyType, images, previewImage, videoUrl, used) {
     this.type = type;
     this.id = id;

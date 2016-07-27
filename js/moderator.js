@@ -40,6 +40,9 @@ var Moderator = {
             case SLIDESHOW:
                 item = Moderator.getSlideshow(source, container, currentPhaseData);
                 break;
+            case IDENTIFICATION:
+                item = Moderator.getIdentification(source, container, currentPhaseData);
+                break;
         }
 
         $('#viewModerator #phase-content').empty().append(item);
@@ -196,14 +199,14 @@ var Moderator = {
         var item = $(source).find('#trainingItem').clone().removeAttr('id');
         $(container).find('#trainingContainer').empty();
         $(container).find('#trainingContainer').append(item);
-        item.find('#title .address').text(translation.title + ":");
-        item.find('#title .text').text(gesture.title);
-        item.find('#repeats .address').text(translation.repeats + ":");
-        item.find('#repeats .text').text(repeats);
-        item.find('#trigger .address').text(translation.trigger + ":");
-        item.find('#trigger .text').text(trigger.title);
-        item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
-        item.find('#feedback .address').text(translation.feedback + ":");
+//        item.find('#title .address').text(translation.title + ":");
+//        item.find('#title .text').text(gesture.title);
+//        item.find('#repeats .address').text(translation.repeats + ":");
+//        item.find('#repeats .text').text(repeats);
+//        item.find('#trigger .address').text(translation.trigger + ":");
+//        item.find('#trigger .text').text(trigger.title);
+//        item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+//        item.find('#feedback .address').text(translation.feedback + ":");
 
         if (feedback) {
             var icon = document.createElement('i');
@@ -318,12 +321,10 @@ var Moderator = {
         }
     },
     getSlideshow: function getSlideshow(source, container, data) {
-
         // general data section
         $(container).find('#general .panel-heading').text(data.title);
         $(container).find('#general #description').text(data.description);
 
-//        if (currentView === VIEW_MODERATOR) {
         // slideshow section
         Moderator.renderSlide(source, container, data);
 
@@ -331,9 +332,6 @@ var Moderator = {
         if (data.observations && data.observations.length > 0) {
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
         }
-//        } else {
-//
-//        }
         return container;
     },
     renderSlide: function renderSlide(source, container, data) {
@@ -441,6 +439,125 @@ var Moderator = {
                         wobble($(item).find('#trigger-slide'));
                     } else {
                         wobble($(container).find('#btn-start-slideshow'));
+                    }
+                }
+            });
+        }
+    },
+    getIdentification: function getIdentification(source, container, data) {
+        // general data section
+        $(container).find('#general .panel-heading').text(data.title);
+        $(container).find('#general #description').text(data.description);
+
+        if (data.identificationFor === 'gestures') {
+            $(container).find('#search-gestures').removeClass('hidden');
+        } else {
+            $(container).find('#search-trigger').removeClass('hidden');
+        }
+
+        // slideshow section
+        Moderator.renderIdentification(source, container, data);
+
+        // observation section
+        if (data.observations && data.observations.length > 0) {
+            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+        }
+        return container;
+    },
+    renderIdentification: function renderIdentification(source, container, data) {
+        var identificationId = data.identification[currentIdentificationIndex];
+        var searchedData;
+        if (data.identificationFor === 'gestures') {
+            searchedData = getTriggerById(identificationId);
+        } else {
+            searchedData = getGestureById(identificationId);
+        }
+
+        $(container).find('#slides .panel-heading-text').text(translation.formats.identification + ' ' + (currentIdentificationIndex + 1) + ' ' + translation.of + ' ' + data.identification.length);
+        var item = $(source).find('#identificationItem').clone().removeAttr('id');
+        $(container).find('#identificationContainer').empty().append(item);
+
+        if (data.identificationFor === 'gestures') {
+            $(item).find('#search .address').text(translation.identified + ':');
+            $(item).find('#search .text').text(translation.gesture);
+            $(item).find('#search-for .address').text(translation.For + ' ' + translation.trigger + ':');
+            $(item).find('#search-for .text').text(searchedData.title);
+            $(item).find('#gesture-repeats').removeClass('hidden');
+            $(item).find('#gesture-repeats .text').text(data.identificationRepeats);
+            $(item).find('.btn-popover-gesture-preview').remove();
+        } else {
+            $(item).find('#search .address').text(translation.identified + ':');
+            $(item).find('#search .text').text(translation.trigger);
+            $(item).find('#search-for .address').text(translation.For + ' ' + translation.gesture + ':');
+            $(item).find('#search-for .text').text(searchedData.title);
+            item.find('.btn-popover-gesture-preview').attr('name', searchedData.id);
+        }
+
+
+        if (identificationStartTriggered) {
+            $(container).find('#btn-start-identification').remove();
+        } else {
+            $(item).find('#trigger-identification').addClass('disabled');
+        }
+
+        $(container).find('#btn-start-identification').click(function (event) {
+            event.preventDefault();
+            identificationStartTriggered = true;
+            $(this).remove();
+            $(item).find('#trigger-identification').removeClass('disabled');
+            wobble([container.find('#identificationContainer'), $('#web-rtc-placeholder')]);
+        });
+
+        $(item).find('#trigger-identification').on('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                identificationTriggered = true;
+                $(item).find('.disabled').removeClass('disabled');
+                $(this).addClass('disabled');
+            } else {
+                if (identificationStartTriggered) {
+                    wobble($(item).find('#next-identification, #done-identification'));
+                } else {
+                    wobble($(container).find('#btn-start-identification'));
+                }
+            }
+        });
+
+        if (identificationTriggered) {
+            $(item).find('.disabled').removeClass('disabled');
+            item.find('#trigger-identification').addClass('disabled');
+        }
+
+        if (data.identification.length === 1 || currentIdentificationIndex >= data.identification.length - 1) {
+            $(item).find('#next-identification').remove();
+            $(item).find('#done-identification').on('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    currentIdentificationIndex = 0;
+                    identificationTriggered = false;
+                    identificationStartTriggered = false;
+                    nextStep();
+                } else {
+                    if (identificationStartTriggered) {
+                        wobble($(item).find('#trigger-identification'));
+                    } else {
+                        wobble($(container).find('#btn-start-identification'));
+                    }
+                }
+            });
+        } else if (currentIdentificationIndex < data.identification.length) {
+            $(item).find('#done-identification').remove();
+            $(item).find('#next-identification').on('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    identificationTriggered = false;
+                    currentIdentificationIndex++;
+                    Moderator.renderIdentification(source, container, data);
+                } else {
+                    if (identificationStartTriggered) {
+                        wobble($(item).find('#trigger-identification'));
+                    } else {
+                        wobble($(container).find('#btn-start-identification'));
                     }
                 }
             });

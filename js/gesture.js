@@ -9,7 +9,7 @@ var popoverVisible = false;
 $(window).load(function () {
     $('body').on('mouseenter', '.previewGesture', function (event) {
         event.preventDefault();
-        if (!$(this).hasClass('mouseScrollable')) {
+        if ($(this).hasClass('mousePlayable')) {
             clearTimer();
             playThroughThumbnails($(this), 0);
         }
@@ -17,8 +17,10 @@ $(window).load(function () {
 
     $('body').on('mouseleave', '.previewGesture', function (event) {
         event.preventDefault();
-        prevSlide = 0;
-        resetThumbnails($(this));
+        if ($(this).hasClass('mouseScrollable') || $(this).hasClass('mousePlayable')) {
+            prevSlide = 0;
+            resetThumbnails($(this));
+        }
     });
 
     var currentSlide, prevSlide;
@@ -177,7 +179,7 @@ function renderGestureImages(container, images, preview, callback) {
             if (numImagesLoaded === images.length - 1) {
                 resetThumbnails(container);
                 if ($(container).hasClass('autoplay')) {
-                    playThroughThumbnails(container);
+                    $(container).parent().find('#btn-play-gesture').click();
                 }
                 if (callback !== null && callback !== undefined) {
                     callback();

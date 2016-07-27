@@ -159,9 +159,6 @@ include './includes/language.php';
                     <!-- tab general study data -->
 
                     <div class="tab-content hidden tab-general">
-                        <!--                        <div class="page-header">
-                                                    <h3>Allgemeines <span class="btn-show-info"><i class="glyphicon glyphicon-question-sign"></i></span></h3>
-                                                </div>-->
 
                         <!-- project name -->
                         <div class="form-group">
@@ -217,18 +214,15 @@ include './includes/language.php';
                     <!-- tab catalogs -->
 
                     <div class="tab-content hidden tab-catalogs">
-                        <!--                        <div class="page-header">
-                                                    <h3>Kataloge <span class="btn-show-info"><i class="glyphicon glyphicon-question-sign"></i></span></h3>
-                                                </div>-->
 
                         <!-- Use of well/predefined sczenes -->
                         <div class="form-group">
                             <div class="btn-group" id="scenes-catalog">
                                 <button class="btn btn-default btn-group-addon">Szenen</button>
-                                <button class="btn btn-default btn-shadow" id="assemble-scenes-set">
+                                <button class="btn btn-default btn-shadow" id="btn-assemble-scenes">
                                     <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span>
                                 </button>
-                                <button class="btn btn-default btn-shadow" id="remove-scenes-set">
+                                <button class="btn btn-default btn-shadow" id="btn-clear-scenes">
                                     <i class="glyphicon glyphicon-trash"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog löschen</span>
                                 </button>
                             </div>
@@ -244,7 +238,7 @@ include './includes/language.php';
                                 <button class="btn btn-default btn-shadow hidden" id="btn-clear-study-gestures">
                                     <i class="glyphicon glyphicon-trash"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog löschen</span>
                                 </button>
-                                <button class="btn btn-default btn-shadow" id="assemble-gesture-set">
+                                <button class="btn btn-default btn-shadow" id="btn-assemble-study-gestures">
                                     <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog zusammenstellen</span>
                                 </button>
 
@@ -255,10 +249,10 @@ include './includes/language.php';
                         <div class="form-group">
                             <div class="btn-group" id="trigger-catalog">
                                 <button class="btn btn-default btn-group-addon">Funktionen</button>
-                                <button class="btn btn-default btn-shadow" id="assemble-trigger-set">
+                                <button class="btn btn-default btn-shadow" id="btn-assemble-trigger">
                                     <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span>
                                 </button>
-                                <button class="btn btn-default btn-shadow" id="remove-trigger-set">
+                                <button class="btn btn-default btn-shadow" id="btn-clear-trigger">
                                     <i class="glyphicon glyphicon-trash"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog löschen</span>
                                 </button>
                             </div>
@@ -268,10 +262,10 @@ include './includes/language.php';
                         <div class="form-group">
                             <div class="btn-group" id="feedback-catalog">
                                 <button class="btn btn-default btn-group-addon">Feedback</button>
-                                <button class="btn btn-default btn-shadow" id="assemble-feedback-set">
+                                <button class="btn btn-default btn-shadow" id="btn-assemble-feedback">
                                     <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span>
                                 </button>
-                                <button class="btn btn-default btn-shadow" id="remove-feedback-set">
+                                <button class="btn btn-default btn-shadow" id="btn-clear-feedback">
                                     <i class="glyphicon glyphicon-trash"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog löschen</span>
                                 </button>
                             </div>
@@ -282,9 +276,6 @@ include './includes/language.php';
                     <!-- tab guide & phases -->
 
                     <div class="tab-content hidden tab-phases">
-                        <!--                        <div class="page-header">
-                                                    <h3>Leitfaden <span class="btn-show-info"><i class="glyphicon glyphicon-question-sign"></i></span></h3>
-                                                </div>-->
 
                         <div class="form-group">
                             <div class="input-group">
@@ -307,9 +298,9 @@ include './includes/language.php';
                                         <li id="slideshow"><a href="#"><?php echo $lang->formats->slideshow ?></a></li>
                                     </ul>
                                     <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                    <button class="btn btn-addon btn-shadow disabled dropdown-disabled" id="info-addon-add-phases">
-                                        <i class="glyphicon glyphicon-question-sign"></i>
-                                    </button>
+                                    <!--                                    <button class="btn btn-addon btn-shadow disabled dropdown-disabled" id="info-addon-add-phases">
+                                                                            <i class="glyphicon glyphicon-question-sign"></i>
+                                                                        </button>-->
                                 </div>
                             </div>
                         </div>
@@ -334,9 +325,9 @@ include './includes/language.php';
                                 <button class="btn btn-default btn-shadow btn-text-button">
                                     <span class="glyphicon glyphicon-tag"></span><span class="phase-step-format"></span>
                                 </button>
-                                <button class="btn btn-addon">
-                                    <i class="glyphicon glyphicon-question-sign"></i>
-                                </button>
+                                <!--                                <button class="btn btn-addon">
+                                                                    <i class="glyphicon glyphicon-question-sign"></i>
+                                                                </button>-->
                             </div>
                         </div>
                     </div>
@@ -468,7 +459,6 @@ include './includes/language.php';
                         language: currentLanguage
                     });
 
-
                     $('#from-To-datepicker .input-daterange').on("changeDate", function () {
                         saveGeneralData();
                     });
@@ -503,110 +493,30 @@ include './includes/language.php';
                 $('#create-tab-navigation').find('#general').click();
             }
 
-            $('.breadcrumb li a').on('click', function () {
-                clearLocalItems();
-            });
-
-            $('#assemble-scenes-set').on('click', function (event) {
-
+            // scenes handling
+            $('#btn-assemble-scenes').click(function (event) {
                 event.preventDefault();
                 currentIdForModal = ASSEMBLED_SCENES;
                 loadHTMLintoModal('custom-modal', 'create-scenes-catalog.html', 'modal-lg');
             });
 
-            $('#useScenesSwitch #no').on('click', function (event) {
+            $('#btn-clear-scenes').click(function (event) {
                 event.preventDefault();
-//                if (!$(this).parent().find('#no').hasClass('active') === true) {
                 removeAssembledScenes();
-//                }
             });
 
-            $('#assemble-gesture-set').on('click', function (event) {
+            // gesture catalog handling
+            $('#btn-assemble-study-gestures').click(function (event) {
                 event.preventDefault();
-                currentIdForModal = PREDEFINED_GESTURE_SET;
                 loadHTMLintoModal('custom-modal', 'create-gesture-catalog.html', 'modal-lg');
             });
 
-            $('#useGesturesSwitch #no, #useGesturesSwitch .switchButtonAddon').on('click', function (event) {
-                event.preventDefault();
-                if (!$(this).parent().find('#no').hasClass('active') === true) {
-                    removeAssembledGestures();
-                }
-            });
-
-            $('#assemble-trigger-set').on('click', function (event) {
-                event.preventDefault();
-                currentIdForModal = ASSEMBLED_TRIGGER;
-                loadHTMLintoModal('custom-modal', 'create-trigger-catalog.html', 'modal-lg');
-            });
-
-            $('#useTriggerSwitch #no, #useTriggerSwitch .switchButtonAddon').on('click', function (event) {
-                event.preventDefault();
-                if (!$(this).parent().find('#no').hasClass('active') === true) {
-                    removeAssembledTrigger();
-                }
-            });
-
-            $('#assemble-feedback-set').on('click', function (event) {
-                event.preventDefault();
-                currentIdForModal = ASSEMBLED_FEEDBACK;
-                loadHTMLintoModal('custom-modal', 'create-feedback-catalog.html', 'modal-lg');
-            });
-
-            $('#useFeedbackSwitch #no, #useFeedbackSwitch .switchButtonAddon').on('click', function (event) {
-                event.preventDefault();
-                if (!$(this).parent().find('#no').hasClass('active') === true) {
-                    removeAssembledFeedback();
-                }
-            });
-
-            $('#btn-info-phase').on('click', function (event) {
-                event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'info-project-phase.html');
-            });
-
-            $('#btn-info-survey-type').on('click', function (event) {
-                event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'info-project-survey-type.html');
-            });
-
-            $('#btn-scenes-info').on('click', function (event) {
-                event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'info-scenes.html');
-            });
-
-            $('#btn-use-gestures-info').on('click', function (event) {
-                event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'info-use-gestures.html');
-            });
-
-            $('#btn-use-trigger-info').on('click', function (event) {
-                event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'info-use-trigger.html');
-            });
-
-            $('#btn-use-feedback-info').on('click', function (event) {
-                event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'info-use-feedback.html');
-            });
-
-            $('#btn-info-record').on('click', function (event) {
-                event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'info-record.html');
-            });
-
-            $('#info-addon-add-phases').on('click', function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    var selectedID = $(this).parent().find('.chosen').attr('id');
-                    loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-md");
-                }
-            });
-            $('#btn-study-gestures').on('click', function (event) {
+            $('#btn-study-gestures').click(function (event) {
                 event.preventDefault();
                 loadHTMLintoModal("custom-modal", "create-study-gestures.html", "modal-lg");
             });
-            $('#btn-clear-study-gestures').on('click', function (event) {
+
+            $('#btn-clear-study-gestures').click(function (event) {
                 event.preventDefault();
                 removeAssembledGestures();
                 updateGestureCatalogButtons();
@@ -620,7 +530,81 @@ include './includes/language.php';
                 }
             }
 
-            $('#addPhaseStep').on('click', function (event) {
+            // trigger catalog handling
+            $('#btn-assemble-trigger').click(function (event) {
+                event.preventDefault();
+//                currentIdForModal = ASSEMBLED_TRIGGER;
+                loadHTMLintoModal('custom-modal', 'create-trigger-catalog.html', 'modal-lg');
+            });
+
+            $('#btn-clear-trigger').click(function (event) {
+                event.preventDefault();
+                removeAssembledTrigger();
+            });
+
+            // feedback catalog handling
+            $('#btn-assemble-feedback').click(function (event) {
+                event.preventDefault();
+//                currentIdForModal = ASSEMBLED_FEEDBACK;
+                loadHTMLintoModal('custom-modal', 'create-feedback-catalog.html', 'modal-lg');
+            });
+
+            $('#btn-clear-feedback').click(function (event) {
+                event.preventDefault();
+                removeAssembledFeedback();
+            });
+
+//            $('#useFeedbackSwitch #no, #useFeedbackSwitch .switchButtonAddon').on('click', function (event) {
+//                event.preventDefault();
+//                if (!$(this).parent().find('#no').hasClass('active') === true) {
+//                    removeAssembledFeedback();
+//                }
+//            });
+
+//            $('#btn-info-phase').on('click', function (event) {
+//                event.preventDefault();
+//                loadHTMLintoModal('custom-modal', 'info-project-phase.html');
+//            });
+//
+//            $('#btn-info-survey-type').on('click', function (event) {
+//                event.preventDefault();
+//                loadHTMLintoModal('custom-modal', 'info-project-survey-type.html');
+//            });
+//
+//            $('#btn-scenes-info').on('click', function (event) {
+//                event.preventDefault();
+//                loadHTMLintoModal('custom-modal', 'info-scenes.html');
+//            });
+//
+//            $('#btn-use-gestures-info').on('click', function (event) {
+//                event.preventDefault();
+//                loadHTMLintoModal('custom-modal', 'info-use-gestures.html');
+//            });
+//
+//            $('#btn-use-trigger-info').on('click', function (event) {
+//                event.preventDefault();
+//                loadHTMLintoModal('custom-modal', 'info-use-trigger.html');
+//            });
+//
+//            $('#btn-use-feedback-info').on('click', function (event) {
+//                event.preventDefault();
+//                loadHTMLintoModal('custom-modal', 'info-use-feedback.html');
+//            });
+//
+//            $('#btn-info-record').on('click', function (event) {
+//                event.preventDefault();
+//                loadHTMLintoModal('custom-modal', 'info-record.html');
+//            });
+
+//            $('#info-addon-add-phases').on('click', function (event) {
+//                event.preventDefault();
+//                if (!$(this).hasClass('disabled')) {
+//                    var selectedID = $(this).parent().find('.chosen').attr('id');
+//                    loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-md");
+//                }
+//            });
+
+            $('#addPhaseStep').click(function (event) {
                 event.preventDefault();
                 var selectedID = $(this).parent().find('.chosen').attr('id');
                 if (!$(this).hasClass('disabled') && selectedID !== 'unselected') {
@@ -664,13 +648,17 @@ include './includes/language.php';
                 checkCurrentListState($('#phaseStepList'));
             }
 
-            $('#btn-clear-data').on('click', function (event) {
+            $('.breadcrumb li').click(function () {
+                clearLocalItems();
+            });
+
+            $('#btn-clear-data').click(function (event) {
                 event.preventDefault();
                 clearLocalItems();
                 location.reload(true);
             });
 
-            $('#btn-preview-project').on('click', function (event) {
+            $('#btn-preview-project').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true) {
                     saveGeneralData();
@@ -678,7 +666,7 @@ include './includes/language.php';
                 }
             });
 
-            $('#btn-save-project').on('click', function (event) {
+            $('#btn-save-project').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true) {
                     saveGeneralData();
