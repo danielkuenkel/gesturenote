@@ -10,7 +10,8 @@ function setLocalItem(id, data) {
 }
 
 function getLocalItem(id) {
-    if (localStorage.getItem(id) !== null) {
+    var data = localStorage.getItem(id);
+    if (data !== null && data.length > 0) {
         return JSON.parse(localStorage.getItem(id));
     } else {
         return null;

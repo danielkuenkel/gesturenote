@@ -92,13 +92,31 @@ include './includes/language.php';
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">Hilfe</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body root">
                         <p id="help-text" style="color: #303030"></p>
-                        <div class="imageContainer autoplay hidden"></div>
+                        <div id="gesture-preview" class="hidden">
+                            <div class="imageContainer previewGesture autoplay"></div>
+                            <div class="text-center gestureControls">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                                    <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                                    <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-lg btn-info btn-block" data-dismiss="modal"><span class="text">Okay</span></button>
                     </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" tabindex="-1" role="dialog" id="preview-modal" data-backdrop="static" data-keyboard="false" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    
                 </div>
             </div>
         </div>
@@ -121,6 +139,8 @@ include './includes/language.php';
             <!--<div class="alert-space alert-no-phase-data"></div>-->
 
             <div id="viewTester" class="hidden">
+
+
                 <div id="phase-content"></div>
             </div>
 

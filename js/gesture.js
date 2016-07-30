@@ -49,6 +49,7 @@ $(window).load(function () {
     $('body').on('click', '#btn-play-gesture', function (event) {
         event.preventDefault();
         event.stopPropagation();
+        event.stopImmediatePropagation();
         if (!$(this).hasClass('active')) {
             $(this).addClass('active');
             playThroughThumbnails($(this).closest('.root').find('.imageContainer'), 0);
@@ -58,6 +59,7 @@ $(window).load(function () {
     $('body').on('click', '#btn-stop-gesture', function (event) {
         event.preventDefault();
         event.stopPropagation();
+        event.stopImmediatePropagation();
         currentGestureContainer = $(this).parent();
         resetPlayButton();
         resetThumbnails($(this).closest('.root').find('.imageContainer'));
@@ -164,10 +166,14 @@ function renderGestureImages(container, images, preview, callback) {
     var numImagesLoaded = 0;
     currentGestureContainer = container;
     $(container).empty();
+    $(container).addClass('text-center');
+
+    addLoadingIcon(container);
+
     for (var i = 0; i < images.length; i++) {
         var image = document.createElement('img');
         $(image).addClass('gestureImage');
-        container.append(image);
+        container.prepend(image);
         if (i === preview) {
             $(image).addClass('previewImage active');
 
@@ -178,6 +184,7 @@ function renderGestureImages(container, images, preview, callback) {
         image.onload = function () {
             if (numImagesLoaded === images.length - 1) {
                 resetThumbnails(container);
+                removeLoadingIcon(container);
                 if ($(container).hasClass('autoplay')) {
                     $(container).parent().find('#btn-play-gesture').click();
                 }
@@ -264,4 +271,16 @@ function updateModalProgress(container) {
     if (container.next().hasClass('progress')) {
         container.next().find('.progress-bar').css('width', percent + '%');
     }
+}
+
+function addLoadingIcon(target) {
+    var icon = document.createElement('i');
+    $(icon).addClass('fa fa-circle-o-notch fa-spin fa-3x fa-fw');
+    $(icon).css({position: 'relative', margin: 'auto'});
+    $(icon).attr('id', 'loading-icon');
+    $(target).append(icon);
+}
+
+function removeLoadingIcon(target) {
+    $(target).find('#loading-icon').remove();
 }

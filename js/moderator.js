@@ -8,7 +8,7 @@ var Moderator = {
     renderView: function renderView() {
         $('.alert-space').empty();
         var currentPhase = getCurrentPhase();
-        var currentPhaseData = getLocalItem(currentPhase.id + '.data');
+        var currentPhaseData = getCurrentPhaseData();
         var source = getSourceContainer(currentView);
 //        console.log('clone: ' + currentPhase.selectedId + ', from: ' + source.attr('id'));
         var container = $(source).find('#' + currentPhase.selectedId).clone(false).removeAttr('id');
@@ -578,14 +578,20 @@ var Moderator = {
             });
         }
 
+        if (!currentWOZScene) {
+            currentWOZScene = getSceneById(data.scene);
+        }
+
+        updateCurrentScene(container);
+
         //woz section
         if (data.woz && data.woz.length > 0) {
-            Moderator.renderWOZ(source, container, data.woz);
+            Moderator.renderWOZ(source, container, data);
         }
 
         // help section
         if (data.help && data.help.length > 0) {
-            Moderator.renderHelp(source, container, data.help);
+            Moderator.renderHelp(source, container, data);
         } else {
             $(container).find('#help').remove();
             $(container).find('#wozExperiment').removeClass('col-lg-6').addClass('col-lg-12');
@@ -598,54 +604,51 @@ var Moderator = {
 
         // controls handling
         if (scenarioStartTriggered) {
-            enableControls();
-        } else {
-            $(container).find('#start-scenario').click(function (event) {
-                event.preventDefault();
-                enableControls();
-                scenarioStartTriggered = true;
-                wobble([container.find('#woz-controls'), $('#web-rtc-placeholder')]);
-            });
+            enableScenarioControls(container);
         }
 
-        function enableControls() {
-            $(container).find('#start-scenario').remove();
-
-            var wozItems = $(container).find('.woz-container .disabled');
-            wozItems.removeClass('disabled');
-
-            var helpItems = $(container).find('.help-container .disabled');
-            helpItems.removeClass('disabled');
-        }
+        $(container).find('#start-scenario').click(function (event) {
+            event.preventDefault();
+            enableScenarioControls(container);
+            scenarioStartTriggered = true;
+            wobble([container.find('#woz-controls'), $('#web-rtc-placeholder')]);
+        });
 
         return container;
     },
     renderWOZ: function renderWOZ(source, container, data) {
-        for (var i = 0; i < data.length; i++) {
+        var wozData = getItemsForSceneId(data.woz, currentWOZScene.id);
+        $(container).find('.woz-container').empty();
+        for (var i = 0; i < wozData.length; i++) {
             var item = $(source).find('#wozItem').clone();
             item.removeAttr('id');
             $(container).find('.woz-container').append(item);
 
 
-            item.find('#trigger-woz').click({wozData: data[i]}, function (event) {
+            item.find('#trigger-woz').click({wozData: wozData[i], originalData: data}, function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
-                    triggeredHelp = null;
+//                    triggeredHelp = null;
                     triggeredWoz = event.data.wozData;
+                    currentWOZScene = getSceneById(triggeredWoz.transitionId);
+                    updateCurrentScene(container);
+                    Moderator.renderWOZ(source, container, event.data.originalData);
+                    Moderator.renderHelp(source, container, event.data.originalData);
+                    enableScenarioControls(container);
                 } else {
                     $(document).scrollTop(0);
                     wobble(container.find('#general'));
                 }
             });
 
-            var trigger = getTriggerById(data[i].triggerId);
+            var trigger = getTriggerById(wozData[i].triggerId);
             if (trigger) {
                 item.find('#trigger-title').text(trigger.title);
             } else {
                 item.find('#trigger-title').remove();
             }
 
-            var gesture = getGestureById(data[i].gestureId);
+            var gesture = getGestureById(wozData[i].gestureId);
             if (gesture) {
                 item.find('#gesture-title').text(gesture.title);
                 item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
@@ -654,9 +657,9 @@ var Moderator = {
                 item.find('.btn-popover-gesture-preview').remove();
             }
 
-            var transitionScene = getSceneById(data[i].transitionId);
+            var transitionScene = getSceneById(wozData[i].transitionId);
             if (transitionScene) {
-                item.find('#btn-show-transition-scene').click({sceneId: data[i].transitionId}, function (event) {
+                item.find('#btn-show-transition-scene').click({sceneId: wozData[i].transitionId}, function (event) {
                     event.preventDefault();
                     currentSceneId = event.data.sceneId;
                     loadHTMLintoModal('scene-modal', 'preview-scene.html', 'modal-lg');
@@ -668,17 +671,19 @@ var Moderator = {
         return container;
     },
     renderHelp: function renderHelp(source, container, data) {
+        var helpData = getItemsForSceneId(data.help, currentWOZScene.id);
         var seperator = document.createElement('hr');
-        for (var i = 0; i < data.length; i++) {
+        $(container).find('.help-container').empty();
+        for (var i = 0; i < helpData.length; i++) {
             var item = $(source).find('#helpItem').clone();
             item.removeAttr('id');
-            item.find('.help-title').text((i + 1) + ". " + data[i].option);
+            item.find('.help-title').text((i + 1) + ". " + helpData[i].option);
             $(container).find('.help-container').append(item);
 
-            item.find('#offer-help').click({helpData: data[i]}, function (event) {
+            item.find('#offer-help').click({helpData: helpData[i]}, function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
-                    triggeredWoz = null;
+//                    triggeredWoz = null;
                     triggeredHelp = event.data.helpData;
                 } else {
                     $(document).scrollTop(0);
@@ -686,18 +691,32 @@ var Moderator = {
                 }
             });
 
-            if (data[i].useGestureHelp === true) {
-                var gesture = getGestureById(data[i].gestureId);
+            if (helpData[i].useGestureHelp === true) {
+                var gesture = getGestureById(helpData[i].gestureId);
                 item.find('.btn-popover-gesture-preview').removeClass('hidden');
                 item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
             } else {
                 item.find('.btn-popover-gesture-preview').remove();
             }
 
-            if (i < data.length - 1) {
+            if (i < helpData.length - 1) {
                 $(container).find('.help-container').append(seperator);
             }
         }
         return container;
     }
 };
+
+function enableScenarioControls(container) {
+    $(container).find('#start-scenario').remove();
+
+    var wozItems = $(container).find('.woz-container .disabled');
+    wozItems.removeClass('disabled');
+
+    var helpItems = $(container).find('.help-container .disabled');
+    helpItems.removeClass('disabled');
+}
+
+function updateCurrentScene(container) {
+    container.find('#current-scene').text(currentWOZScene.title);
+}

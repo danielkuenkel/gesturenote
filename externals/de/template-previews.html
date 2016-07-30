@@ -359,6 +359,7 @@
             <div class="panel panel-default" id="woz-controls">
                 <div class="panel-heading">Wizard-of-Oz-Experiment</div>
                 <div class="panel-body">
+                    Aktueller Zustand: <span id="current-scene"></span>
                     <div class="row">
                         <div class="col-lg-6" id="wozExperiment" style="margin-bottom: 20px;">
                             <h4 style="margin-top: 0px; margin-bottom: 10px">Simulationselemente</h4>
@@ -581,7 +582,15 @@
             </div>
 
             <div class="col-sm-12 col-lg-6" style="">
-                <div class="imageContainer autoplay" style="max-width: 600px; margin: auto;"></div>
+                <div class="imageContainer previewGesture autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
+                <div class="text-center gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -607,7 +616,7 @@
         </div>
         <div class="triggerContainer hidden">
             <!--<p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Zeigen Sie die Geste für die Funktion</p>-->
-            <div class="trigger-title" style="font-size: 50pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
+            <div class="trigger-title" style="font-size: 40pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
         </div>
     </div>
 
@@ -620,7 +629,7 @@
         </div>
         <div class="triggerContainer hidden">
             <!--<p class="headline" style="font-size: 20pt; color: #5cb85c; font-weight: bold; line-height: 1.2em;">Zeigen Sie die Geste für die Funktion</p>-->
-            <div class="trigger-title" style="font-size: 50pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
+            <div class="trigger-title" style="font-size: 40pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
         </div>
     </div>
 
@@ -639,9 +648,9 @@
     </div>
 
     <div id="identificationItemModerated">
-        <div id="gesture-identification">
+        <div id="trigger-identification">
             <div class="col-lg-6 text-center">
-                <div class="imageContainer previewGesture" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
+                <div class="imageContainer previewGesture autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
                 <div class="text-center gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -653,7 +662,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label for="trigger-name">Funktionsname</label>
+                    <label for="trigger-name">Funktion</label>
                     <input class="form-control" name="trigger-name" id="trigger-name">
                 </div>
                 <div class="form-group">
@@ -663,26 +672,50 @@
             </div>
         </div>
 
-        <div id="trigger-identification">
-
-        </div>
-        <div class="gestureContainer hidden">
-
-        </div>
-        <div class="triggerContainer hidden">
-            <div class="trigger-title" style="font-size: 50pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
+        <div id="gesture-identification" class="text-center">
+            <span id="trigger"><span id="text" style="font-size: 40pt; color: #303030; font-weight: bold; line-height: 1.3em;"></span></span>
         </div>
     </div>
 
-    <div id="identificationItemUnmoderated" class="text-center">
-        <button class="btn btn-xl btn-block btn-success btn-shadow hidden" id="startSlideshow" name="btn-success">Jetzt Starten</button>
+    <div class="row" id="identificationItemUnmoderated">
+        <div class="col-xs-12 text-center">
+            <button class="btn btn-xl btn-block btn-success btn-shadow" id="btn-start-identification" name="btn-success">Jetzt Starten</button>
+        </div>
 
-        <div class="gestureContainer hidden">
-            <div class="imageContainer autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
+        <div id="identification-content" class="hidden">
+            <div id="trigger-identification">
+                <div class="col-md-6 text-center">
+                    <div class="imageContainer previewGesture autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
+                    <div class="text-center gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="trigger-name">Funktion</label>
+                        <input class="form-control" name="trigger-name" id="trigger-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="trigger-name">Begründung</label>
+                        <textarea class="form-control" rows="5"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-success btn-block btn-shadow" id="next-identification"><span class="text">Weiter</span></button>
+                    <button type="button" class="btn btn-success btn-block btn-shadow" id="done-identification"><span class="text">Fertig</span></button>
+                </div>
+            </div>
+
+            <div id="gesture-identification">
+                <span id="trigger"><span id="text"></span></span>
+
+
+            </div>
         </div>
-        <div class="triggerContainer hidden">
-            <div class="trigger-title" style="font-size: 50pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
-        </div>
+
     </div>
 
     <!-- scenario container -->
@@ -707,13 +740,19 @@
         </div>
 
         <div class="text-center hidden" id="normal-controls">
-            <button class="btn btn-link" id="btn-show-scenario-info"><i class="glyphicon glyphicon-menu-down text-center"></i> <span id="more-text"></span></button>
-            <button class="btn btn-link hidden" id="btn-hide-scenario-info"><i class="glyphicon glyphicon-menu-up text-center"></i> <span id="less-text"></span></button>
-            <button type="button" class="btn btn-info pull-right" id="getting-help"><i class="fa fa-life-ring"></i> <span class="text">Hilfe anfordern</span></button>
+            <button class="btn btn-link pull-left" id="btn-show-scenario-info"><i class="glyphicon glyphicon-menu-down text-center"></i> <span id="more-text"></span></button>
+            <button class="btn btn-link pull-left hidden" id="btn-hide-scenario-info"><i class="glyphicon glyphicon-menu-up text-center"></i> <span id="less-text"></span></button>
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-info " id="btn-refresh-scene"><i class="glyphicon glyphicon-refresh"></i> <span class="text">Neu laden</span></button>
+                <button type="button" class="btn btn-info " id="btn-getting-help"><i class="fa fa-life-ring"></i> <span class="text">Hilfe anfordern</span></button>
+            </div>
+
+            <button type="button" class="btn btn-success hidden" id="btn-perform-gesture"><span class="text">Geste ausführen</span></button>
+            <button type="button" class="btn btn-danger hidden" id="btn-stop-perform-gesture"><span class="text">Geste ausgeführt</span></button>
         </div>
 
         <div class="text-center hidden" id="start-controls">
-            <button type="button" class="btn btn-success btn-lg" id="start-scene"><span class="text">Los geht's</span></button>
+            <button type="button" class="btn btn-success btn-block btn-lg" id="start-scene"><span class="text">Jetzt starten</span></button>
         </div>
     </div>    
 

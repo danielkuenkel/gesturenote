@@ -318,6 +318,7 @@ footer .glyphicon {
 
 .btn-shadow
 {
+    cursor: pointer;
     transition: box-shadow 0.15s;
 }
 .btn-shadow:hover {

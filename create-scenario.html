@@ -23,8 +23,8 @@
 
                 <div class="form-group">
                     <div class="input-group"> 
-                        <span class="input-group-addon">Startszene</span>
-                        <input class="form-control item-input-text option-scene show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <span class="input-group-addon">Start-Zustand</span>
+                        <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
                         <div class="input-group-btn select sceneSelect" role="group">
                             <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -56,6 +56,7 @@
             </div>
         </div>
         <div class="panel-body hidden">
+            <div class="alert-space alert-no-scenes-assembled"></div>
             <div class="alert-space alert-no-gestures-assembled"></div>
             <div class="alert-space alert-no-trigger-assembled"></div>
             <div class="alert-space alert-no-feedback-assembled"></div>
@@ -74,6 +75,9 @@
             </div>
         </div>
         <div class="panel-body hidden">
+            <div class="alert-space alert-no-scenes-assembled"></div>
+            <div class="alert-space alert-no-gestures-assembled"></div>
+
             <div class="form-group container-root" id="helpContainer"></div>
         </div>
     </div>
@@ -121,54 +125,62 @@
 
 <script type="text/javascript" src="js/template-create.js"></script>
 <script>
+        $('body').on('change', '#useGestureHelpSwitch', function (event) {
+            event.preventDefault();
+            var activeButton = $(this).parent().find('.active');
+
+            if (!assembledGestures()) {
+                if (activeButton.attr('id') === $(this).parent().find('#yes').attr('id')) {
+                    appendAlert($(this).closest('.root'), ALERT_NO_GESTURES_ASSEMBLED);
+                } else {
+                    removeAlert($(this).closest('.root'), ALERT_NO_GESTURES_ASSEMBLED);
+                }
+            } else {
+                if (activeButton.attr('id') === $(this).parent().find('#yes').attr('id')) {
+                    $(this).closest('.root').find('#gesture-help-select').removeClass('hidden');
+                } else {
+                    $(this).closest('.root').find('#gesture-help-select').addClass('hidden');
+                }
+            }
+        });
+
         $(document).ready(function () {
             var woz = $('#form-item-container #wozExperiment').clone().removeAttr('id');
             $('#wozExperimentContainer').append(woz);
 
-//            if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION) {
-//                var eliciation = $('#form-item-container #elicitation').clone();
-//                $('#elicitationContainer').append(eliciation);
-//                $('#elicitationPanel').removeClass('hidden');
-//
-//                if (getLocalItem(ASSEMBLED_TRIGGER)) {
-//                    $(eliciation).find('.btn-add-elicitationOption').removeClass('hidden');
-//                } else {
-//                    appendAlert($(eliciation), ALERT_NO_TRIGGER_ASSEMBLED);
-//                }
-//            }
+            var help = $('#form-item-container #help').clone().removeAttr('id');
+            $('#helpContainer').append(help);
 
-            if (assembledGestures()) {
-                renderAssembledGestures();
-            } else {
+            var scenes = getLocalItem(ASSEMBLED_SCENES);
+            console.log(scenes === null);
+            renderAssembledScenes();
+            if (scenes === null) {
+                appendAlert($('#wozExperimentPanel, #help-panel'), ALERT_NO_SCENES_ASSEMBLED);
+                $('#wozExperimentContainer').find('.btn-add-woz-experimentOption').addClass('hidden');
+                $('#helpContainer').find('.btn-add-helpOption').addClass('hidden');
+            }
+
+            renderAssembledGestures();
+            if (!assembledGestures()) {
                 appendAlert($('#wozExperimentPanel'), ALERT_NO_GESTURES_ASSEMBLED);
                 $('#wozExperimentContainer').find('.btn-add-woz-experimentOption').addClass('hidden');
             }
 
             var trigger = getLocalItem(ASSEMBLED_TRIGGER);
-            if (trigger && trigger.length > 0) {
-                renderAssembledTriggers();
-            } else {
+            renderAssembledTriggers();
+            if (!trigger) {
                 appendAlert($('#wozExperimentPanel'), ALERT_NO_TRIGGER_ASSEMBLED);
                 $('#wozExperimentContainer').find('.btn-add-woz-experimentOption').addClass('hidden');
             }
 
             var feedback = getLocalItem(ASSEMBLED_FEEDBACK);
-            if (feedback && feedback.length > 0) {
-                renderAssembledFeedback();
-            } else {
+            renderAssembledFeedback();
+            if (!feedback) {
                 appendAlert($('#wozExperimentPanel'), ALERT_NO_FEEDBACK_ASSEMBLED);
                 $('#wozExperimentContainer').find('.btn-add-woz-experimentOption').addClass('hidden');
             }
 
-            checkSurveyType();
-            renderAssembledGestures();
-            renderAssembledTriggers();
-            renderAssembledFeedback();
-            renderAssembledScenes();
 
-            var help = $('#help').clone();
-            help.removeAttr('id');
-            $('#helpContainer').append(help);
 
             var data = getLocalItem(currentIdForModal + '.data');
             if (data) {
@@ -176,32 +188,8 @@
             }
         });
 
-        function checkSurveyType() {
-            if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
-                $('#form-item-container').find('#wozExperimentItem .feedback-input').removeClass('col-md-12');
-                $('#form-item-container').find('#wozExperimentItem .feedback-input').addClass('col-md-6');
-                $('#form-item-container').find('#wozExperimentItem .recognition-stepper').removeClass('hidden');
-            } else {
-                $('#form-item-container #wozExperimentItem').find('.feedback-input').removeClass('col-md-6');
-                $('#form-item-container #wozExperimentItem').find('.feedback-input').addClass('col-md-12');
-                $('#form-item-container #wozExperimentItem').find('.recognition-stepper').addClass('hidden');
-            }
-        }
-
         function renderData(data, forPrefiniedObservation)
         {
-            var wozItems = data.woz;
-            var helpItems = data.help;
-//            var elicitationTrigger = data.elicitationTrigger;
-            var obeservationItems;
-
-            if (!forPrefiniedObservation) {
-                obeservationItems = data.observations;
-            } else {
-                obeservationItems = data;
-            }
-
-
             $('#scenarioTitle').val(data.title);
             $('#scenarioDescription').val(data.description);
 
@@ -217,28 +205,10 @@
                         appendAlert($('#general'), ALERT_ASSEMBLED_SCENE_REMOVED);
                     }
                 }
-
             }
 
             var container;
-//            if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION)
-//            {
-//                $('#wozExperimentPanel').addClass('hidden');
-//                if (getLocalItem(ASSEMBLED_TRIGGER) && elicitationTrigger !== undefined && elicitationTrigger.length > 0) {
-//                    container = $('#elicitationContainer').find('.option-container');
-//                    for (var i = 0; i < elicitationTrigger.length; i++) {
-//
-//                        var clone = $('#form-item-container').find('#elicitationItem').clone().removeClass('hidden');
-//                        container.append(clone);
-//                        if (getTriggerById(elicitationTrigger[i].id) !== null) {
-//                            $(clone).find('#' + elicitationTrigger[i].id).click();
-//                        } else {
-//                            appendAlert($(clone), ALERT_ASSEMBLED_TRIGGER_REMOVED);
-//                        }
-//                    }
-//                    checkCurrentListState($('#elicitationContainer #elicitation .option-container'));
-//                }
-//            } else {
+            var wozItems = data.woz;
             if (wozItems !== undefined && wozItems.length > 0) {
                 if (!forPrefiniedObservation) {
                     $('#useWozSwitch .switchButtonAddon').click();
@@ -263,6 +233,13 @@
                         }
                     }
 
+                    var scene = getSceneById(wozItems[i].sceneId);
+                    if (scene) {
+                        $(clone).find('#woz-scene #' + scene.id).click();
+                    } else {
+                        appendAlert(clone, ALERT_ASSEMBLED_SCENE_REMOVED);
+                    }
+
                     var trigger = getTriggerById(wozItems[i].triggerId);
                     if (trigger && getTriggerById(trigger.id) !== null) {
                         $(clone).find('.triggerSelect #' + trigger.id).click();
@@ -282,11 +259,11 @@
                     }
 
                     if (wozItems[i].transitionId === 'none') {
-                        $(clone).find('.sceneSelect #none').click();
+                        $(clone).find('#transition-scene #none').click();
                     } else {
                         var scene = getSceneById(wozItems[i].transitionId);
                         if (scene) {
-                            $(clone).find('.sceneSelect #' + scene.id).click();
+                            $(clone).find('#transition-scene #' + scene.id).click();
                         } else {
                             appendAlert(clone, ALERT_ASSEMBLED_SCENE_REMOVED);
                         }
@@ -296,8 +273,9 @@
                 }
                 checkCurrentListState(container);
             }
-//            }
 
+            var helpItems = data.help;
+            console.log(data);
             if (helpItems !== undefined) {
                 if (!forPrefiniedObservation) {
                     $('#helpSwitch .switchButtonAddon').click();
@@ -305,21 +283,27 @@
 
                 container = $('#helpContainer').find('.option-container');
                 for (var i = 0; i < helpItems.length; i++) {
+
                     var clone = $('#helpItem').clone().removeClass('hidden');
                     clone.find('.option-text').val(helpItems[i].option);
                     $(container).append(clone);
 
+                    var scene = getSceneById(helpItems[i].sceneId);
+                    if (scene) {
+                        $(clone).find('.sceneSelect #' + scene.id).click();
+                    } else {
+                        appendAlert(clone, ALERT_ASSEMBLED_SCENE_REMOVED);
+                    }
+
                     if (helpItems[i].useGestureHelp === true) {
+                        $(clone).find('#useGestureHelpSwitch #yes').click();
                         var gestureId = helpItems[i].gestureId;
 
                         if (gestureId !== null && !isGestureAssembled(gestureId)) {
                             appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                         } else if (gestureId !== null) {
                             var gesture = getGestureById(gestureId);
-                            $(clone).find('.gestureSelect .chosen').attr('id', gesture.id);
-                            $(clone).find('.option-gesture').val(gesture.title);
-                            $(clone).find('.switchButtonAddon').click();
-                            $(clone).find('.gestureSelect .dropdown-toggle').removeClass('disabled');
+                            $(clone).find('.gestureSelect #' + gesture.id).click();
                         }
                     }
 
@@ -327,6 +311,14 @@
                     updateHelpItemCounter(container);
                 }
                 checkCurrentListState(container);
+            }
+
+            var obeservationItems;
+
+            if (forPrefiniedObservation) {
+                obeservationItems = data;
+            } else {
+                obeservationItems = data.observations;
             }
 
             if (obeservationItems !== undefined && obeservationItems.length > 0) {
@@ -372,31 +364,33 @@
                 var woz = new Array();
                 for (var i = 0; i < wozItems.length; i++) {
                     var item = wozItems[i];
+                    var sceneId = $(item).find('#woz-scene .chosen').attr('id');
+                    var scene = getSceneById(sceneId);
+                    var transitionId = $(item).find('#transition-scene .chosen').attr('id');
+                    if (transitionId === 'unselected') {
+                        transitionId = 'none';
+                    }
                     var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
                     var gesture = getGestureById(gestureId);
                     var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
                     var trigger = getTriggerById(triggerId);
                     var feedbackId = $(item).find('.feedbackSelect .chosen').attr('id');
                     var feedback;
-                    if(feedbackId === 'none') {
+                    if (feedbackId === 'none') {
                         feedback = 'none';
                     } else {
                         feedback = getFeedbackById(feedbackId);
                     }
-                    
-                    var transitionId = $(item).find('.sceneSelect .chosen').attr('id');
-                    var gestureRecognitionTime = $(item).find('.stepper-text').val();
 
                     if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION) {
-                        if (trigger && feedback) {
-                            woz.push(new WOZ(null, triggerId, feedbackId, transitionId, gestureRecognitionTime));
+                        if (scene && trigger && feedback) {
+                            woz.push(new WOZ(sceneId, triggerId, null, feedbackId, transitionId));
                         }
                     } else {
-                        if (gesture && trigger && feedback) {
-                            woz.push(new WOZ(gestureId, triggerId, feedbackId, transitionId, gestureRecognitionTime));
+                        if (scene && trigger && gesture && feedback) {
+                            woz.push(new WOZ(sceneId, triggerId, gestureId, feedbackId, transitionId));
                         }
                     }
-
                 }
                 scenario.woz = woz;
             }
@@ -407,11 +401,12 @@
                 for (var i = 0; i < helpItems.length; i++) {
                     var item = helpItems[i];
                     var help = new Help();
+                    help.sceneId = $(item).find('.sceneSelect .chosen').attr('id');
                     help.option = $(item).find('.option-text').val().trim();
                     help.useGestureHelp = $(item).find('#useGestureHelpSwitch').find('#yes').hasClass('active') ? true : false;
-                    help.gestureId = $(item).find('.chosen').attr('id') !== "unselected" ? $(item).find('.chosen').attr('id') : null;
+                    help.gestureId = $(item).find('.gestureSelect .chosen').attr('id') !== "unselected" ? $(item).find('.gestureSelect .chosen').attr('id') : null;
 
-                    if (help.option !== "" || help.useGestureHelp === true) {
+                    if (getSceneById(help.sceneId) && help.option !== "") {
                         scenarioHelp.push(help);
                     }
                 }
@@ -439,17 +434,6 @@
         $('#addPredefinedObservations').on('click', function () {
             if (getLocalItem(PREDEFINED_OBSERVATIONS) !== null) {
                 renderData(getLocalItem(PREDEFINED_OBSERVATIONS), true);
-            }
-        });
-
-        $('body').on('click', '#helpContainer #useGestureHelpSwitch .check', function (event) {
-            event.preventDefault();
-            var dropDownToggle = $(this).closest('.root').find('.gestureSelect .dropdown-toggle');
-
-            if (assembledGestures() && $(this).attr('id') === 'yes') {
-                dropDownToggle.removeClass('disabled');
-            } else {
-                dropDownToggle.addClass('disabled');
             }
         });
 </script>

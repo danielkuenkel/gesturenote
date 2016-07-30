@@ -1,0 +1,109 @@
+<div class="modal-header">
+    <!--<button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>-->
+    <h4 class="modal-title">Welche Geste wurde vorgeführt?</h4>
+</div>
+<div id="modal-body" class="modal-body">
+    <div class="container-root row" id="list-container"></div>
+
+    <div class="col-sm-6 col-md-4 root hidden" id="tester-woz-item">
+        <div class="panel panel-default btn-shadow">
+            <!--<div class="panel-heading ellipsis"></div>-->
+            <div class="panel-body">
+                <div class="imageContainer previewGesture"></div>
+            </div>
+            <div style="padding-left: 15px; padding-right: 15px; margin-bottom: 15px;">
+                <button type="button" class="btn btn-success btn-block" id="btn-trigger-woz">Diese</button>
+            </div>
+
+            <div class="text-center gestureControls hidden">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--    <div class="panel panel-default root" id="general">
+            <div class="panel-heading clearfix">
+                <div class="panel-title">Allgemeines</div>
+            </div>
+            <div class="panel-body">
+                <div class="panel-group" id="generalContainer">
+                    <div class="form-group">
+                        <label class="sr-only" for="identificationTitle">Titel</label>
+                        <input type="text" class="form-control" id="identificationTitle" placeholder="Titel einfügen">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="identificationDescription">Beschreibung</label>
+                        <textarea class="form-control" id="identificationDescription" rows="5" placeholder="Beschreibung einfügen"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group" id="identificationTypeSwitch">
+                                <button class="btn btn-default switchButtonAddon">Was soll identifiziert werden?</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="gestures" name="btn-success">Gesten</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="trigger" name="btn-success">Funktionen</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 hidden" id="gesture-repeats-stepper">
+                            <div class="input-group simple-stepper">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default btn-shadow btn-addon">Wiederholungen der Geste</button>
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Wiederholung weniger</span>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control readonly text-center stepper-text" value="1">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
+                                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Wiederholung mehr</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+
+</div>
+<!--<div id="modal-footer" class="modal-footer">
+    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Schließen</button>
+</div>-->
+
+<script>
+    $(document).ready(function () {
+        var currentPhaseData = getCurrentPhaseData();
+        var items = getItemsForSceneId(currentPhaseData.woz, currentWOZScene.id);
+
+        for (var i = 0; i < items.length; i++) {
+            var clone = $('#tester-woz-item').clone().removeClass('hidden').removeAttr('id');
+            $('#list-container').append(clone);
+            var gesture = getGestureById(items[i].gestureId);
+            renderGestureImages(clone.find('.previewGesture'), gesture.images, gesture.previewImage, function () {
+            });
+            $(clone).find('.panel').mouseenter(function (event) {
+                event.preventDefault();
+                $(this).find('#btn-play-gesture').click();
+            });
+            $(clone).find('.panel').mouseleave(function (event) {
+                event.preventDefault();
+                $(this).find('#btn-stop-gesture').click();
+            });
+            $(clone).find('#btn-trigger-woz').click({wozData: items[i]}, function (event) {
+                event.preventDefault();
+                var wozData = event.data.wozData;
+                console.log(wozData);
+                currentWOZScene = getSceneById(wozData.transitionId);
+                $('#preview-modal').modal('hide');
+                var hint = appendHint(getSourceContainer(VIEW_TESTER), $('body'), wozData, TYPE_SURVEY_UNMODERATED);
+                $(hint).on('hint.hidden', function () {
+                    renderSceneItem(getSourceContainer(VIEW_TESTER), $('#viewTester #phase-content'), currentWOZScene.id);
+                });
+            });
+        }
+    });
+</script>

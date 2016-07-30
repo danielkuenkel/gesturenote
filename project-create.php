@@ -649,7 +649,7 @@ include './includes/language.php';
             }
 
             $('.breadcrumb li').click(function () {
-                clearLocalItems();
+//                clearLocalItems();
             });
 
             $('#btn-clear-data').click(function (event) {

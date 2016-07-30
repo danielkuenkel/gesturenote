@@ -193,7 +193,7 @@ function renderSessionStorageData() {
                 $(this).datepicker('setDate', dateTo);
             }
         });
-        
+
         updateGestureCatalogButtons();
     }
 }
@@ -311,15 +311,16 @@ function TrainingItem(gestureId, triggerId, feedbackId, repeats, recognitionTime
     this.recognitionTime = recognitionTime;
 }
 
-function WOZ(gestureId, triggerId, feedbackId, transitionId, recognitionTime) {
-    this.gestureId = gestureId;
+function WOZ(sceneId, triggerId, gestureId, feedbackId, transitionId) {
+    this.sceneId = sceneId;
     this.triggerId = triggerId;
+    this.gestureId = gestureId;
     this.feedbackId = feedbackId;
     this.transitionId = transitionId;
-    this.recognitionTime = recognitionTime;
 }
 
 function Help() {
+    this.sceneId;
     this.option;
     this.useGestureHelp;
     this.gestureId;

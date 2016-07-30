@@ -421,34 +421,40 @@ function renderAssembledTriggers() {
 
 function renderAssembledScenes() {
     var scenes = getLocalItem(ASSEMBLED_SCENES);
-    var dropdown = $('body').find('.sceneSelect');
-    $(dropdown).find('.option').empty();
+    console.log(scenes);
+    var dropdowns = $('body').find('.sceneSelect');
+    $(dropdowns).find('.option').empty();
+
     if (scenes && scenes.length > 0) {
-        $(dropdown).find('.dropdown-toggle').removeClass('disabled');
-        var listItem;
-        for (var i = 0; i < scenes.length; i++) {
-            var link = document.createElement('a');
-            if (i === 0) {
+        for (var j = 0; j < dropdowns.length; j++) {
+            var dropdown = dropdowns[j];
+            $(dropdown).find('.dropdown-toggle').removeClass('disabled');
+            var listItem;
+            for (var i = 0; i < scenes.length; i++) {
+                var link = document.createElement('a');
+
+                if (i === 0 && !$(dropdown).hasClass('no-none')) {
+                    listItem = document.createElement('li');
+                    listItem.setAttribute('id', 'none');
+                    link.setAttribute('href', '#');
+                    link.appendChild(document.createTextNode(translation.none));
+                    listItem.appendChild(link);
+                    $(dropdown).find('.option').append(listItem);
+                }
+
                 listItem = document.createElement('li');
-                listItem.setAttribute('id', 'none');
+                listItem.setAttribute('id', scenes[i].id);
+                link = document.createElement('a');
                 link.setAttribute('href', '#');
-                link.appendChild(document.createTextNode(translation.none));
+                link.appendChild(document.createTextNode(scenes[i].title));
                 listItem.appendChild(link);
                 $(dropdown).find('.option').append(listItem);
             }
-
-            listItem = document.createElement('li');
-            listItem.setAttribute('id', scenes[i].id);
-            link = document.createElement('a');
-            link.setAttribute('href', '#');
-            link.appendChild(document.createTextNode(scenes[i].title));
-            listItem.appendChild(link);
-            $(dropdown).find('.option').append(listItem);
+            $('body').find('.item-input-text').attr('placeholder', 'Bitte wählen');
         }
-        $('body').find('.option-scene').attr('placeholder', 'Bitte wählen');
     } else {
-        $(dropdown).find('.dropdown-toggle').addClass('disabled');
-        $('body').find('.option-scene').attr('placeholder', 'Keine Szene vorhanden');
+        $(dropdowns).find('.dropdown-toggle').addClass('disabled');
+        $('body').find('.item-input-text').attr('placeholder', 'Keine Szene vorhanden');
     }
 }
 
@@ -609,10 +615,6 @@ function renderDataForHint(data, hint, source, surveyType) {
     switch (feedback.type) {
         case TYPE_FEEDBACK_TEXT:
             hint.find('.hint-content').prepend($(source).find('#feedback-hint-text-content').clone().removeAttr('id'));
-//            hint.find('#text-start').text(translation.gesture + " ");
-//            hint.find('#gesture-title').text(data.gesture.title + " ");
-//            hint.find('#gesture-for').text(translation.for + " ");
-//            hint.find('#trigger-title').text(data.trigger.title + " ");
             hint.find('#feedback-title').text(feedback.title);
             if (surveyType === TYPE_SURVEY_MODERATED) {
                 TweenMax.to(hint.find('.progress-bar'), 5, {width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: hideHint, onCompleteParams: [hint]});

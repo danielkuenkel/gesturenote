@@ -451,9 +451,6 @@
                 </div>
                 <!--</div>-->
 
-
-
-
             </div>
 
             <hr>
@@ -538,7 +535,10 @@
 
         <div class="panel panel-default root hidden" id="helpItem">
             <div class="panel-body">
-
+                
+                <div class="alert-space alert-no-scenes-assembled"></div>
+                <div class="alert-space alert-assembled-scene-removed"></div>
+                
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-btn">
@@ -546,8 +546,19 @@
                             <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                             <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
                         </div>
-                        <span class="input-group-addon count-text">0</span>
-                        <input class="form-control item-input-text option-text" type="text" value="" placeholder="Hilfetext"/>
+                        <span class="input-group-addon">Zustand</span>
+                        <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <div class="input-group-btn select sceneSelect no-none" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Hilfetext</span>
+                        <input class="form-control option-text" type="text" value="" placeholder=""/>
                     </div>
                 </div>
 
@@ -561,10 +572,10 @@
                         <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
                     </div>
                 </div>
-                <div class="col-md-6 evaluation" style="padding: 0px;">
+                <div class="col-md-6 evaluation hidden" style="padding: 0px;" id="gesture-help-select">
                     <div class="input-group">
                         <span class="input-group-addon">Geste</span>
-                        <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value=""/>
+                        <input class="form-control ellipsis item-input-text option-gesture show-dropdown readonly" type="text" value=""/>
                         <div class="input-group-btn select gestureSelect" role="group">
                             <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -576,32 +587,32 @@
         </div>
     </div>
 
-    <div class="root" id="elicitation">
-        <div class="form-group root hidden" id="elicitationItem">
-
-            <div class="alert-space alert-assembled-trigger-removed"></div>
-
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                    <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                    <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                </div>
-                <span class="input-group-addon">Trigger</span>
-                <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
-                <div class="input-group-btn select triggerSelect" role="group">
-                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                    <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+    <!--    <div class="root" id="elicitation">
+            <div class="form-group root hidden" id="elicitationItem">
+    
+                <div class="alert-space alert-assembled-trigger-removed"></div>
+    
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <span class="input-group-addon">Trigger</span>
+                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <div class="input-group-btn select triggerSelect" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="alert-space alert-no-trigger-assembled"></div>
-
-        <div class="option-container"></div>
-
-        <button class="btn btn-info btn-shadow pull-right btn-add-elicitationOption hidden" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Element hinzufügen</span></button>
-    </div>
+    
+            <div class="alert-space alert-no-trigger-assembled"></div>
+    
+            <div class="option-container"></div>
+    
+            <button class="btn btn-info btn-shadow pull-right btn-add-elicitationOption hidden" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Element hinzufügen</span></button>
+        </div>-->
 
     <div class="root" id="wozExperiment">
 
@@ -620,7 +631,17 @@
                             <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                             <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
                         </div>
-                        <span class="input-group-addon">Trigger</span>
+                        <span class="input-group-addon">Zustand</span>
+                        <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <div class="input-group-btn select sceneSelect no-none" id="woz-scene" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                        </div>
+
+                    </div>
+
+                    <div class="input-group trigger" style="margin-top: 10px;">
+                        <span class="input-group-addon">Funktion</span>
                         <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
                         <div class="input-group-btn select triggerSelect wozTriggerSelect" role="group">
                             <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
@@ -637,7 +658,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12 feedback-input" style="padding: 0; margin-top: 10px;">
+                    <div class="feedback-input" style="padding: 0; margin-top: 10px;">
                         <div class="input-group">
                             <span class="input-group-addon">Feedback</span>
                             <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
@@ -648,30 +669,11 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6 recognition-stepper hidden" style="padding: 0px; margin-top: 10px;">
-                        <div class="col-md-11 col-md-offset-1" style="padding: 0px;">
-                            <div class="input-group simple-stepper">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default btn-addon">Reaktionszeit (Sekunden)</button>
-                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Sekunde weniger</span>
-                                    </button>
-                                </div>
-                                <input type="text" class="form-control readonly text-center stepper-text" value="3">
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
-                                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Sekunde mehr</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="col-md-12 scene-input" style="padding: 0; margin-top: 10px;">
                         <div class="input-group">
-                            <span class="input-group-addon">Transition</span>
-                            <input class="form-control item-input-text option-scene show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
-                            <div class="input-group-btn select sceneSelect" role="group">
+                            <span class="input-group-addon">Übergangs-Zustand</span>
+                            <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                            <div class="input-group-btn select sceneSelect" id="transition-scene" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
                             </div>

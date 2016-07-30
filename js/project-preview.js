@@ -4,6 +4,7 @@ var triggeredFeedback = null;
 var slideshowStartTriggered = false;
 var currentSlideIndex = 0;
 var slideTriggered = false;
+var currentWOZScene = null;
 var currentSceneId;
 var scenarioStartTriggered = false;
 var triggeredWoz = null;
@@ -149,7 +150,7 @@ var resizing = false;
 var DRAGGABLE_MAX_WIDTH = 1250;
 var DRAGGABLE_MIN_WIDTH = 250;
 function dragRTC() {
-    $('#web-rtc-placeholder').width(DRAGGABLE_MAX_WIDTH - 150);
+    $('#web-rtc-placeholder').width(DRAGGABLE_MIN_WIDTH + 50);
     $('#web-rtc-placeholder').addClass('shadow');
     $('#draggableRTC').removeClass('hidden');
     $('#pinnedRTC').addClass('hidden');
@@ -224,4 +225,19 @@ function pinRTC() {
     $(document).scrollTop(0);
     resetRTC();
     $('#draggableRTC').css({top: 150, left: 50});
+}
+
+function getItemsForSceneId(data, sceneId) {
+    var array = new Array();
+    for (var i = 0; i < data.length; i++) {
+        if (parseInt(data[i].sceneId) === parseInt(sceneId)) {
+            array.push(data[i]);
+        }
+    }
+    return array;
+}
+
+function getCurrentPhaseData() {
+    var currentPhase = getCurrentPhase();
+    return getLocalItem(currentPhase.id + '.data');
 }
