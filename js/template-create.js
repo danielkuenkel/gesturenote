@@ -26,9 +26,10 @@ $('body').on('click', '#addFormat', function (event) {
         var selectedID = $(this).parent().find('.chosen').attr('id');
         if (selectedID !== 'unselected') {
             var clone = $('#form-item-container').find('#' + selectedID).clone(true);
-            $('#list-container').prepend(clone);
-            checkCurrentListState($('#list-container'));
-            updateBadges($('#list-container'), selectedID);
+            var listContainer = $(this).closest('.root').find('#list-container');
+            $(listContainer).prepend(clone);
+            checkCurrentListState(listContainer);
+            updateBadges(listContainer, selectedID);
             TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
         }
     }

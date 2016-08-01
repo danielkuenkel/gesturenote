@@ -535,10 +535,10 @@
 
         <div class="panel panel-default root hidden" id="helpItem">
             <div class="panel-body">
-                
+
                 <div class="alert-space alert-no-scenes-assembled"></div>
                 <div class="alert-space alert-assembled-scene-removed"></div>
-                
+
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-btn">
@@ -671,7 +671,7 @@
 
                     <div class="col-md-12 scene-input" style="padding: 0; margin-top: 10px;">
                         <div class="input-group">
-                            <span class="input-group-addon">Übergangs-Zustand</span>
+                            <span class="input-group-addon">Folge-Zustand</span>
                             <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
                             <div class="input-group-btn select sceneSelect" id="transition-scene" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
@@ -889,6 +889,44 @@
         <div class="option-container"></div>
 
         <button class="btn btn-info btn-shadow pull-right btn-add-slideshowOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Slideshowelement hinzufügen</span></button>
+    </div>
+
+
+    <div class="root" id="physicalStressTest">
+
+        <div class="form-group root hidden" id="physicalStressTestItem">
+            <!--<div class="panel panel-default">-->
+            <!--<div class="panel-body">-->
+
+            <div class="alert-space alert-assembled-gesture-removed"></div>
+
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+                <!--<div class="input-group evaluation" style="margin-top: 10px;">-->
+                    <span class="input-group-addon">Geste</span>
+                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <div class="input-group-btn select gestureSelect" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                    </div>
+                <!--</div>-->
+            </div>
+
+
+
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+
+        <div class="alert-space alert-no-gestures-assembled"></div>
+
+        <div class="option-container"></div>
+
+        <button class="btn btn-info btn-shadow pull-right" id="btn-add-physicalStressTestOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Element hinzufügen</span></button>
     </div>
 
 

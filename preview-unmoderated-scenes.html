@@ -79,6 +79,8 @@
         var currentPhaseData = getCurrentPhaseData();
         var items = getItemsForSceneId(currentPhaseData.woz, currentWOZScene.id);
 
+//        console.log(items);
+
         for (var i = 0; i < items.length; i++) {
             var clone = $('#tester-woz-item').clone().removeClass('hidden').removeAttr('id');
             $('#list-container').append(clone);
@@ -96,13 +98,18 @@
             $(clone).find('#btn-trigger-woz').click({wozData: items[i]}, function (event) {
                 event.preventDefault();
                 var wozData = event.data.wozData;
-                console.log(wozData);
+//                console.log(wozData);
                 currentWOZScene = getSceneById(wozData.transitionId);
                 $('#preview-modal').modal('hide');
-                var hint = appendHint(getSourceContainer(VIEW_TESTER), $('body'), wozData, TYPE_SURVEY_UNMODERATED);
-                $(hint).on('hint.hidden', function () {
+                var feedback = getFeedbackById(wozData.feedbackId);
+                if (feedback) {
+                    var hint = appendHint(getSourceContainer(VIEW_TESTER), $('body'), wozData, TYPE_SURVEY_UNMODERATED);
+                    $(hint).on('hint.hidden', function () {
+                        renderSceneItem(getSourceContainer(VIEW_TESTER), $('#viewTester #phase-content'), currentWOZScene.id);
+                    });
+                } else {
                     renderSceneItem(getSourceContainer(VIEW_TESTER), $('#viewTester #phase-content'), currentWOZScene.id);
-                });
+                }
             });
         }
     });

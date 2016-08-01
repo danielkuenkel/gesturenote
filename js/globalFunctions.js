@@ -610,7 +610,7 @@ function appendHint(source, target, data, surveyType) {
 }
 
 function renderDataForHint(data, hint, source, surveyType) {
-    console.log(data);
+//    console.log(data);
     var feedback = getFeedbackById(data.feedbackId);
     switch (feedback.type) {
         case TYPE_FEEDBACK_TEXT:
@@ -623,6 +623,7 @@ function renderDataForHint(data, hint, source, surveyType) {
         case TYPE_FEEDBACK_SOUND:
             hint.find('.hint-content').prepend($(source).find('#feedback-hint-sound-content').clone().removeAttr('id'));
             var audioHolder = hint.find('.audio-holder')[0];
+            hint.find('#feedback-title').text(feedback.title);
             $(audioHolder).attr('src', feedback.data);
             audioHolder.addEventListener("loadedmetadata", function () {
                 audioHolder.play();

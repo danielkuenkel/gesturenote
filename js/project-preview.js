@@ -75,6 +75,7 @@ function previousStep() {
     scenarioStartTriggered = false;
     gestureTrainingStartTriggered = false;
     slideshowStartTriggered = false;
+    slideTriggered = null;
     triggeredHelp = null;
     triggeredWoz = null;
     $('.phaseStepsSelect .dropdown-menu .selected').prev().click();
@@ -228,13 +229,17 @@ function pinRTC() {
 }
 
 function getItemsForSceneId(data, sceneId) {
-    var array = new Array();
-    for (var i = 0; i < data.length; i++) {
-        if (parseInt(data[i].sceneId) === parseInt(sceneId)) {
-            array.push(data[i]);
+    if (data && data.length > 0) {
+        var array = new Array();
+        for (var i = 0; i < data.length; i++) {
+//            console.log(parseInt(data[i].sceneId) + " ?== " + parseInt(sceneId));
+            if (parseInt(data[i].sceneId) === parseInt(sceneId)) {
+                array.push(data[i]);
+            }
         }
+        return array;
     }
-    return array;
+    return null;
 }
 
 function getCurrentPhaseData() {

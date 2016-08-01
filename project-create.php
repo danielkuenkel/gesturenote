@@ -8,7 +8,7 @@ include './includes/language.php';
         <title>GestureNote</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/createProject.css">
@@ -21,7 +21,7 @@ include './includes/language.php';
         <link rel="stylesheet" href="bootstrap-slider/css/bootstrap-slider.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
@@ -130,7 +130,7 @@ include './includes/language.php';
             <div class="modal-dialog">
 
                 <!-- Modal content-->
-                <div class="modal-content">
+                <div class="modal-content root">
                 </div>
             </div>
         </div>
@@ -296,6 +296,7 @@ include './includes/language.php';
                                         <li id="gestureTraining"><a href="#"><?php echo $lang->formats->gestureTraining ?></a></li>
                                         <li id="scenario"><a href="#"><?php echo $lang->formats->scenario ?></a></li>
                                         <li id="slideshow"><a href="#"><?php echo $lang->formats->slideshow ?></a></li>
+                                        <li id="physicalStressTest"><a href="#"><?php echo $lang->formats->physicalStressTest ?></a></li>
                                     </ul>
                                     <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                                     <!--                                    <button class="btn btn-addon btn-shadow disabled dropdown-disabled" id="info-addon-add-phases">

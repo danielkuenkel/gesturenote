@@ -341,6 +341,21 @@ function SlideshowItem(gestureId, triggerId) {
     this.triggerId = triggerId;
 }
 
+function PhysicalStressTest() {
+    this.title;
+    this.description;
+    this.randomized;
+    this.totalStressAmount;
+    this.stressTestItems;
+    this.singleStressQuestions;
+    this.sequenceStressQuestions;
+    this.observations;
+}
+
+function PhysicalStressTestItem(gestureId) {
+    this.gestureId = gestureId;
+}
+
 function Identification() {
     this.title;
     this.description;

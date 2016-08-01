@@ -29,18 +29,22 @@ var Tester = {
                 break;
             case GESTURE_TRAINING:
                 item = Tester.getGestureTraining(source, container, currentPhaseData);
+                Tester.appendRTCPreview(source, item.find('#column-left'));
                 break;
             case LETTER_OF_ACCEPTANCE:
                 item = Tester.getLetterOfAcceptance(container, currentPhaseData);
                 break;
             case SLIDESHOW:
                 item = Tester.getSlideshow(source, container, currentPhaseData);
+                Tester.appendRTCPreview(source, item.find('#column-left'));
                 break;
             case SCENARIO:
                 item = Tester.getScenario(source, container, currentPhaseData);
+                Tester.appendRTCPreview(source, item.find('#fixed-rtc-preview'));
                 break;
             case IDENTIFICATION:
                 item = Tester.getIdentification(source, container, currentPhaseData);
+                Tester.appendRTCPreview(source, item.find('#column-left'));
                 break;
         }
 
@@ -49,6 +53,9 @@ var Tester = {
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
         }
+    },
+    appendRTCPreview: function appendRTCPreview(source, target) {
+        $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
     },
     renderNoDataView: function renderNoDataView() {
         var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
@@ -525,11 +532,14 @@ var Tester = {
 function renderModeratedScenario(source, container, data) {
     var sceneItem;
     if (scenarioStartTriggered) {
+        $(container).find('#fixed-rtc-preview').removeClass('hidden');
         if (currentTriggeredSceneId) {
             sceneItem = renderSceneItem(source, container, currentTriggeredSceneId);
         } else {
             sceneItem = renderSceneItem(source, container, data.scene);
         }
+    } else {
+        $(container).find('#fixed-rtc-preview').addClass('hidden');
     }
 
     // handle scenario start state
@@ -588,7 +598,6 @@ function renderModeratedScenario(source, container, data) {
 }
 
 function renderUnmoderatedScenario(source, container, data) {
-
     var panelContent = $(source).find('#scenario-panel-unmoderated').clone();
     container.find('#generalPanel').empty().append(panelContent);
     panelContent.find('#more-text').text(translation.more);
@@ -634,14 +643,10 @@ function renderUnmoderatedScenario(source, container, data) {
         currentWOZScene = getSceneById(data.scene);
     });
 
-    $(panelContent).find('#btn-refresh-scene').click(function (event) {
+    $(container).find('#btn-refresh-scene').click(function (event) {
         event.preventDefault();
         renderUnmoderatedScenario(source, container, data);
     });
-
-    if (data.woz.length > 0) {
-        $(panelContent).find('#btn-perform-gesture').removeClass('hidden');
-    }
 
     $(panelContent).find('#btn-perform-gesture').click(function (event) {
         event.preventDefault();
@@ -653,20 +658,37 @@ function renderUnmoderatedScenario(source, container, data) {
         event.preventDefault();
         $(this).addClass('hidden');
         $(panelContent).find('#btn-perform-gesture').removeClass('hidden');
-//        console.log(currentWOZScene);
-
         loadHTMLintoModal('preview-modal', 'preview-unmoderated-scenes.html', 'modal-lg');
+    });
+    
+    $(panelContent).find('#btn-getting-help').click(function(event) {
+        event.preventDefault();
+        loadHTMLintoModal('preview-modal', 'preview-help.html', 'modal-md');
     });
 }
 
 function renderSceneItem(source, container, sceneId) {
     if (sceneId !== 'none' || sceneId !== null) {
-        var scene = getSceneById(sceneId);
+        $(container).find('#btn-refresh-scene').removeClass('hidden');
 
-        console.log(scene);
-        console.log(sceneId);
+        var scene = getSceneById(sceneId);
         var sceneItem = $(source).find('#' + scene.type).clone().removeAttr('id');
         container.find('#scene-container').empty().append(sceneItem);
+
+        var currentPhaseData = getCurrentPhaseData();
+        var helpData = getItemsForSceneId(currentPhaseData.help, scene.id);
+        if (helpData && helpData.length > 0) {
+            $(container).find('#btn-getting-help').removeClass('hidden');
+        } else {
+            $(container).find('#btn-getting-help').addClass('hidden');
+        }
+
+        var wozData = getItemsForSceneId(currentPhaseData.woz, scene.id);
+        if (wozData && wozData.length > 0) {
+            $(container).find('#btn-perform-gesture').removeClass('hidden');
+        } else {
+            $(container).find('#btn-perform-gesture').addClass('hidden');
+        }
 
         switch (scene.type) {
             case SCENE_WEB:
@@ -719,6 +741,8 @@ function renderSceneItem(source, container, sceneId) {
         }).resize();
 
         return sceneItem;
+    } else {
+        $(container).find('#btn-refresh-scene').addClass('hidden');
     }
 }
 

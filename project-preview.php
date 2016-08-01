@@ -8,7 +8,7 @@ include './includes/language.php';
         <title>GestureNote</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/createProjectPreview.css">
@@ -19,7 +19,7 @@ include './includes/language.php';
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
@@ -85,7 +85,7 @@ include './includes/language.php';
             </div>
         </div>
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="help-modal">
+        <div class="modal fade" tabindex="-1" role="dialog" id="help-modal" data-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -112,11 +112,11 @@ include './includes/language.php';
                 </div>
             </div>
         </div>
-        
-        <div class="modal fade" tabindex="-1" role="dialog" id="preview-modal" data-backdrop="static" data-keyboard="false" >
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="preview-modal" data-backdrop="static" >
             <div class="modal-dialog">
                 <div class="modal-content">
-                    
+
                 </div>
             </div>
         </div>
@@ -139,8 +139,6 @@ include './includes/language.php';
             <!--<div class="alert-space alert-no-phase-data"></div>-->
 
             <div id="viewTester" class="hidden">
-
-
                 <div id="phase-content"></div>
             </div>
 
@@ -175,12 +173,12 @@ include './includes/language.php';
 //                        var lastScrollTop;
                         $(window).on('resize', function () {
 //                            console.log('resize: ' + $(document).scrollTop());
-                            if (!$('#pinnedRTC').hasClass('hidden') && (!$('#phase-content #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
-                                updateRTCHeight($('#phase-content #column-left').width());
+                            if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
+                                updateRTCHeight($('#viewModerator #column-left').width());
                             }
 //                            else if ($(document).scrollTop() > 0) {
 //                                $(document).scrollTop(0);
-//                                updateRTCHeight($('#phase-content #column-left').width());
+//                                updateRTCHeight($('#viewModerator #column-left').width());
 //                            }
 //                            lastScrollTop = $(document).scrollTop();
                         });
@@ -192,13 +190,13 @@ include './includes/language.php';
                         function onResizeComplete() {
                             var ratio = $('#web-rtc-placeholder').width() / $('#web-rtc-placeholder').height();
                             $('#web-rtc-placeholder').attr('ratio', ratio);
-                            TweenMax.to($('#phase-content #column-left'), .2, {css: {marginTop: $('#web-rtc-placeholder').height() + 20, opacity: 1.0}});
+                            TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: $('#web-rtc-placeholder').height() + 20, opacity: 1.0}});
                         }
 
                         var resetRTCTimeout;
                         $(window).scroll(function () {
-                            if ($('#phase-content #column-left').hasClass('rtc-scalable') && !$('#pinnedRTC').hasClass('hidden')) {
-                                if ($(document).scrollTop() <= 0 && ($('#phase-content #column-left').width() !== $('#web-rtc-placeholder').width() || $('#web-rtc-placeholder').height() !== $('#phase-content #column-left').offset().top - 20)) {
+                            if ($('#viewModerator #column-left').hasClass('rtc-scalable') && !$('#pinnedRTC').hasClass('hidden')) {
+                                if ($(document).scrollTop() <= 0 && ($('#viewModerator #column-left').width() !== $('#web-rtc-placeholder').width() || $('#web-rtc-placeholder').height() !== $('#viewModerator #column-left').offset().top - 20)) {
                                     resetRTCTimeout = setTimeout(resetRTC(), 100);
                                     return false;
                                 } else {
@@ -206,8 +204,8 @@ include './includes/language.php';
                                 }
 
                                 var ratio = $('#web-rtc-placeholder').attr('ratio');
-                                var newHeight = Math.min($('#phase-content #column-left').offset().top - 20 - parseInt($('#mainContent').css('padding-top')), Math.max($('#phase-content #column-left').offset().top - $(document).scrollTop() - 20 - parseInt($('#mainContent').css('padding-top')), 170));
-                                $('#web-rtc-placeholder').width(Math.min(newHeight * ratio, $('#phase-content #column-left').width()));
+                                var newHeight = Math.min($('#viewModerator #column-left').offset().top - 20 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 20 - parseInt($('#mainContent').css('padding-top')), 170));
+                                $('#web-rtc-placeholder').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
                             }
                         });
 

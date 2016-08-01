@@ -585,17 +585,17 @@ var Moderator = {
         updateCurrentScene(container);
 
         //woz section
-        if (data.woz && data.woz.length > 0) {
-            Moderator.renderWOZ(source, container, data);
-        }
+
+        Moderator.renderWOZ(source, container, data);
 
         // help section
-        if (data.help && data.help.length > 0) {
-            Moderator.renderHelp(source, container, data);
-        } else {
-            $(container).find('#help').remove();
-            $(container).find('#wozExperiment').removeClass('col-lg-6').addClass('col-lg-12');
-        }
+//        if (data.help && data.help.length > 0) {
+        Moderator.renderHelp(source, container, data);
+//        } else {
+//            appendAlert($(container).find('#help'), ALERT_NO_PHASE_DATA);
+//            $(container).find('#help').remove();
+//            $(container).find('#wozExperiment').removeClass('col-lg-6').addClass('col-lg-12');
+//        }
 
         // observation section
         if (data.observations && data.observations.length > 0) {
@@ -618,91 +618,110 @@ var Moderator = {
     },
     renderWOZ: function renderWOZ(source, container, data) {
         var wozData = getItemsForSceneId(data.woz, currentWOZScene.id);
+        removeAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
         $(container).find('.woz-container').empty();
-        for (var i = 0; i < wozData.length; i++) {
-            var item = $(source).find('#wozItem').clone();
-            item.removeAttr('id');
-            $(container).find('.woz-container').append(item);
 
+        if (data.woz && data.woz.length > 0) {
 
-            item.find('#trigger-woz').click({wozData: wozData[i], originalData: data}, function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-//                    triggeredHelp = null;
-                    triggeredWoz = event.data.wozData;
-                    currentWOZScene = getSceneById(triggeredWoz.transitionId);
-                    updateCurrentScene(container);
-                    Moderator.renderWOZ(source, container, event.data.originalData);
-                    Moderator.renderHelp(source, container, event.data.originalData);
-                    enableScenarioControls(container);
-                } else {
-                    $(document).scrollTop(0);
-                    wobble(container.find('#general'));
-                }
-            });
+            for (var i = 0; i < wozData.length; i++) {
+                var item = $(source).find('#wozItem').clone();
+                item.removeAttr('id');
+                $(container).find('.woz-container').append(item);
 
-            var trigger = getTriggerById(wozData[i].triggerId);
-            if (trigger) {
-                item.find('#trigger-title').text(trigger.title);
-            } else {
-                item.find('#trigger-title').remove();
-            }
-
-            var gesture = getGestureById(wozData[i].gestureId);
-            if (gesture) {
-                item.find('#gesture-title').text(gesture.title);
-                item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
-            } else {
-                item.find('#gesture-title').remove();
-                item.find('.btn-popover-gesture-preview').remove();
-            }
-
-            var transitionScene = getSceneById(wozData[i].transitionId);
-            if (transitionScene) {
-                item.find('#btn-show-transition-scene').click({sceneId: wozData[i].transitionId}, function (event) {
+                item.find('#trigger-woz').click({wozData: wozData[i], originalData: data}, function (event) {
                     event.preventDefault();
-                    currentSceneId = event.data.sceneId;
-                    loadHTMLintoModal('scene-modal', 'preview-scene.html', 'modal-lg');
+                    if (!$(this).hasClass('disabled')) {
+//                    triggeredHelp = null;
+                        triggeredWoz = event.data.wozData;
+                        currentWOZScene = getSceneById(triggeredWoz.transitionId);
+                        updateCurrentScene(container);
+                        Moderator.renderWOZ(source, container, event.data.originalData);
+                        Moderator.renderHelp(source, container, event.data.originalData);
+                        enableScenarioControls(container);
+                    } else {
+                        $(document).scrollTop(0);
+                        wobble(container.find('#general'));
+                    }
                 });
-            } else {
-                item.find('#btn-show-transition-scene').remove();
+
+                var trigger = getTriggerById(wozData[i].triggerId);
+                if (trigger) {
+                    item.find('#trigger-woz').text(trigger.title);
+//                item.find('#trigger-title').text(trigger.title);
+                } else {
+//                item.find('#trigger-title').remove();
+                }
+
+                var gesture = getGestureById(wozData[i].gestureId);
+                if (gesture) {
+//                item.find('#gesture-title').text(gesture.title);
+                    item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+                } else {
+//                item.find('#gesture-title').remove();
+                    item.find('.btn-popover-gesture-preview').remove();
+                }
+
+                var transitionScene = getSceneById(wozData[i].transitionId);
+                if (transitionScene) {
+                    item.find('#btn-show-transition-scene').click({sceneId: wozData[i].transitionId}, function (event) {
+                        event.preventDefault();
+                        currentSceneId = event.data.sceneId;
+                        loadHTMLintoModal('scene-modal', 'preview-scene.html', 'modal-lg');
+                    });
+                } else {
+                    item.find('#btn-show-transition-scene').remove();
+                }
             }
+        } else {
+            appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
         }
+
         return container;
     },
     renderHelp: function renderHelp(source, container, data) {
         var helpData = getItemsForSceneId(data.help, currentWOZScene.id);
         var seperator = document.createElement('hr');
+
         $(container).find('.help-container').empty();
-        for (var i = 0; i < helpData.length; i++) {
-            var item = $(source).find('#helpItem').clone();
-            item.removeAttr('id');
-            item.find('.help-title').text((i + 1) + ". " + helpData[i].option);
-            $(container).find('.help-container').append(item);
+        removeAlert($(container).find('#help'), ALERT_NO_PHASE_DATA);
 
-            item.find('#offer-help').click({helpData: helpData[i]}, function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
+        if (helpData && helpData.length > 0) {
+
+            for (var i = 0; i < helpData.length; i++) {
+                var item = $(source).find('#helpItem').clone();
+                item.removeAttr('id');
+                item.find('.help-title').text((i + 1) + ". " + helpData[i].option);
+                $(container).find('.help-container').append(item);
+
+                item.find('#offer-help').click({helpData: helpData[i]}, function (event) {
+                    event.preventDefault();
+                    if (!$(this).hasClass('disabled')) {
 //                    triggeredWoz = null;
-                    triggeredHelp = event.data.helpData;
+                        triggeredHelp = event.data.helpData;
+                    } else {
+                        $(document).scrollTop(0);
+                        wobble(container.find('#general'));
+                    }
+                });
+
+                if (helpData[i].useGestureHelp === true) {
+                    var gesture = getGestureById(helpData[i].gestureId);
+                    item.find('.btn-popover-gesture-preview').removeClass('hidden');
+                    item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
                 } else {
-                    $(document).scrollTop(0);
-                    wobble(container.find('#general'));
+                    item.find('.btn-popover-gesture-preview').remove();
                 }
-            });
 
-            if (helpData[i].useGestureHelp === true) {
-                var gesture = getGestureById(helpData[i].gestureId);
-                item.find('.btn-popover-gesture-preview').removeClass('hidden');
-                item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
-            } else {
-                item.find('.btn-popover-gesture-preview').remove();
+                if (i < helpData.length - 1) {
+                    $(container).find('.help-container').append(seperator);
+                }
             }
-
-            if (i < helpData.length - 1) {
-                $(container).find('.help-container').append(seperator);
-            }
+        } else {
+            appendAlert($(container).find('#help'), ALERT_NO_PHASE_DATA);
+//            $(container).find('#help').remove();
+//            $(container).find('#wozExperiment').removeClass('col-lg-6').addClass('col-lg-12');
         }
+
         return container;
     }
 };
