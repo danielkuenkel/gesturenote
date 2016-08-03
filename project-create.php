@@ -295,7 +295,8 @@ include './includes/language.php';
                                         <li id="identification"><a href="#"><?php echo $lang->formats->identification ?></a></li>
                                         <li id="gestureTraining"><a href="#"><?php echo $lang->formats->gestureTraining ?></a></li>
                                         <li id="scenario"><a href="#"><?php echo $lang->formats->scenario ?></a></li>
-                                        <li id="slideshow"><a href="#"><?php echo $lang->formats->slideshow ?></a></li>
+                                        <li id="gestureSlideshow"><a href="#"><?php echo $lang->formats->gestureSlideshow ?></a></li>
+                                        <li id="triggerSlideshow"><a href="#"><?php echo $lang->formats->triggerSlideshow ?></a></li>
                                         <li id="physicalStressTest"><a href="#"><?php echo $lang->formats->physicalStressTest ?></a></li>
                                     </ul>
                                     <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>

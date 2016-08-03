@@ -39,8 +39,10 @@ var SUS = 'sus';
 var LETTER_OF_ACCEPTANCE = 'letterOfAcceptance';
 var GESTURE_TRAINING = 'gestureTraining';
 var SCENARIO = 'scenario';
-var SLIDESHOW = 'slideshow';
+var SLIDESHOW_GESTURES = 'gestureSlideshow';
+var SLIDESHOW_TRIGGER = 'triggerSlideshow';
 var IDENTIFICATION = 'identification';
+var PHYSICAL_STRESS_TEST = 'physicalStressTest';
 
 // questionnaire formats
 var OPEN_QUESTION = 'openQuestion';

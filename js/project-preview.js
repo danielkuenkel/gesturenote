@@ -2,6 +2,7 @@ var currentGestureTrainingIndex = 0;
 var trainingTriggered = false;
 var triggeredFeedback = null;
 var slideshowStartTriggered = false;
+var slideRestarted = false;
 var currentSlideIndex = 0;
 var slideTriggered = false;
 var currentWOZScene = null;
@@ -14,6 +15,12 @@ var gestureTrainingStartTriggered = false;
 var currentIdentificationIndex = 0;
 var identificationTriggered = false;
 var identificationStartTriggered = false;
+
+var currentStressTestCount = 0;
+var currentStressTestIndex = 0;
+var stressTestStartTriggered = false;
+var stressTestGestureTriggered = false;
+var stressTestQuestionsTriggered = false;
 
 function checkStorage() {
     if (getLocalItem(PROJECT_PHASE_STEPS) && getLocalItem(PROJECT_PHASE_STEPS).length > 0) {
@@ -76,8 +83,17 @@ function previousStep() {
     gestureTrainingStartTriggered = false;
     slideshowStartTriggered = false;
     slideTriggered = null;
+    currentSlideIndex = 0;
     triggeredHelp = null;
     triggeredWoz = null;
+    currentStressTestCount = 0;
+    currentStressTestIndex = 0;
+    stressTestStartTriggered = false;
+    stressTestGestureTriggered = false;
+    stressTestQuestionsTriggered = false;
+    currentIdentificationIndex = 0;
+    identificationTriggered = false;
+    identificationStartTriggered = false;
     $('.phaseStepsSelect .dropdown-menu .selected').prev().click();
 }
 
@@ -85,8 +101,18 @@ function nextStep() {
     scenarioStartTriggered = false;
     gestureTrainingStartTriggered = false;
     slideshowStartTriggered = false;
+    slideTriggered = false;
+    currentSlideIndex = 0;
     triggeredHelp = null;
     triggeredWoz = null;
+    currentStressTestCount = 0;
+    currentStressTestIndex = 0;
+    stressTestStartTriggered = false;
+    stressTestGestureTriggered = false;
+    stressTestQuestionsTriggered = false;
+    currentIdentificationIndex = 0;
+    identificationTriggered = false;
+    identificationStartTriggered = false;
     $('.phaseStepsSelect .dropdown-menu .selected').next().click();
 }
 
@@ -245,4 +271,12 @@ function getItemsForSceneId(data, sceneId) {
 function getCurrentPhaseData() {
     var currentPhase = getCurrentPhase();
     return getLocalItem(currentPhase.id + '.data');
+}
+
+function QuestionnaireItem(type, dimension, question, parameters, options) {
+    this.type = type;
+    this.dimension = dimension;
+    this.question = question;
+    this.parameters = parameters;
+    this.options = options;
 }

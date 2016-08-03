@@ -630,17 +630,6 @@ $('body').on("keyup", '.enter-key', function (event) {
 });
 
 
-// slideshow
-$('body').on('click', '.btn-add-slideshowOption', function (event) {
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        event.preventDefault();
-        $(this).prev().append($('#slideshowItem').clone().removeClass('hidden'));
-        checkCurrentListState($(this).prev());
-    }
-});
-
 // identification
 $('body').on('click', '.btn-add-identificationOption', function (event) {
     if (event.handled !== true)

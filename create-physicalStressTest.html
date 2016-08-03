@@ -19,9 +19,9 @@
                     <textarea class="form-control" id="stressTestDescription" rows="5" placeholder="Beschreibung einfügen"></textarea>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="margin-bottom: 10px">
                         <div class="btn-group" id="randomizeSwitch">
-                            <button class="btn btn-default switchButtonAddon">Randomisiert abfragen?</button>
+                            <button class="btn btn-default switchButtonAddon">Gesten randomisiert abfragen?</button>
                             <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="yes" name="btn-success">Ja</button>
                             <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-warning">Nein</button>
                         </div>
@@ -29,15 +29,15 @@
                     <div class="col-md-6">
                         <div class="input-group simple-stepper">
                             <div class="input-group-btn">
-                                <button class="btn btn-default btn-shadow btn-addon">Abfragen insgesamt</button>
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="10">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine weniger</span>
+                                <button class="btn btn-default btn-shadow btn-addon">Durchläufe pro Geste</button>
+                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="2">
+                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Einer weniger</span>
                                 </button>
                             </div>
-                            <input type="text" class="form-control readonly text-center stepper-text" id="totalStressAmount" value="200">
+                            <input type="text" class="form-control readonly text-center stepper-text" id="totalStressAmount" value="10">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="300">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine mehr</span>
+                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Einer mehr</span>
                                 </button>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
 
     <div class="panel panel-default root" id="stressTest">
         <div class="panel-heading clearfix">
-            <div class="panel-title">Elemente</div>
+            <div class="panel-title">Gesten</div>
         </div>
         <div class="panel-body">
             <div class="panel-group" id="stressTestContainer">
@@ -93,7 +93,7 @@
 
     <div class="panel panel-default root" id="sequenceStressQuestions">
         <div class="panel-heading clearfix">
-            <div style="margin-top: 4px; display: inline-block">Fragen nach einer Squenz von Gesten</div>
+            <div style="margin-top: 4px; display: inline-block">Fragen nach einer Gesten-Squenz</div>
             <div class="btn-group pull-right" id="useSequenceStressQuestionsSwitch">
                 <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
                 <button class="btn btn-default btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
@@ -189,7 +189,7 @@
             $('#stressTestTitle').val(data.title);
             $('#stressTestDescription').val(data.description);
             $('#randomizeSwitch #' + (data.randomized === true ? 'yes' : 'no')).click();
-            $('#totalStressAmount').val(data.totalStressAmount);
+            $('#totalStressAmount').val(data.stressAmount);
 
             var container;
 
@@ -198,14 +198,13 @@
                 container = $('#stressTestContainer').find('.option-container');
 
                 for (var i = 0; i < items.length; i++) {
-                    var gesture = getGestureById(items[i].gestureId);
+                    var gesture = getGestureById(items[i]);
 
-                    var clone = $('#stressTestItem').clone().removeClass('hidden');
+                    var clone = $('#form-item-container').find('#physicalStressTestItem').clone().removeClass('hidden');
                     $(clone).removeAttr('id');
                     container.append(clone);
 
-                    if (gesture && isGestureAssembled(gesture.id))
-                    {
+                    if (gesture && isGestureAssembled(gesture.id)) {
                         $(clone).find('.gestureSelect #' + gesture.id).click();
                     } else {
                         appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
@@ -262,10 +261,10 @@
             var obersvationItems = $('#list-container').children();
 
             var stressTest = new PhysicalStressTest();
-            stressTest.title = $('#slideshowTitle').val();
-            stressTest.description = $('#slideshowDescription').val();
-            stressTest.randomized = $('#randomizedSwitch .active').attr('id') === 'yes';
-            stressTest.totalStressAmount = $('#totalStressAmount').val();
+            stressTest.title = $('#stressTestTitle').val();
+            stressTest.description = $('#stressTestDescription').val();
+            stressTest.randomized = $('#randomizeSwitch .active').attr('id') === 'yes';
+            stressTest.stressAmount = $('#totalStressAmount').val();
 
             if (items) {
                 var set = new Array();
@@ -275,7 +274,7 @@
                     var gesture = getGestureById(gestureId);
 
                     if (gesture) {
-                        set.push(new PhysicalStressTestItem(gestureId));
+                        set.push(gestureId);
                     }
                 }
                 stressTest.stressTestItems = set;

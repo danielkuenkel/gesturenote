@@ -10,16 +10,18 @@ $(window).load(function () {
     $('body').on('mouseenter', '.previewGesture', function (event) {
         event.preventDefault();
         if ($(this).hasClass('mousePlayable')) {
-            clearTimer();
-            playThroughThumbnails($(this), 0);
+//            clearTimer();
+            $(this).parent().find('#btn-play-gesture').click();
+//            playThroughThumbnails($(this), 0);
         }
     });
 
     $('body').on('mouseleave', '.previewGesture', function (event) {
         event.preventDefault();
         if ($(this).hasClass('mouseScrollable') || $(this).hasClass('mousePlayable')) {
-            prevSlide = 0;
-            resetThumbnails($(this));
+//            prevSlide = 0;
+            $(this).parent().find('#btn-stop-gesture').click();
+//            resetThumbnails($(this));
         }
     });
 
@@ -52,7 +54,7 @@ $(window).load(function () {
         event.stopImmediatePropagation();
         if (!$(this).hasClass('active')) {
             $(this).addClass('active');
-            playThroughThumbnails($(this).closest('.root').find('.imageContainer'), 0);
+            playThroughThumbnails($(this).closest('.root').find('.previewGesture'), 0);
         }
     });
 
@@ -62,7 +64,7 @@ $(window).load(function () {
         event.stopImmediatePropagation();
         currentGestureContainer = $(this).parent();
         resetPlayButton();
-        resetThumbnails($(this).closest('.root').find('.imageContainer'));
+        resetThumbnails($(this).closest('.root').find('.previewGesture'));
     });
 
     $('body').on('click', '#btn-step-forward-gesture', function (event) {
@@ -71,7 +73,7 @@ $(window).load(function () {
         clearTimer();
         currentGestureContainer = $(this).parent();
         resetPlayButton();
-        stepForward($(this).closest('.root').find('.imageContainer'));
+        stepForward($(this).closest('.root').find('.previewGesture'));
     });
 
     var mouseDownInterval;
@@ -83,7 +85,7 @@ $(window).load(function () {
         resetPlayButton();
         mouseDownInterval = setInterval(function (container) {
             stepForward(container);
-        }, 200, $(this).closest('.root').find('.imageContainer'));
+        }, 200, $(this).closest('.root').find('.previewGesture'));
     });
 
     $('body').on('mouseup', '#btn-step-forward-gesture, #btn-step-backward-gesture', function (event) {
@@ -100,7 +102,7 @@ $(window).load(function () {
         event.stopPropagation();
         currentGestureContainer = $(this).parent();
         resetPlayButton();
-        stepBackward($(this).closest('.root').find('.imageContainer'));
+        stepBackward($(this).closest('.root').find('.previewGesture'));
     });
 
     $('body').on('mousedown', '#btn-step-backward-gesture', function (event) {
@@ -110,7 +112,7 @@ $(window).load(function () {
         mouseDownInterval = setInterval(function (container) {
             console.log(container);
             stepBackward(container);
-        }, 200, $(this).closest('.root').find('.imageContainer'));
+        }, 200, $(this).closest('.root').find('.previewGesture'));
     });
 
     $('body').on('click', '.btn-popover-gesture-preview', function (event) {
@@ -128,7 +130,7 @@ $(window).load(function () {
                 var top = btn.offset().top - (popover.height()) + 0;
                 var left = btn.offset().left + (btn.width() / 2) - ((popover.width() - 27) / 2);
                 popover.css({left: left, top: top});
-                playThroughThumbnails(popover.find('.imageContainer'));
+                playThroughThumbnails(popover.find('.previewGesture'));
                 TweenMax.to(popover, .2, {autoAlpha: 1});
                 hideCursor(btn, CURSOR_POINTER);
             });
@@ -148,7 +150,7 @@ $(window).load(function () {
 function resetPopover() {
     var popover = $('#popover-gesture');
     popoverVisible = false;
-    resetThumbnails(popover.find('.imageContainer'));
+    resetThumbnails(popover.find('.previewGesture'));
     TweenMax.to(popover, .1, {autoAlpha: 0, onComplete: onResetTweenComplete()});
 }
 
@@ -204,7 +206,7 @@ function renderGesturePopoverPreview(gesture, callback) {
     popover.attr('id', 'popover-gesture');
     $('body').append(popover);
 
-    renderGestureImages($(popover).find('.imageContainer'), gesture.images, gesture.previewImage, function () {
+    renderGestureImages($(popover).find('.previewGesture'), gesture.images, gesture.previewImage, function () {
         popover.find('.panel-heading').text(gesture.title);
         callback();
     });

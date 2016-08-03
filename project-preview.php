@@ -95,7 +95,7 @@ include './includes/language.php';
                     <div class="modal-body root">
                         <p id="help-text" style="color: #303030"></p>
                         <div id="gesture-preview" class="hidden">
-                            <div class="imageContainer previewGesture autoplay"></div>
+                            <div class="previewGesture autoplay"></div>
                             <div class="text-center gestureControls">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>

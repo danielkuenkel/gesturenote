@@ -141,7 +141,7 @@
 
             <div class="form-group form-group-no-margin alternativeTriggerSelect hidden">
                 <div class="input-group">
-                    <span class="input-group-addon">Trigger</span>
+                    <span class="input-group-addon">Funktion</span>
                     <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
                     <div class="input-group-btn select triggerSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
@@ -695,7 +695,7 @@
         <div class="option-container"></div>
 
         <div class="text-right">
-            <button type="button" class="btn btn-info btn-shadow btn-add-triggerOption"><span class="glyphicon glyphicon-plus"></span> <span>Trigger hinzufügen</span></button>
+            <button type="button" class="btn btn-info btn-shadow btn-add-triggerOption"><span class="glyphicon glyphicon-plus"></span> <span>Funktion hinzufügen</span></button>
         </div>
 
         <div class="form-group root hidden" id="triggerItem">
@@ -848,41 +848,10 @@
         <button class="btn btn-info btn-shadow pull-right btn-add-gestureTrainingOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Trainingselement hinzufügen</span></button>
     </div>
 
-    <div class="root" id="slideshow">
-        <div class="form-group root hidden" id="slideshowItem">
-            <div class="panel panel-default">
-                <div class="panel-body">
 
-                    <div class="alert-space alert-assembled-gesture-removed"></div>
-                    <div class="alert-space alert-assembled-trigger-removed"></div>
+    <!-- gesture slideshow -->
 
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                            <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                            <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                        </div>
-                        <span class="input-group-addon">Trigger</span>
-                        <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
-                        <div class="input-group-btn select triggerSelect" role="group">
-                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
-                        </div>
-                    </div>
-
-                    <div class="input-group evaluation" style="margin-top: 10px;">
-                        <span class="input-group-addon">Geste</span>
-                        <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
-                        <div class="input-group-btn select gestureSelect" role="group">
-                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
+    <div class="root" id="gesture-slideshow">
         <div class="alert-space alert-no-gestures-assembled"></div>
         <div class="alert-space alert-no-trigger-assembled"></div>
 
@@ -892,11 +861,60 @@
     </div>
 
 
+    <!-- trigger slideshow -->
+
+    <div class="root" id="trigger-slideshow">
+        <div class="alert-space alert-no-gestures-assembled"></div>
+        <div class="alert-space alert-no-trigger-assembled"></div>
+
+        <div class="option-container"></div>
+
+        <button class="btn btn-info btn-shadow pull-right btn-add-slideshowOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Slideshowelement hinzufügen</span></button>
+    </div>
+
+    
+    <!-- slideshow item -->
+    
+    <div class="form-group root" id="slideshowItem">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <div class="alert-space alert-assembled-gesture-removed"></div>
+                <div class="alert-space alert-assembled-trigger-removed"></div>
+
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <span class="input-group-addon">Funktion</span>
+                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <div class="input-group-btn select triggerSelect" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                    </div>
+                </div>
+
+                <div class="input-group evaluation" style="margin-top: 10px;">
+                    <span class="input-group-addon">Geste</span>
+                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <div class="input-group-btn select gestureSelect" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- physical stress test -->
+
     <div class="root" id="physicalStressTest">
 
         <div class="form-group root hidden" id="physicalStressTestItem">
-            <!--<div class="panel panel-default">-->
-            <!--<div class="panel-body">-->
 
             <div class="alert-space alert-assembled-gesture-removed"></div>
 
@@ -906,27 +924,21 @@
                     <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                     <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
                 </div>
-                <!--<div class="input-group evaluation" style="margin-top: 10px;">-->
-                    <span class="input-group-addon">Geste</span>
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
-                    <div class="input-group-btn select gestureSelect" role="group">
-                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
-                    </div>
-                <!--</div>-->
+                <span class="input-group-addon">Geste</span>
+                <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                <div class="input-group-btn select gestureSelect" role="group">
+                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                    <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                </div>
             </div>
 
-
-
-            <!--</div>-->
-            <!--</div>-->
         </div>
 
         <div class="alert-space alert-no-gestures-assembled"></div>
 
         <div class="option-container"></div>
 
-        <button class="btn btn-info btn-shadow pull-right" id="btn-add-physicalStressTestOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Element hinzufügen</span></button>
+        <button class="btn btn-info btn-shadow pull-right" id="btn-add-physicalStressTestOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Geste hinzufügen</span></button>
     </div>
 
 
@@ -1257,7 +1269,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="imageContainer previewGesture mouseScrollable"></div>
+                        <div class="previewGesture mouseScrollable"></div>
                         <div class="progress gesture-progress">
                             <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                         </div>
@@ -1305,7 +1317,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="imageContainer previewGesture mouseScrollable"></div>
+                        <div class="previewGesture mouseScrollable"></div>
                         <div class="progress gesture-progress">
                             <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                         </div>

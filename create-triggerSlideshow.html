@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
-    <h4 class="modal-title">Slideshow</h4>
+    <h4 class="modal-title">Funktionen erraten (Slideshow)</h4>
 </div>
 <div id="modal-body" class="modal-body">
 
@@ -18,31 +18,6 @@
                     <label class="sr-only" for="slideshowDescription">Beschreibung</label>
                     <textarea class="form-control" id="slideshowDescription" rows="5" placeholder="Slideshowbeschreibung einfügen"></textarea>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="btn-group" id="slideshowTypeSwitch">
-                            <button class="btn btn-default switchButtonAddon">Was soll abgefragt werden?</button>
-                            <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="gestures" name="btn-success">Gesten</button>
-                            <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="trigger" name="btn-success">Trigger</button>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group simple-stepper">
-                            <div class="input-group-btn">
-                                <button class="btn btn-default btn-shadow btn-addon">Zeit für die Antwort (Sekunden)</button>
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="2">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Sekunde weniger</span>
-                                </button>
-                            </div>
-                            <input type="text" class="form-control readonly text-center stepper-text" id="answerTime" value="3">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Sekunde mehr</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -58,7 +33,7 @@
         </div>
     </div>
 
-    <div class="panel panel-default root" id="observations">
+<!--    <div class="panel panel-default root" id="observations">
         <div class="panel-heading clearfix">
             <div style="margin-top: 4px; display: inline-block">Beobachtungen</div>
             <div class="btn-group pull-right" id="useObservationsSwitch">
@@ -68,7 +43,7 @@
             </div>
         </div>
         <div class="panel-body hidden">
-            
+
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon">Beobachtungsformat</span>
@@ -85,12 +60,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-group container-root" id="list-container"></div>
 
-            <!--<button class="btn btn-info pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>-->
+            <button class="btn btn-info pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>
         </div>
-    </div>
+    </div>-->
 
 </div>
 <div id="modal-footer" class="modal-footer">
@@ -101,7 +76,7 @@
 <script type="text/javascript" src="js/template-create.js"></script>
 <script>
         $(document).ready(function () {
-            var slideshow = $('#form-item-container #slideshow').clone();
+            var slideshow = $('#form-item-container #trigger-slideshow').clone();
             $('#slideshowContainer').append(slideshow);
 
             if (assembledGestures()) {
@@ -132,8 +107,8 @@
 
             $('#slideshowTitle').val(data.title);
             $('#slideshowDescription').val(data.description);
-            $('#slideshowTypeSwitch #' + data.slideshowFor).click();
-            $('#answerTime').val(data.answerTime);
+//            $('#slideshowTypeSwitch #' + data.slideshowFor).click();
+//            $('#answerTime').val(data.answerTime);
 
             var container;
 
@@ -145,8 +120,7 @@
                     var gesture = getGestureById(slideshowItems[i].gestureId);
                     var trigger = getTriggerById(slideshowItems[i].triggerId);
 
-                    var clone = $('#slideshowItem').clone().removeClass('hidden');
-                    $(clone).removeAttr('id');
+                    var clone = $('#form-item-container').find('#slideshowItem').clone().removeAttr('id');
                     container.append(clone);
 
                     if (gesture && isGestureAssembled(gesture.id))
@@ -168,26 +142,26 @@
             }
 
 
-            var obeservationItems;
-            if (!forPrefiniedObservation) {
-                obeservationItems = data.observations;
-            } else {
-                obeservationItems = data;
-            }
-            if (obeservationItems !== undefined && obeservationItems.length > 0) {
-                if (!forPrefiniedObservation) {
-                    $('#useObservationsSwitch .switchButtonAddon').click();
-                }
-
-                container = $('#list-container');
-
-                var listContainer = $('#list-container');
-                for (var i = 0; i < obeservationItems.length; i++) {
-                    renderFormatItem(listContainer, obeservationItems[i]);
-                    updateBadges(listContainer, obeservationItems[i].type);
-                }
-                checkCurrentListState(listContainer);
-            }
+//            var obeservationItems;
+//            if (!forPrefiniedObservation) {
+//                obeservationItems = data.observations;
+//            } else {
+//                obeservationItems = data;
+//            }
+//            if (obeservationItems !== undefined && obeservationItems.length > 0) {
+//                if (!forPrefiniedObservation) {
+//                    $('#useObservationsSwitch .switchButtonAddon').click();
+//                }
+//
+//                container = $('#list-container');
+//
+//                var listContainer = $('#list-container');
+//                for (var i = 0; i < obeservationItems.length; i++) {
+//                    renderFormatItem(listContainer, obeservationItems[i]);
+//                    updateBadges(listContainer, obeservationItems[i].type);
+//                }
+//                checkCurrentListState(listContainer);
+//            }
         }
 
         function saveData() {
@@ -197,8 +171,8 @@
             var slideshow = new Slideshow();
             slideshow.title = $('#slideshowTitle').val();
             slideshow.description = $('#slideshowDescription').val();
-            slideshow.slideshowFor = $('#slideshowTypeSwitch .active').attr('id');
-            slideshow.answerTime = $('#answerTime').val();
+//            slideshow.slideshowFor = $('#slideshowTypeSwitch .active').attr('id');
+//            slideshow.answerTime = $('#answerTime').val();
 
             if (slideshowItems) {
                 var set = new Array();
@@ -218,15 +192,15 @@
                 slideshow.slideshow = set;
             }
 
-            var obersvationItems = $('#list-container').children();
-            if ($('#useObservationsSwitch').find('#yes').hasClass('active') && obersvationItems.length > 0)
-            {
-                var questionnaire = new Array();
-                for (var i = obersvationItems.length; i--; ) {
-                    questionnaire.push(getFormatData(obersvationItems[i]));
-                }
-                slideshow.observations = questionnaire;
-            }
+//            var obersvationItems = $('#list-container').children();
+//            if ($('#useObservationsSwitch').find('#yes').hasClass('active') && obersvationItems.length > 0)
+//            {
+//                var questionnaire = new Array();
+//                for (var i = obersvationItems.length; i--; ) {
+//                    questionnaire.push(getFormatData(obersvationItems[i]));
+//                }
+//                slideshow.observations = questionnaire;
+//            }
 
             setLocalItem(currentIdForModal + ".data", slideshow);
         }
@@ -236,4 +210,14 @@
 //                renderData(getLocalItem(PREDEFINED_OBSERVATIONS), true);
 //            }
 //        });
+
+        $('body').on('click', '.btn-add-slideshowOption', function (event) {
+            if (event.handled !== true)
+            {
+                event.handled = true;
+                event.preventDefault();
+                $(this).prev().append($('#form-item-container').find('#slideshowItem').clone().removeAttr('id'));
+                checkCurrentListState($(this).prev());
+            }
+        });
 </script>

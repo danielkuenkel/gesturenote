@@ -5,7 +5,7 @@
 <div id="modal-body" class="modal-body">
     <div class="container-root row" id="list-container"></div>
 
-    <div class="col-sm-6 col-md-4 root hidden" id="tester-woz-item">
+    <div class="col-sm-6 col-md-4 root hidden" id="tester-check-item">
         <div class="panel panel-default btn-shadow">
             <!--<div class="panel-heading ellipsis"></div>-->
             <div class="panel-body">
@@ -19,6 +19,7 @@
 
                 <button type="button" class="btn btn-success btn-block" id="btn-select-item" style="margin-top: 10px;">Diese</button>
             </div>
+
         </div>
     </div>
 
@@ -74,39 +75,32 @@
 <script>
     $(document).ready(function () {
         var currentPhaseData = getCurrentPhaseData();
-        var items = getItemsForSceneId(currentPhaseData.woz, currentWOZScene.id);
+        var items = currentPhaseData.slideshow;
+        var correctGesture = getGestureById(items[currentSlideIndex].gestureId);
 
 //        console.log(items);
 
         for (var i = 0; i < items.length; i++) {
-            var clone = $('#tester-woz-item').clone().removeClass('hidden').removeAttr('id');
+            var clone = $('#tester-check-item').clone().removeClass('hidden').removeAttr('id');
             $('#list-container').append(clone);
             var gesture = getGestureById(items[i].gestureId);
             renderGestureImages(clone.find('.previewGesture'), gesture.images, gesture.previewImage, function () {
             });
-            $(clone).find('.panel').mouseenter(function (event) {
+
+            $(clone).find('#btn-select-item').click({gesture: gesture}, function (event) {
                 event.preventDefault();
-                $(this).find('#btn-play-gesture').click();
-            });
-            $(clone).find('.panel').mouseleave(function (event) {
-                event.preventDefault();
-                $(this).find('#btn-stop-gesture').click();
-            });
-            $(clone).find('#btn-select-item').click({wozData: items[i]}, function (event) {
-                event.preventDefault();
-                var wozData = event.data.wozData;
-//                console.log(wozData);
-                currentWOZScene = getSceneById(wozData.transitionId);
-                $('#preview-modal').modal('hide');
-                var feedback = getFeedbackById(wozData.feedbackId);
-                if (feedback) {
-                    var hint = appendHint(getSourceContainer(VIEW_TESTER), $('body'), wozData, TYPE_SURVEY_UNMODERATED);
-                    $(hint).on('hint.hidden', function () {
-                        renderSceneItem(getSourceContainer(VIEW_TESTER), $('#viewTester #phase-content'), currentWOZScene.id);
-                    });
+                console.log(correctGesture);
+                console.log(event.data.gesture.id);
+                if (parseInt(correctGesture.id) === parseInt(event.data.gesture.id)) {
+                    currentSlideIndex++;
                 } else {
-                    renderSceneItem(getSourceContainer(VIEW_TESTER), $('#viewTester #phase-content'), currentWOZScene.id);
+                    slideRestarted = true;
+                    currentSlideIndex = 0;
+                    slideTriggered = false;
                 }
+
+                $('#preview-modal').modal('hide');
+                Tester.renderUnmoderatedGestureSlideshow($('#item-container-tester'), $('#viewTester #phase-content'), currentPhaseData, false);
             });
         }
     });

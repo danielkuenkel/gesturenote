@@ -136,7 +136,7 @@
 
                     var gesture = getGestureById(gestureId);
                     console.log(gesture.previewImage);
-                    renderGestureImages($(this).closest('.gesture-thumbnail').find('.imageContainer'), gesture.images, gesture.previewImage, function () {
+                    renderGestureImages($(this).closest('.gesture-thumbnail').find('.previewGesture'), gesture.images, gesture.previewImage, function () {
                         console.log('images loaded');
                     });
                 }

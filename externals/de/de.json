@@ -52,7 +52,8 @@
         "identification": "Identifikation",
         "gestureTraining": "Gestentraining",
         "scenario": "Szenario-basierte Aufgabe",
-        "slideshow": "Slideshow",
+        "gestureSlideshow": "Gesten erraten",
+        "triggerSlideshow": "Funktionen erraten",
         "physicalStressTest": "Physischer Belastungstest"
     },
     "scales": {
@@ -116,5 +117,6 @@
     "sound": "Sound",
     "imprint": "Impressum",
     "simulate": "simulieren",
-    "identified": "Ermittelt wird"
+    "identified": "Ermittelt wird",
+    "questionTriggerSlideshow": "Welche Funktion wird von der gezeigten Geste ausgelöst?"
 }

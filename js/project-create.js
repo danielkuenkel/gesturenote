@@ -345,7 +345,7 @@ function PhysicalStressTest() {
     this.title;
     this.description;
     this.randomized;
-    this.totalStressAmount;
+    this.stressAmount;
     this.stressTestItems;
     this.singleStressQuestions;
     this.sequenceStressQuestions;

@@ -133,7 +133,7 @@
                 if ($(this).find('.panel-collapse').hasClass('in')) {
                     var gestureId = $(this).closest('.gesture-thumbnail').attr('id');
                     var gesture = getGestureById(gestureId);
-                    renderGestureImages($(this).closest('.gesture-thumbnail').find('.imageContainer'), gesture.images, gesture.previewImage, function () {
+                    renderGestureImages($(this).closest('.gesture-thumbnail').find('.previewGesture'), gesture.images, gesture.previewImage, function () {
                         console.log('images loaded');
                     });
                 }

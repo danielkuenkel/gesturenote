@@ -66,11 +66,11 @@
                         <div class="form-group">
                             <button class="btn btn-block btn-success disabled" id="btn-extract-gesture"><i class="glyphicon glyphicon-scissors"></i> Geste extrahieren</button>
                         </div>
-                        <!--                        <div id="screenshot-holder" class="imageContainer autoplay"></div>-->
+                        <!--                        <div id="screenshot-holder" class="previewGesture autoplay"></div>-->
                     </div>
                 </div>
                 <div class="hidden" id="save-controls" style="width: 100%">
-                    <div class="imageContainer autoplay" id="previewGesture"></div>
+                    <div class="previewGesture autoplay" id="previewGesture"></div>
                     <!--                    <div class="progress">
                                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                                         </div>-->

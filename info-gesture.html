@@ -6,7 +6,7 @@
 <div class="modal-body root gesture-modal-preview">
     <div class="row">
         <div class="col-md-7">
-            <div class="imageContainer mouseScrollable"></div>
+            <div class="previewGesture mouseScrollable"></div>
             <div class="progress">
                 <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
             </div>
@@ -45,8 +45,8 @@
 
         var root = $(currentModalId).find('.modal-content');
 
-        renderGestureImages(root.find('.imageContainer'), data.images, data.previewImage, function () {
-            updateModalProgress(root.find('.imageContainer'));
+        renderGestureImages(root.find('.previewGesture'), data.images, data.previewImage, function () {
+            updateModalProgress(root.find('.previewGesture'));
 
             $(root).find('.modal-title').text(data.title);
             $(root).find('.description').html(data.description);
@@ -56,7 +56,7 @@
         });
     }
 
-//    $('body').on('mouseenter', '.imageContainer', function (event) {
+//    $('body').on('mouseenter', '.previewGesture', function (event) {
 //        event.preventDefault();
 //        if (!$(this).hasClass('mouseScrollable')) {
 //            playThroughThumbnails($(this), 0);
