@@ -103,7 +103,7 @@ include './includes/language.php';
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/project-create.js"></script>
-        
+
         <!-- gesture recorder sources -->
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
@@ -503,6 +503,10 @@ include './includes/language.php';
                 $('#create-tab-navigation').find('#general').click();
             }
 
+            $('#custom-modal').on('hidden.bs.modal', function () {
+                $(this).find('.modal-content').empty();
+            });
+
             // scenes handling
             $('#btn-assemble-scenes').click(function (event) {
                 event.preventDefault();
@@ -539,8 +543,8 @@ include './includes/language.php';
                     $('#btn-study-gestures, #btn-clear-study-gestures').addClass('hidden');
                 }
             }
-            
-            $('#btn-record-gestures').click(function(event) {
+
+            $('#btn-record-gestures').click(function (event) {
                 event.preventDefault();
                 loadHTMLintoModal('custom-modal', 'create-gesture-recorder.html', 'modal-md');
             });

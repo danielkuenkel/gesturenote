@@ -101,14 +101,20 @@
 </div>
 
 <script>
+    $('#custom-modal').on('hidden.bs.modal', function () {
+        if (recordRTC) {
+            recordRTC.stopRecording(function () {
+                return false;
+            });
+        }
+    });
+
     $(document).ready(function () {
         if (navigator.mediaDevices || navigator.mediaDevices.getUserMedia) {
             initialize();
         } else {
-            console.log($('#modal-body'));
             appendAlert($('#modal-body'), ALERT_WEB_RTC_NOT_SUPPORTED);
             console.log('Native device media streaming (getUserMedia) not supported in this browser.');
-            // Display a friendly "sorry" message to the user.
         }
     });
 
