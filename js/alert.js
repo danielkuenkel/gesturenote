@@ -21,6 +21,7 @@ var ALERT_NO_USER_EXISTS = 'no-user-exists';
 var ALERT_REGISTER_SUCCESS = 'register-success';
 
 // alert constants
+var ALERT_WEB_RTC_NOT_SUPPORTED = 'web-rtc-not-supported';
 var ALERT_NO_WEBSOCKETS = 'no-websockets';
 var ALERT_NO_SCENES_ASSEMBLED = 'no-scenes-assembled';
 var ALERT_NO_GESTURES_ASSEMBLED = 'no-gestures-assembled';

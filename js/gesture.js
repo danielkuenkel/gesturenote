@@ -175,7 +175,7 @@ function renderGestureImages(container, images, preview, callback) {
     for (var i = 0; i < images.length; i++) {
         var image = document.createElement('img');
         $(image).addClass('gestureImage');
-        container.prepend(image);
+        container.append(image);
         if (i === preview) {
             $(image).addClass('previewImage active');
 
@@ -188,6 +188,7 @@ function renderGestureImages(container, images, preview, callback) {
                 resetThumbnails(container);
                 removeLoadingIcon(container);
                 if ($(container).hasClass('autoplay')) {
+                    $(container).parent().find('#btn-stop-gesture').click();
                     $(container).parent().find('#btn-play-gesture').click();
                 }
                 if (callback !== null && callback !== undefined) {

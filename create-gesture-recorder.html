@@ -1,0 +1,378 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title" id="exampleModalLabel">Gesten aufzeichnen</h4>
+</div>
+<div id="modal-body" class="modal-body">
+
+    <div class="alert-space alert-web-rtc-not-supported"></div>
+
+    <!--<div class="container">-->
+    <div class="recorder text-center" style="border-radius: 5px; max-width: 500px; margin: auto">
+        <video autoplay id="recorder-video" style="width: 100%; height: auto;"></video>
+        <div class="gesture-recorder-controls">
+            <div class="hidden" id="record-controls" style="margin-top: -8px">
+                <button class="btn btn-danger btn-block hidden" id="btn-record" style="border-top-left-radius: 0px; border-top-right-radius: 0px"><i class="glyphicon glyphicon-record" aria-hidden="true"></i> Aufzeichnung starten</button>
+                <button class="btn btn-danger btn-block hidden" id="btn-record-stop" style="border-top-left-radius: 0px; border-top-right-radius: 0px"><i class="glyphicon glyphicon-stop" aria-hidden="true"></i> Aufzeichnung beenden</button>
+            </div>
+            <div class="hidden" id="playback-controls" style="margin-top: -8px">
+                <div class="progress" id="seek-bar" style="height: 8px; border-top-left-radius: 0px; border-radius: 0px">
+                    <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
+                </div>
+                <div class="progress" id="trim-bar" style="border-top-left-radius: 0px; border-top-right-radius: 0px; margin-top: -20px">
+                    <div class="progress-bar progress-bar-danger" id="gesture-beginning" style="width: 100%; height: 100%"></div>
+                    <div class="progress-bar progress-bar-success" id="gesture-execution" style="width: 0%; height: 100%">Geste</div>
+                    <div class="progress-bar progress-bar-danger" id="gesture-ending" style="width: 0%; height: 100%"></div>
+                </div>
+                <div class="form-group">
+                    <div class="btn-group">
+                        <button class="btn btn-default" id="btn-play"><i class="glyphicon glyphicon-play" aria-hidden="true"></i></button>
+                        <button class="btn btn-default" id="btn-pause"><i class="glyphicon glyphicon-pause" aria-hidden="true"></i></button>
+                        <button class="btn btn-default" id="btn-stop"><i class="glyphicon glyphicon-stop" aria-hidden="true"></i></button>
+                        <button class="btn btn-success" id="btn-mark-start"><i class="fa fa-chevron-circle-up" aria-hidden="true"></i> Start</button>
+                        <button class="btn btn-danger disabled" id="btn-mark-end">Ende <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Bild-Export alle</span>
+                        <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="150 Millisekunden"/>
+                        <div class="input-group-btn dropup select" id="keyframeSelect" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="keyframe_150"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="keyframe_80"><a href="#">80 Millisekunden</a></li>
+                                <li id="keyframe_100"><a href="#">100 Millisekunden</a></li>
+                                <li id="keyframe_150"><a href="#">150 Millisekunden</a></li>
+                                <li id="keyframe_200"><a href="#">200 Millisekunden</a></li>
+                                <li id="keyframe_300"><a href="#">300 Millisekunden</a></li>
+                                <li id="keyframe_400"><a href="#">400 Millisekunden</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="btn-group-vertical btn-block">
+                        <button class="btn btn-block btn-default" id="btn-repeat-recording"><i class="fa fa-refresh" aria-hidden="true"></i> Geste neu aufzeichnen</button>
+                        <button class="btn btn-block btn-success disabled" id="btn-extract-gesture"><i class="glyphicon glyphicon-scissors"></i> Geste schneiden</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="preview-controls" class="hidden">
+            <div class="previewGesture autoplay" id="gesturePreview" style="max-width: 600px; margin:auto; border-bottom-left-radius: 0; border-bottom-right-radius: 0"></div>
+            <div class="progress gesture-progress">
+                <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+            </div>
+            <div class="text-center gestureControls">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-choose-preview-image"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text">Vorschaubild wählen</span></button>
+                    <button type="button" class="btn btn-default" id="btn-repeat-trimming"><i class="glyphicon glyphicon-scissors"></i> Neu schneiden</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="hidden" id="save-controls">
+
+        <div>
+            <div class="form-group" style="margin-top: 10px">
+                <label>Gesten-Name</label>
+                <input type="text" class="form-control" id="gestureName" required>
+            </div>
+            <div class="form-group">
+                <label>Gesten-Kontext</label>
+                <input type="text" class="form-control" placeholder="Wo soll die Geste eingesetzt werden?" id="gestureContext" required>
+            </div>
+            <div class="form-group">
+                <label>Gesten-Beschreibung</label>
+                <textarea class="form-control" id="gestureDescription" rows="3" required></textarea>
+            </div>
+
+            <button class="btn btn-block btn-success disabled" id="btn-save-gesture"><i class="glyphicon glyphicon-save"></i> Geste speichern</button>
+        </div>
+    </div>
+    <!--</div>-->
+</div>
+<div id="modal-footer" class="modal-footer">
+    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal">Schließen</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        if (navigator.mediaDevices || navigator.mediaDevices.getUserMedia) {
+            initialize();
+        } else {
+            console.log($('#modal-body'));
+            appendAlert($('#modal-body'), ALERT_WEB_RTC_NOT_SUPPORTED);
+            console.log('Native device media streaming (getUserMedia) not supported in this browser.');
+            // Display a friendly "sorry" message to the user.
+        }
+    });
+
+    function initialize() {
+        if (recordRTC) {
+            recordRTC.clearRecordedData();
+        }
+
+        var mediaConstraints = {video: true, audio: false};
+        navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
+    }
+
+    var recordRTC, liveStream;
+    function successCallback(stream) {
+        liveStream = stream;
+        $('#recorder-video').attr('src', URL.createObjectURL(stream));
+        showRecord();
+    }
+
+    function errorCallback(error) {
+        alert(error);
+        // maybe another application is using the device
+    }
+
+    $('.recorder #btn-record').on('click', function (event) {
+        event.preventDefault();
+        $(this).addClass('hidden');
+        $('#btn-record-stop').removeClass('hidden');
+
+        var options = {
+            type: 'video',
+            mimeType: 'video/webm', // or video/mp4 or audio/ogg
+            video: {
+                width: 320,
+                height: 240
+            },
+            recorderType: RecordRTC.WhammyRecorder,
+            frameInterval: 40   // setTimeout interval, quality strength
+        };
+        recordRTC = RecordRTC(liveStream, options);
+        recordRTC.startRecording();
+    });
+
+    var NETWORK_NO_SOURCE = 3;
+    $('.recorder #btn-record-stop').on('click', function (event) {
+        event.preventDefault();
+        if (recordRTC) {
+            recordRTC.stopRecording(function (videoUrl) {
+                $('.recorder #recorder-video').attr('src', videoUrl);
+                showPlayback();
+            });
+        }
+    });
+
+    $('.recorder #btn-repeat-trimming').click(function (event) {
+        event.preventDefault();
+        showPlayback();
+    });
+
+    $('.recorder #btn-choose-preview-image').click(function (event) {
+        event.preventDefault();
+        if ($(this).hasClass('active')) {
+            $('.recorder #preview-controls').find('#btn-stop-gesture').click();
+            $(this).removeClass('active');
+            $(this).find('.text').text(translation.choosePreviewImage);
+            $(this).find('.fa').removeClass('fa-check').addClass('fa-bookmark');
+            $('.recorder #gesturePreview').removeClass('mouseScrollable');
+            $('.recorder #gesturePreview').unbind('click');
+        } else {
+            $('.recorder #preview-controls').find('#btn-stop-gesture').click();
+            $(this).addClass('active');
+            $(this).find('.text').text(translation.stopChoosePreviewImage);
+            $(this).find('.fa').removeClass('fa-bookmark').addClass('fa-check');
+            $('.recorder #gesturePreview').addClass('mouseScrollable');
+
+            $('.recorder #gesturePreview').bind('click', function (event) {
+                event.preventDefault();
+                var previewImage = $(this).children('.previewImage');
+                previewImage.removeClass('previewImage');
+                var visibleImage = $(this).children('.active');
+                visibleImage.addClass('previewImage');
+            });
+        }
+    });
+
+    function showRecord() {
+        $('.recorder #btn-record').removeClass('hidden');
+        $('.recorder #btn-record-stop').addClass('hidden');
+        $('.recorder #recorder-video').removeAttr('loop');
+        $('.recorder #record-controls').removeClass('hidden');
+        $('.recorder #playback-controls').addClass('hidden');
+        $('.recorder #trim-controls').addClass('hidden');
+        resetTrimControls();
+    }
+
+    var gestureStartMarked = false;
+    function showPlayback() {
+        liveStream.getVideoTracks()[0].stop();
+        $('.recorder #recorder-video').attr('loop', 'loop');
+        $('.recorder #record-controls').addClass('hidden');
+        $('.recorder #preview-controls').addClass('hidden');
+        $('.recorder #playback-controls, .recorder .gesture-recorder-controls, .recorder #recorder-video').removeClass('hidden');
+        hideSave();
+
+        $('.recorder #recorder-video').on('timeupdate', function () {
+            var percent = $(this)[0].currentTime / $(this)[0].duration * 100;
+            $('.recorder #seek-bar .progress-bar').css({width: percent + '%'});
+        });
+
+        $('.recorder #btn-play').on('click', function (event) {
+            event.preventDefault();
+            $('.recorder #recorder-video')[0].play();
+        });
+        $('.recorder #btn-pause').on('click', function (event) {
+            event.preventDefault();
+            $('.recorder #recorder-video')[0].pause();
+        });
+        $('.recorder #btn-stop').on('click', function (event) {
+            event.preventDefault();
+            $('.recorder #recorder-video')[0].pause();
+            $('.recorder #recorder-video')[0].currentTime = 0;
+        });
+        $('.recorder #btn-repeat-recording').on('click', function (event) {
+            event.preventDefault();
+            initialize();
+        });
+
+        // seekbar operations
+        $('.recorder #seek-bar, .recorder #trim-bar').on("mousedown", function (event) {
+            event.preventDefault();
+            var video = $('.recorder #recorder-video')[0];
+            var seekbar = $('.recorder #seek-bar');
+            video.pause();
+            $(window).on("mousemove", function (event) {
+                var positionX = Math.max(0, Math.min(Math.round(event.pageX - $(seekbar).offset().left), $(seekbar).width()));
+
+                var time = video.duration * (positionX / $(seekbar).width());
+                video.currentTime = Math.min(time, video.duration - 0.0001);
+            });
+            $(window).on('mouseup', function () {
+                $(window).unbind('mousemove');
+            });
+        });
+        $('.recorder #seek-bar, .recorder #trim-bar').on("click", function (event) {
+            event.preventDefault();
+            var positionX = Math.abs(event.pageX - $(this).offset().left);
+            var video = $('.recorder #recorder-video')[0];
+            var time = video.duration * (positionX / $(this).width());
+            video.currentTime = time;
+        });
+
+        // trim operations
+        $('.recorder #btn-mark-start').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            var video = $('.recorder #recorder-video')[0];
+            video.pause();
+
+            var totalWidth = $('.recorder #seek-bar').width();
+            var beginningWidth = $('.recorder #seek-bar').find('.progress-bar').width();
+            if (!gestureStartMarked) {
+                gestureStartMarked = true;
+                $('.recorder #btn-mark-end').removeClass('disabled');
+            }
+            var currentBeginningWidth = $('.recorder #gesture-beginning').width();
+            var currentGestureWidth = $('.recorder #gesture-execution').width();
+            if (beginningWidth < currentBeginningWidth + currentGestureWidth) {
+                var currentEndingWidth = $('.recorder #gesture-ending').width();
+                $('.recorder #gesture-beginning').css({width: beginningWidth + 'px'});
+                $('.recorder #gesture-execution').css({width: (totalWidth - currentEndingWidth - beginningWidth) + 'px'});
+            }
+        });
+
+        $('.recorder #btn-mark-end').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            var video = $('.recorder #recorder-video')[0];
+            video.pause();
+
+            var currentSeekWidth = $('.recorder #seek-bar').find('.progress-bar').width();
+            var beginningWidth = $('.recorder #gesture-beginning').width();
+            if (gestureStartMarked && currentSeekWidth > beginningWidth) {
+                $('.recorder #btn-extract-gesture').removeClass('disabled');
+
+
+                var totalWidth = $('.recorder #seek-bar').width();
+                var gestureWidth = currentSeekWidth - beginningWidth;
+                var endingWidth = totalWidth - (beginningWidth + gestureWidth);
+                $('.recorder #gesture-execution').css({width: gestureWidth + 'px'});
+                $('.recorder #gesture-ending').css({width: endingWidth + 'px'});
+            } else if (!gestureStartMarked) {
+                wobble($('.recorder #btn-mark-start'));
+            }
+        });
+
+        // trim operations, take screenshots and render the gesture preview based on the images (screenshots)
+        $('.recorder #btn-extract-gesture').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+
+            if (!$(this).hasClass('disabled')) {
+                var video = $('.recorder #recorder-video')[0];
+
+                $('.recorder #recorder-video').removeAttr('loop');
+                $('.recorder #btn-stop').click();
+
+                var totalWidth = $('.recorder #seek-bar').width();
+                var startTimeOffset = ($('.recorder #gesture-beginning').width() / totalWidth) * video.duration;
+                var endTimeOffset = (($('.recorder #gesture-beginning').width() + $('.recorder #gesture-execution').width()) / totalWidth) * video.duration;
+                $('.recorder #playback-controls').addClass('hidden');
+
+//                console.log(startTimeOffset + ", " + endTimeOffset);
+
+                // take screenshots every (based on the chosen milliseconds) x milliseconds
+                var keyframes = $('.recorder #keyframeSelect .chosen').attr('id').split('_')[1];
+                var shotsArray = new Array();
+                video.currentTime = startTimeOffset;
+                video.addEventListener('play', function () {
+                    var canvas = document.createElement('canvas');
+                    canvas.width = $('.recorder #recorder-video').width();
+                    canvas.height = $('.recorder #recorder-video').height();
+                    var ctx_draw = canvas.getContext('2d');
+                    draw_interval = setInterval(function () {
+                        ctx_draw.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        shotsArray.push(canvas.toDataURL('image/jpeg'));
+                    }, keyframes);
+                }, false);
+                $('.recorder #btn-play').click();
+
+                setTimeout(offsetReached, (endTimeOffset - startTimeOffset) * 1000);
+                function offsetReached() {
+                    clearInterval(draw_interval);
+                    video.pause();
+                    console.log(shotsArray.length);
+                    renderGestureImages($('.recorder #gesturePreview'), shotsArray, 0, function () {
+                        gestureTrimmingDone();
+                    });
+                }
+            } else {
+                wobble($('.recorder #btn-mark-start, .recorder #btn-mark-end'));
+            }
+        });
+    }
+
+    function resetTrimControls() {
+        $('.recorder #gesture-beginning').css({width: '100%'});
+        $('.recorder #gesture-execution').css({width: '0%'});
+        $('.recorder #gesture-ending').css({width: '0%'});
+        $('.recorder #btn-mark-end, .recorder #btn-extract-gesture').addClass('disabled');
+    }
+
+    function gestureTrimmingDone() {
+        showPreview();
+        showSave();
+    }
+
+    function showPreview() {
+        $('.recorder #preview-controls').removeClass('hidden');
+        $('.recorder #recorder-video').addClass('hidden');
+        $('.recorder .gesture-recorder-controls').addClass('hidden');
+    }
+
+    function showSave() {
+        $('#save-controls').removeClass('hidden');
+    }
+
+    function hideSave() {
+        $('#save-controls').addClass('hidden');
+    }
+</script>

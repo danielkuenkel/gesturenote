@@ -118,5 +118,7 @@
     "imprint": "Impressum",
     "simulate": "simulieren",
     "identified": "Ermittelt wird",
-    "questionTriggerSlideshow": "Welche Funktion wird von der gezeigten Geste ausgelöst?"
+    "questionTriggerSlideshow": "Welche Funktion wird von der gezeigten Geste ausgelöst?",
+    "choosePreviewImage": "Vorschaubild wählen",
+    "stopChoosePreviewImage": "Auswahl beenden"
 }

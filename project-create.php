@@ -103,6 +103,11 @@ include './includes/language.php';
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/project-create.js"></script>
+        
+        <!-- gesture recorder sources -->
+        <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
+        <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
+        <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
 
     </head>
     <body>
@@ -220,10 +225,10 @@ include './includes/language.php';
                             <div class="btn-group" id="scenes-catalog">
                                 <button class="btn btn-default btn-group-addon">Szenen</button>
                                 <button class="btn btn-default btn-shadow" id="btn-assemble-scenes">
-                                    <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span>
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="">Öffnen</span>
                                 </button>
                                 <button class="btn btn-default btn-shadow" id="btn-clear-scenes">
-                                    <i class="glyphicon glyphicon-trash"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog löschen</span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Löschen</span>
                                 </button>
                             </div>
                         </div>
@@ -233,13 +238,16 @@ include './includes/language.php';
                             <div class="btn-group" id="gestures-catalog">
                                 <button class="btn btn-default btn-group-addon">Gesten</button>
                                 <button class="btn btn-default btn-shadow hidden" id="btn-study-gestures">
-                                    <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Studien-Gesten-Set</span>
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="">Öffnen</span>
                                 </button>
                                 <button class="btn btn-default btn-shadow hidden" id="btn-clear-study-gestures">
-                                    <i class="glyphicon glyphicon-trash"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog löschen</span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Löschen</span>
                                 </button>
                                 <button class="btn btn-default btn-shadow" id="btn-assemble-study-gestures">
-                                    <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog zusammenstellen</span>
+                                    <i class="fa fa-star" aria-hidden="true"></i> <span class=""><span class="hidden-xs">Set </span>Zusammenstellen</span>
+                                </button>
+                                <button class="btn btn-default btn-shadow" id="btn-record-gestures">
+                                    <i class="fa fa-video-camera" aria-hidden="true"></i> <span class="">Aufzeichnen</span>
                                 </button>
 
                             </div>
@@ -250,10 +258,10 @@ include './includes/language.php';
                             <div class="btn-group" id="trigger-catalog">
                                 <button class="btn btn-default btn-group-addon">Funktionen</button>
                                 <button class="btn btn-default btn-shadow" id="btn-assemble-trigger">
-                                    <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span>
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="">Öffnen</span>
                                 </button>
                                 <button class="btn btn-default btn-shadow" id="btn-clear-trigger">
-                                    <i class="glyphicon glyphicon-trash"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog löschen</span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Löschen</span>
                                 </button>
                             </div>
                         </div>
@@ -263,10 +271,10 @@ include './includes/language.php';
                             <div class="btn-group" id="feedback-catalog">
                                 <button class="btn btn-default btn-group-addon">Feedback</button>
                                 <button class="btn btn-default btn-shadow" id="btn-assemble-feedback">
-                                    <i class="glyphicon glyphicon-th-list"></i> <span class="hidden-md hidden-xs hidden-sm">Zum Katalog</span>
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="">Öffnen</span>
                                 </button>
                                 <button class="btn btn-default btn-shadow" id="btn-clear-feedback">
-                                    <i class="glyphicon glyphicon-trash"></i> <span class="hidden-md hidden-xs hidden-sm">Katalog löschen</span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Löschen</span>
                                 </button>
                             </div>
                         </div>
@@ -531,6 +539,11 @@ include './includes/language.php';
                     $('#btn-study-gestures, #btn-clear-study-gestures').addClass('hidden');
                 }
             }
+            
+            $('#btn-record-gestures').click(function(event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'create-gesture-recorder.html', 'modal-md');
+            });
 
             // trigger catalog handling
             $('#btn-assemble-trigger').click(function (event) {

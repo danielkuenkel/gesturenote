@@ -18,7 +18,6 @@
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
         <script src="js/gotoPage.js"></script>
-        <script src="js/subPages.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/gesture.js"></script>
     </head>
@@ -66,30 +65,33 @@
                         <div class="form-group">
                             <button class="btn btn-block btn-success disabled" id="btn-extract-gesture"><i class="glyphicon glyphicon-scissors"></i> Geste extrahieren</button>
                         </div>
-                        <!--                        <div id="screenshot-holder" class="previewGesture autoplay"></div>-->
                     </div>
                 </div>
                 <div class="hidden" id="save-controls" style="width: 100%">
-                    <div class="previewGesture autoplay" id="previewGesture"></div>
-                    <!--                    <div class="progress">
-                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
-                                        </div>-->
-
-                    <div id=""
-                    <div class="form-group" style="margin-top: 10px">
-                        <div class="input-group">
-                            <span class="input-group-addon">Gestenname</span>
-                            <input type="text" class="form-control" id="gestureName" placeholder="Name einfügen" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon">Gestenbeschreibung</span>
-                            <textarea type="text" class="form-control" id="gestureDescription" placeholder="Beschreibung einfügen" rows="3" required></textarea>
+                    <div class="previewGesture autoplay mousePlayable btn-shadow" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
+                    <div class="text-center gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
                         </div>
                     </div>
 
-                    <button class="btn btn-block btn-success disabled" id="btn-save-gesture"><i class="glyphicon glyphicon-scissors"></i> Geste speichern</button>
+                    <div>
+                        <div class="form-group" style="margin-top: 10px">
+                            <div class="input-group">
+                                <span class="input-group-addon">Gestenname</span>
+                                <input type="text" class="form-control" id="gestureName" placeholder="Name einfügen" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">Gestenbeschreibung</span>
+                                <textarea type="text" class="form-control" id="gestureDescription" placeholder="Beschreibung einfügen" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-block btn-success disabled" id="btn-save-gesture"><i class="glyphicon glyphicon-scissors"></i> Geste speichern</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -276,7 +278,7 @@
                                 clearInterval(draw_interval);
                                 video.pause();
                                 console.log(shotsArray.length);
-                                renderGestureImages($('.recorder #previewGesture'), shotsArray, 0, function () {
+                                renderGestureImages($('.recorder').find('.previewGesture'), shotsArray, 0, function () {
                                     showSave();
                                 });
                             }

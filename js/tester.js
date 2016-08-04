@@ -129,10 +129,12 @@ var Tester = {
     },
     getGUS: function getGUS(container, data) {
         var gesture = getGestureById(data.gestureId);
-        if (gesture) {
+        if (gesture && isGestureAssembled(data.gestureId)) {
             singleGUSGesture = gesture;
             container.find('#title').text(gesture.title);
             renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
+        } else {
+            $(container).find('#gesturePreview').addClass('hidden');
         }
 
         container = Tester.getQuestionnaire(container, getAssembledItems(data.gus));
