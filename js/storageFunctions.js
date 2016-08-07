@@ -6,7 +6,7 @@
 
 
 function getGestureById(id) {
-    var predefinedGestures = getLocalItem(PREDEFINED_GESTURE_SET);
+    var predefinedGestures = getLocalItem(GESTURE_CATALOG);
     for (var i = 0; i < predefinedGestures.length; i++) {
         if (parseInt(predefinedGestures[i].id) === parseInt(id)) {
             return predefinedGestures[i];
@@ -15,25 +15,12 @@ function getGestureById(id) {
     return null;
 }
 
-function getGestureThumbnailImagesForId(type, id) {
-    var data = getLocalItem(PREDEFINED_GESTURE_SET);
-    for (var i = 0; i < data.length; i++) {
-        if (type === data[i].type && id === data[i].id) {
-            return data[i].images;
-        }
-    }
-}
-
-function getGestureThumbnailPreviewForId(type, id) {
-    var data = getLocalItem(PREDEFINED_GESTURE_SET);
-    for (var i = 0; i < data.length; i++) {
-        if (type === data[i].type && id === data[i].id) {
-            return data[i].previewImage;
-        }
-    }
-}
-
 function assembledGestures() {
+    var catalog = getLocalItem(GESTURE_CATALOG);
+    if (catalog === null) {
+        getGestureCatalog();
+    }
+    
     var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
     if (gestures && gestures.length > 0) {
 

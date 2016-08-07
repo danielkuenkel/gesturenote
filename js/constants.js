@@ -5,13 +5,22 @@
  */
 
 var ELEMENT_MOVE_TRANSITION_DURATION = 0.2;
+var GESTURE_IMAGE_HOME = 'uploads/';
+
+// user specific constants
+//var USER_ID = 'userId';
+
+// ajax result constants
+var RESULT_SUCCESS = 'success';
+var RESULT_ERROR = 'error';
 
 // project specific constants
 var PROJECT = 'project';
 var PROJECT_ORIGIN_GUS = 'project.originGUS';
 var PROJECT_ORIGIN_SUS = 'project.originSUS';
 var PROJECT_PHASE_STEPS = 'project.phaseSteps';
-var PREDEFINED_GESTURE_SET = 'predefinedGestureSet';
+//var PREDEFINED_GESTURE_SET = 'predefinedGestureSet';
+var GESTURE_CATALOG = 'gestureCatalog';
 var PREDEFINED_OBSERVATIONS = 'predefinedObversation';
 var PREDEFINED_GESTURE_QUESTIONNAIRE = 'predefinedGestureQuestionnaire';
 var PREDEFINED_GESTURE_FEEDBACK = 'predefinedGestureFeedback';
@@ -63,10 +72,12 @@ var SCENE_IMAGE = 'image';
 var SCENE_VIDEO = 'video';
 var SCENE_VIDEO_EMBED = 'videoEmbed';
 
-// gesture types
-var GESTURE_OWN = 'own';
-var GESTURE_PUBLIC = 'public';
-var GESTURE_RECORDED = 'recorded';
+// gesture scopes and sources
+var SCOPE_GESTURE_PRIVATE = 'private';
+var SCOPE_GESTURE_PUBLIC = 'public';
+var SOURCE_GESTURE_EVALUATOR = 'evaluator';
+var SOURCE_GESTURE_TESTER = 'tester';
+var SOURCE_GESTURE_RECORDED = 'recorded';
 
 // general gesture types
 var TYPE_GESTURE_DISCRETE = 'discrete';

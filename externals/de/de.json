@@ -88,9 +88,13 @@
         "hand": "Hand"
     },
     "gestureSources": {
-        "own": "Eigene",
-        "public": "Öffentlich",
-        "recorded": "Aufgezeichnete"
+        "tester": "Tester",
+        "evaluator": "Moderator",
+        "recorded": "Aufgezeichnet"
+    },
+    "gestureScopes": {
+        "private": "Privat",
+        "public": "Öffentlich"
     },
     "gesture": "Geste",
     "gestures": "Gesten",
@@ -120,5 +124,10 @@
     "identified": "Ermittelt wird",
     "questionTriggerSlideshow": "Welche Funktion wird von der gezeigten Geste ausgelöst?",
     "choosePreviewImage": "Vorschaubild wählen",
-    "stopChoosePreviewImage": "Auswahl beenden"
+    "stopChoosePreviewImage": "Auswahl beenden",
+    "share": "Teilen",
+    "unshare": "Nicht Teilen",
+    "edit": "Bearbeiten",
+    "gesturePreviewable": "Bearbeiten beenden",
+    "deleteGesture": "Geste löschen"
 }

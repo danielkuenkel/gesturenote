@@ -6,21 +6,20 @@
 
     <div class="alert-space alert-web-rtc-not-supported"></div>
 
-    <!--<div class="container">-->
     <div class="recorder text-center" style="border-radius: 5px; max-width: 500px; margin: auto">
-        <video autoplay id="recorder-video" style="width: 100%; height: auto;"></video>
+        <video autoplay id="recorder-video" style="width: 100%; height: auto; overflow: hidden; border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
         <div class="gesture-recorder-controls">
             <div class="hidden" id="record-controls" style="margin-top: -8px">
-                <button class="btn btn-danger btn-block hidden" id="btn-record" style="border-top-left-radius: 0px; border-top-right-radius: 0px"><i class="glyphicon glyphicon-record" aria-hidden="true"></i> Aufzeichnung starten</button>
-                <button class="btn btn-danger btn-block hidden" id="btn-record-stop" style="border-top-left-radius: 0px; border-top-right-radius: 0px"><i class="glyphicon glyphicon-stop" aria-hidden="true"></i> Aufzeichnung beenden</button>
+                <button class="btn btn-success btn-block hidden" id="btn-record" style="border-top-left-radius: 0px; border-top-right-radius: 0px;"><i class="glyphicon glyphicon-record" aria-hidden="true"></i> Aufzeichnung starten</button>
+                <button class="btn btn-danger btn-block hidden" id="btn-record-stop" style="border-top-left-radius: 0px; border-top-right-radius: 0px; margin-top: -8px"><i class="glyphicon glyphicon-stop" aria-hidden="true"></i> Aufzeichnung beenden</button>
             </div>
             <div class="hidden" id="playback-controls" style="margin-top: -8px">
                 <div class="progress" id="seek-bar" style="height: 8px; border-top-left-radius: 0px; border-radius: 0px">
-                    <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
+                    <div class="progress-bar progress-bar-success" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                 </div>
                 <div class="progress" id="trim-bar" style="border-top-left-radius: 0px; border-top-right-radius: 0px; margin-top: -20px">
                     <div class="progress-bar progress-bar-danger" id="gesture-beginning" style="width: 100%; height: 100%"></div>
-                    <div class="progress-bar progress-bar-success" id="gesture-execution" style="width: 0%; height: 100%">Geste</div>
+                    <div class="progress-bar progress-bar-info" id="gesture-execution" style="width: 0%; height: 100%">Geste</div>
                     <div class="progress-bar progress-bar-danger" id="gesture-ending" style="width: 0%; height: 100%"></div>
                 </div>
                 <div class="form-group">
@@ -51,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     <div class="btn-group-vertical btn-block">
-                        <button class="btn btn-block btn-default" id="btn-repeat-recording"><i class="fa fa-refresh" aria-hidden="true"></i> Geste neu aufzeichnen</button>
+                        <button class="btn btn-block btn-default btn-repeat-recording"><i class="fa fa-refresh" aria-hidden="true"></i> Geste neu aufzeichnen</button>
                         <button class="btn btn-block btn-success disabled" id="btn-extract-gesture"><i class="glyphicon glyphicon-scissors"></i> Geste schneiden</button>
                     </div>
                 </div>
@@ -59,6 +58,7 @@
         </div>
 
         <div id="preview-controls" class="hidden">
+            <div class="alert-space alert-gesture-too-short"></div>
             <div class="previewGesture autoplay" id="gesturePreview" style="max-width: 600px; margin:auto; border-bottom-left-radius: 0; border-bottom-right-radius: 0"></div>
             <div class="progress gesture-progress">
                 <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
@@ -68,16 +68,22 @@
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
                     <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
                     <button type="button" class="btn btn-default" id="btn-choose-preview-image"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text">Vorschaubild wählen</span></button>
-                    <button type="button" class="btn btn-default" id="btn-repeat-trimming"><i class="glyphicon glyphicon-scissors"></i> Neu schneiden</button>
+
                 </div>
+            </div>
+            <div class="text-center btn-group" style="margin-top: 10px;">
+                <button type="button" class="btn btn-default" id="btn-repeat-trimming"><i class="glyphicon glyphicon-scissors"></i> Neu schneiden</button>
+                <button type="button" class="btn btn-default btn-repeat-recording"><i class="fa fa-refresh" aria-hidden="true"></i> Neue Aufzeichnung</button>
             </div>
         </div>
 
     </div>
 
     <div class="hidden" id="save-controls">
-
+        <hr>
         <div>
+            <div class="alert-space alert-missing-fields"></div>
+
             <div class="form-group" style="margin-top: 10px">
                 <label>Gesten-Name</label>
                 <input type="text" class="form-control" id="gestureName" required>
@@ -88,29 +94,71 @@
             </div>
             <div class="form-group">
                 <label>Gesten-Beschreibung</label>
-                <textarea class="form-control" id="gestureDescription" rows="3" required></textarea>
+                <textarea class="form-control" id="gestureDescription" rows="3" maxlength="500" required></textarea>
             </div>
 
+            <div class="form-group">
+                <label>Welche Teile des Körpers werden für die Geste genutzt?</label>
+                <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
+                    <div id="joint-container" style="position: absolute"></div>
+                    <img src="img/human_body.svg">
+                </div>
+            </div>
+
+            <div class="alert-space alert-general-error"></div>
             <button class="btn btn-block btn-success disabled" id="btn-save-gesture"><i class="glyphicon glyphicon-save"></i> Geste speichern</button>
         </div>
     </div>
-    <!--</div>-->
+
+    <div class="hidden root" id="success-controls">
+        <div class="alert-space alert-gesture-save-success"></div>
+        <div class="alert-space alert-general-error"></div>
+
+        <div class="previewGesture autoplay" style="max-width: 600px; margin:auto; border-bottom-left-radius: 0; border-bottom-right-radius: 0"></div>
+        <div class="progress gesture-progress">
+            <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+        </div>
+        <div class="text-center gestureControls">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+            </div>
+        </div>
+        <div class="btn-group-vertical btn-block" style="margin-top: 10px">
+            <button class="btn btn-danger" id="btn-delete-saved-gesture"><i class="fa fa-trash" aria-hidden="true"></i> Gespeicherte Geste löschen</button>
+            <button class="btn btn-default" id="btn-record-new-gesture"><i class="fa fa-video-camera" aria-hidden="true"></i> Weitere Geste aufzeichnen</button>
+        </div>
+    </div>
+
+    <div class="hidden root" id="delete-success-controls">
+        <div class="alert-space alert-gesture-delete-success"></div>
+
+        <div class="btn-group-vertical btn-block" style="margin-top: 10px">
+            <button class="btn btn-default" id="btn-record-new-gesture"><i class="fa fa-video-camera" aria-hidden="true"></i> Geste aufzeichnen</button>
+        </div>
+    </div>
+
 </div>
+
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal">Schließen</button>
 </div>
 
 <script>
-    $('#custom-modal').on('hidden.bs.modal', function () {
+    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function () {
         if (recordRTC) {
-            recordRTC.stopRecording(function () {
-                return false;
-            });
+            recordRTC.clearRecordedData();
+        }
+
+        if (liveStream) {
+            liveStream.getVideoTracks()[0].stop();
         }
     });
 
     $(document).ready(function () {
-        if (navigator.mediaDevices || navigator.mediaDevices.getUserMedia) {
+        renderBodyJoints($('#save-controls').find('#human-body'));
+
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             initialize();
         } else {
             appendAlert($('#modal-body'), ALERT_WEB_RTC_NOT_SUPPORTED);
@@ -119,8 +167,14 @@
     });
 
     function initialize() {
+        clearAlerts($('#modal-body'));
+
         if (recordRTC) {
             recordRTC.clearRecordedData();
+        }
+
+        if (liveStream) {
+            liveStream.getVideoTracks()[0].stop();
         }
 
         var mediaConstraints = {video: true, audio: false};
@@ -161,12 +215,21 @@
     var NETWORK_NO_SOURCE = 3;
     $('.recorder #btn-record-stop').on('click', function (event) {
         event.preventDefault();
+        if (liveStream) {
+            liveStream.getVideoTracks()[0].stop();
+        }
+
         if (recordRTC) {
             recordRTC.stopRecording(function (videoUrl) {
                 $('.recorder #recorder-video').attr('src', videoUrl);
                 showPlayback();
             });
         }
+    });
+
+    $('.recorder .btn-repeat-recording').on('click', function (event) {
+        event.preventDefault();
+        initialize();
     });
 
     $('.recorder #btn-repeat-trimming').click(function (event) {
@@ -203,16 +266,19 @@
     function showRecord() {
         $('.recorder #btn-record').removeClass('hidden');
         $('.recorder #btn-record-stop').addClass('hidden');
+        $('.recorder #recorder-video').removeClass('hidden');
+        $('.recorder .gesture-recorder-controls').removeClass('hidden');
         $('.recorder #recorder-video').removeAttr('loop');
         $('.recorder #record-controls').removeClass('hidden');
         $('.recorder #playback-controls').addClass('hidden');
+        $('.recorder #preview-controls').addClass('hidden');
         $('.recorder #trim-controls').addClass('hidden');
+        hideSave();
         resetTrimControls();
     }
 
     var gestureStartMarked = false;
     function showPlayback() {
-        liveStream.getVideoTracks()[0].stop();
         $('.recorder #recorder-video').attr('loop', 'loop');
         $('.recorder #record-controls').addClass('hidden');
         $('.recorder #preview-controls').addClass('hidden');
@@ -236,10 +302,6 @@
             event.preventDefault();
             $('.recorder #recorder-video')[0].pause();
             $('.recorder #recorder-video')[0].currentTime = 0;
-        });
-        $('.recorder #btn-repeat-recording').on('click', function (event) {
-            event.preventDefault();
-            initialize();
         });
 
         // seekbar operations
@@ -346,7 +408,7 @@
                     clearInterval(draw_interval);
                     video.pause();
                     console.log(shotsArray.length);
-                    renderGestureImages($('.recorder #gesturePreview'), shotsArray, 0, function () {
+                    renderGestureImages($('#preview-controls .previewGesture'), shotsArray, 0, function () {
                         gestureTrimmingDone();
                     });
                 }
@@ -357,6 +419,7 @@
     }
 
     function resetTrimControls() {
+        gestureStartMarked = false;
         $('.recorder #gesture-beginning').css({width: '100%'});
         $('.recorder #gesture-execution').css({width: '0%'});
         $('.recorder #gesture-ending').css({width: '0%'});
@@ -376,9 +439,161 @@
 
     function showSave() {
         $('#save-controls').removeClass('hidden');
+        $('#btn-save-gesture').bind('click', function (event) {
+            event.preventDefault();
+            clearAlerts($('#modal-body'));
+            if (inputsValid(true) && !$(this).hasClass('disabled')) {
+                $(this).addClass('disabled');
+                showCursor($('body'), CURSOR_PROGRESS);
+                var gestureImagesData = getGestureImagesData($('.recorder #gesturePreview'));
+                var previewImageIndex = getGesturePreviewIndex($('.recorder #gesturePreview'));
+                var title = $('#gestureName').val().trim();
+                var context = $('#gestureContext').val().trim();
+                var description = $('#gestureDescription').val().trim();
+                var joints = getSelectedJoints($('#human-body #joint-container'));
+                
+                saveModeratorGesture({title: title, context: context, description: description, joints: joints, previewImage: previewImageIndex, gestureImages: gestureImagesData}, function (result) {
+                    showCursor($('body'), CURSOR_DEFAULT);
+                    if (result.status === RESULT_SUCCESS) {
+                        $('#success-controls #btn-delete-saved-gesture').attr('name', result.gestureId);
+                        renderGestureImages($('#success-controls .previewGesture'), result.images, result.previewImage, null);
+                        assembleGesture(parseInt(result.gestureId));
+                        updateGestureCatalogButtons();
+                        getGestureCatalog();
+                        showSaveSuccess();
+                    } else if (result.status === RESULT_ERROR) {
+                        $(this).removeClass('disabled');
+                        appendAlert($('#modal-body'), ALERT_GENERAL_ERROR);
+                    }
+                });
+            }
+        });
     }
 
     function hideSave() {
         $('#save-controls').addClass('hidden');
+        $('#btn-save-gesture').unbind('click');
+    }
+
+    $('#gestureName, #gestureContext, #gestureDescription').bind('input', function () {
+        if (inputsValid()) {
+            $('#btn-save-gesture').removeClass('disabled');
+        } else {
+            $('#btn-save-gesture').addClass('disabled');
+        }
+    });
+    
+    $('#save-controls #human-body').bind('change', function () {
+        if (inputsValid()) {
+            $('#btn-save-gesture').removeClass('disabled');
+        } else {
+            $('#btn-save-gesture').addClass('disabled');
+        }
+    });
+    
+    function resetInputs() {
+        $('#gestureName').val('');
+        $('#gestureContext').val('');
+        $('#gestureDescription').val('');
+        $('#save-controls #human-body #joint-container').children('.active').click();
+        $('#save-controls #btn-save-gesture').addClass('disabled');
+    }
+
+    function inputsValid(showErrors) {
+        var title = $('#gestureName').val().trim();
+        if (title === '') {
+            if (showErrors) {
+                appendAlert($('#save-controls'), ALERT_MISSING_FIELDS);
+            } else {
+                removeAlert($('#save-controls'), ALERT_MISSING_FIELDS);
+            }
+            return false;
+        }
+
+        var context = $('#gestureContext').val().trim();
+        if (context === '') {
+            if (showErrors) {
+                appendAlert($('#save-controls'), ALERT_MISSING_FIELDS);
+            } else {
+                removeAlert($('#save-controls'), ALERT_MISSING_FIELDS);
+            }
+            return false;
+        }
+
+        var description = $('#gestureDescription').val().trim();
+        if (description === '') {
+            if (showErrors) {
+                appendAlert($('#save-controls'), ALERT_MISSING_FIELDS);
+            } else {
+                removeAlert($('#save-controls'), ALERT_MISSING_FIELDS);
+            }
+            return false;
+        }
+
+        var selectedJoints = getSelectedJoints($('#save-controls #human-body #joint-container'));
+        if (selectedJoints.length === 0) {
+            if (showErrors) {
+                appendAlert($('#save-controls'), ALERT_MISSING_FIELDS);
+            } else {
+                removeAlert($('#save-controls'), ALERT_MISSING_FIELDS);
+            }
+            return false;
+        }
+
+        var gestureImagesData = getGestureImagesData($('.recorder #gesturePreview'));
+        if (gestureImagesData === 0) {
+            if (showErrors) {
+                appendAlert($('#preview-controls'), ALERT_GESTURE_TOO_SHORT);
+            } else {
+                removeAlert($('#preview-controls'), ALERT_GESTURE_TOO_SHORT);
+            }
+            return false;
+        }
+
+        return true;
+    }
+
+    function showSaveSuccess() {
+        resetInputs();
+        appendAlert($('#success-controls'), ALERT_GESTURE_SAVE_SUCCESS);
+        $('#success-controls').removeClass('hidden');
+        $('.recorder').addClass('hidden');
+        hideSave();
+        $('#success-controls #btn-delete-saved-gesture').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                $(this).addClass('disabled');
+                showCursor($('body'), CURSOR_PROGRESS);
+                var gestureId = $(this).attr('name');
+                deleteGesture({gestureId: gestureId}, function (result) {
+                    showCursor($('body'), CURSOR_DEFAULT);
+                    if (result.status === RESULT_SUCCESS) {
+                        $('#success-controls').addClass('hidden');
+                        showDeleteSuccess();
+                    } else {
+                        appendAlert($('#modal-body'), ALERT_GENERAL_ERROR);
+                    }
+                });
+            } else {
+                $(this).removeClass('disabled');
+            }
+        });
+        $('#success-controls #btn-record-new-gesture').bind('click', function (event) {
+            event.preventDefault();
+            $('.recorder').removeClass('hidden');
+            $('#success-controls').addClass('hidden');
+            initialize();
+        });
+    }
+
+    function showDeleteSuccess() {
+        appendAlert($('#delete-success-controls'), ALERT_GESTURE_DELETE_SUCCESS);
+        $('#delete-success-controls').removeClass('hidden');
+        $('#delete-success-controls #btn-record-new-gesture').bind('click', function (event) {
+            event.preventDefault();
+            $('.recorder').removeClass('hidden');
+            $('#delete-success-controls').addClass('hidden');
+            initialize();
+        });
     }
 </script>

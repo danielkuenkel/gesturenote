@@ -11,7 +11,7 @@ var currentContainerList = null;
 function checkSessionStorage() {
     createOriginGUS();
     createOriginSUS();
-    createPredefinedGestures();
+//    createPredefinedGestures();
     createPredefinedObservationForm();
     createPredefinedGestureQuestionnaire();
     createPredefinedGestureFeedback();
@@ -60,45 +60,45 @@ function createOriginSUS() {
     }
 }
 
-function createPredefinedGestures() {
-    if (getLocalItem(PREDEFINED_GESTURE_SET) === null)
-    {
-        var images = new Array();
-        images.push("http://placehold.it/200x150?text=1");
-        images.push("http://placehold.it/200x150?text=2");
-        images.push("http://placehold.it/200x150?text=3");
-        images.push("http://placehold.it/200x150?text=4");
-        images.push("http://placehold.it/200x150?text=5");
-
-        var gestures = new Array();
-        gestures.push(new Gesture(GESTURE_OWN, 1, 1451606400, "Dies ist ein Gestentitel mit einem Lange langen langen langen TItel" + (gestures.length + 1), "Dies ist .", TYPE_GESTURE_DISCRETE, TYPE_BODY_FULL, images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_OWN, 2, 1451692800, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies .", TYPE_GESTURE_POSE, TYPE_BODY_HAND, images, 1, null, false));
-        gestures.push(new Gesture(GESTURE_OWN, 3, 1451779200, "Geste Hand Kreisen ", "Beschreibung hdhhsr.", TYPE_GESTURE_DISCRETE, TYPE_BODY_UPPER, images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_OWN, 4, 1451865600, "Fuß nach hinten ziehen", "wzhwsbf b.", TYPE_GESTURE_DISCRETE, TYPE_BODY_FULL, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_OWN, 5, 1451952000, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung rhsfgnsgk s dgh sfg.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 6, 1451606300, "Dies ist ein Gestentitel " + (gestures.length + 1), "lange Haha.", TYPE_GESTURE_POSE, TYPE_BODY_FULL, images, 1, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 7, 1451692700, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_POSE, TYPE_BODY_HAND, images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 8, 1451779100, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_UPPER, images, 2, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 9, 1451865700, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 10, 1451865800, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 11, 1451865900, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 12, 1451866100, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 13, 1451866200, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 14, 1451866300, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 15, 1451866400, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 16, 1451866500, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 17, 1451866600, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 18, 1451866700, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 19, 1451866800, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 20, 1451866900, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 21, 1451867000, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 22, 1451867100, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 23, 1451867200, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-        gestures.push(new Gesture(GESTURE_PUBLIC, 24, 1451867300, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
-
-        setLocalItem(PREDEFINED_GESTURE_SET, gestures);
-    }
-}
+//function createPredefinedGestures() {
+//    if (getLocalItem(PREDEFINED_GESTURE_SET) === null)
+//    {
+//        var images = new Array();
+//        images.push("http://placehold.it/200x150?text=1");
+//        images.push("http://placehold.it/200x150?text=2");
+//        images.push("http://placehold.it/200x150?text=3");
+//        images.push("http://placehold.it/200x150?text=4");
+//        images.push("http://placehold.it/200x150?text=5");
+//
+//        var gestures = new Array();
+//        gestures.push(new Gesture(GESTURE_OWN, 1, 1451606400, "Dies ist ein Gestentitel mit einem Lange langen langen langen TItel" + (gestures.length + 1), "Dies ist .", TYPE_GESTURE_DISCRETE, TYPE_BODY_FULL, images, 2, null, false));
+//        gestures.push(new Gesture(GESTURE_OWN, 2, 1451692800, "Dies ist ein Gestentitel " + (gestures.length + 1), "Dies .", TYPE_GESTURE_POSE, TYPE_BODY_HAND, images, 1, null, false));
+//        gestures.push(new Gesture(GESTURE_OWN, 3, 1451779200, "Geste Hand Kreisen ", "Beschreibung hdhhsr.", TYPE_GESTURE_DISCRETE, TYPE_BODY_UPPER, images, 2, null, false));
+//        gestures.push(new Gesture(GESTURE_OWN, 4, 1451865600, "Fuß nach hinten ziehen", "wzhwsbf b.", TYPE_GESTURE_DISCRETE, TYPE_BODY_FULL, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_OWN, 5, 1451952000, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung rhsfgnsgk s dgh sfg.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 2, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 6, 1451606300, "Dies ist ein Gestentitel " + (gestures.length + 1), "lange Haha.", TYPE_GESTURE_POSE, TYPE_BODY_FULL, images, 1, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 7, 1451692700, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_POSE, TYPE_BODY_HAND, images, 2, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 8, 1451779100, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_UPPER, images, 2, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 9, 1451865700, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 10, 1451865800, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 11, 1451865900, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 12, 1451866100, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 13, 1451866200, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 14, 1451866300, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 15, 1451866400, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 16, 1451866500, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 17, 1451866600, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 18, 1451866700, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 19, 1451866800, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 20, 1451866900, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 21, 1451867000, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 22, 1451867100, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 23, 1451867200, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//        gestures.push(new Gesture(GESTURE_PUBLIC, 24, 1451867300, "Dies ist ein Gestentitel " + (gestures.length + 1), "Beschreibung.", TYPE_GESTURE_DISCRETE, TYPE_BODY_HAND, images, 0, null, false));
+//
+//        setLocalItem(PREDEFINED_GESTURE_SET, gestures);
+//    }
+//}
 
 function createPredefinedObservationForm() {
     if (getLocalItem(PREDEFINED_OBSERVATIONS) === null)
@@ -365,19 +365,19 @@ function Identification() {
     this.observations;
 }
 
-function Gesture(type, id, timestamp, title, description, gestureType, bodyType, images, previewImage, videoUrl, used) {
-    this.type = type;
-    this.id = id;
-    this.timestamp = timestamp;
-    this.title = title;
-    this.description = description;
-    this.gestureType = gestureType;
-    this.bodyType = bodyType;
-    this.images = images;
-    this.previewImage = previewImage;
-    this.videoUrl = videoUrl;
-    this.used = used;
-}
+//function Gesture(type, id, timestamp, title, description, gestureType, bodyType, images, previewImage, videoUrl, used) {
+//    this.type = type;
+//    this.id = id;
+//    this.timestamp = timestamp;
+//    this.title = title;
+//    this.description = description;
+//    this.gestureType = gestureType;
+//    this.bodyType = bodyType;
+//    this.images = images;
+//    this.previewImage = previewImage;
+//    this.videoUrl = videoUrl;
+//    this.used = used;
+//}
 
 function Feedback(id, type, title, parameters, data) {
     this.id = id;

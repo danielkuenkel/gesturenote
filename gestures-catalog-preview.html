@@ -1,0 +1,374 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Gesten-Vorschau</h4>
+</div>
+<div id="modal-body" class="modal-body">
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
+            <div class="progress gesture-progress">
+                <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+            </div>
+            <div class="text-center">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+
+            <div id="gesture-data-preview">
+                <div id="title">Titel:<span class="address"></span> <span class="text"></span></div>
+                <div id="created"><span class="address">Erstellt:</span> <span class="text"></span></div>
+                <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
+                <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
+
+                <span class="label label-default" id="gesture-source"></span>
+                <span class="label label-default" id="gesture-scope"></span>
+
+                <div class="preview-joints-humand-body" id="human-body" style="width: 400px; margin: auto; margin-top: 10px">
+                    <div id="joint-container" style="position: absolute"></div>
+                    <img src="img/human_body.svg">
+                </div>
+            </div>
+
+            <div id="gesture-data-edit" class="hidden">
+                <div class="alert-space alert-missing-fields"></div>
+
+                <div class="form-group">
+                    <label>Gesten-Name</label>
+                    <input type="text" class="form-control" id="gesture-name-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Gesten-Kontext</label>
+                    <input type="text" class="form-control" placeholder="Wo soll die Geste eingesetzt werden?" id="gesture-context-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Gesten-Beschreibung</label>
+                    <textarea class="form-control" id="gesture-description-input" rows="3" maxlength="500" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Welche Teile des Körpers werden für die Geste genutzt?</label>
+                    <div class="select-joints-humand-body" id="select-joints-human-body" style="width: 400px; margin: auto; margin-top: 10px">
+                        <div id="joint-container" style="position: absolute"></div>
+                        <img src="img/human_body.svg">
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group-vertical btn-block" style="margin-top: 20px" id="gesture-owner-controls">
+                <button type="button" class="btn btn-default gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                <button type="button" class="btn btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text">Geste löschen</span></button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<hr style="margin: 0; padding: 0">
+
+<div id="discussion-body" class="modal-body">
+    <h4><i class="fa fa-comments-o" aria-hidden="true"></i> Mitreden</h3>
+
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <textarea class="form-control" id="comment" rows="4" maxlength="500" placeholder="Kommentar einfügen" required></textarea>
+                </div>
+                <button type="button" class="btn btn-default btn-block" id="btn-comment-gesture"><i class="fa fa-commenting" aria-hidden="true"></i> <span class="btn-text">Kommentar abschicken</span></button>
+            </div>
+            <div class="col-md-7" id="comments-list"></div>
+        </div>
+
+</div>
+
+<div class="hidden panel panel-default panel-sm" id="gesture-comment-item" style="margin-top: 0px; margin-bottom: 8px">
+    <div class="panel-heading" style="font-size: 10pt">
+        <span id="user"><i class="fa fa-comment" aria-hidden="true"></i> <span class="text"></span></span>
+        <span id="created" class="pull-right"><i class="fa fa-clock-o" aria-hidden="true"></i> <span class="text"></span></span>
+    </div>
+    <div class="panel-body" style="color: #303030; font-size: 10pt"></div>
+    <div class="panel-footer">
+        <button class="btn btn-xs btn-danger" id="btn-delete-comment">Kommentar löschen</button>
+    </div>
+</div>
+
+<div id="modal-footer" class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        renderModalData(currentGesturePreviewId);
+    });
+    function renderModalData() {
+        var gesture = getGestureById(currentGesturePreviewId);
+        if (gesture === null) {
+            return false;
+        }
+
+        var container = $('#modal-body');
+        container.find('#title .text').text(gesture.title);
+        container.find('#created .text').text(gesture.created);
+        container.find('#context .text').text(gesture.context);
+        container.find('#description .text').text(gesture.description);
+        container.find('#btn-edit-gesture .btn-text').text(translation.edit);
+        container.find('#btn-delete-gesture .btn-text').text(translation.deleteGesture);
+        var shareButton = $(container).find('#btn-share-gesture');
+
+        if (gesture.isOwner === true) {
+            if (gesture.scope === SCOPE_GESTURE_PRIVATE) {
+                shareButton.removeClass('unshare-gesture').addClass('share-gesture');
+                shareButton.find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
+                shareButton.find('.btn-text').text(translation.share);
+            } else {
+                shareButton.removeClass('share-gesture').addClass('unshare-gesture');
+                shareButton.find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
+                shareButton.find('.btn-text').text(translation.unshare);
+            }
+
+            if (gesture.source !== SOURCE_GESTURE_TESTER) {
+                container.find('#gesture-source').text(translation.gestureSources[SOURCE_GESTURE_RECORDED]);
+            } else {
+                container.find('#gesture-source').text(translation.gestureSources[gesture.source]);
+            }
+        } else {
+            $(container).find('#gesture-owner-controls').remove();
+        }
+
+        container.find('#gesture-scope').text(translation.gestureScopes[gesture.scope]);
+        renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
+        renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
+
+        var thumbnail = $('#item-view #list-container').find('#' + currentGesturePreviewId);
+
+        $(container).find('#btn-share-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                $(this).addClass('disabled');
+                var button = $(this);
+
+                if ($(this).hasClass('share-gesture')) {
+                    showCursor($('body'), CURSOR_PROGRESS);
+                    shareGesture({gestureId: event.data.gestureId}, function (result) {
+                        showCursor($('body'), CURSOR_DEFAULT);
+                        $(button).removeClass('disabled');
+                        if (result.status === RESULT_SUCCESS) {
+                            $(button).removeClass('share-gesture').addClass('unshare-gesture');
+                            $(button).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
+                            $(button).find('.btn-text').text(translation.unshare);
+                            $(container).find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
+                            $(thumbnail).removeClass('share-gesture').addClass('unshare-gesture');
+                            $(thumbnail).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
+                            $(thumbnail).find('.btn-text').text(translation.unshare);
+                            $(thumbnail).find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
+                            getGestureCatalog(function (result) {
+                                if (result.status === RESULT_SUCCESS) {
+                                    currentGestureSet = sortGestures();
+                                }
+                            });
+                        }
+                    });
+                } else if ($(this).hasClass('unshare-gesture')) {
+                    showCursor($('body'), CURSOR_PROGRESS);
+                    unshareGesture({gestureId: event.data.gestureId}, function (result) {
+                        showCursor($('body'), CURSOR_DEFAULT);
+                        $(button).removeClass('disabled');
+                        if (result.status === RESULT_SUCCESS) {
+                            $(button).removeClass('unshare-gesture').addClass('share-gesture');
+                            $(button).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
+                            $(button).find('.btn-text').text(translation.share);
+                            $(container).find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
+                            $(thumbnail).removeClass('unshare-gesture').addClass('share-gesture');
+                            $(thumbnail).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
+                            $(thumbnail).find('.btn-text').text(translation.share);
+                            $(thumbnail).find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
+                            getGestureCatalog(function (result) {
+                                if (result.status === RESULT_SUCCESS) {
+                                    currentGestureSet = sortGestures();
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
+
+        getCommentsForGesture({gestureId: gesture.id}, function (result) {
+            if (result.status === RESULT_SUCCESS) {
+                renderComments(result.comments);
+            }
+        });
+
+        $('#discussion-body #btn-comment-gesture').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            var comment = $('#discussion-body #comment').val().trim();
+            if (comment !== '') {
+                var button = $(this);
+                $(button).addClass('disabled');
+                showCursor($('body'), CURSOR_PROGRESS);
+                submitCommentForGesture({gestureId: gesture.id, comment: comment}, function (result) {
+                    showCursor($('body'), CURSOR_DEFAULT);
+                    $(button).removeClass('disabled');
+                    if (result.status === RESULT_SUCCESS) {
+                        $('#discussion-body #comment').val('');
+                        renderComments(result.comments);
+                    }
+                });
+            }
+        });
+
+        $('#modal-body #btn-edit-gesture').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            var button = $(this);
+            if ($(this).hasClass('gesture-editable')) {
+                if (inputsValid(true) && !$(this).hasClass('disabled')) {
+                    $(button).addClass('disabled');
+                    showCursor($('body'), CURSOR_PROGRESS);
+//                    console.log('update gesture data');
+                    var title = $('#gesture-name-input').val().trim();
+                    var context = $('#gesture-context-input').val().trim();
+                    var description = $('#gesture-description-input').val().trim();
+                    var joints = getSelectedJoints($('#select-joints-human-body #joint-container'));
+//                    console.log({gestureId: gesture.id, title: title, context: context, description: description, joints: joints});
+
+                    updateGesture({gestureId: gesture.id, title: title, context: context, description: description, joints: joints}, function (result) {
+                        showCursor($('body'), CURSOR_DEFAULT);
+                        $(button).removeClass('disabled');
+                        $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').removeClass('disabled');
+                        if (result.status === RESULT_SUCCESS) {
+                            $(thumbnail).find('.title-text').text(title);
+                            $(button).removeClass('gesture-editable').addClass('gesture-previewable');
+                            $(button).find('.btn-text').text(translation.edit);
+                            $('#modal-body #gesture-data-preview').removeClass('hidden');
+                            $('#modal-body #gesture-data-edit').addClass('hidden');
+                            currentGestureSet = sortGestures();
+                            renderModalData();
+                        } else {
+                            appendAlert($('#modal-body'), ALERT_GENERAL_ERROR);
+                        }
+                    });
+                }
+            } else {
+                $(this).removeClass('gesture-previewable').addClass('gesture-editable');
+                $(this).find('.btn-text').text(translation.gesturePreviewable);
+                $('#modal-body #gesture-data-preview').addClass('hidden');
+                $('#modal-body #gesture-data-edit').removeClass('hidden');
+                $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').addClass('disabled');
+                $('#gesture-name-input').val(gesture.title);
+                $('#gesture-context-input').val(gesture.context);
+                $('#gesture-description-input').val(gesture.description);
+                renderBodyJoints($('#gesture-data-edit #select-joints-human-body'), gesture.joints);
+            }
+        });
+
+        $(container).find('#btn-delete-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                console.log('delete gesture');
+            }
+        });
+    }
+
+    function renderComments(data) {
+        var list = $('#discussion-body #comments-list');
+        list.empty();
+        if (data !== null && data.length > 0) {
+            // remove alert 'no comments'
+
+            for (var i = 0; i < data.length; i++) {
+                var clone = $('#gesture-comment-item').clone().removeClass('hidden').removeAttr('id');
+                clone.find('.panel-heading #user .text').text(data[i].forename + " " + data[i].surname);
+                clone.find('.panel-heading #created .text').text(data[i].created);
+                clone.find('.panel-body').text(data[i].comment);
+                list.prepend(clone);
+                if (data[i].isOwner === true) {
+                    clone.find('#btn-delete-comment').click({commentId: data[i].id, gestureId: data[i].gestureId}, function (event) {
+                        event.preventDefault();
+                        showCursor($('body'), CURSOR_PROGRESS);
+                        console.log(event.data.commentId + ", " + event.data.gestureId)
+                        deleteComment({commentId: event.data.commentId, gestureId: event.data.gestureId}, function (result) {
+                            showCursor($('body'), CURSOR_DEFAULT);
+                            if (result.status === RESULT_SUCCESS) {
+                                renderComments(result.comments);
+                            }
+                        });
+                    });
+                } else {
+                    clone.find('.panel-footer').remove();
+                }
+            }
+        } else {
+            console.log('no comments yet');
+            // append alert 'no comments'
+        }
+    }
+
+    function inputsValid(showErrors) {
+        var container = $('#gesture-data-edit');
+        var title = $('#gesture-data-edit #gesture-name-input').val().trim();
+        if (title === '') {
+            if (showErrors) {
+                appendAlert(container, ALERT_MISSING_FIELDS);
+            } else {
+                removeAlert(container, ALERT_MISSING_FIELDS);
+            }
+            return false;
+        }
+
+        var context = $('#gesture-data-edit #gesture-context-input').val().trim();
+        if (context === '') {
+            if (showErrors) {
+                appendAlert(container, ALERT_MISSING_FIELDS);
+            } else {
+                removeAlert(container, ALERT_MISSING_FIELDS);
+            }
+            return false;
+        }
+
+        var description = $('#gesture-data-edit #gesture-description-input').val().trim();
+        if (description === '') {
+            if (showErrors) {
+                appendAlert(container, ALERT_MISSING_FIELDS);
+            } else {
+                removeAlert(container, ALERT_MISSING_FIELDS);
+            }
+            return false;
+        }
+
+        var selectedJoints = getSelectedJoints($('#gesture-data-edit #select-joints-human-body #joint-container'));
+        if (selectedJoints.length === 0) {
+            if (showErrors) {
+                appendAlert(container, ALERT_MISSING_FIELDS);
+            } else {
+                removeAlert(container, ALERT_MISSING_FIELDS);
+            }
+            return false;
+        }
+
+        return true;
+    }
+
+    $('#gesture-data-edit #select-joints-human-body').bind('change', function () {
+        if (inputsValid()) {
+            $('#btn-edit-gesture').removeClass('disabled');
+        } else {
+            $('#btn-edit-gesture').addClass('disabled');
+        }
+    });
+
+    $('#gesture-name-input, #gesture-context-input, #gesture-description-input').bind('input', function () {
+        if (inputsValid()) {
+            $('#btn-edit-gesture').removeClass('disabled');
+        } else {
+            $('#btn-edit-gesture').addClass('disabled');
+        }
+    });
+
+</script>

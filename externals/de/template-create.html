@@ -872,9 +872,9 @@
         <button class="btn btn-info btn-shadow pull-right btn-add-slideshowOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Slideshowelement hinzufügen</span></button>
     </div>
 
-    
+
     <!-- slideshow item -->
-    
+
     <div class="form-group root" id="slideshowItem">
         <div class="panel panel-default">
             <div class="panel-body">
@@ -1260,6 +1260,7 @@
 
             <div class="panel-title pull-right">
                 <span class="label label-default" id="gesture-source" style="position: relative; top: -1px;"></span>
+                <span class="label label-default" id="gesture-scope" style="position: relative; top: -1px;"></span>
             </div>
             <div class="clearfix"></div>
 
@@ -1269,7 +1270,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="previewGesture mouseScrollable"></div>
+                        <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
                         <div class="progress gesture-progress">
                             <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                         </div>
@@ -1283,10 +1284,16 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="gesture-type"></div>
-                        <div class="body-type"></div><br>
-                        <div class="description"></div>
-                        <div style="margin-top: 10px;">
+                        <div id="title">Titel:<span class="address"></span> <span class="text"></span></div>
+                        <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
+                        <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
+
+                        <div class="select-joints-humand-body" id="human-body" style="width: 400px; margin: auto; margin-top: 10px">
+                            <div id="joint-container" style="position: absolute"></div>
+                            <img src="img/human_body.svg">
+                        </div>
+
+                        <div style="margin-top: 15px;">
                             <button type="button" class="btn btn-success btn-shadow gesture-assemble-description btn-block"><i class="glyphicon glyphicon-star"></i> Zum Set hinzufügen</button>
                             <button type="button" class="btn btn-danger btn-shadow gesture-unassemble-description btn-block hidden"><i class="glyphicon glyphicon-star-empty"></i> Vom Set entfernen</button>
                         </div>
@@ -1308,6 +1315,7 @@
 
             <div class="panel-title pull-right">
                 <span class="label label-default" id="gesture-source" style="position: relative; top: -1px;"></span>
+                <span class="label label-default" id="gesture-scope" style="position: relative; top: -1px;"></span>
             </div>
             <div class="clearfix"></div>
 
@@ -1317,7 +1325,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="previewGesture mouseScrollable"></div>
+                        <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
                         <div class="progress gesture-progress">
                             <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                         </div>
@@ -1331,10 +1339,15 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="gesture-type"></div>
-                        <div class="body-type"></div><br>
-                        <div class="description"></div>
-                        <div style="margin-top: 10px;">
+                        <div id="title">Titel:<span class="address"></span> <span class="text"></span></div>
+                        <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
+                        <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
+
+                        <div class="select-joints-humand-body" id="human-body" style="width: 400px; margin: auto; margin-top: 10px">
+                            <div id="joint-container" style="position: absolute"></div>
+                            <img src="img/human_body.svg">
+                        </div>
+                        <div style="margin-top: 15px;">
                             <button type="button" class="btn btn-danger btn-shadow gesture-reassemble btn-block"><i class="glyphicon glyphicon-star-empty"></i> Vom Set entfernen</button>
                         </div>
                     </div>

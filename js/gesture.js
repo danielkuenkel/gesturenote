@@ -10,25 +10,21 @@ $(window).load(function () {
     $('body').on('mouseenter', '.previewGesture', function (event) {
         event.preventDefault();
         if ($(this).hasClass('mousePlayable')) {
-//            clearTimer();
             $(this).parent().find('#btn-play-gesture').click();
-//            playThroughThumbnails($(this), 0);
         }
     });
 
     $('body').on('mouseleave', '.previewGesture', function (event) {
         event.preventDefault();
         if ($(this).hasClass('mouseScrollable') || $(this).hasClass('mousePlayable')) {
-//            prevSlide = 0;
             $(this).parent().find('#btn-stop-gesture').click();
-//            resetThumbnails($(this));
         }
     });
 
     var currentSlide, prevSlide;
     $('body').on('mousemove', '.mouseScrollable', function (event) {
         clearTimer();
-        resetPlayButton();
+        resetPlayButton($(this));
         var innerWidth = $(this).innerWidth();
         var numslides = $(this).children().length;
 
@@ -62,8 +58,7 @@ $(window).load(function () {
         event.preventDefault();
         event.stopPropagation();
         event.stopImmediatePropagation();
-        currentGestureContainer = $(this).parent();
-        resetPlayButton();
+        resetPlayButton($(this));
         resetThumbnails($(this).closest('.root').find('.previewGesture'));
     });
 
@@ -71,8 +66,7 @@ $(window).load(function () {
         event.preventDefault();
         event.stopPropagation();
         clearTimer();
-        currentGestureContainer = $(this).parent();
-        resetPlayButton();
+        resetPlayButton($(this));
         stepForward($(this).closest('.root').find('.previewGesture'));
     });
 
@@ -81,8 +75,7 @@ $(window).load(function () {
         event.preventDefault();
         event.stopPropagation();
         clearTimer();
-        currentGestureContainer = $(this).parent();
-        resetPlayButton();
+        resetPlayButton($(this));
         mouseDownInterval = setInterval(function (container) {
             stepForward(container);
         }, 200, $(this).closest('.root').find('.previewGesture'));
@@ -92,16 +85,14 @@ $(window).load(function () {
         event.preventDefault();
         event.stopPropagation();
         clearTimer();
-        currentGestureContainer = $(this).parent();
-        resetPlayButton();
+        resetPlayButton($(this));
         clearInterval(mouseDownInterval);
     });
 
     $('body').on('click', '#btn-step-backward-gesture', function (event) {
         event.preventDefault();
         event.stopPropagation();
-        currentGestureContainer = $(this).parent();
-        resetPlayButton();
+        resetPlayButton($(this));
         stepBackward($(this).closest('.root').find('.previewGesture'));
     });
 
@@ -132,7 +123,7 @@ $(window).load(function () {
                 popover.css({left: left, top: top});
                 playThroughThumbnails(popover.find('.previewGesture'));
                 TweenMax.to(popover, .2, {autoAlpha: 1});
-                hideCursor(btn, CURSOR_POINTER);
+                showCursor(btn, CURSOR_POINTER);
             });
         } else {
             resetPopover();
@@ -159,14 +150,13 @@ function onResetTweenComplete() {
 
 }
 
-function resetPlayButton() {
-    $(currentGestureContainer).parent().find('#btn-play-gesture').removeClass('active');
+function resetPlayButton(source) {
+    $(source).closest('.root').find('#btn-play-gesture').removeClass('active');
 }
 
 var originalImageWidth = 0;
 function renderGestureImages(container, images, preview, callback) {
     var numImagesLoaded = 0;
-    currentGestureContainer = container;
     $(container).empty();
     $(container).addClass('text-center');
 
@@ -176,7 +166,7 @@ function renderGestureImages(container, images, preview, callback) {
         var image = document.createElement('img');
         $(image).addClass('gestureImage');
         container.append(image);
-        if (i === preview) {
+        if (i === parseInt(preview)) {
             $(image).addClass('previewImage active');
 
         } else {
@@ -215,6 +205,7 @@ function renderGesturePopoverPreview(gesture, callback) {
 
 var gestureThumbnailTimer;
 function playThroughThumbnails(container) {
+    clearTimer();
     stepForward(container);
     gestureThumbnailTimer = setTimeout(function () {
         playThroughThumbnails(container);
@@ -286,4 +277,22 @@ function addLoadingIcon(target) {
 
 function removeLoadingIcon(target) {
     $(target).find('#loading-icon').remove();
+}
+
+function getGestureImagesData(source) {
+    var gestureImages = $(source).find('.gestureImage');
+    var srcArray = new Array();
+    for (var i = 0; i < gestureImages.length; i++) {
+        srcArray.push($(gestureImages[i]).attr('src'));
+    }
+    return srcArray;
+}
+
+function getGesturePreviewIndex(source) {
+    var gestureImages = $(source).find('.gestureImage');
+    for (var i = 0; i < gestureImages.length; i++) {
+        if ($(gestureImages[i]).hasClass('previewImage')) {
+            return i;
+        }
+    }
 }

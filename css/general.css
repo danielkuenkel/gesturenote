@@ -35,6 +35,11 @@ button:hover
     outline:0px !important;
     -webkit-appearance:none;
 }
+
+textarea {
+    max-height: 300px;
+}
+
 .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
     outline: 0;
 }
@@ -62,24 +67,15 @@ button:hover
   cursor: pointer;
 }*/
 
-.pagination-custom > li > a:focus,
-.pagination-custom > li > a:hover,
-.pagination-custom > li > span:focus,
-.pagination-custom > li > span:hover {
-    z-index: 3;
-    color: #303030;
-    background-color: #eee;
-    border-color: #ddd;
+.custom-pagination {
+    margin-top: 30px;
 }
 
-/*.pagination-custom > li > a {
-    color: #303030 !important;
-}*/
+.pagination-custom {
+    margin: 0;
+}
 
-/*.pagination-custom > li > a:active, .pagination-custom > li > span:active {
-    background-color: #303030!important;
-    color: #FFFFFF !important;
-}*/
+
 
 h2 {
     /*font-size: 24px;*/
@@ -591,4 +587,51 @@ label .question {
 
 .recorder #seek-bar, .recorder #trim-seek-bar, .recorder #trim-bar {
     cursor: pointer;
+}
+
+.btn-joint-human-body {
+    position: absolute; 
+    font-size: 18pt; 
+    cursor: pointer;
+    
+}
+
+.btn-joint-human-body #toggle-icon {
+    color: #C4C4C4;
+}
+
+.btn-joint-human-body > #toggle-icon:hover {
+    color: #5bb85c;
+}
+
+.btn-joint-human-body.active > #toggle-icon {
+    color: #5bb85c;
+}
+
+.joint-human-body {
+    position: absolute; 
+    font-size: 18pt; 
+    color: #C4C4C4;
+}
+
+.joint-human-body.active > #toggle-icon {
+    color: #5bb85c;
+}
+
+
+.text {
+    color: #303030;
+}
+
+.panel-sm .panel-heading, .panel-sm .panel-body {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.panel-sm .panel-footer {
+    padding-top: 2px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }

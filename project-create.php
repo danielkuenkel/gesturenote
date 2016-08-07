@@ -1,5 +1,13 @@
 <?php
 include './includes/language.php';
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+
+session_start();
+
+if (login_check($mysqli) == false) {
+    header('Location: index.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +21,7 @@ include './includes/language.php';
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/createProject.css">
         <link rel="stylesheet" href="css/gesture.css">
-        <link rel="stylesheet" href="externals/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="bootstrap-datepicker/css/bootstrap-datepicker3.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
@@ -102,13 +110,13 @@ include './includes/language.php';
         <script src="js/gotoPage.js"></script>       
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
-        <script src="js/project-create.js"></script>
+        <script src="js/joint-selection.js"></script>
+        <script src="js/project-create.js"></script>        
 
         <!-- gesture recorder sources -->
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
-
     </head>
     <body>
 
@@ -442,7 +450,6 @@ include './includes/language.php';
                             <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
