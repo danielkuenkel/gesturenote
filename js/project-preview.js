@@ -94,6 +94,7 @@ function previousStep() {
     currentIdentificationIndex = 0;
     identificationTriggered = false;
     identificationStartTriggered = false;
+    resetRecorder();
     $('.phaseStepsSelect .dropdown-menu .selected').prev().click();
 }
 
@@ -113,6 +114,7 @@ function nextStep() {
     currentIdentificationIndex = 0;
     identificationTriggered = false;
     identificationStartTriggered = false;
+    resetRecorder();
     $('.phaseStepsSelect .dropdown-menu .selected').next().click();
 }
 

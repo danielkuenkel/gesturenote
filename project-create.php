@@ -125,6 +125,7 @@ if (login_check($mysqli) == false) {
         <div id="template-gesture"></div>
         <div id="template-inputs"></div>
         <div id="templage-subpages"></div>
+        <div id="template-gesture-recorder"></div>
 
         <!-- Container (Breadcrump) -->
         <div class="container" id="breadcrumb">
@@ -316,9 +317,6 @@ if (login_check($mysqli) == false) {
                                         <li id="physicalStressTest"><a href="#"><?php echo $lang->formats->physicalStressTest ?></a></li>
                                     </ul>
                                     <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                    <!--                                    <button class="btn btn-addon btn-shadow disabled dropdown-disabled" id="info-addon-add-phases">
-                                                                            <i class="glyphicon glyphicon-question-sign"></i>
-                                                                        </button>-->
                                 </div>
                             </div>
                         </div>
@@ -459,12 +457,14 @@ if (login_check($mysqli) == false) {
             $(document).ready(function () {
                 checkLanguage(function () {
                     createRandomColors();
-
+                    
+                    var path = PATH_EXTERNALS + '/' + currentLanguage + '/';
                     var externals = new Array();
-                    externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
-                    externals.push(['#template-gesture', PATH_EXTERNALS + '/' + currentLanguage + '/template-gesture.html']);
-                    externals.push(['#template-inputs', PATH_EXTERNALS + '/' + currentLanguage + '/template-create.html']);
-                    externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
+                    externals.push(['#alerts', path + '/alerts.html']);
+                    externals.push(['#template-gesture', path + '/template-gesture.html']);
+                    externals.push(['#template-inputs', path + '/template-create.html']);
+                    externals.push(['#templage-subpages', path + '/template-sub-pages.html']);
+                    externals.push(['#template-gesture-recorder', path + '/template-gesture-recorder.html']);
                     loadExternals(externals);
 
                     $('#from-To-datepicker .input-daterange').datepicker({

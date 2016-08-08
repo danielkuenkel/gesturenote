@@ -84,26 +84,26 @@ function renderGroupingQuestionGUSPreview(source, item, parameters, options) {
         item.find('#no-justification').removeClass('hidden');
     }
 
-    for (var i = 0; i < options.length; i++) {
-        var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
-        item.find('.option-container').append(optionItem);
+    if (options && options.length > 0) {
+        for (var i = 0; i < options.length; i++) {
+            var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
+            item.find('.option-container').append(optionItem);
 
-        if (parameters[3] === 'triggers') {
-            var trigger = getTriggerById(options[i].id);
-            optionItem.text(trigger.title);
-        }
+            if (parameters[3] === 'triggers') {
+                var trigger = getTriggerById(options[i].id);
+                optionItem.text(trigger.title);
+            }
 
-        if (parameters[3] === 'gestures') {
-            var gesture = getGestureById(options[i].id);
-            optionItem.text(gesture.title);
+            if (parameters[3] === 'gestures') {
+                var gesture = getGestureById(options[i].id);
+                optionItem.text(gesture.title);
+            }
         }
     }
 }
 
 function renderGroupingQuestionGUSInput(item, parameters) {
     var optionType = parameters[1] === true ? 'checkbox' : 'radio';
-
-    console.log(parameters);
     var options;
     if (parameters[3] === 'gestures') {
         options = assembledGestures();
@@ -111,30 +111,31 @@ function renderGroupingQuestionGUSInput(item, parameters) {
         options = getLocalItem(ASSEMBLED_TRIGGER);
     }
 
-    console.log(options);
+    if (options && options.length > 0) {
+        for (var i = 0; i < options.length; i++) {
+            var option = $('#item-container-inputs').find('#' + optionType).clone().removeClass('hidden');
+            $(item).find('.option-container').append(option);
 
-    for (var i = 0; i < options.length; i++) {
-        var option = $('#item-container-inputs').find('#' + optionType).clone().removeClass('hidden');
-        $(item).find('.option-container').append(option);
-
-        if (parameters[3] === 'triggers') {
-            var trigger = getTriggerById(options[i].id);
-            option.find('.option-text').text(trigger.title);
-        }
-
-        if (parameters[3] === 'gestures') {
-            var gesture = getGestureById(options[i].id);
-            if (gesture) {
-                option.find('.option-text').text(gesture.title);
-
-                var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
-                button.attr('name', gesture.id);
-                option.append(button);
+            if (parameters[3] === 'triggers') {
+                var trigger = getTriggerById(options[i].id);
+                option.find('.option-text').text(trigger.title);
             }
 
+            if (parameters[3] === 'gestures') {
+                var gesture = getGestureById(options[i].id);
+                if (gesture) {
+                    option.find('.option-text').text(gesture.title);
+
+                    var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
+                    button.attr('name', gesture.id);
+                    option.append(button);
+                }
+
+            }
+            $(item).find('.option-container').append(document.createElement('br'));
         }
-        $(item).find('.option-container').append(document.createElement('br'));
     }
+
 
     if (parameters[2] === true) {
         var option = $(item).find('#option-item-justification').clone().removeClass('hidden');

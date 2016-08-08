@@ -197,10 +197,12 @@ function renderGesturePopoverPreview(gesture, callback) {
     popover.attr('id', 'popover-gesture');
     $('body').append(popover);
 
-    renderGestureImages($(popover).find('.previewGesture'), gesture.images, gesture.previewImage, function () {
-        popover.find('.panel-heading').text(gesture.title);
-        callback();
-    });
+    if (gesture) {
+        renderGestureImages($(popover).find('.previewGesture'), gesture.images, gesture.previewImage, function () {
+            popover.find('.panel-heading').text(gesture.title);
+            callback();
+        });
+    }
 }
 
 var gestureThumbnailTimer;

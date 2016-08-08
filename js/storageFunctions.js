@@ -7,9 +7,11 @@
 
 function getGestureById(id) {
     var predefinedGestures = getLocalItem(GESTURE_CATALOG);
-    for (var i = 0; i < predefinedGestures.length; i++) {
-        if (parseInt(predefinedGestures[i].id) === parseInt(id)) {
-            return predefinedGestures[i];
+    if (predefinedGestures && predefinedGestures.length > 0) {
+        for (var i = 0; i < predefinedGestures.length; i++) {
+            if (parseInt(predefinedGestures[i].id) === parseInt(id)) {
+                return predefinedGestures[i];
+            }
         }
     }
     return null;
@@ -17,13 +19,13 @@ function getGestureById(id) {
 
 function assembledGestures() {
     var catalog = getLocalItem(GESTURE_CATALOG);
+
     if (catalog === null) {
         getGestureCatalog();
     }
-    
+
     var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
     if (gestures && gestures.length > 0) {
-
         var arrangedGestures = new Array();
         for (var i = 0; i < gestures.length; i++) {
             arrangedGestures.push(getGestureById(gestures[i]));

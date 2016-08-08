@@ -712,9 +712,13 @@ var Moderator = {
         }
 
         var gesture = getGestureById(data.stressTestItems[currentStressTestIndex]);
-        container.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+        if (gesture) {
+            container.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+            container.find('#stress-for .text').text(gesture.title);
+        } else {
+            container.find('.btn-popover-gesture-preview').addClass('disabled');
+        }
         container.find('#repeats-left .text').text((data.stressAmount - currentStressTestCount));
-        container.find('#stress-for .text').text(gesture.title);
 
         if (stressTestGestureTriggered) {
             container.find('#btn-show-gesture').addClass('disabled');

@@ -33,13 +33,20 @@ include './includes/language.php';
         <script src="js/externals.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/gotoPage.js"></script>       
+        <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/thumbscrubber.js"></script>
         <script src="js/project-preview.js"></script>
         <script src="js/renderForms.js"></script>
+        <script src="js/joint-selection.js"></script>
         <script src="js/moderator.js"></script>
         <script src="js/tester.js"></script>
 
+        <!-- gesture recorder sources -->
+        <script src="js/gesture-recorder.js"></script>
+        <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
+        <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
+        <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
     </head>
     <body>
 
@@ -47,6 +54,7 @@ include './includes/language.php';
         <div id="template-gesture"></div>
         <div id="template-forms"></div>
         <div id="template-previews"></div>
+        <div id="template-gesture-recorder"></div>
 
         <div class="navbar-fixed-top" id="preview-bar-top" style="padding: 10px;">
 
@@ -166,6 +174,7 @@ include './includes/language.php';
                                 externals.push(['#alerts', path + 'alerts.html']);
                                 externals.push(['#template-gesture', path + 'template-gesture.html']);
                                 externals.push(['#template-previews', path + 'template-previews.html']);
+                                externals.push(['#template-gesture-recorder', path + '/template-gesture-recorder.html']);
                                 loadExternals(externals);
                             });
                         });

@@ -46,10 +46,10 @@ var Tester = {
                 break;
             case IDENTIFICATION:
                 item = Tester.getIdentification(source, container, currentPhaseData);
-                Tester.appendRTCPreview(source, item.find('#column-left'));
                 break;
             case PHYSICAL_STRESS_TEST:
                 item = Tester.getPhysicalStressTest(source, container, currentPhaseData);
+                console.log(item);
                 Tester.appendRTCPreview(source, item.find('#column-left'));
                 break;
         }
@@ -514,7 +514,7 @@ var Tester = {
                 Tester.renderUnmoderatedTriggerSlideshow(source, container, data);
             }
         });
-        
+
         $(container).find('#startSlideshow').click(function (event) {
             event.preventDefault();
             slideshowStartTriggered = true;
@@ -523,13 +523,20 @@ var Tester = {
     },
     getIdentification: function getIdentification(source, container, data) {
         // general data section
+        if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+            container.append($(source).find('#identificationUnmoderated').clone().removeAttr('id'));
+        } else {
+            container.append($(source).find('#identificationModerated').clone().removeAttr('id'));
+            Tester.appendRTCPreview(source, container.find('#column-left'));
+        }
+
         $(container).find('.headline').text(data.title);
         $(container).find('.description').text(data.description);
         if (data.identification.length === 0) {
             appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
             return false;
         }
-
+        console.log('get Identification')
         if (identificationStartTriggered) {
             $(container).find('#general').remove();
         }
@@ -564,13 +571,18 @@ var Tester = {
     renderUnmoderatedIdentification: function renderUnmoderatedIdentification(source, container, data) {
         var item = $(source).find('#identificationItemUnmoderated').clone().removeAttr('id');
         $(container).find('#identificationContainer').empty().append(item);
-        $(item).find('#btn-start-identification').click(function (event) {
+//        console.log(data);
+        $(container).find('#btn-start-identification').click(function (event) {
             event.preventDefault();
-            $(container).find('#general').remove();
+            if (data.identificationFor === 'gestures') {
+                $(container).find('#recorder-description').removeClass('hidden');
+            }
+
             identificationStartTriggered = true;
             $(this).remove();
             $(item).find('#identification-content').removeClass('hidden');
         });
+
         if (identificationStartTriggered) {
             $(item).find('#btn-start-identification').remove();
             $(item).find('#identification-content').removeClass('hidden');
@@ -580,11 +592,24 @@ var Tester = {
             $(item).find('#trigger-identification').remove();
             var trigger = getTriggerById(data.identification[currentIdentificationIndex]);
             item.find('#trigger #text').text(trigger.title);
+
+            if (data.identificationFor === 'gestures') {
+                var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder-tester').clone().removeAttr('id');
+                item.find('#gesture-recorder-container').empty().append(gestureRecorder);
+                initCheckRecorder(item.find('#gesture-recorder-container'), gestureRecorder, false);
+                renderBodyJoints(gestureRecorder.find('#human-body'));
+
+                var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
+                container.find('#recorder-description').empty().append(recorderDescription);
+
+                $(gestureRecorder).bind('gestureSavedSuccessfully', function () {
+                    $(item).find('#next-controls').removeClass('hidden');
+                });
+            }
         } else {
             $(item).find('#gesture-identification').remove();
             var gesture = getGestureById(data.identification[currentIdentificationIndex]);
             renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, function () {
-
             });
         }
 
@@ -602,6 +627,7 @@ var Tester = {
                 event.preventDefault();
                 currentIdentificationIndex++;
                 Tester.renderUnmoderatedIdentification(source, container, data);
+                $(item).find('#next-controls').addClass('hidden');
             });
         }
     },
@@ -611,7 +637,7 @@ var Tester = {
         $(container).find('.description').text(data.description);
         if (data.stressTestItems.length === 0) {
             appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-            return false;
+            return container;
         }
 
         if (stressTestStartTriggered) {
