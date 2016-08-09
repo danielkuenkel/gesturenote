@@ -8,10 +8,6 @@
 function showCursor(target, cursor) {
     $(target).css({cursor: cursor});
 }
-//
-//function hideCursor(target, cursor) {
-//    $(target).css({cursor: cursor});
-//}
 
 function createRandomColors() {
     colors = randomColor({hue: 'green', count: 25});
@@ -421,7 +417,6 @@ function renderAssembledTriggers() {
 
 function renderAssembledScenes() {
     var scenes = getLocalItem(ASSEMBLED_SCENES);
-    console.log(scenes);
     var dropdowns = $('body').find('.sceneSelect');
     $(dropdowns).find('.option').empty();
 
@@ -549,6 +544,7 @@ $(document).on('click', '.btn-checkbox, .btn-radio', function (event) {
         }
     }
 });
+
 $(document).on('focus focusin select', '.optionalInput', function (event) {
     if (event.handled !== true)
     {
@@ -559,6 +555,7 @@ $(document).on('focus focusin select', '.optionalInput', function (event) {
         }
     }
 });
+
 $(document).on('focusout', '.optionalInput', function (event) {
     if (event.handled !== true)
     {
@@ -569,6 +566,7 @@ $(document).on('focusout', '.optionalInput', function (event) {
         }
     }
 });
+
 $(document).on('mouseover', '.btn-checkbox, .btn-radio', function () {
     if (!$(this).hasClass('btn-option-checked')) {
         $(this).find('#normal, #checked').addClass('hidden');
@@ -576,17 +574,20 @@ $(document).on('mouseover', '.btn-checkbox, .btn-radio', function () {
     }
 
 });
+
 $(document).on('mouseleave', '.btn-checkbox, .btn-radio', function () {
     if (!$(this).hasClass('btn-option-checked')) {
         $(this).find('#normal').removeClass('hidden');
         $(this).find('#over, #checked').addClass('hidden');
     }
 });
+
 $(document).on('slide change', '.custom-range-slider', function () {
     if ($(this).hasClass('saveGeneralData')) {
         saveGeneralData();
     }
 });
+
 // hint handling
 function appendHint(source, target, data, surveyType) {
     if (data.feedbackId !== 'none') {
@@ -610,7 +611,6 @@ function appendHint(source, target, data, surveyType) {
 }
 
 function renderDataForHint(data, hint, source, surveyType) {
-//    console.log(data);
     var feedback = getFeedbackById(data.feedbackId);
     switch (feedback.type) {
         case TYPE_FEEDBACK_TEXT:
@@ -655,26 +655,47 @@ function removeHint(hint) {
 
 
 // pagination handling
-var paginationMaxPages;
 function initPagination(pagination, dataLength, maxElements) {
     $(pagination).children('.clickable-pagination-item').remove();
-    paginationMaxPages = Math.ceil(dataLength / maxElements);
 
-    if (paginationMaxPages <= 1) {
+    var maxPages = Math.ceil(dataLength / maxElements);
+    $(pagination).attr('maxPages', maxPages);
+
+    if (maxPages <= 1) {
         $(pagination).addClass('hidden');
     } else {
         $(pagination).removeClass('hidden');
     }
 
     var paginationClipping = parseInt($(pagination).attr('itemprop').split('_')[1]);
-    var currentIndex = isNaN(parseInt($(pagination).find('.active').text())) ? 1 : parseInt($(pagination).find('.active').text());
-    for (var i = 0; i < Math.min(paginationClipping, paginationMaxPages); i++) {
+    var currentIndex = isNaN(getCurrentPaginationIndex()) ? 0 : getCurrentPaginationIndex();
+    for (var i = 0; i < Math.min(paginationClipping, maxPages); i++) {
         var listItem = getPaginationItem(i + 1);
         $(listItem).insertBefore($(pagination).find('#btn-next-page'));
-        if (currentIndex !== null && currentIndex === (i + 1)) {
+        if (currentIndex !== null && currentIndex === i) {
             $(listItem).click();
         }
     }
+}
+
+function checkPagination(pagination, dataLength, maxElements) {
+    var currentMaxPages = parseInt($(pagination).attr('maxPages'));
+    var maxPages = Math.ceil(dataLength / maxElements);
+
+    if (maxPages !== currentMaxPages) {
+        var paginationItems = $(pagination).children('.clickable-pagination-item');
+        for (var i = 0; i < paginationItems.length; i++) {
+            $(paginationItems[i]).removeClass('active');
+            if (i === (maxPages - 1)) {
+                $(paginationItems[i]).addClass('active');
+            }
+        }
+        initPagination(pagination, dataLength, maxElements);
+    }
+}
+
+function getCurrentPaginationIndex(pagination) {
+    return parseInt($(pagination).find('.active').text()) - 1;
 }
 
 $(document).on('click', '.pagination li', function (event) {
@@ -683,6 +704,8 @@ $(document).on('click', '.pagination li', function (event) {
     {
         event.handled = true;
         var pagination = $(this).closest('.pagination');
+        var maxPages = parseInt($(pagination).attr('maxPages'));
+
         if (!$(this).hasClass('active') && $(this).hasClass('clickable-pagination-item')) {
             $(pagination).find('.active').removeClass('active');
             $(this).addClass('active');
@@ -706,7 +729,7 @@ $(document).on('click', '.pagination li', function (event) {
                     var nextIndexButton = $(pagination).find('.active').next();
                     if ($(nextIndexButton).hasClass('clickable-pagination-item')) {
                         $(nextIndexButton).click();
-                    } else if (currentIndex < paginationMaxPages) {
+                    } else if (currentIndex < maxPages) {
                         shiftPaginationForward(pagination);
                     }
                     break;
@@ -736,11 +759,14 @@ function shiftPaginationBackward(pagination) {
 }
 
 function shiftPaginationLastPage(pagination) {
+    var maxPages = parseInt($(pagination).attr('maxPages'));
     var paginationItems = $(pagination).find('.clickable-pagination-item');
-    if (paginationItems.length === paginationMaxPages) {
+
+    if (paginationItems.length === maxPages) {
         $(pagination).find('#btn-next-page').prev().click();
     } else {
-        var indexStart = paginationMaxPages + 1 - paginationItems.length;
+
+        var indexStart = (maxPages + 1) - paginationItems.length;
         for (var i = 0; i < paginationItems.length; i++) {
             var item = paginationItems[i];
             $(item).find('#index-text').text(indexStart++);
@@ -751,8 +777,10 @@ function shiftPaginationLastPage(pagination) {
     }
 }
 function shiftPaginationFirstPage(pagination) {
+    var maxPages = parseInt($(pagination).attr('maxPages'));
     var paginationItems = $(pagination).find('.clickable-pagination-item');
-    if (paginationItems.length === paginationMaxPages) {
+
+    if (paginationItems.length === maxPages) {
         $(pagination).find('#btn-previous-page').next().click();
     } else {
         for (var i = 0; i < paginationItems.length; i++) {
@@ -778,15 +806,7 @@ function getPaginationItem(text) {
 
 function getMainDimensionForDimension(dimension) {
     var mainDimensions = translation.mainDimensionsForDimension;
-//    console.log(mainDimensions[dimension]);
     return mainDimensions[dimension];
-//    $.each(dimensions, function (key, value) {
-//        if (dimension === key) {
-//            console.log("return " + value);
-//            return value;
-//        }
-//    });
-//    return DIMENSION_ANY;
 }
 
 function getDimensionByElement(element) {
@@ -840,14 +860,14 @@ $(document).on('click', '.gesture-thumbnail, .gesture-details', function (event)
 
         if (!$(this).find('.panel-collapse').hasClass('in')) {
             toggleGestureThumbnailCollapse($(this).closest('.root').find('.panel-collapse'));
+        } else {
+            return false;
         }
 
         if ($(this).find('.panel-collapse').hasClass('in')) {
             var gestureId = $(this).closest('.gesture-thumbnail').attr('id');
             var gesture = getGestureById(gestureId);
-            renderGestureImages($(this).closest('.gesture-thumbnail').find('.previewGesture'), gesture.images, gesture.previewImage, function () {
-                console.log('images loaded');
-            });
+            renderGestureImages($(this).closest('.gesture-thumbnail').find('.previewGesture'), gesture.images, gesture.previewImage, null);
         }
     }
 });
@@ -905,20 +925,23 @@ function sortGestures() {
     var array = getFilteredGestures($('#filterGestures .chosen').attr('id'));
     var sortType = $('#sortGestures .chosen').attr('id');
 
-    switch (sortType) {
-        case SORT_ASC:
-            array = sortByKey(array, 'title', false);
-            break;
-        case SORT_DESC:
-            array = sortByKey(array, 'title', true);
-            break;
-        case SORT_NEWEST:
-            array = sortByKey(array, 'created', true);
-            break;
-        case SORT_OLDEST:
-            array = sortByKey(array, 'created', false);
-            break;
+    if (array && array.length > 0) {
+        switch (sortType) {
+            case SORT_ASC:
+                array = sortByKey(array, 'title', false);
+                break;
+            case SORT_DESC:
+                array = sortByKey(array, 'title', true);
+                break;
+            case SORT_NEWEST:
+                array = sortByKey(array, 'created', true);
+                break;
+            case SORT_OLDEST:
+                array = sortByKey(array, 'created', false);
+                break;
+        }
     }
+
     return array;
 }
 
@@ -962,7 +985,6 @@ function getFilteredGestures(gestureScope) {
 
 $(document).on('keyup', '.gesture-search-input', function (event) {
     event.preventDefault();
-    console.log('keyup');
     if (!event.handled) {
         event.handled = true;
 
@@ -1042,12 +1064,10 @@ function getGestureListThumbnailPreview(data) {
 var currentGesturePreviewId = null;
 var gesturePreviewOpened = false;
 function getGestureCatalogListThumbnail(data) {
-    var clone = $('#gestures-catalog-thumbnail').clone().removeClass('hidden');
+    var clone = $('#gestures-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
     clone.attr('id', data.id);
     clone.find('.title-text').text(data.title + " ");
     clone.find('#title .text').text(data.title);
-//    clone.find('#context .text').text(data.context);
-//    clone.find('#description .text').text(data.description);
 
     if (data.isOwner === true) {
         if (data.source !== SOURCE_GESTURE_TESTER) {

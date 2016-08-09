@@ -103,7 +103,7 @@
         }
 
         function saveData() {
-            updateGestureCatalogButtons();
+            updateCatalogButtons();
         }
 
 //        $('body').on('click', '.gesture-thumbnail, .gesture-details', function (event) {
@@ -272,6 +272,11 @@
                 currentModalId = ASSEMBLED_GESTURE_SET;
                 $('#sortGestures #newest').click();
             }
+
+            $('#custom-modal').bind('hidden.bs.modal', function () {
+                updateCatalogButtons();
+                $(this).unbind('hidden.bs.modal');
+            });
         });
 
         $('body').on('indexChanged', '.pagination', function (event, index) {

@@ -38,12 +38,18 @@ if (login_check($mysqli) == false) {
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/joint-selection.js"></script>
+
+        <!-- gesture recorder sources -->
+        <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
+        <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
+        <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
         <!-- externals -->
         <div id="alerts"></div>
         <div id="templage-subpages"></div>
+        <div id="template-gesture-recorder"></div>
 
         <!-- Modal -->
         <div id="custom-modal" class="modal fade custom-modal" role="dialog">
@@ -111,7 +117,9 @@ if (login_check($mysqli) == false) {
 
         <div class="container mainContent" style="margin-top: 35px;" id="item-view">
 
-            <div class="form-group form-group-no-margin">
+            <button type="button" class="btn btn-success btn-block btn-lg btn-shadow" id="btn-record-gesture"><i class="fa fa-video-camera" aria-hidden="true"></i> <span class="btn-text">Neue Geste aufzeichnen</span></button>
+
+            <div class="form-group form-group-no-margin" style="margin-top: 20px">
                 <div class="input-group">
                     <span class="input-group-addon">Filter</span>
                     <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
@@ -159,9 +167,9 @@ if (login_check($mysqli) == false) {
             </div>
 
 
-            <div class="text-center custom-pagination gesture-pager">
+            <div class="text-center custom-pagination" id="gesture-pager">
                 <nav>
-                    <ul class="pagination pagination-custom" itemprop="clipping_2">
+                    <ul class="pagination pagination-custom hidden" itemprop="clipping_2">
                         <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
                         <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
                         <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
@@ -173,37 +181,48 @@ if (login_check($mysqli) == false) {
             <div class="container-root row root" id="list-container" style="margin-top: 10px;"></div>
 
             <div class="alert-space alert-no-search-results"></div>
+            <div class="alert-space alert-no-gestures"></div>
         </div>
 
     </div>
 
     <script>
+        $(document).ready(function () {
+            checkLanguage(function () {
+                var externals = new Array();
+                var path = PATH_EXTERNALS + '/' + currentLanguage;
+                externals.push(['#alerts', path + '/alerts.html']);
+                externals.push(['#templage-subpages', path + '/template-sub-pages.html']);
+                externals.push(['#template-gesture-recorder', path + '/template-gesture-recorder.html']);
+                loadExternals(externals);
+            });
+        });
+
         function onAllExternalsLoadedSuccessfully() {
             renderSubPageElements();
 
             getGestureCatalog(function (result) {
                 if (result.status === RESULT_SUCCESS) {
                     currentModalId = GESTURE_CATALOG;
-                    $('#sortGestures #newest').click();
+                    if (result.gestures && result.gestures.length > 0) {
+                        $('#sortGestures #newest').click();
+                    } else {
+                        appendAlert($('#item-view'), ALERT_NO_GESTURES);
+                    }
                 }
-            });
-
-            $('#custom-modal').on('hidden.bs.modal', function () {
-                console.log('modal hidden');
-                currentGesturePreviewId = null;
-                gesturePreviewOpened = false;
             });
         }
 
         function renderData(data) {
             currentGestureSet = data;
-            initPagination($('.gesture-pager .pagination'), data.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-            updateView(0);
+            initPagination($('#gesture-pager .pagination'), data.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+            updateView();
         }
 
-        function updateView(index) {
+        function updateView() {
             $('#list-container').empty();
 
+            var index = parseInt($('#gesture-pager .pagination').find('.active').text()) - 1;
             var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
             var viewFromIndex = index * listCount;
             var viewToIndex = Math.min((index + 1) * listCount, currentGestureSet.length);
@@ -244,20 +263,26 @@ if (login_check($mysqli) == false) {
             }
         });
 
-        $('body').on('indexChanged', '.pagination', function (event, index) {
+        $('#gesture-pager .pagination').on('indexChanged', function (event, index) {
             event.preventDefault();
             if (!event.handled) {
                 event.handled = true;
-                updateView(index);
+                updateView();
             }
         });
 
-        $(document).ready(function () {
-            checkLanguage(function () {
-                var externals = new Array();
-                externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
-                externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
-                loadExternals(externals);
+        $('#btn-record-gesture').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            loadHTMLintoModal('custom-modal', 'create-gesture-recorder.html', 'modal-md');
+
+            $('#custom-modal').unbind('gestureSavedSuccessfully').bind('gestureSavedSuccessfully', function (event, gestureId) {
+                getGestureCatalog(function (result) {
+                    if (result.status === RESULT_SUCCESS) {
+                        currentGestureSet = result.gestures;
+                        $('#sortGestures #newest').removeClass('selected');
+                        $('#sortGestures #newest').click();
+                    }
+                });
             });
         });
     </script>

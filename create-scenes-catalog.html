@@ -40,23 +40,10 @@
                 renderData(data);
             }
 
-
-//            $(window).resize(function () {
-////                console.log('window resized');
-//                var $allVideos = $("iframe[src*='www.youtube.com'], iframe[src*='player.vimeo.com']");
-//                // Resize all videos according to their own aspect ratio
-//                $allVideos.each(function () {
-//                    var video = $(this);
-//                    // Get parent width of this video
-//                    var newWidth = video.parent().width();
-//                    video.attr('width', newWidth);
-//                    video.attr('height', newWidth * video.data('aspectRatio'));
-//                });
-//            });
-//
-//            setTimeout(function () {
-//                window.dispatchEvent(new Event('resize'));
-//            }, 100);
+            $('#custom-modal').bind('hidden.bs.modal', function () {
+                updateCatalogButtons();
+                $(this).unbind('hidden.bs.modal');
+            });
         });
 
         $('#custom-modal').on('hide.bs.modal', function (event) {
@@ -88,7 +75,7 @@
                 $(this).unbind('hide.bs.modal');
             }
         });
-        
+
         $('#custom-modal').on('hidden.bs.modal', function (event) {
             $('#list-container').empty();
         });

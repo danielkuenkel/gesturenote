@@ -12,9 +12,6 @@ if (isset($_SESSION['user_id'], $_POST['gestureId'])) {
     $commentGestureId = $_POST['gestureId'];
 
     if ($select_stmt = $mysqli->prepare("SELECT comments.*, users.forename, users.surname FROM comments JOIN users ON comments.gesture_id = '$commentGestureId' AND comments.user_id = users.id ORDER BY comments.created ASC")) {
-        // get variables from result.
-
-
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();

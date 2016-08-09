@@ -41,10 +41,13 @@ var ALERT_WAITING_FOR_TRAINING_GESTURE = 'waiting-for-training-gesture';
 var ALERT_WAITING_FOR_SLIDESHOW = 'waiting-for-slideshow';
 var ALERT_WAITING_FOR_IDENTIFICATION = 'waiting-for-identification';
 var ALERT_WAITING_FOR_SCENARIO_START = 'waiting-for-scenario-start';
+
 var ALERT_GESTURE_SAVE_SUCCESS = 'gesture-save-success';
 var ALERT_GESTURE_DELETE_SUCCESS = 'gesture-delete-success';
-
 var ALERT_GESTURE_TOO_SHORT = 'gesture-too-short';
+var ALERT_NO_GESTURES = 'no-gestures';
+
+var ALERT_NO_COMMENTS = 'no-comments';
 
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);

@@ -134,6 +134,7 @@ function isJointActive(joint, activeJoints) {
 $(document).on('click', '.btn-joint-human-body', function (event) {
     event.preventDefault();
     if (!event.handled) {
+        
         event.handled = true;
         if ($(this).hasClass('active')) {
             $(this).removeClass('active');

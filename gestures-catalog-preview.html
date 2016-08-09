@@ -83,7 +83,10 @@
                 </div>
                 <button type="button" class="btn btn-default btn-block" id="btn-comment-gesture"><i class="fa fa-commenting" aria-hidden="true"></i> <span class="btn-text">Kommentar abschicken</span></button>
             </div>
-            <div class="col-md-7" id="comments-list"></div>
+            <div class="col-md-7">
+                <div class="alert-space alert-no-comments"></div>
+                <div id="comments-list"></div>
+            </div>
         </div>
 
 </div>
@@ -106,6 +109,12 @@
 <script>
     $(document).ready(function () {
         renderModalData(currentGesturePreviewId);
+
+        $('#custom-modal').bind('hidden.bs.modal', function () {
+            currentGesturePreviewId = null;
+            gesturePreviewOpened = false;
+            $(this).unbind('hidden.bs.modal');
+        });
     });
     function renderModalData() {
         var gesture = getGestureById(currentGesturePreviewId);
@@ -231,12 +240,10 @@
                 if (inputsValid(true) && !$(this).hasClass('disabled')) {
                     $(button).addClass('disabled');
                     showCursor($('body'), CURSOR_PROGRESS);
-//                    console.log('update gesture data');
                     var title = $('#gesture-name-input').val().trim();
                     var context = $('#gesture-context-input').val().trim();
                     var description = $('#gesture-description-input').val().trim();
                     var joints = getSelectedJoints($('#select-joints-human-body #joint-container'));
-//                    console.log({gestureId: gesture.id, title: title, context: context, description: description, joints: joints});
 
                     updateGesture({gestureId: gesture.id, title: title, context: context, description: description, joints: joints}, function (result) {
                         showCursor($('body'), CURSOR_DEFAULT);
@@ -270,8 +277,24 @@
 
         $(container).find('#btn-delete-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
             event.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                console.log('delete gesture');
+
+            if (!event.handled && !$(this).hasClass('disabled')) {
+                event.handled = true;
+                $(this).addClass('disabled');
+                showCursor($('body'), CURSOR_PROGRESS);
+                deleteGesture({gestureId: event.data.gestureId}, function (result) {
+                    showCursor($('body'), CURSOR_DEFAULT);
+                    if (result.status === RESULT_SUCCESS) {
+                        getGestureCatalog(function (result) {
+                            if (result.status === RESULT_SUCCESS) {
+                                currentGestureSet = sortGestures();
+                                checkPagination($('#gesture-pager .pagination'), currentGestureSet.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+                                updateView();
+                            }
+                            $('#custom-modal').modal('hide');
+                        });
+                    }
+                });
             }
         });
     }
@@ -280,7 +303,7 @@
         var list = $('#discussion-body #comments-list');
         list.empty();
         if (data !== null && data.length > 0) {
-            // remove alert 'no comments'
+            clearAlerts($('#discussion-body'));
 
             for (var i = 0; i < data.length; i++) {
                 var clone = $('#gesture-comment-item').clone().removeClass('hidden').removeAttr('id');
@@ -292,7 +315,6 @@
                     clone.find('#btn-delete-comment').click({commentId: data[i].id, gestureId: data[i].gestureId}, function (event) {
                         event.preventDefault();
                         showCursor($('body'), CURSOR_PROGRESS);
-                        console.log(event.data.commentId + ", " + event.data.gestureId)
                         deleteComment({commentId: event.data.commentId, gestureId: event.data.gestureId}, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             if (result.status === RESULT_SUCCESS) {
@@ -305,8 +327,7 @@
                 }
             }
         } else {
-            console.log('no comments yet');
-            // append alert 'no comments'
+            appendAlert($('#discussion-body'), ALERT_NO_COMMENTS);
         }
     }
 

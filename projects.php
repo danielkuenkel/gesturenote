@@ -52,7 +52,7 @@
             <div class="form-group">
                 <div class="dropdown text-right" id="filterDropdown">
                     <div class="btn-group">
-                        <button class="btn btn-default filterButton"><span class="glyphicon glyphicon-sort"/> projects sorted by</button>
+                        <button class="btn btn-default"><i class="glyphicon glyphicon-sort"></i> <span>projects sorted by</span></button>
                         <button class="btn btn-default" id="filterText">Date (newest first)</button>
 
                         <div class="btn-group" role="group">

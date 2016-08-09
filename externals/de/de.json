@@ -14,6 +14,8 @@
         "december": "Dezember"
     },
     "done": "Fertig",
+    "openSet": "Öffnen",
+    "arrangeSet": "Set zusammenstellen",
     "close": "Schließen",
     "next": "Weiter",
     "previous": "Zurück",
@@ -129,5 +131,12 @@
     "unshare": "Nicht Teilen",
     "edit": "Bearbeiten",
     "gesturePreviewable": "Bearbeiten beenden",
-    "deleteGesture": "Geste löschen"
+    "deleteGesture": "Geste löschen",
+    "gesturesCatalog": {
+        "totalGestures": "Gesten insgesamt",
+        "publicGestures": "Von anderen veröffentlichte Gesten",
+        "userGestures": "Eigene Gesten",
+        "publicUserGestures": "Eigene veröffentlichte Gesten",
+        "elicitedGestures": "Ermittelte Gesten"
+    }
 }

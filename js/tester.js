@@ -49,7 +49,6 @@ var Tester = {
                 break;
             case PHYSICAL_STRESS_TEST:
                 item = Tester.getPhysicalStressTest(source, container, currentPhaseData);
-                console.log(item);
                 Tester.appendRTCPreview(source, item.find('#column-left'));
                 break;
         }
@@ -474,9 +473,7 @@ var Tester = {
         return container;
     },
     renderUnmoderatedTriggerSlideshow: function renderUnmoderatedTriggerSlideshow(source, container, data) {
-        console.log(slideshowStartTriggered);
         if (slideshowStartTriggered) {
-
             $(container).find('#general').remove();
             $(container).find('#slideshowContainer').removeClass('hidden');
             $(container).find('#startSlideshow').addClass('hidden');
@@ -536,7 +533,7 @@ var Tester = {
             appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
             return false;
         }
-        console.log('get Identification')
+
         if (identificationStartTriggered) {
             $(container).find('#general').remove();
         }
@@ -571,7 +568,7 @@ var Tester = {
     renderUnmoderatedIdentification: function renderUnmoderatedIdentification(source, container, data) {
         var item = $(source).find('#identificationItemUnmoderated').clone().removeAttr('id');
         $(container).find('#identificationContainer').empty().append(item);
-//        console.log(data);
+
         $(container).find('#btn-start-identification').click(function (event) {
             event.preventDefault();
             if (data.identificationFor === 'gestures') {
@@ -580,12 +577,17 @@ var Tester = {
 
             identificationStartTriggered = true;
             $(this).remove();
+            $(container).find('#general').remove();
             $(item).find('#identification-content').removeClass('hidden');
         });
 
         if (identificationStartTriggered) {
             $(item).find('#btn-start-identification').remove();
             $(item).find('#identification-content').removeClass('hidden');
+
+            if (data.identificationFor === 'gestures') {
+                $(container).find('#recorder-description').removeClass('hidden');
+            }
         }
 
         if (data.identificationFor === 'gestures') {
@@ -674,10 +676,10 @@ var Tester = {
             var questionContainer = $(container).find('#questionnaire');
             questionContainer.removeClass('hidden');
             if (currentStressTestCount >= data.stressAmount) {
-                console.log('show sequence and single question');
+//                console.log('show sequence and single question');
                 Tester.getQuestionnaire(questionContainer, $.merge(data.sequenceStressQuestions, data.singleStressQuestions));
             } else {
-                console.log('show single question');
+//                console.log('show single question');
                 Tester.getQuestionnaire(questionContainer, data.singleStressQuestions);
             }
         } else {

@@ -64,6 +64,25 @@ function register(data) {
     });
 }
 
+/*
+ * dashboard info footage
+ */
+
+function getDashboardInfos(callback) {
+    $.ajax({
+        url: 'includes/get-dashboard-infos.php',
+        type: 'post',
+        dataType: 'json',
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
 
 /*
  * project handling

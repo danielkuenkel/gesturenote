@@ -233,11 +233,11 @@ if (login_check($mysqli) == false) {
                         <div class="form-group">
                             <div class="btn-group" id="scenes-catalog">
                                 <button class="btn btn-default btn-group-addon">Szenen</button>
-                                <button class="btn btn-default btn-shadow" id="btn-assemble-scenes">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="">Öffnen</span>
-                                </button>
                                 <button class="btn btn-default btn-shadow" id="btn-clear-scenes">
-                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Löschen</span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text">Löschen</span>
+                                </button>
+                                <button class="btn btn-default btn-shadow" id="btn-assemble-scenes">
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text">Öffnen</span>
                                 </button>
                             </div>
                         </div>
@@ -246,17 +246,17 @@ if (login_check($mysqli) == false) {
                         <div class="form-group">
                             <div class="btn-group" id="gestures-catalog">
                                 <button class="btn btn-default btn-group-addon">Gesten</button>
-                                <button class="btn btn-default btn-shadow hidden" id="btn-study-gestures">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="">Öffnen</span>
-                                </button>
                                 <button class="btn btn-default btn-shadow hidden" id="btn-clear-study-gestures">
-                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Löschen</span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text">Löschen</span>
+                                </button>
+                                <button class="btn btn-default btn-shadow hidden" id="btn-study-gestures">
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text">Öffnen</span>
                                 </button>
                                 <button class="btn btn-default btn-shadow" id="btn-assemble-study-gestures">
-                                    <i class="fa fa-star" aria-hidden="true"></i> <span class=""><span class="hidden-xs">Set </span>Zusammenstellen</span>
+                                    <i class="fa fa-star" aria-hidden="true"></i> <span class=""><span class="hidden-xs btn-text">Set </span>Zusammenstellen</span>
                                 </button>
                                 <button class="btn btn-default btn-shadow" id="btn-record-gestures">
-                                    <i class="fa fa-video-camera" aria-hidden="true"></i> <span class="">Aufzeichnen</span>
+                                    <i class="fa fa-video-camera" aria-hidden="true"></i> <span class="btn-text">Aufzeichnen</span>
                                 </button>
 
                             </div>
@@ -266,11 +266,11 @@ if (login_check($mysqli) == false) {
                         <div class="form-group">
                             <div class="btn-group" id="trigger-catalog">
                                 <button class="btn btn-default btn-group-addon">Funktionen</button>
-                                <button class="btn btn-default btn-shadow" id="btn-assemble-trigger">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="">Öffnen</span>
-                                </button>
                                 <button class="btn btn-default btn-shadow" id="btn-clear-trigger">
-                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Löschen</span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text">Löschen</span>
+                                </button>
+                                <button class="btn btn-default btn-shadow" id="btn-assemble-trigger">
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text">Öffnen</span>
                                 </button>
                             </div>
                         </div>
@@ -279,11 +279,11 @@ if (login_check($mysqli) == false) {
                         <div class="form-group">
                             <div class="btn-group" id="feedback-catalog">
                                 <button class="btn btn-default btn-group-addon">Feedback</button>
-                                <button class="btn btn-default btn-shadow" id="btn-assemble-feedback">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="">Öffnen</span>
-                                </button>
                                 <button class="btn btn-default btn-shadow" id="btn-clear-feedback">
-                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs">Löschen</span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text">Löschen</span>
+                                </button>
+                                <button class="btn btn-default btn-shadow" id="btn-assemble-feedback">
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text">Öffnen</span>
                                 </button>
                             </div>
                         </div>
@@ -457,7 +457,7 @@ if (login_check($mysqli) == false) {
             $(document).ready(function () {
                 checkLanguage(function () {
                     createRandomColors();
-                    
+
                     var path = PATH_EXTERNALS + '/' + currentLanguage + '/';
                     var externals = new Array();
                     externals.push(['#alerts', path + '/alerts.html']);
@@ -524,6 +524,7 @@ if (login_check($mysqli) == false) {
             $('#btn-clear-scenes').click(function (event) {
                 event.preventDefault();
                 removeAssembledScenes();
+                updateCatalogButtons();
             });
 
             // gesture catalog handling
@@ -540,20 +541,17 @@ if (login_check($mysqli) == false) {
             $('#btn-clear-study-gestures').click(function (event) {
                 event.preventDefault();
                 removeAssembledGestures();
-                updateGestureCatalogButtons();
+                updateCatalogButtons();
             });
-
-            function updateGestureCatalogButtons() {
-                if (assembledGestures()) {
-                    $('#btn-study-gestures, #btn-clear-study-gestures').removeClass('hidden');
-                } else {
-                    $('#btn-study-gestures, #btn-clear-study-gestures').addClass('hidden');
-                }
-            }
 
             $('#btn-record-gestures').click(function (event) {
                 event.preventDefault();
                 loadHTMLintoModal('custom-modal', 'create-gesture-recorder.html', 'modal-md');
+                $('#custom-modal').on('gestureSavedSuccessfully', function (event, gestureId) {
+                    assembleGesture(parseInt(gestureId));
+                    getGestureCatalog();
+                    updateCatalogButtons();
+                });
             });
 
             // trigger catalog handling
@@ -566,6 +564,7 @@ if (login_check($mysqli) == false) {
             $('#btn-clear-trigger').click(function (event) {
                 event.preventDefault();
                 removeAssembledTrigger();
+                updateCatalogButtons();
             });
 
             // feedback catalog handling
@@ -578,6 +577,7 @@ if (login_check($mysqli) == false) {
             $('#btn-clear-feedback').click(function (event) {
                 event.preventDefault();
                 removeAssembledFeedback();
+                updateCatalogButtons();
             });
 
 //            $('#useFeedbackSwitch #no, #useFeedbackSwitch .switchButtonAddon').on('click', function (event) {

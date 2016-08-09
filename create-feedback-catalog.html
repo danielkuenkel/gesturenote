@@ -38,6 +38,11 @@
             if (data !== null) {
                 renderData(data);
             }
+            
+            $('#custom-modal').bind('hidden.bs.modal', function () {
+                updateCatalogButtons();
+                $(this).unbind('hidden.bs.modal');
+            });
         });
 
         //        $('#custom-modal').on('hide.bs.modal', function (event) {

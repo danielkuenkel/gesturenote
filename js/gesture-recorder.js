@@ -5,6 +5,7 @@ function initCheckRecorder(aTarget, rTarget, canSaveGesture) {
     alertTarget = aTarget;
     recorderTarget = rTarget;
     saveGesture = canSaveGesture;
+
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         initializeRecorder();
     } else {
@@ -28,6 +29,11 @@ function initializeRecorder() {
     navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
 }
 
+function errorCallback(error) {
+    alert(error);
+    // maybe another application is using the device
+}
+
 function resetRecorder() {
     if (recordRTC) {
         recordRTC.clearRecordedData();
@@ -45,87 +51,6 @@ function successCallback(stream) {
     showRecord();
 }
 
-function errorCallback(error) {
-    alert(error);
-    // maybe another application is using the device
-}
-
-//$(document).on('click', '.recorder #btn-record', function(event) {
-//    event.preventDefault();
-//    console.log('start-recording');
-//});
-
-$(document).on('click', '.recorder #btn-record', function (event) {
-
-    event.preventDefault();
-    $(this).addClass('hidden');
-    $(recorderTarget).find('#btn-record-stop').removeClass('hidden');
-
-    var options = {
-        type: 'video',
-        mimeType: 'video/webm', // or video/mp4 or audio/ogg
-        video: {
-            width: 320,
-            height: 240
-        },
-        recorderType: RecordRTC.WhammyRecorder,
-        frameInterval: 40   // setTimeout interval, quality strength
-    };
-    recordRTC = RecordRTC(liveStream, options);
-    recordRTC.startRecording();
-});
-
-var NETWORK_NO_SOURCE = 3;
-$(document).on('click', '.recorder #btn-record-stop', function (event) {
-    event.preventDefault();
-    if (liveStream) {
-        liveStream.getVideoTracks()[0].stop();
-    }
-
-    if (recordRTC) {
-        recordRTC.stopRecording(function (videoUrl) {
-            $('.recorder #recorder-video').attr('src', videoUrl);
-            showPlayback();
-        });
-    }
-});
-
-$(document).on('click', '.recorder .btn-repeat-recording', function (event) {
-    event.preventDefault();
-    initializeRecorder();
-});
-
-$(document).on('click', '.recorder #btn-repeat-trimming', function (event) {
-    event.preventDefault();
-    showPlayback();
-});
-
-$(document).on('click', '.recorder #btn-choose-preview-image', function (event) {
-    event.preventDefault();
-    if ($(this).hasClass('active')) {
-        $('.recorder #preview-controls').find('#btn-stop-gesture').click();
-        $(this).removeClass('active');
-        $(this).find('.text').text(translation.choosePreviewImage);
-        $(this).find('.fa').removeClass('fa-check').addClass('fa-bookmark');
-        $('.recorder #gesturePreview').removeClass('mouseScrollable');
-        $('.recorder #gesturePreview').unbind('click');
-    } else {
-        $('.recorder #preview-controls').find('#btn-stop-gesture').click();
-        $(this).addClass('active');
-        $(this).find('.text').text(translation.stopChoosePreviewImage);
-        $(this).find('.fa').removeClass('fa-bookmark').addClass('fa-check');
-        $('.recorder #gesturePreview').addClass('mouseScrollable');
-
-        $('.recorder #gesturePreview').bind('click', function (event) {
-            event.preventDefault();
-            var previewImage = $(this).children('.previewImage');
-            previewImage.removeClass('previewImage');
-            var visibleImage = $(this).children('.active');
-            visibleImage.addClass('previewImage');
-        });
-    }
-});
-
 function showRecord() {
     $(recorderTarget).find('.recorder #btn-record').removeClass('hidden');
     $(recorderTarget).find('.recorder #btn-record-stop').addClass('hidden');
@@ -138,6 +63,44 @@ function showRecord() {
     $(recorderTarget).find('.recorder #trim-controls').addClass('hidden');
     hideSave();
     resetTrimControls();
+
+    $(recorderTarget).find('#btn-record').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        $(this).addClass('hidden');
+        $(recorderTarget).find('#btn-record-stop').removeClass('hidden');
+
+        var options = {
+            type: 'video',
+            mimeType: 'video/webm', // or video/mp4 or audio/ogg
+            video: {
+                width: 320,
+                height: 240
+            },
+            recorderType: RecordRTC.WhammyRecorder,
+            frameInterval: 40   // setTimeout interval, quality strength
+        };
+        recordRTC = RecordRTC(liveStream, options);
+        recordRTC.startRecording();
+    });
+
+    $(recorderTarget).find('#btn-record-stop').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        if (liveStream) {
+            liveStream.getVideoTracks()[0].stop();
+        }
+
+        if (recordRTC) {
+            recordRTC.stopRecording(function (videoUrl) {
+                $('.recorder #recorder-video').attr('src', videoUrl);
+                showPlayback();
+            });
+        }
+    });
+
+    $(recorderTarget).find('.btn-repeat-recording').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        initializeRecorder();
+    });
 }
 
 var gestureStartMarked = false;
@@ -148,32 +111,63 @@ function showPlayback() {
     $(recorderTarget).find('.recorder #playback-controls, .recorder .gesture-recorder-controls, .recorder #recorder-video').removeClass('hidden');
     hideSave();
 
-    $(recorderTarget).find('.recorder #recorder-video').on('timeupdate', function () {
+    $(recorderTarget).find('.recorder #recorder-video').unbind('timeupdate').bind('timeupdate', function () {
         var percent = $(this)[0].currentTime / $(this)[0].duration * 100;
         $(recorderTarget).find('.recorder #seek-bar .progress-bar').css({width: percent + '%'});
     });
 
-    $(recorderTarget).find('.recorder #btn-play').on('click', function (event) {
+    $(recorderTarget).find('.recorder #btn-play').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(recorderTarget).find('.recorder #recorder-video')[0].play();
     });
-    $(recorderTarget).find('.recorder #btn-pause').on('click', function (event) {
+    $(recorderTarget).find('.recorder #btn-pause').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(recorderTarget).find('.recorder #recorder-video')[0].pause();
     });
-    $(recorderTarget).find('.recorder #btn-stop').on('click', function (event) {
+    $(recorderTarget).find('.recorder #btn-stop').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(recorderTarget).find('.recorder #recorder-video')[0].pause();
         $(recorderTarget).find('.recorder #recorder-video')[0].currentTime = 0;
     });
 
+    $(recorderTarget).find('#btn-repeat-trimming').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        showPlayback();
+    });
+
+    $(recorderTarget).find('#btn-choose-preview-image').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        if ($(this).hasClass('active')) {
+            $('.recorder #preview-controls').find('#btn-stop-gesture').click();
+            $(this).removeClass('active');
+            $(this).find('.text').text(translation.choosePreviewImage);
+            $(this).find('.fa').removeClass('fa-check').addClass('fa-bookmark');
+            $('.recorder #gesturePreview').removeClass('mouseScrollable');
+            $('.recorder #gesturePreview').unbind('click');
+        } else {
+            $('.recorder #preview-controls').find('#btn-stop-gesture').click();
+            $(this).addClass('active');
+            $(this).find('.text').text(translation.stopChoosePreviewImage);
+            $(this).find('.fa').removeClass('fa-bookmark').addClass('fa-check');
+            $('.recorder #gesturePreview').addClass('mouseScrollable');
+
+            $('.recorder #gesturePreview').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                var previewImage = $(this).children('.previewImage');
+                previewImage.removeClass('previewImage');
+                var visibleImage = $(this).children('.active');
+                visibleImage.addClass('previewImage');
+            });
+        }
+    });
+
     // seekbar operations
-    $(recorderTarget).find('.recorder #seek-bar, .recorder #trim-bar').on("mousedown", function (event) {
+    $(recorderTarget).find('.recorder #seek-bar, .recorder #trim-bar').unbind('mousedown').bind('mousedown', function (event) {
         event.preventDefault();
         var video = $(recorderTarget).find('#recorder-video')[0];
         var seekbar = $(recorderTarget).find('#seek-bar');
         video.pause();
-        $(window).on("mousemove", function (event) {
+        $(window).unbind('mousemove').bind('mousemove', function (event) {
             var positionX = Math.max(0, Math.min(Math.round(event.pageX - $(seekbar).offset().left), $(seekbar).width()));
 
             var time = video.duration * (positionX / $(seekbar).width());
@@ -183,7 +177,7 @@ function showPlayback() {
             $(window).unbind('mousemove');
         });
     });
-    $(recorderTarget).find('#seek-bar, .recorder #trim-bar').on("click", function (event) {
+    $(recorderTarget).find('#seek-bar, .recorder #trim-bar').unbind('click').bind('click', function (event) {
         event.preventDefault();
         var positionX = Math.abs(event.pageX - $(this).offset().left);
         var video = $(recorderTarget).find('#recorder-video')[0];
@@ -267,7 +261,7 @@ function showPlayback() {
             function offsetReached() {
                 clearInterval(draw_interval);
                 video.pause();
-                console.log(shotsArray.length);
+//                console.log(shotsArray.length);
                 renderGestureImages($(recorderTarget).find('#preview-controls .previewGesture'), shotsArray, 0, function () {
                     gestureTrimmingDone();
                 });
@@ -299,7 +293,7 @@ function showPreview() {
 
 function showSave() {
     $(recorderTarget).find('#save-controls').removeClass('hidden');
-    $(recorderTarget).find('#btn-save-gesture').bind('click', function (event) {
+    $(recorderTarget).find('#btn-save-gesture').unbind('click').bind('click', function (event) {
         event.preventDefault();
         var button = $(this);
         clearAlerts(alertTarget);
@@ -323,9 +317,7 @@ function showSave() {
                     if (result.status === RESULT_SUCCESS) {
                         $(recorderTarget).find('#success-controls #btn-delete-saved-gesture').attr('name', result.gestureId);
                         renderGestureImages($(recorderTarget).find('#success-controls .previewGesture'), result.images, result.previewImage, null);
-                        assembleGesture(parseInt(result.gestureId));
-                        updateGestureCatalogButtons();
-                        getGestureCatalog();
+                        $(recorderTarget).trigger('gestureSavedSuccessfully', [result.gestureId]);
                         showSaveSuccess();
                     } else if (result.status === RESULT_ERROR) {
                         appendAlert(alertTarget, ALERT_GENERAL_ERROR);
@@ -348,7 +340,7 @@ function hideSave() {
     $(recorderTarget).find('#btn-save-gesture').unbind('click');
 }
 
-$(document).on('input', '#gestureName, #gestureContext, #gestureDescription', function () {
+$(document).unbind('input').bind('input', '#gestureName, #gestureContext, #gestureDescription', function () {
     if (inputsValid()) {
         $(recorderTarget).find('#btn-save-gesture').removeClass('disabled');
     } else {
@@ -356,7 +348,7 @@ $(document).on('input', '#gestureName, #gestureContext, #gestureDescription', fu
     }
 });
 
-$(document).on('change', '#save-controls #human-body', function () {
+$(document).unbind('change').bind('change', '#save-controls #human-body', function () {
     if (inputsValid()) {
         $(recorderTarget).find('#btn-save-gesture').removeClass('disabled');
     } else {
@@ -373,8 +365,8 @@ function resetInputs() {
 }
 
 function inputsValid(showErrors) {
-    var title = $(recorderTarget).find('#gestureName').val().trim();
-    if (title === '') {
+    var title = $(recorderTarget).find('#gestureName').val();
+    if (title && title.trim() === '') {
         if (showErrors) {
             appendAlert($(recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
         } else {
@@ -383,8 +375,8 @@ function inputsValid(showErrors) {
         return false;
     }
 
-    var context = $(recorderTarget).find('#gestureContext').val().trim();
-    if (context === '') {
+    var context = $(recorderTarget).find('#gestureContext').val();
+    if (context && context.trim() === '') {
         if (showErrors) {
             appendAlert($(recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
         } else {
@@ -393,8 +385,8 @@ function inputsValid(showErrors) {
         return false;
     }
 
-    var description = $(recorderTarget).find('#gestureDescription').val().trim();
-    if (description === '') {
+    var description = $(recorderTarget).find('#gestureDescription').val();
+    if (description && description.trim() === '') {
         if (showErrors) {
             appendAlert($(recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
         } else {
@@ -414,7 +406,7 @@ function inputsValid(showErrors) {
     }
 
     var gestureImagesData = getGestureImagesData($(recorderTarget).find('.recorder #gesturePreview'));
-    if (gestureImagesData === 0) {
+    if (gestureImagesData.length === 0) {
         if (showErrors) {
             appendAlert($(recorderTarget).find('#preview-controls'), ALERT_GESTURE_TOO_SHORT);
         } else {
@@ -431,7 +423,8 @@ function showSaveSuccess() {
     $(recorderTarget).find('#success-controls').removeClass('hidden');
     $(recorderTarget).find('.recorder').addClass('hidden');
     hideSave();
-    $(recorderTarget).find('#success-controls #btn-delete-saved-gesture').bind('click', function (event) {
+
+    $(recorderTarget).find('#success-controls #btn-delete-saved-gesture').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
             $(this).addClass('disabled');
@@ -450,7 +443,8 @@ function showSaveSuccess() {
             $(this).removeClass('disabled');
         }
     });
-    $(recorderTarget).find('#success-controls #btn-record-new-gesture').bind('click', function (event) {
+
+    $(recorderTarget).find('#success-controls #btn-record-new-gesture').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(recorderTarget).find('.recorder').removeClass('hidden');
         $(recorderTarget).find('#success-controls').addClass('hidden');
@@ -461,7 +455,7 @@ function showSaveSuccess() {
 function showDeleteSuccess() {
     appendAlert($(recorderTarget).find('#delete-success-controls'), ALERT_GESTURE_DELETE_SUCCESS);
     $(recorderTarget).find('#delete-success-controls').removeClass('hidden');
-    $(recorderTarget).find('#delete-success-controls #btn-record-new-gesture').bind('click', function (event) {
+    $(recorderTarget).find('#delete-success-controls #btn-record-new-gesture').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(recorderTarget).find('.recorder').removeClass('hidden');
         $(recorderTarget).find('#delete-success-controls').addClass('hidden');

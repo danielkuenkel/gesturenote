@@ -117,8 +117,6 @@
                     reassembleGesture(id);
                 }
             }
-
-            updateGestureCatalogButtons();
         }
 
 //        $('body').on('click', '.gesture-thumbnail, .gesture-details', function (event) {
@@ -306,6 +304,11 @@
                 } else {
                     console.log(result.status);
                 }
+            });
+
+            $('#custom-modal').bind('hidden.bs.modal', function () {
+                updateCatalogButtons();
+                $(this).unbind('hidden.bs.modal');
             });
         });
 

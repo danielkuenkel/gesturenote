@@ -23,16 +23,25 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
             $select_stmt->fetch();
 
             if ($select_stmt->num_rows == 1) {
-                deleteImages($target_dir, json_decode($imageURLs));
-
-                if ($delete_stmt = $mysqli->prepare("DELETE FROM gestures WHERE id = ?")) {
-                    $delete_stmt->bind_param('i', $gestureId);
+                if ($delete_stmt = $mysqli->prepare("DELETE FROM gestures WHERE id = '$gestureId'")) {
+//                    $delete_stmt->bind_param('ii', $gestureId, $gestureId);
                     if (!$delete_stmt->execute()) {
                         echo json_encode(array('status' => 'deleteError'));
                         exit();
                     } else {
-                        echo json_encode(array('status' => 'success'));
-                        exit();
+                        if ($delete_stmt = $mysqli->prepare("DELETE FROM comments WHERE gesture_id = '$gestureId'")) {
+                            if (!$delete_stmt->execute()) {
+                                echo json_encode(array('status' => 'deleteError'));
+                                exit();
+                            } else {
+                                deleteImages($target_dir, json_decode($imageURLs));
+                                echo json_encode(array('status' => 'success'));
+                                exit();
+                            }
+                        } else {
+                            echo json_encode(array('status' => 'deleteStatemantError'));
+                            exit();
+                        }
                     }
                 } else {
                     echo json_encode(array('status' => 'deleteStatemantError'));
@@ -40,6 +49,7 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
                 }
             } else {
                 echo json_encode(array('status' => 'fetchError'));
+                exit();
             }
         }
     } else {
@@ -52,6 +62,8 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
 
 function deleteImages($targetUrl, $images) {
     foreach ($images as $url) {
-        unlink($targetUrl . $url);
+        if (file_exists($targetUrl . $url)) {
+            unlink($targetUrl . $url);
+        }
     }
 }

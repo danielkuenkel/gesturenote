@@ -194,7 +194,49 @@ function renderSessionStorageData() {
             }
         });
 
-        updateGestureCatalogButtons();
+        updateCatalogButtons();
+    }
+}
+
+function updateCatalogButtons() {
+    var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
+    if (gestures && gestures.length > 0) {
+        $('#btn-study-gestures, #btn-clear-study-gestures').removeClass('hidden');
+    } else {
+        $('#btn-study-gestures, #btn-clear-study-gestures').addClass('hidden');
+    }
+
+    var feedback = getLocalItem(ASSEMBLED_FEEDBACK);
+    if (feedback && feedback.length > 0) {
+        $('#btn-clear-feedback').removeClass('hidden');
+        $('#btn-assemble-feedback .btn-text').text(translation.openSet);
+        $('#btn-assemble-feedback .fa').removeClass('fa-pencil').addClass('fa-folder-open');
+    } else {
+        $('#btn-clear-feedback').addClass('hidden');
+        $('#btn-assemble-feedback .btn-text').text(translation.arrangeSet);
+        $('#btn-assemble-feedback .fa').removeClass('fa-folder-open').addClass('fa-pencil');
+    }
+
+    var trigger = getLocalItem(ASSEMBLED_TRIGGER);
+    if (trigger && trigger.length > 0) {
+        $('#btn-clear-trigger').removeClass('hidden');
+        $('#btn-assemble-trigger .btn-text').text(translation.openSet);
+        $('#btn-assemble-trigger .fa').removeClass('fa-pencil').addClass('fa-folder-open');
+    } else {
+        $('#btn-clear-trigger').addClass('hidden');
+        $('#btn-assemble-trigger .btn-text').text(translation.arrangeSet);
+        $('#btn-assemble-trigger .fa').removeClass('fa-folder-open').addClass('fa-pencil');
+    }
+
+    var scenes = getLocalItem(ASSEMBLED_SCENES);
+    if (scenes && scenes.length > 0) {
+        $('#btn-clear-scenes').removeClass('hidden');
+        $('#btn-assemble-scenes .btn-text').text(translation.openSet);
+        $('#btn-assemble-scenes .fa').removeClass('fa-pencil').addClass('fa-folder-open');
+    } else {
+        $('#btn-clear-scenes').addClass('hidden');
+        $('#btn-assemble-scenes .btn-text').text(translation.arrangeSet);
+        $('#btn-assemble-scenes .fa').removeClass('fa-folder-open').addClass('fa-pencil');
     }
 }
 
@@ -231,6 +273,7 @@ function saveGeneralData() {
 
     setLocalItem(PROJECT, project);
     savePhases();
+    updateCatalogButtons();
 }
 
 function savePhases() {
@@ -360,7 +403,7 @@ function Identification() {
     this.title;
     this.description;
     this.identificationFor;
-    this.identificationRepeats;
+//    this.identificationRepeats;
     this.identification;
     this.observations;
 }
