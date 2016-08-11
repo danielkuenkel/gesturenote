@@ -42,6 +42,7 @@
 
             $('#custom-modal').bind('hidden.bs.modal', function () {
                 updateCatalogButtons();
+                $('#list-container').empty();
                 $(this).unbind('hidden.bs.modal');
             });
         });
@@ -74,10 +75,6 @@
 
                 $(this).unbind('hide.bs.modal');
             }
-        });
-
-        $('#custom-modal').on('hidden.bs.modal', function (event) {
-            $('#list-container').empty();
         });
 
         function renderData(data) {
@@ -114,7 +111,6 @@
                             $(clone).find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
                             $(clone).find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture');
                             $(clone).find('.chooseSceneImage .btn-icon').addClass('glyphicon-refresh');
-//                            control.replaceWith(control = control.clone(true));
                         }
                         break;
                     case SCENE_VIDEO_EMBED:

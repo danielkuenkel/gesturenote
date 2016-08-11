@@ -5,6 +5,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 include_once 'db_connect.php';
 include_once 'psl-config.php';
+include_once 'functions.php';
 
 $target_dir = "../uploads/";
 $target_preview_dir = "uploads/";
@@ -46,7 +47,7 @@ if (isset($_SESSION['user_id'], $_POST['title'], $_POST['context'], $_POST['desc
 
     if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, source, scope, title, context, description, joints, preview_image, images) VALUES ('$userId','$source','$scope','$title','$context','$description','$joints','$previewImage','$dbImageURLs')")) {
         if (!$insert_stmt->execute()) {
-            deleteImages($target_dir, $imageURLs);
+            deleteFiles($target_dir, $imageURLs);
             echo json_encode(array('status' => 'insertError'));
             exit();
         } else {
@@ -55,15 +56,9 @@ if (isset($_SESSION['user_id'], $_POST['title'], $_POST['context'], $_POST['desc
             exit();
         }
     } else {
-        deleteImages($target_dir, $imageURLs);
+        deleteFiles($target_dir, $imageURLs);
         echo json_encode(array('status' => 'statemantError'));
     }
 } else {
     echo json_encode(array('status' => 'error'));
-}
-
-function deleteImages($targetUrl, $images) {
-    foreach ($images as $url) {
-        unlink($targetUrl . $url);
-    }
 }

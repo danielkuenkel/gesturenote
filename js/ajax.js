@@ -16,6 +16,7 @@ function login(data) {
         url: 'includes/process_login.php',
         data: data,
         type: 'post',
+        async: true,
         success: function (data) {
 
             resetAlerts();
@@ -44,6 +45,7 @@ function register(data) {
         url: 'includes/register.php',
         data: data,
         type: 'post',
+        async: true,
         success: function (data) {
             resetAlerts();
             if (data.status === 'emailExists') {
@@ -73,9 +75,100 @@ function getDashboardInfos(callback) {
         url: 'includes/get-dashboard-infos.php',
         type: 'post',
         dataType: 'json',
+        async: true,
         success: function (result) {
             if (callback) {
                 callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+/*
+ * image upload
+ */
+
+function uploadSceneImage(data, callback) {
+    $.ajax({
+        url: 'includes/upload-scene-image.php',
+        type: 'post',
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: data,
+        async: true,
+        success: function (data) {
+            if (callback) {
+                callback(data);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function deleteSceneImage(data, callback) {
+    $.ajax({
+        url: 'includes/delete-scene-image.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (data) {
+            if (callback) {
+                callback(data);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+/*
+ * sound upload
+ */
+
+function uploadSound(data, callback) {
+    $.ajax({
+        type: 'post',
+        url: 'includes/upload-sound.php',
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: data,
+        async: true,
+        dataType: 'json',
+//        contentType: 'multipart/form-data',
+//        mimeType: 'multipart/form-data',
+//        beforeSend: function (xhr) {
+//            xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+//        },
+        success: function (data) {
+            if (callback) {
+                callback(data);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function deleteSound(data, callback) {
+    $.ajax({
+        url: 'includes/delete-sound.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (data) {
+            if (callback) {
+                callback(data);
             }
         },
         error: function (xhr, desc, err) {
@@ -94,6 +187,7 @@ function saveProject(data) {
         url: 'includes/save-project.php',
         data: data,
         type: 'post',
+        async: true,
         success: function (data) {
             console.log(data);
             if (data.status === 'success') {
@@ -121,6 +215,7 @@ function saveModeratorGesture(data, callback) {
         data: data,
         type: 'post',
         dataType: 'json',
+        async: true,
         success: function (data) {
             if (callback) {
                 callback(data);
@@ -138,6 +233,7 @@ function deleteGesture(data, callback) {
         data: data,
         type: 'post',
         dataType: 'json',
+        async: true,
         success: function (data) {
             if (callback) {
                 callback(data);
@@ -154,6 +250,7 @@ function getGestureCatalog(callback) {
         url: 'includes/get-gestures.php',
         type: 'post',
         dataType: 'json',
+        async: true,
         success: function (result) {
             if (result.status === RESULT_SUCCESS) {
                 setLocalItem(GESTURE_CATALOG, result.gestures);
@@ -175,6 +272,7 @@ function updateGesture(data, callback) {
         data: data,
         type: 'post',
         dataType: 'json',
+        async: true,
         success: function (result) {
             if (result.status === RESULT_SUCCESS) {
                 setLocalItem(GESTURE_CATALOG, result.gestures);
@@ -201,6 +299,7 @@ function shareGesture(data, callback) {
         data: data,
         type: 'post',
         dataType: 'json',
+        async: true,
         success: function (result) {
             if (callback) {
                 callback(result);
@@ -218,6 +317,7 @@ function unshareGesture(data, callback) {
         data: data,
         type: 'post',
         dataType: 'json',
+        async: true,
         success: function (result) {
             if (callback) {
                 callback(result);
@@ -239,6 +339,7 @@ function getCommentsForGesture(data, callback) {
         data: data,
         type: 'post',
         dataType: 'json',
+        async: true,
         success: function (result) {
             if (callback) {
                 callback(result);
@@ -256,6 +357,7 @@ function submitCommentForGesture(data, callback) {
         data: data,
         type: 'post',
         dataType: 'json',
+        async: true,
         success: function (result) {
             if (callback) {
                 callback(result);
@@ -273,6 +375,7 @@ function deleteComment(data, callback) {
         data: data,
         type: 'post',
         dataType: 'json',
+        async: true,
         success: function (result) {
             if (callback) {
                 callback(result);

@@ -28,6 +28,35 @@
         </div>
     </div>
 
+    <div class="panel panel-default root not-used" id="openQuestionGUS">
+        <div class="panel-heading">
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
+                <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
+            </div>
+            <span>Offene Frage <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+        </div>
+        <div class="panel-body">
+            <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
+                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
+            </div>
+
+            <div class="form-group form-group-no-margin">
+                <div class="input-group">
+                    <span class="input-group-addon">Frage/Aufforderung</span>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="panel panel-default root" id="dichotomousQuestion">
         <div class="panel-heading">
             <div class="btn-group" style="margin-right: 10px">
@@ -45,7 +74,7 @@
                 <div class="label label-info" id="factor-primary"></div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group form-group-no-margin">
                 <div class="input-group">
                     <span class="input-group-addon">Frage</span>
                     <input class="form-control item-input-text question" type="text" value="" placeholder="Ja/nein-Frage"/>
@@ -57,18 +86,25 @@
 
             <div class="alert-space alert-no-gestures-assembled"></div>
 
-            <div class="form-group form-group-margin-top">
+            <div class="form-group form-group-no-margin" style="margin-top: 10px">
 
-                <div class="btn-group justification" style="margin-bottom: 10px;">
+                <div class="btn-group justification" style="margin-bottom: 10px; margin-right: 15px;">
                     <button class="btn btn-default switchButtonAddon">Begründung</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                </div>
+
+                <div class="btn-group justification-for" style="margin-bottom: 10px; margin-right: 15px;">
+                    <button class="btn btn-default switchButtonAddon">Begründung bei</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success">Immer</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="panel panel-default root" id="alternativeQuestion">
+    <div class="panel panel-default root not-used" id="alternativeQuestion">
         <div class="panel-heading">
             <div class="btn-group" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
@@ -103,24 +139,30 @@
             <div class="alert-space alert-assembled-feedback-removed"></div>
 
             <div class="form-group form-group-no-margin">
-                <div class="btn-group alternative" style="margin-right: 10px;margin-bottom: 10px;">
+                <div class="btn-group alternative" style="margin-right: 15px;margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon">Alternative</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="gestures" name="btn-success">Gesten</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-trigger-assembled inactive" id="triggers" name="btn-success">Funktionen</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-feedback-assembled inactive" id="feedbacks" name="btn-success">Feedback</button>
                 </div>
-                <div class="btn-group alternativeFor" style="margin-right: 10px; margin-bottom: 10px;">
+                <div class="btn-group alternativeFor" style="margin-right: 15px; margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon">für</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="alternativeGesture" name="btn-success">die Geste</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-trigger-assembled inactive" id="alternativeTrigger" name="btn-success">die Funktion</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-feedback-assembled inactive" id="alternativeFeedback" name="btn-success">das Feedback</button>
                 </div>
-                <div class="btn-group justification" style="margin-right: 10px;margin-bottom: 10px;">
+                <div class="btn-group justification" style="margin-right: 15px; margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon">Begründung</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
-                <div class="btn-group optionalanswer" style="margin-right: 10px;margin-bottom: 10px;">
+                <div class="btn-group justification-for" style="margin-right: 15px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Begründung bei</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectOne" name="btn-success">Auswahl einer Alternative</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectNothing" name="btn-success">Keiner Auswahl</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success">Immer</button>
+                </div>
+                <div class="btn-group optionalanswer" style="margin-right: 15px; margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon">Eigene Antwort erlaubt?</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
@@ -212,25 +254,21 @@
                 </div>
             </div>
 
-            <div class="form-group form-group-margin-top" style="margin-right: 10px;">
-                <div class="btn-group multiselect">
+            <div class="form-group form-group-margin-top" style="margin-top: 10px;">
+                <div class="btn-group multiselect" style="margin-bottom: 10px; margin-right: 10px;">
                     <button class="btn btn-default switchButtonAddon">Auswahl mehrerer Antworten erlaubt?</button>
                     <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
 
-
-            </div>
-            <div class="form-group form-group-margin-top">
-                <div class="btn-group optionalanswer">
+                <div class="btn-group optionalanswer" style="margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon" >Eigene Antwort erlaubt?</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
             </div>
 
-
-            <hr>
+            <hr style="margin-top: 10px">
 
             <div class="form-group form-group-margin-top root hidden"  id="groupingQuestionItem">
                 <div class="input-group">
@@ -288,24 +326,31 @@
                 </div>
             </div>
 
-            <div class="form-group" style="margin-top: 10px; margin-bottom: -10px">
-                <div class="btn-group multiselect" style="margin-right: 10px; margin-bottom: 10px;">
-                    <button class="btn btn-default switchButtonAddon">Auswahl mehrerer Antworten erlaubt?</button>
+            <div class="form-group form-group-margin-top">
+                <div class="btn-group optionselect" style="margin-right: 15px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Optionen</button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-gestures-assembled inactive" id="gestures" name="btn-success">Gesten</button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-trigger-assembled inactive" id="triggers" name="btn-success">Funktionen</button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-feedback-assembled inactive" id="feedbacks" name="btn-success">Feedback</button>
+                </div>
+
+                <div class="btn-group multiselect" style="margin-right: 15px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Auswahl mehrerer Optionen erlaubt?</button>
                     <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
 
-                <div class="btn-group justification" style="margin-right: 10px; margin-bottom: 10px;">
+                <div class="btn-group justification" style="margin-right: 15px; margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon">Begründung</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
                 </div>
 
-                <div class="btn-group optionselect" style="margin-right: 10px; margin-bottom: 10px;">
-                    <button class="btn btn-default switchButtonAddon">Optionen</button>
-                    <button class="btn btn-default btn-toggle-checkbox check no-gestures-assembled inactive" id="gestures" name="btn-success">Gesten</button>
-                    <button class="btn btn-default btn-toggle-checkbox check no-trigger-assembled inactive" id="triggers" name="btn-success">Funktionen</button>
-                    <button class="btn btn-default btn-toggle-checkbox check no-feedback-assembled inactive" id="feedbacks" name="btn-success">Feedback</button>
+                <div class="btn-group justification-for" style="margin-right: 15px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Begründung bei</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectOne" name="btn-success">Auswahl einer Option</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectNothing" name="btn-success">Keiner Auswahl</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success">Immer</button>
                 </div>
             </div>
 
@@ -356,8 +401,8 @@
 
                     <div class="input-group-btn negative">
                         <button class="btn btn-default switchButtonAddon">Negativ?</button>
-                        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                        <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger">Ja</button>
+                        <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>
                     </div>
 
                     <span class="input-group-addon">Skala</span>
@@ -424,8 +469,8 @@
                 </div>
 
                 <!--<div class="container">-->
-                <div class="row" style="margin-top: 15px">
-                    <div class="form-group col-md-6">
+                <div class="row" style="margin-top: 10px">
+                    <div class="form-group form-group-no-margin col-md-6" style="margin-bottom: 10px;">
                         <div class="input-group">
                             <span class="input-group-addon">Verteilung in</span>
                             <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Prozent"/>
@@ -441,7 +486,7 @@
 
                         </div>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group form-group-no-margin col-md-6" style="margin-bottom: 10px;">
                         <div class="input-group">
                             <span class="input-group-addon">Maximum</span>
                             <input class="form-control item-input-text maximum" type="text" value="" placeholder="z.B. 100"/>
@@ -453,7 +498,7 @@
 
             </div>
 
-            <hr>
+            <hr style="margin-top: 10px">
 
             <div class="form-group form-group-margin-top root hidden" id="sumQuestionItem">
                 <div class="input-group">
@@ -1042,8 +1087,11 @@
                         <button class="btn btn-default btn-shadow chooseSceneImage"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text">Bild auswählen</span></button>
                     </div>
                 </div>
-
-                <input class="imageUpload hidden" name="" type="file" accept="image/jpeg, image/gif, image/png" />
+                
+                <form enctype="multipart/form-data" id="upload-image-form" class="hidden">
+                    <input class="imageUpload hidden" name="image" type="file" accept="image/jpeg, image/gif, image/png" />
+                </form>
+                
                 <div class="imageArea hidden" style="margin-top: 10px; width: 100%; height: auto; position: relative;">
                     <button class="btn btn-danger btn-shadow btn-delete-image" style="position: absolute; margin: 10px; right: 0px;"><span class="glyphicon glyphicon-trash"></span> Bild löschen</button>
                     <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 4px;" />
@@ -1136,11 +1184,11 @@
                 <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
                 <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
             </div>
-            <span>Gesten Rating <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span>Rating <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div>
-                <div  style="width: 100%" id="item-factors">
+                <div style="width: 100%" id="item-factors">
                     <div class="label label-primary" id="factor-main"></div>
                     <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
                     <div class="label label-info" id="factor-primary"></div>
@@ -1155,11 +1203,60 @@
                             <i class="glyphicon glyphicon-eye-open"></i>
                         </button>
                         <button class="btn btn-default switchButtonAddon">Negativ?</button>
-                        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                        <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger">Ja</button>
+                        <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root not-used" id="dichotomousQuestionGUS">
+        <div class="panel-heading">
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
+                <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
+            </div>
+            <span>Ja/nein-Frage <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+        </div>
+        <div class="panel-body">
+
+            <div style="width: 100%" id="item-factors">
+                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
+            </div>
+
+            <div class="input-group" style="margin-top: 5px;">
+                <span class="input-group-addon">Item</span>
+                <input class="form-control item-input-text question readonly" type="text" value=""/>
+
+                <div class="input-group-btn negative">
+                    <button type="button" class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title="">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                    </button>
+                    <button class="btn btn-default switchButtonAddon" id="negative">Negativ?</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger">Ja</button>
+                    <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>
+                </div>
+            </div>
+
+            <div class="form-group form-group-margin-top">
+                <div class="btn-group justification" style="margin-bottom: 10px; margin-right: 15px;">
+                    <button class="btn btn-default switchButtonAddon">Begründung</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                </div>
+
+                <div class="btn-group justification-for" style="margin-bottom: 10px; margin-right: 15px;">
+                    <button class="btn btn-default switchButtonAddon">Begründung bei</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-success">Nein</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success">Immer</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1179,8 +1276,8 @@
                     <i class="glyphicon glyphicon-eye-open"></i>
                 </button>
                 <button class="btn btn-default switchButtonAddon">Negativ?</button>
-                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger">Ja</button>
+                <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>
             </div>
         </div>
     </div>
@@ -1233,7 +1330,9 @@
                     </div>
                 </div>
 
-                <input class="soundUpload hidden" name="" type="file" accept="audio/mp3" />
+                <form enctype="multipart/form-data" id="upload-sound-form" method="post" class="hidden">
+                    <input class="soundUpload hidden" name="sound" type="file" accept="audio/mp3" />
+                </form>
 
                 <div class="audioPlayer hidden" style="margin-top: 10px">
                     <div class="btn-group">

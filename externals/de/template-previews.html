@@ -40,12 +40,44 @@
         </div>
     </div>
 
+    <div class="panel panel-default root" id="openQuestionGUS" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div class="question"></div>
+            <div class="hidden" style="width: 100%" id="item-factors">
+                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
+            </div>
+        </div>
+    </div>
+
     <div class="panel panel-default root" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div class="question"></div>
             <span class="label label-default hidden" id="select-gestures">Auswahl einer oder mehrerer Gesten</span>
             <span class="label label-default hidden" id="justification">Mit Begründung</span>
             <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="yes">Begründung bei Auswahl <em>Ja</em></span>
+            <span class="label label-default hidden" id="no">Begründung bei Auswahl <em>Nein</em></span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            <span class="label label-default hidden" id="dimension"></span>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div class="question"></div>
+            <div class="hidden" style="width: 100%" id="item-factors">
+                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <div class="label label-info" id="factor-primary"></div>
+            </div>
+            <span class="label label-default hidden" id="select-gestures">Auswahl einer oder mehrerer Gesten</span>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="yes">Begründung bei Auswahl <em>Ja</em></span>
+            <span class="label label-default hidden" id="no">Begründung bei Auswahl <em>Nein</em></span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
             <span class="label label-default hidden" id="dimension"></span>
         </div>
     </div>
@@ -61,6 +93,9 @@
             <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
             <span class="label label-default hidden" id="justification">Mit Begründung</span>
             <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
+            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
             <span class="label label-default hidden" id="gesturesForGesture">Es werden alternative Gesten für die Geste gesucht</span>
             <span class="label label-default hidden" id="triggersForGesture">Es werden alternative Funktionen für die Geste gesucht</span>
             <span class="label label-default hidden" id="triggersForTrigger">Es werden alternative Funktionen für die Funktion gesucht</span>
@@ -92,7 +127,9 @@
             <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
             <span class="label label-default hidden" id="justification">Mit Begründung</span>
             <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
-            <!--<span class="label label-default hidden" id="dimension"></span>-->
+            <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
+            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
             <div>Eingruppierungs-Optionen</div>
             <div class="option-container"></div>
         </div>
@@ -156,7 +193,25 @@
                 <div class="panel-heading">
                     Gesture Usability Scale Items
                 </div>
-                <div class="panel-body question-container"></div>
+                <div class="panel-body row">
+                    <div class="col-sm-6">
+                        <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+                        <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+                        <div id="feedback"><span class="address"></span> <span class="text"></span></div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="previewGesture autoplay mousePlayable btn-shadow"></div>
+                        <div class="text-center gestureControls">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 question-container" style="margin-top: 20px"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -240,16 +295,18 @@
                 <div id="trigger"><span class="address"></span> <span class="text"></span></div>
                 <div id="feedback"><span class="address"></span> <span class="text"></span></div>
             </div>
+
+            <button type="button" class="btn btn-default btn-shadow btn-block btn-popover-gesture-preview" style="margin-top: 10px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6 right">
             <div class="btn-group-vertical btn-block">
-                <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+
                 <button type="button" class="btn btn-info btn-shadow disabled" id="trigger-training"><span class="btn-text">Trainieren</span></button>
                 <button type="button" class="btn btn-info btn-shadow disabled" id="trigger-feedback"><span class="btn-text">Feedback geben</span></button>
             </div>
 
             <button type="button" class="btn btn-success btn-shadow btn-block disabled" id="next-gesture"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-            <button type="button" class="btn btn-success btn-shadow btn-block disabled hidden" id="training-done">Fertig</button>
+            <button type="button" class="btn btn-success btn-shadow btn-block disabled hidden" id="training-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
         </div>
     </div>
 
@@ -292,13 +349,14 @@
                 <div>Gezeigt wird Funktion: <span id="given" style="color: #303030"></span></div>
                 <div>Antwortzeit: <span id="responseTime" style="color: #303030"></span></div>
             </div>
-            <div class="btn-group-vertical btn-block" style="margin-top: 20px">
+            <div class="btn-group-vertical btn-block" style="margin-top: 10px">
                 <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
-                <button type="button" class="btn btn-info btn-shadow" id="trigger-slide"><span class="btn-text">Auffordern</span></button>
+
             </div>
         </div>
         <div class="col-xs-6 right">
             <div class="btn-group-vertical btn-block">
+                <button type="button" class="btn btn-info btn-shadow" id="trigger-slide"><span class="btn-text">Auffordern</span></button>
                 <button type="button" class="btn btn-danger btn-shadow disabled" id="wrong-slide"><span class="btn-text">Falsch</span></button>
                 <button type="button" class="btn btn-success btn-shadow disabled" id="correct-slide"><span class="btn-text">Richtig</span></button>
                 <button type="button" class="btn btn-warning btn-shadow disabled" id="next-slide"><span class="btn-text">Überspringen</span></button>
@@ -324,6 +382,8 @@
                 <div class="panel-heading">Elemente</div>
                 <div class="panel-body question-container"></div>
             </div>
+
+            <button type="button" class="btn btn-lg btn-success btn-block btn-shadow hidden" id="btn-done-slideshow" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
         </div>
     </div>
 
@@ -380,7 +440,7 @@
                 <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
                 <button type="button" class="btn btn-info btn-shadow" id="trigger-identification"><span class="btn-text">Auffordern</span></button>
                 <button type="button" class="btn btn-success btn-shadow disabled" id="next-identification"><span class="btn-text"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
-                <button type="button" class="btn btn-success btn-shadow disabled" id="done-identification"><span class="btn-text">Fertig</span></button>
+                <button type="button" class="btn btn-success btn-shadow disabled" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
             </div>
         </div>
     </div>
@@ -615,7 +675,9 @@
         <h3 class="headline">Fragebogen zur Geste</h3>
         <div class="row">
             <div class="col-sm-6 right" style="margin-bottom: 10px;">
-                <div id="title"></div>
+                <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+                <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+                <div id="feedback"><span class="address"></span> <span class="text"></span></div>
             </div>
             <div class="col-sm-6 left" id="gesturePreview">
                 <div class="previewGesture autoplay mousePlayable btn-shadow"></div>
@@ -644,52 +706,59 @@
     </div>
 
     <!-- gesture training container -->
-    <div class="container root" id="gestureTraining">
-        <div class="row">
-            <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-            <div class="col-md-8" id="column-right">
-                <div id="general">
-                    <h3 class="headline"></h3>
-                    <div class="description"></div>
-                    <hr>
-                </div>
-                <div class="alert-space alert-waiting-for-training-gesture"></div>
-                <div id="trainingContainer"></div>
+    <div class="root" id="gestureTraining">
+        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <!--<div class="row">-->
+        <!--<div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>-->
+        <div class="col-md-8" id="column-right">
+            <div id="general">
+                <h3 class="headline" style="margin: 0"></h3>
+                <div class="description"></div>
+                <hr>
             </div>
+            <div class="alert-space alert-waiting-for-training-gesture"></div>
+            <div class="row" id="trainingContainer"></div>
         </div>
+        <!--</div>-->
     </div>
 
-    <div id="trainingItemModerated" class="row">
-        <div class="col-sm-12 col-lg-6" style="margin-bottom: 10px;">
-            <div>
-                <div id="title"><span class="address"></span> <span class="text"></span></div>
-                <div id="repeats"><span class="address"></span> <span class="text"></span></div>
-                <div id="trigger"><span class="address"></span> <span class="text"></span></div>
-                <div id="feedback"><span class="address"></span> <span class="text"></span></div>
-            </div>
+    <div id="trainingItemModerated">
+        <div class="col-sm-6" style="margin-bottom: 10px;">
+            <!--<div>-->
+            <div id="title"><span class="address"></span> <span class="text"></span></div>
+            <div id="repeats"><span class="address"></span> <span class="text"></span></div>
+            <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+            <div id="feedback"><span class="address"></span> <span class="text"></span></div>
+            <!--</div>-->
         </div>
-        <div class="col-sm-12 col-lg-6">
+        <div class="col-sm-6" style="margin-bottom: 20px;">
             <div class="previewGesture autoplay"></div>
+            <div class="text-center gestureControls">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                </div>
+            </div>
         </div>
     </div>
 
     <div id="trainingItemUnmoderated">
-        <div class="row">
-            <div class="col-sm-12" style="height: 73px">
-                <div id="training-controls">
-                    <button class="btn btn-lg btn-block btn-success btn-shadow" id="start-training" name="btn-success"><span class="btn-text">Jetzt Starten</span></button>
-                    <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="start-single-training" name="btn-success"><span class="btn-text">Gesten-Training beginnen</span></button>
-                    <button class="btn btn-lg btn-block btn-info btn-shadow hidden" id="repeat-training" name="btn-success"><span class="btn-text">Geste nochmal ausführen</span></button>
-                    <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-                    <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="training-done" name="btn-success"><span class="btn-text">Fertig</span></button>
-                </div>
-                <div class="progress progress-training hidden" style="height: 100%; border-radius: 10px">
-                    <div class="progress-bar progress-bar-training progress-bar-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
-                </div>
+        <!--<div class="row">-->
+        <div class="col-sm-12">
+            <div id="training-controls">
+                <button class="btn btn-lg btn-block btn-success btn-shadow" id="start-training" name="btn-success"><span class="btn-text">Jetzt Starten</span></button>
+                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="start-single-training" name="btn-success"><span class="btn-text">Gesten-Training beginnen</span></button>
+                <button class="btn btn-lg btn-block btn-info btn-shadow hidden" id="repeat-training" name="btn-success"><span class="btn-text">Geste nochmal ausführen</span></button>
+                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="training-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            </div>
+            <div class="progress progress-training hidden" style="border-radius: 10px">
+                <div class="progress-bar progress-bar-training progress-bar-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
             </div>
         </div>
-        <div class="row hidden" style="margin-top: 20px" id="training-data">
-            <div class="col-sm-12 col-lg-6">
+        <!--</div>-->
+        <div class="hidden" id="training-data">
+            <div class="col-sm-12 col-lg-6" style="margin-top: 20px">
                 <div style="margin-bottom: 10px;">
                     <div id="title"><span class="address"></span> <span class="text"></span></div>
                     <div id="repeats"><span class="address"></span> <span class="text"></span></div>
@@ -698,8 +767,8 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-lg-6" style="">
-                <div class="previewGesture autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
+            <div class="col-sm-12 col-lg-6" style="margin-top: 20px">
+                <div class="previewGesture autoplay" style="margin:auto;"></div>
                 <div class="text-center gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -773,7 +842,7 @@
 
 
     <!-- gesture slideshow container -->
-    
+
     <div class="container root" id="triggerSlideshow">
         <div id="general">
             <h3 class="headline"></h3>
@@ -792,7 +861,7 @@
     <!-- unmoderated gesture slideshow items -->
 
     <div id="triggerSlideshowItemUnmoderated">
-        <div class="col-sm-5 text-center" style="margin-bottom: 15px;">
+        <div class="col-sm-5 text-center" style="margin-bottom: 15px;" id="gesturePreview">
             <div class="previewGesture autoplay"></div>
             <div class="text-center gestureControls">
                 <div class="btn-group">
@@ -803,7 +872,8 @@
         </div>
         <div class="col-sm-7">
             <div class="question-container"></div>
-            <button class="btn btn-lg btn-block btn-success btn-shadow" id="next-slide" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-next-slide" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-done-slide" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
         </div>        
     </div>
 
@@ -899,7 +969,7 @@
                         <textarea class="form-control" rows="5"></textarea>
                     </div>
                     <button type="button" class="btn btn-success btn-block btn-shadow" id="next-identification"><span class="btn-text"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-                    <button type="button" class="btn btn-success btn-block btn-shadow" id="done-identification"><span class="btn-text">Fertig</span></button>
+                    <button type="button" class="btn btn-success btn-block btn-shadow" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
                 </div>
             </div>
 
@@ -914,7 +984,7 @@
                     <div id="gesture-recorder-container" style="width: 450px; margin: auto; margin-top: 15px;"></div>
                     <div style="margin-top: 20px;" id="next-controls" class="hidden">
                         <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="next-identification"><span class="btn-text">Nächste Funktion</span> <span aria-hidden="true">&rarr;</span></button>
-                        <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="done-identification"><span class="btn-text">Fertig</span></button>
+                        <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
                     </div>
                 </div>
 
@@ -956,7 +1026,7 @@
             </div>
         </div>
 
-        <div class="col-sm-7 col-lg-6" id="questionnaire">
+        <div class="col-sm-7 col-lg-6" id="stress-test-questionnaire">
             <div class="question-container"></div>
         </div>
     </div>
@@ -986,7 +1056,7 @@
             </div>
         </div>
 
-        <div class="col-sm-7 hidden" id="questionnaire">
+        <div class="col-sm-7 hidden" id="stress-test-questionnaire">
             <div class="question-container"></div>
 
         </div>
@@ -995,7 +1065,7 @@
             <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-gesture-done" name="btn-success">Geste wurde ausgeführt</button>
             <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-questionnaire-done" name="btn-success">Weiter</button>
             <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-done" name="btn-success">Fertig</button>
+            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
 
         </div>
 
@@ -1113,18 +1183,30 @@
         </div>
     </div>
 
+    <div class="panel panel-default root" id="openQuestionGUS" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question"></p> 
+            <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
+        </div>
+    </div>
+
     <div class="panel panel-default root" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <p class="question"></p>
-            <div class="btn-group switch" style="">
-                <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
-                <button class="btn btn-default btn-shadow btn-toggle-checkbox reset no-gestures-assembled inactive" id="no" name="btn-success">Nein</button>
+            <div class="btn-group switch">
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-success">Nein</button>
             </div>
+        </div>
+    </div>
 
-            <!--            <div class="hidden" id="justification">
-                            <label for="justificationInput">Begründung</label>
-                            <textarea class="form-control" id="justificationInput" rows="3"></textarea>
-                        </div>-->
+    <div class="panel panel-default root" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question"></p>
+            <div class="btn-group switch">
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-success">Nein</button>
+            </div>
         </div>
     </div>
 
@@ -1139,12 +1221,6 @@
         <div class="panel-body">
             <p class="question"></p> 
             <div class="option-container root"></div>
-
-            <div class="hidden" id="option-item-justification" style="margin-top: 20px;">
-                <label for="optionalanswerInput">Begründung(en)</label>
-                <textarea class="form-control" id="optionalanswerInput" rows="3"></textarea>
-            </div>
-
         </div>
     </div>
 
@@ -1197,7 +1273,7 @@
 
     <div id="sumQuestion-item" style="margin-bottom: 5px;">
 
-        <form class="form-inline" role="form">
+        <!--<form class="form-inline" role="form">-->
 
             <div class="input-group simple-stepper" style="max-width: 140px">
                 <div class="input-group-btn">
@@ -1214,7 +1290,7 @@
             </div>
             <label class="option-text" style="margin-left: 5px"></label>
 
-        </form>
+        <!--</form>-->
 
     </div>
 

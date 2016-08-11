@@ -188,3 +188,13 @@ function esc_url($url) {
         return $url;
     }
 }
+
+function deleteFiles($targetUrl, $files) {
+    foreach ($files as $url) {
+        if (file_exists($targetUrl . $url)) {
+            unlink($targetUrl . $url);
+        } else {
+            
+        }
+    }
+}

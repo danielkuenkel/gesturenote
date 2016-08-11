@@ -22,6 +22,8 @@ var stressTestStartTriggered = false;
 var stressTestGestureTriggered = false;
 var stressTestQuestionsTriggered = false;
 
+var testerDoneTriggered = false;
+
 function checkStorage() {
     if (getLocalItem(PROJECT_PHASE_STEPS) && getLocalItem(PROJECT_PHASE_STEPS).length > 0) {
 //        console.log('there are phase steps');
@@ -79,6 +81,7 @@ function renderPhases() {
 }
 
 function previousStep() {
+    testerDoneTriggered = false;
     scenarioStartTriggered = false;
     gestureTrainingStartTriggered = false;
     slideshowStartTriggered = false;
@@ -94,11 +97,13 @@ function previousStep() {
     currentIdentificationIndex = 0;
     identificationTriggered = false;
     identificationStartTriggered = false;
+    singleGUSGesture = null;
     resetRecorder();
     $('.phaseStepsSelect .dropdown-menu .selected').prev().click();
 }
 
 function nextStep() {
+    testerDoneTriggered = false;
     scenarioStartTriggered = false;
     gestureTrainingStartTriggered = false;
     slideshowStartTriggered = false;
@@ -114,6 +119,7 @@ function nextStep() {
     currentIdentificationIndex = 0;
     identificationTriggered = false;
     identificationStartTriggered = false;
+    singleGUSGesture = null;
     resetRecorder();
     $('.phaseStepsSelect .dropdown-menu .selected').next().click();
 }
@@ -276,7 +282,7 @@ function getCurrentPhaseData() {
 }
 
 function QuestionnaireItem(type, dimension, question, parameters, options) {
-    this.type = type;
+    this.format = type;
     this.dimension = dimension;
     this.question = question;
     this.parameters = parameters;

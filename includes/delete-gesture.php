@@ -5,6 +5,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 include_once 'db_connect.php';
 include_once 'psl-config.php';
+include_once 'functions.php';
 
 $target_dir = "../";
 
@@ -34,7 +35,7 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
                                 echo json_encode(array('status' => 'deleteError'));
                                 exit();
                             } else {
-                                deleteImages($target_dir, json_decode($imageURLs));
+                                deleteFiles($target_dir, json_decode($imageURLs));
                                 echo json_encode(array('status' => 'success'));
                                 exit();
                             }
@@ -58,12 +59,4 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
     }
 } else {
     echo json_encode(array('status' => 'error'));
-}
-
-function deleteImages($targetUrl, $images) {
-    foreach ($images as $url) {
-        if (file_exists($targetUrl . $url)) {
-            unlink($targetUrl . $url);
-        }
-    }
 }

@@ -55,7 +55,9 @@ var PHYSICAL_STRESS_TEST = 'physicalStressTest';
 
 // questionnaire formats
 var OPEN_QUESTION = 'openQuestion';
+var OPEN_QUESTION_GUS = 'openQuestionGUS';
 var DICHOTOMOUS_QUESTION = 'dichotomousQuestion';
+var DICHOTOMOUS_QUESTION_GUS = 'dichotomousQuestionGUS';
 var ALTERNATIVE_QUESTION = 'alternativeQuestion';
 var GROUPING_QUESTION = 'groupingQuestion';
 var GROUPING_QUESTION_GUS = 'groupingQuestionGUS';

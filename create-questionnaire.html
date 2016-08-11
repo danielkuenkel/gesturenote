@@ -44,7 +44,7 @@
             var listContainer = $('#list-container');
             for (var i = 0; i < data.length; i++) {
                 renderFormatItem(listContainer, data[i]);
-                updateBadges(listContainer, data[i].type);
+                updateBadges(listContainer, data[i].format);
             }
             checkCurrentListState(listContainer);
         }

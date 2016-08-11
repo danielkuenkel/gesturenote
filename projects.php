@@ -31,7 +31,7 @@
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
-                    <li class="active">Projekte</li>
+                    <li class="active">Studien</li>
                 </ol>
             </div>
         </div>
@@ -39,7 +39,7 @@
         <!-- Container (Landing Section) -->
         <div class=" container-fluid text-center bg-grey" id="landingText">
             <div class="container">
-                <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> PROJEKTE</h1>
+                <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> STUDIEN</h1>
                 <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
             </div>
         </div>
@@ -47,12 +47,12 @@
         <!-- Container (Panel Section) -->
         <div class="container mainContent">
 
-            <button type="submit" class="btn btn-success btn-lg btn-block" onclick="gotoCreateProject()"><span class="glyphicon glyphicon-plus"></span> Ein neues Projekt erstellen</button>
+            <button type="submit" class="btn btn-success btn-lg btn-block" onclick="gotoCreateProject()"><i class="glyphicon glyphicon-plus"></i> Eine neue Studie erstellen</button>
 
             <div class="form-group">
                 <div class="dropdown text-right" id="filterDropdown">
                     <div class="btn-group">
-                        <button class="btn btn-default"><i class="glyphicon glyphicon-sort"></i> <span>projects sorted by</span></button>
+                        <button class="btn btn-default"><i class="glyphicon glyphicon-sort"></i> <span>studies sorted by</span></button>
                         <button class="btn btn-default" id="filterText">Date (newest first)</button>
 
                         <div class="btn-group" role="group">

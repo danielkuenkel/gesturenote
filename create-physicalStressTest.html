@@ -219,7 +219,7 @@
                 var listContainer = $('#singleStressQuestions').find('#list-container');
                 for (var i = 0; i < singleStressQuestions.length; i++) {
                     renderFormatItem(listContainer, singleStressQuestions[i]);
-                    updateBadges(listContainer, singleStressQuestions[i].type);
+                    updateBadges(listContainer, singleStressQuestions[i].format);
                 }
                 checkCurrentListState(listContainer);
             }
@@ -230,7 +230,7 @@
                 var listContainer = $('#sequenceStressQuestions').find('#list-container');
                 for (var i = 0; i < sequenceStressQuestions.length; i++) {
                     renderFormatItem(listContainer, sequenceStressQuestions[i]);
-                    updateBadges(listContainer, sequenceStressQuestions[i].type);
+                    updateBadges(listContainer, sequenceStressQuestions[i].format);
                 }
                 checkCurrentListState(listContainer);
             }
@@ -250,7 +250,7 @@
                 var listContainer = $('#observations').find('#list-container');
                 for (var i = 0; i < obeservationItems.length; i++) {
                     renderFormatItem(listContainer, obeservationItems[i]);
-                    updateBadges(listContainer, obeservationItems[i].type);
+                    updateBadges(listContainer, obeservationItems[i].format);
                 }
                 checkCurrentListState(listContainer);
             }

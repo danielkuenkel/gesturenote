@@ -10,7 +10,7 @@ var Moderator = {
         var currentPhase = getCurrentPhase();
         var currentPhaseData = getCurrentPhaseData();
         var source = getSourceContainer(currentView);
-        console.log('clone: ' + currentPhase.selectedId + ', from: ' + source.attr('id'));
+//        console.log('clone: ' + currentPhase.selectedId + ', from: ' + source.attr('id'));
         var container = $(source).find('#' + currentPhase.selectedId).clone(false).removeAttr('id');
         $(container).find('#column-left').css('opacity', '0');
         var item = null;
@@ -19,7 +19,7 @@ var Moderator = {
                 item = Moderator.getQuestionnaire(source, container, currentPhaseData, true);
                 break;
             case GUS_SINGLE_GESTURES:
-                item = Moderator.getQuestionnaire(source, container, getAssembledItems(currentPhaseData.gus), true);
+                item = Moderator.getGUS(source, container, currentPhaseData);
                 break;
             case GUS_MULTIPLE_GESTURES:
                 item = Moderator.getQuestionnaire(source, container, getAssembledItems(currentPhaseData.gus), true);
@@ -74,77 +74,86 @@ var Moderator = {
         return container;
     },
     getQuestionnaire: function getQuestionnaire(source, container, data, isPreview) {
-        for (var i = 0; i < data.length; i++) {
-            var item = $(source).find('#' + data[i].type).clone().removeAttr('id');
-//            console.log('clone: ' + data[i].type + " form: " + source.attr('id'));
-            if (data.length > 1) {
-                $(item).find('.question').text(data.length - i + '. ' + data[i].question);
-            } else {
-                $(item).find('.question').text(data[i].question);
-            }
-
-            $(container).find('.question-container').prepend(item);
-            if (data[i].dimension !== DIMENSION_ANY) {
-                $(item).find('#item-factors').removeClass('hidden');
-                $(item).find('#factor-primary').text(translation.dimensions[data[i].dimension]);
-                $(item).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(data[i].dimension)]);
-            }
-
-            var parameters = data[i].parameters;
-            var options = data[i].options;
-            if (isPreview) {
-                switch (data[i].type) {
-                    case DICHOTOMOUS_QUESTION:
-                        renderDichotomousQuestionPreview(item, parameters);
-                        break;
-                    case GROUPING_QUESTION:
-                        renderGroupingQuestionPreview(source, item, parameters, options);
-                        break;
-                    case GUS_SINGLE:
-                        renderGUSSinglePreview(item, data[i]);
-                        break;
-                    case GROUPING_QUESTION_GUS:
-                        renderGroupingQuestionGUSPreview(source, item, parameters, options);
-                        break;
-                    case RATING:
-                        renderRatingPreview(source, item, options);
-                        break;
-                    case SUM_QUESTION:
-                        renderSumQuestionPreview(source, item, parameters, options);
-                        break;
-                    case RANKING:
-                        renderRankingPreview(source, item, options);
-                        break;
-                    case ALTERNATIVE_QUESTION:
-                        renderAlternativeQuestionPreview(item, parameters);
-                        break;
+        if (data && data.length > 0) {
+            for (var i = 0; i < data.length; i++) {
+                var item = $(source).find('#' + data[i].format).clone().removeAttr('id');
+//            console.log('clone: ' + data[i].format + " form: " + source.attr('id'));
+                if (data.length > 1) {
+                    $(item).find('.question').text(data.length - i + '. ' + data[i].question);
+                } else {
+                    $(item).find('.question').text(data[i].question);
                 }
-            } else {
-                switch (data[i].type) {
-                    case DICHOTOMOUS_QUESTION:
-                        renderDichotomousQuestionInput(item, parameters);
-                        break;
-                    case GROUPING_QUESTION:
-                        renderGroupingQuestionInput(item, parameters, options);
-                        break;
-                    case GROUPING_QUESTION_GUS:
-                        renderGroupingQuestionGUSInput(item, parameters, options);
-                        break;
-                    case RATING:
-                        renderRatingInput(source, item, options);
-                        break;
-                    case SUM_QUESTION:
-                        renderSumQuestionInput(item, parameters, options);
-                        break;
-                    case RANKING:
-                        renderRankingInput(item, options);
-                        break;
-                    case ALTERNATIVE_QUESTION:
-                        renderAlternativeQuestionInput(source, item, parameters);
-                        break;
+
+                $(container).find('.question-container').prepend(item);
+                if (data[i].dimension !== DIMENSION_ANY) {
+                    $(item).find('#item-factors').removeClass('hidden');
+                    $(item).find('#factor-primary').text(translation.dimensions[data[i].dimension]);
+                    $(item).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(data[i].dimension)]);
+                }
+
+                var parameters = data[i].parameters;
+                var options = data[i].options;
+                if (isPreview) {
+                    switch (data[i].format) {
+                        case DICHOTOMOUS_QUESTION:
+                            renderDichotomousQuestionPreview(item, parameters);
+                            break;
+                        case DICHOTOMOUS_QUESTION_GUS:
+                            renderDichotomousQuestionGUSPreview(item, parameters);
+                            break;
+                        case GROUPING_QUESTION:
+                            renderGroupingQuestionPreview(source, item, parameters, options);
+                            break;
+                        case GROUPING_QUESTION_GUS:
+                            renderGroupingQuestionGUSPreview(source, item, parameters);
+                            break;
+                        case GUS_SINGLE:
+                            renderGUSSinglePreview(item, data[i]);
+                            break;
+                        case RATING:
+                            renderRatingPreview(source, item, options);
+                            break;
+                        case SUM_QUESTION:
+                            renderSumQuestionPreview(source, item, parameters, options);
+                            break;
+                        case RANKING:
+                            renderRankingPreview(source, item, options);
+                            break;
+                        case ALTERNATIVE_QUESTION:
+                            renderAlternativeQuestionPreview(item, parameters);
+                            break;
+                    }
+                } else {
+                    switch (data[i].format) {
+                        case DICHOTOMOUS_QUESTION:
+                            renderDichotomousQuestionInput(item, parameters);
+                            break;
+                        case DICHOTOMOUS_QUESTION_GUS:
+                            renderDichotomousQuestionInput(item, parameters);
+                            break;
+                        case GROUPING_QUESTION:
+                            renderGroupingQuestionInput(item, parameters, options);
+                            break;
+                        case GROUPING_QUESTION_GUS:
+                            renderGroupingQuestionGUSInput(item, parameters, options);
+                            break;
+                        case RATING:
+                            renderRatingInput(source, item, options);
+                            break;
+                        case SUM_QUESTION:
+                            renderSumQuestionInput(item, parameters, options);
+                            break;
+                        case RANKING:
+                            renderRankingInput(item, options);
+                            break;
+                        case ALTERNATIVE_QUESTION:
+                            renderAlternativeQuestionInput(source, item, parameters);
+                            break;
+                    }
                 }
             }
         }
+
         return container;
     },
     getSUS: function getSUS(source, container, data) {
@@ -159,22 +168,41 @@ var Moderator = {
         return container;
     },
     getGUS: function getGUS(source, container, data) {
-        if (data.gus && data.gus.length > 0)
-        {
-            for (var i = 0; i < data.gus.length; i++) {
-                var item = $(source).find('#gusItem').clone(false).removeAttr('id');
-                $(item).find('.question').text(i + 1 + '. ' + data.gus[i].question);
-                $(container).find('.question-container').append(item);
-                if (data.gus[i].reversed === true) {
-                    $(item).find('#reversed').removeClass('hidden');
+        var gesture = getGestureById(data.gestureId);
+        var trigger = getTriggerById(data.triggerId);
+        var feedback = getFeedbackById(data.feedbackId);
+
+        if (gesture) {
+            renderGestureImages($(container).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+            $(container).find('#gesture .address').text(translation.gesture + ':');
+            $(container).find('#gesture .text').text(gesture.title);
+            $(container).find('#trigger .address').text(translation.trigger + ':');
+            $(container).find('#trigger .text').text(trigger.title);
+            $(container).find('#feedback .address').text(translation.feedback + ':');
+            $(container).find('#feedback .text').text(feedback.title);
+
+            if (feedback) {
+                var icon = document.createElement('i');
+                var label = document.createElement('div');
+                $(label).addClass('label label-default');
+                switch (feedback.type) {
+                    case TYPE_FEEDBACK_SOUND:
+                        $(label).text(' Sound');
+                        $(icon).addClass('fa fa-volume-up');
+                        break;
+                    case TYPE_FEEDBACK_TEXT:
+                        $(label).text(' Text');
+                        $(icon).addClass('fa fa-font');
+                        break;
                 }
-                if (data.gus[i].dimension !== DIMENSION_ANY) {
-                    $(item).find('#item-factors').removeClass('hidden');
-                    $(item).find('#factor-primary').text(translation.dimensions[data.gus[i].dimension]);
-                    $(item).find('#factor-main').text(translation.mainDimensions[data.gus[i].dimension]);
-                }
+
+                container.find('#feedback .text').text(" " + feedback.title);
+                $(label).prepend(icon);
+                container.find('#feedback .text').prepend(label);
             }
         }
+
+        Moderator.getQuestionnaire(source, container, getAssembledItems(data.gus), true);
         return container;
     },
     getGestureTraining: function getGestureTraining(source, container, data) {
@@ -200,14 +228,14 @@ var Moderator = {
         var item = $(source).find('#trainingItem').clone().removeAttr('id');
         $(container).find('#trainingContainer').empty();
         $(container).find('#trainingContainer').append(item);
-//        item.find('#title .address').text(translation.title + ":");
-//        item.find('#title .text').text(gesture.title);
-//        item.find('#repeats .address').text(translation.repeats + ":");
-//        item.find('#repeats .text').text(repeats);
-//        item.find('#trigger .address').text(translation.trigger + ":");
-//        item.find('#trigger .text').text(trigger.title);
-//        item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
-//        item.find('#feedback .address').text(translation.feedback + ":");
+        item.find('#title .address').text(translation.title + ":");
+        item.find('#title .text').text(gesture.title);
+        item.find('#repeats .address').text(translation.repeats + ":");
+        item.find('#repeats .text').text(repeats);
+        item.find('#trigger .address').text(translation.trigger + ":");
+        item.find('#trigger .text').text(trigger.title);
+        item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+        item.find('#feedback .address').text(translation.feedback + ":");
 
         if (feedback) {
             var icon = document.createElement('i');
@@ -438,6 +466,17 @@ var Moderator = {
             slideshowStartTriggered = true;
             $(this).remove();
         });
+
+        // done button
+        if (testerDoneTriggered) {
+            $(container).find('#btn-done-slideshow').removeClass('hidden');
+        }
+
+        $(container).find('#btn-done-slideshow').click(function (event) {
+            event.preventDefault();
+            nextStep();
+        });
+
         // slideshow section
         for (var i = 0; i < data.slideshow.length; i++) {
             var item = $(source).find('#triggerSlideshowItem').clone().removeAttr('id');
@@ -670,7 +709,7 @@ var Moderator = {
         }
     },
     getPhysicalStressTest: function getPhysicalStressTest(source, container, data) {
-        console.log(data);
+//        console.log(data);
         // general data section
         $(container).find('#general .panel-heading').text(data.title);
         $(container).find('#general #description').text(data.description);
@@ -696,6 +735,8 @@ var Moderator = {
         return container;
     },
     renderPhysicalStressTest: function renderPhysicalStressTest(source, container, data) {
+        $(container).find('#controls .panel-heading').text(translation.gesture + " " + (currentStressTestIndex + 1) + " " + translation.of + " " + data.stressTestItems.length);
+
         if (stressTestStartTriggered) {
             container.find('#btn-show-gesture').removeClass('disabled');
             container.find('#btn-start-stress-test').remove();

@@ -4,7 +4,7 @@ include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
 session_start();
-
+//print_r(ini_get('upload_max_filesize'));
 if (login_check($mysqli) == false) {
     header('Location: index.php');
 }
@@ -675,11 +675,15 @@ if (login_check($mysqli) == false) {
             }
 
             $('.breadcrumb li').click(function () {
+//                clearSceneImages();
+//                clearSounds();
 //                clearLocalItems();
             });
 
             $('#btn-clear-data').click(function (event) {
                 event.preventDefault();
+                clearSceneImages();
+                clearSounds();
                 clearLocalItems();
                 location.reload(true);
             });

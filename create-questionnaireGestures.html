@@ -12,7 +12,7 @@
                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
             </div>
         </div>
-        <div class="dimension-container" id="container-effinciency">
+        <div class="dimension-container" id="container-efficiency">
             <h4 style="margin-top: 15px; color: #3379b7">Effizienz</h4>
             <div class="dimension-btn-group">
                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
@@ -42,13 +42,13 @@
 <script type="text/javascript">
         $(document).ready(function () {
             currentGUS = GUS_MULTIPLE_GESTURES;
-            renderDimensions($('#dimension-controls'));
-            checkDimensions($('#dimension-controls'), getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE));
-            var data = getLocalItem(currentIdForModal + '.data');
+            renderDimensions($('#dimension-controls'), getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE));
+//            checkDimensions($('#dimension-controls'), getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE));
 
             renderAssembledGestures();
             renderAssembledTriggers();
 
+            var data = getLocalItem(currentIdForModal + '.data');
             if (data !== null) {
                 renderData(data);
             }
@@ -58,9 +58,9 @@
             var listContainer = $('#list-container');
             for (var i = 0; i < data.gus.length; i++) {
                 renderFormatItem(listContainer, data.gus[i]);
-                updateBadges(listContainer, data.gus[i].type);
+                updateBadges(listContainer, data.gus[i].format);
             }
-            checkDimensionItems();
+            checkDimensionItems($('#dimension-controls .dimension-container'));
             checkCurrentListState(listContainer);
         }
 

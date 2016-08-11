@@ -73,12 +73,25 @@ $(document).on('click', '.btn-delete', function (event) {
     event.preventDefault();
     var element = $(this).closest('.root');
     var parent = $(element).parent();
+
+    if ($(element).attr('id') === SCENE_IMAGE) {
+        var url = ["../" + $(element).find('.imageAreaContent').attr('src')];
+        deleteSceneImage({image: url}, null);
+    }
+
+    if ($(element).attr('id') === TYPE_FEEDBACK_SOUND) {
+        var url = ["../" + $(element).find('.audio-holder').attr('src')];
+        deleteSound({sound: url}, null);
+    }
+
     currentContainerList = parent;
     $(element).remove();
     checkCurrentListState(parent);
+
     if ($(this).hasClass('saveGeneralData')) {
         savePhases();
     }
+
     updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
 });
 $(document).on('click', '.btn-up', function (event) {
@@ -366,6 +379,8 @@ function renderAssembledGestures(targetContainer) {
     if (gestures !== null) {
         var dropdown = target === null ? $('#form-item-container').find('.gestureSelect') : $(target).find('.gestureSelect');
         $(dropdown).find('.option').empty();
+        $(target).find('.gestureSelect .dropdown-toggle').removeClass('disabled');
+        $(target).find('.option-gesture').attr('placeholder', 'Bitte wählen');
         for (var i = 0; i < gestures.length; i++) {
             var gesture = gestures[i];
             var listItem = document.createElement('li');
@@ -375,8 +390,6 @@ function renderAssembledGestures(targetContainer) {
             link.appendChild(document.createTextNode(gesture.title));
             listItem.appendChild(link);
             $(dropdown).find('.option').append(listItem);
-            $(target).find('.gestureSelect .dropdown-toggle').removeClass('disabled');
-            $(target).find('.option-gesture').attr('placeholder', 'Bitte wählen');
         }
     } else {
         $(target).find('.gestureSelect .dropdown-toggle').addClass('disabled');
@@ -388,12 +401,16 @@ function renderAssembledGestures(targetContainer) {
  * Actions for the trigger select dropdown
  */
 
-function renderAssembledTriggers() {
+function renderAssembledTriggers(targetContainer) {
     var triggers = getLocalItem(ASSEMBLED_TRIGGER);
-    var dropdown = $('#form-item-container').find('.triggerSelect');
-    $(dropdown).find('.option').empty();
+    var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
+
     if (triggers && triggers.length > 0) {
+        var dropdown = target === null ? $('#form-item-container').find('.triggerSelect') : $(target).find('.triggerSelect');
+        $(dropdown).find('.option').empty();
         $(dropdown).find('.dropdown-toggle').removeClass('disabled');
+        $(target).find('.triggerSelect .dropdown-toggle').removeClass('disabled');
+        $(target).find('.option-trigger').attr('placeholder', 'Bitte wählen');
         var listItem;
         for (var i = 0; i < triggers.length; i++) {
             listItem = document.createElement('li');
@@ -407,7 +424,7 @@ function renderAssembledTriggers() {
         $('body').find('.option-trigger').attr('placeholder', 'Bitte wählen');
     } else {
         $(dropdown).find('.dropdown-toggle').addClass('disabled');
-        $('body').find('.option-trigger').attr('placeholder', 'Kein Triggerset vorhanden');
+        $('body').find('.option-trigger').attr('placeholder', 'Keine Funktionen vorhanden');
     }
 }
 
@@ -469,7 +486,7 @@ function renderAssembledFeedback(targetContainer) {
         var listItem;
         for (var i = 0; i < feedback.length; i++) {
             var link = document.createElement('a');
-            if (i === 0) {
+            if (i === 0 && !$(dropdown).hasClass('no-none')) {
                 listItem = document.createElement('li');
                 listItem.setAttribute('id', 'none');
                 link.setAttribute('href', '#');
@@ -542,6 +559,8 @@ $(document).on('click', '.btn-checkbox, .btn-radio', function (event) {
             $(this).find('#over, #normal').addClass('hidden');
             $(this).find('#checked').removeClass('hidden');
         }
+
+        $(this).trigger('change');
     }
 });
 
@@ -810,20 +829,14 @@ function getMainDimensionForDimension(dimension) {
 }
 
 function getDimensionByElement(element) {
-    var dimensions = new Array();
-    dimensions.push(DIMENSION_ACCEPTABILITY);
-    dimensions.push(DIMENSION_COGNITIVE_STRESS);
-    dimensions.push(DIMENSION_ERGONOMICS);
-    dimensions.push(DIMENSION_FEASIBILITY);
-    dimensions.push(DIMENSION_LERNABILITY);
-    dimensions.push(DIMENSION_MENTAL_MODEL);
-    dimensions.push(DIMENSION_RELIABILITY);
-    dimensions.push(DIMENSION_USABILITY);
-    for (var i = 0; i < dimensions.length; i++) {
-        if ($(element).hasClass(dimensions[i]) === true) {
-            return dimensions[i];
+    var dimensions = translation.dimensions;
+
+    for (var dimension in dimensions) {
+        if ($(element).hasClass(dimension) === true) {
+            return dimension;
         }
     }
+
     return DIMENSION_ANY;
 }
 

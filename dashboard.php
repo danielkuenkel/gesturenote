@@ -56,15 +56,15 @@ if (login_check($mysqli) == false) {
         </div>
 
         <!-- Container (Panel Section) -->
-        <div class="container center-text mainContent">
+        <div class="container center-text mainContent" style="margin-top: 40px">
 
             <div class="row">
                 <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-projects">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> Projekte</div>
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> Studien</div>
                         <div class="panel-body">Panel Body</div>
                         <div class="panel-footer">
-                            <button type="button" class="btn btn-success btn-block" id="btn-create-project">Neues Projekt erstellen</button>
+                            <button type="button" class="btn btn-success btn-block" id="btn-create-project"><i class="glyphicon glyphicon-plus"></i> Neue Studie erstellen</button>
                         </div>
                     </div>
                 </div>

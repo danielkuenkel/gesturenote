@@ -60,9 +60,3 @@ if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['commentId'])) {
 } else {
     echo json_encode(array('status' => 'error'));
 }
-
-function deleteImages($targetUrl, $images) {
-    foreach ($images as $url) {
-        unlink($targetUrl . $url);
-    }
-}

@@ -59,13 +59,13 @@ and open the template in the editor.
     border-color: #cccccc;
 }
 
-#gusSingle.used, #groupingQuestionGUS.used {
+.panel.used {
     opacity: 1.0;
     -webkit-filter: none;
     filter: none;
 }
 
-#gusSingle.not-used, #groupingQuestionGUS.not-used {
+.panel.not-used {
     opacity: 0.35;
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);

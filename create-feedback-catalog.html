@@ -38,7 +38,7 @@
             if (data !== null) {
                 renderData(data);
             }
-            
+
             $('#custom-modal').bind('hidden.bs.modal', function () {
                 updateCatalogButtons();
                 $(this).unbind('hidden.bs.modal');
@@ -76,7 +76,6 @@
         //        });
 
         function renderData(data) {
-            console.log(data);
             for (var i = 0; i < data.length; i++) {
                 var item = data[i];
                 var clone = $('#form-item-container').find('#' + item.type).clone();
@@ -95,6 +94,10 @@
                         if (data[i].data !== null) {
                             $(clone).find('.audio-holder').attr('src', data[i].data);
                             $(clone).find('.audioPlayer').removeClass('hidden');
+
+                            $(clone).find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
+                            $(clone).find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-volume-up');
+                            $(clone).find('.chooseFeedbackSound .btn-icon').addClass('glyphicon glyphicon-refresh');
                         }
                         break;
                 }
@@ -121,7 +124,11 @@
                         break;
                     case TYPE_FEEDBACK_SOUND:
                         parameters = null;
-                        data = $(item).find('.audio-holder').attr('src');
+                        var url = $(item).find('.audio-holder').attr('src');
+                        if (url.trim() !== '') {
+                            data = $(item).find('.audio-holder').attr('src');
+                        }
+
                         assembledData.push(new Feedback(id, type, title, parameters, data));
                         break;
                 }

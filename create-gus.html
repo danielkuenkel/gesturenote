@@ -5,6 +5,7 @@
 
 <div class="modal-body" id="general">
     <div class="alert-space alert-assembled-gesture-removed"></div>
+    <div class="alert-space alert-assembled-trigger-removed"></div>
 
     <div class="form-group" id="forGesture">
         <div class="input-group">
@@ -16,6 +17,24 @@
                 </ul>
             </div>
         </div>
+
+        <div class="input-group" id="gesture-trigger" style="margin-top: 10px">
+            <span class="input-group-addon">Funktion</span>
+            <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+            <div class="input-group-btn select triggerSelect" role="group">
+                <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+            </div>
+        </div>
+
+        <div class="input-group" id="gesture-feedback" style="margin-top: 10px">
+            <span class="input-group-addon">Feedback</span>
+            <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+            <div class="input-group-btn select feedbackSelect no-none" role="group">
+                <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+            </div>
+        </div>
     </div>
 
     <div id="dimension-controls">
@@ -25,14 +44,14 @@
                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
             </div>
         </div>
-        <div class="dimension-container" id="container-effinciency">
-            <h4 style="margin-top: 15px; color: #3379b7">Effizienz</h4>
+        <div class="dimension-container" id="container-efficiency">
+            <h4 style="color: #3379b7">Effizienz</h4>
             <div class="dimension-btn-group">
                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
             </div>
         </div>
         <div class="dimension-container" id="container-satisfaction">
-            <h4 style="margin-top: 15px; color: #3379b7">Zufriedenheit</h4>
+            <h4 style="color: #3379b7">Zufriedenheit</h4>
             <div class="dimension-btn-group">
                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
             </div>
@@ -65,12 +84,12 @@
 <script>
         $(document).ready(function () {
             currentGUS = GUS_SINGLE_GESTURES;
-            renderDimensions($('#dimension-controls'));
+            renderDimensions($('#dimension-controls'), getLocalItem(PROJECT_ORIGIN_GUS));
             renderAssembledGestures($('#forGesture'));
-            checkDimensions($('#dimension-controls'), getLocalItem(PROJECT_ORIGIN_GUS));
+            renderAssembledTriggers($('#gesture-trigger'));
+            renderAssembledFeedback($('#gesture-feedback'));
 
             var data = getLocalItem(currentIdForModal + '.data');
-
             if (data !== null) {
                 renderData(data);
             }
@@ -94,12 +113,30 @@
                 gusGestureId = null;
             }
 
+            if (data.triggerId) {
+                var trigger = getTriggerById(data.triggerId);
+                if (trigger === null) {
+                    appendAlert($('#general'), ALERT_ASSEMBLED_TRIGGER_REMOVED);
+                } else {
+                    $('#gesture-trigger').find('#' + data.triggerId).click();
+                }
+            }
+            if (data.feedbackId) {
+                var feedback = getFeedbackById(data.feedbackId);
+                if (feedback === null) {
+                    appendAlert($('#general'), ALERT_ASSEMBLED_FEEDBACK_REMOVED);
+                } else {
+                    $('#gesture-feedback').find('#' + data.feedbackId).click();
+                }
+            }
+
+
             var listContainer = $('#list-container');
             for (var i = 0; i < data.gus.length; i++) {
                 renderFormatItem(listContainer, data.gus[i]);
-                updateBadges(listContainer, data.gus[i].type);
+                updateBadges(listContainer, data.gus[i].format);
             }
-            checkDimensionItems();
+            checkDimensionItems($('#dimension-controls .dimension-container'));
             checkCurrentListState(listContainer);
         }
 
@@ -109,12 +146,24 @@
             for (var i = itemList.length; i--; ) {
                 questionnaire.push(getFormatData(itemList[i]));
             }
+
+            var gestureId = null;
+            var triggerId = null;
+            var feedbackId = null;
+
             if ($('#forGesture .chosen').attr('id') !== 'unselected') {
-                data = {gestureId: $('#forGesture .chosen').attr('id'), gus: questionnaire};
-            } else {
-                data = {gus: questionnaire};
+                gestureId = $('#forGesture .chosen').attr('id');
             }
-            setLocalItem(currentIdForModal + '.data', data);
+
+            if ($('#gesture-trigger .chosen').attr('id') !== 'unselected') {
+                triggerId = $('#gesture-trigger .chosen').attr('id');
+            }
+
+            if ($('#gesture-feedback .chosen').attr('id') !== 'unselected') {
+                feedbackId = $('#gesture-feedback .chosen').attr('id');
+            }
+
+            setLocalItem(currentIdForModal + '.data', {gestureId: gestureId, triggerId: triggerId, feedbackId: feedbackId, gus: questionnaire});
         }
 
 //        $('#btn-add-gus-item').on('click', function () {

@@ -77,7 +77,7 @@ if (login_check($mysqli) == true) {
                         <div class="alert-space alert-missing-fields"></div>
                         <div class="alert-space alert-register-success"></div>
 
-                        <form role="form" id="register-form">
+                        <div id="register-form">
                             <div class="form-group">
                                 <label for="forename">Vorname</label>
                                 <input type="text" class="form-control" name="forename" id="forename" placeholder="">
@@ -122,7 +122,7 @@ if (login_check($mysqli) == true) {
                                 </div>
                             </div>
 
-                        </form>
+                        </div>
 
                         <div class="form-group root" id="userType">
                             <label>Kontotyp</label><br>
@@ -177,7 +177,7 @@ if (login_check($mysqli) == true) {
                             <div class="alert-space alert-wrong-password"></div>
                             <div class="alert-space alert-no-user-exists"></div>
 
-                            <form role="form" id="login-form">
+                            <div id="login-form">
                                 <div class="form-group">
                                     <label for="email">E-Mail:</label>
                                     <input type="text" class="form-control" name="email" value="" id="email">
@@ -191,7 +191,7 @@ if (login_check($mysqli) == true) {
                                     <button type="button" class="btn btn-lg btn-primary disabled" id="btn-forgot"><i class="glyphicon glyphicon-time"></i> Passwort vergessen</button>
                                     <button type="button" class="btn btn-lg btn-gn" id="btn-open-register">Registrieren</button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

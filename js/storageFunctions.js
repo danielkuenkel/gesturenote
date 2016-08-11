@@ -109,7 +109,21 @@ function getSceneById(id) {
 }
 
 function removeAssembledScenes() {
+    clearSceneImages();
     removeLocalItem(ASSEMBLED_SCENES);
+}
+
+function clearSceneImages() {
+    var scenes = getLocalItem(ASSEMBLED_SCENES);
+    if (scenes && scenes.length > 0) {
+        var imageUrls = new Array();
+        for (var i = 0; i < scenes.length; i++) {
+            if (scenes[i].type === SCENE_IMAGE) {
+                imageUrls.push("../" + scenes[i].data);
+            }
+        }
+        deleteSceneImage({image: imageUrls});
+    }
 }
 
 function getFeedbackById(id) {
@@ -125,7 +139,21 @@ function getFeedbackById(id) {
 }
 
 function removeAssembledFeedback() {
+    clearSounds();
     removeLocalItem(ASSEMBLED_FEEDBACK);
+}
+
+function clearSounds() {
+    var feedback = getLocalItem(ASSEMBLED_FEEDBACK);
+    if (feedback && feedback.length > 0) {
+        var urls = new Array();
+        for (var i = 0; i < feedback.length; i++) {
+            if (feedback[i].type === TYPE_FEEDBACK_SOUND) {
+                urls.push("../" + feedback[i].data);
+            }
+        }
+        deleteSound({sound: urls});
+    }
 }
 
 function getPhaseById(id) {

@@ -269,29 +269,78 @@ $('body').on('click', '.chooseSceneImage', function (event) {
 
 $('body').on('change', '.imageUpload', function (event) {
     event.preventDefault();
-    var imageAreaContent = $(this).parent().find('.imageAreaContent');
-    var imageArea = $(this).parent().find('.imageArea');
-    var control = $(this);
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        var element = $(this).closest('.root');
+        var imageAreaContent = $(element).find('.imageAreaContent');
+        var imageArea = $(element).find('.imageArea');
+        var control = $(this);
+        var button = $(element).find('.chooseSceneImage');
+        button.addClass('disabled');
 
-    readFile(this.files[0], function (event) {
-        $(imageAreaContent).attr("src", event.target.result);
-        $(imageArea).removeClass('hidden');
-        $(imageArea).parent().find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
-        $(imageArea).parent().find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture');
-        $(imageArea).parent().find('.chooseSceneImage .btn-icon').addClass('glyphicon-refresh');
-        control.replaceWith(control = control.clone(true));
-    });
+        
+        var imageUrl = $(element).find('.imageAreaContent').attr('src');
+        if (imageUrl.trim() !== '') {
+            deleteSceneImage({image: ["../" + imageUrl]}, function (result) {
+//                console.log('image deleted: ' + result);
+            });
+        }
+        
+        var form = new FormData($(element).find('#upload-image-form'));
+        var uploadFiles = $(this)[0].files[0];
+        if (uploadFiles) {
+            form.append('image', uploadFiles);
+        }
+        console.log(form, uploadFiles);
+        readFile(this.files[0], function () {
+            showCursor($('body'), CURSOR_PROGRESS);
+
+            uploadSceneImage(form, function (result) {
+                showCursor($('body'), CURSOR_DEFAULT);
+                $(button).removeClass('disabled');
+
+                if (result.status === RESULT_SUCCESS) {
+                    $(imageAreaContent).attr("src", result.imageUrl);
+                    $(imageArea).removeClass('hidden');
+                    $(element).find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
+                    $(element).find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture');
+                    $(element).find('.chooseSceneImage .btn-icon').addClass('glyphicon-refresh');
+                    control.replaceWith(control = control.clone(true));
+                    saveData();
+                } else {
+
+                }
+            });
+        });
+    }
 });
 
 $('body').on('click', '.btn-delete-image', function (event) {
     if (event.handled !== true)
     {
         event.handled = true;
-        $(this).next().attr('src', '');
-        $(this).parent().addClass('hidden');
-        $(this).closest('.root').find('.chooseSceneImage .btn-text').text('Bild auswählen');
-        $(this).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('glyphicon-refresh');
-        $(this).closest('.root').find('.chooseSceneImage .btn-icon').addClass('glyphicon-picture');
+        var button = $(this);
+        button.addClass('disabled');
+        var element = $(this).closest('.root');
+        var imageUrl = ["../" + $(element).find('.imageAreaContent').attr('src')];
+        showCursor($('body'), CURSOR_PROGRESS);
+
+        deleteSceneImage({image: imageUrl}, function (result) {
+            showCursor($('body'), CURSOR_DEFAULT);
+            $(button).removeClass('disabled');
+
+            if (result.status === RESULT_SUCCESS) {
+                $(button).next().attr('src', '');
+                $(button).parent().addClass('hidden');
+                $(button).closest('.root').find('.chooseSceneImage .btn-text').text('Bild auswählen');
+                $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('glyphicon-refresh');
+                $(button).closest('.root').find('.chooseSceneImage .btn-icon').addClass('glyphicon-picture');
+                saveData();
+            } else {
+
+            }
+        });
     }
 });
 
@@ -305,30 +354,82 @@ $('body').on('click', '.chooseFeedbackSound', function (event) {
 
 $('body').on('change', '.soundUpload', function (event) {
     event.preventDefault();
-    var dataHolder = $(this).parent().find('.audio-holder');
-    var audioPlayer = $(this).parent().find('.audioPlayer');
-    var control = $(this);
-    console.log(this.files[0]);
-    readFile(this.files[0], function (event) {
-        $(dataHolder).attr("src", event.target.result);
-        $(audioPlayer).removeClass('hidden');
-        $(audioPlayer).parent().find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
-        $(audioPlayer).parent().find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-volume-up');
-        $(audioPlayer).parent().find('.chooseFeedbackSound .btn-icon').addClass('glyphicon glyphicon-refresh');
-        control.replaceWith(control = control.clone(true));
-    });
+    if (event.handled !== true)
+    {
+        var element = $(this).closest('.root');
+        event.handled = true;
+        var dataHolder = $(element).find('.audio-holder');
+        var audioPlayer = $(element).find('.audioPlayer');
+        var control = $(this);
+        var button = $(dataHolder).parent().find('.chooseFeedbackSound');
+        button.addClass('disabled');
+
+        
+        var soundUrl = $(element).find('.audio-holder').attr('src');
+        if (soundUrl.trim() !== '') {
+            deleteSound({sound: ["../" + soundUrl]}, function (result) {
+//                console.log('sound deleted ' + result);
+            });
+        }
+
+        var form = new FormData();
+        var uploadFiles = $(this)[0].files[0];
+        if (uploadFiles) {
+            form.append('sound', uploadFiles);
+        }
+        console.log(form, uploadFiles);
+
+        readFile(this.files[0], function () {
+            showCursor($('body'), CURSOR_PROGRESS);
+            
+            console.log(uploadFiles.size);
+            uploadSound(form, function (result) {
+                showCursor($('body'), CURSOR_DEFAULT);
+                $(button).removeClass('disabled');
+                
+                if (result.status === RESULT_SUCCESS) {
+                    $(dataHolder).attr("src", result.soundUrl);
+                    $(audioPlayer).removeClass('hidden');
+                    $(element).find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
+                    $(element).find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-volume-up');
+                    $(element).find('.chooseFeedbackSound .btn-icon').addClass('glyphicon glyphicon-refresh');
+                    control.replaceWith(control = control.clone(true));
+                    saveData();
+                } else {
+
+                }
+            });
+//
+        });
+    }
 });
 
 $('body').on('click', '.btn-delete-sound', function (event) {
     if (event.handled !== true)
     {
         event.handled = true;
-        $(this).next().attr('src', '');
-        $(this).closest('.audioPlayer').addClass('hidden');
-        $(this).closest('.root').find('.chooseFeedbackSound .btn-text').text('Sounddatei auswählen');
-        $(this).closest('.root').find('.chooseFeedbackSound .btn-icon').removeClass('glyphicon glyphicon-refresh');
-        $(this).closest('.root').find('.chooseFeedbackSound .btn-icon').addClass('fa fa-volume-up');
-        $(this).closest('.root').find('#stop').click();
+        var button = $(this);
+        button.addClass('disabled');
+        var element = $(this).closest('.root');
+        var soundUrl = ["../" + $(element).find('.audio-holder').attr('src')];
+        showCursor($('body'), CURSOR_PROGRESS);
+
+        deleteSound({sound: soundUrl}, function (result) {
+            showCursor($('body'), CURSOR_DEFAULT);
+            $(button).removeClass('disabled');
+
+            if (result.status === RESULT_SUCCESS) {
+                $(element).find('.audio-holder').attr('src', '');
+                $(element).find('.audioPlayer').addClass('hidden');
+                $(element).find('.chooseFeedbackSound .btn-text').text('Sounddatei auswählen');
+                $(element).find('.chooseFeedbackSound .btn-icon').removeClass('glyphicon glyphicon-refresh');
+                $(element).find('.chooseFeedbackSound .btn-icon').addClass('fa fa-volume-up');
+                $(element).find('#stop').click();
+                saveData();
+            } else {
+
+            }
+        });
     }
 });
 
@@ -654,12 +755,11 @@ $('body').on('click', '.btn-add-identificationOption', function (event) {
 
 
 // gus dimension handling
-function renderDimensions(target) {
+function renderDimensions(target, questionnaire) {
     var dimensions = translation.dimensions;
 
     for (var key in dimensions) {
         if (dimensions.hasOwnProperty(key)) {
-
             var value = dimensions[key];
             var mainDimension = getMainDimensionForDimension(key);
             var button = document.createElement('button');
@@ -669,13 +769,31 @@ function renderDimensions(target) {
             $(target).find('#container-' + mainDimension + " .dimension-btn-group").prepend(button);
         }
     }
+
+    if (questionnaire && questionnaire.length > 0) {
+        for (var i = 0; i < questionnaire.length; i++) {
+            if ($(target).find('#' + questionnaire[i].dimension)) {
+                $(target).find('#' + questionnaire[i].dimension).removeClass('hidden');
+                $(target).find('#' + questionnaire[i].dimension).addClass('inactive');
+            }
+        }
+    }
 }
+
+//function checkDimensions(target, questionnaire) {
+//    for (var i = 0; i < questionnaire.length; i++) {
+//        if ($(target).find('#' + questionnaire[i].dimension)) {
+//            $(target).find('#' + questionnaire[i].dimension).removeClass('hidden');
+//            $(target).find('#' + questionnaire[i].dimension).addClass('inactive');
+//        }
+//    }
+//}
 
 $('body').on('click', '.dimension-btn-group .btn-toggle', function (event) {
     if (event.handled !== true)
     {
         event.handled = true;
-        var dimensionContainer = $(this).closest('.dimension-container').find('.dimension-btn-group');
+        var dimensionContainer = $(this).closest('.dimension-container');
         var mainDimension = $(this).closest('.dimension-container').attr('id').split('-')[1];
 
         if ($(this).hasClass('active')) {
@@ -687,18 +805,16 @@ $('body').on('click', '.dimension-btn-group .btn-toggle', function (event) {
             if ($(this).attr('id') === 'all') {
 //                $('#factor-seperator').addClass('hidden');
 
-                var children = $(dimensionContainer).children('.btn-toggle');
-                $(children).filter('.active').removeClass('btn-info');
-                $(children).filter('.active').addClass('inactive');
-                $(children).filter('.active').removeClass('active');
+                var children = $(dimensionContainer).find('.btn-toggle');
+                $(children).removeClass('btn-info active').addClass('inactive');
                 $(this).text('Alle');
             } else {
-                $(this).parent().find('#all').removeClass('active');
-                $(this).parent().find('#all').removeClass('btn-info');
+                $(this).parent().find('#all').removeClass('active btn-info');
                 $(this).parent().find('#all').text('Alle');
                 checkDimensionItems(dimensionContainer);
             }
         } else {
+
             addQuestionnaireItems(dimensionContainer, $(this).attr('id'));
             $(this).addClass('active');
             $(this).addClass('btn-info');
@@ -708,9 +824,7 @@ $('body').on('click', '.dimension-btn-group .btn-toggle', function (event) {
 //                $('#factor-seperator').removeClass('hidden');
 
                 var children = $(this).parent().children('.btn-toggle');
-                $(children).filter('.inactive').addClass('btn-info');
-                $(children).filter('.inactive').addClass('active');
-                $(children).filter('.inactive').removeClass('inactive');
+                $(children).removeClass('inactive').addClass('btn-info active');
                 $(this).text('Keine');
             } else {
                 checkDimensionItems(dimensionContainer);
@@ -720,28 +834,23 @@ $('body').on('click', '.dimension-btn-group .btn-toggle', function (event) {
 });
 
 function checkDimensionItems(dimensionContainer) {
-    var dimensions = $(dimensionContainer).children('.btn-dimension');
-    var shownDimensions = $(dimensionContainer).children('.btn-dimension:not(:hidden)');
-    var inactiveDimensions = dimensions.filter('.inactive');
 
-//    if (inactiveDimensions.length === shownDimensions.length) {
-//        $('#factor-seperator').addClass('hidden');
-//
-//    } else {
-//        $('#factor-seperator').removeClass('hidden');
-//    }
+    for (var i = 0; i < dimensionContainer.length; i++) {
+        var container = $(dimensionContainer[i]).find('.dimension-btn-group');
+        var dimensions = $(container).children('.btn-dimension');
+        var hiddenDimensions = $(container).find('.hidden');
+        var inactiveDimensions = dimensions.filter('.inactive');
 
-    if (inactiveDimensions.length <= 0) {
-        $(dimensionContainer).find('#all').addClass('active');
-        $(dimensionContainer).find('#all').removeClass('inactive');
-        $(dimensionContainer).find('#all').addClass('btn-info');
-        $(dimensionContainer).find('#all').text('Keine');
+        if (hiddenDimensions.length < dimensions.length && inactiveDimensions.length === 0) {
+            $(container).find('#all').removeClass('inactive').addClass('active btn-info');
+            $(container).find('#all').text('Keine');
+        }
     }
 }
 
 function addQuestionnaireItems(container, dimension) {
     if (dimension === 'all') {
-        var dimensions = $(container).children('.btn-dimension');
+        var dimensions = $(container).find('.btn-dimension');
         for (var i = 0; i < dimensions.length; i++) {
             var dimensionButton = dimensions[i];
             if (!$(dimensionButton).hasClass('hidden') && !$(dimensionButton).hasClass('active')) {
@@ -776,15 +885,6 @@ function removeQuestionaireItems(mainDimension, dimension) {
                 $(item).find('.btn-delete').click();
                 updateBadges($('#list-container'), itemId);
             }
-        }
-    }
-}
-
-function checkDimensions(target, predefinedQuestionnaire) {
-    for (var i = 0; i < predefinedQuestionnaire.length; i++) {
-        if ($(target).find('#' + predefinedQuestionnaire[i].dimension)) {
-            $(target).find('#' + predefinedQuestionnaire[i].dimension).removeClass('hidden');
-            $(target).find('#' + predefinedQuestionnaire[i].dimension).addClass('inactive');
         }
     }
 }
@@ -824,7 +924,7 @@ function checkUsedItems(element) {
  */
 
 function renderFormatItem(target, data) {
-    var clone = $('#form-item-container').find('#' + data.type).clone();
+    var clone = $('#form-item-container').find('#' + data.format).clone();
     $(clone).find('.question').val(data.question);
     clone.addClass(data.dimension);
     target.prepend(clone);
@@ -832,16 +932,29 @@ function renderFormatItem(target, data) {
     var parameters = data.parameters;
     var options = data.options;
 
-    switch (data.type) {
+    switch (data.format) {
+        case OPEN_QUESTION_GUS:
+            if (parameters[0] === true) {
+                $(clone).find('.btn-use').click();
+            }
+            break;
         case DICHOTOMOUS_QUESTION:
-//            var aGestures = assembledGestures();
-//            if (parameters[0] === true && (aGestures && aGestures.length > 0)) {
-//                $(clone).find('.gesture-select .switchButtonAddon').click();
-//            }
-
             if (parameters[0] === true) {
                 $(clone).find('.justification .switchButtonAddon').click();
             }
+            $(clone).find('.justification-for #' + parameters[1]).click();
+            break;
+        case DICHOTOMOUS_QUESTION_GUS:
+            if (parameters[0] === true) {
+                $(clone).find('.btn-use').click();
+            }
+            if (parameters[1] === true) {
+                $(clone).find('#negative').click();
+            }
+            if (parameters[2] === true) {
+                $(clone).find('.justification .switchButtonAddon').click();
+            }
+            $(clone).find('.justification-for #' + parameters[3]).click();
             break;
         case GROUPING_QUESTION:
             if (parameters[0] === true) {
@@ -870,48 +983,8 @@ function renderFormatItem(target, data) {
             if (parameters[2] === true) {
                 $(clone).find('.justification .switchButtonAddon').click();
             }
-            console.log($(clone).find('.optionselect #' + parameters[3]).click());
-//                        $(clone).find('.optionselect #' + parameters[2]).unbind('click').bind('click');
-
-//            $('.optionselect #gestures').unbind('click').bind('click', function (event) {
-////                console.log('gestures clicked');
-//                event.preventDefault();
-//                var aGestures = assembledGestures();
-//                var container = $(this).closest('.root').find('.option-container');
-//                container.find('.groupingQuestionItem').remove();
-//
-//                if (aGestures !== null) {
-//                    for (var i = 0; i < aGestures.length; i++) {
-//                        var item = $(this).closest('.root').find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
-//                        item.addClass('groupingQuestionItem');
-//                        item.find('.option').val(aGestures[i].title);
-//                        item.find('.option').attr('id', aGestures[i].id);
-//                        container.append(item);
-//                    }
-//                    checkCurrentListState(container);
-//                }
-//            });
-//
-//            $('.optionselect #triggers').unbind('click').bind('click', function (event) {
-//                event.preventDefault();
-//                var triggers = getLocalItem(ASSEMBLED_TRIGGER);
-//                var container = $(this).closest('.root').find('.option-container');
-//                container.find('.groupingQuestionItem').remove();
-//
-//                if (triggers !== null) {
-//                    for (var i = 0; i < triggers.length; i++) {
-//                        var item = $(this).closest('.root').find('#groupingQuestionItem').clone().removeClass('hidden').removeAttr('id');
-//                        item.addClass('groupingQuestionItem');
-//                        item.find('.option').val(triggers[i].title);
-//                        item.find('.option').attr('id', triggers[i].id);
-//                        container.append(item);
-//                    }
-//                    checkCurrentListState(container);
-//                }
-//            });
-
-            $(clone).find('.optionselect #' + parameters[2]).click();
-
+            $(clone).find('.justification-for #' + parameters[3]).click();
+            $(clone).find('.optionselect #' + parameters[4]).click();
             break;
         case RATING:
             if (options) {
@@ -963,11 +1036,12 @@ function renderFormatItem(target, data) {
             if (parameters[1] === true) {
                 $(clone).find('.justification .switchButtonAddon').click();
             }
-            if (parameters[2] === true) {
+            $(clone).find('.justification-for #' + parameters[2]).click();
+            if (parameters[3] === true) {
                 $(clone).find('.optionalanswer .switchButtonAddon').click();
             }
 
-            $(clone).find('.alternative #' + parameters[3]).click();
+            $(clone).find('.alternative #' + parameters[4]).click();
 
             var currentPhase = getPhaseById(currentIdForModal);
             if (currentPhase && currentPhase.selectedId === GUS_SINGLE_GESTURES) {
@@ -976,12 +1050,12 @@ function renderFormatItem(target, data) {
                 break;
             }
 
-            if (parameters[4] === 'gesture') {
+            if (parameters[5] === 'gesture') {
                 if (assembledGestures()) {
                     $(clone).find('#alternativeGesture').click();
                 }
 
-                var gesture = parameters[5];
+                var gesture = parameters[6];
                 if (gesture) {
                     if (isGestureAssembled(gesture.id)) {
                         $(clone).find('.option-gesture').val(gesture.title);
@@ -991,27 +1065,27 @@ function renderFormatItem(target, data) {
                     }
                 }
 
-            } else if (parameters[4] === 'trigger') {
+            } else if (parameters[5] === 'trigger') {
                 if (getLocalItem(ASSEMBLED_TRIGGER))
                 {
                     $(clone).find('#alternativeTrigger').click();
                 }
 
-                if (getTriggerById(parameters[5].id)) {
-                    $(clone).find('.option-trigger').val(parameters[5].title);
-                    $(clone).find('.triggerSelect .chosen').attr('id', parameters[5].id);
+                if (getTriggerById(parameters[6].id)) {
+                    $(clone).find('.option-trigger').val(parameters[6].title);
+                    $(clone).find('.triggerSelect .chosen').attr('id', parameters[6].id);
                 } else {
                     appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
                 }
-            } else if (parameters[4] === 'feedbacks') {
+            } else if (parameters[5] === 'feedbacks') {
                 if (getLocalItem(ASSEMBLED_FEEDBACK))
                 {
                     $(clone).find('#alternativeFeedback').click();
                 }
 
-                if (getTriggerById(parameters[5].id)) {
-                    $(clone).find('.option-feedback').val(parameters[5].title);
-                    $(clone).find('.feedbackSelect .chosen').attr('id', parameters[5].id);
+                if (getTriggerById(parameters[6].id)) {
+                    $(clone).find('.option-feedback').val(parameters[6].title);
+                    $(clone).find('.feedbackSelect .chosen').attr('id', parameters[6].id);
                 } else {
                     appendAlert(clone, ALERT_ASSEMBLED_FEEDBACK_REMOVED);
                 }
@@ -1044,6 +1118,7 @@ function renderFormatItem(target, data) {
 }
 
 function getFormatData(element) {
+
     var type = $(element).attr('id');
     var dimension = getDimensionByElement($(element));
     var question = $(element).find('.question').val();
@@ -1051,9 +1126,21 @@ function getFormatData(element) {
     var options = null;
 
     switch (type) {
+        case OPEN_QUESTION_GUS:
+            parameters = new Array();
+            parameters.push($(element).find('.btn-use').hasClass('used'));
+            break;
         case DICHOTOMOUS_QUESTION:
             parameters = new Array();
             parameters.push($(element).find('.justification .active').attr('id') === 'yes' ? true : false);
+            parameters.push($(element).find('.justification-for .active').attr('id'));
+            break;
+        case DICHOTOMOUS_QUESTION_GUS:
+            parameters = new Array();
+            parameters.push($(element).find('.btn-use').hasClass('used'));
+            parameters.push($(element).find('.negative #yes').hasClass('active'));
+            parameters.push($(element).find('.justification .active').attr('id') === 'yes' ? true : false);
+            parameters.push($(element).find('.justification-for .active').attr('id'));
             break;
         case GROUPING_QUESTION:
             parameters = new Array();
@@ -1071,6 +1158,7 @@ function getFormatData(element) {
             parameters.push($(element).find('.btn-use').hasClass('used'));
             parameters.push($(element).find('.multiselect .active').attr('id') === 'yes' ? true : false);
             parameters.push($(element).find('.justification .active').attr('id') === 'yes' ? true : false);
+            parameters.push($(element).find('.justification-for .active').attr('id'));
             parameters.push($(element).find('.optionselect .active').attr('id'));
             break;
         case RATING:
@@ -1107,12 +1195,12 @@ function getFormatData(element) {
             break;
         case ALTERNATIVE_QUESTION:
             parameters = new Array();
-
             parameters.push($(element).find('.btn-use').hasClass('used'));
             parameters.push($(element).find('.justification #yes').hasClass('active'));
+            parameters.push($(element).find('.justification-for .active').attr('id'));
             parameters.push($(element).find('.optionalanswer #yes').hasClass('active'));
             parameters.push($(element).find('.alternative').find('.active').attr('id'));
-//            console.log(parameters);
+
             var aGestures = assembledGestures();
             var aTriggers = getLocalItem(ASSEMBLED_TRIGGER);
 
@@ -1128,7 +1216,6 @@ function getFormatData(element) {
                     parameters.push(ALTERNATIVE_FOR_GESTURE);
                     parameters.push(getGestureById(gestureId));
                 }
-
             } else if (aTriggers && $(element).find('.alternativeFor .active').attr('id') === 'alternativeTrigger') {
                 var triggerId = $(element).find('.triggerSelect .chosen').attr('id');
                 if (triggerId !== 'unselected') {
