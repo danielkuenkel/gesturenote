@@ -608,38 +608,41 @@ var Moderator = {
         Moderator.renderIdentification(source, container, data);
         // observation section
         if (data.observations && data.observations.length > 0) {
-            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), getAssembledItems(data.observations), false);
         }
         return container;
     },
     renderIdentification: function renderIdentification(source, container, data) {
+        console.log(data);
         var identificationId = data.identification[currentIdentificationIndex];
-        var searchedData;
-        if (data.identificationFor === 'gestures') {
-            searchedData = getTriggerById(identificationId);
-        } else {
-            searchedData = getGestureById(identificationId);
-        }
 
-        $(container).find('#slides .panel-heading-text').text(translation.formats.identification + ' ' + (currentIdentificationIndex + 1) + ' ' + translation.of + ' ' + data.identification.length);
-        var item = $(source).find('#identificationItem').clone().removeAttr('id');
-        $(container).find('#identificationContainer').empty().append(item);
-        if (data.identificationFor === 'gestures') {
-            $(item).find('#search .address').text(translation.identified + ':');
-            $(item).find('#search .text').text(translation.gesture);
-            $(item).find('#search-for .address').text(translation.For + ' ' + translation.trigger + ':');
-            $(item).find('#search-for .text').text(searchedData.title);
-            $(item).find('#gesture-repeats').removeClass('hidden');
-            $(item).find('#gesture-repeats .text').text(data.identificationRepeats);
-            $(item).find('.btn-popover-gesture-preview').remove();
-        } else {
-            $(item).find('#search .address').text(translation.identified + ':');
-            $(item).find('#search .text').text(translation.trigger);
-            $(item).find('#search-for .address').text(translation.For + ' ' + translation.gesture + ':');
-            $(item).find('#search-for .text').text(searchedData.title);
-            item.find('.btn-popover-gesture-preview').attr('name', searchedData.id);
-        }
+        if (identificationId) {
+            var searchedData;
+            if (data.identificationFor === 'gestures') {
+                searchedData = getTriggerById(identificationId);
+            } else {
+                searchedData = getGestureById(identificationId);
+            }
 
+            $(container).find('#slides .panel-heading-text').text(translation.formats.identification + ' ' + (currentIdentificationIndex + 1) + ' ' + translation.of + ' ' + data.identification.length);
+            var item = $(source).find('#identificationItem').clone().removeAttr('id');
+            $(container).find('#identificationContainer').empty().append(item);
+            if (data.identificationFor === 'gestures') {
+                $(item).find('#search .address').text(translation.identified + ':');
+                $(item).find('#search .text').text(translation.gesture);
+                $(item).find('#search-for .address').text(translation.For + ' ' + translation.trigger + ':');
+                $(item).find('#search-for .text').text(searchedData.title);
+                $(item).find('#gesture-repeats').removeClass('hidden');
+                $(item).find('#gesture-repeats .text').text(data.identificationRepeats);
+                $(item).find('.btn-popover-gesture-preview').remove();
+            } else {
+                $(item).find('#search .address').text(translation.identified + ':');
+                $(item).find('#search .text').text(translation.trigger);
+                $(item).find('#search-for .address').text(translation.For + ' ' + translation.gesture + ':');
+                $(item).find('#search-for .text').text(searchedData.title);
+                item.find('.btn-popover-gesture-preview').attr('name', searchedData.id);
+            }
+        }
 
         if (identificationStartTriggered) {
             $(container).find('#btn-start-identification').remove();

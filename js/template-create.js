@@ -279,14 +279,14 @@ $('body').on('change', '.imageUpload', function (event) {
         var button = $(element).find('.chooseSceneImage');
         button.addClass('disabled');
 
-        
+
         var imageUrl = $(element).find('.imageAreaContent').attr('src');
         if (imageUrl.trim() !== '') {
             deleteSceneImage({image: ["../" + imageUrl]}, function (result) {
 //                console.log('image deleted: ' + result);
             });
         }
-        
+
         var form = new FormData($(element).find('#upload-image-form'));
         var uploadFiles = $(this)[0].files[0];
         if (uploadFiles) {
@@ -364,7 +364,7 @@ $('body').on('change', '.soundUpload', function (event) {
         var button = $(dataHolder).parent().find('.chooseFeedbackSound');
         button.addClass('disabled');
 
-        
+
         var soundUrl = $(element).find('.audio-holder').attr('src');
         if (soundUrl.trim() !== '') {
             deleteSound({sound: ["../" + soundUrl]}, function (result) {
@@ -381,12 +381,12 @@ $('body').on('change', '.soundUpload', function (event) {
 
         readFile(this.files[0], function () {
             showCursor($('body'), CURSOR_PROGRESS);
-            
+
             console.log(uploadFiles.size);
             uploadSound(form, function (result) {
                 showCursor($('body'), CURSOR_DEFAULT);
                 $(button).removeClass('disabled');
-                
+
                 if (result.status === RESULT_SUCCESS) {
                     $(dataHolder).attr("src", result.soundUrl);
                     $(audioPlayer).removeClass('hidden');
@@ -770,6 +770,13 @@ function renderDimensions(target, questionnaire) {
         }
     }
 
+    var dimensionContainer = $(target).find('.dimension-container');
+    for (var i = 0; i < dimensionContainer.length; i++) {
+        if ($(dimensionContainer[i]).find('.btn-dimension').length === 0) {
+            $(dimensionContainer[i]).addClass('hidden');
+        }
+    }
+
     if (questionnaire && questionnaire.length > 0) {
         for (var i = 0; i < questionnaire.length; i++) {
             if ($(target).find('#' + questionnaire[i].dimension)) {
@@ -777,17 +784,10 @@ function renderDimensions(target, questionnaire) {
                 $(target).find('#' + questionnaire[i].dimension).addClass('inactive');
             }
         }
+    } else {
+        dimensionContainer.addClass('hidden');
     }
 }
-
-//function checkDimensions(target, questionnaire) {
-//    for (var i = 0; i < questionnaire.length; i++) {
-//        if ($(target).find('#' + questionnaire[i].dimension)) {
-//            $(target).find('#' + questionnaire[i].dimension).removeClass('hidden');
-//            $(target).find('#' + questionnaire[i].dimension).addClass('inactive');
-//        }
-//    }
-//}
 
 $('body').on('click', '.dimension-btn-group .btn-toggle', function (event) {
     if (event.handled !== true)
@@ -854,11 +854,11 @@ function addQuestionnaireItems(container, dimension) {
         for (var i = 0; i < dimensions.length; i++) {
             var dimensionButton = dimensions[i];
             if (!$(dimensionButton).hasClass('hidden') && !$(dimensionButton).hasClass('active')) {
-                renderData(getPredefinedQuestionnaireItemsByDimension($(dimensionButton).attr('id')));
+                renderData(getPredefinedQuestionnaireItemsByDimension($(dimensionButton).attr('id')), true);
             }
         }
     } else {
-        renderData(getPredefinedQuestionnaireItemsByDimension(dimension));
+        renderData(getPredefinedQuestionnaireItemsByDimension(dimension), true);
     }
 }
 

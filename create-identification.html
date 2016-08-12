@@ -26,22 +26,22 @@
                             <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="trigger" name="btn-success">Funktionen</button>
                         </div>
                     </div>
-<!--                    <div class="col-md-6 hidden" id="gesture-repeats-stepper">
-                        <div class="input-group simple-stepper">
-                            <div class="input-group-btn">
-                                <button class="btn btn-default btn-shadow btn-addon">Wiederholungen der Geste</button>
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Wiederholung weniger</span>
-                                </button>
-                            </div>
-                            <input type="text" class="form-control readonly text-center stepper-text" value="1">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Wiederholung mehr</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>-->
+                    <!--                    <div class="col-md-6 hidden" id="gesture-repeats-stepper">
+                                            <div class="input-group simple-stepper">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-default btn-shadow btn-addon">Wiederholungen der Geste</button>
+                                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Wiederholung weniger</span>
+                                                    </button>
+                                                </div>
+                                                <input type="text" class="form-control readonly text-center stepper-text" value="1">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
+                                                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Wiederholung mehr</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>-->
                 </div>
             </div>
         </div>
@@ -69,7 +69,28 @@
         </div>
         <div class="panel-body hidden">
 
-            <div class="form-group">
+            <div id="dimension-controls">
+                <div class="dimension-container" id="container-effectiveness">
+                    <h4 style="margin-top: 0px; color: #3379b7">Zweckmäßigkeit</h4>
+                    <div class="dimension-btn-group">
+                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                    </div>
+                </div>
+                <div class="dimension-container" id="container-efficiency">
+                    <h4 style="color: #3379b7">Effizienz</h4>
+                    <div class="dimension-btn-group">
+                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                    </div>
+                </div>
+                <div class="dimension-container" id="container-satisfaction">
+                    <h4 style="color: #3379b7">Zufriedenheit</h4>
+                    <div class="dimension-btn-group">
+                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 20px">
                 <div class="input-group">
                     <span class="input-group-addon">Beobachtungsformat</span>
                     <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
@@ -85,6 +106,7 @@
                     </div>
                 </div>
             </div>
+            <hr>
 
             <div class="form-group container-root" id="list-container"></div>
 
@@ -170,7 +192,9 @@
         $(document).ready(function () {
             var identification = $('#form-item-container #identification').clone();
             $('#identificationContainer').append(identification);
-
+            
+            renderDimensions($('#dimension-controls'), getLocalItem(PROJECT_ORIGIN_GUS));
+            
             var data = getLocalItem(currentIdForModal + '.data');
             if (data) {
                 renderData(data, false);
@@ -225,7 +249,7 @@
             if (!forPrefiniedObservation) {
                 obeservationItems = data.observations;
             } else {
-                obeservationItems = data;
+                obeservationItems = data.gus;
             }
             if (obeservationItems !== undefined && obeservationItems.length > 0) {
                 if (!forPrefiniedObservation) {
@@ -239,6 +263,7 @@
                     renderFormatItem(listContainer, obeservationItems[i]);
                     updateBadges(listContainer, obeservationItems[i].format);
                 }
+                checkDimensionItems($('#dimension-controls .dimension-container'));
                 checkCurrentListState(listContainer);
             }
         }

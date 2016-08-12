@@ -369,6 +369,55 @@ $(document).on('click', '.simple-stepper .btn-stepper-increase', function (event
         $(this).closest('.simple-stepper').find('.stepper-text').trigger('change');
     }
 });
+
+var mouseDownInterval;
+var mouseDownTimer;
+var mouseHoldInterval = 800;
+$(document).on('mousedown', '.simple-stepper .btn-stepper-increase', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    var button = $(this);
+
+    mouseDownInterval = setInterval(function () {
+        mouseHoldInterval = 50;
+        button.click();
+        clearInterval(mouseDownInterval);
+        mouseDownInterval = setInterval(function () {
+            button.click();
+        }, mouseHoldInterval);
+    }, mouseHoldInterval);
+});
+
+$(document).on('mouseup', '.simple-stepper .btn-stepper-increase', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    clearInterval(mouseDownInterval);
+    mouseHoldInterval = 800;
+});
+
+$(document).on('mousedown', '.simple-stepper .btn-stepper-decrease', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    var button = $(this);
+
+    mouseDownInterval = setInterval(function () {
+        mouseHoldInterval = 50;
+        button.click();
+        clearInterval(mouseDownInterval);
+        mouseDownInterval = setInterval(function () {
+            button.click();
+        }, mouseHoldInterval);
+    }, mouseHoldInterval);
+});
+
+$(document).on('mouseup', '.simple-stepper .btn-stepper-decrease', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    clearInterval(mouseDownInterval);
+    mouseHoldInterval = 800;
+});
+
+
 /* 
  * Actions for the gesture select dropdown
  */
@@ -855,7 +904,10 @@ function getAssembledItems(source) {
     var array = new Array();
     if (source && source.length > 0) {
         for (var i = 0; i < source.length; i++) {
-            if (source[i].parameters[0] === true) {
+            console.log(source[i].dimension);
+            if (source[i].dimension !== DIMENSION_ANY && source[i].parameters[0] === true) {
+                array.push(source[i]);
+            } else if (source[i].dimension === DIMENSION_ANY) {
                 array.push(source[i]);
             }
         }
