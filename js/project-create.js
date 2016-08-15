@@ -148,7 +148,7 @@ function renderSessionStorageData() {
         if (project.gender !== 'unselected') {
             $('#genderSwitch').find('#' + project.gender).click();
         }
-        
+
         $('#from-To-datepicker .input-daterange input').each(function () {
             if ($(this).attr('id') === 'start' && project.dateFrom !== null) {
                 var dateFrom = new Date(project.dateFrom * 1000);
@@ -355,7 +355,9 @@ function PhysicalStressTest() {
     this.stressAmount;
     this.stressTestItems;
     this.singleStressQuestions;
+    this.singleStressGraphicsRating;
     this.sequenceStressQuestions;
+    this.sequenceStressGraphicsRating;
     this.observations;
 }
 

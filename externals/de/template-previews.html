@@ -1059,6 +1059,25 @@
         <div class="col-sm-7 hidden" id="stress-test-questionnaire">
             <div class="question-container"></div>
 
+            <div class="panel panel-default hidden" id="human-body-selection-rating" style="margin-bottom: 5px;">
+                <div class="panel-body">
+                    <p class="question">Welche Teile des Körpers haben für die Geste genutzt?</p>
+                    <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
+                        <div id="joint-container" style="position: absolute"></div>
+                        <img src="img/human_body.svg">
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default hidden" id="hand-selection-rating" style="margin-bottom: 5px;">
+                <div class="panel-body">
+                    <p class="question">Welche Teile der Hand oder Hände wurden besonders beantsprucht?</p>
+                    <div class="select-joints-humand-hand" id="human-hand" style="width: 450px; margin: auto">
+                        <div id="joint-container" style="position: absolute"></div>
+                        <img src="img/human_hand.svg">
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-xs-12">
@@ -1275,20 +1294,20 @@
 
         <!--<form class="form-inline" role="form">-->
 
-            <div class="input-group simple-stepper" style="max-width: 140px">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
-                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only">weniger</span>
-                    </button>
-                </div>
-                <input type="text" class="form-control readonly text-center stepper-text" value="0">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="0">
-                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only">mehr</span>
-                    </button>
-                </div>
+        <div class="input-group simple-stepper" style="max-width: 140px">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">weniger</span>
+                </button>
             </div>
-            <label class="option-text" style="margin-left: 5px"></label>
+            <input type="text" class="form-control readonly text-center stepper-text" value="0">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="0">
+                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">mehr</span>
+                </button>
+            </div>
+        </div>
+        <label class="option-text" style="margin-left: 5px"></label>
 
         <!--</form>-->
 

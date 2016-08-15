@@ -138,17 +138,14 @@ var Tester = {
             singleGUSGesture = {gestureId: data.gestureId, triggerId: data.triggerId, feedbackId: data.feedbackId};
             container.find('#title').text(gesture.title);
             renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
-
             var trigger = getTriggerById(data.triggerId);
             var feedback = getFeedbackById(data.feedbackId);
-
             $(container).find('#gesture .address').text(translation.gesture + ':');
             $(container).find('#gesture .text').text(gesture.title);
             $(container).find('#trigger .address').text(translation.trigger + ':');
             $(container).find('#trigger .text').text(trigger.title);
             $(container).find('#feedback .address').text(translation.feedback + ':');
             $(container).find('#feedback .text').text(feedback.title);
-
             if (feedback) {
                 var icon = document.createElement('i');
                 var label = document.createElement('div');
@@ -226,7 +223,6 @@ var Tester = {
         item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
         item.find('#feedback .address').text(translation.feedback + ":");
         $(container).find('#trainingContainer').empty().append(item);
-        
         if (feedback) {
             var icon = document.createElement('i');
             var label = document.createElement('div');
@@ -554,7 +550,6 @@ var Tester = {
                 Tester.renderUnmoderatedTriggerSlideshow(source, container, data);
             }
         });
-
         if (testerDoneTriggered) {
             $(container).find('#btn-done-slide').addClass('disabled');
             $(container).find('.question-container').addClass('hidden');
@@ -566,7 +561,6 @@ var Tester = {
             testerDoneTriggered = true;
             $(container).find('.question-container').addClass('hidden');
         });
-
         $(container).find('#startSlideshow').click(function (event) {
             event.preventDefault();
             slideshowStartTriggered = true;
@@ -623,7 +617,6 @@ var Tester = {
     renderUnmoderatedIdentification: function renderUnmoderatedIdentification(source, container, data) {
         var item = $(source).find('#identificationItemUnmoderated').clone().removeAttr('id');
         $(container).find('#identificationContainer').empty().append(item);
-
         $(container).find('#btn-start-identification').click(function (event) {
             event.preventDefault();
             if (data.identificationFor === 'gestures') {
@@ -635,11 +628,9 @@ var Tester = {
             $(container).find('#general').remove();
             $(item).find('#identification-content').removeClass('hidden');
         });
-
         if (identificationStartTriggered) {
             $(item).find('#btn-start-identification').remove();
             $(item).find('#identification-content').removeClass('hidden');
-
             if (data.identificationFor === 'gestures') {
                 $(container).find('#recorder-description').removeClass('hidden');
             }
@@ -649,16 +640,13 @@ var Tester = {
             $(item).find('#trigger-identification').remove();
             var trigger = getTriggerById(data.identification[currentIdentificationIndex]);
             item.find('#trigger #text').text(trigger.title);
-
             if (data.identificationFor === 'gestures') {
                 var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder-tester').clone().removeAttr('id');
                 item.find('#gesture-recorder-container').empty().append(gestureRecorder);
                 initCheckRecorder(item.find('#gesture-recorder-container'), gestureRecorder, false);
                 renderBodyJoints(gestureRecorder.find('#human-body'));
-
                 var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
                 container.find('#recorder-description').empty().append(recorderDescription);
-
                 $(gestureRecorder).bind('gestureSavedSuccessfully', function () {
                     $(item).find('#next-controls').removeClass('hidden');
                 });
@@ -744,12 +732,9 @@ var Tester = {
     renderUnmoderatedPhysicalStressTest: function renderUnmoderatedPhysicalStressTest(source, container, data) {
         var item = $(source).find('#physicalStressTestUnmoderated').clone().removeAttr('id');
         $(container).find('#stressTestContainer').empty().append(item);
-//        if (stressTestGestureTriggered) {
-//            $(item).find('#gesturePreview').removeClass('col-sm-5').addClass('col-sm-12');
-//        }
-
         var gesture = getGestureById(data.stressTestItems[currentStressTestIndex]);
         renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+
         $(item).find('#btn-gesture-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             var mergedQuestionnaire = null;
@@ -758,6 +743,29 @@ var Tester = {
                     mergedQuestionnaire = data.sequenceStressQuestions.concat(data.singleStressQuestions);
                 } else {
                     mergedQuestionnaire = data.sequenceStressQuestions;
+                }
+            }
+
+            var selectionRating = getSelectionRating(data);
+            if (selectionRating !== 'none') {
+                console.log('selectionRating: ' + selectionRating);
+                switch (selectionRating) {
+                    case 'body':
+                        $(item).find('#hand-selection-rating').addClass('hidden');
+                        $(item).find('#human-body-selection-rating').removeClass('hidden');
+                        renderBodyJoints($(item).find('#human-body'));
+                        break;
+                    case 'hands':
+                        $(item).find('#human-body-selection-rating').addClass('hidden');
+                        $(item).find('#hand-selection-rating').removeClass('hidden');
+                        renderHandJoints($(item).find('#human-hand'));
+                        break;
+                    case 'bodyHands':
+                        $(item).find('#human-body-selection-rating').removeClass('hidden');
+                        renderBodyJoints($(item).find('#human-body'));
+                        $(item).find('#hand-selection-rating').removeClass('hidden');
+                        renderHandJoints($(item).find('#human-hand'));
+                        break;
                 }
             }
 
@@ -770,7 +778,6 @@ var Tester = {
                 $(item).find('#btn-questionnaire-done').addClass('hidden');
                 $(item).find('#btn-next-gesture').removeClass('hidden');
             }
-
 
             if (currentStressTestCount >= data.stressAmount - 1) {
                 if (mergedQuestionnaire) {
@@ -809,9 +816,6 @@ var Tester = {
         });
         $(item).find('#btn-questionnaire-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
-//            if (currentStressTestCount >= data.stressAmount) {
-//                
-//            } else {
             currentStressTestCount++;
             $(item).find('#general-repeats').removeClass('hidden');
             $(item).find('#questionnaire-heading').addClass('hidden');
@@ -819,7 +823,6 @@ var Tester = {
             $(item).find('#btn-gesture-done').removeClass('hidden');
             $(item).find('#gesturePreview').removeClass('col-sm-5').addClass('col-sm-12');
             $(item).find('#stress-test-questionnaire').addClass('hidden');
-//            }
         });
         $(item).find('#btn-next-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -1081,4 +1084,23 @@ function showScenarioInfos(target) {
 function hideScenarioInfos(target) {
     $(target).find('#btn-show-scenario-info').removeClass('hidden');
     $(target).find('#info-content').addClass('hidden');
+}
+
+function getSelectionRating(data) {
+    if (currentStressTestCount < data.stressAmount - 1) {
+        return data.singleStressGraphicsRating;
+    } else if (currentStressTestCount >= data.stressAmount - 1) {
+        if (data.singleStressGraphicsRating === data.sequenceStressGraphicsRating) {
+            return data.singleStressGraphicsRating;
+        } else if ((data.sequenceStressGraphicsRating === 'bodyHands' && (data.singleStressGraphicsRating === 'hands' || data.singleStressGraphicsRating === 'body')) ||
+                (data.singleStressGraphicsRating === 'bodyHands' && (data.sequenceStressGraphicsRating === 'hands' || data.sequenceStressGraphicsRating === 'body')) ||
+                (data.singleStressGraphicsRating === 'body' && data.sequenceStressGraphicsRating === 'hands') ||
+                (data.singleStressGraphicsRating === 'hands' && data.sequenceStressGraphicsRating === 'body')) {
+            return 'bodyHands';
+        } else if (data.sequenceStressGraphicsRating === 'none' && data.singleStressGraphicsRating !== 'none') {
+            return data.singleStressGraphicsRating;
+        } else if (data.sequenceStressGraphicsRating !== 'none' && data.singleStressGraphicsRating === 'none') {
+            return data.sequenceStressGraphicsRating;
+        }
+    }
 }
