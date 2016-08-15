@@ -593,7 +593,7 @@ label .question {
     position: absolute; 
     font-size: 18pt; 
     cursor: pointer;
-    
+
 }
 
 .btn-joint-human-body #toggle-icon {
@@ -634,4 +634,28 @@ label .question {
     padding-bottom: 5px;
     padding-left: 10px;
     padding-right: 10px;
+}
+
+.rating-container {
+    margin-bottom: 15px;
+}
+
+.rating-stars-container {
+    font-size: 16pt;
+    color: orange;
+    margin-top: -8px;
+}
+
+.rating-headling {
+    font-size: 10pt;
+    line-height: 1.2em;
+}
+
+.btn-gesture-rating {
+    overflow: hidden;
+    display: inline;
+}
+
+.btn-gesture-rating-clickable {
+    cursor: pointer;
 }

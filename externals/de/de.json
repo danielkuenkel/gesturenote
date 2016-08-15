@@ -107,6 +107,8 @@
     "edit": "Bearbeiten",
     "gesturePreviewable": "Bearbeiten beenden",
     "deleteGesture": "Geste löschen",
+    "ratedBy": "Bewertet von",
+    "ratedByUsers": "Personen",
     "gesturesCatalog": {
         "totalGestures": "Gesten insgesamt",
         "publicGestures": "Von anderen veröffentlichte Gesten",

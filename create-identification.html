@@ -26,22 +26,6 @@
                             <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="trigger" name="btn-success">Funktionen</button>
                         </div>
                     </div>
-                    <!--                    <div class="col-md-6 hidden" id="gesture-repeats-stepper">
-                                            <div class="input-group simple-stepper">
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-default btn-shadow btn-addon">Wiederholungen der Geste</button>
-                                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Wiederholung weniger</span>
-                                                    </button>
-                                                </div>
-                                                <input type="text" class="form-control readonly text-center stepper-text" value="1">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
-                                                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Wiederholung mehr</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>-->
                 </div>
             </div>
         </div>
@@ -106,6 +90,7 @@
                     </div>
                 </div>
             </div>
+
             <hr>
 
             <div class="form-group container-root" id="list-container"></div>
@@ -122,37 +107,6 @@
 
 <script type="text/javascript" src="js/template-create.js"></script>
 <script>
-//        $('#identificationTypeSwitch .btn-toggle-checkbox').on('click', function (event) {
-//            event.preventDefault();
-//            if (!$(this).hasClass('active')) {
-//                var container = $('#identificationContainer');
-//                clearAlerts(container);
-//
-//                if ($(this).attr('id') === 'gestures') {
-//                    var trigger = getLocalItem(ASSEMBLED_TRIGGER);
-//                    if (trigger && trigger.length > 0) {
-//                        renderAssembledTriggers();
-//                        $(container).find('.btn-add-identificationOption').removeClass('hidden');
-//                        $(container).find('.option-container').removeClass('hidden');
-//                    } else {
-//                        appendAlert(container, ALERT_NO_TRIGGER_ASSEMBLED);
-//                        $(container).find('.btn-add-identificationOption').addClass('hidden');
-//                        $(container).find('.option-container').addClass('hidden');
-//                    }
-//                } else if ($(this).attr('id') === 'trigger') {
-//                    if (assembledGestures()) {
-//                        renderAssembledGestures();
-//                        $(container).find('.btn-add-identificationOption').removeClass('hidden');
-//                        $(container).find('.option-container').removeClass('hidden');
-//                    } else {
-//                        appendAlert(container, ALERT_NO_GESTURES_ASSEMBLED);
-//                        $(container).find('.btn-add-identificationOption').addClass('hidden');
-//                        $(container).find('.option-container').addClass('hidden');
-//                    }
-//                }
-//            }
-//        });
-
         $('#identificationTypeSwitch').on('change', function () {
             var container = $('#identificationContainer');
             clearAlerts(container);
@@ -192,9 +146,9 @@
         $(document).ready(function () {
             var identification = $('#form-item-container #identification').clone();
             $('#identificationContainer').append(identification);
-            
+
             renderDimensions($('#dimension-controls'), getLocalItem(PROJECT_ORIGIN_GUS));
-            
+
             var data = getLocalItem(currentIdForModal + '.data');
             if (data) {
                 renderData(data, false);

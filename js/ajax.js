@@ -87,6 +87,28 @@ function getDashboardInfos(callback) {
     });
 }
 
+
+/*
+ * submit rating for a specific gesture
+ */
+function submitRatingForGesture(data, callback) {
+    $.ajax({
+        url: 'includes/submit-rating.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 /*
  * image upload
  */
@@ -331,7 +353,29 @@ function unshareGesture(data, callback) {
 
 
 /*
- * comments
+ * gesture infos
+ * rating & comments
+ */
+function getGestureInfos(data, callback) {
+    $.ajax({
+        url: 'includes/get-gesture-infos.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+/*
+ * gesture comments
  */
 function getCommentsForGesture(data, callback) {
     $.ajax({

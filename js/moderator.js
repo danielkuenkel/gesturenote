@@ -22,7 +22,7 @@ var Moderator = {
                 item = Moderator.getGUS(source, container, currentPhaseData);
                 break;
             case GUS_MULTIPLE_GESTURES:
-                item = Moderator.getQuestionnaire(source, container, getAssembledItems(currentPhaseData.gus), true);
+                item = Moderator.getQuestionnaire(source, container, currentPhaseData.gus, true);
                 break;
             case SUS:
                 item = Moderator.getSUS(source, container, currentPhaseData);
@@ -74,6 +74,7 @@ var Moderator = {
         return container;
     },
     getQuestionnaire: function getQuestionnaire(source, container, data, isPreview) {
+        data = getAssembledItems(data);
         if (data && data.length > 0) {
             for (var i = 0; i < data.length; i++) {
                 var item = $(source).find('#' + data[i].format).clone().removeAttr('id');
@@ -202,7 +203,7 @@ var Moderator = {
             }
         }
 
-        Moderator.getQuestionnaire(source, container, getAssembledItems(data.gus), true);
+        Moderator.getQuestionnaire(source, container, data.gus, true);
         return container;
     },
     getGestureTraining: function getGestureTraining(source, container, data) {
@@ -608,7 +609,7 @@ var Moderator = {
         Moderator.renderIdentification(source, container, data);
         // observation section
         if (data.observations && data.observations.length > 0) {
-            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), getAssembledItems(data.observations), false);
+            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
         }
         return container;
     },

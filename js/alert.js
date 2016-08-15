@@ -47,6 +47,8 @@ var ALERT_GESTURE_DELETE_SUCCESS = 'gesture-delete-success';
 var ALERT_GESTURE_TOO_SHORT = 'gesture-too-short';
 var ALERT_NO_GESTURES = 'no-gestures';
 
+var ALERT_RATING_SUBMITTED = 'rating-submitted';
+
 var ALERT_NO_COMMENTS = 'no-comments';
 
 function appendAlert(target, alertType) {

@@ -792,9 +792,11 @@ function renderDimensions(target, questionnaire) {
 $('body').on('click', '.dimension-btn-group .btn-toggle', function (event) {
     if (event.handled !== true)
     {
+        
         event.handled = true;
         var dimensionContainer = $(this).closest('.dimension-container');
         var mainDimension = $(this).closest('.dimension-container').attr('id').split('-')[1];
+        console.log(dimensionContainer);
 
         if ($(this).hasClass('active')) {
             removeQuestionaireItems(mainDimension, $(this).attr('id'));
