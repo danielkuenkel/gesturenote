@@ -123,7 +123,7 @@ if (login_check($mysqli) == false) {
                 <div class="input-group">
                     <span class="input-group-addon">Filter</span>
                     <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
-                    <div class="input-group-btn select" id="filterGestures" role="group">
+                    <div class="input-group-btn select" id="filter" role="group">
                         <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                             <li id="all" class="selected"><a href="#">Alle</a></li>
@@ -134,24 +134,25 @@ if (login_check($mysqli) == false) {
                     </div>
                     <span class="input-group-addon">Sortierung</span>
                     <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
-                    <div class="input-group-btn select" id="sortGestures" role="group">
+                    <div class="input-group-btn select" id="sort" role="group">
                         <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="newest"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                             <li class="dropdown-header">Datum</li>
                             <li id="oldest"><a href="#">Älteste zuerst</a></li>
                             <li id="newest"><a href="#">Neueste zuerst</a></li>
                             <li class="divider"></li>
-                            <li class="dropdown-header">Gestentitel</li>
+                            <li class="dropdown-header">Titel</li>
                             <li id="asc"><a href="#">A bis Z</a></li>
                             <li id="desc"><a href="#">Z bis A</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
+
             <div class="form-group form-group-margin-top">
                 <div class="input-group">
                     <span class="input-group-addon">Suchen</span>
-                    <input class="form-control item-input-text search gesture-search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
+                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
                     <span class="input-group-addon">Einträge pro Seite</span>
                     <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="12"/>
                     <div class="input-group-btn select" id="resultsCountSelect" role="group">
@@ -203,9 +204,11 @@ if (login_check($mysqli) == false) {
 
             getGestureCatalog(function (result) {
                 if (result.status === RESULT_SUCCESS) {
-                    currentModalId = GESTURE_CATALOG;
+//                    currentModalId = GESTURE_CATALOG;
                     if (result.gestures && result.gestures.length > 0) {
-                        $('#sortGestures #newest').click();
+                        originalFilterData = result.gestures;
+                        initPagination($('#gesture-pager .pagination'), result.gestures.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+                        $('#sort #newest').click();
                     } else {
                         appendAlert($('#item-view'), ALERT_NO_GESTURES);
                     }
@@ -214,40 +217,38 @@ if (login_check($mysqli) == false) {
         }
 
         function renderData(data) {
-            currentGestureSet = data;
-            initPagination($('#gesture-pager .pagination'), data.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-            updateView();
-        }
-
-        function updateView() {
+            currentFilterData = data;
             $('#list-container').empty();
-
             var index = parseInt($('#gesture-pager .pagination').find('.active').text()) - 1;
             var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
             var viewFromIndex = index * listCount;
-            var viewToIndex = Math.min((index + 1) * listCount, currentGestureSet.length);
+            var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
 
             var count = 0;
             for (var i = viewFromIndex; i < viewToIndex; i++) {
-                var clone = getGestureCatalogListThumbnail(currentGestureSet[i]);
+                var clone = getGestureCatalogListThumbnail(currentFilterData[i]);
                 $('#list-container').append(clone);
                 TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                 count++;
             }
         }
 
-        $('#filterGestures').unbind('change').bind('change', function (event) {
+//        function updateView() {
+//            
+//        }
+
+        $('#filter').unbind('change').bind('change', function (event) {
             event.preventDefault();
-            renderData(sortGestures());
+            renderData(sort());
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
             }
         });
 
-        $('#sortGestures').unbind('change').bind('change', function (event) {
+        $('#sort').unbind('change').bind('change', function (event) {
             event.preventDefault();
-            renderData(sortGestures());
+            renderData(sort());
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
@@ -256,7 +257,9 @@ if (login_check($mysqli) == false) {
 
         $('#resultsCountSelect').unbind('change').bind('change', function (event) {
             event.preventDefault();
-            renderData(currentGestureSet);
+            currentFilterData = sort();
+            initPagination($('#gesture-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]))
+            renderData(currentFilterData);
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
@@ -267,7 +270,7 @@ if (login_check($mysqli) == false) {
             event.preventDefault();
             if (!event.handled) {
                 event.handled = true;
-                updateView();
+                renderData(currentFilterData === null ? currentFilterData : sort());
             }
         });
 
@@ -278,13 +281,126 @@ if (login_check($mysqli) == false) {
             $('#custom-modal').unbind('gestureSavedSuccessfully').bind('gestureSavedSuccessfully', function (event, gestureId) {
                 getGestureCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
-                        currentGestureSet = result.gestures;
-                        $('#sortGestures #newest').removeClass('selected');
-                        $('#sortGestures #newest').click();
+                        originalFilterData = result.gestures;
+                        $('#sort #newest').removeClass('selected');
+                        $('#sort #newest').click();
                     }
                 });
             });
         });
+
+        var currentGesturePreviewId = null;
+        var gesturePreviewOpened = false;
+        function getGestureCatalogListThumbnail(data) {
+            var clone = $('#gestures-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
+            clone.attr('id', data.id);
+            clone.find('.title-text').text(data.title + " ");
+            clone.find('#title .text').text(data.title);
+
+            if (data.isOwner === true) {
+                if (data.source !== SOURCE_GESTURE_TESTER) {
+                    clone.find('#gesture-source').text(translation.gestureSources[SOURCE_GESTURE_RECORDED]);
+                } else {
+                    clone.find('#gesture-source').text(translation.gestureSources[data.source]);
+                }
+            }
+            clone.find('#gesture-scope').text(translation.gestureScopes[data.scope]);
+
+            renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
+
+            $(clone).find('.panel').mouseenter(function (event) {
+                event.preventDefault();
+                if (gesturePreviewOpened === false) {
+                    playThroughThumbnails($(this).find('.previewGesture'), 0);
+                }
+            });
+
+            $(clone).find('.panel').mouseleave(function (event) {
+                event.preventDefault();
+                if (gesturePreviewOpened === false) {
+                    resetThumbnails($(this).find('.previewGesture'));
+                }
+            });
+
+            $(clone).find('#btn-show-gesture-info').click({gestureId: data.id, clone: clone}, function (event) {
+                event.preventDefault();
+                resetThumbnails($(event.data.clone).find('.previewGesture'));
+                currentGesturePreviewId = event.data.gestureId;
+                gesturePreviewOpened = true;
+                $(clone).find('#btn-stop-gesture').click();
+                loadHTMLintoModal('custom-modal', 'gestures-catalog-preview.html', 'modal-lg');
+            });
+
+            if (data.isOwner) {
+                var shareButton = $(clone).find('#btn-share-gesture');
+                if (data.scope === SCOPE_GESTURE_PRIVATE) {
+                    shareButton.removeClass('unshare-gesture').addClass('share-gesture');
+                    shareButton.find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
+                    shareButton.find('.btn-text').text(translation.share);
+                } else {
+                    shareButton.removeClass('share-gesture').addClass('unshare-gesture');
+                    shareButton.find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
+                    shareButton.find('.btn-text').text(translation.unshare);
+                }
+            } else {
+                $(clone).find('#btn-share-gesture').parent().remove();
+            }
+
+            $(clone).find('#btn-share-gesture').click({gestureId: data.id}, function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    $(this).addClass('disabled');
+                    var button = $(this);
+
+                    if ($(this).hasClass('share-gesture')) {
+                        showCursor($('body'), CURSOR_PROGRESS);
+                        shareGesture({gestureId: event.data.gestureId}, function (result) {
+                            showCursor($('body'), CURSOR_DEFAULT);
+                            $(button).removeClass('disabled');
+                            if (result.status === RESULT_SUCCESS) {
+                                $(button).removeClass('share-gesture').addClass('unshare-gesture');
+                                $(button).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
+                                $(button).find('.btn-text').text(translation.unshare);
+                                clone.find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
+                                getGestureCatalog(function (result) {
+                                    if (result.status === RESULT_SUCCESS) {
+                                        originalFilterData = result.gestures;
+//                                        currentFilterData = sort();
+                                    }
+                                });
+                            }
+                        });
+                    } else if ($(this).hasClass('unshare-gesture')) {
+                        showCursor($('body'), CURSOR_PROGRESS);
+                        unshareGesture({gestureId: event.data.gestureId}, function (result) {
+                            showCursor($('body'), CURSOR_DEFAULT);
+                            $(button).removeClass('disabled');
+                            if (result.status === RESULT_SUCCESS) {
+                                $(button).removeClass('unshare-gesture').addClass('share-gesture');
+                                $(button).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
+                                $(button).find('.btn-text').text(translation.share);
+                                clone.find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
+                                getGestureCatalog(function (result) {
+                                    if (result.status === RESULT_SUCCESS) {
+                                        originalFilterData = result.gestures;
+//                                        currentFilterData = sort();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+
+            $(clone).find('#btn-unshare-gesture').click(function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    $(this).addClass('disabled');
+                }
+            });
+
+            return clone;
+        }
     </script>
 
 </body>

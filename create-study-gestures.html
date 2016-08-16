@@ -10,7 +10,7 @@
                 <div class="input-group">
                     <span class="input-group-addon">Filter</span>
                     <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
-                    <div class="input-group-btn select" id="filterGestures" role="group">
+                    <div class="input-group-btn select" id="filter" role="group">
                         <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                             <li id="all" class="selected"><a href="#">Alle</a></li>
@@ -21,7 +21,7 @@
                     </div>
                     <span class="input-group-addon">Sortierung</span>
                     <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Bitte wählen"/>
-                    <div class="input-group-btn select" id="sortGestures" role="group">
+                    <div class="input-group-btn select" id="sort" role="group">
                         <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                             <li class="dropdown-header">Datum</li>
@@ -38,7 +38,7 @@
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon">Suchen</span>
-                    <input class="form-control item-input-text search gesture-search-input save-data" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
+                    <input class="form-control item-input-text search search-input save-data" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
                     <span class="input-group-addon">Einträge pro Seite</span>
                     <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="10"/>
                     <div class="input-group-btn select" id="resultsCountSelect" role="group">
@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <div class="text-center custom-pagination" id="gesture-pager">
+        <div class="text-center custom-pagination" id="custom-pager">
             <nav>
                 <ul class="pagination pagination-custom" itemprop="clipping_2">
                     <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
@@ -78,33 +78,56 @@
 
 <script type="text/javascript" src="js/template-create.js"></script>
 <script>
-        currentGestureSet = null;
+//        currentGestureSet = null;
 
-        function renderData(data) {
-            if (data && data.length > 0) {
-                currentGestureSet = data;
-                initPagination($('#gesture-pager .pagination'), data.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-                updateView(0);
-            } else {
-                $('#list-container').empty();
+        $(document).ready(function () {
+            var data = assembledGestures();
+
+            if (data) {
+                originalFilterData = data;
+                initPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+                $('#sort #newest').click();
             }
-        }
 
-        function updateView(index) {
-            $('#list-container').empty();
+            $('#custom-modal').bind('hidden.bs.modal', function () {
+                updateCatalogButtons();
+                $(this).unbind('hidden.bs.modal');
+            });
+        });
 
-            var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
-            var viewFromIndex = index * listCount;
-            var viewToIndex = Math.min((index + 1) * listCount, currentGestureSet.length);
-            for (var i = viewFromIndex; i < viewToIndex; i++) {
-                var clone = getGestureListThumbnailPreview(currentGestureSet[i]);
-                $('#list-container').append(clone);
-            }
-        }
+//        function renderData(data) {
+//            if (data && data.length > 0) {
+//                currentGestureSet = data;
+//                initPagination($('#custom-pager .pagination'), data.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+//                updateView(0);
+//            } else {
+//                $('#list-container').empty();
+//            }
+//        }
 
         function saveData() {
             updateCatalogButtons();
         }
+
+        function renderData(data) {
+            currentFilterData = data;
+            $('#list-container').empty();
+
+            var index = parseInt($('#custom-pager .pagination').find('.active').text()) - 1;
+            var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
+            var viewFromIndex = index * listCount;
+            var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
+            for (var i = viewFromIndex; i < viewToIndex; i++) {
+                var clone = getGestureListThumbnail(currentFilterData[i]);
+                $('#list-container').append(clone);
+
+                if (isGestureAssembled(currentFilterData[i].id)) {
+                    clone.find('.gesture-assemble').click();
+                }
+            }
+        }
+
+
 
 //        $('body').on('click', '.gesture-thumbnail, .gesture-details', function (event) {
 //            event.preventDefault();
@@ -148,22 +171,22 @@
 //            }
 //        });
 
-        $('#filterGestures').unbind('change').bind('change', function (event) {
+        $('#filter').unbind('change').bind('change', function (event) {
             event.preventDefault();
 
             saveData();
-            renderData(sortGestures());
+            renderData(sort());
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
             }
         });
 
-        $('#sortGestures').unbind('change').bind('change', function (event) {
+        $('#sort').unbind('change').bind('change', function (event) {
             event.preventDefault();
 
             saveData();
-            renderData(sortGestures());
+            renderData(sort());
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
@@ -174,109 +197,12 @@
             event.preventDefault();
 
             saveData();
-            renderData(currentGestureSet);
+            checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+            renderData(currentFilterData);
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
             }
-        });
-
-//        function sortGestures() {
-//            var array = getFilteredGestures($('#filterGestures .chosen').attr('id'));
-//            var sortType = $('#sortGestures .chosen').attr('id');
-//
-//            switch (sortType) {
-//                case SORT_ASC:
-//                    array = sortByKey(array, 'title', false);
-//                    break;
-//                case SORT_DESC:
-//                    array = sortByKey(array, 'title', true);
-//                    break;
-//                case SORT_NEWEST:
-//                    array = sortByKey(array, 'timestamp', true);
-//                    break;
-//                case SORT_OLDEST:
-//                    array = sortByKey(array, 'timestamp', false);
-//                    break;
-//            }
-//            return array;
-//        }
-//
-//
-//        function searchThroughGestures(gestures, filter) {
-//            var array = new Array();
-//            for (var i = 0; i < gestures.length; i++) {
-//                if (gestures[i].title.search(new RegExp(filter, "i")) > -1) {
-//                    array.push(gestures[i]);
-//                }
-//            }
-//            return array;
-//        }
-
-//        $('body').on('keyup', '.gesture-search-input', function (event) {
-//            event.preventDefault();
-//            if (!event.handled) {
-//                event.handled = true;
-//                saveData();
-//                var filter = $(this).val();
-//                var container = $('#list-container');
-//                container.removeClass('hidden');
-//
-//                if (filter.trim() !== "" && event.keyCode !== 27) {
-//                    var matchedGestures = searchThroughGestures(sortGestures(), filter.trim());
-//                    if (matchedGestures.length > 0) {
-//                        showPanelBadges($(this).closest('.root').find('.badges'));
-//                        removeAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
-//                        renderData(matchedGestures, true);
-//                    } else {
-//                        hidePanelBadges($(this).closest('.root').find('.badges'));
-//                        container.addClass('hidden');
-//                        appendAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
-//                    }
-//                } else {
-//                    removeAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
-//                    renderData(sortGestures());
-//
-//                    if (event.keyCode === 27) {
-//                        $(this).val('');
-//                    }
-//                }
-//            }
-//        });
-
-//        function getFilteredGestures(gestureSource) {
-//            var array = new Array();
-//            if (!gestureSource) {
-//                gestureSource = $('#filterGestures').find('.chosen').attr('id');
-//            }
-//
-//            var allGestures = assembledGestures();
-//
-//            if (gestureSource === 'all') {
-//                return allGestures;
-//            } else {
-//                for (var i = 0; i < allGestures.length; i++) {
-//
-//                    if (allGestures[i].type === gestureSource) {
-//                        array.push(allGestures[i]);
-//                    }
-//                }
-//            }
-//            return array;
-//        }
-
-        $(document).ready(function () {
-            var data = assembledGestures();
-
-            if (data) {
-                currentModalId = ASSEMBLED_GESTURE_SET;
-                $('#sortGestures #newest').click();
-            }
-
-            $('#custom-modal').bind('hidden.bs.modal', function () {
-                updateCatalogButtons();
-                $(this).unbind('hidden.bs.modal');
-            });
         });
 
         $('body').on('indexChanged', '.pagination', function (event, index) {
@@ -284,7 +210,7 @@
             if (!event.handled) {
                 event.handled = true;
                 saveData();
-                updateView(index);
+                renderData(sort());
             }
         });
 </script>

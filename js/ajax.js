@@ -200,23 +200,19 @@ function deleteSound(data, callback) {
 }
 
 /*
- * project handling
+ * studies handling
  * save, delete, get, update
  */
 
-function saveProject(data) {
+function saveStudy(data, callback) {
     $.ajax({
-        url: 'includes/save-project.php',
+        url: 'includes/save-study.php',
         data: data,
         type: 'post',
         async: true,
-        success: function (data) {
-            console.log(data);
-            if (data.status === 'success') {
-//                appendAlert($('body'), ALERT_REGISTER_SUCCESS);
-
-            } else if (data.status === 'error') {
-                appendAlert($('body'), ALERT_GENERAL_ERROR);
+        success: function (result) {
+            if (callback) {
+                callback(result);
             }
         },
         error: function (xhr, desc, err) {
@@ -224,6 +220,23 @@ function saveProject(data) {
         }
     });
 }
+
+function getStudiesCatalog(callback) {
+    $.ajax({
+        url: 'includes/get-studies.php',
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 
 
 /*

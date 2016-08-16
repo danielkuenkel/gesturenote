@@ -23,13 +23,13 @@ $('body').on('click', '#addFormat', function (event) {
     if (event.handled !== true && !$(this).hasClass('disabled'))
     {
         event.handled = true;
-        var selectedID = $(this).parent().find('.chosen').attr('id');
-        if (selectedID !== 'unselected') {
-            var clone = $('#form-item-container').find('#' + selectedID).clone(true);
+        var format = $(this).parent().find('.chosen').attr('id');
+        if (format !== 'unselected') {
+            var clone = $('#form-item-container').find('#' + format).clone(true);
             var listContainer = $(this).closest('.root').find('#list-container');
             $(listContainer).prepend(clone);
             checkCurrentListState(listContainer);
-            updateBadges(listContainer, selectedID);
+            updateBadges(listContainer, format);
             TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
         }
     }
@@ -1046,7 +1046,7 @@ function renderFormatItem(target, data) {
             $(clone).find('.alternative #' + parameters[4]).click();
 
             var currentPhase = getPhaseById(currentIdForModal);
-            if (currentPhase && currentPhase.selectedId === GUS_SINGLE_GESTURES) {
+            if (currentPhase && currentPhase.format === GUS_SINGLE_GESTURES) {
                 $(clone).find('#alternativeTrigger').remove();
                 $(clone).find('.alternativeFor').addClass('hidden');
                 break;
@@ -1207,7 +1207,7 @@ function getFormatData(element) {
             var aTriggers = getLocalItem(ASSEMBLED_TRIGGER);
 
             var currentPhase = getPhaseById(currentIdForModal);
-            if (currentPhase && currentPhase.selectedId === GUS_SINGLE_GESTURES) {
+            if (currentPhase && currentPhase.format === GUS_SINGLE_GESTURES) {
                 parameters.push(ALTERNATIVE_FOR_GESTURE);
                 break;
             }

@@ -91,3 +91,7 @@ function gotoCreateProject() {
 function gotoCreateProjectPreview() {
     goto("project-preview.php");
 }
+
+function gotoProjectSavedSuccessfully() {
+    goto("project-save-success.php");
+}

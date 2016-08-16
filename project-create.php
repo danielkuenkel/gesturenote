@@ -625,50 +625,50 @@ if (login_check($mysqli) == false) {
 //            $('#info-addon-add-phases').on('click', function (event) {
 //                event.preventDefault();
 //                if (!$(this).hasClass('disabled')) {
-//                    var selectedID = $(this).parent().find('.chosen').attr('id');
-//                    loadHTMLintoModal("custom-modal", "info-" + selectedID + ".html", "modal-md");
+//                    var format = $(this).parent().find('.chosen').attr('id');
+//                    loadHTMLintoModal("custom-modal", "info-" + format + ".html", "modal-md");
 //                }
 //            });
 
             $('#addPhaseStep').click(function (event) {
                 event.preventDefault();
-                var selectedID = $(this).parent().find('.chosen').attr('id');
-                if (!$(this).hasClass('disabled') && selectedID !== 'unselected') {
+                var format = $(this).parent().find('.chosen').attr('id');
+                if (!$(this).hasClass('disabled') && format !== 'unselected') {
                     var selectedText = $(this).parent().prev().val();
-                    addPhaseStep(chance.natural(), selectedID, selectedText, null);
+                    addPhaseStep(chance.natural(), format, selectedText, null);
                     savePhases();
                 }
             });
 
-            function addPhaseStep(id, selectedID, childText, color) {
+            function addPhaseStep(id, format, childText, color) {
                 var clone = $('#phaseStepItem').clone();
                 clone.removeClass('hidden');
                 clone.attr('id', id);
                 $('#phaseStepList').append(clone);
 
-                clone.find('.btn-delete').bind("click", {selectedID: selectedID, id: id}, function (event) {
+                clone.find('.btn-delete').bind("click", {format: format, id: id}, function (event) {
                     event.preventDefault();
                     removeLocalItem(event.data.id + ".data");
                 });
 
-                clone.find('.btn-modify').attr('id', selectedID);
-                clone.find('.btn-modify').bind("click", {selectedID: selectedID, id: id}, function (event) {
+                clone.find('.btn-modify').attr('id', format);
+                clone.find('.btn-modify').bind("click", {format: format, id: id}, function (event) {
                     event.preventDefault();
                     currentIdForModal = event.data.id;
-                    loadHTMLintoModal("custom-modal", "create-" + event.data.selectedID + ".html", "modal-lg");
+                    loadHTMLintoModal("custom-modal", "create-" + event.data.format + ".html", "modal-lg");
                 });
 
                 clone.find('.glyphicon-tag').css('color', color === null ? color = colors.pop() : color);
                 clone.find('.phase-step-format').text(" " + childText);
-                clone.find('.btn-text-button').bind("click", {selectedID: selectedID, id: id}, function (event) {
+                clone.find('.btn-text-button').bind("click", {format: format, id: id}, function (event) {
                     event.preventDefault();
                     currentIdForModal = event.data.id;
-                    loadHTMLintoModal("custom-modal", "create-" + event.data.selectedID + ".html", "modal-lg");
+                    loadHTMLintoModal("custom-modal", "create-" + event.data.format + ".html", "modal-lg");
                 });
 
-                clone.find('.btn-addon').bind('click', {selectedID: selectedID}, function (event) {
+                clone.find('.btn-addon').bind('click', {format: format}, function (event) {
                     event.preventDefault();
-                    loadHTMLintoModal("custom-modal", "info-" + event.data.selectedID + ".html", "modal-md");
+                    loadHTMLintoModal("custom-modal", "info-" + event.data.format + ".html", "modal-md");
                 });
 
                 checkCurrentListState($('#phaseStepList'));
@@ -699,8 +699,28 @@ if (login_check($mysqli) == false) {
             $('#btn-save-project').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true) {
+                    var button = $(this);
+                    $(button).addClass('disabled');
+                    $('#btn-clear-data, #btn-preview-project').addClass('disabled');
                     saveGeneralData();
-                    saveProjectData();
+                    showCursor($('body'), CURSOR_POINTER);
+
+                    var submitData = getProjectSubmitData();
+                    console.log(submitData);
+                    saveStudy(submitData, function (result) {
+                        showCursor($('body'), CURSOR_DEFAULT);
+                        $(button).removeClass('disabled');
+                        $('#btn-clear-data, #btn-preview-project').removeClass('disabled');
+
+                        console.log(result);
+                        if (result.status === RESULT_SUCCESS) {
+                            clearLocalItems();
+                            gotoProjectSavedSuccessfully();
+                        } else {
+//                            appendAlert()
+                        }
+                    });
+
                 }
             });
 

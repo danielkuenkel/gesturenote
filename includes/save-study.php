@@ -16,7 +16,7 @@ if (isset($_POST['generalData'])) {
     $userId = $_SESSION['user_id'];
     $urlToken = sha1(time() . $userId);
 //    $mysqli->query("INSERT INTO login_attempts(user_id, time) VALUES ('$user_id', '$now')");
-    if ($insert_stmt = $mysqli->prepare("INSERT INTO projects (user_id, general_data, url_token) VALUES ('$userId','$projectData','$urlToken')")) {
+    if ($insert_stmt = $mysqli->prepare("INSERT INTO studies (user_id, general_data, url_token) VALUES ('$userId','$projectData','$urlToken')")) {
         if (!$insert_stmt->execute()) {
             echo json_encode(array('status' => 'insertError'));
             exit();

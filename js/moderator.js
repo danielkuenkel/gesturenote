@@ -10,11 +10,11 @@ var Moderator = {
         var currentPhase = getCurrentPhase();
         var currentPhaseData = getCurrentPhaseData();
         var source = getSourceContainer(currentView);
-//        console.log('clone: ' + currentPhase.selectedId + ', from: ' + source.attr('id'));
-        var container = $(source).find('#' + currentPhase.selectedId).clone(false).removeAttr('id');
+//        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
+        var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
         $(container).find('#column-left').css('opacity', '0');
         var item = null;
-        switch (currentPhase.selectedId) {
+        switch (currentPhase.format) {
             case QUESTIONNAIRE:
                 item = Moderator.getQuestionnaire(source, container, currentPhaseData, true);
                 break;

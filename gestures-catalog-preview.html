@@ -364,7 +364,8 @@
                             $(thumbnail).find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
                             getGestureCatalog(function (result) {
                                 if (result.status === RESULT_SUCCESS) {
-                                    currentGestureSet = sortGestures();
+                                    originalFilterData = result.gestures;
+//                                    currentGestureSet = sort();
                                 }
                             });
                         }
@@ -385,7 +386,8 @@
                             $(thumbnail).find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
                             getGestureCatalog(function (result) {
                                 if (result.status === RESULT_SUCCESS) {
-                                    currentGestureSet = sortGestures();
+                                    originalFilterData = result.gestures;
+//                                    currentGestureSet = sort();
                                 }
                             });
                         }
@@ -444,7 +446,8 @@
                             $(button).find('.btn-text').text(translation.edit);
                             $('#modal-body #gesture-data-preview').removeClass('hidden');
                             $('#modal-body #gesture-data-edit').addClass('hidden');
-                            currentGestureSet = sortGestures();
+                            originalFilterData = result.gestures;
+//                            currentGestureSet = sort();
                             renderModalData();
                         } else {
                             appendAlert($('#modal-body'), ALERT_GENERAL_ERROR);
@@ -476,8 +479,9 @@
                     if (result.status === RESULT_SUCCESS) {
                         getGestureCatalog(function (result) {
                             if (result.status === RESULT_SUCCESS) {
-                                currentGestureSet = sortGestures();
-                                checkPagination($('#gesture-pager .pagination'), currentGestureSet.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+                                originalFilterData = result.gestures;
+//                                currentGestureSet = sort();
+                                checkPagination($('#gesture-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
                                 updateView();
                             }
                             $('#custom-modal').modal('hide');

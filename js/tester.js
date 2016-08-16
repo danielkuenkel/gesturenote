@@ -10,10 +10,10 @@ var Tester = {
         var currentPhase = getCurrentPhase();
         var currentPhaseData = getCurrentPhaseData();
         var source = getSourceContainer(currentView);
-//        console.log('clone: ' + currentPhase.selectedId + ', from: ' + source.attr('id'));
-        var container = $(source).find('#' + currentPhase.selectedId).clone(false).removeAttr('id');
+//        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
+        var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
         var item = null;
-        switch (currentPhase.selectedId) {
+        switch (currentPhase.format) {
             case QUESTIONNAIRE:
                 item = Tester.getQuestionnaire(container, currentPhaseData);
                 break;

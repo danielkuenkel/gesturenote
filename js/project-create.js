@@ -109,7 +109,7 @@ function renderSessionStorageData() {
     {
         for (var i = 0; i < phaseSteps.length; i++) {
             var item = phaseSteps[i];
-            addPhaseStep(item.id, item.selectedId, item.itemText, item.color);
+            addPhaseStep(item.id, item.format, item.itemText, item.color);
         }
     }
 
@@ -210,10 +210,10 @@ function saveGeneralData() {
     project.description = $('#projectDescription').val();
     project.phase = $('#phaseSelect .chosen').attr('id');
     project.surveyType = $('#surveyTypeSelect .chosen').attr('id');
-    project.useScenes = !$('#assemble-scenes-set').hasClass('hidden');
-    project.useGestures = !$('#assemble-gesture-set').hasClass('hidden');
-    project.useTrigger = !$('#assemble-trigger-set').hasClass('hidden');
-    project.useFeedback = !$('#assemble-feedback-set').hasClass('hidden');
+//    project.useScenes = !$('#assemble-scenes-set').hasClass('hidden');
+//    project.useGestures = !$('#assemble-gesture-set').hasClass('hidden');
+//    project.useTrigger = !$('#assemble-trigger-set').hasClass('hidden');
+//    project.useFeedback = !$('#assemble-feedback-set').hasClass('hidden');
     project.recordType = $('#recordSelect .chosen').attr('id');
     project.gender = $('#genderSwitch').find('.active').attr('id');
     project.ageRange = $('#ageSlider .custom-range-slider').attr('value');
@@ -247,10 +247,10 @@ function savePhases() {
     for (var i = 0; i < phaseSteps.length; i++) {
         var item = phaseSteps[i];
         var id = $(item).attr('id');
-        var selectedId = $(item).find('.btn-modify').attr('id');
+        var format = $(item).find('.btn-modify').attr('id');
         var itemText = $(item).find('.btn-text-button').text().trim();
         var color = $(item).find('.glyphicon-tag').css('color');
-        phases.push(new PhaseItem(id, selectedId, itemText, color));
+        phases.push(new PhaseItem(id, format, itemText, color));
     }
     setLocalItem(PROJECT_PHASE_STEPS, phases);
 }
@@ -260,10 +260,6 @@ function Project() {
     this.description;
     this.phase;
     this.surveyType;
-    this.useScenes;
-    this.useGestures;
-    this.useTrigger;
-    this.useFeedback;
     this.dateFrom;
     this.dateTo;
     this.gender;
@@ -277,9 +273,9 @@ function UsabilityScaleItem(question, dimension, likertScale, reversed) {
     this.reversed = reversed;
 }
 
-function PhaseItem(id, selectedId, itemText, color) {
+function PhaseItem(id, format, itemText, color) {
     this.id = id;
-    this.selectedId = selectedId;
+    this.format = format;
     this.itemText = itemText;
     this.color = color;
 }
@@ -395,9 +391,24 @@ function Scene(id, type, title, options, data) {
     this.data = data;
 }
 
-function saveProjectData() {
+function getProjectSubmitData() {
+    saveGeneralData();
+    savePhases();
+
     var generalData = getLocalItem(PROJECT);
-    var submitData = {generalData: generalData};
-    console.log(submitData);
-    saveProject(submitData);
+
+    var phases = getLocalItem(PROJECT_PHASE_STEPS);
+    generalData.phases = phases;
+    if (phases && phases.length > 0) {
+        for (var i = 0; i < phases.length; i++) {
+            generalData[phases[i].id] = getLocalItem(phases[i].id + '.data');
+        }
+    }
+
+    generalData.assembledScenes = getLocalItem(ASSEMBLED_SCENES);
+    generalData.assembledGestureSet = getLocalItem(ASSEMBLED_GESTURE_SET);
+    generalData.assembledTrigger = getLocalItem(ASSEMBLED_TRIGGER);
+    generalData.assembledFeedback = getLocalItem(ASSEMBLED_FEEDBACK);
+
+    return {generalData: generalData};
 }
