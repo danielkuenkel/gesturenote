@@ -78,33 +78,6 @@
 
 <script type="text/javascript" src="js/template-create.js"></script>
 <script>
-//        currentGestureSet = null;
-
-        $(document).ready(function () {
-            var data = assembledGestures();
-
-            if (data) {
-                originalFilterData = data;
-                initPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-                $('#sort #newest').click();
-            }
-
-            $('#custom-modal').bind('hidden.bs.modal', function () {
-                updateCatalogButtons();
-                $(this).unbind('hidden.bs.modal');
-            });
-        });
-
-//        function renderData(data) {
-//            if (data && data.length > 0) {
-//                currentGestureSet = data;
-//                initPagination($('#custom-pager .pagination'), data.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-//                updateView(0);
-//            } else {
-//                $('#list-container').empty();
-//            }
-//        }
-
         function saveData() {
             updateCatalogButtons();
         }
@@ -118,7 +91,7 @@
             var viewFromIndex = index * listCount;
             var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
             for (var i = viewFromIndex; i < viewToIndex; i++) {
-                var clone = getGestureListThumbnail(currentFilterData[i]);
+                var clone = getGestureListThumbnailPreview(currentFilterData[i]);
                 $('#list-container').append(clone);
 
                 if (isGestureAssembled(currentFilterData[i].id)) {
@@ -212,5 +185,20 @@
                 saveData();
                 renderData(sort());
             }
+        });
+
+        $(document).ready(function () {
+            var data = assembledGestures();
+
+            if (data) {
+                originalFilterData = data;
+                initPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+                $('#sort #newest').click();
+            }
+
+            $('#custom-modal').bind('hidden.bs.modal', function () {
+                updateCatalogButtons();
+                $(this).unbind('hidden.bs.modal');
+            });
         });
 </script>

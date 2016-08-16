@@ -982,7 +982,9 @@ $(document).on('click', '.gesture-reassemble, .gesture-unassemble-description', 
         var gestureId = thumbnail.attr('id');
         reassembleGesture(gestureId);
         saveData();
-        renderData(assembledGestures());
+        originalFilterData = assembledGestures();
+        checkPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+        renderData(sort());
     }
 });
 
