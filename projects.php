@@ -160,6 +160,7 @@
 
                 getStudiesCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
+                        console.log(result.studies);
                         if (result.studies && result.studies.length > 0) {
                             originalFilterData = result.studies;
                             initPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));

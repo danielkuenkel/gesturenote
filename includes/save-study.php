@@ -11,22 +11,23 @@ if (isset($_POST['generalData'])) {
     // Serialisieren der Daten
     $projectData = json_encode($_POST['generalData']);
 
-    // get the ID of the leogged in user
+    // get the ID of the logged in user
     session_start();
     $userId = $_SESSION['user_id'];
     $urlToken = sha1(time() . $userId);
-//    $mysqli->query("INSERT INTO login_attempts(user_id, time) VALUES ('$user_id', '$now')");
     if ($insert_stmt = $mysqli->prepare("INSERT INTO studies (user_id, general_data, url_token) VALUES ('$userId','$projectData','$urlToken')")) {
         if (!$insert_stmt->execute()) {
             echo json_encode(array('status' => 'insertError'));
             exit();
-//                header('Location: ../error.php?err = Registration failure: INSERT');
+        } else {
+            echo json_encode(array('status' => 'success'));
+            exit();
         }
+    } else {
+        echo json_encode(array('status' => 'statemantError'));
+        exit();
     }
-
-    echo json_encode(array('status' => 'success'));
-
-//    exit();
-//        header('Location: ./register_success.php');
-//    }
-}    
+} else {
+    echo json_encode(array('status' => 'error'));
+    exit();
+}

@@ -270,7 +270,7 @@ if (login_check($mysqli) == false) {
             event.preventDefault();
             if (!event.handled) {
                 event.handled = true;
-                renderData(currentFilterData === null ? currentFilterData : sort());
+                renderData(sort());
             }
         });
 

@@ -398,17 +398,28 @@ function getProjectSubmitData() {
     var generalData = getLocalItem(PROJECT);
 
     var phases = getLocalItem(PROJECT_PHASE_STEPS);
-    generalData.phases = phases;
     if (phases && phases.length > 0) {
+        generalData.phases = phases;
         for (var i = 0; i < phases.length; i++) {
             generalData[phases[i].id] = getLocalItem(phases[i].id + '.data');
         }
     }
 
-    generalData.assembledScenes = getLocalItem(ASSEMBLED_SCENES);
-    generalData.assembledGestureSet = getLocalItem(ASSEMBLED_GESTURE_SET);
-    generalData.assembledTrigger = getLocalItem(ASSEMBLED_TRIGGER);
-    generalData.assembledFeedback = getLocalItem(ASSEMBLED_FEEDBACK);
+    if (getLocalItem(ASSEMBLED_SCENES)) {
+        generalData.assembledScenes = getLocalItem(ASSEMBLED_SCENES);
+    }
+
+    if (getLocalItem(ASSEMBLED_GESTURE_SET)) {
+        generalData.assembledGestureSet = getLocalItem(ASSEMBLED_GESTURE_SET);
+    }
+
+    if (getLocalItem(ASSEMBLED_TRIGGER)) {
+        generalData.assembledTrigger = getLocalItem(ASSEMBLED_TRIGGER);
+    }
+
+    if (getLocalItem(ASSEMBLED_FEEDBACK)) {
+        generalData.assembledFeedback = getLocalItem(ASSEMBLED_FEEDBACK);
+    }
 
     return {generalData: generalData};
 }

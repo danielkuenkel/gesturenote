@@ -547,10 +547,13 @@ if (login_check($mysqli) == false) {
             $('#btn-record-gestures').click(function (event) {
                 event.preventDefault();
                 loadHTMLintoModal('custom-modal', 'create-gesture-recorder.html', 'modal-md');
-                $('#custom-modal').on('gestureSavedSuccessfully', function (event, gestureId) {
-                    assembleGesture(parseInt(gestureId));
-                    getGestureCatalog();
-                    updateCatalogButtons();
+                $('#custom-modal').unbind('gestureSavedSuccessfully').bind('gestureSavedSuccessfully', function (event, gestureId) {
+                    if (!event.handled) {
+                        event.handled = true;
+                        assembleGesture(parseInt(gestureId));
+                        getGestureCatalog();
+                        updateCatalogButtons();
+                    }
                 });
             });
 

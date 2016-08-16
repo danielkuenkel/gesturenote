@@ -11,13 +11,11 @@ if (isset($_SESSION['user_id'])) {
     $sessionUserId = $_SESSION['user_id'];
 
     if ($select_stmt = $mysqli->prepare("SELECT * FROM studies WHERE user_id = '$sessionUserId' ORDER BY created ASC")) {
-        // get variables from result.
-        $select_stmt->bind_result($id, $userId, $data, $urlToken, $created);
-
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();
         } else {
+            $select_stmt->bind_result($id, $userId, $data, $urlToken, $created);
             while ($select_stmt->fetch()) {
                 $studies[] = array('id' => $id,
                     'userId' => $userId,

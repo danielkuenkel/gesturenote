@@ -744,6 +744,27 @@ function initPagination(pagination, dataLength, maxElements) {
             $(listItem).click();
         }
     }
+
+    updatePagination(pagination);
+}
+
+function updatePagination(pagination) {
+    var currentMaxPages = parseInt($(pagination).attr('maxPages'));
+    var currentIndex = parseInt($(pagination).find('.active').text()) - 1;
+
+    if (currentIndex === 0 && currentMaxPages <= 1) {
+        $(pagination).find('#btn-first-page, #btn-previous-page').addClass('disabled');
+        $(pagination).find('#btn-last-page, #btn-next-page').addClass('disabled');
+    } else if (currentIndex === 0) {
+        $(pagination).find('#btn-first-page, #btn-previous-page').addClass('disabled');
+        $(pagination).find('#btn-last-page, #btn-next-page').removeClass('disabled');
+    } else if (currentIndex === currentMaxPages - 1) {
+        $(pagination).find('#btn-first-page, #btn-previous-page').removeClass('disabled');
+        $(pagination).find('#btn-last-page, #btn-next-page').addClass('disabled');
+    } else {
+        $(pagination).find('#btn-first-page, #btn-previous-page').removeClass('disabled');
+        $(pagination).find('#btn-last-page, #btn-next-page').removeClass('disabled');
+    }
 }
 
 function checkPagination(pagination, dataLength, maxElements) {
@@ -768,7 +789,7 @@ function getCurrentPaginationIndex(pagination) {
 
 $(document).on('click', '.pagination li', function (event) {
     event.preventDefault();
-    if (event.handled !== true)
+    if (event.handled !== true && !$(this).hasClass('disabled'))
     {
         event.handled = true;
         var pagination = $(this).closest('.pagination');
@@ -806,6 +827,8 @@ $(document).on('click', '.pagination li', function (event) {
                     break;
             }
         }
+
+        updatePagination(pagination);
     }
 });
 function shiftPaginationForward(pagination) {
@@ -983,7 +1006,11 @@ $(document).on('click', '.gesture-reassemble, .gesture-unassemble-description', 
         reassembleGesture(gestureId);
         saveData();
         originalFilterData = assembledGestures();
-        checkPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+        if (originalFilterData && originalFilterData.length > 0) {
+            checkPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+        } else {
+            checkPagination($('#custom-pager .pagination'), 0, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+        }
         renderData(sort());
     }
 });

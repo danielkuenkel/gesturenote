@@ -52,6 +52,7 @@ function successCallback(stream) {
 }
 
 function showRecord() {
+    resetRecorder();
     $(recorderTarget).find('.recorder #btn-record').removeClass('hidden');
     $(recorderTarget).find('.recorder #btn-record-stop').addClass('hidden');
     $(recorderTarget).find('.recorder #recorder-video').removeClass('hidden');

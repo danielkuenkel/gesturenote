@@ -86,16 +86,18 @@
             currentFilterData = data;
             $('#list-container').empty();
 
-            var index = parseInt($('#custom-pager .pagination').find('.active').text()) - 1;
-            var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
-            var viewFromIndex = index * listCount;
-            var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
-            for (var i = viewFromIndex; i < viewToIndex; i++) {
-                var clone = getGestureListThumbnailPreview(currentFilterData[i]);
-                $('#list-container').append(clone);
+            if (currentFilterData && currentFilterData.length > 0) {
+                var index = parseInt($('#custom-pager .pagination').find('.active').text()) - 1;
+                var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
+                var viewFromIndex = index * listCount;
+                var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
+                for (var i = viewFromIndex; i < viewToIndex; i++) {
+                    var clone = getGestureListThumbnailPreview(currentFilterData[i]);
+                    $('#list-container').append(clone);
 
-                if (isGestureAssembled(currentFilterData[i].id)) {
-                    clone.find('.gesture-assemble').click();
+                    if (isGestureAssembled(currentFilterData[i].id)) {
+                        clone.find('.gesture-assemble').click();
+                    }
                 }
             }
         }

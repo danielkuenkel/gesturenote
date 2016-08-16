@@ -365,7 +365,7 @@
                             getGestureCatalog(function (result) {
                                 if (result.status === RESULT_SUCCESS) {
                                     originalFilterData = result.gestures;
-//                                    currentGestureSet = sort();
+//                                    currentFilterData = sort();
                                 }
                             });
                         }
@@ -387,7 +387,7 @@
                             getGestureCatalog(function (result) {
                                 if (result.status === RESULT_SUCCESS) {
                                     originalFilterData = result.gestures;
-//                                    currentGestureSet = sort();
+//                                    currentFilterData = sort();
                                 }
                             });
                         }
@@ -447,7 +447,7 @@
                             $('#modal-body #gesture-data-preview').removeClass('hidden');
                             $('#modal-body #gesture-data-edit').addClass('hidden');
                             originalFilterData = result.gestures;
-//                            currentGestureSet = sort();
+//                            currentFilterData = sort();
                             renderModalData();
                         } else {
                             appendAlert($('#modal-body'), ALERT_GENERAL_ERROR);
@@ -480,9 +480,9 @@
                         getGestureCatalog(function (result) {
                             if (result.status === RESULT_SUCCESS) {
                                 originalFilterData = result.gestures;
-//                                currentGestureSet = sort();
-                                checkPagination($('#gesture-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-                                updateView();
+                                currentFilterData = sort();
+                                checkPagination($('#gesture-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+                                renderData(currentFilterData);
                             }
                             $('#custom-modal').modal('hide');
                         });
