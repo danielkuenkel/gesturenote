@@ -255,10 +255,10 @@ if (login_check($mysqli) == false) {
             }
         });
 
-        $('#resultsCountSelect').unbind('change').bind('change', function (event) {
+        $('#resultsCountSelect').unbind('change').bind('change', function (event, id) {
             event.preventDefault();
             currentFilterData = sort();
-            initPagination($('#gesture-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]))
+            initPagination($('#gesture-pager .pagination'), currentFilterData.length, parseInt(id.split('_')[1]));
             renderData(currentFilterData);
 
             if ($('#searched-input').val().trim() !== "") {
@@ -266,7 +266,7 @@ if (login_check($mysqli) == false) {
             }
         });
 
-        $('#gesture-pager .pagination').on('indexChanged', function (event, index) {
+        $('#gesture-pager .pagination').on('indexChanged', function (event) {
             event.preventDefault();
             if (!event.handled) {
                 event.handled = true;

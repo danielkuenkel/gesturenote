@@ -1,5 +1,13 @@
 <?php
 include './includes/language.php';
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+
+session_start();
+
+if (login_check($mysqli) == false) {
+    header('Location: index.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +33,7 @@ include './includes/language.php';
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
         <script src="http://chancejs.com/chance.min.js"></script>
         <script src="color-thief/color-thief.js"></script>
+        <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/storage.js"></script>
@@ -35,7 +44,6 @@ include './includes/language.php';
         <script src="js/gotoPage.js"></script>       
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
-        <script src="js/thumbscrubber.js"></script>
         <script src="js/project-preview.js"></script>
         <script src="js/renderForms.js"></script>
         <script src="js/joint-selection.js"></script>
@@ -68,7 +76,7 @@ include './includes/language.php';
                     <button class="btn btn-default btn-dropdown dropdown-toggle" id="btn-phaseStepSelect" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                     <ul class="dropdown-menu option" role="menu">
                     </ul>
-                    <button type="button" class="btn btn-danger" onclick="gotoCreateProject()"><i class="glyphicon glyphicon-remove"></i> <?php echo $lang->close ?></button>
+                    <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="glyphicon glyphicon-remove"></i> <?php echo $lang->close ?></button>
                 </div>
             </div>
         </div>
@@ -164,184 +172,219 @@ include './includes/language.php';
             </div>
         </div>
 
-        <script src="js/template-forms.js"></script>
         <script>
-                        var currentView;
-                        $(document).ready(function () {
-                            checkLanguage(function () {
-                                var externals = new Array();
-                                var path = PATH_EXTERNALS + '/' + currentLanguage + '/';
-                                externals.push(['#alerts', path + 'alerts.html']);
-                                externals.push(['#template-gesture', path + 'template-gesture.html']);
-                                externals.push(['#template-previews', path + 'template-previews.html']);
-                                externals.push(['#template-gesture-recorder', path + '/template-gesture-recorder.html']);
-                                loadExternals(externals);
-                            });
-                        });
+            var currentView;
+            $(document).ready(function () {
+                checkLanguage(function () {
+                    var externals = new Array();
+                    var path = PATH_EXTERNALS + '/' + currentLanguage + '/';
+                    externals.push(['#alerts', path + 'alerts.html']);
+                    externals.push(['#template-gesture', path + 'template-gesture.html']);
+                    externals.push(['#template-previews', path + 'template-previews.html']);
+                    externals.push(['#template-gesture-recorder', path + '/template-gesture-recorder.html']);
+                    loadExternals(externals);
+                });
+            });
 
 //                        var lastScrollTop;
-                        $(window).on('resize', function () {
+            $(window).on('resize', function () {
 //                            console.log('resize: ' + $(document).scrollTop());
-                            if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
-                                updateRTCHeight($('#viewModerator #column-left').width());
-                            }
+                if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
+                    updateRTCHeight($('#viewModerator #column-left').width());
+                }
 //                            else if ($(document).scrollTop() > 0) {
 //                                $(document).scrollTop(0);
 //                                updateRTCHeight($('#viewModerator #column-left').width());
 //                            }
 //                            lastScrollTop = $(document).scrollTop();
-                        });
+            });
 
-                        function updateRTCHeight(newWidth) {
-                            TweenMax.to($('#web-rtc-placeholder'), .1, {width: newWidth, onComplete: onResizeComplete});
-                        }
+            function updateRTCHeight(newWidth) {
+                TweenMax.to($('#web-rtc-placeholder'), .1, {width: newWidth, onComplete: onResizeComplete});
+            }
 
-                        function onResizeComplete() {
-                            var ratio = $('#web-rtc-placeholder').width() / $('#web-rtc-placeholder').height();
-                            $('#web-rtc-placeholder').attr('ratio', ratio);
-                            TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: $('#web-rtc-placeholder').height() + 20, opacity: 1.0}});
-                        }
+            function onResizeComplete() {
+                var ratio = $('#web-rtc-placeholder').width() / $('#web-rtc-placeholder').height();
+                $('#web-rtc-placeholder').attr('ratio', ratio);
+                TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: $('#web-rtc-placeholder').height() + 20, opacity: 1.0}});
+            }
 
-                        var resetRTCTimeout;
-                        $(window).scroll(function () {
-                            if ($('#viewModerator #column-left').hasClass('rtc-scalable') && !$('#pinnedRTC').hasClass('hidden')) {
-                                if ($(document).scrollTop() <= 0 && ($('#viewModerator #column-left').width() !== $('#web-rtc-placeholder').width() || $('#web-rtc-placeholder').height() !== $('#viewModerator #column-left').offset().top - 20)) {
-                                    resetRTCTimeout = setTimeout(resetRTC(), 100);
-                                    return false;
-                                } else {
-                                    clearTimeout(resetRTCTimeout);
-                                }
+            var resetRTCTimeout;
+            $(window).scroll(function () {
+                if ($('#viewModerator #column-left').hasClass('rtc-scalable') && !$('#pinnedRTC').hasClass('hidden')) {
+                    if ($(document).scrollTop() <= 0 && ($('#viewModerator #column-left').width() !== $('#web-rtc-placeholder').width() || $('#web-rtc-placeholder').height() !== $('#viewModerator #column-left').offset().top - 20)) {
+                        resetRTCTimeout = setTimeout(resetRTC(), 100);
+                        return false;
+                    } else {
+                        clearTimeout(resetRTCTimeout);
+                    }
 
-                                var ratio = $('#web-rtc-placeholder').attr('ratio');
-                                var newHeight = Math.min($('#viewModerator #column-left').offset().top - 20 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 20 - parseInt($('#mainContent').css('padding-top')), 170));
-                                $('#web-rtc-placeholder').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
-                            }
-                        });
+                    var ratio = $('#web-rtc-placeholder').attr('ratio');
+                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 20 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 20 - parseInt($('#mainContent').css('padding-top')), 170));
+                    $('#web-rtc-placeholder').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
+                }
+            });
 
-                        function resetRTC() {
-                            clearTimeout(resetRTCTimeout);
-                            $(window).resize();
-                        }
+            function resetRTC() {
+                clearTimeout(resetRTCTimeout);
+                $(window).resize();
+            }
 
-                        function onAllExternalsLoadedSuccessfully() {
-                            if (typeof (Storage) !== "undefined") {
-                                checkStorage();
-                            } else {
-                                console.log("Sorry, your browser do not support Web Session Storage.");
-                            }
-                        }
+            function onAllExternalsLoadedSuccessfully() {
+                var query = getQueryParams(document.location.search);
+                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
 
-
-                        $('.previous').on('click', function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('disabled')) {
-                                previousStep();
-                            }
-                        });
-
-                        $('body').on('click', '.next', function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('disabled')) {
-                                nextStep();
-                            }
-                        });
-
-                        $('body').on('click', '.phaseStepsSelect .option li', function (event) {
-                            if (!$(this).hasClass('selected')) {
-                                setTimeout(function () {
-                                    updateProgress();
-                                    renderPhaseStep();
-                                    updatePager();
-                                }, 50);
-                            }
-                        });
-
-                        $('#btnViewModerator').on('click', function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('btn-gn') && !$(this).hasClass('disabled')) {
-                                showModeratorView();
-                                renderPhaseStepForModerator();
-                            }
-                        });
-
-                        $('#btnViewTester').on('click', function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('btn-gn')) {
-                                showTesterView();
-                                pinRTC();
-                                renderPhaseStepForTester();
-                            }
-                        });
-
-                        function showModeratorView() {
-                            currentView = VIEW_MODERATOR;
-                            $('#btnViewModerator').addClass('btn-gn');
-                            $('#btnViewTester').removeClass('btn-gn');
-                            $('#viewTester').addClass('hidden');
-                            $('#viewModerator').removeClass('hidden');
-                        }
-
-                        function showTesterView() {
-                            currentView = VIEW_TESTER;
-                            $('#btnViewTester').addClass('btn-gn');
-                            $('#btnViewModerator').removeClass('btn-gn');
-                            $('#viewTester').removeClass('hidden');
-                            $('#viewModerator').addClass('hidden');
-                        }
-
-                        function renderPhaseStep() {
-                            removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-
-                            if (currentView === VIEW_TESTER) {
-                                renderPhaseStepForTester();
-                            } else {
-                                renderPhaseStepForModerator();
+                if (query.edit && (query.edit === true || query.edit === "true") && query.studyId) {
+                    init();
+                    $('#btn-close-study-preview').on('click', function (event) {
+                        event.preventDefault();
+                        goto("project-create.php?edit=true&studyId=" + query.studyId);
+                    });
+                } else if (query.studyId && query.h === hash) {
+                    getStudyById({studyId: query.studyId}, function (result) {
+                        if (result.status === RESULT_SUCCESS) {
+                            if (result.data) {
+                                clearLocalItems();
+                                setProjectData(result);
+                                init();
                             }
                         }
+                    });
 
-                        function resetRenderedContent() {
-                            $('#viewTester').find('#phase-content').empty();
-                            $('#viewModerator').find('#phase-content').empty();
-                        }
+                    $('#btn-close-study-preview').on('click', function (event) {
+                        event.preventDefault();
+                        clearLocalItems();
+                        var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                        goto("study.php?studyId=" + query.studyId + "&h=" + hash);
+                    });
+                } else {
+                    init();
 
-                        function renderPhaseStepForModerator() {
-                            resetRenderedContent();
-                            var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
-                            var data = getLocalItem(currentStepId + ".data");
-                            if (data || (data && $.isArray(data) && data.length > 0)) {
-                                Moderator.renderView();
-                            } else {
-                                Moderator.renderNoDataView();
-                            }
-                        }
+                    $('#btn-close-study-preview').on('click', function (event) {
+                        event.preventDefault();
+                        gotoCreateProject();
+                    });
+                }
+            }
 
-                        function renderPhaseStepForTester() {
-                            resetRenderedContent();
-                            var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
-                            var data = getLocalItem(currentStepId + ".data");
+            function init() {
+                if (typeof (Storage) !== "undefined") {
+                    checkStorage();
+                } else {
+                    console.log("Sorry, your browser do not support Web Session Storage.");
+                }
+            }
 
-                            if (data || (data && $.isArray(data) && data.length > 0)) {
-                                Tester.renderView();
-                            } else {
-                                Tester.renderNoDataView();
-                            }
-                        }
 
-                        $('#btn-toggle-rtc-fixed').on('click', function (event) {
-                            event.preventDefault();
-                            if ($(this).hasClass('selected')) {
-                                $(this).removeClass('selected');
-                                $(this).find('.glyphicon').removeClass('glyphicon-pushpin');
-                                $(this).find('.glyphicon').addClass('glyphicon-new-window');
-                                pinRTC();
-                            } else {
-                                $(this).addClass('selected');
-                                $(this).find('.glyphicon').removeClass('glyphicon-new-window');
-                                $(this).find('.glyphicon').addClass('glyphicon-pushpin');
-                                dragRTC();
-                            }
-                        });
+            $('.previous').on('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    previousStep();
+                }
+            });
 
+            $('body').on('click', '.next', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    nextStep();
+                }
+            });
+
+            $('body').on('click', '.phaseStepsSelect .option li', function (event) {
+                if (!$(this).hasClass('selected')) {
+                    setTimeout(function () {
+                        updateProgress();
+                        renderPhaseStep();
+                        updatePager();
+                    }, 50);
+                }
+            });
+
+            $('#btnViewModerator').on('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('btn-gn') && !$(this).hasClass('disabled')) {
+                    showModeratorView();
+                    renderPhaseStepForModerator();
+                }
+            });
+
+            $('#btnViewTester').on('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('btn-gn')) {
+                    showTesterView();
+                    pinRTC();
+                    renderPhaseStepForTester();
+                }
+            });
+
+            function showModeratorView() {
+                currentView = VIEW_MODERATOR;
+                $('#btnViewModerator').addClass('btn-gn');
+                $('#btnViewTester').removeClass('btn-gn');
+                $('#viewTester').addClass('hidden');
+                $('#viewModerator').removeClass('hidden');
+            }
+
+            function showTesterView() {
+                currentView = VIEW_TESTER;
+                $('#btnViewTester').addClass('btn-gn');
+                $('#btnViewModerator').removeClass('btn-gn');
+                $('#viewTester').removeClass('hidden');
+                $('#viewModerator').addClass('hidden');
+            }
+
+            function renderPhaseStep() {
+                removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
+
+                if (currentView === VIEW_TESTER) {
+                    renderPhaseStepForTester();
+                } else {
+                    renderPhaseStepForModerator();
+                }
+            }
+
+            function resetRenderedContent() {
+                $('#viewTester').find('#phase-content').empty();
+                $('#viewModerator').find('#phase-content').empty();
+            }
+
+            function renderPhaseStepForModerator() {
+                resetRenderedContent();
+                var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
+                var data = getLocalItem(currentStepId + ".data");
+                if (data || (data && $.isArray(data) && data.length > 0)) {
+                    Moderator.renderView();
+                } else {
+                    Moderator.renderNoDataView();
+                }
+            }
+
+            function renderPhaseStepForTester() {
+                resetRenderedContent();
+                var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
+                var data = getLocalItem(currentStepId + ".data");
+
+                if (data || (data && $.isArray(data) && data.length > 0)) {
+                    Tester.renderView();
+                } else {
+                    Tester.renderNoDataView();
+                }
+            }
+
+            $('#btn-toggle-rtc-fixed').on('click', function (event) {
+                event.preventDefault();
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $(this).find('.glyphicon').removeClass('glyphicon-pushpin');
+                    $(this).find('.glyphicon').addClass('glyphicon-new-window');
+                    pinRTC();
+                } else {
+                    $(this).addClass('selected');
+                    $(this).find('.glyphicon').removeClass('glyphicon-new-window');
+                    $(this).find('.glyphicon').addClass('glyphicon-pushpin');
+                    dragRTC();
+                }
+            });
         </script>
     </body>
 </html>

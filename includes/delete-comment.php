@@ -6,8 +6,6 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once 'db_connect.php';
 include_once 'psl-config.php';
 
-$target_dir = "../";
-
 session_start();
 if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['commentId'])) {
     $commentGestureId = $_POST['gestureId'];

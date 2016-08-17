@@ -1,3 +1,16 @@
+<?php
+include './includes/language.php';
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+
+session_start();
+//print_r(ini_get('upload_max_filesize'));
+if (login_check($mysqli) == false) {
+    header('Location: index.php');
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,6 +25,7 @@
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="js/sha512.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
@@ -42,6 +56,7 @@
         </div>
 
         <div class="container mainContent">
+            <button class="btn btn-success btn-lg btn-block" id="btn-open-study">Zur Studie</button>
             <button class="btn btn-success btn-lg btn-block" onclick="gotoProjects()">Zu den Studien</button>
         </div>
 
@@ -51,12 +66,24 @@
                     var externals = new Array();
                     externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
                     loadExternals(externals);
-
                 });
             });
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+
+                var query = getQueryParams(document.location.search);
+                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+
+                if (query.studyId) {
+                    if (hash === query.h) {
+                        $('#btn-open-study').on('click', {studyId: query.studyId}, function (event) {
+                            event.preventDefault();
+                            var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                            goto("study.php?studyId=" + event.data.studyId + "&h=" + hash);
+                        });
+                    }
+                }
             }
         </script>
 

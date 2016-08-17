@@ -60,7 +60,7 @@ $(document).on('click', '.select .option li', function (event) {
             saveGeneralData();
         }
 
-        $(this).trigger('change');
+        $(this).trigger('change', [listItemId]);
     }
 });
 $(document).on('click', '.show-dropdown', function (event) {

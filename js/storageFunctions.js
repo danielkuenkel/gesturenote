@@ -165,3 +165,71 @@ function getPhaseById(id) {
     }
     return null;
 }
+
+function getProjectData() {
+    var data = new Object();
+    data.generalData = getLocalItem(PROJECT);
+
+    var phases = getLocalItem(PROJECT_PHASE_STEPS);
+    if (phases && phases.length > 0) {
+        data.phases = phases;
+        for (var i = 0; i < phases.length; i++) {
+            data[phases[i].id] = getLocalItem(phases[i].id + '.data');
+        }
+    }
+
+    if (getLocalItem(ASSEMBLED_SCENES)) {
+        data.assembledScenes = getLocalItem(ASSEMBLED_SCENES);
+    }
+
+    if (getLocalItem(ASSEMBLED_GESTURE_SET)) {
+        data.assembledGestureSet = getLocalItem(ASSEMBLED_GESTURE_SET);
+    }
+
+    if (getLocalItem(ASSEMBLED_TRIGGER)) {
+        data.assembledTrigger = getLocalItem(ASSEMBLED_TRIGGER);
+    }
+
+    if (getLocalItem(ASSEMBLED_FEEDBACK)) {
+        data.assembledFeedback = getLocalItem(ASSEMBLED_FEEDBACK);
+    }
+
+    return {data: data};
+}
+
+function setProjectData(data) {
+    if (data.data) {
+        var projectData = data.data;
+        setLocalItem(PROJECT, projectData.generalData);
+
+        if (projectData.phases && projectData.phases.length > 0) {
+            setLocalItem(PROJECT_PHASE_STEPS, projectData.phases);
+            for (var i = 0; i < projectData.phases.length; i++) {
+
+                var phaseStepId = projectData.phases[i].id;
+                setLocalItem(phaseStepId + '.data', projectData[phaseStepId]);
+            }
+        }
+
+        if (projectData.assembledScenes) {
+            setLocalItem(ASSEMBLED_SCENES, projectData.assembledScenes);
+        }
+
+        if (projectData.assembledGestureSet) {
+            setLocalItem(ASSEMBLED_GESTURE_SET, projectData.assembledGestureSet);
+        }
+
+        if (projectData.assembledTrigger) {
+            setLocalItem(ASSEMBLED_TRIGGER, projectData.assembledTrigger);
+        }
+
+        if (projectData.assembledFeedback) {
+            setLocalItem(ASSEMBLED_FEEDBACK, projectData.assembledFeedback);
+        }
+    }
+
+    console.log(data);
+    if (data.gestureCatalog) {
+        setLocalItem(GESTURE_CATALOG, data.gestureCatalog);
+    }
+}

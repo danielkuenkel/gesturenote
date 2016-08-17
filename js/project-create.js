@@ -160,6 +160,7 @@ function renderSessionStorageData() {
         });
     }
     updateCatalogButtons();
+    checkPreviewAvailability();
 }
 
 function updateCatalogButtons() {
@@ -389,37 +390,4 @@ function Scene(id, type, title, options, data) {
     this.title = title;
     this.options = options;
     this.data = data;
-}
-
-function getProjectSubmitData() {
-    saveGeneralData();
-    savePhases();
-
-    var generalData = getLocalItem(PROJECT);
-
-    var phases = getLocalItem(PROJECT_PHASE_STEPS);
-    if (phases && phases.length > 0) {
-        generalData.phases = phases;
-        for (var i = 0; i < phases.length; i++) {
-            generalData[phases[i].id] = getLocalItem(phases[i].id + '.data');
-        }
-    }
-
-    if (getLocalItem(ASSEMBLED_SCENES)) {
-        generalData.assembledScenes = getLocalItem(ASSEMBLED_SCENES);
-    }
-
-    if (getLocalItem(ASSEMBLED_GESTURE_SET)) {
-        generalData.assembledGestureSet = getLocalItem(ASSEMBLED_GESTURE_SET);
-    }
-
-    if (getLocalItem(ASSEMBLED_TRIGGER)) {
-        generalData.assembledTrigger = getLocalItem(ASSEMBLED_TRIGGER);
-    }
-
-    if (getLocalItem(ASSEMBLED_FEEDBACK)) {
-        generalData.assembledFeedback = getLocalItem(ASSEMBLED_FEEDBACK);
-    }
-
-    return {generalData: generalData};
 }

@@ -99,6 +99,7 @@ if (login_check($mysqli) == false) {
         <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>
         <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-TW.min.js" charset="UTF-8"></script>
 
+        <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/localforage.js"></script>
@@ -402,7 +403,7 @@ if (login_check($mysqli) == false) {
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
                             <!--<button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>-->
-                            <button type="button" class="btn btn-warning btn-shadow btn-md" id="btn-preview-project"><i class="glyphicon glyphicon-eye-open"></i> Vorschau der Studie</button>
+                            <button type="button" class="btn btn-warning btn-shadow btn-md disabled" id="btn-preview-project"><i class="glyphicon glyphicon-eye-open"></i> Vorschau der Studie</button>
                             <button type="button" class="btn btn-success btn-shadow btn-lg" id="btn-save-project"><i class="glyphicon glyphicon-save"></i> Studie speichern</button>
                         </div>
                     </div>
@@ -486,10 +487,37 @@ if (login_check($mysqli) == false) {
                 });
             });
 
+            var editableStudyId = null;
+            var studyEditable = false;
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
 
-                // get min and max age from datebase
+                var query = getQueryParams(document.location.search);
+                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+
+                if (query.studyId && query.h === hash) {
+                    studyEditable = true;
+                    editableStudyId = query.studyId;
+                    getStudyById({studyId: query.studyId}, function (result) {
+                        if (result.status === RESULT_SUCCESS) {
+                            if (result.data) {
+                                setProjectData(result);
+                                init();
+                            }
+                        }
+                    });
+                } else if (query.edit && (query.edit === true || query.edit === "true") && query.studyId) {
+                    init();
+                    studyEditable = true;
+                    editableStudyId = query.studyId;
+                } else {
+                    init();
+                    studyEditable = false;
+                    editableStudyId = null;
+                }
+            }
+
+            function init() {
                 var ageMin = 18;
                 var ageMax = 100;
                 if (getLocalItem(PROJECT) && getLocalItem(PROJECT).ageRange) {
@@ -640,8 +668,18 @@ if (login_check($mysqli) == false) {
                     var selectedText = $(this).parent().prev().val();
                     addPhaseStep(chance.natural(), format, selectedText, null);
                     savePhases();
+                    checkPreviewAvailability();
                 }
             });
+
+            function checkPreviewAvailability() {
+                var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
+                if (phaseSteps && phaseSteps.length > 0) {
+                    $('#btn-preview-project').removeClass('disabled');
+                } else {
+                    $('#btn-preview-project').addClass('disabled');
+                }
+            }
 
             function addPhaseStep(id, format, childText, color) {
                 var clone = $('#phaseStepItem').clone();
@@ -652,6 +690,7 @@ if (login_check($mysqli) == false) {
                 clone.find('.btn-delete').bind("click", {format: format, id: id}, function (event) {
                     event.preventDefault();
                     removeLocalItem(event.data.id + ".data");
+                    checkPreviewAvailability();
                 });
 
                 clone.find('.btn-modify').attr('id', format);
@@ -693,9 +732,13 @@ if (login_check($mysqli) == false) {
 
             $('#btn-preview-project').click(function (event) {
                 event.preventDefault();
-                if (checkInputs() === true) {
+                if (checkInputs() === true && !$(this).hasClass('disabled')) {
                     saveGeneralData();
-                    gotoCreateProjectPreview();
+                    if (studyEditable === true) {
+                        goto("project-preview.php?edit=true&studyId=" + editableStudyId);
+                    } else {
+                        gotoCreateProjectPreview();
+                    }
                 }
             });
 
@@ -708,22 +751,39 @@ if (login_check($mysqli) == false) {
                     saveGeneralData();
                     showCursor($('body'), CURSOR_POINTER);
 
-                    var submitData = getProjectSubmitData();
-                    console.log(submitData);
-                    saveStudy(submitData, function (result) {
-                        showCursor($('body'), CURSOR_DEFAULT);
-                        $(button).removeClass('disabled');
-                        $('#btn-clear-data, #btn-preview-project').removeClass('disabled');
+                    if (studyEditable === true) {
+                        var updateData = getProjectData();
+                        updateData.studyId = editableStudyId;
+                        console.log(updateData);
+//                        return false;
+                        updateStudy(updateData, function (result) {
+                            showCursor($('body'), CURSOR_DEFAULT);
+                            $(button).removeClass('disabled');
+                            $('#btn-clear-data, #btn-preview-project').removeClass('disabled');
 
-                        console.log(result);
-                        if (result.status === RESULT_SUCCESS) {
-                            clearLocalItems();
-                            gotoProjectSavedSuccessfully();
-                        } else {
+                            if (result.status === RESULT_SUCCESS) {
+                                clearLocalItems();
+                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
+                            } else {
 //                            appendAlert()
-                        }
-                    });
+                            }
+                        });
+                    } else {
+                        saveStudy(getProjectData(), function (result) {
+                            showCursor($('body'), CURSOR_DEFAULT);
+                            $(button).removeClass('disabled');
+                            $('#btn-clear-data, #btn-preview-project').removeClass('disabled');
 
+                            if (result.status === RESULT_SUCCESS) {
+                                clearLocalItems();
+                                var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                                goto("study.php?studyId=" + result.studyId + "&h=" + hash);
+                            } else {
+//                            appendAlert()
+                            }
+                        });
+                    }
                 }
             });
 

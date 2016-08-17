@@ -1,3 +1,14 @@
+<?php
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+
+session_start();
+
+if (login_check($mysqli) == false) {
+    header('Location: index.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -22,6 +33,7 @@
         <script src="js/gotoPage.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
+        <script src="js/sha512.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -37,8 +49,8 @@
                 </div>
 
                 <div class="panel-body">
-                    <span class="label label-default" id="gesture-source"></span>
-                    <span class="label label-default" id="gesture-scope"></span>
+                    <div class="label label-default" id="type-phase"></div>
+                    <div class="label label-default" id="type-survey"></div>
                 </div>
                 <!--                <div class="panel-footer">
                                     <div class="btn-group btn-group-justified">
@@ -160,7 +172,7 @@
 
                 getStudiesCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
-                        console.log(result.studies);
+//                        console.log(result.studies);
                         if (result.studies && result.studies.length > 0) {
                             originalFilterData = result.studies;
                             initPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
@@ -174,7 +186,6 @@
 
             function renderData(data) {
                 $('#list-container').empty();
-                console.log(data);
 
                 var index = parseInt($('#custom-pager .pagination').find('.active').text()) - 1;
                 var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
@@ -192,7 +203,6 @@
 
             $('#filter').unbind('change').bind('change', function (event) {
                 event.preventDefault();
-                console.log('filter changed');
                 renderData(sort());
 
                 if ($('#searched-input').val().trim() !== "") {
@@ -202,7 +212,6 @@
 
             $('#sort').unbind('change').bind('change', function (event) {
                 event.preventDefault();
-                console.log('sort changed');
                 renderData(sort());
 
                 if ($('#searched-input').val().trim() !== "") {
@@ -210,16 +219,18 @@
                 }
             });
 
-            $('#resultsCountSelect').unbind('change').bind('change', function (event) {
+            $('#resultsCountSelect').unbind('change').bind('change', function (event, id) {
                 event.preventDefault();
-                renderData(sort());
+                currentFilterData = sort();
+                initPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt(id.split('_')[1]));
+                renderData(currentFilterData);
 
                 if ($('#searched-input').val().trim() !== "") {
                     $('#searched-input').trigger('keyup');
                 }
             });
 
-            $('#custom-pager .pagination').on('indexChanged', function (event, index) {
+            $('#custom-pager .pagination').on('indexChanged', function (event, id) {
                 event.preventDefault();
                 if (!event.handled) {
                     event.handled = true;
@@ -227,114 +238,23 @@
                 }
             });
 
-
-            var currentGesturePreviewId = null;
-            var gesturePreviewOpened = false;
             function getStudiesCatalogListThumbnail(data) {
-                console.log(data);
                 var clone = $('#studies-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
-                clone.attr('id', data.id);
-                clone.find('.title-text').text(data.data.name);
+                if (data.data) {
+                    clone.attr('id', data.id);
+                    clone.find('.title-text').text(data.data.generalData.name);
 
-//                if (data.isOwner === true) {
-//                    if (data.source !== SOURCE_GESTURE_TESTER) {
-//                        clone.find('#gesture-source').text(translation.gestureSources[SOURCE_GESTURE_RECORDED]);
-//                    } else {
-//                        clone.find('#gesture-source').text(translation.gestureSources[data.source]);
-//                    }
-//                }
-//                clone.find('#gesture-scope').text(translation.gestureScopes[data.scope]);
-//
-//                renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
-//
-//                $(clone).find('.panel').mouseenter(function (event) {
-//                    event.preventDefault();
-//                    if (gesturePreviewOpened === false) {
-//                        playThroughThumbnails($(this).find('.previewGesture'), 0);
-//                    }
-//                });
-//
-//                $(clone).find('.panel').mouseleave(function (event) {
-//                    event.preventDefault();
-//                    if (gesturePreviewOpened === false) {
-//                        resetThumbnails($(this).find('.previewGesture'));
-//                    }
-//                });
-//
-//                $(clone).find('#btn-show-gesture-info').click({gestureId: data.id, clone: clone}, function (event) {
-//                    event.preventDefault();
-//                    resetThumbnails($(event.data.clone).find('.previewGesture'));
-//                    currentGesturePreviewId = event.data.gestureId;
-//                    gesturePreviewOpened = true;
-//                    $(clone).find('#btn-stop-gesture').click();
-//                    loadHTMLintoModal('custom-modal', 'gestures-catalog-preview.html', 'modal-lg');
-//                });
-//
-//                if (data.isOwner) {
-//                    var shareButton = $(clone).find('#btn-share-gesture');
-//                    if (data.scope === SCOPE_GESTURE_PRIVATE) {
-//                        shareButton.removeClass('unshare-gesture').addClass('share-gesture');
-//                        shareButton.find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-//                        shareButton.find('.btn-text').text(translation.share);
-//                    } else {
-//                        shareButton.removeClass('share-gesture').addClass('unshare-gesture');
-//                        shareButton.find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-//                        shareButton.find('.btn-text').text(translation.unshare);
-//                    }
-//                } else {
-//                    $(clone).find('#btn-share-gesture').parent().remove();
-//                }
-//
-//                $(clone).find('#btn-share-gesture').click({gestureId: data.id}, function (event) {
-//                    event.preventDefault();
-//                    if (!$(this).hasClass('disabled')) {
-//                        $(this).addClass('disabled');
-//                        var button = $(this);
-//
-//                        if ($(this).hasClass('share-gesture')) {
-//                            showCursor($('body'), CURSOR_PROGRESS);
-//                            shareGesture({gestureId: event.data.gestureId}, function (result) {
-//                                showCursor($('body'), CURSOR_DEFAULT);
-//                                $(button).removeClass('disabled');
-//                                if (result.status === RESULT_SUCCESS) {
-//                                    $(button).removeClass('share-gesture').addClass('unshare-gesture');
-//                                    $(button).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-//                                    $(button).find('.btn-text').text(translation.unshare);
-//                                    clone.find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
-//                                    getGestureCatalog(function (result) {
-//                                        if (result.status === RESULT_SUCCESS) {
-//                                            currentGestureSet = sort();
-//                                        }
-//                                    });
-//                                }
-//                            });
-//                        } else if ($(this).hasClass('unshare-gesture')) {
-//                            showCursor($('body'), CURSOR_PROGRESS);
-//                            unshareGesture({gestureId: event.data.gestureId}, function (result) {
-//                                showCursor($('body'), CURSOR_DEFAULT);
-//                                $(button).removeClass('disabled');
-//                                if (result.status === RESULT_SUCCESS) {
-//                                    $(button).removeClass('unshare-gesture').addClass('share-gesture');
-//                                    $(button).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-//                                    $(button).find('.btn-text').text(translation.share);
-//                                    clone.find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
-//                                    getGestureCatalog(function (result) {
-//                                        if (result.status === RESULT_SUCCESS) {
-//                                            currentGestureSet = sort();
-//                                        }
-//                                    });
-//                                }
-//                            });
-//                        }
-//                    }
-//                });
-//
-//                $(clone).find('#btn-unshare-gesture').click(function (event) {
-//                    event.preventDefault();
-//                    if (!$(this).hasClass('disabled')) {
-//                        $(this).addClass('disabled');
-//                    }
-//                });
+                    $(clone).find('#type-survey').text(translation.surveyType[data.data.generalData.surveyType]);
+                    $(clone).find('#type-phase').text(translation.phaseType[data.data.generalData.phase]);
+
+
+                }
+
+                $(clone).find('.panel').click({studyId: data.id}, function (event) {
+                    event.preventDefault();
+                    var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                    goto("study.php?studyId=" + event.data.studyId + "&h=" + hash);
+                });
 
                 return clone;
             }

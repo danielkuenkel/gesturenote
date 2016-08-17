@@ -206,7 +206,47 @@ function deleteSound(data, callback) {
 
 function saveStudy(data, callback) {
     $.ajax({
+        ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        dataType: 'json',
         url: 'includes/save-study.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function updateStudy(data, callback) {
+    $.ajax({
+        ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        dataType: 'json',
+        url: 'includes/update-study.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function deleteStudy(data, callback) {
+    $.ajax({
+        ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        dataType: 'json',
+        url: 'includes/delete-study.php',
         data: data,
         type: 'post',
         async: true,
@@ -237,6 +277,23 @@ function getStudiesCatalog(callback) {
     });
 }
 
+function getStudyById(data, callback) {
+    $.ajax({
+        url: 'includes/get-study.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 
 
 /*
@@ -246,7 +303,7 @@ function getStudiesCatalog(callback) {
 
 function saveModeratorGesture(data, callback) {
     $.ajax({
-        url: 'includes/save-moderator-gesture.php',
+        url: 'includes/get-study.php',
         data: data,
         type: 'post',
         dataType: 'json',

@@ -19,7 +19,7 @@ if (isset($_SESSION['user_id'])) {
             while ($select_stmt->fetch()) {
                 $studies[] = array('id' => $id,
                     'userId' => $userId,
-                    'data' => json_decode($data),
+                    'data' => json_decode_nice($data),
                     'urlToken' => $urlToken,
                     'created' => $created);
             }
@@ -30,4 +30,11 @@ if (isset($_SESSION['user_id'])) {
     }
 } else {
     echo json_encode(array('status' => 'error'));
+}
+
+function json_decode_nice($json, $assoc = TRUE) {
+    $json = str_replace(array("\n", "\r"), "\\n", $json);
+    $json = preg_replace('/([{,]+)(\s*)([^"]+?)\s*:/', '$1"$3":', $json);
+    $json = preg_replace('/(,)\s*}$/', '}', $json);
+    return json_decode($json, $assoc);
 }

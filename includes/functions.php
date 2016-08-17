@@ -198,3 +198,25 @@ function deleteFiles($targetUrl, $files) {
         }
     }
 }
+
+function utf8_encode_all($dat) { // -- It returns $dat encoded to UTF8 
+    if (is_string($dat))
+        return utf8_encode($dat);
+    if (!is_array($dat))
+        return $dat;
+    $ret = array();
+    foreach ($dat as $i => $d)
+        $ret[$i] = utf8_encode_all($d);
+    return $ret;
+}
+
+function utf8_decode_all($dat) { // -- It returns $dat decoded from UTF8 
+    if (is_string($dat))
+        return utf8_decode($dat);
+    if (!is_array($dat))
+        return $dat;
+    $ret = array();
+    foreach ($dat as $i => $d)
+        $ret[$i] = utf8_decode_all($d);
+    return $ret;
+}

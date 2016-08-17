@@ -8,20 +8,19 @@ include_once 'functions.php';
 include_once 'psl-config.php';
 
 session_start();
-if (isset($_SESSION['user_id'], $_POST['data'])) {
-    
+if (isset($_SESSION['user_id'], $_POST['data'], $_POST['studyId'])) {
+
     // Serialisieren der Daten
     $projectData = mysqli_real_escape_string($mysqli, json_encode($_POST['data']));
-    $userId = $_SESSION['user_id'];
-    $urlToken = sha1(time() . $userId);
+    $updateStudyId = $_POST['studyId'];
+    $sessionUserId = $_SESSION['user_id'];
 
-    if ($insert_stmt = $mysqli->prepare("INSERT INTO studies (user_id, general_data, url_token) VALUES ('$userId','$projectData','$urlToken')")) {
-        if (!$insert_stmt->execute()) {
-            echo json_encode(array('status' => 'insertError'));
+    if ($update_stmt = $mysqli->prepare("UPDATE studies SET general_data = '$projectData' WHERE id = '$updateStudyId' && user_id = '$sessionUserId'")) {
+        if (!$update_stmt->execute()) {
+            echo json_encode(array('status' => 'updateError'));
             exit();
         } else {
-            $studyId = $mysqli->insert_id;
-            echo json_encode(array('status' => 'success', 'studyId' => $studyId));
+            echo json_encode(array('status' => 'success', 'studyId' => $updateStudyId));
             exit();
         }
     } else {
