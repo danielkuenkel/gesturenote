@@ -26,11 +26,11 @@ $(document).ready(function () {
         }
     });
 
-    $('body').on('click', '#btn-projects', function (event) {
+    $('body').on('click', '#btn-studies', function (event) {
         event.preventDefault();
         if (!event.handled) {
             event.handled = true;
-            gotoProjects();
+            gotoStudies();
         }
     });
 
@@ -68,8 +68,8 @@ function gotoDashboard() {
     goto("dashboard.php");
 }
 
-function gotoProjects() {
-    goto("projects.php");
+function gotoStudies() {
+    goto("studies.php");
 }
 
 function gotoProfile() {
@@ -84,16 +84,12 @@ function gotoGesturesCatalog() {
     goto("gestures-catalog.php");
 }
 
-function gotoCreateProject() {
-    goto("project-create.php");
+function gotoCreateStudy() {
+    goto("study-create.php");
 }
 
-function gotoCreateProjectPreview() {
-    goto("project-preview.php");
-}
-
-function gotoProjectSavedSuccessfully(studyId) {
-    goto("project-save-success.php?studyId=" + studyId);
+function gotoCreateStudyPreview() {
+    goto("study-preview.php");
 }
 
 function getQueryParams(qs) {

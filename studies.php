@@ -18,7 +18,7 @@ if (login_check($mysqli) == false) {
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
-        <link rel="stylesheet" href="css/projects.css">
+        <link rel="stylesheet" href="css/studies.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
@@ -87,7 +87,7 @@ if (login_check($mysqli) == false) {
         <!-- Container (Panel Section) -->
         <div class="container mainContent" style="margin-top: 35px;" id="item-view">
 
-            <button type="button" class="btn btn-success btn-lg btn-block" onclick="gotoCreateProject()"><i class="glyphicon glyphicon-plus"></i> Eine neue Studie erstellen</button>
+            <button type="button" class="btn btn-success btn-lg btn-block" onclick="gotoCreateStudy()"><i class="glyphicon glyphicon-plus"></i> Eine neue Studie erstellen</button>
 
             <div class="form-group form-group-no-margin" style="margin-top: 20px">
                 <div class="input-group">

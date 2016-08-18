@@ -157,7 +157,7 @@ function clearSounds() {
 }
 
 function getPhaseById(id) {
-    var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
     for (var i = 0; i < phaseSteps.length; i++) {
         if (parseInt(phaseSteps[i].id) === parseInt(id)) {
             return phaseSteps[i];
@@ -166,11 +166,11 @@ function getPhaseById(id) {
     return null;
 }
 
-function getProjectData() {
+function getStudyData() {
     var data = new Object();
-    data.generalData = getLocalItem(PROJECT);
+    data.generalData = getLocalItem(STUDY);
 
-    var phases = getLocalItem(PROJECT_PHASE_STEPS);
+    var phases = getLocalItem(STUDY_PHASE_STEPS);
     if (phases && phases.length > 0) {
         data.phases = phases;
         for (var i = 0; i < phases.length; i++) {
@@ -197,34 +197,34 @@ function getProjectData() {
     return {data: data};
 }
 
-function setProjectData(data) {
+function setStudyData(data) {
     if (data.data) {
-        var projectData = data.data;
-        setLocalItem(PROJECT, projectData.generalData);
+        var setData = data.data;
+        setLocalItem(STUDY, setData.generalData);
 
-        if (projectData.phases && projectData.phases.length > 0) {
-            setLocalItem(PROJECT_PHASE_STEPS, projectData.phases);
-            for (var i = 0; i < projectData.phases.length; i++) {
+        if (setData.phases && setData.phases.length > 0) {
+            setLocalItem(STUDY_PHASE_STEPS, setData.phases);
+            for (var i = 0; i < setData.phases.length; i++) {
 
-                var phaseStepId = projectData.phases[i].id;
-                setLocalItem(phaseStepId + '.data', projectData[phaseStepId]);
+                var phaseStepId = setData.phases[i].id;
+                setLocalItem(phaseStepId + '.data', setData[phaseStepId]);
             }
         }
 
-        if (projectData.assembledScenes) {
-            setLocalItem(ASSEMBLED_SCENES, projectData.assembledScenes);
+        if (setData.assembledScenes) {
+            setLocalItem(ASSEMBLED_SCENES, setData.assembledScenes);
         }
 
-        if (projectData.assembledGestureSet) {
-            setLocalItem(ASSEMBLED_GESTURE_SET, projectData.assembledGestureSet);
+        if (setData.assembledGestureSet) {
+            setLocalItem(ASSEMBLED_GESTURE_SET, setData.assembledGestureSet);
         }
 
-        if (projectData.assembledTrigger) {
-            setLocalItem(ASSEMBLED_TRIGGER, projectData.assembledTrigger);
+        if (setData.assembledTrigger) {
+            setLocalItem(ASSEMBLED_TRIGGER, setData.assembledTrigger);
         }
 
-        if (projectData.assembledFeedback) {
-            setLocalItem(ASSEMBLED_FEEDBACK, projectData.assembledFeedback);
+        if (setData.assembledFeedback) {
+            setLocalItem(ASSEMBLED_FEEDBACK, setData.assembledFeedback);
         }
     }
 

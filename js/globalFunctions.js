@@ -1082,7 +1082,19 @@ function filter(scope) {
 
 $(document).on('keyup', '.search-input', function (event) {
     event.preventDefault();
-    if (!event.handled) {
+    if (!event.handled &&
+            event.keyCode !== 16 &&
+            event.keyCode !== 9 &&
+            event.keyCode !== 20 &&
+            event.keyCode !== 18 &&
+            event.keyCode !== 91 &&
+            event.keyCode !== 32 &&
+            event.keyCode !== 93 &&
+            event.keyCode !== 37 &&
+            event.keyCode !== 38 &&
+            event.keyCode !== 39 &&
+            event.keyCode !== 40
+            ) {
         event.handled = true;
 
         if ($(this).hasClass('save-data')) {

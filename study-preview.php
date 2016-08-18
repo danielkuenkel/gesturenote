@@ -19,7 +19,7 @@ if (login_check($mysqli) == false) {
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
-        <link rel="stylesheet" href="css/createProjectPreview.css">
+        <link rel="stylesheet" href="css/study-preview.css">
         <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
@@ -44,7 +44,7 @@ if (login_check($mysqli) == false) {
         <script src="js/gotoPage.js"></script>       
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
-        <script src="js/project-preview.js"></script>
+        <script src="js/study-preview.js"></script>
         <script src="js/renderForms.js"></script>
         <script src="js/joint-selection.js"></script>
         <script src="js/moderator.js"></script>
@@ -238,14 +238,14 @@ if (login_check($mysqli) == false) {
                     init();
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
-                        goto("project-create.php?edit=true&studyId=" + query.studyId);
+                        goto("study-create.php?edit=true&studyId=" + query.studyId);
                     });
                 } else if (query.studyId && query.h === hash) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             if (result.data) {
                                 clearLocalItems();
-                                setProjectData(result);
+                                setStudyData(result);
                                 init();
                             }
                         }
@@ -262,7 +262,7 @@ if (login_check($mysqli) == false) {
 
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
-                        gotoCreateProject();
+                        gotoCreateStudy();
                     });
                 }
             }

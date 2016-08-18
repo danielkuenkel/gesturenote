@@ -25,7 +25,7 @@ var stressTestQuestionsTriggered = false;
 var testerDoneTriggered = false;
 
 function checkStorage() {
-    if (getLocalItem(PROJECT_PHASE_STEPS) && getLocalItem(PROJECT_PHASE_STEPS).length > 0) {
+    if (getLocalItem(STUDY_PHASE_STEPS) && getLocalItem(STUDY_PHASE_STEPS).length > 0) {
 //        console.log('there are phase steps');
         initialize();
         renderPhases();
@@ -36,8 +36,8 @@ function checkStorage() {
 }
 
 function initialize() {
-    var project = getLocalItem(PROJECT);
-    if (project.surveyType === TYPE_SURVEY_UNMODERATED) {
+    var study = getLocalItem(STUDY);
+    if (study.surveyType === TYPE_SURVEY_UNMODERATED) {
         showTesterView();
         $('#btnViewModerator').addClass('disabled');
     } else {
@@ -46,7 +46,7 @@ function initialize() {
 }
 
 function renderPhases() {
-    var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
 
     var dropdown = $('body').find('.phaseStepsSelect');
     $(dropdown).find('.option').empty();
@@ -125,7 +125,7 @@ function nextStep() {
 }
 
 function updatePager() {
-    var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
     if (phaseSteps && phaseSteps.length > 1) {
         var currentStepCount = getCurrentStep();
         if (currentStepCount <= 0) {
@@ -145,7 +145,7 @@ function updatePager() {
 }
 
 function updateProgress() {
-    var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
     var percentage = Math.round(100 / phaseSteps.length * (getCurrentStep() + 1));
 
     $('#progressTop').find('.progress-bar').attr('aria-valuenow', percentage);
@@ -155,7 +155,7 @@ function updateProgress() {
 }
 
 function getCurrentStep() {
-    var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
     var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
     for (var i = 0; i < phaseSteps.length; i++) {
         if (currentStepId === phaseSteps[i].id) {
@@ -165,7 +165,7 @@ function getCurrentStep() {
 }
 
 function getCurrentPhase() {
-    var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
     var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
     for (var i = 0; i < phaseSteps.length; i++) {
         if (currentStepId === phaseSteps[i].id) {

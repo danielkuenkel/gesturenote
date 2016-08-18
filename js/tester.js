@@ -193,7 +193,7 @@ var Tester = {
         }
 
         // gestures section
-        if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             Tester.renderUnmoderatedTraining(source, container, data.training);
         } else {
             if (gestureTrainingStartTriggered) {
@@ -369,7 +369,7 @@ var Tester = {
             $(container).find('#general').remove();
         }
 
-        if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             slideRestarted = true;
             Tester.renderUnmoderatedGestureSlideshow(source, container, data);
         } else {
@@ -493,7 +493,7 @@ var Tester = {
             $(container).find('#general').remove();
         }
 
-        if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             Tester.renderUnmoderatedTriggerSlideshow(source, container, data);
         } else {
             $(container).find('#startSlideshow').remove();
@@ -527,12 +527,12 @@ var Tester = {
         }
 
         if (currentSlideIndex >= data.slideshow.length - 1) {
-            if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+            if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
                 $(container).find('#btn-next-slide').removeClass('hidden');
                 $(container).find('#btn-next-slide').text(translation.done);
             }
 
-            if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_MODERATED) {
+            if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
                 $(container).find('#btn-done-slide').removeClass('hidden');
             }
         } else {
@@ -569,7 +569,7 @@ var Tester = {
     },
     getIdentification: function getIdentification(source, container, data) {
         // general data section
-        if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             container.append($(source).find('#identificationUnmoderated').clone().removeAttr('id'));
         } else {
             container.append($(source).find('#identificationModerated').clone().removeAttr('id'));
@@ -587,7 +587,7 @@ var Tester = {
             $(container).find('#general').remove();
         }
 
-        if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             Tester.renderUnmoderatedIdentification(source, container, data);
         } else {
 
@@ -689,7 +689,7 @@ var Tester = {
             $(container).find('#general').remove();
         }
 
-        if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             container.find('#btn-start-stress-test').removeClass('hidden');
             container.find('#btn-start-stress-test').click(function (event) {
                 event.preventDefault();
@@ -837,7 +837,7 @@ var Tester = {
         });
     },
     getScenario: function getScenario(source, container, data) {
-        if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             renderUnmoderatedScenario(source, container, data);
         } else {
             renderModeratedScenario(source, container, data);
@@ -1023,7 +1023,7 @@ function renderSceneItem(source, container, sceneId) {
 
         $(window).resize(function () {
             var height;
-            if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+            if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
                 sceneItem.css({marginTop: '54px'});
                 height = $(window).height() - 145 - 54;
             } else {

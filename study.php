@@ -47,7 +47,7 @@ if (login_check($mysqli) == false) {
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
-                    <li><a class="breadcrump-btn" id="btn-projects">Studien</a></li>
+                    <li><a class="breadcrump-btn" id="btn-studies">Studien</a></li>
                     <li class="active">Studie</li>
                 </ol>
             </div>
@@ -188,7 +188,7 @@ if (login_check($mysqli) == false) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
                         var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                        goto("project-create.php?studyId=" + event.data.studyId + "&h=" + hash);
+                        goto("study-create.php?studyId=" + event.data.studyId + "&h=" + hash);
                     }
                 });
 
@@ -196,7 +196,7 @@ if (login_check($mysqli) == false) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
                         var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                        goto("project-preview.php?studyId=" + event.data.studyId + "&h=" + hash);
+                        goto("study-preview.php?studyId=" + event.data.studyId + "&h=" + hash);
                     }
                 });
 
@@ -205,7 +205,7 @@ if (login_check($mysqli) == false) {
                     if (!$(this).hasClass('disabled')) {
                         deleteStudy({studyId: event.data.studyId}, function (result) {
                             if (result.status === RESULT_SUCCESS) {
-                                gotoProjects();
+                                gotoStudies();
                             } else {
                                 
                             }

@@ -19,9 +19,9 @@ function checkSessionStorage() {
 
 var gusOptions = ['Trifft gar nicht zu', 'Trifft eher nicht zu', 'Teils-teils', 'Trifft eher zu', 'Trifft voll und ganz zu'];
 function createOriginGUS() {
-//    if (getLocalItem(PROJECT_ORIGIN_GUS) === null) {
+//    if (getLocalItem(STUDY_ORIGIN_GUS) === null) {
     var items = translation.singleGUS;
-    setLocalItem(PROJECT_ORIGIN_GUS, items);
+    setLocalItem(STUDY_ORIGIN_GUS, items);
 //        for (var i = 0; i < items.length; i++){
 //            console.log(items[i]);
 //        } 
@@ -48,7 +48,7 @@ function createOriginGUS() {
 }
 
 function createOriginSUS() {
-    if (getLocalItem(PROJECT_ORIGIN_SUS) === null) {
+    if (getLocalItem(STUDY_ORIGIN_SUS) === null) {
         var sus = new Array();
         sus.push(new UsabilityScaleItem("Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.", DIMENSION_ANY, 5, false));
         sus.push(new UsabilityScaleItem("Ich fand das System unnötig komplex.", DIMENSION_ANY, 5, true));
@@ -60,7 +60,7 @@ function createOriginSUS() {
         sus.push(new UsabilityScaleItem("Ich fand das System sehr umständlich zu benutzen.", DIMENSION_ANY, 5, true));
         sus.push(new UsabilityScaleItem("Ich fühlte mich bei der Nutzung des Systems sehr sicher.", DIMENSION_ANY, 5, false));
         sus.push(new UsabilityScaleItem("Ich musste viele Dinge lernen, bevor ich  mit dem System arbeiten konnte.", DIMENSION_ANY, 5, true));
-        setLocalItem(PROJECT_ORIGIN_SUS, sus);
+        setLocalItem(STUDY_ORIGIN_SUS, sus);
     }
 }
 
@@ -104,7 +104,7 @@ function createPredefinedGestureFeedback() {
 }
 
 function renderSessionStorageData() {
-    var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
     if (phaseSteps)
     {
         for (var i = 0; i < phaseSteps.length; i++) {
@@ -113,48 +113,48 @@ function renderSessionStorageData() {
         }
     }
 
-    var project = getLocalItem(PROJECT);
-    if (project) {
-        $('#projectName').val(project.name);
-        $('#projectDescription').val(project.description);
-        if (project.ageRange) {
-            var ranges = project.ageRange.split(',');
+    var study = getLocalItem(STUDY);
+    if (study) {
+        $('#studyName').val(study.name);
+        $('#studyDescription').val(study.description);
+        if (study.ageRange) {
+            var ranges = study.ageRange.split(',');
             var ageMin = 18;
             var ageMax = 100;
             $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: [parseInt(ranges[0]), parseInt(ranges[1])]});
         }
 
-        if (project.phase !== 'unselected') {
-            $('#phaseSelect').find('#' + project.phase).click();
+        if (study.phase !== 'unselected') {
+            $('#phaseSelect').find('#' + study.phase).click();
         }
-        if (project.surveyType !== 'unselected') {
-            $('#surveyTypeSelect').find('#' + project.surveyType).click();
+        if (study.surveyType !== 'unselected') {
+            $('#surveyTypeSelect').find('#' + study.surveyType).click();
         }
-        if (project.useScenes === true) {
+        if (study.useScenes === true) {
             $('#useScenesSwitch #yes').click();
         }
-        if (project.useGestures === true) {
+        if (study.useGestures === true) {
             $('#useGesturesSwitch #yes').click();
         }
-        if (project.useTrigger === true) {
+        if (study.useTrigger === true) {
             $('#useTriggerSwitch #yes').click();
         }
-        if (project.useFeedback === true) {
+        if (study.useFeedback === true) {
             $('#useFeedbackSwitch #yes').click();
         }
-        if (project.recordType !== 'unselected') {
-            $('#recordSelect').find('#' + project.recordType).click();
+        if (study.recordType !== 'unselected') {
+            $('#recordSelect').find('#' + study.recordType).click();
         }
-        if (project.gender !== 'unselected') {
-            $('#genderSwitch').find('#' + project.gender).click();
+        if (study.gender !== 'unselected') {
+            $('#genderSwitch').find('#' + study.gender).click();
         }
 
         $('#from-To-datepicker .input-daterange input').each(function () {
-            if ($(this).attr('id') === 'start' && project.dateFrom !== null) {
-                var dateFrom = new Date(project.dateFrom * 1000);
+            if ($(this).attr('id') === 'start' && study.dateFrom !== null) {
+                var dateFrom = new Date(study.dateFrom * 1000);
                 $(this).datepicker('setDate', dateFrom);
-            } else if ($(this).attr('id') === 'end' && project.dateTo !== null) {
-                var dateTo = new Date(project.dateTo * 1000);
+            } else if ($(this).attr('id') === 'end' && study.dateTo !== null) {
+                var dateTo = new Date(study.dateTo * 1000);
                 $(this).datepicker('setDate', dateTo);
             }
         });
@@ -206,19 +206,14 @@ function updateCatalogButtons() {
 }
 
 function saveGeneralData() {
-    var project = new Project();
-    project.name = $('#projectName').val();
-    project.description = $('#projectDescription').val();
-    project.phase = $('#phaseSelect .chosen').attr('id');
-    project.surveyType = $('#surveyTypeSelect .chosen').attr('id');
-//    project.useScenes = !$('#assemble-scenes-set').hasClass('hidden');
-//    project.useGestures = !$('#assemble-gesture-set').hasClass('hidden');
-//    project.useTrigger = !$('#assemble-trigger-set').hasClass('hidden');
-//    project.useFeedback = !$('#assemble-feedback-set').hasClass('hidden');
-    project.recordType = $('#recordSelect .chosen').attr('id');
-    project.gender = $('#genderSwitch').find('.active').attr('id');
-    project.ageRange = $('#ageSlider .custom-range-slider').attr('value');
-//    console.log($('#ageSlider .custom-range-slider').attr('value'));
+    var study = new Study();
+    study.name = $('#studyName').val();
+    study.description = $('#studyDescription').val();
+    study.phase = $('#phaseSelect .chosen').attr('id');
+    study.surveyType = $('#surveyTypeSelect .chosen').attr('id');
+    study.recordType = $('#recordSelect .chosen').attr('id');
+    study.gender = $('#genderSwitch').find('.active').attr('id');
+    study.ageRange = $('#ageSlider .custom-range-slider').attr('value');
     $('#from-To-datepicker .input-daterange input').each(function () {
         var formattedDate = $(this).datepicker('getDate');
 
@@ -230,13 +225,13 @@ function saveGeneralData() {
         }
 
         if ($(this).attr('id') === 'start') {
-            project.dateFrom = saveDate;
+            study.dateFrom = saveDate;
         } else {
-            project.dateTo = saveDate;
+            study.dateTo = saveDate;
         }
     });
 
-    setLocalItem(PROJECT, project);
+    setLocalItem(STUDY, study);
     savePhases();
     updateCatalogButtons();
 }
@@ -253,10 +248,10 @@ function savePhases() {
         var color = $(item).find('.glyphicon-tag').css('color');
         phases.push(new PhaseItem(id, format, itemText, color));
     }
-    setLocalItem(PROJECT_PHASE_STEPS, phases);
+    setLocalItem(STUDY_PHASE_STEPS, phases);
 }
 
-function Project() {
+function Study() {
     this.name;
     this.description;
     this.phase;

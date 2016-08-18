@@ -84,7 +84,7 @@
 <script>
         $(document).ready(function () {
             currentGUS = GUS_SINGLE_GESTURES;
-            renderDimensions($('#dimension-controls'), getLocalItem(PROJECT_ORIGIN_GUS));
+            renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
             renderAssembledGestures($('#forGesture'));
             renderAssembledTriggers($('#gesture-trigger'));
             renderAssembledFeedback($('#gesture-feedback'));
@@ -173,7 +173,7 @@
 //        });
 
 //        $('#btn-reset-origin-data').on('click', function () {
-//            var data = getLocalItem(PROJECT_ORIGIN_GUS);
+//            var data = getLocalItem(STUDY_ORIGIN_GUS);
 //            if (data !== null) {
 //                $('#list-container').empty();
 //                renderData(data);

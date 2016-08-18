@@ -90,7 +90,7 @@ $('body').on('click', '.btn-add-woz-experimentOption', function (event) {
     {
         event.handled = true;
         var wozItem = $('#wozExperimentItem').clone().removeClass('hidden');
-        if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION) {
+        if (getLocalItem(STUDY).phase === TYPE_PHASE_ELICITATION) {
             $(wozItem).find('.evaluation').addClass('hidden');
         }
         $(this).prev().append(wozItem);
@@ -866,7 +866,7 @@ function addQuestionnaireItems(container, dimension) {
 
 var currentGUS = null;
 function getPredefinedQuestionnaireItemsByDimension(dimension) {
-    var predefinedQuestionnaire = currentGUS === GUS_SINGLE_GESTURES ? getLocalItem(PROJECT_ORIGIN_GUS) : getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE);
+    var predefinedQuestionnaire = currentGUS === GUS_SINGLE_GESTURES ? getLocalItem(STUDY_ORIGIN_GUS) : getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE);
     var questionnaire = new Array();
     for (var i = 0; i < predefinedQuestionnaire.length; i++) {
         if (predefinedQuestionnaire[i].dimension === dimension) {

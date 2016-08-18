@@ -11,11 +11,11 @@ session_start();
 if (isset($_SESSION['user_id'], $_POST['data'])) {
     
     // Serialisieren der Daten
-    $projectData = mysqli_real_escape_string($mysqli, json_encode($_POST['data']));
+    $studyData = mysqli_real_escape_string($mysqli, json_encode($_POST['data']));
     $userId = $_SESSION['user_id'];
     $urlToken = sha1(time() . $userId);
 
-    if ($insert_stmt = $mysqli->prepare("INSERT INTO studies (user_id, general_data, url_token) VALUES ('$userId','$projectData','$urlToken')")) {
+    if ($insert_stmt = $mysqli->prepare("INSERT INTO studies (user_id, general_data, url_token) VALUES ('$userId','$studyData','$urlToken')")) {
         if (!$insert_stmt->execute()) {
             echo json_encode(array('status' => 'insertError'));
             exit();

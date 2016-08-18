@@ -14,11 +14,11 @@ var GESTURE_IMAGE_HOME = 'uploads/';
 var RESULT_SUCCESS = 'success';
 var RESULT_ERROR = 'error';
 
-// project specific constants
-var PROJECT = 'project';
-var PROJECT_ORIGIN_GUS = 'project.originGUS';
-var PROJECT_ORIGIN_SUS = 'project.originSUS';
-var PROJECT_PHASE_STEPS = 'project.phaseSteps';
+// study specific constants
+var STUDY = 'study';
+var STUDY_ORIGIN_GUS = 'study.originGUS';
+var STUDY_ORIGIN_SUS = 'study.originSUS';
+var STUDY_PHASE_STEPS = 'study.phaseSteps';
 //var PREDEFINED_GESTURE_SET = 'predefinedGestureSet';
 var GESTURE_CATALOG = 'gestureCatalog';
 var PREDEFINED_OBSERVATIONS = 'predefinedObversation';

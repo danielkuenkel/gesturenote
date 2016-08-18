@@ -614,7 +614,6 @@ var Moderator = {
         return container;
     },
     renderIdentification: function renderIdentification(source, container, data) {
-        console.log(data);
         var identificationId = data.identification[currentIdentificationIndex];
 
         if (identificationId) {

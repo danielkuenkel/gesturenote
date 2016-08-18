@@ -221,7 +221,7 @@
                     $(clone).removeAttr('id');
                     container.append(clone);
 
-                    if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION) {
+                    if (getLocalItem(STUDY).phase === TYPE_PHASE_ELICITATION) {
                         $(clone).find('.evaluation').addClass('hidden');
                     } else {
                         var gesture = getGestureById(wozItems[i].gestureId);
@@ -350,7 +350,7 @@
             }
 
             var elicitatonTrigger = $('#elicitationContainer #elicitation .option-container').children();
-            if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION && getLocalItem(ASSEMBLED_TRIGGER) &&
+            if (getLocalItem(STUDY).phase === TYPE_PHASE_ELICITATION && getLocalItem(ASSEMBLED_TRIGGER) &&
                     elicitatonTrigger.length > 0) {
                 var triggerArray = new Array();
                 for (var i = 0; i < elicitatonTrigger.length; i++) {
@@ -382,7 +382,7 @@
                         feedback = getFeedbackById(feedbackId);
                     }
 
-                    if (getLocalItem(PROJECT).phase === TYPE_PHASE_ELICITATION) {
+                    if (getLocalItem(STUDY).phase === TYPE_PHASE_ELICITATION) {
                         if (scene && trigger && feedback) {
                             woz.push(new WOZ(sceneId, triggerId, null, feedbackId, transitionId));
                         }

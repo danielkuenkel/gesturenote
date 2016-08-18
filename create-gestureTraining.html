@@ -135,7 +135,7 @@
             help.removeAttr('id');
             $('#helpContainer').append(help);
             
-            renderDimensions($('#dimension-controls'), getLocalItem(PROJECT_ORIGIN_GUS));
+            renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
 
             var data = getLocalItem(currentIdForModal + '.data');
             if (data) {
@@ -191,7 +191,7 @@
 
                     var repeats = trainingItems[i].repeats;
                     $(clone).find('#repeats-stepper .stepper-text').val(parseInt(repeats));
-                    if (getLocalItem(PROJECT).surveyType === TYPE_SURVEY_UNMODERATED) {
+                    if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
                         $(clone).find('#recognition-stepper').removeClass('hidden');
                         var recognitionTime = trainingItems[i].recognitionTime;
                         $(clone).find('#recognition-stepper').val(parseInt(recognitionTime));

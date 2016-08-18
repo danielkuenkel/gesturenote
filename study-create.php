@@ -19,7 +19,7 @@ if (login_check($mysqli) == false) {
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
-        <link rel="stylesheet" href="css/createProject.css">
+        <link rel="stylesheet" href="css/study-create.css">
         <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="bootstrap-datepicker/css/bootstrap-datepicker3.css">
@@ -112,7 +112,7 @@ if (login_check($mysqli) == false) {
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/project-create.js"></script>        
+        <script src="js/study-create.js"></script>        
 
         <!-- gesture recorder sources -->
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
@@ -134,7 +134,7 @@ if (login_check($mysqli) == false) {
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
-                    <li><a class="breadcrump-btn" id="btn-projects">Studien</a></li>
+                    <li><a class="breadcrump-btn" id="btn-studies">Studien</a></li>
                     <li class="active">Neue Studie</li>
                 </ol>
             </div>
@@ -175,22 +175,22 @@ if (login_check($mysqli) == false) {
 
                     <div class="tab-content hidden tab-general">
 
-                        <!-- project name -->
+                        <!-- study name -->
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Studienname</span>
-                                <label class="sr-only" for="projectName">Studienname</label>
-                                <input type="text" class="form-control" id="projectName" placeholder="Studienname einfügen" required>
+                                <label class="sr-only" for="studyName">Studienname</label>
+                                <input type="text" class="form-control" id="studyName" placeholder="Studienname einfügen" required>
                             </div>
                         </div>
 
 
-                        <!-- project description -->
+                        <!-- study description -->
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Studienbeschreibung</span>
-                                <label class="sr-only" for="projectDescription">Studienbeschreibung</label>
-                                <textarea class="form-control" id="projectDescription" rows="5" placeholder="Beschreibung einfügen"></textarea>
+                                <label class="sr-only" for="studyDescription">Studienbeschreibung</label>
+                                <textarea class="form-control" id="studyDescription" rows="5" placeholder="Beschreibung einfügen"></textarea>
                             </div>
                         </div>
 
@@ -403,8 +403,8 @@ if (login_check($mysqli) == false) {
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
                             <!--<button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>-->
-                            <button type="button" class="btn btn-warning btn-shadow btn-md disabled" id="btn-preview-project"><i class="glyphicon glyphicon-eye-open"></i> Vorschau der Studie</button>
-                            <button type="button" class="btn btn-success btn-shadow btn-lg" id="btn-save-project"><i class="glyphicon glyphicon-save"></i> Studie speichern</button>
+                            <button type="button" class="btn btn-warning btn-shadow btn-md disabled" id="btn-preview-study"><i class="glyphicon glyphicon-eye-open"></i> Vorschau der Studie</button>
+                            <button type="button" class="btn btn-success btn-shadow btn-lg" id="btn-save-study"><i class="glyphicon glyphicon-save"></i> Studie speichern</button>
                         </div>
                     </div>
 
@@ -501,7 +501,7 @@ if (login_check($mysqli) == false) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             if (result.data) {
-                                setProjectData(result);
+                                setStudyData(result);
                                 init();
                             }
                         }
@@ -520,8 +520,8 @@ if (login_check($mysqli) == false) {
             function init() {
                 var ageMin = 18;
                 var ageMax = 100;
-                if (getLocalItem(PROJECT) && getLocalItem(PROJECT).ageRange) {
-//                    $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: getLocalItem(PROJECT).ageRange.ageRange});
+                if (getLocalItem(STUDY) && getLocalItem(STUDY).ageRange) {
+//                    $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: getLocalItem(STUDY).ageRange.ageRange});
                 } else {
                     $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: [23, 50]});
                 }
@@ -620,12 +620,12 @@ if (login_check($mysqli) == false) {
 
 //            $('#btn-info-phase').on('click', function (event) {
 //                event.preventDefault();
-//                loadHTMLintoModal('custom-modal', 'info-project-phase.html');
+//                loadHTMLintoModal('custom-modal', 'info-study-phase.html');
 //            });
 //
 //            $('#btn-info-survey-type').on('click', function (event) {
 //                event.preventDefault();
-//                loadHTMLintoModal('custom-modal', 'info-project-survey-type.html');
+//                loadHTMLintoModal('custom-modal', 'info-study-survey-type.html');
 //            });
 //
 //            $('#btn-scenes-info').on('click', function (event) {
@@ -673,11 +673,11 @@ if (login_check($mysqli) == false) {
             });
 
             function checkPreviewAvailability() {
-                var phaseSteps = getLocalItem(PROJECT_PHASE_STEPS);
+                var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
                 if (phaseSteps && phaseSteps.length > 0) {
-                    $('#btn-preview-project').removeClass('disabled');
+                    $('#btn-preview-study').removeClass('disabled');
                 } else {
-                    $('#btn-preview-project').addClass('disabled');
+                    $('#btn-preview-study').addClass('disabled');
                 }
             }
 
@@ -730,36 +730,36 @@ if (login_check($mysqli) == false) {
                 location.reload(true);
             });
 
-            $('#btn-preview-project').click(function (event) {
+            $('#btn-preview-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true && !$(this).hasClass('disabled')) {
                     saveGeneralData();
                     if (studyEditable === true) {
-                        goto("project-preview.php?edit=true&studyId=" + editableStudyId);
+                        goto("study-preview.php?edit=true&studyId=" + editableStudyId);
                     } else {
-                        gotoCreateProjectPreview();
+                        gotoCreateStudyPreview();
                     }
                 }
             });
 
-            $('#btn-save-project').click(function (event) {
+            $('#btn-save-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true) {
                     var button = $(this);
                     $(button).addClass('disabled');
-                    $('#btn-clear-data, #btn-preview-project').addClass('disabled');
+                    $('#btn-clear-data, #btn-preview-study').addClass('disabled');
                     saveGeneralData();
                     showCursor($('body'), CURSOR_POINTER);
 
                     if (studyEditable === true) {
-                        var updateData = getProjectData();
+                        var updateData = getStudyData();
                         updateData.studyId = editableStudyId;
                         console.log(updateData);
 //                        return false;
                         updateStudy(updateData, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('#btn-clear-data, #btn-preview-project').removeClass('disabled');
+                            $('#btn-clear-data, #btn-preview-study').removeClass('disabled');
 
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
@@ -770,10 +770,10 @@ if (login_check($mysqli) == false) {
                             }
                         });
                     } else {
-                        saveStudy(getProjectData(), function (result) {
+                        saveStudy(getStudyData(), function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
-                            $('#btn-clear-data, #btn-preview-project').removeClass('disabled');
+                            $('#btn-clear-data, #btn-preview-study').removeClass('disabled');
 
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
@@ -791,13 +791,13 @@ if (login_check($mysqli) == false) {
                 resetErrors();
                 var errors = 0;
 
-                if ($('#projectName').val().trim() === "") {
-                    $('#projectName').closest('.form-group').addClass('has-error');
+                if ($('#studyName').val().trim() === "") {
+                    $('#studyName').closest('.form-group').addClass('has-error');
                     errors++;
                 }
 
-                if ($('#projectDescription').val().trim() === "") {
-                    $('#projectDescription').closest('.form-group').addClass('has-error');
+                if ($('#studyDescription').val().trim() === "") {
+                    $('#studyDescription').closest('.form-group').addClass('has-error');
                     errors++;
                 }
 
@@ -815,8 +815,8 @@ if (login_check($mysqli) == false) {
             }
 
             function resetErrors() {
-                $('#projectName').closest('.form-group').removeClass('has-error');
-                $('#projectDescription').closest('.form-group').removeClass('has-error');
+                $('#studyName').closest('.form-group').removeClass('has-error');
+                $('#studyDescription').closest('.form-group').removeClass('has-error');
                 $('#phaseSelect').closest('.form-group').removeClass('has-error');
                 $('#surveyTypeSelect').closest('.form-group').removeClass('has-error');
             }
