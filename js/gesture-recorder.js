@@ -16,14 +16,7 @@ function initCheckRecorder(aTarget, rTarget, canSaveGesture) {
 
 function initializeRecorder() {
     clearAlerts(alertTarget);
-
-    if (recordRTC) {
-        recordRTC.clearRecordedData();
-    }
-
-    if (liveStream) {
-        liveStream.getVideoTracks()[0].stop();
-    }
+    resetRecorder();
 
     var mediaConstraints = {video: true, audio: false};
     navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
@@ -52,7 +45,6 @@ function successCallback(stream) {
 }
 
 function showRecord() {
-    resetRecorder();
     $(recorderTarget).find('.recorder #btn-record').removeClass('hidden');
     $(recorderTarget).find('.recorder #btn-record-stop').addClass('hidden');
     $(recorderTarget).find('.recorder #recorder-video').removeClass('hidden');

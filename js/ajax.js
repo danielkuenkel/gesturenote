@@ -303,7 +303,7 @@ function getStudyById(data, callback) {
 
 function saveModeratorGesture(data, callback) {
     $.ajax({
-        url: 'includes/get-study.php',
+        url: 'includes/save-moderator-gesture.php',
         data: data,
         type: 'post',
         dataType: 'json',
