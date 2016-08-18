@@ -353,24 +353,31 @@ if (login_check($mysqli) == false) {
                     <!-- tab panels & survey data -->
 
                     <div class="tab-content hidden tab-panel">
-                        <!-- panel functionalities -->
-                        <!--                        <div class="page-header">
-                                                    <h3>Wer, Was & Wann <span class="btn-show-info"><i class="glyphicon glyphicon-question-sign"></i></span></h3>
-                                                </div>-->
-
-                        <div class="form-group" id="ageSlider">
-                            <span class="slider-from" name="age">von</span>
-                            <input class="custom-range-slider saveGeneralData" type="text" value="" data-slider-step="1"/>
-                            <span class="slider-to">bis</span>
-                        </div>
 
                         <div class="form-group">
-                            <div class="btn-group" id="genderSwitch">
-                                <button class="btn btn-default switchButtonAddon">Geschlecht</button>
-                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="female" name="btn-success"><i class="fa fa-venus" aria-hidden="true"></i> weiblich</button>
-                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="male" name="btn-success"><i class="fa fa-mars" aria-hidden="true"></i> männlich</button>
-                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="identical" name="btn-success"><i class="fa fa-genderless" aria-hidden="true"></i> egal</button>
+                            <div class="btn-group" id="panelSurveySwitch">
+                                <button class="btn btn-default switchButtonAddon">Panel-Befragung</button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
+                                <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
                             </div>
+                        </div>
+
+                        <div id="panel-survey-container" class="hidden">
+                            <div class="form-group" id="ageSlider">
+                                <span class="slider-from" name="age">von</span>
+                                <input class="custom-range-slider saveGeneralData" type="text" value="" data-slider-step="1"/>
+                                <span class="slider-to">bis</span>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="btn-group" id="genderSwitch">
+                                    <button class="btn btn-default switchButtonAddon">Geschlecht</button>
+                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="female" name="btn-success"><i class="fa fa-venus" aria-hidden="true"></i> weiblich</button>
+                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="male" name="btn-success"><i class="fa fa-mars" aria-hidden="true"></i> männlich</button>
+                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="identical" name="btn-success"><i class="fa fa-genderless" aria-hidden="true"></i> egal</button>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="form-group">
@@ -395,6 +402,7 @@ if (login_check($mysqli) == false) {
                                 <input type="text" class="input form-control readonly" id="end" name="end" />
                             </div>
                         </div>
+
                     </div>
 
                     <div  id="btn-group-submit" style="z-index: 0">
@@ -402,7 +410,7 @@ if (login_check($mysqli) == false) {
 
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
-                            <!--<button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>-->
+                            <button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
                             <button type="button" class="btn btn-warning btn-shadow btn-md disabled" id="btn-preview-study"><i class="glyphicon glyphicon-eye-open"></i> Vorschau der Studie</button>
                             <button type="button" class="btn btn-success btn-shadow btn-lg" id="btn-save-study"><i class="glyphicon glyphicon-save"></i> Studie speichern</button>
                         </div>
@@ -441,9 +449,9 @@ if (login_check($mysqli) == false) {
                         </div>
 
                         <div class="tab-content hidden tab-panel">
-                            <div class="gn"><h3>Allgemeines</h3></div>
+                            <div class="gn"><h3>Wer, Was & Wann?</h3></div>
                             <span id="styleguide-info">
-                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                                aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
                             </span>
                             <br><br>
                             <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
@@ -496,6 +504,7 @@ if (login_check($mysqli) == false) {
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
 
                 if (query.studyId && query.h === hash) {
+                    $('#btn-clear-data').remove();
                     studyEditable = true;
                     editableStudyId = query.studyId;
                     getStudyById({studyId: query.studyId}, function (result) {
@@ -507,6 +516,7 @@ if (login_check($mysqli) == false) {
                         }
                     });
                 } else if (query.edit && (query.edit === true || query.edit === "true") && query.studyId) {
+                    $('#btn-clear-data').remove();
                     init();
                     studyEditable = true;
                     editableStudyId = query.studyId;
@@ -716,18 +726,28 @@ if (login_check($mysqli) == false) {
                 checkCurrentListState($('#phaseStepList'));
             }
 
+            $('#panelSurveySwitch').on('change', function (event, id) {
+                if (id === $(this).find('#yes').attr('id')) {
+                    $('#panel-survey-container').removeClass('hidden');
+                } else {
+                    $('#panel-survey-container').addClass('hidden');
+                }
+            });
+
             $('.breadcrumb li').click(function () {
-//                clearSceneImages();
-//                clearSounds();
-//                clearLocalItems();
+                clearSceneImages();
+                clearSounds();
+                clearLocalItems();
             });
 
             $('#btn-clear-data').click(function (event) {
                 event.preventDefault();
-                clearSceneImages();
-                clearSounds();
-                clearLocalItems();
-                location.reload(true);
+                if (!$(this).hasClass('disabled')) {
+                    clearSceneImages();
+                    clearSounds();
+                    clearLocalItems();
+                    location.reload(true);
+                }
             });
 
             $('#btn-preview-study').click(function (event) {
@@ -754,8 +774,6 @@ if (login_check($mysqli) == false) {
                     if (studyEditable === true) {
                         var updateData = getStudyData();
                         updateData.studyId = editableStudyId;
-                        console.log(updateData);
-//                        return false;
                         updateStudy(updateData, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');

@@ -253,7 +253,7 @@ $(document).on('click', '.btn-toggle-checkbox', function (event) {
             }
         }
 
-        $(this).trigger('change');
+        $(this).trigger('change', [$(this).parent().find('.active').attr('id')]);
     }
 });
 $(document).on('click', '.switchButtonAddon', function (event) {

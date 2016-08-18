@@ -42,15 +42,37 @@ if (login_check($mysqli) == false) {
         <div id="templage-subpages"></div>
 
         <!-- thumbnail -->
-        <div class="root col-xs-12 col-sm-6 col-lg-4 hidden" id="studies-catalog-thumbnail">
+        <div class="root col-xs-12 col-sm-6 col-lg-4 hidden studies-catalog-thumbnail" id="studies-catalog-thumbnail">
             <div class="panel panel-default btn-shadow">
                 <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
                     <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
                 </div>
 
+                <div class="panel-body panel-body-progress">
+                    <div class="progress" style="margin:0; border-radius:0; height:3px">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="10" aria-valuemax="100" style="width: 100%;">
+                            <!--                            <div class="hidden study-no-plan">Kein Zeitplan</div>
+                                                        <div class="hidden study-not-started">Nicht gestartet</div>
+                                                        <div class="hidden study-started"></div>
+                                                        <div class="hidden study-ended">Beendet</div>-->
+                        </div>
+                    </div>
+                </div>
+
                 <div class="panel-body">
-                    <div class="label label-default" id="type-phase"></div>
-                    <div class="label label-default" id="type-survey"></div>
+                    <div>
+                        <div class="label label-default hidden" id="panel-survey">Panel-Befragung</div>
+                        <div class="label label-default" id="type-phase"></div>
+                        <div class="label label-default" id="type-survey"></div>
+                    </div>
+
+                    <div>
+                        <div id="study-range-days"><span class="address">Studie läuft insgesamt:</span> <span class="text"></span></div>
+                        <div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="text"></span></div>
+                        <div class="hidden study-not-started"><i class="fa fa-hourglass-start" aria-hidden="true"></i> <span class="text"></span></div>
+                        <div class="hidden study-started"><i class="fa fa-hourglass-half" aria-hidden="true"></i> <span class="text"></span></div>
+                        <div class="hidden study-ended"><i class="fa fa-hourglass-end" aria-hidden="true"></i> <span class="text"></span></div>
+                    </div>
                 </div>
                 <!--                <div class="panel-footer">
                                     <div class="btn-group btn-group-justified">
@@ -241,13 +263,54 @@ if (login_check($mysqli) == false) {
             function getStudiesCatalogListThumbnail(data) {
                 var clone = $('#studies-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
                 if (data.data) {
+//                    console.log(data.data);
+
                     clone.attr('id', data.id);
                     clone.find('.title-text').text(data.data.generalData.name);
 
+                    if (data.data.generalData.panelSurvey === 'yes') {
+                        $(clone).find('#panel-survey').removeClass('hidden');
+                    }
+
+                    if ((data.data.generalData.dateFrom !== null && data.data.generalData.dateFrom !== "") &&
+                            (data.data.generalData.dateTo !== null && data.data.generalData.dateTo !== "")) {
+                        var dateFrom = data.data.generalData.dateFrom * 1000;
+                        var dateTo = data.data.generalData.dateTo * 1000;
+                        var rangeDays = Math.round((dateTo - dateFrom) / (1000 * 60 * 60 * 24));
+
+                        console.log(rangeDays);
+                        var now = new Date().getTime();
+                        var progress = 0;
+
+                        if (now > dateFrom && now < dateTo) {
+                            var daysLeft = Math.round((dateTo - now) / (1000 * 60 * 60 * 24));
+                            var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
+                            progress = daysExpired / rangeDays * 100;
+                            console.log('days left: ' + daysLeft + ", expired: " + daysExpired);
+                            $(clone).find('.study-started').removeClass('hidden').find('.text').text(translation.studyStarted + ", ");
+                            $(clone).find('.progress-bar').addClass('progress-bar-primary');
+                        } else if (now < dateFrom) {
+                            progress = 100;
+                            var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));
+                            console.log('days to start: ' + daysToStart);
+                            $(clone).find('.study-not-started').removeClass('hidden').find('.text').text(translation.studyNotStarted);
+                            $(clone).find('.progress-bar').addClass('progress-bar-warning');
+                        } else if (now > dateTo) {
+                            progress = 100;
+                            $(clone).find('.study-ended').removeClass('hidden').find('.text').text(translation.studyEnded);
+                            $(clone).find('.progress-bar').addClass('progress-bar-success');
+                        }
+
+                        $(clone).find('.progress-bar').css({width: progress + "%"});
+                        $(clone).find('#study-range-days .text').text(rangeDays + ' ' + (parseInt(rangeDays) === 1 ? translation.day : translation.days));
+                        console.log('id: ' + data.id + ' date set: ' + dateFrom + " to " + dateTo + ", now: " + now);
+                    } else {
+                        $(clone).find('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
+                        $(clone).find('.progress-bar').addClass('progress-bar-primary');
+                    }
+
                     $(clone).find('#type-survey').text(translation.surveyType[data.data.generalData.surveyType]);
                     $(clone).find('#type-phase').text(translation.phaseType[data.data.generalData.phase]);
-
-
                 }
 
                 $(clone).find('.panel').click({studyId: data.id}, function (event) {

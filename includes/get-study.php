@@ -3,6 +3,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
+include_once 'functions.php';
 include_once 'db_connect.php';
 include_once 'psl-config.php';
 
@@ -65,11 +66,4 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
 } else {
     echo json_encode(array('status' => 'error'));
     exit();
-}
-
-function json_decode_nice($json, $assoc = TRUE) {
-    $json = str_replace(array("\n", "\r"), "\\n", $json);
-    $json = preg_replace('/([{,]+)(\s*)([^"]+?)\s*:/', '$1"$3":', $json);
-    $json = preg_replace('/(,)\s*}$/', '}', $json);
-    return json_decode($json, $assoc);
 }

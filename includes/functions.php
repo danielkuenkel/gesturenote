@@ -190,33 +190,20 @@ function esc_url($url) {
 }
 
 function deleteFiles($targetUrl, $files) {
-    foreach ($files as $url) {
-        if (file_exists($targetUrl . $url)) {
-            unlink($targetUrl . $url);
-        } else {
-            
+    if ($files && count($files) > 0) {
+        foreach ($files as $url) {
+            if (file_exists($targetUrl . $url)) {
+                unlink($targetUrl . $url);
+            } else {
+                
+            }
         }
     }
 }
 
-function utf8_encode_all($dat) { // -- It returns $dat encoded to UTF8 
-    if (is_string($dat))
-        return utf8_encode($dat);
-    if (!is_array($dat))
-        return $dat;
-    $ret = array();
-    foreach ($dat as $i => $d)
-        $ret[$i] = utf8_encode_all($d);
-    return $ret;
-}
-
-function utf8_decode_all($dat) { // -- It returns $dat decoded from UTF8 
-    if (is_string($dat))
-        return utf8_decode($dat);
-    if (!is_array($dat))
-        return $dat;
-    $ret = array();
-    foreach ($dat as $i => $d)
-        $ret[$i] = utf8_decode_all($d);
-    return $ret;
+function json_decode_nice($json, $assoc = TRUE) {
+    $json = str_replace(array("\n", "\r"), "\\n", $json);
+    $json = preg_replace('/([{,]+)(\s*)([^"]+?)\s*:/', '$1"$3":', $json);
+    $json = preg_replace('/(,)\s*}$/', '}', $json);
+    return json_decode($json, $assoc);
 }

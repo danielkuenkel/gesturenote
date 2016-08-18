@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : danielkunkel
 */
 
-.panel-create-study {
+/*.panel-create-study {
     border: 4px solid #5bb85c;
     border-left-width: 0px;
     border-right-width: 0px;
@@ -17,9 +17,9 @@ and open the template in the editor.
     cursor: pointer;
     color: #5bb85c;
     border-radius: 0px;
-}
+}*/
 
-.panel-create-study:hover {
+/*.panel-create-study:hover {
     color: white;
     background: #5bb85c;
 }
@@ -36,7 +36,7 @@ and open the template in the editor.
     font-weight: bold;
     text-transform: uppercase;
     color: #5bb85c !important;
-}
+}*/
 
 #filterDropdown {
     margin-top: 30px;
@@ -45,4 +45,14 @@ and open the template in the editor.
 
 .filterButton {
     word-spacing: -10px;
+}
+
+.studies-catalog-thumbnail .panel > .panel-body-progress {
+    margin: 0; 
+    padding: 0; 
+    /*height: 20px;*/
+}
+
+.studies-catalog-thumbnail .panel-body .text, .studies-catalog-thumbnail .panel-body .address {
+    font-size: 10pt;
 }

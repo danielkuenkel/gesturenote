@@ -117,12 +117,6 @@ function renderSessionStorageData() {
     if (study) {
         $('#studyName').val(study.name);
         $('#studyDescription').val(study.description);
-        if (study.ageRange) {
-            var ranges = study.ageRange.split(',');
-            var ageMin = 18;
-            var ageMax = 100;
-            $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: [parseInt(ranges[0]), parseInt(ranges[1])]});
-        }
 
         if (study.phase !== 'unselected') {
             $('#phaseSelect').find('#' + study.phase).click();
@@ -142,18 +136,30 @@ function renderSessionStorageData() {
         if (study.useFeedback === true) {
             $('#useFeedbackSwitch #yes').click();
         }
+
+        $('#panelSurveySwitch').find('#' + study.panelSurvey).click();
+        if (study.panelSurvey === 'yes') {
+            if (study.ageRange) {
+                var ranges = study.ageRange.split(',');
+                var ageMin = 18;
+                var ageMax = 100;
+                $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: [parseInt(ranges[0]), parseInt(ranges[1])]});
+            }
+
+            if (study.gender !== 'unselected') {
+                $('#genderSwitch').find('#' + study.gender).click();
+            }
+        }
+
         if (study.recordType !== 'unselected') {
             $('#recordSelect').find('#' + study.recordType).click();
         }
-        if (study.gender !== 'unselected') {
-            $('#genderSwitch').find('#' + study.gender).click();
-        }
 
         $('#from-To-datepicker .input-daterange input').each(function () {
-            if ($(this).attr('id') === 'start' && study.dateFrom !== null) {
+            if ($(this).attr('id') === 'start' && study.dateFrom !== null && study.dateFrom !== "0" && study.dateFrom !== "") {
                 var dateFrom = new Date(study.dateFrom * 1000);
                 $(this).datepicker('setDate', dateFrom);
-            } else if ($(this).attr('id') === 'end' && study.dateTo !== null) {
+            } else if ($(this).attr('id') === 'end' && study.dateTo !== null && study.dateTo !== "0" && study.dateTo !== "") {
                 var dateTo = new Date(study.dateTo * 1000);
                 $(this).datepicker('setDate', dateTo);
             }
@@ -212,8 +218,16 @@ function saveGeneralData() {
     study.phase = $('#phaseSelect .chosen').attr('id');
     study.surveyType = $('#surveyTypeSelect .chosen').attr('id');
     study.recordType = $('#recordSelect .chosen').attr('id');
-    study.gender = $('#genderSwitch').find('.active').attr('id');
-    study.ageRange = $('#ageSlider .custom-range-slider').attr('value');
+
+    study.panelSurvey = $('#panelSurveySwitch').find('.active').attr('id');
+    if (study.panelSurvey === 'yes') {
+        study.gender = $('#genderSwitch').find('.active').attr('id');
+        study.ageRange = $('#ageSlider .custom-range-slider').attr('value');
+    } else {
+        study.gender = null;
+        study.ageRange = null;
+    }
+
     $('#from-To-datepicker .input-daterange input').each(function () {
         var formattedDate = $(this).datepicker('getDate');
 
@@ -256,10 +270,11 @@ function Study() {
     this.description;
     this.phase;
     this.surveyType;
-    this.dateFrom;
-    this.dateTo;
+    this.panelSurvey;
     this.gender;
     this.ageRange;
+    this.dateFrom;
+    this.dateTo;
 }
 
 function UsabilityScaleItem(question, dimension, likertScale, reversed) {
