@@ -1185,3 +1185,12 @@ function getGestureListThumbnailPreview(data) {
 
     return clone;
 }
+
+
+/*
+ * time and date functions
+ */
+
+function addDays(date, amount) {
+    return new Date(new Date(date).getTime() + (1000 * 60 * 60 * 24 * amount));
+}

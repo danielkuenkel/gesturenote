@@ -160,6 +160,13 @@ if (login_check($mysqli) == false) {
                 </div>
             </div>
 
+            <div style="margin-top: 15px;" class="text-center">
+                <span class="text">Was bedeuten die Farben?</span>
+                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #EEAC57"></i> <span class="text">Studie noch nicht gestartet</span></span>
+                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5bc0de"></i> <span class="text">Studie läuft aktuell</span></span>
+                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5cb85c"></i> <span class="text">Studie beendet</span></span>
+                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #d9534f"></i> <span class="text">Studie ohne Zeitplan</span></span>
+            </div>
 
             <div class="text-center custom-pagination" id="custom-pager">
                 <nav>
@@ -274,39 +281,47 @@ if (login_check($mysqli) == false) {
 
                     if ((data.data.generalData.dateFrom !== null && data.data.generalData.dateFrom !== "") &&
                             (data.data.generalData.dateTo !== null && data.data.generalData.dateTo !== "")) {
+
                         var dateFrom = data.data.generalData.dateFrom * 1000;
-                        var dateTo = data.data.generalData.dateTo * 1000;
+                        var dateTo = addDays(data.data.generalData.dateTo * 1000, 1);
                         var rangeDays = Math.round((dateTo - dateFrom) / (1000 * 60 * 60 * 24));
 
                         console.log(rangeDays);
                         var now = new Date().getTime();
                         var progress = 0;
+                        $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
 
                         if (now > dateFrom && now < dateTo) {
                             var daysLeft = Math.round((dateTo - now) / (1000 * 60 * 60 * 24));
                             var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
                             progress = daysExpired / rangeDays * 100;
                             console.log('days left: ' + daysLeft + ", expired: " + daysExpired);
-                            $(clone).find('.study-started').removeClass('hidden').find('.text').text(translation.studyStarted + ", ");
-                            $(clone).find('.progress-bar').addClass('progress-bar-primary');
+                            $(clone).find('.study-started').removeClass('hidden').find('.text').text(translation.studyStarted + ', ' + translation.still + ' ' + daysLeft + ' ' + (daysLeft === 1 ? translation.day : translation.days));
+                            $(clone).find('.progress-bar').addClass('progress-bar-info');
                         } else if (now < dateFrom) {
                             progress = 100;
                             var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));
                             console.log('days to start: ' + daysToStart);
-                            $(clone).find('.study-not-started').removeClass('hidden').find('.text').text(translation.studyNotStarted);
+                            $(clone).find('.study-not-started').removeClass('hidden').find('.text').text(translation.studyNotStarted + ', ' + translation.startsAt + ' ' + daysToStart + ' ' + (daysToStart === 1 ? translation.day : translation.daysn));
                             $(clone).find('.progress-bar').addClass('progress-bar-warning');
                         } else if (now > dateTo) {
                             progress = 100;
+                            $(clone).find('#study-range-days .address').text(translation.studyRuns + ": ");
                             $(clone).find('.study-ended').removeClass('hidden').find('.text').text(translation.studyEnded);
                             $(clone).find('.progress-bar').addClass('progress-bar-success');
                         }
 
                         $(clone).find('.progress-bar').css({width: progress + "%"});
                         $(clone).find('#study-range-days .text').text(rangeDays + ' ' + (parseInt(rangeDays) === 1 ? translation.day : translation.days));
-                        console.log('id: ' + data.id + ' date set: ' + dateFrom + " to " + dateTo + ", now: " + now);
+                        console.log('id: ' + data.id + ' date set: ' + dateFrom + " to " + dateTo + ', now: ' + now);
+
+                        if (now > dateFrom && now < dateTo) {
+                            TweenMax.from($(clone).find('.progress-bar'), 1, {delay: .3, width: "0%", opacity: 0});
+                        }
                     } else {
+                        $(clone).find('#study-range-days .text').text('0 ' + translation.days);
                         $(clone).find('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
-                        $(clone).find('.progress-bar').addClass('progress-bar-primary');
+                        $(clone).find('.progress-bar').addClass('progress-bar-danger');
                     }
 
                     $(clone).find('#type-survey').text(translation.surveyType[data.data.generalData.surveyType]);
