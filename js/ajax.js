@@ -66,6 +66,43 @@ function register(data) {
     });
 }
 
+function getUser(callback) {
+    $.ajax({
+        url: 'includes/get-user.php',
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function updateUser(data, callback) {
+    $.ajax({
+        url: 'includes/update-user.php',
+        type: 'post',
+        dataType: 'json',
+        data: data,
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+
+
 /*
  * dashboard info footage
  */

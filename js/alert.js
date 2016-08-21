@@ -19,6 +19,7 @@ var ALERT_INVALID_BIRTHDAY = 'invalid-birthday';
 var ALERT_USER_EXISTS = 'user-exists';
 var ALERT_NO_USER_EXISTS = 'no-user-exists';
 var ALERT_REGISTER_SUCCESS = 'register-success';
+var ALERT_WRONG_CURRENT_PASSWORD = 'wrong-current-password';
 
 // alert constants
 var ALERT_WEB_RTC_NOT_SUPPORTED = 'web-rtc-not-supported';

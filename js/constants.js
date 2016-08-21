@@ -13,6 +13,7 @@ var GESTURE_IMAGE_HOME = 'uploads/';
 // ajax result constants
 var RESULT_SUCCESS = 'success';
 var RESULT_ERROR = 'error';
+var RESULT_WRONG_CURRENT_PASSWORD = 'wrongCurrentPassword';
 
 // study specific constants
 var STUDY = 'study';
