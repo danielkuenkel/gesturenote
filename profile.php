@@ -211,7 +211,7 @@ if (login_check($mysqli) == false) {
                         var birthday = new Date(user.birthday);
                         $('#user-birthday .address').text(translation.birthday + ": ");
                         $('#label-birthday').text(translation.birthday);
-                        $('#user-birthday .text').text(user.birthday);
+                        $('#user-birthday .text').text(birthday.toLocaleDateString());
                         $('#label-date').text(translation.day);
                         $('#input-date').val(birthday.getDate());
                         $('#label-month').text(translation.month);
@@ -219,8 +219,14 @@ if (login_check($mysqli) == false) {
                         $('#label-year').text(translation.year);
                         $('#input-year').val(birthday.getFullYear());
 
+                        var t = user.created.split(/[- :]/);
+
+                        // Apply each element to the Date function
+                        var d = new Date(Date.UTC(t[0], t[1] - 1, t[2], t[3], t[4], t[5]));
+                        console.log(d);
+
                         $('#user-registered .address').text(translation.userRegistered + ": ");
-                        $('#user-registered .text').text(user.created);
+                        $('#user-registered .text').text(d.toLocaleDateString());
                     }
                 });
             }
