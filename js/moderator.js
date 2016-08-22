@@ -162,7 +162,7 @@ var Moderator = {
             var item = $(source).find('#susItem').clone(false).removeAttr('id');
             $(item).find('.question').text(i + 1 + '. ' + data[i].question);
             $(container).find('.question-container').append(item);
-            if (data[i].reversed === true) {
+            if (data[i].parameters.negative === 'yes') {
                 $(item).find('#reversed').removeClass('hidden');
             }
         }

@@ -7,31 +7,26 @@
  * dichotomous question
  */
 function renderDichotomousQuestionPreview(item, parameters) {
-    var showJustification = parameters[0];
-    var showJustificationConstraint = parameters[1];
-
-    if (showJustification === true) {
+    if (parameters.justification === 'yes') {
         item.find('#justification').removeClass('hidden');
-        item.find('#' + showJustificationConstraint).removeClass('hidden');
+        item.find('#' + parameters.justificationFor).removeClass('hidden');
     } else {
         item.find('#no-justification').removeClass('hidden');
     }
 }
 
 function renderDichotomousQuestionInput(item, parameters) {
-    var showJustification = parameters[0];
-    var showJustificationConstraint = parameters[1];
 
-    if (showJustification === true) {
+    if (parameters.justification === 'yes') {
         var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
         item.find('.panel-body').append(justification);
 
-        if (showJustificationConstraint === 'always') {
+        if (parameters.justificationFor === 'always') {
             justification.removeClass('hidden');
         } else {
             $(item).find('.switch').bind('change', function () {
                 var activeButton = $(this).find('.active');
-                if (showJustificationConstraint === activeButton.attr('id')) {
+                if (parameters.justificationFor === activeButton.attr('id')) {
                     $(item).find('#justification').removeClass('hidden');
                 } else {
                     $(item).find('#justification').addClass('hidden');
@@ -42,31 +37,25 @@ function renderDichotomousQuestionInput(item, parameters) {
 }
 
 function renderDichotomousQuestionGUSPreview(item, parameters) {
-    var showJustification = parameters[2];
-    var showJustificationConstraint = parameters[3];
-
-    if (showJustification === true) {
+    if (parameters.justification === 'yes') {
         item.find('#justification').removeClass('hidden');
-        item.find('#' + showJustificationConstraint).removeClass('hidden');
+        item.find('#' + parameters.justificationFor).removeClass('hidden');
     } else {
         item.find('#no-justification').removeClass('hidden');
     }
 }
 
 function renderDichotomousQuestionGUSInput(item, parameters) {
-    var showJustification = parameters[2];
-    var showJustificationConstraint = parameters[3];
-
-    if (showJustification === true) {
+    if (parameters.justification === 'yes') {
         var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
         item.find('.panel-body').append(justification);
 
-        if (showJustificationConstraint === 'always') {
+        if (parameters.justificationFor === 'always') {
             justification.removeClass('hidden');
         } else {
             $(item).find('.switch').bind('change', function () {
                 var activeButton = $(this).find('.active');
-                if (showJustificationConstraint === activeButton.attr('id')) {
+                if (parameters.justificationFor === activeButton.attr('id')) {
                     $(item).find('#justification').removeClass('hidden');
                 } else {
                     $(item).find('#justification').addClass('hidden');
@@ -80,13 +69,13 @@ function renderDichotomousQuestionGUSInput(item, parameters) {
  * grouping question
  */
 function renderGroupingQuestionPreview(source, item, parameters, options) {
-    if (parameters[0] === true) {
+    if (parameters.multiselect === 'yes') {
         item.find('#multiselect').removeClass('hidden');
     } else {
         item.find('#singleselect').removeClass('hidden');
     }
 
-    if (parameters[1] === true) {
+    if (parameters.optionalanswer === 'yes') {
         item.find('#optionalanswer').removeClass('hidden');
     }
 
@@ -98,7 +87,7 @@ function renderGroupingQuestionPreview(source, item, parameters, options) {
 }
 
 function renderGroupingQuestionInput(item, parameters, options) {
-    var optionType = parameters[0] === true ? 'checkbox' : 'radio';
+    var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';
 
     for (var i = 0; i < options.length; i++) {
         var option = $('#item-container-inputs').find('#' + optionType).clone();
@@ -107,7 +96,7 @@ function renderGroupingQuestionInput(item, parameters, options) {
         $(item).find('.option-container').append(document.createElement('br'));
     }
 
-    if (parameters[1] === true) {
+    if (parameters.optionalanswer === 'yes') {
         var option = $('#item-container-inputs').find('#' + optionType + '-optionalanswer').clone();
         $(item).find('.option-container').append(option);
     }
@@ -118,7 +107,8 @@ function renderGroupingQuestionInput(item, parameters, options) {
  */
 function renderGroupingQuestionGUSPreview(source, item, parameters) {
     var options;
-    switch (parameters[4]) {
+    
+    switch (parameters.optionSource) {
         case 'gestures':
             options = assembledGestures();
             break;
@@ -130,15 +120,15 @@ function renderGroupingQuestionGUSPreview(source, item, parameters) {
             break;
     }
 
-    if (parameters[1] === true) {
+    if (parameters.multiselect === 'yes') {
         item.find('#multiselect').removeClass('hidden');
     } else {
         item.find('#singleselect').removeClass('hidden');
     }
 
-    if (parameters[2] === true) {
+    if (parameters.justification === 'yes') {
         item.find('#justification').removeClass('hidden');
-        item.find('#' + parameters[3]).removeClass('hidden');
+        item.find('#' + parameters.justificationFor).removeClass('hidden');
     } else {
         item.find('#no-justification').removeClass('hidden');
     }
@@ -148,23 +138,29 @@ function renderGroupingQuestionGUSPreview(source, item, parameters) {
             var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
             item.find('.option-container').append(optionItem);
 
-            if (parameters[4] === 'triggers') {
+            if (parameters.optionSource === 'triggers') {
                 var trigger = getTriggerById(options[i].id);
                 optionItem.text(trigger.title);
             }
 
-            if (parameters[4] === 'gestures') {
+            if (parameters.optionSource === 'gestures') {
                 var gesture = getGestureById(options[i].id);
                 optionItem.text(gesture.title);
+            }
+
+            if (parameters.optionSource === 'feeedbacks') {
+                var feedback = getFeedbackById(options[i].id);
+                optionItem.text(feedback.title);
             }
         }
     }
 }
 
 function renderGroupingQuestionGUSInput(item, parameters) {
-    var optionType = parameters[1] === true ? 'checkbox' : 'radio';
+    var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';
     var options;
-    switch (parameters[4]) {
+    
+    switch (parameters.optionSource) {
         case 'gestures':
             options = assembledGestures();
             break;
@@ -182,7 +178,7 @@ function renderGroupingQuestionGUSInput(item, parameters) {
             $(item).find('.option-container').append(option);
 
             var optionItem = null;
-            switch (parameters[4]) {
+            switch (parameters.optionSource) {
                 case 'gestures':
                     optionItem = getGestureById(options[i].id);
                     var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
@@ -201,26 +197,23 @@ function renderGroupingQuestionGUSInput(item, parameters) {
         }
     }
 
-    var showJustification = parameters[2];
-    var showJustificationConstraint = parameters[3];
-
-    if (showJustification === true) {
+    if (parameters.justification === 'yes') {
         var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
         item.find('.option-container').append(justification);
 
-        if (showJustificationConstraint === 'always') {
+        if (parameters.justificationFor === 'always') {
             justification.removeClass('hidden');
         } else {
-            if (showJustificationConstraint === 'selectNothing') {
+            if (parameters.justificationFor === 'selectNothing') {
                 justification.removeClass('hidden');
             }
 
             $(item).find('.option-container').bind('change', function () {
                 var totalCheckboxButtons = $(this).find('.btn-' + optionType);
                 var activeCheckboxButtons = $(totalCheckboxButtons).filter('.btn-option-checked');
-                if (showJustificationConstraint === 'selectOne' && activeCheckboxButtons.length > 0) {
+                if (parameters.justificationFor === 'selectOne' && activeCheckboxButtons.length > 0) {
                     $(item).find('#justification').removeClass('hidden');
-                } else if (showJustificationConstraint === 'selectNothing' && activeCheckboxButtons.length === 0) {
+                } else if (parameters.justificationFor === 'selectNothing' && activeCheckboxButtons.length === 0) {
                     $(item).find('#justification').removeClass('hidden');
                 } else {
                     $(item).find('#justification').addClass('hidden');
@@ -275,17 +268,17 @@ function renderRatingInput(item, options) {
  * sum question
  */
 function renderSumQuestionPreview(source, item, parameters, options) {
-    if (parameters[1] !== null) {
+    if (parameters.maximum !== null) {
         var maximum = $(source).find('#option-item').clone(false).removeAttr('id');
-        maximum.text(translation.maximum + ': ' + parameters[1]);
+        maximum.text(translation.maximum + ': ' + parameters.maximum);
         item.find('#distribution-container').append(maximum);
     }
-    if (parameters[0] !== null) {
+
+    if (parameters.allocation !== null) {
         var percent = $(source).find('#option-item').clone(false).removeAttr('id');
-        percent.text(translation.scales[parameters[0]]);
+        percent.text(translation.scales[parameters.allocation]);
         item.find('#distribution-container').append(percent);
     }
-
 
     for (var i = 0; i < options.length; i++) {
         var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
@@ -296,7 +289,7 @@ function renderSumQuestionPreview(source, item, parameters, options) {
 
 function renderSumQuestionInput(item, parameters, options) {
     for (var i = 0; i < options.length; i++) {
-        var maxSum = parameters[1];
+        var maxSum = parseInt(parameters.maximum);
         var sumQuestionItem = $('#item-container-inputs').find('#sumQuestion-item').clone().removeAttr('id');
         sumQuestionItem.find('.option-text').html(options[i]);
         sumQuestionItem.find('.btn-stepper-increase').val(maxSum);
@@ -342,22 +335,22 @@ function renderRankingInput(item, options) {
  * alternative question
  */
 function renderAlternativeQuestionPreview(item, parameters) {
-    if (parameters[3] === true) {
+    if (parameters.optionalanswer === 'yes') {
         $(item).find('#optionalanswer').removeClass('hidden');
     }
 
-    if (parameters[1] === true) {
+    if (parameters.justification === 'yes') {
         $(item).find('#justification').removeClass('hidden');
-        $(item).find('#' + parameters[2]).removeClass('hidden');
+        $(item).find('#' + parametersjustificationFor).removeClass('hidden');
     } else {
         $(item).find('#no-justification').removeClass('hidden');
     }
 
-    if (parameters[4] === 'gestures' && parameters[5] === 'gesture') {
+    if (parameters.alternative === 'gestures' && parameters.alternativeFor === 'alternativeGesture') {
         $(item).find('#gesturesForGesture').removeClass('hidden');
-    } else if (parameters[4] === 'gestures' && parameters[5] === 'trigger') {
+    } else if (parameters.alternative === 'gestures' && parameters.alternativeFor === 'alternativeTrigger') {
         $(item).find('#gesturesForTrigger').removeClass('hidden');
-    } else if (parameters[4] === 'triggers' && parameters[5] === 'trigger') {
+    } else if (parameters.alternative === 'triggers' && parameters.alternativeFor === 'alternativeTrigger') {
         $(item).find('#triggersForTrigger').removeClass('hidden');
     } else {
         $(item).find('#triggersForGesture').removeClass('hidden');
@@ -368,7 +361,8 @@ function renderAlternativeQuestionInput(item, data) {
     var parameters = data.parameters;
     var options;
     var optionId = null;
-    switch (parameters[4]) {
+
+    switch (parameters.alternative) {
         case 'gestures':
             options = assembledGestures();
             if (singleGUSGesture) {
@@ -397,7 +391,7 @@ function renderAlternativeQuestionInput(item, data) {
                 item.find('.option-container').append(optionButton);
                 item.find('.option-container').append(document.createElement('br'));
 
-                if (parameters[4] === 'gestures') {
+                if (parameters.alternative === 'gestures') {
                     var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
                     button.attr('name', options[i].id);
                     optionButton.append(button);
@@ -406,31 +400,28 @@ function renderAlternativeQuestionInput(item, data) {
         }
     }
 
-    if (parameters[3] === true) {
+    if (parameters.optionalanswer === 'yes') {
         var optionalAnswer = $('#item-container-inputs').find('#checkbox-optionalanswer').clone();
         item.find('.option-container').append(optionalAnswer);
     }
 
-    var showJustification = parameters[1];
-    var showJustificationConstraint = parameters[2];
-
-    if (showJustification === true) {
+    if (parameters.justification === 'yes') {
         var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
         item.find('.option-container').append(justification);
 
-        if (showJustificationConstraint === 'always') {
+        if (parameters.justificationFor === 'always') {
             justification.removeClass('hidden');
         } else {
-            if (showJustificationConstraint === 'selectNothing') {
+            if (parameters.justificationFor === 'selectNothing') {
                 justification.removeClass('hidden');
             }
 
             $(item).find('.option-container').bind('change', function () {
                 var totalCheckboxButtons = $(this).find('.btn-checkbox');
                 var activeCheckboxButtons = $(totalCheckboxButtons).filter('.btn-option-checked');
-                if (showJustificationConstraint === 'selectOne' && activeCheckboxButtons.length > 0) {
+                if (parameters.justificationFor === 'selectOne' && activeCheckboxButtons.length > 0) {
                     $(item).find('#justification').removeClass('hidden');
-                } else if (showJustificationConstraint === 'selectNothing' && activeCheckboxButtons.length === 0) {
+                } else if (parameters.justificationFor === 'selectNothing' && activeCheckboxButtons.length === 0) {
                     $(item).find('#justification').removeClass('hidden');
                 } else {
                     $(item).find('#justification').addClass('hidden');
@@ -445,7 +436,7 @@ function renderAlternativeQuestionInput(item, data) {
  */
 
 function renderGUSSinglePreview(item, data) {
-    if (data.parameters[1] === true) {
+    if (data.parameters.negative === 'yes') {
         $(item).find('#reversed').removeClass('hidden');
     }
     if (data.dimension !== DIMENSION_ANY) {

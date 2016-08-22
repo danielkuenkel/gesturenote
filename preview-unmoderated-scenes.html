@@ -76,22 +76,25 @@
         var currentPhaseData = getCurrentPhaseData();
         var items = getItemsForSceneId(currentPhaseData.woz, currentWOZScene.id);
 
-//        console.log(items);
-
         for (var i = 0; i < items.length; i++) {
             var clone = $('#tester-woz-item').clone().removeClass('hidden').removeAttr('id');
             $('#list-container').append(clone);
             var gesture = getGestureById(items[i].gestureId);
-            renderGestureImages(clone.find('.previewGesture'), gesture.images, gesture.previewImage, function () {
-            });
+            if (gesture) {
+                renderGestureImages(clone.find('.previewGesture'), gesture.images, gesture.previewImage, function () {
+                });
+            }
+
             $(clone).find('.panel').mouseenter(function (event) {
                 event.preventDefault();
                 $(this).find('#btn-play-gesture').click();
             });
+
             $(clone).find('.panel').mouseleave(function (event) {
                 event.preventDefault();
                 $(this).find('#btn-stop-gesture').click();
             });
+
             $(clone).find('#btn-select-item').click({wozData: items[i]}, function (event) {
                 event.preventDefault();
                 var wozData = event.data.wozData;

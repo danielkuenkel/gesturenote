@@ -723,6 +723,10 @@ if (login_check($mysqli) == false) {
                     loadHTMLintoModal("custom-modal", "info-" + event.data.format + ".html", "modal-md");
                 });
 
+                if (format === SUS) {
+                    setLocalItem(id + ".data", getLocalItem(STUDY_ORIGIN_SUS));
+                }
+
                 checkCurrentListState($('#phaseStepList'));
             }
 

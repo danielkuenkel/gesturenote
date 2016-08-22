@@ -7,7 +7,6 @@
 var currentIdForModal;
 var colors;
 var currentContainerList = null;
-
 function checkSessionStorage() {
     createOriginGUS();
     createOriginSUS();
@@ -50,16 +49,16 @@ function createOriginGUS() {
 function createOriginSUS() {
     if (getLocalItem(STUDY_ORIGIN_SUS) === null) {
         var sus = new Array();
-        sus.push(new UsabilityScaleItem("Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.", DIMENSION_ANY, 5, false));
-        sus.push(new UsabilityScaleItem("Ich fand das System unnötig komplex.", DIMENSION_ANY, 5, true));
-        sus.push(new UsabilityScaleItem("Ich denke, das System war leicht zu benutzen.", DIMENSION_ANY, 5, false));
-        sus.push(new UsabilityScaleItem("Ich denke, ich würde die  Unterstützung einer fachkundigen Person benötigen, um das System benutzen zu können.", DIMENSION_ANY, 5, true));
-        sus.push(new UsabilityScaleItem("Ich fand, die verschiedenen Funktionen des Systems waren gut integriert.", DIMENSION_ANY, 5, false));
-        sus.push(new UsabilityScaleItem("Ich halte das System für zu inkonsistent.", DIMENSION_ANY, 5, true));
-        sus.push(new UsabilityScaleItem("Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dem System umzugehen.", DIMENSION_ANY, 5, false));
-        sus.push(new UsabilityScaleItem("Ich fand das System sehr umständlich zu benutzen.", DIMENSION_ANY, 5, true));
-        sus.push(new UsabilityScaleItem("Ich fühlte mich bei der Nutzung des Systems sehr sicher.", DIMENSION_ANY, 5, false));
-        sus.push(new UsabilityScaleItem("Ich musste viele Dinge lernen, bevor ich  mit dem System arbeiten konnte.", DIMENSION_ANY, 5, true));
+        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.", {negative: 'no'}, null));
+        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich fand das System unnötig komplex.", {negative: 'yes'}, null));
+        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich denke, das System war leicht zu benutzen.", {negative: 'no'}, null));
+        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich denke, ich würde die  Unterstützung einer fachkundigen Person benötigen, um das System benutzen zu können.", {negative: 'yes'}, null));
+        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich fand, die verschiedenen Funktionen des Systems waren gut integriert.", {negative: 'no'}, null));
+        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich halte das System für zu inkonsistent.", {negative: 'yes'}));
+        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dem System umzugehen.", {negative: 'no'}, null));
+        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich fand das System sehr umständlich zu benutzen.", {negative: 'yes'}, null));
+        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich fühlte mich bei der Nutzung des Systems sehr sicher.", {negative: 'no'}));
+        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich musste viele Dinge lernen, bevor ich  mit dem System arbeiten konnte.", {negative: 'yes'}, null));
         setLocalItem(STUDY_ORIGIN_SUS, sus);
     }
 }
@@ -117,7 +116,6 @@ function renderSessionStorageData() {
     if (study) {
         $('#studyTitle').val(study.title);
         $('#studyDescription').val(study.description);
-
         if (study.phase !== 'unselected') {
             $('#phaseSelect').find('#' + study.phase).click();
         }
@@ -218,7 +216,6 @@ function saveGeneralData() {
     study.phase = $('#phaseSelect .chosen').attr('id');
     study.surveyType = $('#surveyTypeSelect .chosen').attr('id');
     study.recordType = $('#recordSelect .chosen').attr('id');
-
     study.panelSurvey = $('#panelSurveySwitch').find('.active').attr('id');
     if (study.panelSurvey === 'yes') {
         study.gender = $('#genderSwitch').find('.active').attr('id');
@@ -230,7 +227,6 @@ function saveGeneralData() {
 
     $('#from-To-datepicker .input-daterange input').each(function () {
         var formattedDate = $(this).datepicker('getDate');
-
         var saveDate;
         if (formattedDate !== null) {
             saveDate = new Date(formattedDate).getTime() / 1000;
@@ -244,7 +240,6 @@ function saveGeneralData() {
             study.dateTo = saveDate;
         }
     });
-
     setLocalItem(STUDY, study);
     savePhases();
     updateCatalogButtons();
@@ -253,7 +248,6 @@ function saveGeneralData() {
 function savePhases() {
     var phases = new Array();
     var phaseSteps = $('#phaseStepList').children();
-
     for (var i = 0; i < phaseSteps.length; i++) {
         var item = phaseSteps[i];
         var id = $(item).attr('id');

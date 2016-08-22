@@ -196,274 +196,406 @@
             "format": "gusSingle",
             "dimension": "purposeOfFullfillment",
             "question": "Ich denke, dass ich mit der Geste die Aufgabe erledigen kann.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "purposeOfFullfillment",
             "question": "Ich denke, dass das Feedback nicht zur Geste passt.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "accuracy",
             "question": "Die Geste hat eine andere Systemfunktion aktiviert.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "accuracy",
             "question": "Die Geste wurde immer vom System korrekt erkannt.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "accuracy",
             "question": "Das System hat ausreichend schnell auf die Geste reagiert.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "physicalFatigue",
             "question": "Ich denke, dass mich die Geste körperlich zu sehr fordert.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "physicalFatigue",
             "question": "Ich denke, dass die Geste ermüdend ist.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
             "question": "Ich denke, dass die Geste zu den anderen Gesten passt.",
-            "parameters": [true, false, true, "no"]
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "no"
+            }
         },
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
             "question": "Ich kenne diese Geste von einem anderen Gerät oder anderen Erfahrungen.",
-            "parameters": [true, false, true, "yes"]
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "yes"
+            }
         },
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
             "question": "Ich denke, dass auch andere Anwendungen diese Geste nutzen könnten.",
-            "parameters": [true, false, true, "always"]
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "always"
+            }
         },
         {
             "format": "alternativeQuestion",
             "dimension": "cognitiveLoadMentalModel",
             "question": "Ich denke, dass es zu dieser Geste eine alternative Geste gibt.",
-            "parameters": [true, true, "selectOne", true, "gestures", "gesture"]
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionalanswer": "yes",
+                "alternative": "gestures",
+                "alternativeFor": "alternativeGesture"
+            }
         },
         {
             "format": "alternativeQuestion",
             "dimension": "cognitiveLoadMentalModel",
             "question": "Ich denke, dass diese Geste besser zu einer anderen Funktion passt.",
-            "parameters": [true, true, "selectOne", true, "triggers", "gesture"]
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionalanswer": "yes",
+                "alternative": "triggers",
+                "alternativeFor": "alternativeGesture"
+            }
         },
         {
             "format": "gusSingle",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass ich mir diese Geste sehr gut merken kann.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "learnabilityMemorability",
             "question": "Ich glaube, dass die meisten Menschen sich die Geste gut merken können.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass die Geste zu komplex ist, um sie sich zu merken.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass die Geste zu lang ist, um sie sich zu merken.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass die Geste zu einfach ist, um sie sich zu merken.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass die Geste prägnant ist.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "physicalContext",
             "question": "Ich denke, dass sich die Geste von alltäglichen Bewegungen ausreichend unterscheidet.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "physicalContext",
             "question": "Ich denke, dass immer genügend Platz für die Geste da ist.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "physicalContext",
             "question": "Ich denke, dass die Geste immer unmittelbar genutzt werden kann.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "physicalContext",
             "question": "Meine Kleidung hat mich bei der Ausführung der Geste nicht gestört.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "physicalContext",
             "question": "Ich denke, dass mich die Geste bei der Ausführung beeinträchtigt.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "physicalContext",
             "question": "Ich denke, dass die Geste andere Personen im Umfeld beeinträchtigt.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "naturalnessIntuitiveness",
             "question": "Ich denke, dass die Geste zur Funktion passt.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "naturalnessIntuitiveness",
             "question": "Ich denke, dass die Geste zu abstrakt ist.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "comfortErgonomics",
             "question": "Ich denke, dass die Geste bequem ist.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "comfortErgonomics",
             "question": "Ich denke, dass die Geste komfortabel ist.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "comfortErgonomics",
             "question": "Ich denke, dass die Geste ergonomisch ist.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "comfortErgonomics",
             "question": "Ich glaube, dass die meisten Menschen die Geste einfach ausführen können.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "comfortErgonomics",
             "question": "Ich denke, dass die Geste von der Bewegung her komisch ist.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "comfortErgonomics",
             "question": "Ich denke, dass die Geste von der Bewegung zu komplex ist.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "easeOfUse",
             "question": "Für die Geste gab es immer ausreichend Hilfestellung.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "uxSatisfactionOfUse",
             "question": "Die Geste ist peinlich.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "uxSatisfactionOfUse",
             "question": "Ich fühle mich beim Ausführen der Geste wohl.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
             "question": "Ich denke, dass die Geste Einschränkungen mit sich bringt.",
-            "parameters": [true, true, true, "yes"]
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "yes"
+            }
         },
         {
             "format": "gusSingle",
             "dimension": "socialAcceptance",
             "question": "Ich denke, dass die Geste andere Personen im Umfeld stört.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "socialAcceptance",
             "question": "Ich denke, dass die Geste andere Personen irritiert.",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "socialAcceptance",
             "question": "Ich denke, dass die Geste sozialverträglich ist.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "gusSingle",
             "dimension": "discrimination",
             "question": "Ich denke, dass die Geste diskriminierend ist (z.B. nur für Linkshänder geeignet oder in bestimmtem Kulturraum unangemessen).",
-            "parameters": [true, true],
+            "parameters": {
+                "used": "used",
+                "negative": "yes"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         }
     ],
@@ -472,260 +604,503 @@
             "format": "groupingQuestionGUS",
             "dimension": "purposeOfFullfillment",
             "question": "Ich denke, dass eine oder mehrere Gesten nicht ihren Zweck erfüllen.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "purposeOfFullfillment",
             "question": "Ich denke, dass das Feedback nicht zu einer oder mehreren Gesten passt.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "accuracy",
             "question": "Eine oder mehrere Gesten aktivierten andere Systemfunktionen.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "accuracy",
             "question": "Das System reagierte nicht auf eine oder mehrere Gesten.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "accuracy",
             "question": "Das System reagierte nicht ausreichend schnell auf eine oder mehrere Gesten.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "physicalFatigue",
             "question": "Eine oder mehrere Gesten sind ermüdend.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "physicalFatigue",
             "question": "Eine oder mehrere Gesten haben mich körperlich zu sehr gefordert.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
             "question": "Ich denke, dass eine oder mehrere Gesten nicht zu den anderen Gesten passen.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
             "question": "Ich kenne eine oder mehrere Gesten von einem anderen Gerät oder anderen Erfahrungen.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
             "question": "Ich kann mir vorstellen, andere Anwendungen mit einer oder mehreren Gesten zu steuern.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
             "question": "Ich denke, dass es zu einer oder mehreren Gesten Alternativen gibt.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass ich mir eine oder mehrere Gesten nicht gut merken kann.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "learnabilityMemorability",
             "question": "Ich glaube, dass die sich meisten Menschen eine oder mehrere Gesten nicht gut merken können.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass eine oder mehrere Gesten zu komplex sind, um sie sich zu merken.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass eine oder mehrere Gesten zu lang sind, um sie sich zu merken.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass eine oder mehrere Gesten zu einfach sind, um sie sich zu merken.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass eine oder mehrere Gesten nicht prägnant sind.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass man sich zu viele Gesten merken muss.",
-            "parameters": [true, false, false, "unselected"]
+            "parameters": {
+                "used": "used",
+                "justification": "no",
+                "justificationFor": "unselected"
+            }
         },
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass man sich zu viele neue Gesten merken muss.",
-            "parameters": [true, false, false, "unselected"]
+            "parameters": {
+                "used": "used",
+                "justification": "no",
+                "justificationFor": "unselected"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "physicalContext",
             "question": "Ich denke, dass sich eine oder mehrere Gesten nicht ausreichend von alltäglichen Bewegungen unterscheiden.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "physicalContext",
             "question": "Ich denke, dass für eine oder mehrere Gesten nicht genügend Platz ist.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "physicalContext",
             "question": "Eine oder mehrere Gesten können nicht unmittelbar genutzt werden.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "physicalContext",
             "question": "Ich denke, dass mich meine Kleidung beim Ausführen einer oder mehrerer Gesten zu stark einschränkt.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "physicalContext",
             "question": "Ich denke, dass mich eine oder mehrere Gesten bei der Ausführung beeinträchtigen.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "physicalContext",
             "question": "Ich denke, dass eine oder mehrere Gesten andere Personen im Umfeld beeinträchtigen.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "naturalnessIntuitiveness",
             "question": "Ich denke, dass eine oder mehrere Gesten nicht zu ihren Funktionen passen.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "naturalnessIntuitiveness",
             "question": "Ich denke, dass eine oder mehrere Gesten zu abstrakt sind.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "comfortErgonomics",
             "question": "Ich denke, dass eine oder mehrere Gesten zu unbequem sind.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "comfortErgonomics",
             "question": "Ich denke, dass eine oder mehrere Gesten unkomfortabel sind.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "comfortErgonomics",
             "question": "Ich denke, dass eine oder mehrere Gesten nicht ergonomisch sind",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "comfortErgonomics",
             "question": "Ich glaube, dass die meisten Menschen eine oder mehrere Gesten nicht einfach ausführen können.",
-            "parameters": [true, true, true, "selectOption", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOption",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "comfortErgonomics",
             "question": "Ich denke, dass eine oder mehrere Gesten von der Bewegung her komisch sind.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "comfortErgonomics",
             "question": "Ich denke, dass eine oder mehrere Gesten von der Bewegung zu komplex sind.",
-            "parameters": [true, true, false, "unselected", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "gusSingle",
             "dimension": "easeOfUse",
             "question": "Ich denke, dass es ausreichend Hilfestellung für die Bedienung des Systems mit den Gesten gibt.",
-            "parameters": [true, false],
+            "parameters": {
+                "used": "used",
+                "negative": "no"
+            },
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
             "question": "Ich denke, dass ich mich bei der Ausführung einer oder mehrerer Gesten nicht wohl fühle.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
             "question": "Ich denke, dass eine oder mehrere Gesten peinlich sind.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
             "question": "Ich denke, dass eine oder mehrere Gesten nicht ohne Einschränkungen von mir genutzt werden können.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "openQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
             "question": "Nennen Sie 3 Vorteile der Gestensteuerung.",
-            "parameters": [true]
+            "parameters": {
+                "used": "used"
+            }
         },
         {
             "format": "openQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
             "question": "Nennen Sie 3 Nachteile der Gestensteuerung.",
-            "parameters": [true]
+            "parameters": {
+                "used": "used"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "socialAcceptance",
             "question": "Ich denke, dass eine oder mehrere Gesten andere Personen im Umfeld stören.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "socialAcceptance",
             "question": "Ich denke, dass eine oder mehrere Gesten andere Personen irritieren.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "socialAcceptance",
             "question": "Ich denke, dass eine oder mehrere Gesten nicht sozialverträglich sind.",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "discrimination",
             "question": "Ich denke, dass eine oder mehrere Gesten diskriminierend sind? (z.B. nur für Rechts- oder nur für Linkshänder geeignet sind)",
-            "parameters": [true, true, true, "selectOne", "gestures"]
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            }
         }
     ]
 }

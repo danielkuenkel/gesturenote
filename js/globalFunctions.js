@@ -63,11 +63,13 @@ $(document).on('click', '.select .option li', function (event) {
         $(this).trigger('change', [listItemId]);
     }
 });
+
 $(document).on('click', '.show-dropdown', function (event) {
     event.preventDefault();
     event.stopPropagation();
     $(this).next().find('[data-toggle=dropdown]').dropdown('toggle');
 });
+
 $(document).on('click', '.btn-delete', function (event) {
     event.stopPropagation();
     event.preventDefault();
@@ -94,6 +96,7 @@ $(document).on('click', '.btn-delete', function (event) {
 
     updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
 });
+
 $(document).on('click', '.btn-up', function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -932,7 +935,7 @@ function getAssembledItems(source) {
     if (source && source.length > 0) {
         for (var i = 0; i < source.length; i++) {
 //            console.log(source[i].dimension);
-            if (source[i].dimension !== DIMENSION_ANY && source[i].parameters[0] === true) {
+            if (source[i].dimension !== DIMENSION_ANY && source[i].parameters.used === "used") {
                 array.push(source[i]);
             } else if (source[i].dimension === DIMENSION_ANY) {
                 array.push(source[i]);

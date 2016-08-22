@@ -1087,11 +1087,11 @@
                         <button class="btn btn-default btn-shadow chooseSceneImage"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text">Bild auswählen</span></button>
                     </div>
                 </div>
-                
+
                 <form enctype="multipart/form-data" id="upload-image-form" class="hidden">
                     <input class="imageUpload hidden" name="image" type="file" accept="image/jpeg, image/gif, image/png" />
                 </form>
-                
+
                 <div class="imageArea hidden" style="margin-top: 10px; width: 100%; height: auto; position: relative;">
                     <button class="btn btn-danger btn-shadow btn-delete-image" style="position: absolute; margin: 10px; right: 0px;"><span class="glyphicon glyphicon-trash"></span> Bild löschen</button>
                     <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 4px;" />
@@ -1234,13 +1234,13 @@
                 <span class="input-group-addon">Item</span>
                 <input class="form-control item-input-text question readonly" type="text" value=""/>
 
-                <div class="input-group-btn negative">
+                <div class="input-group-btn">
                     <button type="button" class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title="">
                         <i class="glyphicon glyphicon-eye-open"></i>
                     </button>
-                    <button class="btn btn-default switchButtonAddon" id="negative">Negativ?</button>
+<!--                    <button class="btn btn-default switchButtonAddon">Negativ?</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger">Ja</button>
-                    <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>
+                    <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>-->
                 </div>
             </div>
 
@@ -1263,13 +1263,8 @@
 
     <div class="form-group root" id="sus">
         <div class="input-group">
-            <div class="input-group-btn">
-                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-            </div>
             <span class="input-group-addon">Item</span>
-            <input class="form-control item-input-text" type="text" value=""/>
+            <input class="form-control item-input-text question readonly" type="text" value=""/>
 
             <div class="input-group-btn negative">
                 <button type="button" class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title="">
