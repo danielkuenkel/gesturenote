@@ -9,8 +9,8 @@ include_once 'psl-config.php';
 
 session_start();
 if (isset($_SESSION['user_id'], $_POST['data'], $_POST['studyId'])) {
-
     // Serialisieren der Daten
+//    $studyData = json_encode($_POST['data']);
     $studyData = mysqli_real_escape_string($mysqli, json_encode($_POST['data']));
     $updateStudyId = $_POST['studyId'];
     $sessionUserId = $_SESSION['user_id'];

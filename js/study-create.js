@@ -115,7 +115,7 @@ function renderSessionStorageData() {
 
     var study = getLocalItem(STUDY);
     if (study) {
-        $('#studyName').val(study.name);
+        $('#studyTitle').val(study.title);
         $('#studyDescription').val(study.description);
 
         if (study.phase !== 'unselected') {
@@ -213,7 +213,7 @@ function updateCatalogButtons() {
 
 function saveGeneralData() {
     var study = new Study();
-    study.name = $('#studyName').val();
+    study.title = $('#studyTitle').val();
     study.description = $('#studyDescription').val();
     study.phase = $('#phaseSelect .chosen').attr('id');
     study.surveyType = $('#surveyTypeSelect .chosen').attr('id');
@@ -266,7 +266,7 @@ function savePhases() {
 }
 
 function Study() {
-    this.name;
+    this.title;
     this.description;
     this.phase;
     this.surveyType;

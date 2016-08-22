@@ -102,55 +102,13 @@
             }
         }
 
-
-
-//        $('body').on('click', '.gesture-thumbnail, .gesture-details', function (event) {
-//            event.preventDefault();
-//            if (!event.handled) {
-//                event.handled = true;
-//                toggleCollapse($(this).closest('.root').find('.panel-collapse'));
-//
-//                if ($(this).find('.panel-collapse').hasClass('in')) {
-//                    var gestureId = $(this).closest('.gesture-thumbnail').attr('id');
-//
-//                    var gesture = getGestureById(gestureId);
-//                    console.log(gesture.previewImage);
-//                    renderGestureImages($(this).closest('.gesture-thumbnail').find('.previewGesture'), gesture.images, gesture.previewImage, function () {
-//                        console.log('images loaded');
-//                    });
-//                }
-//            }
-//        });
-//
-//        function toggleCollapse(element) {
-//            if (!$(element).hasClass('in')) {
-//                var brothers = $(element).closest('.panel-group').children();
-//                for (var i = 0; i < brothers.length; i++) {
-//                    $(brothers[i]).find('.panel-collapse').removeClass('in');
-//                }
-//                $(element).addClass('in');
-//            } else {
-//                $(element).removeClass('in');
-//            }
-//        }
-
-//        $('body').on('click', '.gesture-reassemble, .gesture-unassemble-description', function (event) {
-//            event.preventDefault();
-//            if (!event.handled) {
-//                event.handled = true;
-//                var thumbnail = $(this).closest('.gesture-thumbnail');
-//                var gestureId = thumbnail.attr('id');
-//                reassembleGesture(gestureId);
-//                saveData();
-//                renderData(assembledGestures());
-//            }
-//        });
-
         $('#filter').unbind('change').bind('change', function (event) {
             event.preventDefault();
 
             saveData();
-            renderData(sort());
+            currentFilterData = sort();
+            updatePaginationItems();
+            renderData(currentFilterData);
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
@@ -161,7 +119,8 @@
             event.preventDefault();
 
             saveData();
-            renderData(sort());
+            currentFilterData = sort();
+            updatePaginationItems();
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
@@ -172,8 +131,8 @@
             event.preventDefault();
 
             saveData();
-            checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-            renderData(currentFilterData);
+            currentFilterData = sort();
+            updatePaginationItems();
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');

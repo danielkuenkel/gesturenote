@@ -767,6 +767,10 @@ function updatePagination(pagination) {
     }
 }
 
+function updatePaginationItems() {
+    initPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+}
+
 function checkPagination(pagination, dataLength, maxElements) {
     var currentMaxPages = parseInt($(pagination).attr('maxPages'));
     var maxPages = Math.ceil(dataLength / maxElements);
@@ -1069,6 +1073,8 @@ function filter(scope) {
                 }
             } else if (originalFilterData[i].scope === scope || originalFilterData[i].source === scope) {
                 array.push(originalFilterData[i]);
+            } else if (originalFilterData[i].data && originalFilterData[i].data.generalData && (originalFilterData[i].data.generalData.phase === scope || originalFilterData[i].data.generalData.surveyType === scope)) {
+                array.push(originalFilterData[i]);
             }
         }
     }
@@ -1109,14 +1115,18 @@ $(document).on('keyup', '.search-input', function (event) {
             var matched = searchThroughArray(sort(), filter.trim());
             if (matched.length > 0) {
                 removeAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
-                renderData(matched, true);
+                currentFilterData = matched;
+                updatePaginationItems();
+                renderData(matched);
             } else {
                 container.addClass('hidden');
                 appendAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
             }
         } else {
             removeAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
-            renderData(sort());
+            currentFilterData = sort();
+            updatePaginationItems();
+            renderData(currentFilterData);
 
             if (event.keyCode === 27) {
                 $(this).val('');
@@ -1128,7 +1138,9 @@ $(document).on('keyup', '.search-input', function (event) {
 function searchThroughArray(array, filter) {
     var result = new Array();
     for (var i = 0; i < array.length; i++) {
-        if (array[i].title.search(new RegExp(filter, "i")) > -1) {
+        if (array[i].title && array[i].title.search(new RegExp(filter, "i")) > -1) {
+            result.push(array[i]);
+        } else if (array[i].data && array[i].data.generalData && array[i].data.generalData.title && array[i].data.generalData.title.search(new RegExp(filter, "i")) > -1) {
             result.push(array[i]);
         }
     }
@@ -1148,7 +1160,6 @@ function getGestureListThumbnail(data) {
     clone.find('#title .text').text(data.title);
     clone.find('#context .text').text(data.context);
     clone.find('#description .text').text(data.description);
-
 
     if (data.isOwner === true) {
         if (data.source !== SOURCE_GESTURE_TESTER) {
@@ -1193,4 +1204,8 @@ function getGestureListThumbnailPreview(data) {
 
 function addDays(date, amount) {
     return new Date(new Date(date).getTime() + (1000 * 60 * 60 * 24 * amount));
+}
+
+function rangeDays(dateFrom, dateTo) {
+    return Math.round((dateTo - dateFrom) / (1000 * 60 * 60 * 24)) + 1;
 }

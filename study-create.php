@@ -178,9 +178,9 @@ if (login_check($mysqli) == false) {
                         <!-- study name -->
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon">Studienname</span>
-                                <label class="sr-only" for="studyName">Studienname</label>
-                                <input type="text" class="form-control" id="studyName" placeholder="Studienname einfügen" required>
+                                <span class="input-group-addon">Studien-Titel</span>
+                                <label class="sr-only" for="studyTitle">Studien-Titel</label>
+                                <input type="text" class="form-control" id="studyTitle" placeholder="Studien-Titel einfügen" required>
                             </div>
                         </div>
 
@@ -536,7 +536,7 @@ if (login_check($mysqli) == false) {
                     $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: [23, 50]});
                 }
 
-                $('#ageSlider .slider-from').text(translation[$('#ageSlider .slider-from').attr('name')] + " " + translation.from + " " + ageMin);
+                $('#ageSlider .slider-from').text(translation[$('#ageSlider .slider-from').attr('name')] + " " + translation.of + " " + ageMin);
                 $('#ageSlider .slider-to').text(translation.to + " " + ageMax);
 
                 if (typeof (Storage) !== "undefined") {
@@ -766,14 +766,17 @@ if (login_check($mysqli) == false) {
                 event.preventDefault();
                 if (checkInputs() === true) {
                     var button = $(this);
-                    $(button).addClass('disabled');
+//                    $(button).addClass('disabled');
                     $('#btn-clear-data, #btn-preview-study').addClass('disabled');
                     saveGeneralData();
                     showCursor($('body'), CURSOR_POINTER);
+                    console.log(studyEditable);
 
                     if (studyEditable === true) {
                         var updateData = getStudyData();
+                        console.log(updateData);
                         updateData.studyId = editableStudyId;
+//                        return false;
                         updateStudy(updateData, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
@@ -809,8 +812,8 @@ if (login_check($mysqli) == false) {
                 resetErrors();
                 var errors = 0;
 
-                if ($('#studyName').val().trim() === "") {
-                    $('#studyName').closest('.form-group').addClass('has-error');
+                if ($('#studyTitle').val().trim() === "") {
+                    $('#studyTitle').closest('.form-group').addClass('has-error');
                     errors++;
                 }
 
@@ -833,7 +836,7 @@ if (login_check($mysqli) == false) {
             }
 
             function resetErrors() {
-                $('#studyName').closest('.form-group').removeClass('has-error');
+                $('#studyTitle').closest('.form-group').removeClass('has-error');
                 $('#studyDescription').closest('.form-group').removeClass('has-error');
                 $('#phaseSelect').closest('.form-group').removeClass('has-error');
                 $('#surveyTypeSelect').closest('.form-group').removeClass('has-error');

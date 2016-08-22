@@ -67,6 +67,7 @@ if (login_check($mysqli) == false) {
             <hr>
             <div class="label label-default" id="type-phase"></div>
             <div class="label label-default" id="type-survey"></div>
+            <div class="label label-default hidden" id="panel-survey">Panel-Befragung</div>
 
             <div class="row" style="margin-top: 20px">
                 <div class="col-sm-6 col-lg-7">
@@ -74,6 +75,9 @@ if (login_check($mysqli) == false) {
                         <h3 class="address"></h3>
                         <p class="text"></p>
                     </div>
+                    <div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                    <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                    <div class="hidden panel-survey"><i class="fa fa-users" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
                 </div>
                 <div class="col-sm-5 col-sm-offset-1 col-lg-4 col-lg-offset-1">
                     <div id="study-phases">
@@ -135,13 +139,46 @@ if (login_check($mysqli) == false) {
 
             function renderData(data) {
                 var studyData = data.data;
-                $('#study-headline').text(studyData.generalData.name);
+
+                // general data view
+                $('#study-headline').text(studyData.generalData.title);
                 $('#type-survey').text(translation.surveyType[studyData.generalData.surveyType]);
                 $('#type-phase').text(translation.phaseType[studyData.generalData.phase]);
                 $('#study-description .address').text(translation.description);
                 $('#study-description .text').text(studyData.generalData.description);
-                $('#study-phases .address').text(translation.phases);
 
+                if (studyData.generalData.panelSurvey === 'yes') {
+                    $('#panel-survey, .panel-survey').removeClass('hidden');
+                    $('.panel-survey .address').text(translation.panelSurvey + ":");
+                    var ageFrom = studyData.generalData.ageRange.split(',')[0];
+                    var ageTo = studyData.generalData.ageRange.split(',')[1];
+                    console.log(studyData.generalData);
+                    $('.panel-survey .text').text(translation.gender[studyData.generalData.gender] + " " + translation.of + " " + ageFrom + " " + translation.to + " " + ageTo);
+                }
+
+                // date range view
+                var now = new Date().getTime();
+                var dateFrom = studyData.generalData.dateFrom * 1000;
+                var dateTo = addDays(studyData.generalData.dateTo * 1000, 1);
+                var totalDays = rangeDays(dateFrom, dateTo);
+
+
+                if ((studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
+                        (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
+                    $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
+                    $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
+                    $('.study-plan').removeClass('hidden');
+
+                    if (now > dateFrom) { // check either if there are study results
+                        $('#btn-edit-study, #btn-delete-study').remove();
+                    }
+                } else {
+                    $('#study-range-days .text').text('0 ' + translation.days);
+                    $('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
+                }
+
+                // phase view
+                $('#study-phases .address').text(translation.phases);
                 if (studyData.phases && studyData.phases.length > 0) {
                     for (var i = 0; i < studyData.phases.length; i++) {
                         var step = document.createElement('div');
@@ -207,7 +244,7 @@ if (login_check($mysqli) == false) {
                             if (result.status === RESULT_SUCCESS) {
                                 gotoStudies();
                             } else {
-                                
+
                             }
                         });
                     }

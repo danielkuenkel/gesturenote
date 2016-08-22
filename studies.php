@@ -61,13 +61,13 @@ if (login_check($mysqli) == false) {
 
                 <div class="panel-body">
                     <div>
-                        <div class="label label-default hidden" id="panel-survey">Panel-Befragung</div>
                         <div class="label label-default" id="type-phase"></div>
                         <div class="label label-default" id="type-survey"></div>
+                        <div class="label label-default hidden" id="panel-survey">Panel-Befragung</div>
                     </div>
 
                     <div>
-                        <div id="study-range-days"><span class="address">Studie läuft insgesamt:</span> <span class="text"></span></div>
+                        <div id="study-range-days"><span class="address"></span> <span class="text"></span></div>
                         <div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="text"></span></div>
                         <div class="hidden study-not-started"><i class="fa fa-hourglass-start" aria-hidden="true"></i> <span class="text"></span></div>
                         <div class="hidden study-started"><i class="fa fa-hourglass-half" aria-hidden="true"></i> <span class="text"></span></div>
@@ -232,7 +232,9 @@ if (login_check($mysqli) == false) {
 
             $('#filter').unbind('change').bind('change', function (event) {
                 event.preventDefault();
-                renderData(sort());
+                currentFilterData = sort();
+                updatePaginationItems();
+                renderData(currentFilterData);
 
                 if ($('#searched-input').val().trim() !== "") {
                     $('#searched-input').trigger('keyup');
@@ -241,7 +243,8 @@ if (login_check($mysqli) == false) {
 
             $('#sort').unbind('change').bind('change', function (event) {
                 event.preventDefault();
-                renderData(sort());
+                currentFilterData = sort();
+                updatePaginationItems();
 
                 if ($('#searched-input').val().trim() !== "") {
                     $('#searched-input').trigger('keyup');
@@ -251,8 +254,7 @@ if (login_check($mysqli) == false) {
             $('#resultsCountSelect').unbind('change').bind('change', function (event, id) {
                 event.preventDefault();
                 currentFilterData = sort();
-                initPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt(id.split('_')[1]));
-                renderData(currentFilterData);
+                updatePaginationItems();
 
                 if ($('#searched-input').val().trim() !== "") {
                     $('#searched-input').trigger('keyup');
@@ -273,7 +275,7 @@ if (login_check($mysqli) == false) {
 //                    console.log(data.data);
 
                     clone.attr('id', data.id);
-                    clone.find('.title-text').text(data.data.generalData.name);
+                    clone.find('.title-text').text(data.data.generalData.title);
 
                     if (data.data.generalData.panelSurvey === 'yes') {
                         $(clone).find('#panel-survey').removeClass('hidden');
@@ -284,9 +286,9 @@ if (login_check($mysqli) == false) {
 
                         var dateFrom = data.data.generalData.dateFrom * 1000;
                         var dateTo = addDays(data.data.generalData.dateTo * 1000, 1);
-                        var rangeDays = Math.round((dateTo - dateFrom) / (1000 * 60 * 60 * 24));
+                        var totalDays = rangeDays(dateFrom, dateTo);
 
-                        console.log(rangeDays);
+//                        console.log(rangeDays);
                         var now = new Date().getTime();
                         var progress = 0;
                         $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
@@ -294,14 +296,14 @@ if (login_check($mysqli) == false) {
                         if (now > dateFrom && now < dateTo) {
                             var daysLeft = Math.round((dateTo - now) / (1000 * 60 * 60 * 24));
                             var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
-                            progress = daysExpired / rangeDays * 100;
-                            console.log('days left: ' + daysLeft + ", expired: " + daysExpired);
+                            progress = daysExpired / totalDays * 100;
+//                            console.log('days left: ' + daysLeft + ", expired: " + daysExpired);
                             $(clone).find('.study-started').removeClass('hidden').find('.text').text(translation.studyStarted + ', ' + translation.still + ' ' + daysLeft + ' ' + (daysLeft === 1 ? translation.day : translation.days));
                             $(clone).find('.progress-bar').addClass('progress-bar-info');
                         } else if (now < dateFrom) {
                             progress = 100;
                             var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));
-                            console.log('days to start: ' + daysToStart);
+//                            console.log('days to start: ' + daysToStart);
                             $(clone).find('.study-not-started').removeClass('hidden').find('.text').text(translation.studyNotStarted + ', ' + translation.startsAt + ' ' + daysToStart + ' ' + (daysToStart === 1 ? translation.day : translation.daysn));
                             $(clone).find('.progress-bar').addClass('progress-bar-warning');
                         } else if (now > dateTo) {
@@ -312,8 +314,8 @@ if (login_check($mysqli) == false) {
                         }
 
                         $(clone).find('.progress-bar').css({width: progress + "%"});
-                        $(clone).find('#study-range-days .text').text(rangeDays + ' ' + (parseInt(rangeDays) === 1 ? translation.day : translation.days));
-                        console.log('id: ' + data.id + ' date set: ' + dateFrom + " to " + dateTo + ', now: ' + now);
+                        $(clone).find('#study-range-days .text').text(totalDays + ' ' + (parseInt(totalDays) === 1 ? translation.day : translation.days));
+//                        console.log('id: ' + data.id + ' date set: ' + dateFrom + " to " + dateTo + ', now: ' + now);
 
                         if (now > dateFrom && now < dateTo) {
                             TweenMax.from($(clone).find('.progress-bar'), 1, {delay: .3, width: "0%", opacity: 0});

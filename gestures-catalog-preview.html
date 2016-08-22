@@ -481,7 +481,7 @@
                             if (result.status === RESULT_SUCCESS) {
                                 originalFilterData = result.gestures;
                                 currentFilterData = sort();
-                                checkPagination($('#gesture-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+                                checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
                                 renderData(currentFilterData);
                             }
                             $('#custom-modal').modal('hide');

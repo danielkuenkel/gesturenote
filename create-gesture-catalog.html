@@ -112,7 +112,7 @@
                 }
             }
         }
-        
+
         function saveData() {
             var currentGestures = $('#list-container').children();
 
@@ -127,17 +127,13 @@
             }
         }
 
-//        function updateView(index) {
-//
-//        }
-
-        
-
         $('#filter').unbind('change').bind('change', function (event) {
             event.preventDefault();
 
             saveData();
-            renderData(sort());
+            currentFilterData = sort();
+            updatePaginationItems();
+            renderData(currentFilterData);
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
@@ -148,7 +144,8 @@
             event.preventDefault();
 
             saveData();
-            renderData(sort());
+            currentFilterData = sort();
+            updatePaginationItems();
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
@@ -159,8 +156,8 @@
             event.preventDefault();
 
             saveData();
-            checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-            renderData(currentFilterData);
+            currentFilterData = sort();
+            updatePaginationItems();
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');

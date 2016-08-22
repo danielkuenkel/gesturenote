@@ -168,7 +168,7 @@ if (login_check($mysqli) == false) {
             </div>
 
 
-            <div class="text-center custom-pagination" id="gesture-pager">
+            <div class="text-center custom-pagination" id="custom-pager">
                 <nav>
                     <ul class="pagination pagination-custom hidden" itemprop="clipping_2">
                         <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
@@ -207,7 +207,7 @@ if (login_check($mysqli) == false) {
 //                    currentModalId = GESTURE_CATALOG;
                     if (result.gestures && result.gestures.length > 0) {
                         originalFilterData = result.gestures;
-                        initPagination($('#gesture-pager .pagination'), result.gestures.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+                        initPagination($('#custom-pager .pagination'), result.gestures.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
                         $('#sort #newest').click();
                     } else {
                         appendAlert($('#item-view'), ALERT_NO_GESTURES);
@@ -219,27 +219,31 @@ if (login_check($mysqli) == false) {
         function renderData(data) {
             currentFilterData = data;
             $('#list-container').empty();
-            var index = parseInt($('#gesture-pager .pagination').find('.active').text()) - 1;
+            clearAlerts($('#item-view'));
+//            initPagination($('#gesture-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+            var index = parseInt($('#custom-pager .pagination').find('.active').text()) - 1;
             var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
             var viewFromIndex = index * listCount;
             var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
 
-            var count = 0;
-            for (var i = viewFromIndex; i < viewToIndex; i++) {
-                var clone = getGestureCatalogListThumbnail(currentFilterData[i]);
-                $('#list-container').append(clone);
-                TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-                count++;
+            if (currentFilterData && currentFilterData.length > 0) {
+                var count = 0;
+                for (var i = viewFromIndex; i < viewToIndex; i++) {
+                    var clone = getGestureCatalogListThumbnail(currentFilterData[i]);
+                    $('#list-container').append(clone);
+                    TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                    count++;
+                }
+            } else {
+//                appendAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
             }
         }
 
-//        function updateView() {
-//            
-//        }
-
         $('#filter').unbind('change').bind('change', function (event) {
             event.preventDefault();
-            renderData(sort());
+            currentFilterData = sort();
+            updatePaginationItems();
+            renderData(currentFilterData);
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
@@ -248,7 +252,8 @@ if (login_check($mysqli) == false) {
 
         $('#sort').unbind('change').bind('change', function (event) {
             event.preventDefault();
-            renderData(sort());
+            currentFilterData = sort();
+            updatePaginationItems();
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
@@ -258,15 +263,14 @@ if (login_check($mysqli) == false) {
         $('#resultsCountSelect').unbind('change').bind('change', function (event, id) {
             event.preventDefault();
             currentFilterData = sort();
-            initPagination($('#gesture-pager .pagination'), currentFilterData.length, parseInt(id.split('_')[1]));
-            renderData(currentFilterData);
+            updatePaginationItems();
 
             if ($('#searched-input').val().trim() !== "") {
                 $('#searched-input').trigger('keyup');
             }
         });
 
-        $('#gesture-pager .pagination').on('indexChanged', function (event) {
+        $('#custom-pager .pagination').on('indexChanged', function (event) {
             event.preventDefault();
             if (!event.handled) {
                 event.handled = true;
