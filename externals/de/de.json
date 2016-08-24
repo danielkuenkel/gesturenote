@@ -88,6 +88,12 @@
         "video": "Video",
         "videoEmbed": "Video Embed"
     },
+    "studyCatalogs": {
+        "gestures": "Studien-Gesten",
+        "scenes": "Studien-Szenen",
+        "trigger": "Studien-Funktionen",
+        "feedback": "Studien-Feedback"
+    },
     "gestureType": "Gestentyp",
     "bodyType": "Körperteile",
     "gestureTypes": {
@@ -107,7 +113,8 @@
     "gestureSources": {
         "tester": "Tester",
         "evaluator": "Moderator",
-        "recorded": "Aufgezeichnet"
+        "recorded": "Aufgezeichnet",
+        "own": "Eigene"
     },
     "gestureScopes": {
         "private": "Privat",
@@ -186,11 +193,93 @@
         "physicalContext": "Phyischer Kontext",
         "naturalnessIntuitiveness": "Natürlichkeit & Intuitivität",
         "comfortErgonomics": "Komfort & Ergonomie",
-        "easeOfUse": "Bedienerfreundlichkeit",
+        "easeOfUse": "Bedienfreundlichkeit",
         "uxSatisfactionOfUse": "UX & Gebrauchszufriedenheit",
         "socialAcceptance": "Soziale Akzeptanz",
         "discrimination": "Diskriminierung"
     },
+    "sus": [
+        {
+            "format": "sus",
+            "dimension": "any",
+            "question": "Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.",
+            "parameters": {
+                "negative": "no"
+            }
+        },
+        {
+            "format": "sus",
+            "dimension": "any",
+            "question": "Ich fand das System unnötig komplex.",
+            "parameters": {
+                "negative": "yes"
+            }
+        },
+        {
+            "format": "sus",
+            "dimension": "any",
+            "question": "Ich denke, das System war leicht zu benutzen.",
+            "parameters": {
+                "negative": "no"
+            }
+        },
+        {
+            "format": "sus",
+            "dimension": "any",
+            "question": "Ich denke, ich würde die  Unterstützung einer fachkundigen Person benötigen, um das System benutzen zu können.",
+            "parameters": {
+                "negative": "yes"
+            }
+        },
+        {
+            "format": "sus",
+            "dimension": "any",
+            "question": "Ich fand, die verschiedenen Funktionen des Systems waren gut integriert.",
+            "parameters": {
+                "negative": "no"
+            }
+        },
+        {
+            "format": "sus",
+            "dimension": "any",
+            "question": "Ich halte das System für zu inkonsistent.",
+            "parameters": {
+                "negative": "yes"
+            }
+        },
+        {
+            "format": "sus",
+            "dimension": "any",
+            "question": "Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dem System umzugehen.",
+            "parameters": {
+                "negative": "no"
+            }
+        },
+        {
+            "format": "sus",
+            "dimension": "any",
+            "question": "Ich fand das System sehr umständlich zu benutzen.",
+            "parameters": {
+                "negative": "yes"
+            }
+        },
+        {
+            "format": "sus",
+            "dimension": "any",
+            "question": "Ich fühlte mich bei der Nutzung des Systems sehr sicher.",
+            "parameters": {
+                "negative": "no"
+            }
+        },
+        {
+            "format": "sus",
+            "dimension": "any",
+            "question": "Ich musste viele Dinge lernen, bevor ich  mit dem System arbeiten konnte.",
+            "parameters": {
+                "negative": "yes"
+            }
+        }
+    ],
     "singleGUS": [
         {
             "format": "gusSingle",
@@ -599,7 +688,7 @@
             "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
         }
     ],
-    "singleMultiple": [
+    "multipleGUS": [
         {
             "format": "groupingQuestionGUS",
             "dimension": "purposeOfFullfillment",

@@ -852,17 +852,12 @@ var Moderator = {
         }
 
         updateCurrentScene(container);
+        
         //woz section
-
         Moderator.renderWOZ(source, container, data);
+       
         // help section
-//        if (data.help && data.help.length > 0) {
         Moderator.renderHelp(source, container, data);
-//        } else {
-//            appendAlert($(container).find('#help'), ALERT_NO_PHASE_DATA);
-//            $(container).find('#help').remove();
-//            $(container).find('#wozExperiment').removeClass('col-lg-6').addClass('col-lg-12');
-//        }
 
         // observation section
         if (data.observations && data.observations.length > 0) {
@@ -977,8 +972,6 @@ var Moderator = {
             }
         } else {
             appendAlert($(container).find('#help'), ALERT_NO_PHASE_DATA);
-//            $(container).find('#help').remove();
-//            $(container).find('#wozExperiment').removeClass('col-lg-6').addClass('col-lg-12');
         }
 
         return container;
@@ -993,5 +986,7 @@ function enableScenarioControls(container) {
 }
 
 function updateCurrentScene(container) {
+    container.find('.panel-body #' + currentWOZScene.type).removeClass('hidden');
+    container.find('.panel-body .label-text').text(translation.scenes[currentWOZScene.type]);
     container.find('#current-scene').text(currentWOZScene.title);
 }

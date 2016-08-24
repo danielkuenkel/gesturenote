@@ -18,6 +18,7 @@ if (login_check($mysqli) == false) {
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/study.css">
+        <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
@@ -30,7 +31,11 @@ if (login_check($mysqli) == false) {
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
         <script src="js/gotoPage.js"></script>
+        <script src="js/gesture.js"></script>
+        <script src="js/joint-selection.js"></script>
         <script src="js/ajax.js"></script>
+        <script src="js/storage.js"></script>
+        <script src="js/storageFunctions.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
     </head>
@@ -39,6 +44,17 @@ if (login_check($mysqli) == false) {
         <!-- externals -->
         <div id="alerts"></div>
         <div id="templage-subpages"></div>
+        <div id="templage-study"></div>
+
+        <!-- Modal -->
+        <div id="custom-modal" class="modal fade custom-modal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content root">
+                </div>
+            </div>
+        </div>
 
 
         <!-- Container (Breadcrump) -->
@@ -97,8 +113,38 @@ if (login_check($mysqli) == false) {
 
             <div class="row" style="margin-top: 20px">
                 <div class="col-xs-12">
+                    <div id="study-catalogs">
+                        <h3 class="address">Kataloge</h3>
+                        <div class="alert-space alert-no-phase-data"></div>
+                        <div id="study-gestures-catalog" class="hidden">
+                            <h4 class="address"></h4>
+                            <div class="list-container row" id="gestures-list-container"></div>
+                        </div>
+                        <div id="study-scenes-catalog" class="hidden" style="margin-top: 20px;">
+                            <h4 class="address"></h4>
+                            <div class="list-container"></div>
+                        </div>
+                        <div class="row" style="margin-top: 20px;">
+                            <div id="study-trigger-catalog" class="hidden col-sm-6">
+                                <h4 class="address"></h4>
+                                <div class="list-container"></div>
+                            </div>
+                            <div id="study-feedback-catalog" class="hidden col-sm-6" style="margin-top: 20px;">
+                                <h4 class="address"></h4>
+                                <div class="list-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row" style="margin-top: 20px">
+                <div class="col-xs-12">
                     <div id="study-participants">
                         <h3 class="address">Teilnahmen</h3>
+                        <div class="alert-space alert-no-phase-data"></div>
                     </div>
                 </div>
             </div>
@@ -114,6 +160,7 @@ if (login_check($mysqli) == false) {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
                     externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
+                    externals.push(['#templage-study', PATH_EXTERNALS + '/' + currentLanguage + '/template-study.html']);
                     loadExternals(externals);
                 });
             });
@@ -162,16 +209,22 @@ if (login_check($mysqli) == false) {
                 var dateTo = addDays(studyData.generalData.dateTo * 1000, 1);
                 var totalDays = rangeDays(dateFrom, dateTo);
 
-
                 if ((studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
                         (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
                     $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
                     $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
                     $('.study-plan').removeClass('hidden');
 
-                    if (now > dateFrom) { // check either if there are study results
-                        $('#btn-edit-study, #btn-delete-study').remove();
-                    }
+                    getStudyResults({studyId: data.id}, function (result) {
+                        if (result.status === RESULT_SUCCESS) {
+                            if (now > dateFrom && result.studyResults && result.studyResults.length > 0) { // check either if there are study results
+                                $('#btn-edit-study, #btn-delete-study').remove();
+                            } else {
+                                appendAlert($('#study-participants'), ALERT_NO_PHASE_DATA);
+                            }
+                        }
+                    });
+
                 } else {
                     $('#study-range-days .text').text('0 ' + translation.days);
                     $('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
@@ -249,8 +302,94 @@ if (login_check($mysqli) == false) {
                         });
                     }
                 });
+
+
+                // catalogs view
+                // check if there are study catalog data
+                var studyGestures = data.gestureCatalog;
+                var studyFeedback = studyData.assembledFeedback;
+                var studyScenes = studyData.assembledScenes;
+                var studyTrigger = studyData.assembledTrigger;
+                var noCatalogData = true;
+
+                if (studyGestures && studyGestures.length > 0) {
+                    setLocalItem(GESTURE_CATALOG, studyGestures);
+                    renderStudyGestures(studyGestures);
+                    noCatalogData = false;
+                }
+                if (studyScenes && studyScenes.length > 0) {
+                    renderStudyScenes(studyScenes);
+                    noCatalogData = false;
+                }
+                if (studyTrigger && studyTrigger.length > 0) {
+                    renderStudyTrigger(studyTrigger);
+                    noCatalogData = false;
+                }
+                if (studyFeedback && studyFeedback.length > 0) {
+                    renderStudyFeedback(studyFeedback);
+                    noCatalogData = false;
+                }
+
+                if (noCatalogData) {
+                    appendAlert($('#study-catalogs'), ALERT_NO_PHASE_DATA);
+                }
             }
 
+            function renderStudyGestures(gestures) {
+                $('#study-gestures-catalog').removeClass('hidden');
+                $('#study-gestures-catalog .address').text(translation.studyCatalogs.gestures);
+
+                for (var i = 0; i < gestures.length; i++) {
+                    var item = getGestureCatalogListThumbnail(gestures[i]);
+                    $('#study-gestures-catalog .list-container').append(item);
+                    TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                }
+            }
+
+            function renderStudyScenes(scenes) {
+                $('#study-scenes-catalog').removeClass('hidden');
+                $('#study-scenes-catalog .address').text(translation.studyCatalogs.scenes);
+                console.log(scenes);
+
+                for (var i = 0; i < scenes.length; i++) {
+                    var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id');
+                    item.find('.text').text(scenes[i].title);
+                    item.find('.label-text').text(translation.scenes[scenes[i].type]);
+                    item.find('#' + scenes[i].type).removeClass('hidden');
+                    $('#study-scenes-catalog .list-container').append(item);
+                    TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                }
+            }
+
+            function renderStudyTrigger(trigger) {
+                $('#study-trigger-catalog').removeClass('hidden');
+                $('#study-trigger-catalog .address').text(translation.studyCatalogs.trigger);
+
+                for (var i = 0; i < trigger.length; i++) {
+                    var item = $('#template-study-container').find('#trigger-catalog-thumbnail').clone().removeAttr('id');
+                    item.text(trigger[i].title);
+                    $('#study-trigger-catalog .list-container').append(item);
+                    TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                }
+            }
+
+            function renderStudyFeedback(feedback) {
+                console.log(feedback);
+
+                $('#study-feedback-catalog').removeClass('hidden');
+                $('#study-feedback-catalog .address').text(translation.studyCatalogs.feedback);
+
+                for (var i = 0; i < feedback.length; i++) {
+                    var item = $('#template-study-container').find('#feedback-catalog-thumbnail').clone().removeAttr('id');
+                    item.find('.text').text(feedback[i].title);
+                    item.find('#' + feedback[i].type).removeClass('hidden');
+                    if (feedback[i].type === TYPE_FEEDBACK_SOUND) {
+                        item.find('.audio-holder').attr('src', feedback[i].data);
+                    }
+                    $('#study-feedback-catalog .list-container').append(item);
+                    TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                }
+            }
         </script>
     </body>
 </html>

@@ -80,6 +80,31 @@ function removeAssembledGestures() {
     removeLocalItem(ASSEMBLED_GESTURE_SET);
 }
 
+function checkAssembledGestures(gestures, gestureCatalog) {
+    if (gestures && gestures.length > 0 && gestureCatalog && gestureCatalog.length > 0) {
+        var gesturesForReassembling = new Array();
+        for (var i = 0; i < gestures.length; i++) {
+            var gestureInDB = false;
+            for (var j = 0; j < gestureCatalog.length; j++) {
+                if (parseInt(gestures[i]) === parseInt(gestureCatalog[j].id)) {
+                    gestureInDB = true;
+                }
+            }
+
+            if (gestureInDB === false) {
+                gesturesForReassembling.push(gestures[i]);
+            }
+        }
+
+        for (var k = 0; k < gesturesForReassembling.length; k++) {
+            reassembleGesture(gesturesForReassembling[k]);
+        }
+    }
+}
+
+
+
+
 function getTriggerById(id) {
     var triggers = getLocalItem(ASSEMBLED_TRIGGER);
     if (triggers) {
@@ -228,7 +253,6 @@ function setStudyData(data) {
         }
     }
 
-    console.log(data);
     if (data.gestureCatalog) {
         setLocalItem(GESTURE_CATALOG, data.gestureCatalog);
     }

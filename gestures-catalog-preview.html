@@ -52,8 +52,8 @@
                 <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
                 <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
 
-                <span class="label label-default" id="gesture-source"></span>
-                <span class="label label-default" id="gesture-scope"></span>
+                <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
 
                 <div class="preview-joints-humand-body" id="human-body" style="width: 400px; margin: auto; margin-top: 10px">
                     <div id="joint-container" style="position: absolute"></div>
@@ -306,11 +306,13 @@
 
         var container = $('#modal-body');
         container.find('#title .text').text(gesture.title);
-        container.find('#created .text').text(gesture.created);
+        container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleDateString());
         container.find('#context .text').text(gesture.context);
         container.find('#description .text').text(gesture.description);
         container.find('#btn-edit-gesture .btn-text').text(translation.edit);
         container.find('#btn-delete-gesture .btn-text').text(translation.deleteGesture);
+        container.find('#gesture-scope .label-text').text(translation.gestureScopes[gesture.scope]);
+        container.find('#gesture-scope #' + gesture.scope).removeClass('hidden');
         var shareButton = $(container).find('#btn-share-gesture');
 
         if (gesture.isOwner === true) {
@@ -327,20 +329,28 @@
             }
 
             if (gesture.source !== SOURCE_GESTURE_TESTER) {
-                container.find('#gesture-source').text(translation.gestureSources[SOURCE_GESTURE_RECORDED]);
+                container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_OWN]);
+                container.find('#gesture-source #' + SOURCE_GESTURE_OWN).removeClass('hidden');
             } else {
-                container.find('#gesture-source').text(translation.gestureSources[gesture.source]);
+                container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
+                container.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
             }
         } else {
             $(container).find('#gesture-owner-controls').remove();
+
+            if (gesture.source !== SOURCE_GESTURE_TESTER) {
+                container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
+                container.find('#gesture-source #' + SOURCE_GESTURE_EVALUATOR).removeClass('hidden');
+            } else {
+                container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
+                container.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
+            }
         }
 
-        container.find('#gesture-scope').text(translation.gestureScopes[gesture.scope]);
         renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
         renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
 
-
-        var thumbnail = $('#item-view #list-container').find('#' + currentGesturePreviewId);
+        var thumbnail = $('#item-view #gestures-list-container').find('#' + currentGesturePreviewId);
 
         $(container).find('#btn-share-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
             event.preventDefault();
@@ -357,11 +367,17 @@
                             $(button).removeClass('share-gesture').addClass('unshare-gesture');
                             $(button).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
                             $(button).find('.btn-text').text(translation.unshare);
-                            $(container).find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
+                            $(container).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
+                            $(container).find('#gesture-scope .fa').addClass('hidden');
+                            $(container).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
+
                             $(thumbnail).removeClass('share-gesture').addClass('unshare-gesture');
-                            $(thumbnail).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-                            $(thumbnail).find('.btn-text').text(translation.unshare);
-                            $(thumbnail).find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
+                            $(thumbnail).find('#btn-share-gesture .fa').removeClass('fa-share-alt').addClass('fa-lock');
+                            $(thumbnail).find('#btn-share-gesture .btn-text').text(translation.unshare);
+                            $(thumbnail).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
+                            $(thumbnail).find('#gesture-scope .fa').addClass('hidden');
+                            $(thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
+
                             getGestureCatalog(function (result) {
                                 if (result.status === RESULT_SUCCESS) {
                                     originalFilterData = result.gestures;
@@ -379,11 +395,17 @@
                             $(button).removeClass('unshare-gesture').addClass('share-gesture');
                             $(button).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
                             $(button).find('.btn-text').text(translation.share);
-                            $(container).find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
+                            $(container).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
+                            $(container).find('#gesture-scope .fa').addClass('hidden');
+                            $(container).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
+
                             $(thumbnail).removeClass('unshare-gesture').addClass('share-gesture');
-                            $(thumbnail).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-                            $(thumbnail).find('.btn-text').text(translation.share);
-                            $(thumbnail).find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
+                            $(thumbnail).find('#btn-share-gesture .fa').removeClass('fa-lock').addClass('fa-share-alt');
+                            $(thumbnail).find('#btn-share-gesture .btn-text').text(translation.share);
+                            $(thumbnail).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
+                            $(thumbnail).find('#gesture-scope .fa').addClass('hidden');
+                            $(thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
+
                             getGestureCatalog(function (result) {
                                 if (result.status === RESULT_SUCCESS) {
                                     originalFilterData = result.gestures;
@@ -467,29 +489,32 @@
             }
         });
 
-        $(container).find('#btn-delete-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
-            event.preventDefault();
+        if (gesturePreviewDeleteable === true) {
+            $(container).find('#btn-delete-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
+                event.preventDefault();
 
-            if (!event.handled && !$(this).hasClass('disabled')) {
-                event.handled = true;
-                $(this).addClass('disabled');
-                showCursor($('body'), CURSOR_PROGRESS);
-                deleteGesture({gestureId: event.data.gestureId}, function (result) {
-                    showCursor($('body'), CURSOR_DEFAULT);
-                    if (result.status === RESULT_SUCCESS) {
-                        getGestureCatalog(function (result) {
-                            if (result.status === RESULT_SUCCESS) {
-                                originalFilterData = result.gestures;
-                                currentFilterData = sort();
-                                checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-                                renderData(currentFilterData);
-                            }
-                            $('#custom-modal').modal('hide');
-                        });
-                    }
-                });
-            }
-        });
+                if (!event.handled && !$(this).hasClass('disabled')) {
+                    event.handled = true;
+                    $(this).addClass('disabled');
+                    showCursor($('body'), CURSOR_PROGRESS);
+                    deleteGesture({gestureId: event.data.gestureId}, function (result) {
+                        showCursor($('body'), CURSOR_DEFAULT);
+                        if (result.status === RESULT_SUCCESS) {
+                            getGestureCatalog(function (result) {
+                                if (result.status === RESULT_SUCCESS) {
+                                    originalFilterData = result.gestures;
+                                    currentFilterData = sort();
+                                    $('#custom-modal').trigger('gesture-deleted');
+                                    $('#custom-modal').modal('hide');
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            $(container).find('#btn-delete-gesture').remove();
+        }
     }
 
     function renderComments(data) {
@@ -501,7 +526,7 @@
             for (var i = 0; i < data.length; i++) {
                 var clone = $('#gesture-comment-item').clone().removeClass('hidden').removeAttr('id');
                 clone.find('.panel-heading #user .text').text(data[i].forename + " " + data[i].surname);
-                clone.find('.panel-heading #created .text').text(data[i].created);
+                clone.find('.panel-heading #created .text').text(convertSQLTimestampToDate(data[i].created).toLocaleDateString());
                 clone.find('.panel-body').text(data[i].comment);
                 list.prepend(clone);
                 if (data[i].isOwner === true) {

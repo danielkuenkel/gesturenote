@@ -45,36 +45,6 @@
             });
         });
 
-        //        $('#custom-modal').on('hide.bs.modal', function (event) {
-        //            if (!event.handled && closeClicked) {
-        //                closeClicked = false;
-        //                event.handled = true;
-        //
-        //                var items = $('#list-container').children();
-        //                var hasTitles = true;
-        //                for (var i = 0; i < items.length; i++) {
-        //                    var item = items[i];
-        //                    var title = $(item).find('.title').val();
-        //
-        //                    if (title.trim() === '') {
-        //                        if ($(item).find('.alert-' + ALERT_NO_TITLE).children().length === 0) {
-        //                            appendAlert($(item).closest('.root'), ALERT_NO_TITLE);
-        //                            $(item).find('.title').closest('.form-group').addClass('has-error');
-        //                        }
-        //                        hasTitles = false;
-        //                    }
-        //                }
-        //
-        //                if (!hasTitles) {
-        //                    event.preventDefault();
-        //                    event.stopImmediatePropagation();
-        //                    return false;
-        //                }
-        //
-        //                $(this).unbind('hide.bs.modal');
-        //            }
-        //        });
-
         function renderData(data) {
             for (var i = 0; i < data.length; i++) {
                 var item = data[i];
@@ -86,9 +56,8 @@
 
                 switch (item.type) {
                     case TYPE_FEEDBACK_TEXT:
-                        if (data[i].parameters[0] === true) {
-                            $(clone).find('.negative #yes').click();
-                        }
+                        $(clone).find('.negative #' + data[i].parameters.negative).click();
+//                        }
                         break;
                     case TYPE_FEEDBACK_SOUND:
                         if (data[i].data !== null) {
@@ -114,16 +83,15 @@
                 var type = $(item).attr('id');
                 var id = $(item).attr('name') === undefined || null ? chance.natural() : $(item).attr('name');
                 var title = $(item).find('.item-input-text').val();
-                var parameters = new Array();
+                var parameters = null;
                 var data = null;
 
                 switch (type) {
                     case TYPE_FEEDBACK_TEXT:
-                        parameters.push($(item).find('.negative #yes').hasClass('active'));
+                        parameters = {negative: $(item).find('.negative .active').attr('id')};
                         assembledData.push(new Feedback(id, type, title, parameters, data));
                         break;
                     case TYPE_FEEDBACK_SOUND:
-                        parameters = null;
                         var url = $(item).find('.audio-holder').attr('src');
                         if (url.trim() !== '') {
                             data = $(item).find('.audio-holder').attr('src');

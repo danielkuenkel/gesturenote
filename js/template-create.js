@@ -270,7 +270,7 @@ $('body').on('change', '.imageUpload', function (event) {
         if (uploadFiles) {
             form.append('image', uploadFiles);
         }
-        console.log(form, uploadFiles);
+//        console.log(form, uploadFiles);
         readFile(this.files[0], function () {
             showCursor($('body'), CURSOR_PROGRESS);
             uploadSceneImage(form, function (result) {
@@ -346,10 +346,10 @@ $('body').on('change', '.soundUpload', function (event) {
         if (uploadFiles) {
             form.append('sound', uploadFiles);
         }
-        console.log(form, uploadFiles);
+//        console.log(form, uploadFiles);
         readFile(this.files[0], function () {
             showCursor($('body'), CURSOR_PROGRESS);
-            console.log(uploadFiles.size);
+//            console.log(uploadFiles.size);
             uploadSound(form, function (result) {
                 showCursor($('body'), CURSOR_DEFAULT);
                 $(button).removeClass('disabled');
@@ -395,22 +395,7 @@ $('body').on('click', '.btn-delete-sound', function (event) {
         });
     }
 });
-$('body').on('click', '.audioPlayer #play', function (event) {
-    event.preventDefault();
-    var audioElement = $(this).closest('.audioPlayer').find('.audio-holder')[0];
-    audioElement.play();
-});
-$('body').on('click', '.audioPlayer #pause', function (event) {
-    event.preventDefault();
-    var audioElement = $(this).closest('.audioPlayer').find('.audio-holder')[0];
-    audioElement.pause();
-});
-$('body').on('click', '.audioPlayer #stop', function (event) {
-    event.preventDefault();
-    var audioElement = $(this).closest('.audioPlayer').find('.audio-holder')[0];
-    audioElement.pause();
-    audioElement.currentTime = 0;
-});
+
 $('body').on('click', '.choosePrototypeVideo', function (event) {
     if (event.handled !== true)
     {
@@ -436,7 +421,7 @@ $('body').on('change', '.videoUpload', function (event) {
     var control = $(this);
     var reader = new FileReader();
     reader.onloadstart = function (event) {
-        console.log('on load start');
+//        console.log('on load start');
         $(videoArea).addClass('hidden');
     };
 //    reader.onprogress = function(event) {
@@ -640,7 +625,7 @@ function urlIsValid(url, type) {
                     regEx = /https:\/\/pidoco.com\/rabbit\/api\/prototypes\/[0-9]+\/pages\/page[0-9]+/;
             break;
         case TYPE_URL_VIDEO_EMBED:
-            console.log(url);
+//            console.log(url);
             if (
                     url.toLowerCase().indexOf("<iframe") >= 0
                     && url.toLowerCase().indexOf("width=") >= 0
@@ -730,7 +715,7 @@ $('body').on('click', '.dimension-btn-group .btn-toggle', function (event) {
         event.handled = true;
         var dimensionContainer = $(this).closest('.dimension-container');
         var mainDimension = $(this).closest('.dimension-container').attr('id').split('-')[1];
-        console.log(dimensionContainer);
+//        console.log(dimensionContainer);
         if ($(this).hasClass('active')) {
             removeQuestionaireItems(mainDimension, $(this).attr('id'));
             $(this).removeClass('active');
@@ -861,7 +846,7 @@ function renderFormatItem(target, data) {
     var options = data.options;
     switch (data.format) {
         case SUS:
-            console.log($(clone).find('#negative'));
+//            console.log($(clone).find('#negative'));
             $(clone).find('.negative #' + parameters.negative).click();
             break;
         case OPEN_QUESTION_GUS:

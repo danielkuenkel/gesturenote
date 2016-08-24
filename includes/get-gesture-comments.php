@@ -24,25 +24,14 @@ if (isset($_SESSION['user_id'], $_POST['gestureId'])) {
             } else {
                 $select_stmt->bind_result($id, $userId, $gestureId, $comment, $created, $forename, $surname);
                 while ($select_stmt->fetch()) {
-                    if ($sessionUserId == $userId) {
-                        $comments[] = array('id' => $id,
-                            'userId' => $userId,
-                            'gestureId' => $gestureId,
-                            'comment' => $comment,
-                            'created' => $created,
-                            'forename' => $forename,
-                            'surname' => $surname,
-                            'isOwner' => true);
-                    } else {
-                        $comments[] = array('id' => $id,
-                            'userId' => $userId,
-                            'gestureId' => $gestureId,
-                            'comment' => $comment,
-                            'created' => $created,
-                            'forename' => $forename,
-                            'surname' => $surname,
-                            'isOwner' => false);
-                    }
+                    $comments[] = array('id' => $id,
+                        'userId' => $userId,
+                        'gestureId' => $gestureId,
+                        'comment' => $comment,
+                        'created' => $created,
+                        'forename' => $forename,
+                        'surname' => $surname,
+                        'isOwner' => $sessionUserId == $userId);
                 }
                 echo json_encode(array('status' => 'success', 'comments' => $comments));
                 exit();

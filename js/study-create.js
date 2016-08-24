@@ -8,6 +8,7 @@ var currentIdForModal;
 var colors;
 var currentContainerList = null;
 function checkSessionStorage() {
+    checkAssembledGestures(getLocalItem(ASSEMBLED_GESTURE_SET), getLocalItem(GESTURE_CATALOG));
     createOriginGUS();
     createOriginSUS();
     createPredefinedObservationForm();
@@ -47,20 +48,22 @@ function createOriginGUS() {
 }
 
 function createOriginSUS() {
-    if (getLocalItem(STUDY_ORIGIN_SUS) === null) {
-        var sus = new Array();
-        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.", {negative: 'no'}, null));
-        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich fand das System unnötig komplex.", {negative: 'yes'}, null));
-        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich denke, das System war leicht zu benutzen.", {negative: 'no'}, null));
-        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich denke, ich würde die  Unterstützung einer fachkundigen Person benötigen, um das System benutzen zu können.", {negative: 'yes'}, null));
-        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich fand, die verschiedenen Funktionen des Systems waren gut integriert.", {negative: 'no'}, null));
-        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich halte das System für zu inkonsistent.", {negative: 'yes'}));
-        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dem System umzugehen.", {negative: 'no'}, null));
-        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich fand das System sehr umständlich zu benutzen.", {negative: 'yes'}, null));
-        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich fühlte mich bei der Nutzung des Systems sehr sicher.", {negative: 'no'}));
-        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich musste viele Dinge lernen, bevor ich  mit dem System arbeiten konnte.", {negative: 'yes'}, null));
-        setLocalItem(STUDY_ORIGIN_SUS, sus);
-    }
+    var items = translation.sus;
+    setLocalItem(STUDY_ORIGIN_SUS, items);
+//    if (getLocalItem(STUDY_ORIGIN_SUS) === null) {
+//        var sus = new Array();
+//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.", {negative: 'no'}, null));
+//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'yes'}, null));
+//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'no'}, null));
+//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'yes'}, null));
+//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'no'}, null));
+//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'yes'}));
+//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'no'}, null));
+//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'yes'}, null));
+//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'no'}));
+//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'yes'}, null));
+//        setLocalItem(STUDY_ORIGIN_SUS, sus);
+//    }
 }
 
 function createPredefinedObservationForm() {
@@ -76,7 +79,7 @@ function createPredefinedObservationForm() {
 }
 
 function createPredefinedGestureQuestionnaire() {
-    var items = translation.singleMultiple;
+    var items = translation.multipleGUS;
     setLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE, items);
 //    if (getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE) === null) {
 //        var form = new Array();
@@ -108,7 +111,7 @@ function renderSessionStorageData() {
     {
         for (var i = 0; i < phaseSteps.length; i++) {
             var item = phaseSteps[i];
-            addPhaseStep(item.id, item.format, item.itemText, item.color);
+            addPhaseStep(item.id, item.format, translation.formats[item.format], item.color);
         }
     }
 

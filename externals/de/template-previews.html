@@ -505,7 +505,11 @@
             <div class="panel panel-default" id="woz-controls">
                 <div class="panel-heading">Wizard-of-Oz-Experiment</div>
                 <div class="panel-body">
-                    Aktueller Zustand: <span id="current-scene"></span>
+                    Aktueller Szene: <span class="label label-default">
+                        <i class="fa fa-link hidden" id="pidoco"></i>
+                        <i class="fa fa-link hidden" id="web"></i>
+                        <i class="fa fa-image hidden" id="image"></i>
+                        <i class="fa fa-film hidden" id="videoEmbed"></i> <span class="label-text"></span></span> <span id="current-scene" class="text"></span>
                     <div class="row">
                         <div class="col-lg-6" id="wozExperiment" style="margin-bottom: 20px;">
                             <h4 style="margin-top: 0px; margin-bottom: 10px">Simulationselemente</h4>
@@ -565,27 +569,27 @@
 
     <div id="web">
         <span>Titel: </span><span class="title"></span><br/>
-        <span>Typ: </span><div class="label label-default type"></div><br/><br/>
+        <span>Typ: </span><div class="label label-default type"><i class="fa fa-link"></i> <span class="label-text"></span></div><br/><br/>
         <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 100%; height: 400px; pointer-events: none;"></iframe>
         <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="Link in neuem Fenster öffnen"><i class="glyphicon glyphicon-link"></i> Link in neuem Fenster öffnen</button>
     </div>
 
     <div id="pidoco">
         <span>Titel: </span><span class="title"></span><br/>
-        <span>Typ: </span><div class="label label-default type"></div><br/><br/>
+        <span>Typ: </span><div class="label label-default type"><i class="fa fa-link"></i> <span class="label-text"></span></div><br/><br/>
         <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 100%; height: 400px; pointer-events: none;"></iframe>
         <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="Link in neuem Fenster öffnen"><i class="glyphicon glyphicon-link"></i> Link in neuem Fenster öffnen</button>
     </div>
 
     <div id="image">
         <span>Titel: </span><span class="title"></span><br/>
-        <span>Typ: </span><div class="label label-default type"></div><br/><br/>
+        <span>Typ: </span><div class="label label-default type"><i class="fa fa-image"></i> <span class="label-text"></span></div><br/><br/>
         <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 4px;" />
     </div>
 
     <div id="videoEmbed">
         <span>Titel: </span><span class="title"></span><br/>
-        <span>Typ: </span><div class="label label-default type"></div><br/><br/>
+        <span>Typ: </span><div class="label label-default type"><i class="fa fa-film"></i> <span class="label-text"></span></div><br/><br/>
 
         <!-- embed-responsive-16by9 or embed-responsive-4by3 -->
         <div class="videoContainer embed-responsive"></div>
@@ -1149,7 +1153,6 @@
     <!-- hints and hint contents-->
     <div id="feedback-hint" class="hint">
         <div class="hint-content">
-
             <button type="button" class="btn btn-lg btn-info btn-block" id="btn-close-hint" style="margin-top: 20px"><span class="btn-text">Okay</span></button>
             <div class="progress progress-hint" style="height: 73px; border-radius: 10px; margin-top: 20px">
                 <div class="progress-bar progress-bar-info progress-bar-hint" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
@@ -1158,10 +1161,6 @@
     </div>
 
     <div id="feedback-hint-text-content">
-        <!--        <span id="text-start"></span>
-                <em><span id="gesture-title"></span></em>
-                <span id="gesture-for"></span>
-                <em><span id="trigger-title"></span></em>-->
         <span id="feedback-title"></span>
     </div>
 

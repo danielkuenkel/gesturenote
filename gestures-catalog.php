@@ -62,7 +62,7 @@ if (login_check($mysqli) == false) {
         </div>
 
 
-        <div class="root col-xs-6 col-sm-4 col-lg-3 hidden" id="gestures-catalog-thumbnail">
+        <div class="root col-xs-6 col-sm-4 col-lg-3 hidden deleteable" id="gestures-catalog-thumbnail">
             <div class="panel panel-default btn-shadow">
                 <div class="panel-heading" style=" text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
                     <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
@@ -78,13 +78,13 @@ if (login_check($mysqli) == false) {
                             <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
                         </div>
                     </div>
-                    <span class="label label-default" id="gesture-source"></span>
-                    <span class="label label-default" id="gesture-scope"></span>
+                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
                 </div>
                 <div class="panel-footer">
                     <div class="btn-group btn-group-justified">
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                            <button type="button" class="btn btn-info update-list-view" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
                         </div>
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-default" id="btn-show-gesture-info">Mehr</button>
@@ -179,7 +179,7 @@ if (login_check($mysqli) == false) {
                 </nav>
             </div>
 
-            <div class="container-root row root" id="list-container" style="margin-top: 10px;"></div>
+            <div class="container-root row root" id="gestures-list-container" style="margin-top: 10px;"></div>
 
             <div class="alert-space alert-no-search-results"></div>
             <div class="alert-space alert-no-gestures"></div>
@@ -218,7 +218,7 @@ if (login_check($mysqli) == false) {
 
         function renderData(data) {
             currentFilterData = data;
-            $('#list-container').empty();
+            $('#gestures-list-container').empty();
             clearAlerts($('#item-view'));
 //            initPagination($('#gesture-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
             var index = parseInt($('#custom-pager .pagination').find('.active').text()) - 1;
@@ -230,7 +230,7 @@ if (login_check($mysqli) == false) {
                 var count = 0;
                 for (var i = viewFromIndex; i < viewToIndex; i++) {
                     var clone = getGestureCatalogListThumbnail(currentFilterData[i]);
-                    $('#list-container').append(clone);
+                    $('#gestures-list-container').append(clone);
                     TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                     count++;
                 }
@@ -292,119 +292,6 @@ if (login_check($mysqli) == false) {
                 });
             });
         });
-
-        var currentGesturePreviewId = null;
-        var gesturePreviewOpened = false;
-        function getGestureCatalogListThumbnail(data) {
-            var clone = $('#gestures-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
-            clone.attr('id', data.id);
-            clone.find('.title-text').text(data.title + " ");
-            clone.find('#title .text').text(data.title);
-
-            if (data.isOwner === true) {
-                if (data.source !== SOURCE_GESTURE_TESTER) {
-                    clone.find('#gesture-source').text(translation.gestureSources[SOURCE_GESTURE_RECORDED]);
-                } else {
-                    clone.find('#gesture-source').text(translation.gestureSources[data.source]);
-                }
-            }
-            clone.find('#gesture-scope').text(translation.gestureScopes[data.scope]);
-
-            renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
-
-            $(clone).find('.panel').mouseenter(function (event) {
-                event.preventDefault();
-                if (gesturePreviewOpened === false) {
-                    playThroughThumbnails($(this).find('.previewGesture'), 0);
-                }
-            });
-
-            $(clone).find('.panel').mouseleave(function (event) {
-                event.preventDefault();
-                if (gesturePreviewOpened === false) {
-                    resetThumbnails($(this).find('.previewGesture'));
-                }
-            });
-
-            $(clone).find('#btn-show-gesture-info').click({gestureId: data.id, clone: clone}, function (event) {
-                event.preventDefault();
-                resetThumbnails($(event.data.clone).find('.previewGesture'));
-                currentGesturePreviewId = event.data.gestureId;
-                gesturePreviewOpened = true;
-                $(clone).find('#btn-stop-gesture').click();
-                loadHTMLintoModal('custom-modal', 'gestures-catalog-preview.html', 'modal-lg');
-            });
-
-            if (data.isOwner) {
-                var shareButton = $(clone).find('#btn-share-gesture');
-                if (data.scope === SCOPE_GESTURE_PRIVATE) {
-                    shareButton.removeClass('unshare-gesture').addClass('share-gesture');
-                    shareButton.find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-                    shareButton.find('.btn-text').text(translation.share);
-                } else {
-                    shareButton.removeClass('share-gesture').addClass('unshare-gesture');
-                    shareButton.find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-                    shareButton.find('.btn-text').text(translation.unshare);
-                }
-            } else {
-                $(clone).find('#btn-share-gesture').parent().remove();
-            }
-
-            $(clone).find('#btn-share-gesture').click({gestureId: data.id}, function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    $(this).addClass('disabled');
-                    var button = $(this);
-
-                    if ($(this).hasClass('share-gesture')) {
-                        showCursor($('body'), CURSOR_PROGRESS);
-                        shareGesture({gestureId: event.data.gestureId}, function (result) {
-                            showCursor($('body'), CURSOR_DEFAULT);
-                            $(button).removeClass('disabled');
-                            if (result.status === RESULT_SUCCESS) {
-                                $(button).removeClass('share-gesture').addClass('unshare-gesture');
-                                $(button).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-                                $(button).find('.btn-text').text(translation.unshare);
-                                clone.find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
-                                getGestureCatalog(function (result) {
-                                    if (result.status === RESULT_SUCCESS) {
-                                        originalFilterData = result.gestures;
-//                                        currentFilterData = sort();
-                                    }
-                                });
-                            }
-                        });
-                    } else if ($(this).hasClass('unshare-gesture')) {
-                        showCursor($('body'), CURSOR_PROGRESS);
-                        unshareGesture({gestureId: event.data.gestureId}, function (result) {
-                            showCursor($('body'), CURSOR_DEFAULT);
-                            $(button).removeClass('disabled');
-                            if (result.status === RESULT_SUCCESS) {
-                                $(button).removeClass('unshare-gesture').addClass('share-gesture');
-                                $(button).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-                                $(button).find('.btn-text').text(translation.share);
-                                clone.find('#gesture-scope').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
-                                getGestureCatalog(function (result) {
-                                    if (result.status === RESULT_SUCCESS) {
-                                        originalFilterData = result.gestures;
-//                                        currentFilterData = sort();
-                                    }
-                                });
-                            }
-                        });
-                    }
-                }
-            });
-
-            $(clone).find('#btn-unshare-gesture').click(function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    $(this).addClass('disabled');
-                }
-            });
-
-            return clone;
-        }
     </script>
 
 </body>

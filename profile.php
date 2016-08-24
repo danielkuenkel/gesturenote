@@ -219,14 +219,8 @@ if (login_check($mysqli) == false) {
                         $('#label-year').text(translation.year);
                         $('#input-year').val(birthday.getFullYear());
 
-                        var t = user.created.split(/[- :]/);
-
-                        // Apply each element to the Date function
-                        var d = new Date(Date.UTC(t[0], t[1] - 1, t[2], t[3], t[4], t[5]));
-                        console.log(d);
-
                         $('#user-registered .address').text(translation.userRegistered + ": ");
-                        $('#user-registered .text').text(d.toLocaleDateString());
+                        $('#user-registered .text').text(convertSQLTimestampToDate(user.created).toLocaleDateString());
                     }
                 });
             }

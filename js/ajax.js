@@ -298,6 +298,25 @@ function deleteStudy(data, callback) {
     });
 }
 
+function getStudyResults(data, callback) {
+    $.ajax({
+        ContentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        dataType: 'json',
+        url: 'includes/get-study-results.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getStudiesCatalog(callback) {
     $.ajax({
         url: 'includes/get-studies.php',

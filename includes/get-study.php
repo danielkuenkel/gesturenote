@@ -26,14 +26,14 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                 if (isset($decodedData->assembledGestureSet)) {
                     $assembledGestures = $decodedData->assembledGestureSet;
 
-                    if ($select_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE user_id = '$sessionUserId'")) {
+                    if ($select_stmt = $mysqli->prepare("SELECT * FROM gestures ORDER BY created DESC")) {
                         if (!$select_stmt->execute()) {
                             echo json_encode(array('status' => 'selectGesturesError'));
                         } else {
                             $select_stmt->bind_result($gestureId, $gestureUserId, $gestureSource, $gestureScope, $gestureTitle, $gestureContext, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureCreated);
                             while ($select_stmt->fetch()) {
                                 foreach ($assembledGestures as $assembledGestureId) {
-                                    if ($gestureId == $assembledGestureId) {
+                                    if (strcmp($gestureId, $assembledGestureId) == 0) {
                                         $gestures[] = array('id' => $gestureId,
                                             'userId' => $gestureUserId,
                                             'source' => $gestureSource,
@@ -44,7 +44,8 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                                             'joints' => json_decode($gestureJoints),
                                             'previewImage' => $gesturePreviewImage,
                                             'images' => json_decode($gestureImages),
-                                            'created' => $gestureCreated);
+                                            'created' => $gestureCreated,
+                                            'isOwner' => $sessionUserId == $gestureUserId);
                                     }
                                 }
                             }
@@ -52,7 +53,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                     }
                 }
 
-                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'data' => $decodedData, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures));
+                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'data' => $decodedData, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures, 'assembledSet' => $assembledGestures));
                 exit();
             } else {
                 echo json_encode(array('status' => 'rowsError'));

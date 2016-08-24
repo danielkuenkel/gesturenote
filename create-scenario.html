@@ -152,7 +152,6 @@
             $('#helpContainer').append(help);
 
             var scenes = getLocalItem(ASSEMBLED_SCENES);
-            console.log(scenes === null);
             renderAssembledScenes();
             if (scenes === null) {
                 appendAlert($('#wozExperimentPanel, #help-panel'), ALERT_NO_SCENES_ASSEMBLED);
@@ -221,9 +220,9 @@
                     $(clone).removeAttr('id');
                     container.append(clone);
 
-                    if (getLocalItem(STUDY).phase === TYPE_PHASE_ELICITATION) {
-                        $(clone).find('.evaluation').addClass('hidden');
-                    } else {
+//                    if (getLocalItem(STUDY).phase === TYPE_PHASE_ELICITATION) {
+//                        $(clone).find('.evaluation').addClass('hidden');
+//                    } else {
                         var gesture = getGestureById(wozItems[i].gestureId);
                         if (gesture && isGestureAssembled(gesture.id))
                         {
@@ -231,7 +230,7 @@
                         } else {
                             appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                         }
-                    }
+//                    }
 
                     var scene = getSceneById(wozItems[i].sceneId);
                     if (scene) {
@@ -275,7 +274,6 @@
             }
 
             var helpItems = data.help;
-            console.log(data);
             if (helpItems !== undefined) {
                 if (!forPrefiniedObservation) {
                     $('#helpSwitch .switchButtonAddon').click();

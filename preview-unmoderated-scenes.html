@@ -98,7 +98,6 @@
             $(clone).find('#btn-select-item').click({wozData: items[i]}, function (event) {
                 event.preventDefault();
                 var wozData = event.data.wozData;
-//                console.log(wozData);
                 currentWOZScene = getSceneById(wozData.transitionId);
                 $('#preview-modal').modal('hide');
                 var feedback = getFeedbackById(wozData.feedbackId);

@@ -93,8 +93,10 @@
                 var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
                 for (var i = viewFromIndex; i < viewToIndex; i++) {
                     var clone = getGestureListThumbnailPreview(currentFilterData[i]);
-                    $('#list-container').append(clone);
-
+                    if(clone !== null) {
+                        $('#list-container').append(clone);
+                    }
+                    
                     if (isGestureAssembled(currentFilterData[i].id)) {
                         clone.find('.gesture-assemble').click();
                     }

@@ -78,6 +78,7 @@ var SCENE_VIDEO_EMBED = 'videoEmbed';
 // gesture scopes and sources
 var SCOPE_GESTURE_PRIVATE = 'private';
 var SCOPE_GESTURE_PUBLIC = 'public';
+var SOURCE_GESTURE_OWN = 'own';
 var SOURCE_GESTURE_EVALUATOR = 'evaluator';
 var SOURCE_GESTURE_TESTER = 'tester';
 var SOURCE_GESTURE_RECORDED = 'recorded';
