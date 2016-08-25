@@ -11,22 +11,22 @@ session_start();
 if (isset($_POST['email'], $_POST['p'])) {
     $email = $_POST['email'];
     $password = $_POST['p']; // The hashed password.
-    $result = login($email, $password, $mysqli);
-    if ($result == 'accountLocked') {
-        echo json_encode(array('status' => 'accountLogged'));
-        exit();
-    } else if ($result == 'passwordNotCorrect') {
-        echo json_encode(array('status' => 'passwordNotCorrect'));
-        exit();
-    } else if ($result == 'noUserExists') {
-        echo json_encode(array('status' => 'noUserExists'));
-        exit();
-    } else if ($result == 'success') {
-        echo json_encode(array('status' => 'success'));
-        exit();
-    } else {
-        echo json_encode(array('status' => 'loginFailed'));
-    }
+    echo login($email, $password, $mysqli);
+//    if ($result == 'accountLocked') {
+//        echo json_encode(array('status' => 'accountLogged'));
+//        exit();
+//    } else if ($result == 'passwordNotCorrect') {
+//        echo json_encode(array('status' => 'passwordNotCorrect'));
+//        exit();
+//    } else if ($result == 'noUserExists') {
+//        echo json_encode(array('status' => 'noUserExists'));
+//        exit();
+//    } else if ($result == 'success') {
+//        echo json_encode(array('status' => 'success'));
+//        exit();
+//    } else {
+//        echo json_encode(array('status' => 'loginFailed'));
+//    }
 } else {
     // The correct POST variables were not sent to this page. 
     echo json_encode(array('status' => 'databaseError'));

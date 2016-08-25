@@ -19,7 +19,6 @@ $(document).ready(function () {
 
     $('body').on('click', '#btn-dashboard', function (event) {
         event.preventDefault();
-        console.log('test');
         if (!event.handled) {
             event.handled = true;
             gotoDashboard();
@@ -65,7 +64,7 @@ function gotoIndex() {
 }
 
 function gotoDashboard() {
-    goto("dashboard.php");
+    goto("dashboard-evaluator.php");
 }
 
 function gotoStudies() {

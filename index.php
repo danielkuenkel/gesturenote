@@ -1,10 +1,15 @@
 <?php
+include './includes/language.php';
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
 session_start();
 if (login_check($mysqli) == true) {
-    header('Location: dashboard.php');
+    if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'evaluator') {
+        header('Location: dashboard-evaluator.php');
+    } else if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'tester') {
+        header('Location: dashboard-tester.php');
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -20,7 +25,6 @@ if (login_check($mysqli) == true) {
         <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="js/gotoPage.js"></script>
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/checkForms.js"></script>
         <script type="text/JavaScript" src="js/ajax.js"></script>
@@ -130,22 +134,22 @@ if (login_check($mysqli) == true) {
                             <div class="btn-group" id="radio">
                                 <button class="btn btn-default btn-radio" name="primary" id="tester">
                                     <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-o" id="normal"></i>
+                                        <i class="fa fa-circle-thin" id="normal"></i>
                                         <i class="fa fa-circle hidden" id="over"></i>
                                         <i class="fa fa-check-circle hidden" id="checked"></i>
                                     </span>
-                                    <span class="option-text">I would like to take part in interesting studies as a tester</span>
+                                    <span class="option-text"><?php echo $lang->userTypesRegister->tester ?></span>
                                 </button>
                             </div>
 
                             <div class="btn-group" id="radio">
                                 <button class="btn btn-default btn-radio" name="primary" id="evaluator">
                                     <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-o" id="normal"></i>
+                                        <i class="fa fa-circle-thin" id="normal"></i>
                                         <i class="fa fa-circle hidden" id="over"></i>
                                         <i class="fa fa-check-circle hidden" id="checked"></i>
                                     </span>
-                                    <span class="option-text">I want to create and evaluate studies</span>
+                                    <span class="option-text"><?php echo $lang->userTypesRegister->tester ?></span>
                                 </button>
                             </div>
 
@@ -153,7 +157,7 @@ if (login_check($mysqli) == true) {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-block btn-lg btn-success hidden" id="btn-close">Schließen</button>
-                        <button type="button" class="btn btn-block btn-lg btn-gn disabled" id="btn-register">Registrieren</button>
+                        <button type="button" class="btn btn-block btn-lg btn-gn" id="btn-register">Registrieren</button>
                     </div>
                 </div>
             </div>
@@ -464,7 +468,33 @@ if (login_check($mysqli) == true) {
 
                 if (form === 'login') {
                     var data = {email: $('#login-form #email').val().trim(), p: $('#login-form #p').val()};
-                    login(data);
+                    login(data, function (result) {
+                        resetAlerts();
+                        enableInputs();
+
+                        if (result.status === 'accountLogged') {
+                            appendAlert($('#login'), ALERT_ACCOUNT_LOGGED);
+//                            showAlert($('#login'), ALERT_ACCOUNT_LOGGED);
+                        } else if (result.status === 'passwordNotCorrect') {
+                            appendAlert($('#login'), ALERT_WRONG_PASSWORD);
+//                            showAlert($('#login'), ALERT_WRONG_PASSWORD);
+                        } else if (result.status === 'loginFailed') {
+                            appendAlert($('#login'), ALERT_LOGIN_FAILED);
+//                            showAlert($('#login'), ALERT_LOGIN_FAILED);
+                        } else if (result.status === 'noUserExists') {
+                            appendAlert($('#login'), ALERT_NO_USER_EXISTS);
+//                            showAlert($('#login'), ALERT_NO_USER_EXISTS);
+                        } else if (result.status === 'success') {
+                            if (result.userType === 'evaluator') {
+                                window.location.replace('dashboard-evaluator.php');
+                            } else if (result.userType === 'tester') {
+                                window.location.replace('dashboard-tester.php');
+                            }
+                        } else if (data.status === 'databaseError') {
+                            appendAlert($('#login'), ALERT_GENERAL_ERROR);
+//                            showAlert($('#login'), ALERT_GENERAL_ERROR);
+                        }
+                    });
                 } else if (form === 'forgot') {
                     forgot({email: $('#login-form #email').val().trim()});
                 }
@@ -492,7 +522,26 @@ if (login_check($mysqli) == true) {
                 var date = parseInt($('#register-form #date').val().trim());
                 var month = parseInt($('#register-form #month').val().trim());
                 var year = parseInt($('#register-form #year').val().trim());
-                register({forename: forename, surname: surname, email: email, p: p, date: date, month: month, year: year, userType: userType});
+                
+                register({forename: forename, surname: surname, email: email, p: p, date: date, month: month, year: year, userType: userType}, function (result) {
+                    resetAlerts();
+                    enableInputs();
+                    
+                    if (result.status === 'emailExists') {
+                        appendAlert($('#modal-register'), ALERT_USER_EXISTS);
+//                        showAlert($('#modal-register'), ALERT_USER_EXISTS);
+                    } else if (result.status === 'success') {
+                        appendAlert($('#modal-register'), ALERT_REGISTER_SUCCESS);
+//                        showAlert($('#modal-register'), ALERT_REGISTER_SUCCESS);
+                        $('#modal-register').find('#register-form').addClass('hidden');
+                        $('#modal-register').find('#btn-register').addClass('hidden');
+                        $('#modal-register').find('#userType').addClass('hidden');
+                        $('#modal-register').find('#btn-close').removeClass('hidden');
+                    } else if (result.status === 'error') {
+                        appendAlert($('#modal-register'), ALERT_GENERAL_ERROR);
+//                        showAlert($('#modal-register'), ALERT_GENERAL_ERROR);
+                    }
+                });
             });
 
             function disableInputs() {
@@ -507,11 +556,11 @@ if (login_check($mysqli) == true) {
                 $('.alert-space').empty();
             }
 
-            function showAlert(target, type) {
-                resetAlerts();
-                enableInputs();
-                appendAlert(target, type);
-            }
+//            function showAlert(target, type) {
+//                resetAlerts();
+//                enableInputs();
+//                appendAlert(target, type);
+//            }
 
 
         </script>

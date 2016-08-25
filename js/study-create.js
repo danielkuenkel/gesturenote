@@ -17,7 +17,6 @@ function checkSessionStorage() {
     renderSessionStorageData();
 }
 
-var gusOptions = ['Trifft gar nicht zu', 'Trifft eher nicht zu', 'Teils-teils', 'Trifft eher zu', 'Trifft voll und ganz zu'];
 function createOriginGUS() {
 //    if (getLocalItem(STUDY_ORIGIN_GUS) === null) {
     var items = translation.singleGUS;

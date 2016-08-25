@@ -107,7 +107,7 @@ function renderGroupingQuestionInput(item, parameters, options) {
  */
 function renderGroupingQuestionGUSPreview(source, item, parameters) {
     var options;
-    
+
     switch (parameters.optionSource) {
         case 'gestures':
             options = assembledGestures();
@@ -159,7 +159,7 @@ function renderGroupingQuestionGUSPreview(source, item, parameters) {
 function renderGroupingQuestionGUSInput(item, parameters) {
     var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';
     var options;
-    
+
     switch (parameters.optionSource) {
         case 'gestures':
             options = assembledGestures();
@@ -445,7 +445,8 @@ function renderGUSSinglePreview(item, data) {
         $(item).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(data.dimension)]);
     }
 }
-function renderGUSSingleInput(item, options) {
+function renderGUSSingleInput(item) {
+    var options = translation.gusOptions;
     for (var i = 0; i < options.length; i++) {
         var radioButton = $('#item-container-inputs').find('#radio').clone();
         radioButton.find('.option-text').html(options[i]);

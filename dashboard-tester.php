@@ -1,10 +1,14 @@
 <?php
+include './includes/language.php';
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
 session_start();
-
-if (login_check($mysqli) == false) {
+if (login_check($mysqli) == true) {
+    if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'evaluator') {
+        header('Location: index.php');
+    }
+} else {
     header('Location: index.php');
 }
 ?>
@@ -27,7 +31,7 @@ if (login_check($mysqli) == false) {
         <script src="js/ajax.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
-        <script src="js/gotoPage.js"></script>
+        <script src="js/goto-tester.js"></script>
         <script src="js/globalFunctions.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -58,7 +62,7 @@ if (login_check($mysqli) == false) {
         <!-- Container (Panel Section) -->
         <div class="container center-text mainContent" style="margin-top: 40px">
 
-            <div class="row">
+<!--            <div class="row">
                 <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-studies">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> Studien</div>
@@ -85,17 +89,17 @@ if (login_check($mysqli) == false) {
                             <div id="user-public-gestures"><span class="address"></span> <span class="text"></span></div>
                             <div id="elicited-gestures"><span class="address"></span> <span class="text"></span></div>
                         </div>
-                        <!--<div class="panel-footer">Panel Footer</div>-->
+                        <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-profile">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> Profil</div>
                         <div class="panel-body">Anzeigen und bearbeiten der Nutzerdaten</div>
-                        <!--<div class="panel-footer">Panel Footer</div>-->
+                        <div class="panel-footer">Panel Footer</div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
 
         <script>
@@ -110,32 +114,32 @@ if (login_check($mysqli) == false) {
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
-                getDashboardInfos(function (result) {
-                    console.log(result);
-                    if (result.status === RESULT_SUCCESS) {
-                        // gestures catalog infos
-                        var item = $('#btn-gesture-catalog');
-                        $(item).find('#total-gestures .address').text(translation.gesturesCatalog.totalGestures + ":");
-                        $(item).find('#total-gestures .text').text(result.totalGestures);
-                        $(item).find('#public-gestures .address').text(translation.gesturesCatalog.publicGestures + ":");
-                        $(item).find('#public-gestures .text').text(result.publicGestures);
-                        $(item).find('#user-gestures .address').text(translation.gesturesCatalog.userGestures + ":");
-                        $(item).find('#user-gestures .text').text(result.userGestures);
-                        $(item).find('#user-public-gestures .address').text(translation.gesturesCatalog.publicUserGestures + ":");
-                        $(item).find('#user-public-gestures .text').text(result.publicUserGestures);
-                        $(item).find('#elicited-gestures .address').text(translation.gesturesCatalog.elicitedGestures + ":");
-                        $(item).find('#elicited-gestures .text').text(result.elicitedGestures);
-                    } else {
-
-                    }
-                });
+//                getDashboardInfos(function (result) {
+//                    console.log(result);
+//                    if (result.status === RESULT_SUCCESS) {
+//                        // gestures catalog infos
+//                        var item = $('#btn-gesture-catalog');
+//                        $(item).find('#total-gestures .address').text(translation.gesturesCatalog.totalGestures + ":");
+//                        $(item).find('#total-gestures .text').text(result.totalGestures);
+//                        $(item).find('#public-gestures .address').text(translation.gesturesCatalog.publicGestures + ":");
+//                        $(item).find('#public-gestures .text').text(result.publicGestures);
+//                        $(item).find('#user-gestures .address').text(translation.gesturesCatalog.userGestures + ":");
+//                        $(item).find('#user-gestures .text').text(result.userGestures);
+//                        $(item).find('#user-public-gestures .address').text(translation.gesturesCatalog.publicUserGestures + ":");
+//                        $(item).find('#user-public-gestures .text').text(result.publicUserGestures);
+//                        $(item).find('#elicited-gestures .address').text(translation.gesturesCatalog.elicitedGestures + ":");
+//                        $(item).find('#elicited-gestures .text').text(result.elicitedGestures);
+//                    } else {
+//
+//                    }
+//                });
             }
 
-            $('#btn-create-study').click(function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-                gotoCreateStudy();
-            });
+//            $('#btn-create-study').click(function (event) {
+//                event.preventDefault();
+//                event.stopPropagation();
+//                gotoCreateStudy();
+//            });
         </script>
 
     </body>

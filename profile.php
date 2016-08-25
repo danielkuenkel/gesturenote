@@ -1,10 +1,14 @@
 <?php
+include './includes/language.php';
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
 session_start();
-
-if (login_check($mysqli) == false) {
+if (login_check($mysqli) == true) {
+    if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'tester') {
+        header('Location: index.php');
+    }
+} else {
     header('Location: index.php');
 }
 ?>
@@ -28,7 +32,7 @@ if (login_check($mysqli) == false) {
         <script src="js/constants.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
-        <script src="js/gotoPage.js"></script>
+        <script src="js/goto-evaluator.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/checkForms.js"></script>

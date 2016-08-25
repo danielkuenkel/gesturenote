@@ -110,6 +110,10 @@
         "tester": "Tester",
         "evaluator": "Moderator"
     },
+    "userTypesRegister": {
+        "tester": "Ich möchte an interessanten Studien als Tester teilnehmen.",
+        "evaluator": "Ich möchte Studien erstellen und durchführen."
+    },
     "gestureSources": {
         "tester": "Tester",
         "evaluator": "Moderator",
@@ -280,6 +284,7 @@
             }
         }
     ],
+    "gusOptions": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Weder noch", "Trifft eher zu", "Trifft voll und ganz zu"],
     "singleGUS": [
         {
             "format": "gusSingle",
@@ -288,8 +293,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -298,8 +302,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -308,8 +311,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -318,8 +320,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -328,8 +329,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -338,8 +338,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -348,8 +347,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "dichotomousQuestionGUS",
@@ -414,8 +412,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -424,8 +421,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -434,8 +430,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -444,8 +439,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -454,8 +448,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -464,8 +457,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -474,8 +466,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -484,8 +475,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -494,8 +484,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -504,8 +493,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -514,8 +502,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -524,8 +511,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -534,8 +520,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -544,8 +529,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -554,8 +538,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -564,8 +547,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -574,8 +556,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -584,8 +565,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -594,8 +574,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -604,8 +583,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -614,8 +592,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -624,8 +601,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -634,8 +610,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "dichotomousQuestionGUS",
@@ -654,8 +629,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -664,8 +638,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -674,8 +647,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "gusSingle",
@@ -684,8 +656,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "yes"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         }
     ],
     "multipleGUS": [
@@ -1088,8 +1059,7 @@
             "parameters": {
                 "used": "used",
                 "negative": "no"
-            },
-            "options": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Teils-teils", "Trifft eher zu", "Trifft voll und ganz zu"]
+            }
         },
         {
             "format": "groupingQuestionGUS",

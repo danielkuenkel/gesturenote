@@ -11,27 +11,15 @@ function ajaxError(xhr, desc, err) {
     console.log("Details: " + desc + "\nError:" + err);
 }
 
-function login(data) {
+function login(data, callback) {
     $.ajax({
         url: 'includes/process_login.php',
         data: data,
         type: 'post',
         async: true,
-        success: function (data) {
-
-            resetAlerts();
-            if (data.status === 'accountLogged') {
-                showAlert($('#login'), ALERT_ACCOUNT_LOGGED);
-            } else if (data.status === 'passwordNotCorrect') {
-                showAlert($('#login'), ALERT_WRONG_PASSWORD);
-            } else if (data.status === 'loginFailed') {
-                showAlert($('#login'), ALERT_LOGIN_FAILED);
-            } else if (data.status === 'noUserExists') {
-                showAlert($('#login'), ALERT_NO_USER_EXISTS);
-            } else if (data.status === 'success') {
-                window.location.replace('dashboard.php');
-            } else if (data.status === 'databaseError') {
-                showAlert($('#login'), ALERT_GENERAL_ERROR);
+        success: function (result) {
+            if (callback) {
+                callback(result);
             }
         },
         error: function (xhr, desc, err) {
@@ -40,24 +28,15 @@ function login(data) {
     });
 }
 
-function register(data) {
+function register(data, callback) {
     $.ajax({
         url: 'includes/register.php',
         data: data,
         type: 'post',
         async: true,
-        success: function (data) {
-            resetAlerts();
-            if (data.status === 'emailExists') {
-                showAlert($('#modal-register'), ALERT_USER_EXISTS);
-            } else if (data.status === 'success') {
-                showAlert($('#modal-register'), ALERT_REGISTER_SUCCESS);
-                $('#modal-register').find('#register-form').addClass('hidden');
-                $('#modal-register').find('#btn-register').addClass('hidden');
-                $('#modal-register').find('#userType').addClass('hidden');
-                $('#modal-register').find('#btn-close').removeClass('hidden');
-            } else if (data.status === 'error') {
-                showAlert($('#modal-register'), ALERT_GENERAL_ERROR);
+        success: function (result) {
+            if (callback) {
+                callback(result);
             }
         },
         error: function (xhr, desc, err) {

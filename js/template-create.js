@@ -943,7 +943,7 @@ function renderFormatItem(target, data) {
             $(clone).find('.justification-for #' + parameters.justificationFor).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
             $(clone).find('.alternative #' + parameters.alternative).click();
-            
+
             var currentPhase = getPhaseById(currentIdForModal);
             if (currentPhase && currentPhase.format === GUS_SINGLE_GESTURES) {
                 $(clone).find('#alternativeTrigger').remove();
@@ -1148,11 +1148,7 @@ function getFormatData(element) {
         case GUS_SINGLE:
             parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
                 negative: $(element).find('.negative .active').attr('id')};
-
-//            parameters = new Array();
-//            parameters.push($(element).find('.btn-use').hasClass('used'));
-//            parameters.push($(element).find('.negative #yes').hasClass('active'));
-            options = gusOptions;
+//            options = translation.gusOptions;
             break;
     }
     return new QuestionnaireItem(type, dimension, question, parameters, options);
