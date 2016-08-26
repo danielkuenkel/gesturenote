@@ -5,7 +5,7 @@ include_once 'includes/functions.php';
 
 session_start();
 if (login_check($mysqli) == true) {
-    if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'tester') {
+    if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'evaluator') {
         header('Location: index.php');
     }
 } else {
@@ -34,7 +34,7 @@ if (login_check($mysqli) == true) {
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
-        <script src="js/goto-evaluator.js"></script>
+        <script src="js/goto-tester.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
@@ -55,10 +55,6 @@ if (login_check($mysqli) == true) {
                 <div class="panel-body panel-body-progress">
                     <div class="progress" style="margin:0; border-radius:0; height:3px">
                         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="10" aria-valuemax="100" style="width: 100%;">
-                            <!--                            <div class="hidden study-no-plan">Kein Zeitplan</div>
-                                                        <div class="hidden study-not-started">Nicht gestartet</div>
-                                                        <div class="hidden study-started"></div>
-                                                        <div class="hidden study-ended">Beendet</div>-->
                         </div>
                     </div>
                 </div>
@@ -67,27 +63,14 @@ if (login_check($mysqli) == true) {
                     <div>
                         <div class="label label-default" id="type-phase"></div>
                         <div class="label label-default" id="type-survey"></div>
-                        <div class="label label-default hidden" id="panel-survey">Panel-Befragung</div>
                     </div>
 
                     <div>
                         <div id="study-range-days"><span class="address"></span> <span class="text"></span></div>
-                        <div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="text"></span></div>
                         <div class="hidden study-not-started"><i class="fa fa-hourglass-start" aria-hidden="true"></i> <span class="text"></span></div>
                         <div class="hidden study-started"><i class="fa fa-hourglass-half" aria-hidden="true"></i> <span class="text"></span></div>
-                        <div class="hidden study-ended"><i class="fa fa-hourglass-end" aria-hidden="true"></i> <span class="text"></span></div>
                     </div>
                 </div>
-                <!--                <div class="panel-footer">
-                                    <div class="btn-group btn-group-justified">
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                                        </div>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default" id="btn-show-gesture-info">Mehr</button>
-                                        </div>
-                                    </div>
-                                </div>-->
             </div>
         </div>
 
@@ -111,83 +94,87 @@ if (login_check($mysqli) == true) {
         </div>
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent" style="margin-top: 35px;" id="item-view">
+        <div class="container mainContent" style="margin-top: 35px;">
+            <div  id="item-view">
+                <h3 class="address">Aktuelle Studien</h3>
 
-            <button type="button" class="btn btn-success btn-lg btn-block" onclick="gotoCreateStudy()"><i class="glyphicon glyphicon-plus"></i> Eine neue Studie erstellen</button>
-
-            <div class="form-group form-group-no-margin" style="margin-top: 20px">
-                <div class="input-group">
-                    <span class="input-group-addon">Filter</span>
-                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
-                    <div class="input-group-btn select" id="filter" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="all" class="selected"><a href="#">Alle</a></li>
-                            <li id="elicitation"><a href="#">Ermittlung</a></li>
-                            <li id="evaluation"><a href="#">Evaluierung</a></li>
-                            <li id="unmoderated"><a href="#">Unmoderiet</a></li>
-                            <li id="moderated"><a href="#">Moderiert</a></li>
-                        </ul>
-                    </div>
-                    <span class="input-group-addon">Sortierung</span>
-                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
-                    <div class="input-group-btn select" id="sort" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="newest"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li class="dropdown-header">Datum</li>
-                            <li id="oldest"><a href="#">Älteste zuerst</a></li>
-                            <li id="newest"><a href="#">Neueste zuerst</a></li>
-                            <li class="divider"></li>
-                            <li class="dropdown-header">Titel</li>
-                            <li id="asc"><a href="#">A bis Z</a></li>
-                            <li id="desc"><a href="#">Z bis A</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group form-group-margin-top">
-                <div class="input-group">
-                    <span class="input-group-addon">Suchen</span>
-                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
-                    <span class="input-group-addon">Einträge pro Seite</span>
-                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="12"/>
-                    <div class="input-group-btn select" id="resultsCountSelect" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_12"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="results_6"><a href="#">6</a></li>
-                            <li id="results_12" class="selected"><a href="#">12</a></li>
-                            <li id="results_48"><a href="#">48</a></li>
-                            <li id="results_96"><a href="#">96</a></li>
-                        </ul>
+                <div class="form-group form-group-no-margin" style="margin-top: 20px">
+                    <div class="input-group">
+                        <span class="input-group-addon">Filter</span>
+                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
+                        <div class="input-group-btn select" id="filter" role="group">
+                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="all" class="selected"><a href="#">Alle</a></li>
+                                <li id="elicitation"><a href="#">Ermittlung</a></li>
+                                <li id="evaluation"><a href="#">Evaluierung</a></li>
+                                <li id="unmoderated"><a href="#">Unmoderiet</a></li>
+                                <li id="moderated"><a href="#">Moderiert</a></li>
+                            </ul>
+                        </div>
+                        <span class="input-group-addon">Sortierung</span>
+                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                        <div class="input-group-btn select" id="sort" role="group">
+                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="newest"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li class="dropdown-header">Datum</li>
+                                <li id="oldest"><a href="#">Älteste zuerst</a></li>
+                                <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Titel</li>
+                                <li id="asc"><a href="#">A bis Z</a></li>
+                                <li id="desc"><a href="#">Z bis A</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
+
+                <div class="form-group form-group-margin-top">
+                    <div class="input-group">
+                        <span class="input-group-addon">Suchen</span>
+                        <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
+                        <span class="input-group-addon">Einträge pro Seite</span>
+                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="12"/>
+                        <div class="input-group-btn select" id="resultsCountSelect" role="group">
+                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_12"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="results_6"><a href="#">6</a></li>
+                                <li id="results_12" class="selected"><a href="#">12</a></li>
+                                <li id="results_48"><a href="#">48</a></li>
+                                <li id="results_96"><a href="#">96</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px;" class="text-center">
+                    <span class="text">Was bedeuten die Farben?</span>
+                    <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #EEAC57"></i> <span class="text">Studie noch nicht gestartet</span></span>
+                    <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5bc0de"></i> <span class="text">Studie läuft aktuell</span></span>
+                    <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5cb85c"></i> <span class="text">An Studie teilgenommen</span></span>
+                    <!--<span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #d9534f"></i> <span class="text">Studie ohne Zeitplan</span></span>-->
+                </div>
+
+                <div class="text-center custom-pagination" id="custom-pager">
+                    <nav>
+                        <ul class="pagination pagination-custom hidden" itemprop="clipping_2">
+                            <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                            <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                            <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                            <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="container-root row root" id="list-container" style="margin-top: 10px;"></div>
+
+                <div class="alert-space alert-no-search-results"></div>
+                <div class="alert-space alert-no-studies"></div>
             </div>
 
-            <div style="margin-top: 15px;" class="text-center">
-                <span class="text">Was bedeuten die Farben?</span>
-                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #EEAC57"></i> <span class="text">Studie noch nicht gestartet</span></span>
-                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5bc0de"></i> <span class="text">Studie läuft aktuell</span></span>
-                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5cb85c"></i> <span class="text">Studie beendet</span></span>
-                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #d9534f"></i> <span class="text">Studie ohne Zeitplan</span></span>
+            <div  id="item-view">
+                <h3 class="address">An Studien teilgenommen</h3>
             </div>
-
-            <div class="text-center custom-pagination" id="custom-pager">
-                <nav>
-                    <ul class="pagination pagination-custom hidden" itemprop="clipping_2">
-                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-                    </ul>
-                </nav>
-            </div>
-
-            <div class="container-root row root" id="list-container" style="margin-top: 10px;"></div>
-
-            <div class="alert-space alert-no-search-results"></div>
-            <div class="alert-space alert-no-studies"></div>
-
         </div>
 
         <script>
@@ -203,7 +190,7 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
 
-                getStudiesCatalog(function (result) {
+                getStudiesCatalogForTester(function (result) {
                     if (result.status === RESULT_SUCCESS) {
 //                        console.log(result.studies);
                         if (result.studies && result.studies.length > 0) {
@@ -226,14 +213,14 @@ if (login_check($mysqli) == true) {
                 var viewToIndex = Math.min((index + 1) * listCount, data.length);
 
                 for (var i = viewFromIndex; i < viewToIndex; i++) {
-                    var clone = getStudiesCatalogListThumbnail(data[i]);
+                    var clone = getStudiesCatalogListTesterThumbnail(data[i]);
                     $('#list-container').append(clone);
                     TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
 
                     $(clone).find('.panel').click({studyId: data[i].id}, function (event) {
                         event.preventDefault();
                         var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                        goto("study.php?studyId=" + event.data.studyId + "&h=" + hash);
+                        goto("study-tester.php?studyId=" + event.data.studyId + "&h=" + hash);
                     });
                 }
             }

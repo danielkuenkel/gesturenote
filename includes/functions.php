@@ -27,13 +27,13 @@ function login($email, $password, $mysqli) {
     // Using prepared statements means that SQL injection is not possible.
 //    echo $email . ", " + $password;
 //    exit();
-    if ($stmt = $mysqli->prepare("SELECT id, forename, surname, password, usertype FROM users WHERE email = ? LIMIT 1")) {
+    if ($stmt = $mysqli->prepare("SELECT * FROM users WHERE email = ? LIMIT 1")) {
         $stmt->bind_param('s', $email);  // Bind "$email" to parameter.
         $stmt->execute();    // Execute the prepared query.
         $stmt->store_result();
 
         // get variables from result.
-        $stmt->bind_result($user_id, $forename, $surname, $db_password, $usertype);
+        $stmt->bind_result($user_id, $forename, $surname, $email, $db_password, $birthday, $gender, $usertype, $created);
         $stmt->fetch();
 
         if ($stmt->num_rows == 1) {
@@ -57,16 +57,12 @@ function login($email, $password, $mysqli) {
                     $user_id = preg_replace("/[^0-9]+/", "", $user_id);
 
                     $_SESSION['user_id'] = $user_id;
-
-                    // XSS protection as we might print this value
-//                    $username = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $username);
-//                    $surname = 
                     $_SESSION['forename'] = $forename;
                     $_SESSION['surname'] = $surname;
                     $_SESSION['login_string'] = hash('sha512', $db_password . $user_browser);
+                    $_SESSION['gender'] = $gender;
                     $_SESSION['usertype'] = $usertype;
-
-                    // Login successful.
+                    $_SESSION['birthday'] = $birthday;
                     echo json_encode(array('status' => 'success', 'userType' => $usertype));
                     exit();
                 } else {

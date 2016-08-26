@@ -181,11 +181,6 @@ function uploadSound(data, callback) {
         data: data,
         async: true,
         dataType: 'json',
-//        contentType: 'multipart/form-data',
-//        mimeType: 'multipart/form-data',
-//        beforeSend: function (xhr) {
-//            xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-//        },
         success: function (data) {
             if (callback) {
                 callback(data);
@@ -299,6 +294,22 @@ function getStudyResults(data, callback) {
 function getStudiesCatalog(callback) {
     $.ajax({
         url: 'includes/get-studies.php',
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function getStudiesCatalogForTester(callback) {
+    $.ajax({
+        url: 'includes/get-studies-tester.php',
         type: 'post',
         async: true,
         success: function (result) {

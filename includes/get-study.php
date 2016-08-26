@@ -10,9 +10,10 @@ include_once 'psl-config.php';
 session_start();
 if (isset($_SESSION['user_id'], $_POST['studyId'])) {
     $sessionUserId = $_SESSION['user_id'];
+    $sessionUserType = $_SESSION['usertype'];
     $selectStudyId = $_POST['studyId'];
 
-    if ($select_stmt = $mysqli->prepare("SELECT * FROM studies WHERE user_id = '$sessionUserId' AND id = '$selectStudyId' LIMIT 1")) {
+    if ($select_stmt = $mysqli->prepare("SELECT * FROM studies WHERE id = '$selectStudyId' LIMIT 1")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();
@@ -53,7 +54,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                     }
                 }
 
-                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'data' => $decodedData, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures, 'assembledSet' => $assembledGestures));
+                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'data' => $decodedData, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures));
                 exit();
             } else {
                 echo json_encode(array('status' => 'rowsError'));

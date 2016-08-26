@@ -771,7 +771,9 @@ function updatePagination(pagination) {
 }
 
 function updatePaginationItems() {
-    initPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+    if (currentFilterData && currentFilterData.length > 0) {
+        initPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+    }
 }
 
 function checkPagination(pagination, dataLength, maxElements) {
@@ -1068,7 +1070,7 @@ function filter(scope) {
 
     if (scope === 'all') {
         return originalFilterData;
-    } else {
+    } else if (originalFilterData && originalFilterData.length > 0) {
         for (var i = 0; i < originalFilterData.length; i++) {
             if (scope === SOURCE_GESTURE_RECORDED && originalFilterData[i].isOwner === true) {
                 if (originalFilterData[i].source === SOURCE_GESTURE_EVALUATOR) {
@@ -1224,6 +1226,19 @@ function convertSQLTimestampToDate(sqlTimestamp) {
     return new Date(Date.UTC(t[0], t[1] - 1, t[2], t[3], t[4], t[5]));
 }
 
+function getTimeLeftForTimestamp(timestamp) {
+    var dateNow = new Date();
+    var seconds = Math.floor((timestamp - (dateNow)) / 1000);
+    var minutes = Math.floor(seconds / 60);
+    var hours = Math.floor(minutes / 60);
+    var days = Math.floor(hours / 24);
+    hours = hours - (days * 24);
+    minutes = minutes - (days * 24 * 60) - (hours * 60);
+    seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
+//    return days + ' Tage, ' + hours + ' Stunden, ' + minutes + ' Minunten und ' + seconds + ' Sekunden';
+    return {days: days, hours: hours, minutes: minutes, seconds: seconds};
+}
+
 
 
 var currentGesturePreviewId = null;
@@ -1377,6 +1392,127 @@ function getGestureCatalogListThumbnail(data) {
 
     return clone;
 }
+
+
+function getStudiesCatalogListThumbnail(data) {
+    var clone = $('#studies-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
+    if (data.data) {
+
+        clone.attr('id', data.id);
+        clone.find('.title-text').text(data.data.generalData.title);
+
+        if (data.data.generalData.panelSurvey === 'yes') {
+            $(clone).find('#panel-survey').removeClass('hidden');
+        }
+
+        if ((data.data.generalData.dateFrom !== null && data.data.generalData.dateFrom !== "") &&
+                (data.data.generalData.dateTo !== null && data.data.generalData.dateTo !== "")) {
+
+            var dateFrom = data.data.generalData.dateFrom * 1000;
+            var dateTo = addDays(data.data.generalData.dateTo * 1000, 1);
+            var totalDays = rangeDays(dateFrom, dateTo);
+
+            var now = new Date().getTime();
+            var progress = 0;
+            $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
+
+            if (now > dateFrom && now < dateTo) {
+                var left = getTimeLeftForTimestamp(addDays(dateTo, 1));
+                var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
+                progress = daysExpired / totalDays * 100;
+                $(clone).find('.study-started').removeClass('hidden').find('.text').text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days + 1 === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
+                $(clone).find('.progress-bar').addClass('progress-bar-info');
+            } else if (now < dateFrom) {
+                progress = 100;
+                var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));
+                $(clone).find('.study-not-started').removeClass('hidden').find('.text').text(translation.studyNotStarted + ', ' + translation.startsAt + ' ' + daysToStart + ' ' + (daysToStart === 1 ? translation.day : translation.daysn));
+                $(clone).find('.progress-bar').addClass('progress-bar-warning');
+            } else if (now > dateTo) {
+                progress = 100;
+                $(clone).find('#study-range-days .address').text(translation.studyRuns + ": ");
+                $(clone).find('.study-ended').removeClass('hidden').find('.text').text(translation.studyEnded);
+                $(clone).find('.progress-bar').addClass('progress-bar-success');
+            }
+
+            $(clone).find('.progress-bar').css({width: progress + "%"});
+            $(clone).find('#study-range-days .text').text(totalDays + ' ' + (parseInt(totalDays) === 1 ? translation.day : translation.days));
+
+            if (now > dateFrom && now < dateTo) {
+                TweenMax.from($(clone).find('.progress-bar'), 1, {delay: .3, width: "0%", opacity: 0});
+            }
+        } else {
+            $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
+            $(clone).find('#study-range-days .text').text('0 ' + translation.days);
+            $(clone).find('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
+            $(clone).find('.progress-bar').addClass('progress-bar-danger');
+        }
+
+        $(clone).find('#type-survey').text(translation.surveyType[data.data.generalData.surveyType]);
+        $(clone).find('#type-phase').text(translation.phaseType[data.data.generalData.phase]);
+    }
+
+    return clone;
+}
+
+function getStudiesCatalogListTesterThumbnail(data) {
+    var clone = $('#studies-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
+    if (data.data) {
+
+        clone.attr('id', data.id);
+        clone.find('.title-text').text(data.data.generalData.title);
+
+//        if (data.data.generalData.panelSurvey === 'yes') {
+//            $(clone).find('#panel-survey').removeClass('hidden');
+//        }
+
+        if ((data.data.generalData.dateFrom !== null && data.data.generalData.dateFrom !== "") &&
+                (data.data.generalData.dateTo !== null && data.data.generalData.dateTo !== "")) {
+
+            var dateFrom = data.data.generalData.dateFrom * 1000;
+            var dateTo = addDays(data.data.generalData.dateTo * 1000, 1);
+            var totalDays = rangeDays(dateFrom, dateTo);
+
+            var now = new Date().getTime();
+            var progress = 0;
+            $(clone).find('#study-range-days .address').text(translation.studyRun + ": ");
+
+            if (now > dateFrom && now < dateTo) {
+                var left = getTimeLeftForTimestamp(addDays(dateTo, 1));
+                var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
+                progress = daysExpired / totalDays * 100;
+                $(clone).find('.study-started').removeClass('hidden').find('.text').text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
+                $(clone).find('.progress-bar').addClass('progress-bar-info');
+            } else if (now < dateFrom) {
+                progress = 100;
+                var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));
+                $(clone).find('.study-not-started').removeClass('hidden').find('.text').text(translation.studyNotStarted + ', ' + translation.startsAt + ' ' + daysToStart + ' ' + (daysToStart === 1 ? translation.day : translation.daysn));
+                $(clone).find('.progress-bar').addClass('progress-bar-warning');
+            } else if (now > dateTo) {
+                progress = 100;
+                $(clone).find('#study-range-days .address').text(translation.studyRuns + ": ");
+                $(clone).find('.study-ended').removeClass('hidden').find('.text').text(translation.studyEnded);
+                $(clone).find('.progress-bar').addClass('progress-bar-success');
+            }
+
+            $(clone).find('.progress-bar').css({width: progress + "%"});
+            $(clone).find('#study-range-days .text').text(totalDays + ' ' + (parseInt(totalDays) === 1 ? translation.day : translation.days));
+
+            if (now > dateFrom && now < dateTo) {
+                TweenMax.from($(clone).find('.progress-bar'), 1, {delay: .3, width: "0%", opacity: 0});
+            }
+        } else {
+            $(clone).find('#study-range-days .text').text('0 ' + translation.days);
+            $(clone).find('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
+            $(clone).find('.progress-bar').addClass('progress-bar-danger');
+        }
+
+        $(clone).find('#type-survey').text(translation.surveyType[data.data.generalData.surveyType]);
+        $(clone).find('#type-phase').text(translation.phaseType[data.data.generalData.phase]);
+    }
+
+    return clone;
+}
+
 
 
 // sound audio player handling

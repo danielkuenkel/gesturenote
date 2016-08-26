@@ -5,7 +5,7 @@ include_once 'includes/functions.php';
 
 session_start();
 if (login_check($mysqli) == true) {
-    if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'tester') {
+    if (isset($_SESSION['usertype']) && $_SESSION['usertype'] == 'evaluator') {
         header('Location: index.php');
     }
 } else {
@@ -32,7 +32,7 @@ if (login_check($mysqli) == true) {
         <script src="js/constants.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
-        <script src="js/goto-evaluator.js"></script>
+        <script src="js/goto-tester.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/checkForms.js"></script>
@@ -99,13 +99,13 @@ if (login_check($mysqli) == true) {
                                 <input type="text" class="form-control" name="surname" id="input-surname" placeholder="">
                             </div>
 
-<!--                            <div class="alert-space alert-user-exists"></div>
-                            <div class="alert-space alert-invalid-email"></div>
-
-                            <div class="form-group">
-                                <label for="email" id="label-email"></label>
-                                <input type="email" class="form-control" name="email" id="input-email" placeholder="">
-                            </div>-->
+                            <!--                            <div class="alert-space alert-user-exists"></div>
+                                                        <div class="alert-space alert-invalid-email"></div>
+                            
+                                                        <div class="form-group">
+                                                            <label for="email" id="label-email"></label>
+                                                            <input type="email" class="form-control" name="email" id="input-email" placeholder="">
+                                                        </div>-->
 
                             <hr>
 
@@ -212,7 +212,7 @@ if (login_check($mysqli) == true) {
                         $('#user-type .address').text(translation.userType + ": ");
                         $('#user-type .text').text(translation.userTypes[user.userType]);
 
-                        var birthday = new Date(user.birthday);
+                        var birthday = new Date(user.birthday * 1000);
                         $('#user-birthday .address').text(translation.birthday + ": ");
                         $('#label-birthday').text(translation.birthday);
                         $('#user-birthday .text').text(birthday.toLocaleDateString());
@@ -275,12 +275,12 @@ if (login_check($mysqli) == true) {
                 var birthday = year + "-" + month + "-" + date;
 
                 if (p !== null && pO !== null) {
-                    updateUser({forename: forename, surname: surname, p: p, pO: pO, birthday: birthday}, function (result) {
+                    updateUser({forename: forename, surname: surname, email: email, p: p, pO: pO, birthday: birthday}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             $('#user-forename .text').text(forename);
                             $('#user-surname .text').text(surname);
 //                            $('#user-email .text').text(email);
-                            $('#user-birthday .text').text(new Date(year, month-1, date, 0, 0, 0, 0).toLocaleDateString());
+                            $('#user-birthday .text').text(new Date(year, month - 1, date, 0, 0, 0, 0).toLocaleDateString());
                             $('#general-edit').addClass('hidden');
                             $('#general-preview').removeClass('hidden');
                             $('#input-current-password').val('');
@@ -300,7 +300,7 @@ if (login_check($mysqli) == true) {
                             $('#user-forename .text').text(forename);
                             $('#user-surname .text').text(surname);
 //                            $('#user-email .text').text(email);
-                            $('#user-birthday .text').text(new Date(year, month-1, date, 0, 0, 0, 0).toLocaleDateString());
+                            $('#user-birthday .text').text(new Date(year, month - 1, date, 0, 0, 0, 0).toLocaleDateString());
                             $('#general-edit').addClass('hidden');
                             $('#general-preview').removeClass('hidden');
                             $('#input-current-password').val('');

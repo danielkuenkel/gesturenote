@@ -126,33 +126,59 @@ if (login_check($mysqli) == true) {
                                 </div>
                             </div>
 
-                        </div>
+                            <div class="form-group root" id="gender">
+                                <label>Geschlecht</label><br>
 
-                        <div class="form-group root" id="userType">
-                            <label>Kontotyp</label><br>
+                                <div class="btn-group" id="radio">
+                                    <button class="btn btn-default btn-radio" name="primary" id="female">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->genderRegister->female ?></span>
+                                    </button>
+                                </div>
 
-                            <div class="btn-group" id="radio">
-                                <button class="btn btn-default btn-radio" name="primary" id="tester">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->userTypesRegister->tester ?></span>
-                                </button>
+                                <div class="btn-group" id="radio">
+                                    <button class="btn btn-default btn-radio" name="primary" id="male">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->genderRegister->male ?></span>
+                                    </button>
+                                </div>
+
                             </div>
 
-                            <div class="btn-group" id="radio">
-                                <button class="btn btn-default btn-radio" name="primary" id="evaluator">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->userTypesRegister->tester ?></span>
-                                </button>
-                            </div>
+                            <div class="form-group root" id="userType">
+                                <label>Kontotyp</label><br>
 
+                                <div class="btn-group" id="radio">
+                                    <button class="btn btn-default btn-radio" name="primary" id="tester">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->userTypesRegister->tester ?></span>
+                                    </button>
+                                </div>
+
+                                <div class="btn-group" id="radio">
+                                    <button class="btn btn-default btn-radio" name="primary" id="evaluator">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->userTypesRegister->evaluator ?></span>
+                                    </button>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -191,9 +217,9 @@ if (login_check($mysqli) == true) {
                                     <input type="password" class="form-control" name="password" value="" id="password">
                                 </div>
                                 <div class="btn-group-vertical btn-block">
-                                    <button type="button" class="btn btn-lg btn-success" id="btn-login"><i class="glyphicon glyphicon-log-in"></i> Einloggen</button>
-                                    <button type="button" class="btn btn-lg btn-primary disabled" id="btn-forgot"><i class="glyphicon glyphicon-time"></i> Passwort vergessen</button>
-                                    <button type="button" class="btn btn-lg btn-gn" id="btn-open-register">Registrieren</button>
+                                    <button type="button" class="btn btn-success" id="btn-login"><i class="glyphicon glyphicon-log-in"></i> Einloggen</button>
+                                    <button type="button" class="btn btn-primary disabled" id="btn-forgot"><i class="glyphicon glyphicon-time"></i> Passwort vergessen</button>
+                                    <button type="button" class="btn btn-gn" id="btn-open-register">Registrieren</button>
                                 </div>
                             </div>
                         </div>
@@ -201,7 +227,7 @@ if (login_check($mysqli) == true) {
                 </div>
 
                 <!-- Container (About Section) -->
-                <div class="col-sm-6 col-sm-pull-6 col-md-6">
+                <div class="col-sm-6 col-sm-pull-6 col-md-6" id="about">
                     <div class="info">
                         <div class="page-header">
                             <h2><i class="glyphicon glyphicon-info-sign icon-lg"></i> Was ist GestureNote?</h2>
@@ -474,16 +500,12 @@ if (login_check($mysqli) == true) {
 
                         if (result.status === 'accountLogged') {
                             appendAlert($('#login'), ALERT_ACCOUNT_LOGGED);
-//                            showAlert($('#login'), ALERT_ACCOUNT_LOGGED);
                         } else if (result.status === 'passwordNotCorrect') {
                             appendAlert($('#login'), ALERT_WRONG_PASSWORD);
-//                            showAlert($('#login'), ALERT_WRONG_PASSWORD);
                         } else if (result.status === 'loginFailed') {
                             appendAlert($('#login'), ALERT_LOGIN_FAILED);
-//                            showAlert($('#login'), ALERT_LOGIN_FAILED);
                         } else if (result.status === 'noUserExists') {
                             appendAlert($('#login'), ALERT_NO_USER_EXISTS);
-//                            showAlert($('#login'), ALERT_NO_USER_EXISTS);
                         } else if (result.status === 'success') {
                             if (result.userType === 'evaluator') {
                                 window.location.replace('dashboard-evaluator.php');
@@ -492,7 +514,6 @@ if (login_check($mysqli) == true) {
                             }
                         } else if (data.status === 'databaseError') {
                             appendAlert($('#login'), ALERT_GENERAL_ERROR);
-//                            showAlert($('#login'), ALERT_GENERAL_ERROR);
                         }
                     });
                 } else if (form === 'forgot') {
@@ -503,8 +524,7 @@ if (login_check($mysqli) == true) {
             $('#btn-register').on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
-                    var userType = $('#modal-register #userType').find('.btn-option-checked').attr('id');
-                    registerFormhash($('#register-form'), userType);
+                    registerFormhash($('#register-form'));
                 }
             });
 
@@ -518,28 +538,27 @@ if (login_check($mysqli) == true) {
                 var surname = $('#register-form #surname').val().trim();
                 var email = $('#register-form #email').val().trim();
                 var p = $('#register-form #p').val().trim();
-                var userType = $('#modal-register #userType').find('.btn-option-checked').attr('id');
                 var date = parseInt($('#register-form #date').val().trim());
                 var month = parseInt($('#register-form #month').val().trim());
                 var year = parseInt($('#register-form #year').val().trim());
-                
-                register({forename: forename, surname: surname, email: email, p: p, date: date, month: month, year: year, userType: userType}, function (result) {
+                var birthday = year + "-" + month + "-" + date;
+                var gender = $('#modal-register #gender').find('.btn-option-checked').attr('id');
+                var userType = $('#modal-register #userType').find('.btn-option-checked').attr('id');
+
+                register({forename: forename, surname: surname, email: email, p: p, birthday: birthday, gender: gender, userType: userType}, function (result) {
                     resetAlerts();
                     enableInputs();
-                    
+
                     if (result.status === 'emailExists') {
                         appendAlert($('#modal-register'), ALERT_USER_EXISTS);
-//                        showAlert($('#modal-register'), ALERT_USER_EXISTS);
                     } else if (result.status === 'success') {
                         appendAlert($('#modal-register'), ALERT_REGISTER_SUCCESS);
-//                        showAlert($('#modal-register'), ALERT_REGISTER_SUCCESS);
                         $('#modal-register').find('#register-form').addClass('hidden');
                         $('#modal-register').find('#btn-register').addClass('hidden');
                         $('#modal-register').find('#userType').addClass('hidden');
                         $('#modal-register').find('#btn-close').removeClass('hidden');
                     } else if (result.status === 'error') {
                         appendAlert($('#modal-register'), ALERT_GENERAL_ERROR);
-//                        showAlert($('#modal-register'), ALERT_GENERAL_ERROR);
                     }
                 });
             });

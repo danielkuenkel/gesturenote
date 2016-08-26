@@ -1,6 +1,7 @@
 function loginFormhash(form, email, password) {
     if ($(email).val().trim() === '' || $(password).val().trim() === '') {
-        showAlert($('#login'), ALERT_MISSING_FIELDS);
+        appendAlert($('#login'), ALERT_MISSING_FIELDS);
+//        showAlert($('#login'), ALERT_MISSING_FIELDS);
         return false;
     }
 
@@ -25,14 +26,15 @@ function loginFormhash(form, email, password) {
 
 function forgotFormhash(form, email) {
     if ($(email).val().trim() === '' || $(password).val().trim() === '') {
-        showAlert($('#login'), ALERT_MISSING_FIELDS);
+        appendAlert($('#login'), ALERT_MISSING_FIELDS);
+//        showAlert($('#login'), ALERT_MISSING_FIELDS);
         return false;
     }
 
     form.submit();
 }
 
-function registerFormhash(form, usertype) {
+function registerFormhash(form) {
     // Check each field has a value
 
     var forename = $(form).find('#forename');
@@ -43,6 +45,10 @@ function registerFormhash(form, usertype) {
     var date = $(form).find('#date');
     var month = $(form).find('#month');
     var year = $(form).find('#year');
+    var gender = $(form).find('#gender .btn-option-checked').attr('id');
+    var userType = $(form).find('#userType .btn-option-checked').attr('id');
+
+//    console.log($(form).find('#gender'), gender, $(form).find('#userType'), userType, $(form));
 
     if ($(forename).val().trim() === '' ||
             $(surname).val().trim() === '' ||
@@ -52,8 +58,9 @@ function registerFormhash(form, usertype) {
             $(date).val().trim() === '' ||
             $(month).val().trim() === '' ||
             $(year).val().trim() === '' ||
-            usertype === undefined) {
-        showAlert($('#modal-register'), ALERT_MISSING_FIELDS);
+            gender === undefined ||
+            userType === undefined) {
+        appendAlert($('#modal-register'), ALERT_MISSING_FIELDS);
         return false;
     }
 
@@ -69,7 +76,8 @@ function registerFormhash(form, usertype) {
     // validate email
     if (!validateEmail($(email).val().trim())) {
         $(email).focus();
-        showAlert($('#modal-register'), ALERT_INVALID_EMAIL);
+        appendAlert($('#modal-register'), ALERT_INVALID_EMAIL);
+//        showAlert($('#modal-register'), ALERT_INVALID_EMAIL);
         return false;
     }
 
@@ -78,7 +86,8 @@ function registerFormhash(form, usertype) {
     // specific guidance to the user
     if ($(password).val().length < 6) {
         $(password).focus();
-        showAlert($('#modal-register'), ALERT_PASSWORD_SHORT);
+        appendAlert($('#modal-register'), ALERT_PASSWORD_SHORT);
+//        showAlert($('#modal-register'), ALERT_PASSWORD_SHORT);
         return false;
     }
 
@@ -88,14 +97,16 @@ function registerFormhash(form, usertype) {
     var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
     if (!re.test($(password).val())) {
         $(password).focus();
-        showAlert($('#modal-register'), ALERT_PASSWORD_INVALID);
+        appendAlert($('#modal-register'), ALERT_PASSWORD_INVALID);
+//        showAlert($('#modal-register'), ALERT_PASSWORD_INVALID);
         return false;
     }
 
     // Check password and confirmation are the same
     if ($(password).val() !== $(passwordconfirm).val()) {
         $(passwordconfirm).focus();
-        showAlert($('#modal-register'), ALERT_PASSWORDS_NOT_MATCHING);
+        appendAlert($('#modal-register'), ALERT_PASSWORDS_NOT_MATCHING);
+//        showAlert($('#modal-register'), ALERT_PASSWORDS_NOT_MATCHING);
         return false;
     }
 
@@ -110,7 +121,8 @@ function registerFormhash(form, usertype) {
             (parseInt(dateString) < 1 || parseInt(dateString) > 31))
     {
         $(date).focus();
-        showAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
+        appendAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
+//        showAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
         return false;
     }
 
@@ -119,7 +131,8 @@ function registerFormhash(form, usertype) {
             (parseInt(monthString) < 1 || parseInt(monthString) > 12))
     {
         $(month).focus();
-        showAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
+        appendAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
+//        showAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
         return false;
     }
 
@@ -128,7 +141,8 @@ function registerFormhash(form, usertype) {
             (parseInt(yearString) < 1920 || parseInt(yearString) > now.getFullYear()))
     {
         $(year).focus();
-        showAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
+        appendAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
+//        showAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
         return false;
     }
 
@@ -157,14 +171,14 @@ function updateFormhash(form, alertTarget) {
 
     var forename = $(form).find('#input-forename');
     var surname = $(form).find('#input-surname');
-    var email = $(form).find('#input-email');
+//    var email = $(form).find('#input-email');
     var date = $(form).find('#input-date');
     var month = $(form).find('#input-month');
     var year = $(form).find('#input-year');
 
     if ($(forename).val().trim() === '' ||
             $(surname).val().trim() === '' ||
-            $(email).val().trim() === '' ||
+//            $(email).val().trim() === '' ||
             $(date).val().trim() === '' ||
             $(month).val().trim() === '' ||
             $(year).val().trim() === '') {
@@ -173,11 +187,11 @@ function updateFormhash(form, alertTarget) {
     }
 
     // validate email
-    if (!validateEmail($(email).val().trim())) {
-        $(email).focus();
-        appendAlert(alertTarget, ALERT_INVALID_EMAIL);
-        return false;
-    }
+//    if (!validateEmail($(email).val().trim())) {
+//        $(email).focus();
+//        appendAlert(alertTarget, ALERT_INVALID_EMAIL);
+//        return false;
+//    }
 
     var dateString = $(date).val().trim();
     var monthString = $(month).val().trim();
@@ -217,7 +231,6 @@ function updateFormhash(form, alertTarget) {
     var confirmNewPassword = $(form).find('#input-confirm-new-password');
 
     if ($(newPassword).val().trim() !== '' || $(confirmNewPassword).val().trim() !== '') {
-        console.log('new password set');
         if ($(currentPassword).val().trim() === '' || $(confirmNewPassword).val().trim() === '' || $(newPassword).val().trim() === '') {
             appendAlert(alertTarget, ALERT_MISSING_FIELDS);
             return false;

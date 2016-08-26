@@ -16,6 +16,8 @@
     "day": "Tag",
     "days": "Tage",
     "daysn": "Tagen",
+    "hour": "Stunde",
+    "hours": "Stunden",
     "month": "Monat",
     "year": "Jahr",
     "studyEnded": "Beendet",
@@ -55,6 +57,10 @@
         "identical": "Alle Personen",
         "female": "Frauen",
         "male": "Männer"
+    },
+    "genderRegister": {
+        "female": "Weiblich",
+        "male": "Männlich"
     },
     "formats": {
         "questionnaire": "Fragebogen",

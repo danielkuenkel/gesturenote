@@ -62,17 +62,17 @@ if (login_check($mysqli) == true) {
         <!-- Container (Panel Section) -->
         <div class="container center-text mainContent" style="margin-top: 40px">
 
-<!--            <div class="row">
-                <div class="col-md-4 col-sm-6">
+            <div class="row">
+                <div class="col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-studies">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> Studien</div>
                         <div class="panel-body">Panel Body</div>
-                        <div class="panel-footer">
+<!--                        <div class="panel-footer">
                             <button type="button" class="btn btn-success btn-block" id="btn-create-study"><i class="glyphicon glyphicon-plus"></i> Neue Studie erstellen</button>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
+<!--                <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-styleguides">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-map-signs" aria-hidden="true"></i> Gesten Styleguides</div>
                         <div class="panel-body">Panel Body</div>
@@ -91,15 +91,15 @@ if (login_check($mysqli) == true) {
                         </div>
                         <div class="panel-footer">Panel Footer</div>
                     </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
+                </div>-->
+                <div class="col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-profile">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> Profil</div>
                         <div class="panel-body">Anzeigen und bearbeiten der Nutzerdaten</div>
-                        <div class="panel-footer">Panel Footer</div>
+                        <!--<div class="panel-footer">Panel Footer</div>-->
                     </div>
                 </div>
-            </div>-->
+            </div>
         </div>
 
         <script>

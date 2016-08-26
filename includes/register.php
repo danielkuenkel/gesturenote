@@ -6,15 +6,16 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once 'db_connect.php';
 include_once 'psl-config.php';
 
-if (isset($_POST['forename'], $_POST['surname'], $_POST['email'], $_POST['p'], $_POST['date'], $_POST['month'], $_POST['year'], $_POST['userType'])) {
+if (isset($_POST['forename'], $_POST['surname'], $_POST['email'], $_POST['p'], $_POST['birthday'], $_POST['gender'], $_POST['userType'])) {
 
     // Sanitize and validate the data passed in
     $forename = filter_input(INPUT_POST, 'forename', FILTER_SANITIZE_STRING);
     $surname = filter_input(INPUT_POST, 'surname', FILTER_SANITIZE_STRING);
-    $userType = filter_input(INPUT_POST, 'userType', FILTER_SANITIZE_STRING);
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $password = filter_input(INPUT_POST, 'p', FILTER_SANITIZE_STRING);
-    $birthday = date("Y.m.d", mktime(0, 0, 0, $_POST['month'], $_POST['date'], $_POST['year']));
+    $birthday = strtotime($_POST['birthday']);
+    $gender = filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_STRING);
+    $userType = filter_input(INPUT_POST, 'userType', FILTER_SANITIZE_STRING);
 
 //    $email = filter_var($email, FILTER_VALIDATE_EMAIL);
 //    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -121,7 +122,7 @@ if (isset($_POST['forename'], $_POST['surname'], $_POST['email'], $_POST['p'], $
     // the password_verify function.
 //    $password = password_hash($password, PASSWORD_BCRYPT);
     // Insert the new user into the database 
-    if ($insert_stmt = $mysqli->prepare("INSERT INTO users (forename, surname, email, password, birthday, usertype) VALUES ('$forename', '$surname', '$email', '$password', '$birthday', '$userType')")) {
+    if ($insert_stmt = $mysqli->prepare("INSERT INTO users (forename, surname, email, password, birthday, gender, usertype) VALUES ('$forename', '$surname', '$email', '$password', '$birthday', '$gender', '$userType')")) {
 //    if ($insert_stmt = $mysqli->prepare("INSERT INTO users (forename, surname, email, password, usertype) VALUES (?, ?, ?, ?, ?)")) {
 //        $insert_stmt->bind_param('sssss', $forename, $surname, $email, $password, $userType);
         // Execute the prepared query.

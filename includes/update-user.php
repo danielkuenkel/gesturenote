@@ -7,15 +7,15 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 
 session_start();
-if (isset($_SESSION['user_id'], $_POST['forename'], $_POST['surname'], $_POST['email'], $_POST['date'], $_POST['month'], $_POST['year'])) {
+if (isset($_SESSION['user_id'], $_POST['forename'], $_POST['surname'], $_POST['birthday'])) {
 
     // Serialisieren der Daten
     $sessionUserId = $_SESSION['user_id'];
     $forename = filter_input(INPUT_POST, 'forename', FILTER_SANITIZE_STRING);
     $surname = filter_input(INPUT_POST, 'surname', FILTER_SANITIZE_STRING);
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-
-    $birthday = date("Y.m.d", mktime(0, 0, 0, $_POST['month'], $_POST['date'], $_POST['year']));
+//    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $birthday = strtotime($_POST['birthday']);
+//    $birthday = date("Y.m.d", mktime(0, 0, 0, $_POST['month'], $_POST['date'], $_POST['year']));
 
     if (isset($_POST['p'], $_POST['pO'])) {
         $password = filter_input(INPUT_POST, 'p', FILTER_SANITIZE_STRING);
@@ -32,7 +32,7 @@ if (isset($_SESSION['user_id'], $_POST['forename'], $_POST['surname'], $_POST['e
 
                 if ($select_stmt->num_rows == 1) {
                     if (strcmp($currentPassword, $dbPassword) == 0) {
-                        if ($update_stmt = $mysqli->prepare("UPDATE users SET forename = '$forename', surname = '$surname', email = '$email', birthday = '$birthday', password = '$password' WHERE id = '$sessionUserId'")) {
+                        if ($update_stmt = $mysqli->prepare("UPDATE users SET forename = '$forename', surname = '$surname', birthday = '$birthday', password = '$password' WHERE id = '$sessionUserId'")) {
                             if (!$update_stmt->execute()) {
                                 echo json_encode(array('status' => 'updateError'));
                                 exit();
@@ -62,7 +62,7 @@ if (isset($_SESSION['user_id'], $_POST['forename'], $_POST['surname'], $_POST['e
             exit();
         }
     } else {
-        if ($update_stmt = $mysqli->prepare("UPDATE users SET forename = '$forename', surname = '$surname', email = '$email', birthday = '$birthday' WHERE id = '$sessionUserId'")) {
+        if ($update_stmt = $mysqli->prepare("UPDATE users SET forename = '$forename', surname = '$surname', birthday = '$birthday' WHERE id = '$sessionUserId'")) {
             if (!$update_stmt->execute()) {
                 echo json_encode(array('status' => 'updateError'));
                 exit();

@@ -17,6 +17,7 @@ if (isset($_SESSION['user_id'])) {
             exit();
         } else {
             $select_stmt->bind_result($id, $userId, $data, $urlToken, $created);
+            $studies = null;
             while ($select_stmt->fetch()) {
                 $studies[] = array('id' => $id,
                     'userId' => $userId,
