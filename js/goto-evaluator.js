@@ -9,6 +9,14 @@ function goto(url) {
 }
 
 $(document).ready(function () {
+    $('body').on('click', '#btn-imprint', function (event) {
+        event.preventDefault();
+        if (!event.handled) {
+            event.handled = true;
+            gotoImprint();
+        }
+    });
+
     $('body').on('click', '#btn-index', function (event) {
         event.preventDefault();
         if (!event.handled) {
@@ -60,35 +68,39 @@ $(document).ready(function () {
 
 
 function gotoIndex() {
-    goto("index.php");
+    goto('index.php');
+}
+
+function gotoImprint() {
+    goto('imprint.php');
 }
 
 function gotoDashboard() {
-    goto("dashboard-evaluator.php");
+    goto('dashboard-evaluator.php');
 }
 
 function gotoStudies() {
-    goto("studies.php");
+    goto('studies.php');
 }
 
 function gotoProfile() {
-    goto("profile.php");
+    goto('profile.php');
 }
 
 function gotoGestureStyleguides() {
-    goto("gesture-styleguides.php");
+    goto('gesture-styleguides.php');
 }
 
 function gotoGesturesCatalog() {
-    goto("gestures-catalog.php");
+    goto('gestures-catalog.php');
 }
 
 function gotoCreateStudy() {
-    goto("study-create.php");
+    goto('study-create.php');
 }
 
 function gotoCreateStudyPreview() {
-    goto("study-preview.php");
+    goto('study-preview.php');
 }
 
 function getQueryParams(qs) {

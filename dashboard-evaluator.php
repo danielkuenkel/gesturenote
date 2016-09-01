@@ -18,14 +18,14 @@ if (login_check($mysqli) == true) {
         <title>GestureNote</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-        <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-        <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="js/alert.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/ajax.js"></script>
@@ -66,7 +66,7 @@ if (login_check($mysqli) == true) {
                 <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-studies">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> Studien</div>
-                        <div class="panel-body">Panel Body</div>
+                        <div class="panel-body">Katalog Ihrer erstellen und durchgeführten Gesten-Designstudien</div>
                         <div class="panel-footer">
                             <button type="button" class="btn btn-success btn-block" id="btn-create-study"><i class="glyphicon glyphicon-plus"></i> Neue Studie erstellen</button>
                         </div>
@@ -75,8 +75,8 @@ if (login_check($mysqli) == true) {
                 <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-styleguides">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-map-signs" aria-hidden="true"></i> Gesten Styleguides</div>
-                        <div class="panel-body">Panel Body</div>
-                        <div class="panel-footer">Panel Footer</div>
+                        <div class="panel-body"></div>
+                        <!--<div class="panel-footer">Panel Footer</div>-->
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
@@ -104,6 +104,7 @@ if (login_check($mysqli) == true) {
 
         <script>
             $(document).ready(function () {
+                checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);

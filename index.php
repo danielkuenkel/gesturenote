@@ -18,13 +18,13 @@ if (login_check($mysqli) == true) {
         <title>GestureNote</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-        <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-        <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/checkForms.js"></script>
         <script type="text/JavaScript" src="js/ajax.js"></script>
@@ -230,7 +230,7 @@ if (login_check($mysqli) == true) {
                 <div class="col-sm-6 col-sm-pull-6 col-md-6" id="about">
                     <div class="info">
                         <div class="page-header">
-                            <h2><i class="glyphicon glyphicon-info-sign icon-lg"></i> Was ist GestureNote?</h2>
+                            <h2>WAS IST GESTURENOTE?</h2>
                         </div>
                         <div class="info-text">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -288,8 +288,7 @@ if (login_check($mysqli) == true) {
         <!-- Container (Services Section) -->
         <div id="services" class="container-fluid text-center bg-grey">
             <div class="container">
-                <h2>SERVICES</h2>
-                <h4>Was bietet GestureNote</h4>
+                <h2>WAS BIETET GESTURENOTE?</h2>
                 <br>
                 <div class="row">
                     <div class="col-sm-4">
@@ -298,7 +297,7 @@ if (login_check($mysqli) == true) {
                         <p>Befragen Sie einfach und umkompliziert ihre Zielgruppe - Weltweit!</p>
                     </div>
                     <div class="col-sm-4">
-                        <span class="glyphicon glyphicon-lock logo-small"></span>
+                        <span class="fa fa-sign-language logo-small" style="font-size: 50px"></span>
                         <h4>DESIGN VON GESTEN</h4>
                         <p>Die Designphasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluierung</em> werden unterstützt.</p>
                     </div>
@@ -308,7 +307,7 @@ if (login_check($mysqli) == true) {
                         <p>Schnelle und einfache Erstellung von Leitfäden.</p>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top: 30px;">
                     <div class="col-sm-4">
                         <span class="glyphicon glyphicon-leaf logo-small"></span>
                         <h4>MESSINSTRUMENTE</h4>
@@ -324,7 +323,19 @@ if (login_check($mysqli) == true) {
                         <h4>AKTUELLE TECHNOLOGIEN</h4>
                         <p>Einsatz von AJAX, WebRTC und aktuellen Frameworks.</p>
                     </div>
-                </div><br/><br/>
+                </div>
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <i class="fa fa-lock logo-small" style="font-size: 50px"></i>
+                        <h4>SSL VERSCHLÜSSELUNG</h4>
+                        <p>
+                            <a href="https://www.positivessl.com" style="font-family: arial; font-size: 10px; color: #212121; text-decoration: none;"><img src="https://www.positivessl.com/images-new/PositiveSSL_tl_trans.png" alt="SSL Certificate" title="SSL Certificate" border="0" /></a>
+                            <!--<div style="font-family: arial;font-weight:bold;font-size:15px;color:#86BEE0;"><a href="https://www.positivessl.com" style="color:#86BEE0; text-decoration: none;">SSL Certificate</a></div>-->
+                        </p>
+                    </div>
+
+                </div>
+                <br/><br/>
                 <div class="row">
                     <button class="btn btn-gn">Hier mehr erfahren</button>
                 </div>
@@ -338,10 +349,23 @@ if (login_check($mysqli) == true) {
                 <h2>KONTAKT</h2>
                 <div class="row">
                     <div class="col-sm-5">
-                        <p>Contact us and we'll get back to you within 24 hours.</p>
-                        <p><span class="glyphicon glyphicon-map-marker"></span> Hochschule Fulda - University of Applied Sciences, 36037 Fulda, Germany</p>
-                        <!--<p><span class="glyphicon glyphicon-phone"></span> +00 1515151515</p>-->
-                        <p><span class="glyphicon glyphicon-envelope"></span> Daniel.Kuenkel@informatik.hs-fulda.de</p>	   
+                        <p>Lob, Kritik, Ideen oder Visionen. Kontaktieren Sie uns einfach, denn Ihre Meinung ist uns wichtig! Wir freuen uns auf Sie.</p>
+                        <div class="row">
+                            <div class="col-xs-1">
+                                <i class="glyphicon glyphicon-map-marker"></i>
+                            </div>
+                            <div class="col-xs-11">
+                                <p> Hochschule Fulda - University of Applied Sciences<br>
+                                    Leipziger Straße 123, 36037 Fulda, Germany</p>
+                            </div>
+                            <div class="col-xs-1">
+                                <i class="glyphicon glyphicon-envelope"></i>
+                            </div>
+                            <div class="col-xs-11">
+                                <p> <a href="mailto:Daniel.Kuenkel@informatik.hs-fulda.de">Daniel.Kuenkel@informatik.hs-fulda.de</a></p>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-sm-7">
                         <div class="row">
@@ -349,10 +373,10 @@ if (login_check($mysqli) == true) {
                                 <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
                             </div>
                             <div class="col-sm-6 form-group">
-                                <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+                                <input class="form-control" id="email" name="email" placeholder="E-Mail-Adresse" type="email" required>
                             </div>
                         </div>
-                        <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+                        <textarea class="form-control" id="comments" name="comments" placeholder="Was möchten Sie uns mitteilen?" rows="5"></textarea><br>
                         <div class="row">
                             <div class="col-sm-12">
                                 <button type="button" class="btn btn-gn pull-right disabled" id="btn-send-feedback"><i class="fa fa-paper-plane" aria-hidden="true"></i> Senden</button>
@@ -366,7 +390,7 @@ if (login_check($mysqli) == true) {
         <div id="googleMap" style="height:400px;width:100%;"></div>
 
         <!-- Add Google Maps -->
-        <script src="http://maps.googleapis.com/maps/api/js?AIzaSyCJq3GgzBj-Mxa5q5VT6krtn0Nj2Dj0weM"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzo6c0KN02aScKccnj-Cs7JD00gcLYkZA"></script>
         <script>
             var myCenter = new google.maps.LatLng(50.564726, 9.685376);
 
@@ -409,8 +433,7 @@ if (login_check($mysqli) == true) {
                     </div>
                     <div class="col-xs-7">
                         <ul class="nav nav-pills navbar-right">
-                            <li role="presentation"><a href="#">forgot password</a></li>
-                            <li role="presentation"><a href="#">imprint</a></li>
+                            <li role="presentation"><a href="imprint.php" class="no-scrolling">IMPRESSUM</a></li>
                         </ul>
                     </div>
                 </div>
@@ -420,6 +443,7 @@ if (login_check($mysqli) == true) {
 
         <script>
             $(document).ready(function () {
+                checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
@@ -430,22 +454,22 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 // Add smooth scrolling to all links in navbar + footer link
                 $(".navbar a, footer a[href='#pageBody']").on('click', function (event) {
+                    if (!$(this).hasClass('no-scrolling')) {
+                        event.preventDefault();
 
-                    // Prevent default anchor click behavior
-                    event.preventDefault();
+                        // Store hash
+                        var hash = this.hash;
 
-                    // Store hash
-                    var hash = this.hash;
+                        // Using jQuery's animate() method to add smooth page scroll
+                        // The optional number (400) specifies the number of milliseconds it takes to scroll to the specified area
+                        $('html, body').animate({
+                            scrollTop: $(hash).offset().top - 50
+                        }, 400, function () {
 
-                    // Using jQuery's animate() method to add smooth page scroll
-                    // The optional number (400) specifies the number of milliseconds it takes to scroll to the specified area
-                    $('html, body').animate({
-                        scrollTop: $(hash).offset().top
-                    }, 400, function () {
-
-                        // Add hash (#) to URL when done scrolling (default click behavior)
-                        window.location.hash = hash;
-                    });
+                            // Add hash (#) to URL when done scrolling (default click behavior)
+                            window.location.hash = hash;
+                        });
+                    }
                 });
             }
 

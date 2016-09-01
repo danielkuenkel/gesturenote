@@ -25,8 +25,8 @@ if (login_check($mysqli) == true) {
         <link rel="stylesheet" href="css/study-preview.css">
         <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-        <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-        <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -34,7 +34,7 @@ if (login_check($mysqli) == true) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
-        <script src="http://chancejs.com/chance.min.js"></script>
+        <script src="https://chancejs.com/chance.min.js"></script>
         <script src="color-thief/color-thief.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
@@ -178,6 +178,7 @@ if (login_check($mysqli) == true) {
         <script>
             var currentView;
             $(document).ready(function () {
+                checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
                     var path = PATH_EXTERNALS + '/' + currentLanguage + '/';

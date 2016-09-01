@@ -26,8 +26,8 @@ if (login_check($mysqli) == true) {
         <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="bootstrap-datepicker/css/bootstrap-datepicker3.css">
-        <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-        <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
         <link rel="stylesheet" href="bootstrap-slider/css/bootstrap-slider.css">
 
@@ -36,7 +36,7 @@ if (login_check($mysqli) == true) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
-        <script src="http://chancejs.com/chance.min.js"></script>
+        <script src="https://chancejs.com/chance.min.js"></script>
 
         <script src="bootstrap-slider/js/bootstrap-slider.js"></script>
         <script src="bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
@@ -467,6 +467,7 @@ if (login_check($mysqli) == true) {
 
         <script>
             $(document).ready(function () {
+                checkDomain();
                 checkLanguage(function () {
                     createRandomColors();
 

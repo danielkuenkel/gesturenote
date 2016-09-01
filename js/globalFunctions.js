@@ -4,6 +4,11 @@
  * and open the template in the editor.
  */
 
+function checkDomain() {
+    if (location.hostname.includes("www.gesturenote.de")) {
+        location.href = "http://gesturenote.com";
+    }
+}
 
 function showCursor(target, cursor) {
     $(target).css({cursor: cursor});
@@ -26,12 +31,16 @@ function sortByKey(array, key, reverse) {
     });
 }
 
-function renderSubPageElements() {
+function renderSubPageElements(hasTopNavbar) {
     var header = $('#header-footer-container').find('#sub-page-header').clone().removeAttr('id');
     header.insertBefore($('body').find('#breadcrumb'));
     var footer = $('#header-footer-container').find('#sub-page-footer').clone().removeAttr('id');
     $('body').append(footer);
     footer.find('#btn-imprint').text(translation.imprint);
+
+    if (hasTopNavbar === false) {
+        header.find('.navbar-right').addClass('hidden');
+    }
 }
 
 $(document).on('click', '.select .option li', function (event) {
