@@ -44,17 +44,61 @@ if (login_check($mysqli) == true) {
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
-                    <li class="active">Gestures Styleguides</li>
+                    <li class="active">Gesten-Styleguides</li>
                 </ol>
             </div>
         </div>
 
         <!-- Container (Landing Section) -->
-        <div class=" container-fluid text-center bg-grey" id="landingText">
+        <div class="container-fluid text-center bg-grey" id="landingText">
             <div class="container">
-                <h1><i class="fa fa-map-signs" style="font-size: 60pt" aria-hidden="true"></i> GESTEN STYLEGUIDES</h1>
+                <h1><i class="fa fa-map-signs" style="font-size: 60pt" aria-hidden="true"></i> GESTEN-STYLEGUIDES</h1>
             </div>
         </div>
+
+        <div class="container" id="general-styleguides" style="margin-top: 50px">
+            <h2>Gesten-Designprozess</h2>
+            <hr>
+            <div class="text">
+                Allgemeines zum Designprozess, um die Styleguides zu verstehen.
+            </div>
+        </div>
+
+        <div class="container" id="general-styleguides" style="margin-top: 50px">
+            <h2>Allgemeine Styleguides</h2>
+            <hr>
+            <p>Diese Styleguides beziehen sich auf den Gesten-Designprozess in seiner Gänze. Sie dienen als Wegweiser.</p>
+            <div class="text">
+                <ul>
+                    <li>Ergebnis eines Gestendesigns sind ergnonomische, komfortable und benutzbare (d.h. effiziente, einfache und intuitive) Gesten.</li>
+                    <li>Jede Iteration des Gestendesigns sollte mit Endanwendern durchgeführt werden.</li>
+                    <li>Gesten sollten von Nutzern bewertet werden.</li>
+                    <li>Beim Gestendesign sollten kulturelle Aspekte berücksichtigt werden.</li>
+                    <ul>
+                        <li>Befragung von potentiellen Nutzern aus anderen Gebieten und Kulturen.</li>
+                        <li>Beim Design von statischen Gesten sollte vorsichtig agiert werden, da diese in anderen Kulturen anders aufgefasst werden können.</li>
+                    </ul>
+                    <li>…</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container" id="heuristics-styleguides">
+            <h2 style="margin-top: 40px">Heuristiken</h2>
+            <hr>
+            <p></p>
+            <div class="text">
+
+            </div>
+        </div>
+        <div class="container" id="gus-styleguides" style="margin-bottom: 60px;">
+            <h2 style="margin-top: 40px">Gesture Usability Scale</h2>
+            <hr>
+            <p>Der Gesture Usability Scale (GUS) ist ein Baukasten zum Erstellen von Fragebögen für die subjektive Bewertung der Gebrauchstauglichkeit von Gesten durch den Benutzer. Beim Konfigurieren einer neuen Studie kann der GUS in zwei Varianten genutzt werden. Nachfolgend wird ein Überblick über die einzelnen Items und deren zugrunde liegenden Styleguides gegeben.</p>
+            <div class="text">
+
+            </div>
+        </div>
+
 
         <script>
             $(document).ready(function () {

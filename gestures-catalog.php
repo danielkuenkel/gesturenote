@@ -105,7 +105,7 @@ if (login_check($mysqli) == true) {
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
-                    <li class="active">Gestenkatalog</li>
+                    <li class="active">Gesten-Katalog</li>
                 </ol>
             </div>
         </div>
@@ -113,7 +113,7 @@ if (login_check($mysqli) == true) {
         <!-- Container (Landing Section) -->
         <div class="container-fluid text-center bg-grey">
             <div class="container">
-                <h1><i class="fa fa-sign-language" style="font-size: 60pt" aria-hidden="true"></i> GESTENKATALOG</h1>
+                <h1><i class="fa fa-sign-language" style="font-size: 60pt" aria-hidden="true"></i> GESTEN-KATALOG</h1>
                 <p>Hier werden alle Gesten, die veröffentlicht wurden angezeigt. Zusätzlich werden hier auch die Gesten aufgelistet, die für eine Studie aufgezeichnet wurden, sei es vom Studien-Ersteller oder von einer Testperson. Private Gesten, z.B. von anderen Moderatoren werden dagegen nicht aufgelistet.</p>
                 <p>Von anderen Moderatoren veröffentlichte Gesten können bewertet werden. Des Weiteren gibt es die Möglichkeit, über die Geste zu diskutieren.</p>
             </div>
