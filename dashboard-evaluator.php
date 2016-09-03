@@ -53,9 +53,9 @@ if (login_check($mysqli) == true) {
         <!-- Container (Landing Section) -->
         <div class=" container-fluid text-center bg-grey" id="landingText">
             <div class="container">
-                <h1><i class="fa fa-tachometer" style="font-size: 60pt" aria-hidden="true"></i> DASHBOARD</h1>
+                <h1><i class="fa fa-tachometer" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase"><?php echo $lang->dashboard->dashboard ?></span></h1>
                 <h2><?php echo htmlentities($_SESSION['forename']) . ' ' . htmlentities($_SESSION['surname']); ?></h2>
-                <p>Um fortzufahren wählen Sie bitte aus einer der unten stehenden Kategorien.</p>
+                <p><?php echo $lang->dashboard->dashboardInfo ?></p>
             </div>
         </div>
 
@@ -65,23 +65,23 @@ if (login_check($mysqli) == true) {
             <div class="row">
                 <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-studies">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> Studien</div>
-                        <div class="panel-body">Katalog Ihrer erstellen und durchgeführten Gesten-Designstudien</div>
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->dashboard->studies ?></div>
+                        <div class="panel-body"><?php echo $lang->dashboard->studiesPanelBody ?></div>
                         <div class="panel-footer">
-                            <button type="button" class="btn btn-success btn-block" id="btn-create-study"><i class="glyphicon glyphicon-plus"></i> Neue Studie erstellen</button>
+                            <button type="button" class="btn btn-success btn-block" id="btn-create-study"><i class="glyphicon glyphicon-plus"></i> <span class="btn-text"><?php echo $lang->createNewStudy ?></span></button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-styleguides">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-map-signs" aria-hidden="true"></i> Gesten Styleguides</div>
-                        <div class="panel-body"></div>
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-map-signs" aria-hidden="true"></i> <?php echo $lang->dashboard->gesturesStyleguides ?></div>
+                        <div class="panel-body"><?php echo $lang->dashboard->gesturesStyleguidesPanelBody ?></div>
                         <!--<div class="panel-footer">Panel Footer</div>-->
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-catalog">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-sign-language" aria-hidden="true"></i> Gestenkatalog</div>
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->dashboard->gesturesCatalog ?></div>
                         <div class="panel-body">
                             <div id="total-gestures"><span class="address"></span> <span class="text"></span></div>
                             <div id="public-gestures"><span class="address"></span> <span class="text"></span></div>
@@ -94,8 +94,8 @@ if (login_check($mysqli) == true) {
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-profile">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> Profil</div>
-                        <div class="panel-body">Anzeigen und bearbeiten der Nutzerdaten</div>
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->dashboard->profile ?></div>
+                        <div class="panel-body"><?php echo $lang->dashboard->profilePanelBody ?></div>
                         <!--<div class="panel-footer">Panel Footer</div>-->
                     </div>
                 </div>

@@ -34,6 +34,8 @@ function sortByKey(array, key, reverse) {
 function renderSubPageElements(hasTopNavbar) {
     var header = $('#header-footer-container').find('#sub-page-header').clone().removeAttr('id');
     header.insertBefore($('body').find('#breadcrumb'));
+    header.find('#btn-sign-out .btn-text').text(translation.signOut);
+    
     var footer = $('#header-footer-container').find('#sub-page-footer').clone().removeAttr('id');
     $('body').append(footer);
     footer.find('#btn-imprint').text(translation.imprint);

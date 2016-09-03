@@ -1,4 +1,13 @@
 {
+    "gesturenote": "GestureNote",
+    "gesturenoteSubline": "Spezialisiert auf Usability Engineering für Gesteninteraktionen",
+    "alpha": "alpha",
+    "about": "Über",
+    "services": "Service",
+    "contact": "Kontakt",
+    "signIn": "Einloggen",
+    "signOut": "Ausloggen",
+    "createAccount": "Account anlegen",
     "months": {
         "january": "Januar",
         "february": "Februar",
@@ -40,10 +49,15 @@
     "email": "E-Mail-Adresse",
     "userType": "Kontotyp",
     "birthday": "Geburtstag",
+    "birthdate": "Geburtsdatum",
     "password": "Passwort",
+    "passwordConfirm": "Passwort wiederholen",
+    "forgotPassword": "Passwort vergessen",
     "currentPassword": "Aktuelles Passwort",
     "newPassword": "Neues Passwort",
     "confirmNewPassword": "Neues Passwort wiederholen",
+    "signInAndRegister": "Einloggen & Registrieren",
+    "register": "Registrieren",
     "userRegistered": "Registriert seit",
     "editProfile": "Daten bearbeiten",
     "updateProfile": "Profildaten aktualisieren",
@@ -53,15 +67,28 @@
     "next": "Weiter",
     "previous": "Zurück",
     "maximum": "Maximum",
-    "gender": {
+    "gender": "Geschlecht",
+    "genders": {
         "identical": "Alle Personen",
         "female": "Frauen",
         "male": "Männer"
     },
-    "genderRegister": {
+    "gendersRegister": {
         "female": "Weiblich",
         "male": "Männlich"
     },
+    "dashboard": {
+        "dashboard": "dashboard",
+        "dashboardInfo": "Um fortzufahren wählen Sie bitte aus einer der unten stehenden Kategorien.",
+        "studies": "Studien",
+        "studiesPanelBody": "Katalog Ihrer erstellen und durchgeführten Gesten-Designstudien",
+        "gesturesStyleguides": "Gesten-Styleguides",
+        "gesturesStyleguidesPanelBody": "Erfahren Sie, welchen Kriterien gebrauchstaugliche Gesten unterliegen",
+        "gesturesCatalog": "Gesten-Katalog",
+        "profile": "Profil",
+        "profilePanelBody": "Anzeigen und bearbeiten der Nutzerdaten"
+    },
+    "createNewStudy": "Neue Studie erstellen",
     "formats": {
         "questionnaire": "Fragebogen",
         "gus": "GUS (einzelne Geste)",

@@ -52,18 +52,18 @@ if (login_check($mysqli) == true) {
                                 </div>-->
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#about">ABOUT</a></li>
-                        <li><a href="#services">SERVICES</a></li>
-                        <li><a href="#contact">CONTACT</a></li>
-                        <li><a href="#login"><span class="glyphicon glyphicon-log-in"></span> SIGN IN</a></li>
+                        <li><a href="#about"><span class="btn-text uppercase"><?php echo $lang->about ?></span></a></li>
+                        <li><a href="#services"><span class="btn-text uppercase"><?php echo $lang->services ?></span></a></li>
+                        <li><a href="#contact"><span class="btn-text uppercase"><?php echo $lang->contact ?></span></a></li>
+                        <li><a href="#login"><span class="glyphicon glyphicon-log-in"></span> <span class="btn-text uppercase"><?php echo $lang->signIn ?></span></a></li>
                     </ul>
                 </div>
             </div>
         </nav>
 
         <div class="jumbotron text-center">
-            <div><h1><i class="glyphicon glyphicon-stats"></i> GestureNote <sup><span class="label label-success" style="position: relative; font-size: 8pt; top: -15px">ALPHA</span></sup></h1></div>
-            <p>Specialized in usability engineering for gesture interaction</p> 
+            <div><h1><i class="glyphicon glyphicon-stats"></i> <?php echo $lang->gesturenote ?> <sup><span class="label label-success uppercase" style="position: relative; font-size: 8pt; top: -15px"><?php echo $lang->alpha ?></span></sup></h1></div>
+            <p><?php echo $lang->gesturenoteSubline ?></p> 
         </div>
         <div class="line text-center" data-spy="affix" data-offset-top="376"></div>
 
@@ -74,7 +74,7 @@ if (login_check($mysqli) == true) {
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Account anlegen</h4>
+                        <h4 class="modal-title"><?php echo $lang->createAccount ?></h4>
                     </div>
                     <div class="modal-body">
                         <div class="alert-space alert-general-error"></div>
@@ -83,11 +83,11 @@ if (login_check($mysqli) == true) {
 
                         <div id="register-form">
                             <div class="form-group">
-                                <label for="forename">Vorname</label>
+                                <label for="forename"><?php echo $lang->forename ?></label>
                                 <input type="text" class="form-control" name="forename" id="forename" placeholder="">
                             </div>
                             <div class="form-group">
-                                <label for="surname">Nachname</label>
+                                <label for="surname"><?php echo $lang->surname ?></label>
                                 <input type="text" class="form-control" name="surname" id="surname" placeholder="">
                             </div>
 
@@ -95,7 +95,7 @@ if (login_check($mysqli) == true) {
                             <div class="alert-space alert-invalid-email"></div>
 
                             <div class="form-group">
-                                <label for="email">E-Mail-Adresse</label>
+                                <label for="email"><?php echo $lang->email ?></label>
                                 <input type="email" class="form-control" name="email" id="email" placeholder="">
                             </div>
 
@@ -104,30 +104,30 @@ if (login_check($mysqli) == true) {
                             <div class="alert-space alert-passwords-not-matching"></div>
 
                             <div class="form-group">
-                                <label for="password">Passwort</label>
+                                <label for="password"><?php echo $lang->password ?></label>
                                 <input type="password" class="form-control" name="password" id="password" placeholder="">
                             </div>
                             <div class="form-group">
-                                <label for="confirmPassword">Passwort wiederholen</label>
+                                <label for="confirmPassword"><?php echo $lang->passwordConfirm ?></label>
                                 <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="">
                             </div>
 
                             <div class="alert-space alert-invalid-birthday"></div>
 
                             <div class="form-group">
-                                <label>Geburtsdatum</label>
+                                <label><?php echo $lang->birthdate ?></label>
                                 <div class="input-group">
-                                    <span class="input-group-addon">Tag</span>
+                                    <span class="input-group-addon"><?php echo $lang->day ?></span>
                                     <input class="form-control" id="date" type="text" placeholder="z.B. 1" minlength="1" maxlength="2"/>
-                                    <span class="input-group-addon">Monat</span>
+                                    <span class="input-group-addon"><?php echo $lang->month ?></span>
                                     <input class="form-control" id="month" type="text" placeholder="z.B. 12" minlength="1" maxlength="2"/>
-                                    <span class="input-group-addon">Jahr</span>
+                                    <span class="input-group-addon"><?php echo $lang->year ?></span>
                                     <input class="form-control" id="year" type="text" placeholder="z.B. 1980" minlength="4" maxlength="4"/>
                                 </div>
                             </div>
 
                             <div class="form-group root" id="gender">
-                                <label>Geschlecht</label><br>
+                                <label><?php echo $lang->gender ?></label><br>
 
                                 <div class="btn-group" id="radio">
                                     <button class="btn btn-default btn-radio" name="primary" id="female">
@@ -136,7 +136,7 @@ if (login_check($mysqli) == true) {
                                             <i class="fa fa-circle hidden" id="over"></i>
                                             <i class="fa fa-check-circle hidden" id="checked"></i>
                                         </span>
-                                        <span class="option-text"><?php echo $lang->genderRegister->female ?></span>
+                                        <span class="option-text"><?php echo $lang->gendersRegister->female ?></span>
                                     </button>
                                 </div>
 
@@ -147,14 +147,14 @@ if (login_check($mysqli) == true) {
                                             <i class="fa fa-circle hidden" id="over"></i>
                                             <i class="fa fa-check-circle hidden" id="checked"></i>
                                         </span>
-                                        <span class="option-text"><?php echo $lang->genderRegister->male ?></span>
+                                        <span class="option-text"><?php echo $lang->gendersRegister->male ?></span>
                                     </button>
                                 </div>
 
                             </div>
 
                             <div class="form-group root" id="userType">
-                                <label>Kontotyp</label><br>
+                                <label><?php echo $lang->userType ?></label><br>
 
                                 <div class="btn-group" id="radio">
                                     <button class="btn btn-default btn-radio" name="primary" id="tester">
@@ -182,8 +182,8 @@ if (login_check($mysqli) == true) {
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-block btn-lg btn-success hidden" id="btn-close">Schließen</button>
-                        <button type="button" class="btn btn-block btn-lg btn-gn" id="btn-register">Registrieren</button>
+                        <button type="button" class="btn btn-block btn-success hidden" id="btn-close"><span class="btn-text"><?php echo $lang->close ?></span></button>
+                        <button type="button" class="btn btn-block btn-gn" id="btn-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>
                     </div>
                 </div>
             </div>
@@ -197,7 +197,7 @@ if (login_check($mysqli) == true) {
                 <div class="col-sm-6 col-sm-push-6 col-md-6" style="margin-top: 40px;">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h2 class="panel-title">Einloggen & Registrieren</h2>
+                            <h2 class="panel-title"><?php echo $lang->signInAndRegister ?></h2>
                         </div>
                         <div class="panel-body">
 
@@ -209,17 +209,17 @@ if (login_check($mysqli) == true) {
 
                             <div id="login-form">
                                 <div class="form-group">
-                                    <label for="email">E-Mail:</label>
+                                    <label for="email"><?php echo $lang->email ?></label>
                                     <input type="text" class="form-control" name="email" value="" id="email">
                                 </div>
                                 <div class="form-group">
-                                    <label for="password">Password:</label>
+                                    <label for="password"><?php echo $lang->password ?></label>
                                     <input type="password" class="form-control" name="password" value="" id="password">
                                 </div>
                                 <div class="btn-group-vertical btn-block">
-                                    <button type="button" class="btn btn-success" id="btn-login"><i class="glyphicon glyphicon-log-in"></i> Einloggen</button>
-                                    <button type="button" class="btn btn-primary disabled" id="btn-forgot"><i class="glyphicon glyphicon-time"></i> Passwort vergessen</button>
-                                    <button type="button" class="btn btn-gn" id="btn-open-register">Registrieren</button>
+                                    <button type="button" class="btn btn-success" id="btn-login"><i class="glyphicon glyphicon-log-in"></i> <span class="btn-text"><?php echo $lang->signIn ?></button>
+                                    <button type="button" class="btn btn-primary disabled" id="btn-forgot"><i class="glyphicon glyphicon-time"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
+                                    <button type="button" class="btn btn-gn" id="btn-open-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>
                                 </div>
                             </div>
                         </div>
@@ -244,47 +244,6 @@ if (login_check($mysqli) == true) {
         </div>
 
 
-        <!--        <div class="container-fluid bg-grey" id="about">
-                    <div class="container">
-                        <div class="col-sm-4">
-                            <i class="glyphicon glyphicon-info-sign" style="font-size: 220pt; color: #f6f6f6; text-shadow: -3px -3px rgba(0,0,0,0.1);"></i>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="info">
-                                <div class="page-header">
-                                    <h2>About GestureNote</h2>
-                                </div>
-                                <div class="info-text">
-                                    <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                </div>
-                            </div>
-                        </div>
-        
-        
-                    </div>
-                </div>
-        
-                <div class="container-fluid">
-                    <div class="container">
-                        <div class="col-sm-4">
-                            <i class="glyphicon glyphicon-star" style="font-size: 220pt; color: #fff; text-shadow: -3px -3px rgba(0,0,0,0.1);"></i>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="info">
-                                <div class="page-header">
-                                    <h2>Warum GestureNote?</h2>
-                                </div>
-                                <div class="info-text">
-                                    <p><strong>MISSION:</strong> Mit GestureNote möchten wir die Erforschung und Verbreitung von Gesteninteraktionen aus der Nische holen.</p><br>
-                                    <p><strong>VISION:</strong> Es ist immer noch sehr mühsam und aufwendig Gestendesignstudien durchzuführen. Sei es die Erstellung von geeigneten Fragebögen oder die Durchführung der Befragung. Gesture bietet alles, was ein Gestendesigner für eine erste wichtige Machbarkeitsstudie im Kontext von Gesteninteraktionen benötigt. Darüber hinaus stellt GestureNote komfortable und flexibel anpasspare Messinstrumente für Gestenstudien bereit.</p>
-                                </div>
-                            </div>
-        
-                        </div>
-                    </div>
-                </div>-->
-
         <!-- Container (Services Section) -->
         <div id="services" class="container-fluid text-center bg-grey">
             <div class="container">
@@ -292,34 +251,35 @@ if (login_check($mysqli) == true) {
                 <br>
                 <div class="row">
                     <div class="col-sm-4">
-                        <span class="glyphicon glyphicon-off logo-small"></span>
+                        <i class="fa fa-users logo-small" style="font-size: 50px"></i>
                         <h4>REMOTE USABILITY TESTS</h4>
                         <p>Befragen Sie einfach und umkompliziert ihre Zielgruppe - Weltweit!</p>
                     </div>
                     <div class="col-sm-4">
-                        <span class="fa fa-sign-language logo-small" style="font-size: 50px"></span>
+                        <i class="fa fa-sign-language logo-small" style="font-size: 50px"></i>
                         <h4>DESIGN VON GESTEN</h4>
                         <p>Die Designphasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluierung</em> werden unterstützt.</p>
                     </div>
                     <div class="col-sm-4">
-                        <span class="glyphicon glyphicon-heart logo-small"></span>
+                        <i class="fa fa-pencil logo-small" style="font-size: 50px"></i>
                         <h4>EINFACHE PROJEKTERSTELLUNG</h4>
                         <p>Schnelle und einfache Erstellung von Leitfäden.</p>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 30px;">
                     <div class="col-sm-4">
-                        <span class="glyphicon glyphicon-leaf logo-small"></span>
+                        <i class="fa fa-archive logo-small" style="font-size: 50px"></i>
+
                         <h4>MESSINSTRUMENTE</h4>
                         <p>Gesture Usability Scales, Beobachtungsleitfäden, etc. Speziell entwickelt für Gesteninteraktionen.</p>
                     </div>
                     <div class="col-sm-4">
-                        <span class="glyphicon glyphicon-certificate logo-small"></span>
-                        <h4>GUIDELINES</h4>
-                        <p>Sie wissen nicht weiter? Wir bieten Ihnen Guidelines für gute Gesten an.</p>
+                        <i class="fa fa-map-signs logo-small" style="font-size: 50px"></i>
+                        <h4>STYLEGUIDES</h4>
+                        <p>Sie wissen nicht weiter? GestureNote bietet Styleguides für gebrauchstaugliche Gesten.</p>
                     </div>
                     <div class="col-sm-4">
-                        <span class="glyphicon glyphicon-wrench logo-small"></span>
+                        <i class="fa fa-wrench logo-small" style="font-size: 50px"></i>
                         <h4>AKTUELLE TECHNOLOGIEN</h4>
                         <p>Einsatz von AJAX, WebRTC und aktuellen Frameworks.</p>
                     </div>
@@ -330,14 +290,13 @@ if (login_check($mysqli) == true) {
                         <h4>SSL VERSCHLÜSSELUNG</h4>
                         <p>
                             <a href="https://www.positivessl.com" style="font-family: arial; font-size: 10px; color: #212121; text-decoration: none;"><img src="https://www.positivessl.com/images-new/PositiveSSL_tl_trans.png" alt="SSL Certificate" title="SSL Certificate" border="0" /></a>
-                            <!--<div style="font-family: arial;font-weight:bold;font-size:15px;color:#86BEE0;"><a href="https://www.positivessl.com" style="color:#86BEE0; text-decoration: none;">SSL Certificate</a></div>-->
                         </p>
                     </div>
 
                 </div>
                 <br/><br/>
                 <div class="row">
-                    <button class="btn btn-gn">Hier mehr erfahren</button>
+                    <button class="btn btn-gn"><i class="fa fa-info-circle" aria-hidden="true"></i> <span class="btn-text">Hier mehr erfahren</span></button>
                 </div>
             </div>
         </div>
@@ -362,7 +321,7 @@ if (login_check($mysqli) == true) {
                                 <i class="glyphicon glyphicon-envelope"></i>
                             </div>
                             <div class="col-xs-11">
-                                <p> <a href="mailto:Daniel.Kuenkel@informatik.hs-fulda.de">Daniel.Kuenkel@informatik.hs-fulda.de</a></p>
+                                <p> <a href="mailto:danielkuenkel@gesturenote.de">danielkuenkel@gesturenote.de</a></p>
                             </div>
                         </div>
 
@@ -389,7 +348,7 @@ if (login_check($mysqli) == true) {
 
         <div id="googleMap" style="height:400px;width:100%;"></div>
 
-        <!-- Add Google Maps -->
+        <!-- Google Maps -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzo6c0KN02aScKccnj-Cs7JD00gcLYkZA"></script>
         <script>
             var myCenter = new google.maps.LatLng(50.564726, 9.685376);
@@ -419,7 +378,7 @@ if (login_check($mysqli) == true) {
             <a href="#pageBody" title="To Top">
                 <span class="glyphicon glyphicon-chevron-up"></span>
             </a>
-            <p>test</p>		
+            <p><a href="#pageBody">nach oben</a></p>		
         </footer>
 
         <!-- Fixed Footer -->
@@ -598,14 +557,6 @@ if (login_check($mysqli) == true) {
             function resetAlerts() {
                 $('.alert-space').empty();
             }
-
-//            function showAlert(target, type) {
-//                resetAlerts();
-//                enableInputs();
-//                appendAlert(target, type);
-//            }
-
-
         </script>
 
     </body>
