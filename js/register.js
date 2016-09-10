@@ -27,13 +27,14 @@ $(document).on('click', '#modal-register #btn-close', function (event) {
 $(document).on('click', '#btn-register', function (event) {
     event.preventDefault();
     if (!$(this).hasClass('disabled')) {
+        clearAlerts($('#register-form'));
         registerFormhash($('#register-form'));
     }
 });
 
 $(document).on('submit', '#register-form', function (event) {
     event.preventDefault();
-    
+
     disableInputs();
     var formElement = $(this);
     clearAlerts(formElement);

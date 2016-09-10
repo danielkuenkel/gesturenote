@@ -80,11 +80,12 @@ if (login_check($mysqli) == true) {
                         <h4 class="modal-title"><?php echo $lang->createAccount ?></h4>
                     </div>
                     <div class="modal-body">
-                        <div class="alert-space alert-general-error"></div>
-                        <div class="alert-space alert-missing-fields"></div>
-                        <div class="alert-space alert-register-success"></div>
 
                         <div id="register-form">
+                            <div class="alert-space alert-general-error"></div>
+                            <div class="alert-space alert-missing-fields"></div>
+                            <div class="alert-space alert-register-success"></div>
+
                             <div class="form-group">
                                 <label for="forename"><?php echo $lang->forename ?></label>
                                 <input type="text" class="form-control" name="forename" id="forename" placeholder="">
@@ -204,13 +205,13 @@ if (login_check($mysqli) == true) {
                         </div>
                         <div class="panel-body">
 
-                            <div class="alert-space alert-general-error"></div>
-                            <div class="alert-space alert-missing-fields"></div>
-                            <div class="alert-space alert-account-logged"></div>
-                            <div class="alert-space alert-wrong-password"></div>
-                            <div class="alert-space alert-no-user-exists"></div>
-
                             <div id="login-form">
+                                <div class="alert-space alert-general-error"></div>
+                                <div class="alert-space alert-missing-fields"></div>
+                                <div class="alert-space alert-account-logged"></div>
+                                <div class="alert-space alert-wrong-password"></div>
+                                <div class="alert-space alert-no-user-exists"></div>
+
                                 <div class="form-group">
                                     <label for="email"><?php echo $lang->email ?></label>
                                     <input type="text" class="form-control" name="email" value="" id="email">

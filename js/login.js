@@ -9,6 +9,7 @@ $(document).on('click', '#btn-login', function (event) {
     event.preventDefault();
     if (!$(this).hasClass('disabled')) {
         form = 'login';
+        clearAlerts($('#login-form'));
         loginFormhash($('#login-form'), $('#login-form #email'), $('#login-form #password'));
     }
 });
@@ -17,6 +18,7 @@ $(document).on('click', '#btn-forgot', function (event) {
     event.preventDefault();
     if (!$(this).hasClass('disabled')) {
         form = 'forgot';
+        clearAlerts($('#login-form'));
         forgotFormhash($('#login-form'), $('#login-form #email'));
     }
 });
