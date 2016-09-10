@@ -20,10 +20,9 @@ include './includes/language.php';
         <script src="js/constants.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
+        <script src="js/goto-general.js"></script>
         <script src="js/goto-evaluator.js"></script>
         <script src="js/globalFunctions.js"></script>
-        <!--<script src="js/sha512.js"></script>-->
-        <!--<script src="js/checkForms.js"></script>-->
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 

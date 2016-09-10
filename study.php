@@ -35,6 +35,7 @@ if (login_check($mysqli) == true) {
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
+        <script src="js/goto-general.js"></script>
         <script src="js/goto-evaluator.js"></script>
         <script src="js/gesture.js"></script>
         <script src="js/joint-selection.js"></script>
@@ -66,10 +67,10 @@ if (login_check($mysqli) == true) {
         <div class="container" id="breadcrumb">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
-                    <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
-                    <li><a class="breadcrump-btn" id="btn-studies">Studien</a></li>
-                    <li class="active">Studie</li>
+                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-studies"><?php echo $lang->breadcrump->studies ?></a></li>
+                    <li class="active"><?php echo $lang->breadcrump->study ?></li>
                 </ol>
             </div>
         </div>
@@ -88,7 +89,7 @@ if (login_check($mysqli) == true) {
             <hr>
             <div class="label label-default" id="type-phase"></div>
             <div class="label label-default" id="type-survey"></div>
-            <div class="label label-default hidden" id="panel-survey">Panel-Befragung</div>
+            <div class="label label-default hidden" id="panel-survey"><?php echo $lang->panelSurvey ?></div>
 
             <div class="row" style="margin-top: 20px">
                 <div class="col-sm-6 col-lg-7">
@@ -110,6 +111,17 @@ if (login_check($mysqli) == true) {
                         <button class="btn btn-default btn-shadow" type="button" id="btn-edit-study"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text">Studie bearbeiten</span></button>
                         <button class="btn btn-default btn-shadow" type="button" id="btn-preview-study"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text">Vorschau der Studie</span></button>
                         <button class="btn btn-default btn-shadow" type="button" id="btn-delete-study"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text">Studie löschen</span></button>
+                        <button class="btn btn-default btn-shadow" type="button" id="btn-prepare-study"><i class="fa fa-inbox" aria-hidden="true"></i> <span class="btn-text">Studie durchführen</span></button>
+                    </div>
+                </div>
+
+                <div class="col-sm-12" style="margin-top: 20px;" id="copy-to-clipboard">
+                    <div class="input-group">
+                        <div class="input-group-addon">Studien-URL</div>
+                        <input type="text" class="form-control" id="static-study-url">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default btn-shadow" type="button" id="btn-open-static-study-url"><i class="fa fa-external-link" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -178,7 +190,6 @@ if (login_check($mysqli) == true) {
 
                 if (query.studyId && query.h === hash) {
                     getStudyById({studyId: query.studyId}, function (result) {
-                        console.log(result);
                         if (result.status === RESULT_SUCCESS) {
                             if (result.data) {
                                 renderData(result);
@@ -205,8 +216,7 @@ if (login_check($mysqli) == true) {
                     $('.panel-survey .address').text(translation.panelSurvey + ":");
                     var ageFrom = studyData.generalData.ageRange.split(',')[0];
                     var ageTo = studyData.generalData.ageRange.split(',')[1];
-                    console.log(studyData.generalData);
-                    $('.panel-survey .text').text(translation.gender[studyData.generalData.gender] + " " + translation.of + " " + ageFrom + " " + translation.to + " " + ageTo);
+                    $('.panel-survey .text').text(translation.genders[studyData.generalData.gender] + " " + translation.of + " " + ageFrom + " " + translation.to + " " + ageTo);
                 }
 
                 // date range view
@@ -236,6 +246,37 @@ if (login_check($mysqli) == true) {
                     $('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
                 }
 
+
+                if (studyData.phases && studyData.phases.length > 0 &&
+                        (studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
+                        (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
+
+                    // url copy clipboard view
+                    var absoluteStaticStudyUrl = 'https://gesturenote.de/study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
+                    var relativeStaticStudyUrl = 'study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
+                    $('#static-study-url').val(absoluteStaticStudyUrl);
+                    $('#static-study-url').click(function () {
+                        $('#static-study-url').select();
+                    });
+
+                    // prepare study
+                    if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED &&
+                            now > dateFrom && now < dateTo) {
+                        $('#btn-prepare-study, #btn-open-static-study-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
+                            event.preventDefault();
+                            if (!$(this).hasClass('disabled')) {
+                                goto(event.data.url);
+                            }
+                        });
+                    } else {
+                        $('#btn-prepare-study').remove();
+                    }
+                } else {
+                    $('#copy-to-clipboard').remove();
+                    $('#btn-prepare-study').remove();
+                }
+
+
                 // phase view
                 $('#study-phases .address').text(translation.phases);
                 if (studyData.phases && studyData.phases.length > 0) {
@@ -264,7 +305,7 @@ if (login_check($mysqli) == true) {
 
                         var text = document.createElement('span');
                         $(text).addClass('text');
-                        $(text).text(translation.formats[studyData.phases[i].format]);
+                        $(text).text(translation.formats[studyData.phases[i].format].text);
                         $(step).append(text);
 
                         if (i < studyData.phases.length - 1) {

@@ -10,51 +10,70 @@ var Tester = {
         var currentPhase = getCurrentPhase();
         var currentPhaseData = getCurrentPhaseData();
         var source = getSourceContainer(currentView);
-//        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
-        var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
-        var item = null;
-        switch (currentPhase.format) {
-            case QUESTIONNAIRE:
-                item = Tester.getQuestionnaire(container, currentPhaseData);
-                break;
-            case GUS_SINGLE_GESTURES:
-                item = Tester.getGUS(container, currentPhaseData);
-                break;
-            case GUS_MULTIPLE_GESTURES:
-                item = Tester.getQuestionnaire(container, getAssembledItems(currentPhaseData.gus));
-                break;
-            case SUS:
-                item = Tester.getSUS(source, container, currentPhaseData);
-                break;
-            case GESTURE_TRAINING:
-                item = Tester.getGestureTraining(source, container, currentPhaseData);
-                Tester.appendRTCPreview(source, item.find('#column-left'));
-                break;
-            case LETTER_OF_ACCEPTANCE:
-                item = Tester.getLetterOfAcceptance(container, currentPhaseData);
-                break;
-            case SLIDESHOW_GESTURES:
-                item = Tester.getGestureSlideshow(source, container, currentPhaseData);
-                Tester.appendRTCPreview(source, item.find('#column-left'));
-                break;
-            case SLIDESHOW_TRIGGER:
-                item = Tester.getTriggerSlideshow(source, container, currentPhaseData);
-                break;
-            case SCENARIO:
-                item = Tester.getScenario(source, container, currentPhaseData);
-                Tester.appendRTCPreview(source, item.find('#fixed-rtc-preview'));
-                break;
-            case IDENTIFICATION:
-                item = Tester.getIdentification(source, container, currentPhaseData);
-                break;
-            case PHYSICAL_STRESS_TEST:
-                item = Tester.getPhysicalStressTest(source, container, currentPhaseData);
-                Tester.appendRTCPreview(source, item.find('#column-left'));
-                break;
+
+        if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
+            //        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
+            var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+            var item = null;
+            switch (currentPhase.format) {
+                case QUESTIONNAIRE:
+                    item = Tester.getQuestionnaire(container, currentPhaseData);
+                    break;
+                case GUS_SINGLE_GESTURES:
+                    item = Tester.getGUS(container, currentPhaseData);
+                    break;
+                case GUS_MULTIPLE_GESTURES:
+                    item = Tester.getQuestionnaire(container, getAssembledItems(currentPhaseData.gus));
+                    break;
+                case SUS:
+                    item = Tester.getSUS(source, container, currentPhaseData);
+                    break;
+                case GESTURE_TRAINING:
+                    item = Tester.getGestureTraining(source, container, currentPhaseData);
+                    if (item) {
+                        Tester.appendRTCPreview(source, item.find('#column-left'));
+                    }
+                    break;
+                case LETTER_OF_ACCEPTANCE:
+                    item = Tester.getLetterOfAcceptance(container, currentPhaseData);
+                    break;
+                case SLIDESHOW_GESTURES:
+                    item = Tester.getGestureSlideshow(source, container, currentPhaseData);
+                    if (item) {
+                        Tester.appendRTCPreview(source, item.find('#column-left'));
+                    }
+                    break;
+                case SLIDESHOW_TRIGGER:
+                    item = Tester.getTriggerSlideshow(source, container, currentPhaseData);
+                    break;
+                case SCENARIO:
+                    item = Tester.getScenario(source, container, currentPhaseData);
+                    if (item) {
+                        Tester.appendRTCPreview(source, item.find('#fixed-rtc-preview'));
+                    }
+                    break;
+                case IDENTIFICATION:
+                    item = Tester.getIdentification(source, container, currentPhaseData);
+                    break;
+                case PHYSICAL_STRESS_TEST:
+                    item = Tester.getPhysicalStressTest(source, container, currentPhaseData);
+                    if (item) {
+                        Tester.appendRTCPreview(source, item.find('#column-left'));
+                    }
+                    break;
+            }
+
+            if (item !== false) {
+                $('#viewTester #phase-content').empty().append(item);
+            } else {
+                Tester.renderNoDataView();
+            }
+        } else {
+            Tester.renderNoDataView();
         }
 
-        $('#viewTester #phase-content').empty().append(item);
-        TweenMax.from($('#phase-content'), .2, {y: -60, opacity: 0});
+        $('#viewTester #phase-content').css({y: 0, opacity: 1});
+        TweenMax.from($('#viewTester #phase-content'), .2, {y: -60, opacity: 0});
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
         }
@@ -64,12 +83,8 @@ var Tester = {
     },
     renderNoDataView: function renderNoDataView() {
         var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
-        $('#viewTester #phase-content').empty().append(alert);
+        $('#viewTester #phase-content').append(alert);
         appendAlert(alert, ALERT_NO_PHASE_DATA);
-        TweenMax.from($('#phase-content'), .2, {y: -60, opacity: 0});
-        if ($(document).scrollTop() > 0) {
-            $(document).scrollTop(0);
-        }
     },
     getLetterOfAcceptance: function getLetterOfAcceptance(container, data) {
         $(container).find('.letter-text').text(data);
@@ -187,8 +202,8 @@ var Tester = {
         // general data section
         $(container).find('.headline').text(data.title);
         $(container).find('.description').text(data.description);
+
         if (data.training.length === 0) {
-            appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
             return false;
         }
 
@@ -360,8 +375,8 @@ var Tester = {
         // general data section
         $(container).find('#general .headline').text(data.title);
         $(container).find('#general .description').text(data.description);
+
         if (data.slideshow.length === 0) {
-            appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
             return false;
         }
 
@@ -484,8 +499,8 @@ var Tester = {
         // general data section
         $(container).find('#general .headline').text(data.title);
         $(container).find('#general .description').text(data.description);
+
         if (data.slideshow.length === 0) {
-            appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
             return false;
         }
 
@@ -568,6 +583,10 @@ var Tester = {
         });
     },
     getIdentification: function getIdentification(source, container, data) {
+        if (data.identification.length === 0) {
+            return false;
+        }
+
         // general data section
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             container.append($(source).find('#identificationUnmoderated').clone().removeAttr('id'));
@@ -578,10 +597,6 @@ var Tester = {
 
         $(container).find('.headline').text(data.title);
         $(container).find('.description').text(data.description);
-        if (data.identification.length === 0) {
-            appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-            return false;
-        }
 
         if (identificationStartTriggered) {
             $(container).find('#general').remove();
@@ -677,6 +692,10 @@ var Tester = {
         }
     },
     getPhysicalStressTest: function getPhysicalStressTest(source, container, data) {
+        if (!data.stressTestItems || data.stressTestItems.length === 0) {
+            return false;
+        }
+
         // general data section
         $(container).find('.headline').text(data.title);
         $(container).find('.description').text(data.description);
@@ -832,6 +851,10 @@ var Tester = {
         });
     },
     getScenario: function getScenario(source, container, data) {
+        if (!data.scene || !data.woz) {
+            return false;
+        }
+
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             renderUnmoderatedScenario(source, container, data);
         } else {
@@ -845,7 +868,7 @@ var Tester = {
 function renderSelectionRatingGraphics(item, data) {
     var selectionRating = getSelectionRating(data);
     if (selectionRating !== 'none') {
-        console.log('selectionRating: ' + selectionRating);
+        
         switch (selectionRating) {
             case 'body':
                 $(item).find('#hand-selection-rating').addClass('hidden');

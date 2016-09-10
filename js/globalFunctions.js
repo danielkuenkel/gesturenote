@@ -35,7 +35,12 @@ function renderSubPageElements(hasTopNavbar) {
     var header = $('#header-footer-container').find('#sub-page-header').clone().removeAttr('id');
     header.insertBefore($('body').find('#breadcrumb'));
     header.find('#btn-sign-out .btn-text').text(translation.signOut);
-    
+
+    header.find('#logo').on('click', function (event) {
+        event.preventDefault();
+        gotoIndex();
+    });
+
     var footer = $('#header-footer-container').find('#sub-page-footer').clone().removeAttr('id');
     $('body').append(footer);
     footer.find('#btn-imprint').text(translation.imprint);
@@ -1552,3 +1557,23 @@ $(document).on('click', '.audioPlayer #stop', function (event) {
         audioElement.currentTime = 0;
     }
 });
+
+
+// webRTC specific functions
+function isWebRTCNeeded(phases) {
+    if (phases && phases.length > 0) {
+        for (var i = 0; i < phases.length; i++) {
+            if (translation.formats[phases[i].format].webRTC === 'yes') {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function isWebRTCSupported() {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        return true;
+    }
+    return false;
+}

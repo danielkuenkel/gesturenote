@@ -32,6 +32,7 @@ if (login_check($mysqli) == true) {
         <script src="js/constants.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
+        <script src="js/goto-general.js"></script>
         <script src="js/goto-evaluator.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>

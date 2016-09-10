@@ -14,6 +14,17 @@ function initCheckRecorder(aTarget, rTarget, canSaveGesture) {
     }
 }
 
+
+function resetRecorder() {
+    if (recordRTC) {
+        recordRTC.clearRecordedData();
+    }
+
+    if (liveStream) {
+        liveStream.getVideoTracks()[0].stop();
+    }
+}
+
 function initializeRecorder() {
     clearAlerts(alertTarget);
     resetRecorder();
@@ -25,16 +36,6 @@ function initializeRecorder() {
 function errorCallback(error) {
     alert(error);
     // maybe another application is using the device
-}
-
-function resetRecorder() {
-    if (recordRTC) {
-        recordRTC.clearRecordedData();
-    }
-
-    if (liveStream) {
-        liveStream.getVideoTracks()[0].stop();
-    }
 }
 
 var recordRTC, liveStream;

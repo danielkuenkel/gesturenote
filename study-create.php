@@ -111,6 +111,7 @@ if (login_check($mysqli) == true) {
         <script src="js/language.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/alert.js"></script>
+        <script src="js/goto-general.js"></script>
         <script src="js/goto-evaluator.js"></script>       
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
@@ -162,6 +163,9 @@ if (login_check($mysqli) == true) {
                 </div>-->
 
         <div class="container mainContent">
+
+            <div class="alert-space alert-no-storage-api"></div>
+
             <div class="row">
 
                 <div class="col-sm-12 col-md-7">
@@ -234,8 +238,8 @@ if (login_check($mysqli) == true) {
                     <div class="tab-content hidden tab-catalogs">
 
                         <!-- Use of well/predefined sczenes -->
-                        <div class="form-group">
-                            <div class="btn-group" id="scenes-catalog">
+                        <div class="form-group" id="scenes-catalog">
+                            <div class="btn-group">
                                 <button class="btn btn-default btn-group-addon">Szenen</button>
                                 <button class="btn btn-default btn-shadow" id="btn-clear-scenes">
                                     <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text">Löschen</span>
@@ -247,8 +251,8 @@ if (login_check($mysqli) == true) {
                         </div>
 
                         <!-- Use of well/predefined gestures -->
-                        <div class="form-group">
-                            <div class="btn-group" id="gestures-catalog">
+                        <div class="form-group" id="gestures-catalog">
+                            <div class="btn-group">
                                 <button class="btn btn-default btn-group-addon">Gesten</button>
                                 <button class="btn btn-default btn-shadow hidden" id="btn-clear-study-gestures">
                                     <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text">Löschen</span>
@@ -267,8 +271,8 @@ if (login_check($mysqli) == true) {
                         </div>
 
                         <!-- Use of well/predefined trigger -->
-                        <div class="form-group">
-                            <div class="btn-group" id="trigger-catalog">
+                        <div class="form-group" id="trigger-catalog">
+                            <div class="btn-group">
                                 <button class="btn btn-default btn-group-addon">Funktionen</button>
                                 <button class="btn btn-default btn-shadow" id="btn-clear-trigger">
                                     <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text">Löschen</span>
@@ -280,8 +284,8 @@ if (login_check($mysqli) == true) {
                         </div>
 
                         <!-- Use of well/predefined feedback -->
-                        <div class="form-group">
-                            <div class="btn-group" id="feedback-catalog">
+                        <div class="form-group" id="feedback-catalog">
+                            <div class="btn-group">
                                 <button class="btn btn-default btn-group-addon">Feedback</button>
                                 <button class="btn btn-default btn-shadow" id="btn-clear-feedback">
                                     <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text">Löschen</span>
@@ -306,19 +310,19 @@ if (login_check($mysqli) == true) {
                                     <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option" role="menu">
                                         <li class="dropdown-header">Fragebögen</li>
-                                        <li id="questionnaire"><a href="#"><?php echo $lang->formats->questionnaire ?></a></li>
-                                        <li id="gus"><a href="#"><?php echo $lang->formats->gus ?></a></li>
-                                        <li id="questionnaireGestures"><a href="#"><?php echo $lang->formats->questionnaireGestures ?></a></li>
-                                        <li id="sus"><a href="#"><?php echo $lang->formats->sus ?></a></li>
+                                        <li id="questionnaire"><a href="#"><?php echo $lang->formats->questionnaire->text ?></a></li>
+                                        <li id="gus" class="evaluation"><a href="#"><?php echo $lang->formats->gus->text ?></a></li>
+                                        <li id="questionnaireGestures" class="evaluation"><a href="#"><?php echo $lang->formats->questionnaireGestures->text ?></a></li>
+                                        <li id="sus" class="evaluation"><a href="#"><?php echo $lang->formats->sus->text ?></a></li>
                                         <li class="divider"></li>
-                                        <li class="dropdown-header">Songstiges</li>
-                                        <li id="letterOfAcceptance"><a href="#"><?php echo $lang->formats->letterOfAcceptance ?></a></li>
-                                        <li id="identification"><a href="#"><?php echo $lang->formats->identification ?></a></li>
-                                        <li id="gestureTraining"><a href="#"><?php echo $lang->formats->gestureTraining ?></a></li>
-                                        <li id="scenario"><a href="#"><?php echo $lang->formats->scenario ?></a></li>
-                                        <li id="gestureSlideshow"><a href="#"><?php echo $lang->formats->gestureSlideshow ?></a></li>
-                                        <li id="triggerSlideshow"><a href="#"><?php echo $lang->formats->triggerSlideshow ?></a></li>
-                                        <li id="physicalStressTest"><a href="#"><?php echo $lang->formats->physicalStressTest ?></a></li>
+                                        <li class="dropdown-header">Sonstiges</li>
+                                        <li id="letterOfAcceptance"><a href="#"><?php echo $lang->formats->letterOfAcceptance->text ?></a></li>
+                                        <li id="identification" class="elicitation"><a href="#"><?php echo $lang->formats->identification->text ?></a></li>
+                                        <li id="gestureTraining" class="evaluation"><a href="#"><?php echo $lang->formats->gestureTraining->text ?></a></li>
+                                        <li id="scenario" class="evaluation"><a href="#"><?php echo $lang->formats->scenario->text ?></a></li>
+                                        <li id="gestureSlideshow" class="evaluation"><a href="#"><?php echo $lang->formats->gestureSlideshow->text ?></a></li>
+                                        <li id="triggerSlideshow" class="evaluation"><a href="#"><?php echo $lang->formats->triggerSlideshow->text ?></a></li>
+                                        <li id="physicalStressTest" class="evaluation"><a href="#"><?php echo $lang->formats->physicalStressTest->text ?></a></li>
                                     </ul>
                                     <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                                 </div>
@@ -383,25 +387,25 @@ if (login_check($mysqli) == true) {
 
                         </div>
 
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon">Aufzeichnung</span>
-                                <input class="form-control item-input-text option-record show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
-                                <div class="input-group-btn select saveGeneralData" id="recordSelect" role="group">
-                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                        <li id="videoAudio"><a href="#">Video & Audio</a></li>
-                                        <!--<li id="videoAudioScreen"><a href="#">Video, Audio & Bildschirm</a></li>-->
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <!--                        <div class="form-group">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">Aufzeichnung</span>
+                                                        <input class="form-control item-input-text option-record show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+                                                        <div class="input-group-btn select saveGeneralData" id="recordSelect" role="group">
+                                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                                <li id="videoAudio"><a href="#">Video & Audio</a></li>
+                                                                <li id="videoAudioScreen"><a href="#">Video, Audio & Bildschirm</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
 
                         <div id="from-To-datepicker">
                             <div class="input-daterange input-group" id="datepicker">
-                                <span class="input-group-addon">Studie läuft von</span>
+                                <span class="input-group-addon"><?php echo $lang->studyRunsFrom ?></span>
                                 <input type="text" class="input form-control readonly" id="start" name="start" />
-                                <span class="input-group-addon">bis</span>
+                                <span class="input-group-addon"><?php echo $lang->to ?></span>
                                 <input type="text" class="input form-control readonly" id="end" name="end" />
                             </div>
                         </div>
@@ -546,7 +550,7 @@ if (login_check($mysqli) == true) {
                 if (typeof (Storage) !== "undefined") {
                     checkSessionStorage();
                 } else {
-                    console.log("Sorry, your browser do not support Web Session Storage.");
+                    appendAlert($('#mainContent'), ALERT_NO_STORAGE_API);
                 }
 
                 $('#create-tab-navigation').find('#general').click();
@@ -679,8 +683,8 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 var format = $(this).parent().find('.chosen').attr('id');
                 if (!$(this).hasClass('disabled') && format !== 'unselected') {
-                    var selectedText = $(this).parent().prev().val();
-                    addPhaseStep(chance.natural(), format, selectedText, null);
+//                    var selectedText = $(this).parent().prev().val();
+                    addPhaseStep(chance.natural(), format, null);
                     savePhases();
                     checkPreviewAvailability();
                 }
@@ -695,9 +699,9 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-            function addPhaseStep(id, format, childText, color) {
-                var clone = $('#phaseStepItem').clone();
-                clone.removeClass('hidden');
+            function addPhaseStep(id, format, color) {
+                var clone = $('#phaseStepItem').clone().removeAttr('id');
+                clone.removeClass('hidden').addClass(translation.formats[format].class);
                 clone.attr('id', id);
                 $('#phaseStepList').append(clone);
 
@@ -715,7 +719,7 @@ if (login_check($mysqli) == true) {
                 });
 
                 clone.find('.glyphicon-tag').css('color', color === null ? color = colors.pop() : color);
-                clone.find('.phase-step-format').text(" " + childText);
+                clone.find('.phase-step-format').text(" " + translation.formats[format].text);
                 clone.find('.btn-text-button').bind("click", {format: format, id: id}, function (event) {
                     event.preventDefault();
                     currentIdForModal = event.data.id;
@@ -740,6 +744,20 @@ if (login_check($mysqli) == true) {
                 } else {
                     $('#panel-survey-container').addClass('hidden');
                 }
+            });
+
+            $('#phaseSelect').on('change', function (event, id) {
+                if (id === TYPE_PHASE_ELICITATION) {
+                    $('#phaseStepSelect').find('.' + id).removeClass('hidden');
+                    $('#phaseStepSelect').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
+                    $('#scenes-catalog, #feedback-catalog').addClass('hidden');
+                } else if (id === TYPE_PHASE_EVALUATION) {
+                    $('#phaseStepSelect').find('.' + id).removeClass('hidden');
+                    $('#phaseStepSelect').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
+                    $('#scenes-catalog, #feedback-catalog').removeClass('hidden');
+                }
+                
+                renderPhaseSteps();
             });
 
             $('.breadcrumb li').click(function () {
@@ -778,13 +796,10 @@ if (login_check($mysqli) == true) {
                     $('#btn-clear-data, #btn-preview-study').addClass('disabled');
                     saveGeneralData();
                     showCursor($('body'), CURSOR_POINTER);
-                    console.log(studyEditable);
 
                     if (studyEditable === true) {
                         var updateData = getStudyData();
-                        console.log(updateData);
                         updateData.studyId = editableStudyId;
-//                        return false;
                         updateStudy(updateData, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');

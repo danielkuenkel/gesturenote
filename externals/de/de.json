@@ -8,6 +8,17 @@
     "signIn": "Einloggen",
     "signOut": "Ausloggen",
     "createAccount": "Account anlegen",
+    "breadcrump": {
+        "home": "Home",
+        "dashboard": "Dashboard",
+        "studies": "Studien",
+        "study": "Studie",
+        "createStudy": "Neue Studie",
+        "studyPrepare": "An Studie teilnehmen",
+        "gestureStyleguides": "Gesten-Styleguides",
+        "gestureCatalog": "Gesten-Katalog",
+        "profile": "Profil"
+    },
     "months": {
         "january": "Januar",
         "february": "Februar",
@@ -35,6 +46,7 @@
     "studyNoPlan": "Kein Zeitplan",
     "studyRun": "Studie läuft insgesamt",
     "studyRuns": "Studie lief insgesamt",
+    "studyRunsFrom": "Studie läuft vom",
     "startsAt": "startet in",
     "from": "vom",
     "of": "von",
@@ -56,7 +68,9 @@
     "currentPassword": "Aktuelles Passwort",
     "newPassword": "Neues Passwort",
     "confirmNewPassword": "Neues Passwort wiederholen",
-    "signInAndRegister": "Einloggen & Registrieren",
+    "signInOrRegister": "Einloggen oder Registrieren",
+    "noAccount": "Kein Account",
+    "participateWithoutAccount": "Teilnahme ohne Account",
     "register": "Registrieren",
     "userRegistered": "Registriert seit",
     "editProfile": "Daten bearbeiten",
@@ -66,6 +80,10 @@
     "close": "Schließen",
     "next": "Weiter",
     "previous": "Zurück",
+    "yes": "Ja",
+    "no": "Nein",
+    "enterStudyAsTester": "An Studie teilnehmen",
+    "enterStudyAsModerator": "Studie durchführen",
     "maximum": "Maximum",
     "gender": "Geschlecht",
     "genders": {
@@ -89,18 +107,64 @@
         "profilePanelBody": "Anzeigen und bearbeiten der Nutzerdaten"
     },
     "createNewStudy": "Neue Studie erstellen",
+    "copy": "Kopieren",
+    "openStudyUrl": "Studien-URL aufrufen",
     "formats": {
-        "questionnaire": "Fragebogen",
-        "gus": "GUS (einzelne Geste)",
-        "questionnaireGestures": "GUS (Mehrere Gesten)",
-        "sus": "SUS",
-        "letterOfAcceptance": "Einverständniserklärung",
-        "identification": "Identifikation",
-        "gestureTraining": "Gestentraining",
-        "scenario": "Szenario-basierte Aufgabe",
-        "gestureSlideshow": "Gesten erraten",
-        "triggerSlideshow": "Funktionen erraten",
-        "physicalStressTest": "Physischer Belastungstest"
+        "questionnaire": {
+            "text": "Fragebogen",
+            "class": "both",
+            "webRTC": "no"
+        },
+        "gus": {
+            "text": "GUS (einzelne Geste)",
+            "class": "evaluation",
+            "webRTC": "no"
+        },
+        "questionnaireGestures": {
+            "text": "GUS (Mehrere Gesten)",
+            "class": "evaluation",
+            "webRTC": "no"
+        },
+        "sus": {
+            "text": "SUS",
+            "class": "evaluation",
+            "webRTC": "no"
+        },
+        "letterOfAcceptance": {
+            "text": "Einverständniserklärung",
+            "class": "both",
+            "webRTC": "no"
+        },
+        "identification": {
+            "text": "Identifikation",
+            "class": "elicitation",
+            "webRTC": "yes"
+        },
+        "gestureTraining": {
+            "text": "Gestentraining",
+            "class": "evaluation",
+            "webRTC": "yes"
+        },
+        "scenario": {
+            "text": "Szenario-basierte Aufgabe",
+            "class": "evaluation",
+            "webRTC": "yes"
+        },
+        "gestureSlideshow": {
+            "text": "Gesten erraten",
+            "class": "evaluation",
+            "webRTC": "yes"
+        },
+        "triggerSlideshow": {
+            "text": "Funktionen erraten",
+            "class": "evaluation",
+            "webRTC": "no"
+        },
+        "physicalStressTest": {
+            "text": "Physischer Belastungstest",
+            "class": "evaluation",
+            "webRTC": "yes"
+        }
     },
     "scales": {
         "percent": "Prozent",

@@ -294,3 +294,11 @@ function validateEmail(email) {
     var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
     return re.test(email);
 }
+
+function disableInputs() {
+    $('#btn-login, #btn-forgot, #btn-open-register, #btn-register').addClass('disabled');
+}
+
+function enableInputs() {
+    $('#btn-login, #btn-forgot, #btn-open-register, #btn-register').removeClass('disabled');
+}

@@ -44,6 +44,7 @@ if (login_check($mysqli) == true) {
         <script src="js/language.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/alert.js"></script>
+        <script src="js/goto-general.js"></script>
         <script src="js/goto-evaluator.js"></script>       
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
@@ -354,25 +355,26 @@ if (login_check($mysqli) == true) {
 
             function renderPhaseStepForModerator() {
                 resetRenderedContent();
-                var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
-                var data = getLocalItem(currentStepId + ".data");
-                if (data || (data && $.isArray(data) && data.length > 0)) {
+//                var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
+//                var data = getLocalItem(currentStepId + ".data");
+
+//                if (data || (data && $.isArray(data) && data.length > 0)) {
                     Moderator.renderView();
-                } else {
-                    Moderator.renderNoDataView();
-                }
+//                } else {
+//                    Moderator.renderNoDataView();
+//                }
             }
 
             function renderPhaseStepForTester() {
                 resetRenderedContent();
-                var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
-                var data = getLocalItem(currentStepId + ".data");
+//                var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
+//                var data = getLocalItem(currentStepId + ".data");
 
-                if (data || (data && $.isArray(data) && data.length > 0)) {
+//                if (data || (data && $.isArray(data) && data.length > 0)) {
                     Tester.renderView();
-                } else {
-                    Tester.renderNoDataView();
-                }
+//                } else {
+//                    Tester.renderNoDataView();
+//                }
             }
 
             $('#btn-toggle-rtc-fixed').on('click', function (event) {

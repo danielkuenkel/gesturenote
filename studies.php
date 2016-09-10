@@ -34,6 +34,7 @@ if (login_check($mysqli) == true) {
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
+        <script src="js/goto-general.js"></script>
         <script src="js/goto-evaluator.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
@@ -67,7 +68,7 @@ if (login_check($mysqli) == true) {
                     <div>
                         <div class="label label-default" id="type-phase"></div>
                         <div class="label label-default" id="type-survey"></div>
-                        <div class="label label-default hidden" id="panel-survey">Panel-Befragung</div>
+                        <div class="label label-default hidden" id="panel-survey"><?php echo $lang->panelSurvey ?></div>
                     </div>
 
                     <div>
@@ -95,9 +96,9 @@ if (login_check($mysqli) == true) {
         <div class="container" id="breadcrumb">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
-                    <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
-                    <li class="active">Studien</li>
+                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
+                    <li class="active"><?php echo $lang->breadcrump->studies ?></li>
                 </ol>
             </div>
         </div>
@@ -113,7 +114,7 @@ if (login_check($mysqli) == true) {
         <!-- Container (Panel Section) -->
         <div class="container mainContent" style="margin-top: 35px;" id="item-view">
 
-            <button type="button" class="btn btn-success btn-lg btn-block" onclick="gotoCreateStudy()"><i class="glyphicon glyphicon-plus"></i> Eine neue Studie erstellen</button>
+            <button type="button" class="btn btn-success btn-lg btn-block btn-shadow" onclick="gotoCreateStudy()"><i class="glyphicon glyphicon-plus"></i> <?php echo $lang->createNewStudy ?></button>
 
             <div class="form-group form-group-no-margin" style="margin-top: 20px">
                 <div class="input-group">

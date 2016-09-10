@@ -30,15 +30,18 @@ if (isset($_SESSION['user_id'])) {
                     $ageConstraint = explode(",", $decodedData->generalData->ageRange);
                     $ageFrom = intval($ageConstraint[0]);
                     $ageTo = intval($ageConstraint[1]);
+                    $now = time();
                     $dateFrom = intval($decodedData->generalData->dateFrom);
                     $dateTo = intval($decodedData->generalData->dateTo);
 
                     if ($ageConstraint != "" && ($genderConstraint != "" && ($genderConstraint == 'identical' || strcmp($genderConstraint, $gender) == 0)) && $dateFrom != "" && $dateTo != "" && $age >= $ageFrom && $age <= $ageTo) {
-                        $studies[] = array('id' => $id,
-                            'userId' => $userId,
-                            'data' => $decodedData,
-                            'urlToken' => $urlToken,
-                            'created' => $created);
+                        if ($dateTo > $now) {
+                            $studies[] = array('id' => $id,
+                                'userId' => $userId,
+                                'data' => $decodedData,
+                                'urlToken' => $urlToken,
+                                'created' => $created);
+                        }
                     }
                 }
             }

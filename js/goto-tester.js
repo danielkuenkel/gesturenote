@@ -4,19 +4,7 @@
  * and open the template in the editor.
  */
 
-function goto(url) {
-    window.location.href = url;
-}
-
 $(document).ready(function () {
-    $('body').on('click', '#btn-index', function (event) {
-        event.preventDefault();
-        if (!event.handled) {
-            event.handled = true;
-            gotoIndex();
-        }
-    });
-
     $('body').on('click', '#btn-dashboard', function (event) {
         event.preventDefault();
         if (!event.handled) {
@@ -40,28 +28,7 @@ $(document).ready(function () {
             gotoProfile();
         }
     });
-
-//    $('body').on('click', '#btn-gesture-styleguides', function (event) {
-//        event.preventDefault();
-//        if (!event.handled) {
-//            event.handled = true;
-//            gotoGestureStyleguides();
-//        }
-//    });
-//
-//    $('body').on('click', '#btn-gesture-catalog', function (event) {
-//        event.preventDefault();
-//        if (!event.handled) {
-//            event.handled = true;
-//            gotoGesturesCatalog();
-//        }
-//    });
 });
-
-
-function gotoIndex() {
-    goto("index.php");
-}
 
 function gotoDashboard() {
     goto("dashboard-tester.php");
@@ -73,34 +40,4 @@ function gotoStudies() {
 
 function gotoProfile() {
     goto("profile-tester.php");
-}
-
-//function gotoGestureStyleguides() {
-//    goto("gesture-styleguides.php");
-//}
-//
-//function gotoGesturesCatalog() {
-//    goto("gestures-catalog.php");
-//}
-//
-//function gotoCreateStudy() {
-//    goto("study-create.php");
-//}
-//
-//function gotoCreateStudyPreview() {
-//    goto("study-preview.php");
-//}
-
-function getQueryParams(qs) {
-    qs = qs.split('+').join(' ');
-
-    var params = {},
-            tokens,
-            re = /[?&]?([^=]+)=([^&]*)/g;
-
-    while (tokens = re.exec(qs)) {
-        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
-    }
-
-    return params;
 }

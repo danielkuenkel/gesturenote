@@ -10,47 +10,61 @@ var Moderator = {
         var currentPhase = getCurrentPhase();
         var currentPhaseData = getCurrentPhaseData();
         var source = getSourceContainer(currentView);
+        if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
+
+
 //        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
-        var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
-        $(container).find('#column-left').css('opacity', '0');
-        var item = null;
-        switch (currentPhase.format) {
-            case QUESTIONNAIRE:
-                item = Moderator.getQuestionnaire(source, container, currentPhaseData, true);
-                break;
-            case GUS_SINGLE_GESTURES:
-                item = Moderator.getGUS(source, container, currentPhaseData);
-                break;
-            case GUS_MULTIPLE_GESTURES:
-                item = Moderator.getQuestionnaire(source, container, currentPhaseData.gus, true);
-                break;
-            case SUS:
-                item = Moderator.getSUS(source, container, currentPhaseData);
-                break;
-            case LETTER_OF_ACCEPTANCE:
-                item = Moderator.getLetterOfAcceptance(container, currentPhaseData);
-                break;
-            case GESTURE_TRAINING:
-                item = Moderator.getGestureTraining(source, container, currentPhaseData);
-                break;
-            case SCENARIO:
-                item = Moderator.getScenario(source, container, currentPhaseData);
-                break;
-            case SLIDESHOW_GESTURES:
-                item = Moderator.getGestureSlideshow(source, container, currentPhaseData);
-                break;
-            case SLIDESHOW_TRIGGER:
-                item = Moderator.getTriggerSlideshow(source, container, currentPhaseData);
-                break;
-            case IDENTIFICATION:
-                item = Moderator.getIdentification(source, container, currentPhaseData);
-                break;
-            case PHYSICAL_STRESS_TEST:
-                item = Moderator.getPhysicalStressTest(source, container, currentPhaseData);
-                break;
+            var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
+            $(container).find('#column-left').css('opacity', '0');
+            var item = null;
+            switch (currentPhase.format) {
+                case QUESTIONNAIRE:
+                    item = Moderator.getQuestionnaire(source, container, currentPhaseData, true);
+                    break;
+                case GUS_SINGLE_GESTURES:
+                    item = Moderator.getGUS(source, container, currentPhaseData);
+                    break;
+                case GUS_MULTIPLE_GESTURES:
+                    item = Moderator.getQuestionnaire(source, container, currentPhaseData.gus, true);
+                    break;
+                case SUS:
+                    item = Moderator.getSUS(source, container, currentPhaseData);
+                    break;
+                case LETTER_OF_ACCEPTANCE:
+                    item = Moderator.getLetterOfAcceptance(container, currentPhaseData);
+                    break;
+                case GESTURE_TRAINING:
+                    item = Moderator.getGestureTraining(source, container, currentPhaseData);
+                    break;
+                case SCENARIO:
+                    item = Moderator.getScenario(source, container, currentPhaseData);
+                    break;
+                case SLIDESHOW_GESTURES:
+                    item = Moderator.getGestureSlideshow(source, container, currentPhaseData);
+                    break;
+                case SLIDESHOW_TRIGGER:
+                    item = Moderator.getTriggerSlideshow(source, container, currentPhaseData);
+                    break;
+                case IDENTIFICATION:
+                    item = Moderator.getIdentification(source, container, currentPhaseData);
+                    break;
+                case PHYSICAL_STRESS_TEST:
+                    item = Moderator.getPhysicalStressTest(source, container, currentPhaseData);
+                    break;
+            }
+
+            if (item !== false) {
+                $('#viewModerator #phase-content').empty().append(item);
+            } else {
+                Moderator.renderNoDataView();
+            }
+        } else {
+            Moderator.renderNoDataView();
         }
 
-        $('#viewModerator #phase-content').empty().append(item);
+        $('#viewModerator #column-right').css({y: 0, opacity: 1});
+
+//        $('#viewModerator #phase-content').empty().append(item);
         TweenMax.from($('#phase-content #column-right'), .2, {y: -60, opacity: 0});
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
@@ -62,12 +76,12 @@ var Moderator = {
         var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
         $('#viewModerator #phase-content').append(alert);
         appendAlert(alert, ALERT_NO_PHASE_DATA);
-        TweenMax.from($('#phase-content #column-right'), .2, {y: -60, opacity: 0});
-        if ($(document).scrollTop() > 0) {
-            $(document).scrollTop(0);
-        }
-
-        updateRTCHeight($('#phase-content #column-left').width());
+//        TweenMax.from($('#phase-content #column-right'), .2, {y: -60, opacity: 0});
+//        if ($(document).scrollTop() > 0) {
+//            $(document).scrollTop(0);
+//        }
+//
+//        updateRTCHeight($('#phase-content #column-left').width());
     },
     getLetterOfAcceptance: function getLetterOfAcceptance(container, data) {
         $(container).find('.letter-text').text(data);
@@ -207,11 +221,17 @@ var Moderator = {
         return container;
     },
     getGestureTraining: function getGestureTraining(source, container, data) {
+        if (!data.training || data.training.length === 0) {
+            return false;
+        }
+
         // general data section
         $(container).find('#general .panel-heading').text(data.title);
         $(container).find('#general #description').text(data.description);
+
         // gestures section
         Moderator.renderGestureTraining(source, container, data.training);
+
         // observation section
         if (data.observations && data.observations.length > 0) {
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
@@ -345,11 +365,17 @@ var Moderator = {
         }
     },
     getGestureSlideshow: function getGestureSlideshow(source, container, data) {
+        if (data.slideshow.length === 0) {
+            return false;
+        }
+
         // general data section
         $(container).find('#general .panel-heading').text(data.title);
         $(container).find('#general #description').text(data.description);
+
         // slideshow section
         Moderator.renderGestureSlide(source, container, data);
+
         // observation section
         if (data.observations && data.observations.length > 0) {
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
@@ -455,6 +481,10 @@ var Moderator = {
         }
     },
     getTriggerSlideshow: function getTriggerSlideshow(source, container, data) {
+        if (data.slideshow.length === 0) {
+            return false;
+        }
+
         // general data section
         $(container).find('#general .panel-heading').text(data.title);
         $(container).find('#general #description').text(data.description);
@@ -490,123 +520,24 @@ var Moderator = {
 
         return container;
     },
-//    renderTriggerSlide: function renderTriggerSlide(source, container, data) {
-//        var slide = data.slideshow[currentSlideIndex];
-//
-//        $(container).find('#slides .panel-heading-text').text('Slide ' + (currentSlideIndex + 1) + ' von ' + data.slideshow.length);
-//        $(container).find('#slidesContainer').empty();
-//        var item = $(source).find('#triggerSlideshowItem').clone().removeAttr('id');
-//        $(container).find('#slidesContainer').append(item);
-//
-//        var gesture = getGestureById(slide.gestureId);
-//        var trigger = getTriggerById(slide.triggerId);
-//        item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
-//
-//        var imageContainer;
-//        $(item).find('#searched').text(trigger.title);
-//        $(item).find('#given').text(gesture.title);
-//        imageContainer = $(item).find('.right .previewGesture');
-//        $(container).find('#search-gestures').removeClass('hidden');
-//
-//        if (slideshowStartTriggered) {
-//            $(container).find('#btn-start-slideshow').remove();
-//        } else {
-//            $(item).find('#trigger-slide').addClass('disabled');
-//        }
-//
-//        $(container).find('#btn-start-slideshow').click(function (event) {
-//            event.preventDefault();
-//            slideshowStartTriggered = true;
-//            slideRestarted = true;
-//            $(this).remove();
-//            $(item).find('#trigger-slide').removeClass('disabled');
-//            wobble([container.find('#slidesContainer'), $('#web-rtc-placeholder')]);
-//        });
-//
-//        $(item).find('#trigger-slide').on('click', function (event) {
-//            event.preventDefault();
-//            if (!$(this).hasClass('disabled')) {
-//                slideTriggered = true;
-//                slideRestarted = false;
-//                $(item).find('.disabled').removeClass('disabled');
-//                $(this).addClass('disabled');
-//            } else {
-//                if (slideshowStartTriggered) {
-//                    wobble($(item).find('#correct-slide, #next-slide, #wrong-slide'));
-//                } else {
-//                    wobble($(container).find('#btn-start-slideshow'));
-//                }
-//            }
-//        });
-//
-//        $(item).find('#wrong-slide').on('click', function (event) {
-//            event.preventDefault();
-//            if (!$(this).hasClass('disabled')) {
-//                currentSlideIndex = 0;
-//                slideTriggered = false;
-//                slideRestarted = true;
-//                $(item).find('.disabled').removeClass('disabled');
-//                Moderator.renderGestureSlide(source, container, data);
-//            } else {
-//                if (slideshowStartTriggered) {
-//                    wobble($(item).find('#trigger-slide'));
-//                } else {
-//                    wobble($(container).find('#btn-start-slideshow'));
-//                }
-//            }
-//        });
-//
-//        if (slideTriggered) {
-//            $(item).find('.disabled').removeClass('disabled');
-//            item.find('#trigger-slide').addClass('disabled');
-//        }
-//
-//        if (data.slideshow.length === 1 || currentSlideIndex >= data.slideshow.length - 1) {
-//            $(item).find('#correct-slide, #next-slide').on('click', function (event) {
-//                event.preventDefault();
-//                if (!$(this).hasClass('disabled')) {
-//                    currentSlideIndex = 0;
-//                    slideTriggered = false;
-//                    nextStep();
-//                } else {
-//                    if (slideshowStartTriggered) {
-//                        wobble($(item).find('#trigger-slide'));
-//                    } else {
-//                        wobble($(container).find('#btn-start-slideshow'));
-//                    }
-//                }
-//            });
-//        } else if (currentSlideIndex < data.slideshow.length) {
-//            $(item).find('#correct-slide, #next-slide').on('click', function (event) {
-//                event.preventDefault();
-//                event.preventDefault();
-//                if (!$(this).hasClass('disabled')) {
-//                    slideTriggered = false;
-//                    slideRestarted = false;
-//                    currentSlideIndex++;
-//                    Moderator.renderGestureSlide(source, container, data);
-//                } else {
-//                    if (slideshowStartTriggered) {
-//                        wobble($(item).find('#trigger-slide'));
-//                    } else {
-//                        wobble($(container).find('#btn-start-slideshow'));
-//                    }
-//                }
-//            });
-//        }
-//    },
     getIdentification: function getIdentification(source, container, data) {
         // general data section
         $(container).find('#general .panel-heading').text(data.title);
         $(container).find('#general #description').text(data.description);
+
         if (data.identificationFor === 'gestures') {
             $(container).find('#search-gestures').removeClass('hidden');
         } else {
             $(container).find('#search-trigger').removeClass('hidden');
         }
 
+        if (data.identification.length === 0) {
+            return false;
+        }
+
         // slideshow section
         Moderator.renderIdentification(source, container, data);
+
         // observation section
         if (data.observations && data.observations.length > 0) {
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
@@ -712,7 +643,10 @@ var Moderator = {
         }
     },
     getPhysicalStressTest: function getPhysicalStressTest(source, container, data) {
-//        console.log(data);
+        if (!data.stressTestItems || data.stressTestItems.length === 0) {
+            return false;
+        }
+        
         // general data section
         $(container).find('#general .panel-heading').text(data.title);
         $(container).find('#general #description').text(data.description);
@@ -834,6 +768,10 @@ var Moderator = {
         });
     },
     getScenario: function getScenario(source, container, data) {
+        if (!data.scene || !data.woz) {
+            return false;
+        }
+
         triggeredHelp, triggeredWoz = null;
         $(container).find('#general #task').text(translation.taskTitle + ": " + data.title);
         $(container).find('#general #description').text(translation.task + ": " + data.description);
@@ -852,10 +790,10 @@ var Moderator = {
         }
 
         updateCurrentScene(container);
-        
+
         //woz section
         Moderator.renderWOZ(source, container, data);
-       
+
         // help section
         Moderator.renderHelp(source, container, data);
 

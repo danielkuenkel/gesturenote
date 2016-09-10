@@ -105,14 +105,7 @@ function createPredefinedGestureFeedback() {
 }
 
 function renderSessionStorageData() {
-    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
-    if (phaseSteps)
-    {
-        for (var i = 0; i < phaseSteps.length; i++) {
-            var item = phaseSteps[i];
-            addPhaseStep(item.id, item.format, translation.formats[item.format], item.color);
-        }
-    }
+    renderPhaseSteps();
 
     var study = getLocalItem(STUDY);
     if (study) {
@@ -151,9 +144,9 @@ function renderSessionStorageData() {
             }
         }
 
-        if (study.recordType !== 'unselected') {
-            $('#recordSelect').find('#' + study.recordType).click();
-        }
+//        if (study.recordType !== 'unselected') {
+//            $('#recordSelect').find('#' + study.recordType).click();
+//        }
 
         $('#from-To-datepicker .input-daterange input').each(function () {
             if ($(this).attr('id') === 'start' && study.dateFrom !== null && study.dateFrom !== "0" && study.dateFrom !== "") {
@@ -167,6 +160,28 @@ function renderSessionStorageData() {
     }
     updateCatalogButtons();
     checkPreviewAvailability();
+}
+
+function renderPhaseSteps() {
+    $('#phaseStepList').empty();
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+    if (phaseSteps)
+    {
+        for (var i = 0; i < phaseSteps.length; i++) {
+            var item = phaseSteps[i];
+            addPhaseStep(item.id, item.format, item.color);
+        }
+
+        if (getLocalItem(STUDY).phase === TYPE_PHASE_ELICITATION) {
+            $('#phaseStepList').find('.' + TYPE_PHASE_ELICITATION).removeClass('hidden');
+            $('#phaseStepList').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
+        } else if (getLocalItem(STUDY).phase === TYPE_PHASE_EVALUATION) {
+            $('#phaseStepList').find('.' + TYPE_PHASE_EVALUATION).removeClass('hidden');
+            $('#phaseStepList').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
+        } else {
+            $('#phaseStepList').find('.both').removeClass('hidden');
+        }
+    }
 }
 
 function updateCatalogButtons() {
@@ -217,7 +232,7 @@ function saveGeneralData() {
     study.description = $('#studyDescription').val();
     study.phase = $('#phaseSelect .chosen').attr('id');
     study.surveyType = $('#surveyTypeSelect .chosen').attr('id');
-    study.recordType = $('#recordSelect .chosen').attr('id');
+//    study.recordType = $('#recordSelect .chosen').attr('id');
     study.panelSurvey = $('#panelSurveySwitch').find('.active').attr('id');
     if (study.panelSurvey === 'yes') {
         study.gender = $('#genderSwitch').find('.active').attr('id');

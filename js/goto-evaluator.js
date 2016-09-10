@@ -4,27 +4,7 @@
  * and open the template in the editor.
  */
 
-function goto(url) {
-    window.location.href = url;
-}
-
 $(document).ready(function () {
-    $('body').on('click', '#btn-imprint', function (event) {
-        event.preventDefault();
-        if (!event.handled) {
-            event.handled = true;
-            gotoImprint();
-        }
-    });
-
-    $('body').on('click', '#btn-index', function (event) {
-        event.preventDefault();
-        if (!event.handled) {
-            event.handled = true;
-            gotoIndex();
-        }
-    });
-
     $('body').on('click', '#btn-dashboard', function (event) {
         event.preventDefault();
         if (!event.handled) {
@@ -67,14 +47,6 @@ $(document).ready(function () {
 });
 
 
-function gotoIndex() {
-    goto('index.php');
-}
-
-function gotoImprint() {
-    goto('imprint.php');
-}
-
 function gotoDashboard() {
     goto('dashboard-evaluator.php');
 }
@@ -101,18 +73,4 @@ function gotoCreateStudy() {
 
 function gotoCreateStudyPreview() {
     goto('study-preview.php');
-}
-
-function getQueryParams(qs) {
-    qs = qs.split('+').join(' ');
-
-    var params = {},
-            tokens,
-            re = /[?&]?([^=]+)=([^&]*)/g;
-
-    while (tokens = re.exec(qs)) {
-        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
-    }
-
-    return params;
 }

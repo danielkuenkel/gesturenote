@@ -63,7 +63,7 @@ function login($email, $password, $mysqli) {
                     $_SESSION['gender'] = $gender;
                     $_SESSION['usertype'] = $usertype;
                     $_SESSION['birthday'] = $birthday;
-                    echo json_encode(array('status' => 'success', 'userType' => $usertype));
+                    echo json_encode(array('status' => 'success', 'userId' => $user_id, 'forename' => $forename, 'surname' => $surname, 'userType' => $usertype));
                     exit();
                 } else {
                     // Password is not correct
@@ -209,4 +209,14 @@ function json_decode_nice($json, $assoc = TRUE) {
     $json = preg_replace('/([{,]+)(\s*)([^"]+?)\s*:/', '$1"$3":', $json);
     $json = preg_replace('/(,)\s*}$/', '}', $json);
     return json_decode($json, $assoc);
+}
+
+function getv($key, $default = '', $data_type = '') {
+    $param = (isset($_REQUEST[$key]) ? $_REQUEST[$key] : $default);
+
+    if (!is_array($param) && $data_type == 'int') {
+        $param = intval($param);
+    }
+
+    return $param;
 }

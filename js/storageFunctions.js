@@ -195,7 +195,7 @@ function getStudyData() {
     var data = new Object();
     data.generalData = getLocalItem(STUDY);
 
-    var phases = getLocalItem(STUDY_PHASE_STEPS);
+    var phases = getContextualPhaseSteps();
     if (phases && phases.length > 0) {
         data.phases = phases;
         for (var i = 0; i < phases.length; i++) {
@@ -203,7 +203,7 @@ function getStudyData() {
         }
     }
 
-    if (getLocalItem(ASSEMBLED_SCENES)) {
+    if (getLocalItem(ASSEMBLED_SCENES) && data.generalData.phase === TYPE_PHASE_EVALUATION) {
         data.assembledScenes = getLocalItem(ASSEMBLED_SCENES);
     }
 
@@ -215,11 +215,28 @@ function getStudyData() {
         data.assembledTrigger = getLocalItem(ASSEMBLED_TRIGGER);
     }
 
-    if (getLocalItem(ASSEMBLED_FEEDBACK)) {
+    if (getLocalItem(ASSEMBLED_FEEDBACK) && data.generalData.phase === TYPE_PHASE_EVALUATION) {
         data.assembledFeedback = getLocalItem(ASSEMBLED_FEEDBACK);
     }
 
     return {data: data};
+}
+
+
+function getContextualPhaseSteps() {
+    var phases = getLocalItem(STUDY_PHASE_STEPS);
+    if (phases && phases.length > 0) {
+        var realPhases = new Array();
+        var generalData = getLocalItem(STUDY);
+        for (var i = 0; i < phases.length; i++) {
+            var phaseFormat = phases[i].format;
+            if (generalData.phase === translation.formats[phaseFormat].class || translation.formats[phaseFormat].class === 'both') {
+                realPhases.push(phases[i]);
+            }
+        }
+        return realPhases;
+    }
+    return null;
 }
 
 function setStudyData(data) {

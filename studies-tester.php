@@ -34,6 +34,7 @@ if (login_check($mysqli) == true) {
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
+        <script src="js/goto-general.js"></script>
         <script src="js/goto-tester.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
@@ -61,7 +62,7 @@ if (login_check($mysqli) == true) {
 
                 <div class="panel-body">
                     <div>
-                        <div class="label label-default" id="type-phase"></div>
+                        <!--<div class="label label-default" id="type-phase"></div>-->
                         <div class="label label-default" id="type-survey"></div>
                     </div>
 

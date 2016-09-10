@@ -35,6 +35,7 @@ if (login_check($mysqli) == true) {
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
+        <script src="js/goto-general.js"></script>
         <script src="js/goto-tester.js"></script>
         <!--<script src="js/gesture.js"></script>-->
         <!--<script src="js/joint-selection.js"></script>-->
@@ -78,7 +79,7 @@ if (login_check($mysqli) == true) {
         <div class="container mainContent" style="margin-top: 35px;" id="item-view">
             <h2 id="study-headline" style="margin-top: 0"></h2>
             <hr>
-            <div class="label label-default" id="type-phase"></div>
+            <!--<div class="label label-default" id="type-phase"></div>-->
             <div class="label label-default" id="type-survey"></div>
             <div class="label label-default hidden" id="panel-survey">Panel-Befragung</div>
 
@@ -88,9 +89,7 @@ if (login_check($mysqli) == true) {
                         <h3 class="address"></h3>
                         <p class="text"></p>
                     </div>
-                    <!--<div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>-->
                     <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
-                    <!--<div class="hidden panel-survey"><i class="fa fa-users" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>-->
                 </div>
                 <div class="col-sm-5 col-sm-offset-1 col-lg-4 col-lg-offset-1">
                     <div id="study-phases">
@@ -99,7 +98,7 @@ if (login_check($mysqli) == true) {
                         <!--<div id="phase-steps-container"></div>-->
                     </div>
                     <div class="btn-group-vertical btn-block">
-                        <button class="btn btn-info btn-shadow hidden" type="button" id="btn-enter-unmoderated-study"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text">An Studie teilnehmen</span></button>
+                        <button class="btn btn-info btn-shadow hidden" type="button" id="btn-enter-unmoderated-study"><span class="btn-text">An Studie teilnehmen</span></button>
 <!--                        <button class="btn btn-default btn-shadow" type="button" id="btn-preview-study"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text">Vorschau der Studie</span></button>
                         <button class="btn btn-default btn-shadow" type="button" id="btn-delete-study"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text">Studie löschen</span></button>-->
                     </div>
@@ -184,18 +183,21 @@ if (login_check($mysqli) == true) {
 
             function renderData(data) {
                 console.log(studyData);
-                
+
                 var studyData = data.data;
 
                 // general data view
                 $('#study-headline').text(studyData.generalData.title);
                 $('#type-survey').text(translation.surveyType[studyData.generalData.surveyType]);
-                $('#type-phase').text(translation.phaseType[studyData.generalData.phase]);
+//                $('#type-phase').text(translation.phaseType[studyData.generalData.phase]);
                 $('#study-description .address').text(translation.description);
                 $('#study-description .text').text(studyData.generalData.description);
-                
+                var absoluteStaticStudyUrl = 'https://gesturenote.de/study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
+                var relativeStaticStudyUrl = 'study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
+
                 if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
                     $('#btn-enter-unmoderated-study').remove();
+
 //                    $('#panel-survey, .panel-survey').removeClass('hidden');
 //                    $('.panel-survey .address').text(translation.panelSurvey + ":");
 //                    var ageFrom = studyData.generalData.ageRange.split(',')[0];
@@ -204,7 +206,14 @@ if (login_check($mysqli) == true) {
 //                    $('.panel-survey .text').text(translation.gender[studyData.generalData.gender] + " " + translation.of + " " + ageFrom + " " + translation.to + " " + ageTo);
                 } else {
                     $('#btn-enter-unmoderated-study').removeClass('hidden');
+                    $('#btn-enter-unmoderated-study').on('click', function (event) {
+                        event.preventDefault();
+                        if (!$(this).hasClass('disabled')) {
+                            goto(relativeStaticStudyUrl);
+                        }
+                    });
                 }
+
 
                 // date range view
                 var now = new Date().getTime();
@@ -212,117 +221,15 @@ if (login_check($mysqli) == true) {
                 var dateTo = addDays(studyData.generalData.dateTo * 1000, 1);
                 var totalDays = rangeDays(dateFrom, dateTo);
 
-//                if ((studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
-//                        (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
+                if (now > dateFrom && now < dateTo) {
+                    $('#btn-enter-unmoderated-study').removeClass('hidden');
+                } else {
+                    $('#btn-enter-unmoderated-study').removeClass('hidden').addClass('disabled');
+                }
+
                 $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
                 $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
                 $('.study-plan').removeClass('hidden');
-//                } else {
-//                    $('#study-range-days .text').text('0 ' + translation.days);
-//                    $('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
-//                }
-
-                // phase view
-//                $('#study-phases .address').text(translation.phases);
-                if (studyData.phases && studyData.phases.length > 0) {
-//                    for (var i = 0; i < studyData.phases.length; i++) {
-//                        var step = document.createElement('div');
-//                        $(step).addClass('study-phase-step');
-//                        $('#phase-steps-container').append(step);
-//
-//                        var iconContainer = document.createElement('div');
-//                        $(iconContainer).addClass('study-phase-icon-container');
-//                        $(step).append(iconContainer);
-//
-//                        var colorIcon = document.createElement('i');
-//                        $(colorIcon).addClass('study-phase-step-color-icon fa fa-circle');
-//                        $(colorIcon).css({color: studyData.phases[i].color});
-//                        $(iconContainer).append(colorIcon);
-//
-//                        var icon = document.createElement('i');
-//                        $(icon).addClass('study-phase-step-icon fa fa-circle-thin');
-//                        $(iconContainer).append(icon);
-//
-//                        var iconMiddle = document.createElement('span');
-//                        $(iconMiddle).addClass('study-phase-step-middle-icon');
-//                        $(iconMiddle).text(i + 1);
-//                        $(iconContainer).append(iconMiddle);
-//
-//                        var text = document.createElement('span');
-//                        $(text).addClass('text');
-//                        $(text).text(translation.formats[studyData.phases[i].format]);
-//                        $(step).append(text);
-//
-//                        if (i < studyData.phases.length - 1) {
-//                            var transition = document.createElement('i');
-//                            $(transition).addClass('study-phase-step-transition fa fa-long-arrow-down');
-//                            $('#phase-steps-container').append(transition);
-//                            TweenMax.from($(transition), .2, {delay: (i * .05), y: -10, opacity: 0.0, clearProps: 'all'});
-//                        }
-//                        TweenMax.from($(step), .3, {delay: 0.2 + (i * .05), y: -10, opacity: 0, clearProps: 'all'});
-//                    }
-                } else {
-                    appendAlert($('#item-view'), ALERT_NO_PHASE_DATA);
-//                    $('#btn-preview-study').addClass('disabled');
-                }
-
-//                $('#btn-edit-study').on('click', {studyId: data.id}, function (event) {
-//                    event.preventDefault();
-//                    if (!$(this).hasClass('disabled')) {
-//                        goto("study-create.php?studyId=" + event.data.studyId + "&h=" + hash);
-//                    }
-//                });
-//
-//                $('#btn-preview-study').on('click', {studyId: data.id}, function (event) {
-//                    event.preventDefault();
-//                    if (!$(this).hasClass('disabled')) {
-//                        goto("study-preview.php?studyId=" + event.data.studyId + "&h=" + hash);
-//                    }
-//                });
-//
-//                $('#btn-delete-study').on('click', {studyId: data.id}, function (event) {
-//                    event.preventDefault();
-//                    if (!$(this).hasClass('disabled')) {
-//                        deleteStudy({studyId: event.data.studyId}, function (result) {
-//                            if (result.status === RESULT_SUCCESS) {
-//                                gotoStudies();
-//                            } else {
-//
-//                            }
-//                        });
-//                    }
-//                });
-
-
-                // catalogs view
-                // check if there are study catalog data
-//                var studyGestures = data.gestureCatalog;
-//                var studyFeedback = studyData.assembledFeedback;
-//                var studyScenes = studyData.assembledScenes;
-//                var studyTrigger = studyData.assembledTrigger;
-//                var noCatalogData = true;
-//
-//                if (studyGestures && studyGestures.length > 0) {
-//                    setLocalItem(GESTURE_CATALOG, studyGestures);
-//                    renderStudyGestures(studyGestures);
-//                    noCatalogData = false;
-//                }
-//                if (studyScenes && studyScenes.length > 0) {
-//                    renderStudyScenes(studyScenes);
-//                    noCatalogData = false;
-//                }
-//                if (studyTrigger && studyTrigger.length > 0) {
-//                    renderStudyTrigger(studyTrigger);
-//                    noCatalogData = false;
-//                }
-//                if (studyFeedback && studyFeedback.length > 0) {
-//                    renderStudyFeedback(studyFeedback);
-//                    noCatalogData = false;
-//                }
-//
-//                if (noCatalogData) {
-//                    appendAlert($('#study-catalogs'), ALERT_NO_PHASE_DATA);
-//                }
             }
         </script>
     </body>

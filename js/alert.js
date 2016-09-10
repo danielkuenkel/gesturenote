@@ -23,6 +23,8 @@ var ALERT_WRONG_CURRENT_PASSWORD = 'wrong-current-password';
 
 // alert constants
 var ALERT_WEB_RTC_NOT_SUPPORTED = 'web-rtc-not-supported';
+var ALERT_ANOTHER_BROWSER_NEEDED_FOR_WEB_RTC = 'another-browser-needed-for-web-rtc';
+var ALERT_NO_STORAGE_API = 'no-storage-api';
 var ALERT_NO_WEBSOCKETS = 'no-websockets';
 var ALERT_NO_SCENES_ASSEMBLED = 'no-scenes-assembled';
 var ALERT_NO_GESTURES_ASSEMBLED = 'no-gestures-assembled';
@@ -52,6 +54,8 @@ var ALERT_NO_STUDIES = 'no-studies';
 var ALERT_RATING_SUBMITTED = 'rating-submitted';
 
 var ALERT_NO_COMMENTS = 'no-comments';
+
+var ALERT_CONTACT_SUPPORT = 'contact-support';
 
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);

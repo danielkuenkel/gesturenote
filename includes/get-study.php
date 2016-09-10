@@ -8,9 +8,13 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 
 session_start();
-if (isset($_SESSION['user_id'], $_POST['studyId'])) {
-    $sessionUserId = $_SESSION['user_id'];
-    $sessionUserType = $_SESSION['usertype'];
+if (isset($_POST['studyId'])) {
+    if (isset($_SESSION['user_id'])) {
+        $sessionUserId = $_SESSION['user_id'];
+    } else {
+        $sessionUserId = 'guest';
+    }
+
     $selectStudyId = $_POST['studyId'];
 
     if ($select_stmt = $mysqli->prepare("SELECT * FROM studies WHERE id = '$selectStudyId' LIMIT 1")) {

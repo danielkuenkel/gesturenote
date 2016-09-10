@@ -26,9 +26,12 @@ if (login_check($mysqli) == true) {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script type="text/JavaScript" src="js/sha512.js"></script> 
+        <script type="text/JavaScript" src="js/login.js"></script>
+        <script type="text/JavaScript" src="js/register.js"></script>
         <script type="text/JavaScript" src="js/checkForms.js"></script>
         <script type="text/JavaScript" src="js/ajax.js"></script>
         <script type="text/JavaScript" src="js/constants.js"></script>
+        <script type="text/JavaScript" src="js/goto-general.js"></script>
         <script type="text/JavaScript" src="js/language.js"></script>
         <script type="text/JavaScript" src="js/externals.js"></script>
         <script type="text/JavaScript" src="js/alert.js"></script>
@@ -197,7 +200,7 @@ if (login_check($mysqli) == true) {
                 <div class="col-sm-6 col-sm-push-6 col-md-6" style="margin-top: 40px;">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h2 class="panel-title"><?php echo $lang->signInAndRegister ?></h2>
+                            <h2 class="panel-title"><?php echo $lang->signInOrRegister ?></h2>
                         </div>
                         <div class="panel-body">
 
@@ -430,132 +433,22 @@ if (login_check($mysqli) == true) {
                         });
                     }
                 });
-            }
 
-            $('#btn-open-register').on('click', function (event) {
-                event.preventDefault();
-                $('#modal-register').modal('show');
-            });
-
-            $('#modal-register').on('hidden.bs.modal', function () {
-                $(this).find('#register-form').removeClass('hidden');
-                $(this).find('#btn-register').removeClass('hidden');
-                $(this).find('#userType').removeClass('hidden');
-                $(this).find('#btn-close').addClass('hidden');
-                $(this).find('input').val('');
-                $(this).find('#usertype .btn-option-checked').removeClass('btn-option-checked').mouseleave();
-                resetAlerts();
-            });
-
-            $('#modal-register #btn-close').on('click', function (event) {
-                event.preventDefault();
-                $('#modal-register').modal('hide');
-            });
-
-            var form = null;
-            $('#btn-login').on('click', function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    form = 'login';
-                    loginFormhash($('#login-form'), $('#login-form #email'), $('#login-form #password'));
-                }
-            });
-
-            $('#btn-forgot').on('click', function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    form = 'forgot';
-                    forgotFormhash($('#login-form'), $('#login-form #email'));
-                }
-            });
-
-            $('#login-form').on('submit', function (event) {
-                event.preventDefault();
-
-                resetAlerts();
-                disableInputs();
-
-                if (form === 'login') {
-                    var data = {email: $('#login-form #email').val().trim(), p: $('#login-form #p').val()};
-                    login(data, function (result) {
-                        resetAlerts();
-                        enableInputs();
-
-                        if (result.status === 'accountLogged') {
-                            appendAlert($('#login'), ALERT_ACCOUNT_LOGGED);
-                        } else if (result.status === 'passwordNotCorrect') {
-                            appendAlert($('#login'), ALERT_WRONG_PASSWORD);
-                        } else if (result.status === 'loginFailed') {
-                            appendAlert($('#login'), ALERT_LOGIN_FAILED);
-                        } else if (result.status === 'noUserExists') {
-                            appendAlert($('#login'), ALERT_NO_USER_EXISTS);
-                        } else if (result.status === 'success') {
-                            if (result.userType === 'evaluator') {
-                                window.location.replace('dashboard-evaluator.php');
-                            } else if (result.userType === 'tester') {
-                                window.location.replace('dashboard-tester.php');
-                            }
-                        } else if (data.status === 'databaseError') {
-                            appendAlert($('#login'), ALERT_GENERAL_ERROR);
-                        }
-                    });
-                } else if (form === 'forgot') {
-                    forgot({email: $('#login-form #email').val().trim()});
-                }
-            });
-
-            $('#btn-register').on('click', function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    registerFormhash($('#register-form'));
-                }
-            });
-
-            $('#register-form').on('submit', function (event) {
-                event.preventDefault();
-
-                resetAlerts();
-                disableInputs();
-
-                var forename = $('#register-form #forename').val().trim();
-                var surname = $('#register-form #surname').val().trim();
-                var email = $('#register-form #email').val().trim();
-                var p = $('#register-form #p').val().trim();
-                var date = parseInt($('#register-form #date').val().trim());
-                var month = parseInt($('#register-form #month').val().trim());
-                var year = parseInt($('#register-form #year').val().trim());
-                var birthday = year + "-" + month + "-" + date;
-                var gender = $('#modal-register #gender').find('.btn-option-checked').attr('id');
-                var userType = $('#modal-register #userType').find('.btn-option-checked').attr('id');
-
-                register({forename: forename, surname: surname, email: email, p: p, birthday: birthday, gender: gender, userType: userType}, function (result) {
-                    resetAlerts();
-                    enableInputs();
-
-                    if (result.status === 'emailExists') {
-                        appendAlert($('#modal-register'), ALERT_USER_EXISTS);
-                    } else if (result.status === 'success') {
-                        appendAlert($('#modal-register'), ALERT_REGISTER_SUCCESS);
-                        $('#modal-register').find('#register-form').addClass('hidden');
-                        $('#modal-register').find('#btn-register').addClass('hidden');
-                        $('#modal-register').find('#userType').addClass('hidden');
-                        $('#modal-register').find('#btn-close').removeClass('hidden');
-                    } else if (result.status === 'error') {
-                        appendAlert($('#modal-register'), ALERT_GENERAL_ERROR);
+                $('#login-form').on('loginSuccess', function (event, result) {
+                    if (result.userType === 'evaluator') {
+                        goto('dashboard-evaluator.php');
+                    } else if (result.userType === 'tester') {
+                        goto('dashboard-tester.php');
                     }
                 });
-            });
 
-            function disableInputs() {
-                $('#btn-login, #btn-forgot, #btn-open-register, #btn-register').addClass('disabled');
-            }
-
-            function enableInputs() {
-                $('#btn-login, #btn-forgot, #btn-open-register, #btn-register').removeClass('disabled');
-            }
-
-            function resetAlerts() {
-                $('.alert-space').empty();
+                $('#register-form').on('registerSuccess', function (event, result) {
+                    if (result.userType === 'evaluator') {
+                        goto('dashboard-evaluator.php');
+                    } else if (result.userType === 'tester') {
+                        goto('dashboard-tester.php');
+                    }
+                });
             }
         </script>
 

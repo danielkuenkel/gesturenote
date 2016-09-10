@@ -4,6 +4,19 @@
  * and open the template in the editor.
  */
 
+function getQueryParams(qs) {
+    qs = qs.split('+').join(' ');
+
+    var params = {},
+            tokens,
+            re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
+}
 
 function ajaxError(xhr, desc, err) {
     appendAlert($('body'), ALERT_GENERAL_ERROR);
