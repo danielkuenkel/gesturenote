@@ -155,7 +155,7 @@ function resetPlayButton(source) {
 }
 
 var originalImageWidth = 0;
-function renderGestureImages(container, images, preview, callback) {
+function renderGestureImages(container, images, preview, callback, mirroredHorizontally) {
     var numImagesLoaded = 0;
     $(container).empty();
     $(container).addClass('text-center');
@@ -168,10 +168,13 @@ function renderGestureImages(container, images, preview, callback) {
         container.append(image);
         if (i === parseInt(preview)) {
             $(image).addClass('previewImage active');
-
         } else {
             $(image).addClass('hidden');
         }
+        
+//        if(mirroredHorizontally === true) {
+            $(image).addClass('mirroredHorizontally');
+//        }
 
         image.onload = function () {
             if (numImagesLoaded === images.length - 1) {

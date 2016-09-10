@@ -270,6 +270,7 @@ if (login_check($mysqli) == true) {
                         });
                     } else {
                         $('#btn-prepare-study').remove();
+                        $('#btn-open-static-study-url').parent().remove();
                     }
                 } else {
                     $('#copy-to-clipboard').remove();
