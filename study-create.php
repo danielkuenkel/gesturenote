@@ -323,6 +323,7 @@ if (login_check($mysqli) == true) {
                                         <li id="gestureSlideshow" class="evaluation"><a href="#"><?php echo $lang->formats->gestureSlideshow->text ?></a></li>
                                         <li id="triggerSlideshow" class="evaluation"><a href="#"><?php echo $lang->formats->triggerSlideshow->text ?></a></li>
                                         <li id="physicalStressTest" class="evaluation"><a href="#"><?php echo $lang->formats->physicalStressTest->text ?></a></li>
+                                        <li id="thanks"><a href="#"><?php echo $lang->formats->thanks->text ?></a></li>
                                     </ul>
                                     <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                                 </div>
@@ -681,9 +682,8 @@ if (login_check($mysqli) == true) {
 
             $('#addPhaseStep').click(function (event) {
                 event.preventDefault();
-                var format = $(this).parent().find('.chosen').attr('id');
                 if (!$(this).hasClass('disabled') && format !== 'unselected') {
-//                    var selectedText = $(this).parent().prev().val();
+                    var format = $(this).parent().find('.chosen').attr('id');
                     addPhaseStep(chance.natural(), format, null);
                     savePhases();
                     checkPreviewAvailability();
@@ -712,15 +712,15 @@ if (login_check($mysqli) == true) {
                 });
 
                 clone.find('.btn-modify').attr('id', format);
-                clone.find('.btn-modify').bind("click", {format: format, id: id}, function (event) {
-                    event.preventDefault();
-                    currentIdForModal = event.data.id;
-                    loadHTMLintoModal("custom-modal", "create-" + event.data.format + ".html", "modal-lg");
-                });
+//                clone.find('.btn-modify').bind("click", {format: format, id: id}, function (event) {
+//                    event.preventDefault();
+//                    currentIdForModal = event.data.id;
+//                    loadHTMLintoModal("custom-modal", "create-" + event.data.format + ".html", "modal-lg");
+//                });
 
                 clone.find('.glyphicon-tag').css('color', color === null ? color = colors.pop() : color);
                 clone.find('.phase-step-format').text(" " + translation.formats[format].text);
-                clone.find('.btn-text-button').bind("click", {format: format, id: id}, function (event) {
+                clone.find('.btn-text-button, .btn-modify').bind("click", {format: format, id: id}, function (event) {
                     event.preventDefault();
                     currentIdForModal = event.data.id;
                     loadHTMLintoModal("custom-modal", "create-" + event.data.format + ".html", "modal-lg");
@@ -756,7 +756,7 @@ if (login_check($mysqli) == true) {
                     $('#phaseStepSelect').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
                     $('#scenes-catalog, #feedback-catalog').removeClass('hidden');
                 }
-                
+
                 renderPhaseSteps();
             });
 

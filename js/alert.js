@@ -50,6 +50,7 @@ var ALERT_GESTURE_DELETE_SUCCESS = 'gesture-delete-success';
 var ALERT_GESTURE_TOO_SHORT = 'gesture-too-short';
 var ALERT_NO_GESTURES = 'no-gestures';
 var ALERT_NO_STUDIES = 'no-studies';
+var ALERT_STUDY_UNMODERATED = 'study-unmoderated';
 
 var ALERT_RATING_SUBMITTED = 'rating-submitted';
 

@@ -34,6 +34,7 @@ if (login_check($mysqli) == true) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
+
         <script src="js/chance.min.js"></script>
         <script src="color-thief/color-thief.js"></script>
         <script src="js/sha512.js"></script>
@@ -48,11 +49,11 @@ if (login_check($mysqli) == true) {
         <script src="js/goto-evaluator.js"></script>       
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
-        <script src="js/study-preview.js"></script>
         <script src="js/renderForms.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/moderator.js"></script>
-        <script src="js/tester.js"></script>
+        <script src="js/study-execution.js"></script>
+        <script src="js/moderator-execution.js"></script>
+        <script src="js/tester-execution.js"></script>
 
         <!-- gesture recorder sources -->
         <script src="js/gesture-recorder.js"></script>
@@ -64,7 +65,6 @@ if (login_check($mysqli) == true) {
 
         <div id="alerts"></div>
         <div id="template-gesture"></div>
-        <div id="template-forms"></div>
         <div id="template-previews"></div>
         <div id="template-gesture-recorder"></div>
 
@@ -155,8 +155,6 @@ if (login_check($mysqli) == true) {
 
         <!-- main content -->
         <div class="mainContent" id="mainContent" style="padding-top: 145px;">
-
-            <!--<div class="alert-space alert-no-phase-data"></div>-->
 
             <div id="viewTester" class="hidden">
                 <div id="phase-content"></div>
@@ -273,6 +271,8 @@ if (login_check($mysqli) == true) {
             }
 
             function init() {
+                previewModeEnabled = true;
+                
                 if (typeof (Storage) !== "undefined") {
                     checkStorage();
                 } else {
@@ -298,6 +298,7 @@ if (login_check($mysqli) == true) {
             $('body').on('click', '.phaseStepsSelect .option li', function (event) {
                 if (!$(this).hasClass('selected')) {
                     setTimeout(function () {
+                        currentPhaseStepIndex = getCurrentPhaseStepIndex();
                         updateProgress();
                         renderPhaseStep();
                         updatePager();
@@ -340,7 +341,6 @@ if (login_check($mysqli) == true) {
 
             function renderPhaseStep() {
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-
                 if (currentView === VIEW_TESTER) {
                     renderPhaseStepForTester();
                 } else {
@@ -355,26 +355,12 @@ if (login_check($mysqli) == true) {
 
             function renderPhaseStepForModerator() {
                 resetRenderedContent();
-//                var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
-//                var data = getLocalItem(currentStepId + ".data");
-
-//                if (data || (data && $.isArray(data) && data.length > 0)) {
-                    Moderator.renderView();
-//                } else {
-//                    Moderator.renderNoDataView();
-//                }
+                Moderator.renderView();
             }
 
             function renderPhaseStepForTester() {
                 resetRenderedContent();
-//                var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
-//                var data = getLocalItem(currentStepId + ".data");
-
-//                if (data || (data && $.isArray(data) && data.length > 0)) {
-                    Tester.renderView();
-//                } else {
-//                    Tester.renderNoDataView();
-//                }
+                Tester.renderView();
             }
 
             $('#btn-toggle-rtc-fixed').on('click', function (event) {

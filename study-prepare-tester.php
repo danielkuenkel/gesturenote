@@ -127,7 +127,7 @@ if ($h && $token && $studyId) {
                             <button class="btn btn-success btn-shadow" id="btn-yes"><?php echo $lang->yes ?></button>
                         </div>
                     </div>
-                    
+
                     <div class="alert-space alert-another-browser-needed-for-web-rtc"></div>
                     <div class="alert-space alert-contact-support"></div>
                 </div>
@@ -185,7 +185,11 @@ if ($h && $token && $studyId) {
                 var totalDays = rangeDays(dateFrom, dateTo);
 
                 if (now > dateFrom && now < dateTo) {
-
+                    $('#btn-enter-study').on('click', function (event) {
+                        event.preventDefault();
+                        var query = getQueryParams(document.location.search);
+                        goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h);
+                    });
                 } else {
                     $('#btn-enter-study').addClass('disabled');
                 }

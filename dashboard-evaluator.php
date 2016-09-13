@@ -97,7 +97,12 @@ if (login_check($mysqli) == true) {
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-profile">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->dashboard->profile ?></div>
                         <div class="panel-body"><?php echo $lang->dashboard->profilePanelBody ?></div>
-                        <!--<div class="panel-footer">Panel Footer</div>-->
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-publications">
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php echo $lang->dashboard->publications ?></div>
+                        <div class="panel-body"><?php echo $lang->dashboard->publicationsPanelBody ?></div>
                     </div>
                 </div>
             </div>

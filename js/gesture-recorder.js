@@ -235,7 +235,7 @@ function showPlayback() {
             var endTimeOffset = (($(recorderTarget).find('#gesture-beginning').width() + $(recorderTarget).find('#gesture-execution').width()) / totalWidth) * video.duration;
             $(recorderTarget).find('#playback-controls').addClass('hidden');
 
-            // take screenshots every (based on the chosen milliseconds) x milliseconds
+            // take screenshots every x milliseconds (based on the chosen milliseconds)
             var keyframes = $(recorderTarget).find('#keyframeSelect .chosen').attr('id').split('_')[1];
             var shotsArray = new Array();
             video.currentTime = startTimeOffset;
@@ -245,7 +245,6 @@ function showPlayback() {
                 canvas.width = $(recorderTarget).find('#recorder-video').width();
                 canvas.height = $(recorderTarget).find('#recorder-video').height();
                 var ctx_draw = canvas.getContext('2d');
-//                ctx_draw.scale(-1,1);
                 draw_interval = setInterval(function () {
                     ctx_draw.drawImage(video, 0, 0, canvas.width, canvas.height);
                     shotsArray.push(canvas.toDataURL('image/jpeg'));
@@ -257,7 +256,6 @@ function showPlayback() {
             function offsetReached() {
                 clearInterval(draw_interval);
                 video.pause();
-//                console.log(shotsArray.length);
                 renderGestureImages($(recorderTarget).find('#preview-controls .previewGesture'), shotsArray, 0, function () {
                     gestureTrimmingDone();
                 });

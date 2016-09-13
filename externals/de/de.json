@@ -104,7 +104,9 @@
         "gesturesStyleguidesPanelBody": "Erfahren Sie, welchen Kriterien gebrauchstaugliche Gesten unterliegen",
         "gesturesCatalog": "Gesten-Katalog",
         "profile": "Profil",
-        "profilePanelBody": "Anzeigen und bearbeiten der Nutzerdaten"
+        "profilePanelBody": "Anzeigen und bearbeiten der Nutzerdaten",
+        "publications": "Veröffentlichungen",
+        "publicationsPanelBody": "Wissenschaftliche Beiträge der Macher von GestureNote zum Thema Gesten-Designprozess"
     },
     "createNewStudy": "Neue Studie erstellen",
     "copy": "Kopieren",
@@ -164,6 +166,11 @@
             "text": "Physischer Belastungstest",
             "class": "evaluation",
             "webRTC": "yes"
+        },
+        "thanks": {
+            "text": "Bedankung",
+            "class": "both",
+            "webRTC": "no"
         }
     },
     "scales": {

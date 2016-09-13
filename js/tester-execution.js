@@ -5,16 +5,18 @@
  */
 var singleGUSGesture = null;
 var Tester = {
-    renderView: function renderView() {
+    renderView: function renderView(showThanksScreen) {
         $('.alert-space').empty();
+
+        var source = getSourceContainer(currentView);
+        var item = null;
         var currentPhase = getCurrentPhase();
         var currentPhaseData = getCurrentPhaseData();
-        var source = getSourceContainer(currentView);
 
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
             //        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
             var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
-            var item = null;
+
             switch (currentPhase.format) {
                 case QUESTIONNAIRE:
                     item = Tester.getQuestionnaire(container, currentPhaseData);
@@ -61,13 +63,16 @@ var Tester = {
                         Tester.appendRTCPreview(source, item.find('#column-left'));
                     }
                     break;
+                case THANKS:
+                    item = Tester.getThanks(container, currentPhaseData);
+                    break;
             }
+        } else {
+            Tester.renderNoDataView();
+        }
 
-            if (item !== false) {
-                $('#viewTester #phase-content').empty().append(item);
-            } else {
-                Tester.renderNoDataView();
-            }
+        if (item !== false || item !== null) {
+            $('#viewTester #phase-content').empty().append(item);
         } else {
             Tester.renderNoDataView();
         }
@@ -88,10 +93,12 @@ var Tester = {
     },
     getLetterOfAcceptance: function getLetterOfAcceptance(container, data) {
         $(container).find('.letter-text').text(data);
+
         $(container).find('#letter-agreed').on('click', function (event) {
             event.preventDefault();
             nextStep();
         });
+
         return container;
     },
     getQuestionnaire: function getQuestionnaire(container, data) {
@@ -161,6 +168,7 @@ var Tester = {
             $(container).find('#trigger .text').text(trigger.title);
             $(container).find('#feedback .address').text(translation.feedback + ':');
             $(container).find('#feedback .text').text(feedback.title);
+
             if (feedback) {
                 var icon = document.createElement('i');
                 var label = document.createElement('div');
@@ -185,6 +193,11 @@ var Tester = {
             $(container).find('#gesturePreview').addClass('hidden');
         }
 
+        $(container).find('#btn-next-phase-step').on('click', function (event) {
+            event.preventDefault();
+            nextStep();
+        });
+
         container = Tester.getQuestionnaire(container, getAssembledItems(data.gus));
         return container;
     },
@@ -203,7 +216,7 @@ var Tester = {
         $(container).find('.headline').text(data.title);
         $(container).find('.description').text(data.description);
 
-        if (data.training.length === 0) {
+        if (!data.training || data.training.length === 0) {
             return false;
         }
 
@@ -376,7 +389,7 @@ var Tester = {
         $(container).find('#general .headline').text(data.title);
         $(container).find('#general .description').text(data.description);
 
-        if (data.slideshow.length === 0) {
+        if (!data.slideshow || data.slideshow.length === 0) {
             return false;
         }
 
@@ -500,7 +513,7 @@ var Tester = {
         $(container).find('#general .headline').text(data.title);
         $(container).find('#general .description').text(data.description);
 
-        if (data.slideshow.length === 0) {
+        if (!data.slideshow || data.slideshow.length === 0) {
             return false;
         }
 
@@ -583,7 +596,7 @@ var Tester = {
         });
     },
     getIdentification: function getIdentification(source, container, data) {
-        if (data.identification.length === 0) {
+        if (!data.identification || data.identification.length === 0) {
             return false;
         }
 
@@ -736,8 +749,8 @@ var Tester = {
         renderGestureImages($(container).find('.previewGesture'), gesture.images, gesture.previewImage, null);
         renderSelectionRatingGraphics(item, data);
 
+        var questionContainer = $(container).find('#stress-test-questionnaire');
         if (stressTestQuestionsTriggered) {
-            var questionContainer = $(container).find('#stress-test-questionnaire');
             questionContainer.removeClass('hidden');
             if (currentStressTestCount >= data.stressAmount) {
                 var mergedQuestionnaire = null;
@@ -750,17 +763,14 @@ var Tester = {
                 } else if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
                     mergedQuestionnaire = data.singleStressQuestions;
                 }
-
-//                console.log('show sequence and single question');
                 Tester.getQuestionnaire(questionContainer, mergedQuestionnaire);
             } else {
-//                console.log('show single question');
                 if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
                     Tester.getQuestionnaire(questionContainer, data.singleStressQuestions);
                 }
             }
         } else {
-            $(container).find('#stress-test-questionnaire').addClass('hidden');
+            questionContainer.addClass('hidden');
         }
     },
     renderUnmoderatedPhysicalStressTest: function renderUnmoderatedPhysicalStressTest(source, container, data) {
@@ -779,35 +789,42 @@ var Tester = {
                 } else {
                     mergedQuestionnaire = data.sequenceStressQuestions;
                 }
+            } else if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
+                mergedQuestionnaire = data.singleStressQuestions;
             }
 
             renderSelectionRatingGraphics(item, data);
 
-            if (data.stressTestItems.length - 1 === currentStressTestIndex && currentStressTestCount >= data.stressAmount - 1) {
+            if (currentStressTestIndex === data.stressTestItems.length - 1 && currentStressTestCount >= parseInt(data.stressAmount) - 1) {
                 $(this).addClass('hidden');
                 $(item).find('#btn-questionnaire-done').addClass('hidden');
                 $(item).find('#btn-done').removeClass('hidden');
-            } else if (currentStressTestCount >= data.stressAmount - 1) {
+            } else if (currentStressTestCount >= parseInt(data.stressAmount) - 1) {
                 $(this).addClass('hidden');
                 $(item).find('#btn-questionnaire-done').addClass('hidden');
                 $(item).find('#btn-next-gesture').removeClass('hidden');
             }
 
-            if (currentStressTestCount >= data.stressAmount - 1) {
+            var questionContainer = $(container).find('#stress-test-questionnaire');
+            if (currentStressTestCount >= parseInt(data.stressAmount) - 1) {
+
                 if (mergedQuestionnaire) {
-                    $(item).find('#general-repeats').addClass('hidden');
+                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
                     $(item).find('#questionnaire-heading').removeClass('hidden');
-                    $(item).find('#btn-gesture-done').addClass('hidden');
                     $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
-                    $(item).find('#stress-test-questionnaire').removeClass('hidden');
-                    Tester.getQuestionnaire($(item).find('#stress-test-questionnaire'), mergedQuestionnaire);
+                    questionContainer.removeClass('hidden');
+                    Tester.getQuestionnaire(questionContainer, mergedQuestionnaire);
                 } else if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
-                    $(item).find('#general-repeats').addClass('hidden');
+                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
                     $(item).find('#questionnaire-heading').removeClass('hidden');
-                    $(item).find('#btn-gesture-done').addClass('hidden');
                     $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
-                    $(item).find('#stress-test-questionnaire').removeClass('hidden');
-                    Tester.getQuestionnaire($(item).find('#stress-test-questionnaire'), data.singleStressQuestions);
+                    questionContainer.removeClass('hidden');
+                    Tester.getQuestionnaire(questionContainer, data.singleStressQuestions);
+                } else if (data.sequenceStressGraphicsRating !== 'none' || data.singleStressGraphicsRating !== 'none') {
+                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
+                    $(item).find('#questionnaire-heading').removeClass('hidden');
+                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
+                    questionContainer.removeClass('hidden');
                 } else {
                     currentStressTestCount = 0;
                     currentStressTestIndex++;
@@ -815,16 +832,19 @@ var Tester = {
                 }
             } else {
                 if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
-                    $(item).find('#btn-questionnaire-done').removeClass('hidden');
-                    $(item).find('#general-repeats').addClass('hidden');
-                    $(item).find('#questionnaire-heading').removeClass('hidden');
-                    $(item).find('#btn-gesture-done').addClass('hidden');
+                    $(item).find('#btn-questionnaire-done, #questionnaire-heading').removeClass('hidden');
+                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
                     $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
-                    $(item).find('#stress-test-questionnaire').removeClass('hidden');
-                    Tester.getQuestionnaire($(item).find('#stress-test-questionnaire'), data.singleStressQuestions);
+                    questionContainer.removeClass('hidden');
+                    Tester.getQuestionnaire(questionContainer, data.singleStressQuestions);
+                } else if (data.sequenceStressGraphicsRating !== 'none' || data.singleStressGraphicsRating !== 'none') {
+                    $(item).find('#btn-questionnaire-done, #questionnaire-heading').removeClass('hidden');
+                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
+                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
+                    questionContainer.removeClass('hidden');
                 } else {
                     currentStressTestCount++;
-                    $(item).find('#general-repeats .headline').text('Bitte die Geste noch ' + (data.stressAmount - currentStressTestCount) + ' Mal ausführen');
+                    $(item).find('#general-repeats .headline').text('Bitte die Geste noch ' + (parseInt(data.stressAmount) - currentStressTestCount) + ' Mal ausführen');
                 }
             }
         });
@@ -862,13 +882,22 @@ var Tester = {
         }
 
         return container;
+    },
+    getThanks: function getThanks(container, data) {
+        $(container).find('.text').text(data);
+
+        $(container).find('#execution-done').on('click', function (event) {
+            event.preventDefault();
+//            nextStep();
+        });
+        return container;
     }
 };
 
 function renderSelectionRatingGraphics(item, data) {
     var selectionRating = getSelectionRating(data);
     if (selectionRating !== 'none') {
-        
+
         switch (selectionRating) {
             case 'body':
                 $(item).find('#hand-selection-rating').addClass('hidden');

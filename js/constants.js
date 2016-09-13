@@ -53,6 +53,7 @@ var SLIDESHOW_GESTURES = 'gestureSlideshow';
 var SLIDESHOW_TRIGGER = 'triggerSlideshow';
 var IDENTIFICATION = 'identification';
 var PHYSICAL_STRESS_TEST = 'physicalStressTest';
+var THANKS = 'thanks';
 
 // questionnaire formats
 var OPEN_QUESTION = 'openQuestion';

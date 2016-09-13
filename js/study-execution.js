@@ -23,13 +23,16 @@ var stressTestGestureTriggered = false;
 var stressTestQuestionsTriggered = false;
 
 var testerDoneTriggered = false;
+var previewModeEnabled = false;
 
 function checkStorage() {
     var phaseSteps = getContextualPhaseSteps();
     if (phaseSteps && phaseSteps.length > 0) {
         initialize();
-        renderPhases();
 
+        if (previewModeEnabled) {
+            renderPhases();
+        }
     } else {
 //        console.log('there are no phase steps');
     }
@@ -37,11 +40,17 @@ function checkStorage() {
 
 function initialize() {
     var study = getLocalItem(STUDY);
-    if (study.surveyType === TYPE_SURVEY_UNMODERATED) {
-        showTesterView();
-        $('#btnViewModerator').addClass('disabled');
+    if (previewModeEnabled === true) {
+        if (study.surveyType === TYPE_SURVEY_UNMODERATED) {
+            showTesterView();
+            $('#btnViewModerator').addClass('disabled');
+
+        } else {
+            showModeratorView();
+        }
     } else {
-        showModeratorView();
+        renderPhaseStep();
+        updateProgress();
     }
 }
 
@@ -99,7 +108,17 @@ function previousStep() {
     identificationStartTriggered = false;
     singleGUSGesture = null;
     resetRecorder();
-    $('.phaseStepsSelect .dropdown-menu .selected').prev().click();
+
+    var phases = getContextualPhaseSteps();
+    if (phases && phases.length > 0) {
+//        if (currentPhaseStepIndex - 1 > 0) {
+        currentPhaseStepIndex = Math.max(currentPhaseStepIndex - 1, 0);
+//        }
+    }
+
+    if (previewModeEnabled === true) {
+        $('.phaseStepsSelect .dropdown-menu .selected').prev().click();
+    }
 }
 
 function nextStep() {
@@ -121,17 +140,29 @@ function nextStep() {
     identificationStartTriggered = false;
     singleGUSGesture = null;
     resetRecorder();
-    $('.phaseStepsSelect .dropdown-menu .selected').next().click();
+
+    var phases = getContextualPhaseSteps();
+    if (phases && phases.length > 0) {
+        currentPhaseStepIndex++;
+    }
+
+    if (previewModeEnabled === true) {
+        $('.phaseStepsSelect .dropdown-menu .selected').next().click();
+    } else {
+        if (currentPhaseStepIndex < phases.length) {
+            renderPhaseStep();
+        }
+        updateProgress();
+    }
 }
 
 function updatePager() {
     var phaseSteps = getContextualPhaseSteps();
     if (phaseSteps && phaseSteps.length > 1) {
-        var currentStepCount = getCurrentStep();
-        if (currentStepCount <= 0) {
+        if (currentPhaseStepIndex <= 0) {
             $('.previous').addClass('disabled');
             $('.next').removeClass('disabled');
-        } else if (currentStepCount >= phaseSteps.length - 1) {
+        } else if (currentPhaseStepIndex >= phaseSteps.length - 1) {
             $('.previous').removeClass('disabled');
             $('.next').addClass('disabled');
         } else {
@@ -146,15 +177,13 @@ function updatePager() {
 
 function updateProgress() {
     var phaseSteps = getContextualPhaseSteps();
-    var percentage = Math.round(100 / phaseSteps.length * (getCurrentStep() + 1));
-
+    var percentage = Math.round(100 / phaseSteps.length * (currentPhaseStepIndex + 1));
     $('#progressTop').find('.progress-bar').attr('aria-valuenow', percentage);
     $('#progressTop').find('.progress-bar').css('width', percentage + '%');
     $('#progressTop').find('.progress-bar').text(percentage + '%');
-
 }
 
-function getCurrentStep() {
+function getCurrentPhaseStepIndex() {
     var phaseSteps = getContextualPhaseSteps();
     var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
     for (var i = 0; i < phaseSteps.length; i++) {
@@ -164,15 +193,15 @@ function getCurrentStep() {
     }
 }
 
+var currentPhaseStepIndex = 0;
 function getCurrentPhase() {
     var phaseSteps = getContextualPhaseSteps();
-    var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
-    for (var i = 0; i < phaseSteps.length; i++) {
-        if (currentStepId === phaseSteps[i].id) {
-            return phaseSteps[i];
-        }
-    }
-    return null;
+    return phaseSteps[currentPhaseStepIndex];
+}
+
+function getCurrentPhaseData() {
+    var currentPhase = getCurrentPhase();
+    return getLocalItem(currentPhase.id + '.data');
 }
 
 function getSourceContainer(selector) {
@@ -274,11 +303,6 @@ function getItemsForSceneId(data, sceneId) {
         return array;
     }
     return null;
-}
-
-function getCurrentPhaseData() {
-    var currentPhase = getCurrentPhase();
-    return getLocalItem(currentPhase.id + '.data');
 }
 
 function QuestionnaireItem(type, dimension, question, parameters, options) {

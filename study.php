@@ -300,7 +300,7 @@ if (login_check($mysqli) == true) {
                         $(iconContainer).append(icon);
 
                         var iconMiddle = document.createElement('span');
-                        $(iconMiddle).addClass('study-phase-step-middle-icon');
+                        $(iconMiddle).addClass((i > 8) ? 'study-phase-step-middle-icon-small' : 'study-phase-step-middle-icon');
                         $(iconMiddle).text(i + 1);
                         $(iconContainer).append(iconMiddle);
 

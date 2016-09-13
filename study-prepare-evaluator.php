@@ -88,6 +88,8 @@ if ($h && $token && $studyId) {
                         <p class="text"></p>
                     </div>
 
+                    <div class="alert-space alert-study-unmoderated"></div>
+
                 </div>
             </div>
 
@@ -105,7 +107,7 @@ if ($h && $token && $studyId) {
                 <div class="col-sm-6 text">
                     <p><strong>Diese Studie benötigt Zugriff auf Ihre Webcam.</strong> Falls Ihr Browser die Technologie unterstützt, erhalten Sie einen Hinweis, dass diese Seite auf Ihre Kamera und Ihr Mikrofon zugreifen möchte. Akzeptieren Sie bitte den Zugriff auf Kamera und Mikrofon, wenn Sie an dieser Studie teilnehmen möchten. </p>
                     <p>Danach prüfen Sie bitte, ob der Kamerastream funktioniert und Sie sich links sehen können. Beantworten Sie bitte die Frage. </p>
-                    
+
                     <div id="web-rtc-working">
                         <p>Können Sie sich sehen? </p>
                         <div class="btn-group">
@@ -121,7 +123,7 @@ if ($h && $token && $studyId) {
                             <button class="btn btn-success btn-shadow" id="btn-yes"><?php echo $lang->yes ?></button>
                         </div>
                     </div>
-                    
+
                     <div class="alert-space alert-another-browser-needed-for-web-rtc"></div>
                     <div class="alert-space alert-contact-support"></div>
                 </div>
@@ -173,51 +175,51 @@ if ($h && $token && $studyId) {
                 $('#study-description .text').text(studyData.generalData.description);
 
                 if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
+                    // check rtc is needed
+                    if (isWebRTCNeeded(studyData.phases)) {
+                        $('#technical-check').removeClass('hidden');
+                        renderRTCCheck();
+                    } else {
+                        $('#technical-check').remove();
+                        $('#study-participation, #study-details').removeClass('hidden');
+                    }
 
-                    return false;
-                }
+                    // check supported rtc
+                    if (isWebRTCSupported() === false) {
+                        $('#web-rtc-working').addClass('hidden');
+                        $('#web-rtc-not-working').removeClass('hidden');
+                    }
 
-                // check rtc is needed
-                if (isWebRTCNeeded(studyData.phases)) {
-                    $('#technical-check').removeClass('hidden');
-                    renderRTCCheck();
+                    // questionnaire about rtc
+                    $('#web-rtc-working #btn-yes').on('click', function (event) {
+                        event.preventDefault();
+                        $('#web-rtc-working, #technical-check').addClass('hidden');
+                        $('#study-participation, #study-details').removeClass('hidden');
+                        resetRTC();
+                    });
+
+                    $('#web-rtc-working #btn-no').on('click', function (event) {
+                        event.preventDefault();
+                        $('#web-rtc-working').addClass('hidden');
+                        $('#web-rtc-not-working').removeClass('hidden');
+                    });
+
+                    $('#web-rtc-not-working #btn-yes').on('click', function (event) {
+                        event.preventDefault();
+                        $('#web-rtc-not-working').addClass('hidden');
+                        appendAlert($('#technical-check'), ALERT_ANOTHER_BROWSER_NEEDED_FOR_WEB_RTC);
+                    });
+
+                    $('#web-rtc-not-working #btn-no').on('click', function (event) {
+                        event.preventDefault();
+                        $('#web-rtc-not-working').addClass('hidden');
+                        clearAlerts($('#technical-check'));
+                        appendAlert($('#technical-check'), ALERT_CONTACT_SUPPORT);
+                    });
                 } else {
-                    $('#technical-check').remove();
-                    $('#study-participation, #study-details').removeClass('hidden');
+                    $('#study-details').removeClass('hidden');
+                    appendAlert($('#study-details'), ALERT_STUDY_UNMODERATED);
                 }
-
-                // check supported rtc
-                if (isWebRTCSupported() === false) {
-                    $('#web-rtc-working').addClass('hidden');
-                    $('#web-rtc-not-working').removeClass('hidden');
-                }
-
-                // questionnaire about rtc
-                $('#web-rtc-working #btn-yes').on('click', function (event) {
-                    event.preventDefault();
-                    $('#web-rtc-working, #technical-check').addClass('hidden');
-                    $('#study-participation, #study-details').removeClass('hidden');
-                    resetRTC();
-                });
-
-                $('#web-rtc-working #btn-no').on('click', function (event) {
-                    event.preventDefault();
-                    $('#web-rtc-working').addClass('hidden');
-                    $('#web-rtc-not-working').removeClass('hidden');
-                });
-
-                $('#web-rtc-not-working #btn-yes').on('click', function (event) {
-                    event.preventDefault();
-                    $('#web-rtc-not-working').addClass('hidden');
-                    appendAlert($('#technical-check'), ALERT_ANOTHER_BROWSER_NEEDED_FOR_WEB_RTC);
-                });
-
-                $('#web-rtc-not-working #btn-no').on('click', function (event) {
-                    event.preventDefault();
-                    $('#web-rtc-not-working').addClass('hidden');
-                    clearAlerts($('#technical-check'));
-                    appendAlert($('#technical-check'), ALERT_CONTACT_SUPPORT);
-                });
             }
 
             function renderRTCCheck() {

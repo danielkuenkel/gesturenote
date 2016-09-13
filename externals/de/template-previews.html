@@ -637,7 +637,7 @@
     <!-- main formats -->
 
     <div class="container root" id="letterOfAcceptance">
-        <h3 class="headline">Einverständniserklärung</h3>
+        <h3 class="headline" style="margin: 0" >Einverständniserklärung</h3>
         <hr>
         <div class="letter-text"></div>
         <hr>
@@ -648,21 +648,21 @@
     </div>
 
     <div class="container root" id="questionnaire">
-        <h3 class="headline">Fragebogen</h3>
+        <h3 class="headline" style="margin: 0" >Fragebogen</h3>
         <hr>
         <div class="question-container"></div>
         <hr>
-        <button class="next btn btn-success pull-right">Weiter <span aria-hidden="true">&rarr;</span></button>
+        <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
     </div>
 
 
     <!-- SUS container & item -->
     <div class="container root" id="sus">
-        <h3 class="headline">Fragebogen zum System</h3>
+        <h3 class="headline" style="margin: 0" >Fragebogen zum System</h3>
         <hr>
         <div class="question-container"></div>
         <hr>
-        <button class="next btn btn-success pull-right">Weiter <span aria-hidden="true">&rarr;</span></button>
+        <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
     </div>
 
     <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
@@ -676,7 +676,7 @@
 
     <!-- GUS container & item -->
     <div class="container root" id="gus">
-        <h3 class="headline">Fragebogen zur Geste</h3>
+        <h3 class="headline" style="margin: 0" >Fragebogen zur Geste</h3>
         <div class="row">
             <div class="col-sm-6 right" style="margin-bottom: 10px;">
                 <div id="gesture"><span class="address"></span> <span class="text"></span></div>
@@ -696,17 +696,17 @@
         <hr>
         <div class="question-container"></div>
         <hr>
-        <button class="next btn btn-success pull-right">Weiter <span aria-hidden="true">&rarr;</span></button>
+        <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
     </div>
 
 
     <!-- gesture questionnaire container & item -->
     <div class="container root" id="questionnaireGestures">
-        <h3 class="headline">Fragebogen zu den Gesten</h3>
+        <h3 class="headline" style="margin: 0" >Fragebogen zu den Gesten</h3>
         <hr>
         <div class="question-container"></div>
         <hr>
-        <button class="next btn btn-success pull-right">Weiter <span aria-hidden="true">&rarr;</span></button>
+        <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
     </div>
 
     <!-- gesture training container -->
@@ -747,20 +747,6 @@
     </div>
 
     <div id="trainingItemUnmoderated">
-        <!--<div class="row">-->
-        <div class="col-sm-12">
-            <div id="training-controls">
-                <button class="btn btn-lg btn-block btn-success btn-shadow" id="start-training" name="btn-success"><span class="btn-text">Jetzt Starten</span></button>
-                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="start-single-training" name="btn-success"><span class="btn-text">Gesten-Training beginnen</span></button>
-                <button class="btn btn-lg btn-block btn-info btn-shadow hidden" id="repeat-training" name="btn-success"><span class="btn-text">Geste nochmal ausführen</span></button>
-                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="training-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
-            </div>
-            <div class="progress progress-training hidden" style="border-radius: 10px">
-                <div class="progress-bar progress-bar-training progress-bar-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
-            </div>
-        </div>
-        <!--</div>-->
         <div class="hidden" id="training-data">
             <div class="col-sm-12 col-lg-6" style="margin-top: 20px">
                 <div style="margin-bottom: 10px;">
@@ -781,9 +767,23 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-12" style="margin-top: 10px">
+            <div id="training-controls">
+                <button class="btn btn-lg btn-block btn-success btn-shadow" id="start-training" name="btn-success"><span class="btn-text">Jetzt Starten</span></button>
+                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="start-single-training" name="btn-success"><span class="btn-text">Gesten-Training beginnen</span></button>
+                <button class="btn btn-lg btn-block btn-info btn-shadow hidden" id="repeat-training" name="btn-success"><span class="btn-text">Geste nochmal ausführen</span></button>
+                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="training-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            </div>
+            <div class="progress progress-training hidden" style="border-radius: 10px">
+                <div class="progress-bar progress-bar-training progress-bar-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+            </div>
+        </div>
     </div>
 
+    
     <!-- gesture slideshow container -->
+    
     <div class="root" id="gestureSlideshow">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right">
@@ -845,11 +845,11 @@
     </div>
 
 
-    <!-- gesture slideshow container -->
+    <!-- trigger slideshow container -->
 
     <div class="container root" id="triggerSlideshow">
         <div id="general">
-            <h3 class="headline"></h3>
+            <h3 style="margin: 0"  class="headline"></h3>
             <div class="description"></div>
             <hr>
         </div>
@@ -1002,9 +1002,9 @@
 
     <div class="root" id="physicalStressTest">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="col-md-8" id="column-right">
+        <div class="col-md-8" id="column-right" style="margin-bottom: 25px;">
             <div id="general">
-                <h3 class="headline"></h3>
+                <h3 class="headline" style="margin: 0" ></h3>
                 <div class="description"></div>
                 <hr>
             </div>
@@ -1035,7 +1035,7 @@
 
             <div class="panel panel-default hidden" id="human-body-selection-rating" style="margin-bottom: 5px;">
                 <div class="panel-body">
-                    <p class="question">Welche Teile des Körpers haben für die Geste genutzt?</p>
+                    <p class="question">Welche Teile des Körpers wurden besonders beantsprucht?</p>
                     <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
                         <div id="joint-container" style="position: absolute"></div>
                         <img src="img/human_body.svg">
@@ -1058,11 +1058,11 @@
     <div class="root" id="physicalStressTestUnmoderated">
         <div class="col-sm-12">
             <div id="general-repeats">
-                <h3 class="headline">Bitte die Geste ausführen</h3>
+                <h3 class="headline" style="margin: 0">Bitte die Geste ausführen</h3>
                 <hr>
             </div>
             <div id="questionnaire-heading" class="hidden">
-                <h3 class="headline">Bitte die Fragen beantworten</h3>
+                <h3 class="headline" style="margin: 0" >Bitte die Fragen beantworten</h3>
                 <hr>
             </div>
         </div>
@@ -1085,7 +1085,7 @@
 
             <div class="panel panel-default hidden" id="human-body-selection-rating" style="margin-bottom: 5px;">
                 <div class="panel-body">
-                    <p class="question">Welche Teile des Körpers haben für die Geste genutzt?</p>
+                    <p class="question">Welche Teile des Körpers wurden besonders beantsprucht?</p>
                     <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
                         <div id="joint-container" style="position: absolute"></div>
                         <img src="img/human_body.svg">
@@ -1188,6 +1188,14 @@
         <div id="feedback-title"></div>
         <i class="fa fa-volume-up" style="font-size: 80pt"></i>
         <audio class="audio-holder" src="" preload="auto"></audio>
+    </div>
+
+    <div class="container root"  id="thanks">
+        <h3 class="headline" style="margin: 0" >Danke für die Teilnahme</h3>
+        <hr>
+        <div class="text"></div>
+        <hr>
+        <button type="button" class="btn btn-success btn-shadow pull-right" id="execution-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
     </div>
 
 </div>
