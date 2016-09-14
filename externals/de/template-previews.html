@@ -629,9 +629,11 @@
     <!-- rtc preview -->
     <div id="tester-web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
         <img src="img/web-rtc-placeholder.jpg" style="width: 100%; height: auto" />
-        <!--        <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
-                    <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
-                </div>-->
+    </div>
+
+    <!-- rtc live stream -->
+    <div id="web-rtc-live-stream" style="width: 100%">
+        <video autoplay class="rtc-stream" style="width: 100%; height: auto; overflow: hidden; border-radius: 4px;"></video>
     </div>
 
     <!-- main formats -->
@@ -781,9 +783,9 @@
         </div>
     </div>
 
-    
+
     <!-- gesture slideshow container -->
-    
+
     <div class="root" id="gestureSlideshow">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right">
@@ -1150,6 +1152,7 @@
             <div class="text-center" style="overflow: hidden">
                 <button type="button" class="btn btn-success hidden" id="btn-perform-gesture"><span class="btn-text">Geste ausführen</span></button>
                 <button type="button" class="btn btn-danger hidden" id="btn-stop-perform-gesture"><span class="btn-text">Geste ausgeführt</span></button>
+                <button type="button" class="btn btn-success hidden" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
             </div>
         </div>
 

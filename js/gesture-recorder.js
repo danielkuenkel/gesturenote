@@ -21,7 +21,10 @@ function resetRecorder() {
     }
 
     if (liveStream) {
-        liveStream.getVideoTracks()[0].stop();
+        if (liveStream.getAudioTracks()[0])
+            liveStream.getAudioTracks()[0].stop();
+        if (liveStream.getVideoTracks()[0])
+            liveStream.getVideoTracks()[0].stop();
     }
 }
 

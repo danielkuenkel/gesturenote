@@ -5,7 +5,7 @@
  */
 var singleGUSGesture = null;
 var Tester = {
-    renderView: function renderView(showThanksScreen) {
+    renderView: function renderView() {
         $('.alert-space').empty();
 
         var source = getSourceContainer(currentView);
@@ -18,8 +18,17 @@ var Tester = {
             var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
 
             switch (currentPhase.format) {
+                case LETTER_OF_ACCEPTANCE:
+                    item = Tester.getLetterOfAcceptance(container, currentPhaseData);
+                    break;
+                case THANKS:
+                    item = Tester.getThanks(container, currentPhaseData);
+                    break;
                 case QUESTIONNAIRE:
                     item = Tester.getQuestionnaire(container, currentPhaseData);
+                    break;
+                case IDENTIFICATION:
+                    item = Tester.getIdentification(source, container, currentPhaseData);
                     break;
                 case GUS_SINGLE_GESTURES:
                     item = Tester.getGUS(container, currentPhaseData);
@@ -32,39 +41,18 @@ var Tester = {
                     break;
                 case GESTURE_TRAINING:
                     item = Tester.getGestureTraining(source, container, currentPhaseData);
-                    if (item) {
-                        Tester.appendRTCPreview(source, item.find('#column-left'));
-                    }
-                    break;
-                case LETTER_OF_ACCEPTANCE:
-                    item = Tester.getLetterOfAcceptance(container, currentPhaseData);
                     break;
                 case SLIDESHOW_GESTURES:
                     item = Tester.getGestureSlideshow(source, container, currentPhaseData);
-                    if (item) {
-                        Tester.appendRTCPreview(source, item.find('#column-left'));
-                    }
                     break;
                 case SLIDESHOW_TRIGGER:
                     item = Tester.getTriggerSlideshow(source, container, currentPhaseData);
                     break;
                 case SCENARIO:
                     item = Tester.getScenario(source, container, currentPhaseData);
-                    if (item) {
-                        Tester.appendRTCPreview(source, item.find('#fixed-rtc-preview'));
-                    }
-                    break;
-                case IDENTIFICATION:
-                    item = Tester.getIdentification(source, container, currentPhaseData);
                     break;
                 case PHYSICAL_STRESS_TEST:
                     item = Tester.getPhysicalStressTest(source, container, currentPhaseData);
-                    if (item) {
-                        Tester.appendRTCPreview(source, item.find('#column-left'));
-                    }
-                    break;
-                case THANKS:
-                    item = Tester.getThanks(container, currentPhaseData);
                     break;
             }
         } else {
@@ -73,18 +61,63 @@ var Tester = {
 
         if (item !== false || item !== null) {
             $('#viewTester #phase-content').empty().append(item);
+            Tester.initializeRTC(source, item, currentPhase.format);
+
         } else {
             Tester.renderNoDataView();
         }
 
-        $('#viewTester #phase-content').css({y: 0, opacity: 1});
+        Tester.checkPositioning(currentPhase.format);
         TweenMax.from($('#viewTester #phase-content'), .2, {y: -60, opacity: 0});
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
         }
     },
+    checkPositioning: function checkPositioning(format) {
+        var posY = 0;
+        if (previewModeEnabled === false) {
+            switch (format) {
+                case SCENARIO:
+                    break;
+                default:
+                    posY = 60;
+                    break;
+            }
+        }
+        $('#viewTester #phase-content').css({y: 0, marginTop: posY + 'px', opacity: 1});
+    },
+    initializeRTC: function initializeRTC(source, item, format) {
+        if (translation.formats[format].webRTC === 'yes') {
+            if (previewModeEnabled === true) {
+                switch (format) {
+                    case SCENARIO:
+                        Tester.appendRTCPreview(source, item.find('#fixed-rtc-preview'));
+                        break;
+                    default:
+                        Tester.appendRTCPreview(source, item.find('#column-left'));
+                        break;
+                }
+            } else {
+                switch (format) {
+                    case SCENARIO:
+                        Tester.appendRTCLiveStream(source, item.find('#fixed-rtc-preview'));
+                        item.find('#fixed-rtc-preview').css({marginTop: 100, opacity: .5});
+                        break;
+                    default:
+                        Tester.appendRTCLiveStream(source, item.find('#column-left'));
+                        break;
+                }
+            }
+        }
+    },
     appendRTCPreview: function appendRTCPreview(source, target) {
         $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
+    },
+    appendRTCLiveStream: function appendRTCLiveStream(source, target) {
+        var streamElement = $(source).find('#web-rtc-live-stream').clone().removeAttr('id');
+        $(streamElement).find('.rtc-stream').attr('id', 'rtc-stream');
+        $(target).append(streamElement);
+        initializeLiveStream();
     },
     renderNoDataView: function renderNoDataView() {
         var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
@@ -1044,6 +1077,10 @@ function renderUnmoderatedScenario(source, container, data) {
         event.preventDefault();
         loadHTMLintoModal('preview-modal', 'preview-help.html', 'modal-md');
     });
+    $(panelContent).find('#btn-done').click(function (event) {
+        event.preventDefault();
+        nextStep();
+    });
 }
 
 function renderSceneItem(source, container, sceneId) {
@@ -1063,8 +1100,10 @@ function renderSceneItem(source, container, sceneId) {
         var wozData = getItemsForSceneId(currentPhaseData.woz, scene.id);
         if (wozData && wozData.length > 0) {
             $(container).find('#btn-perform-gesture').removeClass('hidden');
+            $(container).find('#btn-done').addClass('hidden');
         } else {
             $(container).find('#btn-perform-gesture').addClass('hidden');
+            $(container).find('#btn-done').removeClass('hidden');
         }
 
         switch (scene.type) {
@@ -1094,13 +1133,19 @@ function renderSceneItem(source, container, sceneId) {
                 break;
         }
 
+        // scene positioning
+        var containerOffsetTop = container.offset().top;
+        var generalPanelHeight = 54;
+        sceneItem.css({marginTop: generalPanelHeight + 'px'});
+
+        // calcuation of the new window height if resizing the window
         $(window).resize(function () {
+
             var height;
             if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
-                sceneItem.css({marginTop: '54px'});
-                height = $(window).height() - 145 - 54;
+                height = $(window).height() - containerOffsetTop - generalPanelHeight;
             } else {
-                height = $(window).height() - 145;
+                height = $(window).height() - 145 - generalPanelHeight;
             }
 
             if (scene.type === SCENE_VIDEO_EMBED) {
@@ -1176,4 +1221,37 @@ function getSelectionRating(data) {
             return data.sequenceStressGraphicsRating;
         }
     }
+}
+
+var liveStreamRecord, rtcLiveStream;
+function resetLiveStream() {
+    if (liveStreamRecord) {
+        liveStreamRecord.clearRecordedData();
+    }
+
+    if (rtcLiveStream) {
+        if (rtcLiveStream.getAudioTracks()[0])
+            rtcLiveStream.getAudioTracks()[0].stop();
+        if (rtcLiveStream.getVideoTracks()[0])
+            rtcLiveStream.getVideoTracks()[0].stop();
+    }
+}
+
+function initializeLiveStream() {
+    resetLiveStream();
+    var mediaConstraints = {video: true, audio: false};
+    navigator.mediaDevices.getUserMedia(mediaConstraints).then(liveStreamSuccess).catch(liveStreamError);
+}
+
+
+function liveStreamError(error) {
+    alert(error);
+    // maybe another application is using the device
+}
+
+function liveStreamSuccess(stream) {
+    rtcLiveStream = stream;
+    console.log($('#rtc-stream'));
+    $('#rtc-stream').attr('src', URL.createObjectURL(stream));
+//    showRecord();
 }

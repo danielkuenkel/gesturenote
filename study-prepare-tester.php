@@ -106,7 +106,7 @@ if ($h && $token && $studyId) {
 
                 <div class="col-sm-6">
                     <div class="alert-space alert-web-rtc-not-supported"></div>
-                    <video autoplay id="rtc-video" class="hidden" style="width: 100%; height: auto; overflow: hidden; border-radius: 4px;"></video>
+                    <video autoplay id="rtc-video" class="rtc-stream hidden" style="width: 100%; height: auto; overflow: hidden; border-radius: 4px;"></video>
                 </div>
                 <div class="col-sm-6 text">
                     <p><strong>Diese Studie benötigt Zugriff auf Ihre Webcam.</strong> Falls Ihr Browser die Technologie unterstützt, erhalten Sie einen Hinweis, dass diese Seite auf Ihre Kamera und Ihr Mikrofon zugreifen möchte. Akzeptieren Sie bitte den Zugriff auf Kamera und Mikrofon, wenn Sie an dieser Studie teilnehmen möchten. </p>

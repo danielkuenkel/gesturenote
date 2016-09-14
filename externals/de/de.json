@@ -168,7 +168,7 @@
             "webRTC": "yes"
         },
         "thanks": {
-            "text": "Bedankung",
+            "text": "Danksagung",
             "class": "both",
             "webRTC": "no"
         }
