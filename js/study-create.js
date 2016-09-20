@@ -9,6 +9,7 @@ var colors;
 var currentContainerList = null;
 function checkSessionStorage() {
     checkAssembledGestures(getLocalItem(ASSEMBLED_GESTURE_SET), getLocalItem(GESTURE_CATALOG));
+    createOriginPhases();
     createOriginGUS();
     createOriginSUS();
     createPredefinedObservationForm();
@@ -17,52 +18,25 @@ function checkSessionStorage() {
     renderSessionStorageData();
 }
 
+function createOriginPhases() {
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+    if (phaseSteps === null || phaseSteps === undefined || (phaseSteps && phaseSteps.length === 0))
+    {
+        var phases = new Array();
+        phases.push(new PhaseItem(chance.natural(), LETTER_OF_ACCEPTANCE, colors.pop()));
+        phases.push(new PhaseItem(chance.natural(), THANKS, colors.pop()));
+        setLocalItem(STUDY_PHASE_STEPS, phases);
+    }
+}
+
 function createOriginGUS() {
-//    if (getLocalItem(STUDY_ORIGIN_GUS) === null) {
     var items = translation.singleGUS;
     setLocalItem(STUDY_ORIGIN_GUS, items);
-//        for (var i = 0; i < items.length; i++){
-//            console.log(items[i]);
-//        } 
-//        var gus = new Array();
-//        gus.push(new QuestionnaireItem(ALTERNATIVE_QUESTION, DIMENSION_COGNITIVE_STRESS, 'Ich denke, dass es zu dieser Geste alternative Gesten gibt.', [true, true, false, 'gestures', 'gesture'], null));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_LERNABILITY, 'Ich denke, dass ich mir diese Geste sehr gut merken kann.', [true, false], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_LERNABILITY, 'Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dieser Geste umzugehen.', [true, false], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_MENTAL_MODEL, 'Ich denke, dass sich diese Geste von anderen Gesten ausreichend unterscheidet.', [true, false], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_FEASIBILITY, 'Ich denke, dass sich die Geste von alltäglichen Bewegungen ausreichend unterscheidet.', [true, false], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_MENTAL_MODEL, 'Ich denke, dass die Geste zur Funktion passt.', [true, false], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste zu lang ist.', [true, true], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste zu komplex ist.', [true, true], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste prägnant ist.', [true, false], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste bequem ist.', [true, false], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Bewegung der Geste komisch ist.', [true, true], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass die Geste ermüdend ist.', [true, true], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ERGONOMICS, 'Ich denke, dass mich die Geste körperlich zu sehr fordert.', [true, true], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ACCEPTABILITY, 'Ich würde diese Geste gerne regelmäßig nutzen.', [true, false], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ACCEPTABILITY, 'Ich denke, dass die Geste andere Personen im Umfeld beeinträchtigt oder stört.', [true, true], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ACCEPTABILITY, 'Die Geste ist peinlich.', [true, true], gusOptions));
-//        gus.push(new QuestionnaireItem(GUS_SINGLE, DIMENSION_ACCEPTABILITY, 'Ich fühle mich beim Ausführen der Geste wohl.', [true, false], gusOptions));
-
-//    }
 }
 
 function createOriginSUS() {
     var items = translation.sus;
     setLocalItem(STUDY_ORIGIN_SUS, items);
-//    if (getLocalItem(STUDY_ORIGIN_SUS) === null) {
-//        var sus = new Array();
-//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, "Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.", {negative: 'no'}, null));
-//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'yes'}, null));
-//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'no'}, null));
-//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'yes'}, null));
-//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'no'}, null));
-//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'yes'}));
-//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'no'}, null));
-//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'yes'}, null));
-//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'no'}));
-//        sus.push(new QuestionnaireItem(SUS, DIMENSION_ANY, , {negative: 'yes'}, null));
-//        setLocalItem(STUDY_ORIGIN_SUS, sus);
-//    }
 }
 
 function createPredefinedObservationForm() {
@@ -80,19 +54,6 @@ function createPredefinedObservationForm() {
 function createPredefinedGestureQuestionnaire() {
     var items = translation.multipleGUS;
     setLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE, items);
-//    if (getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE) === null) {
-//        var form = new Array();
-//        form.push(new QuestionnaireItem(GROUPING_QUESTION_GUS, DIMENSION_LERNABILITY, 'Ich denke, dass ich mir eine oder mehrere Gesten nicht gut merken kann.', [true, false, 'gestures'], null));
-//        form.push(new QuestionnaireItem(GROUPING_QUESTION_GUS, DIMENSION_ERGONOMICS, 'Ich denke, dass eine oder mehrere Gesten nicht ergonomisch sind.', [true, true, 'gestures'], null));
-//        form.push(new QuestionnaireItem(GROUPING_QUESTION_GUS, DIMENSION_MENTAL_MODEL, 'Ich glaube, dass die meisten Menschen mit einer oder mehreren Gesten nicht lernen können damit umzugehen.', [true, false, 'gestures'], null));
-//        form.push(new QuestionnaireItem(GROUPING_QUESTION_GUS, DIMENSION_ERGONOMICS, 'Ich glaube, dass die meisten Menschen eine oder mehrere Gesten nicht einfach ausführen können.', [true, true, 'gestures'], null));
-//        form.push(new QuestionnaireItem(GROUPING_QUESTION_GUS, DIMENSION_USABILITY, 'Ich denke, dass eine oder mehrere Gesten nicht zu den anderen Gesten passen', [true, true, 'gestures'], null));
-//        form.push(new QuestionnaireItem(GROUPING_QUESTION_GUS, DIMENSION_FEASIBILITY, 'Ich denke, dass sich eine oder mehrere Gesten nicht ausreichend von alltäglichen Bewegungen unterscheiden.', [true, false, 'gestures'], null));
-//        form.push(new QuestionnaireItem(GROUPING_QUESTION_GUS, DIMENSION_USABILITY, 'Ich denke, dass eine oder mehrere Gesten nicht zu ihren Funktionen passen. ', [true, false, 'gestures'], null));
-//        form.push(new QuestionnaireItem(GROUPING_QUESTION_GUS, DIMENSION_LERNABILITY, 'Ich denke, dass eine oder mehrere Gesten zu lang sind.', [true, false, 'gestures'], null));
-//        form.push(new QuestionnaireItem(GROUPING_QUESTION_GUS, DIMENSION_COGNITIVE_STRESS, 'Ich denke, dass eine oder mehrere Gesten zu komplex sind.', [true, false, 'gestures'], null));
-//        setLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE, form);
-//    }
 }
 
 function createPredefinedGestureFeedback() {
@@ -269,9 +230,9 @@ function savePhases() {
         var item = phaseSteps[i];
         var id = $(item).attr('id');
         var format = $(item).find('.btn-modify').attr('id');
-        var itemText = $(item).find('.btn-text-button').text().trim();
+//        var itemText = $(item).find('.btn-text-button').text().trim();
         var color = $(item).find('.glyphicon-tag').css('color');
-        phases.push(new PhaseItem(id, format, itemText, color));
+        phases.push(new PhaseItem(id, format, color));
     }
     setLocalItem(STUDY_PHASE_STEPS, phases);
 }
@@ -295,10 +256,9 @@ function UsabilityScaleItem(question, dimension, likertScale, reversed) {
     this.reversed = reversed;
 }
 
-function PhaseItem(id, format, itemText, color) {
+function PhaseItem(id, format, color) {
     this.id = id;
     this.format = format;
-    this.itemText = itemText;
     this.color = color;
 }
 

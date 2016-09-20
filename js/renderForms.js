@@ -2,6 +2,28 @@
  * form rendering for moderator and tester view
  */
 
+/*
+ * counter 
+ */
+function renderCounterInput(item, parameters) {
+    var counterFrom = parseInt(parameters.countFrom);
+    var counterTo = parseInt(parameters.countTo);
+
+    if (isNaN(counterFrom) || isNaN(counterTo)) {
+        item.find('.btn-stepper-decrease').attr('value', 0);
+        item.find('.btn-stepper-increase').attr('value', 100);
+        item.find('.stepper-text').val(0);
+    } else {
+        item.find('.btn-stepper-decrease').attr('value', counterFrom);
+        item.find('.btn-stepper-increase').attr('value', counterTo);
+        item.find('.stepper-text').val(counterFrom);
+    }
+}
+
+function renderCounterPreview(item, parameters) {
+    $(item).find('#counter-label .counter-from').text(translation.of + ' ' + translation.atLeast + ' ' + parameters.countFrom);
+    $(item).find('#counter-label .counter-to').text(translation.to + ' ' + translation.maximal + ' ' + parameters.countTo);
+}
 
 /*
  * dichotomous question
@@ -135,7 +157,8 @@ function renderGroupingQuestionGUSPreview(source, item, parameters) {
 
     if (options && options.length > 0) {
         for (var i = 0; i < options.length; i++) {
-            var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
+            var optionItem = $(source).find('#option-item').clone(false);
+            optionItem.attr('id', options[i].id);
             item.find('.option-container').append(optionItem);
 
             if (parameters.optionSource === 'triggers') {
@@ -174,7 +197,7 @@ function renderGroupingQuestionGUSInput(item, parameters) {
 
     if (options && options.length > 0) {
         for (var i = 0; i < options.length; i++) {
-            var option = $('#item-container-inputs').find('#' + optionType).clone().removeClass('hidden');
+            var option = $('#item-container-inputs').find('#' + optionType).clone();
             $(item).find('.option-container').append(option);
 
             var optionItem = null;
@@ -193,6 +216,7 @@ function renderGroupingQuestionGUSInput(item, parameters) {
                     break;
             }
             option.find('.option-text').text(optionItem.title);
+            option.find('.option-text').attr('id', optionItem.id);
             $(item).find('.option-container').append(document.createElement('br'));
         }
     }
@@ -313,19 +337,20 @@ function renderSumQuestionInput(item, parameters, options) {
  * ranking
  */
 function renderRankingPreview(source, item, options) {
-    for (var j = 0; j < options.length; j++) {
+    for (var i = 0; i < options.length; i++) {
         var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
-        optionItem.text(options[j]);
+        optionItem.text(options[i]);
         item.find('.option-container').append(optionItem);
     }
 }
 
 function renderRankingInput(item, options) {
     if (options) {
-        for (var j = 0; j < options.length; j++) {
-            var ratingItem = $('#item-container-inputs').find('#ranking-item').clone().removeAttr('id');
-            ratingItem.find('.option-text').html(options[j]);
-            item.find('.option-container').append(ratingItem);
+        for (var i = 0; i < options.length; i++) {
+            var rankingItem = $('#item-container-inputs').find('#ranking-item').clone().removeAttr('id');
+            rankingItem.find('.option-text').html(options[i]);
+            rankingItem.attr('id', i);
+            item.find('.option-container').append(rankingItem);
             checkCurrentListState(item.find('.option-container'));
         }
     }
@@ -388,6 +413,7 @@ function renderAlternativeQuestionInput(item, data) {
             if (optionId === null || (parseInt(optionId) !== parseInt(options[i].id))) {
                 var optionButton = $('#item-container-inputs').find('#checkbox').clone();
                 optionButton.find('.option-text').html(options[i].title);
+                optionButton.find('.option-text').attr('id', options[i].id);
                 item.find('.option-container').append(optionButton);
                 item.find('.option-container').append(document.createElement('br'));
 
@@ -455,11 +481,11 @@ function renderGUSSingleInput(item) {
     }
 }
 
-var susOptions = ['Stimme gar nicht zu', 'Stimme eher nicht zu', 'Teils-teils', 'Stimme eher zu', 'Stimme voll und ganz zu'];
 function renderSusInput(item) {
-    for (var i = 0; i < susOptions.length; i++) {
+    var options = translation.susOptions;
+    for (var i = 0; i < options.length; i++) {
         var radioButton = $('#item-container-inputs').find('#radio').clone();
-        radioButton.find('.option-text').html(susOptions[i]);
+        radioButton.find('.option-text').html(options[i]);
         item.find('.option-container').append(radioButton);
         item.find('.option-container').append(document.createElement('br'));
     }

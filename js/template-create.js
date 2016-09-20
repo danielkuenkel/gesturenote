@@ -844,10 +844,15 @@ function renderFormatItem(target, data) {
     target.prepend(clone);
     var parameters = data.parameters;
     var options = data.options;
+
     switch (data.format) {
         case SUS:
 //            console.log($(clone).find('#negative'));
             $(clone).find('.negative #' + parameters.negative).click();
+            break;
+        case COUNTER:
+            $(clone).find('#counter-from .stepper-text').val(parameters.countFrom);
+            $(clone).find('#counter-to .stepper-text').val(parameters.countTo);
             break;
         case OPEN_QUESTION_GUS:
             if (parameters.used === 'used') {
@@ -1008,15 +1013,20 @@ function renderFormatItem(target, data) {
 }
 
 function getFormatData(element) {
-
-    var type = $(element).attr('id');
+    var format = $(element).attr('id');
     var dimension = getDimensionByElement($(element));
     var question = $(element).find('.question').val();
     var parameters = null;
     var options = null;
-    switch (type) {
+
+    switch (format) {
         case SUS:
             parameters = {negative: $(element).find('.negative .active').attr('id')};
+            break;
+        case COUNTER:
+            var countFrom = parseInt($(element).find('#counter-from .stepper-text').val());
+            var countTo = parseInt($(element).find('#counter-to .stepper-text').val());
+            parameters = {countFrom: isNaN(countFrom) ? 0 : parseInt(countFrom), countTo: isNaN(countTo) ? 0 : parseInt(countTo)};
             break;
         case OPEN_QUESTION_GUS:
             parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used'};
@@ -1151,5 +1161,5 @@ function getFormatData(element) {
 //            options = translation.gusOptions;
             break;
     }
-    return new QuestionnaireItem(type, dimension, question, parameters, options);
+    return new QuestionnaireItem(format, dimension, question, parameters, options);
 }

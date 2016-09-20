@@ -15,47 +15,32 @@ if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['title'], $_POST['co
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
     $joints = json_encode($_POST['joints']);
 
-    if ($update_stmt = $mysqli->prepare("UPDATE gestures SET title = '$title', context = '$context', description = '$description', joints = '$joints' WHERE id = '$gestureId' && user_id = '$sessionUserId'")) {
+    if ($update_stmt = $mysqli->prepare("UPDATE gestures SET title = '$title', context = '$context', description = '$description', joints = '$joints' WHERE id = '$gestureId' && owner_id = '$sessionUserId'")) {
         if (!$update_stmt->execute()) {
             echo json_encode(array('status' => 'updateError'));
             exit();
         } else {
-            if ($select_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE user_id = '$sessionUserId' && scope = 'private' OR scope = 'public'")) {
+            if ($select_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE owner_id = '$sessionUserId' && scope = 'private' OR scope = 'public'")) {
                 // get variables from result.
-                $select_stmt->bind_result($id, $userId, $source, $scope, $title, $context, $description, $joints, $previewImage, $images, $created);
+                $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $context, $description, $joints, $previewImage, $images, $created);
 
                 if (!$select_stmt->execute()) {
                     echo json_encode(array('status' => 'selectError'));
                     exit();
                 } else {
                     while ($select_stmt->fetch()) {
-                        if ($sessionUserId == $userId) {
-                            $gestures[] = array('id' => $id,
-                                'userId' => $userId,
-                                'source' => $source,
-                                'scope' => $scope,
-                                'title' => $title,
-                                'context' => $context,
-                                'description' => $description,
-                                'joints' => json_decode($joints),
-                                'previewImage' => $previewImage,
-                                'images' => json_decode($images),
-                                'created' => $created,
-                                'isOwner' => true);
-                        } else {
-                            $gestures[] = array('id' => $id,
-                                'userId' => $userId,
-                                'source' => $source,
-                                'scope' => $scope,
-                                'title' => $title,
-                                'context' => $context,
-                                'description' => $description,
-                                'joints' => json_decode($joints),
-                                'previewImage' => $previewImage,
-                                'images' => json_decode($images),
-                                'created' => $created,
-                                'isOwner' => false);
-                        }
+                        $gestures[] = array('id' => $id,
+                            'userId' => $userId,
+                            'source' => $source,
+                            'scope' => $scope,
+                            'title' => $title,
+                            'context' => $context,
+                            'description' => $description,
+                            'joints' => json_decode($joints),
+                            'previewImage' => $previewImage,
+                            'images' => json_decode($images),
+                            'created' => $created,
+                            'isOwner' => $sessionUserId == $ownerId);
                     }
                     echo json_encode(array('status' => 'success', 'gestures' => $gestures));
                     exit();

@@ -220,3 +220,30 @@ function getv($key, $default = '', $data_type = '') {
 
     return $param;
 }
+
+function studyExecutionExists($studyId, $mysqli) {
+    $userId = $_SESSION['user_id'];
+    if ($select_stmt = $mysqli->prepare("SELECT * FROM study_results_tester WHERE study_id = '$studyId' && user_id = '$userId' LIMIT 1")) {
+        if (!$select_stmt->execute()) {
+            return false;
+        } else {
+            $select_stmt->store_result();
+            $select_stmt->bind_result($id, $studyId, $userId, $data, $created);
+            $select_stmt->fetch();
+
+            if ($select_stmt->num_rows == 1) {
+                $decodedData = json_decode_nice($data, false);
+                if (isset($decodedData->studySuccessfull)) {
+                    $studySuccessfull = $decodedData->studySuccessfull;
+                    return $studySuccessfull == 'yes';
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+    } else {
+        return false;
+    }
+}

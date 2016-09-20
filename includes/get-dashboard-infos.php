@@ -27,9 +27,9 @@ if (isset($_SESSION['user_id'])) {
             $publicGestures = 0;
             $publicUserGestures = 0;
 
-            $gestures_stmt->bind_result($id, $userId, $source, $scope, $title, $context, $description, $joints, $previewImage, $images, $created);
+            $gestures_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $context, $description, $joints, $previewImage, $images, $created);
             while ($gestures_stmt->fetch()) {
-                if ($sessionUserId == $userId) {
+                if ($sessionUserId == $ownerId) {
                     if ($source == 'evaluator') {
                         $userGestures++;
                     } else if ($source == 'tester') {

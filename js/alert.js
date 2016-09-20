@@ -63,7 +63,7 @@ function appendAlert(target, alertType) {
 
     if (children.length === 0) {
         var alert = $('#alert-container').find('#' + alertType).clone();
-        console.log('append alert: ' + $('#alert-container'));
+        console.log('append alert: ' + alertType);
         $(target).find('.alert-' + alert.attr('id')).append(alert);
     }
 }

@@ -242,6 +242,9 @@ function getContextualPhaseSteps() {
 function setStudyData(data) {
     if (data.data) {
         var setData = data.data;
+        setData.generalData.studyOwner = data.userId;
+        setData.generalData.id = data.id;
+        setData.generalData.urlToken = data.urlToken;
         setLocalItem(STUDY, setData.generalData);
 
         if (setData.phases && setData.phases.length > 0) {

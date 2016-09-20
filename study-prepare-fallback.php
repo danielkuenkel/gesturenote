@@ -11,7 +11,7 @@ if ($h && $studyId) {
     if ($loggedIn == true) {
         if (isset($_SESSION['usertype'], $_SESSION['user_id'])) {
             $hash = hash('sha512', $studyId . $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname']);
-            if ($_SESSION['usertype'] == 'tester') {
+            if ($_SESSION['usertype'] == 'tester' || $_SESSION['usertype'] == 'guest') {
                 header('Location: study-prepare-tester.php?studyId=' . $studyId . '&token=' . $h . '&h=' . $hash);
             } else if ($_SESSION['usertype'] == 'evaluator') {
                 header('Location: study-prepare-evaluator.php?studyId=' . $studyId . '&token=' . $h . '&h=' . $hash);
@@ -298,7 +298,6 @@ if ($h && $studyId) {
                 });
 
                 $('#register-form').on('registerSuccess', function (event, result) {
-                    console.log('register success: ' + result);
                     var hash = hex_sha512(parseInt(query.studyId) + result.userId + result.forename + result.surname);
                     if (result.userType === 'evaluator') {
                         goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);

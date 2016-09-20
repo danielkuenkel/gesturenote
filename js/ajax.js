@@ -353,6 +353,23 @@ function getStudyById(data, callback) {
     });
 }
 
+function getStudyParticipant(data, callback) {
+    $.ajax({
+        url: 'includes/get-study-participant.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 
 
 /*
@@ -360,9 +377,9 @@ function getStudyById(data, callback) {
  * save, delete, get catalog, update
  */
 
-function saveModeratorGesture(data, callback) {
+function saveRecordedGesture(data, callback) {
     $.ajax({
-        url: 'includes/save-moderator-gesture.php',
+        url: 'includes/save-gesture.php',
         data: data,
         type: 'post',
         dataType: 'json',
@@ -545,6 +562,28 @@ function submitCommentForGesture(data, callback) {
 function deleteComment(data, callback) {
     $.ajax({
         url: 'includes/delete-comment.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+
+/*
+ * execution save
+ */
+function saveExecutionTester(data, callback) {
+    $.ajax({
+        url: 'includes/save-execution-tester.php',
         data: data,
         type: 'post',
         dataType: 'json',

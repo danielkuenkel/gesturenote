@@ -271,7 +271,7 @@ $(document).on('click', '.btn-joint-human-body', function (event) {
 });
 
 function getSelectedJoints(target) {
-    var selectedJoints = $(target).children('.active');
+    var selectedJoints = $(target).find('.active');
     var array = new Array();
     for (var i = 0; i < selectedJoints.length; i++) {
         array.push($(selectedJoints[i]).attr('id'));

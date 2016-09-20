@@ -13,6 +13,7 @@
         "dashboard": "Dashboard",
         "studies": "Studien",
         "study": "Studie",
+        "studyParticipant": "Teilnahme",
         "createStudy": "Neue Studie",
         "studyPrepare": "An Studie teilnehmen",
         "gestureStyleguides": "Gesten-Styleguides",
@@ -40,6 +41,8 @@
     "hours": "Stunden",
     "month": "Monat",
     "year": "Jahr",
+    "studySuccessful": "Durchgeführt",
+    "studyFault": "Abgebrochen",
     "studyEnded": "Beendet",
     "studyStarted": "Gestartet",
     "studyNotStarted": "Nicht gestartet",
@@ -50,6 +53,8 @@
     "startsAt": "startet in",
     "from": "vom",
     "of": "von",
+    "atLeast": "mindestens",
+    "maximal": "maximal",
     "panelSurvey": "Panel-Befragung",
     "still": "noch",
     "done": "Fertig",
@@ -173,6 +178,44 @@
             "webRTC": "no"
         }
     },
+    "questionFormats": {
+        "counter": {
+            "text": "Zähler"
+        },
+        "openQuestion": {
+            "text": "Offene Frage"
+        },
+        "openQuestionGUS": {
+            "text": "Offene Frage"
+        },
+        "dichotomousQuestion": {
+            "text": "Ja/nein-Frage"
+        },
+        "dichotomousQuestionGUS": {
+            "text": "Ja/nein-Frage"
+        },
+        "groupingQuestion": {
+            "text": "Eingruppierungs-Frage"
+        },
+        "groupingQuestionGUS": {
+            "text": "Eingruppierungs-Frage"
+        },
+        "rating": {
+            "text": "Rating"
+        },
+        "sumQuestion": {
+            "text": "Summenfrage"
+        },
+        "ranking": {
+            "text": "Ranking"
+        },
+        "alternativeQuestion": {
+            "text": "Alternativfrage"
+        },
+        "singleGUS": {
+            "text": "Rating"
+        }
+    },
     "scales": {
         "percent": "Prozent",
         "points": "Punkte"
@@ -211,6 +254,8 @@
         "hand": "Hand"
     },
     "userTypes": {
+        "guest": "Gast",
+        "registered": "Registriert",
         "tester": "Tester",
         "evaluator": "Moderator"
     },
@@ -307,6 +352,7 @@
         "socialAcceptance": "Soziale Akzeptanz",
         "discrimination": "Diskriminierung"
     },
+    "susOptions": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"],
     "sus": [
         {
             "format": "sus",

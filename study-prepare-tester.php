@@ -15,8 +15,12 @@ if ($h && $token && $studyId) {
             header('Location: study-prepare-failure.php');
         }
     } else {
-        $_SESSION['user_id'] = 'guest';
-        $hash = hash('sha512', $studyId . $_SESSION['user_id']);
+        if (!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && ($_SESSION['user_id'] == 0 || $_SESSION['user_id'] == '0'))) {
+            $time = time();
+            $_SESSION['user_id'] = hash('sha512', $time . $_SESSION['usertype']);
+        }
+        $_SESSION['usertype'] = 'guest';
+        $hash = hash('sha512', $studyId . $_SESSION['usertype']);
         if ($hash != $h) {
             header('Location: study-prepare-failure.php');
         }

@@ -435,7 +435,7 @@ if (login_check($mysqli) == true) {
                                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                             </span>
                             <br><br>
-                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-create-general.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
                         </div>
 
                         <div class="tab-content hidden tab-catalogs">
@@ -444,7 +444,7 @@ if (login_check($mysqli) == true) {
                                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor 
                             </span>
                             <br><br>
-                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-create-catalogs.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
                         </div>
 
                         <div class="tab-content hidden tab-phases">
@@ -453,7 +453,7 @@ if (login_check($mysqli) == true) {
                                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
                             </span>
                             <br><br>
-                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-create-phases.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
                         </div>
 
                         <div class="tab-content hidden tab-panel">
@@ -462,7 +462,7 @@ if (login_check($mysqli) == true) {
                                 aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
                             </span>
                             <br><br>
-                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-styleguides.html');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-create-panel.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
                         </div>
                     </div>
                 </div>
@@ -565,7 +565,7 @@ if (login_check($mysqli) == true) {
             $('#btn-assemble-scenes').click(function (event) {
                 event.preventDefault();
                 currentIdForModal = ASSEMBLED_SCENES;
-                loadHTMLintoModal('custom-modal', 'create-scenes-catalog.html', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'create-scenes-catalog.php', 'modal-lg');
             });
 
             $('#btn-clear-scenes').click(function (event) {
@@ -577,12 +577,12 @@ if (login_check($mysqli) == true) {
             // gesture catalog handling
             $('#btn-assemble-study-gestures').click(function (event) {
                 event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'create-gesture-catalog.html', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'create-gesture-catalog.php', 'modal-lg');
             });
 
             $('#btn-study-gestures').click(function (event) {
                 event.preventDefault();
-                loadHTMLintoModal("custom-modal", "create-study-gestures.html", "modal-lg");
+                loadHTMLintoModal("custom-modal", "create-study-gestures.php", "modal-lg");
             });
 
             $('#btn-clear-study-gestures').click(function (event) {
@@ -593,7 +593,7 @@ if (login_check($mysqli) == true) {
 
             $('#btn-record-gestures').click(function (event) {
                 event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'create-gesture-recorder.html', 'modal-md');
+                loadHTMLintoModal('custom-modal', 'create-gesture-recorder.php', 'modal-md');
                 $('#custom-modal').unbind('gestureSavedSuccessfully').bind('gestureSavedSuccessfully', function (event, gestureId) {
                     if (!event.handled) {
                         event.handled = true;
@@ -608,7 +608,7 @@ if (login_check($mysqli) == true) {
             $('#btn-assemble-trigger').click(function (event) {
                 event.preventDefault();
 //                currentIdForModal = ASSEMBLED_TRIGGER;
-                loadHTMLintoModal('custom-modal', 'create-trigger-catalog.html', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'create-trigger-catalog.php', 'modal-lg');
             });
 
             $('#btn-clear-trigger').click(function (event) {
@@ -621,7 +621,7 @@ if (login_check($mysqli) == true) {
             $('#btn-assemble-feedback').click(function (event) {
                 event.preventDefault();
 //                currentIdForModal = ASSEMBLED_FEEDBACK;
-                loadHTMLintoModal('custom-modal', 'create-feedback-catalog.html', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'create-feedback-catalog.php', 'modal-lg');
             });
 
             $('#btn-clear-feedback').click(function (event) {
@@ -723,12 +723,12 @@ if (login_check($mysqli) == true) {
                 clone.find('.btn-text-button, .btn-modify').bind("click", {format: format, id: id}, function (event) {
                     event.preventDefault();
                     currentIdForModal = event.data.id;
-                    loadHTMLintoModal("custom-modal", "create-" + event.data.format + ".html", "modal-lg");
+                    loadHTMLintoModal("custom-modal", "create-" + event.data.format + ".php", "modal-lg");
                 });
 
                 clone.find('.btn-addon').bind('click', {format: format}, function (event) {
                     event.preventDefault();
-                    loadHTMLintoModal("custom-modal", "info-" + event.data.format + ".html", "modal-md");
+                    loadHTMLintoModal("custom-modal", "info-" + event.data.format + ".php", "modal-md");
                 });
 
                 if (format === SUS) {

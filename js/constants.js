@@ -66,7 +66,7 @@ var GROUPING_QUESTION_GUS = 'groupingQuestionGUS';
 var RATING = 'rating';
 var SUM_QUESTION = 'sumQuestion';
 var RANKING = 'ranking';
-var COUNTER = 'ranking';
+var COUNTER = 'counter';
 var GUS_SINGLE = 'gusSingle';
 
 // scene formats
@@ -134,6 +134,16 @@ var ALTERNATIVE_TRIGGERS = 'triggers';
 var ALTERNATIVE_FOR_GESTURE = 'gesture';
 var ALTERNATIVE_FOR_TRIGGER = 'trigger';
 var ALTERNATIVE_FOR_FEEDBACK = 'feedback';
+
+// scenario actions
+var ACTION_SHOW_INFO = 'showInfo';
+var ACTION_HIDE_INFO = 'hideInfo';
+var ACTION_START_TASK = 'startTask';
+var ACTION_REQUEST_HELP = 'requestHelp';
+var ACTION_START_PERFORM_GESTURE = 'startPerformGesture';
+var ACTION_END_PERFORM_GESTURE = 'endPerformGesture';
+var ACTION_REFRESH_SCENE = 'refreshScene';
+var ACTION_SELECT_GESTURE = 'selectGesture';
 
 // cursors
 var CURSOR_AUTO = 'auto';

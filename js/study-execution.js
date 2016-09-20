@@ -1,6 +1,7 @@
 var currentGestureTrainingIndex = 0;
 var trainingTriggered = false;
 var triggeredFeedback = null;
+var slidesRestartCount = 0;
 var slideshowStartTriggered = false;
 var slideRestarted = false;
 var currentSlideIndex = 0;
@@ -93,6 +94,7 @@ function previousStep() {
     testerDoneTriggered = false;
     scenarioStartTriggered = false;
     gestureTrainingStartTriggered = false;
+    slidesRestartCount = 0;
     slideshowStartTriggered = false;
     slideTriggered = null;
     currentSlideIndex = 0;
@@ -125,6 +127,7 @@ function nextStep() {
     testerDoneTriggered = false;
     scenarioStartTriggered = false;
     gestureTrainingStartTriggered = false;
+    slidesRestartCount = 0;
     slideshowStartTriggered = false;
     slideTriggered = false;
     currentSlideIndex = 0;
@@ -142,6 +145,14 @@ function nextStep() {
     resetRecorder();
 
     var phases = getContextualPhaseSteps();
+    if (previewModeEnabled === false) {
+        savePhaseStep();
+        if(currentPhaseStepIndex < phases.length - 2) {
+            saveCurrentStatus(false);
+        }
+        
+    }
+
     if (phases && phases.length > 0) {
         currentPhaseStepIndex++;
     }

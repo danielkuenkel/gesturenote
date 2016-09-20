@@ -29,8 +29,8 @@ if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['ratings'])) {
                     exit();
                 } else {
                     $select_stmt->store_result();
-
                     $select_stmt->bind_result($id, $userId, $gestureId, $ratings, $submitted);
+                    
                     while ($select_stmt->fetch()) {
                         $gestureRatings[] = array('id' => $id,
                             'userId' => $userId,

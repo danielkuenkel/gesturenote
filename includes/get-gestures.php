@@ -10,9 +10,9 @@ session_start();
 if (isset($_SESSION['user_id'])) {
     $sessionUserId = $_SESSION['user_id'];
 
-    if ($select_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE user_id = '$sessionUserId' && scope = 'private' OR scope = 'public' ORDER BY created DESC")) {
+    if ($select_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE owner_id = '$sessionUserId' && scope = 'private' OR scope = 'public' ORDER BY created DESC")) {
         // get variables from result.
-        $select_stmt->bind_result($id, $userId, $source, $scope, $title, $context, $description, $joints, $previewImage, $images, $created);
+        $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $context, $description, $joints, $previewImage, $images, $created);
 
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
@@ -22,6 +22,7 @@ if (isset($_SESSION['user_id'])) {
             while ($select_stmt->fetch()) {
                 $gestures[] = array('id' => $id,
                     'userId' => $userId,
+                    'ownerId' => $ownerId,
                     'source' => $source,
                     'scope' => $scope,
                     'title' => $title,
@@ -31,7 +32,7 @@ if (isset($_SESSION['user_id'])) {
                     'previewImage' => $previewImage,
                     'images' => json_decode($images),
                     'created' => $created,
-                    'isOwner' => $sessionUserId == $userId);
+                    'isOwner' => $sessionUserId == $ownerId);
             }
             echo json_encode(array('status' => 'success', 'gestures' => $gestures));
         }

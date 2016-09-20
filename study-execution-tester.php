@@ -8,6 +8,10 @@ $h = getv('h');
 $studyId = getv('studyId');
 $token = getv('token');
 
+if (studyExecutionExists($studyId, $mysqli)) {
+    header('Location: study-execution-exists.php');
+}
+
 if ($h && $token && $studyId) {
     if (login_check($mysqli) == true) {
         $hash = hash('sha512', $studyId . $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname']);
@@ -15,8 +19,13 @@ if ($h && $token && $studyId) {
             header('Location: study-prepare-fallback.php?studyId=' . $studyId . '&h=' . $token);
         }
     } else {
-        $_SESSION['user_id'] = 'guest';
-        $hash = hash('sha512', $studyId . $_SESSION['user_id']);
+        if (!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && ($_SESSION['user_id'] == 0 || $_SESSION['user_id'] == '0'))) {
+            $time = time();
+            $_SESSION['user_id'] = hash('sha512', $time . $_SESSION['usertype']);
+        }
+        $_SESSION['usertype'] = 'guest';
+        $hash = hash('sha512', $studyId . $_SESSION['usertype']);
+
         if ($hash != $h) {
             header('Location: study-prepare-fallback.php?studyId=' . $studyId . '&h=' . $token);
         }
@@ -34,7 +43,6 @@ if ($h && $token && $studyId) {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/general.css">
-        <!--<link rel="stylesheet" href="css/generalSubPages.css">-->
         <link rel="stylesheet" href="css/study-preview.css">
         <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
@@ -62,7 +70,8 @@ if ($h && $token && $studyId) {
         <script src="js/renderForms.js"></script>
         <script src="js/joint-selection.js"></script>
         <script src="js/study-execution.js"></script>
-        <script src="js/tester-execution.js"></script>
+        <script src="js/study-execution-tester.js"></script>
+        <script src="js/study-execution-tester-save.js"></script>
 
         <!-- gesture recorder sources -->
         <script src="js/gesture-recorder.js"></script>
@@ -158,8 +167,6 @@ if ($h && $token && $studyId) {
             });
 
             function onAllExternalsLoadedSuccessfully() {
-//                renderSubPageElements(false);
-
                 var query = getQueryParams(document.location.search);
                 if (query.studyId && query.h && query.token) {
                     getStudyById({studyId: query.studyId}, function (result) {

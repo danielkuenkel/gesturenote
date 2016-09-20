@@ -49,8 +49,8 @@ if (login_check($mysqli) == true) {
 
         <!-- externals -->
         <div id="alerts"></div>
-        <div id="templage-subpages"></div>
-        <div id="templage-study"></div>
+        <div id="template-subpages"></div>
+        <div id="template-study"></div>
 
         <!-- Modal -->
         <div id="custom-modal" class="modal fade custom-modal" role="dialog">
@@ -157,12 +157,11 @@ if (login_check($mysqli) == true) {
 
             <hr>
 
-            <div class="row" style="margin-top: 20px">
+            <div class="row" style="margin-top: 20px" id="study-participants">
                 <div class="col-xs-12">
-                    <div id="study-participants">
-                        <h3 class="address">Teilnahmen</h3>
-                        <div class="alert-space alert-no-phase-data"></div>
-                    </div>
+                    <h3 class="address">Teilnahmen</h3>
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="list-container row" style="margin-top: 20px"></div>
                 </div>
             </div>
 
@@ -177,8 +176,8 @@ if (login_check($mysqli) == true) {
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
-                    externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
-                    externals.push(['#templage-study', PATH_EXTERNALS + '/' + currentLanguage + '/template-study.html']);
+                    externals.push(['#template-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
+                    externals.push(['#template-study', PATH_EXTERNALS + '/' + currentLanguage + '/template-study.html']);
                     loadExternals(externals);
                 });
             });
@@ -235,6 +234,7 @@ if (login_check($mysqli) == true) {
                         if (result.status === RESULT_SUCCESS) {
                             if (now > dateFrom && result.studyResults && result.studyResults.length > 0) { // check either if there are study results
                                 $('#btn-edit-study, #btn-delete-study').remove();
+                                renderStudyParticipants(result.studyResults);
                             } else {
                                 appendAlert($('#study-participants'), ALERT_NO_PHASE_DATA);
                             }
@@ -437,6 +437,51 @@ if (login_check($mysqli) == true) {
                     $('#study-feedback-catalog .list-container').append(item);
                     TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                 }
+            }
+
+
+            function renderStudyParticipants(data) {
+                var guestUsers = 0;
+                var registeredUsers = 0;
+                var successfullStudies = 0;
+
+                for (var i = 0; i < data.length; i++) {
+                    console.log(data[i]);
+                    var result = data[i].data;
+
+                    var item = $('#template-study-container').find('#participant-thumbnail').clone().removeAttr('id');
+                    $(item).find('.panel-heading').text(data[i].created);
+//                    console.log($(item).find('.panel-heading').text('test'));
+                    $('#study-participants .list-container').append(item);
+
+                    if (isNaN(data[i].userId)) {
+                        guestUsers++;
+                        $(item).find('#user .label-text').text(translation.userTypes.guest);
+                    } else {
+                        registeredUsers++;
+                        $(item).find('#user .label-text').text(translation.userTypes.registered);
+                    }
+
+                    if (result.studySuccessfull === 'yes') {
+                        successfullStudies++;
+                        $(item).find('.panel').addClass('panel-success');
+                        $(item).find('#execution-success').removeClass('hidden');
+                        $(item).find('#execution-success .label-text').text(translation.studySuccessful);
+                    } else {
+                        $(item).find('.panel').addClass('panel-danger');
+                        $(item).find('#execution-fault').removeClass('hidden');
+                        $(item).find('#execution-fault .label-text').text(translation.studyFault);
+                    }
+
+                    $(item).find('.panel').on('click', {studyId: data[i].studyId, participantId: data[i].userId}, function (event) {
+                        event.preventDefault();
+                        var hash = hex_sha512(event.data.studyId + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                        clearLocalItems();
+                        goto('study-participant.php?studyId=' + event.data.studyId + '&participantId=' + event.data.participantId + '&h=' + hash);
+                    });
+                }
+
+                console.log('guests: ' + guestUsers + ', registered: ' + registeredUsers + ', success: ' + successfullStudies);
             }
         </script>
     </body>

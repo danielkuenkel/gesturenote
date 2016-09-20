@@ -14,7 +14,7 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
     $gestureId = $_POST['gestureId'];
     $userId = $_SESSION['user_id'];
 
-    if ($select_stmt = $mysqli->prepare("SELECT `images` FROM gestures WHERE id = '$gestureId' && user_id = '$userId'")) {
+    if ($select_stmt = $mysqli->prepare("SELECT `images` FROM gestures WHERE id = '$gestureId' && owner_id = '$userId'")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();

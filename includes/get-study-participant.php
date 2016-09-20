@@ -8,14 +8,13 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 
 session_start();
-if (isset($_POST['studyId'])) {
-    if (isset($_SESSION['user_id'])) {
-        $sessionUserId = $_SESSION['user_id'];
-    } else {
-        $sessionUserId = 'guest';
-    }
+//print_r($_POST['studyId'] . ', ' . $_POST['participantId']);
+//exit();
+if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
 
+    $sessionUserId = $_SESSION['user_id'];
     $selectStudyId = $_POST['studyId'];
+    $selectParticipantId = $_POST['participantId'];
 
     if ($select_stmt = $mysqli->prepare("SELECT * FROM studies WHERE id = '$selectStudyId' LIMIT 1")) {
         if (!$select_stmt->execute()) {
@@ -59,7 +58,33 @@ if (isset($_POST['studyId'])) {
                     }
                 }
 
-                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'data' => $decodedData, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures));
+                $results = null;
+                if ($select_stmt = $mysqli->prepare("SELECT * FROM study_results_tester WHERE study_id = '$selectStudyId' && user_id = '$selectParticipantId' LIMIT 1")) {
+                    if (!$select_stmt->execute()) {
+                        echo json_encode(array('status' => 'selectError'));
+                        exit();
+                    } else {
+
+                        $select_stmt->store_result();
+                        $select_stmt->bind_result($id, $studyId, $userId, $data, $created);
+                        $select_stmt->fetch();
+
+                        if ($select_stmt->num_rows == 1) {
+                            $results = array('id' => $id,
+                                'userId' => $userId,
+                                'data' => json_decode_nice($data, false),
+                                'created' => $created);
+                        } else {
+                            echo json_encode(array('status' => 'rowsError'));
+                            exit();
+                        }
+                    }
+                } else {
+                    echo json_encode(array('status' => 'statemantError'));
+                    exit();
+                }
+
+                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'studyData' => $decodedData, 'resultData' => $results, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures));
                 exit();
             } else {
                 echo json_encode(array('status' => 'rowsError'));

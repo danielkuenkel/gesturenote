@@ -1,10 +1,30 @@
+/*
+ * constants
+ */
+var EVENT_GR_UPDATE_STATE = 'updateState';
+var EVENT_GR_STATE_RECORD = 'stateRecord';
+var EVENT_GR_STATE_PLAYBACK = 'statePlayback';
+var EVENT_GR_STATE_PREVIEW = 'statePreview';
+var EVENT_GR_STATE_SAVE = 'stateSave';
+var EVENT_GR_STATE_SAVE_SUCCESS = 'stateSaveSuccess';
+var EVENT_GR_STATE_DELETE_SUCCESS = 'stateDeleteSuccess';
+
+var EVENT_GR_SAVE_SUCCESS = 'saveSuccess';
+var EVENT_GR_DELETE_SUCCESS = 'deleteSuccess';
+
+/*
+ * global gesture variables
+ */
 var alertTarget = null;
 var saveGesture = false;
 var recorderTarget = null;
-function initCheckRecorder(aTarget, rTarget, canSaveGesture) {
+var ownerId = null;
+
+function initCheckRecorder(aTarget, rTarget, canSaveGesture, oId) {
     alertTarget = aTarget;
     recorderTarget = rTarget;
     saveGesture = canSaveGesture;
+    ownerId = oId;
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         initializeRecorder();
@@ -49,11 +69,13 @@ function successCallback(stream) {
 }
 
 function showRecord() {
+    $(recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_RECORD]);
     $(recorderTarget).find('.recorder #btn-record').removeClass('hidden');
     $(recorderTarget).find('.recorder #btn-record-stop').addClass('hidden');
     $(recorderTarget).find('.recorder #recorder-video').removeClass('hidden');
     $(recorderTarget).find('.recorder .gesture-recorder-controls').removeClass('hidden');
     $(recorderTarget).find('.recorder #recorder-video').removeAttr('loop');
+    $(recorderTarget).find('#recorder-video').css({borderRadius: "4px", borderBottomLeftRadius: "0px", borderBottomRightRadius: "0px"});
     $(recorderTarget).find('.recorder #record-controls').removeClass('hidden');
     $(recorderTarget).find('.recorder #playback-controls').addClass('hidden');
     $(recorderTarget).find('.recorder #preview-controls').addClass('hidden');
@@ -102,7 +124,9 @@ function showRecord() {
 
 var gestureStartMarked = false;
 function showPlayback() {
+    $(recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_PLAYBACK]);
     $(recorderTarget).find('.recorder #recorder-video').attr('loop', 'loop');
+    $(recorderTarget).find('#recorder-video').css({borderRadius: "4px", borderBottomLeftRadius: "0px", borderBottomRightRadius: "0px"});
     $(recorderTarget).find('.recorder #record-controls').addClass('hidden');
     $(recorderTarget).find('.recorder #preview-controls').addClass('hidden');
     $(recorderTarget).find('.recorder #playback-controls, .recorder .gesture-recorder-controls, .recorder #recorder-video').removeClass('hidden');
@@ -130,32 +154,6 @@ function showPlayback() {
     $(recorderTarget).find('#btn-repeat-trimming').unbind('click').bind('click', function (event) {
         event.preventDefault();
         showPlayback();
-    });
-
-    $(recorderTarget).find('#btn-choose-preview-image').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        if ($(this).hasClass('active')) {
-            $('.recorder #preview-controls').find('#btn-stop-gesture').click();
-            $(this).removeClass('active');
-            $(this).find('.text').text(translation.choosePreviewImage);
-            $(this).find('.fa').removeClass('fa-check').addClass('fa-bookmark');
-            $('.recorder #gesturePreview').removeClass('mouseScrollable');
-            $('.recorder #gesturePreview').unbind('click');
-        } else {
-            $('.recorder #preview-controls').find('#btn-stop-gesture').click();
-            $(this).addClass('active');
-            $(this).find('.text').text(translation.stopChoosePreviewImage);
-            $(this).find('.fa').removeClass('fa-bookmark').addClass('fa-check');
-            $('.recorder #gesturePreview').addClass('mouseScrollable');
-
-            $('.recorder #gesturePreview').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                var previewImage = $(this).children('.previewImage');
-                previewImage.removeClass('previewImage');
-                var visibleImage = $(this).children('.active');
-                visibleImage.addClass('previewImage');
-            });
-        }
     });
 
     // seekbar operations
@@ -231,6 +229,7 @@ function showPlayback() {
             var video = $(recorderTarget).find('#recorder-video')[0];
 
             $(recorderTarget).find('#recorder-video').removeAttr('loop');
+            $(recorderTarget).find('#recorder-video').css({borderRadius: "4px"});
             $(recorderTarget).find('#btn-stop').click();
 
             var totalWidth = $(recorderTarget).find('#seek-bar').width();
@@ -260,7 +259,8 @@ function showPlayback() {
                 clearInterval(draw_interval);
                 video.pause();
                 renderGestureImages($(recorderTarget).find('#preview-controls .previewGesture'), shotsArray, 0, function () {
-                    gestureTrimmingDone();
+                    showPreview();
+                    showSave();
                 });
             }
         } else {
@@ -277,19 +277,43 @@ function resetTrimControls() {
     $(recorderTarget).find('#btn-mark-end, #btn-extract-gesture').addClass('disabled');
 }
 
-function gestureTrimmingDone() {
-    showPreview();
-    showSave();
-}
-
 function showPreview() {
     $(recorderTarget).find('#preview-controls').removeClass('hidden');
+    $(recorderTarget).find('#preview-controls #gesturePreview').addClass('previewProgress');
     $(recorderTarget).find('#recorder-video').addClass('hidden');
     $(recorderTarget).find('.gesture-recorder-controls').addClass('hidden');
 }
 
 function showSave() {
+    $(recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_SAVE]);
     $(recorderTarget).find('#save-controls').removeClass('hidden');
+
+    $(recorderTarget).find('#btn-choose-preview-image').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        if ($(this).hasClass('active')) {
+            $('.recorder #preview-controls').find('#btn-stop-gesture').click();
+            $(this).removeClass('active');
+            $(this).find('.text').text(translation.choosePreviewImage);
+            $(this).find('.fa').removeClass('fa-check').addClass('fa-bookmark');
+            $('.recorder #gesturePreview').removeClass('mouseScrollable');
+            $('.recorder #gesturePreview').unbind('click');
+        } else {
+            $('.recorder #preview-controls').find('#btn-stop-gesture').click();
+            $(this).addClass('active');
+            $(this).find('.text').text(translation.stopChoosePreviewImage);
+            $(this).find('.fa').removeClass('fa-bookmark').addClass('fa-check');
+            $('.recorder #gesturePreview').addClass('mouseScrollable');
+
+            $('.recorder #gesturePreview').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                var previewImage = $(this).children('.previewImage');
+                previewImage.removeClass('previewImage');
+                var visibleImage = $(this).children('.active');
+                visibleImage.addClass('previewImage');
+            });
+        }
+    });
+
     $(recorderTarget).find('#btn-save-gesture').unbind('click').bind('click', function (event) {
         event.preventDefault();
         var button = $(this);
@@ -298,6 +322,8 @@ function showSave() {
         if (inputsValid(true) && !$(this).hasClass('disabled')) {
             $(button).addClass('disabled');
             showCursor($('body'), CURSOR_PROGRESS);
+            
+            $(recorderTarget).find('#btn-choose-preview-image').removeClass('active');
 
             var gestureImagesData = getGestureImagesData($(recorderTarget).find('#gesturePreview'));
             var previewImageIndex = getGesturePreviewIndex($(recorderTarget).find('#gesturePreview'));
@@ -307,14 +333,14 @@ function showSave() {
             var joints = getSelectedJoints($(recorderTarget).find('#human-body #joint-container'));
 
             if (saveGesture) {
-                saveModeratorGesture({title: title, context: context, description: description, joints: joints, previewImage: previewImageIndex, gestureImages: gestureImagesData}, function (result) {
+                saveRecordedGesture({title: title, context: context, description: description, joints: joints, previewImage: previewImageIndex, gestureImages: gestureImagesData, ownerId: ownerId}, function (result) {
                     showCursor($('body'), CURSOR_DEFAULT);
                     $(button).removeClass('disabled');
 
                     if (result.status === RESULT_SUCCESS) {
+                        $(recorderTarget).trigger(EVENT_GR_SAVE_SUCCESS, [result.gestureId]);
                         $(recorderTarget).find('#success-controls #btn-delete-saved-gesture').attr('name', result.gestureId);
                         renderGestureImages($(recorderTarget).find('#success-controls .previewGesture'), result.images, result.previewImage, null);
-                        $(recorderTarget).trigger('gestureSavedSuccessfully', [result.gestureId]);
                         showSaveSuccess();
                     } else if (result.status === RESULT_ERROR) {
                         appendAlert(alertTarget, ALERT_GENERAL_ERROR);
@@ -415,6 +441,7 @@ function inputsValid(showErrors) {
 }
 
 function showSaveSuccess() {
+    $(recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_SAVE_SUCCESS]);
     resetInputs();
     appendAlert($(recorderTarget).find('#success-controls'), ALERT_GESTURE_SAVE_SUCCESS);
     $(recorderTarget).find('#success-controls').removeClass('hidden');
@@ -424,12 +451,16 @@ function showSaveSuccess() {
     $(recorderTarget).find('#success-controls #btn-delete-saved-gesture').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
-            $(this).addClass('disabled');
+            var button = $(this);
+            $(button).addClass('disabled');
             showCursor($('body'), CURSOR_PROGRESS);
             var gestureId = $(this).attr('name');
             deleteGesture({gestureId: gestureId}, function (result) {
                 showCursor($('body'), CURSOR_DEFAULT);
+                $(button).removeClass('disabled');
+
                 if (result.status === RESULT_SUCCESS) {
+                    $(recorderTarget).trigger(EVENT_GR_DELETE_SUCCESS, [gestureId]);
                     $(recorderTarget).find('#success-controls').addClass('hidden');
                     showDeleteSuccess();
                 } else {
@@ -450,6 +481,7 @@ function showSaveSuccess() {
 }
 
 function showDeleteSuccess() {
+    $(recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_DELETE_SUCCESS]);
     appendAlert($(recorderTarget).find('#delete-success-controls'), ALERT_GESTURE_DELETE_SUCCESS);
     $(recorderTarget).find('#delete-success-controls').removeClass('hidden');
     $(recorderTarget).find('#delete-success-controls #btn-record-new-gesture').unbind('click').bind('click', function (event) {
