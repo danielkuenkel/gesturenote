@@ -133,14 +133,16 @@ function renderPhaseSteps() {
             addPhaseStep(item.id, item.format, item.color);
         }
 
-        if (getLocalItem(STUDY).phase === TYPE_PHASE_ELICITATION) {
-            $('#phaseStepList').find('.' + TYPE_PHASE_ELICITATION).removeClass('hidden');
-            $('#phaseStepList').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
-        } else if (getLocalItem(STUDY).phase === TYPE_PHASE_EVALUATION) {
-            $('#phaseStepList').find('.' + TYPE_PHASE_EVALUATION).removeClass('hidden');
-            $('#phaseStepList').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
-        } else {
-            $('#phaseStepList').find('.both').removeClass('hidden');
+        if (getLocalItem(STUDY) && getLocalItem(STUDY).phase) {
+            if (getLocalItem(STUDY).phase === TYPE_PHASE_ELICITATION) {
+                $('#phaseStepList').find('.' + TYPE_PHASE_ELICITATION).removeClass('hidden');
+                $('#phaseStepList').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
+            } else if (getLocalItem(STUDY).phase === TYPE_PHASE_EVALUATION) {
+                $('#phaseStepList').find('.' + TYPE_PHASE_EVALUATION).removeClass('hidden');
+                $('#phaseStepList').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
+            } else {
+                $('#phaseStepList').find('.both').removeClass('hidden');
+            }
         }
     }
 }

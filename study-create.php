@@ -173,7 +173,7 @@ if (login_check($mysqli) == true) {
                     <ul class="nav nav-tabs" id="create-tab-navigation" style="margin-bottom: 30px">
                         <li role="presentation" id="general"><a href="#">Allgemeines</a></li>
                         <li role="presentation" id="catalogs"><a href="#">Kataloge</a></li>
-                        <li role="presentation" id="phases"><a href="#">Leidfaden</a></li>
+                        <li role="presentation" id="phases" class="hidden"><a href="#">Leidfaden</a></li>
                         <li role="presentation" id="panel"><a href="#">Wer, Was & Wann?</a></li>
                     </ul>
 
@@ -435,7 +435,7 @@ if (login_check($mysqli) == true) {
                                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
                             </span>
                             <br><br>
-                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-create-general.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-general.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
                         </div>
 
                         <div class="tab-content hidden tab-catalogs">
@@ -444,7 +444,7 @@ if (login_check($mysqli) == true) {
                                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor 
                             </span>
                             <br><br>
-                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-create-catalogs.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-catalogs.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
                         </div>
 
                         <div class="tab-content hidden tab-phases">
@@ -453,7 +453,7 @@ if (login_check($mysqli) == true) {
                                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
                             </span>
                             <br><br>
-                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-create-phases.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-phases.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
                         </div>
 
                         <div class="tab-content hidden tab-panel">
@@ -462,7 +462,7 @@ if (login_check($mysqli) == true) {
                                 aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
                             </span>
                             <br><br>
-                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'info-create-panel.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-panel.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
                         </div>
                     </div>
                 </div>
@@ -630,56 +630,6 @@ if (login_check($mysqli) == true) {
                 updateCatalogButtons();
             });
 
-//            $('#useFeedbackSwitch #no, #useFeedbackSwitch .switchButtonAddon').on('click', function (event) {
-//                event.preventDefault();
-//                if (!$(this).parent().find('#no').hasClass('active') === true) {
-//                    removeAssembledFeedback();
-//                }
-//            });
-
-//            $('#btn-info-phase').on('click', function (event) {
-//                event.preventDefault();
-//                loadHTMLintoModal('custom-modal', 'info-study-phase.html');
-//            });
-//
-//            $('#btn-info-survey-type').on('click', function (event) {
-//                event.preventDefault();
-//                loadHTMLintoModal('custom-modal', 'info-study-survey-type.html');
-//            });
-//
-//            $('#btn-scenes-info').on('click', function (event) {
-//                event.preventDefault();
-//                loadHTMLintoModal('custom-modal', 'info-scenes.html');
-//            });
-//
-//            $('#btn-use-gestures-info').on('click', function (event) {
-//                event.preventDefault();
-//                loadHTMLintoModal('custom-modal', 'info-use-gestures.html');
-//            });
-//
-//            $('#btn-use-trigger-info').on('click', function (event) {
-//                event.preventDefault();
-//                loadHTMLintoModal('custom-modal', 'info-use-trigger.html');
-//            });
-//
-//            $('#btn-use-feedback-info').on('click', function (event) {
-//                event.preventDefault();
-//                loadHTMLintoModal('custom-modal', 'info-use-feedback.html');
-//            });
-//
-//            $('#btn-info-record').on('click', function (event) {
-//                event.preventDefault();
-//                loadHTMLintoModal('custom-modal', 'info-record.html');
-//            });
-
-//            $('#info-addon-add-phases').on('click', function (event) {
-//                event.preventDefault();
-//                if (!$(this).hasClass('disabled')) {
-//                    var format = $(this).parent().find('.chosen').attr('id');
-//                    loadHTMLintoModal("custom-modal", "info-" + format + ".html", "modal-md");
-//                }
-//            });
-
             $('#addPhaseStep').click(function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled') && format !== 'unselected') {
@@ -739,6 +689,7 @@ if (login_check($mysqli) == true) {
             }
 
             $('#panelSurveySwitch').on('change', function (event, id) {
+                event.preventDefault();
                 if (id === $(this).find('#yes').attr('id')) {
                     $('#panel-survey-container').removeClass('hidden');
                 } else {
@@ -747,6 +698,9 @@ if (login_check($mysqli) == true) {
             });
 
             $('#phaseSelect').on('change', function (event, id) {
+                event.preventDefault();
+                $('#create-tab-navigation #phases').removeClass('hidden');
+                
                 if (id === TYPE_PHASE_ELICITATION) {
                     $('#phaseStepSelect').find('.' + id).removeClass('hidden');
                     $('#phaseStepSelect').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
