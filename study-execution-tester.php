@@ -171,15 +171,15 @@ if ($h && $token && $studyId) {
                 if (query.studyId && query.h && query.token) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
-                            if (result.data) {
-                                if (result.data) {
+//                            if (result.data) {
+//                                if (result.data) {
                                     clearLocalItems();
                                     setStudyData(result);
                                     init();
-                                }
-                            } else {
-                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
-                            }
+//                                }
+//                            } else {
+//                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
+//                            }
                         }
                     });
                 }

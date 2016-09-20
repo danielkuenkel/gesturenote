@@ -64,3 +64,22 @@ and open the template in the editor.
     top: 10px; 
     margin-left: 50px;
 }
+
+/*#phase-results-nav > .nav-pills > li > a {
+  background: #FFF;
+  border-radius: 0;
+  color: #777;
+  border-right: 5px solid #ddd;
+}
+#phase-results-nav > .nav-pills>li.active>a,
+#phase-results-nav > .nav-pills>li.active>a:hover,
+#phase-results-nav > .nav-pills>li.active>a:focus {
+  background: #f7f7f7;
+  border-radius: 0;
+  color: #777;
+  border-right: 5px solid #005090;
+}
+#phase-results-nav > .nav-pills > li {
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+}*/

@@ -17,6 +17,7 @@ var RESULT_WRONG_CURRENT_PASSWORD = 'wrongCurrentPassword';
 
 // study specific constants
 var STUDY = 'study';
+var STUDY_RESULTS = 'studyResults';
 var STUDY_ORIGIN_GUS = 'study.originGUS';
 var STUDY_ORIGIN_SUS = 'study.originSUS';
 var STUDY_PHASE_STEPS = 'study.phaseSteps';

@@ -72,7 +72,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                         if ($select_stmt->num_rows == 1) {
                             $results = array('id' => $id,
                                 'userId' => $userId,
-                                'data' => json_decode_nice($data, false),
+                                'results' => json_decode_nice($data, false),
                                 'created' => $created);
                         } else {
                             echo json_encode(array('status' => 'rowsError'));

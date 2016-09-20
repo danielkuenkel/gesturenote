@@ -11,9 +11,14 @@ $target_dir = "../uploads/";
 $target_preview_dir = "uploads/";
 
 session_start();
-if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['gestureImages'], $_POST['ownerId'])) {
+if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['gestureImages'])) {
     $images = $_POST['gestureImages'];
     $imageURLs = array();
+
+    $ownerId = $_SESSION['user_id'];
+    if (isset($_POST['ownerId']) && $_POST['ownerId'] != null) {
+        $ownerId = $_POST['ownerId'];
+    }
 
     foreach ($images as $image) {
 
@@ -35,7 +40,7 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['des
         }
     }
 
-    $ownerId = $_POST['ownerId'];
+
     $userId = $_SESSION['user_id'];
     $source = $_SESSION['usertype'];
     $scope = 'private';

@@ -518,10 +518,10 @@ if (login_check($mysqli) == true) {
                     editableStudyId = query.studyId;
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
-                            if (result.data) {
+//                            if (result.data) {
                                 setStudyData(result);
                                 init();
-                            }
+//                            }
                         }
                     });
                 } else if (query.edit && (query.edit === true || query.edit === "true") && query.studyId) {

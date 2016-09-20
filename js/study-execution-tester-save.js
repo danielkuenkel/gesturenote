@@ -315,6 +315,7 @@ function saveCurrentStatus(studyFinished, callback) {
 }
 
 function getFinishedStudyPhases() {
+    savePhaseStep();
     var phaseSteps = getContextualPhaseSteps();
     var array = new Array();
     for (var i = 0; i < phaseSteps.length; i++) {

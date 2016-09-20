@@ -1221,10 +1221,15 @@ var Tester = {
 
         $(container).find('#btn-retry-upload').on('click', function (event) {
             event.preventDefault();
-            submitFinalData(container);
+            if (previewModeEnabled === false) {
+                submitFinalData(container);
+            }
         });
 
-        submitFinalData(container);
+        if (previewModeEnabled === false) {
+            submitFinalData(container);
+        }
+
 
         return container;
     }

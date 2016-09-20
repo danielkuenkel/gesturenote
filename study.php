@@ -190,18 +190,18 @@ if (login_check($mysqli) == true) {
                 if (query.studyId && query.h === hash) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
-                            if (result.data) {
+//                            if (result.data) {
                                 renderData(result);
-                            } else {
-                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
-                            }
+//                            } else {
+//                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
+//                            }
                         }
                     });
                 }
             }
 
             function renderData(data) {
-                var studyData = data.data;
+                var studyData = data.studyData;
 
                 // general data view
                 $('#study-headline').text(studyData.generalData.title);
@@ -450,7 +450,7 @@ if (login_check($mysqli) == true) {
                     var result = data[i].data;
 
                     var item = $('#template-study-container').find('#participant-thumbnail').clone().removeAttr('id');
-                    $(item).find('.panel-heading').text(data[i].created);
+                    $(item).find('.panel-heading').text(convertSQLTimestampToDate(data[i].created).toLocaleDateString());
 //                    console.log($(item).find('.panel-heading').text('test'));
                     $('#study-participants .list-container').append(item);
 

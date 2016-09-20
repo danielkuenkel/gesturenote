@@ -240,8 +240,9 @@ function getContextualPhaseSteps() {
 }
 
 function setStudyData(data) {
-    if (data.data) {
-        var setData = data.data;
+    var setData;
+    if (data.studyData) {
+        setData = data.studyData;
         setData.generalData.studyOwner = data.userId;
         setData.generalData.id = data.id;
         setData.generalData.urlToken = data.urlToken;
@@ -275,5 +276,23 @@ function setStudyData(data) {
 
     if (data.gestureCatalog) {
         setLocalItem(GESTURE_CATALOG, data.gestureCatalog);
+    }
+
+    if (data.resultData) {
+        console.log(data.resultData);
+
+        setData = new Object();
+        setData.id = data.resultData.id;
+        setData.userId = data.resultData.userId;
+        setData.created = data.resultData.created;
+        setData.executionSuccess = data.resultData.results.studySuccessfull;
+        setLocalItem(STUDY_RESULTS, setData);
+
+        var phases = data.resultData.results.phases;
+        if (phases && phases.length > 0) {
+            for (var i = 0; i < phases.length; i++) {
+                setLocalItem(phases[i].id + '.results', phases[i]);
+            }
+        }
     }
 }

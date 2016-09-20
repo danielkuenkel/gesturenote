@@ -59,7 +59,7 @@ if (isset($_POST['studyId'])) {
                     }
                 }
 
-                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'data' => $decodedData, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures));
+                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'studyData' => $decodedData, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures));
                 exit();
             } else {
                 echo json_encode(array('status' => 'rowsError'));

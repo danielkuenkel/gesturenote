@@ -180,7 +180,7 @@ h4 {
     cursor: pointer;
 }
 
-.navbar {
+.navbar-fixed-top, .navbar-fixed-bottom {
     margin-bottom: 0;
     background-color: #303030;
     z-index: 9999;
@@ -191,14 +191,17 @@ h4 {
     border-radius: 0;
     font-family: Montserrat, sans-serif;
 }
-.navbar li a, .navbar .navbar-brand {
+.navbar-fixed-top li a, .navbar-fixed-top .navbar-brand,
+.navbar-fixed-bottom li a, .navbar-fixed-bottom .navbar-brand {
     color: #fff !important;
 }
-.navbar-nav li a:hover, .navbar-nav li.active a {
+.navbar-fixed-top .navbar-nav li a:hover, .navbar-fixed-top .navbar-nav li.active a,
+.navbar-fixed-bottom .navbar-nav li a:hover, .navbar-fixed-bottom .navbar-nav li.active a {
     color: #ca3667 !important;
     background-color: #fff !important;
 }
-.navbar-default .navbar-toggle {
+.navbar-fixed-top  .navbar-toggle,
+.navbar-fixed-bottom  .navbar-toggle {
     border-color: transparent;
     color: #fff !important;
 }

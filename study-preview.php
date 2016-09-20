@@ -246,11 +246,11 @@ if (login_check($mysqli) == true) {
                 } else if (query.studyId && query.h === hash) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
-                            if (result.data) {
+//                            if (result.data) {
                                 clearLocalItems();
                                 setStudyData(result);
                                 init();
-                            }
+//                            }
                         }
                     });
 
