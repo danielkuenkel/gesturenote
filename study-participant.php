@@ -76,9 +76,9 @@ if (login_check($mysqli) == true) {
 
         <div class="container-fluid hidden" id="annotation-view"></div>
 
-        <div class="container" id="phase-results">
+        <div class="container" id="phase-results" style="margin-bottom: 60px;">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3" style="margin-bottom: 30px;">
                     <div class="btn-group-vertical btn-block" id="phase-results-nav">
                     </div>
                 </div>
@@ -106,7 +106,6 @@ if (login_check($mysqli) == true) {
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
 
                 if (query.studyId && query.participantId && query.h === hash) {
-//                    console.log(query, hash);
                     $('.breadcrumb #btn-study').on('click', function (event) {
                         event.preventDefault();
                         goto('study.php?studyId=' + query.studyId + '&h=' + hash);
@@ -114,14 +113,10 @@ if (login_check($mysqli) == true) {
 
                     getStudyParticipant({studyId: query.studyId, participantId: query.participantId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
-//                            if (result.data) {
                             console.log(result);
                             console.log(result.resultData);
                             setStudyData(result);
                             renderData(result);
-//                            } else {
-//                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
-//                            }
                         }
                     });
                 }
@@ -152,71 +147,41 @@ if (login_check($mysqli) == true) {
                 }
 
 
-//                // phase nav view
+                // phase nav view
                 if (studyData.phases && studyData.phases.length > 0) {
                     for (var i = 0; i < studyData.phases.length; i++) {
                         var navItem = document.createElement('button');
                         $(navItem).attr('role', 'presentation');
                         $(navItem).addClass('btn btn-default');
                         $(navItem).attr('id', studyData.phases[i].id);
-                        $(navItem).text(translation.formats[studyData.phases[i].format].text);
                         $('#phase-results-nav').append(navItem);
+
+                        var text = document.createElement('span');
+                        $(text).text(translation.formats[studyData.phases[i].format].text);
+                        $(navItem).append(text);
 
                         TweenMax.from($(navItem), .3, {delay: 0.2 + (i * .05), y: -10, opacity: 0, clearProps: 'all'});
                     }
                     $('#phase-results-nav').children().first().click();
                 }
-//
-//                $('#btn-delete-study').on('click', {studyId: data.id}, function (event) {
-//                    event.preventDefault();
-//                    if (!$(this).hasClass('disabled')) {
-//                        deleteStudy({studyId: event.data.studyId}, function (result) {
-//                            if (result.status === RESULT_SUCCESS) {
-//                                gotoStudies();
-//                            } else {
-//
-//                            }
-//                        });
-//                    }
-//                });
-//
-//
+
+
 //                // catalogs view
 //                // check if there are study catalog data
 //                var studyGestures = data.gestureCatalog;
-//                var studyFeedback = studyData.assembledFeedback;
-//                var studyScenes = studyData.assembledScenes;
-//                var studyTrigger = studyData.assembledTrigger;
-//                var noCatalogData = true;
 //
 //                if (studyGestures && studyGestures.length > 0) {
 //                    setLocalItem(GESTURE_CATALOG, studyGestures);
 //                    renderStudyGestures(studyGestures);
-//                    noCatalogData = false;
 //                }
-//                if (studyScenes && studyScenes.length > 0) {
-//                    renderStudyScenes(studyScenes);
-//                    noCatalogData = false;
-//                }
-//                if (studyTrigger && studyTrigger.length > 0) {
-//                    renderStudyTrigger(studyTrigger);
-//                    noCatalogData = false;
-//                }
-//                if (studyFeedback && studyFeedback.length > 0) {
-//                    renderStudyFeedback(studyFeedback);
-//                    noCatalogData = false;
-//                }
-//
-//                if (noCatalogData) {
-//                    appendAlert($('#study-catalogs'), ALERT_NO_PHASE_DATA);
-//                }
+//                
             }
 
             $(document).on('click', '#phase-results-nav button', function (event) {
                 event.preventDefault();
-                if (!$(this).hasClass('btn-primary')) {
-                    $(this).parent().children().removeClass('btn-primary');
-                    $(this).addClass('btn-primary');
+                if (!$(this).hasClass('active')) {
+                    $(this).parent().children().removeClass('active');
+                    $(this).addClass('active');
                     renderStudyPhaseResult($(this).attr('id'));
                 }
             });
@@ -224,17 +189,30 @@ if (login_check($mysqli) == true) {
             function renderStudyPhaseResult(phaseId) {
                 var phaseData = getLocalItem(phaseId + '.data');
                 var phaseResults = getLocalItem(phaseId + '.results');
-                console.log(phaseData, phaseResults);
+//                console.log(phaseData, phaseResults);
 
                 if (phaseData && phaseResults) {
                     var content = $('#template-study-container').find('#' + phaseResults.format).clone().removeAttr('id');
                     $(content).find('#headline').text(translation.formats[phaseResults.format].text);
                     $('#phase-result').empty().append(content);
-//                    console.log(content);
+
+                    var executionTime = getTimeBetweenTimestamps(parseInt(phaseResults.startTime), parseInt(phaseResults.endTime));
+                    if (!isEmpty(executionTime)) {
+                        var badge = document.createElement('span');
+                        $(badge).addClass('badge pull-right');
+                        $(badge).text(translation.lapse + ' ' + getTimeString(executionTime));
+                        $(content).find('#headline').append(badge);
+                    }
 
                     switch (phaseResults.format) {
                         case LETTER_OF_ACCEPTANCE:
                             renderLetterOfAcceptance(content, phaseData, phaseResults);
+                            break;
+                        case THANKS:
+                            renderThanks(content, phaseData);
+                            break;
+                        case QUESTIONNAIRE:
+                            renderQuestionnaire(content, phaseData.reverse(), phaseResults);
                             break;
                     }
 
@@ -261,6 +239,131 @@ if (login_check($mysqli) == true) {
                     $(content).find('#letter-accepted').removeClass('hidden');
                 } else {
                     $(content).find('#letter-not-accepted').removeClass('hidden');
+                }
+                $(content).find('#letter-text').text(studyData);
+            }
+
+            function renderThanks(content, studyData) {
+                $(content).find('#thanks-text').text(studyData);
+            }
+
+            function renderQuestionnaire(content, studyData, resultsData) {
+                for (var i = 0; i < studyData.length; i++) {
+                    var listItem = $('#template-study-container').find('#' + studyData[i].format).clone();
+                    listItem.find('#format .format-text').text(translation.questionFormats[studyData[i].format].text);
+                    $(content).find('.list-container').append(listItem);
+
+                    switch (studyData[i].format) {
+                        case COUNTER:
+                            renderCounter(listItem, studyData[i], resultsData.answers[i]);
+                            break;
+                        case OPEN_QUESTION:
+                        case OPEN_QUESTION_GUS:
+                            renderOpenQuestion(listItem, studyData[i], resultsData.answers[i]);
+                            break;
+                        case DICHOTOMOUS_QUESTION:
+                            renderDichotomousQuestion(listItem, studyData[i], resultsData.answers[i]);
+                            break;
+                        case DICHOTOMOUS_QUESTION_GUS:
+                            break;
+                        case GROUPING_QUESTION:
+                            renderGroupingQuestion(listItem, studyData[i], resultsData.answers[i]);
+                            break;
+                        case GROUPING_QUESTION_GUS:
+                            break;
+                        case RATING:
+                            renderRating(listItem, studyData[i], resultsData.answers[i]);
+                            break;
+                        case SUM_QUESTION:
+                            renderSumQuestion(listItem, studyData[i], resultsData.answers[i]);
+                            break;
+                        case RANKING:
+                            renderRanking(listItem, studyData[i], resultsData.answers[i]);
+                            break;
+                        case ALTERNATIVE_QUESTION:
+                            break;
+                        case GUS_SINGLE:
+                            break;
+                        case SUS:
+                            break;
+//                        case 'human-body-selection-rating':
+//                            break;
+//                        case 'hand-selection-rating':
+//                            break;
+                    }
+                    $(listItem).css({y: 0, opacity: 1});
+                    TweenMax.from(listItem, .1, {delay: i * .1, opacity: 0, y: -10});
+                }
+            }
+
+            function renderCounter(item, studyData, resultsData) {
+                console.log(studyData, resultsData);
+                var parameters = studyData.parameters;
+                $(item).find('.question').text(studyData.question);
+                $(item).find('#counter-label .counter-from').text(translation.of + ' ' + translation.atLeast + ' ' + parameters.countFrom);
+                $(item).find('#counter-label .counter-to').text(translation.to + ' ' + translation.maximal + ' ' + parameters.countTo);
+                if (resultsData.count && resultsData.count !== '') {
+                    $(item).find('.answer').text(resultsData.count);
+                } else {
+
+                }
+            }
+
+            function renderOpenQuestion(item, studyData, resultsData) {
+                console.log(studyData, resultsData);
+                $(item).find('.question').text(studyData.question);
+                if (resultsData.openAnswer && resultsData.openAnswer !== '') {
+                    $(item).find('.answer').text(resultsData.openAnswer);
+                } else {
+
+                }
+            }
+
+            function renderDichotomousQuestion(item, studyData, resultsData) {
+                console.log(studyData, resultsData);
+                $(item).find('.question').text(studyData.question);
+
+            }
+
+            function renderGroupingQuestion(item, studyData, resultsData) {
+                console.log(studyData, resultsData);
+                $(item).find('.question').text(studyData.question);
+            }
+
+            function renderRating(item, studyData, resultsData) {
+                console.log(studyData, resultsData);
+                $(item).find('.question').text(studyData.question);
+            }
+
+            function renderSumQuestion(item, studyData, resultsData) {
+//                console.log(studyData, resultsData);
+                $(item).find('.question').text(studyData.question);
+                $(item).find('#maximum .label-text').text(translation.maximum + ': ' + studyData.parameters.maximum);
+                $(item).find('#allocation .label-text').text(translation.scales[studyData.parameters.allocation]);
+
+                var count = 0;
+                for (var i = 0; i < resultsData.sumCounts.length; i++) {
+                    var listItemAnswer = $('#template-study-container').find('#sum-question-item').clone();
+                    count += parseInt(resultsData.sumCounts[i]);
+                    $(listItemAnswer).text(studyData.options[i] + ': ' + resultsData.sumCounts[i] + ' ' + translation.scales[studyData.parameters.allocation]);
+                    $(item).find('.options-container').append(listItemAnswer);
+                }
+
+                console.log(count, studyData.parameters.maximum);
+                if (count === parseInt(studyData.parameters.maximum)) {
+                    $(item).find('#distributeAllPoints').removeClass('hidden');
+                } else {
+                    $(item).find('#distributeNotAllPoints').removeClass('hidden');
+                }
+            }
+
+            function renderRanking(item, studyData, resultsData) {
+                $(item).find('.question').text(studyData.question);
+
+                for (var i = 0; i < resultsData.arrangement.length; i++) {
+                    var listItemAnswer = $('#template-study-container').find('#ranking-item').clone();
+                    $(listItemAnswer).text((i + 1) + '. ' + studyData.options[parseInt(resultsData.arrangement[i])]);
+                    $(item).find('.options-container').append(listItemAnswer);
                 }
             }
 

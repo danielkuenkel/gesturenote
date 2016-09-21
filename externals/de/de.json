@@ -34,6 +34,19 @@
         "november": "November",
         "december": "Dezember"
     },
+    "times": {
+        "days": "Tage",
+        "hours": "Stunden",
+        "minutes": "Minuten",
+        "seconds": "Sekunden"
+    },
+    "timesShort": {
+        "days": "T",
+        "hours": "S",
+        "minutes": "M",
+        "seconds": "s"
+    },
+    "lapse" : "Zeitspanne",
     "day": "Tag",
     "days": "Tage",
     "daysn": "Tagen",

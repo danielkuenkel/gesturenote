@@ -1255,6 +1255,63 @@ function getTimeLeftForTimestamp(timestamp) {
     return {days: days, hours: hours, minutes: minutes, seconds: seconds};
 }
 
+function getTimeBetweenTimestamps(timestampA, timestampB) {
+    var a, b;
+    if (timestampA > timestampB) {
+        a = timestampA;
+        b = timestampB;
+    } else if (timestampB > timestampA) {
+        a = timestampB;
+        b = timestampA;
+    } else {
+        return 0;
+    }
+
+    var seconds = Math.floor((a - b) / 1000);
+    var minutes = Math.floor(seconds / 60);
+    var hours = Math.floor(minutes / 60);
+    var days = Math.floor(hours / 24);
+    hours = hours - (days * 24);
+    minutes = minutes - (days * 24 * 60) - (hours * 60);
+    seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
+//    return days + ' Tage, ' + hours + ' Stunden, ' + minutes + ' Minunten und ' + seconds + ' Sekunden';
+
+    var object = new Object;
+    if (days > 0) {
+        object.days = days;
+    }
+
+    if (hours > 0) {
+        object.hours = hours;
+    }
+
+    if (minutes > 0) {
+        object.minutes = minutes;
+    }
+
+    if (seconds > 0) {
+        object.seconds = seconds;
+    }
+    return object;
+}
+
+function isEmpty(obj) {
+    return (Object.getOwnPropertyNames(obj).length === 0);
+}
+
+function getTimeString(object, short) {
+    var timeString = '';
+    for (var key in object) {
+        if (short) {
+            timeString += object[key] + ' ' + translation.timesShort[key] + ' ';
+        } else {
+            timeString += object[key] + ' ' + translation.times[key] + ' ';
+        }
+    }
+
+    return timeString;
+}
+
 
 
 var currentGesturePreviewId = null;

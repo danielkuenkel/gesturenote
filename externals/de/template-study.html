@@ -98,11 +98,13 @@
         <hr>
         <span class="label label-success hidden" id="letter-accepted"><i class="fa fa-check"></i> <span class="label-text">Einverständniserklärung akzeptiert</span></span>
         <span class="label label-danger hidden" id="letter-not-accepted"><i class="fa fa-times"></i> <span class="label-text">Einverständniserklärung abgelehnt</span></span>
+        <p id="letter-text" class="text" style="margin-top: 15px"></p>
     </div>
 
     <div class="root" id="thanks">
         <h3 id="headline" style="margin-top: 0"></h3>
         <hr>
+        <p id="thanks-text" class="text"></p>
     </div>
 
     <div class="root" id="identification">
@@ -110,9 +112,102 @@
         <hr>
     </div>
 
+
+
+
     <div class="root" id="questionnaire">
         <h3 id="headline" style="margin-top: 0"></h3>
-        <hr>
+        <div class="list-container" style="margin-top: 20px;"></div>
+    </div>
+
+    <div class="panel panel-default" id="counter" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-default" id="counter-label"><span class="counter-from"></span> <span class="counter-to"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <span class="answer text"></span>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="openQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <span class="answer text"></span>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="dichotomousQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <span class="answer text"></span>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="groupingQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <span class="answer text"></span>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="rating" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <span class="answer text"></span>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="sumQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-default" id="maximum"><span class="label-text"></span></span>
+            <span class="label label-default" id="allocation"><span class="label-text"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="options-container"></div>
+            <div class="label label-success hidden" id="distributeAllPoints"><i class="fa fa-check"></i> <span class="label-text">Alle Punkte verteilt</span></div>
+            <div class="label label-danger hidden" id="distributeNotAllPoints"><i class="fa fa-times"></i> <span class="label-text">Nicht alle Punkte verteilt</span></div>
+        </div>
+    </div>
+
+    <div id="sum-question-item" class="text">
+
+    </div>
+
+    <div class="panel panel-default" id="ranking" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="options-container"></div>
+        </div>
+    </div>
+
+    <div id="ranking-item" class="text">
+
     </div>
 
 </div>

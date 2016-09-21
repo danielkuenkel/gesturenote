@@ -279,7 +279,7 @@ function setStudyData(data) {
     }
 
     if (data.resultData) {
-        console.log(data.resultData);
+//        console.log(data.resultData);
 
         setData = new Object();
         setData.id = data.resultData.id;

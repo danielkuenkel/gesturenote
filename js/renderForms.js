@@ -254,14 +254,14 @@ function renderGroupingQuestionGUSInput(item, parameters) {
 function renderRatingPreview(source, item, options) {
     for (var j = 0; j < options.length; j++) {
         var ratingItem = $(source).find('#rating-item').clone().removeAttr('id');
-        if (options[j][options[j].length - 1] === true) {
+        if (options[j].negative === 'yes') {
             ratingItem.find('#reversed').removeClass('hidden');
         }
 
-        ratingItem.find('#rating-header').text(options[j][options[j].length - 2]);
-        for (var k = 0; k < options[j].length - 2; k++) {
+        ratingItem.find('#rating-header').text(options[j].option);
+        for (var k = 0; k < options[j].scales.length; k++) {
             var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
-            optionItem.text(options[j][k]);
+            optionItem.text(options[j].scales[k]);
             ratingItem.find('#scales-container').append(optionItem);
         }
 
@@ -272,10 +272,10 @@ function renderRatingPreview(source, item, options) {
 function renderRatingInput(item, options) {
     for (var j = 0; j < options.length; j++) {
         var ratingItem = $('#item-container-inputs').find('#rating-item').clone().removeAttr('id');
-        ratingItem.find('#rating-header').text(options[j][options[j].length - 2]);
-        for (var k = 0; k < options[j].length - 2; k++) {
+        ratingItem.find('#rating-header').text(options[j].option);
+        for (var k = 0; k < options[j].scales.length; k++) {
             var optionItem = $('#item-container-inputs').find('#radio').clone(false);
-            optionItem.find('.option-text').text(options[j][k]);
+            optionItem.find('.option-text').text(options[j].scales[k]);
             ratingItem.find('#scales-container').append(optionItem);
             ratingItem.find('#scales-container').append(document.createElement('br'));
         }

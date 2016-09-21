@@ -50,6 +50,7 @@ function initialize() {
             showModeratorView();
         }
     } else {
+        setLocalItem('startExecutionTime', new Date().getTime());
         renderPhaseStep();
         updateProgress();
     }
@@ -146,11 +147,9 @@ function nextStep() {
 
     var phases = getContextualPhaseSteps();
     if (previewModeEnabled === false) {
-        savePhaseStep();
-        if(currentPhaseStepIndex < phases.length - 2) {
+        if (currentPhaseStepIndex < phases.length - 1) {
             saveCurrentStatus(false);
         }
-        
     }
 
     if (phases && phases.length > 0) {

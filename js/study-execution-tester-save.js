@@ -7,7 +7,7 @@ function savePhaseStep() {
     var data = new Object();
     data.id = currentPhase.id;
     data.format = currentPhase.format;
-
+    console.log('save ' + currentPhase.format);
     switch (currentPhase.format) {
         case LETTER_OF_ACCEPTANCE:
             data = getLetterOfAcceptanceFormData(data);
@@ -140,6 +140,7 @@ function getIdentificationFormData(data) {
 
 
 function getQuestionnaireFormData(questionnaire, data) {
+    console.log('getQuestionnaireFormData');
     var questionnaireAnswers = new Array();
     for (var i = 0; i < questionnaire.length; i++) {
         var format = $(questionnaire[i]).attr('id');
@@ -188,6 +189,16 @@ function getQuestionnaireFormData(questionnaire, data) {
         }
     }
     data.answers = questionnaireAnswers;
+
+    console.log(questionnaireAnswers);
+
+    var tempData = getLocalItem(data.id + '.tempSaveData');
+    console.log(tempData);
+    if (tempData) {
+        data.startTime = tempData.startTime;
+        removeLocalItem(data.id + '.tempSaveData');
+    }
+
     return data;
 }
 
@@ -316,6 +327,7 @@ function saveCurrentStatus(studyFinished, callback) {
 
 function getFinishedStudyPhases() {
     savePhaseStep();
+
     var phaseSteps = getContextualPhaseSteps();
     var array = new Array();
     for (var i = 0; i < phaseSteps.length; i++) {

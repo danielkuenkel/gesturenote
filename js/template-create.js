@@ -42,6 +42,7 @@ $(document).on('click', '.btn-add-groupingQuestionOption', function (event) {
         checkCurrentListState($(this).prev().find('.panel-body'));
     }
 });
+var defaultScales = ['Trifft nicht zu', 'Weder noch', 'Triff zu'];
 $(document).on('click', '.btn-add-ratingOption', function (event) {
     event.preventDefault();
     if (event.handled !== true)
@@ -54,7 +55,7 @@ $(document).on('click', '.btn-add-ratingOption', function (event) {
         $(clone).find('.chosen').attr('id', 3);
         $(clone).find('.show-dropdown').val(3);
         $(clone).find('#scale_3').addClass('selected');
-        renderScaleItems($(clone).find('.ratingScaleItemContainer'), 3);
+        renderScaleItems($(clone).find('.ratingScaleItemContainer'), 3, defaultScales);
     }
 });
 $(document).on('click', '.btn-add-sumQuestionOption', function (event) {
@@ -153,10 +154,10 @@ function renderScaleItems(container, count, text)
         $(container).append(scaleItem);
         if (i === 0) {
             $(scaleItem).find('.input-group-addon').text("von " + (i + 1));
-            $(scaleItem).find('.item-input-text').attr('placeholder', 'z.B. trifft zu');
+            $(scaleItem).find('.item-input-text').attr('placeholder', 'z.B. Trifft nicht zu');
         } else if (i === count - 1) {
             $(scaleItem).find('.input-group-addon').text("bis " + (i + 1));
-            $(scaleItem).find('.item-input-text').attr('placeholder', 'z.B. trifft nicht zu');
+            $(scaleItem).find('.item-input-text').attr('placeholder', 'z.B. Trifft zu');
         } else {
             $(scaleItem).find('.input-group-addon').text(i + 1);
         }
@@ -906,15 +907,13 @@ function renderFormatItem(target, data) {
                     var option = $('#ratingItem').clone().removeClass('hidden');
                     $(option).find('.option').val(options[j]);
                     $(clone).find('.option-container').append(option);
-                    $(option).find('.optionQuestion').val(options[j][options[j].length - 2]);
-                    $(option).find('.chosen').attr('id', (options[j].length - 2));
-                    $(option).find('.show-dropdown').val(options[j].length - 2);
-                    $(option).find('#scale_' + (options[j].length - 2)).addClass('selected');
+                    $(option).find('.optionQuestion').val(options[j].option);
+                    $(option).find('.chosen').attr('id', (options[j].scales.length));
+                    $(option).find('.show-dropdown').val(options[j].scales.length);
+                    $(option).find('#scale_' + (options[j].scales.length)).addClass('selected');
                     checkCurrentListState($(clone).find('.option-container'));
-                    renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].length - 2, options[j]);
-                    if (options[j][options[j].length - 1] === true) {
-                        $(option).find('#yes').click();
-                    }
+                    renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].scales.length, options[j].scales);
+                    $(option).find('#' + options[j].negative).click();
                 }
             }
             break;
@@ -1080,9 +1079,7 @@ function getFormatData(element) {
                 for (var k = 0; k < ratingOptions.length; k++) {
                     tempArray.push($(ratingOptions[k]).find('.option').val());
                 }
-                tempArray.push($(optionList[j]).find('.optionQuestion').val());
-                tempArray.push($(optionList[j]).find('.negative').find('#yes').hasClass('active'));
-                options.push(tempArray);
+                options.push({option: $(optionList[j]).find('.optionQuestion').val(), negative: $(optionList[j]).find('.negative').find('.active').attr('id'), scales: tempArray});
             }
             break;
         case SUM_QUESTION:
