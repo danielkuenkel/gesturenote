@@ -40,13 +40,19 @@
         "minutes": "Minuten",
         "seconds": "Sekunden"
     },
+    "timesSingular": {
+        "days": "Tag",
+        "hours": "Stunde",
+        "minutes": "Minute",
+        "seconds": "Sekunde"
+    },
     "timesShort": {
         "days": "T",
         "hours": "S",
         "minutes": "M",
         "seconds": "s"
     },
-    "lapse" : "Zeitspanne",
+    "lapse": "Zeitspanne",
     "day": "Tag",
     "days": "Tage",
     "daysn": "Tagen",

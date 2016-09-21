@@ -1305,7 +1305,11 @@ function getTimeString(object, short) {
         if (short) {
             timeString += object[key] + ' ' + translation.timesShort[key] + ' ';
         } else {
-            timeString += object[key] + ' ' + translation.times[key] + ' ';
+            if (parseInt(object[key]) === 1) {
+                timeString += object[key] + ' ' + translation.timesSingular[key] + ' ';
+            } else {
+                timeString += object[key] + ' ' + translation.times[key] + ' ';
+            }
         }
     }
 

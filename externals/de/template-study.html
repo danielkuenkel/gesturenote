@@ -88,7 +88,7 @@
             <div class="panel-body">
                 <span class="label label-default" id="user"><i class="fa fa-user"></i> <span class="label-text"></span></span>
                 <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
-                <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-times"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
+                <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
             </div>
         </div>
     </div>
@@ -97,7 +97,7 @@
         <h3 id="headline" style="margin-top: 0"></h3>
         <hr>
         <span class="label label-success hidden" id="letter-accepted"><i class="fa fa-check"></i> <span class="label-text">Einverständniserklärung akzeptiert</span></span>
-        <span class="label label-danger hidden" id="letter-not-accepted"><i class="fa fa-times"></i> <span class="label-text">Einverständniserklärung abgelehnt</span></span>
+        <span class="label label-danger hidden" id="letter-not-accepted"><i class="fa fa-bolt"></i> <span class="label-text">Einverständniserklärung abgelehnt</span></span>
         <p id="letter-text" class="text" style="margin-top: 15px"></p>
     </div>
 
@@ -129,6 +129,7 @@
         <hr style="margin: 0">
         <div class="panel-body">
             <span class="answer text"></span>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
         </div>
     </div>
 
@@ -140,30 +141,47 @@
         <hr style="margin: 0">
         <div class="panel-body">
             <span class="answer text"></span>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
         </div>
     </div>
 
     <div class="panel panel-default" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="yes">Begründung bei Auswahl <em>Ja</em></span>
+            <span class="label label-default hidden" id="no">Begründung bei Auswahl <em>Nein</em></span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
             <div class="question text"></div>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
-            <span class="answer text"></span>
+            <div><span id="selection-label">Auswahl</span>: <span id="selected-switch" class="text"></span></div>
+            <p class="hidden" id="justification-answer-headline" style="margin-bottom: -5px">Antwort(en)</p>
+            <span id="justification-answer" class="text hidden"></span>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
         </div>
     </div>
 
     <div class="panel panel-default" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+            <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
+            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
             <div class="question text"></div>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
-            <span class="answer text"></span>
+            <div class="option-container"></div>
+            <p class="hidden" id="optionalanswer-headline" style="margin-top: 17px; margin-bottom: -5px">Eigene Antwort(en)</p>
+            <div id="optionalanswer-answer" class="text hidden"></div>
+            <span class="label label-warning hidden" id="no-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
         </div>
     </div>
+
+    <span id="grouping-question-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px;"></span>
 
     <div class="panel panel-default" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
@@ -172,9 +190,19 @@
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
-            <span class="answer text"></span>
+            <div class="option-container"></div>
         </div>
     </div>
+
+    <div id="rating-item" class="text">
+        <span id="rating-option" style="margin-right: 5px"></span>
+        <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
+        <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+        <div id="scale-container" style="margin-top: 10px;"></div>
+        <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+    </div>
+
+    <span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px;"></span>
 
     <div class="panel panel-default" id="sumQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
@@ -185,15 +213,13 @@
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
-            <div class="options-container"></div>
+            <div class="option-container"></div>
             <div class="label label-success hidden" id="distributeAllPoints"><i class="fa fa-check"></i> <span class="label-text">Alle Punkte verteilt</span></div>
-            <div class="label label-danger hidden" id="distributeNotAllPoints"><i class="fa fa-times"></i> <span class="label-text">Nicht alle Punkte verteilt</span></div>
+            <div class="label label-danger hidden" id="distributeNotAllPoints"><i class="fa fa-bolt"></i> <span class="label-text">Nicht alle Punkte verteilt</span></div>
         </div>
     </div>
 
-    <div id="sum-question-item" class="text">
-
-    </div>
+    <div id="sum-question-item" class="text"></div>
 
     <div class="panel panel-default" id="ranking" style="margin-bottom: 5px;">
         <div class="panel-body">
@@ -202,12 +228,10 @@
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
-            <div class="options-container"></div>
+            <div class="option-container"></div>
         </div>
     </div>
 
-    <div id="ranking-item" class="text">
-
-    </div>
+    <div id="ranking-item" class="text"></div>
 
 </div>
