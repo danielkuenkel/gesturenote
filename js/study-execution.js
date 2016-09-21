@@ -73,7 +73,7 @@ function renderPhases() {
             var link = document.createElement('a');
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode(translation.formats[phaseSteps[i].format].text));
-            listItem.appendChild(link);
+            $(listItem).append(link);
             $(dropdown).find('.option').append(listItem);
 
             if (i === 0) {

@@ -279,11 +279,11 @@ if ($h && $studyId) {
                 if (query.studyId && query.h) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
-                            if (result.data) {
+//                            if (result.data) {
                                 renderData(result);
-                            } else {
-                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
-                            }
+//                            } else {
+//                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
+//                            }
                         }
                     });
                 }
@@ -314,7 +314,7 @@ if ($h && $studyId) {
             }
 
             function renderData(data) {
-                var studyData = data.data;
+                var studyData = data.studyData;
                 $('#study-headline').text(studyData.generalData.title);
 //                $('#type-survey').text(translation.surveyType[studyData.generalData.surveyType]);
 //                $('#type-phase').text(translation.phaseType[studyData.generalData.phase]);

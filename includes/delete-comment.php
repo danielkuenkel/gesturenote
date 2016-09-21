@@ -23,27 +23,33 @@ if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['commentId'])) {
                     echo json_encode(array('status' => 'selectError'));
                     exit();
                 } else {
-                    while ($select_stmt->fetch()) {
-                        if ($sessionUserId == $userId) {
-                            $comments[] = array('id' => $id,
-                                'userId' => $userId,
-                                'gestureId' => $gestureId,
-                                'comment' => $comment,
-                                'created' => $created,
-                                'forename' => $forename,
-                                'surname' => $surname,
-                                'isOwner' => true);
-                        } else {
-                            $comments[] = array('id' => $id,
-                                'userId' => $userId,
-                                'gestureId' => $gestureId,
-                                'comment' => $comment,
-                                'created' => $created,
-                                'forename' => $forename,
-                                'surname' => $surname,
-                                'isOwner' => false);
+                    $select_stmt->store_result();
+                    if ($select_stmt->num_rows > 0) {
+                        while ($select_stmt->fetch()) {
+                            if ($sessionUserId == $userId) {
+                                $comments[] = array('id' => $id,
+                                    'userId' => $userId,
+                                    'gestureId' => $gestureId,
+                                    'comment' => $comment,
+                                    'created' => $created,
+                                    'forename' => $forename,
+                                    'surname' => $surname,
+                                    'isOwner' => true);
+                            } else {
+                                $comments[] = array('id' => $id,
+                                    'userId' => $userId,
+                                    'gestureId' => $gestureId,
+                                    'comment' => $comment,
+                                    'created' => $created,
+                                    'forename' => $forename,
+                                    'surname' => $surname,
+                                    'isOwner' => false);
+                            }
                         }
+                    } else {
+                        $comments = null;
                     }
+
                     echo json_encode(array('status' => 'success', 'comments' => $comments));
                     exit();
                 }

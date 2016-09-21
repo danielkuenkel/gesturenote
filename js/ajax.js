@@ -442,9 +442,9 @@ function updateGesture(data, callback) {
         dataType: 'json',
         async: true,
         success: function (result) {
-            if (result.status === RESULT_SUCCESS) {
-                setLocalItem(GESTURE_CATALOG, result.gestures);
-            }
+//            if (result.status === RESULT_SUCCESS) {
+//                setLocalItem(GESTURE_CATALOG, result.gestures);
+//            }
 
             if (callback) {
                 callback(result);

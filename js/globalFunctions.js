@@ -1321,7 +1321,8 @@ function getTimeString(object, short) {
 var currentGesturePreviewId = null;
 var gesturePreviewOpened = false;
 var gesturePreviewDeleteable = true;
-function getGestureCatalogListThumbnail(data) {
+function getGestureCatalogListThumbnail(data, layout) {
+
     var clone = $('#gestures-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
     clone.attr('id', data.id);
     clone.find('.title-text').text(data.title + " ");
@@ -1329,9 +1330,14 @@ function getGestureCatalogListThumbnail(data) {
     clone.find('#gesture-scope .label-text').text(translation.gestureScopes[data.scope]);
     clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
 
+    if (layout) {
+        clone.addClass(layout);
+    } else {
+        clone.addClass('col-xs-6 col-sm-4 col-lg-3');
+    }
 
     if (data.isOwner === true) {
-        if (data.source !== SOURCE_GESTURE_TESTER) {
+        if (data.source === SOURCE_GESTURE_EVALUATOR) {
             clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_OWN]);
             clone.find('#gesture-source #' + SOURCE_GESTURE_OWN).removeClass('hidden');
         } else {
@@ -1339,7 +1345,7 @@ function getGestureCatalogListThumbnail(data) {
             clone.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
         }
     } else {
-        if (data.source !== SOURCE_GESTURE_TESTER) {
+        if (data.source === SOURCE_GESTURE_EVALUATOR) {
             clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
             clone.find('#gesture-source #' + SOURCE_GESTURE_EVALUATOR).removeClass('hidden');
         } else {
@@ -1423,6 +1429,9 @@ function getGestureCatalogListThumbnail(data) {
                         clone.find('#gesture-scope .fa').addClass('hidden');
                         clone.find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
 
+                        updateGestureById(result.id, {scope: 'public'});
+
+                        // check if this is needed after updateGesture() call
                         if (updateList === true) {
                             getGestureCatalog(function (result) {
                                 if (result.status === RESULT_SUCCESS) {
@@ -1446,6 +1455,9 @@ function getGestureCatalogListThumbnail(data) {
                         clone.find('#gesture-scope .fa').addClass('hidden');
                         clone.find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
 
+                        updateGestureById(result.id, {scope: 'private'});
+
+                        // check if this is needed after updateGesture() call
                         if (updateList === true) {
                             getGestureCatalog(function (result) {
                                 if (result.status === RESULT_SUCCESS) {

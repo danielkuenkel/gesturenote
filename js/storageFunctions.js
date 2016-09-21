@@ -102,6 +102,46 @@ function checkAssembledGestures(gestures, gestureCatalog) {
     }
 }
 
+function updateGestureById(id, parameters) {
+    var gestureCatalog = getLocalItem(GESTURE_CATALOG);
+
+    var gesture;
+    var tempGestures = new Array();
+
+    if (gestureCatalog && gestureCatalog.length > 0) {
+        for (var i = 0; i < gestureCatalog.length; i++) {
+            gesture = gestureCatalog[i];
+
+            if (parseInt(gesture.id) === parseInt(id)) {
+                for (var key in parameters) {
+                    gesture[key] = parameters[key];
+                }
+                console.log(gesture);
+            }
+
+            tempGestures.push(gesture);
+        }
+        setLocalItem(GESTURE_CATALOG, tempGestures);
+    }
+
+//    var elicitedGestures = getLocalItem(ELICITED_GESTURES);
+//    if (elicitedGestures && elicitedGestures.length > 0) {
+//        tempGestures = new Array();
+//        for (var i = 0; i < elicitedGestures.length; i++) {
+//            gesture = elicitedGestures[i];
+//            if (parseInt(gesture.id) === parseInt(id)) {
+////                console.log(gesture);
+//                for (var key in parameters) {
+//                    gesture[key] = parameters[key];
+////                    console.log(gesture);
+//                }
+//            }
+//            tempGestures.push(gesture);
+//        }
+//        setLocalItem(ELICITED_GESTURES, tempGestures);
+//    }
+}
+
 
 
 
@@ -293,6 +333,10 @@ function setStudyData(data) {
             for (var i = 0; i < phases.length; i++) {
                 setLocalItem(phases[i].id + '.results', phases[i]);
             }
+        }
+
+        if (data.resultData.elicitedGestures && data.resultData.elicitedGestures.length > 0) {
+            setLocalItem(GESTURE_CATALOG, data.resultData.elicitedGestures);
         }
     }
 }

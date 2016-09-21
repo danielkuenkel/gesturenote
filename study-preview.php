@@ -68,8 +68,7 @@ if (login_check($mysqli) == true) {
         <div id="template-previews"></div>
         <div id="template-gesture-recorder"></div>
 
-        <div class="navbar-fixed-top" id="preview-bar-top" style="padding: 10px;">
-
+        <div id="preview-bar-top" style="padding: 10px;">
             <div class="input-group">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-default" id="btnViewModerator">Moderator</button>
@@ -247,9 +246,9 @@ if (login_check($mysqli) == true) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
 //                            if (result.data) {
-                                clearLocalItems();
-                                setStudyData(result);
-                                init();
+                            clearLocalItems();
+                            setStudyData(result);
+                            init();
 //                            }
                         }
                     });

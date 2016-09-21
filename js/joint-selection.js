@@ -120,6 +120,7 @@ function renderBodyJoints(target, activeJoints) {
     var ratio = $(target).width() / ORIGINAL_BODY_WIDTH;
 //    console.log(ratio);
 //    console.log(target);
+    $(target).find('#joint-container').empty();
 
     for (var i = 0; i < bodyJoints.length; i++) {
         var buttonJoint = document.createElement('div');
@@ -151,6 +152,7 @@ function renderBodyJoints(target, activeJoints) {
 
 function renderBodyJointsPreview(target, activeJoints) {
     var ratio = $(target).width() / ORIGINAL_BODY_WIDTH;
+    $(target).find('#joint-container').empty();
     for (var i = 0; i < bodyJoints.length; i++) {
         var buttonJoint = document.createElement('div');
         $(buttonJoint).addClass('joint-human-body');
@@ -182,7 +184,7 @@ function renderBodyJointsPreview(target, activeJoints) {
 
 function renderHandJoints(target, activeJoints) {
     var ratio = $(target).width() / ORIGINAL_HAND_WIDTH;
-
+    $(target).find('#joint-container').empty();
     for (var i = 0; i < handJoints.length; i++) {
         var buttonJoint = document.createElement('div');
         $(buttonJoint).addClass('btn-joint-human-body');
@@ -213,6 +215,7 @@ function renderHandJoints(target, activeJoints) {
 
 function renderHandJointsPreview(target, activeJoints) {
     var ratio = $(target).width() / ORIGINAL_HAND_WIDTH;
+    $(target).find('#joint-container').empty();
     for (var i = 0; i < bodyJoints.length; i++) {
         var buttonJoint = document.createElement('div');
         $(buttonJoint).addClass('joint-human-body');
@@ -271,6 +274,7 @@ $(document).on('click', '.btn-joint-human-body', function (event) {
 });
 
 function getSelectedJoints(target) {
+
     var selectedJoints = $(target).find('.active');
     var array = new Array();
     for (var i = 0; i < selectedJoints.length; i++) {

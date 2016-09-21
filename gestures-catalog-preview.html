@@ -311,7 +311,7 @@
 
         var container = $('#modal-body');
         container.find('#title .text').text(gesture.title);
-        container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleDateString());
+        container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleString());
         container.find('#context .text').text(gesture.context);
         container.find('#description .text').text(gesture.description);
         container.find('#btn-edit-gesture .btn-text').text(translation.edit);
@@ -376,19 +376,22 @@
                             $(container).find('#gesture-scope .fa').addClass('hidden');
                             $(container).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
 
-                            $(thumbnail).removeClass('share-gesture').addClass('unshare-gesture');
+                            $(thumbnail).find('#btn-share-gesture').removeClass('share-gesture').addClass('unshare-gesture');
                             $(thumbnail).find('#btn-share-gesture .fa').removeClass('fa-share-alt').addClass('fa-lock');
                             $(thumbnail).find('#btn-share-gesture .btn-text').text(translation.unshare);
                             $(thumbnail).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
                             $(thumbnail).find('#gesture-scope .fa').addClass('hidden');
                             $(thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
 
-                            getGestureCatalog(function (result) {
-                                if (result.status === RESULT_SUCCESS) {
-                                    originalFilterData = result.gestures;
-//                                    currentFilterData = sort();
-                                }
-                            });
+                            updateGestureById(result.id, {scope: 'public'});
+                            originalFilterData = getLocalItem(GESTURE_CATALOG);
+                            currentFilterData = sort();
+//                            getGestureCatalog(function (result) {
+//                                if (result.status === RESULT_SUCCESS) {
+//                                    originalFilterData = result.gestures;
+////                                    currentFilterData = sort();
+//                                }
+//                            });
                         }
                     });
                 } else if ($(this).hasClass('unshare-gesture')) {
@@ -404,19 +407,22 @@
                             $(container).find('#gesture-scope .fa').addClass('hidden');
                             $(container).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
 
-                            $(thumbnail).removeClass('unshare-gesture').addClass('share-gesture');
+                            $(thumbnail).find('#btn-share-gesture').removeClass('unshare-gesture').addClass('share-gesture');
                             $(thumbnail).find('#btn-share-gesture .fa').removeClass('fa-lock').addClass('fa-share-alt');
                             $(thumbnail).find('#btn-share-gesture .btn-text').text(translation.share);
                             $(thumbnail).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
                             $(thumbnail).find('#gesture-scope .fa').addClass('hidden');
                             $(thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
 
-                            getGestureCatalog(function (result) {
-                                if (result.status === RESULT_SUCCESS) {
-                                    originalFilterData = result.gestures;
-//                                    currentFilterData = sort();
-                                }
-                            });
+                            updateGestureById(result.id, {scope: 'private'});
+                            originalFilterData = getLocalItem(GESTURE_CATALOG);
+                            currentFilterData = sort();
+//                            getGestureCatalog(function (result) {
+//                                if (result.status === RESULT_SUCCESS) {
+//                                    originalFilterData = result.gestures;
+////                                    currentFilterData = sort();
+//                                }
+//                            });
                         }
                     });
                 }
@@ -455,25 +461,29 @@
             event.preventDefault();
             var button = $(this);
             if ($(this).hasClass('gesture-editable')) {
-                if (inputsValid(true) && !$(this).hasClass('disabled')) {
+                if (!$(this).hasClass('disabled') && inputsValid(true)) {
+
                     $(button).addClass('disabled');
                     showCursor($('body'), CURSOR_PROGRESS);
                     var title = $('#gesture-name-input').val().trim();
                     var context = $('#gesture-context-input').val().trim();
                     var description = $('#gesture-description-input').val().trim();
                     var joints = getSelectedJoints($('#select-joints-human-body #joint-container'));
-
                     updateGesture({gestureId: gesture.id, title: title, context: context, description: description, joints: joints}, function (result) {
+
                         showCursor($('body'), CURSOR_DEFAULT);
                         $(button).removeClass('disabled');
                         $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').removeClass('disabled');
                         if (result.status === RESULT_SUCCESS) {
+                            updateGestureById(result.id, {title: result.title, context: result.context, description: result.description, joints: result.joints});
                             $(thumbnail).find('.title-text').text(title);
                             $(button).removeClass('gesture-editable').addClass('gesture-previewable');
                             $(button).find('.btn-text').text(translation.edit);
                             $('#modal-body #gesture-data-preview').removeClass('hidden');
                             $('#modal-body #gesture-data-edit').addClass('hidden');
-                            originalFilterData = result.gestures;
+
+//                            setLocalItem(GESTURE_CATALOG, result.gestures);
+                            originalFilterData = getLocalItem(GESTURE_CATALOG);
 //                            currentFilterData = sort();
                             renderModalData();
                         } else {
@@ -490,7 +500,7 @@
                 $('#gesture-name-input').val(gesture.title);
                 $('#gesture-context-input').val(gesture.context);
                 $('#gesture-description-input').val(gesture.description);
-                renderBodyJoints($('#gesture-data-edit #select-joints-human-body'), gesture.joints);
+                renderBodyJoints($('#select-joints-human-body'), gesture.joints);
             }
         });
 
@@ -531,7 +541,7 @@
             for (var i = 0; i < data.length; i++) {
                 var clone = $('#gesture-comment-item').clone().removeClass('hidden').removeAttr('id');
                 clone.find('.panel-heading #user .text').text(data[i].forename + " " + data[i].surname);
-                clone.find('.panel-heading #created .text').text(convertSQLTimestampToDate(data[i].created).toLocaleDateString());
+                clone.find('.panel-heading #created .text').text(convertSQLTimestampToDate(data[i].created).toLocaleString());
                 clone.find('.panel-body').text(data[i].comment);
                 list.prepend(clone);
                 if (data[i].isOwner === true) {
@@ -598,7 +608,7 @@
             return false;
         }
 
-        var selectedJoints = getSelectedJoints($('#gesture-data-edit #select-joints-human-body #joint-container'));
+        var selectedJoints = getSelectedJoints($('#select-joints-human-body #joint-container'));
         if (selectedJoints.length === 0) {
             if (showErrors) {
                 appendAlert(container, ALERT_MISSING_FIELDS);

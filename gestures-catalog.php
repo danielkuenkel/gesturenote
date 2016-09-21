@@ -32,7 +32,6 @@ if (login_check($mysqli) == true) {
 
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
-        <script src="js/localforage.js"></script>
         <script src="js/storage.js"></script>
         <script src="js/storageFunctions.js"></script>
         <script src="js/language.js"></script>

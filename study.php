@@ -191,7 +191,7 @@ if (login_check($mysqli) == true) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
 //                            if (result.data) {
-                                renderData(result);
+                            renderData(result);
 //                            } else {
 //                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
 //                            }

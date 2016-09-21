@@ -65,7 +65,19 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="container mainContent" style="margin-top: 35px;" id="item-view">
+        <!-- Modal -->
+        <div id="custom-modal" class="modal fade custom-modal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content root">
+                </div>
+            </div>
+        </div>
+
+
+        <!-- main content -->
+        <div class="container mainContent" style="margin-top: 35px;" id="general-view">
             <h2 id="main-headline" style="margin-top: 0"></h2>
             <hr>
             <span class="text pull-right" id="execution-date"></span>
@@ -131,19 +143,19 @@ if (login_check($mysqli) == true) {
                 $('#execution-date').text(convertSQLTimestampToDate(resultData.created).toLocaleString());
                 $('#main-headline').text(studyData.generalData.title);
                 if (isNaN(resultData.userId)) {
-                    $('#item-view').find('#user .label-text').text(translation.userTypes.guest);
+                    $('#general-view').find('#user .label-text').text(translation.userTypes.guest);
                 } else {
-                    $('#item-view').find('#user .label-text').text(translation.userTypes.registered);
+                    $('#general-view').find('#user .label-text').text(translation.userTypes.registered);
                 }
 
                 if (results.studySuccessfull === 'yes') {
-                    $('#item-view').find('.panel').addClass('panel-success');
-                    $('#item-view').find('#execution-success').removeClass('hidden');
-                    $('#item-view').find('#execution-success .label-text').text(translation.studySuccessful);
+                    $('#general-view').find('.panel').addClass('panel-success');
+                    $('#general-view').find('#execution-success').removeClass('hidden');
+                    $('#general-view').find('#execution-success .label-text').text(translation.studySuccessful);
                 } else {
-                    $('#item-view').find('.panel').addClass('panel-danger');
-                    $('#item-view').find('#execution-fault').removeClass('hidden');
-                    $('#item-view').find('#execution-fault .label-text').text(translation.studyFault);
+                    $('#general-view').find('.panel').addClass('panel-danger');
+                    $('#general-view').find('#execution-fault').removeClass('hidden');
+                    $('#general-view').find('#execution-fault .label-text').text(translation.studyFault);
                 }
 
 
@@ -215,6 +227,9 @@ if (login_check($mysqli) == true) {
                         case QUESTIONNAIRE:
                             renderQuestionnaire(content, phaseData.reverse(), phaseResults);
                             break;
+                        case IDENTIFICATION:
+                            renderIdentification(content, phaseData, phaseResults);
+                            break;
                     }
 
                     $(content).css({y: 0, opacity: 1});
@@ -248,6 +263,20 @@ if (login_check($mysqli) == true) {
                 $(content).find('#thanks-text').text(studyData);
             }
 
+            function renderIdentification(content, phaseData, phaseResults) {
+                console.log(phaseData, phaseResults);
+                var elicitedGestures = getLocalItem(GESTURE_CATALOG);
+                if (phaseResults.gestures && phaseResults.gestures.length > 0 && elicitedGestures) {
+                    for (var i = 0; i < elicitedGestures.length; i++) {
+                        var item = getGestureCatalogListThumbnail(elicitedGestures[i], 'col-xs-6 col-lg-4');
+                        $(content).find('.list-container').append(item);
+                        TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                    }
+                }
+            }
+
+
+            // questionnaire rendering
             function renderQuestionnaire(content, studyData, resultsData) {
                 for (var i = 0; i < studyData.length; i++) {
                     var listItem = $('#template-study-container').find('#' + studyData[i].format).clone();
@@ -298,7 +327,6 @@ if (login_check($mysqli) == true) {
             }
 
             function renderCounter(item, studyData, resultsData) {
-//                console.log(studyData, resultsData);
                 var parameters = studyData.parameters;
                 $(item).find('.question').text(studyData.question);
                 $(item).find('#counter-label .counter-from').text(translation.of + ' ' + translation.atLeast + ' ' + parameters.countFrom);
@@ -311,7 +339,6 @@ if (login_check($mysqli) == true) {
             }
 
             function renderOpenQuestion(item, studyData, resultsData) {
-//                console.log(studyData, resultsData);
                 $(item).find('.question').text(studyData.question);
                 if (resultsData.openAnswer && resultsData.openAnswer !== '') {
                     $(item).find('.answer').text(resultsData.openAnswer);
@@ -321,7 +348,6 @@ if (login_check($mysqli) == true) {
             }
 
             function renderDichotomousQuestion(item, studyData, resultsData) {
-                console.log(studyData, resultsData);
                 $(item).find('.question').text(studyData.question);
 
                 if (studyData.parameters.justification === resultsData.selectedSwitch) {
@@ -342,7 +368,6 @@ if (login_check($mysqli) == true) {
             }
 
             function renderGroupingQuestion(item, studyData, resultsData) {
-//                console.log(studyData, resultsData);
                 $(item).find('.question').text(studyData.question);
 
                 if (studyData.parameters.multiselect === 'yes') {
@@ -416,7 +441,6 @@ if (login_check($mysqli) == true) {
             }
 
             function renderSumQuestion(item, studyData, resultsData) {
-//                console.log(studyData, resultsData);
                 $(item).find('.question').text(studyData.question);
                 $(item).find('#maximum .label-text').text(translation.maximum + ': ' + studyData.parameters.maximum);
                 $(item).find('#allocation .label-text').text(translation.scales[studyData.parameters.allocation]);
@@ -429,7 +453,6 @@ if (login_check($mysqli) == true) {
                     $(item).find('.option-container').append(listItemAnswer);
                 }
 
-//                console.log(count, studyData.parameters.maximum);
                 if (count === parseInt(studyData.parameters.maximum)) {
                     $(item).find('#distributeAllPoints').removeClass('hidden');
                 } else {

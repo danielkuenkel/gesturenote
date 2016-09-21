@@ -219,6 +219,12 @@ if ($h && $token && $studyId) {
                 } else {
                     $('#study-details').removeClass('hidden');
                     appendAlert($('#study-details'), ALERT_STUDY_UNMODERATED);
+                    $('#study-details').find('#btn-open-study-details').on('click', function (event) {
+                        event.preventDefault();
+                        var query = getQueryParams(document.location.search);
+                        var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                        goto("study.php?studyId=" + query.studyId + "&h=" + hash);
+                    });
                 }
             }
 

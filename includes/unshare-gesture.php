@@ -11,12 +11,12 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
     $gestureId = $_POST['gestureId'];
     $userId = $_SESSION['user_id'];
 
-    if ($select_stmt = $mysqli->prepare("UPDATE gestures SET scope ='private' WHERE id = '$gestureId' && user_id = '$userId'")) {
+    if ($select_stmt = $mysqli->prepare("UPDATE gestures SET scope = 'private' WHERE id = '$gestureId' && owner_id = '$userId'")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'updateError'));
             exit();
         } else {
-            echo json_encode(array('status' => 'success'));
+            echo json_encode(array('status' => 'success', 'id' => $gestureId));
         }
     } else {
         echo json_encode(array('status' => 'statemantError'));
