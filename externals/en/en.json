@@ -7,5 +7,35 @@
     "contact": "Contact",
     "signIn": "Sign In",
     "signOut": "Sign Out",
-    "register": "Sign Up"
+    "register": "Sign Up",
+    "susScores": [
+        {
+            "adjective": "best imaginable",
+            "score": "90.1"
+        },
+        {
+            "adjective": "excellent",
+            "score": "85.5"
+        },
+        {
+            "adjective": "good",
+            "score": "71.4"
+        },
+        {
+            "adjective": "ok",
+            "score": "50.9"
+        },
+        {
+            "adjective": "poor",
+            "score": "35.7"
+        },
+        {
+            "adjective": "awful",
+            "score": "20.3"
+        },
+        {
+            "adjective": "worst imaginable",
+            "score": "12.5"
+        }
+    ]
 }

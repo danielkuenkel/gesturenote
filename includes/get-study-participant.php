@@ -77,8 +77,10 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                                 $phases = $decodedResults->phases;
 
                                 foreach ($phases as $item) {
-                                    if ($item->format === "identification") {
+
+                                    if ($item->format === "identification" && isset($item->gestures)) {
                                         $gestureIds = $item->gestures;
+
                                         foreach ($gestureIds as $gestureId) {
                                             if ($select_gesture_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE id = '$gestureId' LIMIT 1")) {
                                                 if (!$select_gesture_stmt->execute()) {

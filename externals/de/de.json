@@ -108,6 +108,7 @@
     "no": "Nein",
     "enterStudyAsTester": "An Studie teilnehmen",
     "enterStudyAsModerator": "Studie durchführen",
+    "justification": "Begründung(en)",
     "maximum": "Maximum",
     "gender": "Geschlecht",
     "genders": {
@@ -231,8 +232,11 @@
         "alternativeQuestion": {
             "text": "Alternativfrage"
         },
-        "singleGUS": {
+        "gusSingle": {
             "text": "Rating"
+        },
+        "susItem": {
+            "text": "SUS-Item"
         }
     },
     "scales": {
@@ -371,10 +375,49 @@
         "socialAcceptance": "Soziale Akzeptanz",
         "discrimination": "Diskriminierung"
     },
+    "systemIs": "Das System wurde mit",
+    "rated": "bewertet",
     "susOptions": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"],
+    "susScores": [
+        {
+            "adjective": "Denkbar am Besten",
+            "score": "90.1",
+            "color": "rgb(25, 168, 59)"
+        },
+        {
+            "adjective": "Exzellent",
+            "score": "85.5",
+            "color": "rgb(25, 168, 59)"
+        },
+        {
+            "adjective": "Gut",
+            "score": "71.4",
+            "color": "rgb(126, 232, 49)"
+        },
+        {
+            "adjective": "OK",
+            "score": "50.9",
+            "color": "rgb(255, 221, 2)"
+        },
+        {
+            "adjective": "Schlecht",
+            "score": "35.7",
+            "color": "rgb(255, 126, 0)"
+        },
+        {
+            "adjective": "Fürchterlich",
+            "score": "20.3",
+            "color": "rgb(255, 78, 0)"
+        },
+        {
+            "adjective": "Denkbar am Schlechtesten",
+            "score": "12.5",
+            "color": "rgb(255, 78, 0)"
+        }
+    ],
     "sus": [
         {
-            "format": "sus",
+            "format": "susItem",
             "dimension": "any",
             "question": "Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.",
             "parameters": {
@@ -382,7 +425,7 @@
             }
         },
         {
-            "format": "sus",
+            "format": "susItem",
             "dimension": "any",
             "question": "Ich fand das System unnötig komplex.",
             "parameters": {
@@ -390,7 +433,7 @@
             }
         },
         {
-            "format": "sus",
+            "format": "susItem",
             "dimension": "any",
             "question": "Ich denke, das System war leicht zu benutzen.",
             "parameters": {
@@ -398,7 +441,7 @@
             }
         },
         {
-            "format": "sus",
+            "format": "susItem",
             "dimension": "any",
             "question": "Ich denke, ich würde die  Unterstützung einer fachkundigen Person benötigen, um das System benutzen zu können.",
             "parameters": {
@@ -406,7 +449,7 @@
             }
         },
         {
-            "format": "sus",
+            "format": "susItem",
             "dimension": "any",
             "question": "Ich fand, die verschiedenen Funktionen des Systems waren gut integriert.",
             "parameters": {
@@ -414,7 +457,7 @@
             }
         },
         {
-            "format": "sus",
+            "format": "susItem",
             "dimension": "any",
             "question": "Ich halte das System für zu inkonsistent.",
             "parameters": {
@@ -422,7 +465,7 @@
             }
         },
         {
-            "format": "sus",
+            "format": "susItem",
             "dimension": "any",
             "question": "Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dem System umzugehen.",
             "parameters": {
@@ -430,7 +473,7 @@
             }
         },
         {
-            "format": "sus",
+            "format": "susItem",
             "dimension": "any",
             "question": "Ich fand das System sehr umständlich zu benutzen.",
             "parameters": {
@@ -438,7 +481,7 @@
             }
         },
         {
-            "format": "sus",
+            "format": "susItem",
             "dimension": "any",
             "question": "Ich fühlte mich bei der Nutzung des Systems sehr sicher.",
             "parameters": {
@@ -446,7 +489,7 @@
             }
         },
         {
-            "format": "sus",
+            "format": "susItem",
             "dimension": "any",
             "question": "Ich musste viele Dinge lernen, bevor ich  mit dem System arbeiten konnte.",
             "parameters": {

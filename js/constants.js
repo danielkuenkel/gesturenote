@@ -70,6 +70,7 @@ var SUM_QUESTION = 'sumQuestion';
 var RANKING = 'ranking';
 var COUNTER = 'counter';
 var GUS_SINGLE = 'gusSingle';
+var SUS_ITEM = 'susItem';
 
 // scene formats
 var SCENE_PIDOCO = 'pidoco';

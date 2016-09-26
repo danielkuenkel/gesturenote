@@ -129,9 +129,16 @@ function getPhysicalStressTestFormData(data) {
 
 function getIdentificationFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
+
     if (tempData) {
         data.startTime = tempData.startTime;
-        data.gestures = tempData.gestures;
+        var phaseData = getLocalItem(data.id + '.data');
+        if (phaseData.identificationFor === 'gestures') {
+            data.gestures = tempData.gestures;
+        } else {
+            data.trigger = tempData.trigger;
+        }
+
         removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
@@ -140,10 +147,10 @@ function getIdentificationFormData(data) {
 
 
 function getQuestionnaireFormData(questionnaire, data) {
-    console.log('getQuestionnaireFormData');
     var questionnaireAnswers = new Array();
     for (var i = 0; i < questionnaire.length; i++) {
         var format = $(questionnaire[i]).attr('id');
+        console.log('getQuestionnaireFormData: ' + format);
         switch (format) {
             case COUNTER:
                 questionnaireAnswers.push(getCounterFormData($(questionnaire[i])));
@@ -177,7 +184,7 @@ function getQuestionnaireFormData(questionnaire, data) {
             case GUS_SINGLE:
                 questionnaireAnswers.push(getSingleGUSFormData($(questionnaire[i])));
                 break;
-            case SUS:
+            case SUS_ITEM:
                 questionnaireAnswers.push(getSingleGUSFormData($(questionnaire[i])));
                 break;
             case 'human-body-selection-rating':
@@ -217,7 +224,7 @@ function getDichotomousQuestionFormData(source) {
     if (justificationInput && justificationInput.length > 0) {
         data.justification = $(source).find('#justificationInput').val();
     } else {
-        data.justification = 'none';
+        data.justification = '';
     }
     return data;
 }
@@ -252,7 +259,7 @@ function getGroupingQuestionGUSFormData(source) {
     if (justificationInput && justificationInput.length > 0) {
         data.justification = $(source).find('#justificationInput').val();
     } else {
-        data.justification = 'none';
+        data.justification = '';
     }
 
     return data;
@@ -309,6 +316,8 @@ function getAlternativeQuestionFormData(source) {
 function getSingleGUSFormData(source) {
     return {selectedOption: $(source).find('.option-container .btn-option-checked').closest('.btn-group').index() >> 1};
 }
+
+
 
 function saveCurrentStatus(studyFinished, callback) {
     var data = new Object();

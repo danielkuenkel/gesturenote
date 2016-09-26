@@ -57,6 +57,7 @@ var ALERT_RATING_SUBMITTED = 'rating-submitted';
 var ALERT_NO_COMMENTS = 'no-comments';
 
 var ALERT_CONTACT_SUPPORT = 'contact-support';
+var ALERT_SUS_INVALID = 'sus-invalid';
 
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);

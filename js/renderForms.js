@@ -366,7 +366,7 @@ function renderAlternativeQuestionPreview(item, parameters) {
 
     if (parameters.justification === 'yes') {
         $(item).find('#justification').removeClass('hidden');
-        $(item).find('#' + parametersjustificationFor).removeClass('hidden');
+        $(item).find('#' + parameters.justificationFor).removeClass('hidden');
     } else {
         $(item).find('#no-justification').removeClass('hidden');
     }

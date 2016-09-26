@@ -93,7 +93,7 @@ var Tester = {
     },
     initializeRTC: function initializeRTC(source, item, format) {
         // check preview or live mode, and check if webRTC is needed
-        if (translation.formats[format].webRTC === 'yes') {
+        if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
             if (previewModeEnabled === true) {
                 switch (format) {
                     case SCENARIO:
@@ -153,10 +153,10 @@ var Tester = {
                 }
 
                 $(container).find('.question-container').prepend(item);
-                if (data[i].dimension !== DIMENSION_ANY) {
-                    $(item).find('#dimension').removeClass('hidden');
-                    $(item).find('#dimension').text(translation.dimensions[data[i].dimension]);
-                }
+//                if (data[i].dimension !== DIMENSION_ANY) {
+//                    $(item).find('#dimension').removeClass('hidden');
+//                    $(item).find('#dimension').text(translation.dimensions[data[i].dimension]);
+//                }
 
                 var parameters = data[i].parameters;
                 var options = data[i].options;
@@ -247,7 +247,7 @@ var Tester = {
     getSUS: function getSUS(source, container, data) {
         for (var i = 0; i < data.length; i++) {
             var item = $(source).find('#susItem').clone(false).removeAttr('id');
-            item.attr('id', SUS);
+            item.attr('id', SUS_ITEM);
             $(item).find('.question').text(i + 1 + '. ' + data[i].question);
             renderSusInput(item);
             $(container).find('.question-container').append(item);
@@ -743,54 +743,55 @@ var Tester = {
             $(item).find('#trigger-identification').remove();
             var trigger = getTriggerById(data.identification[currentIdentificationIndex]);
             item.find('#trigger #text').text(trigger.title);
-            if (data.identificationFor === 'gestures') {
-                var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder-tester').clone().removeAttr('id');
-                item.find('#gesture-recorder-container').empty().append(gestureRecorder);
-                initCheckRecorder(item.find('#gesture-recorder-container'), gestureRecorder, !previewModeEnabled, getLocalItem(STUDY).studyOwner);
-                renderBodyJoints(gestureRecorder.find('#human-body'));
-                var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
-                container.find('#recorder-description').empty().append(recorderDescription);
 
-                $(gestureRecorder).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
-                    console.log(type);
-                    recorderDescription.empty().append($('#item-container-gesture-recorder').find('#' + type).clone());
-                });
+//            if (data.identificationFor === 'gestures') {
+            var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder-tester').clone().removeAttr('id');
+            item.find('#gesture-recorder-container').empty().append(gestureRecorder);
+            initCheckRecorder(item.find('#gesture-recorder-container'), gestureRecorder, !previewModeEnabled, getLocalItem(STUDY).studyOwner);
+            renderBodyJoints(gestureRecorder.find('#human-body'));
+            var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
+            container.find('#recorder-description').empty().append(recorderDescription);
 
-                $(gestureRecorder).bind(EVENT_GR_SAVE_SUCCESS, function (event, gestureId) {
-                    event.preventDefault();
-                    console.log('saved gestureId: ' + gestureId);
-                    $(item).find('#next-controls').removeClass('hidden');
+            $(gestureRecorder).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
+//                console.log(type);
+                recorderDescription.empty().append($('#item-container-gesture-recorder').find('#' + type).clone());
+            });
 
-                    var currentPhase = getCurrentPhase();
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            $(gestureRecorder).bind(EVENT_GR_SAVE_SUCCESS, function (event, gestureId) {
+                event.preventDefault();
+//                console.log('saved gestureId: ' + gestureId);
+                $(item).find('#next-controls').removeClass('hidden');
 
-                    if (tempData.gestures !== null && tempData.gestures !== undefined) {
-                        tempData.gestures.push(gestureId);
-                    } else {
-                        var array = new Array();
-                        array.push(parseInt(gestureId));
-                        tempData.gestures = array;
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+
+                if (tempData.gestures !== null && tempData.gestures !== undefined) {
+                    tempData.gestures.push(gestureId);
+                } else {
+                    var array = new Array();
+                    array.push(parseInt(gestureId));
+                    tempData.gestures = array;
+                }
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            });
+
+            $(gestureRecorder).bind(EVENT_GR_DELETE_SUCCESS, function (event, gestureId) {
+                event.preventDefault();
+                $(item).find('#next-controls').addClass('hidden');
+//                console.log('deleted gestureId: ' + gestureId);
+
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                var gestures = new Array();
+                for (var i = 0; i < tempData.gestures.length; i++) {
+                    if (parseInt(tempData.gestures[i]) !== parseInt(gestureId)) {
+                        gestures.push(tempData.gestures[i]);
                     }
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                });
-
-                $(gestureRecorder).bind(EVENT_GR_DELETE_SUCCESS, function (event, gestureId) {
-                    event.preventDefault();
-                    $(item).find('#next-controls').addClass('hidden');
-                    console.log('deleted gestureId: ' + gestureId);
-
-                    var currentPhase = getCurrentPhase();
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    var gestures = new Array();
-                    for (var i = 0; i < tempData.gestures.length; i++) {
-                        if (parseInt(tempData.gestures[i]) !== parseInt(gestureId)) {
-                            gestures.push(tempData.gestures[i]);
-                        }
-                    }
-                    tempData.gestures = gestures;
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                });
-            }
+                }
+                tempData.gestures = gestures;
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            });
+//            }
         } else {
             $(item).find('#gesture-identification').remove();
             var gesture = getGestureById(data.identification[currentIdentificationIndex]);
@@ -804,6 +805,24 @@ var Tester = {
                 event.preventDefault();
                 currentIdentificationIndex = 0;
                 identificationStartTriggered = false;
+
+                if (data.identificationFor === 'trigger') {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    var triggerName = $(item).find('#trigger-identification #trigger-name').val();
+                    var triggerJusticigation = $(item).find('#trigger-identification #trigger-justification').val();
+
+                    if (tempData && tempData.trigger) {
+                        tempData.trigger.push({name: triggerName, justification: triggerJusticigation});
+                    } else {
+                        var trigger = new Array();
+                        trigger.push({name: triggerName, justification: triggerJusticigation});
+                        tempData.trigger = trigger;
+                    }
+
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                }
+
                 nextStep();
             });
         } else if (currentIdentificationIndex < data.identification.length) {
@@ -811,8 +830,26 @@ var Tester = {
             $(item).find('#next-identification').on('click', function (event) {
                 event.preventDefault();
                 currentIdentificationIndex++;
-                Tester.renderUnmoderatedIdentification(source, container, data, ownerId);
+
+                if (data.identificationFor === 'trigger') {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    var triggerName = $(item).find('#trigger-identification #trigger-name').val();
+                    var triggerJusticigation = $(item).find('#trigger-identification #trigger-justification').val();
+
+                    if (tempData && tempData.trigger) {
+                        tempData.trigger.push({name: triggerName, justification: triggerJusticigation});
+                    } else {
+                        var trigger = new Array();
+                        trigger.push({name: triggerName, justification: triggerJusticigation});
+                        tempData.trigger = trigger;
+                    }
+
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                }
+
                 $(item).find('#next-controls').addClass('hidden');
+                Tester.renderUnmoderatedIdentification(source, container, data, ownerId);
             });
         }
     },

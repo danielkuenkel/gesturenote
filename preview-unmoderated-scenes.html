@@ -57,7 +57,7 @@
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 var time = new Date().getTime();
                 tempData.actions.push({action: ACTION_SELECT_GESTURE, gesture: wozData.gestureId, time: time});
-                tempData.transitions.push({scene: currentWOZScene.id, time: time});
+                tempData.transitions.push({scene: currentWOZScene.id || null, time: time});
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
                 // modal and hint hiding, trigger transition to scene for a gesture

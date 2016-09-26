@@ -1636,9 +1636,31 @@ $(document).on('click', '.audioPlayer #stop', function (event) {
 function isWebRTCNeeded(phases) {
     if (phases && phases.length > 0) {
         for (var i = 0; i < phases.length; i++) {
+            console.log(phases[i]);
             if (translation.formats[phases[i].format].webRTC === 'yes') {
+                if (phases[i].format === IDENTIFICATION) {
+                    var phaseData = getLocalItem(phases[i].id + '.data');
+                    if (phaseData.identificationFor === 'gestures') {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+function isWebRTCNeededForPhaseStep(phaseStep) {
+    if (phaseStep && translation.formats[phaseStep.format].webRTC === 'yes') {
+        if (phaseStep.format === IDENTIFICATION) {
+            var phaseData = getLocalItem(phaseStep.id + '.data');
+            if (phaseData.identificationFor === 'gestures') {
                 return true;
             }
+        } else {
+            return true;
         }
     }
     return false;
@@ -1649,4 +1671,19 @@ function isWebRTCSupported() {
         return true;
     }
     return false;
+}
+
+function getSUSAdjective(score) {
+    var adjective = null;
+    for (var i = 0; i < translation.susScores.length; i++) {
+        if (score >= parseFloat(translation.susScores[i].score)) {
+            adjective = translation.susScores[i];
+            break;
+        }
+
+        if (i === translation.susScores.length - 1 && adjective === translation.susScores[i].adjective) {
+            adjective = translation.susScores[i];
+        }
+    }
+    return adjective;
 }

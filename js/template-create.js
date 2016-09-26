@@ -847,7 +847,7 @@ function renderFormatItem(target, data) {
     var options = data.options;
 
     switch (data.format) {
-        case SUS:
+        case SUS_ITEM:
 //            console.log($(clone).find('#negative'));
             $(clone).find('.negative #' + parameters.negative).click();
             break;
@@ -1019,7 +1019,7 @@ function getFormatData(element) {
     var options = null;
 
     switch (format) {
-        case SUS:
+        case SUS_ITEM:
             parameters = {negative: $(element).find('.negative .active').attr('id')};
             break;
         case COUNTER:

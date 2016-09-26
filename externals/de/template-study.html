@@ -110,12 +110,65 @@
     <div class="root" id="identification">
         <h3 id="headline" style="margin-top: 0"></h3>
         <hr>
-        <div id="item-view">
-            <div class="list-container row" id="gestures-list-container"></div>
+        <span class="label label-default hidden" id="search-gestures">Es wurden Gesten ermittelt</span> 
+        <span class="label label-default hidden" id="search-trigger">Es wurden Funktionen ermittelt</span>
+        <div id="item-view" style="margin-top: 30px;">
+            <div class="list-container" id="gestures-list-container"></div>
         </div>
     </div>
 
+    <div class="row" id="trigger-identification">
+        <div class="col-xs-6 col-lg-8">
+            <div id="trigger-name"><span class="address"></span> <span class="text"></span></div>
+            <div id="trigger-justification"><span class="address"></span> <span class="text"></span></div>
+        </div>
+    </div>
 
+    <div class="root" id="sus">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <hr>
+        <div class="range-container" style="margin-top: 20px;">
+            <div class="alert-space alert-sus-invalid"></div>
+            <div id="sus-score-results">
+                <div style="font-size: 100pt; margin-top: -70px" id="average-score"></div>
+                <div id="score-adjective" style="margin-top: -60px"><span class="address"></span> <span class="text"></span> <span class="tail"></span></div>
+            </div>
+        </div>
+        <hr>
+        <div class="list-container"></div>
+    </div>
+
+    <div class="root" id="gus">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <hr>
+        <span class="label label-default hidden" id="search-gestures">Es wurden Gesten ermittelt</span> 
+        <span class="label label-default hidden" id="search-trigger">Es wurden Funktionen ermittelt</span>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+                <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+                <div id="feedback"><span class="address"></span> <span class="text"></span></div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="previewGesture autoplay mousePlayable btn-shadow"></div>
+                <div class="text-center gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="list-container" style="margin-top: 30px;"></div>
+    </div>
+
+    <div class="root" id="questionnaireGestures">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <div class="list-container" style="margin-top: 20px;"></div>
+    </div>
 
 
     <div class="root" id="questionnaire">
@@ -161,9 +214,32 @@
         <hr style="margin: 0">
         <div class="panel-body">
             <div><span id="selection-label">Auswahl</span>: <span id="selected-switch" class="text"></span></div>
-            <p class="hidden" id="justification-answer-headline" style="margin-bottom: -5px">Antwort(en)</p>
-            <span id="justification-answer" class="text hidden"></span>
+            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="yes">Begründung bei Auswahl <em>Ja</em></span>
+            <span class="label label-default hidden" id="no">Begründung bei Auswahl <em>Nein</em></span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            <div class="hidden" style="width: 100%" id="item-factors">
+                <span class="label label-primary" id="factor-main"></span>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <span class="label label-info" id="factor-primary"></span>
+            </div>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+            <div id="selection"><span id="address">Auswahl:</span> <span class="text"></span></div>
+            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
+            <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung</span></span>
         </div>
     </div>
 
@@ -178,13 +254,45 @@
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
-            <p class="hidden" id="optionalanswer-headline" style="margin-top: 17px; margin-bottom: -5px">Eigene Antwort(en)</p>
-            <div id="optionalanswer-answer" class="text hidden"></div>
-            <span class="label label-warning hidden" id="no-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+            <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
+            <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
         </div>
     </div>
 
-    <span id="grouping-question-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px;"></span>
+    <span id="grouping-question-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>
+
+    <div class="panel panel-default" id="groupingQuestionGUS" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+            <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
+            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            <div class="hidden" style="width: 100%" id="item-factors">
+                <span class="label label-primary" id="factor-main"></span>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <span class="label label-info" id="factor-primary"></span>
+            </div>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="option-container"></div>
+            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
+        </div>
+    </div>
+
+    <div id="grouping-question-gus-triggers-option" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px"><span class="text"></span></div>
+    <div id="grouping-question-gus-feedbacks-option" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px"><span class="text"></span></div>
+    <div id="grouping-question-gus-gestures-option" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px">
+        <span class="text"></span>
+        <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+    </div>
 
     <div class="panel panel-default" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
@@ -201,11 +309,13 @@
         <span id="rating-option" style="margin-right: 5px"></span>
         <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
         <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+        <div class="pull-right text" id="score-container" style="margin-top: 9px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
         <div id="scale-container" style="margin-top: 10px;"></div>
         <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
     </div>
 
-    <span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px;"></span>
+    <span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>
+    <!--<span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px;"></span>-->
 
     <div class="panel panel-default" id="sumQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
@@ -236,5 +346,81 @@
     </div>
 
     <div id="ranking-item" class="text"></div>
+
+    <div class="panel panel-default" id="alternativeQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
+            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            <span class="label label-default hidden" id="gesturesForGesture">Es werden alternative Gesten für die Geste gesucht</span>
+            <span class="label label-default hidden" id="triggersForGesture">Es werden alternative Funktionen für die Geste gesucht</span>
+            <span class="label label-default hidden" id="triggersForTrigger">Es werden alternative Funktionen für die Funktion gesucht</span>
+            <span class="label label-default hidden" id="gesturesForTrigger">Es werden alternative Gesten für die Funktion gesucht</span>
+            <div class="hidden" style="width: 100%" id="item-factors">
+                <span class="label label-primary" id="factor-main"></span>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <span class="label label-info" id="factor-primary"></span>
+            </div>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="option-container"></div>
+            <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
+            <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
+            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
+        </div>
+    </div>
+
+    <div id="alternativeQuestion-gesture-item" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px">
+        <span class="text"></span>
+        <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+    </div>
+
+    <div id="alternativeQuestion-trigger-item" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"><span class="text"></span></div>
+
+    <div class="panel panel-default" id="gusSingle" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
+            <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+            <div class="hidden" style="width: 100%" id="item-factors">
+                <span class="label label-primary" id="factor-main"></span>
+                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <span class="label label-info" id="factor-primary"></span>
+            </div>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="pull-right text" id="score-container" style="margin-top: 9px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
+            <div class="option-container"></div>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+        </div>
+    </div>
+
+    <span id="gus-single-item-option" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>
+
+    <div class="panel panel-default" id="susItem" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
+            <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="pull-right text" id="score-container" style="margin-top: 9px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
+            <div class="option-container"></div>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+        </div>
+    </div>
+
+    <span id="sus-item-option" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>
 
 </div>
