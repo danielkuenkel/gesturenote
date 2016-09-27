@@ -124,7 +124,33 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                     exit();
                 }
 
-                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'studyData' => $decodedData, 'resultData' => $results, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures));
+                $studyResultsEvaluator = null;
+                if ($select_stmt = $mysqli->prepare("SELECT * FROM study_results_evaluator WHERE study_id = '$selectStudyId' && evaluator_id = '$sessionUserId' LIMIT 1")) {
+                    if (!$select_stmt->execute()) {
+                        echo json_encode(array('status' => 'selectError'));
+                        exit();
+                    } else {
+                        $select_stmt->store_result();
+                        $select_stmt->bind_result($id, $studyId, $evaluatorId, $testerId, $data, $notes, $created);
+                        $select_stmt->fetch();
+
+                        if ($select_stmt->num_rows == 1) {
+                            $decodedResults = json_decode_nice($data, false);
+
+                            $studyResultsEvaluator[] = array('id' => $id,
+                                'evaluatorId' => $evaluatorId,
+                                'testerId' => $testerId,
+                                'results' => json_decode_nice($data, false),
+                                'notes' => json_decode_nice($notes, false),
+                                'created' => $created);
+                        }
+                    }
+                } else {
+                    echo json_encode(array('status' => 'statemantError'));
+                    exit();
+                }
+
+                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'studyData' => $decodedData, 'resultData' => $results, 'evaluatorData' => $studyResultsEvaluator, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures));
                 exit();
             } else {
                 echo json_encode(array('status' => 'rowsError'));

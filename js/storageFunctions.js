@@ -339,4 +339,27 @@ function setStudyData(data) {
             setLocalItem(GESTURE_CATALOG, data.resultData.elicitedGestures);
         }
     }
+
+    if (data.evaluatorData) {
+        setData = new Object();
+        setData.id = data.resultData.id;
+        setData.evaluatorId = data.resultData.evaluatorId;
+        setData.testerId = data.resultData.testerId;
+        setData.created = data.resultData.created;
+        setLocalItem(STUDY_DATA_EVALUATOR, setData);
+
+        var phases = data.evaluatorData.results.phases;
+        if (phases && phases.length > 0) {
+            for (var i = 0; i < phases.length; i++) {
+                setLocalItem(phases[i].id + '.evaluator', phases[i]);
+            }
+        }
+
+        var notes = data.evaluatorData.notes;
+        if (notes && notes.length > 0) {
+            for (var i = 0; i < notes.length; i++) {
+                setLocalItem(notes[i].id + '.notes', notes[i]);
+            }
+        }
+    }
 }

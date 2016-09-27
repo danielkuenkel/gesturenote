@@ -129,7 +129,7 @@ if (login_check($mysqli) == true) {
                     getStudyParticipant({studyId: query.studyId, participantId: query.participantId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             console.log(result);
-                            console.log(result.resultData);
+//                            console.log(result.resultData);
                             setStudyData(result);
                             renderData(result);
                         }
@@ -195,6 +195,7 @@ if (login_check($mysqli) == true) {
             $(document).on('click', '#phase-results-nav button', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('active')) {
+                    cacheNotes(true);
                     $(this).parent().children().removeClass('active');
                     $(this).addClass('active');
                     renderStudyPhaseResult($(this).attr('id'));
@@ -218,6 +219,21 @@ if (login_check($mysqli) == true) {
                         $(badge).addClass('badge pull-right');
                         $(badge).text(translation.lapse + ': ' + getTimeString(executionTime));
                         $(content).find('#headline').append(badge);
+                    }
+
+                    if (translation.formats[phaseResults.format].notes === 'yes') {
+                        var notesData = getLocalItem(phaseId + '.notes');
+                        var notes = $('#template-study-container').find('#notes').clone();
+                        $('#phase-result').append(notes);
+
+                        if (notesData) {
+                            notes.find('#notes-input').val(notesData);
+                        }
+
+                        notes.find('#notes-input').on('input', function (event) {
+                            event.preventDefault();
+                            cacheNotes();
+                        });
                     }
 
                     switch (phaseResults.format) {
@@ -248,6 +264,46 @@ if (login_check($mysqli) == true) {
                     TweenMax.from(content, .2, {opacity: 0, y: -60});
                 } else {
                     console.log('no results');
+                    var noResultsContent = $('#template-study-container').find('#no-phase-results').clone().removeAttr('id');
+                    $('#phase-result').empty().append(noResultsContent);
+                    $(noResultsContent).css({y: 0, opacity: 1});
+                    TweenMax.from(noResultsContent, .2, {opacity: 0, y: -60});
+                }
+            }
+
+            var saveTimer = null;
+            function cacheNotes(instantSave) {
+                var phaseId = $('#phase-results-nav').find('.active').attr('id');
+
+                if (phaseId) {
+                    var phaseResults = getLocalItem(phaseId + '.results');
+//                    console.log(phaseId, phaseResults.format);
+                    if (phaseResults && translation.formats[phaseResults.format].notes === 'yes') {
+//                        console.log('save notes for format: ' + phaseResults.format);
+                        var note = $('#phase-result').find('#notes-input').val();
+                        setLocalItem(phaseId + '.notes', note);
+
+                        var phases = getLocalItem(STUDY_PHASE_STEPS);
+                        var notesArray = new Array();
+                        for (var i = 0; i < phases.length; i++) {
+//                        for (var phase in phases) {
+                            var phaseNote = getLocalItem(phases[i].id + '.notes');
+//                            console.log(phaseNote, phases[i].id, phases[i]);
+                            if (phaseNote) {
+                                notesArray.push({phaseId: phases[i].id, note: phaseNote});
+                            }
+                        }
+
+                        clearTimeout(saveTimer);
+                        if (instantSave === true) {
+                            saveNotes({studyId: getLocalItem(STUDY).id, testerId: getLocalItem(STUDY_RESULTS).userId, notes: notesArray});
+                        } else {
+                            saveTimer = setTimeout(function () {
+                                console.log(notesArray);
+                                saveNotes({studyId: getLocalItem(STUDY).id, testerId: getLocalItem(STUDY_RESULTS).userId, notes: notesArray});
+                            }, 1000);
+                        }
+                    }
                 }
             }
 
@@ -482,12 +538,14 @@ if (login_check($mysqli) == true) {
             }
 
             function renderDichotomousQuestion(item, studyData, resultsData) {
+//                console.log(studyData, resultsData);
                 $(item).find('.question').text(studyData.question);
 
                 if (resultsData.selectedSwitch === 'none') {
                     $(item).find('#no-answer').removeClass('hidden');
                     $(item).find('#selection').remove();
                 } else {
+//                    console.log(translation[resultsData.selectedSwitch])
                     $(item).find('#selection .text').text(translation[resultsData.selectedSwitch]);
                 }
 
@@ -498,35 +556,13 @@ if (login_check($mysqli) == true) {
                     if ((resultsData.selectedSwitch === studyData.parameters.justificationFor || studyData.parameters.justificationFor === 'always') && resultsData.justification !== '') {
                         $(item).find('#justification-content').removeClass('hidden');
                         $(item).find('#justification-content .text').text(resultsData.justification);
-                    } else if (resultsData.justification === '' && resultsData.selectedSwitch === studyData.parameters.justificationFor) {
+                    } else if (resultsData.justification === '' && (resultsData.selectedSwitch === studyData.parameters.justificationFor || studyData.parameters.justificationFor === 'always')) {
                         $(item).find('#no-justification-result').removeClass('hidden');
                     }
                 } else {
                     $(item).find('#no-justification').removeClass('hidden');
                 }
             }
-
-//            function renderDichotomousQuestionGUS(item, studyData, resultsData) {
-//                console.log(studyData, resultsData);
-//
-//                $(item).find('.question').text(studyData.question);
-//
-//                if (studyData.parameters.justification === 'yes') {
-//                    $(item).find('#justification').removeClass('hidden');
-//
-//                    if ((resultsData.selectedSwitch === studyData.parameters.justificationFor || studyData.parameters.justificationFor === 'always') && resultsData.justification !== '') {
-//                        $(item).find('#justification-answer-headline, #justification-answer').removeClass('hidden');
-//                        $(item).find('#justification-answer').text(resultsData.justification);
-//                    } else if (resultsData.justification === '' && resultsData.selectedSwitch === studyData.parameters.justificationFor) {
-//                        $(item).find('#no-answer').removeClass('hidden');
-//                    }
-//                } else {
-//                    $(item).find('#no-justification').removeClass('hidden');
-//                }
-//
-//                $(item).find('#selected-switch').text(translation[resultsData.selectedSwitch]);
-//                $(item).find('#' + studyData.parameters.justificationFor).removeClass('hidden');
-//            }
 
             function renderGroupingQuestion(item, studyData, resultsData) {
                 $(item).find('.question').text(studyData.question);
@@ -557,6 +593,10 @@ if (login_check($mysqli) == true) {
                     $(optionItem).text(studyData.options[i]);
                     $(item).find('.option-container').append(optionItem);
 
+                    if (i < studyData.options.length - 1) {
+                        item.find('.option-container').append(document.createElement('br'));
+                    }
+
                     if (resultsData.selectedOptions && resultsData.selectedOptions.length === (i + 1)) {
                         var selectedScale = parseInt(resultsData.selectedOptions[i]);
                         if (i === selectedScale) {
@@ -571,7 +611,7 @@ if (login_check($mysqli) == true) {
             }
 
             function renderGroupingQuestionGUS(item, studyData, resultsData) {
-                console.log(studyData, resultsData);
+//                console.log(studyData, resultsData);
                 $(item).find('.question').text(studyData.question);
                 var options;
                 switch (studyData.parameters.optionSource) {
@@ -717,7 +757,7 @@ if (login_check($mysqli) == true) {
             }
 
             function renderAlternativeQuestion(item, studyData, resultsData) {
-                console.log(studyData, resultsData);
+//                console.log(studyData, resultsData);
 
                 $(item).find('.question').text(studyData.question);
 

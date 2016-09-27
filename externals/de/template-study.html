@@ -93,6 +93,17 @@
         </div>
     </div>
 
+    <div class="root" id="no-phase-results">
+        <div class="alert alert-warning" role="alert"><i class="glyphicon glyphicon-info-sign"></i> Für diesen Schritt sind keine Daten verfügbar.</div>
+    </div>
+
+    <div class="root" id="notes" style="margin-top: 30px;">
+        <h3 id="headline">Notizen</h3>
+        <hr>
+        <textarea class="form-control" id="notes-input" rows="5"></textarea>
+        <!--<button class="btn btn-default btn-block btn-shadow" id="btn-save-notes" style="margin-top: 10px;"><i class="fa fa-floppy-o" aria-hidden="true"></i> <span class="btn-text">Notizen speichern</span></button>-->
+    </div>
+
     <div class="root" id="letterOfAcceptance">
         <h3 id="headline" style="margin-top: 0"></h3>
         <hr>
@@ -201,6 +212,18 @@
         </div>
     </div>
 
+    <div class="panel panel-default" id="openQuestionGUS" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <span class="answer text"></span>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+        </div>
+    </div>
+
     <div class="panel panel-default" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
@@ -213,9 +236,10 @@
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
-            <div><span id="selection-label">Auswahl</span>: <span id="selected-switch" class="text"></span></div>
-            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+            <div id="selection"><span id="address">Auswahl:</span> <span class="text"></span></div>
+            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
+            <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung</span></span>
         </div>
     </div>
 

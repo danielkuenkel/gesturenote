@@ -137,65 +137,77 @@
     "copy": "Kopieren",
     "openStudyUrl": "Studien-URL aufrufen",
     "formats": {
-        "questionnaire": {
-            "text": "Fragebogen",
-            "class": "both",
-            "webRTC": "no"
-        },
-        "gus": {
-            "text": "GUS (einzelne Geste)",
-            "class": "evaluation",
-            "webRTC": "no"
-        },
-        "questionnaireGestures": {
-            "text": "GUS (Mehrere Gesten)",
-            "class": "evaluation",
-            "webRTC": "no"
-        },
-        "sus": {
-            "text": "SUS",
-            "class": "evaluation",
-            "webRTC": "no"
-        },
         "letterOfAcceptance": {
             "text": "Einverständniserklärung",
             "class": "both",
-            "webRTC": "no"
-        },
-        "identification": {
-            "text": "Identifikation",
-            "class": "elicitation",
-            "webRTC": "yes"
-        },
-        "gestureTraining": {
-            "text": "Gestentraining",
-            "class": "evaluation",
-            "webRTC": "yes"
-        },
-        "scenario": {
-            "text": "Szenario-basierte Aufgabe",
-            "class": "evaluation",
-            "webRTC": "yes"
-        },
-        "gestureSlideshow": {
-            "text": "Gesten erraten",
-            "class": "evaluation",
-            "webRTC": "yes"
-        },
-        "triggerSlideshow": {
-            "text": "Funktionen erraten",
-            "class": "evaluation",
-            "webRTC": "no"
-        },
-        "physicalStressTest": {
-            "text": "Physischer Belastungstest",
-            "class": "evaluation",
-            "webRTC": "yes"
+            "webRTC": "no",
+            "notes" : "no"
         },
         "thanks": {
             "text": "Danksagung",
             "class": "both",
-            "webRTC": "no"
+            "webRTC": "no",
+            "notes" : "no"
+        },
+        "questionnaire": {
+            "text": "Fragebogen",
+            "class": "both",
+            "webRTC": "no",
+            "notes" : "yes"
+        },
+        "identification": {
+            "text": "Identifikation",
+            "class": "elicitation",
+            "webRTC": "yes",
+            "notes" : "yes"
+        },
+        "gus": {
+            "text": "GUS (einzelne Geste)",
+            "class": "evaluation",
+            "webRTC": "no",
+            "notes" : "yes"
+        },
+        "questionnaireGestures": {
+            "text": "GUS (Mehrere Gesten)",
+            "class": "evaluation",
+            "webRTC": "no",
+            "notes" : "yes"
+        },
+        "sus": {
+            "text": "SUS",
+            "class": "evaluation",
+            "webRTC": "no",
+            "notes" : "yes"
+        },
+        "gestureTraining": {
+            "text": "Gestentraining",
+            "class": "evaluation",
+            "webRTC": "yes",
+            "notes" : "yes"
+        },
+        "scenario": {
+            "text": "Szenario-basierte Aufgabe",
+            "class": "evaluation",
+            "webRTC": "yes",
+            "notes" : "yes"
+        },
+        "gestureSlideshow": {
+            "text": "Gesten erraten",
+            "class": "evaluation",
+            "webRTC": "yes",
+            "notes" : "yes"
+        },
+        "triggerSlideshow": {
+            "text": "Funktionen erraten",
+            "class": "evaluation",
+            "webRTC": "no",
+            "notes" : "yes"
+        },
+        "physicalStressTest": {
+            "text": "Physischer Belastungstest",
+            "class": "evaluation",
+            "webRTC": "yes",
+            "notes" : "yes"
         }
     },
     "questionFormats": {
