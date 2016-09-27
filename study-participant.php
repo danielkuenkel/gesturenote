@@ -225,6 +225,7 @@ if (login_check($mysqli) == true) {
                         var notesData = getLocalItem(phaseId + '.notes');
                         var notes = $('#template-study-container').find('#notes').clone();
                         $('#phase-result').append(notes);
+                        TweenMax.from(notes, .2, {delay: .1, opacity: 0, y: -60});
 
                         if (notesData) {
                             notes.find('#notes-input').val(notesData);
@@ -277,18 +278,14 @@ if (login_check($mysqli) == true) {
 
                 if (phaseId) {
                     var phaseResults = getLocalItem(phaseId + '.results');
-//                    console.log(phaseId, phaseResults.format);
                     if (phaseResults && translation.formats[phaseResults.format].notes === 'yes') {
-//                        console.log('save notes for format: ' + phaseResults.format);
                         var note = $('#phase-result').find('#notes-input').val();
                         setLocalItem(phaseId + '.notes', note);
 
                         var phases = getLocalItem(STUDY_PHASE_STEPS);
                         var notesArray = new Array();
                         for (var i = 0; i < phases.length; i++) {
-//                        for (var phase in phases) {
                             var phaseNote = getLocalItem(phases[i].id + '.notes');
-//                            console.log(phaseNote, phases[i].id, phases[i]);
                             if (phaseNote) {
                                 notesArray.push({phaseId: phases[i].id, note: phaseNote});
                             }
@@ -299,7 +296,6 @@ if (login_check($mysqli) == true) {
                             saveNotes({studyId: getLocalItem(STUDY).id, testerId: getLocalItem(STUDY_RESULTS).userId, notes: notesArray});
                         } else {
                             saveTimer = setTimeout(function () {
-                                console.log(notesArray);
                                 saveNotes({studyId: getLocalItem(STUDY).id, testerId: getLocalItem(STUDY_RESULTS).userId, notes: notesArray});
                             }, 1000);
                         }
@@ -398,10 +394,49 @@ if (login_check($mysqli) == true) {
                     $(content).find('#score-adjective .address').text(translation.systemIs);
                     $(content).find('#score-adjective .text').text(fittedScore.adjective);
                     $(content).find('#score-adjective .tail').text(translation.rated);
+                    renderSUSProgress($(content), translation.susScores, count);
                 } else {
                     $(content).find('#sus-score-results').remove();
                     appendAlert(content, ALERT_SUS_INVALID);
                 }
+            }
+
+            function renderSUSProgress(container, susQuartiles, score) {
+//                <div class="progress-bar progress-bar-danger" style="width: 35%; background-color: #003399 !important;">
+                var currentWidth = 0.0;
+                var oldWidth = 0.0;
+                var targetWidth = $(container).find('#sus-score-progress').width();
+
+                for (var i = 0; i < susQuartiles.length; i++) {
+                    currentWidth = parseFloat(i < susQuartiles.length - 1 ? susQuartiles[i + 1].score : 100) - oldWidth;
+                    oldWidth = parseFloat(i < susQuartiles.length - 1 ? susQuartiles[i + 1].score : susQuartiles[i].score);
+
+//                    console.log(currentWidth, susQuartiles[i].score, susQuartiles[i].color);
+                    var progressBar = document.createElement('div');
+                    $(progressBar).addClass('progress-bar');
+                    $(progressBar).css('background-color', susQuartiles[i].color);
+                    $(progressBar).css({width: currentWidth + '%'});
+                    $(container).find('#sus-score-progress').append(progressBar);
+
+                    var markerItem = $('#template-study-container').find('#sus-marker-item').clone().removeAttr('id');
+                    $(markerItem).find('.text').text(translation.susScores[i].adjective);
+                    $(container).find('#sus-marker-container').append(markerItem);
+
+                    if (i === 0 || i === susQuartiles.length - 1) {
+                        $(markerItem).css({marginTop: '17px'});
+                    }
+
+                    var markerOffset = ($(markerItem).width() / 2) / targetWidth * 100;
+                    var markerPercentage = parseFloat(susQuartiles[i].score) - markerOffset;
+                    $(markerItem).css({left: markerPercentage + '%'});
+                    console.log(susQuartiles[i].score, markerOffset);
+                }
+
+
+//                console.log(targetWidth, $(container).find('#sus-score-pointer'));
+//                $('#sus-score-pointer').css('left', '45%');
+//                $('#sus-score-pointer').offset().left('45%');
+                $(container).find('#sus-score-pointer').css({left: score + '%'});
             }
 
             var currentGUSData = null;

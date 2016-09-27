@@ -12,21 +12,44 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['testerId'], $_POST['n
     $notes = json_encode($_POST['notes']);
     $studyId = $_POST['studyId'];
     $testerId = $_POST['testerId'];
+    $userSessionId = $_SESSION['user_id'];
 
-    if ($select_stmt = $mysqli->prepare("SELECT id FROM study_results_evaluator WHERE id = '$studyId' && tester_id = '$testerId' LIMIT 1")) {
+    if ($select_stmt = $mysqli->prepare("SELECT id FROM study_results_evaluator WHERE study_id = '$studyId' && tester_id = '$testerId' && evaluator_id = '$userSessionId' LIMIT 1")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();
         } else {
-            $select_stmt->bind_result($evaluatorResultId);
             $select_stmt->store_result();
+            $select_stmt->bind_result($rowId);
             $select_stmt->fetch();
+
             if ($select_stmt->num_rows == 1) {
-                echo json_encode(array('status' => 'update row'));
+                if ($update_stmt = $mysqli->prepare("UPDATE study_results_evaluator SET notes = '$notes' WHERE id = '$rowId'")) {
+                    if (!$update_stmt->execute()) {
+                        echo json_encode(array('status' => 'updateError'));
+                        exit();
+                    } else {
+                        echo json_encode(array('status' => 'success'));
+                        exit();
+                    }
+                } else {
+                    echo json_encode(array('status' => 'statemantError'));
+                    exit();
+                }
                 exit();
             } else {
-                echo json_encode(array('status' => 'insert new row'));
-                exit();
+                if ($insert_stmt = $mysqli->prepare("INSERT INTO study_results_evaluator (study_id, evaluator_id, tester_id, notes) VALUES ('$studyId','$userSessionId','$testerId', '$notes')")) {
+                    if (!$insert_stmt->execute()) {
+                        echo json_encode(array('status' => 'insertError'));
+                        exit();
+                    } else {
+                        echo json_encode(array('status' => 'success'));
+                        exit();
+                    }
+                } else {
+                    echo json_encode(array('status' => 'statemantError'));
+                    exit();
+                }
             }
         }
     }

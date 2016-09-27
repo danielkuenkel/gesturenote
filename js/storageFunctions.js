@@ -280,6 +280,8 @@ function getContextualPhaseSteps() {
 }
 
 function setStudyData(data) {
+    clearLocalItems();
+
     var setData;
     if (data.studyData) {
         setData = data.studyData;
@@ -342,23 +344,25 @@ function setStudyData(data) {
 
     if (data.evaluatorData) {
         setData = new Object();
-        setData.id = data.resultData.id;
-        setData.evaluatorId = data.resultData.evaluatorId;
-        setData.testerId = data.resultData.testerId;
-        setData.created = data.resultData.created;
+        setData.id = data.evaluatorData.id;
+        setData.evaluatorId = data.evaluatorData.evaluatorId;
+        setData.testerId = data.evaluatorData.testerId;
+        setData.created = data.evaluatorData.created;
         setLocalItem(STUDY_DATA_EVALUATOR, setData);
 
-        var phases = data.evaluatorData.results.phases;
-        if (phases && phases.length > 0) {
-            for (var i = 0; i < phases.length; i++) {
-                setLocalItem(phases[i].id + '.evaluator', phases[i]);
+        if (data.evaluatorData.results && data.evaluatorData.phases) {
+            var phases = data.evaluatorData.results.phases;
+            if (phases && phases.length > 0) {
+                for (var i = 0; i < phases.length; i++) {
+                    setLocalItem(phases[i].id + '.evaluator', phases[i]);
+                }
             }
         }
 
         var notes = data.evaluatorData.notes;
         if (notes && notes.length > 0) {
             for (var i = 0; i < notes.length; i++) {
-                setLocalItem(notes[i].id + '.notes', notes[i]);
+                setLocalItem(notes[i].phaseId + '.notes', notes[i].note);
             }
         }
     }

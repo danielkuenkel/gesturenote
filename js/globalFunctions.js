@@ -1676,13 +1676,14 @@ function isWebRTCSupported() {
 function getSUSAdjective(score) {
     var adjective = null;
     for (var i = 0; i < translation.susScores.length; i++) {
-        if (score >= parseFloat(translation.susScores[i].score)) {
+        if (i === translation.susScores.length - 1) {
             adjective = translation.susScores[i];
             break;
         }
 
-        if (i === translation.susScores.length - 1 && adjective === translation.susScores[i].adjective) {
+        if (score < parseFloat(translation.susScores[i + 1].score)) {
             adjective = translation.susScores[i];
+            break;
         }
     }
     return adjective;

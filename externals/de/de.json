@@ -141,73 +141,73 @@
             "text": "Einverständniserklärung",
             "class": "both",
             "webRTC": "no",
-            "notes" : "no"
+            "notes": "no"
         },
         "thanks": {
             "text": "Danksagung",
             "class": "both",
             "webRTC": "no",
-            "notes" : "no"
+            "notes": "no"
         },
         "questionnaire": {
             "text": "Fragebogen",
             "class": "both",
             "webRTC": "no",
-            "notes" : "yes"
+            "notes": "yes"
         },
         "identification": {
             "text": "Identifikation",
             "class": "elicitation",
             "webRTC": "yes",
-            "notes" : "yes"
+            "notes": "yes"
         },
         "gus": {
             "text": "GUS (einzelne Geste)",
             "class": "evaluation",
             "webRTC": "no",
-            "notes" : "yes"
+            "notes": "yes"
         },
         "questionnaireGestures": {
             "text": "GUS (Mehrere Gesten)",
             "class": "evaluation",
             "webRTC": "no",
-            "notes" : "yes"
+            "notes": "yes"
         },
         "sus": {
             "text": "SUS",
             "class": "evaluation",
             "webRTC": "no",
-            "notes" : "yes"
+            "notes": "yes"
         },
         "gestureTraining": {
             "text": "Gestentraining",
             "class": "evaluation",
             "webRTC": "yes",
-            "notes" : "yes"
+            "notes": "yes"
         },
         "scenario": {
             "text": "Szenario-basierte Aufgabe",
             "class": "evaluation",
             "webRTC": "yes",
-            "notes" : "yes"
+            "notes": "yes"
         },
         "gestureSlideshow": {
             "text": "Gesten erraten",
             "class": "evaluation",
             "webRTC": "yes",
-            "notes" : "yes"
+            "notes": "yes"
         },
         "triggerSlideshow": {
             "text": "Funktionen erraten",
             "class": "evaluation",
             "webRTC": "no",
-            "notes" : "yes"
+            "notes": "yes"
         },
         "physicalStressTest": {
             "text": "Physischer Belastungstest",
             "class": "evaluation",
             "webRTC": "yes",
-            "notes" : "yes"
+            "notes": "yes"
         }
     },
     "questionFormats": {
@@ -392,39 +392,39 @@
     "susOptions": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"],
     "susScores": [
         {
-            "adjective": "Denkbar am Besten",
-            "score": "90.1",
-            "color": "rgb(25, 168, 59)"
-        },
-        {
-            "adjective": "Exzellent",
-            "score": "85.5",
-            "color": "rgb(25, 168, 59)"
-        },
-        {
-            "adjective": "Gut",
-            "score": "71.4",
-            "color": "rgb(126, 232, 49)"
-        },
-        {
-            "adjective": "OK",
-            "score": "50.9",
-            "color": "rgb(255, 221, 2)"
-        },
-        {
-            "adjective": "Schlecht",
-            "score": "35.7",
-            "color": "rgb(255, 126, 0)"
+            "adjective": "Denkbar am Schlechtesten",
+            "score": "12.5",
+            "color": "#ff4e00"
         },
         {
             "adjective": "Fürchterlich",
             "score": "20.3",
-            "color": "rgb(255, 78, 0)"
+            "color": "#ff4e00"
         },
         {
-            "adjective": "Denkbar am Schlechtesten",
-            "score": "12.5",
-            "color": "rgb(255, 78, 0)"
+            "adjective": "Schlecht",
+            "score": "35.7",
+            "color": "#ff7e00"
+        },
+        {
+            "adjective": "OK",
+            "score": "50.9",
+            "color": "#ffdd02"
+        },
+        {
+            "adjective": "Gut",
+            "score": "71.4",
+            "color": "#7ee831"
+        },
+        {
+            "adjective": "Exzellent",
+            "score": "85.5",
+            "color": "#19a83b"
+        },
+        {
+            "adjective": "Denkbar am Besten",
+            "score": "90.1",
+            "color": "#19a83b"
         }
     ],
     "sus": [

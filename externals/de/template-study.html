@@ -138,15 +138,30 @@
     <div class="root" id="sus">
         <h3 id="headline" style="margin-top: 0"></h3>
         <hr>
-        <div class="range-container" style="margin-top: 20px;">
+        <div class="range-container" style="margin-top: 20px">
             <div class="alert-space alert-sus-invalid"></div>
             <div id="sus-score-results">
-                <div style="font-size: 100pt; margin-top: -70px" id="average-score"></div>
-                <div id="score-adjective" style="margin-top: -60px"><span class="address"></span> <span class="text"></span> <span class="tail"></span></div>
+                <div class="text-center">
+                    <div style="font-size: 100pt; line-height: 100pt; margin-top: 0" id="average-score"></div>
+                    <div id="score-adjective" style="margin-top: 0"><span class="address"></span> <span class="text"></span> <span class="tail"></span></div>
+                </div>
+                <i class="fa fa-chevron-down text" id="sus-score-pointer" aria-hidden="true" style="position: relative;"></i>
+                <div class="progress" id="sus-score-progress" style="margin: 0; margin-top: -4px"></div>
+
+                <div id="sus-marker-container" style="margin-top: 3px; margin-bottom: 80px">
+
+                </div>
             </div>
         </div>
         <hr>
         <div class="list-container"></div>
+    </div>
+
+    <div class="text" id="sus-marker-item" style="position: absolute; display: inline-block">
+        <div class="text-center">
+            <i class="fa fa-long-arrow-up" style="font-size: 20pt; line-height: 20pt;" aria-hidden="true"></i>
+            <p class="text" style="font-size: 9pt; line-height: 9pt;"></p>
+        </div>
     </div>
 
     <div class="root" id="gus">

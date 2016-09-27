@@ -21,7 +21,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
             echo json_encode(array('status' => 'selectError'));
             exit();
         } else {
-            $select_stmt->bind_result($studyId, $studyUserId, $studyData, $urlToken, $studyCreated);
+            $select_stmt->bind_result($originalStudyId, $studyUserId, $studyData, $urlToken, $studyCreated);
             $select_stmt->store_result();
             $select_stmt->fetch();
             if ($select_stmt->num_rows == 1) {
@@ -125,7 +125,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                 }
 
                 $studyResultsEvaluator = null;
-                if ($select_stmt = $mysqli->prepare("SELECT * FROM study_results_evaluator WHERE study_id = '$selectStudyId' && evaluator_id = '$sessionUserId' LIMIT 1")) {
+                if ($select_stmt = $mysqli->prepare("SELECT * FROM study_results_evaluator WHERE study_id = '$selectStudyId' && evaluator_id = '$sessionUserId' && tester_id = '$selectParticipantId' LIMIT 1")) {
                     if (!$select_stmt->execute()) {
                         echo json_encode(array('status' => 'selectError'));
                         exit();
@@ -135,14 +135,17 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                         $select_stmt->fetch();
 
                         if ($select_stmt->num_rows == 1) {
-                            $decodedResults = json_decode_nice($data, false);
 
-                            $studyResultsEvaluator[] = array('id' => $id,
+                            $studyResultsEvaluator = array('id' => $id,
+                                'studyId' => $studyId,
                                 'evaluatorId' => $evaluatorId,
                                 'testerId' => $testerId,
                                 'results' => json_decode_nice($data, false),
                                 'notes' => json_decode_nice($notes, false),
                                 'created' => $created);
+                        } else {
+//                            echo json_encode(array('status' => 'rowsError', 'num_rows' => $select_stmt->num_rows, 'studyId' => $selectStudyId, "evaluatorId" => $sessionUserId, 'testerId' => $selectParticipantId));
+//                            exit();
                         }
                     }
                 } else {
@@ -150,7 +153,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                     exit();
                 }
 
-                echo json_encode(array('status' => 'success', 'id' => $studyId, 'userId' => $studyUserId, 'studyData' => $decodedData, 'resultData' => $results, 'evaluatorData' => $studyResultsEvaluator, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures));
+                echo json_encode(array('status' => 'success', 'id' => $originalStudyId, 'userId' => $studyUserId, 'studyData' => $decodedData, 'resultData' => $results, 'evaluatorData' => $studyResultsEvaluator, 'urlToken' => $urlToken, 'created' => $studyCreated, 'gestureCatalog' => $gestures));
                 exit();
             } else {
                 echo json_encode(array('status' => 'rowsError'));
