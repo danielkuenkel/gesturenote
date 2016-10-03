@@ -52,6 +52,7 @@ if ($h && $token && $studyId) {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
+        <script src="resumable/resumable.js"></script>
 
         <script src="js/chance.min.js"></script>
         <script src="color-thief/color-thief.js"></script>
@@ -72,6 +73,7 @@ if ($h && $token && $studyId) {
         <script src="js/study-execution.js"></script>
         <script src="js/study-execution-tester.js"></script>
         <script src="js/study-execution-tester-save.js"></script>
+        <script src="js/execution-upload-queue.js"></script>
 
         <!-- gesture recorder sources -->
         <script src="js/gesture-recorder.js"></script>
@@ -145,12 +147,10 @@ if ($h && $token && $studyId) {
 
         <!-- Container (Panel Section) -->
         <div class="mainContent" id="mainContent" style="margin-top: 20px;">
-
             <div id="viewTester">
                 <div id="phase-content"></div>
             </div>
         </div>
-
 
         <script>
             $(document).ready(function () {
@@ -169,25 +169,28 @@ if ($h && $token && $studyId) {
             function onAllExternalsLoadedSuccessfully() {
                 var query = getQueryParams(document.location.search);
                 if (query.studyId && query.h && query.token) {
-                    getStudyById({studyId: query.studyId}, function (result) {
-                        if (result.status === RESULT_SUCCESS) {
-//                            if (result.data) {
-//                                if (result.data) {
-                                    clearLocalItems();
-                                    setStudyData(result);
-                                    init();
-//                                }
-//                            } else {
-//                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
-//                            }
-                        }
-                    });
+                    var status = window.location.hash.substr(1);
+                    var statusAddressMatch = statusAddressMatchIndex(status);
+
+                    // check if there was a page reload
+                    status = ''; // for testing
+                    if (status !== '' && statusAddressMatch !== null) {
+                        currentPhaseStepIndex = statusAddressMatch;
+                        init();
+                    } else {
+                        getStudyById({studyId: query.studyId}, function (result) {
+                            if (result.status === RESULT_SUCCESS) {
+                                clearLocalItems();
+                                setStudyData(result);
+                                init();
+                            }
+                        });
+                    }
                 }
             }
 
             function init() {
                 currentView = VIEW_TESTER;
-
                 if (typeof (Storage) !== "undefined") {
                     checkStorage();
                 } else {
@@ -199,6 +202,7 @@ if ($h && $token && $studyId) {
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
                 resetRenderedContent();
                 Tester.renderView();
+                window.location.hash = getCurrentPhase().id;
             }
 
             function resetRenderedContent() {

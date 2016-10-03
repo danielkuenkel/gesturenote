@@ -1469,20 +1469,132 @@ function resetLiveStream() {
 }
 
 function initializeLiveStream() {
-    resetLiveStream();
-    var mediaConstraints = {video: true, audio: false};
-    navigator.mediaDevices.getUserMedia(mediaConstraints).then(liveStreamSuccess).catch(liveStreamError);
+//    resetLiveStream();
+//    var mediaConstraints = {video: true, audio: true};
+//    navigator.mediaDevices.getUserMedia(mediaConstraints).then(liveStreamSuccess).catch(liveStreamError);
+
+    if (getBrowser() == "Chrome") {
+        var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
+    } else if (getBrowser() == "Firefox") {
+        var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 1280}, height: {min: 240, ideal: 240, max: 720}}};
+    }
+
+    if (typeof MediaRecorder === 'undefined' || !navigator.getUserMedia) {
+        console.log('Sorry! This demo requires Firefox 30 and up or Chrome 47 and up.');
+    } else {
+        navigator.getUserMedia(constraints, startRecording, errorCallback);
+    }
 }
 
 
-function liveStreamError(error) {
-    alert(error);
-    // maybe another application is using the device
+//function liveStreamError(error) {
+//    console.log(error);
+//    // maybe another application is using the device
+//}
+
+//function liveStreamSuccess(stream) {
+//    rtcLiveStream = stream;
+//    $('#rtc-stream').attr('muted', 'true');
+//    $('#rtc-stream').attr('src', URL.createObjectURL(stream));
+//    startRecording();
+//}
+
+//function startRecording() {
+//
+//
+
+//    var config = {
+//        type: 'video',
+//        mimeType: 'video/webm', // or video/mp4 or audio/ogg
+//        video: {
+//            width: 320,
+//            height: 240
+//        },
+//        recorderType: RecordRTC.WhammyRecorder,
+//        frameInterval: 30   // setTimeout interval, quality strength
+//    };
+//    liveStreamRecord = RecordRTC(rtcLiveStream, config);
+//    liveStreamRecord.startRecording();
+//}
+
+function errorCallback(error) {
+    console.log(error);
 }
 
-function liveStreamSuccess(stream) {
-    rtcLiveStream = stream;
-    console.log($('#rtc-stream'));
+var chunks = [];
+function startRecording(stream) {
+    console.log('Starting...');
+    mediaRecorder = new MediaRecorder(stream);
+
+    mediaRecorder.start(5000);
+    $('#rtc-stream').attr('muted', 'true');
     $('#rtc-stream').attr('src', URL.createObjectURL(stream));
-//    showRecord();
+
+//    var url = window.URL || window.webkitURL;
+//    videoElement.src = url ? url.createObjectURL(stream) : stream;
+//    videoElement.play();
+
+    mediaRecorder.ondataavailable = function (e) {
+        //log('Data available...');
+//        console.log(e.data);
+//        console.log(e);
+
+        chunks.push(e.data);
+    };
+
+    mediaRecorder.onerror = function (e) {
+        console.log('Error: ', e);
+    };
+
+
+    mediaRecorder.onstart = function () {
+        console.log('Started, state = ' + mediaRecorder.state);
+    };
+
+    mediaRecorder.onstop = function () {
+        console.log('Stopped, state = ' + mediaRecorder.state);
+
+//        console.log(chunks);
+        var blob = new Blob(chunks, {type: "video/webm"});
+
+//        var videoURL = window.URL.createObjectURL(blob);
+//        console.log(videoURL);
+
+//        var rand = Math.floor((Math.random() * 10000000));
+//        var name = "video_" + rand + ".webm";
+
+//        var downloadLink = $('#downloadLink');
+//        $(downloadLink).removeClass('hidden');
+//        $(downloadLink).attr('href', videoURL);
+//        $(downloadLink).attr('download', name);
+//        $(downloadLink).attr("name", name);
+
+//        var file = new File(chunks, hex_sha512(new Date().getTime()) + '.webm');
+
+        uploadQueue.upload(chunks, currentPhaseStepId);
+        chunks = [];
+    };
+
+    mediaRecorder.onwarning = function (e) {
+        console.log('Warning: ' + e);
+    };
+}
+
+var currentPhaseStepId = null;
+function stopRecording(callback) {
+
+    if (mediaRecorder) {
+        currentPhaseStepId = getCurrentPhase().id;
+        mediaRecorder.stop();
+    }
+
+//    if (liveStreamRecord) {
+//        liveStreamRecord.stopRecording(function (videoUrl) {
+//            console.log(videoUrl);
+//
+    if (callback) {
+        callback();
+    }
+//        });
+//    }
 }

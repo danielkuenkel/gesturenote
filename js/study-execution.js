@@ -39,17 +39,27 @@ function checkStorage() {
     }
 }
 
+var uploadQueue = null;
 function initialize() {
     var study = getLocalItem(STUDY);
     if (previewModeEnabled === true) {
         if (study.surveyType === TYPE_SURVEY_UNMODERATED) {
             showTesterView();
             $('#btnViewModerator').addClass('disabled');
-
         } else {
             showModeratorView();
         }
     } else {
+        uploadQueue = new UploadQueue();
+        $(uploadQueue).bind(EVENT_FILE_SAVED, function (event, result) {
+            var phaseStepData = getLocalItem(result.phaseStepId + '.saveData');
+            if (phaseStepData) {
+                phaseStepData.recordUrl = result.filename;
+                setLocalItem(result.phaseStepId + '.saveData', phaseStepData);
+                saveCurrentStatus(false);
+            }
+        });
+
         setLocalItem('startExecutionTime', new Date().getTime());
         renderPhaseStep();
         updateProgress();
@@ -150,20 +160,47 @@ function nextStep() {
         if (currentPhaseStepIndex < phases.length - 1) {
             saveCurrentStatus(false);
         }
+
+        if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
+            stopRecording(function () {
+                currentPhaseStepIndex++;
+                if (currentPhaseStepIndex < phases.length) {
+                    renderPhaseStep();
+                }
+                updateProgress();
+            });
+        } else {
+            currentPhaseStepIndex++;
+            if (currentPhaseStepIndex < phases.length) {
+                renderPhaseStep();
+            }
+            updateProgress();
+        }
     }
 
-    if (phases && phases.length > 0) {
-        currentPhaseStepIndex++;
-    }
+//    if (phases && phases.length > 0) {
+//        currentPhaseStepIndex++;
+//    }
 
     if (previewModeEnabled === true) {
+        currentPhaseStepIndex++;
         $('.phaseStepsSelect .dropdown-menu .selected').next().click();
-    } else {
-        if (currentPhaseStepIndex < phases.length) {
-            renderPhaseStep();
-        }
-        updateProgress();
     }
+//    else {
+//        if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
+//            stopRecording(function () {
+//                if (currentPhaseStepIndex < phases.length) {
+//                    renderPhaseStep();
+//                }
+//                updateProgress();
+//            });
+//        } else {
+//            if (currentPhaseStepIndex < phases.length) {
+//                renderPhaseStep();
+//            }
+//            updateProgress();
+//        }
+//    }
 }
 
 function updatePager() {
@@ -216,6 +253,16 @@ function getCurrentPhaseData() {
 
 function getSourceContainer(selector) {
     return selector === VIEW_MODERATOR ? $('#item-container-moderator') : $('#item-container-tester');
+}
+
+function statusAddressMatchIndex(phaseStepId) {
+    var phaseSteps = getContextualPhaseSteps();
+    for (var i = 0; i < phaseSteps.length; i++) {
+        if (parseInt(phaseStepId) === parseInt(phaseSteps[i].id)) {
+            return i;
+        }
+    }
+    return null;
 }
 
 var draggable = null;

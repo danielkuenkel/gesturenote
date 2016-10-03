@@ -240,14 +240,14 @@ if ($h && $token && $studyId) {
             function resetRTC() {
                 $('#rtc-video').addClass('hidden');
                 if (liveStream) {
-                    liveStream.getAudioTracks()[0].stop();
+//                    liveStream.getAudioTracks()[0].stop();
                     liveStream.getVideoTracks()[0].stop();
                 }
             }
 
             function initializeRTC() {
                 clearAlerts($('#technical-check'));
-                var mediaConstraints = {video: true, audio: true};
+                var mediaConstraints = {video: true, audio: false};
                 navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
             }
 

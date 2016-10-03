@@ -68,7 +68,7 @@ if (login_check($mysqli) == true) {
         <div id="template-previews"></div>
         <div id="template-gesture-recorder"></div>
 
-        <div id="preview-bar-top" style="padding: 10px;">
+        <div id="preview-bar-top" style="padding: 10px; position: fixed">
             <div class="input-group">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-default" id="btnViewModerator">Moderator</button>
@@ -294,15 +294,11 @@ if (login_check($mysqli) == true) {
                 }
             });
 
-            $('body').on('click', '.phaseStepsSelect .option li', function (event) {
-                if (!$(this).hasClass('selected')) {
-                    setTimeout(function () {
-                        currentPhaseStepIndex = getCurrentPhaseStepIndex();
-                        updateProgress();
-                        renderPhaseStep();
-                        updatePager();
-                    }, 50);
-                }
+            $('.phaseStepsSelect').on('change', function () {
+                currentPhaseStepIndex = getCurrentPhaseStepIndex();
+                updateProgress();
+                renderPhaseStep();
+                updatePager();
             });
 
             $('#btnViewModerator').on('click', function (event) {

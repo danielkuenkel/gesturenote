@@ -389,7 +389,7 @@ if (login_check($mysqli) == true) {
                 if (susResultsValid) {
                     var fittedScore = getSUSAdjective(count);
                     $(content).find('.alert-space').remove();
-                    $(content).find('#average-score').text(count);
+//                    $(content).find('#average-score').text(count);
                     $(content).find('#average-score').css({color: fittedScore.color});
                     $(content).find('#score-adjective .address').text(translation.systemIs);
                     $(content).find('#score-adjective .text').text(fittedScore.adjective);
@@ -411,7 +411,6 @@ if (login_check($mysqli) == true) {
                     currentWidth = parseFloat(i < susQuartiles.length - 1 ? susQuartiles[i + 1].score : 100) - oldWidth;
                     oldWidth = parseFloat(i < susQuartiles.length - 1 ? susQuartiles[i + 1].score : susQuartiles[i].score);
 
-//                    console.log(currentWidth, susQuartiles[i].score, susQuartiles[i].color);
                     var progressBar = document.createElement('div');
                     $(progressBar).addClass('progress-bar');
                     $(progressBar).css('background-color', susQuartiles[i].color);
@@ -420,23 +419,32 @@ if (login_check($mysqli) == true) {
 
                     var markerItem = $('#template-study-container').find('#sus-marker-item').clone().removeAttr('id');
                     $(markerItem).find('.text').text(translation.susScores[i].adjective);
+                    $(markerItem).find('.score').text(translation.susScores[i].score);
                     $(container).find('#sus-marker-container').append(markerItem);
 
                     if (i === 0 || i === susQuartiles.length - 1) {
-                        $(markerItem).css({marginTop: '17px'});
+                        $(markerItem).css({marginTop: '27px'});
                     }
 
                     var markerOffset = ($(markerItem).width() / 2) / targetWidth * 100;
                     var markerPercentage = parseFloat(susQuartiles[i].score) - markerOffset;
                     $(markerItem).css({left: markerPercentage + '%'});
-                    console.log(susQuartiles[i].score, markerOffset);
+                    TweenMax.from(markerItem, .2, {delay: 2.4 + (i * .05), opacity: 0, y: -10});
                 }
 
+                TweenMax.to($(container).find('#sus-score-pointer'), 3, {left: score + '%'});
 
-//                console.log(targetWidth, $(container).find('#sus-score-pointer'));
-//                $('#sus-score-pointer').css('left', '45%');
-//                $('#sus-score-pointer').offset().left('45%');
-                $(container).find('#sus-score-pointer').css({left: score + '%'});
+                var counter = {var : 0};
+                TweenMax.to(counter, 3, {
+                    var : score,
+                    onUpdate: function () {
+                        $(container).find('#average-score').text(Math.floor(counter.var));
+                    },
+                    onComplete: function () {
+                        $(container).find('#average-score').text(score);
+                    },
+                    ease: Circ.easeOut
+                });
             }
 
             var currentGUSData = null;

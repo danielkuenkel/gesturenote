@@ -52,6 +52,7 @@ if ($h && $token && $studyId) {
         <script src="js/language.js"></script>
         <script src="js/goto-general.js"></script>
         <script type="text/JavaScript" src="js/storage.js"></script>
+        <script type="text/JavaScript" src="js/storageFunctions.js"></script>
         <script type="text/JavaScript" src="js/login.js"></script>
         <script type="text/JavaScript" src="js/register.js"></script>
         <script type="text/JavaScript" src="js/checkForms.js"></script>
@@ -166,7 +167,8 @@ if ($h && $token && $studyId) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
 //                            if (result.data) {
-                                renderData(result);
+                            setStudyData(result);
+                            renderData(result);
 //                            } else {
 //                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
 //                            }
@@ -218,6 +220,13 @@ if ($h && $token && $studyId) {
                     $('#web-rtc-not-working').removeClass('hidden');
                 }
 
+                // check supported local storage
+                if (typeof (Storage) !== "undefined") {
+                    console.log("Yes, your browser supports Web Session Storage.");
+                } else {
+                    console.log("Sorry, your browser do not support Web Session Storage.");
+                }
+
                 // questionnaire about rtc
                 $('#web-rtc-working #btn-yes').on('click', function (event) {
                     event.preventDefault();
@@ -258,14 +267,14 @@ if ($h && $token && $studyId) {
             function resetRTC() {
                 $('#rtc-video').addClass('hidden');
                 if (liveStream) {
-                    liveStream.getAudioTracks()[0].stop();
+//                    liveStream.getAudioTracks()[0].stop();
                     liveStream.getVideoTracks()[0].stop();
                 }
             }
 
             function initializeRTC() {
                 clearAlerts($('#technical-check'));
-                var mediaConstraints = {video: true, audio: true};
+                var mediaConstraints = {video: true, audio: false};
                 navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
             }
 
