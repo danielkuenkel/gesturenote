@@ -180,7 +180,6 @@ if ($h && $token && $studyId) {
                     } else {
                         getStudyById({studyId: query.studyId}, function (result) {
                             if (result.status === RESULT_SUCCESS) {
-                                clearLocalItems();
                                 setStudyData(result);
                                 init();
                             }

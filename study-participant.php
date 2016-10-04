@@ -87,7 +87,9 @@ if (login_check($mysqli) == true) {
             <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-times"></i> <span class="label-text hidden-xs"></span></span>
         </div>
 
-        <div class="container-fluid hidden" id="annotation-view"></div>
+        <div class="container-fluid hidden" id="video-annotation-view" style="margin:0">
+            <video id="video-holder" src=""></video>
+        </div>
 
         <div class="container" id="phase-results" style="margin-bottom: 60px;">
             <div class="row">
@@ -189,7 +191,6 @@ if (login_check($mysqli) == true) {
 //                    setLocalItem(GESTURE_CATALOG, studyGestures);
 //                    renderStudyGestures(studyGestures);
 //                }
-//                
             }
 
             $(document).on('click', '#phase-results-nav button', function (event) {
@@ -237,6 +238,16 @@ if (login_check($mysqli) == true) {
                         });
                     }
 
+                    if (phaseResults && phaseResults.recordUrl && phaseResults.recordUrl !== '') {
+                        console.log(phaseResults.recordUrl);
+                        $('#video-annotation-view').removeClass('hidden');
+                        $('#video-annotation-view').find('#video-holder').attr('src', UPLOADS + phaseResults.recordUrl);
+                    } else {
+                        $('#video-annotation-view').addClass('hidden');
+                        $('#video-annotation-view').find('#video-holder').attr('src', '');
+                    }
+
+                    console.log('render phase step: ' + phaseResults.format);
                     switch (phaseResults.format) {
                         case LETTER_OF_ACCEPTANCE:
                             renderLetterOfAcceptance(content, phaseData, phaseResults);
@@ -258,6 +269,9 @@ if (login_check($mysqli) == true) {
                             break;
                         case GUS_MULTIPLE_GESTURES:
                             renderQuestionnaire(content, getAssembledItems(phaseData.gus.reverse()), phaseResults);
+                            break;
+                        case GESTURE_TRAINING:
+                            renderGestureTraining(content, phaseData, phaseResults);
                             break;
                     }
 
@@ -963,6 +977,11 @@ if (login_check($mysqli) == true) {
                 } else {
                     $(container).find('.fa').addClass('fa-thumbs-down');
                 }
+            }
+
+
+            function renderGestureTraining(item, studyData, resultsData) {
+                console.log(studyData, resultsData);
             }
 
         </script>

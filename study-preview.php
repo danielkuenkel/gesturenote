@@ -235,23 +235,29 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                var status = window.location.hash.substr(1);
+                var statusAddressMatch = statusAddressMatchIndex(status);
+
+                if (status !== '' && statusAddressMatch !== null) {
+                    currentPhaseStepIndex = statusAddressMatch;
+                    init();
+                }
 
                 if (query.edit && (query.edit === true || query.edit === "true") && query.studyId) {
-                    init();
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
                         goto("study-create.php?edit=true&studyId=" + query.studyId);
                     });
                 } else if (query.studyId && query.h === hash) {
-                    getStudyById({studyId: query.studyId}, function (result) {
-                        if (result.status === RESULT_SUCCESS) {
-//                            if (result.data) {
-                            clearLocalItems();
-                            setStudyData(result);
-                            init();
-//                            }
-                        }
-                    });
+
+                    if (currentPhaseStepIndex === 0) {
+                        getStudyById({studyId: query.studyId}, function (result) {
+                            if (result.status === RESULT_SUCCESS) {
+                                setStudyData(result);
+                                init();
+                            }
+                        });
+                    }
 
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
@@ -260,8 +266,6 @@ if (login_check($mysqli) == true) {
                         goto("study.php?studyId=" + query.studyId + "&h=" + hash);
                     });
                 } else {
-                    init();
-
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
                         gotoCreateStudy();
@@ -341,6 +345,9 @@ if (login_check($mysqli) == true) {
                 } else {
                     renderPhaseStepForModerator();
                 }
+
+//                console.log(getCurrentPhase().id);
+                window.location.hash = getCurrentPhase().id;
             }
 
             function resetRenderedContent() {

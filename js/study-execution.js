@@ -86,7 +86,7 @@ function renderPhases() {
             $(listItem).append(link);
             $(dropdown).find('.option').append(listItem);
 
-            if (i === 0) {
+            if (i === currentPhaseStepIndex) {
                 link.click();
             }
         }
@@ -257,9 +257,11 @@ function getSourceContainer(selector) {
 
 function statusAddressMatchIndex(phaseStepId) {
     var phaseSteps = getContextualPhaseSteps();
-    for (var i = 0; i < phaseSteps.length; i++) {
-        if (parseInt(phaseStepId) === parseInt(phaseSteps[i].id)) {
-            return i;
+    if (phaseSteps && phaseSteps.length > 0) {
+        for (var i = 0; i < phaseSteps.length; i++) {
+            if (parseInt(phaseStepId) === parseInt(phaseSteps[i].id)) {
+                return i;
+            }
         }
     }
     return null;

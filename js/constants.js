@@ -6,6 +6,7 @@
 
 var ELEMENT_MOVE_TRANSITION_DURATION = 0.2;
 var GESTURE_IMAGE_HOME = 'uploads/';
+var UPLOADS = 'uploads/';
 
 // user specific constants
 //var USER_ID = 'userId';

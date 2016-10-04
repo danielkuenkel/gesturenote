@@ -379,10 +379,12 @@ var Tester = {
         item.find('#start-training').on('click', function (event) {
             event.preventDefault();
 
-            var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.startTrainingTime = new Date().getTime();
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            if (!previewModeEnabled) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.startTrainingTime = new Date().getTime();
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            }
 
             $(this).addClass('hidden');
             gestureTrainingStartTriggered = true;
@@ -400,7 +402,7 @@ var Tester = {
             console.log('start single training');
             if (!$(this).hasClass('disabled')) {
 
-                if ($(this).attr('id') === 'start-single-training') {
+                if ($(this).attr('id') === 'start-single-training' && !previewModeEnabled) {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
 
@@ -633,18 +635,20 @@ var Tester = {
         $(container).find('#btn-next-slide').click(function (event) {
             event.preventDefault();
 
-            var selectedOption = $(container).find('.option-container .btn-option-checked').closest('.btn-group').index() >> 1;
-            var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            if (!previewModeEnabled) {
+                var selectedOption = $(container).find('.option-container .btn-option-checked').closest('.btn-group').index() >> 1;
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
 
-            if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
-                tempData.selectedOptions.push(selectedOption);
-            } else {
-                var array = new Array();
-                array.push(selectedOption);
-                tempData.selectedOptions = array;
+                if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
+                    tempData.selectedOptions.push(selectedOption);
+                } else {
+                    var array = new Array();
+                    array.push(selectedOption);
+                    tempData.selectedOptions = array;
+                }
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             }
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
             if (currentSlideIndex >= data.slideshow.length - 1) {
                 currentSlideIndex = 0;
@@ -762,17 +766,19 @@ var Tester = {
 //                console.log('saved gestureId: ' + gestureId);
                 $(item).find('#next-controls').removeClass('hidden');
 
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                if (!previewModeEnabled) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
 
-                if (tempData.gestures !== null && tempData.gestures !== undefined) {
-                    tempData.gestures.push(gestureId);
-                } else {
-                    var array = new Array();
-                    array.push(parseInt(gestureId));
-                    tempData.gestures = array;
+                    if (tempData.gestures !== null && tempData.gestures !== undefined) {
+                        tempData.gestures.push(gestureId);
+                    } else {
+                        var array = new Array();
+                        array.push(parseInt(gestureId));
+                        tempData.gestures = array;
+                    }
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
 
             $(gestureRecorder).bind(EVENT_GR_DELETE_SUCCESS, function (event, gestureId) {
@@ -780,16 +786,18 @@ var Tester = {
                 $(item).find('#next-controls').addClass('hidden');
 //                console.log('deleted gestureId: ' + gestureId);
 
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                var gestures = new Array();
-                for (var i = 0; i < tempData.gestures.length; i++) {
-                    if (parseInt(tempData.gestures[i]) !== parseInt(gestureId)) {
-                        gestures.push(tempData.gestures[i]);
+                if (!previewModeEnabled) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    var gestures = new Array();
+                    for (var i = 0; i < tempData.gestures.length; i++) {
+                        if (parseInt(tempData.gestures[i]) !== parseInt(gestureId)) {
+                            gestures.push(tempData.gestures[i]);
+                        }
                     }
+                    tempData.gestures = gestures;
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
-                tempData.gestures = gestures;
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
 //            }
         } else {
@@ -806,7 +814,7 @@ var Tester = {
                 currentIdentificationIndex = 0;
                 identificationStartTriggered = false;
 
-                if (data.identificationFor === 'trigger') {
+                if (data.identificationFor === 'trigger' && !previewModeEnabled) {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                     var triggerName = $(item).find('#trigger-identification #trigger-name').val();
@@ -831,7 +839,7 @@ var Tester = {
                 event.preventDefault();
                 currentIdentificationIndex++;
 
-                if (data.identificationFor === 'trigger') {
+                if (data.identificationFor === 'trigger' && !previewModeEnabled) {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                     var triggerName = $(item).find('#trigger-identification #trigger-name').val();
@@ -875,10 +883,12 @@ var Tester = {
             container.find('#btn-start-stress-test').click(function (event) {
                 event.preventDefault();
 
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.startStressTestTime = new Date().getTime();
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                if (!previewModeEnabled) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.startStressTestTime = new Date().getTime();
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                }
 
                 $(this).remove();
                 $(container).find('#general').remove();
@@ -1036,23 +1046,25 @@ var Tester = {
         });
 
         function saveAnswers() {
-            // save joints and questionnaire answers
-            var questionnaire = $(item).find('.question-container').children();
-            stressTestObject = getQuestionnaireFormData(questionnaire, stressTestObject);
+            // save joints and questionnaire answers if in live mode
+            if (!previewModeEnabled) {
+                var questionnaire = $(item).find('.question-container').children();
+                stressTestObject = getQuestionnaireFormData(questionnaire, stressTestObject);
 
-            stressTestObject.selectedBodyJoints = getSelectedJoints($(item).find('#human-body-selection-rating'));
-            stressTestObject.selectedHandJoints = getSelectedJoints($(item).find('#hand-selection-rating'));
+                stressTestObject.selectedBodyJoints = getSelectedJoints($(item).find('#human-body-selection-rating'));
+                stressTestObject.selectedHandJoints = getSelectedJoints($(item).find('#hand-selection-rating'));
 
-            // check tempData structure
-            if (tempData.stressTest !== null && tempData.stressTest !== undefined) {
-                tempData.stressTest.push(stressTestObject);
-            } else {
-                var array = new Array();
-                array.push(stressTestObject);
-                tempData.stressTest = array;
+                // check tempData structure
+                if (tempData.stressTest !== null && tempData.stressTest !== undefined) {
+                    tempData.stressTest.push(stressTestObject);
+                } else {
+                    var array = new Array();
+                    array.push(stressTestObject);
+                    tempData.stressTest = array;
+                }
+
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             }
-
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
         }
     },
     getScenario: function getScenario(source, container, data) {
@@ -1061,11 +1073,14 @@ var Tester = {
         }
 
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
-            var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.actions = new Array();
-            tempData.transitions = new Array();
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            if (!previewModeEnabled) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.actions = new Array();
+                tempData.transitions = new Array();
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            }
+
             Tester.renderUnmoderatedScenario(source, container, data);
         } else {
             Tester.renderModeratedScenario(source, container, data);
@@ -1154,9 +1169,11 @@ var Tester = {
             showScenarioInfos(container);
             $(this).addClass('hidden');
 
-            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-            tempData.actions.push({action: ACTION_SHOW_INFO, time: new Date().getTime()});
-            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            if (!previewModeEnabled) {
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_SHOW_INFO, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            }
 
             panelOffset = container.find('#generalPanel').offset().top;
             panelHeight = container.find('#generalPanel').height();
@@ -1167,9 +1184,11 @@ var Tester = {
             hideScenarioInfos(container);
             $(this).addClass('hidden');
 
-            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-            tempData.actions.push({action: ACTION_HIDE_INFO, time: new Date().getTime()});
-            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            if (!previewModeEnabled) {
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_HIDE_INFO, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            }
 
             panelOffset = container.find('#generalPanel').offset().top;
             panelHeight = container.find('#generalPanel').height();
@@ -1189,10 +1208,13 @@ var Tester = {
 
         container.find('#start-scene').click(function () {
             var time = new Date().getTime();
-            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-            tempData.actions.push({action: ACTION_START_TASK, time: time});
-            tempData.transitions.push({scene: data.scene, time: time});
-            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+
+            if (!previewModeEnabled) {
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_START_TASK, time: time});
+                tempData.transitions.push({scene: data.scene, time: time});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            }
 
             container.find('#start-controls').addClass('hidden');
             container.find('#normal-controls').removeClass('hidden');
@@ -1204,37 +1226,58 @@ var Tester = {
             currentWOZScene = getSceneById(data.scene);
             container.find('#fixed-rtc-preview').removeClass('hidden');
         });
+
         $(container).find('#btn-refresh-scene').click(function (event) {
             event.preventDefault();
-            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-            tempData.actions.push({action: ACTION_REFRESH_SCENE, scene: data.scene, time: new Date().getTime()});
-            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+
+            if (!previewModeEnabled) {
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_REFRESH_SCENE, scene: data.scene, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            }
+
             renderUnmoderatedScenario(source, container, data);
         });
+
         $(panelContent).find('#btn-perform-gesture').click(function (event) {
             event.preventDefault();
             $(this).addClass('hidden');
-            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-            tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, time: new Date().getTime()});
-            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+
+            if (!previewModeEnabled) {
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            }
+
             $(panelContent).find('#btn-stop-perform-gesture').removeClass('hidden');
         });
+
         $(panelContent).find('#btn-stop-perform-gesture').click(function (event) {
             event.preventDefault();
             $(this).addClass('hidden');
-            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-            tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
-            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+
+            if (!previewModeEnabled) {
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            }
+
             $(panelContent).find('#btn-perform-gesture').removeClass('hidden');
             loadHTMLintoModal('preview-modal', 'preview-unmoderated-scenes.html', 'modal-lg');
         });
+
         $(panelContent).find('#btn-getting-help').click(function (event) {
             event.preventDefault();
-            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-            tempData.actions.push({action: ACTION_REQUEST_HELP, time: new Date().getTime()});
-            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+
+            if (!previewModeEnabled) {
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_REQUEST_HELP, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            }
+
             loadHTMLintoModal('preview-modal', 'preview-help.html', 'modal-md');
         });
+
         $(panelContent).find('#btn-done').click(function (event) {
             event.preventDefault();
             nextStep();
@@ -1266,7 +1309,6 @@ var Tester = {
         if (previewModeEnabled === false) {
             submitFinalData(container);
         }
-
 
         return container;
     }
@@ -1555,7 +1597,7 @@ function startRecording(stream) {
         console.log('Stopped, state = ' + mediaRecorder.state);
 
 //        console.log(chunks);
-        var blob = new Blob(chunks, {type: "video/webm"});
+//        var blob = new Blob(chunks, {type: "video/webm"});
 
 //        var videoURL = window.URL.createObjectURL(blob);
 //        console.log(videoURL);

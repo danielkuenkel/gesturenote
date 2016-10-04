@@ -18,7 +18,8 @@ function UploadQueue() {
     var uploadQueue = this;
 
     uploader = new Resumable({
-        target: 'includes/upload-rtc.php'
+        target: 'includes/upload-rtc.php',
+        chunkSize: 2 * 1024 * 1024
     });
 
     uploader.on('fileAdded', function (file, event) {
@@ -46,12 +47,12 @@ UploadQueue.prototype.upload = function (blob, phaseStepId) {
         var file = new File(blob, filename);
         tempUploads.push({phaseStepId: phaseStepId, filename: filename, uploaded: false});
         uploader.addFile(file);
+//
+//        filename = hex_sha512(new Date().toLocaleString()) + '.webm';
+//        file = new File(blob, filename);
+//        uploader.addFile(file);
 
-        filename = hex_sha512(new Date().toLocaleString()) + '.webm';
-        file = new File(blob, filename);
-        uploader.addFile(file);
-
-        console.log(uploader.files);
+//        console.log(uploader.files);
     }
 };
 
