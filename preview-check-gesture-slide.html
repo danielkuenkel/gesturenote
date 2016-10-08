@@ -30,8 +30,9 @@
         var currentPhaseData = getCurrentPhaseData();
         var items = currentPhaseData.slideshow;
         var correctGesture = getGestureById(items[currentSlideIndex].gestureId);
+        var triggerId = items[currentSlideIndex].triggerId;
 
-//        console.log(items);
+        console.log(items);
 
         for (var i = 0; i < items.length; i++) {
             var clone = $('#tester-check-item').clone().removeClass('hidden').removeAttr('id');
@@ -42,7 +43,9 @@
 
             $(clone).find('#btn-select-item').click({gesture: gesture}, function (event) {
                 event.preventDefault();
-                if (parseInt(correctGesture.id) === parseInt(event.data.gesture.id)) {
+                console.log('btn-select-item clicked');
+                var gestureFit = parseInt(correctGesture.id) === parseInt(event.data.gesture.id);
+                if (gestureFit === true) {
                     currentSlideIndex++;
                 } else {
                     slidesRestartCount++;
@@ -51,15 +54,12 @@
                     slideTriggered = false;
                 }
 
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                if (tempData) {
+                if (!previewModeEnabled) {
+                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                     tempData.restarts = slidesRestartCount;
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                } else {
-                    var data = new Object();
-                    data.restarts = slidesRestartCount;
-                    setLocalItem(currentPhase.id + '.tempSaveData', data);
+                    console.log(tempData.actions);
+                    tempData.actions.push({action: ACTION_SELECT_GESTURE, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: event.data.gesture.id, fit: gestureFit, time: new Date().getTime()});
+                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                 }
 
                 $('#preview-modal').modal('hide');

@@ -516,6 +516,19 @@ label .question {
     cursor: pointer;
 
 }
+.btn-joint-human-body-answer {
+    position: absolute; 
+    font-size: 18pt; 
+    color: #C4C4C4;
+}
+
+.joint-text-score {
+    position: absolute;
+    color: #ffffff;
+    font-size: 8pt;
+    line-height: 19pt;
+    width: 20px;
+}
 
 .btn-joint-human-body #toggle-icon {
     color: #C4C4C4;

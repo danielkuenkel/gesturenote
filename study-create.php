@@ -316,14 +316,14 @@ if (login_check($mysqli) == true) {
                                         <li id="sus" class="evaluation"><a href="#"><?php echo $lang->formats->sus->text ?></a></li>
                                         <li class="divider"></li>
                                         <li class="dropdown-header">Sonstiges</li>
-                                        <li id="letterOfAcceptance"><a href="#"><?php echo $lang->formats->letterOfAcceptance->text ?></a></li>
+
                                         <li id="identification" class="elicitation"><a href="#"><?php echo $lang->formats->identification->text ?></a></li>
                                         <li id="gestureTraining" class="evaluation"><a href="#"><?php echo $lang->formats->gestureTraining->text ?></a></li>
                                         <li id="scenario" class="evaluation"><a href="#"><?php echo $lang->formats->scenario->text ?></a></li>
                                         <li id="gestureSlideshow" class="evaluation"><a href="#"><?php echo $lang->formats->gestureSlideshow->text ?></a></li>
                                         <li id="triggerSlideshow" class="evaluation"><a href="#"><?php echo $lang->formats->triggerSlideshow->text ?></a></li>
                                         <li id="physicalStressTest" class="evaluation"><a href="#"><?php echo $lang->formats->physicalStressTest->text ?></a></li>
-                                        <li id="thanks"><a href="#"><?php echo $lang->formats->thanks->text ?></a></li>
+
                                     </ul>
                                     <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                                 </div>
@@ -341,18 +341,15 @@ if (login_check($mysqli) == true) {
                                 <button class="btn btn-default btn-shadow btn-down saveGeneralData" title="Weiter nach unten">
                                     <i class="glyphicon glyphicon-arrow-down"></i>
                                 </button>
-                                <button class="btn btn-default btn-shadow btn-delete saveGeneralData" title="Löschen">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                </button>
                                 <button class="btn btn-default btn-shadow btn-modify" title="Bearbeiten">
                                     <i class="glyphicon glyphicon-cog"></i>
                                 </button>
                                 <button class="btn btn-default btn-shadow btn-text-button">
                                     <span class="glyphicon glyphicon-tag"></span><span class="phase-step-format"></span>
                                 </button>
-                                <!--                                <button class="btn btn-addon">
-                                                                    <i class="glyphicon glyphicon-question-sign"></i>
-                                                                </button>-->
+                                <button class="btn btn-default btn-shadow btn-delete saveGeneralData" title="Löschen">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -519,8 +516,8 @@ if (login_check($mysqli) == true) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
 //                            if (result.data) {
-                                setStudyData(result);
-                                init();
+                            setStudyData(result);
+                            init();
 //                            }
                         }
                     });
@@ -653,21 +650,11 @@ if (login_check($mysqli) == true) {
                 var clone = $('#phaseStepItem').clone().removeAttr('id');
                 clone.removeClass('hidden').addClass(translation.formats[format].class);
                 clone.attr('id', id);
-                $('#phaseStepList').append(clone);
 
-                clone.find('.btn-delete').bind("click", {format: format, id: id}, function (event) {
-                    event.preventDefault();
-                    removeLocalItem(event.data.id + ".data");
-                    checkPreviewAvailability();
-                });
+                $('#phaseStepList').append(clone);
+                console.log(format);
 
                 clone.find('.btn-modify').attr('id', format);
-//                clone.find('.btn-modify').bind("click", {format: format, id: id}, function (event) {
-//                    event.preventDefault();
-//                    currentIdForModal = event.data.id;
-//                    loadHTMLintoModal("custom-modal", "create-" + event.data.format + ".html", "modal-lg");
-//                });
-
                 clone.find('.glyphicon-tag').css('color', color === null ? color = colors.pop() : color);
                 clone.find('.phase-step-format').text(" " + translation.formats[format].text);
                 clone.find('.btn-text-button, .btn-modify').bind("click", {format: format, id: id}, function (event) {
@@ -676,13 +663,22 @@ if (login_check($mysqli) == true) {
                     loadHTMLintoModal("custom-modal", "create-" + event.data.format + ".php", "modal-lg");
                 });
 
-                clone.find('.btn-addon').bind('click', {format: format}, function (event) {
-                    event.preventDefault();
-                    loadHTMLintoModal("custom-modal", "info-" + event.data.format + ".php", "modal-md");
-                });
+                if (format === THANKS || format === LETTER_OF_ACCEPTANCE) {
+                    clone.find('.btn-delete').remove();
 
-                if (format === SUS) {
-                    setLocalItem(id + ".data", getLocalItem(STUDY_ORIGIN_SUS));
+                } else {
+//                    var children = $('#phaseStepList').children().length;
+//                    $('#phaseStepList>div:eq(' + children + ')').before(clone);
+//                    $(clone).insertBefore($('#phaseStepList').children().last());
+                    clone.find('.btn-delete').bind("click", {format: format, id: id}, function (event) {
+                        event.preventDefault();
+                        removeLocalItem(event.data.id + ".data");
+                        checkPreviewAvailability();
+                    });
+
+                    if (format === SUS) {
+                        setLocalItem(id + ".data", getLocalItem(STUDY_ORIGIN_SUS));
+                    }
                 }
 
                 checkCurrentListState($('#phaseStepList'));
@@ -700,7 +696,7 @@ if (login_check($mysqli) == true) {
             $('#phaseSelect').on('change', function (event, id) {
                 event.preventDefault();
                 $('#create-tab-navigation #phases').removeClass('hidden');
-                
+
                 if (id === TYPE_PHASE_ELICITATION) {
                     $('#phaseStepSelect').find('.' + id).removeClass('hidden');
                     $('#phaseStepSelect').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');

@@ -450,7 +450,7 @@ if (login_check($mysqli) == true) {
                     var result = data[i].data;
 
                     var item = $('#template-study-container').find('#participant-thumbnail').clone().removeAttr('id');
-                    $(item).find('.panel-heading').text(convertSQLTimestampToDate(data[i].created).toLocaleDateString());
+                    $(item).find('.panel-heading').text(convertSQLTimestampToDate(data[i].created).toLocaleString());
 //                    console.log($(item).find('.panel-heading').text('test'));
                     $('#study-participants .list-container').append(item);
 

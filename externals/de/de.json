@@ -38,7 +38,8 @@
         "days": "Tage",
         "hours": "Stunden",
         "minutes": "Minuten",
-        "seconds": "Sekunden"
+        "seconds": "Sekunden",
+        "milliseconds": "Millisekunden"
     },
     "timesSingular": {
         "days": "Tag",
@@ -109,7 +110,18 @@
     "enterStudyAsTester": "An Studie teilnehmen",
     "enterStudyAsModerator": "Studie durchführen",
     "justification": "Begründung(en)",
+    "execution": "Dauer",
+    "recognitionTime": "Zeitfenster",
+    "restart": "Neustart",
+    "restarts": "Neustarts",
+    "fitsFalse": "Falsche Übereinstimmungen",
+    "fault": "Fehler",
+    "faults": "Fehler",
+    "allocation": "Zuordnung",
+    "fitsCorrect": "Übereinstimmungen",
+    "allFitsCorrect": "Kein Fehler",
     "maximum": "Maximum",
+    "selection": "Auswahl",
     "gender": "Geschlecht",
     "genders": {
         "identical": "Alle Personen",
@@ -345,6 +357,8 @@
     "ratedByUser": "Person",
     "ratedByUsers": "Personen",
     "phases": "Leitfaden",
+    "answer": "Antwort",
+    "answers": "Antworten",
     "gesturesCatalog": {
         "totalGestures": "Gesten insgesamt",
         "publicGestures": "Von anderen veröffentlichte Gesten",
@@ -386,6 +400,21 @@
         "uxSatisfactionOfUse": "UX & Gebrauchszufriedenheit",
         "socialAcceptance": "Soziale Akzeptanz",
         "discrimination": "Diskriminierung"
+    },
+    "actions": {
+        "showInfo": "Infos anzeigen",
+        "hideInfo": "Infos ausblenden",
+        "startTask": "Aufgabe starten",
+        "requestHelp": "Hilfe anfordern",
+        "startPerformGesture": "Start Geste",
+        "endPerformGesture": "Ende Geste",
+        "refreshScene": "Szene neu laden",
+        "selectGesture": "Auswahl",
+        "startQuestionnaire": "Start Fragebogen",
+        "endQuestionnaire": "Ende Fragebogen"
+    },
+    "visLabels": {
+        "training": "Training"
     },
     "systemIs": "Das System wurde mit",
     "rated": "bewertet",

@@ -22,24 +22,24 @@ include './includes/language.php';
                     <label class="sr-only" for="slideshowDescription">Beschreibung</label>
                     <textarea class="form-control" id="slideshowDescription" rows="5" placeholder="Slideshowbeschreibung einfügen"></textarea>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group simple-stepper">
-                            <div class="input-group-btn">
-                                <button class="btn btn-default btn-shadow btn-addon">Zeit für die Antwort (Sekunden)</button>
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="2">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Sekunde weniger</span>
-                                </button>
-                            </div>
-                            <input type="text" class="form-control readonly text-center stepper-text" id="answerTime" value="3">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Sekunde mehr</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!--                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group simple-stepper">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default btn-shadow btn-addon">Zeit für die Antwort (Sekunden)</button>
+                                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="2">
+                                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Sekunde weniger</span>
+                                                </button>
+                                            </div>
+                                            <input type="text" class="form-control readonly text-center stepper-text" id="answerTime" value="3">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
+                                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Sekunde mehr</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
             </div>
         </div>
     </div>
@@ -103,7 +103,7 @@ include './includes/language.php';
                     </div>
                 </div>
             </div>
-            
+
             <hr>
 
             <div class="form-group container-root" id="list-container"></div>
@@ -138,7 +138,7 @@ include './includes/language.php';
                 appendAlert(slideshow, ALERT_NO_TRIGGER_ASSEMBLED);
                 $(slideshow).find('.btn-add-slideshowOption').addClass('hidden');
             }
-            
+
             renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
 
             var data = getLocalItem(currentIdForModal + '.data');
@@ -166,7 +166,7 @@ include './includes/language.php';
                     var gesture = getGestureById(slideshowItems[i].gestureId);
                     var trigger = getTriggerById(slideshowItems[i].triggerId);
 
-                    var clone = $('#form-item-container').find('#slideshowItem').clone().removeAttr('id');
+                    var clone = $('#form-item-container').find('#slideshow-gesture-item').clone().removeAttr('id');
                     container.append(clone);
 
                     if (gesture && isGestureAssembled(gesture.id))
@@ -183,6 +183,8 @@ include './includes/language.php';
                             $(clone).find('.triggerSelect #' + trigger.id).click();
                         }
                     }
+
+                    $(clone).find('#recognition-stepper .stepper-text').val(slideshowItems[i].recognitionTime);
                 }
                 checkCurrentListState(container);
             }
@@ -206,21 +208,20 @@ include './includes/language.php';
                     renderFormatItem(listContainer, obeservationItems[i]);
                     updateBadges(listContainer, obeservationItems[i].format);
                 }
-                
+
                 checkDimensionItems($('#dimension-controls .dimension-container'));
                 checkCurrentListState(listContainer);
             }
         }
 
         function saveData() {
-            var slideshowItems = $('#slideshowContainer').find('.option-container').children();
-
             var slideshow = new Slideshow();
             slideshow.title = $('#slideshowTitle').val();
             slideshow.description = $('#slideshowDescription').val();
 //            slideshow.slideshowFor = $('#slideshowTypeSwitch .active').attr('id');
-            slideshow.answerTime = $('#answerTime').val();
+//            slideshow.answerTime = $('#answerTime').val();
 
+            var slideshowItems = $('#slideshowContainer').find('.option-container').children();
             if (slideshowItems) {
                 var set = new Array();
                 for (var i = 0; i < slideshowItems.length; i++) {
@@ -229,11 +230,12 @@ include './includes/language.php';
                     var gesture = getGestureById(gestureId);
                     var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
                     var trigger = getTriggerById(triggerId);
+                    var recognitionTime = parseInt($(item).find('#recognition-stepper .stepper-text').val());
 //                    var feedbackId = $(item).find('.feedbackSelect .chosen').attr('id');
 //                    var feedback = getFeedbackById(feedbackId);
 
-                    if (gesture && trigger) {
-                        set.push(new SlideshowItem(gestureId, triggerId));
+                    if (gesture && trigger && !isNaN(recognitionTime) && recognitionTime > 0) {
+                        set.push({gestureId: gestureId, triggerId: triggerId, recognitionTime: recognitionTime});
                     }
                 }
                 slideshow.slideshow = set;
@@ -263,7 +265,7 @@ include './includes/language.php';
             {
                 event.handled = true;
                 event.preventDefault();
-                $(this).prev().append($('#form-item-container').find('#slideshowItem').clone().removeAttr('id'));
+                $(this).prev().append($('#form-item-container').find('#slideshow-gesture-item').clone().removeAttr('id'));
                 checkCurrentListState($(this).prev());
             }
         });

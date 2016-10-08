@@ -58,6 +58,8 @@ var ALERT_NO_COMMENTS = 'no-comments';
 
 var ALERT_CONTACT_SUPPORT = 'contact-support';
 var ALERT_SUS_INVALID = 'sus-invalid';
+var ALERT_WEBM_UNSUPPORTED = 'webm-unsupported';
+var ALERT_NO_RECORD = 'no-record';
 
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);

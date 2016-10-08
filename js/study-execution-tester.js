@@ -93,7 +93,8 @@ var Tester = {
     },
     initializeRTC: function initializeRTC(source, item, format) {
         // check preview or live mode, and check if webRTC is needed
-        if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
+        if (isWebRTCNeededInFuture()) {
+//            if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
             if (previewModeEnabled === true) {
                 switch (format) {
                     case SCENARIO:
@@ -113,9 +114,18 @@ var Tester = {
                         break;
                 }
             }
+//            } else {
+//                initializeLiveStream();
+//            }
+
         } else {
             resetLiveStream();
         }
+//        if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
+//
+//        } else {
+//            resetLiveStream();
+//        }
     },
     appendRTCPreview: function appendRTCPreview(source, target) {
         $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
@@ -403,7 +413,7 @@ var Tester = {
             if (!$(this).hasClass('disabled')) {
 
                 if ($(this).attr('id') === 'start-single-training' && !previewModeEnabled) {
-                    var currentPhase = getCurrentPhase();
+                    var currentPhase = getCurrentPhase(); // save start training time for a specific gesture
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
 
                     if (tempData.training !== null && tempData.training !== undefined) {
@@ -428,6 +438,18 @@ var Tester = {
             $(item).find('.progress-training').addClass('hidden');
             item.find('.progress-bar').css({width: "100%"});
             if (repeatsLeft === 0) {
+                if (!previewModeEnabled) { // save end training time for a specific gesture
+                    var currentPhase = getCurrentPhase(); // save start training time for a specific gesture
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                    tempData.training.pop();
+                    for (var i = 0; i < tempData.training.length; i++) {
+                        if (parseInt(tempData.training[i].gestureId) === parseInt(gesture.id)) {
+                            tempData.training[i].gestureTrainingEnd = new Date().getTime();
+                        }
+                    }
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                }
+
                 item.find('#training-data').addClass('hidden');
                 item.find('#start-single-training, #repeat-training').addClass('hidden');
                 if (data.length === 1 || currentGestureTrainingIndex >= data.length - 1) {
@@ -468,6 +490,13 @@ var Tester = {
             $(container).find('#general').remove();
         }
 
+        if (!previewModeEnabled) {
+            var currentPhase = getCurrentPhase();
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            tempData.actions = new Array();
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+        }
+
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             slideRestarted = true;
             Tester.renderUnmoderatedGestureSlideshow(source, container, data);
@@ -503,7 +532,7 @@ var Tester = {
         progress.removeClass('hidden');
         var timeline = new TimelineMax({paused: true, delay: 1, onComplete: onAnswerTimeExpired, onCompleteParams: [container]});
         timeline.add("start", 0)
-                .to(progress.find('.progress-bar'), parseInt(data.answerTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start");
+                .to(progress.find('.progress-bar'), parseInt(slideData.recognitionTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start");
         var trigger = getTriggerById(slideData.triggerId);
         $(item).find('.triggerContainer').removeClass('hidden');
         $(item).find('.triggerContainer .trigger-title').text(trigger.title);
@@ -543,12 +572,19 @@ var Tester = {
 
         if (isActive) {
             var slideData = data.slideshow[currentSlideIndex];
+
+            if (!previewModeEnabled) {
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            }
+
             var progress = $(container).find('.progress');
             progress.removeClass('active');
             progress.removeClass('hidden');
             var timeline = new TimelineMax({paused: true, delay: 1, onComplete: onUnmoderatedAnswerTimeExpired, onCompleteParams: [source, container, data]});
             timeline.add("start", 0)
-                    .to(progress.find('.progress-bar'), parseInt(data.answerTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start")
+                    .to(progress.find('.progress-bar'), parseInt(slideData.recognitionTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start")
                     .to($(container).find('.gestureContainer .headline, .triggerContainer .headline'), parseInt(data.answerTime), {color: '#d9534f', ease: Power0.easeNone}, "start");
 
             var trigger = getTriggerById(slideData.triggerId);
@@ -599,7 +635,7 @@ var Tester = {
         return container;
     },
     renderUnmoderatedTriggerSlideshow: function renderUnmoderatedTriggerSlideshow(source, container, data) {
-        console.log(data);
+//        console.log(data);
         if (slideshowStartTriggered) {
             $(container).find('#general').remove();
             $(container).find('#slideshowContainer').removeClass('hidden');
@@ -612,7 +648,7 @@ var Tester = {
             var options = new Array();
             for (var i = 0; i < data.slideshow.length; i++) {
                 var trigger = getTriggerById(data.slideshow[i].triggerId);
-                options.push(trigger.title);
+                options.push(trigger);
             }
             var questionnaire = new Array();
             questionnaire.push(new QuestionnaireItem(GROUPING_QUESTION, DIMENSION_ANY, translation.questionTriggerSlideshow, [false, false], options));
@@ -636,15 +672,17 @@ var Tester = {
             event.preventDefault();
 
             if (!previewModeEnabled) {
-                var selectedOption = $(container).find('.option-container .btn-option-checked').closest('.btn-group').index() >> 1;
+                var selectedOption = $(container).find('.option-container .btn-option-checked').attr('id');
+                selectedOption = selectedOption === undefined ? -1 : selectedOption;
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
 
+                console.log(selectedOption);
                 if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
-                    tempData.selectedOptions.push(selectedOption);
+                    tempData.selectedOptions.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
                 } else {
                     var array = new Array();
-                    array.push(selectedOption);
+                    array.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
                     tempData.selectedOptions = array;
                 }
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -887,6 +925,8 @@ var Tester = {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                     tempData.startStressTestTime = new Date().getTime();
+                    tempData.actions = new Array();
+                    tempData.answers = new Array();
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
 
@@ -942,31 +982,59 @@ var Tester = {
         var item = $(source).find('#physicalStressTestUnmoderated').clone().removeAttr('id');
         $(container).find('#stressTestContainer').empty().append(item);
 
-        var currentPhase = getCurrentPhase();
-        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-        var stressTestObject = new Object();
-
         var gesture = getGestureById(data.stressTestItems[currentStressTestIndex]);
         renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+
+        if (!previewModeEnabled) {
+            var currentPhase = getCurrentPhase();
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, time: new Date().getTime()});
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+        }
 
         $(item).find('#btn-gesture-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
 
-            stressTestObject.gestureDoneTime = new Date().getTime();
-
-            var mergedQuestionnaire = null;
-            if (data.sequenceStressQuestions && data.sequenceStressQuestions.length > 0) {
-                if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
-                    mergedQuestionnaire = data.sequenceStressQuestions.concat(data.singleStressQuestions);
-                } else {
-                    mergedQuestionnaire = data.sequenceStressQuestions;
-                }
-            } else if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
-                mergedQuestionnaire = data.singleStressQuestions;
+            if (!previewModeEnabled) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: gesture.id, time: new Date().getTime()});
+                tempData.actions.push({action: ACTION_START_QUESTIONNAIRE, gestureId: gesture.id, time: new Date().getTime()});
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             }
 
-            renderSelectionRatingGraphics(item, data);
+            // single questions section
+            var questionContainer = $(container).find('#stress-test-questionnaire');
+            if (currentStressTestCount <= parseInt(data.stressAmount) - 1) {
+                if (data.singleStressQuestions && data.singleStressQuestions.length > 0 || data.singleStressGraphicsRating !== 'none') {
+                    $(questionContainer).removeClass('hidden');
+                    $(item).find('#btn-questionnaire-done, #questionnaire-heading, #single-questions').removeClass('hidden');
+                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
+                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
 
+                    if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
+                        Tester.getQuestionnaire(questionContainer.find('#single-questions'), data.singleStressQuestions);
+                    }
+                }
+                renderSelectionRatingGraphics($(item).find('#single-joint-selection'), data.singleStressGraphicsRating);
+            }
+
+            // sequence questions section, only if last currenStressTestCount were reached
+            if (currentStressTestCount >= parseInt(data.stressAmount) - 1) {
+                if (data.sequenceStressQuestions && data.sequenceStressQuestions.length > 0 || data.sequenceStressGraphicsRating !== 'none') {
+                    $(questionContainer).removeClass('hidden');
+                    $(item).find('#btn-questionnaire-done, #questionnaire-heading, #sequence-questions').removeClass('hidden');
+                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
+                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
+
+                    if (data.sequenceStressQuestions && data.sequenceStressQuestions.length > 0) {
+                        Tester.getQuestionnaire(questionContainer.find('#sequence-questions'), data.sequenceStressQuestions);
+                    }
+                }
+                renderSelectionRatingGraphics($(item).find('#sequence-joint-selection'), data.sequenceStressGraphicsRating);
+            }
+
+            // check current state
             if (currentStressTestIndex === data.stressTestItems.length - 1 && currentStressTestCount >= parseInt(data.stressAmount) - 1) {
                 $(this).addClass('hidden');
                 $(item).find('#btn-questionnaire-done').addClass('hidden');
@@ -977,60 +1045,95 @@ var Tester = {
                 $(item).find('#btn-next-gesture').removeClass('hidden');
             }
 
-            var questionContainer = $(container).find('#stress-test-questionnaire');
-            if (currentStressTestCount >= parseInt(data.stressAmount) - 1) {
 
-                if (mergedQuestionnaire) {
-                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
-                    $(item).find('#questionnaire-heading').removeClass('hidden');
-                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
-                    questionContainer.removeClass('hidden');
-                    Tester.getQuestionnaire(questionContainer, mergedQuestionnaire);
-                } else if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
-                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
-                    $(item).find('#questionnaire-heading').removeClass('hidden');
-                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
-                    questionContainer.removeClass('hidden');
-                    Tester.getQuestionnaire(questionContainer, data.singleStressQuestions);
-                } else if (data.sequenceStressGraphicsRating !== 'none' || data.singleStressGraphicsRating !== 'none') {
-                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
-                    $(item).find('#questionnaire-heading').removeClass('hidden');
-                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
-                    questionContainer.removeClass('hidden');
-                } else {
-                    currentStressTestCount = 0;
-                    currentStressTestIndex++;
-                    Tester.renderUnmoderatedPhysicalStressTest(source, container, data);
-                }
-            } else {
-                if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
-                    $(item).find('#btn-questionnaire-done, #questionnaire-heading').removeClass('hidden');
-                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
-                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
-                    questionContainer.removeClass('hidden');
-                    Tester.getQuestionnaire(questionContainer, data.singleStressQuestions);
-                } else if (data.sequenceStressGraphicsRating !== 'none' || data.singleStressGraphicsRating !== 'none') {
-                    $(item).find('#btn-questionnaire-done, #questionnaire-heading').removeClass('hidden');
-                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
-                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
-                    questionContainer.removeClass('hidden');
-                } else {
-                    currentStressTestCount++;
-                    $(item).find('#general-repeats .headline').text('Bitte die Geste noch ' + (parseInt(data.stressAmount) - currentStressTestCount) + ' Mal ausführen');
-                }
-            }
+            // after this line the hole code is deprecated
+//            var mergedQuestionnaire = null;
+//            if (data.sequenceStressQuestions && data.sequenceStressQuestions.length > 0) {
+//                if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
+//                    mergedQuestionnaire = data.sequenceStressQuestions.concat(data.singleStressQuestions);
+//                } else {
+//                    mergedQuestionnaire = data.sequenceStressQuestions;
+//                }
+//            } else if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
+//                mergedQuestionnaire = data.singleStressQuestions;
+//            }
+//
+//            renderSelectionRatingGraphics(item, data);
+//
+//            if (currentStressTestIndex === data.stressTestItems.length - 1 && currentStressTestCount >= parseInt(data.stressAmount) - 1) {
+//                $(this).addClass('hidden');
+//                $(item).find('#btn-questionnaire-done').addClass('hidden');
+//                $(item).find('#btn-done').removeClass('hidden');
+//            } else if (currentStressTestCount >= parseInt(data.stressAmount) - 1) {
+//                $(this).addClass('hidden');
+//                $(item).find('#btn-questionnaire-done').addClass('hidden');
+//                $(item).find('#btn-next-gesture').removeClass('hidden');
+//            }
+//
+//            var questionContainer = $(container).find('#stress-test-questionnaire');
+//            if (currentStressTestCount >= parseInt(data.stressAmount) - 1) {
+//
+//                if (mergedQuestionnaire) {
+//                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
+//                    $(item).find('#questionnaire-heading').removeClass('hidden');
+//                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
+//                    questionContainer.removeClass('hidden');
+//                    Tester.getQuestionnaire(questionContainer, mergedQuestionnaire);
+//                } else if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
+//                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
+//                    $(item).find('#questionnaire-heading').removeClass('hidden');
+//                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
+//                    questionContainer.removeClass('hidden');
+//                    Tester.getQuestionnaire(questionContainer, data.singleStressQuestions);
+//                } else if (data.sequenceStressGraphicsRating !== 'none' || data.singleStressGraphicsRating !== 'none') {
+//                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
+//                    $(item).find('#questionnaire-heading').removeClass('hidden');
+//                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
+//                    questionContainer.removeClass('hidden');
+//                } else {
+//                    currentStressTestCount = 0;
+//                    currentStressTestIndex++;
+//                    Tester.renderUnmoderatedPhysicalStressTest(source, container, data);
+//                }
+//            } else {
+//                if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
+//                    $(item).find('#btn-questionnaire-done, #questionnaire-heading').removeClass('hidden');
+//                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
+//                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
+//                    $(container).find('#stress-test-questionnaire').removeClass('hidden');
+//                    Tester.getQuestionnaire(questionContainer, data.singleStressQuestions);
+//                } else if (data.sequenceStressGraphicsRating !== 'none' || data.singleStressGraphicsRating !== 'none') {
+//                    $(item).find('#btn-questionnaire-done, #questionnaire-heading').removeClass('hidden');
+//                    $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
+//                    $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
+//                    questionContainer.removeClass('hidden');
+//                } else {
+//                    currentStressTestCount++;
+//                    $(item).find('#general-repeats .headline').text('Bitte die Geste noch ' + (parseInt(data.stressAmount) - currentStressTestCount) + ' Mal ausführen');
+//                }
+//            }
         });
+
         $(item).find('#btn-questionnaire-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             saveAnswers();
             currentStressTestCount++;
+
             $(item).find('#general-repeats').removeClass('hidden');
             $(item).find('#questionnaire-heading').addClass('hidden');
             $(this).addClass('hidden');
             $(item).find('#btn-gesture-done').removeClass('hidden');
             $(item).find('#gesturePreview').removeClass('col-sm-5').addClass('col-sm-12');
             $(item).find('#stress-test-questionnaire').addClass('hidden');
+
+            if (!previewModeEnabled) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, time: new Date().getTime()});
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            }
         });
+
         $(item).find('#btn-next-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
             saveAnswers();
@@ -1038,6 +1141,7 @@ var Tester = {
             currentStressTestIndex++;
             Tester.renderUnmoderatedPhysicalStressTest(source, container, data);
         });
+
         $(item).find('#btn-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             saveAnswers();
@@ -1048,22 +1152,41 @@ var Tester = {
         function saveAnswers() {
             // save joints and questionnaire answers if in live mode
             if (!previewModeEnabled) {
-                var questionnaire = $(item).find('.question-container').children();
-                stressTestObject = getQuestionnaireFormData(questionnaire, stressTestObject);
+                var answers = new Object();
+                var singleQuestionnaire = $(item).find('#single-questions .question-container').children();
+                var singleQuestionAnswers = singleQuestionAnswers = getQuestionnaireFormData(singleQuestionnaire, {});
+                console.log(data.singleStressGraphicsRating, data.sequenceStressGraphicsRating);
+                
+                if (currentStressTestCount < parseInt(data.stressAmount) - 1) {
+                    if (singleQuestionAnswers.answers && singleQuestionAnswers.answers.length > 0) {
+                        answers.singleAnswers = singleQuestionAnswers;
+                    }
 
-                stressTestObject.selectedBodyJoints = getSelectedJoints($(item).find('#human-body-selection-rating'));
-                stressTestObject.selectedHandJoints = getSelectedJoints($(item).find('#hand-selection-rating'));
-
-                // check tempData structure
-                if (tempData.stressTest !== null && tempData.stressTest !== undefined) {
-                    tempData.stressTest.push(stressTestObject);
+                    getJointSelectionRatings(answers.singleAnswers, data.singleStressGraphicsRating, $(item).find('#single-joint-selection'));
                 } else {
-                    var array = new Array();
-                    array.push(stressTestObject);
-                    tempData.stressTest = array;
+                    if (singleQuestionAnswers.answers && singleQuestionAnswers.answers.length > 0) {
+                        answers.singleAnswers = singleQuestionAnswers;
+                    }
+                    getJointSelectionRatings(answers.singleAnswers, data.singleStressGraphicsRating, $(item).find('#single-joint-selection'));
+
+                    var sequenceQuestionnaire = $(item).find('#sequence-questions .question-container').children();
+                    var sequenceQuestionAnswers = singleQuestionAnswers = getQuestionnaireFormData(sequenceQuestionnaire, {});
+                    if (sequenceQuestionAnswers.answers && sequenceQuestionAnswers.answers.length > 0) {
+                        answers.sequenceAnswers = sequenceQuestionAnswers;
+                    }
+                    getJointSelectionRatings(answers.sequenceAnswers, data.sequenceStressGraphicsRating, $(item).find('#sequence-joint-selection'));
                 }
 
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                answers = getQuestionnaireFormData(questionnaire, answers);
+//                answers.selectedBodyJoints = getSelectedJoints($(item).find('#human-body-selection-rating'));
+//                answers.selectedHandJoints = getSelectedJoints($(item).find('#hand-selection-rating'));
+                answers.gestureId = gesture.id;
+                answers.time = new Date().getTime();
+
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_END_QUESTIONNAIRE, gestureId: gesture.id, time: new Date().getTime()});
+                tempData.answers.push(answers);
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             }
         }
     },
@@ -1329,9 +1452,9 @@ function submitFinalData(container) {
     });
 }
 
-function renderSelectionRatingGraphics(item, data) {
-    var selectionRating = getSelectionRating(data);
+function renderSelectionRatingGraphics(item, selectionRating) {
     if (selectionRating !== 'none') {
+        $(item).removeClass('hidden');
 
         switch (selectionRating) {
             case 'body':
@@ -1352,6 +1475,28 @@ function renderSelectionRatingGraphics(item, data) {
                 break;
         }
     }
+}
+
+function getJointSelectionRatings(data, selectionRating, container) {
+//    console.log(container);
+    if (selectionRating !== 'none') {
+        switch (selectionRating) {
+            case 'body':
+                console.log($(container).find('#human-body-selection-rating'));
+                data.selectedBodyJoints = getSelectedJoints($(container).find('#human-body-selection-rating'));
+                break;
+            case 'hands':
+                data.selectedHandJoints = getSelectedJoints($(container).find('#hand-selection-rating'));
+                break;
+            case 'bodyHands':
+                data.selectedBodyJoints = getSelectedJoints($(container).find('#human-body-selection-rating'));
+                data.selectedHandJoints = getSelectedJoints($(container).find('#hand-selection-rating'));
+                break;
+        }
+    }
+    
+    console.log(data);
+    return data;
 }
 
 function renderSceneItem(source, container, sceneId) {
@@ -1452,6 +1597,13 @@ function onHideSlideComplete(container) {
 }
 
 function onUnmoderatedAnswerTimeExpired(source, container, data) {
+    if (!previewModeEnabled) {
+        var slideData = data.slideshow[currentSlideIndex];
+        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+        tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: new Date().getTime()});
+        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+    }
+
     $(container).find('.gestureContainer .headline, .triggerContainer .headline').text(translation.timesUp);
     TweenMax.to(container.find('.previewGesture, .trigger-title'), .1, {autoAlpha: 0});
     TweenMax.to(container.find('#slideshowContainer, .progress'), .1, {autoAlpha: 0, onComplete: onHideUnmoderatedSlideComplete, onCompleteParams: [source, container, data]});
@@ -1496,7 +1648,7 @@ function getSelectionRating(data) {
     }
 }
 
-var liveStreamRecord, rtcLiveStream;
+var liveStreamRecord, rtcLiveStream, mediaRecorder;
 function resetLiveStream() {
     if (liveStreamRecord) {
         liveStreamRecord.clearRecordedData();
@@ -1508,135 +1660,97 @@ function resetLiveStream() {
         if (rtcLiveStream.getVideoTracks()[0])
             rtcLiveStream.getVideoTracks()[0].stop();
     }
+
+    if (mediaRecorder) {
+        mediaRecorder = null;
+    }
 }
 
 function initializeLiveStream() {
-//    resetLiveStream();
-//    var mediaConstraints = {video: true, audio: true};
-//    navigator.mediaDevices.getUserMedia(mediaConstraints).then(liveStreamSuccess).catch(liveStreamError);
+//    console.log(recordingStream);
 
-    if (getBrowser() == "Chrome") {
-        var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
-    } else if (getBrowser() == "Firefox") {
-        var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 1280}, height: {min: 240, ideal: 240, max: 720}}};
-    }
+    if (!recordingStream) {
+        if (getBrowser() == "Chrome") {
+            var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
+        } else if (getBrowser() == "Firefox") {
+            var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 1280}, height: {min: 240, ideal: 240, max: 720}}};
+        }
 
-    if (typeof MediaRecorder === 'undefined' || !navigator.getUserMedia) {
-        console.log('Sorry! This demo requires Firefox 30 and up or Chrome 47 and up.');
+        if (typeof MediaRecorder === 'undefined' || !navigator.getUserMedia) {
+            console.log('Sorry! This demo requires Firefox 30 and up or Chrome 47 and up.');
+        } else {
+            navigator.getUserMedia(constraints, initRecorder, errorCallback);
+        }
     } else {
-        navigator.getUserMedia(constraints, startRecording, errorCallback);
+        if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
+            console.log('show stream in dom');
+            $('#rtc-stream').attr('src', URL.createObjectURL(recordingStream));
+            $('#rtc-stream').attr('muted', 'true');
+            startRecording();
+        }
     }
 }
 
-
-//function liveStreamError(error) {
-//    console.log(error);
-//    // maybe another application is using the device
-//}
-
-//function liveStreamSuccess(stream) {
-//    rtcLiveStream = stream;
-//    $('#rtc-stream').attr('muted', 'true');
-//    $('#rtc-stream').attr('src', URL.createObjectURL(stream));
-//    startRecording();
-//}
-
-//function startRecording() {
-//
-//
-
-//    var config = {
-//        type: 'video',
-//        mimeType: 'video/webm', // or video/mp4 or audio/ogg
-//        video: {
-//            width: 320,
-//            height: 240
-//        },
-//        recorderType: RecordRTC.WhammyRecorder,
-//        frameInterval: 30   // setTimeout interval, quality strength
-//    };
-//    liveStreamRecord = RecordRTC(rtcLiveStream, config);
-//    liveStreamRecord.startRecording();
-//}
 
 function errorCallback(error) {
     console.log(error);
 }
 
 var chunks = [];
-function startRecording(stream) {
-    console.log('Starting...');
-    mediaRecorder = new MediaRecorder(stream);
+var recordingStream = null;
+function initRecorder(stream) {
+    console.log('initRecorder');
+    recordingStream = stream;
+    if (!mediaRecorder || mediaRecorder === undefined) {
+        mediaRecorder = new MediaRecorder(stream);
+        $('#rtc-stream').attr('src', URL.createObjectURL(recordingStream));
+        $('#rtc-stream').attr('muted', 'true');
 
+        mediaRecorder.ondataavailable = function (e) {
+            chunks.push(e.data);
+        };
+
+        mediaRecorder.onerror = function (e) {
+            console.log('Error: ', e);
+        };
+
+        mediaRecorder.onstart = function () {
+            // save start recording time
+            if (previewModeEnabled === false) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                if (tempData) {
+                    tempData.startRecordingTime = new Date().getTime();
+                }
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            }
+        };
+
+        mediaRecorder.onstop = function () {
+            console.log('Stopped, state = ' + mediaRecorder.state);
+            uploadQueue.upload(chunks, currentPhaseStepId);
+            chunks = [];
+        };
+
+        mediaRecorder.onwarning = function (e) {
+            console.log('Warning: ' + e);
+        };
+    }
+}
+
+function startRecording() {
+    console.log('Start recording ...');
     mediaRecorder.start(5000);
-    $('#rtc-stream').attr('muted', 'true');
-    $('#rtc-stream').attr('src', URL.createObjectURL(stream));
-
-//    var url = window.URL || window.webkitURL;
-//    videoElement.src = url ? url.createObjectURL(stream) : stream;
-//    videoElement.play();
-
-    mediaRecorder.ondataavailable = function (e) {
-        //log('Data available...');
-//        console.log(e.data);
-//        console.log(e);
-
-        chunks.push(e.data);
-    };
-
-    mediaRecorder.onerror = function (e) {
-        console.log('Error: ', e);
-    };
-
-
-    mediaRecorder.onstart = function () {
-        console.log('Started, state = ' + mediaRecorder.state);
-    };
-
-    mediaRecorder.onstop = function () {
-        console.log('Stopped, state = ' + mediaRecorder.state);
-
-//        console.log(chunks);
-//        var blob = new Blob(chunks, {type: "video/webm"});
-
-//        var videoURL = window.URL.createObjectURL(blob);
-//        console.log(videoURL);
-
-//        var rand = Math.floor((Math.random() * 10000000));
-//        var name = "video_" + rand + ".webm";
-
-//        var downloadLink = $('#downloadLink');
-//        $(downloadLink).removeClass('hidden');
-//        $(downloadLink).attr('href', videoURL);
-//        $(downloadLink).attr('download', name);
-//        $(downloadLink).attr("name", name);
-
-//        var file = new File(chunks, hex_sha512(new Date().getTime()) + '.webm');
-
-        uploadQueue.upload(chunks, currentPhaseStepId);
-        chunks = [];
-    };
-
-    mediaRecorder.onwarning = function (e) {
-        console.log('Warning: ' + e);
-    };
 }
 
 var currentPhaseStepId = null;
 function stopRecording(callback) {
-
     if (mediaRecorder) {
         currentPhaseStepId = getCurrentPhase().id;
         mediaRecorder.stop();
     }
 
-//    if (liveStreamRecord) {
-//        liveStreamRecord.stopRecording(function (videoUrl) {
-//            console.log(videoUrl);
-//
     if (callback) {
         callback();
     }
-//        });
-//    }
 }

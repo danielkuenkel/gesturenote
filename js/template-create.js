@@ -38,6 +38,7 @@ $(document).on('click', '.btn-add-groupingQuestionOption', function (event) {
     {
         event.handled = true;
         var clone = $('#groupingQuestionItem').clone().removeClass('hidden');
+        clone.attr('id', chance.natural());
         $(this).prev().find('.panel-body').append(clone);
         checkCurrentListState($(this).prev().find('.panel-body'));
     }
@@ -108,7 +109,6 @@ $('body').on('click', '.btn-add-triggerOption', function (event) {
         event.preventDefault();
         var clone = $('#triggerItem').clone(true);
         clone.removeClass('hidden');
-        clone.removeAttr('id');
         $(this).parent().prev().append(clone);
         checkCurrentListState($(this).parent().prev());
     }
@@ -882,7 +882,8 @@ function renderFormatItem(target, data) {
             if (options) {
                 for (var j = 0; j < options.length; j++) {
                     var option = $('#groupingQuestionItem').clone().removeClass('hidden');
-                    $(option).find('.option').val(options[j]);
+                    $(option).find('.option').val(options[j].title);
+                    $(option).attr('id', options[j].id);
                     $(clone).find('.option-container').append(option);
                     checkCurrentListState($(clone).find('.option-container'));
                 }
@@ -1036,25 +1037,17 @@ function getFormatData(element) {
             break;
         case DICHOTOMOUS_QUESTION_GUS:
             parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
-//                negative: $(element).find('.negative .active').attr('id'),
                 justification: $(element).find('.justification .active').attr('id'),
                 justificationFor: $(element).find('.justification-for .active').attr('id')};
-//            parameters.push($(element).find('.btn-use').hasClass('used'));
-//            parameters.push($(element).find('.negative #yes').hasClass('active'));
-//            parameters.push($(element).find('.justification .active').attr('id') === 'yes' ? true : false);
-//            parameters.push($(element).find('.justification-for .active').attr('id'));
             break;
         case GROUPING_QUESTION:
             parameters = {multiselect: $(element).find('.multiselect .active').attr('id'),
                 optionalanswer: $(element).find('.optionalanswer .active').attr('id')};
-//            parameters = new Array();
-//            parameters.push($(element).find('.multiselect .active').attr('id') === 'yes' ? true : false);
-//            parameters.push($(element).find('.optionalanswer .active').attr('id') === 'yes' ? true : false);
 
             options = new Array();
             var groupingOptions = $(element).find('.option-container').children();
             for (var j = 0; j < groupingOptions.length; j++) {
-                options.push($(groupingOptions[j]).find('.option').val());
+                options.push({id: groupingOptions.attr('id'), title: $(groupingOptions[j]).find('.option').val()});
             }
             break;
         case GROUPING_QUESTION_GUS:
@@ -1063,12 +1056,6 @@ function getFormatData(element) {
                 optionSource: $(element).find('.optionselect .active').attr('id'),
                 justification: $(element).find('.justification .active').attr('id'),
                 justificationFor: $(element).find('.justification-for .active').attr('id')};
-//            parameters = new Array();
-//            parameters.push($(element).find('.btn-use').hasClass('used'));
-//            parameters.push($(element).find('.multiselect .active').attr('id') === 'yes' ? true : false);
-//            parameters.push($(element).find('.justification .active').attr('id') === 'yes' ? true : false);
-//            parameters.push($(element).find('.justification-for .active').attr('id'));
-//            parameters.push($(element).find('.optionselect .active').attr('id'));
             break;
         case RATING:
             options = new Array();
@@ -1086,10 +1073,6 @@ function getFormatData(element) {
             parameters = {allocation: $(element).find('.allocationSelect .chosen').attr('id'),
                 maximum: $(element).find('.maximum').val()};
 
-//            parameters = new Array();
-//            parameters.push($(element).find('.allocationSelect .chosen').attr('id'));
-//            parameters.push($(element).find('.maximum').val());
-//            
             options = new Array();
             var sumQuestionOptions = $(element).find('.option-container').children();
             for (var j = 0; j < sumQuestionOptions.length; j++) {
@@ -1110,19 +1093,11 @@ function getFormatData(element) {
                 justificationFor: $(element).find('.justification-for .active').attr('id'),
                 alternative: $(element).find('.alternative').find('.active').attr('id')};
 
-//            parameters = new Array();
-//            parameters.push($(element).find('.btn-use').hasClass('used'));
-//            parameters.push($(element).find('.justification #yes').hasClass('active'));
-//            parameters.push($(element).find('.justification-for .active').attr('id'));
-//            parameters.push($(element).find('.optionalanswer #yes').hasClass('active'));
-//            parameters.push($(element).find('.alternative').find('.active').attr('id'));
-
             var aGestures = assembledGestures();
             var aTriggers = getLocalItem(ASSEMBLED_TRIGGER);
             var currentPhase = getPhaseById(currentIdForModal);
             if (currentPhase && currentPhase.format === GUS_SINGLE_GESTURES) {
                 parameters.alternativeFor = 'alternativeGesture';
-//                parameters.push(ALTERNATIVE_FOR_GESTURE);
                 break;
             }
 
@@ -1131,31 +1106,24 @@ function getFormatData(element) {
                 if (gestureId !== 'unselected') {
                     parameters.alternativeFor = 'alternativeGesture';
                     parameters.alternativeForId = gestureId;
-//                    parameters.push(ALTERNATIVE_FOR_GESTURE);
-//                    parameters.push(getGestureById(gestureId));
                 }
             } else if (aTriggers && $(element).find('.alternativeFor .active').attr('id') === 'alternativeTrigger') {
                 var triggerId = $(element).find('.triggerSelect .chosen').attr('id');
                 if (triggerId !== 'unselected') {
                     parameters.alternativeFor = 'alternativeTrigger';
                     parameters.alternativeForId = triggerId;
-//                    parameters.push(ALTERNATIVE_FOR_TRIGGER);
-//                    parameters.push(getTriggerById(triggerId));
                 }
             } else if (aTriggers && $(element).find('.alternativeFor .active').attr('id') === 'alternativeFeedback') {
                 var feedbackId = $(element).find('.feebackSelect .chosen').attr('id');
                 if (feedbackId !== 'unselected') {
                     parameters.alternativeFor = 'alternativeFeedback';
                     parameters.alternativeForId = feedbackId;
-//                    parameters.push(ALTERNATIVE_FOR_FEEDBACK);
-//                    parameters.push(feedbackId);
                 }
             }
             break;
         case GUS_SINGLE:
             parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
                 negative: $(element).find('.negative .active').attr('id')};
-//            options = translation.gusOptions;
             break;
     }
     return new QuestionnaireItem(format, dimension, question, parameters, options);

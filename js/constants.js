@@ -149,6 +149,8 @@ var ACTION_START_PERFORM_GESTURE = 'startPerformGesture';
 var ACTION_END_PERFORM_GESTURE = 'endPerformGesture';
 var ACTION_REFRESH_SCENE = 'refreshScene';
 var ACTION_SELECT_GESTURE = 'selectGesture';
+var ACTION_START_QUESTIONNAIRE = 'startQuestionnaire';
+var ACTION_END_QUESTIONNAIRE = 'endQuestionnaire';
 
 // cursors
 var CURSOR_AUTO = 'auto';

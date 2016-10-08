@@ -460,9 +460,232 @@
 
     <span id="sus-item-option" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>
 
+
+
+
+    <div id="rtc-video-result">
+        <video id="video-holder" controls preload="auto" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
+        <div id="results-timeline" style="margin-top: -8px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;"></div>
+    </div>
+
     <div class="root" id="gestureTraining">
         <h3 id="headline" style="margin-top: 0"></h3>
+        <hr id="horizontalLine">
+        <div class="alert-space alert-no-record"></div>
+        <div class="alert-space alert-webm-unsupported"></div>
+        <h3 id="headline-gestures">Gesten</h3>
         <hr>
+        <div id="gestures-container"></div>
+        <h3 id="headline-observations">Beobachtungen</h3>
+        <hr>
+        <div id="observations-container"></div>
+    </div>
+
+    <div class="row" id="training-gesture-item" style="margin-bottom: 30px">
+        <div class="col-sm-6 root">
+            <div class="previewGesture mousePlayable btn-shadow"></div>
+            <div class="text-center gestureControls">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+            <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+            <div id="feedback"><span class="address"></span> <span class="content"></span></div>
+            <div id="recognition-time"><span class="address"></span> <span class="text"></span></div>
+            <div id="repeats"><span class="address"></span> <span class="text"></span></div>
+            <div id="training-time"><span class="address"></span> <span class="text"></span></div>
+        </div>
+    </div>
+
+
+
+    <div class="root" id="gestureSlideshow">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <hr id="horizontalLine">
+        <div class="alert-space alert-no-record"></div>
+        <div class="alert-space alert-webm-unsupported"></div>
+        <h3 id="headline-summary">Zusammenfassung</h3>
+        <hr>
+        <div id="summary-container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="text text-center" id="restarts">
+                        <div class="text" style="font-size: 120pt; line-height: 110pt"></div>
+                        <div class="address" style="font-size: 20pt">Neustarts</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-center">
+                    Je weniger Neustarts es bei einer Gesten-Slideshow gab, desto besser. Dieser Scorewert kann mit der Erinnerbarkeit und Intuitivität eines Gestensets in Verbindung gebracht werden.
+                </div>
+            </div>
+
+            <div id="gestures-container" style="margin-top: 40px"></div>
+        </div>
+        <h3 id="headline-observations">Beobachtungen</h3>
+        <hr>
+        <div id="observations-container"></div>
+    </div>
+
+    <div class="row" id="slideshow-gesture-item" style="margin-bottom: 30px">
+        <div class="col-sm-6 root">
+            <div class="previewGesture mousePlayable btn-shadow"></div>
+            <div class="text-center gestureControls">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+            <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+            <div id="feedback"><span class="address"></span> <span class="content"></span></div>
+            <div id="recognition-time"><span class="address"></span> <span class="text"></span></div>
+            <div id="fits-false" class="hidden"><span class="address"></span> <span class="text" style="color: #d9534f"></span> <i class="fa fa-exclamation-triangle" style="color: #d9534f"></i></div>
+            <div id="fits-correct" class="hidden"><span class="address"></span> <span class="text" style="color: #5cb85c"></span> <i class="fa fa-check" style="color: #5cb85c"></i></div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="root" id="triggerSlideshow">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <hr id="horizontalLine">
+        <div class="alert-space alert-webm-unsupported"></div>
+        <div id="summary-container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="text text-center" id="score">
+                        <div id="error" class="hidden">
+                            <p><i class="fa fa-bolt text" style="font-size: 120pt; line-height: 110pt"></i></p>
+                            <p>Der Scorewert kann nicht berechnet werden.</p>
+                        </div>
+                        <div class="address" style="font-size: 20pt"></div>
+                        <div class="text" style="font-size: 120pt; line-height: 110pt"></div>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-center">
+                    Je mehr korrekte Zuordnungen es bei einer Trigger-Slideshow gab, desto besser. Der Scorewert berechnet sich wie folgt: Falsche Zuordnungen / Anzahl der Gesten. Er liegt zwischen 0 (alles richtig zugeordnet) und 1 (alles falsch zugeordnet). Dieser Wert kann mit der Semantischen Verknüpfung, Genrealisierbarkeit und Intuitivität eines Gestensets in Verbindung gebracht werden.
+                </div>
+            </div>
+
+            <div id="gestures-container" style="margin-top: 40px"></div>
+        </div>
+        <h3 id="headline-observations">Beobachtungen</h3>
+        <hr>
+        <div id="observations-container"></div>
+    </div>
+
+    <div class="row" id="slideshow-trigger-item" style="margin-bottom: 30px">
+        <div class="col-sm-6 root">
+            <div class="previewGesture mousePlayable btn-shadow"></div>
+            <div class="text-center gestureControls">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+            <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+            <div id="feedback"><span class="address"></span> <span class="content"></span></div>
+            <div id="selection"><span class="address"></span> 
+                <span id="fits-false" class="hidden"><span class="text" style="color: #d9534f"></span> <i class="fa fa-exclamation-triangle" style="color: #d9534f"></i></span>
+                <span id="fits-correct" class="hidden"><span class="text" style="color: #5cb85c"></span> <i class="fa fa-check" style="color: #5cb85c"></i></span>
+                <span id="no-answer" class="hidden"><span class="text" style="color: #ec971f"></span> <i class="fa fa-bolt" style="color: #ec971f"></i></span>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="root" id="physicalStressTest">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <hr id="horizontalLine">
+        <div class="alert-space alert-no-record"></div>
+        <div class="alert-space alert-webm-unsupported"></div>
+        <h3 id="headline-summary">Zusammenfassung</h3>
+        <hr>
+        <!--        <div id="summary-container">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="text text-center" id="restarts">
+                                <div class="text" style="font-size: 120pt; line-height: 110pt"></div>
+                                <div class="address" style="font-size: 20pt">Neustarts</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 text-center">
+                            Je weniger Neustarts es bei einer Gesten-Slideshow gab, desto besser. Dieser Scorewert kann mit der Erinnerbarkeit und Intuitivität eines Gestensets in Verbindung gebracht werden.
+                        </div>
+                    </div>-->
+
+        <div id="gestures-container"></div>
+        <!--</div>-->
+        <h3 id="headline-observations">Beobachtungen</h3>
+        <hr>
+        <div id="observations-container"></div>
+    </div>
+
+    <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
+        <div class="col-sm-5 root">
+            <div class="previewGesture mousePlayable btn-shadow"></div>
+            <div class="text-center gestureControls">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-7">
+            <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+            <div id="single-stress-answers">
+                <h4 id="headline-single-questions">Einzel-Antworten</h4>
+                <div class="list-container"></div>
+            </div>
+            <div id="sequence-stress-answers" style="margin-top: 40px">
+                <h4 id="headline-sequence-questions">Abschließende Antworten</h4>
+                <div class="list-container"></div>
+            </div>
+
+            <!--<div id="trigger"><span class="address"></span> <span class="text"></span></div>-->
+            <!--<div id="feedback"><span class="address"></span> <span class="content"></span></div>-->
+            <!--            <div id="selection"><span class="address"></span> 
+                            <span id="fits-false" class="hidden"><span class="text" style="color: #d9534f"></span> <i class="fa fa-exclamation-triangle" style="color: #d9534f"></i></span>
+                            <span id="fits-correct" class="hidden"><span class="text" style="color: #5cb85c"></span> <i class="fa fa-check" style="color: #5cb85c"></i></span>
+                            <span id="no-answer" class="hidden"><span class="text" style="color: #ec971f"></span> <i class="fa fa-bolt" style="color: #ec971f"></i></span>
+                        </div>-->
+
+        </div>
+    </div>
+
+    <div id="joint-answers">
+        <div id="joint-answers-body" style="margin-bottom: 20px">
+            <p class="question text">Welche Teile des Körpers wurden besonders beansprucht?</p>
+            <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
+                <div id="joint-container" style="position: absolute"></div>
+                <img src="img/human_body.svg">
+            </div>
+        </div>
+
+        <div id="joint-answers-hands" style="margin-bottom: 20px">
+            <p class="question text">Welche Teile der Hand oder Hände wurden besonders beansprucht?</p>
+            <div class="select-joints-humand-hand" id="human-hand" style="width: 450px; margin: auto">
+                <div id="joint-container" style="position: absolute"></div>
+                <img src="img/human_hand.svg">
+            </div>
+        </div>
     </div>
 
 </div>

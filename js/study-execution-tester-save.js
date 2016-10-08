@@ -59,7 +59,7 @@ function getLetterOfAcceptanceFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
         data.startTime = tempData.startTime;
-        removeLocalItem(data.id + '.tempSaveData');
+//        removeLocalItem(data.id + '.tempSaveData');
     }
     data.accepted = 'yes';
     return data;
@@ -69,7 +69,7 @@ function getThanksFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
         data.startTime = tempData.startTime;
-        removeLocalItem(data.id + '.tempSaveData');
+//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }
@@ -78,9 +78,10 @@ function getGestureTrainingFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
         data.startTime = tempData.startTime;
+        data.startRecordingTime = tempData.startRecordingTime;
         data.startTrainingTime = tempData.startTrainingTime;
         data.training = tempData.training;
-        removeLocalItem(data.id + '.tempSaveData');
+//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }
@@ -89,8 +90,10 @@ function getGestureSlideshowFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
         data.startTime = tempData.startTime;
+        data.startRecordingTime = tempData.startRecordingTime;
         data.restarts = tempData.restarts;
-        removeLocalItem(data.id + '.tempSaveData');
+        data.actions = tempData.actions;
+//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }
@@ -100,7 +103,7 @@ function getTriggerSlideshowFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.selectedOptions = tempData.selectedOptions;
-        removeLocalItem(data.id + '.tempSaveData');
+//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }
@@ -109,9 +112,10 @@ function getScenarioFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
         data.startTime = tempData.startTime;
+        data.startRecordingTime = tempData.startRecordingTime;
         data.actions = tempData.actions;
         data.transitions = tempData.transitions;
-        removeLocalItem(data.id + '.tempSaveData');
+//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }
@@ -120,9 +124,11 @@ function getPhysicalStressTestFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
         data.startTime = tempData.startTime;
+        data.startRecordingTime = tempData.startRecordingTime;
         data.startStressTestTime = tempData.startStressTestTime;
-        data.stressTest = tempData.stressTest;
-        removeLocalItem(data.id + '.tempSaveData');
+        data.actions = tempData.actions;
+        data.answers = tempData.answers;
+//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }
@@ -139,7 +145,7 @@ function getIdentificationFormData(data) {
             data.trigger = tempData.trigger;
         }
 
-        removeLocalItem(data.id + '.tempSaveData');
+//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }
@@ -234,11 +240,17 @@ function getGroupingQuestionFormData(source) {
     var selectedOptions = $(source).find('.option-container .btn-option-checked');
     var array = new Array();
     for (var i = 0; i < selectedOptions.length; i++) {
-        if ($(selectedOptions[i]).parent().attr('id') !== 'checkbox-optionalanswer') {
-            array.push(i);
+        var selectedId = $(selectedOptions[i]).attr('id');
+        if (selectedId !== 'checkbox-optionalanswer') {
+            console.log(selectedOptions[i], selectedId);
+            array.push(selectedId);
         }
     }
-    data.selectedOptions = array;
+    if (selectedOptions.length === 0) {
+        data.selectedOptions = -1;
+    } else {
+        data.selectedOptions = array;
+    }
     data.optionalAnswer = $(source).find('.optionalInput').val();
     return data;
 }
@@ -317,12 +329,13 @@ function getSingleGUSFormData(source) {
     return {selectedOption: $(source).find('.option-container .btn-option-checked').closest('.btn-group').index() >> 1};
 }
 
-
-
 function saveCurrentStatus(studyFinished, callback) {
     var data = new Object();
     data.studySuccessfull = studyFinished === true ? 'yes' : 'no';
     data.phases = getFinishedStudyPhases();
+    if (studyFinished === true) {
+        data.endTime = new Date().getTime();
+    }
 
     var study = getLocalItem(STUDY);
     if (study.surveyType === TYPE_SURVEY_UNMODERATED) {

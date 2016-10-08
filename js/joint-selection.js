@@ -21,7 +21,7 @@ var JOINT_SPINE = 'spine';
 var JOINT_HIP_CENTER = 'hipCenter';
 var JOINT_HIP_RIGHT = 'hipRight';
 var JOINT_KNEE_RIGHT = 'kneeRight';
-var JOINT_ANGLE_RIGHT = 'ankleRight';
+var JOINT_ANKLE_RIGHT = 'ankleRight';
 var JOINT_FOOT_RIGHT = 'footRight';
 var JOINT_HIP_LEFT = 'hipLeft';
 var JOINT_KNEE_LEFT = 'kneeLeft';
@@ -46,7 +46,7 @@ bodyJoints.push(new Joint(JOINT_HIP_CENTER, [187, 200]));
 
 bodyJoints.push(new Joint(JOINT_HIP_RIGHT, [203, 176]));
 bodyJoints.push(new Joint(JOINT_KNEE_RIGHT, [290, 156]));
-bodyJoints.push(new Joint(JOINT_ANGLE_RIGHT, [361, 123]));
+bodyJoints.push(new Joint(JOINT_ANKLE_RIGHT, [361, 123]));
 bodyJoints.push(new Joint(JOINT_FOOT_RIGHT, [357, 100]));
 
 bodyJoints.push(new Joint(JOINT_HIP_LEFT, [203, 224]));
@@ -216,10 +216,10 @@ function renderHandJoints(target, activeJoints) {
 function renderHandJointsPreview(target, activeJoints) {
     var ratio = $(target).width() / ORIGINAL_HAND_WIDTH;
     $(target).find('#joint-container').empty();
-    for (var i = 0; i < bodyJoints.length; i++) {
+    for (var i = 0; i < handJoints.length; i++) {
         var buttonJoint = document.createElement('div');
         $(buttonJoint).addClass('joint-human-body');
-        $(buttonJoint).attr('id', bodyJoints[i].title);
+        $(buttonJoint).attr('id', handJoints[i].title);
         $(target).find('#joint-container').append(buttonJoint);
 
         var icon = document.createElement('i');
@@ -233,12 +233,12 @@ function renderHandJointsPreview(target, activeJoints) {
         $(icon).css({position: 'absolute'});
         $(buttonJoint).append(icon);
 
-        var jointData = bodyJoints[i];
+        var jointData = handJoints[i];
         var top = Math.round((ratio * jointData.position[0]) - (24 / 2));
         var left = Math.round((ratio * jointData.position[1]) - (21 / 2));
         $(buttonJoint).css({top: top, left: left});
 
-        if (isJointActive(bodyJoints[i], activeJoints)) {
+        if (isJointActive(handJoints[i], activeJoints)) {
             $(buttonJoint).addClass('active');
             $(buttonJoint).find('#toggle-icon').removeClass('fa-circle').addClass('fa-check-circle');
         }
@@ -282,4 +282,183 @@ function getSelectedJoints(target) {
     }
 
     return array;
+}
+
+
+
+function renderBodyJointAnswers(target, answers, gestureId, renderType) {
+    if (answers && answers.length > 0) {
+        var jointScores = getBodyJointScores();
+        if (renderType === 'single') {
+            for (var i = 0; i < answers.length; i++) {
+                if (parseInt(gestureId) === parseInt(answers[i].gestureId) && answers[i].singleAnswers && answers[i].singleAnswers.selectedBodyJoints) {
+                    for (var j = 0; j < answers[i].singleAnswers.selectedBodyJoints.length; j++) {
+                        jointScores[answers[i].singleAnswers.selectedBodyJoints[j]]++;
+                    }
+                }
+            }
+        } else {
+            for (var i = 0; i < answers.length; i++) {
+                if (parseInt(gestureId) === parseInt(answers[i].gestureId) && answers[i].sequenceAnswers && answers[i].sequenceAnswers.selectedBodyJoints) {
+                    for (var j = 0; j < answers[i].sequenceAnswers.selectedBodyJoints.length; j++) {
+                        jointScores[answers[i].sequenceAnswers.selectedBodyJoints[j]]++;
+                    }
+                }
+            }
+        }
+
+        var ratio = $(target).width() / ORIGINAL_BODY_WIDTH;
+        $(target).find('#joint-container').empty();
+
+        for (var i = 0; i < bodyJoints.length; i++) {
+            var buttonJoint = document.createElement('div');
+            $(buttonJoint).addClass('btn-joint-human-body-answer');
+            $(buttonJoint).attr('id', bodyJoints[i].title);
+            $(target).find('#joint-container').append(buttonJoint);
+
+            icon = document.createElement('i');
+            $(icon).addClass('fa fa-circle');
+            $(icon).attr('id', 'toggle-icon');
+            $(icon).css({position: 'absolute'});
+            $(buttonJoint).append(icon);
+
+            if (jointScores[bodyJoints[i].title] > 0) {
+                var score = document.createElement('div');
+                $(score).addClass('joint-text-score text-center');
+                if (renderType === 'single') {
+                    $(score).text(jointScores[bodyJoints[i].title]);
+                }
+                $(buttonJoint).append(score);
+                $(icon).css({color: '#d9534f'});
+
+                if (jointScores[bodyJoints[i].title] > 9) {
+                    $(score).css({fontSize: '7pt'});
+                }
+            }
+
+            var jointData = bodyJoints[i];
+            var top = Math.round((ratio * jointData.position[0]) - (24 / 2));
+            var left = Math.round((ratio * jointData.position[1]) - (21 / 2));
+            $(buttonJoint).css({top: top, left: left});
+        }
+    }
+}
+
+function getBodyJointScores() {
+    var joints = new Object();
+    joints.handLeft = 0;
+    joints.wristLeft = 0;
+    joints.elbowLeft = 0;
+    joints.shoulderLeft = 0;
+
+    joints.shoulderRight = 0;
+    joints.elbowRight = 0;
+    joints.wristRight = 0;
+    joints.handRight = 0;
+
+    joints.shoulderCenter = 0;
+    joints.head = 0;
+    joints.spine = 0;
+    joints.hipCenter = 0;
+
+    joints.hipRight = 0;
+    joints.kneeRight = 0;
+    joints.ankleRight = 0;
+    joints.footRight = 0;
+
+    joints.hipLeft = 0;
+    joints.kneeLeft = 0;
+    joints.ankleLeft = 0;
+    joints.footLeft = 0;
+    return joints;
+}
+
+function renderHandJointAnswers(target, answers, gestureId, renderType) {
+    if (answers && answers.length > 0) {
+        var jointScores = getHandJointScores();
+        if (renderType === 'single') {
+            for (var i = 0; i < answers.length; i++) {
+                if (parseInt(gestureId) === parseInt(answers[i].gestureId) && answers[i].singleAnswers && answers[i].singleAnswers.selectedHandJoints) {
+                    for (var j = 0; j < answers[i].singleAnswers.selectedHandJoints.length; j++) {
+                        jointScores[answers[i].singleAnswers.selectedHandJoints[j]]++;
+                    }
+                }
+            }
+        } else {
+            for (var i = 0; i < answers.length; i++) {
+                if (parseInt(gestureId) === parseInt(answers[i].gestureId) && answers[i].sequenceAnswers && answers[i].sequenceAnswers.selectedHandJoints) {
+                    for (var j = 0; j < answers[i].sequenceAnswers.selectedHandJoints.length; j++) {
+                        jointScores[answers[i].sequenceAnswers.selectedHandJoints[j]]++;
+                    }
+                }
+            }
+        }
+
+        var ratio = $(target).width() / ORIGINAL_HAND_WIDTH;
+        $(target).find('#joint-container').empty();
+        for (var i = 0; i < handJoints.length; i++) {
+            var buttonJoint = document.createElement('div');
+            $(buttonJoint).addClass('joint-human-body');
+            $(buttonJoint).attr('id', handJoints[i].title);
+            $(target).find('#joint-container').append(buttonJoint);
+
+            icon = document.createElement('i');
+            $(icon).addClass('fa fa-circle');
+            $(icon).attr('id', 'toggle-icon');
+            $(icon).css({position: 'absolute'});
+            $(buttonJoint).append(icon);
+
+            if (jointScores[handJoints[i].title] > 0) {
+                var score = document.createElement('div');
+                $(score).addClass('joint-text-score text-center');
+
+                if (renderType === 'single') {
+                    $(score).text(jointScores[handJoints[i].title]);
+                }
+
+                $(buttonJoint).append(score);
+                $(icon).css({color: '#d9534f'});
+
+                if (jointScores[handJoints[i].title] > 9) {
+                    $(score).css({fontSize: '7pt'});
+                }
+            }
+
+            var jointData = handJoints[i];
+            var top = Math.round((ratio * jointData.position[0]) - (24 / 2));
+            var left = Math.round((ratio * jointData.position[1]) - (21 / 2));
+            $(buttonJoint).css({top: top, left: left});
+        }
+    }
+}
+
+function getHandJointScores() {
+    var joints = new Object();
+    joints.thumbDistal = 0;
+    joints.thumbIntermediate = 0;
+    joints.thumbProximal = 0;
+    joints.thumbMetacarpals = 0;
+
+    joints.tipDistal = 0;
+    joints.tipIntermediate = 0;
+    joints.tipProximal = 0;
+    joints.tipMetacarpals = 0;
+
+    joints.middleDistal = 0;
+    joints.middleIntermediate = 0;
+    joints.middleProximal = 0;
+    joints.middleMetacarpals = 0;
+
+    joints.ringDistal = 0;
+    joints.ringIntermediate = 0;
+    joints.ringProximal = 0;
+    joints.ringMetacarpals = 0;
+
+    joints.pinkyDistal = 0;
+    joints.pinkyIntermediate = 0;
+    joints.pinkyProximal = 0;
+    joints.pinkyMetacarpals = 0;
+
+    joints.palm = 0;
+    return joints;
 }

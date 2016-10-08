@@ -953,9 +953,62 @@
     </div>
 
 
-    <!-- slideshow item -->
+    <!-- slideshow gesture item -->
 
-    <div class="form-group root" id="slideshowItem">
+    <div class="form-group root" id="slideshow-gesture-item">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <div class="alert-space alert-assembled-gesture-removed"></div>
+                <div class="alert-space alert-assembled-trigger-removed"></div>
+
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                    <span class="input-group-addon">Funktion</span>
+                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <div class="input-group-btn select triggerSelect" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                    </div>
+                </div>
+
+                <div class="input-group evaluation" style="margin-top: 10px;">
+                    <span class="input-group-addon">Geste</span>
+                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <div class="input-group-btn select gestureSelect" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-margin-top" id="recognition-stepper">
+                    <div class="input-group simple-stepper">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default btn-addon">Reaktionszeit (Sekunden)</button>
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Sekunde weniger</span>
+                            </button>
+                        </div>
+                        <input type="text" class="form-control readonly text-center stepper-text" value="3">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
+                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Sekunde mehr</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- slideshow trigger item -->
+
+    <div class="form-group root" id="slideshow-trigger-item">
         <div class="panel panel-default">
             <div class="panel-body">
 

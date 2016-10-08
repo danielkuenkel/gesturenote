@@ -1,3 +1,5 @@
+var currentPhaseStepIndex = 0;
+
 var currentGestureTrainingIndex = 0;
 var trainingTriggered = false;
 var triggeredFeedback = null;
@@ -52,8 +54,11 @@ function initialize() {
     } else {
         uploadQueue = new UploadQueue();
         $(uploadQueue).bind(EVENT_FILE_SAVED, function (event, result) {
+
             var phaseStepData = getLocalItem(result.phaseStepId + '.saveData');
+            console.log(result.phaseStepId, phaseStepData);
             if (phaseStepData) {
+
                 phaseStepData.recordUrl = result.filename;
                 setLocalItem(result.phaseStepId + '.saveData', phaseStepData);
                 saveCurrentStatus(false);
@@ -178,29 +183,10 @@ function nextStep() {
         }
     }
 
-//    if (phases && phases.length > 0) {
-//        currentPhaseStepIndex++;
-//    }
-
     if (previewModeEnabled === true) {
         currentPhaseStepIndex++;
         $('.phaseStepsSelect .dropdown-menu .selected').next().click();
     }
-//    else {
-//        if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
-//            stopRecording(function () {
-//                if (currentPhaseStepIndex < phases.length) {
-//                    renderPhaseStep();
-//                }
-//                updateProgress();
-//            });
-//        } else {
-//            if (currentPhaseStepIndex < phases.length) {
-//                renderPhaseStep();
-//            }
-//            updateProgress();
-//        }
-//    }
 }
 
 function updatePager() {
@@ -240,7 +226,6 @@ function getCurrentPhaseStepIndex() {
     }
 }
 
-var currentPhaseStepIndex = 0;
 function getCurrentPhase() {
     var phaseSteps = getContextualPhaseSteps();
     return phaseSteps[currentPhaseStepIndex];

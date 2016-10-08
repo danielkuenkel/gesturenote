@@ -124,7 +124,7 @@ include './includes/language.php';
                     var gesture = getGestureById(slideshowItems[i].gestureId);
                     var trigger = getTriggerById(slideshowItems[i].triggerId);
 
-                    var clone = $('#form-item-container').find('#slideshowItem').clone().removeAttr('id');
+                    var clone = $('#form-item-container').find('#slideshow-trigger-item').clone().removeAttr('id');
                     container.append(clone);
 
                     if (gesture && isGestureAssembled(gesture.id))
@@ -220,7 +220,7 @@ include './includes/language.php';
             {
                 event.handled = true;
                 event.preventDefault();
-                $(this).prev().append($('#form-item-container').find('#slideshowItem').clone().removeAttr('id'));
+                $(this).prev().append($('#form-item-container').find('#slideshow-trigger-item').clone().removeAttr('id'));
                 checkCurrentListState($(this).prev());
             }
         });

@@ -113,7 +113,8 @@ function renderGroupingQuestionInput(item, parameters, options) {
 
     for (var i = 0; i < options.length; i++) {
         var option = $('#item-container-inputs').find('#' + optionType).clone();
-        option.find('.option-text').text(options[i]);
+        option.find('.option-text').text(options[i].title);
+        option.find('.btn-' + optionType).attr('id', options[i].id);
         $(item).find('.option-container').append(option);
         $(item).find('.option-container').append(document.createElement('br'));
     }

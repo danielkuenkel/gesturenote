@@ -9,7 +9,7 @@ include_once 'functions.php';
 
 session_start();
 if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['testerId'], $_POST['notes'])) {
-    $notes = json_encode($_POST['notes']);
+    $notes = mysqli_real_escape_string($mysqli, json_encode($_POST['notes']));
     $studyId = $_POST['studyId'];
     $testerId = $_POST['testerId'];
     $userSessionId = $_SESSION['user_id'];

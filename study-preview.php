@@ -240,16 +240,16 @@ if (login_check($mysqli) == true) {
 
                 if (status !== '' && statusAddressMatch !== null) {
                     currentPhaseStepIndex = statusAddressMatch;
-                    init();
+                    console.log(currentPhaseStepIndex);
                 }
 
-                if (query.edit && (query.edit === true || query.edit === "true") && query.studyId) {
+                if (query.studyId && query.edit && (query.edit === true || query.edit === "true")) {
+                    init();
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
                         goto("study-create.php?edit=true&studyId=" + query.studyId);
                     });
                 } else if (query.studyId && query.h === hash) {
-
                     if (currentPhaseStepIndex === 0) {
                         getStudyById({studyId: query.studyId}, function (result) {
                             if (result.status === RESULT_SUCCESS) {
@@ -257,6 +257,8 @@ if (login_check($mysqli) == true) {
                                 init();
                             }
                         });
+                    } else {
+                        init();
                     }
 
                     $('#btn-close-study-preview').on('click', function (event) {
@@ -266,6 +268,7 @@ if (login_check($mysqli) == true) {
                         goto("study.php?studyId=" + query.studyId + "&h=" + hash);
                     });
                 } else {
+                    init();
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
                         gotoCreateStudy();

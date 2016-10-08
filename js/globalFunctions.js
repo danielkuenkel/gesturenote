@@ -1315,22 +1315,20 @@ function getTimeLeftForTimestamp(timestamp) {
     hours = hours - (days * 24);
     minutes = minutes - (days * 24 * 60) - (hours * 60);
     seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
-//    return days + ' Tage, ' + hours + ' Stunden, ' + minutes + ' Minunten und ' + seconds + ' Sekunden';
     return {days: days, hours: hours, minutes: minutes, seconds: seconds};
 }
 
 function getTimeBetweenTimestamps(timestampA, timestampB) {
-    var a, b;
-    if (timestampA > timestampB) {
-        a = timestampA;
-        b = timestampB;
-    } else if (timestampB > timestampA) {
-        a = timestampB;
-        b = timestampA;
-    } else {
+    timestampA = parseInt(timestampA);
+    timestampB = parseInt(timestampB);
+    var a = timestampB > timestampA ? timestampB : timestampA;
+    var b = timestampB > timestampA ? timestampA : timestampB;
+
+    if (timestampB === timestampA) {
         return 0;
     }
 
+    var milliseconds = Math.round(((a - b) / 1000) % 1 * 1000);
     var seconds = Math.floor((a - b) / 1000);
     var minutes = Math.floor(seconds / 60);
     var hours = Math.floor(minutes / 60);
@@ -1338,7 +1336,6 @@ function getTimeBetweenTimestamps(timestampA, timestampB) {
     hours = hours - (days * 24);
     minutes = minutes - (days * 24 * 60) - (hours * 60);
     seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
-//    return days + ' Tage, ' + hours + ' Stunden, ' + minutes + ' Minunten und ' + seconds + ' Sekunden';
 
     var object = new Object;
     if (days > 0) {
@@ -1356,23 +1353,51 @@ function getTimeBetweenTimestamps(timestampA, timestampB) {
     if (seconds > 0) {
         object.seconds = seconds;
     }
+
+    if (milliseconds > 0) {
+        object.milliseconds = milliseconds;
+    }
+
     return object;
+}
+
+function getSeconds(executionTime) {
+    var seconds = 0;
+    if (executionTime.days) {
+        seconds += 60 * 60 * 24 * executionTime.days;
+    }
+
+    if (executionTime.hours) {
+        seconds += 60 * 60 * executionTime.hours;
+    }
+
+    if (executionTime.minutes) {
+        seconds += 60 * executionTime.minutes;
+    }
+
+    if (executionTime.seconds > 0) {
+        seconds += executionTime.seconds;
+    }
+//    console.log(seconds, executionTime);
+    return seconds;
 }
 
 function isEmpty(obj) {
     return (Object.getOwnPropertyNames(obj).length === 0);
 }
 
-function getTimeString(object, short) {
+function getTimeString(object, short, milliseconds) {
     var timeString = '';
     for (var key in object) {
-        if (short) {
-            timeString += object[key] + ' ' + translation.timesShort[key] + ' ';
-        } else {
-            if (parseInt(object[key]) === 1) {
-                timeString += object[key] + ' ' + translation.timesSingular[key] + ' ';
+        if (key !== 'milliseconds' || milliseconds === true) {
+            if (short) {
+                timeString += object[key] + ' ' + translation.timesShort[key] + ' ';
             } else {
-                timeString += object[key] + ' ' + translation.times[key] + ' ';
+                if (parseInt(object[key]) === 1) {
+                    timeString += object[key] + ' ' + translation.timesSingular[key] + ' ';
+                } else {
+                    timeString += object[key] + ' ' + translation.times[key] + ' ';
+                }
             }
         }
     }
@@ -1723,6 +1748,25 @@ function isWebRTCNeededForPhaseStep(phaseStep) {
             return true;
         }
     }
+    return false;
+}
+
+function isWebRTCNeededInFuture() {
+    var currentPhase = getCurrentPhase();
+    var phaseSteps = getContextualPhaseSteps();
+    if (currentPhase && phaseSteps && phaseSteps.length > 0) {
+        var futureSteps = false;
+        for (var i = 0; i < phaseSteps.length; i++) {
+            if (parseInt(phaseSteps[i].id) === parseInt(currentPhase.id)) {
+                futureSteps = true;
+            }
+
+            if (futureSteps && isWebRTCNeededForPhaseStep(phaseSteps[i])) {
+                return true;
+            }
+        }
+    }
+
     return false;
 }
 

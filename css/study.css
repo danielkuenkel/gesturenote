@@ -87,3 +87,43 @@ and open the template in the editor.
 .bordered-scale-item {
     border: solid 2px #818181;
 }
+
+.vis-item.invisible {
+    visibility: hidden;
+}
+
+
+.vis-item.standard-action {
+    color: #428bca;
+    background-color: #c9e6fe;
+    border-color: #428bca;
+}
+.vis-item.standard-action-full {
+    color: white;
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
+
+.vis-item.correct-selected-gesture {
+    color: #5cb85c;
+    background-color: #cafeca;
+    border-color: #5cb85c;
+}
+.vis-item.correct-selected-gesture-full {
+    color: white;
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+}
+
+
+.vis-item.wrong-selected-gesture {
+    color: #d9534f;
+    background-color: #ffbebc;
+    border-color: #d9534f;
+}
+.vis-item.wrong-selected-gesture-full {
+    color: white;
+    background-color: #d9534f;
+    border-color: #d9534f;
+}
