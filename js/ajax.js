@@ -336,6 +336,22 @@ function getStudiesCatalogForTester(callback) {
     });
 }
 
+function getAgeRange(callback) {
+    $.ajax({
+        url: 'includes/get-age-range.php',
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getStudyById(data, callback) {
     $.ajax({
         url: 'includes/get-study.php',

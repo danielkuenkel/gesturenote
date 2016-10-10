@@ -368,19 +368,20 @@ if (login_check($mysqli) == true) {
                         </div>
 
                         <div id="panel-survey-container" class="hidden">
-                            <div class="form-group" id="ageSlider">
-                                <span class="slider-from" name="age">von</span>
-                                <input class="custom-range-slider saveGeneralData" type="text" value="" data-slider-step="1"/>
-                                <span class="slider-to">bis</span>
-                            </div>
 
                             <div class="form-group">
                                 <div class="btn-group" id="genderSwitch">
                                     <button class="btn btn-default switchButtonAddon">Geschlecht</button>
-                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="female" name="btn-success"><i class="fa fa-venus" aria-hidden="true"></i> weiblich</button>
-                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="male" name="btn-success"><i class="fa fa-mars" aria-hidden="true"></i> männlich</button>
-                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="identical" name="btn-success"><i class="fa fa-genderless" aria-hidden="true"></i> egal</button>
+                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="female" name="btn-success"><i class="fa fa-venus" aria-hidden="true"></i> weiblich</button>
+                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="male" name="btn-success"><i class="fa fa-mars" aria-hidden="true"></i> männlich</button>
+                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="identical" name="btn-success"><i class="fa fa-genderless" aria-hidden="true"></i> egal</button>
                                 </div>
+                            </div>
+
+                            <div class="form-group" id="ageSlider">
+                                <span class="slider-from" name="age">von</span>
+                                <input class="custom-range-slider saveGeneralData" type="text" value="" data-slider-step="1"/>
+                                <span class="slider-to">bis</span>
                             </div>
 
                         </div>
@@ -472,7 +473,6 @@ if (login_check($mysqli) == true) {
                 checkDomain();
                 checkLanguage(function () {
                     createRandomColors();
-
                     var path = PATH_EXTERNALS + '/' + currentLanguage + '/';
                     var externals = new Array();
                     externals.push(['#alerts', path + '/alerts.html']);
@@ -481,7 +481,6 @@ if (login_check($mysqli) == true) {
                     externals.push(['#templage-subpages', path + '/template-sub-pages.html']);
                     externals.push(['#template-gesture-recorder', path + '/template-gesture-recorder.html']);
                     loadExternals(externals);
-
                     $('#from-To-datepicker .input-daterange').datepicker({
                         calendarWeeks: true,
                         todayHighlight: true,
@@ -490,25 +489,20 @@ if (login_check($mysqli) == true) {
                         daysOfWeekHighlighted: "0,6",
                         language: currentLanguage
                     });
-
                     $('#from-To-datepicker .input-daterange').on("changeDate", function () {
                         saveGeneralData();
                     });
-
                     $('#from-To-datepicker .input-daterange input').on("clearDate", function () {
                         saveGeneralData();
                     });
                 });
             });
-
             var editableStudyId = null;
             var studyEditable = false;
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
-
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-
                 if (query.studyId && query.h === hash) {
                     $('#btn-clear-data').remove();
                     studyEditable = true;
@@ -534,60 +528,55 @@ if (login_check($mysqli) == true) {
             }
 
             function init() {
-                var ageMin = 18;
-                var ageMax = 100;
-                if (getLocalItem(STUDY) && getLocalItem(STUDY).ageRange) {
-//                    $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: getLocalItem(STUDY).ageRange.ageRange});
-                } else {
-                    $("#ageSlider .custom-range-slider").slider({min: ageMin, max: ageMax, value: [23, 50]});
-                }
+                getAgeRange(function (result) {
+                    if (result.status === RESULT_SUCCESS) {
+                        if (result.tester && result.tester.length > 0) {
+                            var ageMax = calculateAge(new Date(parseInt(result.tester[0].birthday) * 1000));
+                            var ageMin = calculateAge(new Date(parseInt(result.tester[result.tester.length - 1].birthday) * 1000));
+                            var data = {min: ageMin, max: ageMax};
+                            data.availableGender = getAvailableGender(result.tester);
+                            setLocalItem(STUDY_PANEL, data);
+                        }
 
-                $('#ageSlider .slider-from').text(translation[$('#ageSlider .slider-from').attr('name')] + " " + translation.of + " " + ageMin);
-                $('#ageSlider .slider-to').text(translation.to + " " + ageMax);
-
-                if (typeof (Storage) !== "undefined") {
-                    checkSessionStorage();
-                } else {
-                    appendAlert($('#mainContent'), ALERT_NO_STORAGE_API);
-                }
-
-                $('#create-tab-navigation').find('#general').click();
+                        if (typeof (Storage) !== "undefined") {
+                            checkSessionStorage();
+                        } else {
+                            appendAlert($('#mainContent'), ALERT_NO_STORAGE_API);
+                        }
+                        
+                        $('#create-tab-navigation').find('#general').click();
+                    }
+                });
             }
 
             $('#custom-modal').on('hidden.bs.modal', function () {
                 $(this).find('.modal-content').empty();
             });
-
             // scenes handling
             $('#btn-assemble-scenes').click(function (event) {
                 event.preventDefault();
                 currentIdForModal = ASSEMBLED_SCENES;
                 loadHTMLintoModal('custom-modal', 'create-scenes-catalog.php', 'modal-lg');
             });
-
             $('#btn-clear-scenes').click(function (event) {
                 event.preventDefault();
                 removeAssembledScenes();
                 updateCatalogButtons();
             });
-
             // gesture catalog handling
             $('#btn-assemble-study-gestures').click(function (event) {
                 event.preventDefault();
                 loadHTMLintoModal('custom-modal', 'create-gesture-catalog.php', 'modal-lg');
             });
-
             $('#btn-study-gestures').click(function (event) {
                 event.preventDefault();
                 loadHTMLintoModal("custom-modal", "create-study-gestures.php", "modal-lg");
             });
-
             $('#btn-clear-study-gestures').click(function (event) {
                 event.preventDefault();
                 removeAssembledGestures();
                 updateCatalogButtons();
             });
-
             $('#btn-record-gestures').click(function (event) {
                 event.preventDefault();
                 loadHTMLintoModal('custom-modal', 'create-gesture-recorder.php', 'modal-md');
@@ -600,33 +589,28 @@ if (login_check($mysqli) == true) {
                     }
                 });
             });
-
             // trigger catalog handling
             $('#btn-assemble-trigger').click(function (event) {
                 event.preventDefault();
 //                currentIdForModal = ASSEMBLED_TRIGGER;
                 loadHTMLintoModal('custom-modal', 'create-trigger-catalog.php', 'modal-lg');
             });
-
             $('#btn-clear-trigger').click(function (event) {
                 event.preventDefault();
                 removeAssembledTrigger();
                 updateCatalogButtons();
             });
-
             // feedback catalog handling
             $('#btn-assemble-feedback').click(function (event) {
                 event.preventDefault();
 //                currentIdForModal = ASSEMBLED_FEEDBACK;
                 loadHTMLintoModal('custom-modal', 'create-feedback-catalog.php', 'modal-lg');
             });
-
             $('#btn-clear-feedback').click(function (event) {
                 event.preventDefault();
                 removeAssembledFeedback();
                 updateCatalogButtons();
             });
-
             $('#addPhaseStep').click(function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled') && format !== 'unselected') {
@@ -636,7 +620,6 @@ if (login_check($mysqli) == true) {
                     checkPreviewAvailability();
                 }
             });
-
             function checkPreviewAvailability() {
                 var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
                 if (phaseSteps && phaseSteps.length > 0) {
@@ -650,10 +633,7 @@ if (login_check($mysqli) == true) {
                 var clone = $('#phaseStepItem').clone().removeAttr('id');
                 clone.removeClass('hidden').addClass(translation.formats[format].class);
                 clone.attr('id', id);
-
                 $('#phaseStepList').append(clone);
-                console.log(format);
-
                 clone.find('.btn-modify').attr('id', format);
                 clone.find('.glyphicon-tag').css('color', color === null ? color = colors.pop() : color);
                 clone.find('.phase-step-format').text(" " + translation.formats[format].text);
@@ -662,10 +642,8 @@ if (login_check($mysqli) == true) {
                     currentIdForModal = event.data.id;
                     loadHTMLintoModal("custom-modal", "create-" + event.data.format + ".php", "modal-lg");
                 });
-
                 if (format === THANKS || format === LETTER_OF_ACCEPTANCE) {
                     clone.find('.btn-delete').remove();
-
                 } else {
 //                    var children = $('#phaseStepList').children().length;
 //                    $('#phaseStepList>div:eq(' + children + ')').before(clone);
@@ -675,7 +653,6 @@ if (login_check($mysqli) == true) {
                         removeLocalItem(event.data.id + ".data");
                         checkPreviewAvailability();
                     });
-
                     if (format === SUS) {
                         setLocalItem(id + ".data", getLocalItem(STUDY_ORIGIN_SUS));
                     }
@@ -692,11 +669,9 @@ if (login_check($mysqli) == true) {
                     $('#panel-survey-container').addClass('hidden');
                 }
             });
-
             $('#phaseSelect').on('change', function (event, id) {
                 event.preventDefault();
                 $('#create-tab-navigation #phases').removeClass('hidden');
-
                 if (id === TYPE_PHASE_ELICITATION) {
                     $('#phaseStepSelect').find('.' + id).removeClass('hidden');
                     $('#phaseStepSelect').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
@@ -709,13 +684,11 @@ if (login_check($mysqli) == true) {
 
                 renderPhaseSteps();
             });
-
             $('.breadcrumb li').click(function () {
                 clearSceneImages();
                 clearSounds();
                 clearLocalItems();
             });
-
             $('#btn-clear-data').click(function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
@@ -725,7 +698,6 @@ if (login_check($mysqli) == true) {
                     location.reload(true);
                 }
             });
-
             $('#btn-preview-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true && !$(this).hasClass('disabled')) {
@@ -737,7 +709,6 @@ if (login_check($mysqli) == true) {
                     }
                 }
             });
-
             $('#btn-save-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true) {
@@ -746,7 +717,6 @@ if (login_check($mysqli) == true) {
                     $('#btn-clear-data, #btn-preview-study').addClass('disabled');
                     saveGeneralData();
                     showCursor($('body'), CURSOR_POINTER);
-
                     if (studyEditable === true) {
                         var updateData = getStudyData();
                         updateData.studyId = editableStudyId;
@@ -754,7 +724,6 @@ if (login_check($mysqli) == true) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
                             $('#btn-clear-data, #btn-preview-study').removeClass('disabled');
-
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
                                 var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -768,7 +737,6 @@ if (login_check($mysqli) == true) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
                             $('#btn-clear-data, #btn-preview-study').removeClass('disabled');
-
                             if (result.status === RESULT_SUCCESS) {
                                 clearLocalItems();
                                 var hash = hex_sha512(parseInt(result.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -780,11 +748,9 @@ if (login_check($mysqli) == true) {
                     }
                 }
             });
-
             function checkInputs() {
                 resetErrors();
                 var errors = 0;
-
                 if ($('#studyTitle').val().trim() === "") {
                     $('#studyTitle').closest('.form-group').addClass('has-error');
                     errors++;
@@ -820,7 +786,6 @@ if (login_check($mysqli) == true) {
                 var activeTapId = $(this).find('.active').attr('id');
                 var activeTaps = $('.tab-' + activeTapId);
                 activeTaps.removeClass('hidden');
-
                 for (var i = 0; i < activeTaps.length; i++) {
                     $(activeTaps[i]).css({zIndex: 100});
                     TweenMax.from(activeTaps[i], .2, {delay: (i * .1), opacity: 0, y: -20, clearProps: 'all'});

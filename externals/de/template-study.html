@@ -464,8 +464,18 @@
 
 
     <div id="rtc-video-result">
-        <video id="video-holder" controls preload="auto" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
-        <div id="results-timeline" style="margin-top: -8px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;"></div>
+        <div class="alert-space alert-record-url-invalid"></div>
+        <div id="loader" class="hidden text-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <div class="text">
+                Einen Moment bitte... Videodaten werden geladen.
+            </div>
+        </div>
+        <div id="video-timeline" class="hidden">
+            <video id="video-holder" controls preload="auto" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
+            <div id="results-timeline" style="margin-top: -8px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;"></div>
+        </div>
+
     </div>
 
     <div class="root" id="gestureTraining">
@@ -617,21 +627,10 @@
         <div class="alert-space alert-webm-unsupported"></div>
         <h3 id="headline-summary">Zusammenfassung</h3>
         <hr>
-        <!--        <div id="summary-container">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="text text-center" id="restarts">
-                                <div class="text" style="font-size: 120pt; line-height: 110pt"></div>
-                                <div class="address" style="font-size: 20pt">Neustarts</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 text-center">
-                            Je weniger Neustarts es bei einer Gesten-Slideshow gab, desto besser. Dieser Scorewert kann mit der Erinnerbarkeit und Intuitivität eines Gestensets in Verbindung gebracht werden.
-                        </div>
-                    </div>-->
-
+        <span class="label label-default hidden" id="repeats"><span class="address"></span> <span class="text"></span></span> 
+        <span class="label label-default hidden" id="ask-single-questions"><span class="address"></span> <span class="text"></span></span>
+        <span class="label label-default hidden" id="ask-sequence-questions"><span class="address"></span> <span class="text"></span></span>
         <div id="gestures-container"></div>
-        <!--</div>-->
         <h3 id="headline-observations">Beobachtungen</h3>
         <hr>
         <div id="observations-container"></div>
@@ -686,6 +685,20 @@
                 <img src="img/human_hand.svg">
             </div>
         </div>
+    </div>
+
+
+
+
+    <div class="root" id="scenario">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <hr id="horizontalLine">
+        <div class="alert-space alert-no-record"></div>
+        <div class="alert-space alert-webm-unsupported"></div>
+        <div class="list-container" style="margin-top: 30px;"></div>
+        <h3 id="headline-observations">Beobachtungen</h3>
+        <hr>
+        <div id="observations-container"></div>
     </div>
 
 </div>

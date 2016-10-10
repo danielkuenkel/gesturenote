@@ -435,6 +435,13 @@ if (login_check($mysqli) == true) {
                     }
                 });
 
+                $('#login-form #password, #login-form #email').keypress(function (event) {
+                    if (event.keyCode === 13) {
+                        console.log('enter pressed');
+                        $('#login-form #btn-login').click();
+                    }
+                });
+
                 $('#login-form').on('loginSuccess', function (event, result) {
                     if (result.userType === 'evaluator') {
                         goto('dashboard-evaluator.php');

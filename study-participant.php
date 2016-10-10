@@ -34,7 +34,7 @@ if (login_check($mysqli) == true) {
         <!--        <link href="http://vjs.zencdn.net/5.8.8/video-js.css" rel="stylesheet">
                 <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>-->
 
-        <link href="vis/vis.min.css" rel="stylesheet">
+        <link href="vis/vis.css" rel="stylesheet">
         <script src="vis/vis.min.js"></script>
 
         <script src="js/sha512.js"></script>
@@ -167,7 +167,6 @@ if (login_check($mysqli) == true) {
                     $('#general-view').find('#execution-fault .label-text').text(translation.studyFault);
                 }
 
-
                 // phase nav view
                 if (studyData.phases && studyData.phases.length > 0) {
                     for (var i = 0; i < studyData.phases.length; i++) {
@@ -185,16 +184,6 @@ if (login_check($mysqli) == true) {
                     }
                     $('#phase-results-nav').children().first().click();
                 }
-
-
-//                // catalogs view
-//                // check if there are study catalog data
-//                var studyGestures = data.gestureCatalog;
-//
-//                if (studyGestures && studyGestures.length > 0) {
-//                    setLocalItem(GESTURE_CATALOG, studyGestures);
-//                    renderStudyGestures(studyGestures);
-//                }
             }
 
             $(document).on('click', '#phase-results-nav button', function (event) {
@@ -218,7 +207,7 @@ if (login_check($mysqli) == true) {
                     $('#phase-result').empty().append(content);
 
                     var executionTime = getTimeBetweenTimestamps(phaseResults.startTime, phaseResults.endTime);
-//                    console.log(phaseData);
+//                    console.log(executionTime);
                     if (!isEmpty(executionTime)) {
                         var badge = document.createElement('span');
                         $(badge).addClass('badge pull-right');
@@ -242,17 +231,20 @@ if (login_check($mysqli) == true) {
                         });
                     }
 
-                    if (phaseResults && phaseResults.recordUrl && phaseResults.recordUrl !== '') {
-                        var timelineData = {phaseData: phaseData, phaseResults: phaseResults, executionTime: executionTime};
-                        var resultsPlayer = new RTCResultsPlayer(phaseResults.recordUrl, timelineData);
-                        if (getBrowser() !== 'Safari') {
-                            $(content).find('#horizontalLine').after(resultsPlayer);
+                    // check and add recorded stream data
+                    if (isWebRTCNeededForPhaseStep(phaseResults)) {
+                        if (phaseResults && phaseResults.recordUrl && phaseResults.recordUrl !== '') {
+                            var timelineData = {phaseData: phaseData, phaseResults: phaseResults, executionTime: executionTime};
+                            var resultsPlayer = new RTCResultsPlayer(phaseResults.recordUrl, timelineData);
+                            if (getBrowser() !== 'Safari') {
+                                $(content).find('#horizontalLine').after(resultsPlayer);
+                            } else {
+//                            console.log('webm not supported');
+                                appendAlert(content, ALERT_WEBM_UNSUPPORTED);
+                            }
                         } else {
-                            console.log('webm not supported');
-                            appendAlert(content, ALERT_WEBM_UNSUPPORTED);
+                            appendAlert(content, ALERT_NO_RECORD);
                         }
-                    } else {
-                        appendAlert(content, ALERT_NO_RECORD);
                     }
 
                     console.log('render phase step: ' + phaseResults.format);
@@ -289,6 +281,9 @@ if (login_check($mysqli) == true) {
                             break;
                         case PHYSICAL_STRESS_TEST:
                             renderPhysicalStressTest(content, phaseData, phaseResults);
+                            break;
+                        case SCENARIO:
+                            renderScenario(content, phaseData, phaseResults);
                             break;
                     }
 
@@ -640,7 +635,7 @@ if (login_check($mysqli) == true) {
             }
 
             function renderGroupingQuestion(item, studyData, resultsData) {
-//                console.log(studyData, resultsData);
+                console.log(studyData, resultsData);
                 $(item).find('.question').text(studyData.question);
 
                 if (studyData.parameters.multiselect === 'yes') {
@@ -673,18 +668,25 @@ if (login_check($mysqli) == true) {
                         item.find('.option-container').append(document.createElement('br'));
                     }
 
-                    if (resultsData.selectedOptions && resultsData.selectedOptions.length === (i + 1)) {
-                        var selectedOptionId = parseInt(resultsData.selectedOptions[i]);
-                        if (selectedOptionId === parseInt(studyData.options[i].id)) {
-                            $(optionItem).addClass('bordered-scale-item');
-                        } else {
-                            $(optionItem).css({paddingLeft: "0px"});
+                    if (resultsData.selectedOptions && resultsData.selectedOptions.length > 0) {
+//                        console.log(resultsData.selectedOptions);
+                        for (var j = 0; j < resultsData.selectedOptions.length; j++) {
+                            if (parseInt(resultsData.selectedOptions[j]) === parseInt(studyData.options[i].id)) {
+                                $(optionItem).addClass('bordered-scale-item');
+                                if (i > 0) {
+                                    $(optionItem).css({marginTop: '5px'});
+                                }
+                                break;
+                            } else {
+//                                $(optionItem).css({paddingLeft: "0px"});
+                            }
                         }
                     } else {
                         $(optionItem).css({paddingLeft: "0px"});
                     }
                 }
             }
+
 
             function renderGroupingQuestionGUS(item, studyData, resultsData) {
 //                console.log(studyData, resultsData);
@@ -750,7 +752,7 @@ if (login_check($mysqli) == true) {
                                     $(optionItem).addClass('bordered-scale-item');
                                     break;
                                 } else {
-                                    $(optionItem).css({paddingLeft: "0px"});
+//                                    $(optionItem).css({paddingLeft: "0px"});
                                 }
                             }
                         } else {
@@ -1168,88 +1170,97 @@ if (login_check($mysqli) == true) {
                     $(item).find('#trigger .text').text(trigger.title);
                     $(item).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
 
-                    // single questions joint section
-                    var singleStressGraphicsRating = studyData.singleStressGraphicsRating;
-                    if (singleStressGraphicsRating !== 'none') {
-                        var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
-                        $(jointAnswers).insertAfter($(item).find('#headline-single-questions'));
-                        if (singleStressGraphicsRating === 'hands') {
-                            $(jointAnswers).find('#joint-answers-body').remove();
-                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'single');
-                        } else if (singleStressGraphicsRating === 'body') {
-                            $(jointAnswers).find('#joint-answers-hands').remove();
-                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'single');
-                        } else {
-                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'single');
-                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'single');
-                        }
-                    }
 
-                    // sequence questions joint section
-                    var sequenceStressGraphicsRating = studyData.sequenceStressGraphicsRating;
-                    if (sequenceStressGraphicsRating !== 'none') {
-                        var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
-                        $(jointAnswers).insertAfter($(item).find('#headline-sequence-questions'));
-
-                        if (sequenceStressGraphicsRating === 'hands') {
-                            $(jointAnswers).find('#joint-answers-body').remove();
-                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'sequence');
-                        } else if (sequenceStressGraphicsRating === 'body') {
-                            $(jointAnswers).find('#joint-answers-hands').remove();
-                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'sequence');
-                        } else {
-                            renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'sequence');
-                            renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'sequence');
-                        }
-                    }
-
-                    // single answers section
-                    var singleStressQuestionnaire = studyData.singleStressQuestions;
-                    if (singleStressQuestionnaire && singleStressQuestionnaire.length > 0) {
-//                        singleStressQuestionnaire = singleStressQuestionnaire.reverse();
-                        var results = new Object();
-                        results.answers = new Array();
-                        var questions = new Array();
-
-                        for (var j = 0; j < resultsData.answers.length; j++) {
-                            if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].singleAnswers) {
-                                results.answers = results.answers.concat(resultsData.answers[j].singleAnswers.answers.reverse());
-                                questions = questions.concat(singleStressQuestionnaire);
+                    // check if answers are there
+                    if (resultsData && resultsData.answers && resultsData.answers.length > 0) {
+                        
+                        // single questions joint section
+                        var singleStressGraphicsRating = studyData.singleStressGraphicsRating;
+                        if (singleStressGraphicsRating !== 'none') {
+                            var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
+                            $(jointAnswers).insertAfter($(item).find('#headline-single-questions'));
+                            if (singleStressGraphicsRating === 'hands') {
+                                $(jointAnswers).find('#joint-answers-body').remove();
+                                renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'single');
+                            } else if (singleStressGraphicsRating === 'body') {
+                                $(jointAnswers).find('#joint-answers-hands').remove();
+                                renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'single');
+                            } else {
+                                renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'single');
+                                renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'single');
                             }
                         }
 
-                        if (questions.length > 0 && results.answers.length > 0) {
-                            results.answers = results.answers.reverse();
+                        // sequence questions joint section
+                        var sequenceStressGraphicsRating = studyData.sequenceStressGraphicsRating;
+                        if (sequenceStressGraphicsRating !== 'none') {
+                            var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
+                            $(jointAnswers).insertAfter($(item).find('#headline-sequence-questions'));
+
+                            if (sequenceStressGraphicsRating === 'hands') {
+                                $(jointAnswers).find('#joint-answers-body').remove();
+                                renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'sequence');
+                            } else if (sequenceStressGraphicsRating === 'body') {
+                                $(jointAnswers).find('#joint-answers-hands').remove();
+                                renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'sequence');
+                            } else {
+                                renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData.answers, gesture.id, 'sequence');
+                                renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData.answers, gesture.id, 'sequence');
+                            }
+                        }
+
+                        // single answers section
+                        var singleStressQuestionnaire = studyData.singleStressQuestions;
+                        if (singleStressQuestionnaire && singleStressQuestionnaire.length > 0) {
+//                        singleStressQuestionnaire = singleStressQuestionnaire.reverse();
+                            var results = new Object();
+                            results.answers = new Array();
+                            var questions = new Array();
+
+                            for (var j = 0; j < resultsData.answers.length; j++) {
+                                if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].singleAnswers) {
+                                    results.answers = results.answers.concat(resultsData.answers[j].singleAnswers.answers.reverse());
+                                    questions = questions.concat(singleStressQuestionnaire);
+                                }
+                            }
+
+                            if (questions.length > 0 && results.answers.length > 0) {
+//                            results.answers = results.answers.reverse();
 //                            console.log('singleStressQuestionnaire');
 //                            console.log(questions, results);
-                            renderQuestionnaire($(item).find('#single-stress-answers'), questions.reverse(), results);
-                        }
-                    }
-
-                    // sequence answers section
-                    var sequenceStressQuestionnaire = studyData.sequenceStressQuestions;
-                    if (sequenceStressQuestionnaire && sequenceStressQuestionnaire.length > 0) {
-//                        sequenceStressQuestionnaire = sequenceStressQuestionnaire.reverse();
-                        var results = new Object();
-                        results.answers = new Array();
-                        var questions = new Array();
-
-                        for (var j = 0; j < resultsData.answers.length; j++) {
-                            if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].sequenceAnswers) {
-//                                console.log(resultsData.answers[j].sequenceAnswers.answers);
-                                results.answers = results.answers.concat(resultsData.answers[j].sequenceAnswers.answers.reverse());
-                                questions = questions.concat(sequenceStressQuestionnaire);
+                                renderQuestionnaire($(item).find('#single-stress-answers'), questions.reverse(), results);
                             }
                         }
 
-                        if (questions.length > 0 && results.answers.length > 0) {
-                            results.answers = results.answers.reverse();
+                        // sequence answers section
+                        var sequenceStressQuestionnaire = studyData.sequenceStressQuestions;
+                        if (sequenceStressQuestionnaire && sequenceStressQuestionnaire.length > 0) {
+//                        sequenceStressQuestionnaire = sequenceStressQuestionnaire.reverse();
+                            var results = new Object();
+                            results.answers = new Array();
+                            var questions = new Array();
+
+                            for (var j = 0; j < resultsData.answers.length; j++) {
+                                if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].sequenceAnswers) {
+//                                console.log(resultsData.answers[j].sequenceAnswers.answers);
+                                    results.answers = results.answers.concat(resultsData.answers[j].sequenceAnswers.answers.reverse());
+                                    questions = questions.concat(sequenceStressQuestionnaire);
+                                }
+                            }
+
+                            if (questions.length > 0 && results.answers.length > 0) {
+                                results.answers = results.answers.reverse();
 //                            console.log('sequenceStressQuestionnaire');
 //                            console.log(questions, results);
-                            renderQuestionnaire($(item).find('#sequence-stress-answers'), questions.reverse(), results);
+                                renderQuestionnaire($(item).find('#sequence-stress-answers'), questions.reverse(), results);
+                            }
                         }
                     }
                 }
+            }
+
+            function renderScenario(container, studyData, resultsData) {
+                console.log(studyData, resultsData);
             }
         </script>
         <!--<script src="https://vjs.zencdn.net/5.8.8/video.js"></script>-->

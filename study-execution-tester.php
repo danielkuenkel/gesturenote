@@ -8,10 +8,6 @@ $h = getv('h');
 $studyId = getv('studyId');
 $token = getv('token');
 
-if (studyExecutionExists($studyId, $mysqli)) {
-    header('Location: study-execution-exists.php');
-}
-
 if ($h && $token && $studyId) {
     if (login_check($mysqli) == true) {
         $hash = hash('sha512', $studyId . $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname']);
@@ -19,13 +15,17 @@ if ($h && $token && $studyId) {
             header('Location: study-prepare-fallback.php?studyId=' . $studyId . '&h=' . $token);
         }
     } else {
+        $_SESSION['usertype'] = 'guest';
         if (!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && ($_SESSION['user_id'] == 0 || $_SESSION['user_id'] == '0'))) {
             $time = time();
             $_SESSION['user_id'] = hash('sha512', $time . $_SESSION['usertype']);
         }
-        $_SESSION['usertype'] = 'guest';
-        $hash = hash('sha512', $studyId . $_SESSION['usertype']);
 
+        if (studyExecutionExists($studyId, $mysqli)) {
+            header('Location: study-execution-exists.php');
+        }
+
+        $hash = hash('sha512', $studyId . $_SESSION['usertype']);
         if ($hash != $h) {
             header('Location: study-prepare-fallback.php?studyId=' . $studyId . '&h=' . $token);
         }
@@ -173,7 +173,7 @@ if ($h && $token && $studyId) {
                     var statusAddressMatch = statusAddressMatchIndex(status);
 
                     // check if there was a page reload
-                    status = ''; // for testing
+//                    status = ''; // for testing
                     if (status !== '' && statusAddressMatch !== null) {
                         currentPhaseStepIndex = statusAddressMatch;
                         init();

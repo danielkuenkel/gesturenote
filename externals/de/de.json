@@ -411,7 +411,9 @@
         "refreshScene": "Szene neu laden",
         "selectGesture": "Auswahl",
         "startQuestionnaire": "Start Fragebogen",
-        "endQuestionnaire": "Ende Fragebogen"
+        "endQuestionnaire": "Ende Fragebogen",
+        "noGestureDemonstrated": "Keine Geste demonstriert",
+        "noGestureFitFound": "Andere Geste demonstriert"
     },
     "visLabels": {
         "training": "Training"

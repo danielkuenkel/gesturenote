@@ -1047,7 +1047,7 @@ function getFormatData(element) {
             options = new Array();
             var groupingOptions = $(element).find('.option-container').children();
             for (var j = 0; j < groupingOptions.length; j++) {
-                options.push({id: groupingOptions.attr('id'), title: $(groupingOptions[j]).find('.option').val()});
+                options.push({id: $(groupingOptions[j]).attr('id'), title: $(groupingOptions[j]).find('.option').val()});
             }
             break;
         case GROUPING_QUESTION_GUS:

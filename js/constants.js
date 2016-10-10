@@ -19,6 +19,7 @@ var RESULT_WRONG_CURRENT_PASSWORD = 'wrongCurrentPassword';
 // study specific constants
 var STUDY = 'study';
 var STUDY_RESULTS = 'studyResults';
+var STUDY_PANEL = 'studyPanel';
 var STUDY_DATA_EVALUATOR = 'dataEvaluator';
 var STUDY_ORIGIN_GUS = 'study.originGUS';
 var STUDY_ORIGIN_SUS = 'study.originSUS';
@@ -149,6 +150,8 @@ var ACTION_START_PERFORM_GESTURE = 'startPerformGesture';
 var ACTION_END_PERFORM_GESTURE = 'endPerformGesture';
 var ACTION_REFRESH_SCENE = 'refreshScene';
 var ACTION_SELECT_GESTURE = 'selectGesture';
+var ACTION_NO_GESTURE_FIT_FOUND = 'noGestureFitFound';
+var ACTION_NO_GESTURE_DEMONSTRATED = 'noGestureDemonstrated';
 var ACTION_START_QUESTIONNAIRE = 'startQuestionnaire';
 var ACTION_END_QUESTIONNAIRE = 'endQuestionnaire';
 

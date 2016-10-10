@@ -1198,13 +1198,14 @@
                 <button class="btn btn-link pull-left hidden" id="btn-hide-scenario-info"><i class="glyphicon glyphicon-menu-up text-center"></i> <span id="less-text"></span></button>
             </div>
             <div class="pull-right">
+                <button type="button" class="btn btn-success" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
                 <button type="button" class="btn btn-info" id="btn-refresh-scene"><i class="glyphicon glyphicon-refresh"></i> <span class="btn-text">Neu laden</span></button>
                 <button type="button" class="btn btn-info" id="btn-getting-help"><i class="fa fa-life-ring"></i> <span class="btn-text">Hilfe</span></button>
             </div>
             <div class="text-center" style="overflow: hidden">
                 <button type="button" class="btn btn-success hidden" id="btn-perform-gesture"><span class="btn-text">Geste ausführen</span></button>
                 <button type="button" class="btn btn-danger hidden" id="btn-stop-perform-gesture"><span class="btn-text">Geste ausgeführt</span></button>
-                <button type="button" class="btn btn-success hidden" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+                
             </div>
         </div>
 
@@ -1246,7 +1247,7 @@
     </div>
 
     <div class="container root"  id="thanks">
-        <h3 class="headline" style="margin: 0" >Danke für die Teilnahme</h3>
+        <h3 class="headline text" style="margin: 0">Danke für die Teilnahme</h3>
         <hr>
         <div class="row">
             <div class="col-sm-6" style="margin-bottom: 20px;">
@@ -1257,6 +1258,9 @@
                 <i class="fa fa-upload" aria-hidden="true" style="font-size: 70pt; color: #777"></i>
                 <div class="text">
                     Bitte warten! Die Daten werden nun gespeichert. Bitte nicht dieses Fenster oder den Browser schließen. Wenn die Daten gespeichert sind, erscheint eine Meldung.
+                </div>
+                <div id="rtc-uploads-status" class="hidden text">
+                     Bitte warten… Videodaten werden gespeichert.
                 </div>
             </div>
             <div class="col-sm-6 hidden" id="upload-retry" style="margin-bottom: 20px;">

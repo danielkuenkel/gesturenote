@@ -28,13 +28,11 @@ $(document).on('submit', '#login-form', function (event) {
     var formElement = $(this);
     clearAlerts(formElement);
     disableInputs();
-
     if (form === 'login') {
         var data = {email: $('#login-form #email').val().trim(), p: $('#login-form #p').val()};
         login(data, function (result) {
             clearAlerts(formElement);
             enableInputs();
-
             if (result.status === 'accountLogged') {
                 appendAlert($('#login'), ALERT_ACCOUNT_LOGGED);
             } else if (result.status === 'passwordNotCorrect') {

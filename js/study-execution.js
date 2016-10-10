@@ -54,11 +54,9 @@ function initialize() {
     } else {
         uploadQueue = new UploadQueue();
         $(uploadQueue).bind(EVENT_FILE_SAVED, function (event, result) {
-
             var phaseStepData = getLocalItem(result.phaseStepId + '.saveData');
             console.log(result.phaseStepId, phaseStepData);
             if (phaseStepData) {
-
                 phaseStepData.recordUrl = result.filename;
                 setLocalItem(result.phaseStepId + '.saveData', phaseStepData);
                 saveCurrentStatus(false);
@@ -158,7 +156,6 @@ function nextStep() {
     identificationTriggered = false;
     identificationStartTriggered = false;
     singleGUSGesture = null;
-    resetRecorder();
 
     var phases = getContextualPhaseSteps();
     if (previewModeEnabled === false) {

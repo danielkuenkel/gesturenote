@@ -60,6 +60,7 @@ var ALERT_CONTACT_SUPPORT = 'contact-support';
 var ALERT_SUS_INVALID = 'sus-invalid';
 var ALERT_WEBM_UNSUPPORTED = 'webm-unsupported';
 var ALERT_NO_RECORD = 'no-record';
+var ALERT_RECORD_URL_INVALID = 'record-url-invalid';
 
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);

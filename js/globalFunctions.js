@@ -99,6 +99,9 @@ function renderSubPageElements(hasTopNavbar) {
     var header = $('#header-footer-container').find('#sub-page-header').clone().removeAttr('id');
     header.insertBefore($('body').find('#breadcrumb'));
     header.find('#btn-sign-out .btn-text').text(translation.signOut);
+    header.find('#btn-sign-out').on('click', function(event) {
+        clearLocalItems();
+    });
 
     header.find('#logo').on('click', function (event) {
         event.preventDefault();
@@ -303,7 +306,7 @@ function checkCurrentListState(itemContainer) {
  */
 $(document).on('click', '.btn-toggle-checkbox', function (event) {
     event.preventDefault();
-    if (!event.handled) {
+    if (!event.handled && !$(this).hasClass('disabled')) {
         event.handled = true;
         if ($(this).hasClass('inactive')) {
             if ($(this).parent().children('.active').length === 0) {
@@ -1333,6 +1336,7 @@ function getTimeBetweenTimestamps(timestampA, timestampB) {
     var minutes = Math.floor(seconds / 60);
     var hours = Math.floor(minutes / 60);
     var days = Math.floor(hours / 24);
+
     hours = hours - (days * 24);
     minutes = minutes - (days * 24 * 60) - (hours * 60);
     seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
@@ -1361,6 +1365,12 @@ function getTimeBetweenTimestamps(timestampA, timestampB) {
     return object;
 }
 
+function calculateAge(birthday) { // birthday is a date
+    var ageDifMs = Date.now() - birthday.getTime();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
 function getSeconds(executionTime) {
     var seconds = 0;
     if (executionTime.days) {
@@ -1383,7 +1393,19 @@ function getSeconds(executionTime) {
 }
 
 function isEmpty(obj) {
-    return (Object.getOwnPropertyNames(obj).length === 0);
+    var length = Object.getOwnPropertyNames(obj).length;
+    if (length > 0) {
+        if (length > 1) {
+            return false;
+        } else {
+            for (var key in obj) {
+                if (length === 1 && key === 'milliseconds') {
+                    return true;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 function getTimeString(object, short, milliseconds) {

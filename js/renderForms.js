@@ -110,7 +110,6 @@ function renderGroupingQuestionPreview(source, item, parameters, options) {
 
 function renderGroupingQuestionInput(item, parameters, options) {
     var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';
-
     for (var i = 0; i < options.length; i++) {
         var option = $('#item-container-inputs').find('#' + optionType).clone();
         option.find('.option-text').text(options[i].title);

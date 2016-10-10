@@ -94,7 +94,6 @@ var Tester = {
     initializeRTC: function initializeRTC(source, item, format) {
         // check preview or live mode, and check if webRTC is needed
         if (isWebRTCNeededInFuture()) {
-//            if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
             if (previewModeEnabled === true) {
                 switch (format) {
                     case SCENARIO:
@@ -114,18 +113,9 @@ var Tester = {
                         break;
                 }
             }
-//            } else {
-//                initializeLiveStream();
-//            }
-
         } else {
             resetLiveStream();
         }
-//        if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
-//
-//        } else {
-//            resetLiveStream();
-//        }
     },
     appendRTCPreview: function appendRTCPreview(source, target) {
         $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
@@ -409,7 +399,7 @@ var Tester = {
         // training handler
         item.find('#start-single-training, #repeat-training').on('click', function (event) {
             event.preventDefault();
-            console.log('start single training');
+//            console.log('start single training');
             if (!$(this).hasClass('disabled')) {
 
                 if ($(this).attr('id') === 'start-single-training' && !previewModeEnabled) {
@@ -677,7 +667,7 @@ var Tester = {
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
 
-                console.log(selectedOption);
+//                console.log(selectedOption);
                 if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
                     tempData.selectedOptions.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
                 } else {
@@ -1154,9 +1144,9 @@ var Tester = {
             if (!previewModeEnabled) {
                 var answers = new Object();
                 var singleQuestionnaire = $(item).find('#single-questions .question-container').children();
-                var singleQuestionAnswers = singleQuestionAnswers = getQuestionnaireFormData(singleQuestionnaire, {});
-                console.log(data.singleStressGraphicsRating, data.sequenceStressGraphicsRating);
-                
+                var singleQuestionAnswers = getQuestionnaireFormData(singleQuestionnaire, {});
+//                console.log(data.singleStressGraphicsRating, data.sequenceStressGraphicsRating);
+
                 if (currentStressTestCount < parseInt(data.stressAmount) - 1) {
                     if (singleQuestionAnswers.answers && singleQuestionAnswers.answers.length > 0) {
                         answers.singleAnswers = singleQuestionAnswers;
@@ -1184,7 +1174,10 @@ var Tester = {
                 answers.time = new Date().getTime();
 
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_END_QUESTIONNAIRE, gestureId: gesture.id, time: new Date().getTime()});
+//                console.log(currentStressTestCount, data.stressAmount, currentStressTestIndex, data.stressTestItems.length);
+                if (currentStressTestIndex < data.stressTestItems.length - 1) {
+                    tempData.actions.push({action: ACTION_END_QUESTIONNAIRE, gestureId: gesture.id, time: new Date().getTime()});
+                }
                 tempData.answers.push(answers);
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             }
@@ -1286,33 +1279,39 @@ var Tester = {
         container.find('#info-content').removeClass('hidden');
         container.find('#start-controls').removeClass('hidden');
 
-        // button operations
+        // button functions
         container.find('#btn-show-scenario-info').on('click', function (event) {
             event.preventDefault();
-            showScenarioInfos(container);
-            $(this).addClass('hidden');
+            if (!$(this).hasClass('hidden')) {
 
-            if (!previewModeEnabled) {
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_SHOW_INFO, time: new Date().getTime()});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                $(this).addClass('hidden');
+
+                if (!previewModeEnabled) {
+                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_SHOW_INFO, time: new Date().getTime()});
+                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                }
             }
 
+            showScenarioInfos(container);
             panelOffset = container.find('#generalPanel').offset().top;
             panelHeight = container.find('#generalPanel').height();
             container.find('#fixed-rtc-preview').css({marginTop: panelOffset + panelHeight + 5, opacity: .5});
         });
         container.find('#btn-hide-scenario-info').on('click', function (event) {
             event.preventDefault();
-            hideScenarioInfos(container);
-            $(this).addClass('hidden');
+            if (!$(this).hasClass('hidden')) {
 
-            if (!previewModeEnabled) {
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_HIDE_INFO, time: new Date().getTime()});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                $(this).addClass('hidden');
+
+                if (!previewModeEnabled) {
+                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_HIDE_INFO, time: new Date().getTime()});
+                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                }
             }
 
+            hideScenarioInfos(container);
             panelOffset = container.find('#generalPanel').offset().top;
             panelHeight = container.find('#generalPanel').height();
             container.find('#fixed-rtc-preview').css({marginTop: panelOffset + panelHeight + 5, opacity: .5});
@@ -1430,21 +1429,56 @@ var Tester = {
         });
 
         if (previewModeEnabled === false) {
-            submitFinalData(container);
+            checkRTCUploadStatus(container);
         }
 
         return container;
     }
 };
 
-function submitFinalData(container) {
+function checkRTCUploadStatus(container) {
+    if (isWebRTCNeeded(getLocalItem(STUDY_PHASE_STEPS))) {
+        if (tempUploads && tempUploads.length > 0) {
+            console.log(tempUploads);
+            if (uploadQueue.allVideosUploaded()) {
+                console.log('allVideosUploaded');
+                submitFinalData(container, true);
+            } else {
+                console.log('not allVideosUploaded');
+                $(uploadQueue).on(EVENT_FILE_SAVED, function (event, result) {
+                    console.log('check upload status again');
+                    checkRTCUploadStatus(container);
+                });
+
+                submitFinalData(container, false);
+            }
+        } else {
+            submitFinalData(container, true);
+        }
+    } else {
+        submitFinalData(container, true);
+    }
+}
+
+function submitFinalData(container, areAllRTCsUploaded) {
     $(container).find('#upload-instructions').removeClass('hidden');
     $(container).find('#upload-done, #study-share, #upload-retry, #btn-execution-done').addClass('hidden');
 
-    saveCurrentStatus(true, function (result) {
+    if (!areAllRTCsUploaded) {
+        $(container).find('#rtc-uploads').addClass('hidden');
+    } else {
+        $(container).find('#rtc-uploads').removeClass('hidden');
+    }
+
+    saveCurrentStatus(areAllRTCsUploaded, function (result) {
         if (result.status === RESULT_SUCCESS) {
-            $(container).find('#upload-instructions').addClass('hidden');
-            $(container).find('#upload-done, #study-share, #btn-execution-done').removeClass('hidden');
+            if (areAllRTCsUploaded) {
+                $(container).find('#upload-instructions').addClass('hidden');
+                $(container).find('#upload-done, #study-share, #btn-execution-done').removeClass('hidden');
+            } else {
+                $(container).find('#rtc-uploads').removeClass('hidden');
+            }
+
         } else {
             $(container).find('#upload-instructions').addClass('hidden');
             $(container).find('#upload-retry').removeClass('hidden');
@@ -1482,7 +1516,7 @@ function getJointSelectionRatings(data, selectionRating, container) {
     if (selectionRating !== 'none') {
         switch (selectionRating) {
             case 'body':
-                console.log($(container).find('#human-body-selection-rating'));
+//                console.log($(container).find('#human-body-selection-rating'));
                 data.selectedBodyJoints = getSelectedJoints($(container).find('#human-body-selection-rating'));
                 break;
             case 'hands':
@@ -1494,8 +1528,8 @@ function getJointSelectionRatings(data, selectionRating, container) {
                 break;
         }
     }
-    
-    console.log(data);
+
+//    console.log(data);
     return data;
 }
 
@@ -1516,10 +1550,10 @@ function renderSceneItem(source, container, sceneId) {
         var wozData = getItemsForSceneId(currentPhaseData.woz, scene.id);
         if (wozData && wozData.length > 0) {
             $(container).find('#btn-perform-gesture').removeClass('hidden');
-            $(container).find('#btn-done').addClass('hidden');
+//            $(container).find('#btn-done').addClass('hidden');
         } else {
             $(container).find('#btn-perform-gesture').addClass('hidden');
-            $(container).find('#btn-done').removeClass('hidden');
+//            $(container).find('#btn-done').removeClass('hidden');
         }
 
         container.find('#scene-container').css({backgroundColor: "rgb(255,255,255)"});
@@ -1648,24 +1682,9 @@ function getSelectionRating(data) {
     }
 }
 
-var liveStreamRecord, rtcLiveStream, mediaRecorder;
-function resetLiveStream() {
-    if (liveStreamRecord) {
-        liveStreamRecord.clearRecordedData();
-    }
 
-    if (rtcLiveStream) {
-        if (rtcLiveStream.getAudioTracks()[0])
-            rtcLiveStream.getAudioTracks()[0].stop();
-        if (rtcLiveStream.getVideoTracks()[0])
-            rtcLiveStream.getVideoTracks()[0].stop();
-    }
 
-    if (mediaRecorder) {
-        mediaRecorder = null;
-    }
-}
-
+var mediaRecorder;
 function initializeLiveStream() {
 //    console.log(recordingStream);
 
@@ -1676,18 +1695,42 @@ function initializeLiveStream() {
             var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 1280}, height: {min: 240, ideal: 240, max: 720}}};
         }
 
-        if (typeof MediaRecorder === 'undefined' || !navigator.getUserMedia) {
-            console.log('Sorry! This demo requires Firefox 30 and up or Chrome 47 and up.');
-        } else {
+        navigator.getUserMedia = (navigator.getUserMedia ||
+                navigator.mozGetUserMedia ||
+                navigator.msGetUserMedia ||
+                navigator.webkitGetUserMedia);
+
+        if (navigator.getUserMedia) {
             navigator.getUserMedia(constraints, initRecorder, errorCallback);
+        } else {
+            console.log('Sorry! This demo requires Firefox 30 and up or Chrome 47 and up.');
         }
     } else {
-        if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
-            console.log('show stream in dom');
-            $('#rtc-stream').attr('src', URL.createObjectURL(recordingStream));
-            $('#rtc-stream').attr('muted', 'true');
-            startRecording();
-        }
+        checkStartRecording();
+    }
+}
+
+function checkStartRecording() {
+    if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
+        console.log('visualize media stream');
+        $('#rtc-stream').attr('src', URL.createObjectURL(recordingStream));
+        $('#rtc-stream').attr('muted', 'true');
+        startRecording();
+    }
+}
+
+function resetLiveStream() {
+    console.log('reset live stream');
+
+    if (mediaRecorder) {
+        mediaRecorder = null;
+    }
+
+    if (recordingStream) {
+        if (recordingStream.getAudioTracks()[0])
+            recordingStream.getAudioTracks()[0].stop();
+        if (recordingStream.getVideoTracks()[0])
+            recordingStream.getVideoTracks()[0].stop();
     }
 }
 
@@ -1710,11 +1753,9 @@ function initRecorder(stream) {
             chunks.push(e.data);
         };
 
-        mediaRecorder.onerror = function (e) {
-            console.log('Error: ', e);
-        };
-
         mediaRecorder.onstart = function () {
+            console.log('Start recording ... ' + new Date());
+
             // save start recording time
             if (previewModeEnabled === false) {
                 var currentPhase = getCurrentPhase();
@@ -1727,30 +1768,41 @@ function initRecorder(stream) {
         };
 
         mediaRecorder.onstop = function () {
-            console.log('Stopped, state = ' + mediaRecorder.state);
+            console.log('Stopped recording, state = ' + mediaRecorder.state + ', ' + new Date());
             uploadQueue.upload(chunks, currentPhaseStepId);
             chunks = [];
+
+            if (stopRecordingCallback) {
+                stopRecordingCallback();
+            }
+        };
+
+        mediaRecorder.onerror = function (e) {
+            console.log('Error: ', e);
         };
 
         mediaRecorder.onwarning = function (e) {
             console.log('Warning: ' + e);
         };
+
+        checkStartRecording();
     }
 }
 
 function startRecording() {
-    console.log('Start recording ...');
     mediaRecorder.start(5000);
 }
 
 var currentPhaseStepId = null;
+var stopRecordingCallback = null;
 function stopRecording(callback) {
     if (mediaRecorder) {
+        if (callback) {
+            stopRecordingCallback = callback;
+        }
         currentPhaseStepId = getCurrentPhase().id;
         mediaRecorder.stop();
-    }
-
-    if (callback) {
+    } else if (callback) {
         callback();
     }
 }

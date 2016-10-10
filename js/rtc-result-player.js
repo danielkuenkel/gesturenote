@@ -9,29 +9,52 @@ function RTCResultsPlayer(url, timelineData) {
     if (getBrowser() !== 'Safari') {
         resultsPlayer = $('#template-study-container').find('#rtc-video-result').clone().removeAttr('id');
         var videoHolder = $(resultsPlayer).find('#video-holder');
-        $(videoHolder).attr('src', UPLOADS + url);
-
-        initializeTimeline(timelineData);
-
-        $(videoHolder).on('loadedmetadata', function () {
-            // google chrome no-duration workaround
-            if (videoHolder[0].duration === Infinity) {
-                var totalRecordingTime = getSeconds(timelineData.executionTime);
-                videoHolder[0].currentTime = totalRecordingTime - 2;
-                videoHolder[0].playbackRate = 3;
-                videoHolder[0].muted = true;
-                $(videoHolder).on('ended', function () {
-                    $(videoHolder).unbind('ended');
-                    videoHolder[0].playbackRate = 1;
-                    videoHolder[0].muted = false;
-                    videoHolder[0].currentTime = 0;
+        var fileExist = true;
+        $.get(UPLOADS + url)
+                .fail(function () {
+                    fileExist = false;
+                    console.log('file does not exist: ' + UPLOADS + url);
+                    appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
                 });
-                videoHolder[0].play();
-            }
-        });
-        $(videoHolder).on('timeupdate', function () {
-            updateTimeline(this.currentTime);
-        });
+//                .done(function () {
+//                    console.log('file exist: ' + UPLOADS + url);
+//                })
+
+
+        if (fileExist) {
+            $(videoHolder).attr('src', UPLOADS + url);
+
+            initializeTimeline(timelineData);
+
+            $(videoHolder).on('loadedmetadata', function () {
+                // google chrome no-duration workaround
+                if (videoHolder[0].duration === Infinity) {
+                    resultsPlayer.find('#video-timeline').addClass('hidden');
+                    resultsPlayer.find('#loader').removeClass('hidden');
+
+                    var totalRecordingTime = getSeconds(timelineData.executionTime);
+                    videoHolder[0].currentTime = totalRecordingTime - 2;
+                    videoHolder[0].playbackRate = 6;
+                    videoHolder[0].muted = true;
+                    $(videoHolder).on('ended', function () {
+                        $(videoHolder).unbind('ended');
+                        videoHolder[0].playbackRate = 1;
+                        videoHolder[0].muted = false;
+                        videoHolder[0].currentTime = 0;
+
+                        resultsPlayer.find('#video-timeline').removeClass('hidden');
+                        resultsPlayer.find('#loader').addClass('hidden');
+                    });
+                    videoHolder[0].play();
+                } else {
+                    resultsPlayer.find('#video-timeline').removeClass('hidden');
+                    resultsPlayer.find('#loader').addClass('hidden');
+                }
+            });
+            $(videoHolder).on('timeupdate', function () {
+                updateTimeline(this.currentTime);
+            });
+        }
 
         return resultsPlayer;
     }
@@ -56,7 +79,7 @@ function initializeTimeline(timelineData) {
             showMajorLabels: false,
             showMinorLabels: false,
             zoomMax: 10000,
-            selectable: false
+            selectable: true
         };
         timeline.setOptions(options);
         timeline.addCustomTime(itemRange.min);
@@ -88,17 +111,20 @@ function getVisDataSet(timelineData) {
         case PHYSICAL_STRESS_TEST:
             array = getPhysicalStressTestVisData(timelineData);
             break;
+        case SCENARIO:
+            array = getScenarioVisData(timelineData);
+            break;
     }
     return new vis.DataSet(array);
 }
 
 function getGestureTrainingVisData(timelineData) {
-    console.log(timelineData);
+//    console.log(timelineData);
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
-    var className = 'standard-action-full';
+    var className = 'item-primary-full';
 
     for (var i = 0; i < timelineData.phaseResults.training.length; i++) {
         var gesture = getGestureById(timelineData.phaseResults.training[i].gestureId);
@@ -117,7 +143,7 @@ function getGestureTrainingVisData(timelineData) {
 }
 
 function getGestureSlideshowVisData(timelineData) {
-    console.log(timelineData);
+//    console.log(timelineData);
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
@@ -126,21 +152,30 @@ function getGestureSlideshowVisData(timelineData) {
 
     if (actions) {
         for (var i = 0; i < actions.length; i++) {
-            var className = 'standard-action-full';
+            var className = 'item-primary-full';
             var gesture = null;
+            var contentText = translation.actions[actions[i].action];
+
             if (actions[i].action === ACTION_SELECT_GESTURE) {
                 gesture = getGestureById(actions[i].selectedGestureId);
                 if (actions[i].fit === 'true') {
-                    className = 'correct-selected-gesture-full';
+                    className = 'item-success-full';
                 } else {
-                    className = 'wrong-selected-gesture-full';
+                    className = 'item-danger-full';
                     array.push({id: count++, content: translation.restart, start: new Date(parseInt(actions[i].time)), className: className});
                 }
+            } else if (actions[i].action === ACTION_NO_GESTURE_DEMONSTRATED || actions[i].action === ACTION_NO_GESTURE_FIT_FOUND) {
+                className = 'item-warning-full';
+                contentText = translation.actions[actions[i].action];
             } else {
                 gesture = getGestureById(actions[i].gestureId);
+
             }
-//            var trigger = getTriggerById(actions[i].triggerId);
-            var contentText = translation.actions[actions[i].action] + ': ' + gesture.title;
+
+            if (gesture) {
+                contentText += ': ' + gesture.title;
+            }
+
             array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className});
         }
     }
@@ -149,7 +184,7 @@ function getGestureSlideshowVisData(timelineData) {
 }
 
 function getTriggerSlideshowVisData(timelineData) {
-    console.log(timelineData);
+//    console.log(timelineData);
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
@@ -159,7 +194,7 @@ function getTriggerSlideshowVisData(timelineData) {
 }
 
 function getPhysicalStressTestVisData(timelineData) {
-    console.log(timelineData);
+//    console.log(timelineData);
 
     var array = new Array();
     var count = 0;
@@ -169,10 +204,29 @@ function getPhysicalStressTestVisData(timelineData) {
 
     if (actions) {
         for (var i = 0; i < actions.length; i++) {
-            var className = 'standard-action-full';
+            var className = 'item-primary-full';
             var gesture = getGestureById(actions[i].gestureId);
-//            var trigger = getTriggerById(actions[i].triggerId);
             var contentText = translation.actions[actions[i].action] + ': ' + gesture.title;
+            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className});
+        }
+    }
+
+    return array;
+}
+
+function getScenarioVisData(timelineData) {
+    console.log(timelineData);
+    var array = new Array();
+    var count = 0;
+    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
+    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+    var actions = timelineData.phaseResults.actions;
+
+    if (actions) {
+        for (var i = 0; i < actions.length; i++) {
+            var className = 'item-primary-full';
+//            var gesture = getGestureById(actions[i].gestureId);
+            var contentText = translation.actions[actions[i].action];
             array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className});
         }
     }

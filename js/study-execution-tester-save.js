@@ -156,7 +156,7 @@ function getQuestionnaireFormData(questionnaire, data) {
     var questionnaireAnswers = new Array();
     for (var i = 0; i < questionnaire.length; i++) {
         var format = $(questionnaire[i]).attr('id');
-        console.log('getQuestionnaireFormData: ' + format);
+//        console.log('getQuestionnaireFormData: ' + format);
         switch (format) {
             case COUNTER:
                 questionnaireAnswers.push(getCounterFormData($(questionnaire[i])));
@@ -193,20 +193,20 @@ function getQuestionnaireFormData(questionnaire, data) {
             case SUS_ITEM:
                 questionnaireAnswers.push(getSingleGUSFormData($(questionnaire[i])));
                 break;
-            case 'human-body-selection-rating':
-                console.log('human-body-selection-rating');
-                break;
-            case 'hand-selection-rating':
-                console.log('hand-selection-rating');
-                break;
+//            case 'human-body-selection-rating':
+//                console.log('human-body-selection-rating');
+//                break;
+//            case 'hand-selection-rating':
+//                console.log('hand-selection-rating');
+//                break;
         }
     }
     data.answers = questionnaireAnswers;
 
-    console.log(questionnaireAnswers);
+//    console.log(questionnaireAnswers);
 
     var tempData = getLocalItem(data.id + '.tempSaveData');
-    console.log(tempData);
+//    console.log(tempData);
     if (tempData) {
         data.startTime = tempData.startTime;
         removeLocalItem(data.id + '.tempSaveData');
@@ -242,7 +242,7 @@ function getGroupingQuestionFormData(source) {
     for (var i = 0; i < selectedOptions.length; i++) {
         var selectedId = $(selectedOptions[i]).attr('id');
         if (selectedId !== 'checkbox-optionalanswer') {
-            console.log(selectedOptions[i], selectedId);
+//            console.log(selectedOptions[i], selectedId);
             array.push(selectedId);
         }
     }
@@ -335,6 +335,7 @@ function saveCurrentStatus(studyFinished, callback) {
     data.phases = getFinishedStudyPhases();
     if (studyFinished === true) {
         data.endTime = new Date().getTime();
+        checkRTCUploads();
     }
 
     var study = getLocalItem(STUDY);
@@ -362,4 +363,8 @@ function getFinishedStudyPhases() {
 
 function isPhaseStepSaved(id) {
     return getLocalItem(id + '.saveData') !== null ? true : false;
+}
+
+function checkRTCUploads() {
+
 }

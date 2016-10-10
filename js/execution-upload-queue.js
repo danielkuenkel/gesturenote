@@ -24,12 +24,12 @@ function UploadQueue() {
 
     uploader.on('fileAdded', function (file, event) {
         if (!uploader.isUploading()) {
-            console.log('start/resume uploading');
+            console.log('start/resume uploading', new Date());
             uploader.upload();
         }
     });
     uploader.on('fileSuccess', function (file, message) {
-        console.log('file success: ', file, message);
+        console.log('file success: ', file, message, new Date());
         $(uploadQueue).trigger(EVENT_FILE_SAVED, [getTempUploads(file.fileName)]);
     });
     uploader.on('fileError', function (file, message) {
@@ -46,13 +46,8 @@ UploadQueue.prototype.upload = function (blob, phaseStepId) {
         var filename = hex_sha512(new Date().toLocaleString()) + '.webm';
         var file = new File(blob, filename);
         tempUploads.push({phaseStepId: phaseStepId, filename: filename, uploaded: false});
+        console.log(tempUploads, new Date());
         uploader.addFile(file);
-//
-//        filename = hex_sha512(new Date().toLocaleString()) + '.webm';
-//        file = new File(blob, filename);
-//        uploader.addFile(file);
-
-//        console.log(uploader.files);
     }
 };
 
@@ -61,6 +56,7 @@ UploadQueue.prototype.getStatus = function () {
 };
 
 function getTempUploads(filename) {
+    console.log('set uploaded to true', new Date());
     for (var i = 0; i < tempUploads.length; i++) {
         if (filename === tempUploads[i].filename) {
             tempUploads[i].uploaded = true;
@@ -69,3 +65,14 @@ function getTempUploads(filename) {
     }
     return null;
 }
+
+UploadQueue.prototype.allVideosUploaded = function () {
+    console.log('check allVideosUploaded');
+    for (var i = 0; i < tempUploads.length; i++) {
+        if (tempUploads[i].uploaded === false) {
+            console.log(tempUploads[i]);
+            return false;
+        }
+    }
+    return true;
+};
