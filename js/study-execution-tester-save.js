@@ -150,63 +150,10 @@ function getIdentificationFormData(data) {
     return data;
 }
 
-
-
 function getQuestionnaireFormData(questionnaire, data) {
-    var questionnaireAnswers = new Array();
-    for (var i = 0; i < questionnaire.length; i++) {
-        var format = $(questionnaire[i]).attr('id');
-//        console.log('getQuestionnaireFormData: ' + format);
-        switch (format) {
-            case COUNTER:
-                questionnaireAnswers.push(getCounterFormData($(questionnaire[i])));
-                break;
-            case OPEN_QUESTION:
-            case OPEN_QUESTION_GUS:
-                questionnaireAnswers.push(getOpenQuestionFormData($(questionnaire[i])));
-                break;
-            case DICHOTOMOUS_QUESTION:
-            case DICHOTOMOUS_QUESTION_GUS:
-                questionnaireAnswers.push(getDichotomousQuestionFormData($(questionnaire[i])));
-                break;
-            case GROUPING_QUESTION:
-                questionnaireAnswers.push(getGroupingQuestionFormData($(questionnaire[i])));
-                break;
-            case GROUPING_QUESTION_GUS:
-                questionnaireAnswers.push(getGroupingQuestionGUSFormData($(questionnaire[i])));
-                break;
-            case RATING:
-                questionnaireAnswers.push(getRatingFormData($(questionnaire[i])));
-                break;
-            case SUM_QUESTION:
-                questionnaireAnswers.push(getSumQuestionFormData($(questionnaire[i])));
-                break;
-            case RANKING:
-                questionnaireAnswers.push(getRankingFormData($(questionnaire[i])));
-                break;
-            case ALTERNATIVE_QUESTION:
-                questionnaireAnswers.push(getAlternativeQuestionFormData($(questionnaire[i])));
-                break;
-            case GUS_SINGLE:
-                questionnaireAnswers.push(getSingleGUSFormData($(questionnaire[i])));
-                break;
-            case SUS_ITEM:
-                questionnaireAnswers.push(getSingleGUSFormData($(questionnaire[i])));
-                break;
-//            case 'human-body-selection-rating':
-//                console.log('human-body-selection-rating');
-//                break;
-//            case 'hand-selection-rating':
-//                console.log('hand-selection-rating');
-//                break;
-        }
-    }
-    data.answers = questionnaireAnswers;
-
-//    console.log(questionnaireAnswers);
+    data.answers = getQuestionnaireAnswers(questionnaire);
 
     var tempData = getLocalItem(data.id + '.tempSaveData');
-//    console.log(tempData);
     if (tempData) {
         data.startTime = tempData.startTime;
         removeLocalItem(data.id + '.tempSaveData');
@@ -215,119 +162,7 @@ function getQuestionnaireFormData(questionnaire, data) {
     return data;
 }
 
-function getCounterFormData(source) {
-    return {count: $(source).find('.stepper-text').val()};
-}
 
-function getOpenQuestionFormData(source) {
-    return {openAnswer: $(source).find('#openQuestionInput').val()};
-}
-
-function getDichotomousQuestionFormData(source) {
-    var data = new Object();
-    data.selectedSwitch = $(source).find('.switch .active').attr('id') === undefined ? 'none' : $(source).find('.switch .active').attr('id');
-    var justificationInput = $(source).find('#justificationInput');
-    if (justificationInput && justificationInput.length > 0) {
-        data.justification = $(source).find('#justificationInput').val();
-    } else {
-        data.justification = '';
-    }
-    return data;
-}
-
-function getGroupingQuestionFormData(source) {
-    var data = new Object();
-    var selectedOptions = $(source).find('.option-container .btn-option-checked');
-    var array = new Array();
-    for (var i = 0; i < selectedOptions.length; i++) {
-        var selectedId = $(selectedOptions[i]).attr('id');
-        if (selectedId !== 'checkbox-optionalanswer') {
-//            console.log(selectedOptions[i], selectedId);
-            array.push(selectedId);
-        }
-    }
-    if (selectedOptions.length === 0) {
-        data.selectedOptions = -1;
-    } else {
-        data.selectedOptions = array;
-    }
-    data.optionalAnswer = $(source).find('.optionalInput').val();
-    return data;
-}
-
-function getGroupingQuestionGUSFormData(source) {
-    var data = new Object();
-    var selectedOptions = $(source).find('.option-container .btn-option-checked');
-    var array = new Array();
-    for (var i = 0; i < selectedOptions.length; i++) {
-        if ($(selectedOptions[i]).parent().attr('id') !== 'checkbox-optionalanswer') {
-            array.push($(selectedOptions[i]).find('.option-text').attr('id'));
-        }
-    }
-    data.selectedOptions = array;
-    data.optionalAnswer = $(source).find('.optionalInput').val();
-
-    var justificationInput = $(source).find('#justificationInput');
-    if (justificationInput && justificationInput.length > 0) {
-        data.justification = $(source).find('#justificationInput').val();
-    } else {
-        data.justification = '';
-    }
-
-    return data;
-}
-
-function getRatingFormData(source) {
-    var data = new Object();
-    var array = new Array();
-    var scalesContainer = $(source).find('.scales-container');
-    for (var i = 0; i < scalesContainer.length; i++) {
-        array.push($(scalesContainer[i]).find('.btn-option-checked').closest('.btn-group').index() >> 1);
-    }
-    data.scales = array;
-    return data;
-}
-
-function getSumQuestionFormData(source) {
-    var data = new Object();
-    var array = new Array();
-    var sumOptions = $(source).find('.option-container').children();
-    for (var i = 0; i < sumOptions.length; i++) {
-        array.push($(sumOptions[i]).find('.stepper-text').val());
-    }
-    data.sumCounts = array;
-    return data;
-}
-
-function getRankingFormData(source) {
-    var data = new Object();
-    var items = $(source).find('.option-container').children();
-    var array = new Array();
-    for (var i = 0; i < items.length; i++) {
-        array.push($(items[i]).attr('id'));
-    }
-    data.arrangement = array;
-    return data;
-}
-
-function getAlternativeQuestionFormData(source) {
-    var data = new Object();
-    var selectedOptions = $(source).find('.option-container .btn-option-checked');
-    var array = new Array();
-    for (var i = 0; i < selectedOptions.length; i++) {
-        if ($(selectedOptions[i]).parent().attr('id') !== 'checkbox-optionalanswer') {
-            array.push($(selectedOptions[i]).find('.option-text').attr('id'));
-        }
-    }
-    data.selectedOptions = array;
-    data.optionalAnswer = $(source).find('.optionalInput').val();
-    data.justification = $(source).find('#justificationInput').val();
-    return data;
-}
-
-function getSingleGUSFormData(source) {
-    return {selectedOption: $(source).find('.option-container .btn-option-checked').closest('.btn-group').index() >> 1};
-}
 
 function saveCurrentStatus(studyFinished, callback) {
     var data = new Object();

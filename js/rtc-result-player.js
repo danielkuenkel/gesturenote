@@ -119,7 +119,7 @@ function getVisDataSet(timelineData) {
 }
 
 function getGestureTrainingVisData(timelineData) {
-//    console.log(timelineData);
+    console.log(timelineData);
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});

@@ -263,6 +263,8 @@ function onMoveUpComplete(element, brother, save) {
     if (element.parent().find('.badgeId').length > 0) {
         updateBadges(element.parent(), element.attr('id'));
     }
+    
+    $(element).trigger('change');
 }
 
 function onMoveDownComplete(element, brother, save) {
@@ -281,6 +283,8 @@ function onMoveDownComplete(element, brother, save) {
     if (element.parent().find('.badgeId').length > 0) {
         updateBadges(element.parent(), element.attr('id'));
     }
+    
+    $(element).trigger('change');
 }
 
 function checkCurrentListState(itemContainer) {

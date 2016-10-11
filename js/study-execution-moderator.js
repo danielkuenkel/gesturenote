@@ -92,8 +92,8 @@ var Moderator = {
         if (data && data.length > 0) {
             for (var i = 0; i < data.length; i++) {
                 var item = $(source).find('#' + data[i].format).clone().removeAttr('id');
-                
-                
+
+
 //            console.log('clone: ' + data[i].format + " form: " + source.attr('id'));
                 if (data.length > 1) {
                     $(item).find('.question').text(data.length - i + '. ' + data[i].question);
@@ -146,6 +146,9 @@ var Moderator = {
                     }
                 } else {
                     switch (data[i].format) {
+                        case OPEN_QUESTION:
+                            renderOpenQuestionInput(item);
+                            break;
                         case COUNTER:
                             renderCounterInput(item, parameters);
                             break;

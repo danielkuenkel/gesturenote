@@ -233,7 +233,7 @@ if (login_check($mysqli) == true) {
                     getStudyResults({studyId: data.id}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             if (now > dateFrom && result.studyResults && result.studyResults.length > 0) { // check either if there are study results
-                                $('#btn-edit-study, #btn-delete-study').remove();
+//                                $('#btn-edit-study, #btn-delete-study').remove();
                                 renderStudyParticipants(result.studyResults);
                             } else {
                                 appendAlert($('#study-participants'), ALERT_NO_PHASE_DATA);

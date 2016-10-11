@@ -1126,5 +1126,6 @@ function getFormatData(element) {
                 negative: $(element).find('.negative .active').attr('id')};
             break;
     }
-    return new QuestionnaireItem(format, dimension, question, parameters, options);
+    return {format: format, dimension: dimension, question: question, parameters: parameters, options: options};
+//    return new QuestionnaireItem(format, dimension, question, parameters, options);
 }

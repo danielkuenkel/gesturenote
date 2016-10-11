@@ -702,3 +702,122 @@
     </div>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+<div id="template-study-editable-container" class="hidden">
+
+    <div class="panel panel-default" id="counter" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-default" id="counter-label"><span class="counter-from"></span> <span class="counter-to"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="input-group simple-stepper" style="max-width: 130px;">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                        <span class="glyphicon glyphicon-minus"></span><span class="sr-only">weniger</span>
+                    </button>
+                </div>
+                <input type="text" class="form-control readonly text-center stepper-text" value="0">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
+                        <span class="glyphicon glyphicon-plus"></span><span class="sr-only">mehr</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="openQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="dichotomousQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-default hidden" id="label-justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="label-no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="label-yes">Begründung bei Auswahl <em>Ja</em></span>
+            <span class="label label-default hidden" id="label-no">Begründung bei Auswahl <em>Nein</em></span>
+            <span class="label label-default hidden" id="label-always">Begründung <em>Immer</em></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body" id="panel-body">
+            <div class="btn-group switch">
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-success">Nein</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="groupingQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+            <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
+            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="option-container root"></div>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="rating" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="option-container"></div>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="sumQuestion" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-default" id="maximum"><span class="label-text"></span></span>
+            <span class="label label-default" id="allocation"><span class="label-text"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="option-container"></div>
+            <!--            <div class="label label-success hidden" id="distributeAllPoints"><i class="fa fa-check"></i> <span class="label-text">Alle Punkte verteilt</span></div>
+                        <div class="label label-danger hidden" id="distributeNotAllPoints"><i class="fa fa-bolt"></i> <span class="label-text">Nicht alle Punkte verteilt</span></div>-->
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="ranking" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="option-container"></div>
+        </div>
+    </div>
+
+</div>

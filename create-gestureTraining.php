@@ -48,29 +48,29 @@ include './includes/language.php';
             <div style="margin-top: 4px; display: inline-block">Beobachtungen</div>
             <div class="btn-group pull-right" id="useObservationsSwitch">
                 <button class="btn btn-default switchButtonAddon">Nutzen?</button>
-                <button class="btn btn-default btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
-                <button class="btn btn-warning btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                <button class="btn btn-warning btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
             </div>
         </div>
         <div class="panel-body hidden">
 
             <div id="dimension-controls">
                 <div class="dimension-container" id="container-effectiveness">
-                    <h4 style="margin-top: 0px; color: #3379b7">Zweckmäßigkeit</h4>
+                    <h4 style="margin-top: 0px; color: #3379b7"><?php echo $lang->mainDimensions->effectiveness ?></h4>
                     <div class="dimension-btn-group">
-                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                     </div>
                 </div>
                 <div class="dimension-container" id="container-efficiency">
-                    <h4 style="color: #3379b7">Effizienz</h4>
+                    <h4 style="color: #3379b7"><?php echo $lang->mainDimensions->efficiency ?></h4>
                     <div class="dimension-btn-group">
-                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                     </div>
                 </div>
                 <div class="dimension-container" id="container-satisfaction">
-                    <h4 style="color: #3379b7">Zufriedenheit</h4>
+                    <h4 style="color: #3379b7"><?php echo $lang->mainDimensions->satisfaction ?></h4>
                     <div class="dimension-btn-group">
-                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                     </div>
                 </div>
             </div>
@@ -82,16 +82,19 @@ include './includes/language.php';
                     <div class="input-group-btn select" id="addFormatSelect" role="group">
                         <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="counter"><a href="#">Zähler</a></li>
-                            <li id="openQuestion"><a href="#">Offene Frage</a></li>
-                            <li id="dichotomousQuestion"><a href="#">Ja/nein-Frage</a></li>
-                            <li id="groupingQuestion"><a href="#">Eingruppierungs-Frage</a></li>
+                            <li id="counter"><a href="#"><?php echo $lang->questionFormats->counter->text ?></a></li>
+                            <li id="openQuestion"><a href="#"><?php echo $lang->questionFormats->openQuestion->text ?></a></li>
+                            <li id="dichotomousQuestion"><a href="#"><?php echo $lang->questionFormats->dichotomousQuestion->text ?></a></li>
+                            <li id="groupingQuestion"><a href="#"><?php echo $lang->questionFormats->groupingQuestion->text ?></a></li>
+                            <li id="rating"><a href="#"><?php echo $lang->questionFormats->rating->text ?></a></li>
+                            <li id="sumQuestion"><a href="#"><?php echo $lang->questionFormats->sumQuestion->text ?></a></li>
+                            <li id="ranking"><a href="#"><?php echo $lang->questionFormats->ranking->text ?></a></li>
                         </ul>
                         <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                     </div>
                 </div>
             </div>
-            
+
             <hr>
 
             <div class="form-group container-root" id="list-container"></div>
@@ -102,7 +105,7 @@ include './includes/language.php';
 
 </div>
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
+    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> <?php echo $lang->saveAndClose ?></button>
 </div>
 
 
@@ -138,7 +141,7 @@ include './includes/language.php';
             var help = $('#help').clone();
             help.removeAttr('id');
             $('#helpContainer').append(help);
-            
+
             renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
 
             var data = getLocalItem(currentIdForModal + '.data');

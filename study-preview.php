@@ -49,7 +49,7 @@ if (login_check($mysqli) == true) {
         <script src="js/goto-evaluator.js"></script>       
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
-        <script src="js/renderForms.js"></script>
+        <script src="js/forms.js"></script>
         <script src="js/joint-selection.js"></script>
         <script src="js/study-execution.js"></script>
         <script src="js/study-execution-tester.js"></script>

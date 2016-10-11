@@ -1125,13 +1125,13 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="question-container"></div>
             </div>
 
             <div id="sequence-questions" class="hidden" style="margin-top: 30px">
                 <h4 id="headline-sequence-questions">Sequenz-Fragen</h4>
-                
+
                 <div id="sequence-joint-selection" class="hidden">
                     <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
@@ -1153,7 +1153,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="question-container"></div>
             </div>
 
@@ -1205,7 +1205,7 @@
             <div class="text-center" style="overflow: hidden">
                 <button type="button" class="btn btn-success hidden" id="btn-perform-gesture"><span class="btn-text">Geste ausführen</span></button>
                 <button type="button" class="btn btn-danger hidden" id="btn-stop-perform-gesture"><span class="btn-text">Geste ausgeführt</span></button>
-                
+
             </div>
         </div>
 
@@ -1260,7 +1260,7 @@
                     Bitte warten! Die Daten werden nun gespeichert. Bitte nicht dieses Fenster oder den Browser schließen. Wenn die Daten gespeichert sind, erscheint eine Meldung.
                 </div>
                 <div id="rtc-uploads-status" class="hidden text">
-                     Bitte warten… Videodaten werden gespeichert.
+                    Bitte warten… Videodaten werden gespeichert.
                 </div>
             </div>
             <div class="col-sm-6 hidden" id="upload-retry" style="margin-bottom: 20px;">
@@ -1334,7 +1334,7 @@
     </div>
 
     <div class="panel panel-default root" id="dichotomousQuestion" style="margin-bottom: 5px;">
-        <div class="panel-body">
+        <div class="panel-body" id="panel-body">
             <p class="question"></p>
             <div class="btn-group switch">
                 <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
@@ -1428,7 +1428,7 @@
                 </button>
             </div>
         </div>
-        <span class="option-text" style="margin-left: 8px; float: left; margin-top: 8px; margin-bottom: 12px"></span>
+        <span class="option-text text" style="margin-left: 8px; float: left; margin-top: 4px; margin-bottom: 12px"></span>
     </div>
 
     <div class="panel panel-default root" id="ranking" style="margin-bottom: 5px;">
@@ -1443,7 +1443,7 @@
             <button class="btn btn-default btn-shadow btn-up"><i class="glyphicon glyphicon-arrow-up"></i></button>
             <button class="btn btn-default btn-shadow btn-down"><i class="glyphicon glyphicon-arrow-down"></i></button> 
         </div>
-        <span class="option-text" style="margin-left: 5px;"></span>
+        <span class="option-text text" style="margin-left: 8px; margin-top: 10px"></span>
     </div>
 
     <div class="panel panel-default root" id="alternativeQuestion" style="margin-bottom: 5px;">
@@ -1501,7 +1501,7 @@
     </div>
 
     <div id="justification">
-        <label for="justificationInput">Begründung(en)</label>
+        <label for="justificationInput" class="text">Begründung(en)</label>
         <textarea class="form-control" id="justificationInput" rows="3"></textarea>
     </div>
 

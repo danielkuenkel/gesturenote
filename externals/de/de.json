@@ -103,6 +103,7 @@
     "openSet": "Öffnen",
     "arrangeSet": "Set zusammenstellen",
     "close": "Schließen",
+    "saveAndclose": "Speichern & Schließen",
     "next": "Weiter",
     "previous": "Zurück",
     "yes": "Ja",
@@ -121,6 +122,7 @@
     "fitsCorrect": "Übereinstimmungen",
     "allFitsCorrect": "Kein Fehler",
     "maximum": "Maximum",
+    "all": "Alle",
     "selection": "Auswahl",
     "gender": "Geschlecht",
     "genders": {
