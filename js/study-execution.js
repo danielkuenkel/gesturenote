@@ -346,10 +346,10 @@ function getItemsForSceneId(data, sceneId) {
     return null;
 }
 
-function QuestionnaireItem(type, dimension, question, parameters, options) {
-    this.format = type;
-    this.dimension = dimension;
-    this.question = question;
-    this.parameters = parameters;
-    this.options = options;
-}
+//function QuestionnaireItem(type, dimension, question, parameters, options) {
+//    this.format = type;
+//    this.dimension = dimension;
+//    this.question = question;
+//    this.parameters = parameters;
+//    this.options = options;
+//}

@@ -16,7 +16,7 @@ include './includes/language.php';
 </div>
 
 
-<script type="text/javascript" src="js/template-create.js"></script>
+<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
         $(document).ready(function () {
             var trigger = $('#form-item-container #trigger').clone();
@@ -58,7 +58,7 @@ include './includes/language.php';
                 } else {
                     triggerId = chance.natural();
                 }
-                trigger.push(new Trigger(triggerId, TYPE_TRIGGER, $(elements[i]).find('.option').val()));
+                trigger.push({triggerId: triggerId, type: TYPE_TRIGGER, title: $(elements[i]).find('.option').val()});//new Trigger(triggerId, TYPE_TRIGGER, $(elements[i]).find('.option').val()));
             }
             setLocalItem(ASSEMBLED_TRIGGER, trigger);
         }

@@ -11,7 +11,15 @@ class language {
     public $data;
 
     function __construct($language) {
-        $data = file_get_contents("externals/" . $language . "/" . $language . ".json");
+        $splitURI = explode("/", $_SERVER['REQUEST_URI']);
+        $additionalPath = '';
+        foreach ($splitURI as $value) {
+            if ($value === 'externals') {
+                $additionalPath = '../../';
+                break;
+            }
+        }
+        $data = file_get_contents($additionalPath . "externals/" . $language . "/" . $language . ".json");
         $this->data = json_decode($data);
     }
 

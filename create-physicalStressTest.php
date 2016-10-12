@@ -157,26 +157,26 @@ include './includes/language.php';
         </div>
         <div class="panel-body hidden">
 
-            <div id="dimension-controls">
-                <div class="dimension-container" id="container-effectiveness">
-                    <h4 style="margin-top: 0px; color: #3379b7">Zweckmäßigkeit</h4>
-                    <div class="dimension-btn-group">
-                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
-                    </div>
-                </div>
-                <div class="dimension-container" id="container-efficiency">
-                    <h4 style="color: #3379b7">Effizienz</h4>
-                    <div class="dimension-btn-group">
-                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
-                    </div>
-                </div>
-                <div class="dimension-container" id="container-satisfaction">
-                    <h4 style="color: #3379b7">Zufriedenheit</h4>
-                    <div class="dimension-btn-group">
-                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
-                    </div>
-                </div>
-            </div>
+            <!--            <div id="dimension-controls">
+                            <div class="dimension-container" id="container-effectiveness">
+                                <h4 style="margin-top: 0px; color: #3379b7">Zweckmäßigkeit</h4>
+                                <div class="dimension-btn-group">
+                                    <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                                </div>
+                            </div>
+                            <div class="dimension-container" id="container-efficiency">
+                                <h4 style="color: #3379b7">Effizienz</h4>
+                                <div class="dimension-btn-group">
+                                    <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                                </div>
+                            </div>
+                            <div class="dimension-container" id="container-satisfaction">
+                                <h4 style="color: #3379b7">Zufriedenheit</h4>
+                                <div class="dimension-btn-group">
+                                    <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                                </div>
+                            </div>
+                        </div>-->
 
             <div class="form-group" style="margin-top: 20px">
                 <div class="input-group">
@@ -209,181 +209,183 @@ include './includes/language.php';
 </div>
 
 
-<script type="text/javascript" src="js/template-create.js"></script>
+<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
-        $(document).ready(function () {
-            var stressTest = $('#form-item-container #physicalStressTest').clone();
-            $('#stressTestContainer').append(stressTest);
+    $(document).ready(function () {
+        var stressTest = $('#form-item-container #physicalStressTest').clone();
+        $('#stressTestContainer').append(stressTest);
 
-            if (assembledGestures()) {
-                renderAssembledGestures();
-            } else {
-                appendAlert(stressTest, ALERT_NO_GESTURES_ASSEMBLED);
-                $(stressTest).find('.btn-add-physicalStressTestOption').addClass('hidden');
-            }
+        if (assembledGestures()) {
+            renderAssembledGestures();
+        } else {
+            appendAlert(stressTest, ALERT_NO_GESTURES_ASSEMBLED);
+            $(stressTest).find('.btn-add-physicalStressTestOption').addClass('hidden');
+        }
 
-            renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
+//            renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
 
-            var data = getLocalItem(currentIdForModal + '.data');
-            if (data) {
-                renderData(data, false);
-            }
-        });
+        var data = getLocalItem(currentIdForModal + '.data');
+        if (data) {
+            renderData(data, false);
+        }
+    });
 
-        function renderData(data, forPrefiniedObservation)
-        {
-            var items = data.stressTestItems;
+    function renderData(data, forPrefiniedObservation)
+    {
+        var items = data.stressTestItems;
 
-            $('#stressTestTitle').val(data.title);
-            $('#stressTestDescription').val(data.description);
-            $('#randomizeSwitch #' + (data.randomized === true ? 'yes' : 'no')).click();
-            $('#totalStressAmount').val(data.stressAmount);
+        $('#stressTestTitle').val(data.title);
+        $('#stressTestDescription').val(data.description);
+        $('#randomizeSwitch #' + (data.randomized === true ? 'yes' : 'no')).click();
+        $('#totalStressAmount').val(data.stressAmount);
 
-            var container;
+        var container;
 
-            if (items !== undefined && items.length > 0) {
+        if (items !== undefined && items.length > 0) {
 
-                container = $('#stressTestContainer').find('.option-container');
+            container = $('#stressTestContainer').find('.option-container');
 
-                for (var i = 0; i < items.length; i++) {
-                    var gesture = getGestureById(items[i]);
+            for (var i = 0; i < items.length; i++) {
+                var gesture = getGestureById(items[i]);
 
-                    var clone = $('#form-item-container').find('#physicalStressTestItem').clone().removeClass('hidden');
-                    $(clone).removeAttr('id');
-                    container.append(clone);
+                var clone = $('#form-item-container').find('#physicalStressTestItem').clone().removeClass('hidden');
+                $(clone).removeAttr('id');
+                container.append(clone);
 
-                    if (gesture && isGestureAssembled(gesture.id)) {
-                        $(clone).find('.gestureSelect #' + gesture.id).click();
-                    } else {
-                        appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
-                    }
-                }
-                checkCurrentListState(container);
-            }
-
-            var singleStressQuestions = data.singleStressQuestions;
-            if ((singleStressQuestions !== undefined && singleStressQuestions.length > 0) || (data.singleStressGraphicsRating !== undefined && data.singleStressGraphicsRating !== 'none')) {
-                $('#useGraphicalSingleStressSwitch #' + data.singleStressGraphicsRating).click();
-                $('#useSingleStressQuestionsSwitch .switchButtonAddon').click();
-                var listContainer = $('#singleStressQuestions').find('#list-container');
-                if (singleStressQuestions !== undefined && singleStressQuestions.length > 0) {
-                    for (var i = 0; i < singleStressQuestions.length; i++) {
-                        renderFormatItem(listContainer, singleStressQuestions[i]);
-                        updateBadges(listContainer, singleStressQuestions[i].format);
-                    }
-                    checkCurrentListState(listContainer);
+                if (gesture && isGestureAssembled(gesture.id)) {
+                    $(clone).find('.gestureSelect #' + gesture.id).click();
+                } else {
+                    appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
                 }
             }
+            checkCurrentListState(container);
+        }
 
-            var sequenceStressQuestions = data.sequenceStressQuestions;
-            if ((sequenceStressQuestions !== undefined && sequenceStressQuestions.length > 0) || (data.sequenceStressGraphicsRating !== undefined && data.sequenceStressGraphicsRating !== 'none')) {
-                $('#useGraphicalSequenceStressSwitch #' + data.sequenceStressGraphicsRating).click();
-                $('#useSequenceStressQuestionsSwitch .switchButtonAddon').click();
-                var listContainer = $('#sequenceStressQuestions').find('#list-container');
-                if (sequenceStressQuestions !== undefined && sequenceStressQuestions.length > 0) {
-                    for (var i = 0; i < sequenceStressQuestions.length; i++) {
-                        renderFormatItem(listContainer, sequenceStressQuestions[i]);
-                        updateBadges(listContainer, sequenceStressQuestions[i].format);
-                    }
-                    checkCurrentListState(listContainer);
+        var singleStressQuestions = data.singleStressQuestions;
+        if ((singleStressQuestions !== undefined && singleStressQuestions.length > 0) || (data.singleStressGraphicsRating !== undefined && data.singleStressGraphicsRating !== 'none')) {
+            $('#useGraphicalSingleStressSwitch #' + data.singleStressGraphicsRating).click();
+            $('#useSingleStressQuestionsSwitch .switchButtonAddon').click();
+            var listContainer = $('#singleStressQuestions').find('#list-container');
+            if (singleStressQuestions !== undefined && singleStressQuestions.length > 0) {
+                for (var i = 0; i < singleStressQuestions.length; i++) {
+                    renderFormatItem(listContainer, singleStressQuestions[i]);
+                    updateBadges(listContainer, singleStressQuestions[i].format);
                 }
-            }
-
-
-            var obeservationItems;
-            if (!forPrefiniedObservation) {
-                obeservationItems = data.observations;
-            } else {
-                obeservationItems = data.gus;
-            }
-            if (obeservationItems !== undefined && obeservationItems.length > 0) {
-                if (!forPrefiniedObservation) {
-                    $('#useObservationsSwitch .switchButtonAddon').click();
-                }
-
-                var listContainer = $('#observations').find('#list-container');
-                for (var i = 0; i < obeservationItems.length; i++) {
-                    renderFormatItem(listContainer, obeservationItems[i]);
-                    updateBadges(listContainer, obeservationItems[i].format);
-                }
-
-                checkDimensionItems($('#dimension-controls .dimension-container'));
                 checkCurrentListState(listContainer);
             }
         }
 
-        function saveData() {
-            var items = $('#stressTestContainer').find('.option-container').children();
-            var obersvationItems = $('#list-container').children();
-
-            var stressTest = new PhysicalStressTest();
-            stressTest.title = $('#stressTestTitle').val();
-            stressTest.description = $('#stressTestDescription').val();
-            stressTest.randomized = $('#randomizeSwitch .active').attr('id') === 'yes';
-            stressTest.stressAmount = $('#totalStressAmount').val();
-
-            if (items) {
-                var set = new Array();
-                for (var i = 0; i < items.length; i++) {
-                    var item = items[i];
-                    var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
-                    var gesture = getGestureById(gestureId);
-
-                    if (gesture) {
-                        set.push(gestureId);
-                    }
+        var sequenceStressQuestions = data.sequenceStressQuestions;
+        if ((sequenceStressQuestions !== undefined && sequenceStressQuestions.length > 0) || (data.sequenceStressGraphicsRating !== undefined && data.sequenceStressGraphicsRating !== 'none')) {
+            $('#useGraphicalSequenceStressSwitch #' + data.sequenceStressGraphicsRating).click();
+            $('#useSequenceStressQuestionsSwitch .switchButtonAddon').click();
+            var listContainer = $('#sequenceStressQuestions').find('#list-container');
+            if (sequenceStressQuestions !== undefined && sequenceStressQuestions.length > 0) {
+                for (var i = 0; i < sequenceStressQuestions.length; i++) {
+                    renderFormatItem(listContainer, sequenceStressQuestions[i]);
+                    updateBadges(listContainer, sequenceStressQuestions[i].format);
                 }
-                stressTest.stressTestItems = set;
+                checkCurrentListState(listContainer);
             }
-
-            var singleStressQuestions = $('#singleStressQuestions').find('#list-container').children();
-            if ($('#useSingleStressQuestionsSwitch').find('#yes').hasClass('active') && (singleStressQuestions.length > 0 || $('#useGraphicalSingleStressSwitch').find('.active').attr('id') !== 'none'))
-            {
-                var questionnaire = new Array();
-                for (var i = singleStressQuestions.length; i--; ) {
-                    questionnaire.push(getFormatData(singleStressQuestions[i]));
-                }
-                if (questionnaire.length > 0) {
-                    stressTest.singleStressQuestions = questionnaire;
-                }
-                stressTest.singleStressGraphicsRating = $('#useGraphicalSingleStressSwitch').find('.active').attr('id');
-            }
-
-            var sequenceStressQuestions = $('#sequenceStressQuestions').find('#list-container').children();
-            if ($('#useSequenceStressQuestionsSwitch').find('#yes').hasClass('active') && (sequenceStressQuestions.length > 0 || $('#useGraphicalSequenceStressSwitch').find('.active').attr('id') !== 'none'))
-            {
-                var questionnaire = new Array();
-                for (var i = sequenceStressQuestions.length; i--; ) {
-                    questionnaire.push(getFormatData(sequenceStressQuestions[i]));
-                }
-                if (questionnaire.length > 0) {
-                    stressTest.sequenceStressQuestions = questionnaire;
-                }
-                stressTest.sequenceStressGraphicsRating = $('#useGraphicalSequenceStressSwitch').find('.active').attr('id');
-            }
-
-            var obersvationItems = $('#observations').find('#list-container').children();
-            if ($('#useObservationsSwitch').find('#yes').hasClass('active') && obersvationItems.length > 0)
-            {
-                var questionnaire = new Array();
-                for (var i = obersvationItems.length; i--; ) {
-                    questionnaire.push(getFormatData(obersvationItems[i]));
-                }
-                stressTest.observations = questionnaire;
-            }
-
-            setLocalItem(currentIdForModal + ".data", stressTest);
         }
 
-        $('body').on('click', '#btn-add-physicalStressTestOption', function (event) {
-            if (event.handled !== true)
-            {
-                event.handled = true;
-                event.preventDefault();
-                $(this).prev().append($('#physicalStressTestItem').clone().removeClass('hidden'));
-                checkCurrentListState($(this).prev());
+
+        var obeservationItems;
+        if (!forPrefiniedObservation) {
+            obeservationItems = data.observations;
+        } else {
+            obeservationItems = data.gus;
+        }
+        if (obeservationItems !== undefined && obeservationItems.length > 0) {
+            if (!forPrefiniedObservation) {
+                $('#useObservationsSwitch .switchButtonAddon').click();
             }
-        });
+
+            var listContainer = $('#observations').find('#list-container');
+            for (var i = 0; i < obeservationItems.length; i++) {
+                renderFormatItem(listContainer, obeservationItems[i]);
+                updateBadges(listContainer, obeservationItems[i].format);
+            }
+
+            checkDimensionItems($('#dimension-controls .dimension-container'));
+            checkCurrentListState(listContainer);
+        }
+    }
+
+    function saveData() {
+        var items = $('#stressTestContainer').find('.option-container').children();
+        var obersvationItems = $('#list-container').children();
+
+        var stressTest = new Object();
+        stressTest.title = $('#stressTestTitle').val();
+        stressTest.description = $('#stressTestDescription').val();
+        stressTest.randomized = $('#randomizeSwitch .active').attr('id') === 'yes';
+        stressTest.stressAmount = $('#totalStressAmount').val();
+
+        if (items) {
+            var set = new Array();
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
+                var gesture = getGestureById(gestureId);
+
+                if (gesture) {
+                    set.push(gestureId);
+                }
+            }
+            stressTest.stressTestItems = set;
+        }
+
+        var singleStressQuestions = $('#singleStressQuestions').find('#list-container').children();
+        if ($('#useSingleStressQuestionsSwitch').find('#yes').hasClass('active') && (singleStressQuestions.length > 0 || $('#useGraphicalSingleStressSwitch').find('.active').attr('id') !== 'none'))
+        {
+            var questionnaire = new Array();
+            for (var i = singleStressQuestions.length; i--; ) {
+                questionnaire.push(getFormatData(singleStressQuestions[i]));
+            }
+            if (questionnaire.length > 0) {
+                stressTest.singleStressQuestions = questionnaire;
+            }
+            stressTest.singleStressGraphicsRating = $('#useGraphicalSingleStressSwitch').find('.active').attr('id');
+        }
+
+        var sequenceStressQuestions = $('#sequenceStressQuestions').find('#list-container').children();
+        if ($('#useSequenceStressQuestionsSwitch').find('#yes').hasClass('active') && (sequenceStressQuestions.length > 0 || $('#useGraphicalSequenceStressSwitch').find('.active').attr('id') !== 'none'))
+        {
+            var questionnaire = new Array();
+            for (var i = sequenceStressQuestions.length; i--; ) {
+                questionnaire.push(getFormatData(sequenceStressQuestions[i]));
+            }
+            if (questionnaire.length > 0) {
+                stressTest.sequenceStressQuestions = questionnaire;
+            }
+            stressTest.sequenceStressGraphicsRating = $('#useGraphicalSequenceStressSwitch').find('.active').attr('id');
+        }
+
+        var obersvationItems = $('#observations').find('#list-container').children();
+        if ($('#useObservationsSwitch').find('#yes').hasClass('active') && obersvationItems.length > 0)
+        {
+            var questionnaire = new Array();
+            for (var i = obersvationItems.length; i--; ) {
+                questionnaire.push(getFormatData(obersvationItems[i]));
+            }
+            stressTest.observations = questionnaire;
+        }
+
+        setLocalItem(currentIdForModal + ".data", stressTest);
+    }
+
+    $('body').on('click', '#btn-add-physicalStressTestOption', function (event) {
+        if (event.handled !== true)
+        {
+            event.handled = true;
+            event.preventDefault();
+            var item = $('#form-item-container').find('#physicalStressTestItem').clone().removeAttr('id');
+            $(this).prev().append(item);
+            checkCurrentListState($(this).prev());
+            TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+        }
+    });
 
 //        $('#addPredefinedObservations').on('click', function () {
 //            if (getLocalItem(PREDEFINED_OBSERVATIONS) !== null) {

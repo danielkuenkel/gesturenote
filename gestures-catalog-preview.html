@@ -260,10 +260,11 @@
         }
 
         currentRatings = ratings;
+//        console.log()
 
         if (ratings) {
             for (var key in ratings) {
-                var value = parseFloat(ratings[key]);
+                var value = parseFloat(ratings[key]) + 1;
                 var viewValue;
                 if (value % .5 === 0) {
                     viewValue = value;

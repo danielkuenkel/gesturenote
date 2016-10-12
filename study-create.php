@@ -115,8 +115,11 @@ if (login_check($mysqli) == true) {
         <script src="js/goto-evaluator.js"></script>       
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
+        <script src="js/uploads.js"></script>
+        <script src="js/forms.js"></script>
+        <script src="js/dimensions.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/study-create.js"></script>        
+        <script src="js/study-create.js"></script>
 
         <!-- gesture recorder sources -->
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
@@ -543,7 +546,7 @@ if (login_check($mysqli) == true) {
                         } else {
                             appendAlert($('#mainContent'), ALERT_NO_STORAGE_API);
                         }
-                        
+
                         $('#create-tab-navigation').find('#general').click();
                     }
                 });

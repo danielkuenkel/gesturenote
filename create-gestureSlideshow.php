@@ -66,7 +66,7 @@ include './includes/language.php';
         </div>
         <div class="panel-body hidden">
 
-            <div id="dimension-controls">
+<!--            <div id="dimension-controls">
                 <div class="dimension-container" id="container-effectiveness">
                     <h4 style="margin-top: 0px; color: #3379b7">Zweckmäßigkeit</h4>
                     <div class="dimension-btn-group">
@@ -85,7 +85,7 @@ include './includes/language.php';
                         <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
             <div class="form-group" style="margin-top: 20px">
                 <div class="input-group">
@@ -118,7 +118,7 @@ include './includes/language.php';
 </div>
 
 
-<script type="text/javascript" src="js/template-create.js"></script>
+<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
         $(document).ready(function () {
             var slideshow = $('#form-item-container #gesture-slideshow').clone();
@@ -139,7 +139,7 @@ include './includes/language.php';
                 $(slideshow).find('.btn-add-slideshowOption').addClass('hidden');
             }
 
-            renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
+//            renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
 
             var data = getLocalItem(currentIdForModal + '.data');
             if (data) {
@@ -215,7 +215,7 @@ include './includes/language.php';
         }
 
         function saveData() {
-            var slideshow = new Slideshow();
+            var slideshow = new Object();
             slideshow.title = $('#slideshowTitle').val();
             slideshow.description = $('#slideshowDescription').val();
 //            slideshow.slideshowFor = $('#slideshowTypeSwitch .active').attr('id');

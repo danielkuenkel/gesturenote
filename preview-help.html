@@ -41,6 +41,8 @@
 
         var currentPhaseData = getCurrentPhaseData();
         var items = getItemsForSceneId(currentPhaseData.help, currentWOZScene.id);
+        
+        console.log(items);
 
         if (items && items.length > 0) {
             if (currentHelpIndex >= items.length - 1) {
@@ -51,7 +53,7 @@
             var clone = $('#tester-help-item').clone().removeClass('hidden').removeAttr('id');
             clone.find('#text').text(data.option);
             $('#list-container').append(clone);
-            if (data.useGestureHelp === true) {
+            if (data.useGestureHelp === true || data.useGestureHelp === 'true') {
                 $(clone).find('#gesture-preview-container').removeClass('hidden');
                 var gesture = getGestureById(data.gestureId);
                 renderGestureImages($(clone).find('.previewGesture'), gesture.images, gesture.previewImage, null);

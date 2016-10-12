@@ -177,7 +177,7 @@ if (login_check($mysqli) == true) {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
                     externals.push(['#template-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
-                    externals.push(['#template-study', PATH_EXTERNALS + '/' + currentLanguage + '/template-study.html']);
+                    externals.push(['#template-study', PATH_EXTERNALS + '/' + currentLanguage + '/template-study.php']);
                     loadExternals(externals);
                 });
             });

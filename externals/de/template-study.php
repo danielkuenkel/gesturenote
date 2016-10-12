@@ -1,3 +1,7 @@
+<?php
+include '../../includes/language.php';
+?>
+
 <div id="template-study-container" class="hidden">
 
     <div class="root" id="gestures-catalog-thumbnail">
@@ -505,7 +509,7 @@
         <div class="col-sm-6">
             <div id="gesture"><span class="address"></span> <span class="text"></span></div>
             <div id="trigger"><span class="address"></span> <span class="text"></span></div>
-            <div id="feedback"><span class="address"></span> <span class="content"></span></div>
+            <div id="feedback"><span class="address"></span> <span class="content" style="display: inline-block"></span></div>
             <div id="recognition-time"><span class="address"></span> <span class="text"></span></div>
             <div id="repeats"><span class="address"></span> <span class="text"></span></div>
             <div id="training-time"><span class="address"></span> <span class="text"></span></div>
@@ -589,9 +593,6 @@
 
             <div id="gestures-container" style="margin-top: 40px"></div>
         </div>
-        <h3 id="headline-observations">Beobachtungen</h3>
-        <hr>
-        <div id="observations-container"></div>
     </div>
 
     <div class="row" id="slideshow-trigger-item" style="margin-bottom: 30px">
@@ -634,6 +635,7 @@
         <h3 id="headline-observations">Beobachtungen</h3>
         <hr>
         <div id="observations-container"></div>
+        <!--<button class="btn btn-info btn-block btn-add-observations"><i class="fa fa-plus"></i> <span class="btn-text">Beobachtungen hinzufügen</span></button>-->
     </div>
 
     <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
@@ -701,6 +703,27 @@
         <div id="observations-container"></div>
     </div>
 
+
+    <div id="add-observations-dropdown" style="margin-top: 20px">
+        <div class="input-group">
+            <span class="input-group-addon">Beobachtungsformat</span>
+            <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+            <div class="input-group-btn select" id="addFormatSelect" role="group">
+                <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                    <li id="counter"><a href="#"><?php echo $lang->questionFormats->counter->text ?></a></li>
+                    <li id="openQuestion"><a href="#"><?php echo $lang->questionFormats->openQuestion->text ?></a></li>
+                    <li id="dichotomousQuestion"><a href="#"><?php echo $lang->questionFormats->dichotomousQuestion->text ?></a></li>
+                    <li id="groupingQuestion"><a href="#"><?php echo $lang->questionFormats->groupingQuestion->text ?></a></li>
+                    <li id="rating"><a href="#"><?php echo $lang->questionFormats->rating->text ?></a></li>
+                    <li id="sumQuestion"><a href="#"><?php echo $lang->questionFormats->sumQuestion->text ?></a></li>
+                    <li id="ranking"><a href="#"><?php echo $lang->questionFormats->ranking->text ?></a></li>
+                </ul>
+                <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="btn-add-observation" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 
@@ -738,6 +761,38 @@
             </div>
         </div>
     </div>
+
+    <!--    <div class="panel panel-default root" id="openQuestion" style="margin-bottom: 5px;">
+            <div class="panel-heading">
+                <div class="btn-group" style="margin-right: 10px">
+                    <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+                <span>Offene Frage <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            </div>
+            <div class="panel-body">
+                <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
+                    <div class="label label-primary" id="factor-main"></div>
+                    <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                    <div class="label label-info" id="factor-primary"></div>
+                </div>
+    
+                <div class="form-group form-group-no-margin">
+                    <div class="input-group">
+                        <span class="input-group-addon">Frage/Aufforderung</span>
+                        <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung"/>
+                        <div class="input-group-btn">
+                            <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin: 0">
+            <div class="panel-body" id="answer">
+                <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
+            </div>
+        </div>-->
 
     <div class="panel panel-default" id="openQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">

@@ -42,7 +42,7 @@ include './includes/language.php';
     <button type="button" class="btn btn-default" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
 
-<script type="text/javascript" src="js/template-create.js"></script>
+<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script type="text/javascript">
         $(document).ready(function () {
             currentGUS = GUS_MULTIPLE_GESTURES;

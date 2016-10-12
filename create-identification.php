@@ -109,7 +109,7 @@ include './includes/language.php';
 </div>
 
 
-<script type="text/javascript" src="js/template-create.js"></script>
+<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
         $('#identificationTypeSwitch').on('change', function () {
             var container = $('#identificationContainer');
@@ -230,7 +230,7 @@ include './includes/language.php';
             var identificationItems = $('#identificationContainer').find('.option-container').children();
             var obersvationItems = $('#list-container').children();
 
-            var identification = new Identification();
+            var identification = new Object();
             identification.title = $('#identificationTitle').val();
             identification.description = $('#identificationDescription').val();
             identification.identificationFor = $('#identificationTypeSwitch .active').attr('id');
@@ -263,5 +263,7 @@ include './includes/language.php';
 
             setLocalItem(currentIdForModal + ".data", identification);
         }
+
+        
 
 </script>

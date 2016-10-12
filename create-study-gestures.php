@@ -80,7 +80,7 @@ include './includes/language.php';
 </div>
 
 
-<script type="text/javascript" src="js/template-create.js"></script>
+<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
         function saveData() {
             updateCatalogButtons();

@@ -19,7 +19,7 @@ include './includes/language.php';
 </div>
 
 
-<script type="text/javascript" src="js/template-create.js"></script>
+<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
     $(document).ready(function () {
         var data = getLocalItem(currentIdForModal + '.data');

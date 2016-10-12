@@ -54,7 +54,7 @@ include './includes/language.php';
         </div>
         <div class="panel-body hidden">
 
-            <div id="dimension-controls">
+<!--            <div id="dimension-controls">
                 <div class="dimension-container" id="container-effectiveness">
                     <h4 style="margin-top: 0px; color: #3379b7"><?php echo $lang->mainDimensions->effectiveness ?></h4>
                     <div class="dimension-btn-group">
@@ -73,7 +73,7 @@ include './includes/language.php';
                         <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
             <div class="form-group" style="margin-top: 20px">
                 <div class="input-group">
@@ -109,7 +109,7 @@ include './includes/language.php';
 </div>
 
 
-<script type="text/javascript" src="js/template-create.js"></script>
+<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
         $(document).ready(function () {
             var training = $('#form-item-container #gestureTraining').clone();
@@ -142,7 +142,7 @@ include './includes/language.php';
             help.removeAttr('id');
             $('#helpContainer').append(help);
 
-            renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
+//            renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
 
             var data = getLocalItem(currentIdForModal + '.data');
             if (data) {
@@ -233,7 +233,7 @@ include './includes/language.php';
         function saveData() {
             var traningItems = $('#trainingContainer').find('.option-container').children();
             var obersvationItems = $('#list-container').children();
-            var training = new Training();
+            var training = new Object();
             training.title = $('#trainingTitle').val();
             training.description = $('#trainingDescription').val();
 
@@ -256,7 +256,7 @@ include './includes/language.php';
                     var recognitionTime = $(item).find('#recognition-stepper .stepper-text').val();
 
                     if (gesture && trigger && feedback) {
-                        set.push(new TrainingItem(gestureId, triggerId, feedbackId, repeats, recognitionTime));
+                        set.push({gestureId: gestureId, triggerId: triggerId, feedbackId: feedbackId, repeats: repeats, recognitionTime: recognitionTime});//new TrainingItem(gestureId, triggerId, feedbackId, repeats, recognitionTime));
                     }
                 }
                 training.training = set;

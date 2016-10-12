@@ -32,7 +32,7 @@ include './includes/language.php';
 </div>
 
 
-<script type="text/javascript" src="js/template-create.js"></script>
+<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
         $(document).ready(function () {
             closeClicked = false;
@@ -93,7 +93,8 @@ include './includes/language.php';
                 switch (type) {
                     case TYPE_FEEDBACK_TEXT:
                         parameters = {negative: $(item).find('.negative .active').attr('id')};
-                        assembledData.push(new Feedback(id, type, title, parameters, data));
+                        assembledData.push({id: id, type: type, title: title, parameters: parameters, data: data});//id, type, title, parameters, data));
+//                        assembledData.push(new Feedback(id, type, title, parameters, data));
                         break;
                     case TYPE_FEEDBACK_SOUND:
                         var url = $(item).find('.audio-holder').attr('src');
@@ -101,7 +102,7 @@ include './includes/language.php';
                             data = $(item).find('.audio-holder').attr('src');
                         }
 
-                        assembledData.push(new Feedback(id, type, title, parameters, data));
+                        assembledData.push({id: id, type: type, title: title, parameters: parameters, data: data});
                         break;
                 }
             }

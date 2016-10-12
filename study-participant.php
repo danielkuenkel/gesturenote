@@ -31,9 +31,6 @@ if (login_check($mysqli) == true) {
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
 
-        <!--        <link href="http://vjs.zencdn.net/5.8.8/video-js.css" rel="stylesheet">
-                <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>-->
-
         <link href="vis/vis.css" rel="stylesheet">
         <script src="vis/vis.min.js"></script>
 
@@ -49,7 +46,6 @@ if (login_check($mysqli) == true) {
         <script src="js/ajax.js"></script>
         <script src="js/storage.js"></script>
         <script src="js/forms.js"></script>
-        <script src="js/template-create.js"></script>
         <script src="js/storageFunctions.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/rtc-result-player.js"></script>
@@ -119,7 +115,7 @@ if (login_check($mysqli) == true) {
                     externals.push(['#alerts', path + '/alerts.html']);
                     externals.push(['#template-gesture', path + 'template-gesture.html']);
                     externals.push(['#template-subpages', path + '/template-sub-pages.html']);
-                    externals.push(['#template-study', path + '/template-study.html']);
+                    externals.push(['#template-study', path + '/template-study.php']);
                     externals.push(['#template-previews', path + '/template-previews.html']);
                     loadExternals(externals);
                 });
@@ -636,6 +632,7 @@ if (login_check($mysqli) == true) {
 
                 var observationResults = getObservationResults();
                 renderObservation(container, studyData, observationResults);
+//                addObservationsDropdown(container);
             }
 
 
@@ -847,7 +844,9 @@ if (login_check($mysqli) == true) {
             }
 
             function renderScenario(container, studyData, resultsData) {
-                console.log(studyData, resultsData);
+                var observationResults = getObservationResults();
+                renderObservation(container, studyData, observationResults);
+//                addObservationsDropdown(container);
             }
 
 
@@ -868,8 +867,8 @@ if (login_check($mysqli) == true) {
                 if (studyData.observations && studyData.observations.length > 0) {
 //                    console.log('render observations', studyData, observationResults);
                     for (var i = 0; i < studyData.observations.length; i++) {
-                        var listItem = $('#template-study-editable-container').find('#' + studyData.observations[i].format).clone();
-                        listItem.find('#format .format-text').text(translation.questionFormats[studyData.observations[i].format].text);
+                        var listItem = $('#item-container-inputs').find('#' + studyData.observations[i].format).clone();
+//                        listItem.find('#format .format-text').text(translation.questionFormats[studyData.observations[i].format].text);
                         $(container).find('#observations-container').append(listItem);
 
                         if (studyData.observations[i].dimension !== DIMENSION_ANY) {
@@ -877,11 +876,6 @@ if (login_check($mysqli) == true) {
                             $(listItem).find('#factor-primary').text(translation.dimensions[studyData.observations[i].dimension]);
                             $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData.observations[i].dimension)]);
                         }
-
-                        $(listItem).on('change', function (event) {
-//                            console.log('on change');
-                            saveObservationAnwers();
-                        });
 
                         var answer = observationResults ? observationResults[i] : null;
 
@@ -916,29 +910,77 @@ if (login_check($mysqli) == true) {
                                 renderEditableRanking(listItem, studyData.observations[i], answer);
                                 break;
                         }
+                        
+//                        checkCurrentListState($(container).find('#observations-container'));
+//                        updateBadges($(container).find('#observations-container'), studyData.observations[i].format);
                     }
                 }
+
+                $(container).find('#observations-container').on('change', function () {
+                    saveObservationAnwers();
+                });
             }
 
             function saveObservationAnwers() {
                 var observationAnswerItems = $('#phase-result').find('#observations-container').children();
-//                console.log(observationAnswerItems, currentPhaseId);
+
                 var currentPhaseId = $('#phase-results-nav').find('.active').attr('id');
+//                console.log(observationAnswerItems, currentPhaseId);
                 var answers = getQuestionnaireAnswers(observationAnswerItems);
-                console.log(answers);
                 var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
                 if (observations && answers) {
-                    observations[currentPhaseId] = answers;
+                    if (isObservationPresent(currentPhaseId)) {
+                        for (var i = 0; i < observations.length; i++) {
+                            if (parseInt(currentPhaseId) === parseInt(observations[i].id)) {
+                                observations[i] = {id: currentPhaseId, answers: answers};
+                            }
+                        }
+                    } else {
+                        observations.push({id: currentPhaseId, answers: answers});
+                    }
+
+                    console.log(observations);
                     setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, observations);
                 } else {
-                    observations = new Object();
-                    observations[currentPhaseId] = answers;
+                    observations = new Array();
+                    observations.push({id: currentPhaseId, answers: answers});
                     setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, observations);
                 }
 
-                saveObservations({studyId: getLocalItem(STUDY).id, observations: observations}, function (result) {
+                saveObservations({studyId: getLocalItem(STUDY).id, testerId: getLocalItem(STUDY_RESULTS).userId, observations: observations}, function (result) {
                     if (result.status === RESULT_SUCCESS) {
-                        console.log(result);
+//                        console.log(result);
+                    }
+                });
+            }
+
+            function isObservationPresent(phaseId) {
+                var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
+                if (observations && observations.length > 0) {
+                    for (var i = 0; i < observations.length; i++) {
+                        if (parseInt(phaseId) === parseInt(observations[i].id)) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            function addObservationsDropdown(container) {
+//                console.log(container);
+                var dropdown = $('#template-study-container').find('#add-observations-dropdown').clone().removeAttr('id');
+                $(container).find('#headline-observations').after(dropdown);
+                $(dropdown).find('#btn-add-observation').on('click', function (event) {
+                    event.preventDefault();
+                    if (event.handled !== true && dropdown.find('.chosen').attr('id') !== 'unselected') {
+                        event.handled = true;
+                        var format = dropdown.find('.chosen').attr('id');
+                        var item = $('#template-study-editable-container').find('#' + format).clone();
+                        $(container).find('#observations-container').prepend(item);
+//                        console.log('addFormat: ' + dropdown.find('.chosen').attr('id'));
+                        checkCurrentListState($(container).find('#observations-container'));
+                        updateBadges($(container).find('#observations-container'), format);
+                        TweenMax.from(item, .3, {y: -20, opacity: 0, clearProps: 'all'});
                     }
                 });
             }

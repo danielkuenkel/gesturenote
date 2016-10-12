@@ -103,7 +103,7 @@
     "openSet": "Öffnen",
     "arrangeSet": "Set zusammenstellen",
     "close": "Schließen",
-    "saveAndclose": "Speichern & Schließen",
+    "saveAndClose": "Speichern & Schließen",
     "next": "Weiter",
     "previous": "Zurück",
     "yes": "Ja",
@@ -422,6 +422,7 @@
     },
     "systemIs": "Das System wurde mit",
     "rated": "bewertet",
+    "defaultScales": ["Trifft nicht zu", "Weder noch", "Triff zu"],
     "susOptions": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"],
     "susScores": [
         {

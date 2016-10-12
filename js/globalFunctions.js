@@ -178,6 +178,7 @@ $(document).on('click', '.btn-delete', function (event) {
     }
 
     updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
+     $(parent).trigger('change');
 });
 
 $(document).on('click', '.btn-up', function (event) {

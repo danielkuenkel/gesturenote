@@ -23,8 +23,8 @@ function createOriginPhases() {
     if (phaseSteps === null || phaseSteps === undefined || (phaseSteps && phaseSteps.length === 0))
     {
         var phases = new Array();
-        phases.push(new PhaseItem(chance.natural(), LETTER_OF_ACCEPTANCE, colors.pop()));
-        phases.push(new PhaseItem(chance.natural(), THANKS, colors.pop()));
+        phases.push({id: chance.natural, format: LETTER_OF_ACCEPTANCE, color: colors.pop()});//new PhaseItem(chance.natural(), LETTER_OF_ACCEPTANCE, colors.pop()));
+        phases.push({id: chance.natural, format: THANKS, color: colors.pop()});//new PhaseItem(chance.natural(), THANKS, colors.pop()));
         setLocalItem(STUDY_PHASE_STEPS, phases);
     }
 }
@@ -43,10 +43,10 @@ function createPredefinedObservationForm() {
     if (getLocalItem(PREDEFINED_OBSERVATIONS) === null)
     {
         var form = new Array();
-        form.push(new QuestionnaireItem(COUNTER, DIMENSION_MENTAL_MODEL, 'Wie oft wurde die Geste falsch ausgeführt?', null, null));
-        form.push(new QuestionnaireItem(DICHOTOMOUS_QUESTION, DIMENSION_MENTAL_MODEL, 'Wurde die Hilfe genutzt?', [false, false], null));
-        form.push(new QuestionnaireItem(GROUPING_QUESTION, DIMENSION_MENTAL_MODEL, 'Wurde Hilfe benötigt?', [false, false], ['ja', 'nein', 'ein wenig']));
-        form.push(new QuestionnaireItem(OPEN_QUESTION, DIMENSION_ANY, 'Was wurde sonst beobachtet?', null, null));
+        form.push({format: COUNTER, dimension: DIMENSION_ANY, question: 'Wie oft wurde die Geste falsch ausgeführt?', parameters: {countFrom: 0, countTo: 10}, options: null});
+        form.push({format: DICHOTOMOUS_QUESTION, dimension: DIMENSION_ANY, question: 'Wurde die Hilfe genutzt?', parameters: {justification: 'no', justificationFor: 'yes'}, options: null});
+        form.push({format: GROUPING_QUESTION, dimension: DIMENSION_ANY, question: 'Wurde Hilfe benötigt?', parameters: {multiselect: 'no', optionalanswer: 'no'}, options: [{id: chance.natural(), title: 'ja'}, {id: chance.natural(), title: 'nein'}, {id: chance.natural(), title: 'ein wenig'}]});
+        form.push({format: OPEN_QUESTION, dimension: DIMENSION_ANY, question: 'Was wurde sonst beobachtet?', parameters: null, options: null});
         setLocalItem(PREDEFINED_OBSERVATIONS, form);
     }
 }
@@ -59,8 +59,10 @@ function createPredefinedGestureQuestionnaire() {
 function createPredefinedGestureFeedback() {
     if (getLocalItem(ASSEMBLED_FEEDBACK) === null) {
         var feedback = new Array();
-        feedback.push(new Feedback(0, TYPE_FEEDBACK_TEXT, "Geste wurde erkannt", [false], null));
-        feedback.push(new Feedback(1, TYPE_FEEDBACK_TEXT, "Geste wurde nicht erkannt", [true], null));
+        feedback.push({id: chance.natural(), type: TYPE_FEEDBACK_TEXT, title: 'Geste wurde erkannt', parameters: {negative: 'no'}, data: null});
+        feedback.push({id: chance.natural(), type: TYPE_FEEDBACK_TEXT, title: 'Geste wurde nicht erkannt', parameters: {negative: 'yes'}, data: null});
+//        new Feedback(0, TYPE_FEEDBACK_TEXT, "Geste wurde erkannt", [false], null));
+//        feedback.push(new Feedback(1, TYPE_FEEDBACK_TEXT, "Geste wurde nicht erkannt", [true], null));
         setLocalItem(ASSEMBLED_FEEDBACK, feedback);
     }
 }
@@ -214,7 +216,7 @@ function updateCatalogButtons() {
 }
 
 function saveGeneralData() {
-    var study = new Study();
+    var study = new Object();
     study.title = $('#studyTitle').val();
     study.description = $('#studyDescription').val();
     study.phase = $('#phaseSelect .chosen').attr('id');
@@ -258,146 +260,146 @@ function savePhases() {
         var format = $(item).find('.btn-modify').attr('id');
 //        var itemText = $(item).find('.btn-text-button').text().trim();
         var color = $(item).find('.glyphicon-tag').css('color');
-        phases.push(new PhaseItem(id, format, color));
+        phases.push({id: id, format: format, color: color});//new PhaseItem(id, format, color));
     }
     setLocalItem(STUDY_PHASE_STEPS, phases);
 }
 
-function Study() {
-    this.title;
-    this.description;
-    this.phase;
-    this.surveyType;
-    this.panelSurvey;
-    this.gender;
-    this.ageRange;
-    this.dateFrom;
-    this.dateTo;
-}
-
-function UsabilityScaleItem(question, dimension, likertScale, reversed) {
-    this.question = question;
-    this.dimension = dimension;
-    this.likertScale = likertScale;
-    this.reversed = reversed;
-}
-
-function PhaseItem(id, format, color) {
-    this.id = id;
-    this.format = format;
-    this.color = color;
-}
-
-function QuestionnaireItem(format, dimension, question, parameters, options) {
-    this.format = format;
-    this.dimension = dimension;
-    this.question = question;
-    this.parameters = parameters;
-    this.options = options;
-}
-
-function Scenario() {
-    this.title;
-    this.description;
-    this.scene;
-    this.elicitationTrigger;
-    this.woz;
-    this.help;
-    this.observations;
-}
-
-function Training() {
-    this.title;
-    this.description;
-    this.useSingleTraining;
-    this.training;
-    this.observations;
-}
-
-function TrainingItem(gestureId, triggerId, feedbackId, repeats, recognitionTime) {
-    this.gestureId = gestureId;
-    this.triggerId = triggerId;
-    this.feedbackId = feedbackId;
-    this.repeats = repeats;
-    this.recognitionTime = recognitionTime;
-}
-
-function WOZ(sceneId, triggerId, gestureId, feedbackId, transitionId) {
-    this.sceneId = sceneId;
-    this.triggerId = triggerId;
-    this.gestureId = gestureId;
-    this.feedbackId = feedbackId;
-    this.transitionId = transitionId;
-}
-
-function Help() {
-    this.sceneId;
-    this.option;
-    this.useGestureHelp;
-    this.gestureId;
-}
-
-function Slideshow() {
-    this.title;
-    this.description;
-    this.slideshowFor;
-    this.answerTime;
-    this.slideshow;
-    this.identification;
-    this.observations;
-}
-
-function SlideshowItem(gestureId, triggerId) {
-    this.gestureId = gestureId;
-    this.triggerId = triggerId;
-}
-
-function PhysicalStressTest() {
-    this.title;
-    this.description;
-    this.randomized;
-    this.stressAmount;
-    this.stressTestItems;
-    this.singleStressQuestions;
-    this.singleStressGraphicsRating;
-    this.sequenceStressQuestions;
-    this.sequenceStressGraphicsRating;
-    this.observations;
-}
-
-function PhysicalStressTestItem(gestureId) {
-    this.gestureId = gestureId;
-}
-
-function Identification() {
-    this.title;
-    this.description;
-    this.identificationFor;
-    this.identification;
-    this.observations;
-}
-
-function Feedback(id, type, title, parameters, data) {
-    this.id = id;
-    this.type = type;
-    this.title = title;
-    this.parameters = parameters;
-    this.data = data;
-}
-
-function Trigger(id, type, title) {
-    this.id = id;
-    this.type = type;
-    this.title = title;
-}
-
-function Scene(id, type, title, options, data) {
-    this.id = id;
-    this.type = type;
-    this.title = title;
-    this.options = options;
-    this.data = data;
-}
+//function Study() {
+//    this.title;
+//    this.description;
+//    this.phase;
+//    this.surveyType;
+//    this.panelSurvey;
+//    this.gender;
+//    this.ageRange;
+//    this.dateFrom;
+//    this.dateTo;
+//}
+//
+//function UsabilityScaleItem(question, dimension, likertScale, reversed) {
+//    this.question = question;
+//    this.dimension = dimension;
+//    this.likertScale = likertScale;
+//    this.reversed = reversed;
+//}
+//
+//function PhaseItem(id, format, color) {
+//    this.id = id;
+//    this.format = format;
+//    this.color = color;
+//}
+//
+//function QuestionnaireItem(format, dimension, question, parameters, options) {
+//    this.format = format;
+//    this.dimension = dimension;
+//    this.question = question;
+//    this.parameters = parameters;
+//    this.options = options;
+//}
+//
+//function Scenario() {
+//    this.title;
+//    this.description;
+//    this.scene;
+//    this.elicitationTrigger;
+//    this.woz;
+//    this.help;
+//    this.observations;
+//}
+//
+//function Training() {
+//    this.title;
+//    this.description;
+//    this.useSingleTraining;
+//    this.training;
+//    this.observations;
+//}
+//
+//function TrainingItem(gestureId, triggerId, feedbackId, repeats, recognitionTime) {
+//    this.gestureId = gestureId;
+//    this.triggerId = triggerId;
+//    this.feedbackId = feedbackId;
+//    this.repeats = repeats;
+//    this.recognitionTime = recognitionTime;
+//}
+//
+//function WOZ(sceneId, triggerId, gestureId, feedbackId, transitionId) {
+//    this.sceneId = sceneId;
+//    this.triggerId = triggerId;
+//    this.gestureId = gestureId;
+//    this.feedbackId = feedbackId;
+//    this.transitionId = transitionId;
+//}
+//
+//function Help() {
+//    this.sceneId;
+//    this.option;
+//    this.useGestureHelp;
+//    this.gestureId;
+//}
+//
+//function Slideshow() {
+//    this.title;
+//    this.description;
+//    this.slideshowFor;
+//    this.answerTime;
+//    this.slideshow;
+//    this.identification;
+//    this.observations;
+//}
+//
+//function SlideshowItem(gestureId, triggerId) {
+//    this.gestureId = gestureId;
+//    this.triggerId = triggerId;
+//}
+//
+//function PhysicalStressTest() {
+//    this.title;
+//    this.description;
+//    this.randomized;
+//    this.stressAmount;
+//    this.stressTestItems;
+//    this.singleStressQuestions;
+//    this.singleStressGraphicsRating;
+//    this.sequenceStressQuestions;
+//    this.sequenceStressGraphicsRating;
+//    this.observations;
+//}
+//
+//function PhysicalStressTestItem(gestureId) {
+//    this.gestureId = gestureId;
+//}
+//
+//function Identification() {
+//    this.title;
+//    this.description;
+//    this.identificationFor;
+//    this.identification;
+//    this.observations;
+//}
+//
+//function Feedback(id, type, title, parameters, data) {
+//    this.id = id;
+//    this.type = type;
+//    this.title = title;
+//    this.parameters = parameters;
+//    this.data = data;
+//}
+//
+//function Trigger(id, type, title) {
+//    this.id = id;
+//    this.type = type;
+//    this.title = title;
+//}
+//
+//function Scene(id, type, title, options, data) {
+//    this.id = id;
+//    this.type = type;
+//    this.title = title;
+//    this.options = options;
+//    this.data = data;
+//}
 
 function getAvailableGender(tester) {
     var gender = new Array();
@@ -411,3 +413,186 @@ function getAvailableGender(tester) {
     }
     return gender;
 }
+
+var closeClicked = false;
+function onCloseClick() {
+    closeClicked = true;
+    saveData();
+    currentIdForModal = null;
+}
+
+/* 
+ * common form format functions 
+ */
+
+$(document).on('click', '#addFormat', function (event) {
+    event.preventDefault();
+    if (event.handled !== true && !$(this).hasClass('disabled'))
+    {
+        event.handled = true;
+        var format = $(this).parent().find('.chosen').attr('id');
+        if (format !== 'unselected') {
+            var clone = $('#form-item-container').find('#' + format).clone(true);
+            var listContainer = $(this).closest('.root').find('#list-container');
+            $(listContainer).prepend(clone);
+            checkCurrentListState(listContainer);
+            updateBadges(listContainer, format);
+            TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
+        }
+    }
+});
+
+$(document).on('click', '.btn-add-groupingQuestionOption', function (event) {
+    event.preventDefault();
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        var item = $('#form-item-container').find('#groupingQuestionItem').clone().removeAttr('id');
+        item.attr('id', chance.natural());
+        $(this).prev().find('.panel-body').append(item);
+        checkCurrentListState($(this).prev().find('.panel-body'));
+        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+    }
+});
+
+$(document).on('click', '.btn-add-ratingOption', function (event) {
+    event.preventDefault();
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        var item = $('#form-item-container').find('#ratingItem').clone().removeAttr('id');
+        $(this).prev().find('.panel-body').append(item);
+        checkCurrentListState($(this).prev().find('.panel-body'));
+        $(item).find('.chosen').attr('id', 3);
+        $(item).find('.show-dropdown').val(3);
+        $(item).find('#scale_3').addClass('selected');
+        renderScaleItems($(item).find('.ratingScaleItemContainer'), 3, translation.defaultScales);
+        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+    }
+});
+
+$(document).on('click', '.btn-add-sumQuestionOption', function (event) {
+    event.preventDefault();
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        var item = $('#form-item-container').find('#sumQuestionItem').clone().removeAttr('id');
+        $(this).prev().find('.panel-body').append(item);
+        checkCurrentListState($(this).prev().find('.panel-body'));
+        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+    }
+});
+
+$(document).on('click', '.btn-add-rankingOption', function (event) {
+    event.preventDefault();
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        var item = $('#form-item-container').find('#rankingItem').clone().removeAttr('id');
+        $(item).attr('id', chance.natural());
+        $(this).prev().find('.panel-body').append(item);
+        checkCurrentListState($(this).prev().find('.panel-body'));
+        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+    }
+});
+
+$(document).on('click', '.btn-add-woz-experimentOption', function (event) {
+    event.preventDefault();
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        var wozItem = $('#form-item-container').find('#wozExperimentItem').clone().removeAttr('id');
+        if (getLocalItem(STUDY).phase === TYPE_PHASE_ELICITATION) {
+            $(wozItem).find('.evaluation').addClass('hidden');
+        }
+        $(this).prev().append(wozItem);
+        checkCurrentListState($(this).prev());
+        TweenMax.from(wozItem, .2, {y: -10, opacity: 0, clearProps: 'all'});
+    }
+});
+
+$(document).on('click', '.btn-add-helpOption', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
+        var item = $('#form-item-container').find('#helpItem').clone().removeAttr('id');
+        $(this).prev().append(item);
+        checkCurrentListState($(this).prev());
+        updateHelpItemCounter($(this).prev());
+        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+    }
+});
+
+$(document).on('click', '.btn-add-triggerOption', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
+        var item = $('#form-item-container').find('#triggerItem').clone().removeAttr('id');
+        $(this).parent().prev().append(item);
+        checkCurrentListState($(this).parent().prev());
+        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+    }
+});
+
+$(document).on('click', '.btn-add-gestureTrainingOption', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
+        var item = $('#form-item-container').find('#gestureTrainingItem').clone().removeAttr('id');
+        $(this).prev().append(item);
+        checkCurrentListState($(this).prev());
+        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+    }
+});
+
+$(document).on('click', '.btn-add-identificationOption', function (event) {
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        event.preventDefault();
+        var item = $('#form-item-container').find('#identificationItem').clone().removeAttr('id');
+        $(this).prev().append(item);
+        var identificationFor = $('#identificationTypeSwitch').find('.active').attr('id');
+        if (identificationFor === 'gestures') {
+            $(item).find('#group-gestures').remove();
+//            $(item).find('#group-trigger').removeClass('hidden');
+        } else {
+            $(item).find('#group-trigger').remove();
+//            $(item).find('#group-gestures').removeClass('hidden');
+        }
+        checkCurrentListState($(this).prev());
+        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+    }
+});
+
+
+
+
+
+/*
+ * Specific alternative switch functionalities
+ */
+
+//$('body').on('click', '.alternativeSwitch .check', function (event) {
+//    event.preventDefault();
+//    console.log('check alternativeSwitch');
+//    if (event.handled !== true)
+//    {
+//        event.handled = true;
+//        $(this).closest('.root').find('.alternativeGestureSelect').addClass('hidden');
+//        $(this).closest('.root').find('.alternativeTriggerSelect').addClass('hidden');
+//        if ($(this).hasClass(ALERT_NO_GESTURES_ASSEMBLED)) {
+//            if (assembledGestures() !== null) {
+//                $(this).closest('.root').find('.alternativeGestureSelect').removeClass('hidden');
+//            }
+//        } else if ($(this).hasClass(ALERT_NO_TRIGGER_ASSEMBLED)) {
+//            if (getLocalItem(ASSEMBLED_TRIGGER) !== null) {
+//
+//
+//            }
+//        }
+//    }
+//});

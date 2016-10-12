@@ -641,7 +641,8 @@ var Tester = {
                 options.push(trigger);
             }
             var questionnaire = new Array();
-            questionnaire.push(new QuestionnaireItem(GROUPING_QUESTION, DIMENSION_ANY, translation.questionTriggerSlideshow, [false, false], options));
+            questionnaire.push({format: GROUPING_QUESTION, dimension: DIMENSION_ANY, question: translation.questionTriggerSlideshow, parameters: {multiselect: 'no', optionalanswer: 'no'}, options: options});
+//            questionnaire.push(new QuestionnaireItem(GROUPING_QUESTION, DIMENSION_ANY, translation.questionTriggerSlideshow, [false, false], options));
             Tester.getQuestionnaire(item, questionnaire);
         }
 

@@ -77,7 +77,7 @@ include './includes/language.php';
 </div>
 
 
-<script type="text/javascript" src="js/template-create.js"></script>
+<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
         $(document).ready(function () {
             var slideshow = $('#form-item-container #trigger-slideshow').clone();
@@ -172,7 +172,7 @@ include './includes/language.php';
             var slideshowItems = $('#slideshowContainer').find('.option-container').children();
             var obersvationItems = $('#list-container').children();
 
-            var slideshow = new Slideshow();
+            var slideshow = new Object();
             slideshow.title = $('#slideshowTitle').val();
             slideshow.description = $('#slideshowDescription').val();
 //            slideshow.slideshowFor = $('#slideshowTypeSwitch .active').attr('id');
@@ -190,7 +190,7 @@ include './includes/language.php';
 //                    var feedback = getFeedbackById(feedbackId);
 
                     if (gesture && trigger) {
-                        set.push(new SlideshowItem(gestureId, triggerId));
+                        set.push({gestureId:gestureId, triggerId:triggerId});
                     }
                 }
                 slideshow.slideshow = set;

@@ -1,5 +1,358 @@
+/*
+ * 
+ * @param {type} target
+ * @param {type} data
+ * @returns {undefined}
+ */
+
+$(document).on('change', '.scaleSelect', function (event, result) {
+    event.preventDefault();
+    if (event.handled !== true)
+    {
+        event.handled = true;
+        var scaleItemContainer = $(this).closest('.root').find('.ratingScaleItemContainer');
+        renderScaleItems(scaleItemContainer, result.split('_')[1], undefined);
+    }
+});
+
+function renderScaleItems(container, count, text)
+{
+    $(container).empty();
+    for (var i = 0; i < count; i++)
+    {
+        var scaleItem = $('#form-item-container').find('#ratingScaleItem').clone();
+        $(container).append(scaleItem);
+        if (i === 0) {
+            $(scaleItem).find('.input-group-addon').text(translation.of + ' ' + (i + 1));
+            $(scaleItem).find('.item-input-text').attr('placeholder', translation.defaultScales[0]);
+        } else if (i === count - 1) {
+            $(scaleItem).find('.input-group-addon').text(translation.to + ' ' + (i + 1));
+            $(scaleItem).find('.item-input-text').attr('placeholder', translation.defaultScales[2]);
+        } else {
+            $(scaleItem).find('.input-group-addon').text(i + 1);
+        }
+        if (text !== undefined) {
+            $(scaleItem).find('.item-input-text').val(text[i]);
+        }
+    }
+}
+
+function updateBadges(container, selector) {
+    if (selector !== null) {
+        var children = $(container).children('#' + selector);
+        for (var i = 0; i < children.length; i++) {
+            $(children[i]).find('.badgeId').text(i + 1);
+            $(children[i]).find('.badgeQuantity').text(children.length);
+        }
+    }
+}
+
+
+/*
+ * render the format item for study creation
+ */
+
+function renderFormatItem(target, data) {
+    var clone = $('#form-item-container').find('#' + data.format).clone();
+    $(clone).find('.question').val(data.question);
+    clone.addClass(data.dimension);
+    target.prepend(clone);
+    var parameters = data.parameters;
+    var options = data.options;
+
+    switch (data.format) {
+        case SUS_ITEM:
+//            console.log($(clone).find('#negative'));
+            $(clone).find('.negative #' + parameters.negative).click();
+            break;
+        case COUNTER:
+            $(clone).find('#counter-from .stepper-text').val(parameters.countFrom);
+            $(clone).find('#counter-to .stepper-text').val(parameters.countTo);
+            break;
+        case OPEN_QUESTION_GUS:
+            if (parameters.used === 'used') {
+                $(clone).find('.btn-use').click();
+            }
+            break;
+        case DICHOTOMOUS_QUESTION:
+            $(clone).find('.justification #' + parameters.justification).click();
+            $(clone).find('.justification-for #' + parameters.justificationFor).click();
+            break;
+        case DICHOTOMOUS_QUESTION_GUS:
+            if (parameters.used === 'used') {
+                $(clone).find('.btn-use').click();
+            }
+            $(clone).find('.justification #' + parameters.justification).click();
+            $(clone).find('.justification-for #' + parameters.justificationFor).click();
+            break;
+        case GROUPING_QUESTION:
+//            if (parameters[0] === true) {
+            $(clone).find('.multiselect #' + parameters.multiselect).click();
+//            }
+//            if (parameters[1] === true) {
+            $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
+//            }
+
+            if (options) {
+                for (var j = 0; j < options.length; j++) {
+                    var option = $('#groupingQuestionItem').clone().removeClass('hidden');
+                    $(option).find('.option').val(options[j].title);
+                    $(option).attr('id', options[j].id);
+                    $(clone).find('.option-container').append(option);
+                    checkCurrentListState($(clone).find('.option-container'));
+                }
+            }
+            break;
+        case GROUPING_QUESTION_GUS:
+            if (parameters.used === 'used') {
+                $(clone).find('.btn-use').click();
+            }
+//            if (parameters[1] === true) {
+            $(clone).find('.multiselect .switchButtonAddon').click();
+//            }
+//            if (parameters[2] === true) {
+            $(clone).find('.justification #' + parameters.justification).click();
+//            }
+            $(clone).find('.justification-for #' + parameters.justificationFor).click();
+            $(clone).find('.optionselect #' + parameters.optionSource).click();
+            break;
+        case RATING:
+            if (options) {
+                for (var j = 0; j < options.length; j++) {
+                    var option = $('#ratingItem').clone().removeClass('hidden');
+                    $(option).find('.option').val(options[j]);
+                    $(clone).find('.option-container').append(option);
+                    $(option).find('.optionQuestion').val(options[j].option);
+                    $(option).find('.chosen').attr('id', (options[j].scales.length));
+                    $(option).find('.show-dropdown').val(options[j].scales.length);
+                    $(option).find('#scale_' + (options[j].scales.length)).addClass('selected');
+                    checkCurrentListState($(clone).find('.option-container'));
+                    renderScaleItems($(option).find('.ratingScaleItemContainer'), options[j].scales.length, options[j].scales);
+                    $(option).find('#' + options[j].negative).click();
+                }
+            }
+            break;
+        case SUM_QUESTION:
+            $(clone).find('.allocationSelect #' + parameters.allocation).click();
+            $(clone).find('.maximum').val(parameters.maximum);
+            if (options) {
+                for (var j = 0; j < options.length; j++) {
+                    var option = $('#sumQuestionItem').clone().removeClass('hidden');
+                    $(option).find('.option').val(options[j]);
+                    $(clone).find('.option-container').append(option);
+                    checkCurrentListState($(clone).find('.option-container'));
+                }
+            }
+            break;
+        case RANKING:
+            if (options) {
+                for (var j = 0; j < options.length; j++) {
+                    var option = $('#rankingItem').clone().removeClass('hidden');
+                    $(option).attr('id', options[j].id);
+                    $(option).find('.option').val(options[j].text);
+                    $(clone).find('.option-container').append(option);
+                    checkCurrentListState($(clone).find('.option-container'));
+                }
+            }
+            break;
+        case ALTERNATIVE_QUESTION:
+            if (parameters.used === 'used') {
+                $(clone).find('.btn-use').click();
+            }
+            $(clone).find('.justification #' + parameters.justification).click();
+            $(clone).find('.justification-for #' + parameters.justificationFor).click();
+            $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
+            $(clone).find('.alternative #' + parameters.alternative).click();
+
+            var currentPhase = getPhaseById(currentIdForModal);
+            if (currentPhase && currentPhase.format === GUS_SINGLE_GESTURES) {
+                $(clone).find('#alternativeTrigger').remove();
+                $(clone).find('.alternativeFor').addClass('hidden');
+                break;
+            }
+
+            $(clone).find('#' + parameters.alternativeFor).click();
+
+            if (parameters.alternativeFor === 'alternativeGesture') {
+                var gesture = getGestureById(parameters.alternativeForId);
+                if (gesture) {
+                    if (isGestureAssembled(gesture.id)) {
+                        $(clone).find('.option-gesture').val(gesture.title);
+                        $(clone).find('.gestureSelect .chosen').attr('id', gesture.id);
+                    } else {
+                        appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
+                    }
+                }
+
+            } else if (parameters.alternativeFor === 'alternativeTrigger') {
+
+                var trigger = getTriggerById(parameters.alternativeForId);
+                if (trigger) {
+                    $(clone).find('.option-trigger').val(trigger.title);
+                    $(clone).find('.triggerSelect .chosen').attr('id', trigger.id);
+                } else {
+                    appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
+                }
+            } else if (parameters.alternativeFor === 'alternativeFeedback') {
+                var feedback = getFeedbackById(parameters.alternativeForId);
+                if (feedback) {
+                    $(clone).find('.option-feedback').val(feedback.title);
+                    $(clone).find('.feedbackSelect .chosen').attr('id', feedback.id);
+                } else {
+                    appendAlert(clone, ALERT_ASSEMBLED_FEEDBACK_REMOVED);
+                }
+            }
+            break;
+        case GUS_SINGLE:
+            if (parameters.used === 'used') {
+                $(clone).find('.btn-use').click();
+            }
+            $(clone).find('.negative #' + parameters.negative).click();
+            break;
+    }
+
+    var dimension = data.dimension;
+    if (dimension !== DIMENSION_ANY) {
+        $(clone).find('#item-factors').removeClass('hidden');
+        var dimensionButton = $('.dimension-btn-group').find('#' + dimension);
+        if (dimensionButton) {
+            $(dimensionButton).addClass('active');
+            $(dimensionButton).addClass('btn-info');
+            $(dimensionButton).removeClass('inactive');
+        }
+        var dimensions = translation.dimensions;
+        var mainDimensions = translation.mainDimensions;
+        $(clone).find('#factor-primary').text(dimensions[dimension]);
+        $(clone).find('#factor-main').text(mainDimensions[getMainDimensionForDimension(dimension)]);
+    }
+}
+
+
+/*
+ * get the format item data for study creation
+ */
+function getFormatData(element) {
+    var format = $(element).attr('id');
+    var dimension = getDimensionByElement($(element));
+    var question = $(element).find('.question').val();
+    var parameters = null;
+    var options = null;
+
+    switch (format) {
+        case SUS_ITEM:
+            parameters = {negative: $(element).find('.negative .active').attr('id')};
+            break;
+        case COUNTER:
+            var countFrom = parseInt($(element).find('#counter-from .stepper-text').val());
+            var countTo = parseInt($(element).find('#counter-to .stepper-text').val());
+            parameters = {countFrom: isNaN(countFrom) ? 0 : parseInt(countFrom), countTo: isNaN(countTo) ? 0 : parseInt(countTo)};
+            break;
+        case OPEN_QUESTION_GUS:
+            parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used'};
+            break;
+        case DICHOTOMOUS_QUESTION:
+            parameters = {justification: $(element).find('.justification .active').attr('id'),
+                justificationFor: $(element).find('.justification-for .active').attr('id')};
+            break;
+        case DICHOTOMOUS_QUESTION_GUS:
+            parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
+                justification: $(element).find('.justification .active').attr('id'),
+                justificationFor: $(element).find('.justification-for .active').attr('id')};
+            break;
+        case GROUPING_QUESTION:
+            parameters = {multiselect: $(element).find('.multiselect .active').attr('id'),
+                optionalanswer: $(element).find('.optionalanswer .active').attr('id')};
+
+            options = new Array();
+            var groupingOptions = $(element).find('.option-container').children();
+            for (var j = 0; j < groupingOptions.length; j++) {
+                options.push({id: $(groupingOptions[j]).attr('id'), title: $(groupingOptions[j]).find('.option').val()});
+            }
+            break;
+        case GROUPING_QUESTION_GUS:
+            parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
+                multiselect: $(element).find('.multiselect .active').attr('id'),
+                optionSource: $(element).find('.optionselect .active').attr('id'),
+                justification: $(element).find('.justification .active').attr('id'),
+                justificationFor: $(element).find('.justification-for .active').attr('id')};
+            break;
+        case RATING:
+            options = new Array();
+            var optionList = $(element).find('.option-container').children();
+            for (var j = 0; j < optionList.length; j++) {
+                var ratingOptions = ($(optionList[j]).find('.ratingScaleItemContainer').children());
+                var tempArray = new Array();
+                for (var k = 0; k < ratingOptions.length; k++) {
+                    tempArray.push($(ratingOptions[k]).find('.option').val());
+                }
+                options.push({option: $(optionList[j]).find('.optionQuestion').val(), negative: $(optionList[j]).find('.negative').find('.active').attr('id'), scales: tempArray});
+            }
+            break;
+        case SUM_QUESTION:
+            parameters = {allocation: $(element).find('.allocationSelect .chosen').attr('id'),
+                maximum: $(element).find('.maximum').val()};
+
+            options = new Array();
+            var sumQuestionOptions = $(element).find('.option-container').children();
+            for (var j = 0; j < sumQuestionOptions.length; j++) {
+                options.push($(sumQuestionOptions[j]).find('.option').val());
+            }
+            break;
+        case RANKING:
+            options = new Array();
+            var rankingOptions = $(element).find('.option-container').children();
+            for (var j = 0; j < rankingOptions.length; j++) {
+                var optionId = $(rankingOptions[j]).attr('id');
+                options.push({id: optionId, text: $(rankingOptions[j]).find('.option').val()});
+            }
+            break;
+        case ALTERNATIVE_QUESTION:
+            parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
+                optionalanswer: $(element).find('.optionalanswer .active').attr('id'),
+                justification: $(element).find('.justification .active').attr('id'),
+                justificationFor: $(element).find('.justification-for .active').attr('id'),
+                alternative: $(element).find('.alternative').find('.active').attr('id')};
+
+            var aGestures = assembledGestures();
+            var aTriggers = getLocalItem(ASSEMBLED_TRIGGER);
+            var currentPhase = getPhaseById(currentIdForModal);
+            if (currentPhase && currentPhase.format === GUS_SINGLE_GESTURES) {
+                parameters.alternativeFor = 'alternativeGesture';
+                break;
+            }
+
+            if (aGestures && $(element).find('.alternativeFor .active').attr('id') === 'alternativeGesture') {
+                var gestureId = $(element).find('.alternativeGestureSelect .chosen').attr('id');
+                if (gestureId !== 'unselected') {
+                    parameters.alternativeFor = 'alternativeGesture';
+                    parameters.alternativeForId = gestureId;
+                }
+            } else if (aTriggers && $(element).find('.alternativeFor .active').attr('id') === 'alternativeTrigger') {
+                var triggerId = $(element).find('.triggerSelect .chosen').attr('id');
+                if (triggerId !== 'unselected') {
+                    parameters.alternativeFor = 'alternativeTrigger';
+                    parameters.alternativeForId = triggerId;
+                }
+            } else if (aTriggers && $(element).find('.alternativeFor .active').attr('id') === 'alternativeFeedback') {
+                var feedbackId = $(element).find('.feebackSelect .chosen').attr('id');
+                if (feedbackId !== 'unselected') {
+                    parameters.alternativeFor = 'alternativeFeedback';
+                    parameters.alternativeForId = feedbackId;
+                }
+            }
+            break;
+        case GUS_SINGLE:
+            parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
+                negative: $(element).find('.negative .active').attr('id')};
+            break;
+    }
+    return {format: format, dimension: dimension, question: question, parameters: parameters, options: options};
+//    return new QuestionnaireItem(format, dimension, question, parameters, options);
+}
+
+
 /* 
- * get form answers
+ * get questionnaire form answers
  */
 
 function getQuestionnaireAnswers(questionnaire) {
@@ -73,12 +426,11 @@ function getGroupingQuestionAnswers(source) {
     var array = new Array();
     for (var i = 0; i < selectedOptions.length; i++) {
         var selectedId = $(selectedOptions[i]).attr('id');
-        if (selectedId !== 'checkbox-optionalanswer') {
-//            console.log(selectedOptions[i], selectedId);
+        if ($(selectedOptions[i]).parent().attr('id') !== 'checkbox-optionalanswer') {
             array.push(selectedId);
         }
     }
-    if (selectedOptions.length === 0) {
+    if (array.length === 0) {
         data.selectedOptions = -1;
     } else {
         data.selectedOptions = array;
@@ -242,8 +594,8 @@ function renderEditableCounter(item, question, answer) {
     $(item).find('#counter-label .counter-from').text(translation.of + ' ' + translation.atLeast + ' ' + parameters.countFrom);
     $(item).find('#counter-label .counter-to').text(translation.to + ' ' + translation.maximal + ' ' + parameters.countTo);
 
-    if (answer !== null && !isNaN(parseInt(answer))) {
-        $(item).find('.stepper-text').val(answer);
+    if (answer && !isNaN(parseInt(answer.count))) {
+        $(item).find('.stepper-text').val(answer.count);
     }
 }
 
@@ -260,8 +612,8 @@ function renderEditableOpenQuestion(item, question, answer) {
     $(item).find('.question').text(question.question);
     renderOpenQuestionInput(item);
 
-    if (answer !== null) {
-        $(item).find('#openQuestionInput').val(answer);
+    if (answer) {
+        $(item).find('#openQuestionInput').val(answer.openAnswer);
     }
 }
 
@@ -297,12 +649,14 @@ function renderEditableDichotomousQuestion(item, question, answer) {
     var parameters = question.parameters;
     renderDichotomousQuestionInput(item, parameters);
 
+    $(item).find('.switch #' + answer.selectedSwitch).click();
+
     if (parameters.justification === 'yes') {
         $(item).find('#label-justification').removeClass('hidden');
         $(item).find('#label-' + parameters.justificationFor).removeClass('hidden');
 
-        if (answer !== null) {
-            // render answers
+        if (answer) {
+            $(item).find('#justificationInput').val(answer.justification);
         }
     } else {
         $(item).find('#label-no-justification').removeClass('hidden');
@@ -374,8 +728,15 @@ function renderEditableGroupingQuestion(item, question, answer) {
         $(item).find('#singleselect').removeClass('hidden');
     }
 
-    if (answer !== null) {
-        // render answers
+    if (answer && answer.selectedOptions && answer.selectedOptions !== '-1' && answer.selectedOptions.length) {
+        for (var i = 0; i < answer.selectedOptions.length; i++) {
+            $(item).find('#' + answer.selectedOptions[i]).click();
+        }
+
+        if (answer.optionalAnswer !== '') {
+            $(item).find('#checkbox-optionalanswer .btn-checkbox').click();
+            $(item).find('.optionalInput').val(answer.optionalAnswer);
+        }
     }
 }
 
@@ -504,8 +865,13 @@ function renderEditableRating(item, question, answer) {
     $(item).find('.question').text(question.question);
     renderRatingInput(item, question.options);
 
-    if (answer !== null) {
-        // render answers
+    if (answer && answer.scales && answer.scales.length > 0) {
+        for (var i = 0; i < answer.scales.length; i++) {
+            if (answer.scales[i] !== '-1') {
+                var container = $(item).find('.scales-container')[i];
+                $(container).find('.btn-radio')[parseInt(answer.scales[i])].click();
+            }
+        }
     }
 }
 
@@ -539,8 +905,10 @@ function renderEditableSumQuestion(item, question, answer) {
 
     renderSumQuestionInput(item, parameters, options);
 
-    if (answer !== null) {
-        // render answers
+    if (answer && answer.sumCounts && answer.sumCounts.length > 0) {
+        for (var i = 0; i < answer.sumCounts.length; i++) {
+            $($(item).find('.option-container').find('.stepper-text')[i]).val(answer.sumCounts[i]);
+        }
     }
 }
 
@@ -556,11 +924,19 @@ function renderRanking(item, studyData, resultsData) {
 
 function renderEditableRanking(item, question, answer) {
     $(item).find('.question').text(question.question);
-    renderRankingInput(item, question.options);
-
-    if (answer !== null) {
-        // render answers
+    var options = question.options;
+    if (answer && answer.arrangement && answer.arrangement.length > 0) {
+        var tempOptions = new Array();
+        for (var i = 0; i < answer.arrangement.length; i++) {
+            for (var j = 0; j < options.length; j++) {
+                if (parseInt(options[j].id) === parseInt(answer.arrangement[i])) {
+                    tempOptions.push(options[j]);
+                }
+            }
+        }
+        options = tempOptions;
     }
+    renderRankingInput(item, options);
 }
 
 function renderAlternativeQuestion(item, studyData, resultsData) {
@@ -1083,7 +1459,7 @@ function renderSumQuestionInput(item, parameters, options) {
 function renderRankingPreview(source, item, options) {
     for (var i = 0; i < options.length; i++) {
         var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
-        optionItem.text(options[i]);
+        optionItem.text(options[i].text);
         item.find('.option-container').append(optionItem);
     }
 }
@@ -1092,8 +1468,8 @@ function renderRankingInput(item, options) {
     if (options) {
         for (var i = 0; i < options.length; i++) {
             var rankingItem = $('#item-container-inputs').find('#ranking-item').clone().removeAttr('id');
-            rankingItem.find('.option-text').html(options[i]);
-            rankingItem.attr('id', i);
+            rankingItem.find('.option-text').html(options[i].text);
+            rankingItem.attr('id', options[i].id);
             item.find('.option-container').append(rankingItem);
             checkCurrentListState(item.find('.option-container'));
         }

@@ -34,7 +34,7 @@ include './includes/language.php';
 </div>
 
 
-<script type="text/javascript" src="js/template-create.js"></script>
+<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
         $(document).ready(function () {
             closeClicked = false;
@@ -183,7 +183,7 @@ include './includes/language.php';
                 }
 
                 if (data.length > 0) {
-                    assembledData.push(new Scene(name, type, title, options, data));
+                    assembledData.push({id: name, type: type, title: title, options: options, data: data});//new Scene(name, type, title, options, data));
                 }
             }
             setLocalItem(ASSEMBLED_SCENES, assembledData);

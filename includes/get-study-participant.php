@@ -131,7 +131,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                         exit();
                     } else {
                         $select_stmt->store_result();
-                        $select_stmt->bind_result($id, $studyId, $evaluatorId, $testerId, $data, $notes, $created);
+                        $select_stmt->bind_result($id, $studyId, $evaluatorId, $testerId, $data, $observations, $notes, $created);
                         $select_stmt->fetch();
 
                         if ($select_stmt->num_rows == 1) {
@@ -141,6 +141,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                                 'evaluatorId' => $evaluatorId,
                                 'testerId' => $testerId,
                                 'results' => json_decode_nice($data, false),
+                                'observations' => json_decode_nice($observations, false),
                                 'notes' => json_decode_nice($notes, false),
                                 'created' => $created);
                         } else {
