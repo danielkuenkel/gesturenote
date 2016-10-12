@@ -182,7 +182,14 @@ if (login_check($mysqli) == true) {
 
                         TweenMax.from($(navItem), .3, {delay: 0.2 + (i * .05), y: -10, opacity: 0, clearProps: 'all'});
                     }
-                    $('#phase-results-nav').children().first().click();
+
+                    var status = window.location.hash.substr(1);
+                    var statusAddressMatch = statusAddressMatchIndex(status);
+                    if (status !== '' && statusAddressMatch !== null) {
+                        $('#phase-results-nav').find('#' + statusAddressMatch.id).click();
+                    } else {
+                        $('#phase-results-nav').children().first().click();
+                    }
                 }
             }
 
@@ -192,7 +199,10 @@ if (login_check($mysqli) == true) {
                     cacheNotes(true);
                     $(this).parent().children().removeClass('active');
                     $(this).addClass('active');
-                    renderStudyPhaseResult($(this).attr('id'));
+                    var selectedId = $(this).attr('id');
+                    $("html, body").animate({scrollTop: 0}, 100);
+                    renderStudyPhaseResult(selectedId);
+                    window.location.hash = selectedId;
                 }
             });
 
@@ -910,7 +920,7 @@ if (login_check($mysqli) == true) {
                                 renderEditableRanking(listItem, studyData.observations[i], answer);
                                 break;
                         }
-                        
+
 //                        checkCurrentListState($(container).find('#observations-container'));
 //                        updateBadges($(container).find('#observations-container'), studyData.observations[i].format);
                     }

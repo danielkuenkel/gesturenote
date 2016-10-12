@@ -237,18 +237,6 @@ function getSourceContainer(selector) {
     return selector === VIEW_MODERATOR ? $('#item-container-moderator') : $('#item-container-tester');
 }
 
-function statusAddressMatchIndex(phaseStepId) {
-    var phaseSteps = getContextualPhaseSteps();
-    if (phaseSteps && phaseSteps.length > 0) {
-        for (var i = 0; i < phaseSteps.length; i++) {
-            if (parseInt(phaseStepId) === parseInt(phaseSteps[i].id)) {
-                return i;
-            }
-        }
-    }
-    return null;
-}
-
 var draggable = null;
 var resizable = false;
 var resizing = false;

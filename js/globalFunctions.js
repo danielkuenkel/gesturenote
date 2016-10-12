@@ -74,6 +74,18 @@ function getBrowser() {
     return browserName;
 }
 
+function statusAddressMatchIndex(phaseStepId) {
+    var phaseSteps = getContextualPhaseSteps();
+    if (phaseSteps && phaseSteps.length > 0) {
+        for (var i = 0; i < phaseSteps.length; i++) {
+            if (parseInt(phaseStepId) === parseInt(phaseSteps[i].id)) {
+                return {index: i, id: phaseSteps[i].id};
+            }
+        }
+    }
+    return null;
+}
+
 function showCursor(target, cursor) {
     $(target).css({cursor: cursor});
 }
@@ -99,7 +111,7 @@ function renderSubPageElements(hasTopNavbar) {
     var header = $('#header-footer-container').find('#sub-page-header').clone().removeAttr('id');
     header.insertBefore($('body').find('#breadcrumb'));
     header.find('#btn-sign-out .btn-text').text(translation.signOut);
-    header.find('#btn-sign-out').on('click', function(event) {
+    header.find('#btn-sign-out').on('click', function (event) {
         clearLocalItems();
     });
 
@@ -178,7 +190,7 @@ $(document).on('click', '.btn-delete', function (event) {
     }
 
     updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
-     $(parent).trigger('change');
+    $(parent).trigger('change');
 });
 
 $(document).on('click', '.btn-up', function (event) {
@@ -264,7 +276,7 @@ function onMoveUpComplete(element, brother, save) {
     if (element.parent().find('.badgeId').length > 0) {
         updateBadges(element.parent(), element.attr('id'));
     }
-    
+
     $(element).trigger('change');
 }
 
@@ -284,7 +296,7 @@ function onMoveDownComplete(element, brother, save) {
     if (element.parent().find('.badgeId').length > 0) {
         updateBadges(element.parent(), element.attr('id'));
     }
-    
+
     $(element).trigger('change');
 }
 

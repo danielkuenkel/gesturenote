@@ -239,7 +239,7 @@ if (login_check($mysqli) == true) {
                 var statusAddressMatch = statusAddressMatchIndex(status);
 
                 if (status !== '' && statusAddressMatch !== null) {
-                    currentPhaseStepIndex = statusAddressMatch;
+                    currentPhaseStepIndex = statusAddressMatch.index;
                     console.log(currentPhaseStepIndex);
                 }
 

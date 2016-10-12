@@ -175,7 +175,7 @@ if ($h && $token && $studyId) {
                     // check if there was a page reload
 //                    status = ''; // for testing
                     if (status !== '' && statusAddressMatch !== null) {
-                        currentPhaseStepIndex = statusAddressMatch;
+                        currentPhaseStepIndex = statusAddressMatch.index;
                         init();
                     } else {
                         getStudyById({studyId: query.studyId}, function (result) {
