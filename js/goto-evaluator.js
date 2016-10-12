@@ -48,26 +48,32 @@ $(document).ready(function () {
 
 
 function gotoDashboard() {
+    clearLocalItems();
     goto('dashboard-evaluator.php');
 }
 
 function gotoStudies() {
+    clearLocalItems();
     goto('studies.php');
 }
 
 function gotoProfile() {
+    clearLocalItems();
     goto('profile.php');
 }
 
 function gotoGestureStyleguides() {
+    clearLocalItems();
     goto('gesture-styleguides.php');
 }
 
 function gotoGesturesCatalog() {
+    clearLocalItems();
     goto('gestures-catalog.php');
 }
 
 function gotoCreateStudy() {
+    clearLocalItems();
     goto('study-create.php');
 }
 
