@@ -30,7 +30,7 @@ if (login_check($mysqli) == true) {
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
 
-        
+
         <script src="js/storage.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/alert.js"></script>
@@ -94,20 +94,24 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb">
-            <div class="row">
-                <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                    <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
-                    <li class="active"><?php echo $lang->breadcrump->studies ?></li>
-                </ol>
-            </div>
-        </div>
+
 
         <!-- Container (Landing Section) -->
-        <div class="container-fluid text-center bg-grey" id="landingText">
-            <div class="container">
+        <div class="container-fluid bg-grey wall" id="landingText">
+            
+            <!-- Container (Breadcrump) -->
+            <div class="container" id="breadcrumb">
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                        <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
+                        <li class="active"><?php echo $lang->breadcrump->studies ?></li>
+                    </ol>
+                </div>
+            </div>
+            
+            <!-- headline -->
+            <div class="container text-center dropShadowText">
                 <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> STUDIEN</h1>
                 <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
             </div>

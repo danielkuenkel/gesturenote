@@ -99,20 +99,22 @@ if (login_check($mysqli) == true) {
         </div>
 
 
-        <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb">
-            <div class="row">
-                <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                    <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
-                    <li class="active"><?php echo $lang->breadcrump->gestureCatalog ?></li>
-                </ol>
-            </div>
-        </div>
+
 
         <!-- Container (Landing Section) -->
-        <div class="container-fluid text-center bg-grey">
-            <div class="container">
+        <div class="container-fluid bg-grey wall">
+            <!-- Container (Breadcrump) -->
+            <div class="container" id="breadcrumb">
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                        <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
+                        <li class="active"><?php echo $lang->breadcrump->gestureCatalog ?></li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="container text-center dropShadowText">
                 <h1><i class="fa fa-sign-language" style="font-size: 60pt" aria-hidden="true"></i> GESTEN-KATALOG</h1>
                 <p>Hier werden alle Gesten, die veröffentlicht wurden angezeigt. Zusätzlich werden hier auch die Gesten aufgelistet, die für eine Studie aufgezeichnet wurden, sei es vom Studien-Ersteller oder von einer Testperson. Private Gesten, z.B. von anderen Moderatoren werden dagegen nicht aufgelistet.</p>
                 <p>Von anderen Moderatoren veröffentlichte Gesten können bewertet werden. Des Weiteren gibt es die Möglichkeit, über die Geste zu diskutieren.</p>

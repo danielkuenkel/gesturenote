@@ -71,36 +71,12 @@ if (login_check($mysqli) == true) {
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-studies" style="opacity: 0">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->dashboard->studies ?></div>
                         <div class="panel-body">Panel Body</div>
-                        <!--                        <div class="panel-footer">
-                                                    <button type="button" class="btn btn-success btn-block" id="btn-create-study"><i class="glyphicon glyphicon-plus"></i> Neue Studie erstellen</button>
-                                                </div>-->
                     </div>
                 </div>
-                <!--                <div class="col-md-4 col-sm-6">
-                                    <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-styleguides">
-                                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-map-signs" aria-hidden="true"></i> Gesten Styleguides</div>
-                                        <div class="panel-body">Panel Body</div>
-                                        <div class="panel-footer">Panel Footer</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-catalog">
-                                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-sign-language" aria-hidden="true"></i> Gestenkatalog</div>
-                                        <div class="panel-body">
-                                            <div id="total-gestures"><span class="address"></span> <span class="text"></span></div>
-                                            <div id="public-gestures"><span class="address"></span> <span class="text"></span></div>
-                                            <div id="user-gestures"><span class="address"></span> <span class="text"></span></div>
-                                            <div id="user-public-gestures"><span class="address"></span> <span class="text"></span></div>
-                                            <div id="elicited-gestures"><span class="address"></span> <span class="text"></span></div>
-                                        </div>
-                                        <div class="panel-footer">Panel Footer</div>
-                                    </div>
-                                </div>-->
                 <div class="col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-profile" style="opacity: 0">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->dashboard->profile ?></div>
                         <div class="panel-body">Anzeigen und bearbeiten der Nutzerdaten</div>
-                        <!--<div class="panel-footer">Panel Footer</div>-->
                     </div>
                 </div>
             </div>
@@ -120,25 +96,6 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
                 animateStart();
-//                getDashboardInfos(function (result) {
-//                    console.log(result);
-//                    if (result.status === RESULT_SUCCESS) {
-//                        // gestures catalog infos
-//                        var item = $('#btn-gesture-catalog');
-//                        $(item).find('#total-gestures .address').text(translation.gesturesCatalog.totalGestures + ":");
-//                        $(item).find('#total-gestures .text').text(result.totalGestures);
-//                        $(item).find('#public-gestures .address').text(translation.gesturesCatalog.publicGestures + ":");
-//                        $(item).find('#public-gestures .text').text(result.publicGestures);
-//                        $(item).find('#user-gestures .address').text(translation.gesturesCatalog.userGestures + ":");
-//                        $(item).find('#user-gestures .text').text(result.userGestures);
-//                        $(item).find('#user-public-gestures .address').text(translation.gesturesCatalog.publicUserGestures + ":");
-//                        $(item).find('#user-public-gestures .text').text(result.publicUserGestures);
-//                        $(item).find('#elicited-gestures .address').text(translation.gesturesCatalog.elicitedGestures + ":");
-//                        $(item).find('#elicited-gestures .text').text(result.elicitedGestures);
-//                    } else {
-//
-//                    }
-//                });
             }
 
             function animateStart() {
@@ -147,12 +104,6 @@ if (login_check($mysqli) == true) {
                 $('#btn-profile').css({opacity: 1});
                 TweenMax.from($('#btn-profile'), .2, {delay: .1, opacity: 0, scaleX: 0.5, scaleY: 0.5});
             }
-
-//            $('#btn-create-study').click(function (event) {
-//                event.preventDefault();
-//                event.stopPropagation();
-//                gotoCreateStudy();
-//            });
         </script>
 
     </body>

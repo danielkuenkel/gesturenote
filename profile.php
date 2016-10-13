@@ -27,7 +27,7 @@ if (login_check($mysqli) == true) {
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        
+
         <script src="js/storage.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/ajax.js"></script>
@@ -46,124 +46,128 @@ if (login_check($mysqli) == true) {
         <div id="alerts"></div>
         <div id="templage-subpages"></div>
 
-        <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb">
-            <div class="row">
-                <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                    <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
-                    <li class="active"><?php echo $lang->breadcrump->profile ?></li>
-                </ol>
-            </div>
-        </div>
+
 
         <!-- Container (Landing Section) -->
-        <div class=" container-fluid text-center bg-grey" id="landingText">
-            <div class="container">
+        <div class=" container-fluid bg-grey wall" id="landingText">
+            <!-- Container (Breadcrump) -->
+            <div class="container" id="breadcrumb">
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                        <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
+                        <li class="active"><?php echo $lang->breadcrump->profile ?></li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="container text-center dropShadowText">
                 <h1><i class="fa fa-user" style="font-size: 60pt" aria-hidden="true"></i> BENUTZERPROFIL</h1>
             </div>
         </div>
 
         <div class="container mainContent" style="margin-top: 50px">
-            <div class="col-md-7">
-                <div class="panel panel-default" id="general-preview">
-                    <div class="panel-heading">
-                        <h2 class="panel-title"></h2>
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="panel panel-default" id="general-preview">
+                        <div class="panel-heading">
+                            <h2 class="panel-title"></h2>
+                        </div>
+                        <div class="panel-body">
+                            <div id="user-forename"><span class="address"></span> <span class="text"></span></div>
+                            <div id="user-surname"><span class="address"></span> <span class="text"></span></div>
+                            <div id="user-email"><span class="address"></span> <span class="text"></span></div>
+                            <div id="user-type"><span class="address"></span> <span class="text"></span></div>
+                            <div id="user-birthday"><span class="address"></span> <span class="text"></span></div>
+                            <div id="user-registered"><span class="address"></span> <span class="text"></span></div>
+                        </div>
+                        <div class="panel-footer">
+                            <button type="button" class="btn btn-default btn-shadow pull-right disabled" id="btn-edit-profile"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
-                    <div class="panel-body">
-                        <div id="user-forename"><span class="address"></span> <span class="text"></span></div>
-                        <div id="user-surname"><span class="address"></span> <span class="text"></span></div>
-                        <div id="user-email"><span class="address"></span> <span class="text"></span></div>
-                        <div id="user-type"><span class="address"></span> <span class="text"></span></div>
-                        <div id="user-birthday"><span class="address"></span> <span class="text"></span></div>
-                        <div id="user-registered"><span class="address"></span> <span class="text"></span></div>
-                    </div>
-                    <div class="panel-footer">
-                        <button type="button" class="btn btn-default btn-shadow pull-right disabled" id="btn-edit-profile"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="panel panel-default hidden" id="general-edit">
-                    <div class="panel-heading">
-                        <h2 class="panel-title"></h2>
-                    </div>
-                    <div class="panel-body">
+                    <div class="panel panel-default hidden" id="general-edit">
+                        <div class="panel-heading">
+                            <h2 class="panel-title"></h2>
+                        </div>
+                        <div class="panel-body">
 
-                        <div id="update-form">
-                            <div class="alert-space alert-general-error"></div>
-                            <div class="alert-space alert-missing-fields"></div>
+                            <div id="update-form">
+                                <div class="alert-space alert-general-error"></div>
+                                <div class="alert-space alert-missing-fields"></div>
 
-                            <div class="form-group">
-                                <label for="forename" id="label-forename"></label>
-                                <input type="text" class="form-control" name="forename" id="input-forename" placeholder="">
-                            </div>
-                            <div class="form-group">
-                                <label for="surname" id="label-surname"></label>
-                                <input type="text" class="form-control" name="surname" id="input-surname" placeholder="">
-                            </div>
+                                <div class="form-group">
+                                    <label for="forename" id="label-forename"></label>
+                                    <input type="text" class="form-control" name="forename" id="input-forename" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="surname" id="label-surname"></label>
+                                    <input type="text" class="form-control" name="surname" id="input-surname" placeholder="">
+                                </div>
 
-<!--                            <div class="alert-space alert-user-exists"></div>
-                            <div class="alert-space alert-invalid-email"></div>
+                                <!--                            <div class="alert-space alert-user-exists"></div>
+                                                            <div class="alert-space alert-invalid-email"></div>
+                                
+                                                            <div class="form-group">
+                                                                <label for="email" id="label-email"></label>
+                                                                <input type="email" class="form-control" name="email" id="input-email" placeholder="">
+                                                            </div>-->
 
-                            <div class="form-group">
-                                <label for="email" id="label-email"></label>
-                                <input type="email" class="form-control" name="email" id="input-email" placeholder="">
-                            </div>-->
+                                <hr>
 
-                            <hr>
+                                <div class="alert-space alert-wrong-current-password"></div>
 
-                            <div class="alert-space alert-wrong-current-password"></div>
+                                <div class="form-group">
+                                    <label for="input-current-password" id="label-current-password"></label>
+                                    <input type="password" class="form-control" name="password" id="input-current-password" placeholder="">
+                                </div>
 
-                            <div class="form-group">
-                                <label for="input-current-password" id="label-current-password"></label>
-                                <input type="password" class="form-control" name="password" id="input-current-password" placeholder="">
-                            </div>
+                                <div class="alert-space alert-password-short"></div>
+                                <div class="alert-space alert-password-invalid"></div>
+                                <div class="alert-space alert-passwords-not-matching"></div>
 
-                            <div class="alert-space alert-password-short"></div>
-                            <div class="alert-space alert-password-invalid"></div>
-                            <div class="alert-space alert-passwords-not-matching"></div>
+                                <div class="form-group">
+                                    <label for="password" id="label-new-password"></label>
+                                    <input type="password" class="form-control" name="password" id="input-new-password" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-confirm-password" id="label-confirm-new-password"></label>
+                                    <input type="password" class="form-control" name="confirmPassword" id="input-confirm-new-password" placeholder="">
+                                </div>
 
-                            <div class="form-group">
-                                <label for="password" id="label-new-password"></label>
-                                <input type="password" class="form-control" name="password" id="input-new-password" placeholder="">
-                            </div>
-                            <div class="form-group">
-                                <label for="input-confirm-password" id="label-confirm-new-password"></label>
-                                <input type="password" class="form-control" name="confirmPassword" id="input-confirm-new-password" placeholder="">
-                            </div>
+                                <hr>
 
-                            <hr>
+                                <div class="alert-space alert-invalid-birthday"></div>
 
-                            <div class="alert-space alert-invalid-birthday"></div>
-
-                            <div class="form-group">
-                                <label id="label-birthday"></label>
-                                <div class="input-group" id="input-birthday">
-                                    <span class="input-group-addon" id="label-date"></span>
-                                    <input class="form-control" id="input-date" type="text" placeholder="z.B. 1" minlength="1" maxlength="2"/>
-                                    <span class="input-group-addon" id="label-month"></span>
-                                    <input class="form-control" id="input-month" type="text" placeholder="z.B. 12" minlength="1" maxlength="2"/>
-                                    <span class="input-group-addon" id="label-year"></span>
-                                    <input class="form-control" id="input-year" type="text" placeholder="z.B. 1980" minlength="4" maxlength="4"/>
+                                <div class="form-group">
+                                    <label id="label-birthday"></label>
+                                    <div class="input-group" id="input-birthday">
+                                        <span class="input-group-addon" id="label-date"></span>
+                                        <input class="form-control" id="input-date" type="text" placeholder="z.B. 1" minlength="1" maxlength="2"/>
+                                        <span class="input-group-addon" id="label-month"></span>
+                                        <input class="form-control" id="input-month" type="text" placeholder="z.B. 12" minlength="1" maxlength="2"/>
+                                        <span class="input-group-addon" id="label-year"></span>
+                                        <input class="form-control" id="input-year" type="text" placeholder="z.B. 1980" minlength="4" maxlength="4"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
-                    <div class="panel-footer">
-                        <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-danger btn-shadow" id="btn-cancel-edit-profile"><i class="fa fa-close" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                            <button type="button" class="btn btn-default btn-shadow" id="btn-update-profile"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"></span></button>
                         </div>
-                        <div class="clearfix"></div>
+                        <div class="panel-footer">
+                            <div class="btn-group pull-right">
+                                <button type="button" class="btn btn-danger btn-shadow" id="btn-cancel-edit-profile"><i class="fa fa-close" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                                <button type="button" class="btn btn-default btn-shadow" id="btn-update-profile"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-5">
-                <div class="panel panel-default" id="gestures-overview">
-                    <div class="panel-heading"></div>
-                    <div class="panel-body">
+                <div class="col-md-5">
+                    <div class="panel panel-default" id="gestures-overview">
+                        <div class="panel-heading"></div>
+                        <div class="panel-body">
 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -284,7 +288,7 @@ if (login_check($mysqli) == true) {
                             $('#user-forename .text').text(forename);
                             $('#user-surname .text').text(surname);
 //                            $('#user-email .text').text(email);
-                            $('#user-birthday .text').text(new Date(year, month-1, date, 0, 0, 0, 0).toLocaleDateString());
+                            $('#user-birthday .text').text(new Date(year, month - 1, date, 0, 0, 0, 0).toLocaleDateString());
                             $('#general-edit').addClass('hidden');
                             $('#general-preview').removeClass('hidden');
                             $('#input-current-password').val('');
@@ -304,7 +308,7 @@ if (login_check($mysqli) == true) {
                             $('#user-forename .text').text(forename);
                             $('#user-surname .text').text(surname);
 //                            $('#user-email .text').text(email);
-                            $('#user-birthday .text').text(new Date(year, month-1, date, 0, 0, 0, 0).toLocaleDateString());
+                            $('#user-birthday .text').text(new Date(year, month - 1, date, 0, 0, 0, 0).toLocaleDateString());
                             $('#general-edit').addClass('hidden');
                             $('#general-preview').removeClass('hidden');
                             $('#input-current-password').val('');

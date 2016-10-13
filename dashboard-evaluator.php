@@ -27,7 +27,7 @@ if (login_check($mysqli) == true) {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
-        
+
         <script src="js/storage.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/constants.js"></script>
@@ -44,20 +44,22 @@ if (login_check($mysqli) == true) {
         <div id="alerts"></div>
         <div id="templage-subpages"></div>
 
-        <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb">
-            <div class="row">
-                <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                    <li class="active"><?php echo $lang->breadcrump->dashboard ?></li>
-                </ol>
-            </div>
-        </div>
-
         <!-- Container (Landing Section) -->
-        <div class=" container-fluid text-center bg-grey" id="landingText">
-            <div class="container">
-                <h1><i class="fa fa-tachometer" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase"><?php echo $lang->dashboard->dashboard ?></span></h1>
+        <div class=" container-fluid bg-grey wall" id="landingText">
+
+            <!-- Container (Breadcrump) -->
+            <div class="container" id="breadcrumb">
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                        <li class="active"><?php echo $lang->breadcrump->dashboard ?></li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- headline -->
+            <div class="container text-center dropShadowText">
+                <h1 class="greenGrey"><i class="fa fa-tachometer" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase"><?php echo $lang->dashboard->dashboard ?></span></h1>
                 <h2><?php echo htmlentities($_SESSION['forename']) . ' ' . htmlentities($_SESSION['surname']); ?></h2>
                 <p><?php echo $lang->dashboard->dashboardInfo ?></p>
             </div>

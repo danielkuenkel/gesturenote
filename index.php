@@ -256,7 +256,7 @@ if (login_check($mysqli) == true) {
                 <div class="row">
                     <div class="col-sm-4">
                         <i class="fa fa-users logo-small" style="font-size: 50px"></i>
-                        <h4>REMOTE USABILITY TESTS</h4>
+                        <h4>REMOTE USABILITY-TESTS</h4>
                         <p>Befragen Sie einfach und umkompliziert ihre Zielgruppe - Weltweit!</p>
                     </div>
                     <div class="col-sm-4">
@@ -266,7 +266,7 @@ if (login_check($mysqli) == true) {
                     </div>
                     <div class="col-sm-4">
                         <i class="fa fa-pencil logo-small" style="font-size: 50px"></i>
-                        <h4>EINFACHE STUDIENERSTELLUNG</h4>
+                        <h4>EINFACHE STUDIEN-ERSTELLUNG</h4>
                         <p>Schnelle und einfache Erstellung von Leitfäden.</p>
                     </div>
                 </div>

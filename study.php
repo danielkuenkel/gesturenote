@@ -64,7 +64,7 @@ if (login_check($mysqli) == true) {
 
 
         <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb">
+        <div class="container" id="breadcrumb" style="padding-top: 40px">
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
@@ -84,7 +84,7 @@ if (login_check($mysqli) == true) {
                 </div>-->
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent" style="margin-top: 35px;" id="item-view">
+        <div class="container mainContent" id="item-view">
             <h2 id="study-headline" style="margin-top: 0"></h2>
             <hr>
             <div class="label label-default" id="type-phase"></div>

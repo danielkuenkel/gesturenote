@@ -26,7 +26,7 @@ if (login_check($mysqli) == true) {
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        
+
         <script src="js/storage.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
@@ -41,20 +41,22 @@ if (login_check($mysqli) == true) {
         <div id="alerts"></div>
         <div id="templage-subpages"></div>
 
-        <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb">
-            <div class="row">
-                <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                    <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
-                    <li class="active"><?php echo $lang->breadcrump->gestureStyleguides ?></li>
-                </ol>
-            </div>
-        </div>
+
 
         <!-- Container (Landing Section) -->
-        <div class="container-fluid text-center bg-grey" id="landingText">
-            <div class="container">
+        <div class="container-fluid bg-grey wall" id="landingText">
+            <!-- Container (Breadcrump) -->
+            <div class="container" id="breadcrumb">
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                        <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
+                        <li class="active"><?php echo $lang->breadcrump->gestureStyleguides ?></li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="container text-center dropShadowText">
                 <h1><i class="fa fa-map-signs" style="font-size: 60pt" aria-hidden="true"></i> GESTEN-STYLEGUIDES</h1>
             </div>
         </div>
