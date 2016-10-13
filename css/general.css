@@ -311,8 +311,10 @@ footer .glyphicon {
 }
 .breadcrumb>.active {
     font-weight: bold;
-    color: #5bb85c;
+    color: #303030;
 }
+/*.breadcrumb>li+li:before {color: #777777; content: "\232A\00a0";}*/
+.breadcrumb>li+li:before {color: #777777; content: "\276F\00a0";}
 
 
 /*@keyframes slide {

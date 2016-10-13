@@ -33,26 +33,27 @@
     </div>
 
     <div id="scenes-catalog-thumbnail">
-        <div id="pidoco" class="hidden">
-            <!--<span class="address"></span>--> 
+
+        <div id="pidoco" class="hidden" style="float: left;">
             <span class="label label-default"><i class="fa fa-link"></i> <span class="label-text"></span></span>
             <span class="text"></span>
         </div>
-        <div id="web" class="hidden">
-            <!--<span class="address"></span>--> 
+        <div id="web" class="hidden" style="float: left;">
             <span class="label label-default"><i class="fa fa-link"></i> <span class="label-text"></span></span>
             <span class="text"></span>
         </div>
-        <div id="image" class="hidden">
-            <!--<span class="address"></span>--> 
+        <div id="image" class="hidden" style="float: left;">
             <span class="label label-default"><i class="fa fa-image"></i> <span class="label-text"></span></span>
             <span class="text"></span>
         </div>
-        <div id="videoEmbed" class="hidden">
-            <!--<span class="address"></span>--> 
+        <div id="videoEmbed" class="hidden" style="float: left;">
             <span class="label label-default"><i class="fa fa-film"></i> <span class="label-text"></span></span>
             <span class="text"></span>
         </div>
+        <div style="float: left; margin-left: 10px;">
+            <button type="button" class="btn btn-default btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text">Zustands-Vorschau</span></button>
+        </div>
+        <div style="clear: both;"></div>
     </div>
 
     <div id="trigger-catalog-thumbnail" class="text"></div>
@@ -871,4 +872,43 @@
         </div>
     </div>
 
+</div>
+
+
+<div id="item-container-moderator" class="hidden">
+    <div id="helpItem" style="margin-bottom: 6px;">
+        <div class="help-title"></div>
+        <div class="btn-group" style="margin-top: 10px;">
+            <button type="button" class="btn btn-info btn-shadow disabled" id="offer-help"><i class="fa fa-life-ring"></i> Hilfe anbieten</button>
+            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+        </div>
+    </div>
+
+    <div id="web">
+        <span>Titel: </span><span class="title"></span><br/>
+        <span>Typ: </span><div class="label label-default type"><i class="fa fa-link"></i> <span class="label-text"></span></div><br/><br/>
+        <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 100%; height: 400px; pointer-events: none;"></iframe>
+        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="Link in neuem Fenster öffnen"><i class="glyphicon glyphicon-link"></i> Link in neuem Fenster öffnen</button>
+    </div>
+
+    <div id="pidoco">
+        <span>Titel: </span><span class="title"></span><br/>
+        <span>Typ: </span><div class="label label-default type"><i class="fa fa-link"></i> <span class="label-text"></span></div><br/><br/>
+        <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 100%; height: 400px; pointer-events: none;"></iframe>
+        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="Link in neuem Fenster öffnen"><i class="glyphicon glyphicon-link"></i> Link in neuem Fenster öffnen</button>
+    </div>
+
+    <div id="image">
+        <span>Titel: </span><span class="title"></span><br/>
+        <span>Typ: </span><div class="label label-default type"><i class="fa fa-image"></i> <span class="label-text"></span></div><br/><br/>
+        <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 4px;" />
+    </div>
+
+    <div id="videoEmbed">
+        <span>Titel: </span><span class="title"></span><br/>
+        <span>Typ: </span><div class="label label-default type"><i class="fa fa-film"></i> <span class="label-text"></span></div><br/><br/>
+
+        <!-- embed-responsive-16by9 or embed-responsive-4by3 -->
+        <div class="videoContainer embed-responsive"></div>
+    </div>
 </div>

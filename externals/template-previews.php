@@ -523,11 +523,12 @@
             <div class="panel panel-default" id="woz-controls">
                 <div class="panel-heading">Wizard-of-Oz-Experiment</div>
                 <div class="panel-body">
-                    Aktueller Szene: <span class="label label-default">
-                        <i class="fa fa-link hidden" id="pidoco"></i>
-                        <i class="fa fa-link hidden" id="web"></i>
-                        <i class="fa fa-image hidden" id="image"></i>
-                        <i class="fa fa-film hidden" id="videoEmbed"></i> <span class="label-text"></span></span> <span id="current-scene" class="text"></span>
+                    Aktuelle Szene: <span class="label label-default">
+                        <i class="fa fa-link hidden" id="icon-pidoco"></i>
+                        <i class="fa fa-link hidden" id="icon-web"></i>
+                        <i class="fa fa-image hidden" id="icon-image"></i>
+                        <i class="fa fa-film hidden" id="icon-videoEmbed"></i> <span class="label-text"></span></span> <span id="current-scene" class="text"></span>
+                    <hr>
                     <div class="row">
                         <div class="col-lg-6" id="wozExperiment" style="margin-bottom: 20px;">
                             <h4 style="margin-top: 0px; margin-bottom: 10px">Simulationselemente</h4>
@@ -549,10 +550,10 @@
             <div class="panel panel-default" id="general">
                 <div class="panel-heading">Allgemeines</div>
                 <div class="panel-body">
-                    <div id="task"></div>
-                    <div id="description"></div>
-                    <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Start-Szene anzeigen</button>
-                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="start-scenario" style="margin-top: 6px;">Jetzt starten</button>
+                    <div id="task"><span class="address"></span>: <span class="text"></span></div>
+                    <div id="description"><span class="address"></span>: <span class="text"></span></div>
+                    <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="btn-preview-scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Start-Szene anzeigen</button>
+                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-scenario" style="margin-top: 6px;">Jetzt starten</button>
                 </div>
             </div>
             <div class="panel panel-default" id="observations">

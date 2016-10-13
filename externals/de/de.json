@@ -486,7 +486,7 @@
             "overview": "Kataloge dienen zur Bereitstellung von Basisdaten, die im Leitfaden benötigt werden, um z.B. einen Gesture Usability Scale oder WOZ-Experimente zu erstellen.",
             "text1": "Gesten sind für eine Gesten-Design-Studie am wichtigsten. Sie können für jede Studie ein separates Gesten-Set zusammenstellen. Dafür bietet GestureNote Zugriff auf von Ihnen identifizierte Gesten und freigegebene Gesten von anderen Evaluatoren. Zusätzlich können auch neue Gesten aufgezeichnet und dem Gesten-Set werden. Angezeigte Gesten können sortiert, gefiltert und durchsucht (Titel) werden.",
             "text2": "Unter Funktionen sind von Gesten ausgelöste Aktionen zu verstehen. Z.B. nach Ausführung einer Geste soll die Musik lauter gestellt werden. Die Funktion wäre dann Musik lauter stellen. Funktionen können im Leitfaden an Gesten gekoppelt werden und umgekehrt. Sie sind z.B. wichtig, um einen Scorewert für richtig beantwortete Geste in einer Trigger-Slideshow zu berechnen.",
-            "text3": "In GestureNote beschreiben Szenen einzelne Zustände. Diese sind für ein WOZ-Experiment während einer Szenario-basierten Aufgabe von Bedeutung, um eine gewisse Immersion für potenzielle Nutzer zu gewährleisten. Mit Szenen können explorative WOZ-Experimente erstellt werden. In GestureNote werden 4 unterschiedliche Formate unterstützt, die auch miteinader kombiniert werden können:",
+            "text3": "Zustände sind für ein WOZ-Experiment während einer Szenario-basierten Aufgabe von Bedeutung, um eine gewisse Immersion für potenzielle Nutzer zu gewährleisten. Mit Zuständen können explorative WOZ-Experimente erstellt werden. In GestureNote werden 4 unterschiedliche Formate unterstützt, die auch miteinader kombiniert werden können:",
             "text3Image": "<strong>Bild</strong>: Es können Bilder im Format JPEG und PNG hinterlegt werden.",
             "text3Web": "<strong>Webseite</strong>: Ähnlich wie in typischen Online-Usability-Suites können in GestureNote Webseiten hinterlegt werden.",
             "text3VideoEmbed": "<strong>Video-Embed</strong>: Embed-URLs von YouTube oder Vimeo.",
@@ -1613,7 +1613,7 @@
         "noScenesAssembled": {
             "id": "no-scenes-assembled",
             "type": "danger",
-            "text": "Bitte zuerst einen Szenen-Katalog für diese Studie zusammenstellen!"
+            "text": "Bitte zuerst Zustände für diese Studie zusammenstellen!"
         },
         "assembledSceneRemoved": {
             "id": "assembled-scene-removed",

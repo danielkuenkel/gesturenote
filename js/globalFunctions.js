@@ -86,6 +86,13 @@ function statusAddressMatchIndex(phaseStepId) {
     return null;
 }
 
+function animateBreadcrump() {
+    var breadcrumpItems = $('#breadcrumb').find('.breadcrumb').children();
+    for (var i = 0; i < breadcrumpItems.length; i++) {
+        TweenMax.from($(breadcrumpItems[i]), .2, {delay: 0.2 + (i * .05), x: -10, opacity: 0, clearProps: 'all'});
+    }
+}
+
 function showCursor(target, cursor) {
     $(target).css({cursor: cursor});
 }

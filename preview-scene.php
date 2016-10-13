@@ -1,6 +1,10 @@
+<?php
+include './includes/language.php';
+?>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title" id="exampleModalLabel">Szenen-Vorschau</h4>
+    <h4 class="modal-title">Zustands-Vorschau</h4>
 </div>
 <div id="modal-body" class="modal-body">
 
@@ -8,7 +12,7 @@
 
 </div>
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal"><?php echo $lang->close ?></button>
 </div>
 
 <script>
@@ -17,16 +21,14 @@
         if (scene) {
             renderData(scene);
         }
-//        console.log(scene);
 
-        $('#scene-modal').on('hidden.bs.modal', function () {
-            $('#list-container').empty();
+        $('#modal-body').closest('.modal').on('hidden.bs.modal', function () {
+            $('#modal-body').find('#list-container').empty();
         });
     });
 
     function renderData(data) {
-        var source = getSourceContainer(VIEW_MODERATOR);
-        var container = $(source).find('#' + data.type).clone().removeAttr('id');
+        var container = $('#item-container-moderator').find('#' + data.type).clone().removeAttr('id');
         container.find('.type .label-text').text(translation.sceneTypes[data.type]);
         container.find('.title').text(data.title);
         $('#list-container').append(container);

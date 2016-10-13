@@ -112,7 +112,7 @@ if (login_check($mysqli) == true) {
                         <h4 class="modal-title">Hilfe</h4>
                     </div>
                     <div class="modal-body root">
-                        <p id="help-text" style="color: #303030"></p>
+                        <p id="help-text" class="text"></p>
                         <div id="gesture-preview" class="hidden">
                             <div class="previewGesture autoplay"></div>
                             <div class="text-center gestureControls">
@@ -126,7 +126,7 @@ if (login_check($mysqli) == true) {
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-lg btn-info btn-block" data-dismiss="modal"><span class="text">Okay</span></button>
+                        <button type="button" class="btn btn-info btn-block" data-dismiss="modal"><span class="btn-text">Okay</span></button>
                     </div>
                 </div>
             </div>

@@ -175,7 +175,7 @@ if (login_check($mysqli) == true) {
 
                     <ul class="nav nav-tabs" id="create-tab-navigation" style="margin-bottom: 30px">
                         <li role="presentation" id="general"><a href="#"><?php echo $lang->studyCreateNav->general ?></a></li>
-                        <li role="presentation" id="catalogs"><a href="#"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
+                        <li role="presentation" id="catalogs" class="hidden"><a href="#"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
                         <li role="presentation" id="phases" class="hidden"><a href="#"><?php echo $lang->studyCreateNav->phases ?></a></li>
                         <li role="presentation" id="panel"><a href="#"><?php echo $lang->studyCreateNav->panel ?></a></li>
                     </ul>
@@ -485,6 +485,7 @@ if (login_check($mysqli) == true) {
                 checkDomain();
                 checkLanguage(function () {
                     createRandomColors();
+                    
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
@@ -714,6 +715,7 @@ if (login_check($mysqli) == true) {
 
             $('#phaseSelect').on('change', function (event, id) {
                 event.preventDefault();
+                $('#create-tab-navigation #catalogs').removeClass('hidden');
                 $('#create-tab-navigation #phases').removeClass('hidden');
                 if (id === TYPE_PHASE_ELICITATION) {
                     $('#phaseStepSelect').find('.' + id).removeClass('hidden');

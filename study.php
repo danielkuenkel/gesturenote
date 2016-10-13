@@ -397,7 +397,7 @@ if (login_check($mysqli) == true) {
             function renderStudyScenes(scenes) {
                 $('#study-scenes-catalog').removeClass('hidden');
                 $('#study-scenes-catalog .address').text(translation.studyCatalogs.scenes);
-                console.log(scenes);
+                setLocalItem(ASSEMBLED_SCENES, scenes);
 
                 for (var i = 0; i < scenes.length; i++) {
                     var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id');
@@ -406,6 +406,12 @@ if (login_check($mysqli) == true) {
                     item.find('#' + scenes[i].type).removeClass('hidden');
                     $('#study-scenes-catalog .list-container').append(item);
                     TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+
+                    $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
+                        event.preventDefault();
+                        currentSceneId = event.data.sceneId;
+                        loadHTMLintoModal('custom-modal', 'preview-scene.php', 'modal-lg');
+                    });
                 }
             }
 
@@ -422,7 +428,7 @@ if (login_check($mysqli) == true) {
             }
 
             function renderStudyFeedback(feedback) {
-                console.log(feedback);
+//                console.log(feedback);
 
                 $('#study-feedback-catalog').removeClass('hidden');
                 $('#study-feedback-catalog .address').text(translation.studyCatalogs.feedback);
@@ -446,7 +452,6 @@ if (login_check($mysqli) == true) {
                 var successfullStudies = 0;
 
                 for (var i = 0; i < data.length; i++) {
-                    console.log(data[i]);
                     var result = data[i].data;
 
                     var item = $('#template-study-container').find('#participant-thumbnail').clone().removeAttr('id');

@@ -785,12 +785,14 @@ var Moderator = {
         }
 
         triggeredHelp, triggeredWoz = null;
-        $(container).find('#general #task').text(translation.taskTitle + ": " + data.title);
-        $(container).find('#general #description').text(translation.task + ": " + data.description);
+        $(container).find('#general #task .address').text(translation.taskTitle);
+        $(container).find('#general #task .text').text(data.title);
+        $(container).find('#general #description .address').text(translation.task);
+        $(container).find('#general #description .text').text(data.description);
         //scene
         if (data.scene) {
-            $(container).find('#general #scene').removeClass('hidden');
-            $(container).find('#general #scene').on('click', function (event) {
+            $(container).find('#general #btn-preview-scene').removeClass('hidden');
+            $(container).find('#general #btn-preview-scene').on('click', function (event) {
                 event.preventDefault();
                 currentSceneId = data.scene;
                 loadHTMLintoModal('scene-modal', 'preview-scene.php', 'modal-lg');
@@ -819,7 +821,7 @@ var Moderator = {
             enableScenarioControls(container);
         }
 
-        $(container).find('#start-scenario').click(function (event) {
+        $(container).find('#btn-start-scenario').click(function (event) {
             event.preventDefault();
             enableScenarioControls(container);
             scenarioStartTriggered = true;
@@ -901,14 +903,13 @@ var Moderator = {
                 item.find('#offer-help').click({helpData: helpData[i]}, function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
-//                    triggeredWoz = null;
                         triggeredHelp = event.data.helpData;
                     } else {
                         $(document).scrollTop(0);
                         wobble(container.find('#general'));
                     }
                 });
-                if (helpData[i].useGestureHelp === true) {
+                if (helpData[i].useGestureHelp === true || helpData[i].useGestureHelp === 'true') {
                     var gesture = getGestureById(helpData[i].gestureId);
                     item.find('.btn-popover-gesture-preview').removeClass('hidden');
                     item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
@@ -928,7 +929,7 @@ var Moderator = {
     }
 };
 function enableScenarioControls(container) {
-    $(container).find('#start-scenario').remove();
+    $(container).find('#btn-start-scenario').remove();
     var wozItems = $(container).find('.woz-container .disabled');
     wozItems.removeClass('disabled');
     var helpItems = $(container).find('.help-container .disabled');
@@ -936,7 +937,7 @@ function enableScenarioControls(container) {
 }
 
 function updateCurrentScene(container) {
-    container.find('.panel-body #' + currentWOZScene.type).removeClass('hidden');
+    container.find('.panel-body #icon-' + currentWOZScene.type).removeClass('hidden');
     container.find('.panel-body .label-text').text(translation.sceneTypes[currentWOZScene.type]);
     container.find('#current-scene').text(currentWOZScene.title);
 }
