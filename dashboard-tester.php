@@ -26,6 +26,7 @@ if (login_check($mysqli) == true) {
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
 
         <script src="js/storage.js"></script>
         <script src="js/alert.js"></script>
@@ -67,8 +68,8 @@ if (login_check($mysqli) == true) {
 
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-studies">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> Studien</div>
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-studies" style="opacity: 0">
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->dashboard->studies ?></div>
                         <div class="panel-body">Panel Body</div>
                         <!--                        <div class="panel-footer">
                                                     <button type="button" class="btn btn-success btn-block" id="btn-create-study"><i class="glyphicon glyphicon-plus"></i> Neue Studie erstellen</button>
@@ -96,8 +97,8 @@ if (login_check($mysqli) == true) {
                                     </div>
                                 </div>-->
                 <div class="col-sm-6">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-profile">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> Profil</div>
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-profile" style="opacity: 0">
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->dashboard->profile ?></div>
                         <div class="panel-body">Anzeigen und bearbeiten der Nutzerdaten</div>
                         <!--<div class="panel-footer">Panel Footer</div>-->
                     </div>
@@ -118,6 +119,7 @@ if (login_check($mysqli) == true) {
 
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
+                animateStart();
 //                getDashboardInfos(function (result) {
 //                    console.log(result);
 //                    if (result.status === RESULT_SUCCESS) {
@@ -137,6 +139,13 @@ if (login_check($mysqli) == true) {
 //
 //                    }
 //                });
+            }
+
+            function animateStart() {
+                $('#btn-studies').css({opacity: 1});
+                TweenMax.from($('#btn-studies'), .2, {delay: 0, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                $('#btn-profile').css({opacity: 1});
+                TweenMax.from($('#btn-profile'), .2, {delay: .1, opacity: 0, scaleX: 0.5, scaleY: 0.5});
             }
 
 //            $('#btn-create-study').click(function (event) {
