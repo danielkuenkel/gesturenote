@@ -1514,7 +1514,7 @@ function getGestureCatalogListThumbnail(data, layout) {
             renderData(currentFilterData);
         });
 
-        loadHTMLintoModal('custom-modal', 'gestures-catalog-preview.html', 'modal-lg');
+        loadHTMLintoModal('custom-modal', 'gestures-catalog-preview.php', 'modal-lg');
     });
 
     if (data.isOwner) {

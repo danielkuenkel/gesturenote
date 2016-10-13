@@ -1,3 +1,7 @@
+<?php
+include '../includes/language.php';
+?>
+
 <div id="form-item-container" class="hidden">
 
     <div class="panel panel-default root" id="openQuestion">
@@ -7,7 +11,7 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Offene Frage <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->questionFormats->openQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -18,8 +22,8 @@
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <span class="input-group-addon">Frage/Aufforderung</span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung"/>
+                    <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
                     </div>
@@ -36,7 +40,7 @@
                 <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
                 <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
             </div>
-            <span>Offene Frage <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->questionFormats->openQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -47,8 +51,8 @@
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <span class="input-group-addon">Frage/Aufforderung</span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung"/>
+                    <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
                     </div>
@@ -64,7 +68,7 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Ja/nein-Frage <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->questionFormats->dichotomousQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
 
@@ -76,8 +80,8 @@
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <span class="input-group-addon">Frage</span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="Ja/nein-Frage"/>
+                    <span class="input-group-addon"><?php echo $lang->question ?></span>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->questionFormats->dichotomousQuestion->text ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
                     </div>
@@ -89,16 +93,16 @@
             <div class="form-group form-group-no-margin" style="margin-top: 10px">
 
                 <div class="btn-group justification" style="margin-bottom: 10px; margin-right: 15px;">
-                    <button class="btn btn-default switchButtonAddon">Begründung</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->justification ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 </div>
 
                 <div class="btn-group justification-for" style="margin-bottom: 10px; margin-right: 15px;">
-                    <button class="btn btn-default switchButtonAddon">Begründung bei</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success">Immer</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->justificationFor ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success"><?php echo $lang->always ?></button>
                 </div>
             </div>
         </div>
@@ -112,7 +116,7 @@
                 <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
                 <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
             </div>
-            <span>Alternativfrage <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->questionFormats->alternativeQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -123,7 +127,7 @@
 
             <div class="form-group">
                 <div class="input-group">
-                    <span class="input-group-addon">Item</span>
+                    <span class="input-group-addon"><?php echo $lang->item ?></span>
                     <input class="form-control item-input-text question" type="text" value="" placeholder=""/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
@@ -140,38 +144,38 @@
 
             <div class="form-group form-group-no-margin">
                 <div class="btn-group alternative" style="margin-right: 15px;margin-bottom: 10px;">
-                    <button class="btn btn-default switchButtonAddon">Alternative</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="gestures" name="btn-success">Gesten</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-trigger-assembled inactive" id="triggers" name="btn-success">Funktionen</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-feedback-assembled inactive" id="feedbacks" name="btn-success">Feedback</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->alternative ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="gestures" name="btn-success"><?php echo $lang->gestures ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-trigger-assembled inactive" id="triggers" name="btn-success"><?php echo $lang->triggers ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-feedback-assembled inactive" id="feedbacks" name="btn-success"><?php echo $lang->feedback ?></button>
                 </div>
                 <div class="btn-group alternativeFor" style="margin-right: 15px; margin-bottom: 10px;">
-                    <button class="btn btn-default switchButtonAddon">für</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="alternativeGesture" name="btn-success">die Geste</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-trigger-assembled inactive" id="alternativeTrigger" name="btn-success">die Funktion</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-feedback-assembled inactive" id="alternativeFeedback" name="btn-success">das Feedback</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->for ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="alternativeGesture" name="btn-success"><?php echo $lang->theGesture ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-trigger-assembled inactive" id="alternativeTrigger" name="btn-success"><?php echo $lang->theTrigger ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-feedback-assembled inactive" id="alternativeFeedback" name="btn-success"><?php echo $lang->theFeedback ?></button>
                 </div>
                 <div class="btn-group justification" style="margin-right: 15px; margin-bottom: 10px;">
-                    <button class="btn btn-default switchButtonAddon">Begründung</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->justification ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 </div>
                 <div class="btn-group justification-for" style="margin-right: 15px; margin-bottom: 10px;">
-                    <button class="btn btn-default switchButtonAddon">Begründung bei</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->justificationFor ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectOne" name="btn-success">Auswahl einer Alternative</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectNothing" name="btn-success">Keiner Auswahl</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success">Immer</button>
                 </div>
                 <div class="btn-group optionalanswer" style="margin-right: 15px; margin-bottom: 10px;">
-                    <button class="btn btn-default switchButtonAddon">Eigene Antwort erlaubt?</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->ownAnswerAllowed ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 </div>
             </div>
 
             <div class="form-group form-group-no-margin alternativeGestureSelect hidden">
                 <div class="input-group">
-                    <span class="input-group-addon">Geste</span>
+                    <span class="input-group-addon"><?php echo $lang->gesture ?></span>
                     <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value=""/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
@@ -183,8 +187,8 @@
 
             <div class="form-group form-group-no-margin alternativeTriggerSelect hidden">
                 <div class="input-group">
-                    <span class="input-group-addon">Funktion</span>
-                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <span class="input-group-addon"><?php echo $lang->trigger ?></span>
+                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select triggerSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -194,8 +198,8 @@
 
             <div class="form-group form-group-no-margin alternativeFeedbackSelect hidden">
                 <div class="input-group">
-                    <span class="input-group-addon">Feedback</span>
-                    <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <span class="input-group-addon"><?php echo $lang->feedback ?></span>
+                    <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select feedbackSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -213,13 +217,13 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Zähler <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->questionFormats->counter->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <span class="input-group-addon">Frage/Aufforderung</span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung"/>
+                    <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
                     </div>
@@ -233,13 +237,13 @@
                             <span>Zähler von</span>
                         </button>
                         <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
-                            <span class="glyphicon glyphicon-minus"></span><span class="sr-only">weniger</span>
+                            <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                         </button>
                     </div>
                     <input type="text" class="form-control readonly text-center stepper-text" value="0">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
-                            <span class="glyphicon glyphicon-plus"></span><span class="sr-only">mehr</span>
+                            <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                         </button>
                     </div>
                 </div>
@@ -249,13 +253,13 @@
                             <span>Zähler bis</span>
                         </button>
                         <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
-                            <span class="glyphicon glyphicon-minus"></span><span class="sr-only">weniger</span>
+                            <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
                         </button>
                     </div>
                     <input type="text" class="form-control readonly text-center stepper-text" value="0">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
-                            <span class="glyphicon glyphicon-plus"></span><span class="sr-only">mehr</span>
+                            <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
                         </button>
                     </div>
                 </div>
@@ -270,7 +274,7 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Eingruppierungs-Frage <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -281,8 +285,8 @@
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <span class="input-group-addon">Frage/Aufforderung</span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung für die Eingruppierung"/>
+                    <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
                     </div>
@@ -291,15 +295,15 @@
 
             <div class="form-group form-group-margin-top" style="margin-top: 10px;">
                 <div class="btn-group multiselect" style="margin-bottom: 10px; margin-right: 10px;">
-                    <button class="btn btn-default switchButtonAddon">Auswahl mehrerer Antworten erlaubt?</button>
-                    <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->multipleAnswersAllowed ?></button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 </div>
 
                 <div class="btn-group optionalanswer" style="margin-bottom: 10px;">
-                    <button class="btn btn-default switchButtonAddon" >Eigene Antwort erlaubt?</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->ownAnswerAllowed ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 </div>
             </div>
 
@@ -336,7 +340,7 @@
                 <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
                 <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
             </div>
-            <span>Eingruppierungs-Frage <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
 
@@ -355,8 +359,8 @@
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <span class="input-group-addon">Item</span>
-                    <input class="form-control item-input-text question readonly" type="text" value="" placeholder="Frage oder Aufforderung für die Eingruppierung"/>
+                    <span class="input-group-addon"><?php echo $lang->item ?></span>
+                    <input class="form-control item-input-text question readonly" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
                     </div>
@@ -365,29 +369,29 @@
 
             <div class="form-group form-group-margin-top">
                 <div class="btn-group optionselect" style="margin-right: 15px; margin-bottom: 10px;">
-                    <button class="btn btn-default switchButtonAddon">Optionen</button>
-                    <button class="btn btn-default btn-toggle-checkbox check no-gestures-assembled inactive" id="gestures" name="btn-success">Gesten</button>
-                    <button class="btn btn-default btn-toggle-checkbox check no-trigger-assembled inactive" id="triggers" name="btn-success">Funktionen</button>
-                    <button class="btn btn-default btn-toggle-checkbox check no-feedback-assembled inactive" id="feedbacks" name="btn-success">Feedback</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->options ?></button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-gestures-assembled inactive" id="gestures" name="btn-success"><?php echo $lang->gestures ?></button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-trigger-assembled inactive" id="triggers" name="btn-success"><?php echo $lang->triggers ?></button>
+                    <button class="btn btn-default btn-toggle-checkbox check no-feedback-assembled inactive" id="feedbacks" name="btn-success"><?php echo $lang->feedback ?></button>
                 </div>
 
                 <div class="btn-group multiselect" style="margin-right: 15px; margin-bottom: 10px;">
-                    <button class="btn btn-default switchButtonAddon">Auswahl mehrerer Optionen erlaubt?</button>
-                    <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->multipleOptionsAllowed ?></button>
+                    <button class="btn btn-default btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 </div>
 
                 <div class="btn-group justification" style="margin-right: 15px; margin-bottom: 10px;">
-                    <button class="btn btn-default switchButtonAddon">Begründung</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->justification ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 </div>
 
                 <div class="btn-group justification-for" style="margin-right: 15px; margin-bottom: 10px;">
-                    <button class="btn btn-default switchButtonAddon">Begründung bei</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->justificationFor ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectOne" name="btn-success">Auswahl einer Option</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectNothing" name="btn-success">Keiner Auswahl</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success">Immer</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success"><?php echo $lang->always ?></button>
                 </div>
             </div>
 
@@ -401,7 +405,7 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Rating <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->questionFormats->rating->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -412,8 +416,8 @@
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <span class="input-group-addon">Frage/Aufforderung</span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung für die Eingruppierung"/>
+                    <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
                     </div>
@@ -443,18 +447,18 @@
 
 
             </div>
-            <span class="input-group-addon">Option</span>
+            <span class="input-group-addon"><?php echo $lang->option ?></span>
             <input class="form-control item-input-text optionQuestion" type="text" value="" placeholder="Option"/>
         </div>
         <div class="input-group" style="margin-top: 10px;">
 
             <div class="input-group-btn negative">
-                <button class="btn btn-default switchButtonAddon">Negativ?</button>
-                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger">Ja</button>
-                <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>
+                <button class="btn btn-default switchButtonAddon"><?php echo $lang->negativeQuestionmark ?></button>
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger"><?php echo $lang->yes ?></button>
+                <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
             </div>
 
-            <span class="input-group-addon">Skala</span>
+            <span class="input-group-addon"><?php echo $lang->scale ?></span>
             <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value=""/>
 
             <div class="input-group-btn select scaleSelect" role="group">
@@ -489,7 +493,7 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Summenfrage <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->questionFormats->sumQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -500,8 +504,8 @@
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <span class="input-group-addon">Frage/Aufforderung</span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung"/>
+                    <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
                     </div>
@@ -518,8 +522,8 @@
                                 <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen" id="percent"></span><span class="caret"></span></button>
                                 <!--<button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen allocation" id="percent">Prozent </span><span class="caret"></span></button>-->
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                    <li id="percent"><a href="#">Prozent </a></li>
-                                    <li id="points"><a href="#">Punkte </a></li>
+                                    <li id="percent"><a href="#"><?php echo $lang->scaleTypes->percent ?> </a></li>
+                                    <li id="points"><a href="#"><?php echo $lang->scaleTypes->points ?> </a></li>
                                 </ul>
                             </div>
 
@@ -527,8 +531,8 @@
                     </div>
                     <div class="form-group form-group-no-margin col-md-6" style="margin-bottom: 10px;">
                         <div class="input-group">
-                            <span class="input-group-addon">Maximum</span>
-                            <input class="form-control item-input-text maximum" type="text" value="" placeholder="z.B. 100"/>
+                            <span class="input-group-addon"><?php echo $lang->maximum ?></span>
+                            <input class="form-control item-input-text maximum" type="text" value="" placeholder="<?php echo $lang->forExample100 ?>"/>
                         </div> 
                     </div>
 
@@ -558,7 +562,7 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span class="input-group-addon">Antwort</span>
+            <span class="input-group-addon"><?php echo $lang->answer ?></span>
             <input class="form-control item-input-text option" type="text" value="" placeholder="Antwort"/>
         </div>
     </div>
@@ -572,7 +576,7 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Ranking <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->questionFormats->ranking->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
@@ -583,8 +587,8 @@
 
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <span class="input-group-addon">Frage/Aufforderung</span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="Frage oder Aufforderung für die Eingruppierung"/>
+                    <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
+                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title=""><span class="glyphicon glyphicon-eye-open"></span></button>
                     </div>
@@ -612,7 +616,7 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span class="input-group-addon">Option</span>
+            <span class="input-group-addon"><?php echo $lang->option ?></span>
             <input class="form-control item-input-text option" type="text" value="" placeholder="Rankingoption"/>
         </div>
     </div>
@@ -635,8 +639,8 @@
                         <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                         <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
                     </div>
-                    <span class="input-group-addon">Zustand</span>
-                    <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <span class="input-group-addon"><?php echo $lang->scene ?></span>
+                    <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select sceneSelect no-none" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -656,13 +660,13 @@
                 <div class="col-md-6 evaluation" style="padding: 0; margin-top: 10px;">
                     <div class="btn-group" id="useGestureHelpSwitch">
                         <button class="btn btn-default switchButtonAddon">Geste bei Bedarf nochmals anzeigen?</button>
-                        <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
-                        <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
+                        <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                        <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                     </div>
                 </div>
                 <div class="col-md-6 evaluation hidden" style="padding: 0px; margin-top: 10px;" id="gesture-help-select">
                     <div class="input-group">
-                        <span class="input-group-addon">Geste</span>
+                        <span class="input-group-addon"><?php echo $lang->gesture ?></span>
                         <input class="form-control ellipsis item-input-text option-gesture show-dropdown readonly" type="text" value=""/>
                         <div class="input-group-btn select gestureSelect" role="group">
                             <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
@@ -698,8 +702,8 @@
                         <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                         <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
                     </div>
-                    <span class="input-group-addon">Zustand</span>
-                    <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <span class="input-group-addon"><?php echo $lang->scene ?></span>
+                    <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select sceneSelect no-none" id="woz-scene" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -708,8 +712,8 @@
                 </div>
 
                 <div class="input-group trigger" style="margin-top: 10px;">
-                    <span class="input-group-addon">Funktion</span>
-                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <span class="input-group-addon"><?php echo $lang->trigger ?></span>
+                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select triggerSelect wozTriggerSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -717,8 +721,8 @@
                 </div>
 
                 <div class="input-group evaluation" style="margin-top: 10px;">
-                    <span class="input-group-addon">Geste</span>
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <span class="input-group-addon"><?php echo $lang->gesture ?></span>
+                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -727,8 +731,8 @@
 
                 <div class="feedback-input" style="padding: 0; margin-top: 10px;">
                     <div class="input-group">
-                        <span class="input-group-addon">Feedback</span>
-                        <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <span class="input-group-addon"><?php echo $lang->feedback ?></span>
+                        <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                         <div class="input-group-btn select feedbackSelect" role="group">
                             <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -738,8 +742,8 @@
 
                 <div class="col-md-12 scene-input" style="padding: 0; margin-top: 10px;">
                     <div class="input-group">
-                        <span class="input-group-addon">Folge-Zustand</span>
-                        <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <span class="input-group-addon"><?php echo $lang->subsequentScene ?></span>
+                        <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                         <div class="input-group-btn select sceneSelect" id="transition-scene" role="group">
                             <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -766,7 +770,7 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span class="input-group-addon">Funktionsname</span>
+            <span class="input-group-addon"><?php echo $lang->triggerName ?></span>
             <input class="form-control item-input-text option" type="text" value="" placeholder=""/>
         </div>
     </div>
@@ -792,8 +796,8 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span class="input-group-addon">Funktion</span>
-            <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+            <span class="input-group-addon"><?php echo $lang->trigger ?></span>
+            <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
             <div class="input-group-btn select triggerSelect" role="group">
                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -806,8 +810,8 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span class="input-group-addon">Geste</span>
-            <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+            <span class="input-group-addon"><?php echo $lang->gesture ?></span>
+            <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
             <div class="input-group-btn select gestureSelect" role="group">
                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -840,8 +844,8 @@
                         <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                         <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
                     </div>
-                    <span class="input-group-addon">Funktion</span>
-                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <span class="input-group-addon"><?php echo $lang->trigger ?></span>
+                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select triggerSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -849,8 +853,8 @@
                 </div>
 
                 <div class="input-group evaluation" style="margin-top: 10px;">
-                    <span class="input-group-addon">Geste</span>
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <span class="input-group-addon"><?php echo $lang->gesture ?></span>
+                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -859,8 +863,8 @@
 
                 <div style="padding: 0; margin-top: 10px;">
                     <div class="input-group">
-                        <span class="input-group-addon">Feedback</span>
-                        <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                        <span class="input-group-addon"><?php echo $lang->feedback ?></span>
+                        <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                         <div class="input-group-btn select feedbackSelect" role="group">
                             <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -875,13 +879,13 @@
                             <div class="input-group-btn">
                                 <button class="btn btn-default btn-shadow btn-addon">Wiederholungen der Geste</button>
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eins weniger</span>
+                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneLess ?></span>
                                 </button>
                             </div>
                             <input type="text" class="form-control readonly text-center stepper-text" value="5">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eins mehr</span>
+                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneMore ?></span>
                                 </button>
                             </div>
                         </div>
@@ -892,13 +896,13 @@
                             <div class="input-group-btn">
                                 <button class="btn btn-default btn-addon">Reaktionszeit (Sekunden)</button>
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Sekunde weniger</span>
+                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
                                 </button>
                             </div>
                             <input type="text" class="form-control readonly text-center stepper-text" value="3">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Sekunde mehr</span>
+                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
                                 </button>
                             </div>
                         </div>
@@ -949,8 +953,8 @@
                         <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                         <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
                     </div>
-                    <span class="input-group-addon">Funktion</span>
-                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <span class="input-group-addon"><?php echo $lang->trigger ?></span>
+                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select triggerSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -958,8 +962,8 @@
                 </div>
 
                 <div class="input-group evaluation" style="margin-top: 10px;">
-                    <span class="input-group-addon">Geste</span>
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <span class="input-group-addon"><?php echo $lang->gesture ?></span>
+                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -971,13 +975,13 @@
                         <div class="input-group-btn">
                             <button class="btn btn-default btn-addon">Reaktionszeit (Sekunden)</button>
                             <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Sekunde weniger</span>
+                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
                             </button>
                         </div>
                         <input type="text" class="form-control readonly text-center stepper-text" value="3">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
-                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Sekunde mehr</span>
+                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
                             </button>
                         </div>
                     </div>
@@ -1002,8 +1006,8 @@
                         <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                         <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
                     </div>
-                    <span class="input-group-addon">Funktion</span>
-                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <span class="input-group-addon"><?php echo $lang->trigger ?></span>
+                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select triggerSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -1011,8 +1015,8 @@
                 </div>
 
                 <div class="input-group evaluation" style="margin-top: 10px;">
-                    <span class="input-group-addon">Geste</span>
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                    <span class="input-group-addon"><?php echo $lang->gesture ?></span>
+                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -1042,8 +1046,8 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span class="input-group-addon">Geste</span>
-            <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+            <span class="input-group-addon"><?php echo $lang->gesture ?></span>
+            <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
             <div class="input-group-btn select gestureSelect" role="group">
                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -1059,14 +1063,14 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Pidoco <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span>Pidoco <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="form-group">
                 <div class="alert-space alert-no-title"></div>
                 <div class="input-group">
-                    <span class="input-group-addon">Titel</span>
-                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
+                    <span class="input-group-addon"><?php echo $lang->title ?></span>
+                    <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
                 </div>
             </div>
             <div class="form-group">
@@ -1098,8 +1102,8 @@
             <div class="form-group">
                 <div class="btn-group transmit-gestures-select hidden" style="margin-right: 10px;">
                     <button class="btn btn-default switchButtonAddon">Gestenset an Pidoco koppeln?</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning">Nein</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 </div>
                 <button class="btn btn-default btn-shadow hidden" id="transmitGestures"><i class="glyphicon glyphicon-share-alt"></i> <span>Gesten an Pidoco übertragen</span></button>
             </div>
@@ -1114,19 +1118,19 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Webseite <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span>Webseite <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="alert-space alert-no-title"></div>
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <span class="input-group-addon">Titel</span>
-                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
+                    <span class="input-group-addon"><?php echo $lang->title ?></span>
+                    <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
                 </div>
             </div>
             <div class="form-group form-group-margin-top">
                 <div class="input-group">
-                    <span class="input-group-addon">URL</span>
+                    <span class="input-group-addon"><?php echo $lang->url ?></span>
                     <input class="form-control item-input-text website-url" type="text" value="" placeholder="Webseiten-URL"/>
                 </div>
             </div>
@@ -1140,14 +1144,14 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Bild <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span>Bild <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="alert-space alert-no-title"></div>
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
-                    <span class="input-group-addon">Titel</span>
-                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
+                    <span class="input-group-addon"><?php echo $lang->title ?></span>
+                    <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow chooseSceneImage"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text">Bild auswählen</span></button>
                     </div>
@@ -1201,14 +1205,14 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Videoeinbettung <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span>Videoeinbettung <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="alert-space alert-no-title"></div>
             <div class="form-group">
                 <div class="input-group">
-                    <span class="input-group-addon">Titel</span>
-                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
+                    <span class="input-group-addon"><?php echo $lang->title ?></span>
+                    <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
                 </div>
             </div>
             <div class="form-group">
@@ -1229,7 +1233,7 @@
 
             <div class="form-group">
                 <div class="input-group">
-                    <span class="input-group-addon">URL</span>
+                    <span class="input-group-addon"><?php echo $lang->url ?></span>
                     <input class="form-control item-input-text video-embed-url enter-key" type="text" value="" placeholder="Videoeinbettungs-URL"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow checkInput checkVideoEmbedURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text">Überprüfen</span></button>
@@ -1249,7 +1253,7 @@
                 <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
                 <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
             </div>
-            <span>Rating <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->questionFormats->rating->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div>
@@ -1260,16 +1264,16 @@
                 </div>
 
                 <div class="input-group" style="margin-top: 5px;">
-                    <span class="input-group-addon">Item</span>
+                    <span class="input-group-addon"><?php echo $lang->item ?></span>
                     <input class="form-control item-input-text question readonly" type="text" value=""/>
 
                     <div class="input-group-btn negative">
                         <button type="button" class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title="">
                             <i class="glyphicon glyphicon-eye-open"></i>
                         </button>
-                        <button class="btn btn-default switchButtonAddon">Negativ?</button>
-                        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger">Ja</button>
-                        <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>
+                        <button class="btn btn-default switchButtonAddon"><?php echo $lang->negativeQuestionmark ?></button>
+                        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger"><?php echo $lang->yes ?></button>
+                        <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
                     </div>
                 </div>
 
@@ -1285,7 +1289,7 @@
                 <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
                 <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
             </div>
-            <span>Ja/nein-Frage <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span><?php echo $lang->questionFormats->dichotomousQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
 
@@ -1296,7 +1300,7 @@
             </div>
 
             <div class="input-group" style="margin-top: 5px;">
-                <span class="input-group-addon">Item</span>
+                <span class="input-group-addon"><?php echo $lang->item ?></span>
                 <input class="form-control item-input-text question readonly" type="text" value=""/>
 
                 <div class="input-group-btn">
@@ -1311,16 +1315,16 @@
 
             <div class="form-group form-group-margin-top">
                 <div class="btn-group justification" style="margin-bottom: 10px; margin-right: 15px;">
-                    <button class="btn btn-default switchButtonAddon">Begründung</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning">Nein</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->justification ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 </div>
 
                 <div class="btn-group justification-for" style="margin-bottom: 10px; margin-right: 15px;">
-                    <button class="btn btn-default switchButtonAddon">Begründung bei</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-success">Nein</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success">Immer</button>
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->justificationFor ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-success"><?php echo $lang->no ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success"><?php echo $lang->always ?></button>
                 </div>
             </div>
         </div>
@@ -1328,16 +1332,16 @@
 
     <div class="form-group root" id="susItem">
         <div class="input-group">
-            <span class="input-group-addon">Item</span>
+            <span class="input-group-addon"><?php echo $lang->item ?></span>
             <input class="form-control item-input-text question readonly" type="text" value=""/>
 
             <div class="input-group-btn negative">
                 <button type="button" class="btn btn-default btn-shadow show-hole-text" data-toggle="tooltip" title="">
                     <i class="glyphicon glyphicon-eye-open"></i>
                 </button>
-                <button class="btn btn-default switchButtonAddon">Negativ?</button>
-                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger">Ja</button>
-                <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>
+                <button class="btn btn-default switchButtonAddon"><?php echo $lang->negativeQuestionmark ?></button>
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger"><?php echo $lang->yes ?></button>
+                <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
             </div>
         </div>
     </div>
@@ -1349,7 +1353,7 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Text <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span>Text <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div>
@@ -1359,9 +1363,9 @@
                     <input class="form-control item-input-text" type="text" value=""/>
 
                     <div class="input-group-btn negative">
-                        <button class="btn btn-default switchButtonAddon">Negativ?</button>
-                        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger">Ja</button>
-                        <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>
+                        <button class="btn btn-default switchButtonAddon"><?php echo $lang->negativeQuestionmark ?></button>
+                        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger"><?php echo $lang->yes ?></button>
+                        <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
                     </div>
                 </div>
 
@@ -1376,15 +1380,15 @@
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span>Sound <span class="badgeId">0</span> von <span class="badgeQuantity">0</span></span>
+            <span>Sound <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
             <div class="alert-space alert-no-title"></div>
             <div class="form-group form-group-no-margin">
                 <div class="input-group">
 
-                    <span class="input-group-addon">Titel</span>
-                    <input class="form-control item-input-text title" type="text" value="" placeholder="Titel"/>
+                    <span class="input-group-addon"><?php echo $lang->title ?></span>
+                    <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow chooseFeedbackSound"><i class="btn-icon fa fa-volume-up"></i> <span class="btn-text">Sounddatei auswählen</span></button>
                     </div>

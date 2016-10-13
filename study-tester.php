@@ -155,9 +155,9 @@ if (login_check($mysqli) == true) {
                 checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
-                    externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
-                    externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
-                    externals.push(['#templage-study', PATH_EXTERNALS + '/' + currentLanguage + '/template-study.html']);
+                    externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
+                    externals.push(['#templage-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#templage-study', PATH_EXTERNALS + 'template-study.php']);
                     loadExternals(externals);
                 });
             });

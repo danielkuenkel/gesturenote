@@ -67,8 +67,8 @@ include './includes/language.php';
                 checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
-                    externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
-                    externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
+                    externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
+                    externals.push(['#templage-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     loadExternals(externals);
                 });
             });

@@ -27,7 +27,7 @@
     function renderData(data) {
         var source = getSourceContainer(VIEW_MODERATOR);
         var container = $(source).find('#' + data.type).clone().removeAttr('id');
-        container.find('.type .label-text').text(translation.scenes[data.type]);
+        container.find('.type .label-text').text(translation.sceneTypes[data.type]);
         container.find('.title').text(data.title);
         $('#list-container').append(container);
 

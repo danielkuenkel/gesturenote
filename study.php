@@ -175,9 +175,9 @@ if (login_check($mysqli) == true) {
                 checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
-                    externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
-                    externals.push(['#template-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
-                    externals.push(['#template-study', PATH_EXTERNALS + '/' + currentLanguage + '/template-study.php']);
+                    externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
+                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     loadExternals(externals);
                 });
             });
@@ -215,7 +215,7 @@ if (login_check($mysqli) == true) {
                     $('.panel-survey .address').text(translation.panelSurvey + ":");
                     var ageFrom = studyData.generalData.ageRange.split(',')[0];
                     var ageTo = studyData.generalData.ageRange.split(',')[1];
-                    $('.panel-survey .text').text(translation.genders[studyData.generalData.gender] + " " + translation.of + " " + ageFrom + " " + translation.to + " " + ageTo);
+                    $('.panel-survey .text').text(translation.genderTypes[studyData.generalData.gender] + " " + translation.of + " " + ageFrom + " " + translation.to + " " + ageTo);
                 }
 
                 // date range view
@@ -402,7 +402,7 @@ if (login_check($mysqli) == true) {
                 for (var i = 0; i < scenes.length; i++) {
                     var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id');
                     item.find('.text').text(scenes[i].title);
-                    item.find('.label-text').text(translation.scenes[scenes[i].type]);
+                    item.find('.label-text').text(translation.sceneTypes[scenes[i].type]);
                     item.find('#' + scenes[i].type).removeClass('hidden');
                     $('#study-scenes-catalog .list-container').append(item);
                     TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});

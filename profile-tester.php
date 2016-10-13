@@ -50,9 +50,9 @@ if (login_check($mysqli) == true) {
         <div class="container" id="breadcrumb">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
-                    <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
-                    <li class="active">Profil</li>
+                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
+                    <li class="active"><?php echo $lang->breadcrump->profile ?></li>
                 </ol>
             </div>
         </div>
@@ -174,8 +174,8 @@ if (login_check($mysqli) == true) {
                 checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
-                    externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
-                    externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
+                    externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
+                    externals.push(['#templage-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     loadExternals(externals);
                 });
             });

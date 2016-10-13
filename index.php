@@ -237,8 +237,8 @@ if (login_check($mysqli) == true) {
                             <h2>WAS IST GESTURENOTE?</h2>
                         </div>
                         <div class="info-text">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                            <p><strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</strong></p>
+                            <p>Die Vision von GestureNote ist, unterschiedliche und typisch verwendete Vorgehensweisen, Ansätze und Methoden in einem einzigen Tool zu vereinen.</p>
+                            <p><strong>Weg von ortsgebundenen Gesten-Ermittlungen und -Evaluierungen, hin zu schnellen und einfachen Remote-Gesten-Design-Studien. Die Einbettung in den Usability-Engineering-Lifecycle ist für GestureNote kein Problem.</strong></p>
                         </div>
                     </div>
                 </div>
@@ -266,7 +266,7 @@ if (login_check($mysqli) == true) {
                     </div>
                     <div class="col-sm-4">
                         <i class="fa fa-pencil logo-small" style="font-size: 50px"></i>
-                        <h4>EINFACHE PROJEKTERSTELLUNG</h4>
+                        <h4>EINFACHE STUDIENERSTELLUNG</h4>
                         <p>Schnelle und einfache Erstellung von Leitfäden.</p>
                     </div>
                 </div>
@@ -280,12 +280,12 @@ if (login_check($mysqli) == true) {
                     <div class="col-sm-4">
                         <i class="fa fa-map-signs logo-small" style="font-size: 50px"></i>
                         <h4>STYLEGUIDES</h4>
-                        <p>Sie wissen nicht weiter? GestureNote bietet Styleguides für gebrauchstaugliche Gesten.</p>
+                        <p>Sie wissen nicht weiter? GestureNote bietet Styleguides für gebrauchstaugliche Gesten an.</p>
                     </div>
                     <div class="col-sm-4">
                         <i class="fa fa-wrench logo-small" style="font-size: 50px"></i>
                         <h4>AKTUELLE TECHNOLOGIEN</h4>
-                        <p>Einsatz von AJAX, WebRTC und aktuellen Frameworks.</p>
+                        <p>Einsatz von AJAX, WebRTC, sowie aktuellen Frameworks und APIs.</p>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 30px;">
@@ -409,7 +409,7 @@ if (login_check($mysqli) == true) {
                 checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
-                    externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
+                    externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     loadExternals(externals);
                 });
             });

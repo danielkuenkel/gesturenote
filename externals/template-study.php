@@ -1,7 +1,3 @@
-<?php
-include '../../includes/language.php';
-?>
-
 <div id="template-study-container" class="hidden">
 
     <div class="root" id="gestures-catalog-thumbnail">

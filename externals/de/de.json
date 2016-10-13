@@ -18,7 +18,8 @@
         "studyPrepare": "An Studie teilnehmen",
         "gestureStyleguides": "Gesten-Styleguides",
         "gestureCatalog": "Gesten-Katalog",
-        "profile": "Profil"
+        "profile": "Profil",
+        "imprint": "Impressum"
     },
     "months": {
         "january": "Januar",
@@ -77,6 +78,21 @@
     "maximal": "maximal",
     "panelSurvey": "Panel-Befragung",
     "still": "noch",
+    "deleteAllData": "Alle Eingaben löschen",
+    "studyPreview": "Vorschau der Studie",
+    "saveStudy": "Studie speichern",
+    "studyCreateNav": {
+        "general": "Allgemeines",
+        "catalogs": "Kataloge",
+        "phases": "Leitfaden",
+        "panel": "Wer, Was & Wann?"
+    },
+    "studyTitle": "Studien-Titel",
+    "insertStudyTitle": "Titel einfügen",
+    "studyDescription": "Studien-Beschreibung",
+    "insertStudyDescription": "Beschreibung einfügen",
+    "studyPhase": "Studien-Phase",
+    "studySurveyType": "Befragungsart",
     "done": "Fertig",
     "cancel": "Abbrechen",
     "general": "Allgemeines",
@@ -106,11 +122,29 @@
     "saveAndClose": "Speichern & Schließen",
     "next": "Weiter",
     "previous": "Zurück",
+    "furtherUp": "Weiter nach oben",
+    "furtherDown": "Weiter nach unten",
     "yes": "Ja",
     "no": "Nein",
+    "always": "Immer",
+    "delete": "Löschen",
+    "arrange": "Zusammenstellen",
+    "open": "Öffnen",
+    "set": "Set",
+    "record": "Aufzeichnen",
+    "forExample100": "z.B. 100",
+    "item": "Item",
+    "negativeQuestionmark": "Negativ?",
     "enterStudyAsTester": "An Studie teilnehmen",
     "enterStudyAsModerator": "Studie durchführen",
     "justification": "Begründung(en)",
+    "justificationFor": "Begründung(en) bei",
+    "alternative": "Alternative",
+    "option": "Option",
+    "options": "Optionen",
+    "multipleAnswersAllowed": "Auswahl mehrerer Antworten erlaubt?",
+    "multipleOptionsAllowed": "Auswahl mehrerer Optionen erlaubt?",
+    "ownAnswerAllowed": "Eigene Antwort erlaubt?",
     "execution": "Dauer",
     "recognitionTime": "Zeitfenster",
     "restart": "Neustart",
@@ -124,8 +158,12 @@
     "maximum": "Maximum",
     "all": "Alle",
     "selection": "Auswahl",
+    "pleaseSelect": "Bitte wählen",
+    "questionnaire": "Fragebogen",
+    "questionnaires": "Fragebögen",
+    "miscellaneous": "Sonstiges",
     "gender": "Geschlecht",
-    "genders": {
+    "genderTypes": {
         "identical": "Alle Personen",
         "female": "Frauen",
         "male": "Männer"
@@ -150,6 +188,9 @@
     "createNewStudy": "Neue Studie erstellen",
     "copy": "Kopieren",
     "openStudyUrl": "Studien-URL aufrufen",
+    "question": "Frage",
+    "demandRequest": "Frage/Aufforderung",
+    "demandOrRequest": "Frage oder Aufforderung",
     "formats": {
         "letterOfAcceptance": {
             "text": "Einverständniserklärung",
@@ -265,28 +306,32 @@
             "text": "SUS-Item"
         }
     },
-    "scales": {
+    "scalesTypes": {
         "percent": "Prozent",
         "points": "Punkte"
     },
+    "phaseStep": "Phasenschritt",
     "phaseType": {
-        "elicitation": "Ermittlung",
+        "elicitation": "Identifikation",
         "evaluation": "Evaluierung"
     },
     "surveyType": {
         "moderated": "Moderiert",
         "unmoderated": "Unmoderiert"
     },
-    "scenes": {
-        "pidoco": "Pidoco",
-        "web": "Webseite",
+    "scene": "Zustand",
+    "scenes": "Zustände",
+    "subsequentScene": "Folge-Zustand",
+    "sceneTypes": {
         "image": "Bild",
-        "video": "Video",
-        "videoEmbed": "Video Embed"
+        "web": "Webseite",
+        "videoEmbed": "Video-Embed",
+        "pidoco": "Pidoco",
+        "video": "Video"
     },
     "studyCatalogs": {
         "gestures": "Studien-Gesten",
-        "scenes": "Studien-Szenen",
+        "scenes": "Studien-Zustände",
         "trigger": "Studien-Funktionen",
         "feedback": "Studien-Feedback"
     },
@@ -324,21 +369,31 @@
     },
     "gesture": "Geste",
     "gestures": "Gesten",
+    "theGesture": "die Geste",
+    "theTrigger": "die Funktion",
+    "theFeedback": "das Feedback",
     "repeats": "Wiederholungen",
     "none": "Keine",
     "nones": "Keines",
     "trigger": "Funktion",
     "triggers": "Funktionen",
+    "triggerName": "Funktionsname",
     "feedback": "Feedback",
     "taskTitle": "Aufgabentitel",
     "task": "Aufgabe",
     "description": "Beschreibung",
+    "scale": "Skala",
+    "url": "URL",
     "title": "Titel",
     "timesUp": "Die Zeit ist abgelaufen",
     "age": "Alter",
     "to": "bis",
     "more": "mehr",
+    "oneMore": "Eins mehr",
+    "oneSecondMore": "Eine Sekunde mehr",
     "less": "weniger",
+    "oneLess": "Eins weniger",
+    "oneSecondLess": "Eine Sekunde weniger",
     "for": "für",
     "For": "Für",
     "of": "von",
@@ -416,6 +471,34 @@
         "endQuestionnaire": "Ende Fragebogen",
         "noGestureDemonstrated": "Keine Geste demonstriert",
         "noGestureFitFound": "Andere Geste demonstriert"
+    },
+    "manual": "Handbuch",
+    "moreInfos": "Mehr Informationen",
+    "createStudyInfos": {
+        "general": {
+            "overview": "Allgemeine Daten, die einem Tester vor der Teilnahme an einer Studie anzeigt werden. Legen Sie außerdem fest, ob Gesten identifiziert oder evaluiert werden sollen und wie die Studie durchgeführt werden soll.",
+            "text1": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Jede Studie hat eine eindeutige ID, d.h. es können zwei Studien mit dem gleichen Namen angelegt werden, die jedoch einmal eine Ermittlung von Gesten und einmal eine Evaluierung der zuvor ermittelten Gesten durchführen.",
+            "text2": "Geben Sie dem zu Befragenden ähnlich wie bei Usability-Tests Informationen über die Studie.",
+            "text3": "Bei der Identifikation sollen potenzielle Nutzer mögliche Gesten vorführen. Diese Gesten werden Funktionen zugeordnet. Es können aber auch für vorhandene Gesten Funktionen identifiziert werden. Weitere Informationen finden Sie im Leitfaden. Der Leitfaden kann erst erstellt werden, wenn eine Studien-Phase ausgewählt wurde.",
+            "text4": "Haben Sie wenig Zeit, wollen aber trotzdem eine Gesten-Design-Studie durchführen? Unmoderierte Befragungen bieten Ihnen die Möglichkeit potenzielle Nutzer zu befragen, ohne dafür jedes Mal als Moderator zu fungieren. Bei Moderierten Befragungen schlüpfen Sie dagegen in die Rolle eines Modereators, Evaluators oder sogar WOZ-Experiemt-Leiters. Sie steuern die Befragung und der Befragte wartet z.B. bis Sie eine Geste angefordert haben."
+        },
+        "catalogs": {
+            "overview": "Kataloge dienen zur Bereitstellung von Basisdaten, die im Leitfaden benötigt werden, um z.B. einen Gesture Usability Scale oder WOZ-Experimente zu erstellen.",
+            "text1": "Gesten sind für eine Gesten-Design-Studie am wichtigsten. Sie können für jede Studie ein separates Gesten-Set zusammenstellen. Dafür bietet GestureNote Zugriff auf von Ihnen identifizierte Gesten und freigegebene Gesten von anderen Evaluatoren. Zusätzlich können auch neue Gesten aufgezeichnet und dem Gesten-Set werden. Angezeigte Gesten können sortiert, gefiltert und durchsucht (Titel) werden.",
+            "text2": "Unter Funktionen sind von Gesten ausgelöste Aktionen zu verstehen. Z.B. nach Ausführung einer Geste soll die Musik lauter gestellt werden. Die Funktion wäre dann Musik lauter stellen. Funktionen können im Leitfaden an Gesten gekoppelt werden und umgekehrt. Sie sind z.B. wichtig, um einen Scorewert für richtig beantwortete Geste in einer Trigger-Slideshow zu berechnen.",
+            "text3": "In GestureNote beschreiben Szenen einzelne Zustände. Diese sind für ein WOZ-Experiment während einer Szenario-basierten Aufgabe von Bedeutung, um eine gewisse Immersion für potenzielle Nutzer zu gewährleisten. Mit Szenen können explorative WOZ-Experimente erstellt werden. In GestureNote werden 4 unterschiedliche Formate unterstützt, die auch miteinader kombiniert werden können:",
+            "text3Image": "<strong>Bild</strong>: Es können Bilder im Format JPEG und PNG hinterlegt werden.",
+            "text3Web": "<strong>Webseite</strong>: Ähnlich wie in typischen Online-Usability-Suites können in GestureNote Webseiten hinterlegt werden.",
+            "text3VideoEmbed": "<strong>Video-Embed</strong>: Embed-URLs von YouTube oder Vimeo.",
+            "text3Pidoco": "<strong>Pidoco</strong>: Ähnlich wie Webseiten, mit dem Unterschied, dass ein Gesten-Set an Pidoco-Prototypen gesendet werden und diese dann auf Gesten-Aktionen reagieren können. (Noch nicht implementiert)",
+            "text4": "Um dem potenziellen Nutzer Feedback für eine Interaktion zu geben, können Text- (Hinweistext nach Geste) und Audio-Feedbacks (Hinweistext und Abspielen einer mp3-Datei) hinterlegt werden. Diese können dann z.B. für ein WOZ-Experiemnt, ein Gesture Usability Scale oder ein Gesten-Training genutzt werden. Standardmäßig sind zwei Text-Feedbacks hinterlegt."
+        },
+        "phases": {
+            "overview": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, "
+        },
+        "panel": {
+            "overview": "aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum."
+        }
     },
     "visLabels": {
         "training": "Training"
@@ -1420,5 +1503,255 @@
                 "optionSource": "gestures"
             }
         }
-    ]
+    ],
+    "alerts": {
+        "generalError": {
+            "id": "general-error",
+            "type": "danger",
+            "text": "Es ist ein unbekannter Fehler aufgetreten!"
+        },
+        "missingFields": {
+            "id": "missing-fields",
+            "type": "warning",
+            "text": "Bitte alle Felder ausfüllen!"
+        },
+        "loginFailed": {
+            "id": "login-failed",
+            "type": "warning",
+            "text": "Einloggen fehlgeschlagen. Bitte versuche es erneut!"
+        },
+        "accountLogged": {
+            "id": "account-logged",
+            "type": "danger",
+            "text": "Du hast zu oft versucht dich einzuloggen! Dein Account ist deshalb die nächsten 2 Stunden gesperrt!"
+        },
+        "invalidEmail": {
+            "id": "invalid-email",
+            "type": "warning",
+            "text": "E-Mail-Adresse entspricht nicht dem Standard!"
+        },
+        "wrongPassword": {
+            "id": "wrong-password",
+            "type": "warning",
+            "text": "Das eingegebene Passwort ist falsch!"
+        },
+        "passwordShort": {
+            "id": "password-short",
+            "type": "warning",
+            "text": "Das eingegebene Passwort muss mindestens 6 Zeichen haben!"
+        },
+        "passwordInvalid": {
+            "id": "password-invalid",
+            "type": "warning",
+            "text": "Das eingegebene Passwort muss mindestens eine Zahl, einen großen und einen kleinen Buchstaben enthalten!"
+        },
+        "passwordsNotMatching": {
+            "id": "passwords-not-matching",
+            "type": "warning",
+            "text": "Die Passwörter stimmen nicht überein."
+        },
+        "invalidBirthday": {
+            "id": "invalid-birthday",
+            "type": "warning",
+            "text": "Das eingegebene Datum entspricht nicht dem gewünschten Format."
+        },
+        "userExists": {
+            "id": "user-exists",
+            "type": "warning",
+            "text": "Der Nutzer mit der eingegebenen E-Mail existiert bereits."
+        },
+        "noUserExists": {
+            "id": "no-user-exists",
+            "type": "warning",
+            "text": "Der Nutzer mit der eingegebenen E-Mail existiert nicht."
+        },
+        "registerSuccess": {
+            "id": "register-success",
+            "type": "success",
+            "text": "Die Registrierung war erfolgreich!"
+        },
+        "wrongCurrentPassword": {
+            "id": "wrong-current-password",
+            "type": "warning",
+            "text": "Das eingegebene aktuelle Passwort ist falsch."
+        },
+        "noGesturesAssembled": {
+            "id": "no-gestures-assembled",
+            "type": "danger",
+            "text": "Bitte zuerst ein Gestenset für diese Studie zusammenstellen!"
+        },
+        "assembledGestureRemoved": {
+            "id": "assembled-gesture-removed",
+            "type": "warning",
+            "text": "Die verknüpfte Geste aus dem Gestenset ist nicht mehr verfügbar."
+        },
+        "noTriggerAssembled": {
+            "id": "no-trigger-assembled",
+            "type": "danger",
+            "text": "Bitte zuerst ein Funktions-Set für diese Studie erstellen!"
+        },
+        "assembledTriggerRemoved": {
+            "id": "assembled-trigger-removed",
+            "type": "warning",
+            "text": "Die verknüpfte Funktion ist nicht mehr verfügbar!"
+        },
+        "noFeedbackAssembled": {
+            "id": "no-feedback-assembled",
+            "type": "danger",
+            "text": "Bitte zuerst ein Feedbackset für diese Studie erstellen!"
+        },
+        "assembledFeedbackRemoved": {
+            "id": "assembled-feedback-removed",
+            "type": "warning",
+            "text": "Das verknüpfte Feedback ist nicht mehr verfügbar!"
+        },
+        "noTitle": {
+            "id": "no-title",
+            "type": "danger",
+            "text": "Bitte einen Titel angeben!"
+        },
+        "noScenesAssembled": {
+            "id": "no-scenes-assembled",
+            "type": "danger",
+            "text": "Bitte zuerst einen Szenen-Katalog für diese Studie zusammenstellen!"
+        },
+        "assembledSceneRemoved": {
+            "id": "assembled-scene-removed",
+            "type": "warning",
+            "text": "Die verknüpfte Szene ist nicht mehr verfügbar!"
+        },
+        "pidocoEmbedUrlInvalid": {
+            "id": "pidoco-embed-url-invalid",
+            "type": "warning",
+            "text": "Die eingegebene Simluations-URL wird nicht unterstützt oder scheint nicht korrekt zu sein."
+        },
+        "pidocoEditUrlInvalid": {
+            "id": "pidoco-edit-url-invalid",
+            "type": "warning",
+            "text": "Die eingegebene Bearbeitungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein."
+        },
+        "videoEmbedUrlInvalid": {
+            "id": "video-embed-url-invalid",
+            "type": "warning",
+            "text": "Die eingegebene Videoeinbettungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein."
+        },
+        "noSearchResults": {
+            "id": "no-search-results",
+            "type": "warning",
+            "text": "Für den Suchbegriff gibt es keine Treffer."
+        },
+        "noPhaseData": {
+            "id": "no-phase-data",
+            "type": "warning",
+            "text": "Es sind keine Daten hinterlegt."
+        },
+        "generalError": {
+            "id": "general-error",
+            "type": "warning",
+            "text": "Es ist ein unbekannter Fehler aufgetreten!"
+        },
+        "waitingForTrainingGesture": {
+            "id": "waiting-for-training-gesture",
+            "type": "warning",
+            "text": "Bitte warten …"
+        },
+        "waitingForSlideshow": {
+            "id": "waiting-for-slideshow",
+            "type": "danger",
+            "text": "Bitte warten …"
+        },
+        "waitingForIdentification": {
+            "id": "waiting-for-identification",
+            "type": "warning",
+            "text": "Bitte warten …"
+        },
+        "waitingForScenarioStart": {
+            "id": "waiting-for-scenario-start",
+            "type": "danger",
+            "text": "Bitte warten …"
+        },
+        "webRTCNotSupported": {
+            "id": "web-rtc-not-supported",
+            "type": "danger",
+            "text": "Bitte verwenden Sie die aktuelle Version von Google Chrome für dieses Feature! Dieser Browser unterstützt kein WebRTC."
+        },
+        "anotherBrowserNeededForWebRTC": {
+            "id": "another-browser-needed-for-web-rtc",
+            "type": "warning",
+            "text": "Ihr Browser oder die aktuelle Version Ihres Browsers unterstützt kein WebRTC. Bitte verwenden Sie die aktuelle Version von Google Chrome für dieses Feature!"
+        },
+        "noStorageAPI": {
+            "id": "no-storage-api",
+            "type": "danger",
+            "text": "Dieser Browser unterstützt nicht die Session Storage API. Bitte verwenden Sie für dieses Feature z.B. die aktuelle Version von Google Chrome!"
+        },
+        "gestureTooShort": {
+            "id": "gesture-too-short",
+            "type": "danger",
+            "text": "Die Geste ist zu kurz!"
+        },
+        "gestureSaveSuccess": {
+            "id": "gesture-save-success",
+            "type": "success",
+            "text": "Die Geste wurde erfolgreich gespeichert."
+        },
+        "gestureDeleteSuccess": {
+            "id": "gesture-delete-success",
+            "type": "success",
+            "text": "Die Geste wurde erfolgreich gelöscht."
+        },
+        "noGestures": {
+            "id": "no-gestures",
+            "type": "warning",
+            "text": "Es sind noch keine Gesten verfügbar."
+        },
+        "noStudies": {
+            "id": "no-studies",
+            "type": "warning",
+            "text": "Es sind keine Studien verfügbar."
+        },
+        "studyUnmoderated": {
+            "id": "study-unmoderated",
+            "type": "warning",
+            "text1": "Die Durchführung erfolgt",
+            "text2": "unmoderiert",
+            "text3": "Sie können als Moderator nicht teilnehmen.",
+            "text4": "Studien-Details anzeigen"
+        },
+        "ratingSubmitted": {
+            "id": "rating-submitted",
+            "type": "success",
+            "text": "Bewertung wurde erfolgreich gespeichert."
+        },
+        "noComments": {
+            "id": "no-comments",
+            "type": "warning",
+            "text": "Für diese Geste sind noch keine Kommentare abgegeben worden."
+        },
+        "contactSupport": {
+            "id": "contact-support",
+            "type": "danger",
+            "text": "Es scheint ein Problem zu geben, bitte kontaktieren Sie den"
+        },
+        "susInvalid": {
+            "id": "sus-invalid",
+            "type": "danger",
+            "text": "Es wurden nicht alle Items des SUS beantwortet. Der Scorewert kann deshalb nicht berechnet werden."
+        },
+        "webmUnsupported": {
+            "id": "webm-unsupported",
+            "type": "warning",
+            "text": "Das Videoformat WebM wird von dem aktuellen Browser nicht unterstützt. Bitte nutzen Sie einen Browser wie Google Chrome oder Mozilla Firefox."
+        },
+        "noRecord": {
+            "id": "no-record",
+            "type": "warning",
+            "text": "Es steht keine Aufzeichnung zur Verfügung."
+        },
+        "recordUrlInvalid": {
+            "id": "record-url-invalid",
+            "type": "danger",
+            "text": "Die Videodatei steht nicht mehr zur Verfügung."
+        }
+    }
 }

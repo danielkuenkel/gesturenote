@@ -649,7 +649,9 @@ function renderEditableDichotomousQuestion(item, question, answer) {
     var parameters = question.parameters;
     renderDichotomousQuestionInput(item, parameters);
 
-    $(item).find('.switch #' + answer.selectedSwitch).click();
+    if (answer && answer.selectedSwitch) {
+        $(item).find('.switch #' + answer.selectedSwitch).click();
+    }
 
     if (parameters.justification === 'yes') {
         $(item).find('#label-justification').removeClass('hidden');
@@ -878,13 +880,13 @@ function renderEditableRating(item, question, answer) {
 function renderSumQuestion(item, studyData, resultsData) {
     $(item).find('.question').text(studyData.question);
     $(item).find('#maximum .label-text').text(translation.maximum + ': ' + studyData.parameters.maximum);
-    $(item).find('#allocation .label-text').text(translation.scales[studyData.parameters.allocation]);
+    $(item).find('#allocation .label-text').text(translation.scaleTypes[studyData.parameters.allocation]);
 
     var count = 0;
     for (var i = 0; i < resultsData.sumCounts.length; i++) {
         var listItemAnswer = $('#template-study-container').find('#sum-question-item').clone();
         count += parseInt(resultsData.sumCounts[i]);
-        $(listItemAnswer).text(studyData.options[i] + ': ' + resultsData.sumCounts[i] + ' ' + translation.scales[studyData.parameters.allocation]);
+        $(listItemAnswer).text(studyData.options[i] + ': ' + resultsData.sumCounts[i] + ' ' + translation.scaleTypes[studyData.parameters.allocation]);
         $(item).find('.option-container').append(listItemAnswer);
     }
 
@@ -901,7 +903,7 @@ function renderEditableSumQuestion(item, question, answer) {
 
     $(item).find('.question').text(question.question);
     $(item).find('#maximum .label-text').text(translation.maximum + ': ' + parameters.maximum);
-    $(item).find('#allocation .label-text').text(translation.scales[parameters.allocation]);
+    $(item).find('#allocation .label-text').text(translation.scaleTypes[parameters.allocation]);
 
     renderSumQuestionInput(item, parameters, options);
 
@@ -1420,7 +1422,7 @@ function renderSumQuestionPreview(source, item, parameters, options) {
 
     if (parameters.allocation !== null) {
         var percent = $(source).find('#option-item').clone(false).removeAttr('id');
-        percent.text(translation.scales[parameters.allocation]);
+        percent.text(translation.scaleTypes[parameters.allocation]);
         item.find('#distribution-container').append(percent);
     }
 

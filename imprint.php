@@ -34,8 +34,8 @@ include './includes/language.php';
         <div class="container" id="breadcrumb">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
-                    <li class="active">Impressum</li>
+                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                    <li class="active"><?php echo $lang->breadcrump->imprint ?></li>
                 </ol>
             </div>
         </div>
@@ -118,7 +118,7 @@ include './includes/language.php';
                 checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
-                    externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
+                    externals.push(['#templage-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     loadExternals(externals);
                 });
             });

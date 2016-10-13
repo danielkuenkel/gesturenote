@@ -793,7 +793,7 @@ var Moderator = {
             $(container).find('#general #scene').on('click', function (event) {
                 event.preventDefault();
                 currentSceneId = data.scene;
-                loadHTMLintoModal('scene-modal', 'preview-scene.html', 'modal-lg');
+                loadHTMLintoModal('scene-modal', 'preview-scene.php', 'modal-lg');
             });
         }
 
@@ -874,7 +874,7 @@ var Moderator = {
                     item.find('#btn-show-transition-scene').click({sceneId: wozData[i].transitionId}, function (event) {
                         event.preventDefault();
                         currentSceneId = event.data.sceneId;
-                        loadHTMLintoModal('scene-modal', 'preview-scene.html', 'modal-lg');
+                        loadHTMLintoModal('scene-modal', 'preview-scene.php', 'modal-lg');
                     });
                 } else {
                     item.find('#btn-show-transition-scene').remove();
@@ -937,6 +937,6 @@ function enableScenarioControls(container) {
 
 function updateCurrentScene(container) {
     container.find('.panel-body #' + currentWOZScene.type).removeClass('hidden');
-    container.find('.panel-body .label-text').text(translation.scenes[currentWOZScene.type]);
+    container.find('.panel-body .label-text').text(translation.sceneTypes[currentWOZScene.type]);
     container.find('#current-scene').text(currentWOZScene.title);
 }

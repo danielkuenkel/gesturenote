@@ -179,11 +179,10 @@ if (login_check($mysqli) == true) {
                 checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
-                    var path = PATH_EXTERNALS + '/' + currentLanguage + '/';
-                    externals.push(['#alerts', path + 'alerts.html']);
-                    externals.push(['#template-gesture', path + 'template-gesture.html']);
-                    externals.push(['#template-previews', path + 'template-previews.html']);
-                    externals.push(['#template-gesture-recorder', path + '/template-gesture-recorder.html']);
+                    externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
+                    externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
+                    externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
+                    externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
                 });
             });

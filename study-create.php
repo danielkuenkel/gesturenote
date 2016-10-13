@@ -139,10 +139,10 @@ if (login_check($mysqli) == true) {
         <div class="container" id="breadcrumb">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
-                    <li><a class="breadcrump-btn" id="btn-dashboard">Dashboard</a></li>
-                    <li><a class="breadcrump-btn" id="btn-studies">Studien</a></li>
-                    <li class="active">Neue Studie</li>
+                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-studies"><?php echo $lang->breadcrump->studies ?></a></li>
+                    <li class="active"><?php echo $lang->breadcrump->createStudy ?></li>
                 </ol>
             </div>
         </div>
@@ -174,10 +174,10 @@ if (login_check($mysqli) == true) {
                 <div class="col-sm-12 col-md-7">
 
                     <ul class="nav nav-tabs" id="create-tab-navigation" style="margin-bottom: 30px">
-                        <li role="presentation" id="general"><a href="#">Allgemeines</a></li>
-                        <li role="presentation" id="catalogs"><a href="#">Kataloge</a></li>
-                        <li role="presentation" id="phases" class="hidden"><a href="#">Leidfaden</a></li>
-                        <li role="presentation" id="panel"><a href="#">Wer, Was & Wann?</a></li>
+                        <li role="presentation" id="general"><a href="#"><?php echo $lang->studyCreateNav->general ?></a></li>
+                        <li role="presentation" id="catalogs"><a href="#"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
+                        <li role="presentation" id="phases" class="hidden"><a href="#"><?php echo $lang->studyCreateNav->phases ?></a></li>
+                        <li role="presentation" id="panel"><a href="#"><?php echo $lang->studyCreateNav->panel ?></a></li>
                     </ul>
 
 
@@ -188,9 +188,9 @@ if (login_check($mysqli) == true) {
                         <!-- study name -->
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon">Studien-Titel</span>
-                                <label class="sr-only" for="studyTitle">Studien-Titel</label>
-                                <input type="text" class="form-control" id="studyTitle" placeholder="Studien-Titel einfügen" required>
+                                <span class="input-group-addon"><?php echo $lang->studyTitle ?></span>
+                                <label class="sr-only" for="studyTitle"><?php echo $lang->studyTitle ?></label>
+                                <input type="text" class="form-control" id="studyTitle" placeholder="<?php echo $lang->insertStudyTitle ?>" required>
                             </div>
                         </div>
 
@@ -198,9 +198,9 @@ if (login_check($mysqli) == true) {
                         <!-- study description -->
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon">Studienbeschreibung</span>
-                                <label class="sr-only" for="studyDescription">Studienbeschreibung</label>
-                                <textarea class="form-control" id="studyDescription" rows="5" placeholder="Beschreibung einfügen"></textarea>
+                                <span class="input-group-addon"><?php echo $lang->studyDescription ?></span>
+                                <label class="sr-only" for="studyDescription"><?php echo $lang->studyDescription ?></label>
+                                <textarea class="form-control" id="studyDescription" rows="5" placeholder="<?php echo $lang->insertStudyDescription ?>"></textarea>
                             </div>
                         </div>
 
@@ -208,8 +208,8 @@ if (login_check($mysqli) == true) {
                         <!-- manner dropdowns -->
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon">Studienphase</span>
-                                <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+                                <span class="input-group-addon"><?php echo $lang->studyPhase ?></span>
+                                <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="<?php echo $lang->pleaseSelect ?>"/>
                                 <div class="input-group-btn select saveGeneralData" id="phaseSelect" role="group">
                                     <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -222,8 +222,8 @@ if (login_check($mysqli) == true) {
 
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon">Befragungsart</span>
-                                <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+                                <span class="input-group-addon"><?php echo $lang->studySurveyType ?></span>
+                                <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="<?php echo $lang->pleaseSelect ?>"/>
                                 <div class="input-group-btn select saveGeneralData" id="surveyTypeSelect" role="group">
                                     <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
@@ -240,34 +240,21 @@ if (login_check($mysqli) == true) {
 
                     <div class="tab-content hidden tab-catalogs">
 
-                        <!-- Use of well/predefined sczenes -->
-                        <div class="form-group" id="scenes-catalog">
-                            <div class="btn-group">
-                                <button class="btn btn-default btn-group-addon">Szenen</button>
-                                <button class="btn btn-default btn-shadow" id="btn-clear-scenes">
-                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text">Löschen</span>
-                                </button>
-                                <button class="btn btn-default btn-shadow" id="btn-assemble-scenes">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text">Öffnen</span>
-                                </button>
-                            </div>
-                        </div>
-
                         <!-- Use of well/predefined gestures -->
                         <div class="form-group" id="gestures-catalog">
                             <div class="btn-group">
-                                <button class="btn btn-default btn-group-addon">Gesten</button>
+                                <button class="btn btn-default btn-group-addon"><?php echo $lang->gestures ?></button>
                                 <button class="btn btn-default btn-shadow hidden" id="btn-clear-study-gestures">
-                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text">Löschen</span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text"><?php echo $lang->delete ?></span>
                                 </button>
                                 <button class="btn btn-default btn-shadow hidden" id="btn-study-gestures">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text">Öffnen</span>
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
                                 </button>
                                 <button class="btn btn-default btn-shadow" id="btn-assemble-study-gestures">
-                                    <i class="fa fa-star" aria-hidden="true"></i> <span class=""><span class="hidden-xs btn-text">Set </span>Zusammenstellen</span>
+                                    <i class="fa fa-star" aria-hidden="true"></i> <span class=""><span class="hidden-xs btn-text"><?php echo $lang->set ?> </span><?php echo $lang->arrange ?></span>
                                 </button>
                                 <button class="btn btn-default btn-shadow" id="btn-record-gestures">
-                                    <i class="fa fa-video-camera" aria-hidden="true"></i> <span class="btn-text">Aufzeichnen</span>
+                                    <i class="fa fa-video-camera" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->record ?></span>
                                 </button>
 
                             </div>
@@ -276,12 +263,12 @@ if (login_check($mysqli) == true) {
                         <!-- Use of well/predefined trigger -->
                         <div class="form-group" id="trigger-catalog">
                             <div class="btn-group">
-                                <button class="btn btn-default btn-group-addon">Funktionen</button>
+                                <button class="btn btn-default btn-group-addon"><?php echo $lang->triggers ?></button>
                                 <button class="btn btn-default btn-shadow" id="btn-clear-trigger">
-                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text">Löschen</span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text"><?php echo $lang->delete ?></span>
                                 </button>
                                 <button class="btn btn-default btn-shadow" id="btn-assemble-trigger">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text">Öffnen</span>
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
                                 </button>
                             </div>
                         </div>
@@ -289,15 +276,29 @@ if (login_check($mysqli) == true) {
                         <!-- Use of well/predefined feedback -->
                         <div class="form-group" id="feedback-catalog">
                             <div class="btn-group">
-                                <button class="btn btn-default btn-group-addon">Feedback</button>
+                                <button class="btn btn-default btn-group-addon"><?php echo $lang->feedback ?></button>
                                 <button class="btn btn-default btn-shadow" id="btn-clear-feedback">
-                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text">Löschen</span>
+                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text"><?php echo $lang->delete ?></span>
                                 </button>
                                 <button class="btn btn-default btn-shadow" id="btn-assemble-feedback">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text">Öffnen</span>
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Use of well/predefined sczenes -->
+                        <div class="form-group" id="scenes-catalog">
+                            <div class="btn-group">
+                                <button class="btn btn-default btn-group-addon"><?php echo $lang->scenes ?></button>
+                                <button class="btn btn-default btn-shadow" id="btn-clear-scenes">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text"><?php echo $lang->delete ?></span>
+                                </button>
+                                <button class="btn btn-default btn-shadow" id="btn-assemble-scenes">
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
+                                </button>
+                            </div>
+                        </div>
+                        
                     </div>
 
 
@@ -307,18 +308,18 @@ if (login_check($mysqli) == true) {
 
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon">Phasenschritt</span>
-                                <input class="form-control item-input-text option-survey-type show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+                                <span class="input-group-addon"><?php echo $lang->phaseStep ?></span>
+                                <input class="form-control item-input-text option-survey-type show-dropdown text-center readonly" type="text" value="<?php echo $lang->pleaseSelect ?>"/>
                                 <div class="input-group-btn select saveGeneralData" id="phaseStepSelect"  role="group">
                                     <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option" role="menu">
-                                        <li class="dropdown-header">Fragebögen</li>
+                                        <li class="dropdown-header"><?php echo $lang->questionnaires ?></li>
                                         <li id="questionnaire"><a href="#"><?php echo $lang->formats->questionnaire->text ?></a></li>
                                         <li id="gus" class="evaluation"><a href="#"><?php echo $lang->formats->gus->text ?></a></li>
                                         <li id="questionnaireGestures" class="evaluation"><a href="#"><?php echo $lang->formats->questionnaireGestures->text ?></a></li>
                                         <li id="sus" class="evaluation"><a href="#"><?php echo $lang->formats->sus->text ?></a></li>
                                         <li class="divider"></li>
-                                        <li class="dropdown-header">Sonstiges</li>
+                                        <li class="dropdown-header"><?php echo $lang->miscellaneous ?></li>
 
                                         <li id="identification" class="elicitation"><a href="#"><?php echo $lang->formats->identification->text ?></a></li>
                                         <li id="gestureTraining" class="evaluation"><a href="#"><?php echo $lang->formats->gestureTraining->text ?></a></li>
@@ -338,19 +339,19 @@ if (login_check($mysqli) == true) {
 
                         <div class="form-group hidden root" id="phaseStepItem">
                             <div class="btn-group">
-                                <button class="btn btn-default btn-shadow btn-up saveGeneralData" title="Weiter nach oben">
+                                <button class="btn btn-default btn-shadow btn-up saveGeneralData" title="<?php echo $lang->furtherUp ?>">
                                     <i class="glyphicon glyphicon-arrow-up"></i>
                                 </button>
-                                <button class="btn btn-default btn-shadow btn-down saveGeneralData" title="Weiter nach unten">
+                                <button class="btn btn-default btn-shadow btn-down saveGeneralData" title="<?php echo $lang->furtherDown ?>">
                                     <i class="glyphicon glyphicon-arrow-down"></i>
                                 </button>
-                                <button class="btn btn-default btn-shadow btn-modify" title="Bearbeiten">
+                                <button class="btn btn-default btn-shadow btn-modify" title="<?php echo $lang->edit ?>">
                                     <i class="glyphicon glyphicon-cog"></i>
                                 </button>
                                 <button class="btn btn-default btn-shadow btn-text-button">
                                     <span class="glyphicon glyphicon-tag"></span><span class="phase-step-format"></span>
                                 </button>
-                                <button class="btn btn-default btn-shadow btn-delete saveGeneralData" title="Löschen">
+                                <button class="btn btn-default btn-shadow btn-delete saveGeneralData" title="<?php echo $lang->delete ?>">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </button>
                             </div>
@@ -364,9 +365,9 @@ if (login_check($mysqli) == true) {
 
                         <div class="form-group">
                             <div class="btn-group" id="panelSurveySwitch">
-                                <button class="btn btn-default switchButtonAddon">Panel-Befragung</button>
-                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success">Ja</button>
-                                <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning">Nein</button>
+                                <button class="btn btn-default switchButtonAddon"><?php echo $lang->panelSurvey ?></button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                                <button class="btn btn-warning btn-shadow btn-toggle-checkbox saveGeneralData active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                             </div>
                         </div>
 
@@ -374,17 +375,17 @@ if (login_check($mysqli) == true) {
 
                             <div class="form-group">
                                 <div class="btn-group" id="genderSwitch">
-                                    <button class="btn btn-default switchButtonAddon">Geschlecht</button>
-                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="female" name="btn-success"><i class="fa fa-venus" aria-hidden="true"></i> weiblich</button>
-                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="male" name="btn-success"><i class="fa fa-mars" aria-hidden="true"></i> männlich</button>
-                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="identical" name="btn-success"><i class="fa fa-genderless" aria-hidden="true"></i> egal</button>
+                                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->gender ?></button>
+                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="female" name="btn-success"><i class="fa fa-venus" aria-hidden="true"></i> <?php echo $lang->genderTypes->female ?></button>
+                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="male" name="btn-success"><i class="fa fa-mars" aria-hidden="true"></i> <?php echo $lang->genderTypes->male ?></button>
+                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="identical" name="btn-success"><i class="fa fa-genderless" aria-hidden="true"></i> <?php echo $lang->genderTypes->identical ?></button>
                                 </div>
                             </div>
 
                             <div class="form-group" id="ageSlider">
-                                <span class="slider-from" name="age">von</span>
+                                <span class="slider-from" name="age"><?php echo $lang->of ?></span>
                                 <input class="custom-range-slider saveGeneralData" type="text" value="" data-slider-step="1"/>
-                                <span class="slider-to">bis</span>
+                                <span class="slider-to"><?php echo $lang->to ?></span>
                             </div>
 
                         </div>
@@ -419,9 +420,9 @@ if (login_check($mysqli) == true) {
 
                         <!-- submit form button group -->
                         <div class="btn-group-vertical btn-block" role="group">
-                            <button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> Alle Eingaben löschen</button>
-                            <button type="button" class="btn btn-warning btn-shadow btn-md disabled" id="btn-preview-study"><i class="glyphicon glyphicon-eye-open"></i> Vorschau der Studie</button>
-                            <button type="button" class="btn btn-success btn-shadow btn-lg" id="btn-save-study"><i class="glyphicon glyphicon-save"></i> Studie speichern</button>
+                            <button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> <?php echo $lang->deleteAllData ?></button>
+                            <button type="button" class="btn btn-warning btn-shadow btn-md disabled" id="btn-preview-study"><i class="glyphicon glyphicon-eye-open"></i> <?php echo $lang->studyPreview ?></button>
+                            <button type="button" class="btn btn-success btn-shadow btn-lg" id="btn-save-study"><i class="glyphicon glyphicon-save"></i> <?php echo $lang->saveStudy ?></button>
                         </div>
                     </div>
 
@@ -431,39 +432,47 @@ if (login_check($mysqli) == true) {
                 <div class="col-sm-12 col-md-5" style="margin-top: 20px">
                     <div class="col-md-11 col-md-offset-1">
                         <div class="tab-content hidden tab-general">
-                            <div class="gn"><h3>Allgemeines</h3></div>
+                            <div class="gn"><h3><?php echo $lang->studyCreateNav->general ?></h3></div>
                             <span id="styleguide-info">
-                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                                <?php echo $lang->createStudyInfos->general->overview ?>
                             </span>
                             <br><br>
-                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-general.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-general.php');"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
+                            </div>
                         </div>
 
                         <div class="tab-content hidden tab-catalogs">
-                            <div class="gn"><h3>Kataloge</h3></div>
+                            <div class="gn"><h3><?php echo $lang->studyCreateNav->catalogs ?></h3></div>
                             <span id="styleguide-info">
-                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor 
+                                <?php echo $lang->createStudyInfos->catalogs->overview ?>
                             </span>
                             <br><br>
-                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-catalogs.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-gn btn-shadow" id="btn-more-infos-catalogs"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
+                            </div>
                         </div>
 
                         <div class="tab-content hidden tab-phases">
-                            <div class="gn"><h3>Leitfaden</h3></div>
+                            <div class="gn"><h3><?php echo $lang->studyCreateNav->phases ?></h3></div>
                             <span id="styleguide-info">
-                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
+                                <?php echo $lang->createStudyInfos->phases->overview ?>
                             </span>
                             <br><br>
-                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-phases.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-gn btn-shadow" id="btn-more-infos-phases"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
+                            </div>
                         </div>
 
                         <div class="tab-content hidden tab-panel">
-                            <div class="gn"><h3>Wer, Was & Wann?</h3></div>
+                            <div class="gn"><h3><?php echo $lang->studyCreateNav->panel ?></h3></div>
                             <span id="styleguide-info">
-                                aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                                <?php echo $lang->createStudyInfos->panel->overview ?>
                             </span>
                             <br><br>
-                            <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-panel.php');"><span class="glyphicon glyphicon-info-sign"></span> Mehr Informationen</button>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-panel.php');"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -476,13 +485,12 @@ if (login_check($mysqli) == true) {
                 checkDomain();
                 checkLanguage(function () {
                     createRandomColors();
-                    var path = PATH_EXTERNALS + '/' + currentLanguage + '/';
                     var externals = new Array();
-                    externals.push(['#alerts', path + '/alerts.html']);
-                    externals.push(['#template-gesture', path + '/template-gesture.html']);
-                    externals.push(['#template-inputs', path + '/template-create.html']);
-                    externals.push(['#templage-subpages', path + '/template-sub-pages.html']);
-                    externals.push(['#template-gesture-recorder', path + '/template-gesture-recorder.html']);
+                    externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
+                    externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
+                    externals.push(['#template-inputs', PATH_EXTERNALS + 'template-create.php']);
+                    externals.push(['#templage-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
                     $('#from-To-datepicker .input-daterange').datepicker({
                         calendarWeeks: true,
@@ -500,6 +508,7 @@ if (login_check($mysqli) == true) {
                     });
                 });
             });
+
             var editableStudyId = null;
             var studyEditable = false;
             function onAllExternalsLoadedSuccessfully() {
@@ -834,6 +843,24 @@ if (login_check($mysqli) == true) {
                 $("html, body").animate({scrollTop: 0}, 100);
                 window.location.hash = activeTapId;
 
+            });
+
+            $('#btn-more-infos-phases').on('click', function (event) {
+                event.preventDefault();
+                if (getLocalItem(STUDY).phase === TYPE_PHASE_EVALUATION) {
+                    loadHTMLintoModal('custom-modal', 'create-info-phases-evaluation.php');
+                } else {
+                    loadHTMLintoModal('custom-modal', 'create-info-phases-identification.php');
+                }
+            });
+
+            $('#btn-more-infos-catalogs').on('click', function (event) {
+                event.preventDefault();
+                if (getLocalItem(STUDY).phase === TYPE_PHASE_EVALUATION) {
+                    loadHTMLintoModal('custom-modal', 'create-info-catalogs-evaluation.php');
+                } else {
+                    loadHTMLintoModal('custom-modal', 'create-info-catalogs-identification.php');
+                }
             });
 
         </script>

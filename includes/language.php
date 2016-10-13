@@ -15,7 +15,7 @@ class language {
         $additionalPath = '';
         foreach ($splitURI as $value) {
             if ($value === 'externals') {
-                $additionalPath = '../../';
+                $additionalPath = '../';
                 break;
             }
         }

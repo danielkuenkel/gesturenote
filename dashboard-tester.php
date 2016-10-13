@@ -26,7 +26,7 @@ if (login_check($mysqli) == true) {
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        
+
         <script src="js/storage.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/constants.js"></script>
@@ -47,8 +47,8 @@ if (login_check($mysqli) == true) {
         <div class="container" id="breadcrumb">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index">Home</a></li>
-                    <li class="active">Dashboard</li>
+                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                    <li class="active"><?php echo $lang->breadcrump->dashboard ?></li>
                 </ol>
             </div>
         </div>
@@ -70,31 +70,31 @@ if (login_check($mysqli) == true) {
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-studies">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> Studien</div>
                         <div class="panel-body">Panel Body</div>
-<!--                        <div class="panel-footer">
-                            <button type="button" class="btn btn-success btn-block" id="btn-create-study"><i class="glyphicon glyphicon-plus"></i> Neue Studie erstellen</button>
-                        </div>-->
+                        <!--                        <div class="panel-footer">
+                                                    <button type="button" class="btn btn-success btn-block" id="btn-create-study"><i class="glyphicon glyphicon-plus"></i> Neue Studie erstellen</button>
+                                                </div>-->
                     </div>
                 </div>
-<!--                <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-styleguides">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-map-signs" aria-hidden="true"></i> Gesten Styleguides</div>
-                        <div class="panel-body">Panel Body</div>
-                        <div class="panel-footer">Panel Footer</div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-catalog">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-sign-language" aria-hidden="true"></i> Gestenkatalog</div>
-                        <div class="panel-body">
-                            <div id="total-gestures"><span class="address"></span> <span class="text"></span></div>
-                            <div id="public-gestures"><span class="address"></span> <span class="text"></span></div>
-                            <div id="user-gestures"><span class="address"></span> <span class="text"></span></div>
-                            <div id="user-public-gestures"><span class="address"></span> <span class="text"></span></div>
-                            <div id="elicited-gestures"><span class="address"></span> <span class="text"></span></div>
-                        </div>
-                        <div class="panel-footer">Panel Footer</div>
-                    </div>
-                </div>-->
+                <!--                <div class="col-md-4 col-sm-6">
+                                    <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-styleguides">
+                                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-map-signs" aria-hidden="true"></i> Gesten Styleguides</div>
+                                        <div class="panel-body">Panel Body</div>
+                                        <div class="panel-footer">Panel Footer</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-catalog">
+                                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-sign-language" aria-hidden="true"></i> Gestenkatalog</div>
+                                        <div class="panel-body">
+                                            <div id="total-gestures"><span class="address"></span> <span class="text"></span></div>
+                                            <div id="public-gestures"><span class="address"></span> <span class="text"></span></div>
+                                            <div id="user-gestures"><span class="address"></span> <span class="text"></span></div>
+                                            <div id="user-public-gestures"><span class="address"></span> <span class="text"></span></div>
+                                            <div id="elicited-gestures"><span class="address"></span> <span class="text"></span></div>
+                                        </div>
+                                        <div class="panel-footer">Panel Footer</div>
+                                    </div>
+                                </div>-->
                 <div class="col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-profile">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> Profil</div>
@@ -110,8 +110,8 @@ if (login_check($mysqli) == true) {
                 checkDomain();
                 checkLanguage(function () {
                     var externals = new Array();
-                    externals.push(['#alerts', PATH_EXTERNALS + '/' + currentLanguage + '/alerts.html']);
-                    externals.push(['#templage-subpages', PATH_EXTERNALS + '/' + currentLanguage + '/template-sub-pages.html']);
+                    externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
+                    externals.push(['#templage-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     loadExternals(externals);
                 });
             });

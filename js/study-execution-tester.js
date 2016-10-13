@@ -1386,7 +1386,7 @@ var Tester = {
             }
 
             $(panelContent).find('#btn-perform-gesture').removeClass('hidden');
-            loadHTMLintoModal('preview-modal', 'preview-unmoderated-scenes.html', 'modal-lg');
+            loadHTMLintoModal('preview-modal', 'preview-unmoderated-scenes.php', 'modal-lg');
         });
 
         $(panelContent).find('#btn-getting-help').click(function (event) {
@@ -1398,7 +1398,7 @@ var Tester = {
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             }
 
-            loadHTMLintoModal('preview-modal', 'preview-help.html', 'modal-md');
+            loadHTMLintoModal('preview-modal', 'preview-help.php', 'modal-md');
         });
 
         $(panelContent).find('#btn-done').click(function (event) {
@@ -1642,7 +1642,7 @@ function onUnmoderatedAnswerTimeExpired(source, container, data) {
     $(container).find('.gestureContainer .headline, .triggerContainer .headline').text(translation.timesUp);
     TweenMax.to(container.find('.previewGesture, .trigger-title'), .1, {autoAlpha: 0});
     TweenMax.to(container.find('#slideshowContainer, .progress'), .1, {autoAlpha: 0, onComplete: onHideUnmoderatedSlideComplete, onCompleteParams: [source, container, data]});
-    loadHTMLintoModal('preview-modal', 'preview-check-gesture-slide.html', 'modal-lg');
+    loadHTMLintoModal('preview-modal', 'preview-check-gesture-slide.php', 'modal-lg');
 }
 
 function onHideUnmoderatedSlideComplete(source, container, data) {
