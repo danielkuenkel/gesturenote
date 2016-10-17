@@ -56,12 +56,11 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
 
         <!-- Modal -->
-        <div id="custom-modal" class="modal fade custom-modal" role="dialog">
+        <div id="custom-modal" class="modal fade custom-modal" data-backdrop="static" data-keyboard="false" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
-                <div class="modal-content root">
-                </div>
+                <div class="modal-content root"></div>
             </div>
         </div>
 
@@ -289,6 +288,16 @@ if (login_check($mysqli) == true) {
             loadHTMLintoModal('custom-modal', 'create-gesture-recorder.php', 'modal-md');
 
             $('#custom-modal').unbind('saveSuccess').bind('saveSuccess', function (event, gestureId) {
+                getGestureCatalog(function (result) {
+                    if (result.status === RESULT_SUCCESS) {
+                        originalFilterData = result.gestures;
+                        $('#sort #newest').removeClass('selected');
+                        $('#sort #newest').click();
+                    }
+                });
+            });
+            
+            $('#custom-modal').unbind('deleteSuccess').bind('deleteSuccess', function (event, gestureId) {
                 getGestureCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         originalFilterData = result.gestures;

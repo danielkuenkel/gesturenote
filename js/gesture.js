@@ -271,7 +271,7 @@ function updateModalProgress(container) {
 function addLoadingIcon(target) {
     var icon = document.createElement('i');
     $(icon).addClass('fa fa-circle-o-notch fa-spin fa-3x fa-fw');
-    $(icon).css({position: 'relative', margin: 'auto'});
+    $(icon).css({position: 'absolute', margin: 'auto'});
     $(icon).attr('id', 'loading-icon');
     $(target).append(icon);
 }
