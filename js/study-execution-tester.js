@@ -794,7 +794,9 @@ var Tester = {
             container.find('#recorder-description').empty().append(recorderDescription);
 
             $(gestureRecorder).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
-                recorderDescription.empty().append($('#item-container-gesture-recorder').find('#' + type).clone());
+                var descriptions = $('#item-container-gesture-recorder').find('#' + type).clone();
+                recorderDescription.empty().append(descriptions);
+                TweenMax.from(descriptions, .3, {y: -20, opacity: 0, clearProps: 'all'});
             });
 
             $(gestureRecorder).bind(EVENT_GR_SAVE_SUCCESS, function (event, gestureId) {

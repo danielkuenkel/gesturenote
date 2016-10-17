@@ -443,6 +443,27 @@
         "recordGesture": {
             "headline": "Geste aufzeichnen",
             "description": "Um eine Geste aufzuzeichnen, klicken Sie auf <button class='btn btn-xs btn-success btn-shadow'><i class='glyphicon glyphicon-record'></i> Aufzeichung starten</button>. Die Aufzeichnung startet und Sie haben nun 20 Sekunden Zeit, um eine Geste aufzuzeichnen. Der Blaue Balken wird immer kleiner. Die Aufzeichnung wird nach Ablauf der 20 Sekunden automatisch gestoppt. Sie können aber auch die Aufzeichnung manuell beenden, indem Sie auf <button class='btn btn-xs btn-danger btn-shadow'><i class='glyphicon glyphicon-stop'></i> Aufzeichung beenden</button> klicken."
+        },
+        "previewTrimmingGesture": {
+            "headline": "Ansehen und Schneiden einer Geste",
+            "descriptionPreview": "Sie sehen eine Vorschau der aufgezeichneten Geste. Der grüne Balken unter der Vorschau zeigt die Abspielposition des Videos an. Darunter befindet sich ein roter Balken. Auf beiden Balken kann das Video zu einer bestimmten Stelle mit einem Klick bewegt werden. Halten Sie die Maustaste für eine feinere Justierung des Videos gedrückt. Dies ist wichtig, um die für Sie ideale Start- und Endposition einer Geste zu markieren.",
+            "descriptionTrimming": "Markieren sie entweder mit einem Klick der Maustaste oder ziehen der Maus auf den grünen oder roten Balken die Start-Position der Geste. Klicken Sie auf <button class='btn btn-xs btn-success btn-shadow'><i class='fa fa-chevron-circle-up'></i> Start</button> um den Start der Geste zu markieren. Stellen Sie die Abspielposition der Vorschau auf das Ende der Geste. Klicken Sie anschließend auf <button class='btn btn-xs btn-danger btn-shadow'>Ende <i class='fa fa-chevron-circle-down'></i></button>. Sie haben nun Start- und Endpunkt der Geste markiert (sichtbar über hellblauen Bereich) und können diese nun schneiden. Zum Schneiden MUSS ein Start- und ein Endpunkt vorliegen. Beim Schneiden werden all X Millisekunden (Standard 150) Screenshots des Videos gemacht und als Bilddatei gespeichert (Abtastung). Sie können später noch eine Feinjustierung der Abtastung vornehmen."
+        },
+        "describeAndSave": {
+            "headline": "Beschreiben und Speichern einer Geste",
+            "previewImage": "Sie können ein Vorschaubild auswählen indem Sie auf <button class='btn btn-xs btn-default btn-shadow'><i class='fa fa-bookmark'></i> Vorschaubild wählen</button> klicken. Bewegen Sie die Maus über das Vorschaubild und klicken sie bei dem für sie besten Bild auf die Vorschau. Beenden Sie danach die Auswahl mit einem Klick auf <button class='btn btn-xs btn-default btn-shadow'><i class='fa fa-check'></i> Auswahl beenden</button>.",
+            "gestureDescription": "Geben Sie der Geste einen Namen und überlegen Sie, in welchem Kontext Sie Anwendung findet. Geben Sie ebenfalls eine Beschreibung der Geste an. Z.B. die Bewegungen, die gemacht werden müssen und warum die Geste so gut zur Funktion passt.",
+            "graphicsDescription": "Wählen Sie aus, welche Körperteile für die Geste benötigt werden. Klicken Sie dafür auf die jeweiligen Kreisflächen. Es erscheint ein grüner Kreis mit weißem Haken.",
+            "saveDescription": "Haben Sie alle nötigen Eingaben gemacht, können Sie die Geste speichern. Überprüfen Sie vor dem Speichern nochmals alle Eingaben auf Richtigkeit.",
+            "worstResultDescription": "Refällt Ihnen das Resultat nicht, können Sie die Geste noch einmal neu schneiden oder komplett neu aufzeichnen."
+        },
+        "savedGesture": {
+            "headline": "Gespeicherte Geste",
+            "description": "Sie haben es geschafft. Ihre Geste wurde gespeichert. Sie können diese jedoch wieder löschen. Wenn Sie für die Funktion die Geste noch einmal aufzeichnen wollen, klicken Sie auf <button class='btn btn-xs btn-danger btn-shadow'><i class='fa fa-trash'></i> Gespeicherte Geste löschen</button>. Sind sie zufrieden mit der Geste und werden weitere Gesten für Funktionen gesucht, klicken Sie auf <button class='btn btn-xs btn-success btn-shadow'>Nächste Funktion <span>&rarr;</span></button>. Gibt es keine Funktionen mehr klicken Sie auf <button class='btn btn-xs btn-success btn-shadow'><i class='fa fa-check'></i> Fertig</button>."
+        },
+        "deletedGesture": {
+            "headline": "Gelöschte Geste",
+            "description": "Die Geste wurde gelöscht und Sie können eine neue Geste aufzeichnen."
         }
     },
     "gesturesCatalog": {

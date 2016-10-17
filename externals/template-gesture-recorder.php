@@ -14,7 +14,7 @@ include '../includes/language.php';
             <div class="progress" id="record-timer-progress" style="margin-top: -8px; height: 8px; border-top-left-radius: 0px; border-radius: 0px">
                 <div class="progress-bar progress-bar-info" id="record-timer-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%; width: 100%"></div>
             </div>
-            
+
             <div class="gesture-recorder-controls">
                 <div class="hidden" id="record-controls" style="margin-top: -20px">
                     <button class="btn btn-success btn-block btn-shadow hidden" id="btn-record" style="border-top-left-radius: 0px; border-top-right-radius: 0px;"><i class="glyphicon glyphicon-record" aria-hidden="true"></i> <?php echo $lang->startRecording ?></button>
@@ -270,7 +270,7 @@ include '../includes/language.php';
                 <div class="btn-group">
                     <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
                     <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                    <button class="btn btn-danger btn-shadow" id="btn-delete-saved-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <?php echo $lang->deteleSavedGesture ?></button>
+                    <button class="btn btn-danger btn-shadow" id="btn-delete-saved-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <?php echo $lang->deleteSavedGesture ?></button>
                 </div>
             </div>
         </div>
@@ -296,35 +296,58 @@ include '../includes/language.php';
     </div>
 
     <div id="statePlayback">
-        <h3 style="margin: 0" id="headline">Ansehen und Schneiden einer Geste</h3>
+        <h3 style="margin: 0" id="headline"><?php echo $lang->gestureRecorderManual->previewTrimmingGesture->headline ?></h3>
         <hr>
-        <p class="text" id="instructions">
-            Anleitung & Besonderheiten
-        </p>
+        <div class="text" id="instructions">
+            <p>
+                <?php echo $lang->gestureRecorderManual->previewTrimmingGesture->descriptionPreview ?>
+            </p>
+            <p>
+                <?php echo $lang->gestureRecorderManual->previewTrimmingGesture->descriptionTrimming ?>
+            </p>
+        </div>
     </div>
 
     <div id="stateSave">
-        <h3 style="margin: 0" id="headline">Beschreiben und Speichern einer Geste</h3>
+        <h3 style="margin: 0" id="headline"><?php echo $lang->gestureRecorderManual->describeAndSave->headline ?></h3>
         <hr>
-        <p class="text" id="instructions">
-            Anleitung & Besonderheiten
-        </p>
+        <div class="text" id="instructions">
+            <p>
+                <?php echo $lang->gestureRecorderManual->describeAndSave->previewImage ?>
+            </p>
+            <p>
+                <?php echo $lang->gestureRecorderManual->describeAndSave->gestureDescription ?>
+            </p>
+            <p>
+                <?php echo $lang->gestureRecorderManual->describeAndSave->graphicsDescription ?>
+            </p>
+            <p>
+                <?php echo $lang->gestureRecorderManual->describeAndSave->saveDescription ?>
+            </p>
+            <p>
+                <?php echo $lang->gestureRecorderManual->describeAndSave->worstResultDescription ?>
+            </p>
+        </div>
     </div>
 
     <div id="stateSaveSuccess">
-        <h3 style="margin: 0" id="headline">Gespeicherte Geste</h3>
+        <h3 style="margin: 0" id="headline"><?php echo $lang->gestureRecorderManual->savedGesture->headline ?></h3>
         <hr>
-        <p class="text" id="instructions">
-            Anleitung & Besonderheiten
-        </p>
+        <div class="text" id="instructions">
+            <p>
+                <?php echo $lang->gestureRecorderManual->savedGesture->description ?>
+            </p>
+        </div>
     </div>
 
     <div id="stateDeleteSuccess">
-        <h3 style="margin: 0" id="headline">Gelöschte Geste</h3>
+        <h3 style="margin: 0" id="headline"><?php echo $lang->gestureRecorderManual->deletedGesture->headline ?></h3>
         <hr>
-        <p class="text" id="instructions">
-            Anleitung & Besonderheiten
-        </p>
+        <div class="text" id="instructions">
+            <p>
+                <?php echo $lang->gestureRecorderManual->deletedGesture->description ?>
+            </p>
+        </div>
     </div>
 
 </div>
