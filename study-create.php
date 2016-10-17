@@ -617,7 +617,7 @@ if (login_check($mysqli) == true) {
             $('#btn-record-gestures').click(function (event) {
                 event.preventDefault();
                 loadHTMLintoModal('custom-modal', 'create-gesture-recorder.php', 'modal-md');
-                $('#custom-modal').unbind('gestureSavedSuccessfully').bind('gestureSavedSuccessfully', function (event, gestureId) {
+                $('#custom-modal').unbind('saveSuccess').bind('saveSuccess', function (event, gestureId) {
                     if (!event.handled) {
                         event.handled = true;
                         assembleGesture(parseInt(gestureId));

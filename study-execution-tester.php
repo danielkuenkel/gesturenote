@@ -73,7 +73,7 @@ if ($h && $token && $studyId) {
         <script src="js/study-execution.js"></script>
         <script src="js/study-execution-tester.js"></script>
         <script src="js/study-execution-tester-save.js"></script>
-        <script src="js/execution-upload-queue.js"></script>
+        <script src="js/upload-queue.js"></script>
 
         <!-- gesture recorder sources -->
         <script src="js/gesture-recorder.js"></script>

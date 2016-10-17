@@ -288,7 +288,7 @@ if (login_check($mysqli) == true) {
             event.preventDefault();
             loadHTMLintoModal('custom-modal', 'create-gesture-recorder.php', 'modal-md');
 
-            $('#custom-modal').unbind('gestureSavedSuccessfully').bind('gestureSavedSuccessfully', function (event, gestureId) {
+            $('#custom-modal').unbind('saveSuccess').bind('saveSuccess', function (event, gestureId) {
                 getGestureCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         originalFilterData = result.gestures;

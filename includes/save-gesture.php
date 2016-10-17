@@ -12,33 +12,33 @@ $target_preview_dir = "uploads/";
 
 session_start();
 if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['gestureImages'])) {
-    $images = $_POST['gestureImages'];
-    $imageURLs = array();
+    $imageURLs = $_POST['gestureImages'];
+//    $imageURLs = array();
 
     $ownerId = $_SESSION['user_id'];
     if (isset($_POST['ownerId']) && $_POST['ownerId'] != null) {
         $ownerId = $_POST['ownerId'];
     }
 
-    foreach ($images as $image) {
-
-        $file_name = md5(microtime());
-        $imageData = substr($image, 23);
-
-        $im = imagecreatefromstring(base64_decode($imageData)); // php function to create image from string
-        // condition check if valid conversion
-        if ($im !== false) {
-            // saves an image to specific location
-            $resp = imagejpeg($im, $target_dir . $file_name . '.jpg');
-            array_push($imageURLs, $target_preview_dir . $file_name . '.jpg');
-            // frees image from memory
-            imagedestroy($im);
-        } else {
-            // show if any error in bytes data for image
-            echo json_encode(array('status' => 'error'));
-            exit();
-        }
-    }
+//    foreach ($images as $image) {
+//
+//        $file_name = md5(microtime());
+//        $imageData = substr($image, 23);
+//
+//        $im = imagecreatefromstring(base64_decode($imageData)); // php function to create image from string
+//        // condition check if valid conversion
+//        if ($im !== false) {
+//            // saves an image to specific location
+//            $resp = imagejpeg($im, $target_dir . $file_name . '.jpg');
+//            array_push($imageURLs, $target_preview_dir . $file_name . '.jpg');
+//            // frees image from memory
+//            imagedestroy($im);
+//        } else {
+//            // show if any error in bytes data for image
+//            echo json_encode(array('status' => 'error'));
+//            exit();
+//        }
+//    }
 
 
     $userId = $_SESSION['user_id'];

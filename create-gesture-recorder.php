@@ -13,6 +13,7 @@ include './includes/language.php';
 </div>
 
 <script src="js/gesture-recorder.js"></script>
+<script src="js/upload-queue.js"></script>
 <script>
     $(document).ready(function () {
         var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder').clone().removeAttr('id');

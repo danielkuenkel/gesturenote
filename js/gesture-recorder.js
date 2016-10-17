@@ -363,19 +363,33 @@ function showSave() {
             var joints = getSelectedJoints($(recorderTarget).find('#human-body #joint-container'));
 
             if (saveGesture) {
-                saveRecordedGesture({title: title, context: context, description: description, joints: joints, previewImage: previewImageIndex, gestureImages: gestureImagesData, ownerId: ownerId}, function (result) {
-                    showCursor($('body'), CURSOR_DEFAULT);
-                    $(button).removeClass('disabled');
+                if (gestureImagesData && gestureImagesData.length > 0) {
+                    var uploadQueue = new UploadQueue();
+                    $(uploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
+                        var imagesURLs = uploadQueue.getUploadURLs();
+//                        console.log('all files uploaded: save data into db', imagesURLs);
 
-                    if (result.status === RESULT_SUCCESS) {
-                        $(recorderTarget).trigger(EVENT_GR_SAVE_SUCCESS, [result.gestureId]);
-                        $(recorderTarget).find('#success-controls #btn-delete-saved-gesture').attr('name', result.gestureId);
-                        renderGestureImages($(recorderTarget).find('#success-controls .previewGesture'), result.images, result.previewImage, null);
-                        showSaveSuccess();
-                    } else if (result.status === RESULT_ERROR) {
-                        appendAlert(alertTarget, ALERT_GENERAL_ERROR);
+                        saveRecordedGesture({title: title, context: context, description: description, joints: joints, previewImage: previewImageIndex, gestureImages: imagesURLs, ownerId: ownerId}, function (result) {
+                            showCursor($('body'), CURSOR_DEFAULT);
+                            $(button).removeClass('disabled');
+
+                            if (result.status === RESULT_SUCCESS) {
+                                $(recorderTarget).trigger(EVENT_GR_SAVE_SUCCESS, [result.gestureId]);
+                                $(recorderTarget).find('#success-controls #btn-delete-saved-gesture').attr('name', result.gestureId);
+                                renderGestureImages($(recorderTarget).find('#success-controls .previewGesture'), result.images, result.previewImage, null);
+                                showSaveSuccess();
+                            } else if (result.status === RESULT_ERROR) {
+                                appendAlert(alertTarget, ALERT_GENERAL_ERROR);
+                            }
+                        });
+                    });
+
+                    for (var i = 0; i < gestureImagesData.length; i++) {
+                        var blob = dataURItoBlob(gestureImagesData[i]);
+                        var filename = hex_sha512(new Date().getTime() + "" + i) + ".jpg";
+                        uploadQueue.upload([blob], filename);
                     }
-                });
+                }
             } else {
                 showCursor($('body'), CURSOR_DEFAULT);
                 $(button).removeClass('disabled');

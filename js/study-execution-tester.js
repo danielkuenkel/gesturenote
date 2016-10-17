@@ -771,7 +771,7 @@ var Tester = {
             $(container).find('#general').remove();
             $(item).find('#identification-content').removeClass('hidden');
         });
-        
+
         if (identificationStartTriggered) {
             $(item).find('#btn-start-identification').remove();
             $(item).find('#identification-content').removeClass('hidden');
@@ -1447,7 +1447,7 @@ function checkRTCUploadStatus(container) {
     if (isWebRTCNeeded(getLocalItem(STUDY_PHASE_STEPS))) {
         if (tempUploads && tempUploads.length > 0) {
             console.log(tempUploads);
-            if (uploadQueue.allVideosUploaded()) {
+            if (uploadQueue.allFilesUploaded()) {
                 console.log('allVideosUploaded');
                 submitFinalData(container, true);
             } else {
@@ -1776,7 +1776,7 @@ function initRecorder(stream) {
 
         mediaRecorder.onstop = function () {
             console.log('Stopped recording, state = ' + mediaRecorder.state + ', ' + new Date());
-            uploadQueue.upload(chunks, currentPhaseStepId);
+            uploadQueue.upload(chunks, hex_sha512(new Date().getTime()) + '.webm', currentPhaseStepId);
             chunks = [];
 
             if (stopRecordingCallback) {

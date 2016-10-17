@@ -436,7 +436,7 @@
     "start": "Start",
     "end": "Ende",
     "saveGesture": "Geste speichern",
-    "deteleSavedGesture": "Gespeicherte Geste löschen",
+    "deleteSavedGesture": "Gespeicherte Geste löschen",
     "recordMoreGestures": "Weitere Geste aufzeichnen",
     "imageExportEvery": "Bild-Export alle",
     "gestureRecorderManual": {

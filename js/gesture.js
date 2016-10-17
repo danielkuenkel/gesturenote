@@ -284,8 +284,11 @@ function getGestureImagesData(source) {
     var gestureImages = $(source).find('.gestureImage');
     var srcArray = new Array();
     for (var i = 0; i < gestureImages.length; i++) {
-        srcArray.push($(gestureImages[i]).attr('src'));
+        var url = $(gestureImages[i]).attr('src');
+//        srcArray.push(url.replace("data:image/jpeg;base64,/", ""));
+        srcArray.push(url);
     }
+
     return srcArray;
 }
 
