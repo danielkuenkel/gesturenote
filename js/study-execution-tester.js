@@ -771,6 +771,7 @@ var Tester = {
             $(container).find('#general').remove();
             $(item).find('#identification-content').removeClass('hidden');
         });
+        
         if (identificationStartTriggered) {
             $(item).find('#btn-start-identification').remove();
             $(item).find('#identification-content').removeClass('hidden');
@@ -793,13 +794,11 @@ var Tester = {
             container.find('#recorder-description').empty().append(recorderDescription);
 
             $(gestureRecorder).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
-//                console.log(type);
                 recorderDescription.empty().append($('#item-container-gesture-recorder').find('#' + type).clone());
             });
 
             $(gestureRecorder).bind(EVENT_GR_SAVE_SUCCESS, function (event, gestureId) {
                 event.preventDefault();
-//                console.log('saved gestureId: ' + gestureId);
                 $(item).find('#next-controls').removeClass('hidden');
 
                 if (!previewModeEnabled) {

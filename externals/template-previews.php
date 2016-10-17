@@ -993,8 +993,11 @@
                         <label for="trigger-name">Begründung</label>
                         <textarea class="form-control" rows="5" id="trigger-justification"></textarea>
                     </div>
+                    <!--<div style="margin-top: 20px;" id="next-controls" class="hidden">-->
                     <button type="button" class="btn btn-success btn-block btn-shadow" id="next-identification"><span class="btn-text"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
                     <button type="button" class="btn btn-success btn-block btn-shadow" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+                    <!--</div>-->
+
                 </div>
             </div>
 

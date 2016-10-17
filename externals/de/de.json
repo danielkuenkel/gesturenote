@@ -307,7 +307,7 @@
             "text": "SUS-Item"
         }
     },
-    "scalesTypes": {
+    "scaleTypes": {
         "percent": "Prozent",
         "points": "Punkte"
     },
@@ -420,6 +420,31 @@
     "answer": "Antwort",
     "answers": "Antworten",
     "gus": "GUS (Gesture Usability Scale)",
+    "gestureName": "Gesten-Name",
+    "gestureContext": "Gesten-Kontext",
+    "gestureContextQuestion": "Wo soll die Geste eingesetzt werden?",
+    "gestureDescription": "Gesten-Beschreibung",
+    "gestureGraphicsQuestion": "Welche Teile des Körpers werden für die Geste genutzt?",
+    "startRecording": "Aufzeichnung starten",
+    "stopRecording": "Aufzeichnung beenden",
+    "selectPreviewImage": "Vorschaubild auswählen",
+    "recut": "Neu schneiden",
+    "reRecord": "Neue Aufzeichnung",
+    "recordGesture": "Geste aufzeichnen",
+    "recordNewGesture": "Geste neu aufzeichnen",
+    "cutGesture": "Geste schneiden",
+    "start": "Start",
+    "end": "Ende",
+    "saveGesture": "Geste speichern",
+    "deteleSavedGesture": "Gespeicherte Geste löschen",
+    "recordMoreGestures": "Weitere Geste aufzeichnen",
+    "imageExportEvery": "Bild-Export alle",
+    "gestureRecorderManual": {
+        "recordGesture": {
+            "headline": "Geste aufzeichnen",
+            "description": "Um eine Geste aufzuzeichnen, klicken Sie auf <button class='btn btn-xs btn-success btn-shadow'><i class='glyphicon glyphicon-record'></i> Aufzeichung starten</button>. Die Aufzeichnung startet und Sie haben nun 20 Sekunden Zeit, um eine Geste aufzuzeichnen. Der Blaue Balken wird immer kleiner. Die Aufzeichnung wird nach Ablauf der 20 Sekunden automatisch gestoppt. Sie können aber auch die Aufzeichnung manuell beenden, indem Sie auf <button class='btn btn-xs btn-danger btn-shadow'><i class='glyphicon glyphicon-stop'></i> Aufzeichung beenden</button> klicken."
+        }
+    },
     "gesturesCatalog": {
         "totalGestures": "Gesten insgesamt",
         "publicGestures": "Von anderen veröffentlichte Gesten",

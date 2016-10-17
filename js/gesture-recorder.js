@@ -68,6 +68,7 @@ function successCallback(stream) {
     showRecord();
 }
 
+var timerTween = null;
 function showRecord() {
     $(recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_RECORD]);
     $(recorderTarget).find('.recorder #btn-record').removeClass('hidden');
@@ -80,6 +81,8 @@ function showRecord() {
     $(recorderTarget).find('.recorder #playback-controls').addClass('hidden');
     $(recorderTarget).find('.recorder #preview-controls').addClass('hidden');
     $(recorderTarget).find('.recorder #trim-controls').addClass('hidden');
+    $(recorderTarget).find('#record-timer-progress').removeClass('hidden');
+    $(recorderTarget).find('#record-timer-progress-bar').css({width: '100%'});
     hideSave();
     resetTrimControls();
 
@@ -100,9 +103,19 @@ function showRecord() {
         };
         recordRTC = RecordRTC(liveStream, options);
         recordRTC.startRecording();
+
+        timerTween = TweenMax.to($(recorderTarget).find('#record-timer-progress-bar'), 20, {width: '0%', ease: Linear.easeNone, onComplete: onRecordingTimesUp});
     });
 
+    function onRecordingTimesUp() {
+        $(recorderTarget).find('#btn-record-stop').click();
+    }
+
     $(recorderTarget).find('#btn-record-stop').unbind('click').bind('click', function (event) {
+        if (timerTween) {
+            timerTween.kill();
+        }
+
         event.preventDefault();
         if (liveStream) {
             liveStream.getVideoTracks()[0].stop();
@@ -130,6 +143,7 @@ function showPlayback() {
     $(recorderTarget).find('.recorder #record-controls').addClass('hidden');
     $(recorderTarget).find('.recorder #preview-controls').addClass('hidden');
     $(recorderTarget).find('.recorder #playback-controls, .recorder .gesture-recorder-controls, .recorder #recorder-video').removeClass('hidden');
+    $(recorderTarget).find('#record-timer-progress').addClass('hidden');
     hideSave();
 
     $(recorderTarget).find('.recorder #recorder-video').unbind('timeupdate').bind('timeupdate', function () {
@@ -288,6 +302,22 @@ function showSave() {
     $(recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_SAVE]);
     $(recorderTarget).find('#save-controls').removeClass('hidden');
 
+    $('#gestureName, #gestureContext, #gestureDescription').unbind('input').bind('input', function () {
+        if (inputsValid()) {
+            $(recorderTarget).find('#btn-save-gesture').removeClass('disabled');
+        } else {
+            $(recorderTarget).find('#btn-save-gesture').addClass('disabled');
+        }
+    });
+
+    $('#save-controls #human-body').unbind('change').bind('change', function () {
+        if (inputsValid()) {
+            $(recorderTarget).find('#btn-save-gesture').removeClass('disabled');
+        } else {
+            $(recorderTarget).find('#btn-save-gesture').addClass('disabled');
+        }
+    });
+
     $(recorderTarget).find('#btn-choose-preview-image').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if ($(this).hasClass('active')) {
@@ -322,7 +352,7 @@ function showSave() {
         if (inputsValid(true) && !$(this).hasClass('disabled')) {
             $(button).addClass('disabled');
             showCursor($('body'), CURSOR_PROGRESS);
-            
+
             $(recorderTarget).find('#btn-choose-preview-image').removeClass('active');
 
             var gestureImagesData = getGestureImagesData($(recorderTarget).find('#gesturePreview'));
@@ -351,7 +381,7 @@ function showSave() {
                 $(button).removeClass('disabled');
                 $(recorderTarget).find('#success-controls #btn-delete-saved-gesture').addClass('disabled');
                 renderGestureImages($(recorderTarget).find('#success-controls .previewGesture'), gestureImagesData, previewImageIndex, null);
-                $(recorderTarget).trigger('gestureSavedSuccessfully');
+                $(recorderTarget).trigger(EVENT_GR_SAVE_SUCCESS);
                 showSaveSuccess();
             }
         }
@@ -363,22 +393,6 @@ function hideSave() {
     $(recorderTarget).find('#btn-save-gesture').unbind('click');
 }
 
-$(document).unbind('input').bind('input', '#gestureName, #gestureContext, #gestureDescription', function () {
-    if (inputsValid()) {
-        $(recorderTarget).find('#btn-save-gesture').removeClass('disabled');
-    } else {
-        $(recorderTarget).find('#btn-save-gesture').addClass('disabled');
-    }
-});
-
-$(document).unbind('change').bind('change', '#save-controls #human-body', function () {
-    if (inputsValid()) {
-        $(recorderTarget).find('#btn-save-gesture').removeClass('disabled');
-    } else {
-        $(recorderTarget).find('#btn-save-gesture').addClass('disabled');
-    }
-});
-
 function resetInputs() {
     $(recorderTarget).find('#gestureName').val('');
     $(recorderTarget).find('#gestureContext').val('');
@@ -389,7 +403,7 @@ function resetInputs() {
 
 function inputsValid(showErrors) {
     var title = $(recorderTarget).find('#gestureName').val();
-    if (title && title.trim() === '') {
+    if (title !== undefined && title.trim() === '') {
         if (showErrors) {
             appendAlert($(recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
         } else {
@@ -399,7 +413,7 @@ function inputsValid(showErrors) {
     }
 
     var context = $(recorderTarget).find('#gestureContext').val();
-    if (context && context.trim() === '') {
+    if (context !== undefined && context.trim() === '') {
         if (showErrors) {
             appendAlert($(recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
         } else {
@@ -409,7 +423,7 @@ function inputsValid(showErrors) {
     }
 
     var description = $(recorderTarget).find('#gestureDescription').val();
-    if (description && description.trim() === '') {
+    if (description !== undefined && description.trim() === "") {
         if (showErrors) {
             appendAlert($(recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
         } else {
@@ -468,7 +482,7 @@ function showSaveSuccess() {
                 }
             });
         } else {
-            $(this).removeClass('disabled');
+//            $(this).removeClass('disabled');
         }
     });
 
