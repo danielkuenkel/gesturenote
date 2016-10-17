@@ -567,7 +567,7 @@ var Moderator = {
                 searchedData = getGestureById(identificationId);
             }
 
-            $(container).find('#slides .panel-heading-text').text(translation.formats.identification + ' ' + (currentIdentificationIndex + 1) + ' ' + translation.of + ' ' + data.identification.length);
+            $(container).find('#slides .panel-heading-text').text(translation.formats.identification.text + ' ' + (currentIdentificationIndex + 1) + ' ' + translation.of + ' ' + data.identification.length);
             var item = $(source).find('#identificationItem').clone().removeAttr('id');
             $(container).find('#identificationContainer').empty().append(item);
             if (data.identificationFor === 'gestures') {

@@ -450,7 +450,7 @@
             <div class="triggerContainer">
                 <div id="search"><span class="address">Ermittelt wird:</span> <span class="text"></span></div>
                 <div id="search-for"><span class="address">Für:</span> <span class="text"></span></div>
-                <div id="gesture-repeats" class="hidden"><span class="address">Geste wiederholen:</span> <span class="text"></span></div>
+                <!--<div id="gesture-repeats" class="hidden"><span class="address">Geste wiederholen:</span> <span class="text"></span></div>-->
             </div>
         </div>
         <div class="col-xs-6 right">

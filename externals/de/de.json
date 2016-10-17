@@ -76,7 +76,8 @@
     "of": "von",
     "atLeast": "mindestens",
     "maximal": "maximal",
-    "panelSurvey": "Panel-Befragung",
+    "panelSurvey": "Pool-Befragung",
+    "studyPeriod": "Studien-Zeitraum",
     "still": "noch",
     "deleteAllData": "Alle Eingaben löschen",
     "studyPreview": "Vorschau der Studie",
@@ -85,7 +86,7 @@
         "general": "Allgemeines",
         "catalogs": "Kataloge",
         "phases": "Leitfaden",
-        "panel": "Wer, Was & Wann?"
+        "panel": "Wen, Was & Wann?"
     },
     "studyTitle": "Studien-Titel",
     "insertStudyTitle": "Titel einfügen",
@@ -414,8 +415,11 @@
     "ratedByUser": "Person",
     "ratedByUsers": "Personen",
     "phases": "Leitfaden",
+    "gestureElicitation": "Gesten-Identifikation",
+    "gestureEvaluation": "Gesten-Evaluierung",
     "answer": "Antwort",
     "answers": "Antworten",
+    "gus": "GUS (Gesture Usability Scale)",
     "gesturesCatalog": {
         "totalGestures": "Gesten insgesamt",
         "publicGestures": "Von anderen veröffentlichte Gesten",
@@ -476,10 +480,10 @@
     "moreInfos": "Mehr Informationen",
     "createStudyInfos": {
         "general": {
-            "overview": "Allgemeine Daten, die einem Tester vor der Teilnahme an einer Studie anzeigt werden. Legen Sie außerdem fest, ob Gesten identifiziert oder evaluiert werden sollen und wie die Studie durchgeführt werden soll.",
-            "text1": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Jede Studie hat eine eindeutige ID, d.h. es können zwei Studien mit dem gleichen Namen angelegt werden, die jedoch einmal eine Ermittlung von Gesten und einmal eine Evaluierung der zuvor ermittelten Gesten durchführen.",
-            "text2": "Geben Sie dem zu Befragenden ähnlich wie bei Usability-Tests Informationen über die Studie.",
-            "text3": "Bei der Identifikation sollen potenzielle Nutzer mögliche Gesten vorführen. Diese Gesten werden Funktionen zugeordnet. Es können aber auch für vorhandene Gesten Funktionen identifiziert werden. Weitere Informationen finden Sie im Leitfaden. Der Leitfaden kann erst erstellt werden, wenn eine Studien-Phase ausgewählt wurde.",
+            "overview": "Hier können allgemeine Daten, die einem Probanden vor der Teilnahme an einer Studie anzeigt werden sollen, gespeichert werden. Des Weiteren kann die Design-Phase und die Durchführungsart ausgewählt werden.",
+            "text1": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Jede Studie hat eine eindeutige ID, d.h. es können zwei Studien mit dem gleichen Namen angelegt werden, die jedoch einmal eine Ermittlung und einmal eine Evaluierung der zuvor ermittelten Gesten durchführen.",
+            "text2": "Geben Sie den zu Befragenden - ähnlich wie bei Usability-Tests - Informationen über die Studie. Diese Informationen werden zusammen mit dem Titel immer vor einer Studien-Teilnahme angezeigt.",
+            "text3": "Bei der Identifikation sollen potenzielle Nutzer mögliche Gesten vorführen. Diese Gesten werden Funktionen zugeordnet. Es können aber auch für vorhandene Gesten Funktionen identifiziert werden. Bei der Evaluierung werden Gesten in GestureNote nutzerzentriert getestet und bewertet. Weitere Informationen finden Sie im Leitfaden. Der Leitfaden kann erst erstellt werden, wenn eine Studien-Phase ausgewählt wurde.",
             "text4": "Haben Sie wenig Zeit, wollen aber trotzdem eine Gesten-Design-Studie durchführen? Unmoderierte Befragungen bieten Ihnen die Möglichkeit potenzielle Nutzer zu befragen, ohne dafür jedes Mal als Moderator zu fungieren. Bei Moderierten Befragungen schlüpfen Sie dagegen in die Rolle eines Modereators, Evaluators oder sogar WOZ-Experiemt-Leiters. Sie steuern die Befragung und der Befragte wartet z.B. bis Sie eine Geste angefordert haben."
         },
         "catalogs": {
@@ -491,13 +495,37 @@
             "text3Web": "<strong>Webseite</strong>: Ähnlich wie in typischen Online-Usability-Suites können in GestureNote Webseiten hinterlegt werden.",
             "text3VideoEmbed": "<strong>Video-Embed</strong>: Embed-URLs von YouTube oder Vimeo.",
             "text3Pidoco": "<strong>Pidoco</strong>: Ähnlich wie Webseiten, mit dem Unterschied, dass ein Gesten-Set an Pidoco-Prototypen gesendet werden und diese dann auf Gesten-Aktionen reagieren können. (Noch nicht implementiert)",
-            "text4": "Um dem potenziellen Nutzer Feedback für eine Interaktion zu geben, können Text- (Hinweistext nach Geste) und Audio-Feedbacks (Hinweistext und Abspielen einer mp3-Datei) hinterlegt werden. Diese können dann z.B. für ein WOZ-Experiemnt, ein Gesture Usability Scale oder ein Gesten-Training genutzt werden. Standardmäßig sind zwei Text-Feedbacks hinterlegt."
+            "text4": "Um dem potenziellen Nutzer Feedback für eine Interaktion zu geben, können Text- (Hinweistext nach Geste) und Audio-Feedbacks (Hinweistext und Abspielen einer mp3-Datei) hinterlegt werden. Diese können dann z.B. für ein WOZ-Experiemnt, ein Gesture Usability Scale oder ein Gesten-Training genutzt werden. Standardmäßig sind zwei Text-Feedbacks hinterlegt.",
+            "text5": "Weitere Kataloge",
+            "text6": "Der Katalog für die Zustände und das Feedback wird nur bei der Evaluierung von Gesten benötigt, weshalb diese aktuell ausgeblendet sind."
         },
         "phases": {
-            "overview": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, "
+            "overview": "Der Leitfaden ist das Kernstück des Gesten-Designs. In GestureNote beinhaltet ein Leitfaden immer eine Einverständniserklärung und eine Danksagung. Diese Schitte sind vorausgewählt und können nicht gelöscht werden. Achten Sie darauf, dass die Danksagung unten, d.h. am Ende des Leitfadens steht.",
+            "letterOfAcceptance": "Die Einverständniserklärung sollte in GestureNote immer die Einwilligung des Probanden für die Aufzeichnung personenpesogener Daten einholen, d.h. bei einer Ermittlung Gesten in Bildform und bei einer Evalierung Videoaufnahmen. GestureNote bietet aktuell keine Funktion für eine Anonymisierung an. Die Aufnahmen könenn für Auswertungen jedoch nachträglich händisch anonymisiert werden.",
+            "thanks": "Hier haben Sie die Möglichkeit den Probanden für die Teilnahme an Ihrer Studie zu danken. Des Weiteren umfasst dieser Schritt den finalen Upload der erhobenen Daten und Videoaufzeichnung, sowie eine Info-Anzeige, wann der Proband den Tab oder Browser schließen kann. Die Danksagung sollte im Leitfaden immer unten, d.h. am Ende des Leitfadens stehen.",
+            "questionnaire": "Setzen Sie Fragebögen ein, um z.B. Eingangsfragen zu definieren. Folgende Frage- und Antwortformate bietet Ihnen GestureNote an:",
+            "counter": "<strong>Zähler</strong>: Mit einem Zähler kann z.B. das Alter eines Probanden einfach abgefragt werden. Der Start- und Endpunkt eines Zählers kann eingegrenzt werden.",
+            "openQuestion": "<strong>Offene Frage</strong>: Der Proband beantwortet die Frage mit einem Wort oder einem längeren Text, z.B. mit der Frage <em>Woher kommen Sie?</em>",
+            "dichotomousQuestion": "<strong>Ja/nein-Frage</strong>: Ja/nein-Fragen lassen nur zwei Antwortmöglichkeiten zu. Es können Begründungen angefordert werden, z.B. wenn <em>Nein</em> ausgewählt wurde.",
+            "groupingQuestion": "<strong>Eingruppierungs-Frage</strong>: Bei Eingruppierungsfragen werden bestimmte Wertebereiche festgelegt, in die sich der Befragte einordnen soll. Wertebereiche z.B. für <em>Wie alt sind Sie?</em>: unter 20 | 21 - 30 | über 30. Mit diesem Format kann aber auch Fragen wie <em>Welche Gesten-Erkenner sind Ihnen bekannt?</em> abgedeckt werden. Eine Ein- oder Mehrfachauswahl von Antworten ist möglich. Eigene Antworten können ebenfalls angegeben werden.",
+            "sumQuestion": "<strong>Summenfrage</strong>: Hier kann eine Maximum definiert und mehrere Antwortoptionen definiert werden. Der Proband soll dann z.B. 100 Punkte oder Prozent auf die jeweiligen Optionen verteilen.",
+            "ranking": "<strong>Ranking</strong>: Beim Ranking sind Optionen anzugeben, die der Proband dann mit Pfeil-Buttons sortieren soll, z.B. nach Wichtigkeit.",
+            "rating": "<strong>Rating</strong>: Skalierte Antworten bedeutet hier, dass die einzelnen Stufen die Häufigkeiten, Zutreffensgrade, Intensitäten usw. graduell abstufen. Z.B. mit der Frage: <em>Wie häufig arbeiten Sie mit den jeweiligen Gesten-Steuerungen</em> und deren Optionen: <em>Kinect</em>, <em>Leap Motion Controller</em>, <em>Nintendo Wii</em> und deren Skalen von <em>überhaupt nicht</em> bis <em>täglich</em>. Mit dem Format Ratings können in GestureNote somit auch Matrixfragen erstellt werden.",
+            "identification": "Wählen Sie aus, ob Sie Gesten oder Funktionen identifizieren wollen. Legen Sie eine Liste von Elementen an für die Sie Gesten bzw. Funktionen identifizieren möchten.",
+            "identificationGestures": "<strong>Gesten <em>(Bottom-Up)</em></strong>: Bei Bottom-Up werden für vorhandene Funktionen geeignete Gesten gesucht. Des Weiteren kann die Ermittlung von Gesten zum einen nutzer-basiert und zum anderen experten-basiert erfolgen. In GestureNote ist es möglich, dass Sie eigene Gesten ad-hoc für eine Studie aufzeichnen, oder mit Hilfe von potentiellen Endanwendern identifizieren.",
+            "identificationTrigger": "<strong>Funktionen <em>(Top-Down)</em></strong>: Bei Top-Down werden logische Verknüpfungen von Funktionen zu vorhandenen Gesten hergestellt. Wichtig ist dabei, dass eine Quelle für die Gesten angeboten wird. In GestureNote können Funktionen für bereits vorhandene Gesten (ermittelte oder freigegebene Gesten anderer Evaluatoren) oder von Ihnen ad-hoc aufgezeichnete Gesten gesucht werden.",
+            "gus": "Der Gesture Usability Scale liegt in GestureNote in zwei Varianten vor. Zum einen können Gesten einzeln, zum anderen gebündelt abgefragt werden. Diese Fragebögen können mit Hilfe eines Baukastens durch die Auswahl abzufragender Faktoren (z.B. Komfort & Ergonomie, Soziale Akzeptanz oder Physischer Kontext) zusammengestellt werden. Im Unterschied zu normalen Labor- und Feldtests sehen die beiden Varianten des GUS eine Kopplung der Gesten, Funktionen als auch Feedback vor. Ein Vorteil gegenüber eines normalen Fragebogens ist, dass Probanden sich die Gesten (in beiden Varianten des GUS) nochmals ansehen können und wissen, welche Funktion und welches Feedback daran gekoppelt ist (in der Variante der Einzelgestenbewertung).",
+            "sus": "Der System Usability Scale ist ein einfacher und technologieunabhängiger Fragebogen, mit dem die Gebrauchstauglichkeit eines Systems bewertet werden kann. Es handelt sich um eine etablierte Methode zur quantitativen Analyse der Gebrauchstauglichkeit. Der Scorewert (zwischen 0 und 100) wird in GestureNote automatisch berechnet. Sie müssen deshalb nichts weiter tun als diesen Fragebogen in den Leitfaden hinzuzufügen.",
+            "gestureTraining": "Bevor Gesten (z.B. in einem Szenario-basierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen.",
+            "scenario": "Gesteninteraktionen werden typischerweise mit Szenario-basierten Aufgaben in Verbindung mit WOZ-Experimenten evaluiert. Der Fokus wurde dabei auf die Erstellung explorativer WOZ-Experimente gelegt. Mit Szenario-baiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe (moderiert) anzubieten oder (unmoderiert) abzurufen.",
+            "gestureSlideshow": "Die Erinnerbarkeit und Intuitivität von Gesten kann mit einer Gesten-Slideshow abgefragt werden. Es werden die hinterlegten Funktionen angezeigt. Der Proband muss dann die korrekte Geste innerhalb eines bestimmten Zeitfensters (z.B. 2 Sekunden) demonstrieren. Konnte der Proband der Funktion nicht die korrekte Geste zuordnen, beginnt die Slideshow erneut. Der Benutzer bekommt bei einem Neustart alle Gesten nochmals eingeblendet. GestureNote bietet, neben der Erstellung von Gesten-Funktions-Paaren, die Möglichkeit das Zeitfenster für jedes Paar zu definieren.",
+            "triggerSlideshow": "Hier werden dem Probanden nacheinander die Gesten eines Vokabulars und eine Liste von Funktionen gezeigt. Der Proband soll die dazugehörige Funktion auswählen. In GestureNote wurde dies mit Hilfe von Eingruppierungsfragen (für die Funktionsliste) und der Vorschau jeder einzelnen Geste realisiert. Legen Sie hier einfach eine Liste mit Funktions-Gesten-Paaren an.",
+            "physicalStressTest": "Ziel dieser Methode ist es, die physische Belastung von Gesten bei der Benutzung herauszufinden. Dies geschieht mit einem Test, bei dem der Proband jede Geste aus einem Vokabular X-Mal vorführt, um Rückschlüsse auf eine besondere Beanspruchung der ausführenden Körperteile zu schließen. Es wird vorgeschlagen die Gesten eines Vokabulares in Summe 200 Mal durchführen zu lassen. In GestureNote können Sie diese Anzahl erhöhen oder verringern, da die Anzahl der Durchläufe an die Gesten gekoppelt sind (d.h. man gibt den Wert 10 an, dann werden für jede Geste 10 Wiederholungen veranschlagt. Für 3 Gesten entpspricht das 30 Durchläufen). Nach jedem Vorführen einer Geste haben Sie die Möglichkeit, die Beanspruchung bewerten zu lassen. Zusätzlich sollte nach jeder Gesten-Sequenz die Beanspruchung insgesamt bewertet werden. In GestureNote stehen dafür die bekannten Fragenformate (z.B. offene Fragen, Ja-/Nein-Frage, Summenfrage, etc.) zur Verfügung. Darüber hinaus gibt es in GestureNote auch die Möglichkeit den Probanden mit Hilfe einer Grafik über besondere Beanspruchungen zu befragen. Der Proband kann einfach die jeweiligen Bereiche auswählen. Aktuell können Körper, Handgesten oder beide Gestenarten abgefragt werden."
         },
         "panel": {
-            "overview": "aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum."
+            "overview": "Hier können Sie einstellen, in welchem Zeitraum die Studie läuft. Dies bedeutet auch, wenn der Zeitraum überschritten ist, kann nicht mehr an der Studie teilgenommen werden. Zusätzlich können Sie eine Pool-Befragung mit in GestureNote registrierten Testern durchführen. Diese sehen aktuell laufende Studien und können daran teilnehmen.",
+            "text1": "Bei einer Pool-Befragung haben Sie Zugriff auf die in GestureNote registrierte Tester. D.h. dass diese Tester, je nach Einstellung (Geschlecht und Alterr), aktuell laufende Studien in ihrem Dashboard sehen und teilnehmen können. Falls Sie keine Pool-Befragung durchführen wollen, haben Sie nach dem Speichern eines Studien-Designs immer noch die Möglichkeit Personen über einen Link einzuladen. Eine Kombination aus Pool-Befragung und Teilen eines Links ist ebenfalls möglich.",
+            "text2": "Während des eingestellten Zeitraums können Pool-Tester oder auch akquirierte Personen via Links an der Studie teilnehmen. Bei Pool-Testern wird die Studie während des eingestellten Zeitraums im Dashboard angezeigt. Laden Sie Personen über den Studien-Link ein (z.B. über soziale Netzwerke, E-Mail oder Messaging-Apps), können diese ebenfalls nur innerhalb des eingestellten Zeitraums an der Studie teilnehmen. Stellen Sie keinen Zeitraum ein, wird die Studie nicht freigeschaltet."
         }
     },
     "visLabels": {

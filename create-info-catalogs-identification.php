@@ -15,8 +15,12 @@ include './includes/language.php';
         <div style="font-weight: bold"><?php echo $lang->studyCatalogs->trigger ?></div>
         <span><?php echo $lang->createStudyInfos->catalogs->text2 ?></span>
     </div>
+    <div style="margin-top: 20px">
+        <div style="font-weight: bold"><?php echo $lang->createStudyInfos->catalogs->text5 ?></div>
+        <span><?php echo $lang->createStudyInfos->catalogs->text6 ?></span>
+    </div>
 </div>
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default btn-shadow pull-left"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> <?php echo $lang->manual ?></button>
+    <button type="button" class="btn btn-default btn-shadow pull-left disabled"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> <?php echo $lang->manual ?></button>
     <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal"><?php echo $lang->close ?></button>
 </div>

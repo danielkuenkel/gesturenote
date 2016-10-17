@@ -6,7 +6,7 @@
 
 var currentIdForModal;
 var colors;
-var currentContainerList = null;
+//var currentContainerList = null;
 function checkSessionStorage() {
     checkAssembledGestures(getLocalItem(ASSEMBLED_GESTURE_SET), getLocalItem(GESTURE_CATALOG));
     createOriginPhases();
@@ -23,10 +23,11 @@ function createOriginPhases() {
     if (phaseSteps === null || phaseSteps === undefined || (phaseSteps && phaseSteps.length === 0))
     {
         var phases = new Array();
-        phases.push({id: chance.natural, format: LETTER_OF_ACCEPTANCE, color: colors.pop()});//new PhaseItem(chance.natural(), LETTER_OF_ACCEPTANCE, colors.pop()));
-        phases.push({id: chance.natural, format: THANKS, color: colors.pop()});//new PhaseItem(chance.natural(), THANKS, colors.pop()));
+        phases.push({id: chance.natural(), format: LETTER_OF_ACCEPTANCE, color: colors.pop()});//new PhaseItem(chance.natural(), LETTER_OF_ACCEPTANCE, colors.pop()));
+        phases.push({id: chance.natural(), format: THANKS, color: colors.pop()});//new PhaseItem(chance.natural(), THANKS, colors.pop()));
         setLocalItem(STUDY_PHASE_STEPS, phases);
     }
+    
 }
 
 function createOriginGUS() {

@@ -58,7 +58,7 @@ include './includes/language.php';
                 } else {
                     triggerId = chance.natural();
                 }
-                trigger.push({triggerId: triggerId, type: TYPE_TRIGGER, title: $(elements[i]).find('.option').val()});//new Trigger(triggerId, TYPE_TRIGGER, $(elements[i]).find('.option').val()));
+                trigger.push({id: triggerId, type: TYPE_TRIGGER, title: $(elements[i]).find('.option').val()});//new Trigger(triggerId, TYPE_TRIGGER, $(elements[i]).find('.option').val()));
             }
             setLocalItem(ASSEMBLED_TRIGGER, trigger);
         }

@@ -60,17 +60,24 @@ var Tester = {
                     item = Tester.getPhysicalStressTest(source, container, currentPhaseData);
                     break;
             }
+
+            if (item !== false || item !== null) {
+                $('#viewTester #phase-content').empty().append(item);
+                Tester.initializeRTC(source, item, currentPhase.format);
+            }
         } else {
             Tester.renderNoDataView();
         }
 
-        if (item !== false || item !== null) {
-            $('#viewTester #phase-content').empty().append(item);
-            Tester.initializeRTC(source, item, currentPhase.format);
+//        console.log(currentPhaseData);
 
-        } else {
-            Tester.renderNoDataView();
-        }
+//        if (currentPhaseData && (item !== false || item !== null)) {
+//            $('#viewTester #phase-content').empty().append(item);
+//            Tester.initializeRTC(source, item, currentPhase.format);
+//
+//        } else {
+//            Tester.renderNoDataView();
+//        }
 
         Tester.checkPositioning(currentPhase.format);
         TweenMax.from($('#viewTester #phase-content'), .2, {y: -60, opacity: 0});

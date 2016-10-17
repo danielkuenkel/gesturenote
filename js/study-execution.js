@@ -230,7 +230,10 @@ function getCurrentPhase() {
 
 function getCurrentPhaseData() {
     var currentPhase = getCurrentPhase();
-    return getLocalItem(currentPhase.id + '.data');
+    if(currentPhase) {
+        return getLocalItem(currentPhase.id + '.data');
+    }
+    return null;
 }
 
 function getSourceContainer(selector) {

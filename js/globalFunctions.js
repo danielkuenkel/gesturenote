@@ -188,17 +188,20 @@ $(document).on('click', '.btn-delete', function (event) {
         deleteSound({sound: url}, null);
     }
 
-    currentContainerList = parent;
+    TweenMax.to(element, .3, {opacity: 0, clearProps: 'all', onComplete: onTweenDeleteComplete, onCompleteParams: [element, parent, $(this)]});
+});
+
+function onTweenDeleteComplete(element, parent, button) {
     $(element).remove();
     checkCurrentListState(parent);
 
-    if ($(this).hasClass('saveGeneralData')) {
+    if ($(button).hasClass('saveGeneralData')) {
         savePhases();
     }
 
-    updateBadges(currentContainerList, $(this).closest('.root').attr('id'));
+    updateBadges(parent, $(button).closest('.root').attr('id'));
     $(parent).trigger('change');
-});
+}
 
 $(document).on('click', '.btn-up', function (event) {
     event.preventDefault();

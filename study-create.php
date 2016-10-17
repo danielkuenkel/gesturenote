@@ -298,7 +298,7 @@ if (login_check($mysqli) == true) {
                                 </button>
                             </div>
                         </div>
-                        
+
                     </div>
 
 
@@ -432,46 +432,46 @@ if (login_check($mysqli) == true) {
                 <div class="col-sm-12 col-md-5" style="margin-top: 20px">
                     <div class="col-md-11 col-md-offset-1">
                         <div class="tab-content hidden tab-general">
-                            <div class="gn"><h3><?php echo $lang->studyCreateNav->general ?></h3></div>
-                            <span id="styleguide-info">
+                            <div><h3><?php echo $lang->studyCreateNav->general ?></h3></div>
+                            <span id="styleguide-info" class="text">
                                 <?php echo $lang->createStudyInfos->general->overview ?>
                             </span>
                             <br><br>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-general.php');"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
+                                <button type="button" class="btn btn-default btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-general.php');"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
                             </div>
                         </div>
 
                         <div class="tab-content hidden tab-catalogs">
-                            <div class="gn"><h3><?php echo $lang->studyCreateNav->catalogs ?></h3></div>
-                            <span id="styleguide-info">
+                            <div><h3><?php echo $lang->studyCreateNav->catalogs ?></h3></div>
+                            <span id="styleguide-info" class="text">
                                 <?php echo $lang->createStudyInfos->catalogs->overview ?>
                             </span>
                             <br><br>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-gn btn-shadow" id="btn-more-infos-catalogs"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
+                                <button type="button" class="btn btn-default btn-shadow" id="btn-more-infos-catalogs"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
                             </div>
                         </div>
 
                         <div class="tab-content hidden tab-phases">
-                            <div class="gn"><h3><?php echo $lang->studyCreateNav->phases ?></h3></div>
-                            <span id="styleguide-info">
+                            <div><h3><?php echo $lang->studyCreateNav->phases ?></h3></div>
+                            <span id="styleguide-info" class="text">
                                 <?php echo $lang->createStudyInfos->phases->overview ?>
                             </span>
                             <br><br>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-gn btn-shadow" id="btn-more-infos-phases"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
+                                <button type="button" class="btn btn-default btn-shadow" id="btn-more-infos-phases"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
                             </div>
                         </div>
 
                         <div class="tab-content hidden tab-panel">
-                            <div class="gn"><h3><?php echo $lang->studyCreateNav->panel ?></h3></div>
-                            <span id="styleguide-info">
+                            <div><h3><?php echo $lang->studyCreateNav->panel ?></h3></div>
+                            <span id="styleguide-info" class="text">
                                 <?php echo $lang->createStudyInfos->panel->overview ?>
                             </span>
                             <br><br>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-gn btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-panel.php');"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
+                                <button type="button" class="btn btn-default btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-panel.php');"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
                             </div>
                         </div>
                     </div>
@@ -485,7 +485,7 @@ if (login_check($mysqli) == true) {
                 checkDomain();
                 checkLanguage(function () {
                     createRandomColors();
-                    
+
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
@@ -702,6 +702,7 @@ if (login_check($mysqli) == true) {
                 }
 
                 checkCurrentListState($('#phaseStepList'));
+                TweenMax.from(clone, .3, {opacity: 0, y: -20, clearProps: 'all'});
             }
 
             $('#panelSurveySwitch').on('change', function (event, id) {
