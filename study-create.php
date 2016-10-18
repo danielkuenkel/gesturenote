@@ -132,7 +132,7 @@ if (login_check($mysqli) == true) {
         <div id="alerts"></div>
         <div id="template-gesture"></div>
         <div id="template-inputs"></div>
-        <div id="templage-subpages"></div>
+        <div id="template-subpages"></div>
         <div id="template-gesture-recorder"></div>
 
         <!-- Container (Breadcrump) -->
@@ -483,7 +483,7 @@ if (login_check($mysqli) == true) {
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-inputs', PATH_EXTERNALS + 'template-create.php']);
-                    externals.push(['#templage-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
                     $('#from-To-datepicker .input-daterange').datepicker({

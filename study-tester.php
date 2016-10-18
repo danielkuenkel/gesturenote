@@ -49,8 +49,8 @@ if (login_check($mysqli) == true) {
 
         <!-- externals -->
         <div id="alerts"></div>
-        <div id="templage-subpages"></div>
-        <div id="templage-study"></div>
+        <div id="template-subpages"></div>
+        <div id="template-study"></div>
 
         <!-- Modal -->
         <div id="custom-modal" class="modal fade custom-modal" role="dialog">
@@ -156,8 +156,8 @@ if (login_check($mysqli) == true) {
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
-                    externals.push(['#templage-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
-                    externals.push(['#templage-study', PATH_EXTERNALS + 'template-study.php']);
+                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     loadExternals(externals);
                 });
             });

@@ -55,8 +55,7 @@ if ($h && $studyId) {
 
         <!-- externals -->
         <div id="alerts"></div>
-        <div id="templage-subpages"></div>
-        <!--<div id="templage-study"></div>-->
+        <div id="template-subpages"></div>
 
 
         <!-- register modal -->
@@ -268,7 +267,7 @@ if ($h && $studyId) {
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
-                    externals.push(['#templage-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     loadExternals(externals);
                 });
             });

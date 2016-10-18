@@ -236,7 +236,7 @@ if (login_check($mysqli) == true) {
                         <div class="page-header">
                             <h2>WAS IST GESTURENOTE?</h2>
                         </div>
-                        <div class="info-text">
+                        <div class="info-text text">
                             <p>Die Vision von GestureNote ist, unterschiedliche und typisch verwendete Vorgehensweisen, Ansätze und Methoden in einem einzigen Tool zu vereinen.</p>
                             <p><strong>Weg von ortsgebundenen Gesten-Ermittlungen und -Evaluierungen, hin zu schnellen und einfachen Remote-Gesten-Design-Studien. Die Einbettung in den Usability-Engineering-Lifecycle ist für GestureNote kein Problem.</strong></p>
                         </div>

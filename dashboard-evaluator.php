@@ -42,7 +42,7 @@ if (login_check($mysqli) == true) {
 
         <!-- externals -->
         <div id="alerts"></div>
-        <div id="templage-subpages"></div>
+        <div id="template-subpages"></div>
 
         <!-- Container (Landing Section) -->
         <div class=" container-fluid bg-grey wall" id="landingText">
@@ -119,7 +119,7 @@ if (login_check($mysqli) == true) {
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
-                    externals.push(['#templage-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     loadExternals(externals);
                 });
             });
