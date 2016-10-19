@@ -410,7 +410,7 @@ if (login_check($mysqli) == true) {
                     $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
                         event.preventDefault();
                         currentSceneId = event.data.sceneId;
-                        loadHTMLintoModal('custom-modal', 'preview-scene.php', 'modal-lg');
+                        loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
                     });
                 }
             }
@@ -466,8 +466,8 @@ if (login_check($mysqli) == true) {
                         registeredUsers++;
                         $(item).find('#user .label-text').text(translation.userTypes.registered);
                     }
-
-                    if (result.studySuccessfull === 'yes') {
+                    
+                    if (result.aborted === 'no') {
                         successfullStudies++;
                         $(item).find('.panel').addClass('panel-success');
                         $(item).find('#execution-success').removeClass('hidden');

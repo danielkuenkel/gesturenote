@@ -90,7 +90,7 @@ if ($h && $token && $studyId) {
         <div id="template-gesture-recorder"></div>
 
         <!-- modals -->
-        <div id="scene-modal" class="modal fade" role="dialog">
+        <div id="custom-modal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
@@ -100,7 +100,7 @@ if ($h && $token && $studyId) {
             </div>
         </div>
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="help-modal" data-keyboard="false">
+<!--        <div class="modal fade" tabindex="-1" role="dialog" id="help-modal" data-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -126,18 +126,22 @@ if ($h && $token && $studyId) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="preview-modal" data-backdrop="static" >
+<!--        <div class="modal fade" tabindex="-1" role="dialog" id="preview-modal" data-backdrop="static" >
             <div class="modal-dialog">
                 <div class="modal-content">
 
                 </div>
             </div>
+        </div>-->
+
+        <div style="position: fixed;top: 0;  width: 100%; z-index: 500">
+            <button class="btn-cancel btn btn-danger btn-block" style="border-radius: 0" id="btn-cancel"><span class="btn-text"><?php echo $lang->cancelStudy ?></span> <i class="fa fa-close"></i></button>
         </div>
 
         <!-- progress bar -->
-        <div id="progressTop" style="position: fixed; top: 0; left: 0; right: 0">
+        <div id="progressTop" style="position: fixed; top: 34px; left: 0; right: 0">
             <div class="progress" style="border-radius: 0px">
                 <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%">
                     0%
@@ -145,8 +149,10 @@ if ($h && $token && $studyId) {
             </div>
         </div>
 
+
+
         <!-- Container (Panel Section) -->
-        <div class="mainContent" id="mainContent" style="margin-top: 20px;">
+        <div class="mainContent" id="mainContent" style="margin-top: 54px;">
             <div id="viewTester">
                 <div id="phase-content"></div>
             </div>

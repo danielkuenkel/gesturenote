@@ -59,9 +59,10 @@ function getLetterOfAcceptanceFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
         data.startTime = tempData.startTime;
+        data.accepted = tempData.accepted;
 //        removeLocalItem(data.id + '.tempSaveData');
     }
-    data.accepted = 'yes';
+
     return data;
 }
 
@@ -168,6 +169,8 @@ function saveCurrentStatus(studyFinished, callback) {
     var data = new Object();
     data.studySuccessfull = studyFinished === true ? 'yes' : 'no';
     data.phases = getFinishedStudyPhases();
+    data.aborted = getLocalItem(STUDY).aborted;
+
     if (studyFinished === true) {
         data.endTime = new Date().getTime();
         checkRTCUploads();

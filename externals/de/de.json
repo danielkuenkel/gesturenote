@@ -96,6 +96,7 @@
     "studySurveyType": "Befragungsart",
     "done": "Fertig",
     "cancel": "Abbrechen",
+    "cancelStudy": "Befragung abbrechen",
     "general": "Allgemeines",
     "generalEdit": "Daten bearbeiten",
     "forename": "Vorname",
@@ -935,7 +936,7 @@
         {
             "format": "gusSingle",
             "dimension": "physicalContext",
-            "question": "Ich denke, dass die Geste immer unmittelbar genutzt werden kann.",
+            "question": "Ich denke, dass die Geste immer unmittelbar genutzt werden kann. Meine Kleidung hat mich z.B. beim der Ausführung nicht gestört.",
             "parameters": {
                 "used": "used",
                 "negative": "no"
@@ -945,22 +946,12 @@
         {
             "format": "gusSingle",
             "dimension": "physicalContext",
-            "question": "Ich denke, dass mich die Geste bei der Ausführung beeinträchtigt.",
-            "parameters": {
-                "used": "used",
-                "negative": "yes"
-            },
-            "styleguide": "Die Geste beeinträchtigt beim Ausführen nicht das Umfeld (z.B. durch Schlagen). (Eigene Erfahrungen)"
-        },
-        {
-            "format": "gusSingle",
-            "dimension": "physicalContext",
             "question": "Ich denke, dass die Geste andere Personen im Umfeld beeinträchtigt.",
             "parameters": {
                 "used": "used",
                 "negative": "yes"
             },
-            "styleguide": ""
+            "styleguide": "Die Geste beeinträchtigt beim Ausführen nicht das Umfeld (z.B. durch Schlagen). (Eigene Erfahrungen)"
         },
         {
             "format": "gusSingle",
@@ -975,7 +966,7 @@
         {
             "format": "gusSingle",
             "dimension": "naturalnessIntuitiveness",
-            "question": "Ich denke, dass die Geste zu abstrakt ist.",
+            "question": "Ich denke, dass die Geste zu abstrakt ist, d.h. sie hat kein Bezug zur Realität.",
             "parameters": {
                 "used": "used",
                 "negative": "yes"
@@ -1012,16 +1003,6 @@
                 "negative": "no"
             },
             "styleguide": "Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011). Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012)"
-        },
-        {
-            "format": "gusSingle",
-            "dimension": "comfortErgonomics",
-            "question": "Ich denke, dass die Geste ergonomisch ist.",
-            "parameters": {
-                "used": "used",
-                "negative": "no"
-            },
-            "styleguide": ""
         },
         {
             "format": "gusSingle",
@@ -1129,7 +1110,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "purposeOfFullfillment",
-            "question": "Ich denke, dass eine oder mehrere Gesten nicht ihren Zweck erfüllen.",
+            "question": "Ich denke, dass ich mit einer oder mehreren Gesten nicht die Aufgaben erledigen kann.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -1142,7 +1123,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "purposeOfFullfillment",
-            "question": "Ich denke, dass das Feedback nicht zu einer oder mehreren Gesten passt.",
+            "question": "Ich denke, dass mir eine Gesteuerung Vorteile gegenüber anderen Eingabegeräten bringt (z.B. gegenüber Maus und Tastatur).",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -1233,7 +1214,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
-            "question": "Ich denke, dass eine oder mehrere Gesten nicht zu den anderen Gesten passen.",
+            "question": "Eine oder mehrere Gesten passen nicht zu den anderen Gesten.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -1411,19 +1392,6 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "physicalContext",
-            "question": "Eine oder mehrere Gesten können nicht unmittelbar genutzt werden.",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "yes",
-                "justificationFor": "selectOne",
-                "optionSource": "gestures"
-            },
-            "styleguide": "<em>Komm wie du bist</em>. Es sollten keine Anforderungen an den Benutzer gestellt werden (z.B. das Tragen von Handschuhen oder Markern. Der Nutzer soll sich keine Gedanken über die richtige Umgebung machen müssen). (Wachs et al., 2011)"
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "physicalContext",
             "question": "Eine oder mehrere Gesten können nicht unmittelbar genutzt werden. Meine Kleidung hat mich z.B. beim der Ausführung nicht gestört.",
             "parameters": {
                 "used": "used",
@@ -1432,7 +1400,7 @@
                 "justificationFor": "selectOne",
                 "optionSource": "gestures"
             },
-            "styleguide": "Die Geste beeinträchtigt beim Ausführen nicht das Umfeld (z.B. durch Schlagen). (Eigene Erfahrungen)"
+            "styleguide": "<em>Komm wie du bist</em>. Es sollten keine Anforderungen an den Benutzer gestellt werden (z.B. das Tragen von Handschuhen oder Markern. Der Nutzer soll sich keine Gedanken über die richtige Umgebung machen müssen). (Wachs et al., 2011)"
         },
         {
             "format": "groupingQuestionGUS",
@@ -1511,19 +1479,6 @@
                 "optionSource": "gestures"
             },
             "styleguide": "Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011). Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012)"
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "comfortErgonomics",
-            "question": "Ich denke, dass eine oder mehrere Gesten nicht ergonomisch sind",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "no",
-                "justificationFor": "unselected",
-                "optionSource": "gestures"
-            },
-            "styleguide": ""
         },
         {
             "format": "groupingQuestionGUS",

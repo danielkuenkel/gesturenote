@@ -26,6 +26,7 @@ if (login_check($mysqli) == true) {
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
 
         <script src="js/storage.js"></script>
         <script src="js/alert.js"></script>
@@ -100,25 +101,38 @@ if (login_check($mysqli) == true) {
                 </ul>
             </div>
         </div>
-        <div class="container" id="heuristics-styleguides" style="margin-top: 50px">
-            <h2><?php echo $lang->gestureStyleguides->heuristics->headline ?></h2>
-            <hr>
-            <p></p>
-            <div class="text">
-
-            </div>
-        </div>
+        <!--        <div class="container" id="heuristics-styleguides" style="margin-top: 50px">
+                    <h2><?php echo $lang->gestureStyleguides->heuristics->headline ?></h2>
+                    <hr>
+                    <p></p>
+                    <div class="text">
+        
+                    </div>
+                </div>-->
         <div class="container" id="gus-styleguides" style="margin-top: 50px">
             <h2><?php echo $lang->gestureStyleguides->usabilityScale->headline ?></h2>
             <hr>
             <p><?php echo $lang->gestureStyleguides->usabilityScale->info ?></p>
-            <h4 style="margin-top:40px">GUS für einzelne Gesten</h4>
-            <hr>
-            <div class="text" id="single-gus-list-container"></div>
+            <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-single">
+                <h4 class="pull-left">GUS für einzelne Gesten</h4>
+                <div id="plus-sign" class="pull-right"><i class="fa fa-plus"></i></div>
+            </div>
+            <div style="clear: both"></div>
+            <div id="single-gus-list" class="hidden">
+                <hr style="margin-top: 10px; margin-bottom: 20px">
+                <div class="text" id="single-gus-list-container"></div>
+            </div>
 
-            <h4 style="margin-top:60px">GUS für mehrere Gesten</h4>
-            <hr>
-            <div class="text" id="multiple-gus-list-container"></div>
+            <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-multiple">
+                <h4 class="pull-left">GUS für mehrere Gesten</h4>
+                <div id="plus-sign" class="pull-right"><i class="fa fa-plus"></i></div>
+            </div>
+            <div style="clear: both"></div>
+            <div id="multiple-gus-list" class="hidden">
+                <hr style="margin-top: 10px; margin-bottom: 20px">
+                <div class="text" id="multiple-gus-list-container"></div>
+            </div>
+
         </div>
         <div class="container" id="references" style="margin-bottom: 60px; margin-top: 50px">
             <h2><?php echo $lang->gestureStyleguides->references->headline ?></h2>
@@ -141,7 +155,7 @@ if (login_check($mysqli) == true) {
 
         <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors-headline">
             <div class="label label-primary" id="factor-main"></div>
-            <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+            <img src="img/factor-transition.jpg" style="margin-left: -4px; margin-right: -4px">
             <div class="label label-info" id="factor-primary"></div>
         </div>
 
@@ -219,7 +233,7 @@ if (login_check($mysqli) == true) {
 
                     var column = document.createElement('div');
                     $(column).addClass('col-xs-6');
-                    $(column).text(gus[i].styleguide);
+                    $(column).html(gus[i].styleguide); // html because of the html tags in the translation
                     $(row).append(column);
 
                     column = document.createElement('div');
@@ -236,6 +250,33 @@ if (login_check($mysqli) == true) {
                     $(target).find('#subDimension_' + gus[i].dimension).append(row);
                 }
             }
+
+            $('.btn-toggle-gus-items').click(function (event) {
+                event.preventDefault();
+
+                if (!$(this).hasClass('disabled')) {
+                    if ($(this).hasClass('active')) {
+                        TweenMax.to($(this).find('#plus-sign'), .3, {rotation: '0'});
+                        $('#multiple-gus-list, #single-gus-list').addClass('hidden');
+                    } else {
+                        $('.btn-toggle-gus-items').removeClass('active');
+                        $(this).addClass('active');
+                        TweenMax.to($('.btn-toggle-gus-items').find('#plus-sign'), .3, {rotation: '0'});
+                        TweenMax.to($(this).find('#plus-sign'), .3, {rotation: '45'});
+                        $("html, body").animate({scrollTop: 1600}, "slow");
+
+                        if ($(this).attr('id') === 'btn-toggle-single') {
+                            $('#single-gus-list').removeClass('hidden');
+                            $('#multiple-gus-list').addClass('hidden');
+                            TweenMax.from($('#single-gus-list'), .5, {opacity: 0});
+                        } else {
+                            $('#single-gus-list').addClass('hidden');
+                            $('#multiple-gus-list').removeClass('hidden');
+                            TweenMax.from($('#multiple-gus-list'), .5, {opacity: 0});
+                        }
+                    }
+                }
+            });
         </script>
 
     </body>

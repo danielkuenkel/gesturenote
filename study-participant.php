@@ -157,7 +157,7 @@ if (login_check($mysqli) == true) {
                     $('#general-view').find('#user .label-text').text(translation.userTypes.registered);
                 }
 
-                if (results.studySuccessfull === 'yes') {
+                if (results.aborted === 'no') {
                     $('#general-view').find('.panel').addClass('panel-success');
                     $('#general-view').find('#execution-success').removeClass('hidden');
                     $('#general-view').find('#execution-success .label-text').text(translation.studySuccessful);

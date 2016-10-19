@@ -53,7 +53,7 @@
                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                 }
 
-                $('#preview-modal').modal('hide');
+                $('#custom-modal').modal('hide');
             }
         });
 
@@ -95,7 +95,7 @@
                 }
 
                 // modal and hint hiding, trigger transition to scene for a gesture
-                $('#preview-modal').modal('hide');
+                $('#custom-modal').modal('hide');
                 var feedback = getFeedbackById(wozData.feedbackId);
                 if (feedback) {
                     var hint = appendHint(getSourceContainer(VIEW_TESTER), $('body'), wozData, TYPE_SURVEY_UNMODERATED);

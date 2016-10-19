@@ -65,38 +65,42 @@ var Tester = {
                 $('#viewTester #phase-content').empty().append(item);
                 Tester.initializeRTC(source, item, currentPhase.format);
             }
+
+            if (currentPhase.format === THANKS) {
+                $('.btn-cancel').addClass('disabled');
+            } else {
+                $('.btn-cancel').removeClass('disabled');
+            }
         } else {
             Tester.renderNoDataView();
         }
 
-//        console.log(currentPhaseData);
-
-//        if (currentPhaseData && (item !== false || item !== null)) {
-//            $('#viewTester #phase-content').empty().append(item);
-//            Tester.initializeRTC(source, item, currentPhase.format);
-//
-//        } else {
-//            Tester.renderNoDataView();
-//        }
-
         Tester.checkPositioning(currentPhase.format);
-        TweenMax.from($('#viewTester #phase-content'), .2, {y: -60, opacity: 0});
+        TweenMax.from($('#viewTester #phase-content'), .2, {y: -40, opacity: 0});
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
         }
     },
     checkPositioning: function checkPositioning(format) {
-        var posY = 0;
+        var posY = '0px';
         if (previewModeEnabled === false) {
             switch (format) {
                 case SCENARIO:
                     break;
                 default:
-                    posY = 60;
+                    posY = '90px';
+                    break;
+            }
+        } else {
+            switch (format) {
+                case SCENARIO:
+                    break;
+                default:
+                    posY = '40px';
                     break;
             }
         }
-        $('#viewTester #phase-content').css({y: 0, marginTop: posY + 'px', opacity: 1});
+        $('#viewTester #phase-content').css({marginTop: posY});
     },
     initializeRTC: function initializeRTC(source, item, format) {
         // check preview or live mode, and check if webRTC is needed
@@ -143,7 +147,26 @@ var Tester = {
 
         $(container).find('#letter-agreed').on('click', function (event) {
             event.preventDefault();
+
+            if (!previewModeEnabled) {
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.accepted = 'yes';
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            }
+
             nextStep();
+        });
+
+        $(container).find('#letter-decline').on('click', function (event) {
+            event.preventDefault();
+
+            if (!previewModeEnabled) {
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.accepted = 'no';
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            }
+
+            $('.btn-cancel').click();
         });
 
         return container;
@@ -1239,39 +1262,33 @@ var Tester = {
 
         // handle triggered help
         if (triggeredHelp) {
-            var helpModal = $('body').find('#help-modal');
-            helpModal.find('#help-text').text(triggeredHelp.option);
-            if (triggeredHelp.useGestureHelp === true && triggeredHelp.gestureId) {
-                var gesture = getGestureById(triggeredHelp.gestureId);
-                helpModal.find('#gesture-preview').removeClass('hidden');
-                renderGestureImages(helpModal.find('.previewGesture'), gesture.images, gesture.previewImage, function () {
-                });
-            } else {
-                helpModal.find('.previewGesture').addClass('hidden');
-            }
-
-            helpModal.modal('show');
-            helpModal.on('hidden.bs.modal', function () {
-                triggeredHelp = null;
-                $(this).find('#gesture-preview #btn-stop-gesture').click();
-            });
+            loadHTMLintoModal('custom-modal', 'modal-help.php', 'modal-md');
         }
 
         // handle triggered woz
+//        console.log(triggeredWoz, currentWOZScene);
         if (triggeredWoz && currentWOZScene.type !== SCENE_PIDOCO) {
-            var hint = appendHint(source, $('body'), triggeredWoz, TYPE_SURVEY_MODERATED);
-            var transitionScene = getSceneById(triggeredWoz.transitionId);
-            currentTriggeredSceneId = triggeredWoz.transitionId;
+//            console.log(triggeredWoz.transitionId);
+            if (triggeredWoz.transitionId !== 'none') {
+                currentTriggeredSceneId = triggeredWoz.transitionId;
+            } else {
+                currentTriggeredSceneId = triggeredWoz.sceneId;
+            }
+
+            var transitionScene = getSceneById(currentTriggeredSceneId);
+//            console.log(triggeredWoz, transitionScene, currentTriggeredSceneId)
+
+            var hint = appendHint(source, $('body'), triggeredWoz, TYPE_SURVEY_UNMODERATED);
             if (hint !== null) {
                 $(hint).on('hint.hidden', function () {
                     if (transitionScene) {
-                        renderSceneItem(source, container, triggeredWoz.transitionId);
+                        renderSceneItem(source, container, currentTriggeredSceneId);
                     }
                     triggeredWoz = null;
                 });
             } else {
                 if (transitionScene) {
-                    renderSceneItem(source, container, triggeredWoz.transitionId);
+                    renderSceneItem(source, container, currentTriggeredSceneId);
                 }
                 triggeredWoz = null;
             }
@@ -1287,7 +1304,7 @@ var Tester = {
         container.find('#generalPanel').removeClass('hidden');
         container.find('#info-content').removeClass('hidden');
         container.find('#start-controls').removeClass('hidden');
-
+        var panelOffset, panelHeight = 0;
         // button functions
         container.find('#btn-show-scenario-info').on('click', function (event) {
             event.preventDefault();
@@ -1305,7 +1322,7 @@ var Tester = {
             showScenarioInfos(container);
             panelOffset = container.find('#generalPanel').offset().top;
             panelHeight = container.find('#generalPanel').height();
-            container.find('#fixed-rtc-preview').css({marginTop: panelOffset + panelHeight + 5, opacity: .5});
+            container.find('#fixed-rtc-preview').css({marginTop: panelHeight + 20, opacity: .5});
         });
         container.find('#btn-hide-scenario-info').on('click', function (event) {
             event.preventDefault();
@@ -1323,7 +1340,7 @@ var Tester = {
             hideScenarioInfos(container);
             panelOffset = container.find('#generalPanel').offset().top;
             panelHeight = container.find('#generalPanel').height();
-            container.find('#fixed-rtc-preview').css({marginTop: panelOffset + panelHeight + 5, opacity: .5});
+            container.find('#fixed-rtc-preview').css({marginTop: panelHeight + 20, opacity: .5});
         });
         var sceneItem;
         if (scenarioStartTriggered) {
@@ -1394,7 +1411,7 @@ var Tester = {
             }
 
             $(panelContent).find('#btn-perform-gesture').removeClass('hidden');
-            loadHTMLintoModal('preview-modal', 'preview-unmoderated-scenes.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'modal-select-transition.php', 'modal-lg');
         });
 
         $(panelContent).find('#btn-getting-help').click(function (event) {
@@ -1406,7 +1423,7 @@ var Tester = {
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             }
 
-            loadHTMLintoModal('preview-modal', 'preview-help.php', 'modal-md');
+            loadHTMLintoModal('custom-modal', 'modal-help.php', 'modal-md');
         });
 
         $(panelContent).find('#btn-done').click(function (event) {
@@ -1447,23 +1464,30 @@ var Tester = {
 
 function checkRTCUploadStatus(container) {
     if (isWebRTCNeeded(getLocalItem(STUDY_PHASE_STEPS))) {
-        if (tempUploads && tempUploads.length > 0) {
-            console.log(tempUploads);
-            if (uploadQueue.allFilesUploaded()) {
-                console.log('allVideosUploaded');
-                submitFinalData(container, true);
-            } else {
-                console.log('not allVideosUploaded');
-                $(uploadQueue).on(EVENT_FILE_SAVED, function (event, result) {
-                    console.log('check upload status again');
-                    checkRTCUploadStatus(container);
-                });
+//        if (tempUploads && tempUploads.length > 0) {
+//            console.log(tempUploads);
+        submitFinalData(container, false);
 
-                submitFinalData(container, false);
-            }
-        } else {
+        $(uploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
+            console.log('allVideosUploaded');
+            $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED);
             submitFinalData(container, true);
-        }
+        });
+
+
+
+//        } else {
+//            console.log('not allVideosUploaded');
+//            $(uploadQueue).on(EVENT_FILE_SAVED, function (event, result) {
+//                console.log('check upload status again');
+//                checkRTCUploadStatus(container);
+//            });
+//
+//            submitFinalData(container, false);
+//        }
+//        } else {
+//            submitFinalData(container, true);
+//        }
     } else {
         submitFinalData(container, true);
     }
@@ -1596,7 +1620,11 @@ function renderSceneItem(source, container, sceneId) {
 
         // scene positioning
         var containerOffsetTop = container.offset().top;
-        var generalPanelHeight = 54;
+        var generalPanelHeight = 0;
+//        if(previewModeEnabled === false) {
+//            generalPanelHeight = 0;
+//        }
+//        console.log(containerOffsetTop);
         sceneItem.css({marginTop: generalPanelHeight + 'px'});
 
         // calcuation of the new window height if resizing the window
@@ -1606,7 +1634,7 @@ function renderSceneItem(source, container, sceneId) {
             if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
                 height = $(window).height() - containerOffsetTop - generalPanelHeight;
             } else {
-                height = $(window).height() - 145 - generalPanelHeight;
+                height = $(window).height() - 107 - generalPanelHeight;
             }
 
             if (scene.type === SCENE_VIDEO_EMBED) {
@@ -1650,7 +1678,7 @@ function onUnmoderatedAnswerTimeExpired(source, container, data) {
     $(container).find('.gestureContainer .headline, .triggerContainer .headline').text(translation.timesUp);
     TweenMax.to(container.find('.previewGesture, .trigger-title'), .1, {autoAlpha: 0});
     TweenMax.to(container.find('#slideshowContainer, .progress'), .1, {autoAlpha: 0, onComplete: onHideUnmoderatedSlideComplete, onCompleteParams: [source, container, data]});
-    loadHTMLintoModal('preview-modal', 'preview-check-gesture-slide.php', 'modal-lg');
+    loadHTMLintoModal('preview-modal', 'modal-check-gesture.php', 'modal-lg');
 }
 
 function onHideUnmoderatedSlideComplete(source, container, data) {
@@ -1778,7 +1806,8 @@ function initRecorder(stream) {
 
         mediaRecorder.onstop = function () {
             console.log('Stopped recording, state = ' + mediaRecorder.state + ', ' + new Date());
-            uploadQueue.upload(chunks, hex_sha512(new Date().getTime()) + '.webm', currentPhaseStepId);
+            var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
+            uploadQueue.upload(chunks, filename, currentPhaseStepId);
             chunks = [];
 
             if (stopRecordingCallback) {
@@ -1806,6 +1835,7 @@ var currentPhaseStepId = null;
 var stopRecordingCallback = null;
 function stopRecording(callback) {
     if (mediaRecorder) {
+        stopRecordingCallback = null;
         if (callback) {
             stopRecordingCallback = callback;
         }

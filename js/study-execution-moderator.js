@@ -18,6 +18,12 @@ var Moderator = {
             $(container).find('#column-left').css('opacity', '0');
             var item = null;
             switch (currentPhase.format) {
+                case LETTER_OF_ACCEPTANCE:
+                    item = Moderator.getLetterOfAcceptance(container, currentPhaseData);
+                    break;
+                case THANKS:
+                    item = Moderator.getThanks(container, currentPhaseData);
+                    break;
                 case QUESTIONNAIRE:
                     item = Moderator.getQuestionnaire(source, container, currentPhaseData, true);
                     break;
@@ -29,9 +35,6 @@ var Moderator = {
                     break;
                 case SUS:
                     item = Moderator.getSUS(source, container, currentPhaseData);
-                    break;
-                case LETTER_OF_ACCEPTANCE:
-                    item = Moderator.getLetterOfAcceptance(container, currentPhaseData);
                     break;
                 case GESTURE_TRAINING:
                     item = Moderator.getGestureTraining(source, container, currentPhaseData);
@@ -58,33 +61,48 @@ var Moderator = {
             } else {
                 Moderator.renderNoDataView();
             }
+
+            if (currentPhase.format === THANKS) {
+                $('.btn-cancel').addClass('disabled');
+            } else {
+                $('.btn-cancel').removeClass('disabled');
+            }
         } else {
             Moderator.renderNoDataView();
         }
 
         $('#viewModerator #column-right').css({y: 0, opacity: 1});
 
-//        $('#viewModerator #phase-content').empty().append(item);
-        TweenMax.from($('#phase-content #column-right'), .2, {y: -60, opacity: 0});
+//        Moderator.checkPositioning(currentPhase.format);
+        TweenMax.from($('#phase-content #column-right'), .2, {y: -60, opacity: 0, clearProps: 'all'});
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
         }
 
         updateRTCHeight($('#phase-content #column-left').width());
     },
+    checkPositioning: function checkPositioning(format) {
+        var posY = '0px';
+        switch (format) {
+            case SCENARIO:
+                break;
+            default:
+                posY = '40px';
+                break;
+        }
+        $('#viewModerator #phase-content').css({marginTop: posY});
+    },
     renderNoDataView: function renderNoDataView() {
         var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
         $('#viewModerator #phase-content').append(alert);
         appendAlert(alert, ALERT_NO_PHASE_DATA);
-//        TweenMax.from($('#phase-content #column-right'), .2, {y: -60, opacity: 0});
-//        if ($(document).scrollTop() > 0) {
-//            $(document).scrollTop(0);
-//        }
-//
-//        updateRTCHeight($('#phase-content #column-left').width());
     },
     getLetterOfAcceptance: function getLetterOfAcceptance(container, data) {
         $(container).find('.letter-text').text(data);
+        return container;
+    },
+    getThanks: function getThank(container, data) {
+        $(container).find('.thanks-text').text(data);
         return container;
     },
     getQuestionnaire: function getQuestionnaire(source, container, data, isPreview) {
@@ -165,7 +183,7 @@ var Moderator = {
                             renderGroupingQuestionGUSInput(item, parameters, options);
                             break;
                         case RATING:
-                            renderRatingInput(source, item, options);
+                            renderRatingInput(item, options);
                             break;
                         case SUM_QUESTION:
                             renderSumQuestionInput(item, parameters, options);
@@ -174,7 +192,7 @@ var Moderator = {
                             renderRankingInput(item, options);
                             break;
                         case ALTERNATIVE_QUESTION:
-                            renderAlternativeQuestionInput(source, item, parameters);
+                            renderAlternativeQuestionInput(item, parameters);
                             break;
                     }
                 }
@@ -795,7 +813,7 @@ var Moderator = {
             $(container).find('#general #btn-preview-scene').on('click', function (event) {
                 event.preventDefault();
                 currentSceneId = data.scene;
-                loadHTMLintoModal('scene-modal', 'preview-scene.php', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
             });
         }
 
@@ -842,12 +860,18 @@ var Moderator = {
                 item.find('#trigger-woz').click({wozData: wozData[i], originalData: data}, function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
+
 //                    triggeredHelp = null;
                         triggeredWoz = event.data.wozData;
                         currentWOZScene = getSceneById(triggeredWoz.transitionId);
-                        updateCurrentScene(container);
-                        Moderator.renderWOZ(source, container, event.data.originalData);
-                        Moderator.renderHelp(source, container, event.data.originalData);
+                        if (currentWOZScene) {
+                            updateCurrentScene(container);
+                            Moderator.renderWOZ(source, container, event.data.originalData);
+                            Moderator.renderHelp(source, container, event.data.originalData);
+                        } else {
+                            currentWOZScene = getSceneById(triggeredWoz.sceneId);
+                        }
+
                         enableScenarioControls(container);
                     } else {
                         $(document).scrollTop(0);
@@ -876,7 +900,7 @@ var Moderator = {
                     item.find('#btn-show-transition-scene').click({sceneId: wozData[i].transitionId}, function (event) {
                         event.preventDefault();
                         currentSceneId = event.data.sceneId;
-                        loadHTMLintoModal('scene-modal', 'preview-scene.php', 'modal-lg');
+                        loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
                     });
                 } else {
                     item.find('#btn-show-transition-scene').remove();
@@ -940,4 +964,12 @@ function updateCurrentScene(container) {
     container.find('.panel-body #icon-' + currentWOZScene.type).removeClass('hidden');
     container.find('.panel-body .label-text').text(translation.sceneTypes[currentWOZScene.type]);
     container.find('#current-scene').text(currentWOZScene.title);
+
+    container.find('#btn-preview-scene').click(function (event) {
+        event.preventDefault();
+
+        currentSceneId = currentWOZScene.id;
+        console.log(currentWOZScene, currentSceneId)
+        loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
+    });
 }

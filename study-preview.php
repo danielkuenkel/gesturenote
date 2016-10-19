@@ -84,6 +84,11 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
+        <div style="position: fixed; top: 53px; width: 100%; z-index: 500">
+            <button class="btn-cancel btn btn-danger btn-block" style="border-radius: 0" id="btn-cancel"><span class="btn-text"><?php echo $lang->cancelStudy ?></span> <i class="fa fa-close"></i></button>
+        </div>
+
+
         <!-- progress bar -->
         <div id="progressTop">
             <div class="progress">
@@ -94,7 +99,7 @@ if (login_check($mysqli) == true) {
         </div>
 
         <!-- modals -->
-        <div id="scene-modal" class="modal fade" role="dialog">
+        <div id="custom-modal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
@@ -104,7 +109,7 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="help-modal" data-keyboard="false">
+<!--        <div class="modal fade" tabindex="-1" role="dialog" id="help-modal" data-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -130,18 +135,18 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="preview-modal" data-backdrop="static" >
+<!--        <div class="modal fade" tabindex="-1" role="dialog" id="preview-modal" data-backdrop="static" >
             <div class="modal-dialog">
                 <div class="modal-content">
 
                 </div>
             </div>
-        </div>
+        </div>-->
 
-        <!-- affixed pager-->
-        <nav id="pager-top">
+        <!--affixed pager-->
+        <nav id="pager-bottom">
             <ul class="pager">
                 <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> <?php echo $lang->previous ?></a></li>
                 <li class="next disabled"><a href="#"><?php echo $lang->next ?> <span aria-hidden="true">&rarr;</span></a></li>
@@ -153,8 +158,7 @@ if (login_check($mysqli) == true) {
         </div>
 
         <!-- main content -->
-        <div class="mainContent" id="mainContent" style="padding-top: 145px;">
-
+        <div class="mainContent" id="mainContent" style="padding-top: 107px;">
             <div id="viewTester" class="hidden">
                 <div id="phase-content"></div>
             </div>
@@ -169,7 +173,7 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>
 
-                <div id="phase-content"></div>
+                <div id="phase-content" style="margin-top: 20px"></div>
             </div>
         </div>
 
@@ -187,17 +191,12 @@ if (login_check($mysqli) == true) {
                 });
             });
 
-//                        var lastScrollTop;
             $(window).on('resize', function () {
 //                            console.log('resize: ' + $(document).scrollTop());
                 if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
                     updateRTCHeight($('#viewModerator #column-left').width());
                 }
-//                            else if ($(document).scrollTop() > 0) {
-//                                $(document).scrollTop(0);
-//                                updateRTCHeight($('#viewModerator #column-left').width());
-//                            }
-//                            lastScrollTop = $(document).scrollTop();
+
             });
 
             function updateRTCHeight(newWidth) {
@@ -221,7 +220,7 @@ if (login_check($mysqli) == true) {
                     }
 
                     var ratio = $('#web-rtc-placeholder').attr('ratio');
-                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 20 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 20 - parseInt($('#mainContent').css('padding-top')), 170));
+                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 30 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 30 - parseInt($('#mainContent').css('padding-top')), 170));
                     $('#web-rtc-placeholder').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
                 }
             });

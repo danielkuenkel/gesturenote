@@ -57,7 +57,7 @@ include './includes/language.php';
         </div>
         <div class="panel-body hidden">
 
-            <div id="dimension-controls">
+<!--            <div id="dimension-controls">
                 <div class="dimension-container" id="container-effectiveness">
                     <h4 style="margin-top: 0px; color: #3379b7">Zweckmäßigkeit</h4>
                     <div class="dimension-btn-group">
@@ -76,7 +76,7 @@ include './includes/language.php';
                         <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
             <div class="form-group" style="margin-top: 20px">
                 <div class="input-group">

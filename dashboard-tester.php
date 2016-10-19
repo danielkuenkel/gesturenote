@@ -44,19 +44,22 @@ if (login_check($mysqli) == true) {
         <div id="alerts"></div>
         <div id="template-subpages"></div>
 
-        <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb">
-            <div class="row">
-                <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                    <li class="active"><?php echo $lang->breadcrump->dashboard ?></li>
-                </ol>
-            </div>
-        </div>
+
 
         <!-- Container (Landing Section) -->
-        <div class=" container-fluid text-center bg-grey" id="landingText">
-            <div class="container">
+        <div class=" container-fluid bg-grey wall" id="landingText">
+            
+            <!-- Container (Breadcrump) -->
+            <div class="container" id="breadcrumb">
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                        <li class="active"><?php echo $lang->breadcrump->dashboard ?></li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="container text-center dropShadowText">
                 <h1><i class="fa fa-tachometer" style="font-size: 60pt" aria-hidden="true"></i> DASHBOARD</h1>
                 <h2><?php echo htmlentities($_SESSION['forename']) . ' ' . htmlentities($_SESSION['surname']); ?></h2>
                 <p>Um fortzufahren wählen Sie bitte aus einer der unten stehenden Kategorien.</p>

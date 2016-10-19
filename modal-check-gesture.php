@@ -55,7 +55,7 @@
                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                 }
 
-                $('#preview-modal').modal('hide');
+                $('#custom-modal').modal('hide');
             }
             Tester.renderUnmoderatedGestureSlideshow($('#item-container-tester'), $('#viewTester #phase-content'), currentPhaseData, false);
         });
@@ -89,7 +89,7 @@
                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                 }
 
-                $('#preview-modal').modal('hide');
+                $('#custom-modal').modal('hide');
                 Tester.renderUnmoderatedGestureSlideshow($('#item-container-tester'), $('#viewTester #phase-content'), currentPhaseData, false);
             });
         }

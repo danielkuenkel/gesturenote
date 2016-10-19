@@ -6,7 +6,7 @@
     <div class="container-root" id="list-container"></div>
 
     <div class="root hidden" id="tester-help-item">
-        <div id="text"></div>
+        <div class="text" id="text"></div>
         <div class="hidden" id="gesture-preview-container" style="margin-top: 15px">
             <div class="previewGesture"></div>
             <div class="text-center gestureControls">
@@ -29,11 +29,15 @@
 
         renderHelpItem();
 
-        $('#btn-more-help').click(function (event) {
-            event.preventDefault();
-            currentHelpIndex++;
-            renderHelpItem();
-        });
+        if (triggeredHelp) {
+            $('#btn-more-help').addClass('hidden');
+        } else {
+            $('#btn-more-help').click(function (event) {
+                event.preventDefault();
+                currentHelpIndex++;
+                renderHelpItem();
+            });
+        }
     });
 
     function renderHelpItem() {
@@ -41,15 +45,15 @@
 
         var currentPhaseData = getCurrentPhaseData();
         var items = getItemsForSceneId(currentPhaseData.help, currentWOZScene.id);
-        
+
         console.log(items);
 
         if (items && items.length > 0) {
             if (currentHelpIndex >= items.length - 1) {
                 $('#btn-more-help').addClass('hidden');
             }
-            
-            var data = items[currentHelpIndex];
+
+            var data = triggeredHelp || items[currentHelpIndex];
             var clone = $('#tester-help-item').clone().removeClass('hidden').removeAttr('id');
             clone.find('#text').text(data.option);
             $('#list-container').append(clone);

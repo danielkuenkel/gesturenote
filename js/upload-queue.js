@@ -86,10 +86,11 @@ UploadQueue.prototype.setUploadStatus = function (filename) {
 };
 
 UploadQueue.prototype.allFilesUploaded = function () {
-//    console.log('check allFilesUploaded');
-    for (var i = 0; i < this.files.length; i++) {
-        if (this.files[i].uploaded === false) {
-            return false;
+    if (this.files && this.files.length > 0) {
+        for (var i = 0; i < this.files.length; i++) {
+            if (this.files[i].uploaded === false) {
+                return false;
+            }
         }
     }
     return true;

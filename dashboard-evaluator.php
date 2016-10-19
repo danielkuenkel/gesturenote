@@ -45,7 +45,7 @@ if (login_check($mysqli) == true) {
         <div id="template-subpages"></div>
 
         <!-- Container (Landing Section) -->
-        <div class=" container-fluid bg-grey wall" id="landingText">
+        <div class="container-fluid bg-grey wall" id="landingText">
 
             <!-- Container (Breadcrump) -->
             <div class="container" id="breadcrumb">

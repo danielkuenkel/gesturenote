@@ -63,10 +63,21 @@ function initialize() {
             }
         });
 
+        var study = getLocalItem(STUDY);
+        study.aborted = 'no';
+        setLocalItem(STUDY, study);
+
         setLocalItem('startExecutionTime', new Date().getTime());
         renderPhaseStep();
         updateProgress();
     }
+
+    $('.btn-cancel').click(function (event) {
+        event.preventDefault();
+        if (!$(this).hasClass('disabled')) {
+            loadHTMLintoModal('custom-modal', 'modal-cancel-study.php', 'modal-sm');
+        }
+    });
 }
 
 function renderPhases() {
@@ -223,6 +234,16 @@ function getCurrentPhaseStepIndex() {
     }
 }
 
+function getThanksStepIndex() {
+    var phaseSteps = getContextualPhaseSteps();
+    for (var i = 0; i < phaseSteps.length; i++) {
+        if (phaseSteps[i].format === THANKS) {
+            return i;
+        }
+    }
+    return null;
+}
+
 function getCurrentPhase() {
     var phaseSteps = getContextualPhaseSteps();
     return phaseSteps[currentPhaseStepIndex];
@@ -230,7 +251,7 @@ function getCurrentPhase() {
 
 function getCurrentPhaseData() {
     var currentPhase = getCurrentPhase();
-    if(currentPhase) {
+    if (currentPhase) {
         return getLocalItem(currentPhase.id + '.data');
     }
     return null;
@@ -327,7 +348,6 @@ function getItemsForSceneId(data, sceneId) {
     if (data && data.length > 0) {
         var array = new Array();
         for (var i = 0; i < data.length; i++) {
-//            console.log(parseInt(data[i].sceneId) + " ?== " + parseInt(sceneId));
             if (parseInt(data[i].sceneId) === parseInt(sceneId)) {
                 array.push(data[i]);
             }
@@ -336,11 +356,3 @@ function getItemsForSceneId(data, sceneId) {
     }
     return null;
 }
-
-//function QuestionnaireItem(type, dimension, question, parameters, options) {
-//    this.format = type;
-//    this.dimension = dimension;
-//    this.question = question;
-//    this.parameters = parameters;
-//    this.options = options;
-//}

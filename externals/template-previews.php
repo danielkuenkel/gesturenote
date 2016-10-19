@@ -36,7 +36,7 @@
     <div class="panel panel-default root" id="counter" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question"></div>
+            <div class="question text"></div>
             <span class="label label-default" id="counter-label"><span class="counter-from"></span> <span class="counter-to"></span></span>
         </div>
     </div>
@@ -44,14 +44,14 @@
     <div class="panel panel-default root" id="openQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question"></div>
+            <div class="question text"></div>
             <span class="label label-default hidden" id="dimension"></span>
         </div>
     </div>
 
     <div class="panel panel-default root" id="openQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <div class="question"></div>
+            <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
                 <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
@@ -63,7 +63,7 @@
     <div class="panel panel-default root" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question"></div>
+            <div class="question text"></div>
             <span class="label label-default hidden" id="select-gestures">Auswahl einer oder mehrerer Gesten</span>
             <span class="label label-default hidden" id="justification">Mit Begründung</span>
             <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
@@ -77,7 +77,7 @@
     <div class="panel panel-default root" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question"></div>
+            <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
                 <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
@@ -96,7 +96,7 @@
     <div class="panel panel-default root" id="alternativeQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question"></div>
+            <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
                 <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
@@ -118,7 +118,7 @@
     <div class="panel panel-default root" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question"></div>
+            <div class="question text"></div>
             <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
             <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
             <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
@@ -131,7 +131,7 @@
     <div class="panel panel-default root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question"></div>
+            <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
                 <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
@@ -152,7 +152,7 @@
     <div class="panel panel-default root" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question"></div>
+            <div class="question text"></div>
             <span class="label label-default hidden" id="dimension"></span>
             <div>Rating-Optionen</div>
             <div class="option-container"></div>
@@ -161,7 +161,7 @@
 
     <div class="panel panel-default root" id="sumQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <div class="question"></div>
+            <div class="question text"></div>
             <span class="label label-default hidden" id="dimension"></span>
             <div id="distribution-container"></div>
             <div>Antworten der Summenfrage</div>
@@ -172,7 +172,7 @@
     <div class="panel panel-default root" id="ranking" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question"></div>
+            <div class="question text"></div>
             <span class="label label-default hidden" id="dimension"></span>
             <div>Ranking-Optionen</div>
             <div class="option-container"></div>
@@ -196,7 +196,7 @@
     <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question"></div> 
+            <div class="question text"></div> 
             <span class="label label-danger hidden" id="reversed">negiert</span>
         </div>
     </div>
@@ -236,7 +236,7 @@
     <div class="panel panel-default root" id="gusSingle" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question"></div>
+            <div class="question text"></div>
             <div style="display: inline;">
                 <div class="hidden" id="item-factors" style="display: inline-block">
                     <div class="label label-primary" id="factor-main"></div>
@@ -270,6 +270,18 @@
                     Einverständniserklärung
                 </div>
                 <div class="panel-body letter-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row root" id="thanks">
+        <div class="col-md-6 col-lg-4" id="column-left"></div>
+        <div class="col-md-6 col-lg-8" id="column-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Danksagung
+                </div>
+                <div class="panel-body thanks-text"></div>
             </div>
         </div>
     </div>
@@ -523,11 +535,18 @@
             <div class="panel panel-default" id="woz-controls">
                 <div class="panel-heading">Wizard-of-Oz-Experiment</div>
                 <div class="panel-body">
-                    Aktuelle Szene: <span class="label label-default">
-                        <i class="fa fa-link hidden" id="icon-pidoco"></i>
-                        <i class="fa fa-link hidden" id="icon-web"></i>
-                        <i class="fa fa-image hidden" id="icon-image"></i>
-                        <i class="fa fa-film hidden" id="icon-videoEmbed"></i> <span class="label-text"></span></span> <span id="current-scene" class="text"></span>
+                    <div style="float: left">
+                        Aktuelle Szene: <span class="label label-default">
+                            <i class="fa fa-link hidden" id="icon-pidoco"></i>
+                            <i class="fa fa-link hidden" id="icon-web"></i>
+                            <i class="fa fa-image hidden" id="icon-image"></i>
+                            <i class="fa fa-film hidden" id="icon-videoEmbed"></i> <span class="label-text"></span></span> <span id="current-scene" class="text">
+                        </span>
+                    </div>
+                    <div style="float: left; margin-left: 10px;">
+                        <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text">Zustands-Vorschau</span></button>
+                    </div>
+                    <div style="clear: both;"></div>
                     <hr>
                     <div class="row">
                         <div class="col-lg-6" id="wozExperiment" style="margin-bottom: 20px;">
@@ -1059,7 +1078,7 @@
 
             <div class="panel panel-default hidden" id="human-body-selection-rating" style="margin-bottom: 5px;">
                 <div class="panel-body">
-                    <p class="question">Welche Teile des Körpers wurden besonders beantsprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                    <p class="question text">Welche Teile des Körpers wurden besonders beantsprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
                     <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
                         <div id="joint-container" style="position: absolute"></div>
                         <img src="img/human_body.svg">
@@ -1069,7 +1088,7 @@
 
             <div class="panel panel-default hidden" id="hand-selection-rating" style="margin-bottom: 5px;">
                 <div class="panel-body">
-                    <p class="question">Welche Teile der Hand oder Hände wurden besonders beantsprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                    <p class="question text">Welche Teile der Hand oder Hände wurden besonders beantsprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
                     <div class="select-joints-humand-hand" id="human-hand" style="width: 450px; margin: auto">
                         <div id="joint-container" style="position: absolute"></div>
                         <img src="img/human_hand.svg">
@@ -1111,7 +1130,7 @@
                 <div id="single-joint-selection" class="hidden">
                     <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
-                            <p class="question">Welche Teile des Körpers wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <p class="question text">Welche Teile des Körpers wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
                             <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_body.svg">
@@ -1121,7 +1140,7 @@
 
                     <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
-                            <p class="question">Welche Teile der Hand oder Hände wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <p class="question text">Welche Teile der Hand oder Hände wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
                             <div class="select-joints-humand-hand" id="human-hand" style="width: 450px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_hand.svg">
@@ -1149,7 +1168,7 @@
 
                     <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
-                            <p class="question">Welche Teile der Hand oder Hände wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <p class="question text">Welche Teile der Hand oder Hände wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
                             <div class="select-joints-humand-hand" id="human-hand" style="width: 450px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_hand.svg">
@@ -1250,8 +1269,8 @@
         <audio class="audio-holder" src="" preload="auto"></audio>
     </div>
 
-    <div class="container root"  id="thanks">
-        <h3 class="headline text" style="margin: 0">Danke für die Teilnahme</h3>
+    <div class="container root" id="thanks">
+        <h3 class="headline" style="margin: 0">Danke für die Teilnahme</h3>
         <hr>
         <div class="row">
             <div class="col-sm-6" style="margin-bottom: 20px;">
@@ -1286,7 +1305,7 @@
             <hr>
             <i class="fa fa-share" aria-hidden="true" style="font-size: 70pt; color: #777"></i>
             <p class="text" id="static-study-url"></p>
-            <p class="text">Um die Studie zu teilen einfach den Link kopieren.</p>
+            <p class="text">Einfach den Link kopieren um die Studie zu teilen.</p>
 
             <!--            <div class="input-group">
                             <div class="input-group-addon"><i class="fa fa-share" aria-hidden="true"></i> Weitersagen</div>
@@ -1325,21 +1344,21 @@
 
     <div class="panel panel-default root" id="openQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question"></p> 
+            <p class="question text"></p> 
             <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
         </div>
     </div>
 
     <div class="panel panel-default root" id="openQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question"></p> 
+            <p class="question text"></p> 
             <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
         </div>
     </div>
 
     <div class="panel panel-default root" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body" id="panel-body">
-            <p class="question"></p>
+            <p class="question text"></p>
             <div class="btn-group switch">
                 <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                 <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-success">Nein</button>
@@ -1349,7 +1368,7 @@
 
     <div class="panel panel-default root" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question"></p>
+            <p class="question text"></p>
             <div class="btn-group switch">
                 <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
                 <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-success">Nein</button>
@@ -1359,21 +1378,21 @@
 
     <div class="panel panel-default root" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question"></p> 
+            <p class="question text"></p> 
             <div class="option-container root"></div>
         </div>
     </div>
 
     <div class="panel panel-default root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question"></p> 
+            <p class="question text"></p> 
             <div class="option-container root"></div>
         </div>
     </div>
 
     <div class="panel panel-default root" id="counter" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question"></p>
+            <p class="question text"></p>
             <div class="input-group simple-stepper" style="max-width: 130px;">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
@@ -1401,7 +1420,7 @@
 
     <div class="panel panel-default root" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question"></p> 
+            <p class="question text"></p> 
             <div class="option-container root"></div>
         </div>
     </div>
@@ -1413,7 +1432,7 @@
 
     <div class="panel panel-default root" id="sumQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question"></p> 
+            <p class="question text"></p> 
             <div class="option-container root"></div>
         </div>
     </div>
@@ -1437,7 +1456,7 @@
 
     <div class="panel panel-default root" id="ranking" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question"></p> 
+            <p class="question text"></p> 
             <div class="option-container root"></div>
         </div>
     </div>
@@ -1452,7 +1471,7 @@
 
     <div class="panel panel-default root" id="alternativeQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question"></p>
+            <p class="question text"></p>
             <div class="option-container root"></div>
         </div>
     </div>

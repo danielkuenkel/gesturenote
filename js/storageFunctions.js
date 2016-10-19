@@ -328,6 +328,8 @@ function setStudyData(data) {
         setData.userId = data.resultData.userId;
         setData.created = data.resultData.created;
         setData.executionSuccess = data.resultData.results.studySuccessfull;
+        console.log(data.resultData.aborted);
+        setData.executionAborted = data.resultData.aborted;
         setLocalItem(STUDY_RESULTS, setData);
 
         var phases = data.resultData.results.phases;
@@ -365,8 +367,8 @@ function setStudyData(data) {
                 setLocalItem(notes[i].phaseId + '.notes', notes[i].note);
             }
         }
-        
-        console.log(data.evaluatorData.observations);
+
+//        console.log(data.evaluatorData.observations);
         if (data.evaluatorData.observations && data.evaluatorData.observations.length > 0) {
             setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, data.evaluatorData.observations);
         }
