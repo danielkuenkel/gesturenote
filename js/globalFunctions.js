@@ -188,7 +188,6 @@ $(document).on('click', '.select .option li', function (event) {
 
 $(document).on('mouseenter', '.btn-show-hole-text', function (event) {
     if (!event.handled) {
-//        console.log('show tooltip', $(this));
         event.handled = true;
         var inputVal = $(this).closest('.input-group').find('input').val();
         if (inputVal.trim() !== '') {

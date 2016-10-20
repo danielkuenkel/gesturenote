@@ -25,7 +25,7 @@ include '../includes/language.php';
                     <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
                     <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@ include '../includes/language.php';
                     <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
                     <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@ include '../includes/language.php';
                     <span class="input-group-addon"><?php echo $lang->question ?></span>
                     <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->questionFormats->dichotomousQuestion->text ?>"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                     </div>
                 </div>
             </div>
@@ -130,7 +130,7 @@ include '../includes/language.php';
                     <span class="input-group-addon"><?php echo $lang->item ?></span>
                     <input class="form-control item-input-text question" type="text" value="" placeholder=""/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                     </div>
                 </div>
             </div>
@@ -225,7 +225,7 @@ include '../includes/language.php';
                     <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
                     <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                     </div>
                 </div>
             </div>
@@ -288,7 +288,7 @@ include '../includes/language.php';
                     <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
                     <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                     </div>
                 </div>
             </div>
@@ -362,7 +362,7 @@ include '../includes/language.php';
                     <span class="input-group-addon"><?php echo $lang->item ?></span>
                     <input class="form-control item-input-text question readonly" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                     </div>
                 </div>
             </div>
@@ -419,7 +419,7 @@ include '../includes/language.php';
                     <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
                     <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                     </div>
                 </div>
             </div>
@@ -507,7 +507,7 @@ include '../includes/language.php';
                     <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
                     <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                     </div>
                 </div>
 
@@ -590,7 +590,7 @@ include '../includes/language.php';
                     <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
                     <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
                     <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                     </div>
                 </div>
             </div>
@@ -1268,7 +1268,7 @@ include '../includes/language.php';
                     <input class="form-control item-input-text question readonly" type="text" value=""/>
 
                     <div class="input-group-btn negative">
-                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                         <button class="btn btn-default switchButtonAddon"><?php echo $lang->negativeQuestionmark ?></button>
                         <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger"><?php echo $lang->yes ?></button>
                         <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
@@ -1302,7 +1302,7 @@ include '../includes/language.php';
                 <input class="form-control item-input-text question readonly" type="text" value=""/>
 
                 <div class="input-group-btn">
-                    <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                    <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                     <!--                    <button class="btn btn-default switchButtonAddon">Negativ?</button>
                                         <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger">Ja</button>
                                         <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>-->
@@ -1332,7 +1332,7 @@ include '../includes/language.php';
             <input class="form-control item-input-text question readonly" type="text" value=""/>
 
             <div class="input-group-btn negative">
-                <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip" data-placement="top"><i class="glyphicon glyphicon-eye-open"></i></button>
+                <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
                 <button class="btn btn-default switchButtonAddon"><?php echo $lang->negativeQuestionmark ?></button>
                 <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger"><?php echo $lang->yes ?></button>
                 <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
