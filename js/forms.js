@@ -819,6 +819,31 @@ function renderGroupingQuestionGUS(item, studyData, resultsData) {
     }
 }
 
+
+function renderEditableGroupingQuestionGUS(item, question, answer) {
+    $(item).find('.question').text(question.question);
+    var parameters = question.parameters;
+//    var options = question.options;
+    renderGroupingQuestionGUSInput(item, parameters);
+
+    if (parameters.multiselect === 'yes') {
+        $(item).find('#multiselect').removeClass('hidden');
+    } else {
+        $(item).find('#singleselect').removeClass('hidden');
+    }
+
+    if (answer && answer.selectedOptions && answer.selectedOptions !== '-1' && answer.selectedOptions.length) {
+        for (var i = 0; i < answer.selectedOptions.length; i++) {
+            $(item).find('#' + answer.selectedOptions[i]).click();
+        }
+
+        if (answer.optionalAnswer !== '') {
+            $(item).find('#checkbox-optionalanswer .btn-checkbox').click();
+            $(item).find('.optionalInput').val(answer.optionalAnswer);
+        }
+    }
+}
+
 function renderRating(item, studyData, resultsData) {
     $(item).find('.question').text(studyData.question);
 

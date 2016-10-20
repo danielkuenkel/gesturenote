@@ -183,7 +183,7 @@ if (login_check($mysqli) == true) {
                             <div class="input-group">
                                 <span class="input-group-addon"><?php echo $lang->studyTitle ?></span>
                                 <label class="sr-only" for="studyTitle"><?php echo $lang->studyTitle ?></label>
-                                <input type="text" class="form-control" id="studyTitle" placeholder="<?php echo $lang->insertStudyTitle ?>" required>
+                                <input type="text" class="form-control" id="studyTitle" placeholder="<?php echo $lang->insertTitle ?>" required>
                             </div>
                         </div>
 
@@ -193,7 +193,7 @@ if (login_check($mysqli) == true) {
                             <div class="input-group">
                                 <span class="input-group-addon"><?php echo $lang->studyDescription ?></span>
                                 <label class="sr-only" for="studyDescription"><?php echo $lang->studyDescription ?></label>
-                                <textarea class="form-control" id="studyDescription" rows="5" placeholder="<?php echo $lang->insertStudyDescription ?>"></textarea>
+                                <textarea class="form-control" id="studyDescription" rows="5" placeholder="<?php echo $lang->insertDescription ?>"></textarea>
                             </div>
                         </div>
 
@@ -506,6 +506,8 @@ if (login_check($mysqli) == true) {
             var editableStudyId = null;
             var studyEditable = false;
             function onAllExternalsLoadedSuccessfully() {
+                $('[data-toggle="tooltip"]').tooltip();
+                
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');

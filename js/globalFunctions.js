@@ -110,7 +110,7 @@ function dataURItoBlob(dataURI) {
         ia[i] = byteString.charCodeAt(i);
     }
 
-    return new Blob([ia], {type:mimeString});
+    return new Blob([ia], {type: mimeString});
 }
 
 function showCursor(target, cursor) {
@@ -183,6 +183,18 @@ $(document).on('click', '.select .option li', function (event) {
         }
 
         $(this).trigger('change', [listItemId]);
+    }
+});
+
+$(document).on('mouseenter', '.btn-show-hole-text', function (event) {
+    if (!event.handled) {
+//        console.log('show tooltip', $(this));
+        event.handled = true;
+        var inputVal = $(this).closest('.input-group').find('input').val();
+        if (inputVal.trim() !== '') {
+            $(this).attr('title', inputVal);
+            $(this).tooltip('show');
+        }
     }
 });
 

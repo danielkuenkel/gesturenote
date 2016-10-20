@@ -78,102 +78,102 @@ include './includes/language.php';
 
 </div>
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
+    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> <?php echo $lang->saveAndClose ?></button>
 </div>
 
 
 <!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
-        $(document).ready(function () {
-            getGestureCatalog(function (result) {
-                if (result.status === RESULT_SUCCESS) {
-                    originalFilterData = result.gestures;
-                    initPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-                    $('#sort #newest').click();
-                }
-            });
-
-            $('#custom-modal').bind('hidden.bs.modal', function () {
-                updateCatalogButtons();
-                $(this).unbind('hidden.bs.modal');
-            });
+    $(document).ready(function () {
+        getGestureCatalog(function (result) {
+            if (result.status === RESULT_SUCCESS) {
+                originalFilterData = result.gestures;
+                initPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+                $('#sort #newest').click();
+            }
         });
 
-        function renderData(data) {
-            currentFilterData = data;
-            $('#list-container').empty();
+        $('#custom-modal').bind('hidden.bs.modal', function () {
+            updateCatalogButtons();
+            $(this).unbind('hidden.bs.modal');
+        });
+    });
 
-            var index = parseInt($('#custom-pager .pagination').find('.active').text()) - 1;
-            var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
-            var viewFromIndex = index * listCount;
-            var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
-            for (var i = viewFromIndex; i < viewToIndex; i++) {
-                var clone = getGestureListThumbnail(currentFilterData[i]);
-                $('#list-container').append(clone);
+    function renderData(data) {
+        currentFilterData = data;
+        $('#list-container').empty();
 
-                if (isGestureAssembled(currentFilterData[i].id)) {
-                    clone.find('.gesture-assemble').click();
-                }
+        var index = parseInt($('#custom-pager .pagination').find('.active').text()) - 1;
+        var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
+        var viewFromIndex = index * listCount;
+        var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
+        for (var i = viewFromIndex; i < viewToIndex; i++) {
+            var clone = getGestureListThumbnail(currentFilterData[i]);
+            $('#list-container').append(clone);
+
+            if (isGestureAssembled(currentFilterData[i].id)) {
+                clone.find('.gesture-assemble').click();
             }
         }
+    }
 
-        function saveData() {
-            var currentGestures = $('#list-container').children();
+    function saveData() {
+        var currentGestures = $('#list-container').children();
 
-            for (var j = 0; j < currentGestures.length; j++) {
-                var gesture = currentGestures[j];
-                var id = parseInt($(gesture).attr('id'));
-                if ($(gesture).hasClass('selected') && !isGestureAssembled(id)) {
-                    assembleGesture(id);
-                } else if (!$(gesture).hasClass('selected') && isGestureAssembled(id)) {
-                    reassembleGesture(id);
-                }
+        for (var j = 0; j < currentGestures.length; j++) {
+            var gesture = currentGestures[j];
+            var id = parseInt($(gesture).attr('id'));
+            if ($(gesture).hasClass('selected') && !isGestureAssembled(id)) {
+                assembleGesture(id);
+            } else if (!$(gesture).hasClass('selected') && isGestureAssembled(id)) {
+                reassembleGesture(id);
             }
         }
+    }
 
-        $('#filter').unbind('change').bind('change', function (event) {
-            event.preventDefault();
+    $('#filter').unbind('change').bind('change', function (event) {
+        event.preventDefault();
 
+        saveData();
+        currentFilterData = sort();
+        updatePaginationItems();
+        renderData(currentFilterData);
+
+        if ($('#searched-input').val().trim() !== "") {
+            $('#searched-input').trigger('keyup');
+        }
+    });
+
+    $('#sort').unbind('change').bind('change', function (event) {
+        event.preventDefault();
+
+        saveData();
+        currentFilterData = sort();
+        updatePaginationItems();
+
+        if ($('#searched-input').val().trim() !== "") {
+            $('#searched-input').trigger('keyup');
+        }
+    });
+
+    $('#resultsCountSelect').unbind('change').bind('change', function (event) {
+        event.preventDefault();
+
+        saveData();
+        currentFilterData = sort();
+        updatePaginationItems();
+
+        if ($('#searched-input').val().trim() !== "") {
+            $('#searched-input').trigger('keyup');
+        }
+    });
+
+    $('body').on('indexChanged', '.pagination', function (event, index) {
+        event.preventDefault();
+        if (!event.handled) {
+            event.handled = true;
             saveData();
-            currentFilterData = sort();
-            updatePaginationItems();
-            renderData(currentFilterData);
-
-            if ($('#searched-input').val().trim() !== "") {
-                $('#searched-input').trigger('keyup');
-            }
-        });
-
-        $('#sort').unbind('change').bind('change', function (event) {
-            event.preventDefault();
-
-            saveData();
-            currentFilterData = sort();
-            updatePaginationItems();
-
-            if ($('#searched-input').val().trim() !== "") {
-                $('#searched-input').trigger('keyup');
-            }
-        });
-
-        $('#resultsCountSelect').unbind('change').bind('change', function (event) {
-            event.preventDefault();
-
-            saveData();
-            currentFilterData = sort();
-            updatePaginationItems();
-
-            if ($('#searched-input').val().trim() !== "") {
-                $('#searched-input').trigger('keyup');
-            }
-        });
-
-        $('body').on('indexChanged', '.pagination', function (event, index) {
-            event.preventDefault();
-            if (!event.handled) {
-                event.handled = true;
-                saveData();
-                renderData(sort());
-            }
-        });
+            renderData(sort());
+        }
+    });
 </script>

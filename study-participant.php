@@ -121,8 +121,8 @@ if (login_check($mysqli) == true) {
             });
 
             function onAllExternalsLoadedSuccessfully() {
-                renderSubPageElements();               
-                
+                renderSubPageElements();
+
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
 
@@ -527,73 +527,6 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-//            function renderMultipleGUS(content, studyData, resultsData) {
-//                console.log(studyData, resultsData);
-//            }
-
-
-            // questionnaire rendering
-//            function renderQuestionnaire(content, studyData, resultsData) {
-////                console.log(studyData.length);
-//                for (var i = 0; i < studyData.length; i++) {
-////                    console.log(studyData[i].format);
-//
-//                    var listItem = $('#template-study-container').find('#' + studyData[i].format).clone();
-//                    listItem.find('#format .format-text').text(translation.questionFormats[studyData[i].format].text);
-//                    $(content).find('.list-container').append(listItem);
-//
-//                    if (studyData[i].dimension !== DIMENSION_ANY) {
-//                        $(listItem).find('#item-factors').removeClass('hidden');
-//                        $(listItem).find('#factor-primary').text(translation.dimensions[studyData[i].dimension]);
-//                        $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
-//                    }
-//
-//                    switch (studyData[i].format) {
-//                        case COUNTER:
-//                            renderCounter(listItem, studyData[i], resultsData.answers[i]);
-//                            break;
-//                        case OPEN_QUESTION:
-//                        case OPEN_QUESTION_GUS:
-//                            renderOpenQuestion(listItem, studyData[i], resultsData.answers[i]);
-//                            break;
-//                        case DICHOTOMOUS_QUESTION:
-//                            renderDichotomousQuestion(listItem, studyData[i], resultsData.answers[i]);
-//                            break;
-//                        case DICHOTOMOUS_QUESTION_GUS:
-//                            renderDichotomousQuestion(listItem, studyData[i], resultsData.answers[i]);
-//                            break;
-//                        case GROUPING_QUESTION:
-//                            renderGroupingQuestion(listItem, studyData[i], resultsData.answers[i]);
-//                            break;
-//                        case GROUPING_QUESTION_GUS:
-//                            renderGroupingQuestionGUS(listItem, studyData[i], resultsData.answers[i]);
-//                            break;
-//                        case RATING:
-//                            renderRating(listItem, studyData[i], resultsData.answers[i]);
-//                            break;
-//                        case SUM_QUESTION:
-//                            renderSumQuestion(listItem, studyData[i], resultsData.answers[i]);
-//                            break;
-//                        case RANKING:
-//                            renderRanking(listItem, studyData[i], resultsData.answers[i]);
-//                            break;
-//                        case ALTERNATIVE_QUESTION:
-//                            renderAlternativeQuestion(listItem, studyData[i], resultsData.answers[i]);
-//                            break;
-//                        case GUS_SINGLE:
-//                            renderGUS(listItem, studyData[i], resultsData.answers[i]);
-//                            break;
-//                        case SUS_ITEM:
-//                            renderSUSItem(listItem, studyData[i], resultsData.answers[i]);
-//                            break;
-//                    }
-//                    $(listItem).css({y: 0, opacity: 1});
-//                    TweenMax.from(listItem, .1, {delay: i * .1, opacity: 0, y: -10});
-//                }
-//            }
-
-
-
 
             function renderGestureTraining(container, studyData, resultsData) {
                 console.log(studyData, resultsData);
@@ -640,8 +573,7 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
-                var observationResults = getObservationResults();
-                renderObservation(container, studyData, observationResults);
+                renderObservation(container, studyData, getObservationResults());
 //                addObservationsDropdown(container);
             }
 
@@ -689,6 +621,8 @@ if (login_check($mysqli) == true) {
                         }
                     }
                 }
+
+                renderObservation(container, studyData, getObservationResults());
             }
 
             function renderTriggerSlideshow(container, studyData, resultsData) {
@@ -851,11 +785,12 @@ if (login_check($mysqli) == true) {
                         }
                     }
                 }
+
+                renderObservation(container, studyData, getObservationResults());
             }
 
             function renderScenario(container, studyData, resultsData) {
-                var observationResults = getObservationResults();
-                renderObservation(container, studyData, observationResults);
+                renderObservation(container, studyData, getObservationResults());
 //                addObservationsDropdown(container);
             }
 
@@ -875,10 +810,8 @@ if (login_check($mysqli) == true) {
 
             function renderObservation(container, studyData, observationResults) {
                 if (studyData.observations && studyData.observations.length > 0) {
-//                    console.log('render observations', studyData, observationResults);
                     for (var i = 0; i < studyData.observations.length; i++) {
                         var listItem = $('#item-container-inputs').find('#' + studyData.observations[i].format).clone();
-//                        listItem.find('#format .format-text').text(translation.questionFormats[studyData.observations[i].format].text);
                         $(container).find('#observations-container').append(listItem);
 
                         if (studyData.observations[i].dimension !== DIMENSION_ANY) {
@@ -891,25 +824,22 @@ if (login_check($mysqli) == true) {
 
                         switch (studyData.observations[i].format) {
                             case COUNTER:
-//                                console.log('render counter observation');
                                 renderEditableCounter(listItem, studyData.observations[i], answer);
                                 break;
                             case OPEN_QUESTION:
-                                //                            case OPEN_QUESTION_GUS:
+                            case OPEN_QUESTION_GUS:
                                 renderEditableOpenQuestion(listItem, studyData.observations[i], answer);
                                 break;
                             case DICHOTOMOUS_QUESTION:
+                            case DICHOTOMOUS_QUESTION_GUS:
                                 renderEditableDichotomousQuestion(listItem, studyData.observations[i], answer);
                                 break;
-//                            case DICHOTOMOUS_QUESTION_GUS:
-//                                renderDichotomousQuestion(listItem, studyData[i], resultsData.answers[i]);
-                                //                                break;
                             case GROUPING_QUESTION:
                                 renderEditableGroupingQuestion(listItem, studyData.observations[i], answer);
                                 break;
-//                            case GROUPING_QUESTION_GUS:
-//                                renderGroupingQuestionGUS(listItem, studyData[i], resultsData.answers[i]);
-//                                break;
+                            case GROUPING_QUESTION_GUS:
+                                renderEditableGroupingQuestionGUS(listItem, studyData.observations[i], answer);
+                                break;
                             case RATING:
                                 renderEditableRating(listItem, studyData.observations[i], answer);
                                 break;
@@ -920,9 +850,6 @@ if (login_check($mysqli) == true) {
                                 renderEditableRanking(listItem, studyData.observations[i], answer);
                                 break;
                         }
-
-//                        checkCurrentListState($(container).find('#observations-container'));
-//                        updateBadges($(container).find('#observations-container'), studyData.observations[i].format);
                     }
                 }
 
@@ -949,7 +876,7 @@ if (login_check($mysqli) == true) {
                         observations.push({id: currentPhaseId, answers: answers});
                     }
 
-                    console.log(observations);
+//                    console.log(observations);
                     setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, observations);
                 } else {
                     observations = new Array();
@@ -957,11 +884,7 @@ if (login_check($mysqli) == true) {
                     setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, observations);
                 }
 
-                saveObservations({studyId: getLocalItem(STUDY).id, testerId: getLocalItem(STUDY_RESULTS).userId, observations: observations}, function (result) {
-                    if (result.status === RESULT_SUCCESS) {
-//                        console.log(result);
-                    }
-                });
+                saveObservations({studyId: getLocalItem(STUDY).id, testerId: getLocalItem(STUDY_RESULTS).userId, observations: observations});
             }
 
             function isObservationPresent(phaseId) {
@@ -987,7 +910,6 @@ if (login_check($mysqli) == true) {
                         var format = dropdown.find('.chosen').attr('id');
                         var item = $('#template-study-editable-container').find('#' + format).clone();
                         $(container).find('#observations-container').prepend(item);
-//                        console.log('addFormat: ' + dropdown.find('.chosen').attr('id'));
                         checkCurrentListState($(container).find('#observations-container'));
                         updateBadges($(container).find('#observations-container'), format);
                         TweenMax.from(item, .3, {y: -20, opacity: 0, clearProps: 'all'});

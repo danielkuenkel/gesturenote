@@ -4,7 +4,7 @@ include './includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
-    <h4 class="modal-title" id="exampleModalLabel">Fragebogen</h4>
+    <h4 class="modal-title" id="exampleModalLabel"><?php echo $lang->formats->questionnaire->text ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
 
@@ -33,34 +33,33 @@ include './includes/language.php';
     <div class="container-root" id="list-container"></div>
 </div>
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
+    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> <?php echo $lang->saveAndClose ?></button>
 </div>
 
-<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
-        $(document).ready(function () {
-            var data = getLocalItem(currentIdForModal + '.data');
-            if (data !== null) {
-                renderData(data);
-            }
-        });
-
-        function renderData(data) {
-            var listContainer = $('#list-container');
-            for (var i = 0; i < data.length; i++) {
-                console.log(data[i]);
-                renderFormatItem(listContainer, data[i]);
-                updateBadges(listContainer, data[i].format);
-            }
-            checkCurrentListState(listContainer);
+    $(document).ready(function () {
+        var data = getLocalItem(currentIdForModal + '.data');
+        if (data !== null) {
+            renderData(data);
         }
+    });
 
-        function saveData() {
-            var itemList = $('#list-container').children();
-            var questionnaire = new Array();
-            for (var i = itemList.length; i--; ) {
-                questionnaire.push(getFormatData(itemList[i]));
-            }
-            setLocalItem(currentIdForModal + '.data', questionnaire);
+    function renderData(data) {
+        var listContainer = $('#list-container');
+        for (var i = 0; i < data.length; i++) {
+            console.log(data[i]);
+            renderFormatItem(listContainer, data[i]);
+            updateBadges(listContainer, data[i].format);
         }
+        checkCurrentListState(listContainer);
+    }
+
+    function saveData() {
+        var itemList = $('#list-container').children();
+        var questionnaire = new Array();
+        for (var i = itemList.length; i--; ) {
+            questionnaire.push(getFormatData(itemList[i]));
+        }
+        setLocalItem(currentIdForModal + '.data', questionnaire);
+    }
 </script>

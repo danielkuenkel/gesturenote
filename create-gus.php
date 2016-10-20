@@ -62,32 +62,18 @@ include './includes/language.php';
         </div>
     </div>
 
-
-    <!--    <div id="dimension-btn-group">
-            <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
-        </div>-->
-
-
 </div>
 <hr id="factor-seperator" style="margin: 0;">
 <div id="modal-body" class="modal-body">
-
     <div class="container-root" id="list-container"></div>
-
-    <!--<button type="button" class="btn btn-warning btn-shadow" id="btn-reset-origin-data"><span class="glyphicon glyphicon-repeat"></span> Original GUS wiederherstellen</button>-->
-    <!--<button type="button" class="btn btn-info btn-shadow pull-right" id="btn-add-gus-item"><span class="glyphicon glyphicon-plus"></span> Ein neues Item hinzufügen</button>-->
-
 </div>
 
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
 </div>
 
-
-<!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
     $(document).ready(function () {
-//        currentGUS = GUS_SINGLE_GESTURES;
         renderAssembledGestures($('#forGesture'));
         renderAssembledTriggers($('#gesture-trigger'));
         renderAssembledFeedback($('#gesture-feedback'));
@@ -100,24 +86,14 @@ include './includes/language.php';
         }
     });
 
-    $('.show-hole-text').tooltip({
-        container: 'body',
-        placement: "top"
-    });
-
-//    var gusGestureId = null;
     function renderData(data) {
         if (data.gestureId) {
             if (isGestureAssembled(data.gestureId)) {
-//                gusGestureId = data.gestureId;
                 $('#forGesture').find('#' + data.gestureId).click();
             } else {
                 appendAlert($('#general'), ALERT_ASSEMBLED_GESTURE_REMOVED);
             }
-        } 
-//        else {
-//            gusGestureId = null;
-//        }
+        }
 
         if (data.triggerId) {
             var trigger = getTriggerById(data.triggerId);
@@ -171,19 +147,4 @@ include './includes/language.php';
 
         setLocalItem(currentIdForModal + '.data', {gestureId: gestureId, triggerId: triggerId, feedbackId: feedbackId, gus: questionnaire});
     }
-
-//        $('#btn-add-gus-item').on('click', function () {
-//            var item = $('#form-item-container').find('#gusSingle').clone();
-//            $('#list-container').append(item);
-//            checkCurrentListState($('#list-container'));
-//        });
-
-//        $('#btn-reset-origin-data').on('click', function () {
-//            var data = getLocalItem(STUDY_ORIGIN_GUS);
-//            if (data !== null) {
-//                $('#list-container').empty();
-//                renderData(data);
-//            }
-//            checkCurrentListState($('#list-container'));
-//        });
 </script>

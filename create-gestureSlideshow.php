@@ -10,43 +10,25 @@ include './includes/language.php';
 
     <div class="panel panel-default root" id="general">
         <div class="panel-heading clearfix">
-            <div class="panel-title">Allgemeines</div>
+            <div class="panel-title"><?php echo $lang->general ?></div>
         </div>
         <div class="panel-body">
             <div class="panel-group" id="generalContainer">
                 <div class="form-group">
-                    <label class="sr-only" for="slideshowTitle">Titel</label>
-                    <input type="text" class="form-control" id="slideshowTitle" placeholder="Titel einfügen">
+                    <label class="sr-only" for="slideshowTitle"><?php echo $lang->title ?></label>
+                    <input type="text" class="form-control" id="slideshowTitle" placeholder="<?php echo $lang->insertTitle ?>">
                 </div>
                 <div class="form-group">
-                    <label class="sr-only" for="slideshowDescription">Beschreibung</label>
-                    <textarea class="form-control" id="slideshowDescription" rows="5" placeholder="Slideshowbeschreibung einfügen"></textarea>
+                    <label class="sr-only" for="slideshowDescription"><?php echo $lang->description ?></label>
+                    <textarea class="form-control" id="slideshowDescription" rows="5" placeholder="<?php echo $lang->insertDescription ?>"></textarea>
                 </div>
-                <!--                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="input-group simple-stepper">
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-default btn-shadow btn-addon">Zeit für die Antwort (Sekunden)</button>
-                                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="2">
-                                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Eine Sekunde weniger</span>
-                                                </button>
-                                            </div>
-                                            <input type="text" class="form-control readonly text-center stepper-text" id="answerTime" value="3">
-                                            <div class="input-group-btn">
-                                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
-                                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Eine Sekunde mehr</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>-->
             </div>
         </div>
     </div>
 
     <div class="panel panel-default root" id="slideshow">
         <div class="panel-heading clearfix">
-            <div class="panel-title">Elemente</div>
+            <div class="panel-title"><?php echo $lang->elements ?></div>
         </div>
         <div class="panel-body">
             <div class="panel-group" id="slideshowContainer">
@@ -57,11 +39,11 @@ include './includes/language.php';
 
     <div class="panel panel-default root" id="observations">
         <div class="panel-heading clearfix">
-            <div style="margin-top: 4px; display: inline-block">Beobachtungen</div>
+            <div style="margin-top: 4px; display: inline-block"><?php echo $lang->observations ?></div>
             <div class="btn-group pull-right" id="useObservationsSwitch">
-                <button class="btn btn-default switchButtonAddon switchButtonAddonPanel">Nutzen?</button>
-                <button class="btn btn-default btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success">Ja</button>
-                <button class="btn btn-warning btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning">Nein</button>
+                <button class="btn btn-default switchButtonAddon switchButtonAddonPanel"><?php echo $lang->useItQuestionmark ?></button>
+                <button class="btn btn-default btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                <button class="btn btn-warning btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
             </div>
         </div>
         <div class="panel-body hidden">
@@ -117,7 +99,7 @@ include './includes/language.php';
 
 </div>
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> Speichern & Schließen</button>
+    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> <?php echo $lang->saveAndClose ?></button>
 </div>
 
 
