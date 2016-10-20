@@ -85,10 +85,13 @@ include './includes/language.php';
                     <div class="input-group-btn select" id="addFormatSelect" role="group">
                         <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="counter"><a href="#">Zähler</a></li>
-                            <li id="openQuestion"><a href="#">Offene Frage</a></li>
-                            <li id="dichotomousQuestion"><a href="#">Ja/nein-Frage</a></li>
-                            <li id="groupingQuestion"><a href="#">Eingruppierungs-Frage</a></li>
+                            <li id="counter"><a href="#"><?php echo $lang->questionFormats->counter->text ?></a></li>
+                            <li id="openQuestion"><a href="#"><?php echo $lang->questionFormats->openQuestion->text ?></a></li>
+                            <li id="dichotomousQuestion"><a href="#"><?php echo $lang->questionFormats->dichotomousQuestion->text ?></a></li>
+                            <li id="groupingQuestion"><a href="#"><?php echo $lang->questionFormats->groupingQuestion->text ?></a></li>
+                            <li id="rating"><a href="#"><?php echo $lang->questionFormats->rating->text ?></a></li>
+                            <li id="sumQuestion"><a href="#"><?php echo $lang->questionFormats->sumQuestion->text ?></a></li>
+                            <li id="ranking"><a href="#"><?php echo $lang->questionFormats->ranking->text ?></a></li>
                         </ul>
                         <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                     </div>
@@ -120,8 +123,6 @@ include './includes/language.php';
             $(idenficationItems).has('#group-' + activeId).remove();
 
             if ($(this).find('.active').attr('id') === $('#identificationTypeSwitch #gestures').attr('id')) {
-//                $('#gesture-repeats-stepper').removeClass('hidden');
-
                 var trigger = getLocalItem(ASSEMBLED_TRIGGER);
                 if (trigger && trigger.length > 0) {
                     renderAssembledTriggers();
@@ -133,8 +134,6 @@ include './includes/language.php';
                     $(container).find('.option-container').addClass('hidden');
                 }
             } else {
-//                $('#gesture-repeats-stepper').addClass('hidden');
-
                 if (assembledGestures()) {
                     renderAssembledGestures();
                     $(container).find('.btn-add-identificationOption').removeClass('hidden');
@@ -151,7 +150,7 @@ include './includes/language.php';
             var identification = $('#form-item-container #identification').clone();
             $('#identificationContainer').append(identification);
 
-            renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
+//            renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS), $('#observations #list-container'));
 
             var data = getLocalItem(currentIdForModal + '.data');
             if (data) {
@@ -167,7 +166,6 @@ include './includes/language.php';
             $('#identificationTitle').val(data.title);
             $('#identificationDescription').val(data.description);
             $('#identificationTypeSwitch #' + data.identificationFor).click();
-//            $('#gesture-repeats-stepper .stepper-text').val(data.identificationRepeats);
 
             var container;
             if (identificationItems !== undefined && identificationItems.length > 0) {
@@ -234,7 +232,6 @@ include './includes/language.php';
             identification.title = $('#identificationTitle').val();
             identification.description = $('#identificationDescription').val();
             identification.identificationFor = $('#identificationTypeSwitch .active').attr('id');
-//            identification.identificationRepeats = $('#gesture-repeats-stepper .stepper-text').val();
 
             if (identificationItems) {
                 var set = new Array();
@@ -263,7 +260,4 @@ include './includes/language.php';
 
             setLocalItem(currentIdForModal + ".data", identification);
         }
-
-        
-
 </script>

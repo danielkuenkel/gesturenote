@@ -225,6 +225,8 @@ function renderFormatItem(target, data) {
         $(clone).find('#factor-primary').text(dimensions[dimension]);
         $(clone).find('#factor-main').text(mainDimensions[getMainDimensionForDimension(dimension)]);
     }
+    
+    TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
 }
 
 

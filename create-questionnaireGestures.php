@@ -11,24 +11,25 @@ include './includes/language.php';
 
     <div id="dimension-controls">
         <div class="dimension-container" id="container-effectiveness">
-            <h4 style="margin-top: 0px; color: #3379b7">Zweckmäßigkeit</h4>
+            <h4 style="margin-top: 0px; color: #3379b7"><?php echo $lang->mainDimensions->effectiveness ?></h4>
             <div class="dimension-btn-group">
-                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
             </div>
         </div>
         <div class="dimension-container" id="container-efficiency">
-            <h4 style="margin-top: 15px; color: #3379b7">Effizienz</h4>
+            <h4 style="color: #3379b7"><?php echo $lang->mainDimensions->efficiency ?></h4>
             <div class="dimension-btn-group">
-                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
             </div>
         </div>
         <div class="dimension-container" id="container-satisfaction">
-            <h4 style="margin-top: 15px; color: #3379b7">Zufriedenheit</h4>
+            <h4 style="color: #3379b7"><?php echo $lang->mainDimensions->satisfaction ?></h4>
             <div class="dimension-btn-group">
-                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
             </div>
         </div>
     </div>
+
 </div>
 <hr id="factor-seperator" style="margin: 0;">
 <div id="modal-body" class="modal-body">
@@ -44,38 +45,37 @@ include './includes/language.php';
 
 <!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script type="text/javascript">
-        $(document).ready(function () {
-            currentGUS = GUS_MULTIPLE_GESTURES;
-            renderDimensions($('#dimension-controls'), getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE));
-//            checkDimensions($('#dimension-controls'), getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE));
+    $(document).ready(function () {
+        currentGUS = GUS_MULTIPLE_GESTURES;
+        renderDimensions($('#dimension-controls'), translation.multipleGUS, $('#list-container'));
 
-            renderAssembledGestures();
-            renderAssembledTriggers();
+        renderAssembledGestures();
+        renderAssembledTriggers();
 
-            var data = getLocalItem(currentIdForModal + '.data');
-            if (data !== null) {
-                renderData(data);
-            }
-        });
-
-        function renderData(data) {
-            var listContainer = $('#list-container');
-            for (var i = 0; i < data.gus.length; i++) {
-                renderFormatItem(listContainer, data.gus[i]);
-                updateBadges(listContainer, data.gus[i].format);
-            }
-            checkDimensionItems($('#dimension-controls .dimension-container'));
-            checkCurrentListState(listContainer);
+        var data = getLocalItem(currentIdForModal + '.data');
+        if (data !== null) {
+            renderData(data);
         }
+    });
 
-        function saveData() {
-            var itemList = $('#list-container').children();
-            var questionnaire = new Array();
-            for (var i = itemList.length; i--; ) {
-                questionnaire.push(getFormatData(itemList[i]));
-            }
-            setLocalItem(currentIdForModal + '.data', {gus: questionnaire});
+    function renderData(data) {
+        var listContainer = $('#list-container');
+        for (var i = 0; i < data.gus.length; i++) {
+            renderFormatItem(listContainer, data.gus[i]);
+            updateBadges(listContainer, data.gus[i].format);
         }
+        checkDimensionItems($('#dimension-controls .dimension-container'));
+        checkCurrentListState(listContainer);
+    }
+
+    function saveData() {
+        var itemList = $('#list-container').children();
+        var questionnaire = new Array();
+        for (var i = itemList.length; i--; ) {
+            questionnaire.push(getFormatData(itemList[i]));
+        }
+        setLocalItem(currentIdForModal + '.data', {gus: questionnaire});
+    }
 
 //        $('#btn-reset-origin-data').on('click', function () {
 //            var data = getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE);

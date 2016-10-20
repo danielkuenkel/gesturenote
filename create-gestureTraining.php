@@ -54,26 +54,26 @@ include './includes/language.php';
         </div>
         <div class="panel-body hidden">
 
-            <!--            <div id="dimension-controls">
-                            <div class="dimension-container" id="container-effectiveness">
-                                <h4 style="margin-top: 0px; color: #3379b7"><?php echo $lang->mainDimensions->effectiveness ?></h4>
-                                <div class="dimension-btn-group">
-                                    <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                </div>
-                            </div>
-                            <div class="dimension-container" id="container-efficiency">
-                                <h4 style="color: #3379b7"><?php echo $lang->mainDimensions->efficiency ?></h4>
-                                <div class="dimension-btn-group">
-                                    <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                </div>
-                            </div>
-                            <div class="dimension-container" id="container-satisfaction">
-                                <h4 style="color: #3379b7"><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                                <div class="dimension-btn-group">
-                                    <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                </div>
-                            </div>
-                        </div>-->
+            <div id="dimension-controls">
+                <div class="dimension-container" id="container-effectiveness">
+                    <h4 style="margin-top: 0px; color: #3379b7"><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                    <div class="dimension-btn-group">
+                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                    </div>
+                </div>
+                <div class="dimension-container" id="container-efficiency">
+                    <h4 style="color: #3379b7"><?php echo $lang->mainDimensions->efficiency ?></h4>
+                    <div class="dimension-btn-group">
+                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                    </div>
+                </div>
+                <div class="dimension-container" id="container-satisfaction">
+                    <h4 style="color: #3379b7"><?php echo $lang->mainDimensions->satisfaction ?></h4>
+                    <div class="dimension-btn-group">
+                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                    </div>
+                </div>
+            </div>
 
             <div class="form-group" style="margin-top: 20px">
                 <div class="input-group">
@@ -142,15 +142,15 @@ include './includes/language.php';
         help.removeAttr('id');
         $('#helpContainer').append(help);
 
-//            renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
+        renderDimensions($('#dimension-controls'), translation.observationsGestureTraining, $('#observations #list-container'));
 
         var data = getLocalItem(currentIdForModal + '.data');
         if (data) {
-            renderData(data, false);
+            renderData(data);
         }
     });
 
-    function renderData(data, forPrefiniedObservation)
+    function renderData(data)
     {
         var trainingItems = data.training;
 
@@ -206,16 +206,16 @@ include './includes/language.php';
             checkCurrentListState(container);
         }
 
-        var obeservationItems;
-        if (!forPrefiniedObservation) {
-            obeservationItems = data.observations;
-        } else {
-            obeservationItems = data.gus;
-        }
+        var obeservationItems = data.observations;
+//        if (!forPrefiniedObservation) {
+//            obeservationItems
+//        } else {
+//            obeservationItems = data.gus;
+//        }
         if (obeservationItems !== undefined && obeservationItems.length > 0) {
-            if (!forPrefiniedObservation) {
-                $('#useObservationsSwitch .switchButtonAddon').click();
-            }
+//            if (!forPrefiniedObservation) {
+            $('#useObservationsSwitch .switchButtonAddon').click();
+//            }
 
             container = $('#list-container');
 
@@ -254,12 +254,12 @@ include './includes/language.php';
                 var repeats = $(item).find('#repeats-stepper .stepper-text').val();
                 var recognitionTime = $(item).find('#recognition-stepper .stepper-text').val();
 
-                console.log(feedbackId, gesture, trigger, feedback, $(item).find('.triggerSelect .chosen'));
+//                console.log(feedbackId, gesture, trigger, feedback, $(item).find('.triggerSelect .chosen'));
                 if (gesture && trigger && feedback) {
                     set.push({gestureId: gestureId, triggerId: triggerId, feedbackId: feedbackId, repeats: repeats, recognitionTime: recognitionTime});//new TrainingItem(gestureId, triggerId, feedbackId, repeats, recognitionTime));
                 }
             }
-            console.log(set);
+//            console.log(set);
             training.training = set;
         }
 
@@ -275,10 +275,4 @@ include './includes/language.php';
 
         setLocalItem(currentIdForModal + ".data", training);
     }
-
-//        $('#addPredefinedObservations').on('click', function () {
-//            if (getLocalItem(PREDEFINED_OBSERVATIONS) !== null) {
-//                renderData(getLocalItem(PREDEFINED_OBSERVATIONS), true);
-//            }
-//        });
 </script>

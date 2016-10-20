@@ -2,11 +2,14 @@
  * This functions handle the dimensions group list.
  */
 
+var predefinedQuestionnaire = null;
+var questionsContainer = null;
+var dimensionList = null;
+function renderDimensions(target, questionnaire, container) {
+    dimensionList = target;
+    predefinedQuestionnaire = questionnaire;
+    questionsContainer = container;
 
-/*
- * dimensions list handling
- */ 
-function renderDimensions(target, questionnaire) {
     var dimensions = translation.dimensions;
     for (var key in dimensions) {
         if (dimensions.hasOwnProperty(key)) {
@@ -37,25 +40,23 @@ function renderDimensions(target, questionnaire) {
     } else {
         dimensionContainer.addClass('hidden');
     }
+
+    checkDimensionItems($(dimensionList).find('.dimension-container'));
 }
 
 $(document).on('click', '.dimension-btn-group .btn-toggle', function (event) {
     if (event.handled !== true)
     {
-
         event.handled = true;
         var dimensionContainer = $(this).closest('.dimension-container');
         var mainDimension = $(this).closest('.dimension-container').attr('id').split('-')[1];
-//        console.log(dimensionContainer);
+
         if ($(this).hasClass('active')) {
             removeQuestionaireItems(mainDimension, $(this).attr('id'));
-            $(this).removeClass('active');
-            $(this).removeClass('btn-info');
-            $(this).addClass('inactive');
-            if ($(this).attr('id') === 'all') {
-//                $('#factor-seperator').addClass('hidden');
+            $(this).removeClass('active btn-info').addClass('inactive');
 
-                var children = $(dimensionContainer).find('.btn-toggle');
+            if ($(this).attr('id') === 'all') {
+                var children = $(dimensionContainer).find('.btn-toggle').not('.hidden');
                 $(children).removeClass('btn-info active').addClass('inactive');
                 $(this).text('Alle');
             } else {
@@ -64,15 +65,11 @@ $(document).on('click', '.dimension-btn-group .btn-toggle', function (event) {
                 checkDimensionItems(dimensionContainer);
             }
         } else {
-
             addQuestionnaireItems(dimensionContainer, $(this).attr('id'));
-            $(this).addClass('active');
-            $(this).addClass('btn-info');
-            $(this).removeClass('inactive');
-            if ($(this).attr('id') === 'all') {
-//                $('#factor-seperator').removeClass('hidden');
+            $(this).removeClass('inactive').addClass('active btn-info');
 
-                var children = $(this).parent().children('.btn-toggle');
+            if ($(this).attr('id') === 'all') {
+                var children = $(this).parent().children('.btn-toggle').not('.hidden');
                 $(children).removeClass('inactive').addClass('btn-info active');
                 $(this).text('Keine');
             } else {
@@ -83,15 +80,16 @@ $(document).on('click', '.dimension-btn-group .btn-toggle', function (event) {
 });
 
 function checkDimensionItems(dimensionContainer) {
-
     for (var i = 0; i < dimensionContainer.length; i++) {
         var container = $(dimensionContainer[i]).find('.dimension-btn-group');
         var dimensions = $(container).children('.btn-dimension');
         var hiddenDimensions = $(container).find('.hidden');
         var inactiveDimensions = dimensions.filter('.inactive');
-        if (hiddenDimensions.length < dimensions.length && inactiveDimensions.length === 0) {
-            $(container).find('#all').removeClass('inactive').addClass('active btn-info');
-            $(container).find('#all').text('Keine');
+
+        if (hiddenDimensions.length === dimensions.length) {
+            $(container).closest('.dimension-container').addClass('hidden');
+        } else if (hiddenDimensions.length < dimensions.length && inactiveDimensions.length === 0) {
+            $(container).find('#all').removeClass('inactive').addClass('active btn-info').text('Keine');
         }
     }
 }
@@ -102,28 +100,36 @@ function addQuestionnaireItems(container, dimension) {
         for (var i = 0; i < dimensions.length; i++) {
             var dimensionButton = dimensions[i];
             if (!$(dimensionButton).hasClass('hidden') && !$(dimensionButton).hasClass('active')) {
-                renderData(getPredefinedQuestionnaireItemsByDimension($(dimensionButton).attr('id')), true);
+                renderQuesitonnaireItemsForDimension($(dimensionButton).attr('id'));
             }
         }
     } else {
-        renderData(getPredefinedQuestionnaireItemsByDimension(dimension), true);
+        renderQuesitonnaireItemsForDimension(dimension);
     }
 }
 
-var currentGUS = null;
+function renderQuesitonnaireItemsForDimension(dimension) {
+    var obeservationItems = getPredefinedQuestionnaireItemsByDimension(dimension);
+    for (var i = 0; i < obeservationItems.length; i++) {
+        renderFormatItem(questionsContainer, obeservationItems[i]);
+        updateBadges(questionsContainer, obeservationItems[i].format);
+    }
+    checkCurrentListState(questionsContainer);
+    checkDimensionItems($(dimensionList).find('.dimension-container'));
+}
+
 function getPredefinedQuestionnaireItemsByDimension(dimension) {
-    var predefinedQuestionnaire = currentGUS === GUS_SINGLE_GESTURES ? getLocalItem(STUDY_ORIGIN_GUS) : getLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE);
     var questionnaire = new Array();
     for (var i = 0; i < predefinedQuestionnaire.length; i++) {
         if (predefinedQuestionnaire[i].dimension === dimension) {
             questionnaire.push(predefinedQuestionnaire[i]);
         }
     }
-    return {gus: questionnaire};
+    return questionnaire;
 }
 
 function removeQuestionaireItems(mainDimension, dimension) {
-    var itemList = $('#list-container').children();
+    var itemList = $(questionsContainer).children();
     for (var i = 0; i < itemList.length; i++) {
         var item = itemList[i];
         var itemDimension = getDimensionByElement($(item));
@@ -131,7 +137,7 @@ function removeQuestionaireItems(mainDimension, dimension) {
             if ((dimension === 'all' && mainDimension === getMainDimensionForDimension(itemDimension)) || itemDimension === dimension) {
                 var itemId = $(item).attr('id');
                 $(item).find('.btn-delete').click();
-                updateBadges($('#list-container'), itemId);
+                updateBadges(questionsContainer, itemId);
             }
         }
     }
@@ -158,9 +164,7 @@ function checkUsedItems(element) {
     var dimension = getDimensionByElement(element);
 //    var mainDimension = getMainDimensionForDimension(dimension);
     var usedDimensionElements = element.parent().children('.' + dimension).find('.used');
-    if (usedDimensionElements.length > 0) {
-
-    } else {
+    if (usedDimensionElements.length === 0) {
         $('#dimension-controls #' + dimension).click();
     }
 }

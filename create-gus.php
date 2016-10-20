@@ -43,21 +43,21 @@ include './includes/language.php';
 
     <div id="dimension-controls">
         <div class="dimension-container" id="container-effectiveness">
-            <h4 style="margin-top: 0px; color: #3379b7">Zweckmäßigkeit</h4>
+            <h4 style="margin-top: 0px; color: #3379b7"><?php echo $lang->mainDimensions->effectiveness ?></h4>
             <div class="dimension-btn-group">
-                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
             </div>
         </div>
         <div class="dimension-container" id="container-efficiency">
-            <h4 style="color: #3379b7">Effizienz</h4>
+            <h4 style="color: #3379b7"><?php echo $lang->mainDimensions->efficiency ?></h4>
             <div class="dimension-btn-group">
-                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
             </div>
         </div>
         <div class="dimension-container" id="container-satisfaction">
-            <h4 style="color: #3379b7">Zufriedenheit</h4>
+            <h4 style="color: #3379b7"><?php echo $lang->mainDimensions->satisfaction ?></h4>
             <div class="dimension-btn-group">
-                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all">Alle</button>
+                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
             </div>
         </div>
     </div>
@@ -86,89 +86,91 @@ include './includes/language.php';
 
 <!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
-        $(document).ready(function () {
-            currentGUS = GUS_SINGLE_GESTURES;
-            renderDimensions($('#dimension-controls'), getLocalItem(STUDY_ORIGIN_GUS));
-            renderAssembledGestures($('#forGesture'));
-            renderAssembledTriggers($('#gesture-trigger'));
-            renderAssembledFeedback($('#gesture-feedback'));
+    $(document).ready(function () {
+//        currentGUS = GUS_SINGLE_GESTURES;
+        renderAssembledGestures($('#forGesture'));
+        renderAssembledTriggers($('#gesture-trigger'));
+        renderAssembledFeedback($('#gesture-feedback'));
 
-            var data = getLocalItem(currentIdForModal + '.data');
-            if (data !== null) {
-                renderData(data);
-            }
-        });
+        renderDimensions($('#dimension-controls'), translation.singleGUS, $('#list-container'));
 
-        $('.show-hole-text').tooltip({
-            container: 'body',
-            placement: "top"
-        });
+        var data = getLocalItem(currentIdForModal + '.data');
+        if (data !== null) {
+            renderData(data);
+        }
+    });
 
-        var gusGestureId = null;
-        function renderData(data) {
-            if (data.gestureId) {
-                if (isGestureAssembled(data.gestureId)) {
-                    gusGestureId = data.gestureId;
-                    $('#forGesture').find('#' + data.gestureId).click();
-                } else {
-                    appendAlert($('#general'), ALERT_ASSEMBLED_GESTURE_REMOVED);
-                }
+    $('.show-hole-text').tooltip({
+        container: 'body',
+        placement: "top"
+    });
+
+//    var gusGestureId = null;
+    function renderData(data) {
+        if (data.gestureId) {
+            if (isGestureAssembled(data.gestureId)) {
+//                gusGestureId = data.gestureId;
+                $('#forGesture').find('#' + data.gestureId).click();
             } else {
-                gusGestureId = null;
+                appendAlert($('#general'), ALERT_ASSEMBLED_GESTURE_REMOVED);
             }
+        } 
+//        else {
+//            gusGestureId = null;
+//        }
 
-            if (data.triggerId) {
-                var trigger = getTriggerById(data.triggerId);
-                if (trigger === null) {
-                    appendAlert($('#general'), ALERT_ASSEMBLED_TRIGGER_REMOVED);
-                } else {
-                    $('#gesture-trigger').find('#' + data.triggerId).click();
-                }
+        if (data.triggerId) {
+            var trigger = getTriggerById(data.triggerId);
+            if (trigger === null) {
+                appendAlert($('#general'), ALERT_ASSEMBLED_TRIGGER_REMOVED);
+            } else {
+                $('#gesture-trigger').find('#' + data.triggerId).click();
             }
-            if (data.feedbackId) {
-                var feedback = getFeedbackById(data.feedbackId);
-                if (feedback === null) {
-                    appendAlert($('#general'), ALERT_ASSEMBLED_FEEDBACK_REMOVED);
-                } else {
-                    $('#gesture-feedback').find('#' + data.feedbackId).click();
-                }
+        }
+        if (data.feedbackId) {
+            var feedback = getFeedbackById(data.feedbackId);
+            if (feedback === null) {
+                appendAlert($('#general'), ALERT_ASSEMBLED_FEEDBACK_REMOVED);
+            } else {
+                $('#gesture-feedback').find('#' + data.feedbackId).click();
             }
-
-
-            var listContainer = $('#list-container');
-            for (var i = 0; i < data.gus.length; i++) {
-                renderFormatItem(listContainer, data.gus[i]);
-                updateBadges(listContainer, data.gus[i].format);
-            }
-            checkDimensionItems($('#dimension-controls .dimension-container'));
-            checkCurrentListState(listContainer);
         }
 
-        function saveData() {
-            var itemList = $('#list-container').children();
-            var questionnaire = new Array();
-            for (var i = itemList.length; i--; ) {
-                questionnaire.push(getFormatData(itemList[i]));
-            }
 
-            var gestureId = null;
-            var triggerId = null;
-            var feedbackId = null;
-
-            if ($('#forGesture .chosen').attr('id') !== 'unselected') {
-                gestureId = $('#forGesture .chosen').attr('id');
-            }
-
-            if ($('#gesture-trigger .chosen').attr('id') !== 'unselected') {
-                triggerId = $('#gesture-trigger .chosen').attr('id');
-            }
-
-            if ($('#gesture-feedback .chosen').attr('id') !== 'unselected') {
-                feedbackId = $('#gesture-feedback .chosen').attr('id');
-            }
-
-            setLocalItem(currentIdForModal + '.data', {gestureId: gestureId, triggerId: triggerId, feedbackId: feedbackId, gus: questionnaire});
+        var listContainer = $('#list-container');
+        for (var i = 0; i < data.gus.length; i++) {
+            renderFormatItem(listContainer, data.gus[i]);
+            updateBadges(listContainer, data.gus[i].format);
         }
+        checkDimensionItems($('#dimension-controls .dimension-container'));
+        checkCurrentListState(listContainer);
+    }
+
+    function saveData() {
+        var itemList = $('#list-container').children();
+        var questionnaire = new Array();
+        for (var i = itemList.length; i--; ) {
+            questionnaire.push(getFormatData(itemList[i]));
+        }
+
+        var gestureId = null;
+        var triggerId = null;
+        var feedbackId = null;
+
+        if ($('#forGesture .chosen').attr('id') !== 'unselected') {
+            gestureId = $('#forGesture .chosen').attr('id');
+        }
+
+        if ($('#gesture-trigger .chosen').attr('id') !== 'unselected') {
+            triggerId = $('#gesture-trigger .chosen').attr('id');
+        }
+
+        if ($('#gesture-feedback .chosen').attr('id') !== 'unselected') {
+            feedbackId = $('#gesture-feedback .chosen').attr('id');
+        }
+
+        setLocalItem(currentIdForModal + '.data', {gestureId: gestureId, triggerId: triggerId, feedbackId: feedbackId, gus: questionnaire});
+    }
 
 //        $('#btn-add-gus-item').on('click', function () {
 //            var item = $('#form-item-container').find('#gusSingle').clone();

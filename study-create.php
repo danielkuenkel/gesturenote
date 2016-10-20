@@ -697,8 +697,9 @@ if (login_check($mysqli) == true) {
                         removeLocalItem(event.data.id + ".data");
                         checkPreviewAvailability();
                     });
+
                     if (format === SUS) {
-                        setLocalItem(id + ".data", getLocalItem(STUDY_ORIGIN_SUS));
+                        setLocalItem(id + ".data", translation.sus);
                     }
                 }
 

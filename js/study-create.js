@@ -10,10 +10,10 @@ var colors;
 function checkSessionStorage() {
     checkAssembledGestures(getLocalItem(ASSEMBLED_GESTURE_SET), getLocalItem(GESTURE_CATALOG));
     createOriginPhases();
-    createOriginGUS();
-    createOriginSUS();
-    createPredefinedObservationForm();
-    createPredefinedGestureQuestionnaire();
+//    createOriginGUS();
+//    createOriginSUS();
+//    createPredefinedObservationForm();
+//    createPredefinedGestureQuestionnaire();
     createPredefinedGestureFeedback();
     renderSessionStorageData();
 }
@@ -30,32 +30,32 @@ function createOriginPhases() {
     
 }
 
-function createOriginGUS() {
-    var items = translation.singleGUS;
-    setLocalItem(STUDY_ORIGIN_GUS, items);
-}
+//function createOriginGUS() {
+//    var items = translation.singleGUS;
+//    setLocalItem(STUDY_ORIGIN_GUS, items);
+//}
 
-function createOriginSUS() {
-    var items = translation.sus;
-    setLocalItem(STUDY_ORIGIN_SUS, items);
-}
+//function createOriginSUS() {
+//    var items = translation.sus;
+//    setLocalItem(STUDY_ORIGIN_SUS, items);
+//}
 
-function createPredefinedObservationForm() {
-    if (getLocalItem(PREDEFINED_OBSERVATIONS) === null)
-    {
-        var form = new Array();
-        form.push({format: COUNTER, dimension: DIMENSION_ANY, question: 'Wie oft wurde die Geste falsch ausgeführt?', parameters: {countFrom: 0, countTo: 10}, options: null});
-        form.push({format: DICHOTOMOUS_QUESTION, dimension: DIMENSION_ANY, question: 'Wurde die Hilfe genutzt?', parameters: {justification: 'no', justificationFor: 'yes'}, options: null});
-        form.push({format: GROUPING_QUESTION, dimension: DIMENSION_ANY, question: 'Wurde Hilfe benötigt?', parameters: {multiselect: 'no', optionalanswer: 'no'}, options: [{id: chance.natural(), title: 'ja'}, {id: chance.natural(), title: 'nein'}, {id: chance.natural(), title: 'ein wenig'}]});
-        form.push({format: OPEN_QUESTION, dimension: DIMENSION_ANY, question: 'Was wurde sonst beobachtet?', parameters: null, options: null});
-        setLocalItem(PREDEFINED_OBSERVATIONS, form);
-    }
-}
+//function createPredefinedObservationForm() {
+//    if (getLocalItem(PREDEFINED_OBSERVATIONS) === null)
+//    {
+//        var form = new Array();
+//        form.push({format: COUNTER, dimension: DIMENSION_ANY, question: 'Wie oft wurde die Geste falsch ausgeführt?', parameters: {countFrom: 0, countTo: 10}, options: null});
+//        form.push({format: DICHOTOMOUS_QUESTION, dimension: DIMENSION_ANY, question: 'Wurde die Hilfe genutzt?', parameters: {justification: 'no', justificationFor: 'yes'}, options: null});
+//        form.push({format: GROUPING_QUESTION, dimension: DIMENSION_ANY, question: 'Wurde Hilfe benötigt?', parameters: {multiselect: 'no', optionalanswer: 'no'}, options: [{id: chance.natural(), title: 'ja'}, {id: chance.natural(), title: 'nein'}, {id: chance.natural(), title: 'ein wenig'}]});
+//        form.push({format: OPEN_QUESTION, dimension: DIMENSION_ANY, question: 'Was wurde sonst beobachtet?', parameters: null, options: null});
+//        setLocalItem(PREDEFINED_OBSERVATIONS, form);
+//    }
+//}
 
-function createPredefinedGestureQuestionnaire() {
-    var items = translation.multipleGUS;
-    setLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE, items);
-}
+//function createPredefinedGestureQuestionnaire() {
+//    var items = translation.multipleGUS;
+//    setLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE, items);
+//}
 
 function createPredefinedGestureFeedback() {
     if (getLocalItem(ASSEMBLED_FEEDBACK) === null) {
@@ -266,142 +266,6 @@ function savePhases() {
     setLocalItem(STUDY_PHASE_STEPS, phases);
 }
 
-//function Study() {
-//    this.title;
-//    this.description;
-//    this.phase;
-//    this.surveyType;
-//    this.panelSurvey;
-//    this.gender;
-//    this.ageRange;
-//    this.dateFrom;
-//    this.dateTo;
-//}
-//
-//function UsabilityScaleItem(question, dimension, likertScale, reversed) {
-//    this.question = question;
-//    this.dimension = dimension;
-//    this.likertScale = likertScale;
-//    this.reversed = reversed;
-//}
-//
-//function PhaseItem(id, format, color) {
-//    this.id = id;
-//    this.format = format;
-//    this.color = color;
-//}
-//
-//function QuestionnaireItem(format, dimension, question, parameters, options) {
-//    this.format = format;
-//    this.dimension = dimension;
-//    this.question = question;
-//    this.parameters = parameters;
-//    this.options = options;
-//}
-//
-//function Scenario() {
-//    this.title;
-//    this.description;
-//    this.scene;
-//    this.elicitationTrigger;
-//    this.woz;
-//    this.help;
-//    this.observations;
-//}
-//
-//function Training() {
-//    this.title;
-//    this.description;
-//    this.useSingleTraining;
-//    this.training;
-//    this.observations;
-//}
-//
-//function TrainingItem(gestureId, triggerId, feedbackId, repeats, recognitionTime) {
-//    this.gestureId = gestureId;
-//    this.triggerId = triggerId;
-//    this.feedbackId = feedbackId;
-//    this.repeats = repeats;
-//    this.recognitionTime = recognitionTime;
-//}
-//
-//function WOZ(sceneId, triggerId, gestureId, feedbackId, transitionId) {
-//    this.sceneId = sceneId;
-//    this.triggerId = triggerId;
-//    this.gestureId = gestureId;
-//    this.feedbackId = feedbackId;
-//    this.transitionId = transitionId;
-//}
-//
-//function Help() {
-//    this.sceneId;
-//    this.option;
-//    this.useGestureHelp;
-//    this.gestureId;
-//}
-//
-//function Slideshow() {
-//    this.title;
-//    this.description;
-//    this.slideshowFor;
-//    this.answerTime;
-//    this.slideshow;
-//    this.identification;
-//    this.observations;
-//}
-//
-//function SlideshowItem(gestureId, triggerId) {
-//    this.gestureId = gestureId;
-//    this.triggerId = triggerId;
-//}
-//
-//function PhysicalStressTest() {
-//    this.title;
-//    this.description;
-//    this.randomized;
-//    this.stressAmount;
-//    this.stressTestItems;
-//    this.singleStressQuestions;
-//    this.singleStressGraphicsRating;
-//    this.sequenceStressQuestions;
-//    this.sequenceStressGraphicsRating;
-//    this.observations;
-//}
-//
-//function PhysicalStressTestItem(gestureId) {
-//    this.gestureId = gestureId;
-//}
-//
-//function Identification() {
-//    this.title;
-//    this.description;
-//    this.identificationFor;
-//    this.identification;
-//    this.observations;
-//}
-//
-//function Feedback(id, type, title, parameters, data) {
-//    this.id = id;
-//    this.type = type;
-//    this.title = title;
-//    this.parameters = parameters;
-//    this.data = data;
-//}
-//
-//function Trigger(id, type, title) {
-//    this.id = id;
-//    this.type = type;
-//    this.title = title;
-//}
-//
-//function Scene(id, type, title, options, data) {
-//    this.id = id;
-//    this.type = type;
-//    this.title = title;
-//    this.options = options;
-//    this.data = data;
-//}
-
 function getAvailableGender(tester) {
     var gender = new Array();
     var oldGender = null;
@@ -421,6 +285,7 @@ function onCloseClick() {
     saveData();
     currentIdForModal = null;
 }
+
 
 /* 
  * common form format functions 
@@ -520,7 +385,7 @@ $(document).on('click', '.btn-add-helpOption', function (event) {
         var item = $('#form-item-container').find('#helpItem').clone().removeAttr('id');
         $(this).prev().append(item);
         checkCurrentListState($(this).prev());
-        updateHelpItemCounter($(this).prev());
+//        updateHelpItemCounter($(this).prev());
         TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
     }
 });

@@ -1626,6 +1626,534 @@
             "styleguide": "Gesten sollten für alle Anwender benutzbar sein. D.h. Linkshänder sollte nicht ausgeschlossen werden. (Intel, 2012; Microsoft, 2013) Oder andere Kulturkreise lehnen die Eingabemodalität aufgrund der gewählten Gesten ab."
         }
     ],
+    "observationsGestureTraining": [
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "physicalFatigue",
+            "question": "Welche Gesten haben den Nutzer körperlich stark gefordert?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "learnabilityMemorability",
+            "question": "Bei welchen Gesten hat der Nutzer vor der Ausführung gezögert?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "learnabilityMemorability",
+            "question": "Welche Gesten hat der Nutzer falsch ausgeführt?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "physicalContext",
+            "question": "Für welche Gesten stand nicht genügend Raum zur Verfügung?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "physicalContext",
+            "question": "Welche Gesten konnte der Nutzer nicht unmittelbar ohne Einschränkungen benutzen? Z.B. Einschränkungen durch Kleidung, das Tragen von Markern, etc.",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "comfortErgonomics",
+            "question": "Welche Gesten scheinen nicht komfortabel oder ergonomisch zu sein? Gibt es Hinweise?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "comfortErgonomics",
+            "question": "Bei welchen Gesten hatte der Nutzer motorische Probleme beim Ausführen?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "uxSatisfactionOfUse",
+            "question": "Welche Gesten waren dem Nutzer peinlich? Gibt es Hinweise für Unbehagen?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "uxSatisfactionOfUse",
+            "question": "Welche Gesten führten zu Einschränkungen beim Ausführen? (z.B. durch Kleidung, etc.)",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "socialAcceptance",
+            "question": "Welche Gesten haben andere Personen im Umfeld gestört?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "socialAcceptance",
+            "question": "Welche Gesten haben andere Personen im Umfeld irritiert?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        }
+    ],
+    "observationsScenario": [
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "purposeOfFullfillment",
+            "question": "Mit welchen Gesten konnte der Benutzer die Aufgaben nicht erledigen?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "purposeOfFullfillment",
+            "question": "Welches Feedback konnte vom Benutzer nicht gedeutet werden?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "feedbacks"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "purposeOfFullfillment",
+            "question": "Welches Feedback irritierte den Benutzer?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "feedbacks"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "accuracy",
+            "question": "Welche Gesten haben eine andere Systemfunktion aktiviert?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "accuracy",
+            "question": "Das System reagierte nicht auf eine oder mehrere Gesten.",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "accuracy",
+            "question": "Das System reagierte nicht ausreichend schnell auf eine oder mehrere Gesten.",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "no",
+                "justificationFor": "unselected",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "physicalFatigue",
+            "question": "Welche Gesten haben den Nutzer körperlich stark gefordert?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "learnabilityMemorability",
+            "question": "Bei welchen Gesten hat der Nutzer vor der Ausführung gezögert?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "learnabilityMemorability",
+            "question": "Welche Gesten hat der Nutzer falsch ausgeführt?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "physicalContext",
+            "question": "Für welche Gesten stand nicht genügend Raum zur Verfügung?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "physicalContext",
+            "question": "Welche Gesten konnte der Nutzer nicht unmittelbar ohne Einschränkungen benutzen? Z.B. Einschränkungen durch Kleidung, das Tragen von Markern, etc.",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "physicalContext",
+            "question": "Welche Gesten haben andere Personen beim Ausführen beeinträchtigt?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "comfortErgonomics",
+            "question": "Welche Gesten scheinen nicht komfortabel oder ergonomisch zu sein? Gibt es Hinweise?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "comfortErgonomics",
+            "question": "Bei welchen Gesten hatte der Nutzer motorische Probleme beim Ausführen?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "uxSatisfactionOfUse",
+            "question": "Welche Gesten waren dem Nutzer peinlich? Gibt es Hinweise für Unbehagen?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "uxSatisfactionOfUse",
+            "question": "Welche Gesten führten zu Einschränkungen beim Ausführen? (z.B. durch Kleidung, etc.)",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "socialAcceptance",
+            "question": "Welche Gesten haben andere Personen im Umfeld gestört?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "socialAcceptance",
+            "question": "Welche Gesten haben andere Personen im Umfeld irritiert?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        }
+    ],
+    "observationsGestureSlideshow": [
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "learnabilityMemorability",
+            "question": "Bei welchen Gesten hat der Nutzer vor der Ausführung gezögert?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "learnabilityMemorability",
+            "question": "Welche Gesten hat der Nutzer falsch ausgeführt?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "uxSatisfactionOfUse",
+            "question": "Welche Gesten waren dem Nutzer peinlich? Gibt es Hinweise für Unbehagen?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "uxSatisfactionOfUse",
+            "question": "Welche Gesten führten zu Einschränkungen beim Ausführen? (z.B. durch Kleidung, etc.)",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        }
+    ],
+    "observationsPhysicalStressTest": [
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "physicalFatigue",
+            "question": "Welche Gesten haben den Nutzer körperlich stark gefordert?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "learnabilityMemorability",
+            "question": "Bei welchen Gesten hat der Nutzer vor der Ausführung gezögert?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "learnabilityMemorability",
+            "question": "Welche Gesten hat der Nutzer falsch ausgeführt?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "comfortErgonomics",
+            "question": "Welche Gesten scheinen nicht komfortabel oder ergonomisch zu sein? Gibt es Hinweise?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "comfortErgonomics",
+            "question": "Bei welchen Gesten hatte der Nutzer motorische Probleme beim Ausführen?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "uxSatisfactionOfUse",
+            "question": "Welche Gesten waren dem Nutzer peinlich? Gibt es Hinweise für Unbehagen?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "uxSatisfactionOfUse",
+            "question": "Welche Gesten führten zu Einschränkungen beim Ausführen? (z.B. durch Kleidung, etc.)",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
+        }
+    ],
     "generalGestureProcessStyleguides": {
         "sg1": "Ergebnis eines Gesten-Designprozesses sind ergonomische, komfortable und benutzbare (d.h. effiziente, einfache und intuitive) Gesten. (Intel, 2012; Microsoft, 2013; Nielsen et al., 2004; Wachs et al., 2011)",
         "sg2": "Kreativität beim Design von Gesten zahlt sich bei der Interaktion aus. (Leap Motion, n.d.-a) Jede Iteration des Gestendesigns sollte mit Endanwendern durchgeführt werden (Ashbrook & Starner, 2010)",
