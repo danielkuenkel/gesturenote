@@ -427,16 +427,7 @@
 
     <!-- identification container -->
     <div class="row root" id="identification">
-        <div class="col-md-6 rtc-scalable" id="column-left">
-            <div class="panel panel-default" id="slides">
-                <div class="panel-heading">
-                    <span class="panel-heading-text"></span>
-                </div>
-                <div class="panel-body">
-                    <div class="row" id="identificationContainer"></div>
-                </div>
-            </div>
-        </div>
+        <div class="col-md-6" id="column-left"></div>
         <div class="col-md-6" id="column-right">
             <div class="panel panel-default" id="general">
                 <div class="panel-heading"></div>
@@ -445,6 +436,15 @@
                     <span class="label label-default hidden" id="search-gestures">Es werden Gesten ermittelt</span> 
                     <span class="label label-default hidden" id="search-trigger">Es werden Funktionen ermittelt</span>
                     <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-identification" style="margin-top: 6px;">Jetzt starten</button>
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="slides">
+                <div class="panel-heading">
+                    <span class="panel-heading-text"></span>
+                </div>
+                <div class="panel-body">
+                    <div id="identificationContainer"></div>
                 </div>
             </div>
 
@@ -457,22 +457,26 @@
         </div>
     </div>
 
-    <div id="identificationItem" class="row" style="padding-left: 15px; padding-right: 15px;">
-        <div class="col-xs-6 left" style="margin-bottom: 10px;">
-            <div class="triggerContainer">
-                <div id="search"><span class="address">Ermittelt wird:</span> <span class="text"></span></div>
-                <div id="search-for"><span class="address">Für:</span> <span class="text"></span></div>
-                <!--<div id="gesture-repeats" class="hidden"><span class="address">Geste wiederholen:</span> <span class="text"></span></div>-->
-            </div>
+    <div id="identificationItem">
+        <!--<div>-->
+        <div class="text" id="index" style="float: left">
+            
         </div>
-        <div class="col-xs-6 right">
-            <div class="btn-group-vertical btn-block">
-                <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
-                <button type="button" class="btn btn-info btn-shadow" id="trigger-identification"><span class="btn-text">Auffordern</span></button>
-                <button type="button" class="btn btn-success btn-shadow disabled" id="next-identification"><span class="btn-text"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
-                <button type="button" class="btn btn-success btn-shadow disabled" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
-            </div>
+        <div class="triggerContainer" style="float: left; margin-left: 10px">
+            <div id="search"><span class="address">Ermittelt wird:</span> <span class="text"></span></div>
+            <div id="search-for"><span class="address">Für:</span> <span class="text"></span></div>
+            <!--<div id="gesture-repeats" class="hidden"><span class="address">Geste wiederholen:</span> <span class="text"></span></div>-->
         </div>
+        <div style="clear: both"></div>
+        <!--</div>-->
+        <!--        <div class="col-xs-6 right">
+                    <div class="btn-group-vertical btn-block">
+                        <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+                        <button type="button" class="btn btn-info btn-shadow" id="trigger-identification"><span class="btn-text">Auffordern</span></button>
+                        <button type="button" class="btn btn-success btn-shadow disabled" id="next-identification"><span class="btn-text"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
+                        <button type="button" class="btn btn-success btn-shadow disabled" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+                    </div>
+                </div>-->
     </div>
 
 
@@ -926,51 +930,65 @@
 
     <div class="root container" id="identification"></div>
 
+    <!--    <div class="row root" id="identificationModerated">
+            <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+            <div class="col-md-8" id="column-right">
+                <div id="general">
+                    <h3 class="headline"></h3>
+                    <div class="description"></div>
+                    <hr>
+                </div>
+                <div class="alert-space alert-waiting-for-identification"></div>
+                <div class="progress progress-identification hidden" style="border-radius: 10px; height: 73px;">
+                    <div class="progress-bar progress-bar-identification progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+                </div>
+                <div id="identificationContainer"></div>
+            </div>
+        </div>-->
+
     <div class="row root" id="identificationModerated">
-        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="col-md-8" id="column-right">
-            <div id="general">
-                <h3 class="headline"></h3>
-                <div class="description"></div>
-                <hr>
+        <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
+            <div>
+                <h3 class="headline" style="margin: 0"></h3>
+                <div class="description" style="color: #303030"></div>
+                <!--<hr>-->
+                <!--<button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-start-identification" style="margin-top: 20px">Jetzt Starten</button>-->
             </div>
-            <div class="alert-space alert-waiting-for-identification"></div>
-            <div class="progress progress-identification hidden" style="border-radius: 10px; height: 73px;">
-                <div class="progress-bar progress-bar-identification progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
-            </div>
-            <div id="identificationContainer"></div>
+        </div>
+        <div class="col-xs-12">
+            <div id="identificationContainer" class="row"></div>
         </div>
     </div>
 
-    <div id="identificationItemModerated">
-        <div id="trigger-identification">
-            <div class="col-lg-6 text-center">
-                <div class="previewGesture autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
-                <div class="text-center gestureControls">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+    <!--    <div id="identificationItemModerated">
+            <div id="trigger-identification">
+                <div class="col-lg-6 text-center">
+                    <div class="previewGesture autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
+                    <div class="text-center gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="trigger-name">Funktion</label>
+                        <input class="form-control" name="trigger-name" id="trigger-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="trigger-name">Begründung</label>
+                        <textarea class="form-control" rows="5"></textarea>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label for="trigger-name">Funktion</label>
-                    <input class="form-control" name="trigger-name" id="trigger-name">
-                </div>
-                <div class="form-group">
-                    <label for="trigger-name">Begründung</label>
-                    <textarea class="form-control" rows="5"></textarea>
-                </div>
+    
+            <div id="gesture-identification" class="text-center">
+                <span id="trigger"><span id="text" style="font-size: 40pt; font-weight: bold; line-height: 1.3em;"></span></span>
             </div>
-        </div>
-
-        <div id="gesture-identification" class="text-center">
-            <span id="trigger"><span id="text" style="font-size: 40pt; font-weight: bold; line-height: 1.3em;"></span></span>
-        </div>
-    </div>
+        </div>-->
 
     <div class="row root" id="identificationUnmoderated">
         <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
@@ -982,7 +1000,7 @@
             </div>
         </div>
         <div class="col-xs-12">
-            <div id="identificationContainer"></div>
+            <div id="identificationContainer" class="row"></div>
         </div>
     </div>
 
@@ -1003,7 +1021,7 @@
                     </div>
                 </div>
                 <div class="col-sm-7 col-md-6">
-                    <p class="text">Welche Funktion könnte auf diese Geste passen? Bitte tragen Sie Ihren Vorschlag bei Funktion ein und begründen Sie anschließend Ihre Entscheiden.</p>
+                    <p class="text">Welche Funktion könnte auf diese Geste passen? Bitte tragen Sie Ihren Vorschlag bei Funktion ein und begründen Sie anschließend Ihre Entscheidung.</p>
                     <div class="form-group">
                         <label for="trigger-name">Funktion</label>
                         <input class="form-control" name="trigger-name" id="trigger-name">
@@ -1451,7 +1469,7 @@
                 </button>
             </div>
         </div>
-        <span class="option-text text" style="margin-left: 8px; float: left; margin-top: 4px; margin-bottom: 12px"></span>
+        <span class="option-text text" style="margin-left: 8px; float: left; margin-top: 8px; margin-bottom: 12px"></span>
     </div>
 
     <div class="panel panel-default root" id="ranking" style="margin-bottom: 5px;">

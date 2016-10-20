@@ -575,102 +575,132 @@ var Moderator = {
         return container;
     },
     renderIdentification: function renderIdentification(source, container, data) {
-        var identificationId = data.identification[currentIdentificationIndex];
-
-        if (identificationId) {
+//        var identificationId = data.identification[currentIdentificationIndex];
+        $(container).find('#slides .panel-heading-text').text(translation.formats.identification.text);
+        if (data.identification && data.identification.length > 0) {
             var searchedData;
-            if (data.identificationFor === 'gestures') {
-                searchedData = getTriggerById(identificationId);
-            } else {
-                searchedData = getGestureById(identificationId);
-            }
+            for (var i = 0; i < data.identification.length; i++) {
+                var item = $(source).find('#identificationItem').clone().removeAttr('id');
+                $(item).find('#index').text(i + 1 + '.');
+                
+                if (i > 0) {
+                    var line = document.createElement('hr');
+                    $(line).css({marginTop: "10px", marginBottom: "10px"});
+                    $(container).find('#identificationContainer').append(line);
+                }
 
-            $(container).find('#slides .panel-heading-text').text(translation.formats.identification.text + ' ' + (currentIdentificationIndex + 1) + ' ' + translation.of + ' ' + data.identification.length);
-            var item = $(source).find('#identificationItem').clone().removeAttr('id');
-            $(container).find('#identificationContainer').empty().append(item);
-            if (data.identificationFor === 'gestures') {
-                $(item).find('#search .address').text(translation.identified + ':');
-                $(item).find('#search .text').text(translation.gesture);
-                $(item).find('#search-for .address').text(translation.For + ' ' + translation.trigger + ':');
-                $(item).find('#search-for .text').text(searchedData.title);
-                $(item).find('#gesture-repeats').removeClass('hidden');
-                $(item).find('#gesture-repeats .text').text(data.identificationRepeats);
-                $(item).find('.btn-popover-gesture-preview').remove();
-            } else {
-                $(item).find('#search .address').text(translation.identified + ':');
-                $(item).find('#search .text').text(translation.trigger);
-                $(item).find('#search-for .address').text(translation.For + ' ' + translation.gesture + ':');
-                $(item).find('#search-for .text').text(searchedData.title);
-                item.find('.btn-popover-gesture-preview').attr('name', searchedData.id);
+                $(container).find('#identificationContainer').append(item);
+
+                if (data.identificationFor === 'gestures') {
+                    searchedData = getTriggerById(data.identification[i]);
+                    $(item).find('#search .address').text(translation.identified + ':');
+                    $(item).find('#search .text').text(translation.gesture);
+                    $(item).find('#search-for .address').text(translation.For + ' ' + translation.trigger + ':');
+                    $(item).find('#search-for .text').text(searchedData.title);
+                    $(item).find('#gesture-repeats').removeClass('hidden');
+                    $(item).find('#gesture-repeats .text').text(data.identificationRepeats);
+                    $(item).find('.btn-popover-gesture-preview').remove();
+                } else {
+                    searchedData = getGestureById(data.identification[i]);
+                    $(item).find('#search .address').text(translation.identified + ':');
+                    $(item).find('#search .text').text(translation.trigger);
+                    $(item).find('#search-for .address').text(translation.For + ' ' + translation.gesture + ':');
+                    $(item).find('#search-for .text').text(searchedData.title);
+                    item.find('.btn-popover-gesture-preview').attr('name', searchedData.id);
+                }
             }
         }
+//        if (identificationId) {
+
+
+//        $(container).find('#slides .panel-heading-text').text(translation.formats.identification.text + ' ' + (currentIdentificationIndex + 1) + ' ' + translation.of + ' ' + data.identification.length);
+//        var item = $(source).find('#identificationItem').clone().removeAttr('id');
+//        $(container).find('#identificationContainer').empty().append(item);
+//        if (data.identificationFor === 'gestures') {
+//            $(item).find('#search .address').text(translation.identified + ':');
+//            $(item).find('#search .text').text(translation.gesture);
+//            $(item).find('#search-for .address').text(translation.For + ' ' + translation.trigger + ':');
+//            $(item).find('#search-for .text').text(searchedData.title);
+//            $(item).find('#gesture-repeats').removeClass('hidden');
+//            $(item).find('#gesture-repeats .text').text(data.identificationRepeats);
+//            $(item).find('.btn-popover-gesture-preview').remove();
+//        } else {
+//            $(item).find('#search .address').text(translation.identified + ':');
+//            $(item).find('#search .text').text(translation.trigger);
+//            $(item).find('#search-for .address').text(translation.For + ' ' + translation.gesture + ':');
+//            $(item).find('#search-for .text').text(searchedData.title);
+//            item.find('.btn-popover-gesture-preview').attr('name', searchedData.id);
+//        }
+//        }
 
         if (identificationStartTriggered) {
             $(container).find('#btn-start-identification').remove();
-        } else {
-            $(item).find('#trigger-identification').addClass('disabled');
         }
+//        else {
+//            $(item).find('#trigger-identification').addClass('disabled');
+//        }
 
         $(container).find('#btn-start-identification').click(function (event) {
             event.preventDefault();
             identificationStartTriggered = true;
             $(this).remove();
-            $(item).find('#trigger-identification').removeClass('disabled');
+//            $(item).find('#trigger-identification').removeClass('disabled');
             wobble([container.find('#identificationContainer'), $('#web-rtc-placeholder')]);
         });
-        $(item).find('#trigger-identification').on('click', function (event) {
-            event.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                identificationTriggered = true;
-                $(item).find('.disabled').removeClass('disabled');
-                $(this).addClass('disabled');
-            } else {
-                if (identificationStartTriggered) {
-                    wobble($(item).find('#next-identification, #done-identification'));
-                } else {
-                    wobble($(container).find('#btn-start-identification'));
-                }
-            }
-        });
-        if (identificationTriggered) {
-            $(item).find('.disabled').removeClass('disabled');
-            item.find('#trigger-identification').addClass('disabled');
-        }
 
-        if (data.identification.length === 1 || currentIdentificationIndex >= data.identification.length - 1) {
-            $(item).find('#next-identification').remove();
-            $(item).find('#done-identification').on('click', function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    currentIdentificationIndex = 0;
-                    identificationTriggered = false;
-                    identificationStartTriggered = false;
-                    nextStep();
-                } else {
-                    if (identificationStartTriggered) {
-                        wobble($(item).find('#trigger-identification'));
-                    } else {
-                        wobble($(container).find('#btn-start-identification'));
-                    }
-                }
-            });
-        } else if (currentIdentificationIndex < data.identification.length) {
-            $(item).find('#done-identification').remove();
-            $(item).find('#next-identification').on('click', function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    identificationTriggered = false;
-                    currentIdentificationIndex++;
-                    Moderator.renderIdentification(source, container, data);
-                } else {
-                    if (identificationStartTriggered) {
-                        wobble($(item).find('#trigger-identification'));
-                    } else {
-                        wobble($(container).find('#btn-start-identification'));
-                    }
-                }
-            });
-        }
+//        $(item).find('#trigger-identification').on('click', function (event) {
+//            event.preventDefault();
+//            if (!$(this).hasClass('disabled')) {
+//                identificationTriggered = true;
+//                $(item).find('.disabled').removeClass('disabled');
+//                $(this).addClass('disabled');
+//            } else {
+//                if (identificationStartTriggered) {
+//                    wobble($(item).find('#next-identification, #done-identification'));
+//                } else {
+//                    wobble($(container).find('#btn-start-identification'));
+//                }
+//            }
+//        });
+//        if (identificationTriggered) {
+//            $(item).find('.disabled').removeClass('disabled');
+//            item.find('#trigger-identification').addClass('disabled');
+//        }
+
+//        if (data.identification.length === 1 || currentIdentificationIndex >= data.identification.length - 1) {
+//            $(item).find('#next-identification').remove();
+//            $(item).find('#done-identification').on('click', function (event) {
+//                event.preventDefault();
+//                if (!$(this).hasClass('disabled')) {
+//                    currentIdentificationIndex = 0;
+//                    identificationTriggered = false;
+//                    identificationStartTriggered = false;
+//                    nextStep();
+//                } else {
+//                    if (identificationStartTriggered) {
+//                        wobble($(item).find('#trigger-identification'));
+//                    } else {
+//                        wobble($(container).find('#btn-start-identification'));
+//                    }
+//                }
+//            });
+//        } else if (currentIdentificationIndex < data.identification.length) {
+//            $(item).find('#done-identification').remove();
+//            $(item).find('#next-identification').on('click', function (event) {
+//                event.preventDefault();
+//                if (!$(this).hasClass('disabled')) {
+//                    identificationTriggered = false;
+//                    currentIdentificationIndex++;
+//                    Moderator.renderIdentification(source, container, data);
+//                } else {
+//                    if (identificationStartTriggered) {
+//                        wobble($(item).find('#trigger-identification'));
+//                    } else {
+//                        wobble($(container).find('#btn-start-identification'));
+//                    }
+//                }
+//            });
+//        }
     },
     getPhysicalStressTest: function getPhysicalStressTest(source, container, data) {
         if (!data.stressTestItems || data.stressTestItems.length === 0) {

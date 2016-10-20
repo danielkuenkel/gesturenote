@@ -1221,10 +1221,10 @@ function renderGroupingQuestionPreview(source, item, parameters, options) {
     if (parameters.optionalanswer === 'yes') {
         item.find('#optionalanswer').removeClass('hidden');
     }
-
+    
     for (var j = 0; j < options.length; j++) {
         var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
-        optionItem.text(options[j]);
+        optionItem.text(options[j].title);
         item.find('.option-container').append(optionItem);
     }
 }

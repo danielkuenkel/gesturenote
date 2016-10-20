@@ -11,7 +11,7 @@ include '../includes/language.php';
 
         <div class="recorder text-center" style="border-radius: 4px; max-width: 600px; margin: auto">
             <video autoplay id="recorder-video" style="width: 100%; height: auto; overflow: hidden; border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
-            <div class="progress" id="record-timer-progress" style="margin-top: -8px; height: 8px; border-top-left-radius: 0px; border-radius: 0px">
+            <div class="progress hidden" id="record-timer-progress" style="margin-top: -8px; height: 8px; border-top-left-radius: 0px; border-radius: 0px">
                 <div class="progress-bar progress-bar-info" id="record-timer-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%; width: 100%"></div>
             </div>
 
@@ -152,7 +152,7 @@ include '../includes/language.php';
 
         <div class="recorder text-center" style="border-radius: 4px; max-width: 500px; margin: auto">
             <video autoplay id="recorder-video" style="width: 100%; height: auto; overflow: hidden; border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
-            <div class="progress" id="record-timer-progress" style="margin-top: -8px; height: 8px; border-top-left-radius: 0px; border-radius: 0px">
+            <div class="progress hidden" id="record-timer-progress" style="margin-top: -8px; height: 8px; border-top-left-radius: 0px; border-radius: 0px">
                 <div class="progress-bar progress-bar-info" id="record-timer-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%; width: 100%"></div>
             </div>
 
@@ -284,7 +284,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="gesture-recorder-description">
+    <div id="gesture-recorder-description" style="margin-bottom: 20px">
     </div>
 
     <div id="stateRecord">
