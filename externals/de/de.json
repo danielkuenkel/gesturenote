@@ -2430,6 +2430,16 @@
             "id": "record-url-invalid",
             "type": "danger",
             "text": "Die Videodatei steht nicht mehr zur Verfügung."
+        },
+        "waitingForModerator": {
+            "id": "waiting-for-moderator",
+            "type": "warning",
+            "text": "Bitte haben Sie etwas Geduld. Auf Moderator warten …"
+        },
+        "noParticipationRequests": {
+            "id": "no-participation-requests",
+            "type": "warning",
+            "text": "Kein(e) Probanden mit Befragungs-Anfrage gefunden."
         }
     }
 }

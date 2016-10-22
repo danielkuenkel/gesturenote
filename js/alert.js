@@ -62,6 +62,9 @@ var ALERT_WEBM_UNSUPPORTED = 'webm-unsupported';
 var ALERT_NO_RECORD = 'no-record';
 var ALERT_RECORD_URL_INVALID = 'record-url-invalid';
 
+var ALERT_WAITING_FOR_MODERATOR = 'waiting-for-moderator';
+var ALERT_NO_PARTICIPATION_REQUESTS = 'no-participation-requests';
+
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);
 

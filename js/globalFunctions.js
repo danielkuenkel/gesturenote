@@ -1364,7 +1364,7 @@ function convertSQLTimestampToDate(sqlTimestamp) {
     var t = sqlTimestamp.split(/[- :]/);
 
     // Apply each element to the Date function
-    return new Date(Date.UTC(t[0], t[1] - 1, t[2], t[3], t[4], t[5]));
+    return new Date(t[0], t[1] - 1, t[2], t[3], t[4], t[5]);
 }
 
 function getTimeLeftForTimestamp(timestamp) {
@@ -1807,7 +1807,9 @@ function isWebRTCNeeded(phases) {
         for (var i = 0; i < phases.length; i++) {
             if (translation.formats[phases[i].format].webRTC === 'yes') {
                 if (phases[i].format === IDENTIFICATION) {
+                    
                     var phaseData = getLocalItem(phases[i].id + '.data');
+                    console.log(phaseData);
                     if (phaseData.identificationFor === 'gestures') {
                         return true;
                     }

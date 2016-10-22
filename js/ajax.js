@@ -629,6 +629,82 @@ function deleteComment(data, callback) {
 
 
 /*
+ * execution preperation
+ */
+
+function getParticipationRequests(data, callback) {
+    $.ajax({
+        url: 'includes/get-participation-requests.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function approveParticipation(data, callback) {
+    $.ajax({
+        url: 'includes/approve-participation.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function reapproveParticipation(data, callback) {
+    $.ajax({
+        url: 'includes/reapprove-participation.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function requestParticipation(data, callback) {
+    $.ajax({
+        url: 'includes/request-participation.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+/*
  * execution save
  */
 function saveExecutionTester(data, callback) {

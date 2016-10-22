@@ -49,7 +49,9 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-comments" role="alert"><i class="glyphicon glyphicon-info-sign"></i> <span class="alert-text"><?php echo $lang->alerts->noComments->text ?></span></div>
     <div class="alert alert-danger"  id="contact-support" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->contactSupport->text ?></span> <a href="mailto:support@gesturenote.com">Support</a>.</div>
     <div class="alert alert-danger"  id="sus-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->susInvalid->text ?></span></div>
-    <div class="alert alert-warning"  id="webm-unsupported" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->webmUnsupported->text ?></span></div>
-    <div class="alert alert-warning"  id="no-record" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noRecord->text ?></span></div>
+    <div class="alert alert-warning" id="webm-unsupported" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->webmUnsupported->text ?></span></div>
+    <div class="alert alert-warning" id="no-record" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noRecord->text ?></span></div>
     <div class="alert alert-danger"  id="record-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->recordUrlInvalid->text ?></span></div>
+    <div class="alert alert-warning" id="waiting-for-moderator" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->waitingForModerator->text ?></span></div>
+    <div class="alert alert-warning" id="no-participation-requests" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noParticipationRequests->text ?></span></div>
 </div>

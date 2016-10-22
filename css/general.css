@@ -641,3 +641,47 @@ label .question {
 .tooltip-inner {
     min-width: 200px;
 }
+
+
+#video-caller {
+    /*max-width: 600px*/
+    /*height: 400px;*/
+    margin-bottom: 200px;
+}
+
+.rtc-remote-container, .rtc-local-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.rtc-remote-container video {
+    position: absolute;
+    /*top: 0;*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+    /*left:0;*/
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+#remote-stream {
+    opacity: 0;
+}
+
+#local-stream {
+    position: absolute;
+    /*display: block;*/
+    width: 100%;
+    /*bottom: 0;*/
+    /*    padding-left: 10px;
+        padding-right: 10px;*/
+    /*    right: 0;
+        left:0;*/
+    height: auto; 
+    /*overflow: hidden;*/ 
+    border-radius: 4px;
+    /*    float: right;
+        vertical-align: bottom;*/
+}
