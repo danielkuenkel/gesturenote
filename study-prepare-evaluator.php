@@ -419,44 +419,44 @@ if ($h && $token && $studyId) {
                             muted: true // mute local video stream to prevent echo
                         }
                     });
+
+                    // we have to wait until it's ready
+                    webrtc.on('readyToCall', function () {
+                        // you can name it anything
+                        console.log('ready to call', rtcToken);
+                        webrtc.joinRoom(rtcToken);
+                    });
+
+                    var timeline = new TimelineMax({paused: true});
+                    timeline.add(TweenMax.to($('#local-stream'), .3, {width: 200, height: 150, left: 5, top: 5, ease: Quad.easeIn}));
+                    timeline.add(TweenMax.to($('#remote-stream'), .3, {opacity: 1.0}));
+
+                    // a peer video has been added
+                    webrtc.on('videoAdded', function (video, peer) {
+                        console.log('video added', peer);
+                        timeline.play();
+                    });
+
+                    // a peer video has been added
+                    webrtc.on('videoRemoved', function (video, peer) {
+                        console.log('video removed', peer);
+                        timeline.reverse();
+                    });
+
+                    // local p2p/ice failure
+                    webrtc.on('iceFailed', function (peer) {
+                        var pc = peer.pc;
+                        console.log('had local relay candidate', pc.hadLocalRelayCandidate);
+                        console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
+                    });
+
+                    // remote p2p/ice failure
+                    webrtc.on('connectivityError', function (peer) {
+                        var pc = peer.pc;
+                        console.log('had local relay candidate', pc.hadLocalRelayCandidate);
+                        console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
+                    });
                 }
-
-                // we have to wait until it's ready
-                webrtc.on('readyToCall', function () {
-                    // you can name it anything
-                    console.log('ready to call', rtcToken);
-                    webrtc.joinRoom(rtcToken);
-                });
-
-                var timeline = new TimelineMax({paused: true});
-                timeline.add(TweenMax.to($('#local-stream'), .3, {width: 200, height: 150, left: 5, top: 5, ease: Quad.easeIn}));
-                timeline.add(TweenMax.to($('#remote-stream'), .3, {opacity: 1.0}));
-
-                // a peer video has been added
-                webrtc.on('videoAdded', function (video, peer) {
-                    console.log('video added', peer);
-                    timeline.play();
-                });
-
-                // a peer video has been added
-                webrtc.on('videoRemoved', function (video, peer) {
-                    console.log('video removed', peer);
-                    timeline.reverse();
-                });
-
-                // local p2p/ice failure
-                webrtc.on('iceFailed', function (peer) {
-                    var pc = peer.pc;
-                    console.log('had local relay candidate', pc.hadLocalRelayCandidate);
-                    console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
-                });
-
-                // remote p2p/ice failure
-                webrtc.on('connectivityError', function (peer) {
-                    var pc = peer.pc;
-                    console.log('had local relay candidate', pc.hadLocalRelayCandidate);
-                    console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
-                });
             }
         </script>
     </body>
