@@ -93,46 +93,53 @@ if ($h && $token && $studyId) {
                         <p class="text"></p>
                     </div>
 
-                    <div class="alert-space alert-study-unmoderated"></div>
+                    <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+
+                    <div style="margin-top: 10px">
+                        <div class="alert-space alert-study-unmoderated"></div>
+                        <div class="alert-space alert-web-rtc-not-supported"></div>
+                        <div class="alert-space alert-another-browser-needed-for-web-rtc"></div>
+                        <div class="alert-space alert-contact-support"></div>
+                    </div>
 
                 </div>
             </div>
 
-            <div class="row hidden" id="technical-check" style="margin-top: 40px">
-                <div class="col-xs-12">
-                    <h2 id="check-headline" style="margin-top: 0">Überprüfung der Webcam</h2>
-                    <hr>
-
-                </div>
-
-                <div class="col-sm-6">
-                    <div class="alert-space alert-web-rtc-not-supported"></div>
-                    <video autoplay id="rtc-video" class="rtc-stream hidden" style="width: 100%; height: auto; overflow: hidden; border-radius: 4px;"></video>
-                </div>
-                <div class="col-sm-6 text">
-                    <p><strong>Diese Studie benötigt Zugriff auf Ihre Webcam.</strong> Falls Ihr Browser die Technologie unterstützt, erhalten Sie einen Hinweis, dass diese Seite auf Ihre Kamera und Ihr Mikrofon zugreifen möchte. Akzeptieren Sie bitte den Zugriff auf Kamera und Mikrofon, wenn Sie an dieser Studie teilnehmen möchten. </p>
-                    <p>Danach prüfen Sie bitte, ob der Kamerastream funktioniert und Sie sich links sehen können. Beantworten Sie bitte die Frage. </p>
-
-                    <div id="web-rtc-working">
-                        <p>Können Sie sich sehen? </p>
-                        <div class="btn-group">
-                            <button class="btn btn-danger btn-shadow" id="btn-no"><?php echo $lang->no ?></button>
-                            <button class="btn btn-success btn-shadow" id="btn-yes"><?php echo $lang->yes ?></button>
-                        </div>
-                    </div>
-
-                    <div id="web-rtc-not-working" class="hidden">
-                        <p>Sehen Sie eine Meldung mit dem Hinweis einen anderen Browser zu nutzen? </p>
-                        <div class="btn-group">
-                            <button class="btn btn-danger btn-shadow" id="btn-no"><?php echo $lang->no ?></button>
-                            <button class="btn btn-success btn-shadow" id="btn-yes"><?php echo $lang->yes ?></button>
-                        </div>
-                    </div>
-
-                    <div class="alert-space alert-another-browser-needed-for-web-rtc"></div>
-                    <div class="alert-space alert-contact-support"></div>
-                </div>
-            </div>
+            <!--            <div class="row hidden" id="technical-check" style="margin-top: 30px">
+                            <div class="col-xs-12">
+                                <h2 id="check-headline" style="margin-top: 0">Überprüfung der Webcam</h2>
+                                <hr>
+            
+                            </div>
+            
+                            <div class="col-sm-6">
+                                <div class="alert-space alert-web-rtc-not-supported"></div>
+                                <video autoplay id="rtc-video" class="rtc-stream hidden" style="width: 100%; height: auto; overflow: hidden; border-radius: 4px;"></video>
+                            </div>
+                            <div class="col-sm-6 text">
+                                <p><strong>Diese Studie benötigt Zugriff auf Ihre Webcam.</strong> Falls Ihr Browser die Technologie unterstützt, erhalten Sie einen Hinweis, dass diese Seite auf Ihre Kamera und Ihr Mikrofon zugreifen möchte. Akzeptieren Sie bitte den Zugriff auf Kamera und Mikrofon, wenn Sie an dieser Studie teilnehmen möchten. </p>
+                                <p>Danach prüfen Sie bitte, ob der Kamerastream funktioniert und Sie sich links sehen können. Beantworten Sie bitte die Frage. </p>
+            
+                                <div id="web-rtc-working">
+                                    <p>Können Sie sich sehen? </p>
+                                    <div class="btn-group">
+                                        <button class="btn btn-danger btn-shadow" id="btn-no"><?php echo $lang->no ?></button>
+                                        <button class="btn btn-success btn-shadow" id="btn-yes"><?php echo $lang->yes ?></button>
+                                    </div>
+                                </div>
+            
+                                <div id="web-rtc-not-working" class="hidden">
+                                    <p>Sehen Sie eine Meldung mit dem Hinweis einen anderen Browser zu nutzen? </p>
+                                    <div class="btn-group">
+                                        <button class="btn btn-danger btn-shadow" id="btn-no"><?php echo $lang->no ?></button>
+                                        <button class="btn btn-success btn-shadow" id="btn-yes"><?php echo $lang->yes ?></button>
+                                    </div>
+                                </div>
+            
+                                <div class="alert-space alert-another-browser-needed-for-web-rtc"></div>
+                                
+                            </div>
+                        </div>-->
 
             <div class="row hidden" id="participation-queue" style="margin-top: 20px">
                 <div class="col-xs-12">
@@ -159,12 +166,7 @@ if ($h && $token && $studyId) {
                     </div>
                 </div>
 
-                <div style="clear: both;"></div>
-
-
-
-                <!--                <video autoplay id="local-stream" class="rtc-stream" style="width: 450px; height: auto; overflow: hidden; border-radius: 4px;"></video>
-                                <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>-->
+                <!--<div style="clear: both;"></div>-->
             </div>
 
         </div>
@@ -219,52 +221,35 @@ if ($h && $token && $studyId) {
                 $('#study-description .address').text(translation.description);
                 $('#study-description .text').text(studyData.generalData.description);
 
+                // date range view
+                var now = new Date().getTime();
+                var dateFrom = studyData.generalData.dateFrom * 1000;
+                var dateTo = addDays(studyData.generalData.dateTo * 1000, 1);
+                var totalDays = rangeDays(dateFrom, dateTo);
+
+                $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
+                $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
+                $('.study-plan').removeClass('hidden');
+
                 if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
+
+                    $('#study-details').removeClass('hidden');
+
                     // check rtc is needed
-                    //                    if (isWebRTCNeeded(studyData.phases)) {
-                    //                        $('#technical-check').removeClass('hidden');
-                    //                        renderRTCCheck();
-                    //                    } else {
-                    //                        $('#technical-check').remove();
-                    //                        $('#participation-queue, #study-details').removeClass('hidden');
-                    //                    }
-                    //
-                    //                    // check supported rtc
-                    //                    if (isWebRTCSupported() === false) {
-                    //                        $('#web-rtc-working').addClass('hidden');
-                    //                        $('#web-rtc-not-working').removeClass('hidden');
-                    //                    }
-                    //
-                    //                    // questionnaire about rtc
-                    //
-                    //                    $('#web-rtc-working #btn-yes').on('click', function (event) {
-                    //                        event.preventDefault();
-                    //                        $('#web-rtc-working, #technical-check').addClass('hidden');
-                    //                        $('#participation-queue, #study-details').removeClass('hidden');
-                    //                        appendAlert($('#participation-queue'), ALERT_NO_PARTICIPATION_REQUESTS);
-                    //                        getParticipantRequests();
-                    ////                        resetRTC();
-                    //                    });
-                    //                    $('#web-rtc-working #btn-no').on('click', function (event) {
-                    //                        event.preventDefault();
-                    //                        $('#web-rtc-working').addClass('hidden');
-                    //                        $('#web-rtc-not-working').removeClass('hidden');
-                    //                    });
-                    //                    $('#web-rtc-not-working #btn-yes').on('click', function (event) {
-                    //                        event.preventDefault();
-                    //                        $('#web-rtc-not-working').addClass('hidden');
-                    //                        appendAlert($('#technical-check'), ALERT_ANOTHER_BROWSER_NEEDED_FOR_WEB_RTC);
-                    //                    });
-                    //                    $('#web-rtc-not-working #btn-no').on('click', function (event) {
-                    //                        event.preventDefault();
-                    //                        $('#web-rtc-not-working').addClass('hidden');
-                    //                        clearAlerts($('#technical-check'));
-                    //                        appendAlert($('#technical-check'), ALERT_CONTACT_SUPPORT);
-                    //                    });
-                    initializeRTC($('#local-stream'), true, false);
-                    appendAlert($('#participation-queue'), ALERT_NO_PARTICIPATION_REQUESTS);
-                    $('#participation-queue, #study-details').removeClass('hidden');
-                    getParticipantRequests();
+                    if (isWebRTCSupported()) {
+                        $('#participation-queue').removeClass('hidden');
+                        appendAlert($('#participation-queue'), ALERT_NO_PARTICIPATION_REQUESTS);
+
+                        getParticipationRequests({studyId: studyData.generalData.id}, function (result) {
+                            if (result.status === RESULT_SUCCESS) {
+                                currentRequests = result.requests;
+                                requestParticipations();
+                            }
+                        });
+                    } else {
+                        console.log('no webRTC supported in this browser');
+                        appendAlert($('#study-details'), ALERT_WEB_RTC_NOT_SUPPORTED);
+                    }
                 } else {
                     $('#study-details').removeClass('hidden');
                     appendAlert($('#study-details'), ALERT_STUDY_UNMODERATED);
@@ -277,12 +262,53 @@ if ($h && $token && $studyId) {
                 }
             }
 
-            function getParticipantRequests() {
+            var currentRequests = null;
+            function checkRequests(newRequests) {
+//                console.log(currentRequests, newRequests);
+                if (newRequests && newRequests.length > 0) {
+                    var requests = new Array();
+                    if (!currentRequests || (currentRequests && currentRequests.length === 0)) {
+                        requests = currentRequests = newRequests;
+                    } else {
+                        for (var i = 0; i < newRequests.length; i++) {
+                            var newRequest = newRequests[i];
+//                            newRequest.valid = true;
+//                            console.log(newRequest)
+                            var newRequestCurrentTime = convertSQLTimestampToDate(newRequest.current);
+                            for (var j = 0; j < currentRequests.length; j++) {
+                                var currentRequest = currentRequests[j];
+                                var currentRequestTime = convertSQLTimestampToDate(currentRequest.current);
+//                                console.log(newRequestCurrentTime.getTime(), currentRequestTime.getTime())
+                                if (parseInt(newRequest.id) === parseInt(currentRequest.id)) {
+                                    if (newRequestCurrentTime.getTime() > currentRequestTime.getTime()) {
+//                                        console.log('time is not the same', newRequestCurrentTime.getTime(), currentRequestTime.getTime());
+                                        currentRequest.current = newRequest.current;
+                                        requests.push(newRequest);
+                                    }
+                                    break;
+                                } else if (j === currentRequests.length - 1) {
+//                                    console.log('push new request');
+                                    currentRequests.push(newRequest);
+                                    requests.push(newRequest);
+                                }
+                            }
+                        }
+                    }
+//                    console.log(requests.length, currentRequests.length);
+//                    currentRequests = requests;
+                    return requests;
+                }
+
+                currentRequests = null;
+                return null;
+            }
+
+            function requestParticipations() {
                 var studyData = getLocalItem(STUDY);
                 requestInterval = setInterval(function () {
                     getParticipationRequests({studyId: studyData.id}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
-                            renderQueue(result.requests);
+                            renderQueue(checkRequests(result.requests));
                         }
                     });
                 }, 4000);
@@ -293,7 +319,9 @@ if ($h && $token && $studyId) {
                 if (requests && requests.length > 0) {
                     clearAlerts($('#participation-queue'));
                     for (var i = 0; i < requests.length; i++) {
+
                         var request = requests[i];
+//                        if (request.valid === true) {
                         var item = $('#queue-thumbnail').clone().removeAttr('id').removeClass('hidden');
                         $('#participation-queue').find('#list-container').append(item);
                         var created = convertSQLTimestampToDate(request.created);
@@ -308,7 +336,7 @@ if ($h && $token && $studyId) {
 
                         $(item).find('.panel').on('click', {requestId: request.id}, function (event) {
                             clearInterval(requestInterval);
-                            resetRTC();
+//                            resetRTC();
                             //                            initializeRTC($('#local-stream'), true, false);
                             //                            console.log(request.id);
                             approveParticipation({requestId: event.data.requestId}, function (result) {
@@ -321,9 +349,12 @@ if ($h && $token && $studyId) {
                                 }
                             });
                         });
-                        //                        if (!isNaN(parseInt(request.moderatorId))) {
-                        //                            $(item).find('.panel').click();
-                        //                        }
+//                        }
+
+
+//                        if (!isNaN(parseInt(request.moderatorId))) {
+//                            $(item).find('.panel').click();
+//                        }
                     }
                 } else {
                     appendAlert($('#participation-queue'), ALERT_NO_PARTICIPATION_REQUESTS);
@@ -335,70 +366,53 @@ if ($h && $token && $studyId) {
                 var requestId = $('#call-screen').attr('name');
                 reapproveParticipation({requestId: requestId}, function (result) {
                     // reset rtcPerConnection
-                    resetRTC();
+//                    resetRTC();
                     webrtc.leaveRoom();
                     $('#participation-queue').removeClass('hidden');
                     $('#call-screen').addClass('hidden');
-                    getParticipantRequests();
+                    requestParticipations();
                 });
             });
 
-            function renderRTCCheck() {
-                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                    initializeRTC($('#rtc-video'), true, false);
-                } else {
-                    appendAlert($('#technical-check'), ALERT_WEB_RTC_NOT_SUPPORTED);
-                    console.log('Native device media streaming (getUserMedia) not supported in this browser.');
-                }
-            }
+//            function renderRTCCheck() {
+//                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+//                    initializeRTC($('#rtc-video'), true, false);
+//                } else {
+//                    appendAlert($('#technical-check'), ALERT_WEB_RTC_NOT_SUPPORTED);
+//                    console.log('Native device media streaming (getUserMedia) not supported in this browser.');
+//                }
+//            }
 
-            function resetRTC() {
-                $('#rtc-video').addClass('hidden');
-                if (liveStream) {
-                    //                    liveStream.getAudioTracks()[0].stop();
-                    liveStream.getVideoTracks()[0].stop();
-                }
-            }
+//            function resetRTC() {
+//                $('#rtc-video').addClass('hidden');
+//                if (liveStream) {
+//                    //                    liveStream.getAudioTracks()[0].stop();
+//                    liveStream.getVideoTracks()[0].stop();
+//                }
+//            }
 
-            var localStreamTarget = null;
-            function initializeRTC(localTarget, video, audio) {
-                //                clearAlerts($('#technical-check'));
-                localStreamTarget = localTarget;
-                if (!liveStream) {
-                    var mediaConstraints = {video: video, audio: audio};
-                    navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
-                } else {
-                    successCallback(liveStream);
-                }
-            }
-
-            function errorCallback(error) {
-                alert(error);
-                // maybe another application is using the device
-            }
-
-            var liveStream;
-            function successCallback(stream) {
-                liveStream = stream;
-                $(localStreamTarget).removeClass('hidden').attr('src', URL.createObjectURL(stream));
-            }
-
-            var freeIceServers = [
-                {url: 'stun.l.google.com:19302'},
-                {url: 'stun1.l.google.com:19302'},
-                {url: 'stun2.l.google.com:19302'},
-                {url: 'stun3.l.google.com:19302'},
-                {url: 'stun4.l.google.com:19302'},
-                {url: 'stun.ekiga.net'},
-                {url: 'stun.ideasip.com'},
-                {url: 'stun.rixtelecom.se'},
-                {url: 'stun.schlund.de'},
-                {url: 'stun.stunprotocol.org:3478'},
-                {url: 'stun.voiparound.com'},
-                {url: 'stun.voipbuster.com'},
-                {url: 'stun.voipstunt.com'},
-                {url: 'stun.voxgratia.org'}
-            ];
+//            var localStreamTarget = null;
+//            function initializeRTC(localTarget, video, audio) {
+//                //                clearAlerts($('#technical-check'));
+//                localStreamTarget = localTarget;
+//                if (!liveStream) {
+//                    var mediaConstraints = {video: video, audio: audio};
+//                    navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
+//                } else {
+//                    successCallback(liveStream);
+//                }
+//            }
+//
+//            function errorCallback(error) {
+//                alert(error);
+//                // maybe another application is using the device
+//            }
+//
+//            var liveStream;
+//            function successCallback(stream) {
+//                liveStream = stream;
+//                $(localStreamTarget).removeClass('hidden').attr('src', URL.createObjectURL(stream));
+//            }
 
             var webrtc = null;
             function initializeRTCPeerConnection(rtcToken) {

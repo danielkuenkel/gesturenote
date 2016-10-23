@@ -647,6 +647,7 @@ label .question {
     /*max-width: 600px*/
     /*height: 400px;*/
     margin-bottom: 200px;
+    
 }
 
 .rtc-remote-container, .rtc-local-container {
@@ -664,6 +665,7 @@ label .question {
     width: 100%;
     height: auto;
     border-radius: 4px;
+    
 }
 
 #remote-stream {

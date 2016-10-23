@@ -15,11 +15,12 @@ if ($h && $token && $studyId) {
             header('Location: study-prepare-failure.php');
         }
     } else {
+        $_SESSION['usertype'] = 'guest';
         if (!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && ($_SESSION['user_id'] == 0 || $_SESSION['user_id'] == '0'))) {
             $time = time();
             $_SESSION['user_id'] = hash('sha512', $time . $_SESSION['usertype']);
         }
-        $_SESSION['usertype'] = 'guest';
+        
         $hash = hash('sha512', $studyId . $_SESSION['usertype']);
         if ($hash != $h) {
             header('Location: study-prepare-failure.php');
@@ -173,7 +174,7 @@ if ($h && $token && $studyId) {
         });
 
         function onAllExternalsLoadedSuccessfully() {
-            renderSubPageElements(false);
+//            renderSubPageElements(false);
 
             var query = getQueryParams(document.location.search);
             if (query.studyId && query.h && query.token) {
@@ -205,6 +206,10 @@ if ($h && $token && $studyId) {
             var dateFrom = studyData.generalData.dateFrom * 1000;
             var dateTo = addDays(studyData.generalData.dateTo * 1000, 1);
             var totalDays = rangeDays(dateFrom, dateTo);
+            
+            $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
+            $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
+            $('.study-plan').removeClass('hidden');
 
             if (now > dateFrom && now < dateTo) {
                 if (data.studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
@@ -237,20 +242,20 @@ if ($h && $token && $studyId) {
 //                                        clearInterval(requestInterval);
 //                                        console.log(result.data.moderatorId);
                                     // initialize rtcPerConnection
-                                    if (webRTCInitialized === false) {
-                                        initializeRTCPeerConnection(result.data.rtcToken);
-                                    }
+//                                    if (webRTCInitialized === false) {
+//                                        initializeRTCPeerConnection(result.data.rtcToken);
+//                                    }
 
-                                    if (!isNaN(parseInt(result.data.moderatorId))) {
-                                        clearAlerts($('#study-participation'));
-                                    }
+//                                    if (!isNaN(parseInt(result.data.moderatorId))) {
+//                                        clearAlerts($('#study-participation'));
+//                                    }
                                 } else {
                                     // reset rtcPerConnection
                                     appendAlert($('#study-participation'), ALERT_WAITING_FOR_MODERATOR);
                                 }
                             }
                         });
-                    }, 5000);
+                    }, 4500);
 
                 } else {
                     $('#btn-enter-study').on('click', function (event) {
@@ -267,9 +272,9 @@ if ($h && $token && $studyId) {
                 }
             }
 
-            $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
-            $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
-            $('.study-plan').removeClass('hidden');
+//            $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
+//            $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
+//            $('.study-plan').removeClass('hidden');
 
             // check rtc is needed
 //                if (isWebRTCNeeded(studyData.phases)) {
@@ -390,25 +395,8 @@ if ($h && $token && $studyId) {
 //                $(localStreamTarget).attr('src', URL.createObjectURL(liveStream));
 //            }
 
-        var freeIceServers = [
-            {urls: ['stun.l.google.com:19302',
-                    'stun1.l.google.com:19302',
-                    'stun2.l.google.com:19302',
-                    'stun3.l.google.com:19302',
-                    'stun4.l.google.com:19302',
-                    'stun.ekiga.net',
-                    'stun.ideasip.com',
-                    'stun.rixtelecom.se',
-                    'stun.schlund.de',
-                    'stun.stunprotocol.org:3478',
-                    'stun.voiparound.com',
-                    'stun.voipbuster.com',
-                    'stun.voipstunt.com',
-                    'stun.voxgratia.org']}
-        ];
-
         var webrtc = null;
-        var webRTCInitialized = false;
+//        var webRTCInitialized = false;
         function initializeRTCPeerConnection(rtcToken) {
             console.log('initializeRTCPeerConnection', rtcToken);
             webrtc = new SimpleWebRTC({
@@ -428,21 +416,23 @@ if ($h && $token && $studyId) {
             // we have to wait until it's ready
             webrtc.on('readyToCall', function () {
                 // you can name it anything
-                webRTCInitialized = true;
+//                webRTCInitialized = true;
                 console.log('ready to call', rtcToken);
                 webrtc.joinRoom(rtcToken);
-
-                
             });
 
-            var timeline = new TimelineMax({paused: true});
-                timeline.add(TweenMax.to($('#local-stream'), .3, {width: 200, height: 150, left: 5, top: 5, ease: Quad.easeIn}));
-                timeline.add(TweenMax.to($('#remote-stream'), .3, {opacity: 1.0}));
-
+            var timeline;
             // a peer video has been added
             webrtc.on('videoAdded', function (video, peer) {
                 console.log('video added', peer);
                 clearAlerts($('#study-participation'));
+
+                if (!timeline) {
+                    timeline = new TimelineMax({paused: true});
+                    timeline.add(TweenMax.to($('#local-stream'), .3, {width: 200, height: 150, left: 5, top: 5, ease: Quad.easeIn}));
+                    timeline.add(TweenMax.to($('#remote-stream'), .3, {opacity: 1.0}));
+                }
+
                 timeline.play();
             });
 
@@ -450,7 +440,9 @@ if ($h && $token && $studyId) {
             webrtc.on('videoRemoved', function (video, peer) {
                 console.log('video removed', peer);
                 appendAlert($('#study-participation'), ALERT_WAITING_FOR_MODERATOR);
-                timeline.reverse();
+                if (timeline) {
+                    timeline.reverse();
+                }
             });
 
             // local p2p/ice failure
