@@ -1553,7 +1553,7 @@ function renderSceneItem(source, container, sceneId) {
 
         // scene positioning
         var containerOffsetTop = container.offset().top;
-        var generalPanelHeight = 0;
+        var generalPanelHeight = 55;
 //        if(previewModeEnabled === false) {
 //            generalPanelHeight = 0;
 //        }

@@ -27,7 +27,7 @@ function createOriginPhases() {
         phases.push({id: chance.natural(), format: THANKS, color: colors.pop()});//new PhaseItem(chance.natural(), THANKS, colors.pop()));
         setLocalItem(STUDY_PHASE_STEPS, phases);
     }
-    
+
 }
 
 //function createOriginGUS() {
@@ -99,6 +99,7 @@ function renderSessionStorageData() {
         }
 
         if (study.gender !== 'unselected') {
+            console.log(study.gender);
             $('#genderSwitch').find('#' + study.gender).click();
         }
 
@@ -224,12 +225,12 @@ function saveGeneralData() {
     study.surveyType = $('#surveyTypeSelect .chosen').attr('id');
 //    study.recordType = $('#recordSelect .chosen').attr('id');
     study.panelSurvey = $('#panelSurveySwitch').find('.active').attr('id');
+    study.gender = null;
+    study.ageRange = null;
+    
     if (study.panelSurvey === 'yes') {
         study.gender = $('#genderSwitch').find('.active').attr('id');
         study.ageRange = $('#ageSlider .custom-range-slider').attr('value');
-    } else {
-        study.gender = null;
-        study.ageRange = null;
     }
 
     $('#from-To-datepicker .input-daterange input').each(function () {
@@ -247,6 +248,7 @@ function saveGeneralData() {
             study.dateTo = saveDate;
         }
     });
+    console.log(study);
     setLocalItem(STUDY, study);
     savePhases();
     updateCatalogButtons();
