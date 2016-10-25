@@ -44,6 +44,15 @@ $(document).ready(function () {
             gotoGesturesCatalog();
         }
     });
+
+    $('body').on('click', '#btn-publications', function (event) {
+        event.preventDefault();
+        console.log('click')
+        if (!event.handled) {
+            event.handled = true;
+            gotoPublications();
+        }
+    });
 });
 
 
@@ -79,4 +88,8 @@ function gotoCreateStudy() {
 
 function gotoCreateStudyPreview() {
     goto('study-preview.php');
+}
+
+function gotoPublications() {
+    goto('publications.php');
 }

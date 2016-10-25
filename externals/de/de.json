@@ -19,6 +19,7 @@
         "gestureStyleguides": "Gesten-Styleguides",
         "gestureCatalog": "Gesten-Katalog",
         "profile": "Profil",
+        "publications": "Veröffentlichungen",
         "imprint": "Impressum"
     },
     "months": {
@@ -377,7 +378,7 @@
     "repeats": "Wiederholungen",
     "none": "Keine",
     "nones": "Keines",
-    "incompleteData":"Daten unvollständig",
+    "incompleteData": "Daten unvollständig",
     "trigger": "Funktion",
     "triggers": "Funktionen",
     "triggerName": "Funktionsname",
