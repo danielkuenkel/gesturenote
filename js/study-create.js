@@ -99,7 +99,7 @@ function renderSessionStorageData() {
         }
 
         if (study.gender !== 'unselected') {
-            console.log(study.gender);
+//            console.log(study.gender);
             $('#genderSwitch').find('#' + study.gender).click();
         }
 
@@ -225,7 +225,7 @@ function saveGeneralData() {
     study.surveyType = $('#surveyTypeSelect .chosen').attr('id');
 //    study.recordType = $('#recordSelect .chosen').attr('id');
     study.panelSurvey = $('#panelSurveySwitch').find('.active').attr('id');
-    study.gender = null;
+    study.gender = 'unselected';
     study.ageRange = null;
     
     if (study.panelSurvey === 'yes') {
@@ -248,7 +248,7 @@ function saveGeneralData() {
             study.dateTo = saveDate;
         }
     });
-    console.log(study);
+//    console.log(study);
     setLocalItem(STUDY, study);
     savePhases();
     updateCatalogButtons();

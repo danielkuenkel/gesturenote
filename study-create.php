@@ -142,6 +142,7 @@ if (login_check($mysqli) == true) {
                     <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
                     <li><a class="breadcrump-btn" id="btn-studies"><?php echo $lang->breadcrump->studies ?></a></li>
+                    <li class="hidden"><a class="breadcrump-btn" id="btn-study"><?php echo $lang->breadcrump->study ?></a></li>
                     <li class="active"><?php echo $lang->breadcrump->createStudy ?></li>
                 </ol>
             </div>
@@ -507,7 +508,7 @@ if (login_check($mysqli) == true) {
             var studyEditable = false;
             function onAllExternalsLoadedSuccessfully() {
                 $('[data-toggle="tooltip"]').tooltip();
-                
+
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -515,6 +516,8 @@ if (login_check($mysqli) == true) {
                     $('#btn-clear-data').remove();
                     studyEditable = true;
                     editableStudyId = query.studyId;
+                    $('#btn-study').parent().removeClass('hidden');
+                    
                     if (getLocalItem(STUDY)) {
                         init();
                     } else {
@@ -530,6 +533,7 @@ if (login_check($mysqli) == true) {
                     init();
                     studyEditable = true;
                     editableStudyId = query.studyId;
+                    $('#btn-study').parent().removeClass('hidden');
                 } else {
                     init();
                     studyEditable = false;
@@ -868,6 +872,13 @@ if (login_check($mysqli) == true) {
                 } else {
                     loadHTMLintoModal('custom-modal', 'create-info-catalogs-identification.php');
                 }
+            });
+
+            $('#btn-study').on('click', function (event) {
+                event.preventDefault();
+                clearLocalItems();
+                var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                goto("study.php?studyId=" + editableStudyId + "&h=" + hash);
             });
 
         </script>

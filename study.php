@@ -210,12 +210,18 @@ if (login_check($mysqli) == true) {
                 $('#study-description .address').text(translation.description);
                 $('#study-description .text').text(studyData.generalData.description);
 
+                console.log(studyData.generalData.gender);
                 if (studyData.generalData.panelSurvey === 'yes') {
                     $('#panel-survey, .panel-survey').removeClass('hidden');
                     $('.panel-survey .address').text(translation.panelSurvey + ":");
                     var ageFrom = studyData.generalData.ageRange.split(',')[0];
                     var ageTo = studyData.generalData.ageRange.split(',')[1];
-                    $('.panel-survey .text').text(translation.genderTypes[studyData.generalData.gender] + " " + translation.of + " " + ageFrom + " " + translation.to + " " + ageTo);
+
+                    if (studyData.generalData.gender !== undefined) {
+                        $('.panel-survey .text').text(translation.genderTypes[studyData.generalData.gender] + " " + translation.of + " " + ageFrom + " " + translation.to + " " + ageTo);
+                    } else {
+                        $('.panel-survey .text').text(translation.incompleteData);
+                    }
                 }
 
                 // date range view
@@ -466,7 +472,7 @@ if (login_check($mysqli) == true) {
                         registeredUsers++;
                         $(item).find('#user .label-text').text(translation.userTypes.registered);
                     }
-                    
+
                     if (result.aborted === 'no') {
                         successfullStudies++;
                         $(item).find('.panel').addClass('panel-success');

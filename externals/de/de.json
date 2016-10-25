@@ -377,6 +377,7 @@
     "repeats": "Wiederholungen",
     "none": "Keine",
     "nones": "Keines",
+    "incompleteData":"Daten unvollständig",
     "trigger": "Funktion",
     "triggers": "Funktionen",
     "triggerName": "Funktionsname",
