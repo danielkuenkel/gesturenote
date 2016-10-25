@@ -195,6 +195,7 @@ if (login_check($mysqli) == true) {
     <script>
         $(document).ready(function () {
             checkDomain();
+            currentFilterList = $('#gestures-list-container');
             checkLanguage(function () {
                 var externals = new Array();
                 externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);

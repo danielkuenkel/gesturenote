@@ -155,8 +155,8 @@ include './includes/language.php';
         });
 
         $(document).ready(function () {
+            currentFilterList = $('#list-container');
             var data = assembledGestures();
-
             if (data) {
                 originalFilterData = data;
                 initPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));

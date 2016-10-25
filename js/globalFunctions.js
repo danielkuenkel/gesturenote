@@ -1254,12 +1254,12 @@ $(document).on('keyup', '.search-input', function (event) {
         }
 
         var filter = $(this).val();
-        var container = $('#list-container');
-        container.removeClass('hidden');
-
+        var container = currentFilterList;
+        console.log(container, $('#item-view'));
         if (filter.trim() !== "" && event.keyCode !== 27) {
             var matched = searchThroughArray(sort(), filter.trim());
             if (matched.length > 0) {
+                container.removeClass('hidden');
                 removeAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
                 currentFilterData = matched;
                 updatePaginationItems();
@@ -1269,6 +1269,7 @@ $(document).on('keyup', '.search-input', function (event) {
                 appendAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
             }
         } else {
+            container.removeClass('hidden');
             removeAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
             currentFilterData = sort();
             updatePaginationItems();

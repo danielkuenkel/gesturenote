@@ -85,6 +85,7 @@ include './includes/language.php';
 <!--<script type="text/javascript" src="js/template-create.js"></script>-->
 <script>
     $(document).ready(function () {
+        currentFilterList = $('#list-container');
         getGestureCatalog(function (result) {
             if (result.status === RESULT_SUCCESS) {
                 originalFilterData = result.gestures;
