@@ -52,11 +52,12 @@ if ($h && $token && $studyId) {
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
+        <script src="js/peerConnection.js"></script>
         <!--<script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>-->
 
 
         <!-- webrtc sources -->
-        <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
+        <!--<script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>-->
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -156,7 +157,10 @@ if ($h && $token && $studyId) {
                     <div class="alert-space alert-waiting-for-moderator"></div>
                 </div>
                 <div class="col-xs-12 text-center">
-                    <button class="btn btn-danger btn-shadow btn-block" id="btn-close-call"><?php echo $lang->close ?></button>
+                    <div class="btn-group">
+                        <button class="btn btn-danger btn-shadow" id="btn-close-call"><?php echo $lang->close ?></button>
+                        <button class="btn btn-info btn-shadow disabled" id="btn-enter-study"><?php echo $lang->enterStudyAsModerator ?></button>
+                    </div>
                 </div>
 
                 <div class="col-xs-12 col-md-6 col-md-offset-3" id="video-caller" style="margin-top: 10px">
@@ -201,12 +205,8 @@ if ($h && $token && $studyId) {
                 if (query.studyId && query.h && query.token) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
-                            //                            if (result.data) {
                             setStudyData(result);
                             renderData(result);
-                            //                            } else {
-                            //                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
-                            //                            }
                         }
                     });
                 }
@@ -246,6 +246,18 @@ if ($h && $token && $studyId) {
                                 requestParticipations();
                             }
                         });
+
+                        $('#btn-enter-study').on('click', function (event) {
+                            event.preventDefault();
+                            if (!$(this).hasClass('disabled')) {
+                                var rtcToken = $('#call-screen').attr('name').split('_')[1];
+//                                console.log(rtcToken);
+                                peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken});
+                                var query = getQueryParams(document.location.search);
+                                goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken);
+
+                            }
+                        });
                     } else {
                         console.log('no webRTC supported in this browser');
                         appendAlert($('#study-details'), ALERT_WEB_RTC_NOT_SUPPORTED);
@@ -264,7 +276,6 @@ if ($h && $token && $studyId) {
 
             var currentRequests = null;
             function checkRequests(newRequests) {
-//                console.log(currentRequests, newRequests);
                 if (newRequests && newRequests.length > 0) {
                     var requests = new Array();
                     if (!currentRequests || (currentRequests && currentRequests.length === 0)) {
@@ -272,30 +283,23 @@ if ($h && $token && $studyId) {
                     } else {
                         for (var i = 0; i < newRequests.length; i++) {
                             var newRequest = newRequests[i];
-//                            newRequest.valid = true;
-//                            console.log(newRequest)
                             var newRequestCurrentTime = convertSQLTimestampToDate(newRequest.current);
                             for (var j = 0; j < currentRequests.length; j++) {
                                 var currentRequest = currentRequests[j];
                                 var currentRequestTime = convertSQLTimestampToDate(currentRequest.current);
-//                                console.log(newRequestCurrentTime.getTime(), currentRequestTime.getTime())
                                 if (parseInt(newRequest.id) === parseInt(currentRequest.id)) {
                                     if (newRequestCurrentTime.getTime() > currentRequestTime.getTime()) {
-//                                        console.log('time is not the same', newRequestCurrentTime.getTime(), currentRequestTime.getTime());
                                         currentRequest.current = newRequest.current;
                                         requests.push(newRequest);
                                     }
                                     break;
                                 } else if (j === currentRequests.length - 1) {
-//                                    console.log('push new request');
                                     currentRequests.push(newRequest);
                                     requests.push(newRequest);
                                 }
                             }
                         }
                     }
-//                    console.log(requests.length, currentRequests.length);
-//                    currentRequests = requests;
                     return requests;
                 }
 
@@ -321,7 +325,6 @@ if ($h && $token && $studyId) {
                     for (var i = 0; i < requests.length; i++) {
 
                         var request = requests[i];
-//                        if (request.valid === true) {
                         var item = $('#queue-thumbnail').clone().removeAttr('id').removeClass('hidden');
                         $('#participation-queue').find('#list-container').append(item);
                         var created = convertSQLTimestampToDate(request.created);
@@ -336,25 +339,16 @@ if ($h && $token && $studyId) {
 
                         $(item).find('.panel').on('click', {requestId: request.id}, function (event) {
                             clearInterval(requestInterval);
-//                            resetRTC();
-                            //                            initializeRTC($('#local-stream'), true, false);
-                            //                            console.log(request.id);
                             approveParticipation({requestId: event.data.requestId}, function (result) {
                                 console.log(result);
                                 if (result.status === RESULT_SUCCESS) {
                                     $('#participation-queue').addClass('hidden');
                                     $('#call-screen').removeClass('hidden');
-                                    $('#call-screen').attr('name', event.data.requestId);
-                                    initializeRTCPeerConnection(result.data.rtcToken);
+                                    $('#call-screen').attr('name', event.data.requestId + '_' + result.data.rtcToken);
+                                    initPeerConnection(result.data.rtcToken);
                                 }
                             });
                         });
-//                        }
-
-
-//                        if (!isNaN(parseInt(request.moderatorId))) {
-//                            $(item).find('.panel').click();
-//                        }
                     }
                 } else {
                     appendAlert($('#participation-queue'), ALERT_NO_PARTICIPATION_REQUESTS);
@@ -363,112 +357,53 @@ if ($h && $token && $studyId) {
 
             $('#btn-close-call').on('click', function (event) {
                 event.preventDefault();
-                var requestId = $('#call-screen').attr('name');
+                var requestId = $('#call-screen').attr('name').split('_')[0];
                 reapproveParticipation({requestId: requestId}, function (result) {
-                    // reset rtcPerConnection
-//                    resetRTC();
-                    webrtc.leaveRoom();
+                    peerConnection.leaveRoom();
                     $('#participation-queue').removeClass('hidden');
                     $('#call-screen').addClass('hidden');
+                    $('#btn-enter-study').addClass('disabled');
                     requestParticipations();
                 });
             });
 
-//            function renderRTCCheck() {
-//                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-//                    initializeRTC($('#rtc-video'), true, false);
-//                } else {
-//                    appendAlert($('#technical-check'), ALERT_WEB_RTC_NOT_SUPPORTED);
-//                    console.log('Native device media streaming (getUserMedia) not supported in this browser.');
-//                }
-//            }
-
-//            function resetRTC() {
-//                $('#rtc-video').addClass('hidden');
-//                if (liveStream) {
-//                    //                    liveStream.getAudioTracks()[0].stop();
-//                    liveStream.getVideoTracks()[0].stop();
-//                }
-//            }
-
-//            var localStreamTarget = null;
-//            function initializeRTC(localTarget, video, audio) {
-//                //                clearAlerts($('#technical-check'));
-//                localStreamTarget = localTarget;
-//                if (!liveStream) {
-//                    var mediaConstraints = {video: video, audio: audio};
-//                    navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
-//                } else {
-//                    successCallback(liveStream);
-//                }
-//            }
-//
-//            function errorCallback(error) {
-//                alert(error);
-//                // maybe another application is using the device
-//            }
-//
-//            var liveStream;
-//            function successCallback(stream) {
-//                liveStream = stream;
-//                $(localStreamTarget).removeClass('hidden').attr('src', URL.createObjectURL(stream));
-//            }
-
-            var webrtc = null;
-            function initializeRTCPeerConnection(rtcToken) {
+            var peerConnection = null;
+            function initPeerConnection(rtcToken) {
                 console.log('initializeRTCPeerConnection', rtcToken);
-                if (webrtc !== null) {
-                    webrtc.joinRoom(rtcToken);
+                if (peerConnection !== null) {
+                    peerConnection.joinRoom(rtcToken);
                 } else {
-                    webrtc = new SimpleWebRTC({
-                        // the id/element dom element that will hold "our" video
-                        localVideoEl: 'local-stream',
-                        // the id/element dom element that will hold remote videos
-                        remoteVideosEl: 'remote-stream',
-                        // immediately ask for camera access
-                        autoRequestMedia: true,
-                        localVideo: {
-                            autoplay: true, // automatically play the video stream on the page
-                            mirror: true, // flip the local video to mirror mode (for UX)
-                            muted: true // mute local video stream to prevent echo
-                        }
-                    });
+                    var options = {
+                        localVideoElement: 'local-stream',
+                        remoteVideoElement: 'remote-stream',
+                        enableDataChannels: true,
+                        roomId: rtcToken
+                    };
+                    peerConnection = new PeerConnection(options);
 
-                    // we have to wait until it's ready
-                    webrtc.on('readyToCall', function () {
-                        // you can name it anything
-                        console.log('ready to call', rtcToken);
-                        webrtc.joinRoom(rtcToken);
-                    });
-
-                    var timeline = new TimelineMax({paused: true});
-                    timeline.add(TweenMax.to($('#local-stream'), .3, {width: 200, height: 150, left: 5, top: 5, ease: Quad.easeIn}));
-                    timeline.add(TweenMax.to($('#remote-stream'), .3, {opacity: 1.0}));
-
+                    var timeline;
                     // a peer video has been added
-                    webrtc.on('videoAdded', function (video, peer) {
-                        console.log('video added', peer);
+                    $(peerConnection).on('videoAdded', function () {
+                        clearAlerts($('#study-participation'));
+                        $('#btn-enter-study').removeClass('disabled');
+
+                        if (!timeline) {
+                            timeline = new TimelineMax({paused: true});
+                            timeline.add(TweenMax.to($('#local-stream'), .3, {width: 200, height: 150, left: 5, top: 5, ease: Quad.easeIn}));
+                            timeline.add(TweenMax.to($('#remote-stream'), .3, {opacity: 1.0}));
+                        }
+                        $('#local-stream').addClass('rtc-shadow');
                         timeline.play();
                     });
 
-                    // a peer video has been added
-                    webrtc.on('videoRemoved', function (video, peer) {
-                        console.log('video removed', peer);
-                        timeline.reverse();
-                    });
-
-                    // local p2p/ice failure
-                    webrtc.on('iceFailed', function (peer) {
-                        var pc = peer.pc;
-                        console.log('had local relay candidate', pc.hadLocalRelayCandidate);
-                        console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
-                    });
-
-                    // remote p2p/ice failure
-                    webrtc.on('connectivityError', function (peer) {
-                        var pc = peer.pc;
-                        console.log('had local relay candidate', pc.hadLocalRelayCandidate);
-                        console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
+                    // a peer video has been removed
+                    $(peerConnection).on('videoRemoved', function () {
+                        $('#btn-enter-study').addClass('disabled');
+                        appendAlert($('#study-participation'), ALERT_WAITING_FOR_MODERATOR);
+                        $('#local-stream').removeClass('rtc-shadow');
+                        if (timeline) {
+                            timeline.reverse();
+                        }
                     });
                 }
             }

@@ -29,15 +29,19 @@ var testerDoneTriggered = false;
 var previewModeEnabled = false;
 
 function checkStorage() {
-    var phaseSteps = getContextualPhaseSteps();
-    if (phaseSteps && phaseSteps.length > 0) {
-        initialize();
+    if (isLocalStorageSupported()) {
+        var phaseSteps = getContextualPhaseSteps();
+        if (phaseSteps && phaseSteps.length > 0) {
+            initialize();
 
-        if (previewModeEnabled) {
-            renderPhases();
+            if (previewModeEnabled) {
+                renderPhases();
+            }
+        } else {
+//        console.log('there are no phase steps');
         }
     } else {
-//        console.log('there are no phase steps');
+        console.log("Sorry, your browser do not support Web Session Storage.");
     }
 }
 

@@ -7,28 +7,16 @@ session_start();
 $h = getv('h');
 $studyId = getv('studyId');
 $token = getv('token');
+$roomId = getv('roomId');
 
 if ($h && $token && $studyId) {
     if (login_check($mysqli) == true) {
         $hash = hash('sha512', $studyId . $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname']);
         if ($hash != $h) {
-            header('Location: study-prepare-failure.php');
-        }
-    } else {
-        $_SESSION['usertype'] = 'guest';
-        if (!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && ($_SESSION['user_id'] == 0 || $_SESSION['user_id'] == '0'))) {
-            $time = time();
-            $_SESSION['user_id'] = hash('sha512', $time . $_SESSION['usertype']);
-        }
-
-        if (studyExecutionExists($studyId, $mysqli)) {
-            header('Location: study-execution-exists.php');
-        }
-
-        $hash = hash('sha512', $studyId . $_SESSION['usertype']);
-        if ($hash != $h) {
             header('Location: study-prepare-fallback.php?studyId=' . $studyId . '&h=' . $token);
         }
+    } else {
+        header('Location: study-prepare-fallback.php?studyId=' . $studyId . '&h=' . $token);
     }
 } else {
     header('Location: study-prepare-failure.php');
@@ -55,7 +43,7 @@ if ($h && $token && $studyId) {
         <script src="resumable/resumable.js"></script>
 
         <script src="js/chance.min.js"></script>
-        <script src="color-thief/color-thief.js"></script>
+        <!--<script src="color-thief/color-thief.js"></script>-->
         <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
@@ -65,21 +53,21 @@ if ($h && $token && $studyId) {
         <script src="js/externals.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/goto-general.js"></script>
-        <script src="js/goto-tester.js"></script>       
+        <script src="js/goto-evaluator.js"></script>       
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/forms.js"></script>
         <script src="js/joint-selection.js"></script>
         <script src="js/study-execution.js"></script>
-        <script src="js/study-execution-tester.js"></script>
-        <script src="js/study-execution-tester-save.js"></script>
+        <script src="js/study-execution-moderator.js"></script>
+        <script src="js/study-execution-moderator-save.js"></script>
         <script src="js/upload-queue.js"></script>
 
         <!-- gesture recorder sources -->
-        <script src="js/gesture-recorder.js"></script>
+<!--        <script src="js/gesture-recorder.js"></script>
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
-        <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
+        <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>-->
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -87,7 +75,6 @@ if ($h && $token && $studyId) {
         <div id="alerts"></div>
         <div id="template-gesture"></div>
         <div id="template-previews"></div>
-        <div id="template-gesture-recorder"></div>
 
         <!-- modals -->
         <div id="custom-modal" class="modal fade" role="dialog">
@@ -115,8 +102,17 @@ if ($h && $token && $studyId) {
 
 
         <!-- Container (Panel Section) -->
-        <div class="mainContent" id="mainContent" style="margin-top: 54px;">
-            <div id="viewTester">
+        <div class="mainContent" id="mainContent" style="padding:20px; margin-top:60px">
+            <div id="viewModerator">
+                <div id="pinnedRTC" style="position: fixed">
+                    <div id="web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
+                        <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
+                        <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
+                            <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="phase-content"></div>
             </div>
         </div>
@@ -129,7 +125,7 @@ if ($h && $token && $studyId) {
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
-                    externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
+//                    externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
                 });
             });
@@ -137,12 +133,12 @@ if ($h && $token && $studyId) {
             function onAllExternalsLoadedSuccessfully() {
                 var query = getQueryParams(document.location.search);
                 if (query.studyId && query.h && query.token) {
-                    currentView = VIEW_TESTER;
+                    currentView = VIEW_MODERATOR;
                     var status = window.location.hash.substr(1);
                     var statusAddressMatch = statusAddressMatchIndex(status);
 
                     // check if there was a page reload
-//                    status = ''; // for testing
+//                    status = ''; // for debugging
                     if (status !== '' && statusAddressMatch !== null) {
                         currentPhaseStepIndex = statusAddressMatch.index;
                         checkStorage();
@@ -157,15 +153,52 @@ if ($h && $token && $studyId) {
                 }
             }
 
+            $(window).on('resize', function () {
+                if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
+                    updateRTCHeight($('#viewModerator #column-left').width());
+                }
+            });
+
+            function updateRTCHeight(newWidth) {
+                TweenMax.to($('#web-rtc-placeholder'), .1, {width: newWidth, onComplete: onResizeComplete});
+            }
+
+            function onResizeComplete() {
+                var ratio = $('#web-rtc-placeholder').width() / $('#web-rtc-placeholder').height();
+                $('#web-rtc-placeholder').attr('ratio', ratio);
+                TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: $('#web-rtc-placeholder').height() + 20, opacity: 1.0}});
+            }
+
+            var resetRTCTimeout;
+            $(window).scroll(function () {
+                if ($('#viewModerator #column-left').hasClass('rtc-scalable') && !$('#pinnedRTC').hasClass('hidden')) {
+                    if ($(document).scrollTop() <= 0 && ($('#viewModerator #column-left').width() !== $('#web-rtc-placeholder').width() || $('#web-rtc-placeholder').height() !== $('#viewModerator #column-left').offset().top - 20)) {
+                        resetRTCTimeout = setTimeout(resetRTC(), 100);
+                        return false;
+                    } else {
+                        clearTimeout(resetRTCTimeout);
+                    }
+
+                    var ratio = $('#web-rtc-placeholder').attr('ratio');
+                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 30 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 30 - parseInt($('#mainContent').css('padding-top')), 170));
+                    $('#web-rtc-placeholder').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
+                }
+            });
+
+            function resetRTC() {
+                clearTimeout(resetRTCTimeout);
+                $(window).resize();
+            }
+
             function renderPhaseStep() {
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
                 resetRenderedContent();
-                Tester.renderView();
+                Moderator.renderView();
                 window.location.hash = getCurrentPhase().id;
             }
 
             function resetRenderedContent() {
-                $('#viewTester').find('#phase-content').empty();
+                $('#viewModerator').find('#phase-content').empty();
             }
 
             $('body').on('click', '.next', function (event) {

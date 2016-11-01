@@ -163,3 +163,6 @@ var CURSOR_POINTER = 'pointer';
 var CURSOR_PROGRESS = 'progress';
 var CURSOR_MOVE = 'move';
 var CURSOR_NWSE_RESIZE = 'nwse-resize';
+
+// messages
+var MESSAGE_ENTER_SURVEY = 'enterSurvey';

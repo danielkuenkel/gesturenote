@@ -10,6 +10,18 @@ function checkDomain() {
     }
 }
 
+// check supported local storage
+function isLocalStorageSupported() {
+    if (typeof (Storage) !== "undefined") {
+        console.log("Yes, your browser supports Web Session Storage.");
+        return true;
+    } else {
+        console.log("Sorry, your browser do not support Web Session Storage.");
+        return false;
+    }
+}
+
+
 //browser ID
 function getBrowser() {
     var nVer = navigator.appVersion;
@@ -1808,7 +1820,7 @@ function isWebRTCNeeded(phases) {
         for (var i = 0; i < phases.length; i++) {
             if (translation.formats[phases[i].format].webRTC === 'yes') {
                 if (phases[i].format === IDENTIFICATION) {
-                    
+
                     var phaseData = getLocalItem(phases[i].id + '.data');
                     console.log(phaseData);
                     if (phaseData.identificationFor === 'gestures') {

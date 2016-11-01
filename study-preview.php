@@ -231,6 +231,7 @@ if (login_check($mysqli) == true) {
             }
 
             function onAllExternalsLoadedSuccessfully() {
+                previewModeEnabled = true;
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 var status = window.location.hash.substr(1);
@@ -241,7 +242,7 @@ if (login_check($mysqli) == true) {
                 }
 
                 if (query.studyId && query.edit && (query.edit === true || query.edit === "true")) {
-                    init();
+                    checkStorage();
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
                         goto("study-create.php?edit=true&studyId=" + query.studyId);
@@ -251,11 +252,11 @@ if (login_check($mysqli) == true) {
                         getStudyById({studyId: query.studyId}, function (result) {
                             if (result.status === RESULT_SUCCESS) {
                                 setStudyData(result);
-                                init();
+                                checkStorage();
                             }
                         });
                     } else {
-                        init();
+                        checkStorage();
                     }
 
                     $('#btn-close-study-preview').on('click', function (event) {
@@ -265,24 +266,13 @@ if (login_check($mysqli) == true) {
                         goto("study.php?studyId=" + query.studyId + "&h=" + hash);
                     });
                 } else {
-                    init();
+                    checkStorage();
                     $('#btn-close-study-preview').on('click', function (event) {
                         event.preventDefault();
                         goto('study-create.php');
                     });
                 }
             }
-
-            function init() {
-                previewModeEnabled = true;
-
-                if (typeof (Storage) !== "undefined") {
-                    checkStorage();
-                } else {
-                    console.log("Sorry, your browser do not support Web Session Storage.");
-                }
-            }
-
 
             $('.previous').on('click', function (event) {
                 event.preventDefault();

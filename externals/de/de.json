@@ -2442,6 +2442,16 @@
             "id": "no-participation-requests",
             "type": "warning",
             "text": "Kein(e) Probanden mit Befragungs-Anfrage gefunden."
+        },
+        "studyOverRange": {
+            "id": "study-over-range",
+            "type": "warning",
+            "text": "Studienteilnahme nicht möglich. Studie ist beendet."
+        },
+        "studyUnderRange": {
+            "id": "study-under-range",
+            "type": "warning",
+            "text": "Studienteilnahme nicht möglich. Studie noch nicht gestartet."
         }
     }
 }
