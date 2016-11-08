@@ -908,8 +908,8 @@
 
     <div class="container root" id="triggerSlideshow">
         <div class="row">
-            <div class="col-md-5" id="column-left" style="margin-bottom: 15px;"></div>
-            <div class="col-md-7" id="column-right">
+            <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+            <div class="col-md-8" id="column-right">
                 <div id="general">
                     <h3 style="margin: 0"  class="headline"></h3>
                     <div class="description"></div>
