@@ -163,10 +163,10 @@ if ($h && $token && $studyId) {
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-md-6 col-md-offset-3" id="video-caller" style="margin-top: 10px">
+                <div class="col-xs-12 col-md-6 col-md-offset-3" id="video-caller" style="margin-top: 10px;">
                     <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
                     <div class="rtc-local-container">
-                        <video autoplay id="local-stream" class="rtc-stream" style=""></video>
+                        <video autoplay id="local-stream" class="rtc-stream"></video>
                     </div>
                 </div>
 
@@ -388,7 +388,7 @@ if ($h && $token && $studyId) {
                         $('#btn-enter-study').removeClass('disabled');
 
                         if (!timeline) {
-                            timeline = new TimelineMax({paused: true});
+                            timeline = new TimelineMax({paused: true, delay: 1.0, onComplete: onAddStreamTweenComplete});
                             timeline.add(TweenMax.to($('#local-stream'), .3, {width: 200, height: 150, left: 5, top: 5, ease: Quad.easeIn}));
                             timeline.add(TweenMax.to($('#remote-stream'), .3, {opacity: 1.0}));
                         }
@@ -405,6 +405,15 @@ if ($h && $token && $studyId) {
                             timeline.reverse();
                         }
                     });
+
+                    $(window).on('resize', function () {
+                        var offset = $('.rtc-remote-container').find('video').height() - $('#local-stream').height();
+                        $('#local-stream').css({marginBottom: offset + 'px'});
+                    });
+
+                    function onAddStreamTweenComplete() {
+                        $(window).resize();
+                    }
                 }
             }
         </script>

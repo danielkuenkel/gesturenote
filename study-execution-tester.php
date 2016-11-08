@@ -75,6 +75,10 @@ if ($h && $token && $studyId) {
         <script src="js/study-execution-tester-save.js"></script>
         <script src="js/upload-queue.js"></script>
 
+        <!-- streaming -->
+        <script src="https://simplewebrtc.com/latest-v2.js"></script>
+        <script src="js/peerConnection.js"></script>
+
         <!-- gesture recorder sources -->
         <script src="js/gesture-recorder.js"></script>
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
@@ -120,6 +124,21 @@ if ($h && $token && $studyId) {
                 <div id="phase-content"></div>
             </div>
         </div>
+
+        <!-- rtc live stream -->
+        <!--        <div id="web-rtc-live-stream" class="hidden" >
+                    <video autoplay class="rtc-stream" style="width: 100%; height: auto; overflow: hidden; border-radius: 4px;"></video>
+                </div>-->
+
+        <div id="video-caller-holder" class="hidden">
+            <div id="video-caller" style="width: 100%">
+                <div id="remote-stream" class="rtc-remote-container rtc-stream"></div>
+                <div class="rtc-local-container">
+                    <video autoplay id="local-stream" class="rtc-stream" style=""></video>
+                </div>
+            </div>
+        </div>
+
 
         <script>
             $(document).ready(function () {

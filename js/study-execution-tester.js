@@ -7,12 +7,10 @@ var singleGUSGesture = null;
 var Tester = {
     renderView: function renderView() {
         $('.alert-space').empty();
-
         var source = getSourceContainer(currentView);
         var item = null;
         var currentPhase = getCurrentPhase();
         var currentPhaseData = getCurrentPhaseData();
-
         // save start time
         if (previewModeEnabled === false) {
             setLocalItem(currentPhase.id + '.tempSaveData', {startTime: new Date().getTime()});
@@ -21,7 +19,6 @@ var Tester = {
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
             //        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
             var container = $(source).find('#' + currentPhase.format).clone(false);
-
             switch (currentPhase.format) {
                 case LETTER_OF_ACCEPTANCE:
                     item = Tester.getLetterOfAcceptance(container, currentPhaseData);
@@ -62,8 +59,9 @@ var Tester = {
             }
 
             if (item !== false || item !== null) {
+//                rescueVideoCaller();
                 $('#viewTester #phase-content').empty().append(item);
-                Tester.initializeRTC(source, item, currentPhase.format);
+                initializeRTC(source, item, currentPhase.format);
             }
 
             if (currentPhase.format === THANKS) {
@@ -102,41 +100,6 @@ var Tester = {
         }
         $('#viewTester #phase-content').css({marginTop: posY});
     },
-    initializeRTC: function initializeRTC(source, item, format) {
-        // check preview or live mode, and check if webRTC is needed
-        if (isWebRTCNeededInFuture()) {
-            if (previewModeEnabled === true) {
-                switch (format) {
-                    case SCENARIO:
-                        Tester.appendRTCPreview(source, item.find('#fixed-rtc-preview'));
-                        break;
-                    default:
-                        Tester.appendRTCPreview(source, item.find('#column-left'));
-                        break;
-                }
-            } else {
-                switch (format) {
-                    case SCENARIO:
-                        Tester.appendRTCLiveStream(source, item.find('#fixed-rtc-preview'));
-                        break;
-                    default:
-                        Tester.appendRTCLiveStream(source, item.find('#column-left'));
-                        break;
-                }
-            }
-        } else {
-            resetLiveStream();
-        }
-    },
-    appendRTCPreview: function appendRTCPreview(source, target) {
-        $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
-    },
-    appendRTCLiveStream: function appendRTCLiveStream(source, target) {
-        var streamElement = $(source).find('#web-rtc-live-stream').clone().removeAttr('id');
-        $(streamElement).find('.rtc-stream').attr('id', 'rtc-stream');
-        $(target).append(streamElement);
-        initializeLiveStream();
-    },
     renderNoDataView: function renderNoDataView() {
         var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
         $('#viewTester #phase-content').append(alert);
@@ -144,22 +107,21 @@ var Tester = {
     },
     getLetterOfAcceptance: function getLetterOfAcceptance(container, data) {
         $(container).find('.letter-text').text(data);
-
         $(container).find('#letter-agreed').on('click', function (event) {
             event.preventDefault();
-
             if (!previewModeEnabled) {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.accepted = 'yes';
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             }
 
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+            }
             nextStep();
         });
-
         $(container).find('#letter-decline').on('click', function (event) {
             event.preventDefault();
-
             if (!previewModeEnabled) {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.accepted = 'no';
@@ -168,7 +130,6 @@ var Tester = {
 
             $('.btn-cancel').click();
         });
-
         return container;
     },
     getQuestionnaire: function getQuestionnaire(container, data) {
@@ -241,7 +202,6 @@ var Tester = {
             $(container).find('#trigger .text').text(trigger.title);
             $(container).find('#feedback .address').text(translation.feedback + ':');
             $(container).find('#feedback .text').text(feedback.title);
-
             if (feedback) {
                 var icon = document.createElement('i');
                 var label = document.createElement('div');
@@ -270,7 +230,6 @@ var Tester = {
             event.preventDefault();
             nextStep();
         });
-
         container = Tester.getQuestionnaire(container, getAssembledItems(data.gus));
         return container;
     },
@@ -289,7 +248,6 @@ var Tester = {
         // general data section
         $(container).find('.headline').text(data.title);
         $(container).find('.description').text(data.description);
-
         if (!data.training || data.training.length === 0) {
             return false;
         }
@@ -408,7 +366,6 @@ var Tester = {
         // start state handling
         item.find('#start-training').on('click', function (event) {
             event.preventDefault();
-
             if (!previewModeEnabled) {
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -425,7 +382,6 @@ var Tester = {
                 item.find('#start-single-training').removeClass('disabled');
             });
         });
-
         // training handler
         item.find('#start-single-training, #repeat-training').on('click', function (event) {
             event.preventDefault();
@@ -435,7 +391,6 @@ var Tester = {
                 if ($(this).attr('id') === 'start-single-training' && !previewModeEnabled) {
                     var currentPhase = getCurrentPhase(); // save start training time for a specific gesture
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-
                     if (tempData.training !== null && tempData.training !== undefined) {
                         tempData.training.push({gestureId: gesture.id, gestureTrainingStart: new Date().getTime()});
                     } else {
@@ -501,7 +456,6 @@ var Tester = {
         // general data section
         $(container).find('#general .headline').text(data.title);
         $(container).find('#general .description').text(data.description);
-
         if (!data.slideshow || data.slideshow.length === 0) {
             return false;
         }
@@ -569,7 +523,6 @@ var Tester = {
     },
     renderUnmoderatedGestureSlideshow: function renderUnmoderatedGestureSlideshow(source, container, data, isActive) {
         $(container).find('#slideshowContainer').empty();
-
         if (slideRestarted) {
             Tester.renderUnmoderatedGestureSlideshowOverview(source, container, data);
         }
@@ -592,7 +545,6 @@ var Tester = {
 
         if (isActive) {
             var slideData = data.slideshow[currentSlideIndex];
-
             if (!previewModeEnabled) {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: new Date().getTime()});
@@ -606,7 +558,6 @@ var Tester = {
             timeline.add("start", 0)
                     .to(progress.find('.progress-bar'), parseInt(slideData.recognitionTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start")
                     .to($(container).find('.gestureContainer .headline, .triggerContainer .headline'), parseInt(data.answerTime), {color: '#d9534f', ease: Power0.easeNone}, "start");
-
             var trigger = getTriggerById(slideData.triggerId);
             $(item).find('.triggerContainer').removeClass('hidden');
             $(item).find('.triggerContainer .trigger-title').text(trigger.title);
@@ -632,7 +583,6 @@ var Tester = {
         // general data section
         $(container).find('#general .headline').text(data.title);
         $(container).find('#general .description').text(data.description);
-
         if (!data.slideshow || data.slideshow.length === 0) {
             return false;
         }
@@ -691,13 +641,11 @@ var Tester = {
 
         $(container).find('#btn-next-slide').click(function (event) {
             event.preventDefault();
-
             if (!previewModeEnabled) {
                 var selectedOption = $(container).find('.option-container .btn-option-checked').attr('id');
                 selectedOption = selectedOption === undefined ? -1 : selectedOption;
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-
 //                console.log(selectedOption);
                 if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
                     tempData.selectedOptions.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
@@ -750,7 +698,6 @@ var Tester = {
 
         $(container).find('.headline').text(data.title);
         $(container).find('.description').text(data.description);
-
 //        if (identificationStartTriggered) {
 //            $(container).find('#general').remove();
 //        }
@@ -794,12 +741,10 @@ var Tester = {
             $(container).find('#general').remove();
             $(item).find('#identification-content').removeClass('hidden');
         });
-
         if (identificationStartTriggered) {
             $(container).find('#general').remove();
             $(item).find('#btn-start-identification').remove();
             $(item).find('#identification-content').removeClass('hidden');
-
             if (data.identificationFor === 'gestures') {
                 $(container).find('#recorder-description').removeClass('hidden');
             }
@@ -809,29 +754,23 @@ var Tester = {
             $(item).find('#trigger-identification').remove();
             var trigger = getTriggerById(data.identification[currentIdentificationIndex]);
             item.find('#trigger #text').text(trigger.title);
-
-
             var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder-tester').clone().removeAttr('id');
             item.find('#gesture-recorder-container').empty().append(gestureRecorder);
             initCheckRecorder(item.find('#gesture-recorder-container'), gestureRecorder, !previewModeEnabled, getLocalItem(STUDY).studyOwner);
             renderBodyJoints(gestureRecorder.find('#human-body'));
             var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
             container.find('#recorder-description').empty().append(recorderDescription);
-
             $(gestureRecorder).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
                 var descriptions = $('#item-container-gesture-recorder').find('#' + type).clone();
                 recorderDescription.empty().append(descriptions);
                 TweenMax.from(descriptions, .3, {y: -20, opacity: 0, clearProps: 'all'});
             });
-
             $(gestureRecorder).bind(EVENT_GR_SAVE_SUCCESS, function (event, gestureId) {
                 event.preventDefault();
                 $(item).find('#next-controls').removeClass('hidden');
-
                 if (!previewModeEnabled) {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-
                     if (tempData.gestures !== null && tempData.gestures !== undefined) {
                         tempData.gestures.push(gestureId);
                     } else {
@@ -842,7 +781,6 @@ var Tester = {
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
             });
-
             $(gestureRecorder).bind(EVENT_GR_DELETE_SUCCESS, function (event, gestureId) {
                 event.preventDefault();
                 $(item).find('#next-controls').addClass('hidden');
@@ -875,13 +813,11 @@ var Tester = {
                 event.preventDefault();
                 currentIdentificationIndex = 0;
                 identificationStartTriggered = false;
-
                 if (data.identificationFor === 'trigger' && !previewModeEnabled) {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                     var triggerName = $(item).find('#trigger-identification #trigger-name').val();
                     var triggerJusticigation = $(item).find('#trigger-identification #trigger-justification').val();
-
                     if (tempData && tempData.trigger) {
                         tempData.trigger.push({name: triggerName, justification: triggerJusticigation});
                     } else {
@@ -900,13 +836,11 @@ var Tester = {
             $(item).find('#next-identification').on('click', function (event) {
                 event.preventDefault();
                 currentIdentificationIndex++;
-
                 if (!previewModeEnabled && data.identificationFor === 'trigger') {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                     var triggerName = $(item).find('#trigger-identification #trigger-name').val();
                     var triggerJustification = $(item).find('#trigger-identification #trigger-justification').val();
-
                     if (tempData && tempData.trigger) {
                         tempData.trigger.push({name: triggerName, justification: triggerJustification});
                     } else {
@@ -944,7 +878,6 @@ var Tester = {
             container.find('#btn-start-stress-test').removeClass('hidden');
             container.find('#btn-start-stress-test').click(function (event) {
                 event.preventDefault();
-
                 if (!previewModeEnabled) {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -976,7 +909,6 @@ var Tester = {
         var gesture = getGestureById(data.stressTestItems[currentStressTestIndex]);
         renderGestureImages($(container).find('.previewGesture'), gesture.images, gesture.previewImage, null);
         renderSelectionRatingGraphics(item, data);
-
         var questionContainer = $(container).find('#stress-test-questionnaire');
         if (stressTestQuestionsTriggered) {
             questionContainer.removeClass('hidden');
@@ -1004,10 +936,8 @@ var Tester = {
     renderUnmoderatedPhysicalStressTest: function renderUnmoderatedPhysicalStressTest(source, container, data) {
         var item = $(source).find('#physicalStressTestUnmoderated').clone().removeAttr('id');
         $(container).find('#stressTestContainer').empty().append(item);
-
         var gesture = getGestureById(data.stressTestItems[currentStressTestIndex]);
         renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
-
         if (!previewModeEnabled) {
             var currentPhase = getCurrentPhase();
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -1017,7 +947,6 @@ var Tester = {
 
         $(item).find('#btn-gesture-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
-
             if (!previewModeEnabled) {
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -1034,7 +963,6 @@ var Tester = {
                     $(item).find('#btn-questionnaire-done, #questionnaire-heading, #single-questions').removeClass('hidden');
                     $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
                     $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
-
                     if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
                         Tester.getQuestionnaire(questionContainer.find('#single-questions'), data.singleStressQuestions);
                     }
@@ -1049,7 +977,6 @@ var Tester = {
                     $(item).find('#btn-questionnaire-done, #questionnaire-heading, #sequence-questions').removeClass('hidden');
                     $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
                     $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
-
                     if (data.sequenceStressQuestions && data.sequenceStressQuestions.length > 0) {
                         Tester.getQuestionnaire(questionContainer.find('#sequence-questions'), data.sequenceStressQuestions);
                     }
@@ -1068,19 +995,16 @@ var Tester = {
                 $(item).find('#btn-next-gesture').removeClass('hidden');
             }
         });
-
         $(item).find('#btn-questionnaire-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             saveAnswers();
             currentStressTestCount++;
-
             $(item).find('#general-repeats').removeClass('hidden');
             $(item).find('#questionnaire-heading').addClass('hidden');
             $(this).addClass('hidden');
             $(item).find('#btn-gesture-done').removeClass('hidden');
             $(item).find('#gesturePreview').removeClass('col-sm-5').addClass('col-sm-12');
             $(item).find('#stress-test-questionnaire').addClass('hidden');
-
             if (!previewModeEnabled) {
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -1088,7 +1012,6 @@ var Tester = {
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             }
         });
-
         $(item).find('#btn-next-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
             saveAnswers();
@@ -1096,14 +1019,12 @@ var Tester = {
             currentStressTestIndex++;
             Tester.renderUnmoderatedPhysicalStressTest(source, container, data);
         });
-
         $(item).find('#btn-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             saveAnswers();
             nextStep();
 //            Tester.renderUnmoderatedPhysicalStressTest(source, container, data);
         });
-
         function saveAnswers() {
             // save joints and questionnaire answers if in live mode
             if (!previewModeEnabled) {
@@ -1123,7 +1044,6 @@ var Tester = {
                         answers.singleAnswers = singleQuestionAnswers;
                     }
                     getJointSelectionRatings(answers.singleAnswers, data.singleStressGraphicsRating, $(item).find('#single-joint-selection'));
-
                     var sequenceQuestionnaire = $(item).find('#sequence-questions .question-container').children();
                     var sequenceQuestionAnswers = singleQuestionAnswers = getQuestionnaireFormData(sequenceQuestionnaire, {});
                     if (sequenceQuestionAnswers.answers && sequenceQuestionAnswers.answers.length > 0) {
@@ -1137,7 +1057,6 @@ var Tester = {
 //                answers.selectedHandJoints = getSelectedJoints($(item).find('#hand-selection-rating'));
                 answers.gestureId = gesture.id;
                 answers.time = new Date().getTime();
-
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
 //                console.log(currentStressTestCount, data.stressAmount, currentStressTestIndex, data.stressTestItems.length);
                 if (currentStressTestIndex < data.stressTestItems.length - 1) {
@@ -1244,7 +1163,6 @@ var Tester = {
             if (!$(this).hasClass('hidden')) {
 
                 $(this).addClass('hidden');
-
                 if (!previewModeEnabled) {
                     var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                     tempData.actions.push({action: ACTION_SHOW_INFO, time: new Date().getTime()});
@@ -1262,7 +1180,6 @@ var Tester = {
             if (!$(this).hasClass('hidden')) {
 
                 $(this).addClass('hidden');
-
                 if (!previewModeEnabled) {
                     var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                     tempData.actions.push({action: ACTION_HIDE_INFO, time: new Date().getTime()});
@@ -1289,7 +1206,6 @@ var Tester = {
 
         container.find('#start-scene').click(function () {
             var time = new Date().getTime();
-
             if (!previewModeEnabled) {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.actions.push({action: ACTION_START_TASK, time: time});
@@ -1301,16 +1217,13 @@ var Tester = {
             container.find('#normal-controls').removeClass('hidden');
             sceneItem = renderSceneItem(source, container, data.scene);
             sceneItem.removeClass('hidden');
-
             container.find('#btn-hide-scenario-info').click();
             scenarioStartTriggered = true;
             currentWOZScene = getSceneById(data.scene);
             container.find('#fixed-rtc-preview').removeClass('hidden');
         });
-
         $(container).find('#btn-refresh-scene').click(function (event) {
             event.preventDefault();
-
             if (!previewModeEnabled) {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.actions.push({action: ACTION_REFRESH_SCENE, scene: data.scene, time: new Date().getTime()});
@@ -1319,11 +1232,9 @@ var Tester = {
 
             renderUnmoderatedScenario(source, container, data);
         });
-
         $(panelContent).find('#btn-perform-gesture').click(function (event) {
             event.preventDefault();
             $(this).addClass('hidden');
-
             if (!previewModeEnabled) {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, time: new Date().getTime()});
@@ -1332,11 +1243,9 @@ var Tester = {
 
             $(panelContent).find('#btn-stop-perform-gesture').removeClass('hidden');
         });
-
         $(panelContent).find('#btn-stop-perform-gesture').click(function (event) {
             event.preventDefault();
             $(this).addClass('hidden');
-
             if (!previewModeEnabled) {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
@@ -1346,10 +1255,8 @@ var Tester = {
             $(panelContent).find('#btn-perform-gesture').removeClass('hidden');
             loadHTMLintoModal('custom-modal', 'modal-select-transition.php', 'modal-lg');
         });
-
         $(panelContent).find('#btn-getting-help').click(function (event) {
             event.preventDefault();
-
             if (!previewModeEnabled) {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.actions.push({action: ACTION_REQUEST_HELP, time: new Date().getTime()});
@@ -1358,7 +1265,6 @@ var Tester = {
 
             loadHTMLintoModal('custom-modal', 'modal-help.php', 'modal-md');
         });
-
         $(panelContent).find('#btn-done').click(function (event) {
             event.preventDefault();
             nextStep();
@@ -1370,23 +1276,19 @@ var Tester = {
         var study = getLocalItem(STUDY);
         var absoluteStaticStudyUrl = 'https://gesturenote.de/study-prepare.php?studyId=' + study.id + '&h=' + study.urlToken;
         $(container).find('#static-study-url').text(absoluteStaticStudyUrl);
-
         $(container).find('#btn-execution-done').on('click', function (event) {
             event.preventDefault();
             gotoDashboard();
         });
-
         $(container).find('#static-study-url').click(function () {
             $(container).find('#static-study-url').select();
         });
-
         $(container).find('#btn-retry-upload').on('click', function (event) {
             event.preventDefault();
             if (previewModeEnabled === false) {
                 submitFinalData(container);
             }
         });
-
         if (previewModeEnabled === false) {
             checkRTCUploadStatus(container);
         }
@@ -1394,21 +1296,16 @@ var Tester = {
         return container;
     }
 };
-
 function checkRTCUploadStatus(container) {
-    if (isWebRTCNeeded(getLocalItem(STUDY_PHASE_STEPS))) {
+    if (isWebRTCNeeded()) {
 //        if (tempUploads && tempUploads.length > 0) {
 //            console.log(tempUploads);
         submitFinalData(container, false);
-
         $(uploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
             console.log('allVideosUploaded');
             $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED);
             submitFinalData(container, true);
         });
-
-
-
 //        } else {
 //            console.log('not allVideosUploaded');
 //            $(uploadQueue).on(EVENT_FILE_SAVED, function (event, result) {
@@ -1429,7 +1326,6 @@ function checkRTCUploadStatus(container) {
 function submitFinalData(container, areAllRTCsUploaded) {
     $(container).find('#upload-instructions').removeClass('hidden');
     $(container).find('#upload-done, #study-share, #upload-retry, #btn-execution-done').addClass('hidden');
-
     if (!areAllRTCsUploaded) {
         $(container).find('#rtc-uploads').addClass('hidden');
     } else {
@@ -1455,7 +1351,6 @@ function submitFinalData(container, areAllRTCsUploaded) {
 function renderSelectionRatingGraphics(item, selectionRating) {
     if (selectionRating !== 'none') {
         $(item).removeClass('hidden');
-
         switch (selectionRating) {
             case 'body':
                 $(item).find('#hand-selection-rating').addClass('hidden');
@@ -1523,7 +1418,6 @@ function renderSceneItem(source, container, sceneId) {
         }
 
         container.find('#scene-container').css({backgroundColor: "rgb(255,255,255)"});
-
         switch (scene.type) {
             case SCENE_WEB:
                 sceneItem.attr('src', scene.data[0]);
@@ -1551,7 +1445,7 @@ function renderSceneItem(source, container, sceneId) {
                 break;
         }
 
-        // scene positioning
+// scene positioning
         var containerOffsetTop = container.offset().top;
         var generalPanelHeight = 55;
 //        if(previewModeEnabled === false) {
@@ -1559,7 +1453,6 @@ function renderSceneItem(source, container, sceneId) {
 //        }
 //        console.log(containerOffsetTop);
         sceneItem.css({marginTop: generalPanelHeight + 'px'});
-
         // calcuation of the new window height if resizing the window
         $(window).resize(function () {
 
@@ -1653,23 +1546,120 @@ function getSelectionRating(data) {
 }
 
 
+/*
+ * streaming and recording APIs
+ */
+function initializeRTC(source, item, format) {
+// check preview or live mode, and check if webRTC is needed 
+
+    if (isWebRTCNeededInFuture()) {
+        if (previewModeEnabled === true) {
+            switch (format) {
+                case SCENARIO:
+                    appendRTCPreview(source, item.find('#fixed-rtc-preview'));
+                    break;
+                default:
+                    appendRTCPreview(source, item.find('#column-left'));
+                    break;
+            }
+        } else {
+            appendRTCLiveStream(item, format);
+//            switch (format) {
+//                case SCENARIO:
+//                    appendRTCLiveStream(source, item.find('#fixed-rtc-preview'));
+//                    break;
+//                default:
+//                    appendRTCLiveStream(source, item.find('#column-left'));
+//                    break;
+//            }
+        }
+    } else {
+        resetLiveStream();
+    }
+}
+
+function appendRTCPreview(source, target) {
+    $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
+}
+
+var peerConnection = null;
+function appendRTCLiveStream(item, format) {
+    var target = $('#viewTester').find('#column-left');
+    switch (format) {
+        case SCENARIO:
+            target = 'fixed-rtc-preview';
+            break;
+    }
+
+    var options = getPhaseStepOptions(format);
+
+    var query = getQueryParams(document.location.search);
+    var callerOptions = {
+        target: target,
+        callerElement: $('#video-caller'),
+        localVideoElement: 'local-stream',
+        remoteVideoElement: 'remote-stream',
+        enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
+        roomId: query.roomId,
+        localStream: {audio: options.tester.audio, video: options.tester.video, visualize: options.tester.visualizeStream},
+        remoteStream: {audio: options.moderator.audio, video: options.moderator.video}
+    };
+    $(callerOptions.target).prepend(callerOptions.callerElement);
+
+
+    if (!peerConnection) {
+        peerConnection = new PeerConnection(callerOptions);
+        $(peerConnection).on('controlMessage', function (event, messageData) {
+            event.preventDefault();
+            if (messageData.message === MESSAGE_NEXT_STEP) {
+                console.log('on next step');
+                nextStep();
+            }
+        });
+
+
+//        $('#' + callerOptions.target).prepend($('#' + callerOptions.callerElement));
+    } else {
+        peerConnection.update(callerOptions);
+
+        var videos = $(callerOptions.callerElement).find('video');
+        for (var i = 0; i < videos.length; i++) {
+//            console.log(videos[i]);
+            videos[i].play();
+        }
+
+    }
+
+//    initializeLiveStream();
+}
+
+//function rescueVideoCaller() {
+//    var study = getLocalItem(STUDY);
+//    if (!previewModeEnabled && study.surveyType === TYPE_SURVEY_MODERATED) {
+//        console.log('rescue video caller', $('#video-caller-holder'));
+//        $('#video-caller-holder').append($('#video-caller'));
+////        console.log($('#video-caller-holder'));
+//        
+//    }
+//}
 
 var mediaRecorder;
 function initializeLiveStream() {
 //    console.log(recordingStream);
 
     if (!recordingStream) {
+        // check current browser for building constraints
         if (getBrowser() == "Chrome") {
             var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
         } else if (getBrowser() == "Firefox") {
-            var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 1280}, height: {min: 240, ideal: 240, max: 720}}};
+            var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
         }
 
+        // set user media for specifig browsers
         navigator.getUserMedia = (navigator.getUserMedia ||
                 navigator.mozGetUserMedia ||
                 navigator.msGetUserMedia ||
                 navigator.webkitGetUserMedia);
-
         if (navigator.getUserMedia) {
             navigator.getUserMedia(constraints, initRecorder, errorCallback);
         } else {
@@ -1691,7 +1681,6 @@ function checkStartRecording() {
 
 function resetLiveStream() {
     console.log('reset live stream');
-
     if (mediaRecorder) {
         mediaRecorder = null;
     }
@@ -1718,14 +1707,11 @@ function initRecorder(stream) {
         mediaRecorder = new MediaRecorder(stream);
         $('#rtc-stream').attr('src', URL.createObjectURL(recordingStream));
         $('#rtc-stream').attr('muted', 'true');
-
         mediaRecorder.ondataavailable = function (e) {
             chunks.push(e.data);
         };
-
         mediaRecorder.onstart = function () {
             console.log('Start recording ... ' + new Date());
-
             // save start recording time
             if (previewModeEnabled === false) {
                 var currentPhase = getCurrentPhase();
@@ -1736,26 +1722,21 @@ function initRecorder(stream) {
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             }
         };
-
         mediaRecorder.onstop = function () {
             console.log('Stopped recording, state = ' + mediaRecorder.state + ', ' + new Date());
             var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
             uploadQueue.upload(chunks, filename, currentPhaseStepId);
             chunks = [];
-
             if (stopRecordingCallback) {
                 stopRecordingCallback();
             }
         };
-
         mediaRecorder.onerror = function (e) {
             console.log('Error: ', e);
         };
-
         mediaRecorder.onwarning = function (e) {
             console.log('Warning: ' + e);
         };
-
         checkStartRecording();
     }
 }

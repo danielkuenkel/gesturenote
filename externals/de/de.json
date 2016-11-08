@@ -198,73 +198,469 @@
         "letterOfAcceptance": {
             "text": "Einverständniserklärung",
             "class": "both",
-            "webRTC": "no",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
             "notes": "no"
         },
         "thanks": {
             "text": "Danksagung",
             "class": "both",
-            "webRTC": "no",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
             "notes": "no"
         },
         "questionnaire": {
             "text": "Fragebogen",
             "class": "both",
-            "webRTC": "no",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "no",
+                    "audio": "yes",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
             "notes": "yes"
         },
         "identification": {
             "text": "Identifikation",
             "class": "elicitation",
-            "webRTC": "yes",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "no",
+                    "audio": "yes",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
             "notes": "yes"
         },
         "gus": {
             "text": "GUS (einzelne Geste)",
             "class": "evaluation",
-            "webRTC": "no",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "no",
+                    "audio": "yes",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
             "notes": "yes"
         },
         "questionnaireGestures": {
             "text": "GUS (Mehrere Gesten)",
             "class": "evaluation",
-            "webRTC": "no",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "no",
+                    "audio": "yes",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
             "notes": "yes"
         },
         "sus": {
             "text": "SUS",
             "class": "evaluation",
-            "webRTC": "no",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "no",
+                    "audio": "yes",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
             "notes": "yes"
         },
         "gestureTraining": {
             "text": "Gestentraining",
             "class": "evaluation",
-            "webRTC": "yes",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "yes"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "no",
+                    "audio": "yes",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "yes"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
             "notes": "yes"
         },
         "scenario": {
             "text": "Szenario-basierte Aufgabe",
             "class": "evaluation",
-            "webRTC": "yes",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "yes"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "no",
+                    "audio": "yes",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "yes"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
             "notes": "yes"
         },
         "gestureSlideshow": {
             "text": "Gesten erraten",
             "class": "evaluation",
-            "webRTC": "yes",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "yes"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "no",
+                    "audio": "yes",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "yes"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
             "notes": "yes"
         },
         "triggerSlideshow": {
             "text": "Funktionen erraten",
             "class": "evaluation",
-            "webRTC": "no",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "no",
+                    "audio": "yes",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "no",
+                    "recordStream": "yes"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
             "notes": "yes"
         },
         "physicalStressTest": {
             "text": "Physischer Belastungstest",
             "class": "evaluation",
-            "webRTC": "yes",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "yes"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "no",
+                    "audio": "yes",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "yes"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
             "notes": "yes"
         }
     },

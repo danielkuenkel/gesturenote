@@ -1,5 +1,12 @@
 <div id="item-container-moderator" class="hidden">
 
+    <div id="web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
+        <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
+        <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
+            <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
+        </div>
+    </div>
+
     <!-- alerts -->
     <div class="row root" id="no-phase-data">
         <div class="col-md-4" id="column-left"></div>
@@ -263,7 +270,14 @@
 
 
     <div class="row root" id="letterOfAcceptance">
-        <div class="col-md-6 col-lg-4" id="column-left"></div>
+        <div class="col-md-6 col-lg-4 rtc-scalable" id="column-left">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Einverständniserklärung
+                </div>
+                <div class="panel-body letter-text"></div>
+            </div>
+        </div>
         <div class="col-md-6 col-lg-8" id="column-right">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -460,7 +474,7 @@
     <div id="identificationItem">
         <!--<div>-->
         <div class="text" id="index" style="float: left">
-            
+
         </div>
         <div class="triggerContainer" style="float: left; margin-left: 10px">
             <div id="search"><span class="address">Ermittelt wird:</span> <span class="text"></span></div>
@@ -673,22 +687,23 @@
         <img src="img/web-rtc-placeholder.jpg" style="width: 100%; height: auto" />
     </div>
 
-    <!-- rtc live stream -->
-    <div id="web-rtc-live-stream" style="width: 100%">
-        <video autoplay class="rtc-stream" style="width: 100%; height: auto; overflow: hidden; border-radius: 4px;"></video>
-    </div>
-
     <!-- main formats -->
 
     <div class="container root" id="letterOfAcceptance">
-        <h3 class="headline" style="margin: 0" >Einverständniserklärung</h3>
-        <hr>
-        <div class="letter-text"></div>
-        <hr>
-        <div>
-            <button type="button" class="btn btn-success btn-shadow" id="letter-agreed">Ich bin einverstanden</button>
-            <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline">Ich bin nicht einverstanden</button>
+        <div class="row">
+            <div class="col-md-5" id="column-left" style="margin-bottom: 15px;"></div>
+            <div class="col-md-7" id="column-right">
+                <h3 class="headline" style="margin: 0" >Einverständniserklärung</h3>
+                <hr>
+                <div class="letter-text"></div>
+                <hr>
+                <div>
+                    <button type="button" class="btn btn-success btn-shadow" id="letter-agreed">Ich bin einverstanden</button>
+                    <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline">Ich bin nicht einverstanden</button>
+                </div>
+            </div>
         </div>
+
     </div>
 
     <div class="container root" id="questionnaire">
@@ -892,21 +907,26 @@
     <!-- trigger slideshow container -->
 
     <div class="container root" id="triggerSlideshow">
-        <div id="general">
-            <h3 style="margin: 0"  class="headline"></h3>
-            <div class="description"></div>
-            <hr>
+        <div class="row">
+            <div class="col-md-5" id="column-left" style="margin-bottom: 15px;"></div>
+            <div class="col-md-7" id="column-right">
+                <div id="general">
+                    <h3 style="margin: 0"  class="headline"></h3>
+                    <div class="description"></div>
+                    <hr>
+                </div>
+                <div class="alert-space alert-waiting-for-slideshow"></div>
+                <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
+                    <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+                </div>
+                <div class="row hidden" id="slideshowContainer"></div>
+                <button class="btn btn-lg btn-block btn-success btn-shadow" id="startSlideshow" name="btn-success">Jetzt Starten</button>
+            </div>
         </div>
-        <div class="alert-space alert-waiting-for-slideshow"></div>
-        <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
-            <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
-        </div>
-        <div class="row hidden" id="slideshowContainer"></div>
-        <button class="btn btn-lg btn-block btn-success btn-shadow" id="startSlideshow" name="btn-success">Jetzt Starten</button>
     </div>
 
 
-    <!-- unmoderated gesture slideshow items -->
+    <!-- unmoderated trigger slideshow items -->
 
     <div id="triggerSlideshowItemUnmoderated">
         <div class="col-sm-5 text-center" style="margin-bottom: 15px;" id="gesturePreview">

@@ -172,6 +172,8 @@ function nextStep() {
     identificationStartTriggered = false;
     singleGUSGesture = null;
 
+    rescueVideoCaller();
+
     var phases = getContextualPhaseSteps();
     if (previewModeEnabled === false) {
         if (currentPhaseStepIndex < phases.length - 1) {
@@ -198,6 +200,16 @@ function nextStep() {
     if (previewModeEnabled === true) {
         currentPhaseStepIndex++;
         $('.phaseStepsSelect .dropdown-menu .selected').next().click();
+    }
+}
+
+function rescueVideoCaller() {
+    var study = getLocalItem(STUDY);
+    if (!previewModeEnabled && study.surveyType === TYPE_SURVEY_MODERATED && currentView === VIEW_TESTER) {
+//        console.log('rescue video caller', $('#video-caller-holder'));
+        $('#video-caller-holder').append($('#video-caller'));
+//        console.log($('#video-caller-holder'));
+
     }
 }
 

@@ -1815,35 +1815,54 @@ $(document).on('click', '.audioPlayer #stop', function (event) {
 
 
 // webRTC specific functions
-function isWebRTCNeeded(phases) {
-    if (phases && phases.length > 0) {
-        for (var i = 0; i < phases.length; i++) {
-            if (translation.formats[phases[i].format].webRTC === 'yes') {
-                if (phases[i].format === IDENTIFICATION) {
-
-                    var phaseData = getLocalItem(phases[i].id + '.data');
-                    console.log(phaseData);
-                    if (phaseData.identificationFor === 'gestures') {
-                        return true;
-                    }
-                } else {
-                    return true;
-                }
+function isWebRTCNeeded() {
+    var phaseSteps = getContextualPhaseSteps();
+    if (phaseSteps && phaseSteps.length > 0) {
+        for (var i = 0; i < phaseSteps.length; i++) {
+            if (isWebRTCNeededForPhaseStep(phaseSteps[i])) {
+                return true;
             }
+
+//            if (translation.formats[phaseSteps[i].format].webRTC === 'yes') {
+//                if (phaseSteps[i].format === IDENTIFICATION) {
+//                    var phaseData = getLocalItem(phaseSteps[i].id + '.data');
+//                    console.log(phaseData);
+//                    if (phaseData.identificationFor === 'gestures') {
+//                        return true;
+//                    }
+//                } else {
+//                    return true;
+//                }
+//            }
         }
     }
     return false;
 }
 
 function isWebRTCNeededForPhaseStep(phaseStep) {
-    if (phaseStep && translation.formats[phaseStep.format].webRTC === 'yes') {
+    if (phaseStep) {
+
+        var options = getPhaseStepOptions(phaseStep.format);
+//        console.log(options);
+
         if (phaseStep.format === IDENTIFICATION) {
-            return false;
+            var phaseData = getLocalItem(phaseStep.id + '.data');
+//            console.log(phaseData);
+            if (phaseData.identificationFor === 'gestures') {
+                return true;
+            }
         } else {
-            return true;
+            if (options.tester.stream === 'yes' || options.tester.visualizeStream === 'yes' || options.tester.recordStream === 'yes') {
+                return true;
+            }
         }
     }
     return false;
+}
+
+function getPhaseStepOptions(format) {
+    var surveyType = getLocalItem(STUDY).surveyType;
+    return translation.formats[format][surveyType];
 }
 
 function isWebRTCNeededInFuture() {
@@ -1856,7 +1875,7 @@ function isWebRTCNeededInFuture() {
                 futureSteps = true;
             }
 
-            if (futureSteps && isWebRTCNeededForPhaseStep(phaseSteps[i])) {
+            if (futureSteps || isWebRTCNeededForPhaseStep(phaseSteps[i])) {
                 return true;
             }
         }

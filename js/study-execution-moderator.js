@@ -58,6 +58,7 @@ var Moderator = {
 
             if (item !== false) {
                 $('#viewModerator #phase-content').empty().append(item);
+                initializeRTC(source, item, currentPhase.format);
             } else {
                 Moderator.renderNoDataView();
             }
@@ -582,7 +583,7 @@ var Moderator = {
             for (var i = 0; i < data.identification.length; i++) {
                 var item = $(source).find('#identificationItem').clone().removeAttr('id');
                 $(item).find('#index').text(i + 1 + '.');
-                
+
                 if (i > 0) {
                     var line = document.createElement('hr');
                     $(line).css({marginTop: "10px", marginBottom: "10px"});
@@ -1002,4 +1003,94 @@ function updateCurrentScene(container) {
         console.log(currentWOZScene, currentSceneId)
         loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
     });
+}
+
+
+
+
+
+/*
+ * streaming and recording APIs
+ */
+
+function initializeRTC(source, item, format) {
+    // check preview or live mode, and check if webRTC is needed 
+    if (isWebRTCNeededInFuture()) {
+        if (previewModeEnabled === true) {
+            switch (format) {
+                case SCENARIO:
+                    appendRTCPreview(source, item.find('#fixed-rtc-preview'));
+                    break;
+                default:
+                    appendRTCPreview(source, item.find('#column-left'));
+                    break;
+            }
+        } else {
+            appendRTCLiveStream(item, format);
+        }
+    } else {
+        resetLiveStream();
+    }
+}
+
+function appendRTCPreview(source, target) {
+    $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
+}
+
+var peerConnection = null;
+function appendRTCLiveStream(item, format) {
+    var options = getPhaseStepOptions(format);
+    var query = getQueryParams(document.location.search);
+    var enableDataChannels = options.enableDataChannels && enableDataChannels === 'yes' || false;
+    var callerOptions = {
+        target: $('#viewModerator').find('#pinnedRTC'),
+        callerElement: $('#video-caller'),
+        localVideoElement: 'local-stream',
+        remoteVideoElement: 'remote-stream',
+        enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
+        roomId: query.roomId,
+        localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream},
+        remoteStream: {audio: options.tester.audio, video: options.tester.video}
+    };
+    $(callerOptions.target).prepend(callerOptions.callerElement);
+
+    if (!peerConnection) {
+        peerConnection = new PeerConnection(callerOptions);
+        $(peerConnection).on('controlMessage', function (event, messageData) {
+            event.preventDefault();
+            if (messageData.message === MESSAGE_NEXT_STEP) {
+                console.log('on next step');
+                nextStep();
+            }
+        });
+//        $('#' + callerOptions.target).prepend($('#' + callerOptions.callerElement));
+
+    } else {
+        peerConnection.update(callerOptions);
+        var videos = $(callerOptions.callerElement).find('video');
+        for (var i = 0; i < videos.length; i++) {
+//            console.log(videos[i]);
+            videos[i].play();
+        }
+    }
+
+
+
+//    initializeLiveStream();
+}
+
+var mediaRecorder;
+var currentPhaseStepId = null;
+var stopRecordingCallback = null;
+function stopRecording(callback) {
+    if (mediaRecorder) {
+        stopRecordingCallback = null;
+        if (callback) {
+            stopRecordingCallback = callback;
+        }
+        currentPhaseStepId = getCurrentPhase().id;
+        mediaRecorder.stop();
+    } else if (callback) {
+        callback();
+    }
 }

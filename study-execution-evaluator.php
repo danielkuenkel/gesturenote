@@ -63,6 +63,11 @@ if ($h && $token && $studyId) {
         <script src="js/study-execution-moderator-save.js"></script>
         <script src="js/upload-queue.js"></script>
 
+        <!-- streaming -->
+        <script src="https://simplewebrtc.com/latest-v2.js"></script>
+        <script src="js/peerConnection.js"></script>
+
+
         <!-- gesture recorder sources -->
 <!--        <script src="js/gesture-recorder.js"></script>
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
@@ -105,17 +110,24 @@ if ($h && $token && $studyId) {
         <div class="mainContent" id="mainContent" style="padding:20px; margin-top:60px">
             <div id="viewModerator">
                 <div id="pinnedRTC" style="position: fixed">
-                    <div id="web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
-                        <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
-                        <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
-                            <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
-                        </div>
-                    </div>
+<!--                    <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
+                        <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
+                    </div>-->
                 </div>
 
                 <div id="phase-content"></div>
             </div>
         </div>
+
+        <div id="video-caller-holder" class="hidden">
+            <div id="video-caller" style="width: 100%">
+                <div id="remote-stream" class="rtc-remote-container rtc-stream"></div>
+                <div class="rtc-local-container">
+                    <video autoplay id="local-stream" class="rtc-stream" style=""></video>
+                </div>
+            </div>
+        </div>
+
 
         <script>
             $(document).ready(function () {
@@ -154,34 +166,36 @@ if ($h && $token && $studyId) {
             }
 
             $(window).on('resize', function () {
+//                console.log('resize: ' + $(document).scrollTop());
                 if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
                     updateRTCHeight($('#viewModerator #column-left').width());
                 }
             });
 
             function updateRTCHeight(newWidth) {
-                TweenMax.to($('#web-rtc-placeholder'), .1, {width: newWidth, onComplete: onResizeComplete});
+//                console.log('updateRTCHeight', newWidth);
+                TweenMax.to($('#video-caller'), .1, {width: newWidth, onComplete: onResizeComplete});
             }
 
             function onResizeComplete() {
-                var ratio = $('#web-rtc-placeholder').width() / $('#web-rtc-placeholder').height();
-                $('#web-rtc-placeholder').attr('ratio', ratio);
-                TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: $('#web-rtc-placeholder').height() + 20, opacity: 1.0}});
+                var ratio = $('#video-caller').width() / $('#video-caller').height();
+                $('#video-caller').attr('ratio', ratio);
+                TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: $('#video-caller').height() + 20, opacity: 1.0}});
             }
 
             var resetRTCTimeout;
             $(window).scroll(function () {
                 if ($('#viewModerator #column-left').hasClass('rtc-scalable') && !$('#pinnedRTC').hasClass('hidden')) {
-                    if ($(document).scrollTop() <= 0 && ($('#viewModerator #column-left').width() !== $('#web-rtc-placeholder').width() || $('#web-rtc-placeholder').height() !== $('#viewModerator #column-left').offset().top - 20)) {
+                    if ($(document).scrollTop() <= 0 && ($('#viewModerator #column-left').width() !== $('#video-caller').width() || $('#video-caller').height() !== $('#viewModerator #column-left').offset().top - 40)) {
                         resetRTCTimeout = setTimeout(resetRTC(), 100);
                         return false;
                     } else {
                         clearTimeout(resetRTCTimeout);
                     }
 
-                    var ratio = $('#web-rtc-placeholder').attr('ratio');
-                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 30 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 30 - parseInt($('#mainContent').css('padding-top')), 170));
-                    $('#web-rtc-placeholder').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
+                    var ratio = $('#video-caller').attr('ratio');
+                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 75 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 75 - parseInt($('#mainContent').css('padding-top')), 170));
+                    $('#video-caller').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
                 }
             });
 
@@ -189,6 +203,23 @@ if ($h && $token && $studyId) {
                 clearTimeout(resetRTCTimeout);
                 $(window).resize();
             }
+
+            $('#btn-toggle-rtc-fixed').on('click', function (event) {
+                event.preventDefault();
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $(this).find('.glyphicon').removeClass('glyphicon-pushpin');
+                    $(this).find('.glyphicon').addClass('glyphicon-new-window');
+                    pinRTC();
+                } else {
+                    $(this).addClass('selected');
+                    $(this).find('.glyphicon').removeClass('glyphicon-new-window');
+                    $(this).find('.glyphicon').addClass('glyphicon-pushpin');
+                    dragRTC();
+                }
+            });
+
+
 
             function renderPhaseStep() {
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
