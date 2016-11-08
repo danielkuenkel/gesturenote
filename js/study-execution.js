@@ -195,9 +195,7 @@ function nextStep() {
             }
             updateProgress();
         }
-    }
-
-    if (previewModeEnabled === true) {
+    } else {
         currentPhaseStepIndex++;
         $('.phaseStepsSelect .dropdown-menu .selected').next().click();
     }
@@ -240,15 +238,15 @@ function updateProgress() {
     $('#progressTop').find('.progress-bar').text(percentage + '%');
 }
 
-function getCurrentPhaseStepIndex() {
-    var phaseSteps = getContextualPhaseSteps();
-    var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
-    for (var i = 0; i < phaseSteps.length; i++) {
-        if (currentStepId === phaseSteps[i].id) {
-            return i;
-        }
-    }
-}
+//function getCurrentPhaseStepIndex() {
+//    var phaseSteps = getContextualPhaseSteps();
+//    var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
+//    for (var i = 0; i < phaseSteps.length; i++) {
+//        if (currentStepId === phaseSteps[i].id) {
+//            return i;
+//        }
+//    }
+//}
 
 function getThanksStepIndex() {
     var phaseSteps = getContextualPhaseSteps();

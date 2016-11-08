@@ -273,36 +273,26 @@ if ($h && $token && $studyId) {
         function initVideoCaller(rtcToken) {
             console.log('initializeRTCPeerConnection', rtcToken);
 
-            var options = {
+            var callerOptions = {
+                callerElement: $('#video-caller'),
                 localVideoElement: 'local-stream',
                 remoteVideoElement: 'remote-stream',
                 enableDataChannels: true,
-                roomId: rtcToken
+                roomId: rtcToken,
+                localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
+                remoteStream: {audio: 'yes', video: 'yes'}
             };
-            peerConnection = new PeerConnection(options);
 
-            var timeline;
+            peerConnection = new PeerConnection(callerOptions);
+
             // a peer video has been added
             $(peerConnection).on('videoAdded', function () {
                 clearAlerts($('#study-participation'));
-
-                if (!timeline) {
-                    timeline = new TimelineMax({paused: true, delay: 1.0, onComplete: onAddStreamTweenComplete});
-                    timeline.add(TweenMax.to($('#local-stream'), .3, {width: 200, height: 150, left: 5, top: 5, ease: Quad.easeIn}));
-                    timeline.add(TweenMax.to($('#remote-stream'), .3, {opacity: 1.0}));
-                }
-
-                $('#local-stream').addClass('rtc-shadow');
-                timeline.play();
             });
 
             // a peer video has been removed
             $(peerConnection).on('videoRemoved', function () {
                 appendAlert($('#study-participation'), ALERT_WAITING_FOR_MODERATOR);
-                $('#local-stream').removeClass('rtc-shadow');
-                if (timeline) {
-                    timeline.reverse();
-                }
             });
 
             $(peerConnection).on('controlMessage', function (event, messageData) {
@@ -313,17 +303,6 @@ if ($h && $token && $studyId) {
                     goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + messageData.options.rtcToken);
                 }
             });
-
-            $(window).on('resize', function (event) {
-//            console.log($('#column-right'))
-                var offset = $('.rtc-remote-container').find('video').height() - $('#local-stream').height();
-                $('#local-stream').css({marginBottom: offset + 'px'});
-//            $('.rtc-remote-container')
-            });
-
-            function onAddStreamTweenComplete() {
-                $(window).resize();
-            }
         }
     </script>
 </body>

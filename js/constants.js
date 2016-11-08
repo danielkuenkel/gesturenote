@@ -167,3 +167,5 @@ var CURSOR_NWSE_RESIZE = 'nwse-resize';
 // messages
 var MESSAGE_ENTER_SURVEY = 'enterSurvey';
 var MESSAGE_NEXT_STEP = 'nextStep';
+var MESSAGE_START_TRIGGER_SLIDESHOW = 'startTriggerSlideshow';
+var MESSAGE_START_GESTURE_SLIDESHOW = 'startGestureSlideshow';

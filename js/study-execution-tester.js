@@ -17,6 +17,7 @@ var Tester = {
         }
 
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
+            initializePeerConnection();
             //        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
             var container = $(source).find('#' + currentPhase.format).clone(false);
             switch (currentPhase.format) {
@@ -60,8 +61,9 @@ var Tester = {
 
             if (item !== false || item !== null) {
 //                rescueVideoCaller();
+
                 $('#viewTester #phase-content').empty().append(item);
-                initializeRTC(source, item, currentPhase.format);
+                initializeRTC();
             }
 
             if (currentPhase.format === THANKS) {
@@ -587,14 +589,25 @@ var Tester = {
             return false;
         }
 
-        if (slideshowStartTriggered) {
-            $(container).find('#general').remove();
-        }
+//        if (slideshowStartTriggered) {
+//            $(container).find('#general').remove();
+//        }
 
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             Tester.renderUnmoderatedTriggerSlideshow(source, container, data);
         } else {
             $(container).find('#startSlideshow').remove();
+
+            $(peerConnection).on('controlMessage', function (event, messageData) {
+                event.preventDefault();
+                switch (messageData.message) {
+                    case MESSAGE_START_TRIGGER_SLIDESHOW:
+                        slideshowStartTriggered = true;
+                        Tester.renderUnmoderatedTriggerSlideshow(source, container, data);
+                        break;
+                }
+            });
+
             if (slideshowStartTriggered) {
                 Tester.renderUnmoderatedTriggerSlideshow(source, container, data);
             } else {
@@ -607,6 +620,7 @@ var Tester = {
     renderUnmoderatedTriggerSlideshow: function renderUnmoderatedTriggerSlideshow(source, container, data) {
 //        console.log(data);
         if (slideshowStartTriggered) {
+            clearAlerts(container);
             $(container).find('#general').remove();
             $(container).find('#slideshowContainer').removeClass('hidden');
             $(container).find('#startSlideshow').addClass('hidden');
@@ -1549,50 +1563,58 @@ function getSelectionRating(data) {
 /*
  * streaming and recording APIs
  */
-function initializeRTC(source, item, format) {
-// check preview or live mode, and check if webRTC is needed 
-
+function initializeRTC() {
+    // check preview or live mode, and check if webRTC is needed
     if (isWebRTCNeededInFuture()) {
         if (previewModeEnabled === true) {
-            switch (format) {
-                case SCENARIO:
-                    appendRTCPreview(source, item.find('#fixed-rtc-preview'));
-                    break;
-                default:
-                    appendRTCPreview(source, item.find('#column-left'));
-                    break;
-            }
+            appendRTCPreviewStream();
         } else {
-            appendRTCLiveStream(item, format);
-//            switch (format) {
-//                case SCENARIO:
-//                    appendRTCLiveStream(source, item.find('#fixed-rtc-preview'));
-//                    break;
-//                default:
-//                    appendRTCLiveStream(source, item.find('#column-left'));
-//                    break;
-//            }
+            appendRTCLiveStream();
         }
     } else {
         resetLiveStream();
     }
 }
 
-function appendRTCPreview(source, target) {
-    $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
-}
-
-var peerConnection = null;
-function appendRTCLiveStream(item, format) {
+function appendRTCPreviewStream() {
+    var currentPhase = getCurrentPhase();
+    var source = getSourceContainer(currentView);
     var target = $('#viewTester').find('#column-left');
-    switch (format) {
+
+    switch (currentPhase.format) {
         case SCENARIO:
-            target = 'fixed-rtc-preview';
+            target = $('#fixed-rtc-preview');
             break;
     }
 
-    var options = getPhaseStepOptions(format);
+    $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
+}
 
+function initializePeerConnection() {
+    if (!peerConnection && !previewModeEnabled) {
+        peerConnection = new PeerConnection();
+        $(peerConnection).on('controlMessage', function (event, messageData) {
+            event.preventDefault();
+            switch (messageData.message) {
+                case MESSAGE_NEXT_STEP:
+                    nextStep();
+                    break;
+            }
+        });
+    }
+}
+
+var peerConnection = null;
+function appendRTCLiveStream() {
+    var currentPhase = getCurrentPhase();
+    var target = $('#viewTester').find('#column-left');
+    switch (currentPhase.format) {
+        case SCENARIO:
+            target = $('#viewTester').find('#fixed-rtc-preview');
+            break;
+    }
+
+    var options = getPhaseStepOptions(currentPhase.format);
     var query = getQueryParams(document.location.search);
     var callerOptions = {
         target: target,
@@ -1606,42 +1628,19 @@ function appendRTCLiveStream(item, format) {
     };
     $(callerOptions.target).prepend(callerOptions.callerElement);
 
-
-    if (!peerConnection) {
-        peerConnection = new PeerConnection(callerOptions);
-        $(peerConnection).on('controlMessage', function (event, messageData) {
-            event.preventDefault();
-            if (messageData.message === MESSAGE_NEXT_STEP) {
-                console.log('on next step');
-                nextStep();
-            }
-        });
-
-
-//        $('#' + callerOptions.target).prepend($('#' + callerOptions.callerElement));
+    if (peerConnection.status === STATUS_UNINITIALIZED) {
+        peerConnection.initialize(callerOptions);
     } else {
         peerConnection.update(callerOptions);
-
         var videos = $(callerOptions.callerElement).find('video');
         for (var i = 0; i < videos.length; i++) {
-//            console.log(videos[i]);
             videos[i].play();
         }
-
     }
 
 //    initializeLiveStream();
 }
 
-//function rescueVideoCaller() {
-//    var study = getLocalItem(STUDY);
-//    if (!previewModeEnabled && study.surveyType === TYPE_SURVEY_MODERATED) {
-//        console.log('rescue video caller', $('#video-caller-holder'));
-//        $('#video-caller-holder').append($('#video-caller'));
-////        console.log($('#video-caller-holder'));
-//        
-//    }
-//}
 
 var mediaRecorder;
 function initializeLiveStream() {

@@ -11,7 +11,7 @@ var Moderator = {
         var currentPhaseData = getCurrentPhaseData();
         var source = getSourceContainer(currentView);
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
-
+            initializePeerConnection();
 
 //        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
             var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
@@ -58,7 +58,7 @@ var Moderator = {
 
             if (item !== false) {
                 $('#viewModerator #phase-content').empty().append(item);
-                initializeRTC(source, item, currentPhase.format);
+                initializeRTC();
             } else {
                 Moderator.renderNoDataView();
             }
@@ -525,6 +525,9 @@ var Moderator = {
 
         $(container).find('#btn-start-slideshow').click(function (event) {
             event.preventDefault();
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_START_TRIGGER_SLIDESHOW);
+            }
             slideshowStartTriggered = true;
             $(this).remove();
         });
@@ -1008,38 +1011,58 @@ function updateCurrentScene(container) {
 
 
 
-
 /*
  * streaming and recording APIs
  */
-
-function initializeRTC(source, item, format) {
-    // check preview or live mode, and check if webRTC is needed 
+function initializeRTC() {
+    // check preview or live mode, and check if webRTC is needed
     if (isWebRTCNeededInFuture()) {
         if (previewModeEnabled === true) {
-            switch (format) {
-                case SCENARIO:
-                    appendRTCPreview(source, item.find('#fixed-rtc-preview'));
-                    break;
-                default:
-                    appendRTCPreview(source, item.find('#column-left'));
-                    break;
-            }
+            appendRTCPreviewStream();
         } else {
-            appendRTCLiveStream(item, format);
+            appendRTCLiveStream();
         }
     } else {
         resetLiveStream();
     }
 }
 
-function appendRTCPreview(source, target) {
+//function appendRTCPreview(source, target) {
+//    $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
+//}
+
+function appendRTCPreviewStream() {
+    var currentPhase = getCurrentPhase();
+    var source = getSourceContainer(currentView);
+    var target = $('#viewTester').find('#column-left');
+
+    switch (currentPhase.format) {
+        case SCENARIO:
+            target = $('#fixed-rtc-preview');
+            break;
+    }
+
     $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
 }
 
+function initializePeerConnection() {
+    if (!peerConnection && !previewModeEnabled) {
+        peerConnection = new PeerConnection();
+        $(peerConnection).on('controlMessage', function (event, messageData) {
+            event.preventDefault();
+            switch (messageData.message) {
+                case MESSAGE_NEXT_STEP:
+                    nextStep();
+                    break;
+            }
+        });
+    }
+}
+
 var peerConnection = null;
-function appendRTCLiveStream(item, format) {
-    var options = getPhaseStepOptions(format);
+function appendRTCLiveStream() {
+    var currentPhase = getCurrentPhase();
+    var options = getPhaseStepOptions(currentPhase.format);
     var query = getQueryParams(document.location.search);
     var enableDataChannels = options.enableDataChannels && enableDataChannels === 'yes' || false;
     var callerOptions = {
@@ -1054,27 +1077,15 @@ function appendRTCLiveStream(item, format) {
     };
     $(callerOptions.target).prepend(callerOptions.callerElement);
 
-    if (!peerConnection) {
-        peerConnection = new PeerConnection(callerOptions);
-        $(peerConnection).on('controlMessage', function (event, messageData) {
-            event.preventDefault();
-            if (messageData.message === MESSAGE_NEXT_STEP) {
-                console.log('on next step');
-                nextStep();
-            }
-        });
-//        $('#' + callerOptions.target).prepend($('#' + callerOptions.callerElement));
-
+    if (peerConnection.status === STATUS_UNINITIALIZED) {
+        peerConnection.initialize(callerOptions);
     } else {
         peerConnection.update(callerOptions);
         var videos = $(callerOptions.callerElement).find('video');
         for (var i = 0; i < videos.length; i++) {
-//            console.log(videos[i]);
             videos[i].play();
         }
     }
-
-
 
 //    initializeLiveStream();
 }
