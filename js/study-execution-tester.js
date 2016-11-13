@@ -921,13 +921,17 @@ var Tester = {
             $(container).find('#general').remove();
             $(item).find('#identification-content').removeClass('hidden');
         });
+        
         if (identificationStartTriggered) {
+            clearAlerts(container);
             $(container).find('#general').remove();
             $(item).find('#btn-start-identification').remove();
             $(item).find('#identification-content').removeClass('hidden');
             if (data.identificationFor === 'gestures') {
                 $(container).find('#recorder-description').removeClass('hidden');
             }
+        } else {
+            appendAlert(container, ALERT_WAITING_FOR_IDENTIFICATION);
         }
 
         if (data.identificationFor === 'gestures') {
@@ -940,11 +944,13 @@ var Tester = {
             renderBodyJoints(gestureRecorder.find('#human-body'));
             var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
             container.find('#recorder-description').empty().append(recorderDescription);
+            
             $(gestureRecorder).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
                 var descriptions = $('#item-container-gesture-recorder').find('#' + type).clone();
                 recorderDescription.empty().append(descriptions);
                 TweenMax.from(descriptions, .3, {y: -20, opacity: 0, clearProps: 'all'});
             });
+            
             $(gestureRecorder).bind(EVENT_GR_SAVE_SUCCESS, function (event, gestureId) {
                 event.preventDefault();
                 $(item).find('#next-controls').removeClass('hidden');
@@ -961,6 +967,7 @@ var Tester = {
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
             });
+            
             $(gestureRecorder).bind(EVENT_GR_DELETE_SUCCESS, function (event, gestureId) {
                 event.preventDefault();
                 $(item).find('#next-controls').addClass('hidden');

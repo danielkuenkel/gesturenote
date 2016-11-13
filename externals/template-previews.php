@@ -685,7 +685,7 @@
 <div id="item-container-tester" class="hidden">
 
     <!-- alerts -->
-    <div class="container root" id="no-phase-data">
+    <div class="container root" id="no-phase-data" style="margin-top: 80px;">
         <div class="alert-space alert-no-phase-data"></div>
     </div>
 
@@ -1049,7 +1049,7 @@
 
     <!-- identification container -->
 
-    <div class="root container" id="identification"></div>
+    <div class="root" id="identification" style="margin-top: 80px;"></div>
 
     <!--    <div class="row root" id="identificationModerated">
             <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
@@ -1067,17 +1067,20 @@
             </div>
         </div>-->
 
-    <div class="row root" id="identificationModerated">
-        <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
-            <div>
-                <h3 class="headline" style="margin: 0"></h3>
-                <div class="description" style="color: #303030"></div>
-                <!--<hr>-->
-                <!--<button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-start-identification" style="margin-top: 20px">Jetzt Starten</button>-->
+    <div class="container" id="identificationModerated">
+        <div class="row">
+            <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
+                <div>
+                    <h3 class="headline" style="margin: 0"></h3>
+                    <div class="description" style="color: #303030"></div>
+                    <hr>
+                    <div class="alert-space alert-waiting-for-identification"></div>
+                    <!--<button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-start-identification" style="margin-top: 20px">Jetzt Starten</button>-->
+                </div>
             </div>
-        </div>
-        <div class="col-xs-12">
-            <div id="identificationContainer" class="row"></div>
+            <div class="col-xs-12">
+                <div id="identificationContainer" class="row"></div>
+            </div>
         </div>
     </div>
 
@@ -1111,18 +1114,21 @@
             </div>
         </div>-->
 
-    <div class="row root" id="identificationUnmoderated">
-        <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
-            <div>
-                <h3 class="headline" style="margin: 0"></h3>
-                <div class="description" style="color: #303030"></div>
-                <hr>
-                <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-start-identification" style="margin-top: 20px">Jetzt Starten</button>
+    <div class="container" id="identificationUnmoderated">
+        <div class="row">
+            <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
+                <div>
+                    <h3 class="headline" style="margin: 0"></h3>
+                    <div class="description" style="color: #303030"></div>
+                    <hr>
+                    <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-start-identification" style="margin-top: 20px">Jetzt Starten</button>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div id="identificationContainer" class="row"></div>
             </div>
         </div>
-        <div class="col-xs-12">
-            <div id="identificationContainer" class="row"></div>
-        </div>
+
     </div>
 
     <div id="identificationItemUnmoderated">

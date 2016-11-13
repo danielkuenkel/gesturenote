@@ -138,6 +138,7 @@ function previousStep() {
 
 function nextStep() {
     resetConstraints();
+    resetRecorder();
 
     var phases = getContextualPhaseSteps();
     if (previewModeEnabled === false) {
@@ -145,7 +146,7 @@ function nextStep() {
             saveCurrentStatus(false);
         }
 
-        if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
+        if (isWebRTCNeededForPhaseStep(currentPhase)) {
             peerConnection.stopRecording(function () {
                 currentPhaseStepIndex++;
                 if (currentPhaseStepIndex < phases.length) {
