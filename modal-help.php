@@ -8,7 +8,7 @@
     <div class="root hidden" id="tester-help-item">
         <div class="text" id="text"></div>
         <div class="hidden" id="gesture-preview-container" style="margin-top: 15px">
-            <div class="previewGesture"></div>
+            <div class="previewGesture autoplay"></div>
             <div class="text-center gestureControls">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -38,22 +38,33 @@
                 renderHelpItem();
             });
         }
+
+        $('#modal-body').closest('.modal').on('hidden.bs.modal', function () {
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_HELP_CLOSED);
+            }
+        });
     });
 
     function renderHelpItem() {
         $('#list-container').empty();
+        var data;
 
-        var currentPhaseData = getCurrentPhaseData();
-        var items = getItemsForSceneId(currentPhaseData.help, currentWOZScene.id);
+        if (triggeredHelp) {
+            data = triggeredHelp;
+        } else {
+            var currentPhaseData = getCurrentPhaseData();
+            var items = getItemsForSceneId(currentPhaseData.help, currentWOZScene.id);
 
-        console.log(items);
-
-        if (items && items.length > 0) {
-            if (currentHelpIndex >= items.length - 1) {
-                $('#btn-more-help').addClass('hidden');
+            if (items && items.length > 0) {
+                if (currentHelpIndex >= items.length - 1) {
+                    $('#btn-more-help').addClass('hidden');
+                }
             }
+            data = items[currentHelpIndex];
+        }
 
-            var data = triggeredHelp || items[currentHelpIndex];
+        if (data) {
             var clone = $('#tester-help-item').clone().removeClass('hidden').removeAttr('id');
             clone.find('#text').text(data.option);
             $('#list-container').append(clone);

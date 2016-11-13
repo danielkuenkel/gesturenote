@@ -648,6 +648,11 @@ label .question {
     min-width: 200px;
 }
 
+.item-factors-separator {
+    margin-left: -4px; 
+    margin-right: -4px;
+}
+
 
 #video-caller {
     /*max-width: 600px*/

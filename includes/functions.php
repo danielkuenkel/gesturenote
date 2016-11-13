@@ -233,9 +233,11 @@ function studyExecutionExists($studyId, $mysqli) {
 
             if ($select_stmt->num_rows == 1) {
                 $decodedData = json_decode_nice($data, false);
-                if (isset($decodedData->studySuccessfull)) {
+                if (isset($decodedData->aborted, $decodedData->studySuccessfull)) {
                     $studySuccessfull = $decodedData->studySuccessfull;
-                    return $studySuccessfull == 'yes';
+                    $studyAborted = $decodedData->aborted;
+
+                    return $studySuccessfull == 'yes' && $studyAborted == 'no';
                 } else {
                     return false;
                 }

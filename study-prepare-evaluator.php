@@ -66,8 +66,16 @@ if ($h && $token && $studyId) {
         <div id="template-subpages"></div>
 
         <!-- Container (Breadcrump) --> 
-        <div class="container" id="breadcrumb">
-
+        <div class="container" id="breadcrumb" style="padding-top: 40px">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-studies"><?php echo $lang->breadcrump->studies ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-study"><?php echo $lang->breadcrump->study ?></a></li>
+                    <li class="active"><?php echo $lang->breadcrump->studyPrepare ?></li>
+                </ol>
+            </div>
         </div>
 
         <!-- Container (Landing Section) --> 
@@ -80,7 +88,7 @@ if ($h && $token && $studyId) {
                 </div>-->
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent" style="margin-top: 85px;">
+        <div class="container mainContent" >
 
             <div class="row hidden" id="study-details">
                 <div class="col-xs-12">
@@ -190,6 +198,7 @@ if ($h && $token && $studyId) {
 
 
         <script>
+            var syncPhaseStep = false;
             $(document).ready(function () {
                 checkDomain();
                 checkLanguage(function () {
@@ -267,9 +276,7 @@ if ($h && $token && $studyId) {
                     appendAlert($('#study-details'), ALERT_STUDY_UNMODERATED);
                     $('#study-details').find('#btn-open-study-details').on('click', function (event) {
                         event.preventDefault();
-                        var query = getQueryParams(document.location.search);
-                        var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                        goto("study.php?studyId=" + query.studyId + "&h=" + hash);
+                        returnToStudyDetails();
                     });
                 }
             }
@@ -367,6 +374,17 @@ if ($h && $token && $studyId) {
                 });
             });
 
+            $('#btn-study').on('click', function (event) {
+                event.preventDefault();
+                returnToStudyDetails();
+            });
+
+            function returnToStudyDetails() {
+                var query = getQueryParams(document.location.search);
+                var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                goto("study.php?studyId=" + query.studyId + "&h=" + hash);
+            }
+
             var peerConnection = null;
             function initPeerConnection(rtcToken) {
                 console.log('initializeRTCPeerConnection', rtcToken);
@@ -383,7 +401,8 @@ if ($h && $token && $studyId) {
                         remoteStream: {audio: 'yes', video: 'yes'}
                     };
 
-                    peerConnection = new PeerConnection(callerOptions);
+                    peerConnection = new PeerConnection();
+                    peerConnection.initialize(callerOptions);
 
                     // a peer video has been added
                     $(peerConnection).on('videoAdded', function () {

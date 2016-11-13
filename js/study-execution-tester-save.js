@@ -177,13 +177,13 @@ function saveCurrentStatus(studyFinished, callback) {
     }
 
     var study = getLocalItem(STUDY);
-    if (study.surveyType === TYPE_SURVEY_UNMODERATED) {
+//    if (study.surveyType === TYPE_SURVEY_UNMODERATED) {
         saveExecutionTester({studyId: study.id, data: data}, function (result) {
             if (callback) {
                 callback(result);
             }
         });
-    }
+//    }
 }
 
 function getFinishedStudyPhases() {

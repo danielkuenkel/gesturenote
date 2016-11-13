@@ -174,6 +174,7 @@ if ($h && $token && $studyId) {
 
 
     <script>
+        var syncPhaseStep = false;
         $(document).ready(function () {
             checkDomain();
             checkLanguage(function () {
@@ -284,6 +285,7 @@ if ($h && $token && $studyId) {
             };
 
             peerConnection = new PeerConnection(callerOptions);
+            peerConnection.initialize(callerOptions);
 
             // a peer video has been added
             $(peerConnection).on('videoAdded', function () {
@@ -295,13 +297,10 @@ if ($h && $token && $studyId) {
                 appendAlert($('#study-participation'), ALERT_WAITING_FOR_MODERATOR);
             });
 
-            $(peerConnection).on('controlMessage', function (event, messageData) {
-                event.preventDefault();
-                if (messageData.message === MESSAGE_ENTER_SURVEY) {
-                    console.log('enter survey', messageData);
-                    var query = getQueryParams(document.location.search);
-                    goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + messageData.options.rtcToken);
-                }
+            $(peerConnection).on(MESSAGE_ENTER_SURVEY, function (event, payload) {
+                console.log('enter survey', payload);
+                var query = getQueryParams(document.location.search);
+                goto('study-execution-tester.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + payload.rtcToken);
             });
         }
     </script>

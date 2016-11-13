@@ -165,7 +165,30 @@ var CURSOR_MOVE = 'move';
 var CURSOR_NWSE_RESIZE = 'nwse-resize';
 
 // messages
+var MESSAGE_REQUEST_SYNC = 'requestSync';
+var MESSAGE_SYNC_PHASE_STEP = 'syncPhaseStep';
 var MESSAGE_ENTER_SURVEY = 'enterSurvey';
 var MESSAGE_NEXT_STEP = 'nextStep';
+var MESSAGE_CANCEL_SURVEY = 'cancelSurvey';
+
 var MESSAGE_START_TRIGGER_SLIDESHOW = 'startTriggerSlideshow';
+var MESSAGE_START_SCENARIO = 'startScenario';
+var MESSAGE_RELOAD_SCENE = 'reloadScene';
+var MESSAGE_TRIGGER_WOZ = 'triggerWOZ';
+var MESSAGE_TRIGGER_HELP = 'triggerHelp';
+var MESSAGE_HELP_CLOSED = 'helpClosed';
+
 var MESSAGE_START_GESTURE_SLIDESHOW = 'startGestureSlideshow';
+var MESSAGE_TRIGGER_GESTURE_SLIDE = 'triggerGestureSlide';
+var MESSAGE_RESTART_GESTURE_SLIDES = 'restartGestureSlides';
+var MESSAGE_REACTIVATE_CONTROLS = 'reactivateControls';
+var MESSAGE_GESTURE_PERFORMED = 'gesturePerformed';
+
+var MESSAGE_START_GESTURE_TRAINING = 'startGestureTraining';
+var MESSAGE_TRAINING_TRIGGERED = 'trainingTriggered';
+var MESSAGE_FEEDBACK_TRIGGERED = 'feedbackTriggered';
+
+var MESSAGE_START_STRESS_TEST = 'startStressTest';
+var MESSAGE_TRIGGER_STRESS_TEST_GESTURE = 'triggerStressTestGesture';
+var MESSAGE_TRIGGER_STRESS_TEST_QUESTION = 'triggerStressTestQuestion';
+var MESSAGE_TRIGGER_NEXT_STRESS_TEST_GESTURE = 'triggerNextStressTestGesture';

@@ -35,26 +35,37 @@ include './includes/language.php';
     $(document).ready(function () {
         $('#btn-cancel-survey').click(function (event) {
             event.preventDefault();
+            var study = getLocalItem(STUDY);
 
             if (previewModeEnabled === false) {
-                var study = getLocalItem(STUDY);
-                study.aborted = 'yes';
-                setLocalItem(STUDY, study);
-                saveCurrentStatus(false);
-            }
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_CANCEL_SURVEY);
+                }
 
-            if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
-                stopRecording(function () {
-                    currentPhaseStepIndex = getThanksStepIndex();
-                    renderPhaseStep();
-                    updateProgress();
-                });
+                if (currentView === VIEW_TESTER) {
+                    study.aborted = 'yes';
+                    setLocalItem(STUDY, study);
+                    saveCurrentStatus(false);
+
+                    if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
+                        if (peerConnection) {
+                            peerConnection.stopRecording(function () {
+                                gotoThanksScreen();
+                            }, true);
+                        } else {
+                            gotoThanksScreen();
+                        }
+                    } else {
+                        gotoThanksScreen();
+                    }
+                } else {
+                    gotoThanksScreen();
+                }
             } else {
-                currentPhaseStepIndex = getThanksStepIndex();
-                renderPhaseStep();
-                updateProgress();
+                gotoThanksScreen();
             }
 
+            resetConstraints();
             $('#custom-modal').modal('hide');
         });
 
@@ -63,4 +74,11 @@ include './includes/language.php';
             $('#custom-modal').modal('hide');
         });
     });
+
+    function gotoThanksScreen() {
+        console.log('goto thanks screen');
+        currentPhaseStepIndex = getThanksStepIndex();
+        renderPhaseStep();
+        updateProgress();
+    }
 </script>

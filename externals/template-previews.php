@@ -1,9 +1,9 @@
 <div id="item-container-moderator" class="hidden">
 
-    <div id="web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
+    <div id="moderator-web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
         <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
         <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
-            <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
+            <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow btn-toggle-rtc-fixed"><i class="glyphicon glyphicon-new-window"></i></button>
         </div>
     </div>
 
@@ -61,7 +61,7 @@
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <div class="label label-info" id="factor-primary"></div>
             </div>
         </div>
@@ -87,7 +87,7 @@
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <div class="label label-info" id="factor-primary"></div>
             </div>
             <span class="label label-default hidden" id="select-gestures">Auswahl einer oder mehrerer Gesten</span>
@@ -106,7 +106,7 @@
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <div class="label label-info" id="factor-primary"></div>
             </div>
             <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
@@ -141,7 +141,7 @@
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <div class="label label-info" id="factor-primary"></div>
             </div>
             <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
@@ -247,7 +247,7 @@
             <div style="display: inline;">
                 <div class="hidden" id="item-factors" style="display: inline-block">
                     <div class="label label-primary" id="factor-main"></div>
-                    <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                    <img src="img/factor-transition.jpg" class="item-factors-separator">
                     <div class="label label-info" id="factor-primary"></div>
                 </div>
                 <div class="label label-danger hidden" id="reversed" style="display: inline-block">negiert</div>
@@ -271,31 +271,37 @@
 
     <div class="row root" id="letterOfAcceptance">
         <div class="col-md-6 col-lg-4 rtc-scalable" id="column-left">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Einverständniserklärung
-                </div>
-                <div class="panel-body letter-text"></div>
-            </div>
+            <!--            <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Test Panel
+                            </div>
+                            <div class="panel-body letter-text"></div>
+                        </div>-->
         </div>
         <div class="col-md-6 col-lg-8" id="column-right">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Einverständniserklärung
                 </div>
-                <div class="panel-body letter-text"></div>
+                <div class="panel-body">
+                    <p class="text letter-text"></p>
+                    <div class="alert-space alert-please-wait"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="row root" id="thanks">
-        <div class="col-md-6 col-lg-4" id="column-left"></div>
-        <div class="col-md-6 col-lg-8" id="column-right">
+        <div class="col-md-7 col-lg-4" id="column-left"></div>
+        <div class="col-md-5 col-lg-8" id="column-right">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Danksagung
                 </div>
-                <div class="panel-body thanks-text"></div>
+                <div class="panel-body">
+                    <p class="text thanks-text"></p>
+                    <button class="btn btn-success btn-block btn-shadow" id="btn-leave-survey">Befragung verlassen</button>
+                </div>
             </div>
         </div>
     </div>
@@ -401,9 +407,9 @@
         <div class="col-xs-6 right">
             <div class="btn-group-vertical btn-block">
                 <button type="button" class="btn btn-info btn-shadow" id="trigger-slide"><span class="btn-text">Auffordern</span></button>
-                <button type="button" class="btn btn-danger btn-shadow disabled" id="wrong-slide"><span class="btn-text">Falsch</span></button>
-                <button type="button" class="btn btn-success btn-shadow disabled" id="correct-slide"><span class="btn-text">Richtig</span></button>
-                <button type="button" class="btn btn-warning btn-shadow disabled" id="next-slide"><span class="btn-text">Überspringen</span></button>
+<!--                <button type="button" class="btn btn-danger btn-shadow disabled" id="wrong-slide"><span class="btn-text">Falsch</span></button>
+                <button type="button" class="btn btn-success btn-shadow disabled" id="correct-slide"><span class="btn-text">Richtig</span></button>-->
+                <button type="button" class="btn btn-success btn-shadow disabled" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
             </div>
         </div>
     </div>
@@ -549,7 +555,7 @@
     <!-- scenario container -->
 
     <div  class="row root" id="scenario">
-        <div class="col-md-7 col-lg-8 rtc-scalable" id="column-left">
+        <div class="col-md-7 col-lg-6 rtc-scalable" id="column-left">
             <div class="panel panel-default" id="woz-controls">
                 <div class="panel-heading">Wizard-of-Oz-Experiment</div>
                 <div class="panel-body">
@@ -561,8 +567,9 @@
                             <i class="fa fa-film hidden" id="icon-videoEmbed"></i> <span class="label-text"></span></span> <span id="current-scene" class="text">
                         </span>
                     </div>
-                    <div style="float: left; margin-left: 10px;">
+                    <div class="btn-group" style="float: left; margin-left: 10px; margin-top: 4px">
                         <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text">Zustands-Vorschau</span></button>
+                        <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-reload-scene"><i class="glyphicon glyphicon-refresh"></i> <span class="btn-text">Zustand neu laden</span></button>
                     </div>
                     <div style="clear: both;"></div>
                     <hr>
@@ -583,7 +590,7 @@
             </div>
         </div>
 
-        <div class="col-md-5 col-lg-4" id="column-right">
+        <div class="col-md-5 col-lg-6" id="column-right">
             <div class="panel panel-default" id="general">
                 <div class="panel-heading">Allgemeines</div>
                 <div class="panel-body">
@@ -591,6 +598,7 @@
                     <div id="description"><span class="address"></span>: <span class="text"></span></div>
                     <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="btn-preview-scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Start-Szene anzeigen</button>
                     <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-scenario" style="margin-top: 6px;">Jetzt starten</button>
+                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;">Weiter <span aria-hidden="true">&rarr;</span></button>
                 </div>
             </div>
             <div class="panel panel-default" id="observations">
@@ -602,7 +610,7 @@
         </div>
     </div>
 
-    <div class="col-xs-6 col-sm-4 col-md-6" id="wozItem" style="margin-bottom: 10px;">
+    <div class="col-xs-12 col-sm-6 col-lg-12" id="wozItem" style="margin-bottom: 10px;">
 
         <!--<div id="task"></div>-->
         <!--<div id="description"></div>-->
@@ -688,25 +696,49 @@
     </div>
 
     <!-- main formats -->
+    <div class="root" id="letterOfAcceptance" style="margin-top: 80px;"></div>
 
-    <div class="container root" id="letterOfAcceptance">
-        <div class="row">
-            <div class="col-md-5" id="column-left" style="margin-bottom: 15px;"></div>
-            <div class="col-md-7" id="column-right">
-                <h3 class="headline" style="margin: 0" >Einverständniserklärung</h3>
-                <hr>
-                <div class="letter-text"></div>
-                <hr>
-                <div>
-                    <button type="button" class="btn btn-success btn-shadow" id="letter-agreed">Ich bin einverstanden</button>
-                    <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline">Ich bin nicht einverstanden</button>
-                </div>
+    <div id="letterOfAcceptance-moderated">
+        <div class="col-md-5" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-7" id="column-right">
+            <h3 class="headline" style="margin: 0" >Einverständniserklärung</h3>
+            <hr>
+            <div class="letter-text"></div>
+            <hr>
+            <div>
+                <button type="button" class="btn btn-success btn-shadow" id="letter-agreed">Ich bin einverstanden</button>
+                <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline">Ich bin nicht einverstanden</button>
             </div>
         </div>
-
     </div>
 
-    <div class="container root" id="questionnaire">
+
+    <div class="container" id="letterOfAcceptance-unmoderated">
+        <h3 class="headline" style="margin: 0" >Einverständniserklärung</h3>
+        <hr>
+        <div class="letter-text"></div>
+        <hr>
+        <div>
+            <button type="button" class="btn btn-success btn-shadow" id="letter-agreed">Ich bin einverstanden</button>
+            <button type="button" class="btn btn-danger btn-shadow pull-right" id="letter-decline">Ich bin nicht einverstanden</button>
+        </div>
+    </div>
+
+
+    <div class="root" id="questionnaire" style="margin-top: 80px;"></div>
+
+    <div id="questionnaire-moderated">
+        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
+            <h3 class="headline" style="margin: 0" >Fragebogen</h3>
+            <hr>
+            <div class="question-container"></div>
+            <hr>
+            <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
+        </div>
+    </div>
+
+    <div class="container" id="questionnaire-unmoderated">
         <h3 class="headline" style="margin: 0" >Fragebogen</h3>
         <hr>
         <div class="question-container"></div>
@@ -716,7 +748,20 @@
 
 
     <!-- SUS container & item -->
-    <div class="container root" id="sus">
+    <div class="root" id="sus" style="margin-top: 80px;"></div>
+
+    <div id="sus-moderated">
+        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
+            <h3 class="headline" style="margin: 0">Fragebogen zum System</h3>
+            <hr>
+            <div class="question-container"></div>
+            <hr>
+            <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
+        </div>
+    </div>
+
+    <div class="container" id="sus-unmoderated">
         <h3 class="headline" style="margin: 0">Fragebogen zum System</h3>
         <hr>
         <div class="question-container"></div>
@@ -734,7 +779,36 @@
     </div>
 
     <!-- GUS container & item -->
-    <div class="container root" id="gus">
+    <div class="root" id="gus" style="margin-top: 80px;"></div>
+
+    <div id="gus-moderated">
+        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
+            <h3 class="headline" style="margin: 0" >Fragebogen zur Geste</h3>
+            <div class="row">
+                <div class="col-sm-6 right" style="margin-bottom: 10px;">
+                    <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+                    <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+                    <div id="feedback"><span class="address"></span> <span class="text"></span></div>
+                </div>
+                <div class="col-sm-6 left" id="gesturePreview">
+                    <div class="previewGesture autoplay mousePlayable btn-shadow"></div>
+                    <div class="text-center gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="question-container"></div>
+            <hr>
+            <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
+        </div>
+    </div>
+
+    <div class="container" id="gus-unmoderated">
         <h3 class="headline" style="margin: 0" >Fragebogen zur Geste</h3>
         <div class="row">
             <div class="col-sm-6 right" style="margin-bottom: 10px;">
@@ -760,7 +834,20 @@
 
 
     <!-- gesture questionnaire container & item -->
-    <div class="container root" id="questionnaireGestures">
+    <div class="root" id="questionnaireGestures" style="margin-top: 80px;"></div>
+
+    <div id="questionnaireGestures-moderated">
+        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
+            <h3 class="headline" style="margin: 0" >Fragebogen zu den Gesten</h3>
+            <hr>
+            <div class="question-container"></div>
+            <hr>
+            <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
+        </div>
+    </div>
+
+    <div class="container" id="questionnaireGestures-unmoderated">
         <h3 class="headline" style="margin: 0" >Fragebogen zu den Gesten</h3>
         <hr>
         <div class="question-container"></div>
@@ -769,11 +856,11 @@
     </div>
 
     <!-- gesture training container -->
-    <div class="root" id="gestureTraining">
+    <div class="root" id="gestureTraining" style="margin-top: 80px;">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <!--<div class="row">-->
         <!--<div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>-->
-        <div class="col-md-8" id="column-right">
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
             <div id="general">
                 <h3 class="headline" style="margin: 0"></h3>
                 <div class="description"></div>
@@ -843,9 +930,9 @@
 
     <!-- gesture slideshow container -->
 
-    <div class="root" id="gestureSlideshow">
+    <div class="root" id="gestureSlideshow" style="margin-top: 80px;">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="col-md-8" id="column-right">
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
             <div id="general">
                 <h3 style="margin: 0" class="headline"></h3>
                 <div class="description"></div>
@@ -906,23 +993,37 @@
 
     <!-- trigger slideshow container -->
 
-    <div class="container root" id="triggerSlideshow">
-        <div class="row">
-            <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-            <div class="col-md-8" id="column-right">
-                <div id="general">
-                    <h3 style="margin: 0"  class="headline"></h3>
-                    <div class="description"></div>
-                    <hr>
-                </div>
-                <div class="alert-space alert-waiting-for-slideshow"></div>
-                <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
-                    <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
-                </div>
-                <div class="row hidden" id="slideshowContainer"></div>
-                <button class="btn btn-lg btn-block btn-success btn-shadow" id="startSlideshow" name="btn-success">Jetzt Starten</button>
+    <div class="root" id="triggerSlideshow" style="margin-top: 80px;"></div>
+
+    <div id="triggerSlideshow-moderated">
+        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-8" id="column-right">
+            <div id="general">
+                <h3 style="margin: 0"  class="headline"></h3>
+                <div class="description"></div>
+                <hr>
             </div>
+            <div class="alert-space alert-waiting-for-slideshow"></div>
+            <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
+                <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+            </div>
+            <div class="row hidden" id="slideshowContainer"></div>
+            <button class="btn btn-lg btn-block btn-success btn-shadow" id="startSlideshow" name="btn-success">Jetzt Starten</button>
         </div>
+    </div>
+
+    <div class="container" id="triggerSlideshow-unmoderated">
+        <div id="general">
+            <h3 style="margin: 0"  class="headline"></h3>
+            <div class="description"></div>
+            <hr>
+        </div>
+        <div class="alert-space alert-waiting-for-slideshow"></div>
+        <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
+            <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
+        </div>
+        <div class="row hidden" id="slideshowContainer"></div>
+        <button class="btn btn-lg btn-block btn-success btn-shadow" id="startSlideshow" name="btn-success">Jetzt Starten</button>
     </div>
 
 
@@ -1081,9 +1182,9 @@
 
     <!-- stress test container -->
 
-    <div class="root" id="physicalStressTest">
+    <div class="root" id="physicalStressTest" style="margin-top: 80px;">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="col-md-8" id="column-right" style="margin-bottom: 25px;">
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
             <div id="general">
                 <h3 class="headline" style="margin: 0"></h3>
                 <div class="description"></div>
@@ -1231,7 +1332,7 @@
 
 
     <!-- scenario container -->
-    <div class="root" id="scenario" style="width: 100%;">
+    <div class="root" id="scenario" style="width: 100%; margin-top: 55px">
 
         <div style="position: absolute; width: 100%; height:auto;" id="scenePanel">
             <div id="scene-container" class="text-center" style="position: absolute; width: 100%; height:auto; overflow:auto"></div>
@@ -1307,7 +1408,63 @@
         <audio class="audio-holder" src="" preload="auto"></audio>
     </div>
 
-    <div class="container root" id="thanks">
+    <div class="root" id="thanks" style="margin-top: 80px;">
+
+
+    </div>
+
+    <div id="thanks-moderated">
+        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
+            <h3 class="headline" style="margin: 0">Danke für die Teilnahme</h3>
+            <hr>
+            <div class="row">
+                <div class="col-sm-6" style="margin-bottom: 20px;">
+                    <i class="fa fa-heart" style="font-size: 70pt; color: #ca3667"></i>
+                    <div class="text" id="thanks-text"></div>
+                </div>
+                <div class="col-sm-6" id="upload-instructions" style="margin-bottom: 20px;">
+                    <i class="fa fa-upload" aria-hidden="true" style="font-size: 70pt; color: #777"></i>
+                    <div class="text">
+                        Bitte warten! Die Daten werden nun gespeichert. Bitte nicht dieses Fenster, bzw. den Browser schließen oder neu laden. Wenn die Daten gespeichert sind, erscheint eine Meldung.
+                    </div>
+                    <div id="rtc-uploads-status" class="hidden text">
+                        Bitte warten… Videodaten werden gespeichert.
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden" id="upload-retry" style="margin-bottom: 20px;">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size: 70pt; color: #d9534f"></i>
+                    <div class="text">
+                        <p>Es gab einen Fehler. Die Daten konnten nicht gespeichert werden. Bitte noch einmal probieren.</p>
+                        <button type="button" class="btn btn-danger btn-shadow" id="btn-retry-upload"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text">Noch einmal probieren</span></button>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden" style="margin-bottom: 20px;" id="upload-done">
+                    <i class="fa fa-check" aria-hidden="true" style="font-size: 70pt; color: #5cb85c"></i>
+                    <div class="text">
+                        Die Studien-Daten wurden erfolgreich übertragen. Sie können das Fenster nun schließen oder an weiteren Studien teilnehmen.
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden" id="study-share">
+                <hr>
+                <i class="fa fa-share" aria-hidden="true" style="font-size: 70pt; color: #777"></i>
+                <p class="text" id="static-study-url"></p>
+                <p class="text">Einfach den Link kopieren um die Studie zu teilen.</p>
+
+                <!--            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-share" aria-hidden="true"></i> Weitersagen</div>
+                                <input type="text" class="form-control readonly" >
+                            </div>-->
+                <hr>
+            </div>
+
+            <button type="button" class="btn btn-success btn-shadow pull-right hidden" id="btn-execution-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+        </div>
+    </div>
+
+    <div class="container" id="thanks-unmoderated">
         <h3 class="headline" style="margin: 0">Danke für die Teilnahme</h3>
         <hr>
         <div class="row">
@@ -1351,7 +1508,6 @@
                         </div>-->
             <hr>
         </div>
-
 
         <button type="button" class="btn btn-success btn-shadow pull-right hidden" id="btn-execution-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
     </div>

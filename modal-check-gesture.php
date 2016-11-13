@@ -3,7 +3,7 @@
 </div>
 <div id="modal-body" class="modal-body">
     <div class="container-root row" id="list-container"></div>
-    
+
     <div class="btn-group-vertical btn-block" style="margin-top: 10px;">
         <button type="button" class="btn btn-default btn-other-gesture-fit" id="no-gesture-fit-found">Ich habe eine ganz andere Geste vorgeführt</button>
         <button type="button" class="btn btn-default btn-other-gesture-fit" id="no-gesture-demonstrated">Ich habe keine Geste vorgeführt</button>
@@ -34,10 +34,15 @@
         var correctGesture = getGestureById(items[currentSlideIndex].gestureId);
         var triggerId = items[currentSlideIndex].triggerId;
 
+        if (currentView === VIEW_MODERATOR) {
+            $('#no-gesture-fit-found').text('Es wurde eine ganz andere Geste vorgeführt');
+            $('#no-gesture-demonstrated').text('Es wurde keine Geste vorgeführt');
+        }
+
         $('.btn-other-gesture-fit').on('click', function (event) {
             if (!event.handled) {
                 event.handled = true;
-                
+
                 var action = null;
                 if ($(this).attr('id') === 'no-gesture-fit-found') {
                     action = ACTION_NO_GESTURE_FIT_FOUND;
@@ -45,19 +50,30 @@
                     slideRestarted = true;
                     currentSlideIndex = 0;
                     slideTriggered = false;
-                } else if($(this).attr('id') === 'no-gesture-demonstrated') {
+                } else if ($(this).attr('id') === 'no-gesture-demonstrated') {
                     action = ACTION_NO_GESTURE_DEMONSTRATED;
                 }
 
                 if (!previewModeEnabled) {
-                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                    tempData.actions.push({action: action, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: null, time: new Date().getTime()});
-                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+                        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                        tempData.actions.push({action: action, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: null, time: new Date().getTime()});
+                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    } else {
+                        if (peerConnection) {
+                            peerConnection.sendMessage(MESSAGE_GESTURE_PERFORMED, {action: action, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: null});
+                        }
+                    }
+                }
+
+                if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+                    Tester.renderUnmoderatedGestureSlideshow(getSourceContainer(VIEW_TESTER), $('#viewTester #phase-content'), currentPhaseData, false);
+                } else {
+                    Moderator.renderGestureSlide(getSourceContainer(VIEW_MODERATOR), $('#viewModerator #phase-content'), currentPhaseData);
                 }
 
                 $('#custom-modal').modal('hide');
             }
-            Tester.renderUnmoderatedGestureSlideshow($('#item-container-tester'), $('#viewTester #phase-content'), currentPhaseData, false);
         });
 
 
@@ -70,27 +86,40 @@
 
             $(clone).find('#btn-select-item').click({gesture: gesture}, function (event) {
                 event.preventDefault();
-//                console.log('btn-select-item clicked');
-                var gestureFit = parseInt(correctGesture.id) === parseInt(event.data.gesture.id);
-                if (gestureFit === true) {
-                    currentSlideIndex++;
-                } else {
-                    slidesRestartCount++;
-                    slideRestarted = true;
-                    currentSlideIndex = 0;
-                    slideTriggered = false;
-                }
+                if (!event.handled) {
+                    event.handled = true;
+                    //                console.log('btn-select-item clicked');
+                    var gestureFit = parseInt(correctGesture.id) === parseInt(event.data.gesture.id);
+                    if (gestureFit === true) {
+                        currentSlideIndex++;
+                    } else {
+                        slidesRestartCount++;
+                        slideRestarted = true;
+                        currentSlideIndex = 0;
+                        slideTriggered = false;
+                    }
 
-                if (!previewModeEnabled) {
-                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                    tempData.restarts = slidesRestartCount;
-//                    console.log(tempData.actions);
-                    tempData.actions.push({action: ACTION_SELECT_GESTURE, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: event.data.gesture.id, fit: gestureFit, time: new Date().getTime()});
-                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                }
+                    if (!previewModeEnabled) {
+                        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+                            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                            tempData.restarts = slidesRestartCount;
+                            tempData.actions.push({action: ACTION_SELECT_GESTURE, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: event.data.gesture.id, fit: gestureFit, time: new Date().getTime()});
+                            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                        } else {
+                            if (peerConnection) {
+                                peerConnection.sendMessage(MESSAGE_GESTURE_PERFORMED, {action: ACTION_SELECT_GESTURE, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: event.data.gesture.id, fit: gestureFit});
+                            }
+                        }
+                    }
 
-                $('#custom-modal').modal('hide');
-                Tester.renderUnmoderatedGestureSlideshow($('#item-container-tester'), $('#viewTester #phase-content'), currentPhaseData, false);
+                    if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+                        Tester.renderUnmoderatedGestureSlideshow(getSourceContainer(VIEW_TESTER), $('#viewTester #phase-content'), currentPhaseData, false);
+                    } else {
+                        Moderator.renderGestureSlide(getSourceContainer(VIEW_MODERATOR), $('#viewModerator #phase-content'), currentPhaseData);
+                    }
+
+                    $('#custom-modal').modal('hide');
+                }
             });
         }
     });

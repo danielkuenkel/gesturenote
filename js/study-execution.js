@@ -28,6 +28,9 @@ var stressTestQuestionsTriggered = false;
 var testerDoneTriggered = false;
 var previewModeEnabled = false;
 
+var syncPhaseStep = false;
+var peerConnection = null;
+
 function checkStorage() {
     if (isLocalStorageSupported()) {
         var phaseSteps = getContextualPhaseSteps();
@@ -120,31 +123,12 @@ function renderPhases() {
 }
 
 function previousStep() {
-    testerDoneTriggered = false;
-    scenarioStartTriggered = false;
-    gestureTrainingStartTriggered = false;
-    slidesRestartCount = 0;
-    slideshowStartTriggered = false;
-    slideTriggered = null;
-    currentSlideIndex = 0;
-    triggeredHelp = null;
-    triggeredWoz = null;
-    currentStressTestCount = 0;
-    currentStressTestIndex = 0;
-    stressTestStartTriggered = false;
-    stressTestGestureTriggered = false;
-    stressTestQuestionsTriggered = false;
-    currentIdentificationIndex = 0;
-    identificationTriggered = false;
-    identificationStartTriggered = false;
-    singleGUSGesture = null;
+    resetConstraints();
     resetRecorder();
 
     var phases = getContextualPhaseSteps();
     if (phases && phases.length > 0) {
-//        if (currentPhaseStepIndex - 1 > 0) {
         currentPhaseStepIndex = Math.max(currentPhaseStepIndex - 1, 0);
-//        }
     }
 
     if (previewModeEnabled === true) {
@@ -153,26 +137,7 @@ function previousStep() {
 }
 
 function nextStep() {
-    testerDoneTriggered = false;
-    scenarioStartTriggered = false;
-    gestureTrainingStartTriggered = false;
-    slidesRestartCount = 0;
-    slideshowStartTriggered = false;
-    slideTriggered = false;
-    currentSlideIndex = 0;
-    triggeredHelp = null;
-    triggeredWoz = null;
-    currentStressTestCount = 0;
-    currentStressTestIndex = 0;
-    stressTestStartTriggered = false;
-    stressTestGestureTriggered = false;
-    stressTestQuestionsTriggered = false;
-    currentIdentificationIndex = 0;
-    identificationTriggered = false;
-    identificationStartTriggered = false;
-    singleGUSGesture = null;
-
-    rescueVideoCaller();
+    resetConstraints();
 
     var phases = getContextualPhaseSteps();
     if (previewModeEnabled === false) {
@@ -181,13 +146,13 @@ function nextStep() {
         }
 
         if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
-            stopRecording(function () {
+            peerConnection.stopRecording(function () {
                 currentPhaseStepIndex++;
                 if (currentPhaseStepIndex < phases.length) {
                     renderPhaseStep();
                 }
                 updateProgress();
-            });
+            }, true);
         } else {
             currentPhaseStepIndex++;
             if (currentPhaseStepIndex < phases.length) {
@@ -201,9 +166,37 @@ function nextStep() {
     }
 }
 
+function resetConstraints() {
+    TweenMax.killAll();
+    testerDoneTriggered = false;
+
+    gestureTrainingStartTriggered = false;
+
+    slideshowStartTriggered = false;
+    slideTriggered = false;
+    currentSlideIndex = 0;
+    slideRestarted = false;
+    slidesRestartCount = 0;
+
+    scenarioStartTriggered = false;
+    triggeredHelp = null;
+    triggeredWoz = null;
+
+    currentStressTestCount = 0;
+    currentStressTestIndex = 0;
+    stressTestStartTriggered = false;
+    stressTestGestureTriggered = false;
+    stressTestQuestionsTriggered = false;
+
+    currentIdentificationIndex = 0;
+    identificationTriggered = false;
+    identificationStartTriggered = false;
+    singleGUSGesture = null;
+}
+
 function rescueVideoCaller() {
-    var study = getLocalItem(STUDY);
-    if (!previewModeEnabled && study.surveyType === TYPE_SURVEY_MODERATED && currentView === VIEW_TESTER) {
+//    var study = getLocalItem(STUDY);
+    if (!previewModeEnabled && currentView === VIEW_TESTER) {
 //        console.log('rescue video caller', $('#video-caller-holder'));
         $('#video-caller-holder').append($('#video-caller'));
 //        console.log($('#video-caller-holder'));
@@ -238,15 +231,15 @@ function updateProgress() {
     $('#progressTop').find('.progress-bar').text(percentage + '%');
 }
 
-//function getCurrentPhaseStepIndex() {
-//    var phaseSteps = getContextualPhaseSteps();
-//    var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
-//    for (var i = 0; i < phaseSteps.length; i++) {
-//        if (currentStepId === phaseSteps[i].id) {
-//            return i;
-//        }
-//    }
-//}
+function getCurrentPhaseStepIndex() {
+    var phaseSteps = getContextualPhaseSteps();
+    var currentStepId = $('#btn-phaseStepSelect .chosen').attr('id');
+    for (var i = 0; i < phaseSteps.length; i++) {
+        if (currentStepId === phaseSteps[i].id) {
+            return i;
+        }
+    }
+}
 
 function getThanksStepIndex() {
     var phaseSteps = getContextualPhaseSteps();

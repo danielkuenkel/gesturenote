@@ -611,7 +611,7 @@
                     "video": "yes",
                     "audio": "yes",
                     "visualizeStream": "no",
-                    "recordStream": "yes"
+                    "recordStream": "no"
                 },
                 "moderator": {
                     "stream": "no",
@@ -2848,6 +2848,11 @@
             "id": "study-under-range",
             "type": "warning",
             "text": "Studienteilnahme nicht möglich. Studie noch nicht gestartet."
+        },
+        "pleaseWait": {
+            "id": "please-wait",
+            "type": "warning",
+            "text": "Bitte warten …"
         }
     }
 }

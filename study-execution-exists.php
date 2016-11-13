@@ -37,20 +37,20 @@ include './includes/language.php';
         <div id="template-subpages"></div>
 
 
-        <!-- Container (Breadcrump) --> 
-        <div class="container" id="breadcrumb">
+        <!-- Container (Breadcrump) -->
+        <div class="container" id="breadcrumb" style="padding-top: 40px">
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                    <!--<li class="active"><?php echo $lang->breadcrump->studyPrepare ?></li>-->
+                    <li class="active"><?php echo $lang->breadcrump->studyPrepare ?></li>
                 </ol>
             </div>
         </div>
 
         <!-- Container (Landing Section) --> 
-        <div class="container-fluid text-center bg-grey" id="landingText">
+        <div class="container-fluid text-center" id="landingText">
             <div class="container">
-                <h1><i class="fa fa-exclamation-triangle" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase">Fehler</span></h1>
+                <h1><i class="fa fa-exclamation-triangle" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase">Schon wieder hier?</span></h1>
                 <p class="text">Sie haben bereits an dieser Studie teilgenommen.</p>
             </div>
         </div>

@@ -267,7 +267,7 @@
             <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <span class="label label-primary" id="factor-main"></span>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <span class="label label-info" id="factor-primary"></span>
             </div>
             <div class="question text"></div>
@@ -312,7 +312,7 @@
             <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <span class="label label-primary" id="factor-main"></span>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <span class="label label-info" id="factor-primary"></span>
             </div>
             <div class="question text"></div>
@@ -400,7 +400,7 @@
             <span class="label label-default hidden" id="gesturesForTrigger">Es werden alternative Gesten für die Funktion gesucht</span>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <span class="label label-primary" id="factor-main"></span>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <span class="label label-info" id="factor-primary"></span>
             </div>
             <div class="question text"></div>
@@ -429,7 +429,7 @@
             <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <span class="label label-primary" id="factor-main"></span>
-                <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <span class="label label-info" id="factor-primary"></span>
             </div>
             <div class="question text"></div>
@@ -771,7 +771,7 @@
             <div class="panel-body">
                 <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
                     <div class="label label-primary" id="factor-main"></div>
-                    <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
+                    <img src="img/factor-transition.jpg" class="item-factors-separator">
                     <div class="label label-info" id="factor-primary"></div>
                 </div>
     

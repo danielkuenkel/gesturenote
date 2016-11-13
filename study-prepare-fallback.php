@@ -181,81 +181,88 @@ if ($h && $studyId) {
         </div>
 
 
-        <!-- Container (Breadcrump) --> 
-        <div class="container" id="breadcrumb">
+        <!-- Container (Breadcrump) -->
+        <div class="container" id="breadcrumb" style="padding-top: 40px">
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                    <li class="active"><?php echo $lang->breadcrump->studyPrepare ?></li>
+                    <li class="active"><?php echo $lang->breadcrump->study ?></li>
                 </ol>
             </div>
         </div>
 
-        <!-- Container (Landing Section) --> 
-        <div class="container-fluid text-center bg-grey" id="landingText">
-            <div class="container">
-                <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase">An Studie teilnehmen</span></h1>
-                <p class="text">Haben Sie ein Account bei GestureNote? Dann loggen Sie sich bitte ein. </p>
-                <p class="text">Sind Sie auf dieser Seite gelandet, weil Sie einen Link für die Teilnahme an einer Studie erhalten haben? Sie können ohne Account fortfahren indem Sie auf "Teilnahme ohne Account" klicken. Oder Sie registrieren sich bei GestureNote und können in Zukunft an weiteren interessanten Studien teilnehmen, ganz ohne Einladung.</p>
-            </div>
-        </div>
+        <!--         Container (Landing Section)  
+                <div class="container-fluid text-center bg-grey" id="landingText">
+                    <div class="container">
+                        <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase">An Studie teilnehmen</span></h1>
+                        <p class="text">Haben Sie ein Account bei GestureNote? Dann loggen Sie sich bitte ein. </p>
+                        <p class="text">Sind Sie auf dieser Seite gelandet, weil Sie einen Link für die Teilnahme an einer Studie erhalten haben? Sie können ohne Account fortfahren indem Sie auf "Teilnahme ohne Account" klicken. Oder Sie registrieren sich bei GestureNote und können in Zukunft an weiteren interessanten Studien teilnehmen, ganz ohne Einladung.</p>
+                    </div>
+                </div>-->
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent" style="margin-top: 35px;">
-            <div class="col-sm-6 col-md-5" id="login">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2 class="panel-title"><?php echo $lang->signIn ?></h2>
+        <div class="container mainContent" style="margin-top: 0px;">
+            <div class="row">
+
+                <div class="col-sm-6 col-md-7" id="study-details">
+                    <h2 class="address" style="margin-top: 0">An Studie teilnehmen</h2>
+                    <hr>
+                    <p class="text">Haben Sie ein Account bei GestureNote? Dann loggen Sie sich bitte ein. </p>
+                    <p class="text">Sind Sie auf dieser Seite gelandet, weil Sie einen Link für die Teilnahme an einer Studie erhalten haben? Sie können ohne Account fortfahren indem Sie auf "Teilnahme ohne Account" klicken. Oder Sie registrieren sich bei GestureNote und können in Zukunft an weiteren interessanten Studien teilnehmen, ganz ohne Einladung.</p>
+                    <!--                <h2 id="study-headline" style="margin-top: 0"></h2>
+                                    <hr>-->
+                    <!--                <div class="label label-default" id="type-phase"></div>
+                                    <div class="label label-default" id="type-survey"></div>-->
+
+                    <!--                <div id="study-description">
+                                        <h3 class="address"></h3>
+                                        <p class="text"></p>
+                                    </div>-->
+
+                </div>
+
+                <div class="col-sm-6 col-md-5" id="login">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="panel-title"><?php echo $lang->signIn ?></h2>
+                        </div>
+                        <div class="panel-body">
+
+                            <div id="login-form">
+                                <div class="alert-space alert-general-error"></div>
+                                <div class="alert-space alert-missing-fields"></div>
+                                <div class="alert-space alert-account-logged"></div>
+                                <div class="alert-space alert-wrong-password"></div>
+                                <div class="alert-space alert-no-user-exists"></div>
+
+                                <div class="form-group">
+                                    <label for="email"><?php echo $lang->email ?></label>
+                                    <input type="text" class="form-control" name="email" value="" id="email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password"><?php echo $lang->password ?></label>
+                                    <input type="password" class="form-control" name="password" value="" id="password">
+                                </div>
+                                <div class="btn-group-vertical btn-block">
+                                    <button type="button" class="btn btn-success" id="btn-login"><i class="glyphicon glyphicon-log-in"></i> <span class="btn-text"><?php echo $lang->signIn ?></button>
+                                    <button type="button" class="btn btn-primary disabled" id="btn-forgot"><i class="glyphicon glyphicon-time"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="panel-body">
 
-                        <div id="login-form">
-                            <div class="alert-space alert-general-error"></div>
-                            <div class="alert-space alert-missing-fields"></div>
-                            <div class="alert-space alert-account-logged"></div>
-                            <div class="alert-space alert-wrong-password"></div>
-                            <div class="alert-space alert-no-user-exists"></div>
-
-                            <div class="form-group">
-                                <label for="email"><?php echo $lang->email ?></label>
-                                <input type="text" class="form-control" name="email" value="" id="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="password"><?php echo $lang->password ?></label>
-                                <input type="password" class="form-control" name="password" value="" id="password">
-                            </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="panel-title"><?php echo $lang->noAccount ?>?</h2>
+                        </div>
+                        <div class="panel-body">
                             <div class="btn-group-vertical btn-block">
-                                <button type="button" class="btn btn-success" id="btn-login"><i class="glyphicon glyphicon-log-in"></i> <span class="btn-text"><?php echo $lang->signIn ?></button>
-                                <button type="button" class="btn btn-primary disabled" id="btn-forgot"><i class="glyphicon glyphicon-time"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
+                                <button type="button" class="btn btn-gn" id="btn-open-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>
+                                <button type="button" class="btn btn-default" id="btn-participate-without-account"><i class="fa fa-user-times" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->participateWithoutAccount ?></span></button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2 class="panel-title"><?php echo $lang->noAccount ?>?</h2>
-                    </div>
-                    <div class="panel-body">
-                        <div class="btn-group-vertical btn-block">
-                            <button type="button" class="btn btn-gn" id="btn-open-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>
-                            <button type="button" class="btn btn-default" id="btn-participate-without-account"><i class="fa fa-user-times" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->participateWithoutAccount ?></span></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-7" id="study-details">
-                <h2 id="study-headline" style="margin-top: 0"></h2>
-                <hr>
-                <!--                <div class="label label-default" id="type-phase"></div>
-                                <div class="label label-default" id="type-survey"></div>-->
-
-                <div id="study-description">
-                    <h3 class="address"></h3>
-                    <p class="text"></p>
-                </div>
-
             </div>
 
         </div>
@@ -276,15 +283,15 @@ if ($h && $studyId) {
                 renderSubPageElements(false);
                 var query = getQueryParams(document.location.search);
                 if (query.studyId && query.h) {
-                    getStudyById({studyId: query.studyId}, function (result) {
-                        if (result.status === RESULT_SUCCESS) {
-//                            if (result.data) {
-                                renderData(result);
-//                            } else {
-//                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
-//                            }
-                        }
-                    });
+//                    getStudyById({studyId: query.studyId}, function (result) {
+//                        if (result.status === RESULT_SUCCESS) {
+////                            if (result.data) {
+//                                renderData(result);
+////                            } else {
+////                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
+////                            }
+//                        }
+//                    });
                 }
 
                 $('#login-form').on('loginSuccess', function (event, result) {
@@ -314,11 +321,11 @@ if ($h && $studyId) {
 
             function renderData(data) {
                 var studyData = data.studyData;
-                $('#study-headline').text(studyData.generalData.title);
+//                $('#study-headline').text(studyData.generalData.title);
 //                $('#type-survey').text(translation.surveyType[studyData.generalData.surveyType]);
 //                $('#type-phase').text(translation.phaseType[studyData.generalData.phase]);
-                $('#study-description .address').text(translation.description);
-                $('#study-description .text').text(studyData.generalData.description);
+//                $('#study-description .address').text(translation.description);
+//                $('#study-description .text').text(studyData.generalData.description);
             }
         </script>
     </body>

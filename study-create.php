@@ -169,8 +169,8 @@ if (login_check($mysqli) == true) {
 
                     <ul class="nav nav-tabs" id="create-tab-navigation" style="margin-bottom: 30px">
                         <li role="presentation" id="general"><a href="#"><?php echo $lang->studyCreateNav->general ?></a></li>
-                        <li role="presentation" id="catalogs" class="hidden"><a href="#"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
-                        <li role="presentation" id="phases" class="hidden"><a href="#"><?php echo $lang->studyCreateNav->phases ?></a></li>
+                        <li role="presentation" id="catalogs" class="disabled"><a href="#"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
+                        <li role="presentation" id="phases" class="disabled"><a href="#"><?php echo $lang->studyCreateNav->phases ?></a></li>
                         <li role="presentation" id="panel"><a href="#"><?php echo $lang->studyCreateNav->panel ?></a></li>
                     </ul>
 
@@ -475,7 +475,9 @@ if (login_check($mysqli) == true) {
 
 
         <script>
+            var firstInit = false;
             $(document).ready(function () {
+                firstInit = true;
                 checkDomain();
                 checkLanguage(function () {
                     createRandomColors();
@@ -487,6 +489,7 @@ if (login_check($mysqli) == true) {
                     externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
+
                     $('#from-To-datepicker .input-daterange').datepicker({
                         calendarWeeks: true,
                         todayHighlight: true,
@@ -517,7 +520,7 @@ if (login_check($mysqli) == true) {
                     studyEditable = true;
                     editableStudyId = query.studyId;
                     $('#btn-study').parent().removeClass('hidden');
-                    
+
                     if (getLocalItem(STUDY)) {
                         init();
                     } else {
@@ -724,8 +727,22 @@ if (login_check($mysqli) == true) {
 
             $('#phaseSelect').on('change', function (event, id) {
                 event.preventDefault();
-                $('#create-tab-navigation #catalogs').removeClass('hidden');
-                $('#create-tab-navigation #phases').removeClass('hidden');
+
+                var catalogsNav = $('#create-tab-navigation #catalogs');
+                var phasesNav = $('#create-tab-navigation #phases');
+                if ($(phasesNav).hasClass('disabled') && $(catalogsNav).hasClass('disabled')) {
+                    $(phasesNav).removeClass('disabled');
+                    $(catalogsNav).removeClass('disabled');
+
+                    if (firstInit) {
+                        firstInit = false;
+                        TweenMax.to(catalogsNav, .1, {y: -20});
+                        TweenMax.to(catalogsNav, .5, {delay: .1, y: 0, ease: Bounce.easeOut});
+                        TweenMax.to(phasesNav, .1, {delay:.1, y: -20});
+                        TweenMax.to(phasesNav, .5, {delay: .2, y: 0, ease: Bounce.easeOut});
+                    }
+                }
+
                 if (id === TYPE_PHASE_ELICITATION) {
                     $('#phaseStepSelect').find('.' + id).removeClass('hidden');
                     $('#phaseStepSelect').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');

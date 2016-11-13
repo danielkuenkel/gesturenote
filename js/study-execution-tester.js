@@ -3,6 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+function Tester() {
+
+}
+
 var singleGUSGesture = null;
 var Tester = {
     renderView: function renderView() {
@@ -17,7 +22,7 @@ var Tester = {
         }
 
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
-            initializePeerConnection();
+            Tester.initializePeerConnection();
             //        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
             var container = $(source).find('#' + currentPhase.format).clone(false);
             switch (currentPhase.format) {
@@ -28,7 +33,7 @@ var Tester = {
                     item = Tester.getThanks(container, currentPhaseData);
                     break;
                 case QUESTIONNAIRE:
-                    item = Tester.getQuestionnaire(container, currentPhaseData);
+                    item = Tester.getQuestionnaire(container, currentPhaseData, true);
                     break;
                 case IDENTIFICATION:
                     item = Tester.getIdentification(source, container, currentPhaseData);
@@ -37,7 +42,7 @@ var Tester = {
                     item = Tester.getGUS(container, currentPhaseData);
                     break;
                 case GUS_MULTIPLE_GESTURES:
-                    item = Tester.getQuestionnaire(container, getAssembledItems(currentPhaseData.gus));
+                    item = Tester.getQuestionnaire(container, getAssembledItems(currentPhaseData.gus), true);
                     break;
                 case SUS:
                     item = Tester.getSUS(source, container, currentPhaseData);
@@ -60,10 +65,10 @@ var Tester = {
             }
 
             if (item !== false || item !== null) {
-//                rescueVideoCaller();
-
-                $('#viewTester #phase-content').empty().append(item);
-                initializeRTC();
+                if (!syncPhaseStep) {
+                    $('#viewTester #phase-content').empty().append(item);
+                }
+                Tester.initializeRTC();
             }
 
             if (currentPhase.format === THANKS) {
@@ -91,16 +96,17 @@ var Tester = {
                     posY = '90px';
                     break;
             }
+//            $('#viewTester #phase-content').css({marginTop: posY});
         } else {
-            switch (format) {
-                case SCENARIO:
-                    break;
-                default:
-                    posY = '40px';
-                    break;
-            }
+//            switch (format) {
+//                case SCENARIO:
+//                    break;
+//                default:
+//                    posY = '40px';
+//                    break;
+//            }
         }
-        $('#viewTester #phase-content').css({marginTop: posY});
+//        $('#viewTester #phase-content').css({marginTop: posY});
     },
     renderNoDataView: function renderNoDataView() {
         var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
@@ -108,6 +114,9 @@ var Tester = {
         appendAlert(alert, ALERT_NO_PHASE_DATA);
     },
     getLetterOfAcceptance: function getLetterOfAcceptance(container, data) {
+        var source = getSourceContainer(VIEW_TESTER);
+        var content = $(source).find('#letterOfAcceptance-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
+        $(container).append(content);
         $(container).find('.letter-text').text(data);
         $(container).find('#letter-agreed').on('click', function (event) {
             event.preventDefault();
@@ -115,11 +124,12 @@ var Tester = {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.accepted = 'yes';
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                }
             }
 
-            if (peerConnection) {
-                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-            }
             nextStep();
         });
         $(container).find('#letter-decline').on('click', function (event) {
@@ -134,7 +144,43 @@ var Tester = {
         });
         return container;
     },
-    getQuestionnaire: function getQuestionnaire(container, data) {
+    getThanks: function getThanks(container, data) {
+        var content = $(getSourceContainer(VIEW_TESTER)).find('#thanks-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
+        $(container).append(content);
+
+        TweenMax.to(container.find('.fa-upload'), .5, {yoyo: true, repeat: -1, opacity: .4});
+        $(container).find('#thanks-text').text(data);
+        var study = getLocalItem(STUDY);
+        var absoluteStaticStudyUrl = 'https://gesturenote.de/study-prepare.php?studyId=' + study.id + '&h=' + study.urlToken;
+        $(container).find('#static-study-url').text(absoluteStaticStudyUrl);
+        $(container).find('#btn-execution-done').on('click', function (event) {
+            event.preventDefault();
+            gotoDashboard();
+        });
+
+        $(container).find('#static-study-url').click(function () {
+            $(container).find('#static-study-url').select();
+        });
+
+        $(container).find('#btn-retry-upload').on('click', function (event) {
+            event.preventDefault();
+            if (previewModeEnabled === false) {
+                submitFinalData(container);
+            }
+        });
+
+        if (previewModeEnabled === false) {
+            checkRTCUploadStatus(container);
+        }
+
+        return container;
+    },
+    getQuestionnaire: function getQuestionnaire(container, data, appendContainer) {
+        if (appendContainer === true) {
+            var content = $(getSourceContainer(VIEW_TESTER)).find('#questionnaire-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
+            $(container).append(content);
+        }
+
         $(container).find('.question-container').empty();
         if (data && data.length > 0) {
             for (var i = 0; i < data.length; i++) {
@@ -188,9 +234,19 @@ var Tester = {
             }
         }
 
+        $(container).find('#btn-next-phase-step').on('click', function (event) {
+            event.preventDefault();
+            if (!previewModeEnabled && peerConnection) {
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+            }
+        });
+
         return container;
     },
     getGUS: function getGUS(container, data) {
+        var content = $(getSourceContainer(VIEW_TESTER)).find('#gus-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
+        $(container).append(content);
+
         var gesture = getGestureById(data.gestureId);
         if (gesture && isGestureAssembled(data.gestureId)) {
             singleGUSGesture = {gestureId: data.gestureId, triggerId: data.triggerId, feedbackId: data.feedbackId};
@@ -228,14 +284,13 @@ var Tester = {
             $(container).find('#gesturePreview').addClass('hidden');
         }
 
-        $(container).find('#btn-next-phase-step').on('click', function (event) {
-            event.preventDefault();
-            nextStep();
-        });
-        container = Tester.getQuestionnaire(container, getAssembledItems(data.gus));
+        container = Tester.getQuestionnaire(container, getAssembledItems(data.gus), false);
         return container;
     },
     getSUS: function getSUS(source, container, data) {
+        var content = $(getSourceContainer(VIEW_TESTER)).find('#sus-' + getLocalItem(STUDY).surveyType).clone();
+        $(container).append(content);
+
         for (var i = 0; i < data.length; i++) {
             var item = $(source).find('#susItem').clone(false).removeAttr('id');
             item.attr('id', SUS_ITEM);
@@ -243,10 +298,15 @@ var Tester = {
             renderSusInput(item);
             $(container).find('.question-container').append(item);
         }
+        $(container).find('#btn-next-phase-step').on('click', function (event) {
+            event.preventDefault();
+            if (!previewModeEnabled && peerConnection) {
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+            }
+        });
         return container;
     },
     getGestureTraining: function getGestureTraining(source, container, data) {
-
         // general data section
         $(container).find('.headline').text(data.title);
         $(container).find('.description').text(data.description);
@@ -258,6 +318,39 @@ var Tester = {
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             Tester.renderUnmoderatedTraining(source, container, data.training);
         } else {
+            if (!previewModeEnabled && peerConnection) {
+                $(peerConnection).unbind(MESSAGE_START_GESTURE_TRAINING).bind(MESSAGE_START_GESTURE_TRAINING, function (event, payload) {
+                    gestureTrainingStartTriggered = true;
+                    container.find('#general').addClass('hidden');
+                });
+
+                $(peerConnection).unbind(MESSAGE_TRAINING_TRIGGERED).bind(MESSAGE_TRAINING_TRIGGERED, function (event, payload) {
+                    trainingTriggered = true;
+                    currentGestureTrainingIndex = payload.currentGestureTrainingIndex;
+                    Tester.renderModeratedTraining(source, container, data.training);
+                });
+
+                $(peerConnection).unbind(MESSAGE_FEEDBACK_TRIGGERED).bind(MESSAGE_FEEDBACK_TRIGGERED, function (event, payload) {
+                    console.log(payload);
+                    Tester.renderModeratedTrainingFeedback(source, {feedbackId: payload.id});
+                });
+
+//                $(peerConnection).on('controlMessage', function (event, messageData) {
+//                    event.preventDefault();
+//                    switch (messageData.message) {
+//                        case MESSAGE_START_GESTURE_TRAINING:
+//                            break;
+//                        case MESSAGE_TRAINING_TRIGGERED:
+//
+//                            break;
+//                        case MESSAGE_FEEDBACK_TRIGGERED:
+//                            console.log(messageData.options);
+//                            Tester.renderModeratedTrainingFeedback(source, {feedbackId: messageData.options.id});
+//                            break;
+//                    }
+//                });
+            }
+
             if (gestureTrainingStartTriggered) {
                 container.find('#general').addClass('hidden');
             }
@@ -272,6 +365,7 @@ var Tester = {
         return container;
     },
     renderModeratedTraining: function renderModeratedTraining(source, container, data) {
+        clearAlerts(container);
         var trainingData = data[currentGestureTrainingIndex];
         var item = $(source).find('#trainingItemModerated').clone().removeAttr('id');
         $(container).append(item);
@@ -285,6 +379,7 @@ var Tester = {
         item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
         item.find('#feedback .address').text(translation.feedback + ":");
         $(container).find('#trainingContainer').empty().append(item);
+
         if (feedback) {
             var icon = document.createElement('i');
             var label = document.createElement('div');
@@ -308,11 +403,14 @@ var Tester = {
         }
 
         if (triggeredFeedback) {
-            appendHint(source, $('body'), trainingData, TYPE_SURVEY_MODERATED);
-            triggeredFeedback = null;
+            Tester.renderModeratedTrainingFeedback(source, trainingData);
         }
 
         renderGestureImages(item.find('.previewGesture'), gesture.images, gesture.previewImage, null);
+    },
+    renderModeratedTrainingFeedback: function renderModeratedTrainingFeedback(source, data) {
+        appendHint(source, $('body'), data, TYPE_SURVEY_MODERATED);
+        triggeredFeedback = null;
     },
     renderUnmoderatedTraining: function renderUnmoderatedTraining(source, container, data) {
         var trainingData = data[currentGestureTrainingIndex];
@@ -477,36 +575,92 @@ var Tester = {
             slideRestarted = true;
             Tester.renderUnmoderatedGestureSlideshow(source, container, data);
         } else {
-            if (slideRestarted) {
+            $(peerConnection).unbind(MESSAGE_START_GESTURE_SLIDESHOW).bind(MESSAGE_START_GESTURE_SLIDESHOW, function (event, payload) {
+                console.log('on ' + MESSAGE_START_GESTURE_SLIDESHOW);
+                slideRestarted = true;
+                console.log(container);
                 Tester.renderModeratedGestureSlideshowOverview(source, container, data);
-            } else {
-                if (slideTriggered) {
+            });
+
+            $(peerConnection).unbind(MESSAGE_TRIGGER_GESTURE_SLIDE).bind(MESSAGE_TRIGGER_GESTURE_SLIDE, function (event, payload) {
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+                slideRestarted = false;
+                slideTriggered = true;
+                currentSlideIndex = parseInt(payload.currentSlideIndex);
+                Tester.renderModeratedGestureSlideshow(source, container, data);
+            });
+
+            $(peerConnection).unbind(MESSAGE_RESTART_GESTURE_SLIDES).bind(MESSAGE_RESTART_GESTURE_SLIDES, function (event, payload) {
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+                slidesRestartCount++;
+                slideRestarted = true;
+                slideTriggered = false;
+                Tester.renderModeratedGestureSlideshowOverview(source, container, data);
+            });
+
+            $(peerConnection).unbind(MESSAGE_GESTURE_PERFORMED).bind(MESSAGE_GESTURE_PERFORMED, function (event, payload) {
+                event.handled = true;
+                console.log('handle performed gesture', payload);
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.restarts = slidesRestartCount;
+                if (payload.fit) {
+                    tempData.actions.push({action: payload.action, gestureId: payload.gestureId, triggerId: payload.triggerId, selectedGestureId: payload.selectedGestureId, fit: payload.fit, time: new Date().getTime()});
+                } else {
+                    tempData.actions.push({action: payload.action, gestureId: payload.gestureId, triggerId: payload.triggerId, selectedGestureId: null, time: new Date().getTime()});
+                }
+                console.log(tempData);
+
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            });
+
+            if (slideshowStartTriggered) {
+                if (slideRestarted) {
+                    Tester.renderModeratedGestureSlideshowOverview(source, container, data);
+                } else if (slideTriggered) {
                     Tester.renderModeratedGestureSlideshow(source, container, data);
                 } else {
                     appendAlert($(container), ALERT_WAITING_FOR_SLIDESHOW);
                 }
+            } else {
+                appendAlert($(container), ALERT_WAITING_FOR_SLIDESHOW);
             }
         }
 
         return container;
     },
     renderModeratedGestureSlideshowOverview: function renderModeratedGestureSlideshowOverview(source, container, data) {
-        $(container).find('#slideshowContainer').empty();
+//        console.log('renderModeratedGestureSlideshowOverview', $(container));
+        clearAlerts($(container));
+        $(container).find('#slideshowContainer').removeClass('hidden').empty();
+        $(container).find('#general').addClass('hidden');
+
         for (var i = 0; i < data.slideshow.length; i++) {
             var item = $(source).find('#gestureSlideshowOverviewItemModerated').clone().removeAttr('id');
             $(container).find('#slideshowContainer').append(item);
             var gesture = getGestureById(data.slideshow[i].gestureId);
             renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+//            console.log(gesture);
         }
     },
     renderModeratedGestureSlideshow: function renderModeratedGestureSlideshow(source, container, data) {
+        $(container).find('.progress').removeClass('hidden');
+        clearAlerts($(container));
         var slideData = data.slideshow[currentSlideIndex];
         var item = $(source).find('#gestureSlideshowItemModerated').clone().removeAttr('id');
-        $(container).find('#slideshowContainer').empty().append(item);
+        $(container).find('#slideshowContainer').removeClass('hidden').empty().append(item);
+
+        if (!previewModeEnabled) {
+            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+            tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: new Date().getTime()});
+            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+        }
+
         var progress = $(container).find('.progress');
-        progress.removeClass('active');
-        progress.removeClass('hidden');
-        var timeline = new TimelineMax({paused: true, delay: 1, onComplete: onAnswerTimeExpired, onCompleteParams: [container]});
+        progress.removeClass('active hidden');
+        progress.find('.progress-bar').css({width: '100%', backgroundColor: '#5cb85c'});
+        var timeline = new TimelineMax({paused: true, delay: 1, onComplete: onAnswerTimeExpired, onCompleteParams: [container, data]});
         timeline.add("start", 0)
                 .to(progress.find('.progress-bar'), parseInt(slideData.recognitionTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start");
         var trigger = getTriggerById(slideData.triggerId);
@@ -515,7 +669,7 @@ var Tester = {
         timeline.play();
     },
     renderUnmoderatedGestureSlideshowOverview: function renderUnmoderatedGestureSlideshowOverview(source, container, data) {
-        $(container).find('#slideshowContainer').empty();
+        $(container).find('#slideshowContainer').removeClass('hidden').empty();
         for (var i = 0; i < data.slideshow.length; i++) {
             var item = $(source).find('#gestureSlideshowOverviewItemUnmoderated').clone().removeAttr('id');
             $(container).find('#slideshowContainer').append(item);
@@ -524,7 +678,7 @@ var Tester = {
         }
     },
     renderUnmoderatedGestureSlideshow: function renderUnmoderatedGestureSlideshow(source, container, data, isActive) {
-        $(container).find('#slideshowContainer').empty();
+        $(container).find('#slideshowContainer').removeClass('hidden').empty();
         if (slideRestarted) {
             Tester.renderUnmoderatedGestureSlideshowOverview(source, container, data);
         }
@@ -554,8 +708,7 @@ var Tester = {
             }
 
             var progress = $(container).find('.progress');
-            progress.removeClass('active');
-            progress.removeClass('hidden');
+            progress.removeClass('active hidden');
             var timeline = new TimelineMax({paused: true, delay: 1, onComplete: onUnmoderatedAnswerTimeExpired, onCompleteParams: [source, container, data]});
             timeline.add("start", 0)
                     .to(progress.find('.progress-bar'), parseInt(slideData.recognitionTime), {width: '0%', autoRound: false, backgroundColor: "#d9534f", ease: Power0.easeNone}, "start")
@@ -582,6 +735,9 @@ var Tester = {
         });
     },
     getTriggerSlideshow: function getTriggerSlideshow(source, container, data) {
+        var content = $(getSourceContainer(VIEW_TESTER)).find('#triggerSlideshow-' + getLocalItem(STUDY).surveyType).clone();
+        $(container).append(content);
+
         // general data section
         $(container).find('#general .headline').text(data.title);
         $(container).find('#general .description').text(data.description);
@@ -598,14 +754,14 @@ var Tester = {
         } else {
             $(container).find('#startSlideshow').remove();
 
-            $(peerConnection).on('controlMessage', function (event, messageData) {
-                event.preventDefault();
-                switch (messageData.message) {
-                    case MESSAGE_START_TRIGGER_SLIDESHOW:
-                        slideshowStartTriggered = true;
-                        Tester.renderUnmoderatedTriggerSlideshow(source, container, data);
-                        break;
-                }
+            $(peerConnection).unbind(MESSAGE_START_TRIGGER_SLIDESHOW).bind(MESSAGE_START_TRIGGER_SLIDESHOW, function (event, payload) {
+//                event.preventDefault();
+//                switch (messageData.message) {
+//                    case MESSAGE_START_TRIGGER_SLIDESHOW:
+                slideshowStartTriggered = true;
+                Tester.renderUnmoderatedTriggerSlideshow(source, container, data);
+//                        break;
+//                }
             });
 
             if (slideshowStartTriggered) {
@@ -636,19 +792,17 @@ var Tester = {
             }
             var questionnaire = new Array();
             questionnaire.push({format: GROUPING_QUESTION, dimension: DIMENSION_ANY, question: translation.questionTriggerSlideshow, parameters: {multiselect: 'no', optionalanswer: 'no'}, options: options});
-//            questionnaire.push(new QuestionnaireItem(GROUPING_QUESTION, DIMENSION_ANY, translation.questionTriggerSlideshow, [false, false], options));
             Tester.getQuestionnaire(item, questionnaire);
         }
 
         if (currentSlideIndex >= data.slideshow.length - 1) {
-            if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
-                $(container).find('#btn-next-slide').removeClass('hidden');
-                $(container).find('#btn-next-slide').text(translation.done);
-            }
-
-            if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
-                $(container).find('#btn-done-slide').removeClass('hidden');
-            }
+//            if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+            $(container).find('#btn-next-slide').addClass('hidden');
+            $(container).find('#btn-done-slide').removeClass('hidden');
+            $(container).find('#btn-next-slide').text(translation.done);
+//            } else {
+//                $(container).find('#btn-next-slide').removeClass('hidden');
+//            }
         } else {
             $(container).find('#btn-next-slide').removeClass('hidden');
         }
@@ -656,26 +810,11 @@ var Tester = {
         $(container).find('#btn-next-slide').click(function (event) {
             event.preventDefault();
             if (!previewModeEnabled) {
-                var selectedOption = $(container).find('.option-container .btn-option-checked').attr('id');
-                selectedOption = selectedOption === undefined ? -1 : selectedOption;
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-//                console.log(selectedOption);
-                if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
-                    tempData.selectedOptions.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
-                } else {
-                    var array = new Array();
-                    array.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
-                    tempData.selectedOptions = array;
-                }
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                saveTriggerSlideshowAnswer(container);
             }
 
-            if (currentSlideIndex >= data.slideshow.length - 1) {
-                currentSlideIndex = 0;
-                slideshowStartTriggered = false;
-                nextStep();
-            } else {
+//            console.log(currentSlideIndex);
+            if (currentSlideIndex < data.slideshow.length - 1) {
                 currentSlideIndex++;
                 Tester.renderUnmoderatedTriggerSlideshow(source, container, data);
             }
@@ -687,15 +826,42 @@ var Tester = {
 
         $(container).find('#btn-done-slide').click(function (event) {
             event.preventDefault();
+            if (!previewModeEnabled) {
+                saveTriggerSlideshowAnswer(container);
+            }
+
             $(this).addClass('disabled');
             testerDoneTriggered = true;
             $(container).find('.question-container').addClass('hidden');
+
+            if (!previewModeEnabled && peerConnection) {
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+            }
+
+            nextStep();
         });
+
         $(container).find('#startSlideshow').click(function (event) {
             event.preventDefault();
             slideshowStartTriggered = true;
             Tester.renderUnmoderatedTriggerSlideshow(source, container, data);
         });
+
+        function saveTriggerSlideshowAnswer(container) {
+            var selectedOption = $(container).find('.option-container .btn-option-checked').attr('id');
+            selectedOption = selectedOption === undefined ? -1 : selectedOption;
+            var currentPhase = getCurrentPhase();
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                console.log(selectedOption);
+            if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
+                tempData.selectedOptions.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
+            } else {
+                var array = new Array();
+                array.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
+                tempData.selectedOptions = array;
+            }
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+        }
     },
     getIdentification: function getIdentification(source, container, data) {
         if (!data.identification || data.identification.length === 0) {
@@ -911,6 +1077,37 @@ var Tester = {
             if (stressTestGestureTriggered || stressTestQuestionsTriggered) {
                 Tester.renderModeratedPhysicalStressTest(source, container, data);
             } else {
+                if (!previewModeEnabled && peerConnection) {
+                    $(peerConnection).unbind(MESSAGE_START_STRESS_TEST).bind(MESSAGE_START_STRESS_TEST, function (event, payload) {
+                        stressTestStartTriggered = true;
+                        $(container).find('#general').remove();
+                    });
+
+                    $(peerConnection).unbind(MESSAGE_TRIGGER_STRESS_TEST_GESTURE).bind(MESSAGE_TRIGGER_STRESS_TEST_GESTURE, function (event, payload) {
+                        clearAlerts($(container));
+                        stressTestGestureTriggered = true;
+                        stressTestQuestionsTriggered = false;
+                        currentStressTestCount = parseInt(payload.count);
+                        currentStressTestIndex = parseInt(payload.index);
+                        Tester.renderModeratedPhysicalStressTest(source, container, data);
+                    });
+
+                    $(peerConnection).unbind(MESSAGE_TRIGGER_STRESS_TEST_QUESTION).bind(MESSAGE_TRIGGER_STRESS_TEST_QUESTION, function (event, payload) {
+                        stressTestGestureTriggered = false;
+                        stressTestQuestionsTriggered = true;
+                        currentStressTestCount = parseInt(payload.count);
+                        currentStressTestIndex = parseInt(payload.index);
+                        Tester.renderModeratedPhysicalStressTest(source, container, data);
+                    });
+
+                    $(peerConnection).unbind(MESSAGE_TRIGGER_NEXT_STRESS_TEST_GESTURE).bind(MESSAGE_TRIGGER_NEXT_STRESS_TEST_GESTURE, function (event, payload) {
+                        appendAlert($(container), ALERT_WAITING_FOR_IDENTIFICATION);
+                        stressTestGestureTriggered = false;
+                        stressTestQuestionsTriggered = false;
+                        $(container).find('#stressTestContainer').empty();
+                    });
+                }
+
                 appendAlert($(container), ALERT_WAITING_FOR_IDENTIFICATION);
             }
         }
@@ -919,10 +1116,11 @@ var Tester = {
     },
     renderModeratedPhysicalStressTest: function renderModeratedPhysicalStressTest(source, container, data) {
         var item = $(source).find('#physicalStressTestModerated').clone().removeAttr('id');
-        $(container).find('#stressTestContainer').append(item);
+        $(container).find('#stressTestContainer').empty().append(item);
         var gesture = getGestureById(data.stressTestItems[currentStressTestIndex]);
         renderGestureImages($(container).find('.previewGesture'), gesture.images, gesture.previewImage, null);
         renderSelectionRatingGraphics(item, data);
+
         var questionContainer = $(container).find('#stress-test-questionnaire');
         if (stressTestQuestionsTriggered) {
             questionContainer.removeClass('hidden');
@@ -952,6 +1150,7 @@ var Tester = {
         $(container).find('#stressTestContainer').empty().append(item);
         var gesture = getGestureById(data.stressTestItems[currentStressTestIndex]);
         renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+
         if (!previewModeEnabled) {
             var currentPhase = getCurrentPhase();
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -1009,6 +1208,7 @@ var Tester = {
                 $(item).find('#btn-next-gesture').removeClass('hidden');
             }
         });
+
         $(item).find('#btn-questionnaire-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             saveAnswers();
@@ -1026,6 +1226,7 @@ var Tester = {
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             }
         });
+
         $(item).find('#btn-next-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
             saveAnswers();
@@ -1033,12 +1234,14 @@ var Tester = {
             currentStressTestIndex++;
             Tester.renderUnmoderatedPhysicalStressTest(source, container, data);
         });
+
         $(item).find('#btn-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             saveAnswers();
             nextStep();
 //            Tester.renderUnmoderatedPhysicalStressTest(source, container, data);
         });
+
         function saveAnswers() {
             // save joints and questionnaire answers if in live mode
             if (!previewModeEnabled) {
@@ -1086,77 +1289,124 @@ var Tester = {
             return false;
         }
 
-        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
-            if (!previewModeEnabled) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.actions = new Array();
-                tempData.transitions = new Array();
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-            }
+        if (!previewModeEnabled) {
+            var currentPhase = getCurrentPhase();
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            tempData.actions = new Array();
+            tempData.transitions = new Array();
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+        }
 
+        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             Tester.renderUnmoderatedScenario(source, container, data);
         } else {
             Tester.renderModeratedScenario(source, container, data);
+
+            $(peerConnection).unbind(MESSAGE_START_SCENARIO).bind(MESSAGE_START_SCENARIO, function (event, payload) {
+                event.preventDefault();
+//                switch (messageData.message) {
+//                    case MESSAGE_START_SCENARIO:
+                scenarioStartTriggered = true;
+                Tester.renderModeratedScenario(source, container, data);
+//                        break;
+//                }
+            });
         }
 
         return container;
     },
     renderModeratedScenario: function renderModeratedScenario(source, container, data) {
         var sceneItem;
+
+        // handle scenario start state
         if (scenarioStartTriggered) {
+            clearAlerts(container);
             $(container).find('#fixed-rtc-preview').removeClass('hidden');
             if (currentTriggeredSceneId) {
                 sceneItem = renderSceneItem(source, container, currentTriggeredSceneId);
             } else {
                 sceneItem = renderSceneItem(source, container, data.scene);
             }
-        } else {
-            $(container).find('#fixed-rtc-preview').addClass('hidden');
-        }
-
-        // handle scenario start state
-        if (scenarioStartTriggered) {
+            container.find('#generalPanel').remove();
             sceneItem.removeClass('hidden');
-            clearAlerts(container);
         } else {
             var panelContent = $(source).find('#scenario-panel-moderated').clone();
             container.find('#generalPanel').append(panelContent);
             container.find('#generalPanel').removeClass('hidden');
             appendAlert($(container), ALERT_WAITING_FOR_SCENARIO_START);
+            $(container).find('#fixed-rtc-preview').addClass('hidden');
         }
 
-        // handle triggered help
-        if (triggeredHelp) {
-            loadHTMLintoModal('custom-modal', 'modal-help.php', 'modal-md');
+        // handle triggered help & woz
+        if (previewModeEnabled) {
+            checkHelp();
+            checkWOZ();
+        } else {
+            $(peerConnection).unbind(MESSAGE_TRIGGER_WOZ).bind(MESSAGE_TRIGGER_WOZ, function (event, payload) {
+                console.log(messageData);
+                triggeredWoz = payload.triggeredWOZ;
+                currentWOZScene = payload.currentWOZScene;
+                checkWOZ();
+            });
+
+            $(peerConnection).unbind(MESSAGE_TRIGGER_HELP).bind(MESSAGE_TRIGGER_HELP, function (event, payload) {
+                console.log(messageData.options.help);
+                triggeredHelp = payload.help;
+                checkHelp();
+            });
+
+            $(peerConnection).unbind(MESSAGE_RELOAD_SCENE).bind(MESSAGE_RELOAD_SCENE, function (event, payload) {
+                renderModeratedScenario(source, container, data);
+            });
+//
+//            $(peerConnection).on('controlMessage', function (event, payload) {
+//                event.preventDefault();
+//                switch (messageData.message) {
+//                    case MESSAGE_TRIGGER_WOZ:
+//
+//                        break;
+//                    case MESSAGE_TRIGGER_HELP:
+//
+//                        break;
+//                    case MESSAGE_RELOAD_SCENE:
+//
+//                        break;
+//                }
+//            });
         }
 
-        // handle triggered woz
-//        console.log(triggeredWoz, currentWOZScene);
-        if (triggeredWoz && currentWOZScene.type !== SCENE_PIDOCO) {
-//            console.log(triggeredWoz.transitionId);
-            if (triggeredWoz.transitionId !== 'none') {
-                currentTriggeredSceneId = triggeredWoz.transitionId;
-            } else {
-                currentTriggeredSceneId = triggeredWoz.sceneId;
+        function checkHelp() {
+            if (triggeredHelp) {
+                loadHTMLintoModal('custom-modal', 'modal-help.php', 'modal-md');
             }
+        }
 
-            var transitionScene = getSceneById(currentTriggeredSceneId);
+        function checkWOZ() {
+            if (triggeredWoz && currentWOZScene.type !== SCENE_PIDOCO) {
+//            console.log(triggeredWoz.transitionId);
+                if (triggeredWoz.transitionId !== 'none') {
+                    currentTriggeredSceneId = triggeredWoz.transitionId;
+                } else {
+                    currentTriggeredSceneId = triggeredWoz.sceneId;
+                }
+
+                var transitionScene = getSceneById(currentTriggeredSceneId);
 //            console.log(triggeredWoz, transitionScene, currentTriggeredSceneId)
 
-            var hint = appendHint(source, $('body'), triggeredWoz, TYPE_SURVEY_UNMODERATED);
-            if (hint !== null) {
-                $(hint).on('hint.hidden', function () {
+                var hint = appendHint(source, $('body'), triggeredWoz, TYPE_SURVEY_MODERATED);
+                if (hint !== null) {
+                    $(hint).on('hint.hidden', function () {
+                        if (transitionScene) {
+                            renderSceneItem(source, container, currentTriggeredSceneId);
+                        }
+                        triggeredWoz = null;
+                    });
+                } else {
                     if (transitionScene) {
                         renderSceneItem(source, container, currentTriggeredSceneId);
                     }
                     triggeredWoz = null;
-                });
-            } else {
-                if (transitionScene) {
-                    renderSceneItem(source, container, currentTriggeredSceneId);
                 }
-                triggeredWoz = null;
             }
         }
     },
@@ -1204,7 +1454,7 @@ var Tester = {
             hideScenarioInfos(container);
             panelOffset = container.find('#generalPanel').offset().top;
             panelHeight = container.find('#generalPanel').height();
-            container.find('#fixed-rtc-preview').css({marginTop: panelHeight + 20, opacity: .5});
+            container.find('#fixed-rtc-preview').css({marginTop: panelHeight + 20, opacity: .6, pointerEvents: 'none'});
         });
         var sceneItem;
         if (scenarioStartTriggered) {
@@ -1284,32 +1534,123 @@ var Tester = {
             nextStep();
         });
     },
-    getThanks: function getThanks(container, data) {
-        TweenMax.to(container.find('.fa-upload'), .5, {yoyo: true, repeat: -1, opacity: .4});
-        $(container).find('#thanks-text').text(data);
-        var study = getLocalItem(STUDY);
-        var absoluteStaticStudyUrl = 'https://gesturenote.de/study-prepare.php?studyId=' + study.id + '&h=' + study.urlToken;
-        $(container).find('#static-study-url').text(absoluteStaticStudyUrl);
-        $(container).find('#btn-execution-done').on('click', function (event) {
-            event.preventDefault();
-            gotoDashboard();
-        });
-        $(container).find('#static-study-url').click(function () {
-            $(container).find('#static-study-url').select();
-        });
-        $(container).find('#btn-retry-upload').on('click', function (event) {
-            event.preventDefault();
-            if (previewModeEnabled === false) {
-                submitFinalData(container);
+    initializeRTC: function initializeRTC() {
+//        console.log('initializeRTC');
+        // check preview or live mode, and check if webRTC is needed
+        if (isWebRTCNeededInFuture()) {
+            if (previewModeEnabled === true) {
+                Tester.appendRTCPreviewStream();
+            } else {
+                Tester.appendRTCLiveStream();
             }
-        });
-        if (previewModeEnabled === false) {
-            checkRTCUploadStatus(container);
+        } else {
+            resetLiveStream();
+        }
+    },
+    appendRTCPreviewStream: function appendRTCPreviewStream() {
+        var currentPhase = getCurrentPhase();
+        var source = getSourceContainer(currentView);
+        var target = $('#viewTester').find('#column-left');
+
+        switch (currentPhase.format) {
+            case SCENARIO:
+                target = $('#fixed-rtc-preview');
+                break;
+        }
+//        console.log($(source).find('#tester-web-rtc-placeholder'));
+        $(target).empty().append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
+    },
+    initializePeerConnection: function initializePeerConnection() {
+        if (!peerConnection && !previewModeEnabled) {
+            peerConnection = new PeerConnection(true);
+
+            if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
+                $(peerConnection).unbind(MESSAGE_NEXT_STEP).bind(MESSAGE_NEXT_STEP, function (event, payload) {
+                    nextStep();
+                });
+
+                $(peerConnection).unbind(MESSAGE_CANCEL_SURVEY).bind(MESSAGE_CANCEL_SURVEY, function (event, payload) {
+                    console.log('on cancel survey');
+                    var study = getLocalItem(STUDY);
+                    study.aborted = 'yes';
+                    setLocalItem(STUDY, study);
+                    saveCurrentStatus(false);
+
+                    peerConnection.stopRecording(function () {
+                        currentPhaseStepIndex = getThanksStepIndex();
+                        renderPhaseStep();
+                        updateProgress();
+                    }, true);
+                });
+
+                $(peerConnection).unbind(MESSAGE_REQUEST_SYNC).bind(MESSAGE_REQUEST_SYNC, function (event, payload) {
+                    console.log('on sync request');
+
+                    peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
+                    if (getCurrentPhase().format !== THANKS) {
+
+                        console.log('render phase step: ' + currentPhaseStepIndex);
+                        peerConnection.stopRecording(function () {
+                            resetConstraints();
+                            renderPhaseStep();
+                        }, false);
+                    }
+                });
+
+                $(peerConnection).unbind(MESSAGE_SYNC_PHASE_STEP).bind(MESSAGE_SYNC_PHASE_STEP, function (event, payload) {
+                    console.log('on sync phase step', payload.index);
+                    syncPhaseStep = false;
+                    currentPhaseStepIndex = payload.index;
+                    renderPhaseStep();
+                    updateProgress();
+                });
+
+                $(peerConnection).unbind('videoAdded').bind('videoAdded', function () {
+                    if (syncPhaseStep) {
+                        peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
+                    }
+                });
+            }
+        }
+    },
+    appendRTCLiveStream: function appendRTCLiveStream() {
+        var currentPhase = getCurrentPhase();
+        var target = $('#viewTester').find('#column-left');
+        switch (currentPhase.format) {
+            case SCENARIO:
+                target = $('#viewTester').find('#fixed-rtc-preview');
+                break;
         }
 
-        return container;
+        var options = getPhaseStepOptions(currentPhase.format);
+        var query = getQueryParams(document.location.search);
+        var callerOptions = {
+            target: target,
+            callerElement: $('#video-caller'),
+            localVideoElement: 'local-stream',
+            remoteVideoElement: 'remote-stream',
+            enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
+            roomId: query.roomId,
+            localStream: {audio: options.tester.audio, video: options.tester.video, visualize: options.tester.visualizeStream, record: options.tester.recordStream},
+            remoteStream: {audio: options.moderator.audio, video: options.moderator.video}
+        };
+
+        if (callerOptions.localStream.video === 'yes' || callerOptions.remoteStream.video === 'yes') {
+            $(callerOptions.target).prepend(callerOptions.callerElement);
+        } else {
+            console.log('dont add video-caller');
+        }
+
+        peerConnection.update(callerOptions);
+        if (peerConnection.status !== STATUS_UNINITIALIZED) {
+            var videos = $(callerOptions.callerElement).find('video');
+            for (var i = 0; i < videos.length; i++) {
+                videos[i].play();
+            }
+        }
     }
 };
+
 function checkRTCUploadStatus(container) {
     if (isWebRTCNeeded()) {
 //        if (tempUploads && tempUploads.length > 0) {
@@ -1474,7 +1815,7 @@ function renderSceneItem(source, container, sceneId) {
             if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
                 height = $(window).height() - containerOffsetTop - generalPanelHeight;
             } else {
-                height = $(window).height() - 107 - generalPanelHeight;
+                height = $(window).height() - generalPanelHeight;
             }
 
             if (scene.type === SCENE_VIDEO_EMBED) {
@@ -1496,14 +1837,26 @@ function renderSceneItem(source, container, sceneId) {
     }
 }
 
-function onAnswerTimeExpired(container) {
+function onAnswerTimeExpired(container, data) {
+    if (!previewModeEnabled) {
+        var slideData = data.slideshow[currentSlideIndex];
+        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+        tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: new Date().getTime()});
+        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+
+        if (peerConnection) {
+            peerConnection.sendMessage(MESSAGE_REACTIVATE_CONTROLS);
+        }
+    }
     $(container).find('.gestureContainer .headline, .triggerContainer .headline').text(translation.timesUp);
-    TweenMax.to(container.find('.previewGesture, .trigger-title'), .1, {autoAlpha: 0});
-    TweenMax.to(container.find('#slideshowContainer, .progress'), .1, {delay: 2, autoAlpha: 0, onComplete: onHideSlideComplete, onCompleteParams: [container]});
+    TweenMax.to(container.find('.previewGesture, .trigger-title'), .1, {opacity: 0});
+    TweenMax.to(container.find('#slideshowContainer, .progress'), .1, {delay: 2, opacity: 0, onComplete: onHideSlideComplete, onCompleteParams: [container]});
 }
 
 function onHideSlideComplete(container) {
-    container.find('#slideshowContainer').addClass('hidden');
+    container.find('#slideshowContainer, .progress').addClass('hidden');
+    container.find('#slideshowContainer, .progress').css({opacity: 1});
+    container.find('.previewGesture, .trigger-title').css({opacity: 1});
     appendAlert($(container), ALERT_WAITING_FOR_SLIDESHOW);
 }
 
@@ -1516,17 +1869,16 @@ function onUnmoderatedAnswerTimeExpired(source, container, data) {
     }
 
     $(container).find('.gestureContainer .headline, .triggerContainer .headline').text(translation.timesUp);
-    TweenMax.to(container.find('.previewGesture, .trigger-title'), .1, {autoAlpha: 0});
-    TweenMax.to(container.find('#slideshowContainer, .progress'), .1, {autoAlpha: 0, onComplete: onHideUnmoderatedSlideComplete, onCompleteParams: [source, container, data]});
-    loadHTMLintoModal('preview-modal', 'modal-check-gesture.php', 'modal-lg');
+    TweenMax.to(container.find('.previewGesture, .trigger-title'), .1, {opacity: 0});
+    TweenMax.to(container.find('#slideshowContainer, .progress'), .1, {opacity: 0, onComplete: onHideUnmoderatedSlideComplete, onCompleteParams: [source, container, data]});
+    loadHTMLintoModal('custom-modal', 'modal-check-gesture.php', 'modal-lg');
 }
 
 function onHideUnmoderatedSlideComplete(source, container, data) {
-    var progress = container.find('.progress');
-    progress.css({opacity: 1, visibility: 'visible'});
-    progress.addClass('hidden');
-    progress.find('.progress-bar').css({width: '100%', backgroundColor: "#5bb85c"});
-    TweenMax.to(container.find('#slideshowContainer'), 0, {autoAlpha: 1});
+    container.find('#slideshowContainer, .progress').addClass('hidden');
+    container.find('#slideshowContainer, .progress').css({opacity: 1});
+    container.find('.previewGesture, .trigger-title').css({opacity: 1});
+    container.find('.progress-bar').css({width: '100%', backgroundColor: "#5bb85c"});
 }
 
 
@@ -1563,198 +1915,122 @@ function getSelectionRating(data) {
 /*
  * streaming and recording APIs
  */
-function initializeRTC() {
-    // check preview or live mode, and check if webRTC is needed
-    if (isWebRTCNeededInFuture()) {
-        if (previewModeEnabled === true) {
-            appendRTCPreviewStream();
-        } else {
-            appendRTCLiveStream();
-        }
-    } else {
-        resetLiveStream();
-    }
-}
-
-function appendRTCPreviewStream() {
-    var currentPhase = getCurrentPhase();
-    var source = getSourceContainer(currentView);
-    var target = $('#viewTester').find('#column-left');
-
-    switch (currentPhase.format) {
-        case SCENARIO:
-            target = $('#fixed-rtc-preview');
-            break;
-    }
-
-    $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
-}
-
-function initializePeerConnection() {
-    if (!peerConnection && !previewModeEnabled) {
-        peerConnection = new PeerConnection();
-        $(peerConnection).on('controlMessage', function (event, messageData) {
-            event.preventDefault();
-            switch (messageData.message) {
-                case MESSAGE_NEXT_STEP:
-                    nextStep();
-                    break;
-            }
-        });
-    }
-}
-
-var peerConnection = null;
-function appendRTCLiveStream() {
-    var currentPhase = getCurrentPhase();
-    var target = $('#viewTester').find('#column-left');
-    switch (currentPhase.format) {
-        case SCENARIO:
-            target = $('#viewTester').find('#fixed-rtc-preview');
-            break;
-    }
-
-    var options = getPhaseStepOptions(currentPhase.format);
-    var query = getQueryParams(document.location.search);
-    var callerOptions = {
-        target: target,
-        callerElement: $('#video-caller'),
-        localVideoElement: 'local-stream',
-        remoteVideoElement: 'remote-stream',
-        enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
-        roomId: query.roomId,
-        localStream: {audio: options.tester.audio, video: options.tester.video, visualize: options.tester.visualizeStream},
-        remoteStream: {audio: options.moderator.audio, video: options.moderator.video}
-    };
-    $(callerOptions.target).prepend(callerOptions.callerElement);
-
-    if (peerConnection.status === STATUS_UNINITIALIZED) {
-        peerConnection.initialize(callerOptions);
-    } else {
-        peerConnection.update(callerOptions);
-        var videos = $(callerOptions.callerElement).find('video');
-        for (var i = 0; i < videos.length; i++) {
-            videos[i].play();
-        }
-    }
-
-//    initializeLiveStream();
-}
 
 
-var mediaRecorder;
-function initializeLiveStream() {
-//    console.log(recordingStream);
 
-    if (!recordingStream) {
-        // check current browser for building constraints
-        if (getBrowser() == "Chrome") {
-            var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
-        } else if (getBrowser() == "Firefox") {
-            var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
-        }
-
-        // set user media for specifig browsers
-        navigator.getUserMedia = (navigator.getUserMedia ||
-                navigator.mozGetUserMedia ||
-                navigator.msGetUserMedia ||
-                navigator.webkitGetUserMedia);
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia(constraints, initRecorder, errorCallback);
-        } else {
-            console.log('Sorry! This demo requires Firefox 30 and up or Chrome 47 and up.');
-        }
-    } else {
-        checkStartRecording();
-    }
-}
-
-function checkStartRecording() {
-    if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
-        console.log('visualize media stream');
-        $('#rtc-stream').attr('src', URL.createObjectURL(recordingStream));
-        $('#rtc-stream').attr('muted', 'true');
-        startRecording();
-    }
-}
-
-function resetLiveStream() {
-    console.log('reset live stream');
-    if (mediaRecorder) {
-        mediaRecorder = null;
-    }
-
-    if (recordingStream) {
-        if (recordingStream.getAudioTracks()[0])
-            recordingStream.getAudioTracks()[0].stop();
-        if (recordingStream.getVideoTracks()[0])
-            recordingStream.getVideoTracks()[0].stop();
-    }
-}
-
-
-function errorCallback(error) {
-    console.log(error);
-}
-
-var chunks = [];
-var recordingStream = null;
-function initRecorder(stream) {
-    console.log('initRecorder');
-    recordingStream = stream;
-    if (!mediaRecorder || mediaRecorder === undefined) {
-        mediaRecorder = new MediaRecorder(stream);
-        $('#rtc-stream').attr('src', URL.createObjectURL(recordingStream));
-        $('#rtc-stream').attr('muted', 'true');
-        mediaRecorder.ondataavailable = function (e) {
-            chunks.push(e.data);
-        };
-        mediaRecorder.onstart = function () {
-            console.log('Start recording ... ' + new Date());
-            // save start recording time
-            if (previewModeEnabled === false) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                if (tempData) {
-                    tempData.startRecordingTime = new Date().getTime();
-                }
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-            }
-        };
-        mediaRecorder.onstop = function () {
-            console.log('Stopped recording, state = ' + mediaRecorder.state + ', ' + new Date());
-            var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
-            uploadQueue.upload(chunks, filename, currentPhaseStepId);
-            chunks = [];
-            if (stopRecordingCallback) {
-                stopRecordingCallback();
-            }
-        };
-        mediaRecorder.onerror = function (e) {
-            console.log('Error: ', e);
-        };
-        mediaRecorder.onwarning = function (e) {
-            console.log('Warning: ' + e);
-        };
-        checkStartRecording();
-    }
-}
-
-function startRecording() {
-    mediaRecorder.start(5000);
-}
-
-var currentPhaseStepId = null;
-var stopRecordingCallback = null;
-function stopRecording(callback) {
-    if (mediaRecorder) {
-        stopRecordingCallback = null;
-        if (callback) {
-            stopRecordingCallback = callback;
-        }
-        currentPhaseStepId = getCurrentPhase().id;
-        mediaRecorder.stop();
-    } else if (callback) {
-        callback();
-    }
-}
+//function initializeRecording() {
+////    console.log(recordingStream);
+//
+//    if (!recordingStream) {
+//        // check current browser for building constraints
+//        if (getBrowser() == "Chrome") {
+//            var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
+//        } else if (getBrowser() == "Firefox") {
+//            var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
+//        }
+//
+//        // set user media for specifig browsers
+//        navigator.getUserMedia = (navigator.getUserMedia ||
+//                navigator.mozGetUserMedia ||
+//                navigator.msGetUserMedia ||
+//                navigator.webkitGetUserMedia);
+//        if (navigator.getUserMedia) {
+//            navigator.getUserMedia(constraints, initRecorder, errorCallback);
+//        } else {
+//            console.log('Sorry! This demo requires Firefox 30 and up or Chrome 47 and up.');
+//        }
+//    } else {
+//        checkStartRecording();
+//    }
+//}
+//
+//function checkStartRecording() {
+//    if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
+//        console.log('visualize media stream');
+//        $('#rtc-stream').attr('src', URL.createObjectURL(recordingStream));
+//        $('#rtc-stream').attr('muted', 'true');
+//        startRecording();
+//    }
+//}
+//
+//function resetLiveStream() {
+//    console.log('reset live stream');
+//    if (mediaRecorder) {
+//        mediaRecorder = null;
+//    }
+//
+//    if (recordingStream) {
+//        if (recordingStream.getAudioTracks()[0])
+//            recordingStream.getAudioTracks()[0].stop();
+//        if (recordingStream.getVideoTracks()[0])
+//            recordingStream.getVideoTracks()[0].stop();
+//    }
+//}
+//
+//
+//function errorCallback(error) {
+//    console.log(error);
+//}
+//
+//var chunks = [];
+//var recordingStream = null;
+//var mediaRecorder;
+//function initRecorder(stream) {
+//    console.log('initRecorder');
+//    recordingStream = stream;
+//    if (!mediaRecorder || mediaRecorder === undefined) {
+//        mediaRecorder = new MediaRecorder(stream);
+//        $('#rtc-stream').attr('src', URL.createObjectURL(recordingStream));
+//        $('#rtc-stream').attr('muted', 'true');
+//        mediaRecorder.ondataavailable = function (e) {
+//            chunks.push(e.data);
+//        };
+//        mediaRecorder.onstart = function () {
+//            console.log('Start recording ... ' + new Date());
+//            // save start recording time
+//            if (previewModeEnabled === false) {
+//                var currentPhase = getCurrentPhase();
+//                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                if (tempData) {
+//                    tempData.startRecordingTime = new Date().getTime();
+//                }
+//                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//            }
+//        };
+//        mediaRecorder.onstop = function () {
+//            console.log('Stopped recording, state = ' + mediaRecorder.state + ', ' + new Date());
+//            var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
+//            uploadQueue.upload(chunks, filename, currentPhaseStepId);
+//            chunks = [];
+//            if (stopRecordingCallback) {
+//                stopRecordingCallback();
+//            }
+//        };
+//        mediaRecorder.onerror = function (e) {
+//            console.log('Error: ', e);
+//        };
+//        mediaRecorder.onwarning = function (e) {
+//            console.log('Warning: ' + e);
+//        };
+//        checkStartRecording();
+//    }
+//}
+//
+//function startRecording() {
+//    mediaRecorder.start(5000);
+//}
+//
+//var currentPhaseStepId = null;
+//var stopRecordingCallback = null;
+//function stopRecording(callback) {
+//    if (mediaRecorder) {
+//        stopRecordingCallback = null;
+//        if (callback) {
+//            stopRecordingCallback = callback;
+//        }
+//        currentPhaseStepId = getCurrentPhase().id;
+//        mediaRecorder.stop();
+//    } else if (callback) {
+//        callback();
+//    }
+//}

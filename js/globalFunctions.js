@@ -1077,7 +1077,7 @@ function getDimensionByElement(element) {
 // tab navigation handling
 $(document).on('click', '.nav-tabs li', function (event) {
     event.preventDefault();
-    if (!event.handled && !$(this).hasClass('active')) {
+    if (!event.handled && !$(this).hasClass('active') && !$(this).hasClass('disabled')) {
         event.handled = true;
         $(this).parent().find('.active').removeClass('active');
         $(this).addClass('active');
@@ -1888,6 +1888,26 @@ function isWebRTCSupported() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         return true;
     }
+    return false;
+}
+
+function isRecordingNeededInFuture() {
+    var currentPhase = getCurrentPhase();
+    var phaseSteps = getContextualPhaseSteps();
+    if (currentPhase && phaseSteps && phaseSteps.length > 0) {
+        var futureSteps = false;
+        for (var i = 0; i < phaseSteps.length; i++) {
+            if (parseInt(phaseSteps[i].id) === parseInt(currentPhase.id)) {
+                futureSteps = true;
+            }
+
+            var options = getPhaseStepOptions(phaseSteps[i].format);
+            if (futureSteps && (options.tester.recordStream === 'yes' || options.moderator.recordStream === 'yes')) {
+                return true;
+            }
+        }
+    }
+
     return false;
 }
 

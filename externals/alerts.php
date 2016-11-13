@@ -56,4 +56,5 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-participation-requests" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noParticipationRequests->text ?></span></div>
     <div class="alert alert-warning" id="study-over-range" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->studyOverRange->text ?></span></div>
     <div class="alert alert-warning" id="study-under-range" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->studyUnderRange->text ?></span></div>
+    <div class="alert alert-warning" id="please-wait" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->pleaseWait->text ?></span></div>
 </div>

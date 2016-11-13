@@ -109,41 +109,41 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-<!--        <div class="modal fade" tabindex="-1" role="dialog" id="help-modal" data-keyboard="false">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Hilfe</h4>
-                    </div>
-                    <div class="modal-body root">
-                        <p id="help-text" class="text"></p>
-                        <div id="gesture-preview" class="hidden">
-                            <div class="previewGesture autoplay"></div>
-                            <div class="text-center gestureControls">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                                    <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
-                                    <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+        <!--        <div class="modal fade" tabindex="-1" role="dialog" id="help-modal" data-keyboard="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Hilfe</h4>
+                            </div>
+                            <div class="modal-body root">
+                                <p id="help-text" class="text"></p>
+                                <div id="gesture-preview" class="hidden">
+                                    <div class="previewGesture autoplay"></div>
+                                    <div class="text-center gestureControls">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                                            <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                                            <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-info btn-block" data-dismiss="modal"><span class="btn-text">Okay</span></button>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-info btn-block" data-dismiss="modal"><span class="btn-text">Okay</span></button>
+                </div>-->
+
+        <!--        <div class="modal fade" tabindex="-1" role="dialog" id="preview-modal" data-backdrop="static" >
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+        
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>-->
-
-<!--        <div class="modal fade" tabindex="-1" role="dialog" id="preview-modal" data-backdrop="static" >
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-                </div>
-            </div>
-        </div>-->
+                </div>-->
 
         <!--affixed pager-->
         <nav id="pager-bottom">
@@ -158,22 +158,22 @@ if (login_check($mysqli) == true) {
         </div>
 
         <!-- main content -->
-        <div class="mainContent" id="mainContent" style="padding-top: 107px;">
+        <div class="mainContent" id="mainContent" style="padding-top: 54px;">
             <div id="viewTester" class="hidden">
                 <div id="phase-content"></div>
             </div>
 
             <div id="viewModerator" class="hidden" style="padding-left: 20px; padding-right: 20px;">
                 <div id="pinnedRTC" style="position: fixed">
-                    <div id="web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
-                        <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
-                        <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
-                            <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
-                        </div>
-                    </div>
+                    <!--                    <div id="web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
+                                            <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
+                                            <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
+                                                <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
+                                            </div>
+                                        </div>-->
                 </div>
 
-                <div id="phase-content" style="margin-top: 20px"></div>
+                <div id="phase-content"></div>
             </div>
         </div>
 
@@ -220,7 +220,7 @@ if (login_check($mysqli) == true) {
                     }
 
                     var ratio = $('#web-rtc-placeholder').attr('ratio');
-                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 30 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 30 - parseInt($('#mainContent').css('padding-top')), 170));
+                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 90 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 90 - parseInt($('#mainContent').css('padding-top')), 170));
                     $('#web-rtc-placeholder').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
                 }
             });
@@ -355,7 +355,8 @@ if (login_check($mysqli) == true) {
                 Tester.renderView();
             }
 
-            $('#btn-toggle-rtc-fixed').on('click', function (event) {
+            $(document).on('click', '.btn-toggle-rtc-fixed', function (event) {
+                console.log('btn-toggle-rtc-fixed');
                 event.preventDefault();
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');

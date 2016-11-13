@@ -6,14 +6,9 @@
 
 var currentIdForModal;
 var colors;
-//var currentContainerList = null;
 function checkSessionStorage() {
     checkAssembledGestures(getLocalItem(ASSEMBLED_GESTURE_SET), getLocalItem(GESTURE_CATALOG));
     createOriginPhases();
-//    createOriginGUS();
-//    createOriginSUS();
-//    createPredefinedObservationForm();
-//    createPredefinedGestureQuestionnaire();
     createPredefinedGestureFeedback();
     renderSessionStorageData();
 }
@@ -27,43 +22,13 @@ function createOriginPhases() {
         phases.push({id: chance.natural(), format: THANKS, color: colors.pop()});//new PhaseItem(chance.natural(), THANKS, colors.pop()));
         setLocalItem(STUDY_PHASE_STEPS, phases);
     }
-
 }
-
-//function createOriginGUS() {
-//    var items = translation.singleGUS;
-//    setLocalItem(STUDY_ORIGIN_GUS, items);
-//}
-
-//function createOriginSUS() {
-//    var items = translation.sus;
-//    setLocalItem(STUDY_ORIGIN_SUS, items);
-//}
-
-//function createPredefinedObservationForm() {
-//    if (getLocalItem(PREDEFINED_OBSERVATIONS) === null)
-//    {
-//        var form = new Array();
-//        form.push({format: COUNTER, dimension: DIMENSION_ANY, question: 'Wie oft wurde die Geste falsch ausgeführt?', parameters: {countFrom: 0, countTo: 10}, options: null});
-//        form.push({format: DICHOTOMOUS_QUESTION, dimension: DIMENSION_ANY, question: 'Wurde die Hilfe genutzt?', parameters: {justification: 'no', justificationFor: 'yes'}, options: null});
-//        form.push({format: GROUPING_QUESTION, dimension: DIMENSION_ANY, question: 'Wurde Hilfe benötigt?', parameters: {multiselect: 'no', optionalanswer: 'no'}, options: [{id: chance.natural(), title: 'ja'}, {id: chance.natural(), title: 'nein'}, {id: chance.natural(), title: 'ein wenig'}]});
-//        form.push({format: OPEN_QUESTION, dimension: DIMENSION_ANY, question: 'Was wurde sonst beobachtet?', parameters: null, options: null});
-//        setLocalItem(PREDEFINED_OBSERVATIONS, form);
-//    }
-//}
-
-//function createPredefinedGestureQuestionnaire() {
-//    var items = translation.multipleGUS;
-//    setLocalItem(PREDEFINED_GESTURE_QUESTIONNAIRE, items);
-//}
 
 function createPredefinedGestureFeedback() {
     if (getLocalItem(ASSEMBLED_FEEDBACK) === null) {
         var feedback = new Array();
         feedback.push({id: chance.natural(), type: TYPE_FEEDBACK_TEXT, title: 'Geste wurde erkannt', parameters: {negative: 'no'}, data: null});
         feedback.push({id: chance.natural(), type: TYPE_FEEDBACK_TEXT, title: 'Geste wurde nicht erkannt', parameters: {negative: 'yes'}, data: null});
-//        new Feedback(0, TYPE_FEEDBACK_TEXT, "Geste wurde erkannt", [false], null));
-//        feedback.push(new Feedback(1, TYPE_FEEDBACK_TEXT, "Geste wurde nicht erkannt", [true], null));
         setLocalItem(ASSEMBLED_FEEDBACK, feedback);
     }
 }
@@ -80,9 +45,11 @@ function renderSessionStorageData() {
         $('#studyTitle').val(study.title);
         $('#studyDescription').val(study.description);
         if (study.phase !== 'unselected') {
+            firstInit = false;
             $('#phaseSelect').find('#' + study.phase).click();
         }
         if (study.surveyType !== 'unselected') {
+            firstInit = false;
             $('#surveyTypeSelect').find('#' + study.surveyType).click();
         }
         if (study.useScenes === true) {
@@ -99,7 +66,6 @@ function renderSessionStorageData() {
         }
 
         if (study.gender !== 'unselected') {
-//            console.log(study.gender);
             $('#genderSwitch').find('#' + study.gender).click();
         }
 
@@ -248,7 +214,7 @@ function saveGeneralData() {
             study.dateTo = saveDate;
         }
     });
-//    console.log(study);
+    
     setLocalItem(STUDY, study);
     savePhases();
     updateCatalogButtons();
@@ -261,9 +227,8 @@ function savePhases() {
         var item = phaseSteps[i];
         var id = $(item).attr('id');
         var format = $(item).find('.btn-modify').attr('id');
-//        var itemText = $(item).find('.btn-text-button').text().trim();
         var color = $(item).find('.glyphicon-tag').css('color');
-        phases.push({id: id, format: format, color: color});//new PhaseItem(id, format, color));
+        phases.push({id: id, format: format, color: color});
     }
     setLocalItem(STUDY_PHASE_STEPS, phases);
 }

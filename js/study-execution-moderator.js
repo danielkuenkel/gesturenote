@@ -11,7 +11,7 @@ var Moderator = {
         var currentPhaseData = getCurrentPhaseData();
         var source = getSourceContainer(currentView);
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
-            initializePeerConnection();
+            Moderator.initializePeerConnection();
 
 //        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
             var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
@@ -57,8 +57,10 @@ var Moderator = {
             }
 
             if (item !== false) {
-                $('#viewModerator #phase-content').empty().append(item);
-                initializeRTC();
+                if (!syncPhaseStep) {
+                    $('#viewModerator #phase-content').empty().append(item);
+                }
+                Moderator.initializeRTC();
             } else {
                 Moderator.renderNoDataView();
             }
@@ -74,7 +76,7 @@ var Moderator = {
 
         $('#viewModerator #column-right').css({y: 0, opacity: 1});
 
-//        Moderator.checkPositioning(currentPhase.format);
+        Moderator.checkPositioning(currentPhase.format);
         TweenMax.from($('#phase-content #column-right'), .2, {y: -60, opacity: 0, clearProps: 'all'});
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
@@ -83,15 +85,15 @@ var Moderator = {
         updateRTCHeight($('#phase-content #column-left').width());
     },
     checkPositioning: function checkPositioning(format) {
-        var posY = '0px';
-        switch (format) {
-            case SCENARIO:
-                break;
-            default:
-                posY = '40px';
-                break;
+        if (previewModeEnabled) {
+            var posY = '74px';
+//            switch (format) {
+//                case SCENARIO:
+//                    posY = '0px';
+//                    break;
+//            }
+            $('#viewModerator #phase-content').css({marginTop: posY});
         }
-        $('#viewModerator #phase-content').css({marginTop: posY});
     },
     renderNoDataView: function renderNoDataView() {
         var alert = $(getSourceContainer(currentView)).find('#no-phase-data').clone().removeAttr('id');
@@ -100,10 +102,18 @@ var Moderator = {
     },
     getLetterOfAcceptance: function getLetterOfAcceptance(container, data) {
         $(container).find('.letter-text').text(data);
+        appendAlert(container, ALERT_PLEASE_WAIT);
         return container;
     },
     getThanks: function getThank(container, data) {
         $(container).find('.thanks-text').text(data);
+        $(container).find('#btn-leave-survey').click(function (event) {
+            event.preventDefault();
+            var query = getQueryParams(document.location.search);
+            if (query.studyId && query.h && query.token) {
+                goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&h=' + query.h + '&token=' + query.token);
+            }
+        });
         return container;
     },
     getQuestionnaire: function getQuestionnaire(source, container, data, isPreview) {
@@ -321,7 +331,12 @@ var Moderator = {
             $(this).addClass('hidden');
             gestureTrainingStartTriggered = true;
             item.find('#trigger-training').removeClass('disabled');
-            wobble([container.find('#trainingContainer'), $('#web-rtc-placeholder')]);
+            wobble([container.find('#trainingContainer')]);
+
+            if (!previewModeEnabled && peerConnection) {
+//                $(container).find('#')
+                peerConnection.sendMessage(MESSAGE_START_GESTURE_TRAINING);
+            }
         });
         item.find('#trigger-training').on('click', function (event) {
             event.preventDefault();
@@ -329,6 +344,10 @@ var Moderator = {
                 $(item).find('#trigger-feedback').removeClass('disabled');
                 $(this).addClass('disabled');
                 trainingTriggered = true;
+
+                if (!previewModeEnabled && peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_TRAINING_TRIGGERED, {currentGestureTrainingIndex: currentGestureTrainingIndex});
+                }
             } else {
                 if (gestureTrainingStartTriggered) {
                     wobble(item.find('#trigger-feedback'));
@@ -344,6 +363,10 @@ var Moderator = {
 //                $(this).addClass('disabled');
 //                feedbackTriggered = true;
                 triggeredFeedback = feedback;
+
+                if (!previewModeEnabled && peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_FEEDBACK_TRIGGERED, feedback);
+                }
             } else if (triggeredFeedback === null) {
                 if (gestureTrainingStartTriggered) {
                     wobble(item.find('#trigger-training'));
@@ -374,6 +397,11 @@ var Moderator = {
                 triggeredFeedback = null;
                 gestureTrainingStartTriggered = false;
                 currentGestureTrainingIndex = 0;
+
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                }
+
                 nextStep();
             } else {
                 if (gestureTrainingStartTriggered) {
@@ -396,6 +424,7 @@ var Moderator = {
         }
     },
     getGestureSlideshow: function getGestureSlideshow(source, container, data) {
+//        console.log('getGestureSlideshow');
         if (data.slideshow.length === 0) {
             return false;
         }
@@ -407,6 +436,12 @@ var Moderator = {
         // slideshow section
         Moderator.renderGestureSlide(source, container, data);
 
+        if (peerConnection) {
+            $(peerConnection).unbind(MESSAGE_REACTIVATE_CONTROLS).bind(MESSAGE_REACTIVATE_CONTROLS, function (event, payload) {
+                loadHTMLintoModal('custom-modal', 'modal-check-gesture.php', 'modal-lg');
+            });
+        }
+
         // observation section
         if (data.observations && data.observations.length > 0) {
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
@@ -414,24 +449,39 @@ var Moderator = {
         return container;
     },
     renderGestureSlide: function renderGestureSlide(source, container, data) {
-        var slide = data.slideshow[currentSlideIndex];
-        $(container).find('#slides .panel-heading-text').text('Slide ' + (currentSlideIndex + 1) + ' von ' + data.slideshow.length);
-        $(container).find('#slidesContainer').empty();
-        var item = $(source).find('#gestureSlideshowItem').clone().removeAttr('id');
-        $(container).find('#slidesContainer').append(item);
-        var gesture = getGestureById(slide.gestureId);
-        var trigger = getTriggerById(slide.triggerId);
-        item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
-        $(item).find('#responseTime').text(data.answerTime + ' Sekunden');
-        var imageContainer;
-        $(item).find('#searched').text(gesture.title);
-        $(item).find('#given').text(trigger.title);
-        imageContainer = $(item).find('.right .previewGesture');
-        $(container).find('#search-gestures').removeClass('hidden');
-        if (slideshowStartTriggered) {
-            $(container).find('#btn-start-slideshow').remove();
+        if (currentSlideIndex > data.slideshow.length - 1) {
+            
+
+            if (previewModeEnabled) {
+                renderSlide(data.slideshow.length - 1);
+            }
+            
+            $(container).find('#btn-done').removeClass('disabled');
+            $(container).find('#trigger-slide').addClass('disabled');
         } else {
-            $(item).find('#trigger-slide').addClass('disabled');
+            renderSlide(currentSlideIndex);
+        }
+
+        function renderSlide(index) {
+            var slide = data.slideshow[index];
+            $(container).find('#slides .panel-heading-text').text('Slide ' + (index + 1) + ' von ' + data.slideshow.length);
+            $(container).find('#slidesContainer').empty();
+            var item = $(source).find('#gestureSlideshowItem').clone().removeAttr('id');
+            $(container).find('#slidesContainer').append(item);
+            var gesture = getGestureById(slide.gestureId);
+            var trigger = getTriggerById(slide.triggerId);
+            item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+            $(item).find('#responseTime').text(slide.recognitionTime + ' Sekunden');
+            var imageContainer;
+            $(item).find('#searched').text(gesture.title);
+            $(item).find('#given').text(trigger.title);
+            imageContainer = $(item).find('.right .previewGesture');
+            $(container).find('#search-gestures').removeClass('hidden');
+            if (slideshowStartTriggered) {
+                $(container).find('#btn-start-slideshow').remove();
+            } else {
+                $(item).find('#trigger-slide').addClass('disabled');
+            }
         }
 
         $(container).find('#btn-start-slideshow').click(function (event) {
@@ -439,76 +489,53 @@ var Moderator = {
             slideshowStartTriggered = true;
             slideRestarted = true;
             $(this).remove();
-            $(item).find('#trigger-slide').removeClass('disabled');
-            wobble([container.find('#slidesContainer'), $('#web-rtc-placeholder')]);
+            $(container).find('#trigger-slide').removeClass('disabled');
+            wobble(container.find('#slidesContainer'));
+
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_START_GESTURE_SLIDESHOW);
+            }
         });
-        $(item).find('#trigger-slide').on('click', function (event) {
+
+        $(container).find('#trigger-slide').on('click', function (event) {
+//            console.log('trigger-slide');
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 slideTriggered = true;
                 slideRestarted = false;
-                $(item).find('.disabled').removeClass('disabled');
-                $(this).addClass('disabled');
+                $(container).find('.right').find('#btn-done, #trigger-slide').addClass('disabled');
+
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_TRIGGER_GESTURE_SLIDE, {currentSlideIndex: currentSlideIndex});
+                }
             } else {
                 if (slideshowStartTriggered) {
-                    wobble($(item).find('#correct-slide, #next-slide, #wrong-slide'));
+                    wobble($(container).find('#btn-done'));
                 } else {
                     wobble($(container).find('#btn-start-slideshow'));
                 }
             }
         });
-        $(item).find('#wrong-slide').on('click', function (event) {
+
+        $(container).find('#btn-done').on('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
-                currentSlideIndex = 0;
-                slideTriggered = false;
-                slideRestarted = true;
-                $(item).find('.disabled').removeClass('disabled');
-                Moderator.renderGestureSlide(source, container, data);
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                }
+                nextStep();
             } else {
                 if (slideshowStartTriggered) {
-                    wobble($(item).find('#trigger-slide'));
+                    wobble($(container).find('#trigger-slide'));
                 } else {
                     wobble($(container).find('#btn-start-slideshow'));
                 }
             }
         });
-        if (slideTriggered) {
-            $(item).find('.disabled').removeClass('disabled');
-            item.find('#trigger-slide').addClass('disabled');
-        }
 
-        if (data.slideshow.length === 1 || currentSlideIndex >= data.slideshow.length - 1) {
-            $(item).find('#correct-slide, #next-slide').on('click', function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    currentSlideIndex = 0;
-                    slideTriggered = false;
-                    nextStep();
-                } else {
-                    if (slideshowStartTriggered) {
-                        wobble($(item).find('#trigger-slide'));
-                    } else {
-                        wobble($(container).find('#btn-start-slideshow'));
-                    }
-                }
-            });
-        } else if (currentSlideIndex < data.slideshow.length) {
-            $(item).find('#correct-slide, #next-slide').on('click', function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    slideTriggered = false;
-                    slideRestarted = false;
-                    currentSlideIndex++;
-                    Moderator.renderGestureSlide(source, container, data);
-                } else {
-                    if (slideshowStartTriggered) {
-                        wobble($(item).find('#trigger-slide'));
-                    } else {
-                        wobble($(container).find('#btn-start-slideshow'));
-                    }
-                }
-            });
+        if (previewModeEnabled && slideTriggered) {
+            slideTriggered = false;
+            loadHTMLintoModal('custom-modal', 'modal-check-gesture.php', 'modal-lg');
         }
     },
     getTriggerSlideshow: function getTriggerSlideshow(source, container, data) {
@@ -649,7 +676,7 @@ var Moderator = {
             identificationStartTriggered = true;
             $(this).remove();
 //            $(item).find('#trigger-identification').removeClass('disabled');
-            wobble([container.find('#identificationContainer'), $('#web-rtc-placeholder')]);
+            wobble([container.find('#identificationContainer')]);
         });
 
 //        $(item).find('#trigger-identification').on('click', function (event) {
@@ -772,6 +799,10 @@ var Moderator = {
             $(this).remove();
             stressTestStartTriggered = true;
             container.find('#btn-show-gesture').removeClass('disabled');
+
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_START_STRESS_TEST);
+            }
         });
 
         container.find('#btn-show-gesture').click(function (event) {
@@ -781,6 +812,10 @@ var Moderator = {
                 stressTestGestureTriggered = true;
                 stressTestQuestionsTriggered = false;
                 container.find('#btn-show-question').removeClass('disabled');
+
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_TRIGGER_STRESS_TEST_GESTURE, {count: currentStressTestCount, index: currentStressTestIndex});
+                }
             } else {
                 if (stressTestStartTriggered) {
                     wobble(container.find('#btn-show-question'));
@@ -797,6 +832,11 @@ var Moderator = {
                 currentStressTestCount++;
                 stressTestQuestionsTriggered = true;
                 stressTestGestureTriggered = false;
+
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_TRIGGER_STRESS_TEST_QUESTION, {count: currentStressTestCount, index: currentStressTestIndex});
+                }
+
                 Moderator.renderPhysicalStressTest(source, container, data);
             } else {
                 if (!stressTestStartTriggered) {
@@ -813,12 +853,21 @@ var Moderator = {
             if (!$(this).hasClass('disabled')) {
                 $(this).addClass('disabled');
                 if (currentStressTestIndex >= data.stressTestItems.length - 1) {
+                    if (peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                    }
+
                     nextStep();
                 } else {
                     stressTestQuestionsTriggered = false;
                     stressTestGestureTriggered = false;
                     currentStressTestCount = 0;
                     currentStressTestIndex++;
+
+                    if (peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_TRIGGER_NEXT_STRESS_TEST_GESTURE, {count: currentStressTestCount, index: currentStressTestIndex});
+                    }
+
                     Moderator.renderPhysicalStressTest(source, container, data);
                 }
             } else {
@@ -877,8 +926,36 @@ var Moderator = {
             event.preventDefault();
             enableScenarioControls(container);
             scenarioStartTriggered = true;
-            wobble([container.find('#woz-controls'), $('#web-rtc-placeholder')]);
+            wobble([container.find('#woz-controls')]);
+
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_START_SCENARIO);
+            }
         });
+
+        $(container).find('#btn-done-scenario').click(function (event) {
+            event.preventDefault();
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+            }
+            nextStep();
+        });
+
+        $(container).find('#btn-reload-scene').click(function (event) {
+            event.preventDefault();
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_RELOAD_SCENE);
+            }
+        });
+
+        if (peerConnection) {
+            $(peerConnection).unbind(MESSAGE_HELP_CLOSED).bind(MESSAGE_HELP_CLOSED, function (event, payload) {
+//                if (messageData.message === MESSAGE_HELP_CLOSED) {
+                $(container).find('.btn-info').removeClass('disabled');
+//                }
+            });
+        }
+
         return container;
     },
     renderWOZ: function renderWOZ(source, container, data) {
@@ -907,9 +984,15 @@ var Moderator = {
                         }
 
                         enableScenarioControls(container);
+
+                        if (peerConnection) {
+                            peerConnection.sendMessage(MESSAGE_TRIGGER_WOZ, {triggeredWOZ: triggeredWoz, currentWOZScene: currentWOZScene});
+                        }
                     } else {
-                        $(document).scrollTop(0);
-                        wobble(container.find('#general'));
+                        if (!scenarioStartTriggered) {
+                            $(document).scrollTop(0);
+                            wobble(container.find('#general'));
+                        }
                     }
                 });
                 var trigger = getTriggerById(wozData[i].triggerId);
@@ -962,9 +1045,16 @@ var Moderator = {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
                         triggeredHelp = event.data.helpData;
+
+                        if (peerConnection) {
+                            peerConnection.sendMessage(MESSAGE_TRIGGER_HELP, {help: triggeredHelp});
+                            $(container).find('.btn-info').addClass('disabled');
+                        }
                     } else {
-                        $(document).scrollTop(0);
-                        wobble(container.find('#general'));
+                        if (!scenarioStartTriggered) {
+                            $(document).scrollTop(0);
+                            wobble(container.find('#general'));
+                        }
                     }
                 });
                 if (helpData[i].useGestureHelp === true || helpData[i].useGestureHelp === 'true') {
@@ -984,10 +1074,92 @@ var Moderator = {
         }
 
         return container;
-    }
+    },
+    initializeRTC: function initializeRTC() {
+        // check preview or live mode, and check if webRTC is needed
+        if (isWebRTCNeededInFuture()) {
+            if (previewModeEnabled === true) {
+                Moderator.appendRTCPreviewStream();
+            } else {
+                Moderator.appendRTCLiveStream();
+            }
+        } else {
+            resetLiveStream();
+        }
+    },
+    appendRTCPreviewStream: function appendRTCPreviewStream() {
+        var source = getSourceContainer(currentView);
+        var target = $('#viewModerator').find('#pinnedRTC');
+        $(target).empty().prepend($(source).find('#moderator-web-rtc-placeholder').clone().attr('id', 'web-rtc-placeholder'));
+    },
+    initializePeerConnection: function initializePeerConnection() {
+        if (!peerConnection && !previewModeEnabled) {
+            peerConnection = new PeerConnection(false);
+
+            $(peerConnection).unbind(MESSAGE_NEXT_STEP).bind(MESSAGE_NEXT_STEP, function (event, payload) {
+                nextStep();
+            });
+
+            $(peerConnection).unbind(MESSAGE_CANCEL_SURVEY).bind(MESSAGE_CANCEL_SURVEY, function (event, payload) {
+                currentPhaseStepIndex = getThanksStepIndex();
+                renderPhaseStep();
+                updateProgress();
+            });
+
+            $(peerConnection).unbind(MESSAGE_REQUEST_SYNC).bind(MESSAGE_REQUEST_SYNC, function (event, payload) {
+                console.log('request sync');
+                resetConstraints();
+                renderPhaseStep();
+                peerConnection.sendMessage(MESSAGE_SYNC_PHASE_STEP, {index: currentPhaseStepIndex});
+            });
+
+            $(peerConnection).unbind(MESSAGE_SYNC_PHASE_STEP).bind(MESSAGE_SYNC_PHASE_STEP, function (event, payload) {
+                console.log('sync phase step', payload.index);
+                syncPhaseStep = false;
+                currentPhaseStepIndex = payload.index;
+                renderPhaseStep();
+                updateProgress();
+            });
+
+            $(peerConnection).unbind('videoAdded').bind('videoAdded', function () {
+                if (syncPhaseStep) {
+                    peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
+                }
+            });
+        }
+    },
+    appendRTCLiveStream: function appendRTCLiveStream() {
+        var currentPhase = getCurrentPhase();
+        var options = getPhaseStepOptions(currentPhase.format);
+        var query = getQueryParams(document.location.search);
+        var enableDataChannels = options.enableDataChannels && enableDataChannels === 'yes' || false;
+        var callerOptions = {
+            target: $('#viewModerator').find('#pinnedRTC'),
+            callerElement: $('#video-caller'),
+            localVideoElement: 'local-stream',
+            remoteVideoElement: 'remote-stream',
+            enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
+            roomId: query.roomId,
+            localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream},
+            remoteStream: {audio: options.tester.audio, video: options.tester.video}
+        };
+        $(callerOptions.target).prepend(callerOptions.callerElement);
+
+        if (peerConnection.status === STATUS_UNINITIALIZED) {
+            peerConnection.update(callerOptions);
+        } else {
+            peerConnection.update(callerOptions);
+            var videos = $(callerOptions.callerElement).find('video');
+            for (var i = 0; i < videos.length; i++) {
+                videos[i].play();
+            }
+        }
+    },
 };
+
 function enableScenarioControls(container) {
     $(container).find('#btn-start-scenario').remove();
+    $(container).find('#btn-done-scenario').removeClass('hidden');
     var wozItems = $(container).find('.woz-container .disabled');
     wozItems.removeClass('disabled');
     var helpItems = $(container).find('.help-container .disabled');
@@ -1003,105 +1175,7 @@ function updateCurrentScene(container) {
         event.preventDefault();
 
         currentSceneId = currentWOZScene.id;
-        console.log(currentWOZScene, currentSceneId)
+//        console.log(currentWOZScene, currentSceneId)
         loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
     });
-}
-
-
-
-
-/*
- * streaming and recording APIs
- */
-function initializeRTC() {
-    // check preview or live mode, and check if webRTC is needed
-    if (isWebRTCNeededInFuture()) {
-        if (previewModeEnabled === true) {
-            appendRTCPreviewStream();
-        } else {
-            appendRTCLiveStream();
-        }
-    } else {
-        resetLiveStream();
-    }
-}
-
-//function appendRTCPreview(source, target) {
-//    $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
-//}
-
-function appendRTCPreviewStream() {
-    var currentPhase = getCurrentPhase();
-    var source = getSourceContainer(currentView);
-    var target = $('#viewTester').find('#column-left');
-
-    switch (currentPhase.format) {
-        case SCENARIO:
-            target = $('#fixed-rtc-preview');
-            break;
-    }
-
-    $(target).append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
-}
-
-function initializePeerConnection() {
-    if (!peerConnection && !previewModeEnabled) {
-        peerConnection = new PeerConnection();
-        $(peerConnection).on('controlMessage', function (event, messageData) {
-            event.preventDefault();
-            switch (messageData.message) {
-                case MESSAGE_NEXT_STEP:
-                    nextStep();
-                    break;
-            }
-        });
-    }
-}
-
-var peerConnection = null;
-function appendRTCLiveStream() {
-    var currentPhase = getCurrentPhase();
-    var options = getPhaseStepOptions(currentPhase.format);
-    var query = getQueryParams(document.location.search);
-    var enableDataChannels = options.enableDataChannels && enableDataChannels === 'yes' || false;
-    var callerOptions = {
-        target: $('#viewModerator').find('#pinnedRTC'),
-        callerElement: $('#video-caller'),
-        localVideoElement: 'local-stream',
-        remoteVideoElement: 'remote-stream',
-        enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
-        roomId: query.roomId,
-        localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream},
-        remoteStream: {audio: options.tester.audio, video: options.tester.video}
-    };
-    $(callerOptions.target).prepend(callerOptions.callerElement);
-
-    if (peerConnection.status === STATUS_UNINITIALIZED) {
-        peerConnection.initialize(callerOptions);
-    } else {
-        peerConnection.update(callerOptions);
-        var videos = $(callerOptions.callerElement).find('video');
-        for (var i = 0; i < videos.length; i++) {
-            videos[i].play();
-        }
-    }
-
-//    initializeLiveStream();
-}
-
-var mediaRecorder;
-var currentPhaseStepId = null;
-var stopRecordingCallback = null;
-function stopRecording(callback) {
-    if (mediaRecorder) {
-        stopRecordingCallback = null;
-        if (callback) {
-            stopRecordingCallback = callback;
-        }
-        currentPhaseStepId = getCurrentPhase().id;
-        mediaRecorder.stop();
-    } else if (callback) {
-        callback();
-    }
 }

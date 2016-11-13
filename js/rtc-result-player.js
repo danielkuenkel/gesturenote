@@ -126,16 +126,18 @@ function getGestureTrainingVisData(timelineData) {
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
     var className = 'item-primary-full';
 
-    for (var i = 0; i < timelineData.phaseResults.training.length; i++) {
-        var gesture = getGestureById(timelineData.phaseResults.training[i].gestureId);
-        var startTime = timelineData.phaseResults.training[i].gestureTrainingStart;
-        var endTime = timelineData.phaseResults.training[i].gestureTrainingEnd;
-        var trainingExecution = getTimeBetweenTimestamps(startTime, endTime);
-        var contentText = translation.visLabels.training + ': ' + gesture.title + ' (' + getTimeString(trainingExecution) + ')';
-        if (startTime && endTime) {
-            array.push({id: count++, content: contentText, start: new Date(parseInt(startTime)), end: new Date(parseInt(endTime)), className: className});
-        } else {
-            array.push({id: count++, content: contentText, start: new Date(parseInt(startTime)), className: className});
+    if (timelineData.phaseResults.training && timelineData.phaseResults.training.length > 0) {
+        for (var i = 0; i < timelineData.phaseResults.training.length; i++) {
+            var gesture = getGestureById(timelineData.phaseResults.training[i].gestureId);
+            var startTime = timelineData.phaseResults.training[i].gestureTrainingStart;
+            var endTime = timelineData.phaseResults.training[i].gestureTrainingEnd;
+            var trainingExecution = getTimeBetweenTimestamps(startTime, endTime);
+            var contentText = translation.visLabels.training + ': ' + gesture.title + ' (' + getTimeString(trainingExecution) + ')';
+            if (startTime && endTime) {
+                array.push({id: count++, content: contentText, start: new Date(parseInt(startTime)), end: new Date(parseInt(endTime)), className: className});
+            } else {
+                array.push({id: count++, content: contentText, start: new Date(parseInt(startTime)), className: className});
+            }
         }
     }
 

@@ -110,9 +110,9 @@ if ($h && $token && $studyId) {
         <div class="mainContent" id="mainContent" style="padding:20px; margin-top:60px">
             <div id="viewModerator">
                 <div id="pinnedRTC" style="position: fixed">
-<!--                    <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
-                        <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
-                    </div>-->
+                    <!--                    <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
+                                            <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
+                                        </div>-->
                 </div>
 
                 <div id="phase-content"></div>
@@ -153,6 +153,7 @@ if ($h && $token && $studyId) {
 //                    status = ''; // for debugging
                     if (status !== '' && statusAddressMatch !== null) {
                         currentPhaseStepIndex = statusAddressMatch.index;
+                        syncPhaseStep = true;
                         checkStorage();
                     } else {
                         getStudyById({studyId: query.studyId}, function (result) {
@@ -166,14 +167,12 @@ if ($h && $token && $studyId) {
             }
 
             $(window).on('resize', function () {
-//                console.log('resize: ' + $(document).scrollTop());
                 if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
                     updateRTCHeight($('#viewModerator #column-left').width());
                 }
             });
 
             function updateRTCHeight(newWidth) {
-//                console.log('updateRTCHeight', newWidth);
                 TweenMax.to($('#video-caller'), .1, {width: newWidth, onComplete: onResizeComplete});
             }
 
@@ -223,13 +222,10 @@ if ($h && $token && $studyId) {
 
             function renderPhaseStep() {
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-                resetRenderedContent();
+                rescueVideoCaller();
+                $('#viewModerator').find('#phase-content').empty();
                 Moderator.renderView();
                 window.location.hash = getCurrentPhase().id;
-            }
-
-            function resetRenderedContent() {
-                $('#viewModerator').find('#phase-content').empty();
             }
 
             $('body').on('click', '.next', function (event) {

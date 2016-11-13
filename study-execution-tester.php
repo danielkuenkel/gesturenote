@@ -119,7 +119,7 @@ if ($h && $token && $studyId) {
 
 
         <!-- Container (Panel Section) -->
-        <div class="mainContent" id="mainContent" style="margin-top: 54px;">
+        <div class="mainContent" id="mainContent">
             <div id="viewTester">
                 <div id="phase-content"></div>
             </div>
@@ -164,6 +164,10 @@ if ($h && $token && $studyId) {
 //                    status = ''; // for testing
                     if (status !== '' && statusAddressMatch !== null) {
                         currentPhaseStepIndex = statusAddressMatch.index;
+                        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
+                            syncPhaseStep = true;
+                        }
+
                         checkStorage();
                     } else {
                         getStudyById({studyId: query.studyId}, function (result) {
@@ -177,14 +181,11 @@ if ($h && $token && $studyId) {
             }
 
             function renderPhaseStep() {
+                rescueVideoCaller();
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-                resetRenderedContent();
+                $('#viewTester').find('#phase-content').empty();
                 Tester.renderView();
                 window.location.hash = getCurrentPhase().id;
-            }
-
-            function resetRenderedContent() {
-                $('#viewTester').find('#phase-content').empty();
             }
 
             $('body').on('click', '.next', function (event) {
