@@ -56,16 +56,16 @@ PeerConnection.prototype.initialize = function (options) {
 
         // we have to wait until it's ready
         webrtc.on('readyToCall', function () {
-            if (options.roomId !== undefined) {
-                console.log('ready to call', options.roomId);
-                webrtc.joinRoom(options.roomId);
+            if (connection.options.roomId !== undefined) {
+                console.log('ready to call', connection.options.roomId);
+                webrtc.joinRoom(connection.options.roomId);
             }
 
 //            if (options.localStream.record === 'yes') {
 //                connection.startRecording();
 //            }
-            if (!syncPhaseStep && options.remoteStream.video === 'no') {
-                connection.update(options);
+            if (!syncPhaseStep && connection.options.remoteStream.video === 'no') {
+                connection.update(connection.options);
             }
         });
 
@@ -74,7 +74,7 @@ PeerConnection.prototype.initialize = function (options) {
             console.log('videoAdded');
             $(connection).trigger('videoAdded');
             if (!syncPhaseStep) {
-                connection.update(options);
+                connection.update(connection.options);
             }
         });
 
@@ -84,7 +84,7 @@ PeerConnection.prototype.initialize = function (options) {
             $('#local-stream').removeClass('rtc-shadow');
             connection.hideRemoteStream();
 
-            if (options.localStream.record === 'yes') {
+            if (connection.options.localStream.record === 'yes') {
                 connection.stopRecording(null, false);
             }
         });
@@ -94,6 +94,10 @@ PeerConnection.prototype.initialize = function (options) {
             var pc = peer.pc;
             console.log('had local relay candidate', pc.hadLocalRelayCandidate);
             console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
+            
+            if (connection.options.localStream.record === 'yes') {
+                connection.stopRecording(null, false);
+            }
         });
 
         // remote p2p/ice failure
@@ -101,6 +105,10 @@ PeerConnection.prototype.initialize = function (options) {
             var pc = peer.pc;
             console.log('had local relay candidate', pc.hadLocalRelayCandidate);
             console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
+            
+//            if (options.localStream.record === 'yes') {
+                connection.stopRecording(null, false);
+//            }
         });
 
 

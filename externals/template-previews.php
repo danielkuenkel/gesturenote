@@ -1213,7 +1213,7 @@
     </div>
 
     <div class="root" id="physicalStressTestModerated">
-        <div class="col-sm-5 col-lg-6 text-center" style="margin-bottom: 15px;">
+        <div class="col-sm-12 text-center" style="margin-bottom: 15px;">
             <div class="previewGesture previewProgress autoplay" style="max-width: 400px"></div>
             <div class="progress gesture-progress" style="max-width: 400px; margin: auto">
                 <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
@@ -1226,29 +1226,74 @@
             </div>
         </div>
 
-        <div class="col-sm-7 col-lg-6" id="stress-test-questionnaire">
-            <div class="question-container"></div>
+        <div class="col-sm-12 hidden" id="stress-test-questionnaire">
+            <div id="questionnaire-heading" class="hidden">
+                <h3 class="headline" style="margin: 0" >Bitte die Fragen beantworten</h3>
+                <hr>
+            </div>
+            <div id="single-questions" class="hidden">
+                <!--<h4 id="headline-single-questions" style="margin-top: 0">Einzel-Fragen</h4>-->
 
-            <div class="panel panel-default hidden" id="human-body-selection-rating" style="margin-bottom: 5px;">
-                <div class="panel-body">
-                    <p class="question text">Welche Teile des Körpers wurden besonders beantsprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
-                    <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
-                        <div id="joint-container" style="position: absolute"></div>
-                        <img src="img/human_body.svg">
+                <div id="single-joint-selection" class="hidden">
+                    <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
+                        <div class="panel-body">
+                            <p class="question text">Welche Teile des Körpers wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <div class="select-joints-humand-body" id="human-body" style="max-width: 410px; width:410px; margin: auto">
+                                <div id="joint-container" style="position: absolute"></div>
+                                <img src="img/human_body.svg">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
+                        <div class="panel-body">
+                            <p class="question text">Welche Teile der Hand oder Hände wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <div class="select-joints-humand-hand" id="human-hand" style="max-width: 410px; width:410px; margin: auto">
+                                <div id="joint-container" style="position: absolute"></div>
+                                <img src="img/human_hand.svg">
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div class="question-container"></div>
             </div>
 
-            <div class="panel panel-default hidden" id="hand-selection-rating" style="margin-bottom: 5px;">
-                <div class="panel-body">
-                    <p class="question text">Welche Teile der Hand oder Hände wurden besonders beantsprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
-                    <div class="select-joints-humand-hand" id="human-hand" style="width: 450px; margin: auto">
-                        <div id="joint-container" style="position: absolute"></div>
-                        <img src="img/human_hand.svg">
+            <div id="sequence-questions" class="hidden" style="margin-top: 30px">
+                <!--<h4 id="headline-sequence-questions">Sequenz-Fragen</h4>-->
+
+                <div id="sequence-joint-selection" class="hidden">
+                    <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
+                        <div class="panel-body">
+                            <p class="question">Welche Teile des Körpers wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <div class="select-joints-humand-body" id="human-body" style="max-width: 410px; width:410px; margin: auto">
+                                <div id="joint-container" style="position: absolute"></div>
+                                <img src="img/human_body.svg">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
+                        <div class="panel-body">
+                            <p class="question text">Welche Teile der Hand oder Hände wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <div class="select-joints-humand-hand" id="human-hand" style="max-width: 410px; width:410px; margin: auto">
+                                <div id="joint-container" style="position: absolute"></div>
+                                <img src="img/human_hand.svg">
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div class="question-container"></div>
+
+
             </div>
+
+            <hr>
+
+            <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-done-questionnaire" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
         </div>
+
     </div>
 
     <div class="root" id="physicalStressTestUnmoderated">
@@ -1263,7 +1308,7 @@
             </div>
         </div>
 
-        <div class="col-sm-12 text-center" style="margin-bottom: 15px;" id="gesturePreview">
+        <div class="col-sm-12 text-center" style="margin-bottom: 15px;">
             <div class="previewGesture previewProgress autoplay" style="max-width: 400px"></div>
             <div class="progress gesture-progress" style="max-width: 400px; margin: auto">
                 <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
@@ -1276,9 +1321,9 @@
             </div>
         </div>
 
-        <div class="col-sm-7 hidden" id="stress-test-questionnaire">
+        <div class="col-sm-12 hidden" id="stress-test-questionnaire">
             <div id="single-questions" class="hidden">
-                <h4 id="headline-single-questions" style="margin-top: 0">Einzel-Fragen</h4>
+                <!--<h4 id="headline-single-questions" style="margin-top: 0">Einzel-Fragen</h4>-->
 
                 <div id="single-joint-selection" class="hidden">
                     <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
@@ -1306,7 +1351,7 @@
             </div>
 
             <div id="sequence-questions" class="hidden" style="margin-top: 30px">
-                <h4 id="headline-sequence-questions">Sequenz-Fragen</h4>
+                <!--<h4 id="headline-sequence-questions">Sequenz-Fragen</h4>-->
 
                 <div id="sequence-joint-selection" class="hidden">
                     <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
@@ -1352,7 +1397,7 @@
             <div id="scene-container" class="text-center" style="position: absolute; width: 100%; height:auto; overflow:auto"></div>
         </div>
 
-        <div id="fixed-rtc-preview" class="hidden" style="position: fixed; width: 300px; top: 10px; left: 10px;"></div>
+        <div id="fixed-rtc-preview" class="hidden" style="position: fixed; width: 300px; top: 10px; left: 10px; pointer-events: none;"></div>
 
         <div class="hidden" id="generalPanel" style="width: 100%"></div>
     </div>

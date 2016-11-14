@@ -450,12 +450,12 @@ var Moderator = {
     },
     renderGestureSlide: function renderGestureSlide(source, container, data) {
         if (currentSlideIndex > data.slideshow.length - 1) {
-            
+
 
             if (previewModeEnabled) {
                 renderSlide(data.slideshow.length - 1);
             }
-            
+
             $(container).find('#btn-done').removeClass('disabled');
             $(container).find('#trigger-slide').addClass('disabled');
         } else {
@@ -760,6 +760,16 @@ var Moderator = {
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
         }
 
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_REACTIVATE_CONTROLS).bind(MESSAGE_REACTIVATE_CONTROLS, function (event, payload) {
+                if (currentStressTestCount >= data.stressAmount) {
+                    container.find('#btn-next-gesture').removeClass('disabled');
+                } else {
+                    Moderator.renderPhysicalStressTest(source, container, data);
+                }
+            });
+        }
+
         return container;
     },
     renderPhysicalStressTest: function renderPhysicalStressTest(source, container, data) {
@@ -769,6 +779,7 @@ var Moderator = {
             container.find('#btn-show-gesture').removeClass('disabled');
             container.find('#btn-start-stress-test').remove();
         }
+
         if (currentStressTestCount >= data.stressAmount) {
             $(container).find('#btn-next-gesture').removeClass('disabled');
             $(container).find('#btn-show-gesture, #btn-show-question').addClass('disabled');
@@ -809,9 +820,9 @@ var Moderator = {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 $(this).addClass('disabled');
+                container.find('#btn-show-question').removeClass('disabled');
                 stressTestGestureTriggered = true;
                 stressTestQuestionsTriggered = false;
-                container.find('#btn-show-question').removeClass('disabled');
 
                 if (peerConnection) {
                     peerConnection.sendMessage(MESSAGE_TRIGGER_STRESS_TEST_GESTURE, {count: currentStressTestCount, index: currentStressTestIndex});
@@ -829,15 +840,19 @@ var Moderator = {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 $(this).addClass('disabled');
-                currentStressTestCount++;
-                stressTestQuestionsTriggered = true;
-                stressTestGestureTriggered = false;
+                $(container).find('#btn-show-gesture').addClass('disabled');
 
                 if (peerConnection) {
                     peerConnection.sendMessage(MESSAGE_TRIGGER_STRESS_TEST_QUESTION, {count: currentStressTestCount, index: currentStressTestIndex});
                 }
 
-                Moderator.renderPhysicalStressTest(source, container, data);
+                currentStressTestCount++;
+                stressTestQuestionsTriggered = true;
+                stressTestGestureTriggered = false;
+
+                if (previewModeEnabled) {
+                    Moderator.renderPhysicalStressTest(source, container, data);
+                }
             } else {
                 if (!stressTestStartTriggered) {
                     wobble(container.find('#btn-start-stress-test'));
@@ -859,14 +874,14 @@ var Moderator = {
 
                     nextStep();
                 } else {
+                    if (peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_TRIGGER_NEXT_STRESS_TEST_GESTURE, {count: currentStressTestCount, index: currentStressTestIndex});
+                    }
+
                     stressTestQuestionsTriggered = false;
                     stressTestGestureTriggered = false;
                     currentStressTestCount = 0;
                     currentStressTestIndex++;
-
-                    if (peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_TRIGGER_NEXT_STRESS_TEST_GESTURE, {count: currentStressTestCount, index: currentStressTestIndex});
-                    }
 
                     Moderator.renderPhysicalStressTest(source, container, data);
                 }

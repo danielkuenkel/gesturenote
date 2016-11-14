@@ -3,7 +3,7 @@ var EVENT_STUDY_SAVE_SUCCESSFULL = 'studySaveSuccessfull';
 
 function savePhaseStep() {
     var currentPhase = getCurrentPhase();
-//    console.log(currentPhase);
+    console.log('savePhaseStep', currentPhase);
     var data = new Object();
     data.id = currentPhase.id;
     data.format = currentPhase.format;
@@ -178,11 +178,11 @@ function saveCurrentStatus(studyFinished, callback) {
 
     var study = getLocalItem(STUDY);
 //    if (study.surveyType === TYPE_SURVEY_UNMODERATED) {
-        saveExecutionTester({studyId: study.id, data: data}, function (result) {
-            if (callback) {
-                callback(result);
-            }
-        });
+    saveExecutionTester({studyId: study.id, data: data}, function (result) {
+        if (callback) {
+            callback(result);
+        }
+    });
 //    }
 }
 
