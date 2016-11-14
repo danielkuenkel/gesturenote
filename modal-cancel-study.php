@@ -47,7 +47,7 @@ include './includes/language.php';
                     setLocalItem(STUDY, study);
                     saveCurrentStatus(false);
 
-                    if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
+                    if (isUploadRecordingNeededForPhaseStep(getCurrentPhase())) {
                         if (peerConnection) {
                             peerConnection.stopRecording(function () {
                                 gotoThanksScreen();
@@ -78,6 +78,7 @@ include './includes/language.php';
     function gotoThanksScreen() {
         console.log('goto thanks screen');
         currentPhaseStepIndex = getThanksStepIndex();
+        resetRecorder();
         renderPhaseStep();
         updateProgress();
     }

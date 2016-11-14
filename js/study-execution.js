@@ -146,7 +146,7 @@ function nextStep() {
             saveCurrentStatus(false);
         }
 
-        if (isWebRTCNeededForPhaseStep(currentPhase)) {
+        if (isUploadRecordingNeededForPhaseStep(getCurrentPhase())) {
             peerConnection.stopRecording(function () {
                 currentPhaseStepIndex++;
                 if (currentPhaseStepIndex < phases.length) {
@@ -168,7 +168,7 @@ function nextStep() {
 }
 
 function resetConstraints() {
-    TweenMax.killAll();
+//    TweenMax.killAll();
     testerDoneTriggered = false;
 
     gestureTrainingStartTriggered = false;

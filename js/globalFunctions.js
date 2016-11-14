@@ -1822,18 +1822,6 @@ function isWebRTCNeeded() {
             if (isWebRTCNeededForPhaseStep(phaseSteps[i])) {
                 return true;
             }
-
-//            if (translation.formats[phaseSteps[i].format].webRTC === 'yes') {
-//                if (phaseSteps[i].format === IDENTIFICATION) {
-//                    var phaseData = getLocalItem(phaseSteps[i].id + '.data');
-//                    console.log(phaseData);
-//                    if (phaseData.identificationFor === 'gestures') {
-//                        return true;
-//                    }
-//                } else {
-//                    return true;
-//                }
-//            }
         }
     }
     return false;
@@ -1855,6 +1843,28 @@ function isWebRTCNeededForPhaseStep(phaseStep) {
             if (options.tester.stream === 'yes' || options.tester.visualizeStream === 'yes' || options.tester.recordStream === 'yes') {
                 return true;
             }
+        }
+    }
+    return false;
+}
+
+function isUploadRecordingNeeded() {
+    var phaseSteps = getContextualPhaseSteps();
+    if (phaseSteps && phaseSteps.length > 0) {
+        for (var i = 0; i < phaseSteps.length; i++) {
+            if (isUploadRecordingNeededForPhaseStep(phaseSteps[i])) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function isUploadRecordingNeededForPhaseStep(phaseStep) {
+    if (phaseStep) {
+        var options = getPhaseStepOptions(phaseStep.format);
+        if (options.tester.recordStream === 'yes' || options.moderator.recordStream === 'yes') {
+            return true;
         }
     }
     return false;

@@ -145,6 +145,7 @@ var Tester = {
         return container;
     },
     getThanks: function getThanks(container, data) {
+        console.log('getThanks', container);
         var content = $(getSourceContainer(VIEW_TESTER)).find('#thanks-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
         $(container).append(content);
 
@@ -1659,7 +1660,8 @@ var Tester = {
 };
 
 function checkRTCUploadStatus(container) {
-    if (isWebRTCNeeded()) {
+    if (isUploadRecordingNeeded()) {
+        console.log('sumbmit final data with upload queue');
 //        if (tempUploads && tempUploads.length > 0) {
 //            console.log(tempUploads);
         submitFinalData(container, false);
@@ -1681,6 +1683,7 @@ function checkRTCUploadStatus(container) {
 //            submitFinalData(container, true);
 //        }
     } else {
+        console.log('sumbmit final data without upload queue');
         submitFinalData(container, true);
     }
 }
