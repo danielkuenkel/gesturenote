@@ -225,7 +225,7 @@ function renderFormatItem(target, data) {
         $(clone).find('#factor-primary').text(dimensions[dimension]);
         $(clone).find('#factor-main').text(mainDimensions[getMainDimensionForDimension(dimension)]);
     }
-    
+
     TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
 }
 
@@ -845,6 +845,7 @@ function renderEditableGroupingQuestionGUS(item, question, answer) {
 }
 
 function renderRating(item, studyData, resultsData) {
+    console.log('render rating:', studyData, resultsData);
     $(item).find('.question').text(studyData.question);
 
     for (var i = 0; i < studyData.options.length; i++) {
@@ -868,12 +869,14 @@ function renderRating(item, studyData, resultsData) {
         }
 
         var selectedScale = parseInt(resultsData.scales[i]);
+        console.log('selectedScale',selectedScale === -1)
 
         if (selectedScale === -1) {
             $(item).find('#score-container').remove();
             $(item).find('#no-answer').removeClass('hidden');
         } else {
             renderRatingSigns($(item).find('#score-container'), score);
+            $(item).find('#no-answer').remove();
         }
 
         for (var j = 0; j < studyData.options[i].scales.length; j++) {
@@ -942,11 +945,18 @@ function renderEditableSumQuestion(item, question, answer) {
 }
 
 function renderRanking(item, studyData, resultsData) {
+    console.log(studyData, resultsData);
     $(item).find('.question').text(studyData.question);
-
     for (var i = 0; i < resultsData.arrangement.length; i++) {
         var listItemAnswer = $('#template-study-container').find('#ranking-item').clone();
-        $(listItemAnswer).text((i + 1) + '. ' + studyData.options[parseInt(resultsData.arrangement[i])]);
+        var text = '';
+        var optionsId = parseInt(resultsData.arrangement[i]);
+        for (var j = 0; j < studyData.options.length; j++) {
+            if (optionsId === parseInt(studyData.options[j].id)) {
+                text = studyData.options[j].text;
+            }
+        }
+        $(listItemAnswer).text((i + 1) + '. ' + text);
         $(item).find('.option-container').append(listItemAnswer);
     }
 }
@@ -1248,7 +1258,7 @@ function renderGroupingQuestionPreview(source, item, parameters, options) {
     if (parameters.optionalanswer === 'yes') {
         item.find('#optionalanswer').removeClass('hidden');
     }
-    
+
     for (var j = 0; j < options.length; j++) {
         var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
         optionItem.text(options[j].title);

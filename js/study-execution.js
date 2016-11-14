@@ -138,7 +138,9 @@ function previousStep() {
 
 function nextStep() {
     resetConstraints();
-    resetRecorder();
+    if (currentView === VIEW_TESTER) {
+        resetRecorder();
+    }
 
     var phases = getContextualPhaseSteps();
     if (previewModeEnabled === false) {

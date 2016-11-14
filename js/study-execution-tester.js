@@ -410,6 +410,7 @@ var Tester = {
         renderGestureImages(item.find('.previewGesture'), gesture.images, gesture.previewImage, null);
     },
     renderModeratedTrainingFeedback: function renderModeratedTrainingFeedback(source, data) {
+        console.log(data);
         appendHint(source, $('body'), data, TYPE_SURVEY_MODERATED);
         triggeredFeedback = null;
     },
@@ -922,7 +923,7 @@ var Tester = {
             $(container).find('#general').remove();
             $(item).find('#identification-content').removeClass('hidden');
         });
-        
+
         if (identificationStartTriggered) {
             clearAlerts(container);
             $(container).find('#general').remove();
@@ -945,13 +946,13 @@ var Tester = {
             renderBodyJoints(gestureRecorder.find('#human-body'));
             var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
             container.find('#recorder-description').empty().append(recorderDescription);
-            
+
             $(gestureRecorder).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
                 var descriptions = $('#item-container-gesture-recorder').find('#' + type).clone();
                 recorderDescription.empty().append(descriptions);
                 TweenMax.from(descriptions, .3, {y: -20, opacity: 0, clearProps: 'all'});
             });
-            
+
             $(gestureRecorder).bind(EVENT_GR_SAVE_SUCCESS, function (event, gestureId) {
                 event.preventDefault();
                 $(item).find('#next-controls').removeClass('hidden');
@@ -968,7 +969,7 @@ var Tester = {
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
             });
-            
+
             $(gestureRecorder).bind(EVENT_GR_DELETE_SUCCESS, function (event, gestureId) {
                 event.preventDefault();
                 $(item).find('#next-controls').addClass('hidden');
@@ -1552,7 +1553,7 @@ var Tester = {
                 Tester.appendRTCLiveStream();
             }
         } else {
-            resetLiveStream();
+//            resetLiveStream();
         }
     },
     appendRTCPreviewStream: function appendRTCPreviewStream() {
@@ -1569,7 +1570,7 @@ var Tester = {
         $(target).empty().append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
     },
     initializePeerConnection: function initializePeerConnection() {
-        if (!peerConnection && !previewModeEnabled) {
+        if (!peerConnection && !previewModeEnabled && isWebRTCNeededInFuture()) {
             peerConnection = new PeerConnection(true);
 
             if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
