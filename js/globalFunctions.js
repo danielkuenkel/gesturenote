@@ -1865,7 +1865,10 @@ function isUploadRecordingNeeded() {
 function isUploadRecordingNeededForPhaseStep(phaseStep) {
     if (phaseStep) {
         var options = getPhaseStepOptions(phaseStep.format);
-        if (options.tester.recordStream === 'yes' || options.moderator.recordStream === 'yes') {
+        
+        if (options.tester.recordStream === 'yes' && currentView === VIEW_TESTER) {
+            return true;
+        } else if(options.moderator.recordStream === 'yes' && currentView === VIEW_MODERATOR) {
             return true;
         }
     }

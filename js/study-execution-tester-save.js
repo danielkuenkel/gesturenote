@@ -3,7 +3,7 @@ var EVENT_STUDY_SAVE_SUCCESSFULL = 'studySaveSuccessfull';
 
 function savePhaseStep() {
     var currentPhase = getCurrentPhase();
-    console.log('savePhaseStep', currentPhase);
+    console.log('savePhaseStep', currentPhaseStepIndex, currentPhase);
     var data = new Object();
     data.id = currentPhase.id;
     data.format = currentPhase.format;
@@ -166,6 +166,7 @@ function getQuestionnaireFormData(questionnaire, data) {
 
 
 function saveCurrentStatus(studyFinished, callback) {
+    console.log('save current tester status');
     var data = new Object();
     data.studySuccessfull = studyFinished === true ? 'yes' : 'no';
     data.phases = getFinishedStudyPhases();
@@ -173,7 +174,6 @@ function saveCurrentStatus(studyFinished, callback) {
 
     if (studyFinished === true) {
         data.endTime = new Date().getTime();
-        checkRTCUploads();
     }
 
     var study = getLocalItem(STUDY);
@@ -201,8 +201,4 @@ function getFinishedStudyPhases() {
 
 function isPhaseStepSaved(id) {
     return getLocalItem(id + '.saveData') !== null ? true : false;
-}
-
-function checkRTCUploads() {
-
 }

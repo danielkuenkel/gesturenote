@@ -529,7 +529,7 @@ if (login_check($mysqli) == true) {
 
 
             function renderGestureTraining(container, studyData, resultsData) {
-                console.log(studyData, resultsData);
+//                console.log(studyData, resultsData);
 
 //                if (!resultsData.training) {
 //                    appendAlert(container, )

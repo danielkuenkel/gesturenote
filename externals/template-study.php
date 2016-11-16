@@ -473,7 +473,7 @@
             </div>
         </div>
         <div id="video-timeline" class="hidden">
-            <video id="video-holder" controls preload="auto" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
+            <video id="video-holder" controls preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
             <div id="results-timeline" style="margin-top: -8px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;"></div>
         </div>
 

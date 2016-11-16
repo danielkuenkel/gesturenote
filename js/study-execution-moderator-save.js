@@ -166,6 +166,7 @@ function getQuestionnaireFormData(questionnaire, data) {
 
 
 function saveCurrentStatus(studyFinished, callback) {
+    console.log('save current moderator status');
     var data = new Object();
     data.studySuccessfull = studyFinished === true ? 'yes' : 'no';
     data.phases = getFinishedStudyPhases();

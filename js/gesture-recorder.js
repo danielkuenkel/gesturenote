@@ -266,6 +266,14 @@ function showPlayback() {
                     shotsArray.push(canvas.toDataURL('image/jpeg'));
                 }, keyframes);
             }, false);
+
+//             create blobs not data url's -> fix this issue
+//            draw_interval = setInterval(function () {
+//                ctx_draw.drawImage(video[0], 0, 0, canvas.width, canvas.height);
+//                canvas.toBlob(function (blob) {
+//                    shotsArray.push(URL.createObjectURL(blob));
+//                }, "image/jpeg")
+//            }, 200);
             $(recorderTarget).find('#btn-play').click();
 
             setTimeout(offsetReached, (endTimeOffset - startTimeOffset) * 1000);

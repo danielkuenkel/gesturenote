@@ -105,9 +105,9 @@ var Moderator = {
         appendAlert(container, ALERT_PLEASE_WAIT);
         return container;
     },
-    getThanks: function getThank(container, data) {
+    getThanks: function getThanks(container, data) {
         $(container).find('.thanks-text').text(data);
-        $(container).find('#btn-leave-survey').click(function (event) {
+        $(container).find('#btn-leave-survey').unbind('click').bind('click', function (event) {
             event.preventDefault();
             var query = getQueryParams(document.location.search);
             if (query.studyId && query.h && query.token) {
@@ -326,7 +326,7 @@ var Moderator = {
             container.find('#btn-start-training').addClass('hidden');
         }
 
-        container.find('#btn-start-training').click(function (event) {
+        container.find('#btn-start-training').unbind('click').bind('click', function (event) {
             event.preventDefault();
             $(this).addClass('hidden');
             gestureTrainingStartTriggered = true;
@@ -338,7 +338,7 @@ var Moderator = {
                 peerConnection.sendMessage(MESSAGE_START_GESTURE_TRAINING);
             }
         });
-        item.find('#trigger-training').on('click', function (event) {
+        item.find('#trigger-training').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 $(item).find('#trigger-feedback').removeClass('disabled');
@@ -356,7 +356,7 @@ var Moderator = {
                 }
             }
         });
-        item.find('#trigger-feedback').on('click', function (event) {
+        item.find('#trigger-feedback').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 $(item).find('#next-gesture, #training-done').removeClass('disabled');
@@ -375,7 +375,7 @@ var Moderator = {
                 }
             }
         });
-        item.find('#next-gesture').on('click', function (event) {
+        item.find('#next-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 currentGestureTrainingIndex++;
@@ -390,7 +390,7 @@ var Moderator = {
                 }
             }
         });
-        item.find('#training-done').on('click', function (event) {
+        item.find('#training-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 trainingTriggered = false;
@@ -484,7 +484,7 @@ var Moderator = {
             }
         }
 
-        $(container).find('#btn-start-slideshow').click(function (event) {
+        $(container).find('#btn-start-slideshow').unbind('click').bind('click', function (event) {
             event.preventDefault();
             slideshowStartTriggered = true;
             slideRestarted = true;
@@ -497,7 +497,7 @@ var Moderator = {
             }
         });
 
-        $(container).find('#trigger-slide').on('click', function (event) {
+        $(container).find('#trigger-slide').unbind('click').bind('click', function (event) {
 //            console.log('trigger-slide');
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
@@ -517,7 +517,7 @@ var Moderator = {
             }
         });
 
-        $(container).find('#btn-done').on('click', function (event) {
+        $(container).find('#btn-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 if (peerConnection) {
@@ -550,7 +550,7 @@ var Moderator = {
             $(container).find('#btn-start-slideshow').remove();
         }
 
-        $(container).find('#btn-start-slideshow').click(function (event) {
+        $(container).find('#btn-start-slideshow').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_START_TRIGGER_SLIDESHOW);
@@ -564,7 +564,7 @@ var Moderator = {
             $(container).find('#btn-done-slideshow').removeClass('hidden');
         }
 
-        $(container).find('#btn-done-slideshow').click(function (event) {
+        $(container).find('#btn-done-slideshow').unbind('click').bind('click', function (event) {
             event.preventDefault();
             nextStep();
         });
@@ -671,7 +671,7 @@ var Moderator = {
 //            $(item).find('#trigger-identification').addClass('disabled');
 //        }
 
-        $(container).find('#btn-start-identification').click(function (event) {
+        $(container).find('#btn-start-identification').unbind('click').bind('click', function (event) {
             event.preventDefault();
             identificationStartTriggered = true;
             $(this).remove();
@@ -805,7 +805,7 @@ var Moderator = {
             container.find('#btn-show-question').removeClass('disabled');
         }
 
-        container.find('#btn-start-stress-test').click(function (event) {
+        container.find('#btn-start-stress-test').unbind('click').bind('click', function (event) {
             event.preventDefault();
             $(this).remove();
             stressTestStartTriggered = true;
@@ -816,7 +816,7 @@ var Moderator = {
             }
         });
 
-        container.find('#btn-show-gesture').click(function (event) {
+        container.find('#btn-show-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 $(this).addClass('disabled');
@@ -908,7 +908,7 @@ var Moderator = {
         //scene
         if (data.scene) {
             $(container).find('#general #btn-preview-scene').removeClass('hidden');
-            $(container).find('#general #btn-preview-scene').on('click', function (event) {
+            $(container).find('#general #btn-preview-scene').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 currentSceneId = data.scene;
                 loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
@@ -937,7 +937,7 @@ var Moderator = {
             enableScenarioControls(container);
         }
 
-        $(container).find('#btn-start-scenario').click(function (event) {
+        $(container).find('#btn-start-scenario').unbind('click').bind('click', function (event) {
             event.preventDefault();
             enableScenarioControls(container);
             scenarioStartTriggered = true;
@@ -948,7 +948,7 @@ var Moderator = {
             }
         });
 
-        $(container).find('#btn-done-scenario').click(function (event) {
+        $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_NEXT_STEP);
@@ -956,7 +956,7 @@ var Moderator = {
             nextStep();
         });
 
-        $(container).find('#btn-reload-scene').click(function (event) {
+        $(container).find('#btn-reload-scene').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_RELOAD_SCENE);
@@ -983,7 +983,7 @@ var Moderator = {
                 var item = $(source).find('#wozItem').clone();
                 item.removeAttr('id');
                 $(container).find('.woz-container').append(item);
-                item.find('#trigger-woz').click({wozData: wozData[i], originalData: data}, function (event) {
+                item.find('#trigger-woz').unbind('click').bind('click', {wozData: wozData[i], originalData: data}, function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
 
@@ -1029,7 +1029,7 @@ var Moderator = {
 
                 var transitionScene = getSceneById(wozData[i].transitionId);
                 if (transitionScene) {
-                    item.find('#btn-show-transition-scene').click({sceneId: wozData[i].transitionId}, function (event) {
+                    item.find('#btn-show-transition-scene').unbind('click').bind('click', {sceneId: wozData[i].transitionId}, function (event) {
                         event.preventDefault();
                         currentSceneId = event.data.sceneId;
                         loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
@@ -1056,7 +1056,7 @@ var Moderator = {
                 item.removeAttr('id');
                 item.find('.help-title').text((i + 1) + ". " + helpData[i].option);
                 $(container).find('.help-container').append(item);
-                item.find('#offer-help').click({helpData: helpData[i]}, function (event) {
+                item.find('#offer-help').unbind('click').bind('click', {helpData: helpData[i]}, function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
                         triggeredHelp = event.data.helpData;

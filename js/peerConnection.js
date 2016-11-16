@@ -136,7 +136,7 @@ PeerConnection.prototype.update = function (options) {
 //    console.log(webrtc, options);
     if (webrtc) {
         if (currentOptions) {
-//            console.log('update caller states', currentOptions);
+            console.log('update caller states', currentOptions);
 
             // check specific phase step constraints
             if (currentOptions.localStream.video === 'yes' && currentOptions.localStream.visualize === 'yes') {
@@ -196,12 +196,14 @@ PeerConnection.prototype.showRemoteStream = function () {
     var currentOptions = this.options;
     var width = Math.floor($('#' + currentOptions.remoteVideoElement).width() * .3);
     var height = Math.floor(width * 3 / 4);
+    console.log('showRemoteStream', width, height);
     TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: .6, width: width, height: height, left: 5, top: 5, ease: Quad.easeIn});
     TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {delay: .6, opacity: 1.0, onComplete: onTweenComplete});
 };
 
 PeerConnection.prototype.hideRemoteStream = function () {
     var currentOptions = this.options;
+    console.log('hideRemoteStream');
     TweenMax.to($('#' + currentOptions.localVideoElement), .3, {width: '100%', height: 'auto', left: 0, top: 0, ease: Quad.easeIn});
     TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 0, onComplete: onTweenComplete});
 };

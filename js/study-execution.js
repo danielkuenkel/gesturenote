@@ -60,13 +60,17 @@ function initialize() {
         }
     } else {
         uploadQueue = new UploadQueue();
-        $(uploadQueue).bind(EVENT_FILE_SAVED, function (event, result) {
+        $(uploadQueue).unbind(EVENT_FILE_SAVED).bind(EVENT_FILE_SAVED, function (event, result) {
             var phaseStepData = getLocalItem(result.phaseStepId + '.saveData');
             console.log(result.phaseStepId, phaseStepData);
             if (phaseStepData) {
                 phaseStepData.recordUrl = result.filename;
                 setLocalItem(result.phaseStepId + '.saveData', phaseStepData);
-                saveCurrentStatus(false);
+
+                var phases = getContextualPhaseSteps();
+                if (currentPhaseStepIndex < phases.length - 1 && getCurrentPhase().format !== THANKS) {
+                    saveCurrentStatus(false);
+                }
             }
         });
 
@@ -137,6 +141,7 @@ function previousStep() {
 }
 
 function nextStep() {
+    console.log('next step called');
     resetConstraints();
     if (currentView === VIEW_TESTER) {
         resetRecorder();
@@ -150,21 +155,24 @@ function nextStep() {
 
         if (isUploadRecordingNeededForPhaseStep(getCurrentPhase())) {
             peerConnection.stopRecording(function () {
-                currentPhaseStepIndex++;
-                if (currentPhaseStepIndex < phases.length) {
-                    renderPhaseStep();
-                }
+                console.log('recording stopped, now decrease and render phase step');
+                currentPhaseStepIndex = Math.min(currentPhaseStepIndex + 1, phases.length - 1);
+//                currentPhaseStepIndex++;
+//                if (currentPhaseStepIndex < phases.length) {
+                renderPhaseStep();
+//                }
                 updateProgress();
             }, true);
         } else {
-            currentPhaseStepIndex++;
-            if (currentPhaseStepIndex < phases.length) {
-                renderPhaseStep();
-            }
+            console.log('no stop recording needed, render phase step now');
+            currentPhaseStepIndex = Math.min(currentPhaseStepIndex + 1, phases.length - 1);
+//            if (currentPhaseStepIndex < phases.length) {
+            renderPhaseStep();
+//            }
             updateProgress();
         }
     } else {
-        currentPhaseStepIndex++;
+        currentPhaseStepIndex = Math.min(currentPhaseStepIndex + 1, phases.length - 1);
         $('.phaseStepsSelect .dropdown-menu .selected').next().click();
     }
 }

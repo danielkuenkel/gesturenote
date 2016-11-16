@@ -10,6 +10,7 @@ function RTCResultsPlayer(url, timelineData) {
         resultsPlayer = $('#template-study-container').find('#rtc-video-result').clone().removeAttr('id');
         var videoHolder = $(resultsPlayer).find('#video-holder');
         var fileExist = true;
+        console.log('load video:', UPLOADS + url);
         $.get(UPLOADS + url)
                 .fail(function () {
                     fileExist = false;
@@ -29,28 +30,53 @@ function RTCResultsPlayer(url, timelineData) {
             $(videoHolder).on('loadedmetadata', function () {
                 // google chrome no-duration workaround
                 if (videoHolder[0].duration === Infinity) {
+                    console.log('duration is', videoHolder[0].duration);
                     resultsPlayer.find('#video-timeline').addClass('hidden');
                     resultsPlayer.find('#loader').removeClass('hidden');
 
                     var totalRecordingTime = getSeconds(timelineData.executionTime);
-                    videoHolder[0].currentTime = totalRecordingTime - 2;
-                    videoHolder[0].playbackRate = 6;
+                    console.log('totalRecordingTime:', totalRecordingTime);
+                    videoHolder[0].currentTime = totalRecordingTime - 1;
+                    videoHolder[0].playbackRate = 10;
                     videoHolder[0].muted = true;
+
                     $(videoHolder).on('ended', function () {
+                        console.log('on ended');
                         $(videoHolder).unbind('ended');
                         videoHolder[0].playbackRate = 1;
                         videoHolder[0].muted = false;
                         videoHolder[0].currentTime = 0;
 
-                        resultsPlayer.find('#video-timeline').removeClass('hidden');
-                        resultsPlayer.find('#loader').addClass('hidden');
+                        showPlayer();
                     });
-                    videoHolder[0].play();
+
+                    $(videoHolder).on('pause', function () {
+                        console.log('on video pause');
+                    });
+
+                    $(videoHolder).on('play', function () {
+                        console.log('on video play');
+                    });
+
+//                    console.log(videoHolder[0].paused);
+//                    if(videoHolder[0].paused) {
+                    setTimeout(function() {
+                        videoHolder[0].play();
+                    }, 150);
+                    
+//                    }
+
                 } else {
-                    resultsPlayer.find('#video-timeline').removeClass('hidden');
-                    resultsPlayer.find('#loader').addClass('hidden');
+                    showPlayer();
                 }
             });
+
+        }
+
+        function showPlayer() {
+            resultsPlayer.find('#video-timeline').removeClass('hidden');
+            resultsPlayer.find('#loader').addClass('hidden');
+
             $(videoHolder).on('timeupdate', function () {
                 updateTimeline(this.currentTime);
             });
