@@ -365,7 +365,7 @@ var Moderator = {
                 triggeredFeedback = feedback;
 
                 if (!previewModeEnabled && peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_FEEDBACK_TRIGGERED, feedback);
+                    peerConnection.sendMessage(MESSAGE_FEEDBACK_TRIGGERED, {feedbackId: feedback.id, gestureId: gesture.id});
                 }
             } else if (triggeredFeedback === null) {
                 if (gestureTrainingStartTriggered) {

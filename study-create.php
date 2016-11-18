@@ -365,23 +365,29 @@ if (login_check($mysqli) == true) {
                             </div>
                         </div>
 
-                        <div id="panel-survey-container" class="hidden">
+                        <div id="panel-survey-container" class="hidden" style="margin-bottom: 30px">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <div class="btn-group" id="genderSwitch">
+                                            <button class="btn btn-default switchButtonAddon"><?php echo $lang->gender ?></button>
+                                            <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="female" name="btn-success"><i class="fa fa-venus" aria-hidden="true"></i> <?php echo $lang->genderTypes->female ?></button>
+                                            <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="male" name="btn-success"><i class="fa fa-mars" aria-hidden="true"></i> <?php echo $lang->genderTypes->male ?></button>
+                                            <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="identical" name="btn-success"><i class="fa fa-genderless" aria-hidden="true"></i> <?php echo $lang->genderTypes->identical ?></button>
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                <div class="btn-group" id="genderSwitch">
-                                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->gender ?></button>
-                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="female" name="btn-success"><i class="fa fa-venus" aria-hidden="true"></i> <?php echo $lang->genderTypes->female ?></button>
-                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="male" name="btn-success"><i class="fa fa-mars" aria-hidden="true"></i> <?php echo $lang->genderTypes->male ?></button>
-                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive disabled" id="identical" name="btn-success"><i class="fa fa-genderless" aria-hidden="true"></i> <?php echo $lang->genderTypes->identical ?></button>
+                                    <div class="form-group" id="ageSlider">
+                                        <span class="slider-from text" name="age"><?php echo $lang->of ?></span>
+                                        <input class="custom-range-slider saveGeneralData" type="text" value="" data-slider-step="1"/>
+                                        <span class="slider-to text"><?php echo $lang->to ?></span>
+                                    </div>
+
+                                    <!--<div class="form-group">-->
+                                    <div id="selectedAgeRange" class="text"></div>
+                                    <!--</div>-->
                                 </div>
                             </div>
-
-                            <div class="form-group" id="ageSlider">
-                                <span class="slider-from" name="age"><?php echo $lang->of ?></span>
-                                <input class="custom-range-slider saveGeneralData" type="text" value="" data-slider-step="1"/>
-                                <span class="slider-to"><?php echo $lang->to ?></span>
-                            </div>
-
                         </div>
 
                         <!--                        <div class="form-group">
@@ -548,9 +554,10 @@ if (login_check($mysqli) == true) {
                 getAgeRange(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         if (result.tester && result.tester.length > 0) {
-                            var ageMax = calculateAge(new Date(parseInt(result.tester[0].birthday) * 1000));
-                            var ageMin = calculateAge(new Date(parseInt(result.tester[result.tester.length - 1].birthday) * 1000));
-                            var data = {min: ageMin, max: ageMax};
+                            var ageRange = calculateAgeRangeForGender(result.tester, 'identical');
+//                            var ageMax = calculateAge(new Date(parseInt(result.tester[0].birthday) * 1000));
+//                            var ageMin = calculateAge(new Date(parseInt(result.tester[result.tester.length - 1].birthday) * 1000));
+                            var data = {min: ageRange.min, max: ageRange.max, raw: result.tester};
                             data.availableGender = getAvailableGender(result.tester);
                             setLocalItem(STUDY_PANEL, data);
                         }
@@ -738,7 +745,7 @@ if (login_check($mysqli) == true) {
                         firstInit = false;
                         TweenMax.to(catalogsNav, .1, {y: -20});
                         TweenMax.to(catalogsNav, .5, {delay: .1, y: 0, ease: Bounce.easeOut});
-                        TweenMax.to(phasesNav, .1, {delay:.1, y: -20});
+                        TweenMax.to(phasesNav, .1, {delay: .1, y: -20});
                         TweenMax.to(phasesNav, .5, {delay: .2, y: 0, ease: Bounce.easeOut});
                     }
                 }

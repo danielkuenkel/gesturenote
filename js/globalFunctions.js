@@ -837,7 +837,7 @@ function appendHint(source, target, data, surveyType) {
 
 function renderDataForHint(data, hint, source, surveyType) {
     var feedback = getFeedbackById(data.feedbackId);
-    console.log(feedback,data);
+    console.log(feedback, data);
     switch (feedback.type) {
         case TYPE_FEEDBACK_TEXT:
             hint.find('.hint-content').prepend($(source).find('#feedback-hint-text-content').clone().removeAttr('id'));
@@ -1444,6 +1444,25 @@ function calculateAge(birthday) { // birthday is a date
     return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
 
+function calculateAgeRangeForGender(raw, gender) { // birthday is a date
+    var minAge = null;
+    var maxAge = null;
+    if (raw && raw.length > 0) {
+        for (var i = 0; i < raw.length; i++) {
+            var age = calculateAge(new Date(parseInt(raw[i].birthday) * 1000));
+            if (gender === raw[i].gender || gender === 'identical') {
+                if (age < minAge || minAge === null) {
+                    minAge = age;
+                }
+                if (age > maxAge) {
+                    maxAge = age;
+                }
+            }
+        }
+    }
+    return {min: minAge, max: maxAge};
+}
+
 function getSeconds(executionTime) {
     var seconds = 0;
     if (executionTime.days) {
@@ -1842,9 +1861,9 @@ function isWebRTCNeededForPhaseStep(phaseStep) {
 //                return true;
 //            }
 //        } else {
-            if (options.tester.stream === 'yes' || options.tester.visualizeStream === 'yes' || options.tester.recordStream === 'yes') {
-                return true;
-            }
+        if (options.tester.stream === 'yes' || options.tester.visualizeStream === 'yes' || options.tester.recordStream === 'yes') {
+            return true;
+        }
 //        }
     }
     return false;
@@ -1865,10 +1884,10 @@ function isUploadRecordingNeeded() {
 function isUploadRecordingNeededForPhaseStep(phaseStep) {
     if (phaseStep) {
         var options = getPhaseStepOptions(phaseStep.format);
-        
+
         if (options.tester.recordStream === 'yes' && currentView === VIEW_TESTER) {
             return true;
-        } else if(options.moderator.recordStream === 'yes' && currentView === VIEW_MODERATOR) {
+        } else if (options.moderator.recordStream === 'yes' && currentView === VIEW_MODERATOR) {
             return true;
         }
     }
