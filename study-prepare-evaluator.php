@@ -259,11 +259,13 @@ if ($h && $token && $studyId) {
                         $('#btn-enter-study').on('click', function (event) {
                             event.preventDefault();
                             if (!$(this).hasClass('disabled')) {
-                                var rtcToken = $('#call-screen').attr('name').split('_')[1];
+                                var name = $('#call-screen').attr('name').split('_');
+                                var rtcToken = name[1];
+                                var testerId = name[2];
 //                                console.log(rtcToken);
                                 peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken});
                                 var query = getQueryParams(document.location.search);
-                                goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken);
+                                goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId);
 
                             }
                         });
@@ -351,7 +353,7 @@ if ($h && $token && $studyId) {
                                 if (result.status === RESULT_SUCCESS) {
                                     $('#participation-queue').addClass('hidden');
                                     $('#call-screen').removeClass('hidden');
-                                    $('#call-screen').attr('name', event.data.requestId + '_' + result.data.rtcToken);
+                                    $('#call-screen').attr('name', event.data.requestId + '_' + result.data.rtcToken + '_' + result.data.testerId);
                                     initPeerConnection(result.data.rtcToken);
                                 }
                             });

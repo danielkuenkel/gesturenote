@@ -8,8 +8,6 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 
 session_start();
-//print_r($_POST['studyId'] . ', ' . $_POST['participantId']);
-//exit();
 if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
 
     $sessionUserId = $_SESSION['user_id'];
@@ -135,7 +133,6 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                         $select_stmt->fetch();
 
                         if ($select_stmt->num_rows == 1) {
-
                             $studyResultsEvaluator = array('id' => $id,
                                 'studyId' => $studyId,
                                 'evaluatorId' => $evaluatorId,

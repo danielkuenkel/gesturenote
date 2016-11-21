@@ -652,6 +652,7 @@ function renderEditableDichotomousQuestion(item, question, answer) {
     renderDichotomousQuestionInput(item, parameters);
 
     if (answer && answer.selectedSwitch) {
+        console.log($(item).find('.switch #' + answer.selectedSwitch));
         $(item).find('.switch #' + answer.selectedSwitch).click();
     }
 
@@ -869,7 +870,7 @@ function renderRating(item, studyData, resultsData) {
         }
 
         var selectedScale = parseInt(resultsData.scales[i]);
-        console.log('selectedScale',selectedScale === -1)
+        console.log('selectedScale', selectedScale === -1)
 
         if (selectedScale === -1) {
             $(item).find('#score-container').remove();
@@ -1660,4 +1661,108 @@ function setInputChangeEvent(target, milliseconds) {
             $(target).trigger('change');
         }, milliseconds);
     });
+}
+
+
+/*
+ * observations
+ */
+function getObservationResults(currentPhaseId) {
+    var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
+    if (observations && observations.length) {
+        for (var i = 0; i < observations.length; i++) {
+            if (parseInt(currentPhaseId) === parseInt(observations[i].id) && observations[i].answers) {
+                return observations[i].answers;
+            }
+        }
+    }
+    return null;
+}
+
+function renderEditableObservations(target, studyData, resultData) {
+    if (studyData && studyData.length > 0) {
+        for (var i = 0; i < studyData.length; i++) {
+            var listItem = $('#item-container-inputs').find('#' + studyData[i].format).clone();
+            $(target).append(listItem);
+
+
+            if (studyData[i].dimension !== DIMENSION_ANY) {
+                $(listItem).find('#item-factors').removeClass('hidden');
+                $(listItem).find('#factor-primary').text(translation.dimensions[studyData[i].dimension]);
+                $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
+            }
+
+            var answer = resultData ? resultData[i] : null;
+            console.log('renderEditableObservations', studyData[i].format, answer);
+
+            switch (studyData[i].format) {
+                case COUNTER:
+                    renderEditableCounter(listItem, studyData[i], answer);
+                    break;
+                case OPEN_QUESTION:
+                case OPEN_QUESTION_GUS:
+                    renderEditableOpenQuestion(listItem, studyData[i], answer);
+                    break;
+                case DICHOTOMOUS_QUESTION:
+                case DICHOTOMOUS_QUESTION_GUS:
+                    renderEditableDichotomousQuestion(listItem, studyData[i], answer);
+                    break;
+                case GROUPING_QUESTION:
+                    renderEditableGroupingQuestion(listItem, studyData[i], answer);
+                    break;
+                case GROUPING_QUESTION_GUS:
+                    renderEditableGroupingQuestionGUS(listItem, studyData[i], answer);
+                    break;
+                case RATING:
+                    renderEditableRating(listItem, studyData[i], answer);
+                    break;
+                case SUM_QUESTION:
+                    renderEditableSumQuestion(listItem, studyData[i], answer);
+                    break;
+                case RANKING:
+                    renderEditableRanking(listItem, studyData[i], answer);
+                    break;
+            }
+        }
+    }
+}
+
+function saveObservationAnwers(target, studyId, testerId, currentPhaseId) {
+    var observationAnswerItems = $(target).children();
+
+//    var currentPhaseId = getCurrentPhase().id; //$('#phase-results-nav').find('.active').attr('id');
+//    console.log(observationAnswerItems, currentPhaseId);
+    var answers = getQuestionnaireAnswers(observationAnswerItems);
+//    console.log("answers", observationAnswerItems, answers)
+    var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
+    if (observations && answers) {
+        if (isObservationPresent(currentPhaseId)) {
+            for (var i = 0; i < observations.length; i++) {
+                if (parseInt(currentPhaseId) === parseInt(observations[i].id)) {
+                    observations[i] = {id: currentPhaseId, answers: answers};
+                }
+            }
+        } else {
+            observations.push({id: currentPhaseId, answers: answers});
+        }
+    } else {
+        observations = new Array();
+        observations.push({id: currentPhaseId, answers: answers});
+    }
+    setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, observations);
+    console.log(currentPhaseId, observations, studyId, testerId);
+
+    saveObservations({studyId: studyId, testerId: testerId, observations: observations});
+}
+
+function isObservationPresent(phaseId) {
+    var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
+    if (observations && observations.length > 0) {
+        for (var i = 0; i < observations.length; i++) {
+            if (parseInt(phaseId) === parseInt(observations[i].id)) {
+                return true;
+            }
+        }
+    }
+    return false;
 }

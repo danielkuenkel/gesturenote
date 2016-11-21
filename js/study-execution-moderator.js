@@ -120,8 +120,7 @@ var Moderator = {
         data = getAssembledItems(data);
         if (data && data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                var item = $(source).find('#' + data[i].format).clone().removeAttr('id');
-
+                var item = $(source).find('#' + data[i].format).clone();
 
 //            console.log('clone: ' + data[i].format + " form: " + source.attr('id'));
                 if (data.length > 1) {
@@ -276,6 +275,11 @@ var Moderator = {
         // observation section
         if (data.observations && data.observations.length > 0) {
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+
+            $(container).find('#observations').on('change', function () {
+                var study = getLocalItem(STUDY);
+                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId);
+            });
         }
 
         return container;
@@ -444,7 +448,22 @@ var Moderator = {
 
         // observation section
         if (data.observations && data.observations.length > 0) {
-            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+            if (!previewModeEnabled) {
+                var savedObservations = getObservationResults(getCurrentPhase().id);
+                if (savedObservations && savedObservations.length > 0) {
+                    console.log(savedObservations);
+                    renderEditableObservations($(container).find('#observations .question-container'), data.observations.reverse(), savedObservations);
+                } else {
+                    Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+                }
+
+                $(container).find('#observations').on('change', function () {
+                    var study = getLocalItem(STUDY);
+                    saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
+                });
+            } else {
+                Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+            }
         }
         return container;
     },
@@ -602,6 +621,11 @@ var Moderator = {
         // observation section
         if (data.observations && data.observations.length > 0) {
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+
+            $(container).find('#observations').on('change', function () {
+                var study = getLocalItem(STUDY);
+                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
+            });
         }
         return container;
     },
@@ -758,6 +782,11 @@ var Moderator = {
         // observation section
         if (data.observations && data.observations.length > 0) {
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+
+            $(container).find('#observations').on('change', function () {
+                var study = getLocalItem(STUDY);
+                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
+            });
         }
 
         if (!previewModeEnabled && peerConnection) {
@@ -929,7 +958,15 @@ var Moderator = {
 
         // observation section
         if (data.observations && data.observations.length > 0) {
+            var savedObservations = getObservationResults(getCurrentPhase().id);
+            console.log(savedObservations);
+
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+
+            $(container).find('#observations').on('change', function () {
+                var study = getLocalItem(STUDY);
+                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
+            });
         }
 
         // controls handling

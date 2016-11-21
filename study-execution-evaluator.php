@@ -45,6 +45,7 @@ if ($h && $token && $studyId) {
         <script src="js/chance.min.js"></script>
         <!--<script src="color-thief/color-thief.js"></script>-->
         <script src="js/sha512.js"></script>
+        <script src="js/forms.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/storage.js"></script>
@@ -56,7 +57,6 @@ if ($h && $token && $studyId) {
         <script src="js/goto-evaluator.js"></script>       
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
-        <script src="js/forms.js"></script>
         <script src="js/joint-selection.js"></script>
         <script src="js/study-execution.js"></script>
         <script src="js/study-execution-moderator.js"></script>
@@ -144,7 +144,8 @@ if ($h && $token && $studyId) {
 
             function onAllExternalsLoadedSuccessfully() {
                 var query = getQueryParams(document.location.search);
-                if (query.studyId && query.h && query.token) {
+                if (query.studyId && query.h && query.token && query.testerId) {
+                    console.log('tester id:', query.testerId);
                     currentView = VIEW_MODERATOR;
                     var status = window.location.hash.substr(1);
                     var statusAddressMatch = statusAddressMatchIndex(status);
@@ -154,16 +155,34 @@ if ($h && $token && $studyId) {
                     if (status !== '' && statusAddressMatch !== null) {
                         currentPhaseStepIndex = statusAddressMatch.index;
                         syncPhaseStep = true;
-                        checkStorage();
+                        var study = getLocalItem(STUDY);
+                        study.testerId = query.testerId;
+                        setLocalItem(STUDY, study);
+                        checkObservations();
                     } else {
                         getStudyById({studyId: query.studyId}, function (result) {
                             if (result.status === RESULT_SUCCESS) {
                                 setStudyData(result);
+                                var study = getLocalItem(STUDY);
+                                study.testerId = query.testerId;
+                                setLocalItem(STUDY, study);
                                 checkStorage();
                             }
                         });
                     }
                 }
+            }
+
+            function checkObservations() {
+                var query = getQueryParams(document.location.search);
+                getObservations({studyId: query.studyId, participantId: query.testerId}, function (result) {
+                    if (result.status === RESULT_SUCCESS) {
+                        if (result.evaluatorData.observations && result.evaluatorData.observations.length > 0) {
+                            setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, result.evaluatorData.observations);
+                        }
+                    }
+                    checkStorage();
+                });
             }
 
             $(window).on('resize', function () {
