@@ -376,6 +376,7 @@ function checkCurrentListState(itemContainer) {
  */
 $(document).on('click', '.btn-toggle-checkbox', function (event) {
     event.preventDefault();
+    console.log('btn-toggle-checkbox clicked');
     if (!event.handled && !$(this).hasClass('disabled')) {
         event.handled = true;
         if ($(this).hasClass('inactive')) {

@@ -45,8 +45,8 @@ if ($h && $token && $studyId) {
         <script src="js/chance.min.js"></script>
         <!--<script src="color-thief/color-thief.js"></script>-->
         <script src="js/sha512.js"></script>
-        <script src="js/forms.js"></script>
         <script src="js/globalFunctions.js"></script>
+        <script src="js/forms.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/storage.js"></script>
         <script src="js/storageFunctions.js"></script>
@@ -166,7 +166,7 @@ if ($h && $token && $studyId) {
                                 var study = getLocalItem(STUDY);
                                 study.testerId = query.testerId;
                                 setLocalItem(STUDY, study);
-                                checkStorage();
+                                checkObservations();
                             }
                         });
                     }
