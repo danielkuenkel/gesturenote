@@ -376,7 +376,7 @@ function checkCurrentListState(itemContainer) {
  */
 $(document).on('click', '.btn-toggle-checkbox', function (event) {
     event.preventDefault();
-    if (!event.handled && !$(this).hasClass('disabled')) {
+    if (!event.handled && !$(this).hasClass('disabled') && $(this).hasClass('inactive')) {
         event.handled = true;
         if ($(this).hasClass('inactive')) {
             if ($(this).parent().children('.active').length === 0) {

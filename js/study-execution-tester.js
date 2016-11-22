@@ -878,19 +878,19 @@ var Tester = {
 //        }
         return container;
     },
-    renderModeratedIdentification: function renderModeratedIdentification(source, container, data) {
-        var item = $(source).find('#identificationItemModerated').clone().removeAttr('id');
-        $(container).find('#identificationContainer').append(item);
-        if (data.identificationFor === 'gestures') {
-            $(item).find('#trigger-identification').remove();
-            var trigger = getTriggerById(data.identification[currentIdentificationIndex]);
-            item.find('#trigger #text').text(trigger.title);
-        } else {
-            $(item).find('#gesture-identification').remove();
-            var gesture = getGestureById(data.identification[currentIdentificationIndex]);
-            renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
-        }
-    },
+//    renderModeratedIdentification: function renderModeratedIdentification(source, container, data) {
+//        var item = $(source).find('#identificationItemModerated').clone().removeAttr('id');
+//        $(container).find('#identificationContainer').append(item);
+//        if (data.identificationFor === 'gestures') {
+//            $(item).find('#trigger-identification').remove();
+//            var trigger = getTriggerById(data.identification[currentIdentificationIndex]);
+//            item.find('#trigger #text').text(trigger.title);
+//        } else {
+//            $(item).find('#gesture-identification').remove();
+//            var gesture = getGestureById(data.identification[currentIdentificationIndex]);
+//            renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+//        }
+//    },
     renderUnmoderatedIdentification: function renderUnmoderatedIdentification(source, container, data) {
         var item = $(source).find('#identificationItemUnmoderated').clone().removeAttr('id');
         $(container).find('#identificationContainer').empty().append(item);
@@ -920,22 +920,30 @@ var Tester = {
 
         if (data.identificationFor === 'gestures') {
             $(item).find('#trigger-identification').remove();
-            var trigger = getTriggerById(data.identification[currentIdentificationIndex]);
+            var trigger = getTriggerById(data.identification[currentIdentificationIndex].triggerId);
             item.find('#trigger #text').text(trigger.title);
             var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder-tester').clone().removeAttr('id');
             item.find('#gesture-recorder-container').empty().append(gestureRecorder);
-            initCheckRecorder(item.find('#gesture-recorder-container'), gestureRecorder, !previewModeEnabled, getLocalItem(STUDY).studyOwner);
+            var options = {
+                alertTarget: item.find('#gesture-recorder-container'),
+                recorderTarget: gestureRecorder,
+                saveGestures: !previewModeEnabled,
+                ownerId: getLocalItem(STUDY).studyOwner,
+                context: data.identification[currentIdentificationIndex].context
+            };
+            new GestureRecorder(options);
+//            initCheckRecorder(item.find('#gesture-recorder-container'), gestureRecorder, !previewModeEnabled, getLocalItem(STUDY).studyOwner);
             renderBodyJoints(gestureRecorder.find('#human-body'));
             var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
             container.find('#recorder-description').empty().append(recorderDescription);
 
-            $(gestureRecorder).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
+            $(gestureRecorder).unbind(EVENT_GR_UPDATE_STATE).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
                 var descriptions = $('#item-container-gesture-recorder').find('#' + type).clone();
                 recorderDescription.empty().append(descriptions);
                 TweenMax.from(descriptions, .3, {y: -20, opacity: 0, clearProps: 'all'});
             });
 
-            $(gestureRecorder).bind(EVENT_GR_SAVE_SUCCESS, function (event, gestureId) {
+            $(gestureRecorder).unbind(EVENT_GR_SAVE_SUCCESS).bind(EVENT_GR_SAVE_SUCCESS, function (event, gestureId) {
                 event.preventDefault();
                 $(item).find('#next-controls').removeClass('hidden');
                 if (!previewModeEnabled) {
@@ -952,7 +960,7 @@ var Tester = {
                 }
             });
 
-            $(gestureRecorder).bind(EVENT_GR_DELETE_SUCCESS, function (event, gestureId) {
+            $(gestureRecorder).unbind(EVENT_GR_DELETE_SUCCESS).bind(EVENT_GR_DELETE_SUCCESS, function (event, gestureId) {
                 event.preventDefault();
                 $(item).find('#next-controls').addClass('hidden');
 //                console.log('deleted gestureId: ' + gestureId);
@@ -973,7 +981,7 @@ var Tester = {
 //            }
         } else {
             $(item).find('#gesture-identification').remove();
-            var gesture = getGestureById(data.identification[currentIdentificationIndex]);
+            var gesture = getGestureById(data.identification[currentIdentificationIndex].gestureId);
             renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, function () {
             });
         }
@@ -1024,7 +1032,7 @@ var Tester = {
                 }
 
                 $(item).find('#next-controls').addClass('hidden');
-                Tester.renderUnmoderatedIdentification(source, container, data, ownerId);
+                Tester.renderUnmoderatedIdentification(source, container, data);
             });
         }
     },

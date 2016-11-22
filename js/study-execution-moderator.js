@@ -623,7 +623,7 @@ var Moderator = {
                 $(container).find('#identificationContainer').append(item);
 
                 if (data.identificationFor === 'gestures') {
-                    searchedData = getTriggerById(data.identification[i]);
+                    searchedData = getTriggerById(data.identification[i].triggerId);
                     $(item).find('#search .address').text(translation.identified + ':');
                     $(item).find('#search .text').text(translation.gesture);
                     $(item).find('#search-for .address').text(translation.For + ' ' + translation.trigger + ':');
@@ -632,7 +632,7 @@ var Moderator = {
                     $(item).find('#gesture-repeats .text').text(data.identificationRepeats);
                     $(item).find('.btn-popover-gesture-preview').remove();
                 } else {
-                    searchedData = getGestureById(data.identification[i]);
+                    searchedData = getGestureById(data.identification[i].gestureId);
                     $(item).find('#search .address').text(translation.identified + ':');
                     $(item).find('#search .text').text(translation.trigger);
                     $(item).find('#search-for .address').text(translation.For + ' ' + translation.gesture + ':');

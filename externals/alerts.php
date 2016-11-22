@@ -13,7 +13,7 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="password-short" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->passwordShort->text ?></span></div>
     <div class="alert alert-warning" id="password-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->passwordInvalid->text ?></span></div>
     <div class="alert alert-warning" id="passwords-not-matching" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->passwordsNotMatching->text ?></span></div>
-    <div class="alert alert-warning" id="invalid-birthday" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->passwordsNotMatching->text ?></span></div>
+    <div class="alert alert-warning" id="invalid-birthday" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->invalidBirthday->text ?></span></div>
     <div class="alert alert-warning" id="user-exists" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->userExists->text ?></span></div>
     <div class="alert alert-warning" id="no-user-exists" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noUserExists->text ?></span></div>
     <div class="alert alert-success" id="register-success" role="alert"><i class="glyphicon glyphicon-ok"></i> <span class="alert-text"><?php echo $lang->alerts->registerSuccess->text ?></span></div>

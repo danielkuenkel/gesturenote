@@ -42,11 +42,11 @@ function registerFormhash(form) {
     var email = $(form).find('#email');
     var password = $(form).find('#password');
     var passwordconfirm = $(form).find('#confirmPassword');
+    var userType = $(form).find('#userType .btn-option-checked').attr('id');
+    var gender = $(form).find('#gender .btn-option-checked').attr('id');
     var date = $(form).find('#date');
     var month = $(form).find('#month');
     var year = $(form).find('#year');
-    var gender = $(form).find('#gender .btn-option-checked').attr('id');
-    var userType = $(form).find('#userType .btn-option-checked').attr('id');
 
 //    console.log($(form).find('#gender'), gender, $(form).find('#userType'), userType, $(form));
 
@@ -55,12 +55,12 @@ function registerFormhash(form) {
             $(email).val().trim() === '' ||
             $(password).val().trim() === '' ||
             $(passwordconfirm).val().trim() === '' ||
-            $(date).val().trim() === '' ||
-            $(month).val().trim() === '' ||
-            $(year).val().trim() === '' ||
-            gender === undefined ||
-            userType === undefined) {
-        appendAlert($('#modal-register'), ALERT_MISSING_FIELDS);
+            userType === undefined || userType !== undefined && (
+            (userType === 'evaluator' && gender === undefined) ||
+            (userType === 'evaluator' && $(date).val().trim() === '') ||
+            (userType === 'evaluator' && $(month).val().trim() === '') ||
+            (userType === 'evaluator' && $(year).val().trim() === ''))) {
+        appendAlert(form, ALERT_MISSING_FIELDS);
         return false;
     }
 
@@ -76,7 +76,7 @@ function registerFormhash(form) {
     // validate email
     if (!validateEmail($(email).val().trim())) {
         $(email).focus();
-        appendAlert($('#modal-register'), ALERT_INVALID_EMAIL);
+        appendAlert(form, ALERT_INVALID_EMAIL);
 //        showAlert($('#modal-register'), ALERT_INVALID_EMAIL);
         return false;
     }
@@ -86,7 +86,7 @@ function registerFormhash(form) {
     // specific guidance to the user
     if ($(password).val().length < 6) {
         $(password).focus();
-        appendAlert($('#modal-register'), ALERT_PASSWORD_SHORT);
+        appendAlert(form, ALERT_PASSWORD_SHORT);
 //        showAlert($('#modal-register'), ALERT_PASSWORD_SHORT);
         return false;
     }
@@ -97,7 +97,7 @@ function registerFormhash(form) {
     var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
     if (!re.test($(password).val())) {
         $(password).focus();
-        appendAlert($('#modal-register'), ALERT_PASSWORD_INVALID);
+        appendAlert(form, ALERT_PASSWORD_INVALID);
 //        showAlert($('#modal-register'), ALERT_PASSWORD_INVALID);
         return false;
     }
@@ -105,45 +105,44 @@ function registerFormhash(form) {
     // Check password and confirmation are the same
     if ($(password).val() !== $(passwordconfirm).val()) {
         $(passwordconfirm).focus();
-        appendAlert($('#modal-register'), ALERT_PASSWORDS_NOT_MATCHING);
-//        showAlert($('#modal-register'), ALERT_PASSWORDS_NOT_MATCHING);
+        appendAlert(form, ALERT_PASSWORDS_NOT_MATCHING);
         return false;
     }
 
-    var dateString = $(date).val().trim();
-    var monthString = $(month).val().trim();
-    var yearString = $(year).val().trim();
-    var now = new Date();
+    if (userType === 'evaluator') {
+        var dateString = $(date).val().trim();
+        var monthString = $(month).val().trim();
+        var yearString = $(year).val().trim();
+        var now = new Date();
 
-    // check birthday input fields
-    if ((dateString.length < 1 || dateString.length > 2) ||
-            isNaN(dateString) ||
-            (parseInt(dateString) < 1 || parseInt(dateString) > 31))
-    {
-        $(date).focus();
-        appendAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
-//        showAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
-        return false;
-    }
+        // check birthday input fields
+        if ((dateString.length < 1 || dateString.length > 2) ||
+                isNaN(dateString) ||
+                (parseInt(dateString) < 1 || parseInt(dateString) > 31))
+        {
+            $(date).focus();
+            appendAlert(form, ALERT_INVALID_BIRTHDAY);
+            return false;
+        }
 
-    if ((monthString.length < 1 || monthString.length > 2) ||
-            isNaN(monthString) ||
-            (parseInt(monthString) < 1 || parseInt(monthString) > 12))
-    {
-        $(month).focus();
-        appendAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
-//        showAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
-        return false;
-    }
+        if ((monthString.length < 1 || monthString.length > 2) ||
+                isNaN(monthString) ||
+                (parseInt(monthString) < 1 || parseInt(monthString) > 12))
+        {
+            $(month).focus();
+            appendAlert(form, ALERT_INVALID_BIRTHDAY);
+            return false;
+        }
 
-    if (yearString.length !== 4 || isNaN(yearString) ||
-            isNaN(yearString) ||
-            (parseInt(yearString) < 1920 || parseInt(yearString) > now.getFullYear()))
-    {
-        $(year).focus();
-        appendAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
+        if (yearString.length !== 4 || isNaN(yearString) ||
+                isNaN(yearString) ||
+                (parseInt(yearString) < 1920 || parseInt(yearString) > now.getFullYear()))
+        {
+            $(year).focus();
+            appendAlert(form, ALERT_INVALID_BIRTHDAY);
 //        showAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
-        return false;
+            return false;
+        }
     }
 
     // Add the new element to our form. 

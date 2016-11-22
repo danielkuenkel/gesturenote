@@ -19,7 +19,8 @@ include './includes/language.php';
         var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder').clone().removeAttr('id');
         $('#modal-body').append(recorder);
         renderBodyJoints($(recorder).find('#human-body'));
-        initCheckRecorder($('#modal-body'), recorder, true, null);
+        new GestureRecorder({alertTarget: $('#modal-body'), recorderTarget: recorder, saveGestures: true});
+//        initCheckRecorder();
 
         $('#custom-modal').bind('hidden.bs.modal', function () {
             resetRecorder();

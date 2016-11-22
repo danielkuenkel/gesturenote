@@ -13,7 +13,6 @@ var EVENT_ALL_FILES_UPLOADED = 'allFilesUploaded';
 
 UploadQueue.prototype.status = STATUS_UNINITIALIZED;
 
-//var uploader = null;
 function UploadQueue() {
     this.status = STATUS_INITIALIZED;
     this.files = new Array();

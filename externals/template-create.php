@@ -785,26 +785,39 @@ include '../includes/language.php';
         <button class="btn btn-info btn-shadow pull-right hidden btn-add-identificationOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Identifikationselement hinzufügen</span></button>
     </div>
 
-    <div class="form-group root" id="identificationItem">
+    <div class="panel panel-default root" id="identificationItem-gestures" style="margin-bottom: 15px">
 
-        <div class="alert-space alert-assembled-gesture-removed"></div>
-        <div class="alert-space alert-assembled-trigger-removed"></div>
+        <div class="panel-body">
+            <div class="alert-space alert-assembled-trigger-removed"></div>
 
-        <div class="input-group" id="group-trigger">
-            <div class="input-group-btn">
-                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+                <span class="input-group-addon"><?php echo $lang->trigger ?></span>
+                <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                <div class="input-group-btn select triggerSelect" role="group">
+                    <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                    <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                </div>
             </div>
-            <span class="input-group-addon"><?php echo $lang->trigger ?></span>
-            <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-            <div class="input-group-btn select triggerSelect" role="group">
-                <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+
+            <div class="input-group" style="margin-top: 10px">
+                <span class="input-group-addon"><?php echo $lang->gestureContext ?></span>
+                <input class="form-control" id="context-input" />
             </div>
+
         </div>
 
-        <div class="input-group" id="group-gestures">
+    </div>
+
+    <div class="form-group root" id="identificationItem-trigger">
+
+        <div class="alert-space alert-assembled-gesture-removed"></div>
+
+        <div class="input-group">
             <div class="input-group-btn">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>

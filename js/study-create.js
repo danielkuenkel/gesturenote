@@ -381,26 +381,6 @@ $(document).on('click', '.btn-add-gestureTrainingOption', function (event) {
     }
 });
 
-$(document).on('click', '.btn-add-identificationOption', function (event) {
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        event.preventDefault();
-        var item = $('#form-item-container').find('#identificationItem').clone().removeAttr('id');
-        $(this).prev().append(item);
-        var identificationFor = $('#identificationTypeSwitch').find('.active').attr('id');
-        if (identificationFor === 'gestures') {
-            $(item).find('#group-gestures').remove();
-//            $(item).find('#group-trigger').removeClass('hidden');
-        } else {
-            $(item).find('#group-trigger').remove();
-//            $(item).find('#group-gestures').removeClass('hidden');
-        }
-        checkCurrentListState($(this).prev());
-        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
-    }
-});
-
 
 
 
