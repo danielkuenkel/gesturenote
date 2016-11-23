@@ -403,6 +403,23 @@ function saveNotes(data, callback) {
     });
 }
 
+function getObservations(data, callback) {
+    $.ajax({
+        url: 'includes/get-observations.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function saveObservations(data, callback) {
     $.ajax({
         url: 'includes/save-observations.php',

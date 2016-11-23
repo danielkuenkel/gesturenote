@@ -171,6 +171,8 @@ var MESSAGE_ENTER_SURVEY = 'enterSurvey';
 var MESSAGE_NEXT_STEP = 'nextStep';
 var MESSAGE_CANCEL_SURVEY = 'cancelSurvey';
 
+//var MESSAGE_DECLINE_LETTER = 'declineLetter';
+
 var MESSAGE_START_TRIGGER_SLIDESHOW = 'startTriggerSlideshow';
 var MESSAGE_START_SCENARIO = 'startScenario';
 var MESSAGE_RELOAD_SCENE = 'reloadScene';

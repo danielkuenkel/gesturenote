@@ -368,7 +368,6 @@ function setStudyData(data) {
             }
         }
 
-//        console.log(data.evaluatorData.observations);
         if (data.evaluatorData.observations && data.evaluatorData.observations.length > 0) {
             setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, data.evaluatorData.observations);
         }

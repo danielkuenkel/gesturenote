@@ -14,7 +14,6 @@ $(document).on('change', '.scaleSelect', function (event, result) {
         renderScaleItems(scaleItemContainer, result.split('_')[1], undefined);
     }
 });
-
 function renderScaleItems(container, count, text)
 {
     $(container).empty();
@@ -59,7 +58,6 @@ function renderFormatItem(target, data) {
     target.prepend(clone);
     var parameters = data.parameters;
     var options = data.options;
-
     switch (data.format) {
         case SUS_ITEM:
 //            console.log($(clone).find('#negative'));
@@ -163,7 +161,6 @@ function renderFormatItem(target, data) {
             $(clone).find('.justification-for #' + parameters.justificationFor).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
             $(clone).find('.alternative #' + parameters.alternative).click();
-
             var currentPhase = getPhaseById(currentIdForModal);
             if (currentPhase && currentPhase.format === GUS_SINGLE_GESTURES) {
                 $(clone).find('#alternativeTrigger').remove();
@@ -172,7 +169,6 @@ function renderFormatItem(target, data) {
             }
 
             $(clone).find('#' + parameters.alternativeFor).click();
-
             if (parameters.alternativeFor === 'alternativeGesture') {
                 var gesture = getGestureById(parameters.alternativeForId);
                 if (gesture) {
@@ -239,7 +235,6 @@ function getFormatData(element) {
     var question = $(element).find('.question').val();
     var parameters = null;
     var options = null;
-
     switch (format) {
         case SUS_ITEM:
             parameters = {negative: $(element).find('.negative .active').attr('id')};
@@ -264,7 +259,6 @@ function getFormatData(element) {
         case GROUPING_QUESTION:
             parameters = {multiselect: $(element).find('.multiselect .active').attr('id'),
                 optionalanswer: $(element).find('.optionalanswer .active').attr('id')};
-
             options = new Array();
             var groupingOptions = $(element).find('.option-container').children();
             for (var j = 0; j < groupingOptions.length; j++) {
@@ -293,7 +287,6 @@ function getFormatData(element) {
         case SUM_QUESTION:
             parameters = {allocation: $(element).find('.allocationSelect .chosen').attr('id'),
                 maximum: $(element).find('.maximum').val()};
-
             options = new Array();
             var sumQuestionOptions = $(element).find('.option-container').children();
             for (var j = 0; j < sumQuestionOptions.length; j++) {
@@ -314,7 +307,6 @@ function getFormatData(element) {
                 justification: $(element).find('.justification .active').attr('id'),
                 justificationFor: $(element).find('.justification-for .active').attr('id'),
                 alternative: $(element).find('.alternative').find('.active').attr('id')};
-
             var aGestures = assembledGestures();
             var aTriggers = getLocalItem(ASSEMBLED_TRIGGER);
             var currentPhase = getPhaseById(currentIdForModal);
@@ -452,7 +444,6 @@ function getGroupingQuestionGUSAnswers(source) {
     }
     data.selectedOptions = array;
     data.optionalAnswer = $(source).find('.optionalInput').val();
-
     var justificationInput = $(source).find('#justificationInput');
     if (justificationInput && justificationInput.length > 0) {
         data.justification = $(source).find('#justificationInput').val();
@@ -526,7 +517,6 @@ function renderQuestionnaireAnswers(content, studyData, resultsData) {
         var listItem = $('#template-study-container').find('#' + studyData[i].format).clone();
         listItem.find('#format .format-text').text(translation.questionFormats[studyData[i].format].text);
         $(content).find('.list-container').append(listItem);
-
         if (studyData[i].dimension !== DIMENSION_ANY) {
             $(listItem).find('#item-factors').removeClass('hidden');
             $(listItem).find('#factor-primary').text(translation.dimensions[studyData[i].dimension]);
@@ -595,7 +585,6 @@ function renderEditableCounter(item, question, answer) {
     renderCounterInput(item, parameters);
     $(item).find('#counter-label .counter-from').text(translation.of + ' ' + translation.atLeast + ' ' + parameters.countFrom);
     $(item).find('#counter-label .counter-to').text(translation.to + ' ' + translation.maximal + ' ' + parameters.countTo);
-
     if (answer && !isNaN(parseInt(answer.count))) {
         $(item).find('.stepper-text').val(answer.count);
     }
@@ -613,7 +602,6 @@ function renderOpenQuestion(item, studyData, resultsData) {
 function renderEditableOpenQuestion(item, question, answer) {
     $(item).find('.question').text(question.question);
     renderOpenQuestionInput(item);
-
     if (answer) {
         $(item).find('#openQuestionInput').val(answer.openAnswer);
     }
@@ -622,7 +610,6 @@ function renderEditableOpenQuestion(item, question, answer) {
 function renderDichotomousQuestion(item, studyData, resultsData) {
 //                console.log(studyData, resultsData);
     $(item).find('.question').text(studyData.question);
-
     if (resultsData.selectedSwitch === 'none') {
         $(item).find('#no-answer').removeClass('hidden');
         $(item).find('#selection').remove();
@@ -634,7 +621,6 @@ function renderDichotomousQuestion(item, studyData, resultsData) {
     if (studyData.parameters.justification === 'yes') {
         $(item).find('#justification').removeClass('hidden');
         $(item).find('#' + studyData.parameters.justificationFor).removeClass('hidden');
-
         if ((resultsData.selectedSwitch === studyData.parameters.justificationFor || studyData.parameters.justificationFor === 'always') && resultsData.justification !== '') {
             $(item).find('#justification-content').removeClass('hidden');
             $(item).find('#justification-content .text').text(resultsData.justification);
@@ -650,15 +636,15 @@ function renderEditableDichotomousQuestion(item, question, answer) {
     $(item).find('.question').text(question.question);
     var parameters = question.parameters;
     renderDichotomousQuestionInput(item, parameters);
-
     if (answer && answer.selectedSwitch) {
-        $(item).find('.switch #' + answer.selectedSwitch).click();
+        setTimeout(function () {
+            $(item).find('.switch #' + answer.selectedSwitch).click();
+        }, 10);
     }
 
     if (parameters.justification === 'yes') {
         $(item).find('#label-justification').removeClass('hidden');
         $(item).find('#label-' + parameters.justificationFor).removeClass('hidden');
-
         if (answer) {
             $(item).find('#justificationInput').val(answer.justification);
         }
@@ -670,7 +656,6 @@ function renderEditableDichotomousQuestion(item, question, answer) {
 function renderGroupingQuestion(item, studyData, resultsData) {
     console.log(studyData, resultsData);
     $(item).find('.question').text(studyData.question);
-
     if (studyData.parameters.multiselect === 'yes') {
         $(item).find('#multiselect').removeClass('hidden');
     } else {
@@ -696,7 +681,6 @@ function renderGroupingQuestion(item, studyData, resultsData) {
         var optionItem = $('#template-study-container').find('#grouping-question-item').clone();
         $(optionItem).text(studyData.options[i].title);
         $(item).find('.option-container').append(optionItem);
-
         if (i < studyData.options.length - 1) {
             item.find('.option-container').append(document.createElement('br'));
         }
@@ -725,7 +709,6 @@ function renderEditableGroupingQuestion(item, question, answer) {
     var parameters = question.parameters;
     var options = question.options;
     renderGroupingQuestionInput(item, parameters, options);
-
     if (parameters.multiselect === 'yes') {
         $(item).find('#multiselect').removeClass('hidden');
     } else {
@@ -734,13 +717,26 @@ function renderEditableGroupingQuestion(item, question, answer) {
 
     if (answer && answer.selectedOptions && answer.selectedOptions !== '-1' && answer.selectedOptions.length) {
         for (var i = 0; i < answer.selectedOptions.length; i++) {
-            $(item).find('#' + answer.selectedOptions[i]).click();
+            setTimeout(function () {
+
+            }, 10);
+            setTimeout(function (target, element) {
+                $(target).find('#' + element).click();
+            }, 100, item, answer.selectedOptions[i]);
         }
 
-        if (answer.optionalAnswer !== '') {
-            $(item).find('#checkbox-optionalanswer .btn-checkbox').click();
-            $(item).find('.optionalInput').val(answer.optionalAnswer);
-        }
+        console.log('optional answer', answer.optionalAnswer);
+
+    }
+
+    if (answer.optionalAnswer !== '') {
+//        console.log($(item).find('#checkbox-optionalanswer .btn-checkbox'))
+        setTimeout(function () {
+            var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';
+            console.log($(item), optionType)
+            $(item).find('#' + optionType + '-optionalanswer .btn-' + optionType).click();
+        }, 10);
+        $(item).find('.optionalInput').val(answer.optionalAnswer);
     }
 }
 
@@ -770,7 +766,6 @@ function renderGroupingQuestionGUS(item, studyData, resultsData) {
     if (studyData.parameters.justification === 'yes') {
         item.find('#justification').removeClass('hidden');
         item.find('#' + studyData.parameters.justificationFor).removeClass('hidden');
-
         if (studyData.parameters.justificationFor === 'selectOne' && resultsData.selectedOptions && resultsData.selectedOptions.length > 0 && resultsData.justification !== '') {
             $(item).find('#justification-content').removeClass('hidden');
             $(item).find('#justification-content .text').text(resultsData.justification);
@@ -794,7 +789,6 @@ function renderGroupingQuestionGUS(item, studyData, resultsData) {
             optionItem.attr('id', options[i].id);
             optionItem.find('.text').text(options[i].title);
             item.find('.option-container').append(optionItem);
-
             if (i < options.length - 1) {
                 item.find('.option-container').append(document.createElement('br'));
             }
@@ -825,7 +819,6 @@ function renderEditableGroupingQuestionGUS(item, question, answer) {
     var parameters = question.parameters;
 //    var options = question.options;
     renderGroupingQuestionGUSInput(item, parameters);
-
     if (parameters.multiselect === 'yes') {
         $(item).find('#multiselect').removeClass('hidden');
     } else {
@@ -834,7 +827,9 @@ function renderEditableGroupingQuestionGUS(item, question, answer) {
 
     if (answer && answer.selectedOptions && answer.selectedOptions !== '-1' && answer.selectedOptions.length) {
         for (var i = 0; i < answer.selectedOptions.length; i++) {
-            $(item).find('#' + answer.selectedOptions[i]).click();
+            setTimeout(function () {
+                $(item).find('#' + answer.selectedOptions[i]).click();
+            }, 10);
         }
 
         if (answer.optionalAnswer !== '') {
@@ -847,12 +842,10 @@ function renderEditableGroupingQuestionGUS(item, question, answer) {
 function renderRating(item, studyData, resultsData) {
     console.log('render rating:', studyData, resultsData);
     $(item).find('.question').text(studyData.question);
-
     for (var i = 0; i < studyData.options.length; i++) {
         var optionItem = $('#template-study-container').find('#rating-item').clone();
         $(optionItem).find('#rating-option').text(studyData.options[i].option);
         $(item).find('.option-container').append(optionItem);
-
         var score = 0;
         if (studyData.options[i].negative === 'yes') {
             $(optionItem).find('#negative').removeClass('hidden');
@@ -869,7 +862,7 @@ function renderRating(item, studyData, resultsData) {
         }
 
         var selectedScale = parseInt(resultsData.scales[i]);
-        console.log('selectedScale',selectedScale === -1)
+        console.log('selectedScale', selectedScale === -1)
 
         if (selectedScale === -1) {
             $(item).find('#score-container').remove();
@@ -883,7 +876,6 @@ function renderRating(item, studyData, resultsData) {
             var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
             $(optionItem).find('#scale-container').append(scaleItem);
             $(scaleItem).text((j + 1) + '. ' + studyData.options[i].scales[j]);
-
             if (j === selectedScale) {
                 $(scaleItem).addClass('bordered-scale-item');
             } else if (j === 0) {
@@ -896,12 +888,13 @@ function renderRating(item, studyData, resultsData) {
 function renderEditableRating(item, question, answer) {
     $(item).find('.question').text(question.question);
     renderRatingInput(item, question.options);
-
     if (answer && answer.scales && answer.scales.length > 0) {
         for (var i = 0; i < answer.scales.length; i++) {
             if (answer.scales[i] !== '-1') {
                 var container = $(item).find('.scales-container')[i];
-                $(container).find('.btn-radio')[parseInt(answer.scales[i])].click();
+                setTimeout(function (target, index) {
+                    $(target).find('.btn-radio')[index].click();
+                }, 100, container, parseInt(answer.scales[i]));
             }
         }
     }
@@ -911,7 +904,6 @@ function renderSumQuestion(item, studyData, resultsData) {
     $(item).find('.question').text(studyData.question);
     $(item).find('#maximum .label-text').text(translation.maximum + ': ' + studyData.parameters.maximum);
     $(item).find('#allocation .label-text').text(translation.scaleTypes[studyData.parameters.allocation]);
-
     var count = 0;
     for (var i = 0; i < resultsData.sumCounts.length; i++) {
         var listItemAnswer = $('#template-study-container').find('#sum-question-item').clone();
@@ -930,13 +922,10 @@ function renderSumQuestion(item, studyData, resultsData) {
 function renderEditableSumQuestion(item, question, answer) {
     var parameters = question.parameters;
     var options = question.options;
-
     $(item).find('.question').text(question.question);
     $(item).find('#maximum .label-text').text(translation.maximum + ': ' + parameters.maximum);
     $(item).find('#allocation .label-text').text(translation.scaleTypes[parameters.allocation]);
-
     renderSumQuestionInput(item, parameters, options);
-
     if (answer && answer.sumCounts && answer.sumCounts.length > 0) {
         for (var i = 0; i < answer.sumCounts.length; i++) {
             $($(item).find('.option-container').find('.stepper-text')[i]).val(answer.sumCounts[i]);
@@ -982,7 +971,6 @@ function renderAlternativeQuestion(item, studyData, resultsData) {
     //                console.log(studyData, resultsData);
 
     $(item).find('.question').text(studyData.question);
-
     if (studyData.parameters.optionalanswer === 'yes') {
         $(item).find('#optionalanswer').removeClass('hidden');
     }
@@ -990,7 +978,6 @@ function renderAlternativeQuestion(item, studyData, resultsData) {
     if (studyData.parameters.justification === 'yes') {
         $(item).find('#justification').removeClass('hidden');
         $(item).find('#' + studyData.parameters.justificationFor).removeClass('hidden');
-
         if (studyData.parameters.justificationFor === 'selectOne' && resultsData.selectedOptions && resultsData.selectedOptions.length > 0 && resultsData.justification !== '') {
             $(item).find('#justification-content').removeClass('hidden');
             $(item).find('#justification-content .text').text(resultsData.justification);
@@ -1022,7 +1009,6 @@ function renderAlternativeQuestion(item, studyData, resultsData) {
     if (studyData.parameters.alternative === 'triggers') {
         options = getLocalItem(ASSEMBLED_TRIGGER);
         cloneItem = '#alternativeQuestion-trigger-item';
-
     } else if (studyData.parameters.alternative === 'gestures') {
         options = assembledGestures();
         cloneItem = '#alternativeQuestion-gesture-item';
@@ -1033,7 +1019,6 @@ function renderAlternativeQuestion(item, studyData, resultsData) {
             var optionItem = $('#template-study-container').find(cloneItem).clone();
             $(optionItem).find('.text').text(options[i].title);
             $(item).find('.option-container').append(optionItem);
-
             if (i < options.length - 1) {
                 $(item).find('.option-container').append(document.createElement('br'));
             }
@@ -1067,7 +1052,6 @@ function renderAlternativeQuestion(item, studyData, resultsData) {
 
 function renderGUS(item, studyData, resultsData) {
     $(item).find('.question').text(studyData.question);
-
     var score = 0;
     if (studyData.parameters.negative === 'yes') {
         $(item).find('#negative').removeClass('hidden');
@@ -1090,7 +1074,6 @@ function renderGUS(item, studyData, resultsData) {
         var option = $('#template-study-container').find('#gus-single-item-option').clone();
         $(option).text(options[i]);
         $(item).find('.option-container').append(option);
-
         if (i === selectedOption) {
             $(option).addClass('bordered-scale-item');
         } else if (i === 0) {
@@ -1101,7 +1084,6 @@ function renderGUS(item, studyData, resultsData) {
 
 function renderSUSItem(item, studyData, resultsData) {
     $(item).find('.question').text(studyData.question);
-
     var score = 0;
     if (studyData.parameters.negative === 'yes') {
         $(item).find('#negative').removeClass('hidden');
@@ -1124,7 +1106,6 @@ function renderSUSItem(item, studyData, resultsData) {
         var option = $('#template-study-container').find('#sus-item-option').clone();
         $(option).text(options[i]);
         $(item).find('.option-container').append(option);
-
         if (i === selectedOption) {
             $(option).addClass('bordered-scale-item');
         } else if (i === 0) {
@@ -1165,7 +1146,6 @@ function renderOpenQuestionInput(item) {
 function renderCounterInput(item, parameters) {
     var counterFrom = parseInt(parameters.countFrom);
     var counterTo = parseInt(parameters.countTo);
-
     if (isNaN(counterFrom) || isNaN(counterTo)) {
         item.find('.btn-stepper-decrease').attr('value', 0);
         item.find('.btn-stepper-increase').attr('value', 100);
@@ -1200,7 +1180,6 @@ function renderDichotomousQuestionInput(item, parameters) {
         justification.css({marginTop: '10px'});
         item.find('#panel-body').append(justification);
         setInputChangeEvent(justification.find('#justificationInput'), 1000);
-
         if (parameters.justificationFor === 'always') {
             justification.removeClass('hidden');
         } else {
@@ -1229,7 +1208,6 @@ function renderDichotomousQuestionGUSInput(item, parameters) {
     if (parameters.justification === 'yes') {
         var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
         item.find('.panel-body').append(justification);
-
         if (parameters.justificationFor === 'always') {
             justification.removeClass('hidden');
         } else {
@@ -1288,7 +1266,6 @@ function renderGroupingQuestionInput(item, parameters, options) {
  */
 function renderGroupingQuestionGUSPreview(source, item, parameters) {
     var options;
-
     switch (parameters.optionSource) {
         case 'gestures':
             options = assembledGestures();
@@ -1319,7 +1296,6 @@ function renderGroupingQuestionGUSPreview(source, item, parameters) {
             var optionItem = $(source).find('#option-item').clone(false);
             optionItem.attr('id', options[i].id);
             item.find('.option-container').append(optionItem);
-
             if (parameters.optionSource === 'triggers') {
                 var trigger = getTriggerById(options[i].id);
                 optionItem.text(trigger.title);
@@ -1341,7 +1317,6 @@ function renderGroupingQuestionGUSPreview(source, item, parameters) {
 function renderGroupingQuestionGUSInput(item, parameters) {
     var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';
     var options;
-
     switch (parameters.optionSource) {
         case 'gestures':
             options = assembledGestures();
@@ -1358,7 +1333,6 @@ function renderGroupingQuestionGUSInput(item, parameters) {
         for (var i = 0; i < options.length; i++) {
             var option = $('#item-container-inputs').find('#' + optionType).clone();
             $(item).find('.option-container').append(option);
-
             var optionItem = null;
             switch (parameters.optionSource) {
                 case 'gestures':
@@ -1383,7 +1357,6 @@ function renderGroupingQuestionGUSInput(item, parameters) {
     if (parameters.justification === 'yes') {
         var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
         item.find('.option-container').append(justification);
-
         if (parameters.justificationFor === 'always') {
             justification.removeClass('hidden');
         } else {
@@ -1477,7 +1450,6 @@ function renderSumQuestionInput(item, parameters, options) {
         sumQuestionItem.find('.option-text').html(options[i]);
         sumQuestionItem.find('.btn-stepper-increase').val(maxSum);
         item.find('.option-container').append(sumQuestionItem);
-
         $(sumQuestionItem).find('.stepper-text').on('change', function (event) {
             event.preventDefault();
             var steppers = item.find('.option-container .simple-stepper .stepper-text');
@@ -1545,7 +1517,6 @@ function renderAlternativeQuestionInput(item, data) {
     var parameters = data.parameters;
     var options;
     var optionId = null;
-
     switch (parameters.alternative) {
         case 'gestures':
             options = assembledGestures();
@@ -1575,7 +1546,6 @@ function renderAlternativeQuestionInput(item, data) {
                 optionButton.find('.option-text').attr('id', options[i].id);
                 item.find('.option-container').append(optionButton);
                 item.find('.option-container').append(document.createElement('br'));
-
                 if (parameters.alternative === 'gestures') {
                     var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
                     button.attr('name', options[i].id);
@@ -1593,7 +1563,6 @@ function renderAlternativeQuestionInput(item, data) {
     if (parameters.justification === 'yes') {
         var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
         item.find('.option-container').append(justification);
-
         if (parameters.justificationFor === 'always') {
             justification.removeClass('hidden');
         } else {
@@ -1660,4 +1629,104 @@ function setInputChangeEvent(target, milliseconds) {
             $(target).trigger('change');
         }, milliseconds);
     });
+}
+
+
+/*
+ * observations
+ */
+function getObservationResults(currentPhaseId) {
+    var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
+    if (observations && observations.length) {
+        for (var i = 0; i < observations.length; i++) {
+            if (parseInt(currentPhaseId) === parseInt(observations[i].id) && observations[i].answers) {
+                return observations[i].answers;
+            }
+        }
+    }
+    return null;
+}
+
+function renderEditableObservations(target, studyData, resultData) {
+    if (studyData && studyData.length > 0) {
+        for (var i = 0; i < studyData.length; i++) {
+            var listItem = $('#item-container-inputs').find('#' + studyData[i].format).clone();
+            $(target).append(listItem);
+            if (studyData[i].dimension !== DIMENSION_ANY) {
+                $(listItem).find('#item-factors').removeClass('hidden');
+                $(listItem).find('#factor-primary').text(translation.dimensions[studyData[i].dimension]);
+                $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
+            }
+
+            var answer = resultData ? resultData[i] : null;
+            console.log('renderEditableObservations', studyData[i].format, answer);
+            switch (studyData[i].format) {
+                case COUNTER:
+                    renderEditableCounter(listItem, studyData[i], answer);
+                    break;
+                case OPEN_QUESTION:
+                case OPEN_QUESTION_GUS:
+                    renderEditableOpenQuestion(listItem, studyData[i], answer);
+                    break;
+                case DICHOTOMOUS_QUESTION:
+                case DICHOTOMOUS_QUESTION_GUS:
+                    renderEditableDichotomousQuestion(listItem, studyData[i], answer);
+                    break;
+                case GROUPING_QUESTION:
+                    renderEditableGroupingQuestion(listItem, studyData[i], answer);
+                    break;
+                case GROUPING_QUESTION_GUS:
+                    renderEditableGroupingQuestionGUS(listItem, studyData[i], answer);
+                    break;
+                case RATING:
+                    renderEditableRating(listItem, studyData[i], answer);
+                    break;
+                case SUM_QUESTION:
+                    renderEditableSumQuestion(listItem, studyData[i], answer);
+                    break;
+                case RANKING:
+                    renderEditableRanking(listItem, studyData[i], answer);
+                    break;
+            }
+        }
+    }
+}
+
+function saveObservationAnwers(target, studyId, testerId, currentPhaseId) {
+    var observationAnswerItems = $(target).children();
+//    var currentPhaseId = getCurrentPhase().id; //$('#phase-results-nav').find('.active').attr('id');
+//    console.log(observationAnswerItems, currentPhaseId);
+    var answers = getQuestionnaireAnswers(observationAnswerItems);
+//    console.log("answers", observationAnswerItems, answers)
+    var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
+    if (observations && answers) {
+        if (isObservationPresent(currentPhaseId)) {
+            for (var i = 0; i < observations.length; i++) {
+                if (parseInt(currentPhaseId) === parseInt(observations[i].id)) {
+                    observations[i] = {id: currentPhaseId, answers: answers};
+                }
+            }
+        } else {
+            observations.push({id: currentPhaseId, answers: answers});
+        }
+    } else {
+        observations = new Array();
+        observations.push({id: currentPhaseId, answers: answers});
+    }
+    setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, observations);
+//    console.log(currentPhaseId, observations, studyId, testerId);
+
+    saveObservations({studyId: studyId, testerId: testerId, observations: observations});
+}
+
+function isObservationPresent(phaseId) {
+    var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
+    if (observations && observations.length > 0) {
+        for (var i = 0; i < observations.length; i++) {
+            if (parseInt(phaseId) === parseInt(observations[i].id)) {
+                return true;
+            }
+        }
+    }
+    return false;
 }

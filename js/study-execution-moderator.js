@@ -120,8 +120,7 @@ var Moderator = {
         data = getAssembledItems(data);
         if (data && data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                var item = $(source).find('#' + data[i].format).clone().removeAttr('id');
-
+                var item = $(source).find('#' + data[i].format).clone();
 
 //            console.log('clone: ' + data[i].format + " form: " + source.attr('id'));
                 if (data.length > 1) {
@@ -276,6 +275,11 @@ var Moderator = {
         // observation section
         if (data.observations && data.observations.length > 0) {
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+
+            $(container).find('#observations').on('change', function () {
+                var study = getLocalItem(STUDY);
+                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId);
+            });
         }
 
         return container;
@@ -365,7 +369,7 @@ var Moderator = {
                 triggeredFeedback = feedback;
 
                 if (!previewModeEnabled && peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_FEEDBACK_TRIGGERED, feedback);
+                    peerConnection.sendMessage(MESSAGE_FEEDBACK_TRIGGERED, {feedbackId: feedback.id, gestureId: gesture.id});
                 }
             } else if (triggeredFeedback === null) {
                 if (gestureTrainingStartTriggered) {
@@ -443,9 +447,7 @@ var Moderator = {
         }
 
         // observation section
-        if (data.observations && data.observations.length > 0) {
-            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
-        }
+        renderObservations(data, container);
         return container;
     },
     renderGestureSlide: function renderGestureSlide(source, container, data) {
@@ -600,9 +602,15 @@ var Moderator = {
         Moderator.renderIdentification(source, container, data);
 
         // observation section
-        if (data.observations && data.observations.length > 0) {
-            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
-        }
+        renderObservations(data, container);
+//        if (data.observations && data.observations.length > 0) {
+//            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+//
+//            $(container).find('#observations').on('change', function () {
+//                var study = getLocalItem(STUDY);
+//                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
+//            });
+//        }
         return container;
     },
     renderIdentification: function renderIdentification(source, container, data) {
@@ -756,9 +764,15 @@ var Moderator = {
         }
 
         // observation section
-        if (data.observations && data.observations.length > 0) {
-            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
-        }
+        renderObservations(data, container);
+//        if (data.observations && data.observations.length > 0) {
+//            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+//
+//            $(container).find('#observations').on('change', function () {
+//                var study = getLocalItem(STUDY);
+//                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
+//            });
+//        }
 
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_REACTIVATE_CONTROLS).bind(MESSAGE_REACTIVATE_CONTROLS, function (event, payload) {
@@ -928,9 +942,18 @@ var Moderator = {
         Moderator.renderHelp(source, container, data);
 
         // observation section
-        if (data.observations && data.observations.length > 0) {
-            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
-        }
+        renderObservations(data, container);
+//        if (data.observations && data.observations.length > 0) {
+//            var savedObservations = getObservationResults(getCurrentPhase().id);
+//            console.log(savedObservations);
+//
+//            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+//
+//            $(container).find('#observations').on('change', function () {
+//                var study = getLocalItem(STUDY);
+//                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
+//            });
+//        }
 
         // controls handling
         if (scenarioStartTriggered) {
@@ -1193,4 +1216,25 @@ function updateCurrentScene(container) {
 //        console.log(currentWOZScene, currentSceneId)
         loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
     });
+}
+
+function renderObservations(data, container) {
+    if (data.observations && data.observations.length > 0) {
+
+        if (!previewModeEnabled) {
+            var savedObservations = getObservationResults(getCurrentPhase().id);
+            if (savedObservations && savedObservations.length > 0) {
+                renderEditableObservations($(container).find('#observations .question-container'), data.observations.reverse(), savedObservations);
+            } else {
+                Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+            }
+
+            $(container).find('#observations').on('change', function () {
+                var study = getLocalItem(STUDY);
+                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
+            });
+        } else {
+            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+        }
+    }
 }

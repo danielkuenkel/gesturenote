@@ -573,7 +573,7 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
-                renderObservation(container, studyData, getObservationResults());
+                renderObservation($(container).find('#observations-container'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
 //                addObservationsDropdown(container);
             }
 
@@ -622,7 +622,8 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
-                renderObservation(container, studyData, getObservationResults());
+                console.log($('#phase-results-nav').find('.active').attr('id'));
+                renderObservation($(container).find('#observations-container'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 
             function renderTriggerSlideshow(container, studyData, resultsData) {
@@ -786,117 +787,27 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
-                renderObservation(container, studyData, getObservationResults());
+                renderObservation($(container).find('#observations-container'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 
             function renderScenario(container, studyData, resultsData) {
-                renderObservation(container, studyData, getObservationResults());
+                console.log($('#phase-results-nav').find('.active').attr('id'));
+                renderObservation($(container).find('#observations-container'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
 //                addObservationsDropdown(container);
             }
 
-
-            function getObservationResults() {
-                var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
-                var currentPhaseId = $('#phase-results-nav').find('.active').attr('id');
-                if (observations && observations.length) {
-                    for (var i = 0; i < observations.length; i++) {
-                        if (parseInt(currentPhaseId) === parseInt(observations[i].id) && observations[i].answers) {
-                            return observations[i].answers;
-                        }
-                    }
-                }
-                return null;
-            }
-
-            function renderObservation(container, studyData, observationResults) {
-                if (studyData.observations && studyData.observations.length > 0) {
-                    for (var i = 0; i < studyData.observations.length; i++) {
-                        var listItem = $('#item-container-inputs').find('#' + studyData.observations[i].format).clone();
-                        $(container).find('#observations-container').append(listItem);
-
-                        if (studyData.observations[i].dimension !== DIMENSION_ANY) {
-                            $(listItem).find('#item-factors').removeClass('hidden');
-                            $(listItem).find('#factor-primary').text(translation.dimensions[studyData.observations[i].dimension]);
-                            $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData.observations[i].dimension)]);
-                        }
-
-                        var answer = observationResults ? observationResults[i] : null;
-
-                        switch (studyData.observations[i].format) {
-                            case COUNTER:
-                                renderEditableCounter(listItem, studyData.observations[i], answer);
-                                break;
-                            case OPEN_QUESTION:
-                            case OPEN_QUESTION_GUS:
-                                renderEditableOpenQuestion(listItem, studyData.observations[i], answer);
-                                break;
-                            case DICHOTOMOUS_QUESTION:
-                            case DICHOTOMOUS_QUESTION_GUS:
-                                renderEditableDichotomousQuestion(listItem, studyData.observations[i], answer);
-                                break;
-                            case GROUPING_QUESTION:
-                                renderEditableGroupingQuestion(listItem, studyData.observations[i], answer);
-                                break;
-                            case GROUPING_QUESTION_GUS:
-                                renderEditableGroupingQuestionGUS(listItem, studyData.observations[i], answer);
-                                break;
-                            case RATING:
-                                renderEditableRating(listItem, studyData.observations[i], answer);
-                                break;
-                            case SUM_QUESTION:
-                                renderEditableSumQuestion(listItem, studyData.observations[i], answer);
-                                break;
-                            case RANKING:
-                                renderEditableRanking(listItem, studyData.observations[i], answer);
-                                break;
-                        }
-                    }
-                }
-
-                $(container).find('#observations-container').on('change', function () {
-                    saveObservationAnwers();
-                });
-            }
-
-            function saveObservationAnwers() {
-                var observationAnswerItems = $('#phase-result').find('#observations-container').children();
-
-                var currentPhaseId = $('#phase-results-nav').find('.active').attr('id');
-//                console.log(observationAnswerItems, currentPhaseId);
-                var answers = getQuestionnaireAnswers(observationAnswerItems);
-                var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
-                if (observations && answers) {
-                    if (isObservationPresent(currentPhaseId)) {
-                        for (var i = 0; i < observations.length; i++) {
-                            if (parseInt(currentPhaseId) === parseInt(observations[i].id)) {
-                                observations[i] = {id: currentPhaseId, answers: answers};
-                            }
-                        }
-                    } else {
-                        observations.push({id: currentPhaseId, answers: answers});
-                    }
-
-//                    console.log(observations);
-                    setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, observations);
+            function renderObservation(target, studyData, observationResults) {
+                console.log('observationResults', studyData.observations, observationResults);
+                if (observationResults && observationResults.length > 0) {
+                    renderEditableObservations(target, studyData.observations, observationResults);
                 } else {
-                    observations = new Array();
-                    observations.push({id: currentPhaseId, answers: answers});
-                    setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, observations);
+                    renderEditableObservations(target, studyData.observations, null);
                 }
 
-                saveObservations({studyId: getLocalItem(STUDY).id, testerId: getLocalItem(STUDY_RESULTS).userId, observations: observations});
-            }
 
-            function isObservationPresent(phaseId) {
-                var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
-                if (observations && observations.length > 0) {
-                    for (var i = 0; i < observations.length; i++) {
-                        if (parseInt(phaseId) === parseInt(observations[i].id)) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
+                $(target).on('change', function () {
+                    saveObservationAnwers($(target), getLocalItem(STUDY).id, getLocalItem(STUDY_RESULTS).userId, $('#phase-results-nav').find('.active').attr('id'));
+                });
             }
 
             function addObservationsDropdown(container) {
