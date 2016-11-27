@@ -76,7 +76,7 @@ if ($h && $token && $studyId) {
         <script src="js/upload-queue.js"></script>
 
         <!-- streaming -->
-        <script src="https://simplewebrtc.com/latest-v2.js"></script>
+        <script src="simplewebrtc/simplewebrtc.bundle.js"></script>
         <script src="js/peerConnection.js"></script>
 
         <!-- gesture recorder sources -->

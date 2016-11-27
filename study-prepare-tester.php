@@ -51,7 +51,6 @@ if ($h && $token && $studyId) {
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
 
-        <script src="https://simplewebrtc.com/latest-v2.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
@@ -66,10 +65,11 @@ if ($h && $token && $studyId) {
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/chance.min.js"></script>
-        <script src="js/peerConnection.js"></script>
 
-        <!-- webrtc sources -->
-        <!--<script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>-->
+        <!-- streaming -->
+                <!--<script src="https://simplewebrtc.com/latest-v2.js"></script>-->
+        <script src="simplewebrtc/simplewebrtc.bundle.js"></script>
+        <script src="js/peerConnection.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
