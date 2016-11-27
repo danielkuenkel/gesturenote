@@ -27,7 +27,6 @@ if (login_check($mysqli) == true) {
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/login.js"></script>
-        <script type="text/JavaScript" src="js/register.js"></script>
         <script type="text/JavaScript" src="js/checkForms.js"></script>
         <script type="text/JavaScript" src="js/ajax.js"></script>
         <script type="text/JavaScript" src="js/constants.js"></script>

@@ -20,6 +20,15 @@ var webrtc = null;
 var connection = null;
 //var syncPhaseStep = false;
 
+var STUN = {
+    'url': 'stun:stun.l.google.com:19302'
+};
+
+var TURN = {
+    url: 'turn: danielkuenkel%40googlemail.com%40numb.viagenie.ca: 3478',
+    credential: 'GpE-y3D-9YC-d9o'
+};
+
 function PeerConnection(isRecordingNeeded) {
     connection = this;
     if (isRecordingNeeded === true && isRecordingNeededInFuture()) {
@@ -43,8 +52,12 @@ PeerConnection.prototype.initialize = function (options) {
                 mirror: true, // flip the local video to mirror mode (for UX)
                 muted: true // mute local video stream to prevent echo
             },
+            peerConnectionConfig: {'iceServers': [STUN, TURN] },
             enableDataChannels: options.enableDataChannels ? true : false
+            
         });
+
+//        webrtc.config.peerConnectionConfig.iceServers = [STUN, TURN];
 
         webrtc.connection.on('message', function (data) {
 //            if (data.type === TYPE_MESSAGE_CONTROL) {
@@ -88,13 +101,21 @@ PeerConnection.prototype.initialize = function (options) {
                 connection.stopRecording(null, false);
             }
         });
+        
+        webrtc.on('stunservers', function(event) {
+            console.log('on stun servers', event);
+        });
+        
+        webrtc.on('turnservers', function(event) {
+            console.log('on turn servers', event);
+        });
 
         // local p2p/ice failure
         webrtc.on('iceFailed', function (peer) {
             var pc = peer.pc;
             console.log('had local relay candidate', pc.hadLocalRelayCandidate);
             console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
-            
+
             if (connection.options.localStream.record === 'yes') {
                 connection.stopRecording(null, false);
             }
@@ -105,9 +126,9 @@ PeerConnection.prototype.initialize = function (options) {
             var pc = peer.pc;
             console.log('had local relay candidate', pc.hadLocalRelayCandidate);
             console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
-            
+
 //            if (options.localStream.record === 'yes') {
-                connection.stopRecording(null, false);
+            connection.stopRecording(null, false);
 //            }
         });
 

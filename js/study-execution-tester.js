@@ -883,6 +883,12 @@ var Tester = {
 //                appendAlert($(container), ALERT_WAITING_FOR_IDENTIFICATION);
 //            }
 //        }
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_START_IDENTIFICATION).bind(MESSAGE_START_IDENTIFICATION, function (event, playload) {
+                identificationStartTriggered = true;
+                Tester.renderUnmoderatedIdentification(source, container, data);
+            });
+        }
         return container;
     },
 //    renderModeratedIdentification: function renderModeratedIdentification(source, container, data) {
@@ -1012,7 +1018,10 @@ var Tester = {
 
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
-
+                
+                if(!previewModeEnabled && peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                }
                 nextStep();
             });
         } else if (currentIdentificationIndex < data.identification.length) {
@@ -1341,7 +1350,7 @@ var Tester = {
                 event.preventDefault();
                 scenarioStartTriggered = true;
                 Tester.renderModeratedScenario(source, container, data);
-                
+
                 var time = new Date().getTime();
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.actions.push({action: ACTION_START_TASK, time: time});
@@ -1386,7 +1395,7 @@ var Tester = {
 //                console.log(messageData);
                 triggeredWoz = payload.triggeredWOZ;
                 currentWOZScene = payload.currentWOZScene;
-                
+
                 checkWOZ();
             });
 
@@ -1400,7 +1409,7 @@ var Tester = {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.actions.push({action: ACTION_REFRESH_SCENE, scene: data.scene, time: new Date().getTime()});
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                
+
                 renderModeratedScenario(source, container, data);
             });
         }

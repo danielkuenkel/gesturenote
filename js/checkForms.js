@@ -48,18 +48,18 @@ function registerFormhash(form) {
     var month = $(form).find('#month');
     var year = $(form).find('#year');
 
-//    console.log($(form).find('#gender'), gender, $(form).find('#userType'), userType, $(form));
+    console.log(userType, gender, date, month, year);
 
     if ($(forename).val().trim() === '' ||
             $(surname).val().trim() === '' ||
             $(email).val().trim() === '' ||
             $(password).val().trim() === '' ||
             $(passwordconfirm).val().trim() === '' ||
-            userType === undefined || userType !== undefined && (
-            (userType === 'evaluator' && gender === undefined) ||
-            (userType === 'evaluator' && $(date).val().trim() === '') ||
-            (userType === 'evaluator' && $(month).val().trim() === '') ||
-            (userType === 'evaluator' && $(year).val().trim() === ''))) {
+            userType === undefined || userType === 'tester' && (
+                    (gender === undefined) ||
+                    $(date).val().trim() === '' ||
+                    $(month).val().trim() === '' ||
+                    $(year).val().trim() === '')) {
         appendAlert(form, ALERT_MISSING_FIELDS);
         return false;
     }
@@ -109,7 +109,7 @@ function registerFormhash(form) {
         return false;
     }
 
-    if (userType === 'evaluator') {
+    if (userType === 'tester') {
         var dateString = $(date).val().trim();
         var monthString = $(month).val().trim();
         var yearString = $(year).val().trim();

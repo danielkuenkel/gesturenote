@@ -1069,7 +1069,7 @@
 
     <div class="" id="identificationModerated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="col-md-8" id="column-right">
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
             <div class="row">
                 <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
                     <div>
@@ -1177,7 +1177,7 @@
                 <div class="col-sm-6">
                     <div id="recorder-description" class="hidden"></div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6" style="margin-bottom: 80px">
                     <div style="width: 100%" class="text-center">
                         <h3 id="trigger" style="margin: 0"><span class="address"></span> <span id="text"></span></h3>
                     </div>

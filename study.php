@@ -83,89 +83,165 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>-->
 
+        <div class="container">
+            <ul class="nav nav-tabs" role="tablist" id="tap-pane">
+                <li role="presentation" class="active"><a href="#general-infos" aria-controls="general-infos" role="tab" data-toggle="tab">Allgemeines</a></li>
+                <li role="presentation"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab">Kataloge</a></li>
+                <!--                <li role="presentation" class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                        Kataloge <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li role="presentation"><a href="#study-gestures" aria-controls="study-gestures" role="tab" data-toggle="tab">Studien-Gesten</a></li>
+                                        <li role="presentation"><a href="#study-scenes" aria-controls="study-scenes" role="tab" data-toggle="tab">Studien-Zustände</a></li>
+                                        <li role="presentation"><a href="#study-trigger" aria-controls="study-trigger" role="tab" data-toggle="tab">Studien-Funktionen</a></li>
+                                        <li role="presentation"><a href="#study-feedback" aria-controls="study-feedback" role="tab" data-toggle="tab">Studien-Feedback</a></li>
+                                    </ul>
+                                </li>-->
+                <li role="presentation"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab">Teilnahmen</a></li>
+                <li role="presentation" class="hidden" id="tab-btn-gesture-extraction"><a href="#gesture-extraction" aria-controls="gesture-extraction" role="tab" data-toggle="tab">Extraktion</a></li>
+            </ul>
+        </div>
+
+
         <!-- Container (Panel Section) -->
-        <div class="container mainContent" id="item-view">
-            <h2 id="study-headline" style="margin-top: 0"></h2>
-            <hr>
-            <div class="label label-default" id="type-phase"></div>
-            <div class="label label-default" id="type-survey"></div>
-            <div class="label label-default hidden" id="panel-survey"><?php echo $lang->panelSurvey ?></div>
+        <div class="container mainContent tab-content" id="item-view">
 
-            <div class="row" style="margin-top: 20px">
-                <div class="col-sm-6 col-lg-7">
-                    <div id="study-description">
-                        <h3 class="address"></h3>
-                        <p class="text"></p>
-                    </div>
-                    <div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
-                    <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
-                    <div class="hidden panel-survey"><i class="fa fa-users" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
-                </div>
-                <div class="col-sm-5 col-sm-offset-1 col-lg-4 col-lg-offset-1">
-                    <div id="study-phases">
-                        <h3 class="address"></h3>
-                        <div class="alert-space alert-no-phase-data"></div>
-                        <div id="phase-steps-container" style="margin-top: 15px"></div>
-                    </div>
-                    <div class="btn-group-vertical btn-block" style="margin-top: 50px">
-                        <button class="btn btn-default btn-shadow" type="button" id="btn-edit-study"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text">Studie bearbeiten</span></button>
-                        <button class="btn btn-default btn-shadow" type="button" id="btn-preview-study"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text">Vorschau der Studie</span></button>
-                        <button class="btn btn-default btn-shadow" type="button" id="btn-delete-study"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text">Studie löschen</span></button>
-                        <button class="btn btn-default btn-shadow" type="button" id="btn-prepare-study"><i class="fa fa-inbox" aria-hidden="true"></i> <span class="btn-text">Studie durchführen</span></button>
-                    </div>
-                </div>
+            <div role="tabpanel" class="tab-pane active" id="general-infos">
+                <h2 id="study-headline" style="margin-top: 0"></h2>
+                <!--<hr>-->
+                <div class="label label-default" id="type-phase"></div>
+                <div class="label label-default" id="type-survey"></div>
+                <div class="label label-default hidden" id="panel-survey"><?php echo $lang->panelSurvey ?></div>
 
-                <div class="col-sm-12" style="margin-top: 20px;" id="copy-to-clipboard">
-                    <div class="input-group">
-                        <div class="input-group-addon">Studien-URL</div>
-                        <input type="text" class="form-control" id="static-study-url">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default btn-shadow" type="button" id="btn-open-static-study-url"><i class="fa fa-external-link" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
-                        </span>
+                <div class="row" style="margin-top: 20px">
+                    <div class="col-sm-6 col-lg-7">
+                        <div id="study-description">
+                            <h3 class="address"></h3>
+                            <p class="text"></p>
+                        </div>
+                        <div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                        <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                        <div class="hidden panel-survey"><i class="fa fa-users" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                    </div>
+                    <div class="col-sm-5 col-sm-offset-1 col-lg-4 col-lg-offset-1">
+                        <div id="study-phases">
+                            <h3 class="address"></h3>
+                            <div class="alert-space alert-no-phase-data"></div>
+                            <div id="phase-steps-container" style="margin-top: 15px"></div>
+                        </div>
+                        <div class="btn-group-vertical btn-block" style="margin-top: 50px">
+                            <button class="btn btn-default btn-shadow" type="button" id="btn-edit-study"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text">Studie bearbeiten</span></button>
+                            <button class="btn btn-default btn-shadow" type="button" id="btn-preview-study"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text">Vorschau der Studie</span></button>
+                            <button class="btn btn-default btn-shadow" type="button" id="btn-delete-study"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text">Studie löschen</span></button>
+                            <button class="btn btn-default btn-shadow" type="button" id="btn-prepare-study"><i class="fa fa-inbox" aria-hidden="true"></i> <span class="btn-text">Studie durchführen</span></button>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12" style="margin-top: 20px;" id="copy-to-clipboard">
+                        <div class="input-group">
+                            <div class="input-group-addon">Studien-URL</div>
+                            <input type="text" class="form-control" id="static-study-url">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-shadow" type="button" id="btn-open-static-study-url"><i class="fa fa-external-link" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <hr>
+            <div role="tabpanel" class="tab-pane" id="study-catalogs">
+                <!--                <div class="row">
+                                    <div class="col-xs-12">-->
+                <!--<div id="study-catalogs">-->
+                <!--<h3 class="address">Kataloge</h3>-->
+                <div class="alert-space alert-no-phase-data"></div>
 
-            <div class="row" style="margin-top: 20px">
-                <div class="col-xs-12">
-                    <div id="study-catalogs">
-                        <h3 class="address">Kataloge</h3>
-                        <div class="alert-space alert-no-phase-data"></div>
-                        <div id="study-gestures-catalog" class="hidden">
-                            <h4 class="address"></h4>
-                            <div class="list-container row" id="gestures-list-container"></div>
+                <div id="study-gestures-catalog" class="hidden">
+                    <h4 class="address"></h4>
+                    <div class="list-container row" id="gestures-list-container"></div>
+                </div>
+
+                <div id="study-scenes-catalog" class="hidden" style="margin-top: 20px;">
+                    <h4 class="address"></h4>
+                    <div class="list-container"></div>
+                </div>
+
+                <div class="row" style="margin-top: 20px;">
+                    <div id="study-trigger-catalog" class="hidden col-sm-6">
+                        <h4 class="address"></h4>
+                        <div class="list-container"></div>
+                    </div>
+
+                    <div id="study-feedback-catalog" class="hidden col-sm-6" style="margin-top: 20px;">
+                        <h4 class="address"></h4>
+                        <div class="list-container"></div>
+                    </div>
+
+                </div>
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+
+            <!--            <div role="tabpanel" class="tab-pane" id="study-gestures">
+                            <div id="study-gestures-catalog" class="hidden">
+                                <h4 class="address"></h4>
+                                <div class="list-container row" id="gestures-list-container"></div>
+                            </div>
                         </div>
-                        <div id="study-scenes-catalog" class="hidden" style="margin-top: 20px;">
-                            <h4 class="address"></h4>
-                            <div class="list-container"></div>
+            
+                        <div role="tabpanel" class="tab-pane" id="study-scenes">
+                            <div id="study-scenes-catalog" class="hidden" style="margin-top: 20px;">
+                                <h4 class="address"></h4>
+                                <div class="list-container"></div>
+                            </div>
                         </div>
-                        <div class="row" style="margin-top: 20px;">
+            
+                        <div role="tabpanel" class="tab-pane" id="study-trigger">
                             <div id="study-trigger-catalog" class="hidden col-sm-6">
                                 <h4 class="address"></h4>
                                 <div class="list-container"></div>
                             </div>
+                        </div>
+            
+                        <div role="tabpanel" class="tab-pane" id="study-feedback">
                             <div id="study-feedback-catalog" class="hidden col-sm-6" style="margin-top: 20px;">
                                 <h4 class="address"></h4>
                                 <div class="list-container"></div>
                             </div>
+                        </div>-->
+
+            <div role="tabpanel" class="tab-pane" id="study-participants">
+                <!--<div class="row">-->
+                <!--<div class="col-xs-12">-->
+                <!--<h3 class="address">Teilnahmen</h3>-->
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="list-container row"></div>
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="gesture-extraction">
+            </div>
+
+
+
+            <!--            <hr>
+            
+                        
+
+            <!--<hr>-->
+
+            <!--            <div class="row" style="margin-top: 20px" id="study-participants">
+                            <div class="col-xs-12">
+                                <h3 class="address">Teilnahmen</h3>
+                                <div class="alert-space alert-no-phase-data"></div>
+                                <div class="list-container row" style="margin-top: 20px"></div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="row" style="margin-top: 20px" id="study-participants">
-                <div class="col-xs-12">
-                    <h3 class="address">Teilnahmen</h3>
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="list-container row" style="margin-top: 20px"></div>
-                </div>
-            </div>
-
-            <hr>
+            
+                        <hr>-->
 
         </div>
 
@@ -210,7 +286,7 @@ if (login_check($mysqli) == true) {
                 $('#study-description .address').text(translation.description);
                 $('#study-description .text').text(studyData.generalData.description);
 
-                console.log(studyData.generalData.gender);
+                console.log(studyData);
                 if (studyData.generalData.panelSurvey === 'yes') {
                     $('#panel-survey, .panel-survey').removeClass('hidden');
                     $('.panel-survey .address').text(translation.panelSurvey + ":");
@@ -223,6 +299,12 @@ if (login_check($mysqli) == true) {
                         $('.panel-survey .text').text(translation.incompleteData);
                     }
                 }
+
+                if (studyData.generalData.phase === TYPE_PHASE_ELICITATION) {
+                    $('#tab-btn-gesture-extraction').removeClass('hidden');
+                }
+
+
 
                 // date range view
                 var now = new Date().getTime();
@@ -355,6 +437,10 @@ if (login_check($mysqli) == true) {
                             }
                         });
                     }
+                });
+
+                $('#tap-pane').on('change', function (event) {
+                    console.log('on change');
                 });
 
 

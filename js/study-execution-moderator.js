@@ -273,14 +273,15 @@ var Moderator = {
         Moderator.renderGestureTraining(source, container, data.training);
 
         // observation section
-        if (data.observations && data.observations.length > 0) {
-            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
-
-            $(container).find('#observations').on('change', function () {
-                var study = getLocalItem(STUDY);
-                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId);
-            });
-        }
+        renderObservations(data, container);
+//        if (data.observations && data.observations.length > 0) {
+//            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
+//
+//            $(container).find('#observations').on('change', function () {
+//                var study = getLocalItem(STUDY);
+//                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId);
+//            });
+//        }
 
         return container;
     },
@@ -685,6 +686,10 @@ var Moderator = {
             $(this).remove();
 //            $(item).find('#trigger-identification').removeClass('disabled');
             wobble([container.find('#identificationContainer')]);
+            
+            if(peerConnection) {
+                peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION);
+            }
         });
 
 //        $(item).find('#trigger-identification').on('click', function (event) {

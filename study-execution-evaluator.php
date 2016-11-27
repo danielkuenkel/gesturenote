@@ -177,7 +177,7 @@ if ($h && $token && $studyId) {
                 var query = getQueryParams(document.location.search);
                 getObservations({studyId: query.studyId, participantId: query.testerId}, function (result) {
                     if (result.status === RESULT_SUCCESS) {
-                        if (result.evaluatorData.observations && result.evaluatorData.observations.length > 0) {
+                        if (result.evaluatorData && result.evaluatorData.observations && result.evaluatorData.observations.length > 0) {
                             setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, result.evaluatorData.observations);
                         }
                     }
