@@ -828,6 +828,7 @@
     "answer": "Antwort",
     "answers": "Antworten",
     "gus": "GUS (Gesture Usability Scale)",
+    "recordedGestures": "Aufgezeichnete Gesten",
     "gestureName": "Gesten-Name",
     "gestureContext": "Gesten-Kontext",
     "gestureContextQuestion": "Wo soll die Geste eingesetzt werden?",
@@ -2857,6 +2858,11 @@
             "id": "please-wait",
             "type": "warning",
             "text": "Bitte warten …"
+        },
+        "noRecordedGestures": {
+            "id": "no-recorded-gestures",
+            "type": "warning",
+            "text": "Es wurden noch keine Gesten vom Probanden aufgezeichnet. Bitte warten …"
         }
     }
 }

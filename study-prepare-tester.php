@@ -153,6 +153,7 @@ if ($h && $token && $studyId) {
                 <div class="col-xs-12">
                     <div class="alert-space alert-study-over-range"></div>
                     <div class="alert-space alert-study-under-range"></div>
+                    <div class="alert-space alert-web-rtc-not-supported"></div>
                     <div class="alert-space alert-waiting-for-moderator"></div>
                     <!--<div class="btn-group-justified">-->
                     <button class="btn btn-block btn-info btn-shadow" id="btn-enter-study"><?php echo $lang->enterStudyAsTester ?></button>
@@ -201,7 +202,7 @@ if ($h && $token && $studyId) {
 
         var requestInterval = null;
         function renderData(data) {
-            console.log(data);
+//            console.log(data);
             var studyData = data.studyData;
             $('#study-headline').text(studyData.generalData.title);
             $('#type-survey').text(translation.surveyType[studyData.generalData.surveyType]);
@@ -224,10 +225,6 @@ if ($h && $token && $studyId) {
                 if (data.studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
                     $('#btn-enter-study').addClass('hidden');
 
-                    // show waiting screen
-                    appendAlert($('#study-participation'), ALERT_WAITING_FOR_MODERATOR);
-
-
                     var rtcToken = hex_sha512(new Date().getTime() + " " + chance.natural());
                     var study = getLocalItem(STUDY);
 
@@ -239,15 +236,19 @@ if ($h && $token && $studyId) {
                         }
                     });
 
-                    requestInterval = setInterval(function () {
-                        requestParticipation({studyId: study.id, rtcToken: rtcToken}, function (result) {
-                            if (result.status === RESULT_SUCCESS) {
-                                if (!result.data) {
-                                    appendAlert($('#study-participation'), ALERT_WAITING_FOR_MODERATOR);
+                    if (getBrowser() !== 'chrome') {
+                        appendAlert($('#study-participation'), ALERT_WEB_RTC_NOT_SUPPORTED);
+                    } else {
+                        requestInterval = setInterval(function () {
+                            requestParticipation({studyId: study.id, rtcToken: rtcToken}, function (result) {
+                                if (result.status === RESULT_SUCCESS) {
+                                    if (!result.data) {
+                                        appendAlert($('#study-participation'), ALERT_WAITING_FOR_MODERATOR);
+                                    }
                                 }
-                            }
-                        });
-                    }, 1000);
+                            });
+                        }, 1000);
+                    }
                 } else {
                     $('#btn-enter-study').on('click', function (event) {
                         event.preventDefault();
@@ -273,7 +274,6 @@ if ($h && $token && $studyId) {
         var peerConnection = null;
         function initVideoCaller(rtcToken) {
             console.log('initializeRTCPeerConnection', rtcToken);
-
             var callerOptions = {
                 callerElement: $('#video-caller'),
                 localVideoElement: 'local-stream',

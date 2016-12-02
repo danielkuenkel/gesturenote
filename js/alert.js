@@ -69,6 +69,8 @@ var ALERT_STUDY_UNDER_RANGE = 'study-under-range';
 
 var ALERT_PLEASE_WAIT = 'please-wait';
 
+var ALERT_NO_RECORDED_GESTURES = 'no-recorded-gestures';
+
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);
 

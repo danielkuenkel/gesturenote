@@ -223,6 +223,7 @@ if (login_check($mysqli) == true) {
             </div>
 
             <div role="tabpanel" class="tab-pane" id="gesture-extraction">
+
             </div>
 
 
@@ -267,6 +268,7 @@ if (login_check($mysqli) == true) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
 //                            if (result.data) {
+                            setStudyData(result);
                             renderData(result);
 //                            } else {
 //                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
@@ -299,11 +301,6 @@ if (login_check($mysqli) == true) {
                         $('.panel-survey .text').text(translation.incompleteData);
                     }
                 }
-
-                if (studyData.generalData.phase === TYPE_PHASE_ELICITATION) {
-                    $('#tab-btn-gesture-extraction').removeClass('hidden');
-                }
-
 
 
                 // date range view
@@ -441,6 +438,7 @@ if (login_check($mysqli) == true) {
 
                 $('#tap-pane').on('change', function (event) {
                     console.log('on change');
+//                    TweenMax.from();
                 });
 
 
@@ -472,6 +470,39 @@ if (login_check($mysqli) == true) {
 
                 if (noCatalogData) {
                     appendAlert($('#study-catalogs'), ALERT_NO_PHASE_DATA);
+                }
+
+
+                // gesture/trigger extraction view
+                if (studyData.generalData.phase === TYPE_PHASE_ELICITATION) {
+                    $('#tab-btn-gesture-extraction').removeClass('hidden');
+                    var trigger = false;
+                    var gestures = false;
+//                    console.log(data.studyData.phases);
+                    for (var i = 0; i < data.studyData.phases.length; i++) {
+                        if (data.studyData.phases[i].format === IDENTIFICATION) {
+                            var phaseData = getLocalItem(data.studyData.phases[i].id + '.data');
+                            console.log(phaseData);
+                            if (phaseData.identificationFor === 'gestures') {
+                                gestures = true;
+                            } else {
+                                trigger = true;
+                            }
+                        }
+                    }
+
+                    console.log(gestures, trigger);
+                    getExtractionData({studyId: data.id}, function (result) {
+                        if (result.status === RESULT_SUCCESS) {
+                            if(result.elicitedGestures && result.elicitedGestures.length > 0) {
+                                setLocalItem(ELICITED_GESTURES, result.elicitedGestures);
+                            }
+                            renderExtraction();
+                        }
+//                         else {
+//
+//                        }
+                    });
                 }
             }
 
@@ -579,6 +610,17 @@ if (login_check($mysqli) == true) {
                 }
 
                 console.log('guests: ' + guestUsers + ', registered: ' + registeredUsers + ', success: ' + successfullStudies);
+            }
+
+
+            function renderExtraction(data) {
+            var elicitedGestures = getLocalItem(ELICITED_GESTURES);
+                if (elicitedGestures && elicitedGestures.length > 0)
+                {
+                    for (var i = 0; i < elicitedGestures.length; i++) {
+                        console.log(elicitedGestures[i]);
+                    }
+                }
             }
         </script>
     </body>

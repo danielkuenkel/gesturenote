@@ -304,6 +304,23 @@ function getStudyResults(data, callback) {
     });
 }
 
+function getExtractionData(data, callback) {
+    $.ajax({
+        url: 'includes/get-extraction-data.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getStudiesCatalog(callback) {
     $.ajax({
         url: 'includes/get-studies.php',

@@ -172,6 +172,7 @@ var MESSAGE_NEXT_STEP = 'nextStep';
 var MESSAGE_CANCEL_SURVEY = 'cancelSurvey';
 
 var MESSAGE_START_IDENTIFICATION = 'startIdentification';
+var MESSAGE_GESTURE_IDENTIFIED = 'gestureIdentified';
 
 var MESSAGE_START_TRIGGER_SLIDESHOW = 'startTriggerSlideshow';
 var MESSAGE_START_SCENARIO = 'startScenario';
@@ -182,7 +183,7 @@ var MESSAGE_HELP_CLOSED = 'helpClosed';
 
 var MESSAGE_START_GESTURE_SLIDESHOW = 'startGestureSlideshow';
 var MESSAGE_TRIGGER_GESTURE_SLIDE = 'triggerGestureSlide';
-var MESSAGE_RESTART_GESTURE_SLIDES = 'restartGestureSlides';
+//var MESSAGE_RESTART_GESTURE_SLIDES = 'restartGestureSlides';
 var MESSAGE_REACTIVATE_CONTROLS = 'reactivateControls';
 var MESSAGE_GESTURE_PERFORMED = 'gesturePerformed';
 

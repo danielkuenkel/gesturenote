@@ -6,11 +6,23 @@
 
 
 function getGestureById(id) {
-    var predefinedGestures = getLocalItem(GESTURE_CATALOG);
-    if (predefinedGestures && predefinedGestures.length > 0) {
-        for (var i = 0; i < predefinedGestures.length; i++) {
-            if (parseInt(predefinedGestures[i].id) === parseInt(id)) {
-                return predefinedGestures[i];
+    var gestures = getLocalItem(GESTURE_CATALOG);
+    if (gestures && gestures.length > 0) {
+        for (var i = 0; i < gestures.length; i++) {
+            if (parseInt(gestures[i].id) === parseInt(id)) {
+                return gestures[i];
+            }
+        }
+    }
+    return null;
+}
+
+function getElicitedGestureById(id) {
+    var gestures = getLocalItem(ELICITED_GESTURES);
+    if (gestures && gestures.length > 0) {
+        for (var i = 0; i < gestures.length; i++) {
+            if (parseInt(gestures[i].id) === parseInt(id)) {
+                return gestures[i];
             }
         }
     }

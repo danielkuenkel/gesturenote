@@ -1,3 +1,7 @@
+<?php
+include '../includes/language.php';
+?>
+
 <div id="item-container-moderator" class="hidden">
 
     <div id="moderator-web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
@@ -12,6 +16,39 @@
         <div class="col-md-4" id="column-left"></div>
         <div class="col-md-8" id="column-right">
             <div class="alert-space alert-no-phase-data"></div>
+        </div>
+    </div>
+    
+    <!-- gesture thumbnail -->
+    <div class="root gesture-thumbnail col-xs-6 col-sm-4" id="gesture-thumbnail">
+        <div class="panel panel-default btn-shadow">
+            <div class="panel-heading" style=" text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
+                <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
+            </div>
+
+            <div class="panel-body">
+                <div class="previewGesture mousePlayable"></div>
+                <div class="text-center hidden gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                    </div>
+                </div>
+<!--                <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>-->
+            </div>
+            <div class="panel-footer">
+                <div class="btn-group btn-group-justified">
+<!--                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                    </div>-->
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -202,7 +239,7 @@
 
     <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
             <div class="question text"></div> 
             <span class="label label-danger hidden" id="reversed">negiert</span>
         </div>
@@ -468,22 +505,28 @@
                 </div>
             </div>
 
-            <div class="panel panel-default" id="observations">
-                <div class="panel-heading">
-                    Beobachtungen
+            <div class="panel panel-default" id="recordedGestures">
+                <div class="panel-heading"><?php echo $lang->recordedGestures ?></div>
+                <div class="panel-body">
+                    <div class="alert-space alert-no-recorded-gestures" style="margin-bottom: 0"></div>
+                    <div id="recordedContainer" class="row" style="margin-bottom: 0"></div>
                 </div>
+            </div>
+
+            <div class="panel panel-default" id="observations">
+                <div class="panel-heading"><?php echo $lang->observations ?></div>
                 <div class="panel-body question-container"></div>
             </div>
         </div>
     </div>
 
-    <div id="identificationItem">
+    <div id="identificationItem" class="identificationItem">
         <!--<div>-->
         <div class="text" id="index" style="float: left">
 
         </div>
         <div class="triggerContainer" style="float: left; margin-left: 10px">
-            <div id="search"><span class="address">Ermittelt wird:</span> <span class="text"></span></div>
+            <div id="search"><span class="address">Ermittelt wird:</span> <span class="text"></span> <i class="fa fa-check text-green hidden"></i></div>
             <div id="search-for"><span class="address">Für:</span> <span class="text"></span></div>
             <!--<div id="gesture-repeats" class="hidden"><span class="address">Geste wiederholen:</span> <span class="text"></span></div>-->
         </div>

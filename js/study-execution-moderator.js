@@ -351,7 +351,7 @@ var Moderator = {
                 trainingTriggered = true;
 
                 if (!previewModeEnabled && peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_TRAINING_TRIGGERED, {currentGestureTrainingIndex: currentGestureTrainingIndex});
+                    peerConnection.sendMessage(MESSAGE_TRAINING_TRIGGERED, {currentGestureTrainingIndex: currentGestureTrainingIndex, gestureId: gesture.id});
                 }
             } else {
                 if (gestureTrainingStartTriggered) {
@@ -453,8 +453,6 @@ var Moderator = {
     },
     renderGestureSlide: function renderGestureSlide(source, container, data) {
         if (currentSlideIndex > data.slideshow.length - 1) {
-
-
             if (previewModeEnabled) {
                 renderSlide(data.slideshow.length - 1);
             }
@@ -480,6 +478,7 @@ var Moderator = {
             $(item).find('#given').text(trigger.title);
             imageContainer = $(item).find('.right .previewGesture');
             $(container).find('#search-gestures').removeClass('hidden');
+            
             if (slideshowStartTriggered) {
                 $(container).find('#btn-start-slideshow').remove();
             } else {
@@ -686,11 +685,40 @@ var Moderator = {
             $(this).remove();
 //            $(item).find('#trigger-identification').removeClass('disabled');
             wobble([container.find('#identificationContainer')]);
-            
-            if(peerConnection) {
+
+            if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION);
             }
         });
+
+        if (peerConnection) {
+            $(peerConnection).unbind(MESSAGE_GESTURE_IDENTIFIED).bind(MESSAGE_GESTURE_IDENTIFIED, function (event, payload) {
+                var listItems = $(container).find('#identificationContainer .identificationItem');
+                if (listItems && listItems.length > 0) {
+                    var listItem = listItems[payload.index];
+                    $(listItem).addClass('text-green');
+                    $(listItem).find('.fa-check').removeClass('hidden');
+                }
+
+                clearAlerts($(container).find('#recordedGestures'));
+                console.log('gesture identified', payload, listItems);
+
+                var elicitedGestures = getLocalItem(ELICITED_GESTURES);
+                if (elicitedGestures) {
+                    elicitedGestures.push(payload.gesture);
+                    setLocalItem(ELICITED_GESTURES, elicitedGestures);
+                } else {
+                    var array = new Array();
+                    array.push(payload.gesture);
+                    setLocalItem(ELICITED_GESTURES, array);
+                }
+
+                var thumbnail = getGestureElicitationListThumbnail($(source).find('#gesture-thumbnail').clone(), payload.gesture, 'col-xs-6 col-sm-4');
+                $(container).find('#recordedGestures #recordedContainer').append(thumbnail);
+            });
+        }
+
+        appendAlert($(container).find('#recordedGestures'), ALERT_NO_RECORDED_GESTURES);
 
 //        $(item).find('#trigger-identification').on('click', function (event) {
 //            event.preventDefault();

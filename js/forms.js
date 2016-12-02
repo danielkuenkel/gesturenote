@@ -729,7 +729,7 @@ function renderEditableGroupingQuestion(item, question, answer) {
 
     }
 
-    if (answer.optionalAnswer !== '') {
+    if (answer && answer.optionalAnswer && answer.optionalAnswer !== '') {
 //        console.log($(item).find('#checkbox-optionalanswer .btn-checkbox'))
         setTimeout(function () {
             var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';

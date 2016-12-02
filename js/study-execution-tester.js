@@ -346,7 +346,7 @@ var Tester = {
 
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    tempData.training.push({gestureId: gesture.id, gestureTrainingStart: new Date().getTime()});
+                    tempData.training.push({gestureId: payload.gestureId, gestureTrainingStart: new Date().getTime()});
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 });
 
@@ -587,26 +587,33 @@ var Tester = {
             });
 
             $(peerConnection).unbind(MESSAGE_TRIGGER_GESTURE_SLIDE).bind(MESSAGE_TRIGGER_GESTURE_SLIDE, function (event, payload) {
-                event.stopPropagation();
-                event.stopImmediatePropagation();
+//                event.stopPropagation();
+//                event.stopImmediatePropagation();
                 slideRestarted = false;
                 slideTriggered = true;
                 currentSlideIndex = parseInt(payload.currentSlideIndex);
                 Tester.renderModeratedGestureSlideshow(source, container, data);
             });
 
-            $(peerConnection).unbind(MESSAGE_RESTART_GESTURE_SLIDES).bind(MESSAGE_RESTART_GESTURE_SLIDES, function (event, payload) {
-                event.stopPropagation();
-                event.stopImmediatePropagation();
-                slidesRestartCount++;
-                slideRestarted = true;
-                slideTriggered = false;
-                Tester.renderModeratedGestureSlideshowOverview(source, container, data);
-            });
+//            $(peerConnection).unbind(MESSAGE_RESTART_GESTURE_SLIDES).bind(MESSAGE_RESTART_GESTURE_SLIDES, function (event, payload) {
+////                event.stopPropagation();
+////                event.stopImmediatePropagation();
+//                slidesRestartCount++;
+//                if (!previewModeEnabled) {
+//                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+//                    tempData.restarts = slidesRestartCount;
+//                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//                }
+//
+//                slideRestarted = true;
+//                slideTriggered = false;
+//                Tester.renderModeratedGestureSlideshowOverview(source, container, data);
+//            });
 
             $(peerConnection).unbind(MESSAGE_GESTURE_PERFORMED).bind(MESSAGE_GESTURE_PERFORMED, function (event, payload) {
+                console.log(payload);
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.restarts = slidesRestartCount;
+                tempData.restarts = parseInt(payload.restartCount);
                 if (payload.fit) {
                     tempData.actions.push({action: payload.action, gestureId: payload.gestureId, triggerId: payload.triggerId, selectedGestureId: payload.selectedGestureId, fit: payload.fit, time: new Date().getTime()});
                 } else {
@@ -956,20 +963,24 @@ var Tester = {
                 TweenMax.from(descriptions, .3, {y: -20, opacity: 0, clearProps: 'all'});
             });
 
-            $(gestureRecorder).unbind(EVENT_GR_SAVE_SUCCESS).bind(EVENT_GR_SAVE_SUCCESS, function (event, gestureId) {
+            $(gestureRecorder).unbind(EVENT_GR_SAVE_SUCCESS).bind(EVENT_GR_SAVE_SUCCESS, function (event, gesture) {
                 event.preventDefault();
                 $(item).find('#next-controls').removeClass('hidden');
                 if (!previewModeEnabled) {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                     if (tempData.gestures !== null && tempData.gestures !== undefined) {
-                        tempData.gestures.push(gestureId);
+                        tempData.gestures.push(gesture.id);
                     } else {
                         var array = new Array();
-                        array.push(parseInt(gestureId));
+                        array.push(parseInt(gesture.id));
                         tempData.gestures = array;
                     }
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+
+                    if (peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED, {gesture: gesture, index: currentIdentificationIndex});
+                    }
                 }
             });
 
@@ -1018,8 +1029,8 @@ var Tester = {
 
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
-                
-                if(!previewModeEnabled && peerConnection) {
+
+                if (!previewModeEnabled && peerConnection) {
                     peerConnection.sendMessage(MESSAGE_NEXT_STEP);
                 }
                 nextStep();
@@ -1133,6 +1144,15 @@ var Tester = {
         $(container).find('#stressTestContainer').removeClass('hidden').empty().append(item);
         var gesture = getGestureById(data.stressTestItems[currentStressTestIndex]);
         renderGestureImages($(container).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+
+        if (stressTestGestureTriggered) {
+            if (!previewModeEnabled) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, time: new Date().getTime()});
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            }
+        }
 
         var questionContainer = $(container).find('#stress-test-questionnaire');
         if (stressTestQuestionsTriggered) {
@@ -1397,12 +1417,21 @@ var Tester = {
                 currentWOZScene = payload.currentWOZScene;
 
                 checkWOZ();
+
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             });
 
             $(peerConnection).unbind(MESSAGE_TRIGGER_HELP).bind(MESSAGE_TRIGGER_HELP, function (event, payload) {
 //                console.log(messageData.options.help);
                 triggeredHelp = payload.help;
                 checkHelp();
+
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_REQUEST_HELP, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+
             });
 
             $(peerConnection).unbind(MESSAGE_RELOAD_SCENE).bind(MESSAGE_RELOAD_SCENE, function (event, payload) {
@@ -1699,8 +1728,8 @@ var Tester = {
 };
 
 function checkRTCUploadStatus(container) {
-    if (isUploadRecordingNeeded()) {
-        console.log('sumbmit final data with upload queue');
+    if (isUploadRecordingNeeded() && !uploadQueue.allFilesUploaded()) {
+        console.log('sumbmit final data with upload queue, some files where not uploaded yet!');
         submitFinalData(container, false);
         $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED).bind(EVENT_ALL_FILES_UPLOADED, function () {
             console.log('allVideosUploaded');
@@ -1708,7 +1737,7 @@ function checkRTCUploadStatus(container) {
             submitFinalData(container, true);
         });
     } else {
-        console.log('sumbmit final data without upload queue');
+        console.log('sumbmit final data without upload queue, or all files where uploaded.');
         submitFinalData(container, true);
     }
 }

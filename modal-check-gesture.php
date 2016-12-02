@@ -61,7 +61,7 @@
                         setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                     } else {
                         if (peerConnection) {
-                            peerConnection.sendMessage(MESSAGE_GESTURE_PERFORMED, {action: action, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: null});
+                            peerConnection.sendMessage(MESSAGE_GESTURE_PERFORMED, {action: action, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: null, restartCount: slidesRestartCount});
                         }
                     }
                 }
@@ -81,8 +81,7 @@
             var clone = $('#tester-check-item').clone().removeClass('hidden').removeAttr('id');
             $('#list-container').append(clone);
             var gesture = getGestureById(items[i].gestureId);
-            renderGestureImages(clone.find('.previewGesture'), gesture.images, gesture.previewImage, function () {
-            });
+            renderGestureImages(clone.find('.previewGesture'), gesture.images, gesture.previewImage, null);
 
             $(clone).find('#btn-select-item').click({gesture: gesture}, function (event) {
                 event.preventDefault();
@@ -107,7 +106,7 @@
                             setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                         } else {
                             if (peerConnection) {
-                                peerConnection.sendMessage(MESSAGE_GESTURE_PERFORMED, {action: ACTION_SELECT_GESTURE, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: event.data.gesture.id, fit: gestureFit});
+                                peerConnection.sendMessage(MESSAGE_GESTURE_PERFORMED, {action: ACTION_SELECT_GESTURE, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: event.data.gesture.id, fit: gestureFit, restartCount: slidesRestartCount});
                             }
                         }
                     }

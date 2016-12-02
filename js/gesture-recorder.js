@@ -319,8 +319,8 @@ function showPreview() {
 function showSave() {
     $(recorder.options.recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_SAVE]);
     $(recorder.options.recorderTarget).find('#save-controls').removeClass('hidden');
-    
-    if(recorder.options.context) {
+
+    if (recorder.options.context) {
         $(recorder.options.recorderTarget).find('#gestureContext').val(recorder.options.context);
     }
 
@@ -390,13 +390,23 @@ function showSave() {
                     $(uploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
                         var imagesURLs = uploadQueue.getUploadURLs();
 //                        console.log('all files uploaded: save data into db', imagesURLs);
-                        var ownerId = recorder.options.ownerId || null; 
+                        var ownerId = recorder.options.ownerId || null;
                         saveRecordedGesture({title: title, context: context, description: description, joints: joints, previewImage: previewImageIndex, gestureImages: imagesURLs, ownerId: ownerId}, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
 
                             if (result.status === RESULT_SUCCESS) {
-                                $(recorder.options.recorderTarget).trigger(EVENT_GR_SAVE_SUCCESS, [result.gestureId]);
+                                var gesture = {
+                                    id: result.gestureId,
+                                    title: title,
+                                    context: context,
+                                    description: description,
+                                    joints: joints,
+                                    previewImage: previewImageIndex,
+                                    images: imagesURLs
+                                };
+
+                                $(recorder.options.recorderTarget).trigger(EVENT_GR_SAVE_SUCCESS, [gesture]);
                                 $(recorder.options.recorderTarget).find('#success-controls #btn-delete-saved-gesture').attr('name', result.gestureId);
                                 renderGestureImages($(recorder.options.recorderTarget).find('#success-controls .previewGesture'), result.images, result.previewImage, null);
                                 showSaveSuccess();
