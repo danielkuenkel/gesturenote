@@ -136,11 +136,11 @@
     var currentRatings = [{physicalContext: 0, adaption: 0, fittingTask: 0}];
     $(document).ready(function () {
 //        initGestureRating($('#gesture-rating'), 5);
-        renderModalData(currentGesturePreviewId);
+        renderModalData();
 //        renderGestureRating($('#gesture-rating'), testRatings, true); //result.ratings);
 
         $('#custom-modal').bind('hidden.bs.modal', function () {
-            currentGesturePreviewId = null;
+            currentPreviewGesture = null;
             gesturePreviewOpened = false;
             $(this).unbind('hidden.bs.modal');
         });
@@ -218,7 +218,7 @@
                     ratings[id] = rating;
                 }
 
-                submitRatingForGesture({gestureId: currentGesturePreviewId, ratings: ratings}, function (result) {
+                submitRatingForGesture({gestureId: currentPreviewGesture.id, ratings: ratings}, function (result) {
                     $(button).removeClass('disabled');
                     $(button).closest('.gesture-rating').find('#btn-cancel-gesture-rating').removeClass('disabled');
 
@@ -305,7 +305,7 @@
     }
 
     function renderModalData() {
-        var gesture = getElicitedGestureById(currentGesturePreviewId);
+        var gesture = currentPreviewGesture;
         if (gesture === null) {
             return false;
         }
@@ -356,7 +356,7 @@
         renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
         renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
 
-        var thumbnail = $('#item-view #gestures-list-container').find('#' + currentGesturePreviewId);
+        var thumbnail = $('#item-view #gestures-list-container').find('#' + currentPreviewGesture.id);
 //
 //        $(container).find('#btn-share-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
 //            event.preventDefault();

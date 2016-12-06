@@ -1527,11 +1527,14 @@ function getTimeString(object, short, milliseconds) {
 
 
 
-var currentGesturePreviewId = null;
+var currentPreviewGesture = null;
 var gesturePreviewOpened = false;
 var gesturePreviewDeleteable = true;
-function getGestureCatalogListThumbnail(data, layout) {
-
+function getGestureCatalogListThumbnail(data, layout, source) {
+    if(!source || source === null || source === undefined) {
+        source = GESTURE_CATALOG;
+    }
+    
     var clone = $('#gestures-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
     clone.attr('id', data.id);
     clone.find('.title-text').text(data.title + " ");
@@ -1583,10 +1586,10 @@ function getGestureCatalogListThumbnail(data, layout) {
         }
     });
 
-    $(clone).find('#btn-show-gesture-info').click({gestureId: data.id, clone: clone}, function (event) {
+    $(clone).find('#btn-show-gesture-info').click({gesture: data, clone: clone}, function (event) {
         event.preventDefault();
         resetThumbnails($(event.data.clone).find('.previewGesture'));
-        currentGesturePreviewId = event.data.gestureId;
+        currentPreviewGesture = {gesture: event.data.gesture, source: source};
         gesturePreviewOpened = true;
         $(clone).find('#btn-stop-gesture').click();
 
@@ -1638,7 +1641,7 @@ function getGestureCatalogListThumbnail(data, layout) {
                         clone.find('#gesture-scope .fa').addClass('hidden');
                         clone.find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
 
-                        updateGestureById(GESTURE_CATALOG, result.id, {scope: 'public'});
+                        updateGestureById(source, result.id, {scope: 'public'});
 
                         // check if this is needed after updateGesture() call
                         if (updateList === true) {
@@ -1664,7 +1667,7 @@ function getGestureCatalogListThumbnail(data, layout) {
                         clone.find('#gesture-scope .fa').addClass('hidden');
                         clone.find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
 
-                        updateGestureById(GESTURE_CATALOG, result.id, {scope: 'private'});
+                        updateGestureById(source, result.id, {scope: 'private'});
 
                         // check if this is needed after updateGesture() call
                         if (updateList === true) {
@@ -1742,10 +1745,10 @@ function getGestureElicitationListThumbnail(clone, data, layout) {
         }
     });
 
-    $(clone).find('#btn-show-gesture-info').click({gestureId: data.id, clone: clone}, function (event) {
+    $(clone).find('#btn-show-gesture-info').click({gesture: data, clone: clone}, function (event) {
         event.preventDefault();
         resetThumbnails($(event.data.clone).find('.previewGesture'));
-        currentGesturePreviewId = event.data.gestureId;
+        currentPreviewGesture = event.data.gesture;
         gesturePreviewOpened = true;
         $(clone).find('#btn-stop-gesture').click();
 

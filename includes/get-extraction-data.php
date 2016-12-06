@@ -8,8 +8,9 @@ include_once 'db_connect.php';
 include_once 'psl-config.php';
 
 session_start();
-if (isset($_POST['studyId'])) {
+if (isset($_SESSION['user_id'], $_POST['studyId'])) {
     $selectStudyId = $_POST['studyId'];
+    $sessionUserId = $_SESSION['user_id'];
 
     if ($select_stmt = $mysqli->prepare("SELECT data FROM study_results_tester WHERE study_id = '$selectStudyId'")) {
         if (!$select_stmt->execute()) {
@@ -28,9 +29,11 @@ if (isset($_POST['studyId'])) {
                     foreach ($phases as $item) {
 
                         if ($item->format === "identification" && isset($item->gestures)) {
-                            $gestureIds = $item->gestures;
+                            $gestures = $item->gestures;
                             $count = 0;
-                            foreach ($gestureIds as $gestureId) {
+                            foreach ($gestures as $gesture) {
+                                $gestureId = $gesture->id;
+                                $triggerId = $gesture->triggerId;
                                 if ($select_gesture_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE id = '$gestureId' LIMIT 1")) {
                                     if (!$select_gesture_stmt->execute()) {
                                         echo json_encode(array('status' => 'selectGesturesError'));
@@ -52,7 +55,8 @@ if (isset($_POST['studyId'])) {
                                             'previewImage' => $gesturePreviewImage,
                                             'images' => json_decode($gestureImages),
                                             'created' => $gestureCreated,
-                                            'triggerIndex' => $count);
+                                            'isOwner' => $sessionUserId == $gestureOwnerId,
+                                            'triggerId' => $triggerId);
                                     }
                                     $count++;
                                 } else {

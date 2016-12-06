@@ -228,7 +228,7 @@ if (login_check($mysqli) == true) {
                 <div id="extraction-content" class="row">
 
                     <div class="col-sm-4 col-md-3" id="extraction-navigation">
-                        <h5 class="text">Allgemeines</h5>
+                        <h5 class="text">Vorbereitung</h5>
                         <div class="btn-group-vertical btn-block" id="btns-general">
                             <button class="btn btn-default btn-shadow" type="button" id="btn-all-gestures"><span class="btn-text">Alle ermittelte Gesten</span></button>
                             <button class="btn btn-default btn-shadow" type="button" id="btn-gesture-classification"><span class="btn-text">Gesten-Klassifizierung</span></button>
@@ -246,7 +246,38 @@ if (login_check($mysqli) == true) {
 
                     <div class="col-sm-8 col-md-9" id="extraction-navigation-content" style="margin-top: 5px">
                         <div id="content-btn-all-gestures" class="hidden"></div>
-                        <div id="content-btn-gesture-classification" class="hidden"></div>
+                        <div id="content-btn-gesture-classification" class="hidden">
+                            <div><span class="text">Gesten klassifizieren</span> 
+                                <button type="button" class="btn btn-xs btn-default btn-shadow" style="margin-left:5px"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text">Neu initiieren</span></button>
+                            </div>
+                            <!--                            <div class="row text-center text" style="margin-top:20px">
+                                                            
+                                                        </div>-->
+                            <div id="gesture-classification" class="row" style="margin-top:20px">
+                                <div class="col-xs-4 col-sm-4"><div class="row"><div id="gesture-left"></div></div></div>
+                                <div class="col-xs-4 col-sm-4 text-center">
+
+                                    <p class="text">Enspricht die Geste auf der linken Seite der auf der rechten Seite?</p>
+                                    <div class="btn-group btn-group-justified" role="group">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-danger btn-shadow" id="btn-gesture-no"><i class="fa fa-close"></i> <span class="btn-text">Nein</span></button>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-success btn-shadow" id="btn-gesture-yes"><i class="fa fa-check"></i> <span class="btn-text">Ja</span></button>
+                                        </div>
+                                    </div>
+                                    <!--                                    <div class="btn-group-vertical btn-block" role="group" style="margin-top:10px">
+                                                                            <button type="button" class="btn btn-default">Zurück</button>
+                                                                            <button type="button" class="btn btn-default">Abbrechen</button>
+                                                                            <button type="button" class="btn btn-default">Fertig</button>
+                                                                        </div>-->
+                                </div>
+                                <div class="col-xs-4 col-sm-4"><div class="row"><div id="gesture-right"></div></div></div>
+                            </div>
+                            <div style="margin-top:30px" class="text">Klassifizierte Gesten</div>
+                            <hr>
+                            <div id="classified-gestures"></div>
+                        </div>
                         <div id="content-btn-number-of-gesturess" class="hidden"></div>
                     </div>
 
@@ -524,12 +555,10 @@ if (login_check($mysqli) == true) {
                         if (result.status === RESULT_SUCCESS) {
                             if (result.elicitedGestures && result.elicitedGestures.length > 0) {
                                 setLocalItem(ELICITED_GESTURES, result.elicitedGestures);
+                                setLocalItem(CLASSIFICATION, result.classificiation || null);
                             }
                             renderExtraction();
                         }
-                        //                         else {
-                        //
-                        //                        }
                     });
                 }
             }
@@ -693,10 +722,10 @@ if (login_check($mysqli) == true) {
             }
 
             function renderAllGestures() {
-                $('#content-btn-all-gestures #gestures-list-container').empty();
+                $('#content-btn-all-gestures').empty();
                 var gestures = getLocalItem(ELICITED_GESTURES);
                 var trigger = getLocalItem(ASSEMBLED_TRIGGER);
-                if (trigger && trigger.length > 0) {
+                if (trigger && trigger.length > 0 && gestures && gestures.length > 0) {
                     for (var i = 0; i < trigger.length; i++) {
                         var triggerTitle = document.createElement('div');
 //                        var headlineText = document.createElement('span');
@@ -714,8 +743,8 @@ if (login_check($mysqli) == true) {
                         var gestureCount = 0;
                         for (var j = 0; j < gestures.length; j++) {
                             var gesture = gestures[j];
-                            if (parseInt(gesture.triggerIndex) === i) {
-                                var clone = getGestureCatalogListThumbnail(gestures[j], 'col-xs-6 col-sm-6 col-md-4');
+                            if (parseInt(trigger[i].id) === parseInt(gesture.triggerId)) {
+                                var clone = getGestureCatalogListThumbnail(gestures[j], 'col-xs-6 col-sm-6 col-md-4', ELICITED_GESTURES);
                                 $(container).append(clone);
                                 TweenMax.from(clone, .2, {delay: j * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                                 gestureCount++;
@@ -724,16 +753,70 @@ if (login_check($mysqli) == true) {
 
                         var countText = document.createElement('span');
                         $(countText).addClass('badge');
-                        $(countText).css({marginLeft:'6px'});
+                        $(countText).css({marginLeft: '6px'});
                         $(countText).text(gestureCount === 1 ? gestureCount + " " + translation.gesture : gestureCount + " " + translation.gestures);
                         $(triggerTitle).append(countText);
                     }
+                } else {
+                    // append alert
                 }
             }
 
+            var gesturesLeft = null;
+            var gesturesLeftIndex = 0;
+            var gesturesRight = null;
+            var gesturesRightIndex = 0;
             function renderGestureClassification() {
+                var classification = getLocalItem(CLASSIFICATION);
+                var elicitedGestures = getLocalItem(ELICITED_GESTURES);
+                console.log("classification: ", classification, "elicited gestures: ", elicitedGestures);
+
+                if (elicitedGestures && elicitedGestures.length > 0) {
+                    if (classification) {
+                        renderClassifiedGestures();
+                        console.log('there is classification data');
+                    } else {
+                        console.log('there is NO classification data');
+                        gesturesLeft = new Array();
+                        gesturesLeft.push(elicitedGestures[0]);
+                        gesturesRight = elicitedGestures;
+                        updateMatchingView();
+                    }
+                } else {
+                    console.log('no gestures for classification process');
+                }
+            }
+
+            function updateMatchingView() {
+                var leftGesture = gesturesLeft[gesturesLeftIndex];
+                var rightGesture = gesturesRight[gesturesRightIndex];
+                var leftItem = getGestureCatalogListThumbnail(leftGesture, 'col-xs-12', ELICITED_GESTURES);
+                var rightItem = getGestureCatalogListThumbnail(rightGesture, 'col-xs-12', ELICITED_GESTURES);
+                $('#gesture-left').empty().append(leftItem);
+                $('#gesture-right').empty().append(rightItem);
+            }
+
+            function renderClassifiedGestures() {
 
             }
+            
+            $('#btn-gesture-yes').on('click', function(event) {
+                event.preventDefault();
+                var leftId = parseInt($('#gesture-left').children().attr('id'));
+                var rightId = parseInt($('#gesture-right').children().attr('id'));
+                var leftGesture = getGestureById(leftId, ELICITED_GESTURES);
+                var rightGesture = getGestureById(rightId, ELICITED_GESTURES);
+                console.log(leftGesture, rightGesture);
+            });
+            
+            $('#btn-gesture-no').on('click', function(event) {
+                event.preventDefault();
+                var leftId = parseInt($('#gesture-left').children().attr('id'));
+                var rightId = parseInt($('#gesture-right').children().attr('id'));
+                var leftGesture = getGestureById(leftId, ELICITED_GESTURES);
+                var rightGesture = getGestureById(rightId, ELICITED_GESTURES);
+                console.log(leftGesture, rightGesture);
+            });
         </script>
     </body>
 </html>

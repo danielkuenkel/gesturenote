@@ -136,11 +136,11 @@
     var currentRatings = [{physicalContext: 0, adaption: 0, fittingTask: 0}];
     $(document).ready(function () {
         initGestureRating($('#gesture-rating'), 5);
-        renderModalData(currentGesturePreviewId);
+        renderModalData();
 //        renderGestureRating($('#gesture-rating'), testRatings, true); //result.ratings);
 
         $('#custom-modal').bind('hidden.bs.modal', function () {
-            currentGesturePreviewId = null;
+            currentPreviewGesture = null;
             gesturePreviewOpened = false;
             $(this).unbind('hidden.bs.modal');
         });
@@ -218,7 +218,7 @@
                     ratings[id] = rating;
                 }
 
-                submitRatingForGesture({gestureId: currentGesturePreviewId, ratings: ratings}, function (result) {
+                submitRatingForGesture({gestureId: currentPreviewGesture.gesture.id, ratings: ratings}, function (result) {
                     $(button).removeClass('disabled');
                     $(button).closest('.gesture-rating').find('#btn-cancel-gesture-rating').removeClass('disabled');
 
@@ -305,10 +305,12 @@
     }
 
     function renderModalData() {
-        var gesture = getGestureById(currentGesturePreviewId);
+        var gesture = getGestureById(currentPreviewGesture.gesture.id, currentPreviewGesture.source);
         if (gesture === null) {
             return false;
         }
+        
+        console.log(gesture);
 
         var container = $('#modal-body');
         container.find('#title .text').text(gesture.title);
@@ -356,7 +358,7 @@
         renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
         renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
 
-        var thumbnail = $('#item-view #gestures-list-container').find('#' + currentGesturePreviewId);
+        var thumbnail = $('#item-view #gestures-list-container').find('#' + currentPreviewGesture.gesture.id);
 
         $(container).find('#btn-share-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
             event.preventDefault();
@@ -384,8 +386,8 @@
                             $(thumbnail).find('#gesture-scope .fa').addClass('hidden');
                             $(thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
 
-                            updateGestureById(GESTURE_CATALOG, result.id, {scope: 'public'});
-                            originalFilterData = getLocalItem(GESTURE_CATALOG);
+                            updateGestureById(currentPreviewGesture.source, result.id, {scope: 'public'});
+                            originalFilterData = getLocalItem(currentPreviewGesture.source);
                             currentFilterData = sort();
 //                            getGestureCatalog(function (result) {
 //                                if (result.status === RESULT_SUCCESS) {
@@ -415,8 +417,8 @@
                             $(thumbnail).find('#gesture-scope .fa').addClass('hidden');
                             $(thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
 
-                            updateGestureById(GESTURE_CATALOG, result.id, {scope: 'private'});
-                            originalFilterData = getLocalItem(GESTURE_CATALOG);
+                            updateGestureById(currentPreviewGesture.source, result.id, {scope: 'private'});
+                            originalFilterData = getLocalItem(currentPreviewGesture.source);
                             currentFilterData = sort();
 //                            getGestureCatalog(function (result) {
 //                                if (result.status === RESULT_SUCCESS) {
@@ -476,7 +478,7 @@
                         $(button).removeClass('disabled');
                         $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').removeClass('disabled');
                         if (result.status === RESULT_SUCCESS) {
-                            updateGestureById(GESTURE_CATALOG, result.id, {title: result.title, context: result.context, description: result.description, joints: result.joints});
+                            updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, context: result.context, description: result.description, joints: result.joints});
                             $(thumbnail).find('.title-text').text(title);
                             $(button).removeClass('gesture-editable').addClass('gesture-previewable');
                             $(button).find('.btn-text').text(translation.edit);
@@ -484,7 +486,7 @@
                             $('#modal-body #gesture-data-edit').addClass('hidden');
 
 //                            setLocalItem(GESTURE_CATALOG, result.gestures);
-                            originalFilterData = getLocalItem(GESTURE_CATALOG);
+                            originalFilterData = getLocalItem(currentPreviewGesture.source);
 //                            currentFilterData = sort();
                             renderModalData();
                         } else {

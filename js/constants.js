@@ -28,6 +28,8 @@ var STUDY_PHASE_STEPS = 'study.phaseSteps';
 //var PREDEFINED_GESTURE_SET = 'predefinedGestureSet';
 var GESTURE_CATALOG = 'gestureCatalog';
 var ELICITED_GESTURES = 'elicitedGestures';
+var CLASSIFICATION = 'classification';
+
 var PREDEFINED_OBSERVATIONS = 'predefinedObversation';
 var PREDEFINED_GESTURE_QUESTIONNAIRE = 'predefinedGestureQuestionnaire';
 var PREDEFINED_GESTURE_FEEDBACK = 'predefinedGestureFeedback';

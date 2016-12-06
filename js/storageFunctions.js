@@ -5,8 +5,12 @@
  */
 
 
-function getGestureById(id) {
+function getGestureById(id, source) {
     var gestures = getLocalItem(GESTURE_CATALOG);
+    if(source) {
+        gestures = getLocalItem(source);
+    }
+    
     if (gestures && gestures.length > 0) {
         for (var i = 0; i < gestures.length; i++) {
             if (parseInt(gestures[i].id) === parseInt(id)) {

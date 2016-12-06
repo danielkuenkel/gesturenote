@@ -931,9 +931,12 @@ var Tester = {
             appendAlert(container, ALERT_WAITING_FOR_IDENTIFICATION);
         }
 
+        var gesture = getGestureById(data.identification[currentIdentificationIndex].gestureId);
+        var trigger = getTriggerById(data.identification[currentIdentificationIndex].triggerId);
+
         if (data.identificationFor === 'gestures') {
             $(item).find('#trigger-identification').remove();
-            var trigger = getTriggerById(data.identification[currentIdentificationIndex].triggerId);
+
             item.find('#trigger #text').text(trigger.title);
             var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder-tester').clone().removeAttr('id');
             item.find('#gesture-recorder-container').empty().append(gestureRecorder);
@@ -963,7 +966,7 @@ var Tester = {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                     if (tempData.gestures !== null && tempData.gestures !== undefined) {
-                        tempData.gestures.push(gesture.id);
+                        tempData.gestures.push({id: gesture.id, triggerId: trigger.id});
                     } else {
                         var array = new Array();
                         array.push(parseInt(gesture.id));
@@ -1000,7 +1003,7 @@ var Tester = {
             });
         } else {
             $(item).find('#gesture-identification').remove();
-            var gesture = getGestureById(data.identification[currentIdentificationIndex].gestureId);
+
             renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
         }
 
@@ -1015,10 +1018,10 @@ var Tester = {
                     var triggerName = $(item).find('#trigger-identification #trigger-name').val();
                     var triggerJusticigation = $(item).find('#trigger-identification #trigger-justification').val();
                     if (tempData && tempData.trigger) {
-                        tempData.trigger.push({name: triggerName, justification: triggerJusticigation});
+                        tempData.trigger.push({name: triggerName, justification: triggerJusticigation, gestureId: gesture.id});
                     } else {
                         var trigger = new Array();
-                        trigger.push({name: triggerName, justification: triggerJusticigation});
+                        trigger.push({name: triggerName, justification: triggerJusticigation, gestureId: gesture.id});
                         tempData.trigger = trigger;
                     }
 
@@ -1054,10 +1057,10 @@ var Tester = {
                     var triggerName = $(item).find('#trigger-identification #trigger-name').val();
                     var triggerJustification = $(item).find('#trigger-identification #trigger-justification').val();
                     if (tempData && tempData.trigger) {
-                        tempData.trigger.push({name: triggerName, justification: triggerJustification});
+                        tempData.trigger.push({name: triggerName, justification: triggerJustification, gestureId:gesture.id});
                     } else {
                         var trigger = new Array();
-                        trigger.push({name: triggerName, justification: triggerJustification});
+                        trigger.push({name: triggerName, justification: triggerJustification, gestureId:gesture.id});
                         tempData.trigger = trigger;
                     }
 
