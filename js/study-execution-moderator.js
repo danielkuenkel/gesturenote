@@ -171,6 +171,9 @@ var Moderator = {
                         case ALTERNATIVE_QUESTION:
                             renderAlternativeQuestionPreview(item, parameters);
                             break;
+                        case SUS_ITEM:
+                            renderSUSPreview(item, parameters);
+                            break;
                     }
                 } else {
                     switch (data[i].format) {
@@ -209,17 +212,30 @@ var Moderator = {
             }
         }
 
+        if (questionnaireDone) {
+            $(container).find('#btn-next-step').removeClass('disabled');
+
+            $(container).find('#btn-next-step').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (!previewModeEnabled && peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                }
+                nextStep();
+            });
+        }
+
         return container;
     },
     getSUS: function getSUS(source, container, data) {
-        for (var i = 0; i < data.length; i++) {
-            var item = $(source).find('#susItem').clone(false).removeAttr('id');
-            $(item).find('.question').text(i + 1 + '. ' + data[i].question);
-            $(container).find('.question-container').append(item);
-            if (data[i].parameters.negative === 'yes') {
-                $(item).find('#reversed').removeClass('hidden');
-            }
-        }
+//        for (var i = 0; i < data.length; i++) {
+//            var item = $(source).find('#susItem').clone(false).removeAttr('id');
+//            $(item).find('.question').text(i + 1 + '. ' + data[i].question);
+//            $(container).find('.question-container').append(item);
+//            if (data[i].parameters.negative === 'yes') {
+//                $(item).find('#reversed').removeClass('hidden');
+//            }
+//        }
+        Moderator.getQuestionnaire(source, container, data, true);
         return container;
     },
     getGUS: function getGUS(source, container, data) {
@@ -478,7 +494,7 @@ var Moderator = {
             $(item).find('#given').text(trigger.title);
             imageContainer = $(item).find('.right .previewGesture');
             $(container).find('#search-gestures').removeClass('hidden');
-            
+
             if (slideshowStartTriggered) {
                 $(container).find('#btn-start-slideshow').remove();
             } else {
@@ -585,6 +601,7 @@ var Moderator = {
     },
     getIdentification: function getIdentification(source, container, data) {
         // general data section
+        removeLocalItem(ELICITED_GESTURES);
         $(container).find('#general .panel-heading').text(data.title);
         $(container).find('#general #description').text(data.description);
 
@@ -603,18 +620,9 @@ var Moderator = {
 
         // observation section
         renderObservations(data, container);
-//        if (data.observations && data.observations.length > 0) {
-//            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
-//
-//            $(container).find('#observations').on('change', function () {
-//                var study = getLocalItem(STUDY);
-//                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
-//            });
-//        }
         return container;
     },
     renderIdentification: function renderIdentification(source, container, data) {
-//        var identificationId = data.identification[currentIdentificationIndex];
         $(container).find('#slides .panel-heading-text').text(translation.formats.identification.text);
         if (data.identification && data.identification.length > 0) {
             var searchedData;
@@ -649,35 +657,19 @@ var Moderator = {
                 }
             }
         }
-//        if (identificationId) {
-
-
-//        $(container).find('#slides .panel-heading-text').text(translation.formats.identification.text + ' ' + (currentIdentificationIndex + 1) + ' ' + translation.of + ' ' + data.identification.length);
-//        var item = $(source).find('#identificationItem').clone().removeAttr('id');
-//        $(container).find('#identificationContainer').empty().append(item);
-//        if (data.identificationFor === 'gestures') {
-//            $(item).find('#search .address').text(translation.identified + ':');
-//            $(item).find('#search .text').text(translation.gesture);
-//            $(item).find('#search-for .address').text(translation.For + ' ' + translation.trigger + ':');
-//            $(item).find('#search-for .text').text(searchedData.title);
-//            $(item).find('#gesture-repeats').removeClass('hidden');
-//            $(item).find('#gesture-repeats .text').text(data.identificationRepeats);
-//            $(item).find('.btn-popover-gesture-preview').remove();
-//        } else {
-//            $(item).find('#search .address').text(translation.identified + ':');
-//            $(item).find('#search .text').text(translation.trigger);
-//            $(item).find('#search-for .address').text(translation.For + ' ' + translation.gesture + ':');
-//            $(item).find('#search-for .text').text(searchedData.title);
-//            item.find('.btn-popover-gesture-preview').attr('name', searchedData.id);
-//        }
-//        }
 
         if (identificationStartTriggered) {
             $(container).find('#btn-start-identification').remove();
+
+            var listItems = $(container).find('#identificationContainer .identificationItem');
+            if (currentIdentificationIndex > 0 && listItems && listItems.length > 0) {
+                for (var i = 0; i < currentIdentificationIndex; i++) {
+                    var listItem = listItems[i];
+                    $(listItem).addClass('text-green');
+                    $(listItem).find('.fa-check').removeClass('hidden');
+                }
+            }
         }
-//        else {
-//            $(item).find('#trigger-identification').addClass('disabled');
-//        }
 
         $(container).find('#btn-start-identification').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -714,65 +706,45 @@ var Moderator = {
                 }
 
                 var thumbnail = getGestureElicitationListThumbnail($(source).find('#gesture-thumbnail').clone(), payload.gesture, 'col-xs-6 col-sm-4');
-                $(container).find('#recordedGestures #recordedContainer').append(thumbnail);
+                $(container).find('#recordedGestures #gestures-list-container').append(thumbnail);
             });
+
+            $(peerConnection).unbind(MESSAGE_IDENTIFIED_GESTURE_DELETED).bind(MESSAGE_IDENTIFIED_GESTURE_DELETED, function (event, payload) {
+                console.log('gestureDeleted', payload);
+                var listItems = $(container).find('#identificationContainer .identificationItem');
+                if (listItems && listItems.length > 0) {
+                    var listItem = listItems[payload.index];
+                    $(listItem).removeClass('text-green');
+                    $(listItem).find('.fa-check').addClass('hidden');
+                }
+                $(container).find('#gestures-list-container').find('#' + payload.gestureId).remove();
+                var gestures = $(container).find('#recordedContainer').find('.gesture-thumbnail');
+                if (!gestures || gestures.length === 0) {
+                    appendAlert($(container).find('#recordedGestures'), ALERT_NO_RECORDED_GESTURES);
+                }
+            });
+
+            $(peerConnection).unbind(MESSAGE_IDENTIFICATION_DONE).bind(MESSAGE_IDENTIFICATION_DONE, function (event, payload) {
+                console.log('identification done');
+                $(container).find('#btn-done').removeClass('disabled');
+            });
+        }
+
+        if (identificationDone) {
+            $(container).find('#btn-done').removeClass('disabled');
+            $(container).find('#btn-start-identification').remove();
         }
 
         appendAlert($(container).find('#recordedGestures'), ALERT_NO_RECORDED_GESTURES);
 
-//        $(item).find('#trigger-identification').on('click', function (event) {
-//            event.preventDefault();
-//            if (!$(this).hasClass('disabled')) {
-//                identificationTriggered = true;
-//                $(item).find('.disabled').removeClass('disabled');
-//                $(this).addClass('disabled');
-//            } else {
-//                if (identificationStartTriggered) {
-//                    wobble($(item).find('#next-identification, #done-identification'));
-//                } else {
-//                    wobble($(container).find('#btn-start-identification'));
-//                }
-//            }
-//        });
-//        if (identificationTriggered) {
-//            $(item).find('.disabled').removeClass('disabled');
-//            item.find('#trigger-identification').addClass('disabled');
-//        }
-
-//        if (data.identification.length === 1 || currentIdentificationIndex >= data.identification.length - 1) {
-//            $(item).find('#next-identification').remove();
-//            $(item).find('#done-identification').on('click', function (event) {
-//                event.preventDefault();
-//                if (!$(this).hasClass('disabled')) {
-//                    currentIdentificationIndex = 0;
-//                    identificationTriggered = false;
-//                    identificationStartTriggered = false;
-//                    nextStep();
-//                } else {
-//                    if (identificationStartTriggered) {
-//                        wobble($(item).find('#trigger-identification'));
-//                    } else {
-//                        wobble($(container).find('#btn-start-identification'));
-//                    }
-//                }
-//            });
-//        } else if (currentIdentificationIndex < data.identification.length) {
-//            $(item).find('#done-identification').remove();
-//            $(item).find('#next-identification').on('click', function (event) {
-//                event.preventDefault();
-//                if (!$(this).hasClass('disabled')) {
-//                    identificationTriggered = false;
-//                    currentIdentificationIndex++;
-//                    Moderator.renderIdentification(source, container, data);
-//                } else {
-//                    if (identificationStartTriggered) {
-//                        wobble($(item).find('#trigger-identification'));
-//                    } else {
-//                        wobble($(container).find('#btn-start-identification'));
-//                    }
-//                }
-//            });
-//        }
+        $(container).find('#btn-done').on('click', function (event) {
+            if (!$(this).hasClass('disabled')) {
+                if (!previewModeEnabled) {
+                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                }
+                nextStep();
+            }
+        });
     },
     getPhysicalStressTest: function getPhysicalStressTest(source, container, data) {
         if (!data.stressTestItems || data.stressTestItems.length === 0) {

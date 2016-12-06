@@ -23,8 +23,8 @@ and open the template in the editor.
 
 .previewGesture {
 /*    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;*/
+    -moz-border-radius: 4px;*/
+    border-radius: 4px;
     overflow: hidden; 
     width: 100%; 
     margin: auto;
@@ -32,15 +32,18 @@ and open the template in the editor.
 
 .mouseScrollable {
     cursor: ew-resize;
+    border-radius: 4px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }
 
 .mousePlayable {
+    border-radius: 4px;
     cursor: pointer;
 }
 
 .previewProgress {
+    border-radius: 4px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }
@@ -77,7 +80,7 @@ and open the template in the editor.
 }
 
 #popover-gesture {
-    z-index: 100;
+    z-index: 1000;
     border-radius: 4px;
     -webkit-box-shadow: rgba(0,0,0,0.8) 0px 5px 10px;
     -moz-box-shadow: rgba(0,0,0,0.8) 0 5px 10px;

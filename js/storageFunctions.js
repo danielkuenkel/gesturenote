@@ -114,8 +114,8 @@ function checkAssembledGestures(gestures, gestureCatalog) {
     }
 }
 
-function updateGestureById(id, parameters) {
-    var gestureCatalog = getLocalItem(GESTURE_CATALOG);
+function updateGestureById(catalog, id, parameters) {
+    var gestureCatalog = getLocalItem(catalog);
 
     var gesture;
     var tempGestures = new Array();
@@ -133,25 +133,8 @@ function updateGestureById(id, parameters) {
 
             tempGestures.push(gesture);
         }
-        setLocalItem(GESTURE_CATALOG, tempGestures);
+        setLocalItem(catalog, tempGestures);
     }
-
-//    var elicitedGestures = getLocalItem(ELICITED_GESTURES);
-//    if (elicitedGestures && elicitedGestures.length > 0) {
-//        tempGestures = new Array();
-//        for (var i = 0; i < elicitedGestures.length; i++) {
-//            gesture = elicitedGestures[i];
-//            if (parseInt(gesture.id) === parseInt(id)) {
-////                console.log(gesture);
-//                for (var key in parameters) {
-//                    gesture[key] = parameters[key];
-////                    console.log(gesture);
-//                }
-//            }
-//            tempGestures.push(gesture);
-//        }
-//        setLocalItem(ELICITED_GESTURES, tempGestures);
-//    }
 }
 
 

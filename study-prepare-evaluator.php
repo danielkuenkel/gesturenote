@@ -45,6 +45,7 @@ if ($h && $token && $studyId) {
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
         <script src="js/goto-general.js"></script>
+        <script src="js/goto-evaluator.js"></script>
         <script type="text/JavaScript" src="js/login.js"></script>
         <script type="text/JavaScript" src="js/register.js"></script>
         <script type="text/JavaScript" src="js/checkForms.js"></script>

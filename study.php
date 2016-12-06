@@ -223,6 +223,34 @@ if (login_check($mysqli) == true) {
             </div>
 
             <div role="tabpanel" class="tab-pane" id="gesture-extraction">
+                <div class="alert-space alert-no-phase-data"></div>
+
+                <div id="extraction-content" class="row">
+
+                    <div class="col-sm-4 col-md-3" id="extraction-navigation">
+                        <h5 class="text">Allgemeines</h5>
+                        <div class="btn-group-vertical btn-block" id="btns-general">
+                            <button class="btn btn-default btn-shadow" type="button" id="btn-all-gestures"><span class="btn-text">Alle ermittelte Gesten</span></button>
+                            <button class="btn btn-default btn-shadow" type="button" id="btn-gesture-classification"><span class="btn-text">Gesten-Klassifizierung</span></button>
+                        </div>
+
+                        <h5 class="text" style="margin-top: 20px">Extraktion</h5>
+                        <div class="btn-group-vertical btn-block" id="btns-extraction">
+                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-number-of-gestures"><span class="btn-text">Anzahl der Gesten</span></button>
+                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-guessability"><span class="btn-text">Formel der Erratbarkeit</span></button>
+                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-cognitive-relationships"><span class="btn-text">Sinnzusammenhänge</span></button>
+                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-preferred-gestures"><span class="btn-text">Bevorzugte Gesten</span></button>
+                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-checklist"><span class="btn-text">Checkliste</span></button>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-8 col-md-9" id="extraction-navigation-content" style="margin-top: 5px">
+                        <div id="content-btn-all-gestures" class="hidden"></div>
+                        <div id="content-btn-gesture-classification" class="hidden"></div>
+                        <div id="content-btn-number-of-gesturess" class="hidden"></div>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -267,12 +295,12 @@ if (login_check($mysqli) == true) {
                 if (query.studyId && query.h === hash) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
-//                            if (result.data) {
+                            //                            if (result.data) {
                             setStudyData(result);
                             renderData(result);
-//                            } else {
-//                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
-//                            }
+                            //                            } else {
+                            //                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
+                            //                            }
                         }
                     });
                 }
@@ -318,7 +346,7 @@ if (login_check($mysqli) == true) {
                     getStudyResults({studyId: data.id}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             if (now > dateFrom && result.studyResults && result.studyResults.length > 0) { // check either if there are study results
-//                                $('#btn-edit-study, #btn-delete-study').remove();
+                                //                                $('#btn-edit-study, #btn-delete-study').remove();
                                 renderStudyParticipants(result.studyResults);
                             } else {
                                 appendAlert($('#study-participants'), ALERT_NO_PHASE_DATA);
@@ -438,7 +466,7 @@ if (login_check($mysqli) == true) {
 
                 $('#tap-pane').on('change', function (event) {
                     console.log('on change');
-//                    TweenMax.from();
+                    //                    TweenMax.from();
                 });
 
 
@@ -478,7 +506,7 @@ if (login_check($mysqli) == true) {
                     $('#tab-btn-gesture-extraction').removeClass('hidden');
                     var trigger = false;
                     var gestures = false;
-//                    console.log(data.studyData.phases);
+                    //                    console.log(data.studyData.phases);
                     for (var i = 0; i < data.studyData.phases.length; i++) {
                         if (data.studyData.phases[i].format === IDENTIFICATION) {
                             var phaseData = getLocalItem(data.studyData.phases[i].id + '.data');
@@ -491,17 +519,17 @@ if (login_check($mysqli) == true) {
                         }
                     }
 
-                    console.log(gestures, trigger);
+                    console.log('getExtractionData', gestures, trigger);
                     getExtractionData({studyId: data.id}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
-                            if(result.elicitedGestures && result.elicitedGestures.length > 0) {
+                            if (result.elicitedGestures && result.elicitedGestures.length > 0) {
                                 setLocalItem(ELICITED_GESTURES, result.elicitedGestures);
                             }
                             renderExtraction();
                         }
-//                         else {
-//
-//                        }
+                        //                         else {
+                        //
+                        //                        }
                     });
                 }
             }
@@ -551,7 +579,7 @@ if (login_check($mysqli) == true) {
             }
 
             function renderStudyFeedback(feedback) {
-//                console.log(feedback);
+                //                console.log(feedback);
 
                 $('#study-feedback-catalog').removeClass('hidden');
                 $('#study-feedback-catalog .address').text(translation.studyCatalogs.feedback);
@@ -579,7 +607,7 @@ if (login_check($mysqli) == true) {
 
                     var item = $('#template-study-container').find('#participant-thumbnail').clone().removeAttr('id');
                     $(item).find('.panel-heading').text(convertSQLTimestampToDate(data[i].created).toUTCString());
-//                    console.log($(item).find('.panel-heading').text('test'));
+                    //                    console.log($(item).find('.panel-heading').text('test'));
                     $('#study-participants .list-container').append(item);
 
                     if (isNaN(data[i].userId)) {
@@ -614,13 +642,97 @@ if (login_check($mysqli) == true) {
 
 
             function renderExtraction(data) {
-            var elicitedGestures = getLocalItem(ELICITED_GESTURES);
+                var elicitedGestures = getLocalItem(ELICITED_GESTURES);
                 if (elicitedGestures && elicitedGestures.length > 0)
                 {
                     for (var i = 0; i < elicitedGestures.length; i++) {
-                        console.log(elicitedGestures[i]);
+                        console.log('renderExtraction', elicitedGestures[i]);
+                    }
+                } else {
+                    appendAlert($('#gesture-extraction'), ALERT_NO_PHASE_DATA);
+                }
+
+                $('#btn-all-gestures').click();
+            }
+
+            $(document).on('click', '#extraction-navigation button', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('active') && !$(this).hasClass('disabled')) {
+                    $(this).parent().children().removeClass('active');
+                    $(this).addClass('active');
+
+                    var selectedId = $(this).attr('id');
+                    renderExtractionContent(selectedId);
+                    $("html, body").animate({scrollTop: 0}, 100);
+                    $('#extraction-navigation-content').children().addClass('hidden');
+                    var activeContent = $('#extraction-navigation-content').find('#content-' + selectedId);
+                    activeContent.removeClass('hidden');
+                    TweenMax.from(activeContent, .2, {y: -20, opacity: 0, clearProps: 'all'});
+                }
+            });
+
+            function renderExtractionContent(id) {
+                switch (id) {
+                    case 'btn-all-gestures':
+                        renderAllGestures();
+                        break;
+                    case 'btn-gesture-classification':
+                        renderGestureClassification();
+                        break;
+                    case 'btn-number-of-gestures':
+                        break;
+                    case 'btn-guessability':
+                        break;
+                    case 'btn-cognitive-relationships':
+                        break;
+                    case 'btn-preferred-gestures':
+                        break;
+                    case 'btn-checklist':
+                        break;
+                }
+            }
+
+            function renderAllGestures() {
+                $('#content-btn-all-gestures #gestures-list-container').empty();
+                var gestures = getLocalItem(ELICITED_GESTURES);
+                var trigger = getLocalItem(ASSEMBLED_TRIGGER);
+                if (trigger && trigger.length > 0) {
+                    for (var i = 0; i < trigger.length; i++) {
+                        var triggerTitle = document.createElement('div');
+//                        var headlineText = document.createElement('span');
+                        $(triggerTitle).addClass('text');
+//                        $(triggerTitle).css({margin: '0px', float: 'left'});
+                        $(triggerTitle).text(translation.trigger + ": " + trigger[i].title);
+                        $('#content-btn-all-gestures').append(triggerTitle);
+
+                        var container = document.createElement('div');
+                        $(container).addClass('container-root row root');
+                        $(container).attr('id', 'gestures-list-container');
+                        $(container).css({marginTop: '20px', marginBottom: '30px'});
+                        $('#content-btn-all-gestures').append(container);
+
+                        var gestureCount = 0;
+                        for (var j = 0; j < gestures.length; j++) {
+                            var gesture = gestures[j];
+                            if (parseInt(gesture.triggerIndex) === i) {
+                                var clone = getGestureCatalogListThumbnail(gestures[j], 'col-xs-6 col-sm-6 col-md-4');
+                                $(container).append(clone);
+                                TweenMax.from(clone, .2, {delay: j * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                                gestureCount++;
+                            }
+                        }
+
+                        var countText = document.createElement('span');
+                        $(countText).addClass('badge');
+                        $(countText).css({marginLeft:'6px'});
+                        $(countText).text(gestureCount === 1 ? gestureCount + " " + translation.gesture : gestureCount + " " + translation.gestures);
+                        $(triggerTitle).append(countText);
                     }
                 }
+            }
+
+            function renderGestureClassification() {
+
             }
         </script>
     </body>

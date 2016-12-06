@@ -384,7 +384,7 @@
                             $(thumbnail).find('#gesture-scope .fa').addClass('hidden');
                             $(thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
 
-                            updateGestureById(result.id, {scope: 'public'});
+                            updateGestureById(GESTURE_CATALOG, result.id, {scope: 'public'});
                             originalFilterData = getLocalItem(GESTURE_CATALOG);
                             currentFilterData = sort();
 //                            getGestureCatalog(function (result) {
@@ -415,7 +415,7 @@
                             $(thumbnail).find('#gesture-scope .fa').addClass('hidden');
                             $(thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
 
-                            updateGestureById(result.id, {scope: 'private'});
+                            updateGestureById(GESTURE_CATALOG, result.id, {scope: 'private'});
                             originalFilterData = getLocalItem(GESTURE_CATALOG);
                             currentFilterData = sort();
 //                            getGestureCatalog(function (result) {
@@ -476,7 +476,7 @@
                         $(button).removeClass('disabled');
                         $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').removeClass('disabled');
                         if (result.status === RESULT_SUCCESS) {
-                            updateGestureById(result.id, {title: result.title, context: result.context, description: result.description, joints: result.joints});
+                            updateGestureById(GESTURE_CATALOG, result.id, {title: result.title, context: result.context, description: result.description, joints: result.joints});
                             $(thumbnail).find('.title-text').text(title);
                             $(button).removeClass('gesture-editable').addClass('gesture-previewable');
                             $(button).find('.btn-text').text(translation.edit);

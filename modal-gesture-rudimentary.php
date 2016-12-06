@@ -18,31 +18,31 @@
                     <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
                 </div>
             </div>
-            <hr>
-<!--            <div class="gesture-rating" id="gesture-rating" style="margin-top: 20px; margin-bottom: 30px">
-                <h3><i class="fa fa-star-o"></i> Bewertung</h3>
-                <div class="rating-container rating-physicalContext row" id="rating-physicalContext">
-                    <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
-                    <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Gestentyp für Kontext stimmig? (z.B. Ganzkörper-Geste für Arbeitsplatz stimmig?)</span></div>
-                </div>
-                <div class="rating-container rating-adaption row" id="rating-adaption">
-                    <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
-                    <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Kontext-Adaption (Könnte die Geste auch woanders eingesetzt werden?)</span></div>
-                </div>
-                <div class="rating-container rating-fittingTask row" id="rating-fittingTask">
-                    <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
-                    <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Passt die Geste zur beschriebenen Aufgabe?</span></div>
-                </div>
-                <div id="rating-infos">
-                    <span id="rated-by"></span> <span id="rating-users-count"></span> <span id="rated-by-users"></span>
-                    <div class="alert-space alert-rating-submitted" style="margin-top: 10px;"></div>
-                </div>
-                <button type="button" class="btn btn-block btn-warning" id="btn-rate-gesture" style="margin-top: 10px;">Geste bewerten</button>
-                <div class="btn-group-vertical btn-block hidden" id="rating-submit-buttons" style="margin-top: 0px;">
-                    <button type="button" class="btn btn-success" id="btn-submit-gesture-rating">Bewertung abgeben</button>
-                    <button type="button" class="btn btn-danger" id="btn-cancel-gesture-rating">Abbrechen</button>
-                </div>
-            </div>-->
+            <!--<hr>-->
+            <!--            <div class="gesture-rating" id="gesture-rating" style="margin-top: 20px; margin-bottom: 30px">
+                            <h3><i class="fa fa-star-o"></i> Bewertung</h3>
+                            <div class="rating-container rating-physicalContext row" id="rating-physicalContext">
+                                <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
+                                <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Gestentyp für Kontext stimmig? (z.B. Ganzkörper-Geste für Arbeitsplatz stimmig?)</span></div>
+                            </div>
+                            <div class="rating-container rating-adaption row" id="rating-adaption">
+                                <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
+                                <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Kontext-Adaption (Könnte die Geste auch woanders eingesetzt werden?)</span></div>
+                            </div>
+                            <div class="rating-container rating-fittingTask row" id="rating-fittingTask">
+                                <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
+                                <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Passt die Geste zur beschriebenen Aufgabe?</span></div>
+                            </div>
+                            <div id="rating-infos">
+                                <span id="rated-by"></span> <span id="rating-users-count"></span> <span id="rated-by-users"></span>
+                                <div class="alert-space alert-rating-submitted" style="margin-top: 10px;"></div>
+                            </div>
+                            <button type="button" class="btn btn-block btn-warning" id="btn-rate-gesture" style="margin-top: 10px;">Geste bewerten</button>
+                            <div class="btn-group-vertical btn-block hidden" id="rating-submit-buttons" style="margin-top: 0px;">
+                                <button type="button" class="btn btn-success" id="btn-submit-gesture-rating">Bewertung abgeben</button>
+                                <button type="button" class="btn btn-danger" id="btn-cancel-gesture-rating">Abbrechen</button>
+                            </div>
+                        </div>-->
         </div>
         <div class="col-md-7">
             <h3 style="margin-top: 0"><i class="fa fa-bookmark-o"></i> Allgemeines</h3>
@@ -52,8 +52,8 @@
                 <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
                 <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
 
-                <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
-                <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+                <!--<span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>-->
+                <!--<span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>-->
 
                 <div class="preview-joints-humand-body" id="human-body" style="width: 400px; margin: auto; margin-top: 10px">
                     <div id="joint-container" style="position: absolute"></div>
@@ -88,8 +88,8 @@
 
             <div class="btn-group-vertical btn-block" style="margin-top: 20px" id="gesture-owner-controls">
                 <button type="button" class="btn btn-default gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                <button type="button" class="btn btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text">Geste löschen</span></button>
+                <!--<button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>-->
+                <!--<button type="button" class="btn btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text">Geste löschen</span></button>-->
             </div>
 
         </div>
@@ -356,7 +356,7 @@
         renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
         renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
 
-//        var thumbnail = $('#item-view #gestures-list-container').find('#' + currentGesturePreviewId);
+        var thumbnail = $('#item-view #gestures-list-container').find('#' + currentGesturePreviewId);
 //
 //        $(container).find('#btn-share-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
 //            event.preventDefault();
@@ -430,15 +430,15 @@
 //            }
 //        });
 
-        getGestureInfos({gestureId: gesture.id}, function (result) {
-            if (result.status === RESULT_SUCCESS) {
-                renderComments(result.comments);
-                renderGestureRating($('#gesture-rating'), result.ratings, true);
-                if (hasUserRatedGesture(result.userId, result.ratings)) {
-                    $(container).find('#gesture-rating #btn-rate-gesture').remove();
-                }
-            }
-        });
+//        getGestureInfos({gestureId: gesture.id}, function (result) {
+//            if (result.status === RESULT_SUCCESS) {
+////                renderComments(result.comments);
+////                renderGestureRating($('#gesture-rating'), result.ratings, true);
+//                if (hasUserRatedGesture(result.userId, result.ratings)) {
+//                    $(container).find('#gesture-rating #btn-rate-gesture').remove();
+//                }
+//            }
+//        });
 
         $('#discussion-body #btn-comment-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -476,7 +476,7 @@
                         $(button).removeClass('disabled');
                         $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').removeClass('disabled');
                         if (result.status === RESULT_SUCCESS) {
-                            updateGestureById(result.id, {title: result.title, context: result.context, description: result.description, joints: result.joints});
+                            updateGestureById(ELICITED_GESTURES, result.id, {title: result.title, context: result.context, description: result.description, joints: result.joints});
                             $(thumbnail).find('.title-text').text(title);
                             $(button).removeClass('gesture-editable').addClass('gesture-previewable');
                             $(button).find('.btn-text').text(translation.edit);
@@ -484,7 +484,7 @@
                             $('#modal-body #gesture-data-edit').addClass('hidden');
 
 //                            setLocalItem(GESTURE_CATALOG, result.gestures);
-                            originalFilterData = getLocalItem(GESTURE_CATALOG);
+//                            originalFilterData = getLocalItem(ELICITED_GESTURES);
 //                            currentFilterData = sort();
                             renderModalData();
                         } else {
@@ -636,7 +636,5 @@
         } else {
             $('#btn-edit-gesture').addClass('disabled');
         }
-    }
-    );
-
+    });
 </script>

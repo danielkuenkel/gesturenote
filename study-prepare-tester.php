@@ -236,9 +236,10 @@ if ($h && $token && $studyId) {
                         }
                     });
 
-                    if (getBrowser() !== 'chrome') {
+                    if (getBrowser() !== BROWSER_CHROME) {
                         appendAlert($('#study-participation'), ALERT_WEB_RTC_NOT_SUPPORTED);
                     } else {
+                        appendAlert($('#study-participation'), ALERT_WAITING_FOR_MODERATOR);
                         requestInterval = setInterval(function () {
                             requestParticipation({studyId: study.id, rtcToken: rtcToken}, function (result) {
                                 if (result.status === RESULT_SUCCESS) {

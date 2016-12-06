@@ -22,6 +22,11 @@ function isLocalStorageSupported() {
 }
 
 
+var BROWSER_CHROME = 'Chrome';
+var BROWSER_OPERA = 'Opera';
+var BROWSER_MSIE = 'MSIE';
+var BROWSER_SAFARI = 'Safari';
+var BROWSER_FIREFOX = 'Firefox';
 //browser ID
 function getBrowser() {
     var nVer = navigator.appVersion;
@@ -32,32 +37,32 @@ function getBrowser() {
     var nameOffset, verOffset, ix;
 
     // In Opera, the true version is after "Opera" or after "Version"
-    if ((verOffset = nAgt.indexOf("Opera")) !== -1) {
-        browserName = "Opera";
+    if ((verOffset = nAgt.indexOf(BROWSER_OPERA)) !== -1) {
+        browserName = BROWSER_OPERA;
         fullVersion = nAgt.substring(verOffset + 6);
         if ((verOffset = nAgt.indexOf("Version")) !== -1)
             fullVersion = nAgt.substring(verOffset + 8);
     }
     // In MSIE, the true version is after "MSIE" in userAgent
-    else if ((verOffset = nAgt.indexOf("MSIE")) !== -1) {
-        browserName = "Microsoft Internet Explorer";
+    else if ((verOffset = nAgt.indexOf(BROWSER_MSIE)) !== -1) {
+        browserName = BROWSER_MSIE;
         fullVersion = nAgt.substring(verOffset + 5);
     }
     // In Chrome, the true version is after "Chrome"
-    else if ((verOffset = nAgt.indexOf("Chrome")) !== -1) {
-        browserName = "Chrome";
+    else if ((verOffset = nAgt.indexOf(BROWSER_CHROME)) !== -1) {
+        browserName = BROWSER_CHROME;
         fullVersion = nAgt.substring(verOffset + 7);
     }
     // In Safari, the true version is after "Safari" or after "Version"
-    else if ((verOffset = nAgt.indexOf("Safari")) !== -1) {
-        browserName = "Safari";
+    else if ((verOffset = nAgt.indexOf(BROWSER_SAFARI)) !== -1) {
+        browserName = BROWSER_SAFARI;
         fullVersion = nAgt.substring(verOffset + 7);
         if ((verOffset = nAgt.indexOf("Version")) !== -1)
             fullVersion = nAgt.substring(verOffset + 8);
     }
     // In Firefox, the true version is after "Firefox"
-    else if ((verOffset = nAgt.indexOf("Firefox")) !== -1) {
-        browserName = "Firefox";
+    else if ((verOffset = nAgt.indexOf(BROWSER_FIREFOX)) !== -1) {
+        browserName = BROWSER_FIREFOX;
         fullVersion = nAgt.substring(verOffset + 8);
     }
     // In most other browsers, "name/version" is at the end of userAgent
@@ -1633,7 +1638,7 @@ function getGestureCatalogListThumbnail(data, layout) {
                         clone.find('#gesture-scope .fa').addClass('hidden');
                         clone.find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
 
-                        updateGestureById(result.id, {scope: 'public'});
+                        updateGestureById(GESTURE_CATALOG, result.id, {scope: 'public'});
 
                         // check if this is needed after updateGesture() call
                         if (updateList === true) {
@@ -1659,7 +1664,7 @@ function getGestureCatalogListThumbnail(data, layout) {
                         clone.find('#gesture-scope .fa').addClass('hidden');
                         clone.find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
 
-                        updateGestureById(result.id, {scope: 'private'});
+                        updateGestureById(GESTURE_CATALOG, result.id, {scope: 'private'});
 
                         // check if this is needed after updateGesture() call
                         if (updateList === true) {

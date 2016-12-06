@@ -18,7 +18,7 @@ include '../includes/language.php';
             <div class="alert-space alert-no-phase-data"></div>
         </div>
     </div>
-    
+
     <!-- gesture thumbnail -->
     <div class="root gesture-thumbnail col-xs-6 col-sm-4" id="gesture-thumbnail">
         <div class="panel panel-default btn-shadow">
@@ -41,9 +41,9 @@ include '../includes/language.php';
             </div>
             <div class="panel-footer">
                 <div class="btn-group btn-group-justified">
-<!--                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                    </div>-->
+                    <!--                    <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                                        </div>-->
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
                     </div>
@@ -63,6 +63,7 @@ include '../includes/language.php';
                 </div>
                 <div class="panel-body question-container"></div>
             </div>
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
         </div>
     </div>
 
@@ -234,14 +235,15 @@ include '../includes/language.php';
                 </div>
                 <div class="panel-body question-container"></div>
             </div>
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
         </div>
     </div>
 
     <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
         <div class="panel-body">
             <!--<span class="label label-default" id="format"><span class="format-text"></span></span>-->
-            <div class="question text"></div> 
-            <span class="label label-danger hidden" id="reversed">negiert</span>
+            <span class="question text"></span> 
+            <span class="label label-danger hidden" id="reversed" style="margin-left: 4px">negiert</span>
         </div>
     </div>
 
@@ -274,6 +276,7 @@ include '../includes/language.php';
                     <div class="col-sm-12 question-container" style="margin-top: 20px"></div>
                 </div>
             </div>
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
         </div>
     </div>
 
@@ -302,6 +305,7 @@ include '../includes/language.php';
                 </div>
                 <div class="panel-body question-container"></div>
             </div>
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
         </div>
     </div>
 
@@ -502,14 +506,15 @@ include '../includes/language.php';
                 </div>
                 <div class="panel-body">
                     <div id="identificationContainer"></div>
+                    <button class="btn btn-lg btn-block btn-success btn-shadow disabled" id="btn-done" name="btn-success" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
                 </div>
             </div>
 
             <div class="panel panel-default" id="recordedGestures">
                 <div class="panel-heading"><?php echo $lang->recordedGestures ?></div>
-                <div class="panel-body">
+                <div class="panel-body" id="item-view">
                     <div class="alert-space alert-no-recorded-gestures" style="margin-bottom: 0"></div>
-                    <div id="recordedContainer" class="row" style="margin-bottom: 0"></div>
+                    <div id="gestures-list-container" class="row" style="margin-bottom: 0"></div>
                 </div>
             </div>
 
@@ -777,7 +782,7 @@ include '../includes/language.php';
             <hr>
             <div class="question-container"></div>
             <hr>
-            <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
+            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
         </div>
     </div>
 
@@ -786,7 +791,7 @@ include '../includes/language.php';
         <hr>
         <div class="question-container"></div>
         <hr>
-        <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
+        <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
     </div>
 
 
@@ -800,7 +805,7 @@ include '../includes/language.php';
             <hr>
             <div class="question-container"></div>
             <hr>
-            <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
+            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
         </div>
     </div>
 
@@ -809,16 +814,7 @@ include '../includes/language.php';
         <hr>
         <div class="question-container"></div>
         <hr>
-        <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
-    </div>
-
-    <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
-        <div class="panel-body">
-            <div>
-                <span class="question"></span> 
-                <div class="option-container root"></div>
-            </div>
-        </div>
+        <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
     </div>
 
     <!-- GUS container & item -->
@@ -847,7 +843,7 @@ include '../includes/language.php';
             <hr>
             <div class="question-container"></div>
             <hr>
-            <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
+            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
         </div>
     </div>
 
@@ -872,7 +868,7 @@ include '../includes/language.php';
         <hr>
         <div class="question-container"></div>
         <hr>
-        <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
+        <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
     </div>
 
 
@@ -886,7 +882,7 @@ include '../includes/language.php';
             <hr>
             <div class="question-container"></div>
             <hr>
-            <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
+            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
         </div>
     </div>
 
@@ -895,7 +891,7 @@ include '../includes/language.php';
         <hr>
         <div class="question-container"></div>
         <hr>
-        <button class="next btn btn-success pull-right" id="btn-next-phase-step"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
+        <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
     </div>
 
     <!-- gesture training container -->
@@ -1092,78 +1088,26 @@ include '../includes/language.php';
 
     <!-- identification container -->
 
-    <div class="root" id="identification" style="margin-top: 80px;"></div>
+    <div class="root container" id="identification" style="margin-top: 80px;"></div>
 
-    <!--    <div class="row root" id="identificationModerated">
-            <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-            <div class="col-md-8" id="column-right">
-                <div id="general">
-                    <h3 class="headline"></h3>
-                    <div class="description"></div>
+
+    <div class="row" id="identificationModerated">
+        <!--<div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>-->
+        <div class="" id="column-right" style="margin-bottom: 80px;">
+            <!--<div class="row">-->
+            <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
+                <div>
+                    <h3 class="headline" style="margin: 0"></h3>
+                    <div class="description" style="color: #303030"></div>
                     <hr>
-                </div>
-                <div class="alert-space alert-waiting-for-identification"></div>
-                <div class="progress progress-identification hidden" style="border-radius: 10px; height: 73px;">
-                    <div class="progress-bar progress-bar-identification progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
-                </div>
-                <div id="identificationContainer"></div>
-            </div>
-        </div>-->
-
-    <div class="" id="identificationModerated">
-        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <div class="row">
-                <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
-                    <div>
-                        <h3 class="headline" style="margin: 0"></h3>
-                        <div class="description" style="color: #303030"></div>
-                        <hr>
-                        <div class="alert-space alert-waiting-for-identification"></div>
-                        <!--<button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-start-identification" style="margin-top: 20px">Jetzt Starten</button>-->
-                    </div>
+                    <div class="alert-space alert-waiting-for-identification"></div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div id="identificationContainer" class="row"></div>
-                </div>
+            <div class="col-xs-12">
+                <div id="identificationContainer" class="row"></div>
             </div>
         </div>
-        <!--<div class="row">-->
-
-        <!--</div>-->
     </div>
-
-    <!--    <div id="identificationItemModerated">
-            <div id="trigger-identification">
-                <div class="col-lg-6 text-center">
-                    <div class="previewGesture autoplay" style="max-width: 600px; min-width: 200px; margin:auto;"></div>
-                    <div class="text-center gestureControls">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label for="trigger-name">Funktion</label>
-                        <input class="form-control" name="trigger-name" id="trigger-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="trigger-name">Begründung</label>
-                        <textarea class="form-control" rows="5"></textarea>
-                    </div>
-                </div>
-            </div>
-    
-            <div id="gesture-identification" class="text-center">
-                <span id="trigger"><span id="text" style="font-size: 40pt; font-weight: bold; line-height: 1.3em;"></span></span>
-            </div>
-        </div>-->
 
     <div class="container" id="identificationUnmoderated">
         <div class="row">
@@ -1705,10 +1649,19 @@ include '../includes/language.php';
         </div>
     </div>
 
+    <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div>
+                <span class="question text"></span> 
+                <div class="option-container root"></div>
+            </div>
+        </div>
+    </div>
+
     <div class="panel panel-default root" id="gusSingle" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="question"></span> 
+                <span class="question text"></span> 
                 <div class="option-container root"></div>
             </div>
         </div>

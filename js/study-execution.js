@@ -1,5 +1,6 @@
 var currentPhaseStepIndex = 0;
 
+var questionnaireDone = false;
 var currentGestureTrainingIndex = 0;
 var trainingTriggered = false;
 var triggeredFeedback = null;
@@ -18,6 +19,7 @@ var gestureTrainingStartTriggered = false;
 var currentIdentificationIndex = 0;
 var identificationTriggered = false;
 var identificationStartTriggered = false;
+var identificationDone = false;
 
 var currentStressTestCount = 0;
 var currentStressTestIndex = 0;
@@ -89,6 +91,24 @@ function initialize() {
             loadHTMLintoModal('custom-modal', 'modal-cancel-study.php', 'modal-sm');
         }
     });
+
+    if (study.surveyType === TYPE_SURVEY_UNMODERATED) {
+        $(document).on('click', '.next-step', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                nextStep();
+            }
+        });
+    }
+
+    if (previewModeEnabled) {
+        $(document).on('click', '.next', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                nextStep();
+            }
+        });
+    }
 }
 
 function renderPhases() {
@@ -179,6 +199,7 @@ function nextStep() {
 
 function resetConstraints() {
 //    TweenMax.killAll();
+    questionnaireDone = false;
     testerDoneTriggered = false;
 
     gestureTrainingStartTriggered = false;
@@ -202,6 +223,8 @@ function resetConstraints() {
     currentIdentificationIndex = 0;
     identificationTriggered = false;
     identificationStartTriggered = false;
+    identificationDone = false;
+
     singleGUSGesture = null;
 }
 

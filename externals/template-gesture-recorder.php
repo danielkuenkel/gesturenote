@@ -207,7 +207,7 @@ include '../includes/language.php';
 
             <div id="preview-controls" class="hidden">
                 <div class="alert-space alert-gesture-too-short"></div>
-                <div class="previewGesture  autoplay" id="gesturePreview" style="max-width: 600px"></div>
+                <div class="previewGesture autoplay mousePlayable" id="gesturePreview" style="max-width: 600px"></div>
                 <div class="progress gesture-progress">
                     <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                 </div>

@@ -1619,6 +1619,12 @@ function renderSusInput(item) {
     }
 }
 
+function renderSUSPreview(item, parameters) {
+    if (parameters.negative === 'yes') {
+        $(item).find('#reversed').removeClass('hidden');
+    }
+}
+
 
 var changeTriggerTimer = null;
 function setInputChangeEvent(target, milliseconds) {

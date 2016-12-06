@@ -187,13 +187,6 @@ if ($h && $token && $studyId) {
                 Tester.renderView();
                 window.location.hash = getCurrentPhase().id;
             }
-
-            $('body').on('click', '.next', function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    nextStep();
-                }
-            });
         </script>
     </body>
 </html>

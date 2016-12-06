@@ -281,13 +281,6 @@ if (login_check($mysqli) == true) {
                 }
             });
 
-            $('body').on('click', '.next', function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    nextStep();
-                }
-            });
-
             $('.phaseStepsSelect').on('change', function () {
                 currentPhaseStepIndex = getCurrentPhaseStepIndex();
                 updateProgress();

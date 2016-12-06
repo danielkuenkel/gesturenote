@@ -173,6 +173,8 @@ var MESSAGE_CANCEL_SURVEY = 'cancelSurvey';
 
 var MESSAGE_START_IDENTIFICATION = 'startIdentification';
 var MESSAGE_GESTURE_IDENTIFIED = 'gestureIdentified';
+var MESSAGE_IDENTIFIED_GESTURE_DELETED = 'identifiedGestureDeleted';
+var MESSAGE_IDENTIFICATION_DONE = 'gestureIdentificationDone';
 
 var MESSAGE_START_TRIGGER_SLIDESHOW = 'startTriggerSlideshow';
 var MESSAGE_START_SCENARIO = 'startScenario';

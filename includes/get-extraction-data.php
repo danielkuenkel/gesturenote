@@ -29,6 +29,7 @@ if (isset($_POST['studyId'])) {
 
                         if ($item->format === "identification" && isset($item->gestures)) {
                             $gestureIds = $item->gestures;
+                            $count = 0;
                             foreach ($gestureIds as $gestureId) {
                                 if ($select_gesture_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE id = '$gestureId' LIMIT 1")) {
                                     if (!$select_gesture_stmt->execute()) {
@@ -50,8 +51,10 @@ if (isset($_POST['studyId'])) {
                                             'joints' => json_decode($gestureJoints),
                                             'previewImage' => $gesturePreviewImage,
                                             'images' => json_decode($gestureImages),
-                                            'created' => $gestureCreated);
+                                            'created' => $gestureCreated,
+                                            'triggerIndex' => $count);
                                     }
+                                    $count++;
                                 } else {
                                     echo json_encode(array('status' => 'selectGestureStatementError'));
                                     exit();
