@@ -890,6 +890,7 @@ if (login_check($mysqli) == true) {
                 $('#btn-redo').on('click', function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
+                        var previousGesture = null;
                         reclassifiyGesture();
                     }
                 });
