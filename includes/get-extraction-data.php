@@ -81,7 +81,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                     $select_stmt->fetch();
 
                     if ($select_stmt->num_rows == 1) {
-                        $classification[] = array('id' => $id,
+                        $classification = array('id' => $id,
                             'studyId' => $studyId,
                             'data' => json_decode_nice($data));
                     }

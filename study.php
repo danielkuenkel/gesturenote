@@ -328,11 +328,11 @@ if (login_check($mysqli) == true) {
                                             <button type="button" class="btn btn-success btn-shadow" id="btn-gesture-yes"><i class="fa fa-thumbs-up"></i> <span class="btn-text">Ja</span></button>
                                         </div>
                                     </div>
-                                    <!--                                    <div class="btn-group-vertical btn-block" role="group" style="margin-top:10px">
-                                                                            <button type="button" class="btn btn-default">Zurück</button>
-                                                                            <button type="button" class="btn btn-default">Abbrechen</button>
-                                                                            <button type="button" class="btn btn-default">Fertig</button>
-                                                                        </div>-->
+                                    <!--<div class="btn-group-vertical btn-block" role="group" style="margin-top:10px">-->
+                                    <button type="button" class="btn btn-default disabled btn-block" id="btn-redo" style="margin-top:10px"><i class="fa fa-undo" aria-hidden="true"></i> <span class="btn-text">Rückgängig</span></button>
+                                    <!--                                                                            <button type="button" class="btn btn-default">Abbrechen</button>
+                                                                                                                <button type="button" class="btn btn-default">Fertig</button>
+                                                                                                            </div>-->
                                 </div>
                                 <div class="col-xs-4 col-sm-4"><div class="row"><div id="gesture-right"></div></div></div>
                             </div>
@@ -596,9 +596,16 @@ if (login_check($mysqli) == true) {
                     console.log('getExtractionData', gestures, trigger);
                     getExtractionData({studyId: data.id}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
-                            if (result.elicitedGestures && result.elicitedGestures.length > 0) {
+                            if (gestures && !trigger && result.elicitedGestures && result.elicitedGestures.length > 0) {
+                                console.log('result classification', result.classification);
                                 setLocalItem(ELICITED_GESTURES, result.elicitedGestures);
-                                setLocalItem(CLASSIFICATION, result.classificiation || null);
+                                if (result.classification && result.classification.data) {
+
+                                    setLocalItem(CLASSIFICATION, result.classification.data);
+                                } else {
+                                    setLocalItem(CLASSIFICATION, null);
+                                }
+
                             }
                             renderExtraction();
                         }
@@ -825,10 +832,16 @@ if (login_check($mysqli) == true) {
                     if (classification && classification.assignments && classification.assignments.length > 0) {
                         // check classified gestures and render them. gesturesLeft must be the matched unclassified gestures
                         console.log('there is classification data');
-                        $('#gesture-classification, #btn-reclassify-gestures').removeClass('hidden');
+                        $('#btn-reclassify-gestures').removeClass('disabled');
                         $('#gesture-classification-parameters').addClass('hidden');
                         gesturesLeft = getUnclassifiedGestures();
-                        gesturesRight = getClassifiedGestures();
+                        gesturesRight = classification.assignments;
+                        if (gesturesLeft && gesturesLeft.length > 0) {
+                            $('#gesture-classification').removeClass('hidden');
+                            updateMatchingView();
+                        } else {
+                            appendAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION);
+                        }
                         renderClassifiedGestures();
                     } else {
                         appendAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
@@ -849,6 +862,7 @@ if (login_check($mysqli) == true) {
                                 var checked = $('#classification-type').find('.btn-option-checked').attr('id');
                                 classification = {type: checked};
                                 setLocalItem(CLASSIFICATION, classification);
+                                saveClassification();
 
                                 gesturesRight = new Array();
                                 gesturesRight.push({mainGestureId: elicitedGestures[0].id, gestures: [elicitedGestures[0]]});
@@ -858,7 +872,6 @@ if (login_check($mysqli) == true) {
                         });
                     }
                 } else {
-//                    console.log('no gestures for classification process');
                     appendAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
                 }
 
@@ -868,21 +881,34 @@ if (login_check($mysqli) == true) {
                         $(this).addClass('disabled');
                         removeAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION);
                         setLocalItem(CLASSIFICATION, null);
+                        saveClassification();
                         renderClassifiedGestures();
                         renderGestureClassification();
+                    }
+                });
+
+                $('#btn-redo').on('click', function (event) {
+                    event.preventDefault();
+                    if (!$(this).hasClass('disabled')) {
+                        reclassifiyGesture();
                     }
                 });
             }
 
             function updateMatchingView() {
-                var leftGesture = gesturesLeft[gesturesLeftIndex];
-                var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
-                var leftItem = getGestureCatalogListThumbnail(leftGesture, 'col-xs-12', ELICITED_GESTURES);
-                var rightItem = getGestureCatalogListThumbnail(rightGesture, 'col-xs-12', ELICITED_GESTURES);
-                $('#gesture-left').empty().append(leftItem);
-                $('#gesture-right').empty().append(rightItem);
-                renderClassifiedGestures();
-                TweenMax.from($('#match-controls'), .3, {opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
+                if (gesturesLeftIndex < gesturesLeft.length - 1) {
+                    $('#btn-redo').removeClass('disabled');
+
+                    var leftGesture = gesturesLeft[gesturesLeftIndex];
+                    var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
+                    console.log("update matching view", leftGesture, rightGesture);
+                    var leftItem = getGestureCatalogListThumbnail(leftGesture, 'col-xs-12', ELICITED_GESTURES);
+                    var rightItem = getGestureCatalogListThumbnail(rightGesture, 'col-xs-12', ELICITED_GESTURES);
+                    $('#gesture-left').empty().append(leftItem);
+                    $('#gesture-right').empty().append(rightItem);
+                    renderClassifiedGestures();
+                    TweenMax.from($('#match-controls'), .3, {opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
+                }
             }
 
             function getClassifiedGestures() {
@@ -903,16 +929,25 @@ if (login_check($mysqli) == true) {
                 var array = new Array();
                 if (classification) {
                     for (var i = 0; i < elicitedGestures.length; i++) {
+                        var gestureIsClassified = false;
                         for (var j = 0; j < classification.length; j++) {
                             for (var k = 0; k < classification[j].gestures.length; k++) {
-                                if (parseInt(classification[j].gestures[k].id) === parseInt(elicitedGestures[i].id)) {
+                                if (parseInt(classification[j].gestures[k]) === parseInt(elicitedGestures[i].id)) {
+//                                    console.log('this gesture is classified', elicitedGestures[i].id);
+                                    gestureIsClassified = true;
                                     break;
-                                } else if (k === classification[j].gestures.length - 1) {
+                                } else if (j === classification.length - 1 && k === classification[j].gestures.length - 1) {
+//                                    console.log('this gesture is not classified', elicitedGestures[i].id);
                                     array.push(elicitedGestures[i]);
                                 }
                             }
+
+                            if (gestureIsClassified) {
+                                break;
+                            }
                         }
                     }
+                    console.log(array);
                     return array;
                 }
 
@@ -949,7 +984,7 @@ if (login_check($mysqli) == true) {
                             $('#classified-gestures').append(row);
 
                             for (var j = 0; j < assignments[i].gestures.length; j++) {
-                                var gestureThumbnail = getGestureCatalogListThumbnail(assignments[i].gestures[j], 'col-xs-6 col-sm-6 col-md-4', ELICITED_GESTURES);
+                                var gestureThumbnail = getGestureCatalogListThumbnail(getGestureById(assignments[i].gestures[j], ELICITED_GESTURES), 'col-xs-6 col-sm-6 col-md-4', ELICITED_GESTURES);
                                 $(row).append(gestureThumbnail);
                             }
                         }
@@ -1000,8 +1035,9 @@ if (login_check($mysqli) == true) {
                     removeAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
                 }
 
+                // error lays down here
                 var elicitedGestures = getLocalItem(ELICITED_GESTURES);
-                if (gesturesLeftIndex < elicitedGestures.length) {
+                if (gesturesLeftIndex < elicitedGestures.length - 1 && elicitedGestures.length > 0) {
                     updateMatchingView();
                 } else {
                     renderClassifiedGestures();
@@ -1014,31 +1050,50 @@ if (login_check($mysqli) == true) {
                 var classification = getLocalItem(CLASSIFICATION);
                 if (foundMatch) {
                     if (classification && classification.assignments && classification.assignments.length > 0) {
-                        var matchedSourceGesture = classification.assignments[gesturesRightIndex].gestures[0];
+                        var matchedSourceGesture = getGestureById(classification.assignments[gesturesRightIndex].gestures[0], ELICITED_GESTURES);
 //                        console.log(classification.assignments[gesturesRightIndex].gestures[0]);
 
                         if (classification.type === TYPE_CLASSIFICATION_APPEARANCE ||
                                 (classification.type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER && parseInt(matchedSourceGesture.triggerId) === parseInt(gesture.triggerId)))
                         {
-                            classification.assignments[gesturesRightIndex].gestures.push(gesture);
+                            classification.assignments[gesturesRightIndex].gestures.push(gesture.id);
                         } else {
-                            classification.assignments.push({mainGestureId: gesture.id, gestures: [gesture]});
+                            classification.assignments.push({mainGestureId: gesture.id, gestures: [gesture.id]});
                         }
                     } else {
-                        classification.assignments = [{mainGestureId: gesture.id, gestures: [gesture]}];
+                        classification.assignments = [{mainGestureId: gesture.id, gestures: [gesture.id]}];
                     }
                 } else {
                     if (classification && classification.assignments && classification.assignments.length > 0) {
-                        classification.assignments.push({mainGestureId: gesture.id, gestures: [gesture]});
+                        classification.assignments.push({mainGestureId: gesture.id, gestures: [gesture.id]});
                     } else {
-                        classification.assignments = [{mainGestureId: gesture.id, gestures: [gesture]}];
+                        classification.assignments = [{mainGestureId: gesture.id, gestures: [gesture.id]}];
                     }
                 }
+
                 gesturesRight = classification.assignments;
                 setLocalItem(CLASSIFICATION, classification);
                 console.log(classification);
 
+                saveClassification();
+
                 $('#btn-reclassify-gestures').removeClass('disabled');
+            }
+            
+            function reclassifiyGesture(gesture) {
+                
+            }
+
+            function saveClassification() {
+                var classification = getLocalItem(CLASSIFICATION);
+                var studyId = getLocalItem(STUDY).id;
+                saveExtractionData({studyId: studyId, classification: classification}, function (result) {
+                    if (result.status === RESULT_SUCCESS) {
+                        console.log('classification saved');
+                    } else {
+                        console.log('save classification error');
+                    }
+                });
             }
         </script>
     </body>

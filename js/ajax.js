@@ -321,6 +321,23 @@ function getExtractionData(data, callback) {
     });
 }
 
+function saveExtractionData(data, callback) {
+    $.ajax({
+        url: 'includes/save-extraction-data.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getStudiesCatalog(callback) {
     $.ajax({
         url: 'includes/get-studies.php',
