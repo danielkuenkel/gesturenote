@@ -77,9 +77,12 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                                 foreach ($phases as $item) {
 
                                     if ($item->format === "identification" && isset($item->gestures)) {
-                                        $gestureIds = $item->gestures;
+                                        $gestures = $item->gestures;
 
-                                        foreach ($gestureIds as $gestureId) {
+                                        foreach ($gestures as $gesture) {
+                                            $gestureId = $gesture->id;
+                                            $triggerId = $gesture->triggerId;
+                                            
                                             if ($select_gesture_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE id = '$gestureId' LIMIT 1")) {
                                                 if (!$select_gesture_stmt->execute()) {
                                                     echo json_encode(array('status' => 'selectGesturesError'));

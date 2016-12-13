@@ -214,13 +214,20 @@ var Moderator = {
 
         if (questionnaireDone) {
             $(container).find('#btn-next-step').removeClass('disabled');
+        }
 
-            $(container).find('#btn-next-step').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                if (!previewModeEnabled && peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-                }
-                nextStep();
+        $(container).find('#btn-next-step').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!previewModeEnabled && peerConnection) {
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+            }
+            nextStep();
+        });
+
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_QUESTIONNAIRE_DONE).bind(MESSAGE_QUESTIONNAIRE_DONE, function (event, payload) {
+                console.log('questionnaire done');
+                $(container).find('#btn-next-step').removeClass('disabled');
             });
         }
 
@@ -290,15 +297,6 @@ var Moderator = {
 
         // observation section
         renderObservations(data, container);
-//        if (data.observations && data.observations.length > 0) {
-//            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
-//
-//            $(container).find('#observations').on('change', function () {
-//                var study = getLocalItem(STUDY);
-//                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId);
-//            });
-//        }
-
         return container;
     },
     renderGestureTraining: function renderGestureTraining(source, container, data) {
@@ -308,17 +306,17 @@ var Moderator = {
         var feedback = getFeedbackById(training.feedbackId);
         var repeats = training.repeats;
         $(container).find('#training .panel-heading-text').text('Geste ' + (currentGestureTrainingIndex + 1) + ' von ' + data.length);
+
         var item = $(source).find('#trainingItem').clone().removeAttr('id');
-        $(container).find('#trainingContainer').empty();
-        $(container).find('#trainingContainer').append(item);
         item.find('#title .address').text(translation.title + ":");
         item.find('#title .text').text(gesture.title);
         item.find('#repeats .address').text(translation.repeats + ":");
-        item.find('#repeats .text').text(repeats);
+        item.find('#repeats .text').text(repeats - currentTrainingIndex);
         item.find('#trigger .address').text(translation.trigger + ":");
         item.find('#trigger .text').text(trigger.title);
         item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
         item.find('#feedback .address').text(translation.feedback + ":");
+        $(container).find('#trainingContainer').empty().append(item);
 
         if (feedback) {
             var icon = document.createElement('i');
@@ -355,10 +353,10 @@ var Moderator = {
             wobble([container.find('#trainingContainer')]);
 
             if (!previewModeEnabled && peerConnection) {
-//                $(container).find('#')
                 peerConnection.sendMessage(MESSAGE_START_GESTURE_TRAINING);
             }
         });
+
         item.find('#trigger-training').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
@@ -377,10 +375,19 @@ var Moderator = {
                 }
             }
         });
+
         item.find('#trigger-feedback').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
-                $(item).find('#next-gesture, #training-done').removeClass('disabled');
+                $(this).addClass('disabled');
+                currentTrainingIndex++;
+                item.find('#repeats .text').text(repeats - currentTrainingIndex);
+                if (currentTrainingIndex >= repeats) {
+                    $(item).find('#next-gesture, #training-done').removeClass('disabled');
+                } else {
+                    $(item).find('#trigger-training').removeClass('disabled');
+                }
+
 //                $(this).addClass('disabled');
 //                feedbackTriggered = true;
                 triggeredFeedback = feedback;
@@ -396,10 +403,12 @@ var Moderator = {
                 }
             }
         });
+
         item.find('#next-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 currentGestureTrainingIndex++;
+                currentTrainingIndex = 0;
                 trainingTriggered = false;
                 triggeredFeedback = null;
                 Moderator.renderGestureTraining(source, container, data);
@@ -411,6 +420,7 @@ var Moderator = {
                 }
             }
         });
+
         item.find('#training-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
@@ -432,11 +442,17 @@ var Moderator = {
                 }
             }
         });
-        if (triggeredFeedback !== null) {
-
-        } else if (trainingTriggered) {
+        
+        if (trainingTriggered) {
             $(item).find('#next-gesture, #training-done, #trigger-feedback').removeClass('disabled');
             item.find('#trigger-training').addClass('disabled');
+        } else {
+            if (currentTrainingIndex >= repeats) {
+                item.find('#trigger-training').addClass('disabled');
+                $(item).find('#next-gesture, #training-done').removeClass('disabled');
+            } else {
+                item.find('#trigger-training').removeClass('disabled');
+            }
         }
 
         if (currentGestureTrainingIndex >= (data.length - 1)) {

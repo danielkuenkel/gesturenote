@@ -84,9 +84,9 @@ if (login_check($mysqli) == true) {
                 </div>-->
 
         <div class="container">
-            <ul class="nav nav-tabs" role="tablist" id="tap-pane">
-                <li role="presentation" class="active"><a href="#general-infos" aria-controls="general-infos" role="tab" data-toggle="tab">Allgemeines</a></li>
-                <li role="presentation"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab">Kataloge</a></li>
+            <ul class="nav nav-tabs" role="tablist" id="tab-pane">
+                <li role="presentation" id="general"><a href="#general-infos" aria-controls="general-infos" role="tab" data-toggle="tab">Allgemeines</a></li>
+                <li role="presentation" id="catalogs"><a href="#study-catalogs" aria-controls="study-catalogs" role="tab" data-toggle="tab">Kataloge</a></li>
                 <!--                <li role="presentation" class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                                         Kataloge <span class="caret"></span>
@@ -98,16 +98,16 @@ if (login_check($mysqli) == true) {
                                         <li role="presentation"><a href="#study-feedback" aria-controls="study-feedback" role="tab" data-toggle="tab">Studien-Feedback</a></li>
                                     </ul>
                                 </li>-->
-                <li role="presentation"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab">Teilnahmen</a></li>
-                <li role="presentation" class="hidden" id="tab-btn-gesture-extraction"><a href="#gesture-extraction" aria-controls="gesture-extraction" role="tab" data-toggle="tab">Extraktion</a></li>
+                <li role="presentation" id="participants"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab">Teilnahmen</a></li>
+                <li role="presentation" class="hidden" id="extraction"><a href="#gesture-extraction" aria-controls="gesture-extraction" role="tab" data-toggle="tab">Extraktion</a></li>
             </ul>
         </div>
 
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent tab-content" id="item-view">
+        <div class="container mainContent tab-content" id="main-content">
 
-            <div role="tabpanel" class="tab-pane active" id="general-infos">
+            <div role="tabpanel" class="tab-pane" id="general-infos">
                 <h2 id="study-headline" style="margin-top: 0"></h2>
                 <!--<hr>-->
                 <div class="label label-default" id="type-phase"></div>
@@ -230,7 +230,7 @@ if (login_check($mysqli) == true) {
                     <div class="col-sm-4 col-md-3" id="extraction-navigation">
                         <h5 class="text">Vorbereitung</h5>
                         <div class="btn-group-vertical btn-block" id="btns-general">
-                            <button class="btn btn-default btn-shadow" type="button" id="btn-all-gestures"><span class="btn-text">Alle ermittelte Gesten</span></button>
+                            <button class="btn btn-default btn-shadow" type="button" id="btn-all-gestures"><span class="btn-text">Alle ermittelten Gesten</span></button>
                             <button class="btn btn-default btn-shadow" type="button" id="btn-gesture-classification"><span class="btn-text">Gesten-Klassifizierung</span></button>
                         </div>
 
@@ -253,9 +253,11 @@ if (login_check($mysqli) == true) {
                             <!--                            <div class="row text-center text" style="margin-top:20px">
                                                             
                                                         </div>-->
+                            <div class="alert-space alert-no-more-gestures-for-classification" style="margin-top:20px"></div>
+
                             <div id="gesture-classification" class="row" style="margin-top:20px">
                                 <div class="col-xs-4 col-sm-4"><div class="row"><div id="gesture-left"></div></div></div>
-                                <div class="col-xs-4 col-sm-4 text-center">
+                                <div class="col-xs-4 col-sm-4 text-center" id="match-controls">
 
                                     <p class="text">Enspricht die Geste auf der linken Seite der auf der rechten Seite?</p>
                                     <div class="btn-group btn-group-justified" role="group">
@@ -277,6 +279,7 @@ if (login_check($mysqli) == true) {
                             <div style="margin-top:30px" class="text">Klassifizierte Gesten</div>
                             <hr>
                             <div id="classified-gestures"></div>
+                            <div class="alert-space alert-no-gestures-classified"></div>
                         </div>
                         <div id="content-btn-number-of-gesturess" class="hidden"></div>
                     </div>
@@ -317,12 +320,10 @@ if (login_check($mysqli) == true) {
                     loadExternals(externals);
                 });
             });
-
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-
                 if (query.studyId && query.h === hash) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
@@ -339,21 +340,18 @@ if (login_check($mysqli) == true) {
 
             function renderData(data) {
                 var studyData = data.studyData;
-
                 // general data view
                 $('#study-headline').text(studyData.generalData.title);
                 $('#type-survey').text(translation.surveyType[studyData.generalData.surveyType]);
                 $('#type-phase').text(translation.phaseType[studyData.generalData.phase]);
                 $('#study-description .address').text(translation.description);
                 $('#study-description .text').text(studyData.generalData.description);
-
                 console.log(studyData);
                 if (studyData.generalData.panelSurvey === 'yes') {
                     $('#panel-survey, .panel-survey').removeClass('hidden');
                     $('.panel-survey .address').text(translation.panelSurvey + ":");
                     var ageFrom = studyData.generalData.ageRange.split(',')[0];
                     var ageTo = studyData.generalData.ageRange.split(',')[1];
-
                     if (studyData.generalData.gender !== undefined) {
                         $('.panel-survey .text').text(translation.genderTypes[studyData.generalData.gender] + " " + translation.of + " " + ageFrom + " " + translation.to + " " + ageTo);
                     } else {
@@ -367,13 +365,11 @@ if (login_check($mysqli) == true) {
                 var dateFrom = studyData.generalData.dateFrom * 1000;
                 var dateTo = addDays(studyData.generalData.dateTo * 1000, 1);
                 var totalDays = rangeDays(dateFrom, dateTo);
-
                 if ((studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
                         (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
                     $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
                     $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
                     $('.study-plan').removeClass('hidden');
-
                     getStudyResults({studyId: data.id}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             if (now > dateFrom && result.studyResults && result.studyResults.length > 0) { // check either if there are study results
@@ -384,7 +380,6 @@ if (login_check($mysqli) == true) {
                             }
                         }
                     });
-
                 } else {
                     $('#study-range-days .text').text('0 ' + translation.days);
                     $('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
@@ -402,7 +397,6 @@ if (login_check($mysqli) == true) {
                     $('#static-study-url').click(function () {
                         $('#static-study-url').select();
                     });
-
                     // prepare study
                     if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED &&
                             now > dateFrom && now < dateTo) {
@@ -429,30 +423,24 @@ if (login_check($mysqli) == true) {
                         var step = document.createElement('div');
                         $(step).addClass('study-phase-step');
                         $('#phase-steps-container').append(step);
-
                         var iconContainer = document.createElement('div');
                         $(iconContainer).addClass('study-phase-icon-container');
                         $(step).append(iconContainer);
-
                         var colorIcon = document.createElement('i');
                         $(colorIcon).addClass('study-phase-step-color-icon fa fa-circle');
                         $(colorIcon).css({color: studyData.phases[i].color});
                         $(iconContainer).append(colorIcon);
-
                         var icon = document.createElement('i');
                         $(icon).addClass('study-phase-step-icon fa fa-circle-thin');
                         $(iconContainer).append(icon);
-
                         var iconMiddle = document.createElement('span');
                         $(iconMiddle).addClass((i > 8) ? 'study-phase-step-middle-icon-small' : 'study-phase-step-middle-icon');
                         $(iconMiddle).text(i + 1);
                         $(iconContainer).append(iconMiddle);
-
                         var text = document.createElement('span');
                         $(text).addClass('text');
                         $(text).text(translation.formats[studyData.phases[i].format].text);
                         $(step).append(text);
-
                         if (i < studyData.phases.length - 1) {
                             var transition = document.createElement('i');
                             $(transition).addClass('study-phase-step-transition fa fa-long-arrow-down');
@@ -462,7 +450,7 @@ if (login_check($mysqli) == true) {
                         TweenMax.from($(step), .3, {delay: 0.2 + (i * .05), y: -10, opacity: 0, clearProps: 'all'});
                     }
                 } else {
-                    appendAlert($('#item-view'), ALERT_NO_PHASE_DATA);
+                    appendAlert($('#main-content'), ALERT_NO_PHASE_DATA);
                     $('#btn-preview-study').addClass('disabled');
                 }
 
@@ -473,7 +461,6 @@ if (login_check($mysqli) == true) {
                         goto("study-create.php?studyId=" + event.data.studyId + "&h=" + hash);
                     }
                 });
-
                 $('#btn-preview-study').on('click', {studyId: data.id}, function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
@@ -481,7 +468,6 @@ if (login_check($mysqli) == true) {
                         goto("study-preview.php?studyId=" + event.data.studyId + "&h=" + hash);
                     }
                 });
-
                 $('#btn-delete-study').on('click', {studyId: data.id}, function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
@@ -494,13 +480,6 @@ if (login_check($mysqli) == true) {
                         });
                     }
                 });
-
-                $('#tap-pane').on('change', function (event) {
-                    console.log('on change');
-                    //                    TweenMax.from();
-                });
-
-
                 // catalogs view
                 // check if there are study catalog data
                 var studyGestures = data.gestureCatalog;
@@ -508,7 +487,6 @@ if (login_check($mysqli) == true) {
                 var studyScenes = studyData.assembledScenes;
                 var studyTrigger = studyData.assembledTrigger;
                 var noCatalogData = true;
-
                 if (studyGestures && studyGestures.length > 0) {
                     setLocalItem(GESTURE_CATALOG, studyGestures);
                     renderStudyGestures(studyGestures);
@@ -534,7 +512,7 @@ if (login_check($mysqli) == true) {
 
                 // gesture/trigger extraction view
                 if (studyData.generalData.phase === TYPE_PHASE_ELICITATION) {
-                    $('#tab-btn-gesture-extraction').removeClass('hidden');
+                    $('#extraction').removeClass('hidden');
                     var trigger = false;
                     var gestures = false;
                     //                    console.log(data.studyData.phases);
@@ -561,12 +539,27 @@ if (login_check($mysqli) == true) {
                         }
                     });
                 }
+
+                $('#tab-pane li a').on('click', function (event) {
+                    event.preventDefault();
+                    $(this).trigger('change', [$(this).closest('li').attr('id')]);
+                });
+                $('#tab-pane').on('change', function (event, activeId) {
+                    event.preventDefault();
+                    window.location.hash = activeId;
+                    TweenMax.from($('#main-content'), .2, {y: -10, opacity: 0.0, clearProps: 'all'});
+                });
+                var status = window.location.hash.substr(1);
+                if (status !== '') {
+                    $('#tab-pane').find('#' + status + " a").click();
+                } else {
+                    $('#tab-pane').find('#general a').click();
+                }
             }
 
             function renderStudyGestures(gestures) {
                 $('#study-gestures-catalog').removeClass('hidden');
                 $('#study-gestures-catalog .address').text(translation.studyCatalogs.gestures);
-
                 for (var i = 0; i < gestures.length; i++) {
                     var item = getGestureCatalogListThumbnail(gestures[i]);
                     $('#study-gestures-catalog .list-container').append(item);
@@ -578,7 +571,6 @@ if (login_check($mysqli) == true) {
                 $('#study-scenes-catalog').removeClass('hidden');
                 $('#study-scenes-catalog .address').text(translation.studyCatalogs.scenes);
                 setLocalItem(ASSEMBLED_SCENES, scenes);
-
                 for (var i = 0; i < scenes.length; i++) {
                     var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id');
                     item.find('.text').text(scenes[i].title);
@@ -586,7 +578,6 @@ if (login_check($mysqli) == true) {
                     item.find('#' + scenes[i].type).removeClass('hidden');
                     $('#study-scenes-catalog .list-container').append(item);
                     TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-
                     $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
                         event.preventDefault();
                         currentSceneId = event.data.sceneId;
@@ -598,7 +589,6 @@ if (login_check($mysqli) == true) {
             function renderStudyTrigger(trigger) {
                 $('#study-trigger-catalog').removeClass('hidden');
                 $('#study-trigger-catalog .address').text(translation.studyCatalogs.trigger);
-
                 for (var i = 0; i < trigger.length; i++) {
                     var item = $('#template-study-container').find('#trigger-catalog-thumbnail').clone().removeAttr('id');
                     item.text(trigger[i].title);
@@ -612,7 +602,6 @@ if (login_check($mysqli) == true) {
 
                 $('#study-feedback-catalog').removeClass('hidden');
                 $('#study-feedback-catalog .address').text(translation.studyCatalogs.feedback);
-
                 for (var i = 0; i < feedback.length; i++) {
                     var item = $('#template-study-container').find('#feedback-catalog-thumbnail').clone().removeAttr('id');
                     item.find('.text').text(feedback[i].title);
@@ -630,15 +619,12 @@ if (login_check($mysqli) == true) {
                 var guestUsers = 0;
                 var registeredUsers = 0;
                 var successfullStudies = 0;
-
                 for (var i = 0; i < data.length; i++) {
                     var result = data[i].data;
-
                     var item = $('#template-study-container').find('#participant-thumbnail').clone().removeAttr('id');
                     $(item).find('.panel-heading').text(convertSQLTimestampToDate(data[i].created).toUTCString());
                     //                    console.log($(item).find('.panel-heading').text('test'));
                     $('#study-participants .list-container').append(item);
-
                     if (isNaN(data[i].userId)) {
                         guestUsers++;
                         $(item).find('#user .label-text').text(translation.userTypes.guest);
@@ -689,7 +675,6 @@ if (login_check($mysqli) == true) {
                 if (!$(this).hasClass('active') && !$(this).hasClass('disabled')) {
                     $(this).parent().children().removeClass('active');
                     $(this).addClass('active');
-
                     var selectedId = $(this).attr('id');
                     renderExtractionContent(selectedId);
                     $("html, body").animate({scrollTop: 0}, 100);
@@ -699,7 +684,6 @@ if (login_check($mysqli) == true) {
                     TweenMax.from(activeContent, .2, {y: -20, opacity: 0, clearProps: 'all'});
                 }
             });
-
             function renderExtractionContent(id) {
                 switch (id) {
                     case 'btn-all-gestures':
@@ -733,7 +717,6 @@ if (login_check($mysqli) == true) {
 //                        $(triggerTitle).css({margin: '0px', float: 'left'});
                         $(triggerTitle).text(translation.trigger + ": " + trigger[i].title);
                         $('#content-btn-all-gestures').append(triggerTitle);
-
                         var container = document.createElement('div');
                         $(container).addClass('container-root row root');
                         $(container).attr('id', 'gestures-list-container');
@@ -770,53 +753,185 @@ if (login_check($mysqli) == true) {
                 var classification = getLocalItem(CLASSIFICATION);
                 var elicitedGestures = getLocalItem(ELICITED_GESTURES);
                 console.log("classification: ", classification, "elicited gestures: ", elicitedGestures);
-
                 if (elicitedGestures && elicitedGestures.length > 0) {
                     if (classification) {
-                        renderClassifiedGestures();
+                        // check classified gestures and render them. gesturesLeft must be the matched unclassified gestures
                         console.log('there is classification data');
+                        gesturesLeft = getUnclassifiedGestures();
+                        gesturesRight = getClassifiedGestures();
+                        renderClassifiedGestures();
                     } else {
+                        appendAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
                         console.log('there is NO classification data');
-                        gesturesLeft = new Array();
-                        gesturesLeft.push(elicitedGestures[0]);
-                        gesturesRight = elicitedGestures;
+                        gesturesRight = new Array();
+                        gesturesRight.push({mainGestureId: elicitedGestures[0].id, gestures: [elicitedGestures[0]]});
+                        gesturesLeft = elicitedGestures;
                         updateMatchingView();
                     }
                 } else {
-                    console.log('no gestures for classification process');
+//                    console.log('no gestures for classification process');
+                    appendAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
                 }
             }
 
             function updateMatchingView() {
                 var leftGesture = gesturesLeft[gesturesLeftIndex];
-                var rightGesture = gesturesRight[gesturesRightIndex];
+                var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
                 var leftItem = getGestureCatalogListThumbnail(leftGesture, 'col-xs-12', ELICITED_GESTURES);
                 var rightItem = getGestureCatalogListThumbnail(rightGesture, 'col-xs-12', ELICITED_GESTURES);
                 $('#gesture-left').empty().append(leftItem);
                 $('#gesture-right').empty().append(rightItem);
+                renderClassifiedGestures();
+                TweenMax.from($('#match-controls'), .3, {opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
+            }
+
+            function getClassifiedGestures() {
+                var classification = getLocalItem(CLASSIFICATION).assignments;
+                var array = new Array();
+                if (classification) {
+                    for (var i = 0; i < classification.length; i++) {
+                        array.push(classification[i].mainGesture);
+                    }
+                    return array;
+                }
+                return null;
+            }
+
+            function getUnclassifiedGestures() {
+                var elicitedGestures = getLocalItem(ELICITED_GESTURES);
+                var classification = getLocalItem(CLASSIFICATION).assignments;
+                var array = new Array();
+                if (classification) {
+                    for (var i = 0; i < elicitedGestures.length; i++) {
+                        for (var j = 0; j < classification.length; j++) {
+                            for (var k = 0; k < classification[j].gestures.length; k++) {
+                                if (parseInt(classification[j].gestures[k].id) === parseInt(elicitedGestures[i].id)) {
+                                    break;
+                                } else if (k === classification[j].gestures.length - 1) {
+                                    array.push(elicitedGestures[i]);
+                                }
+                            }
+                        }
+                    }
+                    return array;
+                }
+
+                return null;
             }
 
             function renderClassifiedGestures() {
+                var classification = getLocalItem(CLASSIFICATION);
 
+                $('#classified-gestures').empty();
+
+                if (classification) {
+                    var assignments = classification.assignments;
+                    if (assignments && assignments.length > 0) {
+                        for (var i = 0; i < assignments.length; i++) {
+                            var row = document.createElement('div');
+//                        $(row).addClass('row');
+//                        $('#classified-gestures').append(row);
+
+                            var mainGesture = getGestureById(assignments[i].mainGestureId, ELICITED_GESTURES);
+                            var trigger = getTriggerById(mainGesture.triggerId);
+                            var headline = document.createElement('h4');
+                            $(headline).text('Funktion: ' + trigger.title + ', Geste: ' + getClassifiedGestureIndex(mainGesture));
+                            $('#classified-gestures').append(headline);
+
+                            row = document.createElement('div');
+                            $(row).addClass('row');
+                            $('#classified-gestures').append(row);
+
+                            for (var j = 0; j < assignments[i].gestures.length; j++) {
+                                var gestureThumbnail = getGestureCatalogListThumbnail(assignments[i].gestures[j], 'col-xs-6 col-sm-6 col-md-4', ELICITED_GESTURES);
+                                $(row).append(gestureThumbnail);
+                            }
+                        }
+                    }
+
+                }
             }
-            
-            $('#btn-gesture-yes').on('click', function(event) {
+
+            function getClassifiedGestureIndex(gesture) {
+                var classification = getLocalItem(CLASSIFICATION).assignments;
+                var count = 0;
+                for (var i = 0; i < classification.length; i++) {
+                    var mainGesture = getGestureById(classification[i].mainGestureId, ELICITED_GESTURES);
+                    if (parseInt(mainGesture.triggerId) === parseInt(gesture.triggerId)) {
+                        count++;
+                    }
+
+                    if (parseInt(mainGesture.id) === parseInt(gesture.id)) {
+                        return count;
+                    }
+                }
+            }
+
+            $('#btn-gesture-yes').on('click', function (event) {
                 event.preventDefault();
+                event.stopImmediatePropagation();
                 var leftId = parseInt($('#gesture-left').children().attr('id'));
-                var rightId = parseInt($('#gesture-right').children().attr('id'));
                 var leftGesture = getGestureById(leftId, ELICITED_GESTURES);
-                var rightGesture = getGestureById(rightId, ELICITED_GESTURES);
-                console.log(leftGesture, rightGesture);
+                classifyGesture(leftGesture, true);
+                gesturesLeftIndex++;
+                gesturesRightIndex = 0;
+                updateMatchingView();
+                removeAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
             });
-            
-            $('#btn-gesture-no').on('click', function(event) {
+
+            $('#btn-gesture-no').on('click', function (event) {
                 event.preventDefault();
+                event.stopImmediatePropagation();
                 var leftId = parseInt($('#gesture-left').children().attr('id'));
-                var rightId = parseInt($('#gesture-right').children().attr('id'));
                 var leftGesture = getGestureById(leftId, ELICITED_GESTURES);
-                var rightGesture = getGestureById(rightId, ELICITED_GESTURES);
-                console.log(leftGesture, rightGesture);
+
+                if (gesturesRightIndex < gesturesRight.length - 1) {
+                    gesturesRightIndex++;
+                } else {
+                    classifyGesture(leftGesture, false);
+                    gesturesLeftIndex++;
+                    gesturesRightIndex = 0;
+                    removeAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
+                }
+
+                var elicitedGestures = getLocalItem(ELICITED_GESTURES);
+                if (gesturesLeftIndex < elicitedGestures.length) {
+                    updateMatchingView();
+                } else {
+                    renderClassifiedGestures();
+                    $('#gesture-classification').addClass('hidden');
+                    appendAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION);
+                }
             });
+
+            function classifyGesture(gesture, foundMatch) {
+                var classification = getLocalItem(CLASSIFICATION);
+                if (foundMatch) {
+                    if (classification && classification.assignments && classification.assignments.length > 0) {
+                        var matchedSourceGesture = classification.assignments[gesturesRightIndex].gestures[0];
+                        console.log(classification.assignments[gesturesRightIndex].gestures[0]);
+
+                        if (parseInt(matchedSourceGesture.triggerId) === parseInt(gesture.triggerId)) {
+                            classification.assignments[gesturesRightIndex].gestures.push(gesture);
+                        } else {
+                            classification.assignments.push({mainGestureId: gesture.id, gestures: [gesture]});
+                        }
+                    } else {
+                        classification = {};
+                        classification.assignments = [{mainGestureId: gesture.id, gestures: [gesture]}];
+                    }
+                } else {
+                    if (classification && classification.assignments && classification.assignments.length > 0) {
+                        classification.assignments.push({mainGestureId: gesture.id, gestures: [gesture]});
+                    } else {
+                        classification = {};
+                        classification.assignments = [{mainGestureId: gesture.id, gestures: [gesture]}];
+                    }
+                }
+                gesturesRight = classification.assignments;
+                setLocalItem(CLASSIFICATION, classification);
+                console.log(classification);
+            }
         </script>
     </body>
 </html>

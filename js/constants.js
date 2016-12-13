@@ -172,6 +172,7 @@ var MESSAGE_SYNC_PHASE_STEP = 'syncPhaseStep';
 var MESSAGE_ENTER_SURVEY = 'enterSurvey';
 var MESSAGE_NEXT_STEP = 'nextStep';
 var MESSAGE_CANCEL_SURVEY = 'cancelSurvey';
+var MESSAGE_QUESTIONNAIRE_DONE = 'questionnaireDone';
 
 var MESSAGE_START_IDENTIFICATION = 'startIdentification';
 var MESSAGE_GESTURE_IDENTIFIED = 'gestureIdentified';

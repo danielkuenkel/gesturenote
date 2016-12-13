@@ -2863,6 +2863,16 @@
             "id": "no-recorded-gestures",
             "type": "warning",
             "text": "Es wurden noch keine Gesten vom Probanden aufgezeichnet. Bitte warten …"
+        },
+        "noGesturesClassified": {
+            "id": "no-gestures-classified",
+            "type": "warning",
+            "text": "Es wurden noch keine Gesten klassifiziert."
+        },
+        "noMoreGesturesForClassification": {
+            "id": "no-more-gestures-for-classification",
+            "type": "warning",
+            "text": "Es stehen keine Gesten für eine Klassifizierung zur Verfügung."
         }
     }
 }

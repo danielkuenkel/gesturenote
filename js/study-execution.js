@@ -2,6 +2,7 @@ var currentPhaseStepIndex = 0;
 
 var questionnaireDone = false;
 var currentGestureTrainingIndex = 0;
+var currentTrainingIndex = 0;
 var trainingTriggered = false;
 var triggeredFeedback = null;
 var slidesRestartCount = 0;
@@ -203,6 +204,8 @@ function resetConstraints() {
     testerDoneTriggered = false;
 
     gestureTrainingStartTriggered = false;
+    currentGestureTrainingIndex = 0;
+    currentTrainingIndex = 0;
 
     slideshowStartTriggered = false;
     slideTriggered = false;

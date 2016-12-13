@@ -142,6 +142,7 @@ function sortByKey(array, key, reverse) {
     return array.sort(function (a, b) {
         var x = a[key];
         var y = b[key];
+        
         if (reverse) {
             x = b[key];
             y = a[key];

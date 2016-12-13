@@ -6,9 +6,11 @@
 
 
 function getGestureById(id, source) {
-    var gestures = getLocalItem(GESTURE_CATALOG);
+    var gestures = null;
     if(source) {
         gestures = getLocalItem(source);
+    } else {
+        gestures = getLocalItem(GESTURE_CATALOG);
     }
     
     if (gestures && gestures.length > 0) {
@@ -327,8 +329,8 @@ function setStudyData(data) {
         setData.userId = data.resultData.userId;
         setData.created = data.resultData.created;
         setData.executionSuccess = data.resultData.results.studySuccessfull;
-        console.log(data.resultData.aborted);
-        setData.executionAborted = data.resultData.aborted;
+        console.log(data.resultData.results.aborted);
+        setData.executionAborted = data.resultData.results.aborted;
         setLocalItem(STUDY_RESULTS, setData);
 
         var phases = data.resultData.results.phases;

@@ -435,6 +435,7 @@ var Tester = {
         }
 
         if (triggeredFeedback) {
+            trainingTriggered = false;
             Tester.renderModeratedTrainingFeedback(source, trainingData);
         }
 
@@ -969,7 +970,7 @@ var Tester = {
                         tempData.gestures.push({id: gesture.id, triggerId: trigger.id});
                     } else {
                         var array = new Array();
-                        array.push(parseInt(gesture.id));
+                        array.push(parseInt({id: gesture.id, triggerId: trigger.id}));
                         tempData.gestures = array;
                     }
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);

@@ -11,11 +11,11 @@ function setLocalItem(id, data) {
 
 function getLocalItem(id) {
     var data = localStorage.getItem(id);
-    if (data !== null && data !== undefined || data !== 'undefined' && data.length > 0) {
+    if (data !== null && data !== undefined && data !== 'undefined' && data.length > 0) {
         return JSON.parse(localStorage.getItem(id));
-    } else {
-        return null;
     }
+    
+    return null;
 }
 
 function removeLocalItem(id) {

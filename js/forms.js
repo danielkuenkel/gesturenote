@@ -654,7 +654,7 @@ function renderEditableDichotomousQuestion(item, question, answer) {
 }
 
 function renderGroupingQuestion(item, studyData, resultsData) {
-    console.log(studyData, resultsData);
+//    console.log(studyData, resultsData);
     $(item).find('.question').text(studyData.question);
     if (studyData.parameters.multiselect === 'yes') {
         $(item).find('#multiselect').removeClass('hidden');
@@ -725,7 +725,7 @@ function renderEditableGroupingQuestion(item, question, answer) {
             }, 100, item, answer.selectedOptions[i]);
         }
 
-        console.log('optional answer', answer.optionalAnswer);
+//        console.log('optional answer', answer.optionalAnswer);
 
     }
 
@@ -733,7 +733,7 @@ function renderEditableGroupingQuestion(item, question, answer) {
 //        console.log($(item).find('#checkbox-optionalanswer .btn-checkbox'))
         setTimeout(function () {
             var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';
-            console.log($(item), optionType)
+//            console.log($(item), optionType)
             $(item).find('#' + optionType + '-optionalanswer .btn-' + optionType).click();
         }, 10);
         $(item).find('.optionalInput').val(answer.optionalAnswer);
@@ -840,19 +840,21 @@ function renderEditableGroupingQuestionGUS(item, question, answer) {
 }
 
 function renderRating(item, studyData, resultsData) {
-    console.log('render rating:', studyData, resultsData);
+//    console.log('render rating:', studyData, resultsData);
     $(item).find('.question').text(studyData.question);
     for (var i = 0; i < studyData.options.length; i++) {
         var optionItem = $('#template-study-container').find('#rating-item').clone();
         $(optionItem).find('#rating-option').text(studyData.options[i].option);
         $(item).find('.option-container').append(optionItem);
         var score = 0;
+        var maxScore = studyData.options[i].scales.length;
+        var selectedScale = parseInt(resultsData.scales[i]);
         if (studyData.options[i].negative === 'yes') {
             $(optionItem).find('#negative').removeClass('hidden');
-            score = studyData.options.length - parseInt(resultsData.scales[i]);
+            score = studyData.options[i].scales.length - selectedScale;
         } else {
             $(optionItem).find('#positive').removeClass('hidden');
-            score = parseInt(resultsData.scales[i]) + 1;
+            score = selectedScale + 1;
         }
 
         if (i < studyData.options.length - 1) {
@@ -861,14 +863,15 @@ function renderRating(item, studyData, resultsData) {
             $(item).find('.option-container').append(hr);
         }
 
-        var selectedScale = parseInt(resultsData.scales[i]);
-        console.log('selectedScale', selectedScale === -1)
+
+//        console.log('selectedScale', selectedScale === -1)
 
         if (selectedScale === -1) {
             $(item).find('#score-container').remove();
             $(item).find('#no-answer').removeClass('hidden');
         } else {
-            renderRatingSigns($(item).find('#score-container'), score);
+//            console.log('rating score: ', optionItem, selectedScale, score, maxScore);
+            renderRatingSigns($(optionItem).find('#score-container'), score, maxScore);
             $(item).find('#no-answer').remove();
         }
 
@@ -934,7 +937,7 @@ function renderEditableSumQuestion(item, question, answer) {
 }
 
 function renderRanking(item, studyData, resultsData) {
-    console.log(studyData, resultsData);
+//    console.log(studyData, resultsData);
     $(item).find('.question').text(studyData.question);
     for (var i = 0; i < resultsData.arrangement.length; i++) {
         var listItemAnswer = $('#template-study-container').find('#ranking-item').clone();
@@ -1114,11 +1117,13 @@ function renderSUSItem(item, studyData, resultsData) {
     }
 }
 
-function renderRatingSigns(container, score) {
+function renderRatingSigns(container, score, maxScore) {
     $(container).find('.score-text').text(score);
-    if (score >= 4) {
+    var balance = Math.floor(maxScore / 2) + (maxScore % 2);
+    console.log('maxScore', $(container), balance);
+    if (score > balance) {
         $(container).find('.fa').addClass('fa-thumbs-up');
-    } else if (score === 3) {
+    } else if (score === balance) {
         $(container).find('.fa').addClass('fa-caret-left');
     } else {
         $(container).find('.fa').addClass('fa-thumbs-down');
@@ -1665,7 +1670,7 @@ function renderEditableObservations(target, studyData, resultData) {
             }
 
             var answer = resultData ? resultData[i] : null;
-            console.log('renderEditableObservations', studyData[i].format, answer);
+//            console.log('renderEditableObservations', studyData[i].format, answer);
             switch (studyData[i].format) {
                 case COUNTER:
                     renderEditableCounter(listItem, studyData[i], answer);
