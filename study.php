@@ -248,24 +248,84 @@ if (login_check($mysqli) == true) {
                         <div id="content-btn-all-gestures" class="hidden"></div>
                         <div id="content-btn-gesture-classification" class="hidden">
                             <div><span class="text">Gesten klassifizieren</span> 
-                                <button type="button" class="btn btn-xs btn-default btn-shadow" style="margin-left:5px"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text">Neu initiieren</span></button>
+                                <button type="button" class="btn btn-xs btn-default btn-shadow disabled" id="btn-reclassify-gestures" style="margin-left:5px"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text">Neu initiieren</span></button>
                             </div>
                             <!--                            <div class="row text-center text" style="margin-top:20px">
                                                             
                                                         </div>-->
                             <div class="alert-space alert-no-more-gestures-for-classification" style="margin-top:20px"></div>
 
-                            <div id="gesture-classification" class="row" style="margin-top:20px">
+                            <div id="gesture-classification-parameters" class="hidden text-center" style="margin-top:20px">
+                                <div class="form-group root text" id="classification-type">
+                                    <label>Wie sollen die Gesten klassifiziert werden? Nach</label><br>
+
+                                    <div class="btn-group" id="radio">
+                                        <button class="btn btn-default btn-radio" id="appearance" name="primary">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->classificationTypes->appearance ?></span>
+                                        </button>
+                                    </div>
+
+                                    <br/>
+                                    <!--
+                                    -->                                    <div class="btn-group" id="radio">
+                                        <button class="btn btn-default btn-radio btn-option-checked" id="appearanceTrigger" name="primary">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle " id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->classificationTypes->appearanceTrigger ?></span>
+                                        </button>
+                                    </div>
+
+                                    <!--<br/>-->
+
+                                    <!--                                    <div class="btn-group" id="radio">
+                                                                            <button class="btn btn-default btn-radio " id="gestureType" name="primary">
+                                                                                <span id="icons" style="margin-right: 6px">
+                                                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                                                </span>
+                                                                                <span class="option-text"></span>
+                                                                            </button>
+                                                                        </div>
+                                    
+                                                                        <br/>
+                                    
+                                                                        <div class="btn-group" id="radio">
+                                                                            <button class="btn btn-default btn-radio disabled" id="gestureTypeTrigger" name="primary">
+                                                                                <span id="icons" style="margin-right: 6px">
+                                                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                                                </span>
+                                                                                <span class="option-text"></span>
+                                                                            </button>
+                                                                        </div>
+                                    
+                                                                        <br/>-->
+
+                                </div>
+                                <button type="button" class="btn btn-info btn-shadow" id="btn-start-classification" ><i class="fa fa-archive"></i> <span class="btn-text">Klassifizierung jetzt starten</span></button>
+                            </div>
+
+                            <div id="gesture-classification" class="row hidden" style="margin-top:20px">
                                 <div class="col-xs-4 col-sm-4"><div class="row"><div id="gesture-left"></div></div></div>
                                 <div class="col-xs-4 col-sm-4 text-center" id="match-controls">
 
                                     <p class="text">Enspricht die Geste auf der linken Seite der auf der rechten Seite?</p>
                                     <div class="btn-group btn-group-justified" role="group">
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-danger btn-shadow" id="btn-gesture-no"><i class="fa fa-close"></i> <span class="btn-text">Nein</span></button>
+                                            <button type="button" class="btn btn-danger btn-shadow" id="btn-gesture-no"><i class="fa fa-thumbs-down"></i> <span class="btn-text">Nein</span></button>
                                         </div>
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-success btn-shadow" id="btn-gesture-yes"><i class="fa fa-check"></i> <span class="btn-text">Ja</span></button>
+                                            <button type="button" class="btn btn-success btn-shadow" id="btn-gesture-yes"><i class="fa fa-thumbs-up"></i> <span class="btn-text">Ja</span></button>
                                         </div>
                                     </div>
                                     <!--                                    <div class="btn-group-vertical btn-block" role="group" style="margin-top:10px">
@@ -385,7 +445,6 @@ if (login_check($mysqli) == true) {
                     $('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
                 }
 
-
                 if (studyData.phases && studyData.phases.length > 0 &&
                         (studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
                         (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
@@ -423,24 +482,30 @@ if (login_check($mysqli) == true) {
                         var step = document.createElement('div');
                         $(step).addClass('study-phase-step');
                         $('#phase-steps-container').append(step);
+
                         var iconContainer = document.createElement('div');
                         $(iconContainer).addClass('study-phase-icon-container');
                         $(step).append(iconContainer);
+
                         var colorIcon = document.createElement('i');
                         $(colorIcon).addClass('study-phase-step-color-icon fa fa-circle');
                         $(colorIcon).css({color: studyData.phases[i].color});
                         $(iconContainer).append(colorIcon);
+
                         var icon = document.createElement('i');
                         $(icon).addClass('study-phase-step-icon fa fa-circle-thin');
                         $(iconContainer).append(icon);
+
                         var iconMiddle = document.createElement('span');
                         $(iconMiddle).addClass((i > 8) ? 'study-phase-step-middle-icon-small' : 'study-phase-step-middle-icon');
                         $(iconMiddle).text(i + 1);
                         $(iconContainer).append(iconMiddle);
+
                         var text = document.createElement('span');
                         $(text).addClass('text');
                         $(text).text(translation.formats[studyData.phases[i].format].text);
                         $(step).append(text);
+
                         if (i < studyData.phases.length - 1) {
                             var transition = document.createElement('i');
                             $(transition).addClass('study-phase-step-transition fa fa-long-arrow-down');
@@ -684,6 +749,7 @@ if (login_check($mysqli) == true) {
                     TweenMax.from(activeContent, .2, {y: -20, opacity: 0, clearProps: 'all'});
                 }
             });
+
             function renderExtractionContent(id) {
                 switch (id) {
                     case 'btn-all-gestures':
@@ -750,28 +816,62 @@ if (login_check($mysqli) == true) {
             var gesturesRight = null;
             var gesturesRightIndex = 0;
             function renderGestureClassification() {
+                gesturesLeftIndex = 0;
+                gesturesRightIndex = 0;
                 var classification = getLocalItem(CLASSIFICATION);
                 var elicitedGestures = getLocalItem(ELICITED_GESTURES);
                 console.log("classification: ", classification, "elicited gestures: ", elicitedGestures);
                 if (elicitedGestures && elicitedGestures.length > 0) {
-                    if (classification) {
+                    if (classification && classification.assignments && classification.assignments.length > 0) {
                         // check classified gestures and render them. gesturesLeft must be the matched unclassified gestures
                         console.log('there is classification data');
+                        $('#gesture-classification, #btn-reclassify-gestures').removeClass('hidden');
+                        $('#gesture-classification-parameters').addClass('hidden');
                         gesturesLeft = getUnclassifiedGestures();
                         gesturesRight = getClassifiedGestures();
                         renderClassifiedGestures();
                     } else {
                         appendAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
                         console.log('there is NO classification data');
-                        gesturesRight = new Array();
-                        gesturesRight.push({mainGestureId: elicitedGestures[0].id, gestures: [elicitedGestures[0]]});
-                        gesturesLeft = elicitedGestures;
-                        updateMatchingView();
+                        $('#gesture-classification-parameters').removeClass('hidden');
+                        $('#gesture-classification').addClass('hidden');
+
+                        $('#classification-type').on('change', function (event) {
+                            event.preventDefault();
+                            $('#btn-start-classification').removeClass('disabled');
+                        });
+
+                        $('#btn-start-classification').on('click', function (event) {
+                            event.preventDefault();
+                            if (!$(this).hasClass('disabled')) {
+                                $('#gesture-classification-parameters').addClass('hidden');
+                                $('#gesture-classification').removeClass('hidden');
+                                var checked = $('#classification-type').find('.btn-option-checked').attr('id');
+                                classification = {type: checked};
+                                setLocalItem(CLASSIFICATION, classification);
+
+                                gesturesRight = new Array();
+                                gesturesRight.push({mainGestureId: elicitedGestures[0].id, gestures: [elicitedGestures[0]]});
+                                gesturesLeft = elicitedGestures;
+                                updateMatchingView();
+                            }
+                        });
                     }
                 } else {
 //                    console.log('no gestures for classification process');
                     appendAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
                 }
+
+                $('#btn-reclassify-gestures').on('click', function (event) {
+                    event.preventDefault();
+                    if (!$(this).hasClass('disabled')) {
+                        $(this).addClass('disabled');
+                        removeAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION);
+                        setLocalItem(CLASSIFICATION, null);
+                        renderClassifiedGestures();
+                        renderGestureClassification();
+                    }
+                });
             }
 
             function updateMatchingView() {
@@ -835,8 +935,14 @@ if (login_check($mysqli) == true) {
                             var mainGesture = getGestureById(assignments[i].mainGestureId, ELICITED_GESTURES);
                             var trigger = getTriggerById(mainGesture.triggerId);
                             var headline = document.createElement('h4');
-                            $(headline).text('Funktion: ' + trigger.title + ', Geste: ' + getClassifiedGestureIndex(mainGesture));
+
                             $('#classified-gestures').append(headline);
+
+                            if (classification.type === TYPE_CLASSIFICATION_APPEARANCE) {
+                                $(headline).text('Geste ' + (i + 1));
+                            } else if (classification.type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER) {
+                                $(headline).text('Funktion: ' + trigger.title + ', Geste ' + getClassifiedGestureIndex(mainGesture));
+                            }
 
                             row = document.createElement('div');
                             $(row).addClass('row');
@@ -909,28 +1015,30 @@ if (login_check($mysqli) == true) {
                 if (foundMatch) {
                     if (classification && classification.assignments && classification.assignments.length > 0) {
                         var matchedSourceGesture = classification.assignments[gesturesRightIndex].gestures[0];
-                        console.log(classification.assignments[gesturesRightIndex].gestures[0]);
+//                        console.log(classification.assignments[gesturesRightIndex].gestures[0]);
 
-                        if (parseInt(matchedSourceGesture.triggerId) === parseInt(gesture.triggerId)) {
+                        if (classification.type === TYPE_CLASSIFICATION_APPEARANCE ||
+                                (classification.type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER && parseInt(matchedSourceGesture.triggerId) === parseInt(gesture.triggerId)))
+                        {
                             classification.assignments[gesturesRightIndex].gestures.push(gesture);
                         } else {
                             classification.assignments.push({mainGestureId: gesture.id, gestures: [gesture]});
                         }
                     } else {
-                        classification = {};
                         classification.assignments = [{mainGestureId: gesture.id, gestures: [gesture]}];
                     }
                 } else {
                     if (classification && classification.assignments && classification.assignments.length > 0) {
                         classification.assignments.push({mainGestureId: gesture.id, gestures: [gesture]});
                     } else {
-                        classification = {};
                         classification.assignments = [{mainGestureId: gesture.id, gestures: [gesture]}];
                     }
                 }
                 gesturesRight = classification.assignments;
                 setLocalItem(CLASSIFICATION, classification);
                 console.log(classification);
+
+                $('#btn-reclassify-gestures').removeClass('disabled');
             }
         </script>
     </body>

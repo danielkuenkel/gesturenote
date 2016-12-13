@@ -200,3 +200,12 @@ var MESSAGE_START_STRESS_TEST = 'startStressTest';
 var MESSAGE_TRIGGER_STRESS_TEST_GESTURE = 'triggerStressTestGesture';
 var MESSAGE_TRIGGER_STRESS_TEST_QUESTION = 'triggerStressTestQuestion';
 var MESSAGE_TRIGGER_NEXT_STRESS_TEST_GESTURE = 'triggerNextStressTestGesture';
+
+
+/*
+ * gesture classifcation
+ */
+var TYPE_CLASSIFICATION_APPEARANCE = 'appearance';
+var TYPE_CLASSIFICATION_APPEARANCE_TRIGGER = 'appearanceTrigger';
+var TYPE_CLASSIFICATION_GESTURE_TYPE = 'gestureType';
+var TYPE_CLASSIFICATION_GESTURE_TYPE_TRIGGER = 'gestureTypeTrigger';
