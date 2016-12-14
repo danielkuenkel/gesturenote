@@ -1088,13 +1088,21 @@ include '../includes/language.php';
 
     <!-- identification container -->
 
-    <div class="root container" id="identification" style="margin-top: 80px;"></div>
+    <!--<div class="root container" id="identification" style="margin-top: 80px;"></div>-->
+
+    <div class="root" id="identification" style="width: 100%;">
+
+        <div style="position: absolute; width: 100%; height:auto;" id="scenePanel">
+            <div id="scene-container" class="text-center" style="position: absolute; width: 100%; height:auto; overflow:auto"></div>
+        </div>
+
+    </div>
 
 
-    <div class="row" id="identificationModerated">
+    <div class="container" id="identificationModerated" style="position: relative; top: 80px">
         <!--<div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>-->
-        <div class="" id="column-right" style="margin-bottom: 80px;">
-            <!--<div class="row">-->
+        <!--<div class="" id="column-right">-->
+        <div class="row">
             <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
                 <div>
                     <h3 class="headline" style="margin: 0"></h3>
@@ -1109,7 +1117,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="container" id="identificationUnmoderated">
+    <div class="container" id="identificationUnmoderated" style="position: relative; top: 80px">
         <div class="row">
             <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
                 <div>
@@ -1166,7 +1174,7 @@ include '../includes/language.php';
                 </div>
                 <div class="col-sm-6" style="margin-bottom: 80px">
                     <div style="width: 100%" class="text-center">
-                        <h3 id="trigger" style="margin: 0"><span class="address"></span> <span id="text"></span></h3>
+                        <h3 class="" id="trigger" style="margin: 0;"><span class="address"></span> <span id="text"></span></h3>
                     </div>
                     <div id="gesture-recorder-container" style="width: 450px; margin: auto; margin-top: 15px;"></div>
                     <div style="margin-top: 20px;" id="next-controls" class="hidden">
@@ -1178,6 +1186,13 @@ include '../includes/language.php';
             </div>
         </div>
 
+    </div>
+
+    <div class="container text-center" id="identification-description" style="height: 100%; top: 40px">
+        <div style="position: relative; top: 50%; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); transform: translateY(-50%);">
+            <h3 id="description-text" class="text-shadow-black" style="color: white; width: 400px; margin: auto">Test</h3>
+            <button type="button" class="btn btn-lg btn-info btn-shadow" id="btn-start-gesture-recording" style="margin-top: 15px"><span class="btn-text">Jetzt die Geste aufzeichnen</span></button>
+        </div>
     </div>
 
 

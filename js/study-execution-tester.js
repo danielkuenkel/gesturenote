@@ -908,25 +908,55 @@ var Tester = {
     renderUnmoderatedIdentification: function renderUnmoderatedIdentification(source, container, data) {
         var item = $(source).find('#identificationItemUnmoderated').clone().removeAttr('id');
         $(container).find('#identificationContainer').empty().append(item);
+
+        function renderIdentificationScene(source, container, sceneId) {
+            $(container).find('#recorder-description').removeClass('hidden');
+            $(container).css({position: 'fixed'});
+//            console.log(sceneId);
+            var sceneItem = renderSceneItem(source, container, sceneId);
+//            console.log($(sceneItem).height());
+
+            var description = $(source).find('#identification-description').clone();
+            $(description).height($(sceneItem).height());
+            $(description).find('#description-text').text(data.identification[currentIdentificationIndex].sceneDescription);
+            console.log(container, description);
+            $(container).append(description);
+
+            $(window).on('resize', function (event) {
+                event.preventDefault();
+                $(description).height($(sceneItem).height());
+            });
+
+            $(container).find('#btn-start-gesture-recording').on('click', function (event) {
+                event.preventDefault();
+                $(item).find('#identification-content').removeClass('hidden');
+                $(description).remove();
+                TweenMax.to(container.find('#scenePanel'), .3, {opacity: 0, onComplete: function () {
+                        container.find('#scene-container').empty();
+                        container.find('#scenePanel').css({opacity: "1"});
+                        $(container).css({position: 'relative'});
+                    }});
+            });
+        }
+
         $(container).find('#btn-start-identification').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (data.identificationFor === 'gestures') {
-                $(container).find('#recorder-description').removeClass('hidden');
+                renderIdentificationScene(source, container, data.identification[currentIdentificationIndex].sceneId);
             }
 
             identificationStartTriggered = true;
             $(this).remove();
             $(container).find('#general').addClass('hidden');
-            $(item).find('#identification-content').removeClass('hidden');
         });
 
         if (identificationStartTriggered) {
             clearAlerts(container);
             $(container).find('#general').addClass('hidden');
             $(item).find('#btn-start-identification').remove();
-            $(item).find('#identification-content').removeClass('hidden');
+//            $(item).find('#identification-content').removeClass('hidden');
             if (data.identificationFor === 'gestures') {
-                $(container).find('#recorder-description').removeClass('hidden');
+                renderIdentificationScene(source, container, data.identification[currentIdentificationIndex].sceneId);
             }
         } else {
             appendAlert(container, ALERT_WAITING_FOR_IDENTIFICATION);
@@ -1004,7 +1034,6 @@ var Tester = {
             });
         } else {
             $(item).find('#gesture-identification').remove();
-
             renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
         }
 
@@ -1058,10 +1087,10 @@ var Tester = {
                     var triggerName = $(item).find('#trigger-identification #trigger-name').val();
                     var triggerJustification = $(item).find('#trigger-identification #trigger-justification').val();
                     if (tempData && tempData.trigger) {
-                        tempData.trigger.push({name: triggerName, justification: triggerJustification, gestureId:gesture.id});
+                        tempData.trigger.push({name: triggerName, justification: triggerJustification, gestureId: gesture.id});
                     } else {
                         var trigger = new Array();
-                        trigger.push({name: triggerName, justification: triggerJustification, gestureId:gesture.id});
+                        trigger.push({name: triggerName, justification: triggerJustification, gestureId: gesture.id});
                         tempData.trigger = trigger;
                     }
 
@@ -1878,6 +1907,9 @@ function renderSceneItem(source, container, sceneId) {
 // scene positioning
         var containerOffsetTop = container.offset().top;
         var generalPanelHeight = 55;
+        var study = getLocalItem(STUDY);
+
+
 //        if(!previewModeEnabled === false) {
 //            generalPanelHeight = 0;
 //        }
@@ -1887,10 +1919,15 @@ function renderSceneItem(source, container, sceneId) {
         $(window).resize(function () {
 
             var height;
-            if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+
+            if (study.surveyType === TYPE_SURVEY_UNMODERATED) {
                 height = $(window).height() - containerOffsetTop - generalPanelHeight;
             } else {
-                height = $(window).height() - generalPanelHeight;
+                if (study.phase === TYPE_PHASE_ELICITATION && scene.type === SCENE_VIDEO_EMBED) {
+                    height = $(window).height() - containerOffsetTop - generalPanelHeight - generalPanelHeight;
+                } else {
+                    height = $(window).height() - generalPanelHeight;
+                }
             }
 
             if (scene.type === SCENE_VIDEO_EMBED) {
