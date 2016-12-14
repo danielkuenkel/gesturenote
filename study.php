@@ -314,7 +314,11 @@ if (login_check($mysqli) == true) {
                                                                         <br/>-->
 
                                 </div>
-                                <button type="button" class="btn btn-info btn-shadow" id="btn-start-classification" ><i class="fa fa-archive"></i> <span class="btn-text">Klassifizierung jetzt starten</span></button>
+                                <div class="btn-group-vertical">
+                                    <button type="button" class="btn btn-default btn-shadow" id="btn-help-classification"><i class="fa fa-question-circle"></i> <span class="btn-text">Mehr Infos zur Klassifizierung</span></button>
+                                    <button type="button" class="btn btn-info btn-shadow" id="btn-start-classification"><i class="fa fa-archive"></i> <span class="btn-text">Klassifizierung jetzt starten</span></button>
+                                </div>
+                                
                             </div>
 
                             <div id="gesture-classification" class="row hidden" style="margin-top:20px">
@@ -857,6 +861,11 @@ if (login_check($mysqli) == true) {
                         $('#classification-type').on('change', function (event) {
                             event.preventDefault();
                             $('#btn-start-classification').removeClass('disabled');
+                        });
+                        
+                        $('#btn-help-classification').on('click', function(event) {
+                            event.preventDefault();
+                            loadHTMLintoModal('custom-modal', 'modal-classification.php', 'modal-lg');
                         });
 
                         $('#btn-start-classification').on('click', function (event) {
