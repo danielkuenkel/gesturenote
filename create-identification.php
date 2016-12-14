@@ -19,18 +19,18 @@ include './includes/language.php';
                     <input type="text" class="form-control" id="identificationTitle" placeholder="Titel einfügen">
                 </div>
                 <div class="form-group">
-                    <label class="sr-only" for="identificationDescription">Beschreibung</label>
-                    <textarea class="form-control" id="identificationDescription" rows="5" placeholder="Beschreibung einfügen"></textarea>
+                    <label class="sr-only" for="identificationDescription">Einleitung</label>
+                    <textarea class="form-control" id="identificationDescription" rows="5" placeholder="Einleitung einfügen"></textarea>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="btn-group" id="identificationTypeSwitch">
-                            <button class="btn btn-default switchButtonAddon">Was soll identifiziert werden?</button>
-                            <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="gestures" name="btn-success">Gesten</button>
-                            <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="trigger" name="btn-success">Funktionen</button>
-                        </div>
-                    </div>
+                <!--<div class="row">-->
+                <!--<div class="col-md-6">-->
+                <div class="btn-group" id="identificationTypeSwitch">
+                    <button class="btn btn-default switchButtonAddon">Was soll identifiziert werden?</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="gestures" name="btn-success">Gesten</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="trigger" name="btn-success">Funktionen</button>
                 </div>
+                <!--</div>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
@@ -125,12 +125,22 @@ include './includes/language.php';
 
         if ($(this).find('.active').attr('id') === $('#identificationTypeSwitch #gestures').attr('id')) {
             var trigger = getLocalItem(ASSEMBLED_TRIGGER);
-            if (trigger && trigger.length > 0) {
+            var scenes = getLocalItem(ASSEMBLED_SCENES);
+
+            if (trigger && trigger.length > 0 && scenes && scenes.length > 0) {
                 renderAssembledTriggers();
+                renderAssembledScenes();
                 $(container).find('.btn-add-identificationOption').removeClass('hidden');
                 $(container).find('.option-container').removeClass('hidden');
             } else {
-                appendAlert(container, ALERT_NO_TRIGGER_ASSEMBLED);
+                if (!trigger || trigger.length === 0) {
+                    appendAlert(container, ALERT_NO_TRIGGER_ASSEMBLED);
+                }
+
+                if (!scenes || scenes.length === 0) {
+                    appendAlert(container, ALERT_NO_SCENES_ASSEMBLED);
+                }
+
                 $(container).find('.btn-add-identificationOption').addClass('hidden');
                 $(container).find('.option-container').addClass('hidden');
             }
@@ -180,14 +190,22 @@ include './includes/language.php';
                 if (data.identificationFor === 'gestures') {
 //                    $(clone).find('#group-gestures').remove();
                     var trigger = getTriggerById(identificationItems[i].triggerId);
-                    if (trigger) {
-                        if (!getTriggerById(trigger.id)) {
-                            appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
-                        } else {
-                            $(clone).find('.triggerSelect #' + trigger.id).click();
-                        }
+                    if (trigger && isTriggerAssembled(trigger.id)) {
+                        $(clone).find('.triggerSelect #' + trigger.id).click();
+                    } else {
+                        appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
                     }
+
+                    var scene = getSceneById(identificationItems[i].sceneId);
+                    if (scene && isSceneAssembled(scene.id)) {
+                        $(clone).find('.sceneSelect #' + scene.id).click();
+                    } else {
+                        appendAlert(clone, ALERT_ASSEMBLED_SCENE_REMOVED);
+                    }
+//                    console.log(isTriggerAssembled(trigger.id), isSceneAssembled(scene.id));
+
                     $(clone).find('#context-input').val(identificationItems[i].context);
+                    $(clone).find('#sceneDescription').val(identificationItems[i].sceneDescription);
                 } else {
 //                    $(clone).find('#group-trigger').remove();
                     var gesture = getGestureById(identificationItems[i].gestureId);
@@ -241,13 +259,16 @@ include './includes/language.php';
                 var item = identificationItems[i];
                 if ($('#identificationTypeSwitch .active').attr('id') === 'gestures') {
                     var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
-                    set.push({triggerId:triggerId, context: $(item).find('#context-input').val()});
+                    var context = $(item).find('#context-input').val();
+                    var sceneId = $(item).find('.sceneSelect .chosen').attr('id');
+                    var description = $(item).find('#sceneDescription').val();
+                    set.push({triggerId: triggerId, context: context, sceneId: sceneId, sceneDescription: description});
                 } else {
                     var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
-                    set.push({gestureId:gestureId});
+                    set.push({gestureId: gestureId});
                 }
             }
-            
+
             console.log(set);
             identification.identification = set;
         }

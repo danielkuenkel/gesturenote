@@ -16,6 +16,16 @@ include './includes/language.php';
         <span><?php echo $lang->createStudyInfos->catalogs->text2 ?></span>
     </div>
     <div style="margin-top: 20px">
+        <div style="font-weight: bold"><?php echo $lang->studyCatalogs->scenes ?></div>
+        <span><?php echo $lang->createStudyInfos->catalogs->text3 ?></span>
+        <ul>
+            <li><?php echo $lang->createStudyInfos->catalogs->text3Image ?></li>
+            <li><?php echo $lang->createStudyInfos->catalogs->text3Web ?></li>
+            <li><?php echo $lang->createStudyInfos->catalogs->text3VideoEmbed ?></li>
+            <li><?php echo $lang->createStudyInfos->catalogs->text3Pidoco ?></li>
+        </ul>
+    </div>
+    <div style="margin-top: 20px">
         <div style="font-weight: bold"><?php echo $lang->createStudyInfos->catalogs->text5 ?></div>
         <span><?php echo $lang->createStudyInfos->catalogs->text6 ?></span>
     </div>

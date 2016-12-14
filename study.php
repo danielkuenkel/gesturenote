@@ -217,6 +217,8 @@ if (login_check($mysqli) == true) {
                 <!--<div class="col-xs-12">-->
                 <!--<h3 class="address">Teilnahmen</h3>-->
                 <div class="alert-space alert-no-phase-data"></div>
+                <div class="alert-space alert-no-plan"></div>
+                
                 <div class="list-container row"></div>
                 <!--</div>-->
                 <!--</div>-->
@@ -441,6 +443,7 @@ if (login_check($mysqli) == true) {
                         }
                     });
                 } else {
+                    appendAlert($('#study-participants'), ALERT_NO_PLAN);
                     $('#study-range-days .text').text('0 ' + translation.days);
                     $('.study-no-plan').removeClass('hidden').find('.text').text(translation.studyNoPlan);
                 }
@@ -728,15 +731,17 @@ if (login_check($mysqli) == true) {
             }
 
 
-            function renderExtraction(data) {
+            function renderExtraction() {
                 var elicitedGestures = getLocalItem(ELICITED_GESTURES);
                 if (elicitedGestures && elicitedGestures.length > 0)
                 {
-                    for (var i = 0; i < elicitedGestures.length; i++) {
-                        console.log('renderExtraction', elicitedGestures[i]);
-                    }
+                    
+//                    for (var i = 0; i < elicitedGestures.length; i++) {
+//                        console.log('renderExtraction', elicitedGestures[i]);
+//                    }
                 } else {
                     appendAlert($('#gesture-extraction'), ALERT_NO_PHASE_DATA);
+                    $('#extraction-content').addClass('hidden');
                 }
 
                 $('#btn-all-gestures').click();

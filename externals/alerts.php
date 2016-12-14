@@ -60,4 +60,5 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-recorded-gestures" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noRecordedGestures->text ?></span></div>
     <div class="alert alert-warning" id="no-gestures-classified" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noGesturesClassified->text ?></span></div>
     <div class="alert alert-warning" id="no-more-gestures-for-classification" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noMoreGesturesForClassification->text ?></span></div>
+    <div class="alert alert-warning" id="no-plan" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noPlan->text ?></span></div>
 </div>

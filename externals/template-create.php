@@ -779,6 +779,7 @@ include '../includes/language.php';
     <div class="root" id="identification">
         <div class="alert-space alert-no-gestures-assembled"></div>
         <div class="alert-space alert-no-trigger-assembled"></div>
+        <div class="alert-space alert-no-scenes-assembled"></div>
 
         <div class="option-container hidden"></div>
 
@@ -789,6 +790,7 @@ include '../includes/language.php';
 
         <div class="panel-body">
             <div class="alert-space alert-assembled-trigger-removed"></div>
+            <div class="alert-space alert-assembled-scene-removed"></div>
 
             <div class="input-group">
                 <div class="input-group-btn">
@@ -806,7 +808,22 @@ include '../includes/language.php';
 
             <div class="input-group" style="margin-top: 10px">
                 <span class="input-group-addon"><?php echo $lang->gestureContext ?></span>
-                <input class="form-control" id="context-input" />
+                <input class="form-control" id="context-input" placeholder="Wo soll die Geste genutzt werden?" />
+            </div>
+
+            <div class="input-group" style="margin-top: 10px">
+                <span class="input-group-addon"><?php echo $lang->scene ?></span>
+                <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                <div class="input-group-btn select sceneSelect" id="transition-scene" role="group">
+                    <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                    <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                </div>
+            </div>
+            
+            <div class="input-group" style="margin-top: 10px">
+                <span class="input-group-addon">Beschreibung</span>
+                <!--<label class="sr-only" for="identificationDescription">Beschreibung</label>-->
+                <textarea class="form-control" id="sceneDescription" rows="5" placeholder="Beschreibung einfügen"></textarea>
             </div>
 
         </div>
@@ -823,6 +840,7 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
+
             <span class="input-group-addon"><?php echo $lang->gesture ?></span>
             <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
             <div class="input-group-btn select gestureSelect" role="group">

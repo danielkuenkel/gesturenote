@@ -957,7 +957,7 @@
             "text3Pidoco": "<strong>Pidoco</strong>: Ähnlich wie Webseiten, mit dem Unterschied, dass ein Gesten-Set an Pidoco-Prototypen gesendet werden und diese dann auf Gesten-Aktionen reagieren können. (Noch nicht implementiert)",
             "text4": "Um dem potenziellen Nutzer Feedback für eine Interaktion zu geben, können Text- (Hinweistext nach Geste) und Audio-Feedbacks (Hinweistext und Abspielen einer mp3-Datei) hinterlegt werden. Diese können dann z.B. für ein WOZ-Experiemnt, ein Gesture Usability Scale oder ein Gesten-Training genutzt werden. Standardmäßig sind zwei Text-Feedbacks hinterlegt.",
             "text5": "Weitere Kataloge",
-            "text6": "Der Katalog für die Zustände und das Feedback wird nur bei der Evaluierung von Gesten benötigt, weshalb diese aktuell ausgeblendet sind."
+            "text6": "Der Katalog für das Feedback wird nur bei der Evaluierung von Gesten benötigt, weshalb dieser aktuell ausgeblendet sind."
         },
         "phases": {
             "overview": "Der Leitfaden ist das Kernstück des Gesten-Designs. In GestureNote beinhaltet ein Leitfaden immer eine Einverständniserklärung und eine Danksagung. Diese Schitte sind vorausgewählt und können nicht gelöscht werden. Achten Sie darauf, dass die Danksagung unten, d.h. am Ende des Leitfadens steht.",
@@ -2879,6 +2879,11 @@
             "id": "no-more-gestures-for-classification",
             "type": "warning",
             "text": "Es stehen keine Gesten für eine Klassifizierung zur Verfügung."
+        },
+        "noPlan": {
+            "id": "no-plan",
+            "type": "warning",
+            "text": "Es wurde kein Zeitplan hinterlegt."
         }
     }
 }

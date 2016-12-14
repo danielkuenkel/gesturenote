@@ -7,12 +7,12 @@
 
 function getGestureById(id, source) {
     var gestures = null;
-    if(source) {
+    if (source) {
         gestures = getLocalItem(source);
     } else {
         gestures = getLocalItem(GESTURE_CATALOG);
     }
-    
+
     if (gestures && gestures.length > 0) {
         for (var i = 0; i < gestures.length; i++) {
             if (parseInt(gestures[i].id) === parseInt(id)) {
@@ -70,10 +70,10 @@ function assembleGesture(id) {
 }
 
 function isGestureAssembled(id) {
-    var aGestures = getLocalItem(ASSEMBLED_GESTURE_SET);
-    if (aGestures && aGestures.length > 0) {
-        for (var i = 0; i < aGestures.length; i++) {
-            if (parseInt(aGestures[i]) === parseInt(id)) {
+    var assembled = getLocalItem(ASSEMBLED_GESTURE_SET);
+    if (assembled && assembled.length > 0) {
+        for (var i = 0; i < assembled.length; i++) {
+            if (parseInt(assembled[i]) === parseInt(id)) {
                 return true;
             }
         }
@@ -158,6 +158,19 @@ function getTriggerById(id) {
     return null;
 }
 
+function isTriggerAssembled(id) {
+    var assembled = getLocalItem(ASSEMBLED_TRIGGER);
+    if (assembled && assembled.length > 0) {
+        for (var i = 0; i < assembled.length; i++) {
+            if (parseInt(assembled[i].id) === parseInt(id)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 function removeAssembledTrigger() {
     removeLocalItem(ASSEMBLED_TRIGGER);
 }
@@ -172,6 +185,20 @@ function getSceneById(id) {
         }
     }
     return null;
+}
+
+
+function isSceneAssembled(id) {
+    var assembled = getLocalItem(ASSEMBLED_SCENES);
+    if (assembled && assembled.length > 0) {
+        for (var i = 0; i < assembled.length; i++) {
+            if (parseInt(assembled[i].id) === parseInt(id)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 function removeAssembledScenes() {
@@ -244,7 +271,7 @@ function getStudyData() {
         }
     }
 
-    if (getLocalItem(ASSEMBLED_SCENES) && data.generalData.phase === TYPE_PHASE_EVALUATION) {
+    if (getLocalItem(ASSEMBLED_SCENES)) {
         data.assembledScenes = getLocalItem(ASSEMBLED_SCENES);
     }
 

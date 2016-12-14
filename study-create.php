@@ -280,7 +280,7 @@ if (login_check($mysqli) == true) {
                             </div>
                         </div>
 
-                        <!-- Use of well/predefined sczenes -->
+                        <!-- Use of well/predefined scenes -->
                         <div class="form-group" id="scenes-catalog">
                             <div class="btn-group">
                                 <button class="btn btn-default btn-group-addon"><?php echo $lang->scenes ?></button>
@@ -753,11 +753,11 @@ if (login_check($mysqli) == true) {
                 if (id === TYPE_PHASE_ELICITATION) {
                     $('#phaseStepSelect').find('.' + id).removeClass('hidden');
                     $('#phaseStepSelect').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
-                    $('#scenes-catalog, #feedback-catalog').addClass('hidden');
+                    $('#feedback-catalog').addClass('hidden');
                 } else if (id === TYPE_PHASE_EVALUATION) {
                     $('#phaseStepSelect').find('.' + id).removeClass('hidden');
                     $('#phaseStepSelect').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
-                    $('#scenes-catalog, #feedback-catalog').removeClass('hidden');
+                    $('#feedback-catalog').removeClass('hidden');
                 }
 
                 renderPhaseSteps();
