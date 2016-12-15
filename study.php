@@ -218,7 +218,7 @@ if (login_check($mysqli) == true) {
                 <!--<h3 class="address">Teilnahmen</h3>-->
                 <div class="alert-space alert-no-phase-data"></div>
                 <div class="alert-space alert-no-plan"></div>
-                
+
                 <div class="list-container row"></div>
                 <!--</div>-->
                 <!--</div>-->
@@ -318,7 +318,7 @@ if (login_check($mysqli) == true) {
                                     <button type="button" class="btn btn-default btn-shadow" id="btn-help-classification"><i class="fa fa-question-circle"></i> <span class="btn-text">Mehr Infos zur Klassifizierung</span></button>
                                     <button type="button" class="btn btn-info btn-shadow" id="btn-start-classification"><i class="fa fa-archive"></i> <span class="btn-text">Klassifizierung jetzt starten</span></button>
                                 </div>
-                                
+
                             </div>
 
                             <div id="gesture-classification" class="row hidden" style="margin-top:20px">
@@ -335,7 +335,7 @@ if (login_check($mysqli) == true) {
                                         </div>
                                     </div>
                                     <!--<div class="btn-group-vertical btn-block" role="group" style="margin-top:10px">-->
-                                    <button type="button" class="btn btn-default disabled btn-block" id="btn-redo" style="margin-top:10px"><i class="fa fa-undo" aria-hidden="true"></i> <span class="btn-text">Rückgängig</span></button>
+                                    <button type="button" class="btn btn-default disabled btn-block btn-shadow" id="btn-redo" style="margin-top:10px"><i class="fa fa-undo" aria-hidden="true"></i> <span class="btn-text">Rückgängig</span></button>
                                     <!--                                                                            <button type="button" class="btn btn-default">Abbrechen</button>
                                                                                                                 <button type="button" class="btn btn-default">Fertig</button>
                                                                                                             </div>-->
@@ -739,7 +739,7 @@ if (login_check($mysqli) == true) {
                 var elicitedGestures = getLocalItem(ELICITED_GESTURES);
                 if (elicitedGestures && elicitedGestures.length > 0)
                 {
-                    
+
 //                    for (var i = 0; i < elicitedGestures.length; i++) {
 //                        console.log('renderExtraction', elicitedGestures[i]);
 //                    }
@@ -862,8 +862,8 @@ if (login_check($mysqli) == true) {
                             event.preventDefault();
                             $('#btn-start-classification').removeClass('disabled');
                         });
-                        
-                        $('#btn-help-classification').on('click', function(event) {
+
+                        $('#btn-help-classification').on('click', function (event) {
                             event.preventDefault();
                             loadHTMLintoModal('custom-modal', 'modal-classification.php', 'modal-lg');
                         });
@@ -904,15 +904,23 @@ if (login_check($mysqli) == true) {
                 $('#btn-redo').on('click', function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
-                        var previousGesture = null;
-                        reclassifiyGesture();
+                        reclassifiyGesture(gesturesLeft[gesturesLeftIndex - 1]);
+                        gesturesLeftIndex--;
+                        gesturesRightIndex = 0;
+                        saveClassification();
+                        updateMatchingView();
                     }
                 });
             }
 
             function updateMatchingView() {
                 if (gesturesLeftIndex < gesturesLeft.length - 1) {
-                    $('#btn-redo').removeClass('disabled');
+
+                    if (gesturesLeftIndex > 0) {
+                        $('#btn-redo').removeClass('disabled');
+                    } else {
+                        $('#btn-redo').addClass('disabled');
+                    }
 
                     var leftGesture = gesturesLeft[gesturesLeftIndex];
                     var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
@@ -1094,9 +1102,29 @@ if (login_check($mysqli) == true) {
 
                 $('#btn-reclassify-gestures').removeClass('disabled');
             }
-            
+
             function reclassifiyGesture(gesture) {
-                
+                console.log('reclassify gesture:', gesture);
+                var classification = getLocalItem(CLASSIFICATION);
+                var assignments = classification.assignments;
+                for (var i = 0; i < assignments.length; i++) {
+                    var gestures = assignments[i].gestures;
+                    for (var j = 0; j < gestures.length; j++) {
+                        if (parseInt(gestures[j]) === parseInt(gesture.id)) {
+                            if (gestures.length === 1) {
+                                assignments.splice(i, 1);
+                                break;
+                            } else {
+                                gestures.splice(j, 1);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                gesturesRight = assignments;
+//                console.log(classification);
+                setLocalItem(CLASSIFICATION, classification);
             }
 
             function saveClassification() {
