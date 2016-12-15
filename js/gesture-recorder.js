@@ -381,6 +381,7 @@ function showSave() {
             var previewImageIndex = getGesturePreviewIndex($(recorder.options.recorderTarget).find('#gesturePreview'));
             var title = $(recorder.options.recorderTarget).find('#gestureName').val().trim();
             var context = $(recorder.options.recorderTarget).find('#gestureContext').val().trim();
+            var association = $(recorder.options.recorderTarget).find('#gestureAssociation').val().trim();
             var description = $(recorder.options.recorderTarget).find('#gestureDescription').val().trim();
             var joints = getSelectedJoints($(recorder.options.recorderTarget).find('#human-body #joint-container'));
 
@@ -391,7 +392,7 @@ function showSave() {
                         var imagesURLs = uploadQueue.getUploadURLs();
 //                        console.log('all files uploaded: save data into db', imagesURLs);
                         var ownerId = recorder.options.ownerId || null;
-                        saveRecordedGesture({title: title, context: context, description: description, joints: joints, previewImage: previewImageIndex, gestureImages: imagesURLs, ownerId: ownerId}, function (result) {
+                        saveRecordedGesture({title: title, context: context, association: association, description: description, joints: joints, previewImage: previewImageIndex, gestureImages: imagesURLs, ownerId: ownerId}, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             $(button).removeClass('disabled');
 
@@ -400,6 +401,7 @@ function showSave() {
                                     id: result.gestureId,
                                     title: title,
                                     context: context,
+                                    association: association,
                                     description: description,
                                     joints: joints,
                                     previewImage: previewImageIndex,

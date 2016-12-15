@@ -50,6 +50,7 @@
                 <div id="title">Titel:<span class="address"></span> <span class="text"></span></div>
                 <div id="created"><span class="address">Erstellt:</span> <span class="text"></span></div>
                 <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
+                <div id="association">Assoziation:<span class="address"></span> <span class="text"></span></div>
                 <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
 
                 <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
@@ -68,10 +69,17 @@
                     <label>Gesten-Name</label>
                     <input type="text" class="form-control" id="gesture-name-input" required>
                 </div>
+
                 <div class="form-group">
                     <label>Gesten-Kontext</label>
                     <input type="text" class="form-control" placeholder="Wo soll die Geste eingesetzt werden?" id="gesture-context-input" required>
                 </div>
+
+                <div class="form-group">
+                    <label>Gesten-Assoziation</label>
+                    <textarea class="form-control" id="gesture-association-input" rows="3" maxlength="500" required></textarea>
+                </div>
+
                 <div class="form-group">
                     <label>Gesten-Beschreibung</label>
                     <textarea class="form-control" id="gesture-description-input" rows="3" maxlength="500" required></textarea>
@@ -309,13 +317,14 @@
         if (gesture === null) {
             return false;
         }
-        
+
         console.log(gesture);
 
         var container = $('#modal-body');
         container.find('#title .text').text(gesture.title);
         container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleString());
         container.find('#context .text').text(gesture.context);
+        container.find('#association .text').text(gesture.association === null ? '-' : gesture.association);
         container.find('#description .text').text(gesture.description);
         container.find('#btn-edit-gesture .btn-text').text(translation.edit);
         container.find('#btn-delete-gesture .btn-text').text(translation.deleteGesture);
@@ -470,15 +479,16 @@
                     showCursor($('body'), CURSOR_PROGRESS);
                     var title = $('#gesture-name-input').val().trim();
                     var context = $('#gesture-context-input').val().trim();
+                    var association = $('#gesture-association-input').val().trim();
                     var description = $('#gesture-description-input').val().trim();
                     var joints = getSelectedJoints($('#select-joints-human-body #joint-container'));
-                    updateGesture({gestureId: gesture.id, title: title, context: context, description: description, joints: joints}, function (result) {
+                    updateGesture({gestureId: gesture.id, title: title, context: context, association: association, description: description, joints: joints}, function (result) {
 
                         showCursor($('body'), CURSOR_DEFAULT);
                         $(button).removeClass('disabled');
                         $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').removeClass('disabled');
                         if (result.status === RESULT_SUCCESS) {
-                            updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, context: result.context, description: result.description, joints: result.joints});
+                            updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, context: result.context, association: association, description: result.description, joints: result.joints});
                             $(thumbnail).find('.title-text').text(title);
                             $(button).removeClass('gesture-editable').addClass('gesture-previewable');
                             $(button).find('.btn-text').text(translation.edit);

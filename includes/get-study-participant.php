@@ -32,7 +32,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                         if (!$select_stmt->execute()) {
                             echo json_encode(array('status' => 'selectGesturesError'));
                         } else {
-                            $select_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureContext, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureCreated);
+                            $select_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureCreated);
                             while ($select_stmt->fetch()) {
                                 foreach ($assembledGestures as $assembledGestureId) {
                                     if (strcmp($gestureId, $assembledGestureId) == 0) {
@@ -43,6 +43,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                                             'scope' => $gestureScope,
                                             'title' => $gestureTitle,
                                             'context' => $gestureContext,
+                                            'association' => $gestureAssociation,
                                             'description' => $gestureDescription,
                                             'joints' => json_decode($gestureJoints),
                                             'previewImage' => $gesturePreviewImage,
@@ -82,13 +83,13 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                                         foreach ($gestures as $gesture) {
                                             $gestureId = $gesture->id;
                                             $triggerId = $gesture->triggerId;
-                                            
+
                                             if ($select_gesture_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE id = '$gestureId' LIMIT 1")) {
                                                 if (!$select_gesture_stmt->execute()) {
                                                     echo json_encode(array('status' => 'selectGesturesError'));
                                                 } else {
                                                     $select_gesture_stmt->store_result();
-                                                    $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureContext, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureCreated);
+                                                    $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureCreated);
                                                     $select_gesture_stmt->fetch();
                                                     $elicitedGestures[] = array('id' => $gestureId,
                                                         'userId' => $gestureUserId,
@@ -97,6 +98,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                                                         'scope' => $gestureScope,
                                                         'title' => $gestureTitle,
                                                         'context' => $gestureContext,
+                                                        'association' => $gestureAssociation,
                                                         'description' => $gestureDescription,
                                                         'joints' => json_decode($gestureJoints),
                                                         'previewImage' => $gesturePreviewImage,

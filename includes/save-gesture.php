@@ -11,7 +11,7 @@ $target_dir = "../uploads/";
 $target_preview_dir = "uploads/";
 
 session_start();
-if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['gestureImages'])) {
+if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['gestureImages'])) {
     $imageURLs = $_POST['gestureImages'];
 //    $imageURLs = array();
 
@@ -46,12 +46,13 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['des
     $scope = 'private';
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
     $context = filter_input(INPUT_POST, 'context', FILTER_SANITIZE_STRING);
+    $association = filter_input(INPUT_POST, 'association', FILTER_SANITIZE_STRING);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
     $joints = json_encode($_POST['joints']);
     $previewImage = $_POST['previewImage'];
     $dbImageURLs = json_encode($imageURLs);
 
-    if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, context, description, joints, preview_image, images) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$context','$description','$joints','$previewImage','$dbImageURLs')")) {
+    if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, context, association, description, joints, preview_image, images) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$context','$association','$description','$joints','$previewImage','$dbImageURLs')")) {
         if (!$insert_stmt->execute()) {
             deleteFiles($target_dir, $imageURLs);
             echo json_encode(array('status' => 'insertError'));

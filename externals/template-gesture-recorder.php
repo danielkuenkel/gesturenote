@@ -95,13 +95,20 @@ include '../includes/language.php';
                     <label><?php echo $lang->gestureName ?></label>
                     <input type="text" class="form-control" id="gestureName" required>
                 </div>
+                
                 <div class="form-group">
                     <label><?php echo $lang->gestureContext ?></label>
                     <input type="text" class="form-control" placeholder="<?php echo $lang->gestureContextQuestion ?>" id="gestureContext" required>
                 </div>
+                
+                <div class="form-group">
+                    <label><?php echo $lang->gestureAssociation ?></label>
+                    <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000"  placeholder="<?php echo $lang->gestureAssociationQuestion ?>" required></textarea>
+                </div>
+                
                 <div class="form-group">
                     <label><?php echo $lang->gestureDescription ?></label>
-                    <textarea class="form-control" id="gestureDescription" rows="3" maxlength="500" required></textarea>
+                    <textarea class="form-control" id="gestureDescription" rows="3" maxlength="1000" required></textarea>
                 </div>
 
                 <div class="form-group">
@@ -236,10 +243,17 @@ include '../includes/language.php';
                     <label><?php echo $lang->gestureName ?></label>
                     <input type="text" class="form-control" id="gestureName" required>
                 </div>
+                
                 <div class="form-group">
                     <label><?php echo $lang->gestureContext ?></label>
                     <input type="text" class="form-control" placeholder="<?php echo $lang->gestureContextQuestion ?>" id="gestureContext" required>
                 </div>
+                
+                <div class="form-group">
+                    <label><?php echo $lang->gestureAssociation ?></label>
+                    <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000"  placeholder="<?php echo $lang->gestureAssociationQuestion ?>" required></textarea>
+                </div>
+                
                 <div class="form-group">
                     <label><?php echo $lang->gestureDescription ?></label>
                     <textarea class="form-control" id="gestureDescription" rows="3" maxlength="500" required></textarea>
