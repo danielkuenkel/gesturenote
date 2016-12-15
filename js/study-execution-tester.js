@@ -912,9 +912,7 @@ var Tester = {
         function renderIdentificationScene(source, container, sceneId) {
             $(container).find('#recorder-description').removeClass('hidden');
             $(container).css({position: 'fixed'});
-//            console.log(sceneId);
             var sceneItem = renderSceneItem(source, container, sceneId);
-//            console.log($(sceneItem).height());
 
             var description = $(source).find('#identification-description').clone();
             $(description).height($(sceneItem).height());
@@ -943,6 +941,8 @@ var Tester = {
             event.preventDefault();
             if (data.identificationFor === 'gestures') {
                 renderIdentificationScene(source, container, data.identification[currentIdentificationIndex].sceneId);
+            } else {
+                $(item).find('#identification-content').removeClass('hidden');
             }
 
             identificationStartTriggered = true;
@@ -954,9 +954,10 @@ var Tester = {
             clearAlerts(container);
             $(container).find('#general').addClass('hidden');
             $(item).find('#btn-start-identification').remove();
-//            $(item).find('#identification-content').removeClass('hidden');
             if (data.identificationFor === 'gestures') {
                 renderIdentificationScene(source, container, data.identification[currentIdentificationIndex].sceneId);
+            } else {
+                $(item).find('#identification-content').removeClass('hidden');
             }
         } else {
             appendAlert(container, ALERT_WAITING_FOR_IDENTIFICATION);
@@ -979,7 +980,6 @@ var Tester = {
                 context: data.identification[currentIdentificationIndex].context
             };
             new GestureRecorder(options);
-//            initCheckRecorder(item.find('#gesture-recorder-container'), gestureRecorder, !previewModeEnabled, getLocalItem(STUDY).studyOwner);
             renderBodyJoints(gestureRecorder.find('#human-body'));
             var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
             container.find('#recorder-description').empty().append(recorderDescription);
@@ -1041,6 +1041,7 @@ var Tester = {
             $(item).find('#next-identification').remove();
             $(item).find('#done-identification').unbind('click').bind('click', function (event) {
                 event.preventDefault();
+                currentIdentificationIndex++;
 
                 if (data.identificationFor === 'trigger' && !previewModeEnabled) {
                     var currentPhase = getCurrentPhase();
@@ -1060,7 +1061,6 @@ var Tester = {
 
                 if (!previewModeEnabled && peerConnection) {
                     peerConnection.sendMessage(MESSAGE_IDENTIFICATION_DONE);
-
                 }
 
                 identificationDone = true;
