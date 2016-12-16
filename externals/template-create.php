@@ -783,7 +783,7 @@ include '../includes/language.php';
 
         <div class="option-container hidden"></div>
 
-        <button class="btn btn-info btn-shadow pull-right hidden btn-add-identificationOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Identifikationselement hinzufügen</span></button>
+        <button class="btn btn-info btn-shadow pull-right hidden btn-add-identificationOption" type="button" style="margin-top: 10px"><span class="glyphicon glyphicon-plus"></span> <span>Identifikationselement hinzufügen</span></button>
     </div>
 
     <div class="panel panel-default root" id="identificationItem-gestures" style="margin-bottom: 15px">
