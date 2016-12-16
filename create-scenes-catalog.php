@@ -14,7 +14,7 @@ include './includes/language.php';
             <div class="input-group-btn select" id="addFormatSelect" role="group">
                 <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                    <li id="pidoco"><a href="#">Pidoco</a></li>
+                    <!--<li id="pidoco"><a href="#">Pidoco</a></li>-->
                     <li id="web"><a href="#">Webseite</a></li>
                     <li id="image"><a href="#">Bild</a></li>
                     <!--<li id="video"><a href="#">Video</a></li>-->
