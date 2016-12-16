@@ -40,7 +40,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                                     } else {
 
                                         $select_gesture_stmt->store_result();
-                                        $select_gesture_stmt->bind_result($originalGestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureCreated);
+                                        $select_gesture_stmt->bind_result($originalGestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureCreated);
                                         $select_gesture_stmt->fetch();
 
                                         $elicitedGestures[] = array('id' => $originalGestureId,
@@ -49,6 +49,8 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                                             'source' => $gestureSource,
                                             'scope' => $gestureScope,
                                             'title' => $gestureTitle,
+                                            'type' => $gestureType,
+                                            'interactionType' => $gestureInteractionType,
                                             'context' => $gestureContext,
                                             'association' => $gestureAssociation,
                                             'description' => $gestureDescription,

@@ -52,7 +52,19 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['ass
     $previewImage = $_POST['previewImage'];
     $dbImageURLs = json_encode($imageURLs);
 
-    if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, context, association, description, joints, preview_image, images) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$context','$association','$description','$joints','$previewImage','$dbImageURLs')")) {
+    if (isset($_POST['type'])) {
+        $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+    } else {
+        $type = null;
+    }
+
+    if (isset($_POST['interactionType'])) {
+        $interactionType = filter_input(INPUT_POST, 'interactionType', FILTER_SANITIZE_STRING);
+    } else {
+        $interactionType = null;
+    }
+
+    if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, type, interaction_type, context, association, description, joints, preview_image, images) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$type','$interactionType','$context','$association','$description','$joints','$previewImage','$dbImageURLs')")) {
         if (!$insert_stmt->execute()) {
             deleteFiles($target_dir, $imageURLs);
             echo json_encode(array('status' => 'insertError'));

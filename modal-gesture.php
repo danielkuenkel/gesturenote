@@ -1,3 +1,7 @@
+<?php
+include 'includes/language.php';
+?>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     <h4 class="modal-title">Gesten-Vorschau</h4>
@@ -47,8 +51,10 @@
         <div class="col-md-7">
             <h3 style="margin-top: 0"><i class="fa fa-bookmark-o"></i> Allgemeines</h3>
             <div id="gesture-data-preview">
-                <div id="title">Titel:<span class="address"></span> <span class="text"></span></div>
                 <div id="created"><span class="address">Erstellt:</span> <span class="text"></span></div>
+                <div id="title">Titel:<span class="address"></span> <span class="text"></span></div>
+                <div id="type">Gesten-Typ:<span class="address"></span> <span class="text"></span></div>
+                <div id="interactionType">Gesten-Interaktions-Typ:<span class="address"></span> <span class="text"></span></div>
                 <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
                 <div id="association">Assoziation:<span class="address"></span> <span class="text"></span></div>
                 <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
@@ -66,27 +72,55 @@
                 <div class="alert-space alert-missing-fields"></div>
 
                 <div class="form-group">
-                    <label>Gesten-Name</label>
+                    <label><?php echo $lang->gestureName ?></label>
                     <input type="text" class="form-control" id="gesture-name-input" required>
                 </div>
 
+                <div class="form-group" style="margin-top: 10px">
+                    <label><?php echo $lang->gestureType ?></label>
+                    <div class="input-group">
+                        <input class="form-control item-input-text option-gesture-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                        <div class="input-group-btn select gestureTypeSelect" role="group" id="gestureTypeSelect">
+                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="0"><a href="#"><?php echo $lang->gestureTypes->pose ?></a></li>
+                                <li id="1"><a href="#"><?php echo $lang->gestureTypes->dynamic ?></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 10px">
+                    <label><?php echo $lang->gestureInteractionType ?></label>
+                    <div class="input-group">
+                        <input class="form-control item-input-text option-gesture-interaction-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                        <div class="input-group-btn select gestureInteractionTypeSelect" role="group" id="gestureInteractionTypeSelect">
+                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="0"><a href="#"><?php echo $lang->gestureInteractionTypes->discrete ?></a></li>
+                                <li id="1"><a href="#"><?php echo $lang->gestureInteractionTypes->continuous ?></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <label>Gesten-Kontext</label>
+                    <label><?php echo $lang->gestureContext ?></label>
                     <input type="text" class="form-control" placeholder="Wo soll die Geste eingesetzt werden?" id="gesture-context-input" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Gesten-Assoziation</label>
+                    <label><?php echo $lang->gestureAssociation ?></label>
                     <textarea class="form-control" id="gesture-association-input" rows="3" maxlength="500" required></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label>Gesten-Beschreibung</label>
+                    <label><?php echo $lang->gestureDescription ?></label>
                     <textarea class="form-control" id="gesture-description-input" rows="3" maxlength="500" required></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label>Welche Teile des Körpers werden für die Geste genutzt?</label>
+                    <label><?php echo $lang->gestureGraphicsQuestion ?></label>
                     <div class="select-joints-humand-body" id="select-joints-human-body" style="width: 400px; margin: auto; margin-top: 10px">
                         <div id="joint-container" style="position: absolute"></div>
                         <img src="img/human_body.svg">
@@ -318,11 +352,43 @@
             return false;
         }
 
-        console.log(gesture);
+//        console.log(gesture);
+
+        function getGestureType(index) {
+            if (index === null) {
+                return '-';
+            }
+
+            switch (parseInt(index)) {
+                case 0:
+                    return translation.gestureTypes.pose;
+                    break;
+                case 1:
+                    return translation.gestureTypes.dynamic;
+                    break;
+            }
+        }
+
+        function getGestureInteractionType(index) {
+            if (index === null) {
+                return '-';
+            }
+
+            switch (parseInt(index)) {
+                case 0:
+                    return translation.gestureInteractionTypes.discrete;
+                    break;
+                case 1:
+                    return translation.gestureInteractionTypes.continuous;
+                    break;
+            }
+        }
 
         var container = $('#modal-body');
-        container.find('#title .text').text(gesture.title);
         container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleString());
+        container.find('#title .text').text(gesture.title);
+        container.find('#type .text').text(getGestureType(gesture.type));
+        container.find('#interactionType .text').text(getGestureInteractionType(gesture.interactionType));
         container.find('#context .text').text(gesture.context);
         container.find('#association .text').text(gesture.association === null ? '-' : gesture.association);
         container.find('#description .text').text(gesture.description);
@@ -331,6 +397,7 @@
         container.find('#gesture-scope .label-text').text(translation.gestureScopes[gesture.scope]);
         container.find('#gesture-scope #' + gesture.scope).removeClass('hidden');
         var shareButton = $(container).find('#btn-share-gesture');
+
 
         if (gesture.isOwner === true) {
             $(container).find('#gesture-rating #btn-rate-gesture').remove();
@@ -478,17 +545,19 @@
                     $(button).addClass('disabled');
                     showCursor($('body'), CURSOR_PROGRESS);
                     var title = $('#gesture-name-input').val().trim();
+                    var type = $(container).find('#gestureTypeSelect .chosen').attr('id');
+                    var interactionType = $(container).find('#gestureInteractionTypeSelect .chosen').attr('id');
                     var context = $('#gesture-context-input').val().trim();
                     var association = $('#gesture-association-input').val().trim();
                     var description = $('#gesture-description-input').val().trim();
                     var joints = getSelectedJoints($('#select-joints-human-body #joint-container'));
-                    updateGesture({gestureId: gesture.id, title: title, context: context, association: association, description: description, joints: joints}, function (result) {
 
+                    updateGesture({gestureId: gesture.id, title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints}, function (result) {
                         showCursor($('body'), CURSOR_DEFAULT);
                         $(button).removeClass('disabled');
                         $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').removeClass('disabled');
                         if (result.status === RESULT_SUCCESS) {
-                            updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, context: result.context, association: association, description: result.description, joints: result.joints});
+                            updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, type: type, interactionType: interactionType, context: result.context, association: association, description: result.description, joints: result.joints});
                             $(thumbnail).find('.title-text').text(title);
                             $(button).removeClass('gesture-editable').addClass('gesture-previewable');
                             $(button).find('.btn-text').text(translation.edit);
@@ -505,12 +574,16 @@
                     });
                 }
             } else {
+                console.log($('#gestureTypeSelect').find('#' + gesture.type));
                 $(this).removeClass('gesture-previewable').addClass('gesture-editable');
                 $(this).find('.btn-text').text(translation.gesturePreviewable);
                 $('#modal-body #gesture-data-preview').addClass('hidden');
                 $('#modal-body #gesture-data-edit').removeClass('hidden');
                 $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').addClass('disabled');
                 $('#gesture-name-input').val(gesture.title);
+                $('#gesture-data-edit #gestureTypeSelect').find('#' + gesture.type).click();
+                $('#gesture-data-edit #gestureInteractionTypeSelect').find('#' + gesture.interactionType).click();
+                $('#gesture-association-input').val(gesture.association);
                 $('#gesture-context-input').val(gesture.context);
                 $('#gesture-description-input').val(gesture.description);
                 renderBodyJoints($('#select-joints-human-body'), gesture.joints);
@@ -601,8 +674,38 @@
             return false;
         }
 
+        var type = $(container).find('#gestureTypeSelect .chosen').attr('id');
+        if (type === 'unselected') {
+            if (showErrors) {
+                appendAlert(container, ALERT_MISSING_FIELDS);
+            } else {
+                removeAlert(container, ALERT_MISSING_FIELDS);
+            }
+            return false;
+        }
+
+        var interactionType = $(container).find('#gestureInteractionTypeSelect .chosen').attr('id');
+        if (interactionType === 'unselected') {
+            if (showErrors) {
+                appendAlert(container, ALERT_MISSING_FIELDS);
+            } else {
+                removeAlert(container, ALERT_MISSING_FIELDS);
+            }
+            return false;
+        }
+
         var context = $('#gesture-data-edit #gesture-context-input').val().trim();
         if (context === '') {
+            if (showErrors) {
+                appendAlert(container, ALERT_MISSING_FIELDS);
+            } else {
+                removeAlert(container, ALERT_MISSING_FIELDS);
+            }
+            return false;
+        }
+
+        var association = $('#gesture-data-edit #gesture-association-input').val().trim();
+        if (association === '') {
             if (showErrors) {
                 appendAlert(container, ALERT_MISSING_FIELDS);
             } else {
@@ -642,13 +745,20 @@
         }
     });
 
-    $('#gesture-name-input, #gesture-context-input, #gesture-description-input').bind('input', function () {
+    $('#gesture-data-edit #gestureTypeSelect, #gesture-data-edit #gestureInteractionTypeSelect').unbind('change').bind('change', function () {
         if (inputsValid()) {
             $('#btn-edit-gesture').removeClass('disabled');
         } else {
             $('#btn-edit-gesture').addClass('disabled');
         }
-    }
-    );
+    });
+
+    $('#gesture-name-input, #gesture-association-input, #gesture-context-input, #gesture-description-input').bind('input', function () {
+        if (inputsValid()) {
+            $('#btn-edit-gesture').removeClass('disabled');
+        } else {
+            $('#btn-edit-gesture').addClass('disabled');
+        }
+    });
 
 </script>

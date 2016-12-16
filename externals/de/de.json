@@ -741,9 +741,12 @@
     "gestureType": "Gestentyp",
     "bodyType": "Körperteile",
     "gestureTypes": {
-        "discrete": "Diskrete Geste",
         "pose": "Pose",
-        "continuous": "Kontinuierliche Geste"
+        "dynamic": "Dynamische Geste"
+    },
+    "gestureInteractionTypes": {
+        "discrete": "Diskrete Gesten-Interaktion",
+        "continuous": "Kontinuierliche Gesten-Interaktion"
     },
     "bodyTypes": {
         "full": "Ganzkörper",
@@ -753,8 +756,8 @@
     "classificationTypes": {
         "appearance": "Aussehen",
         "appearanceTrigger": "Aussehen + Funktion",
-        "gestureType": "Gestentyp",
-        "gestureTypeTrigger": "Gestentyp + Funktion"
+        "gestureType": "Gesten-Typ",
+        "gestureTypeTrigger": "Gesten-Typ + Funktion"
     },
     "userTypes": {
         "guest": "Gast",
@@ -837,6 +840,8 @@
     "recordedGestures": "Aufgezeichnete Gesten",
     "gestureName": "Gesten-Name",
     "gestureContext": "Gesten-Kontext",
+    "gestureType": "Gesten-Typ",
+    "gestureInteractionType": "Gesten-Interaktions-Typ",
     "gestureContextQuestion": "Wo soll die Geste eingesetzt werden?",
     "gestureAssociation": "Assoziation(en)",
     "gestureAssociationQuestion": "Warum wurde diese Geste gewählt?",

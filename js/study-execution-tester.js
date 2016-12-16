@@ -977,7 +977,9 @@ var Tester = {
                 recorderTarget: gestureRecorder,
                 saveGestures: !previewModeEnabled,
                 ownerId: getLocalItem(STUDY).studyOwner,
-                context: data.identification[currentIdentificationIndex].context
+                context: data.identification[currentIdentificationIndex].context,
+                checkType: false,
+                checkInteractionType: false
             };
             new GestureRecorder(options);
             renderBodyJoints(gestureRecorder.find('#human-body'));

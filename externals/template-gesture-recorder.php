@@ -95,17 +95,45 @@ include '../includes/language.php';
                     <label><?php echo $lang->gestureName ?></label>
                     <input type="text" class="form-control" id="gestureName" required>
                 </div>
+
+                <div class="form-group" style="margin-top: 10px">
+                    <label><?php echo $lang->gestureType ?></label>
+                    <div class="input-group">
+                        <input class="form-control item-input-text option-gesture-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                        <div class="input-group-btn select gestureTypeSelect" role="group" id="gestureTypeSelect">
+                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="0"><a href="#"><?php echo $lang->gestureTypes->pose ?></a></li>
+                                <li id="1"><a href="#"><?php echo $lang->gestureTypes->dynamic ?></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 
+                <div class="form-group" style="margin-top: 10px">
+                    <label><?php echo $lang->gestureInteractionType ?></label>
+                    <div class="input-group">
+                        <input class="form-control item-input-text option-gesture-interaction-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                        <div class="input-group-btn select gestureInteractionTypeSelect" role="group" id="gestureInteractionTypeSelect">
+                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="0"><a href="#"><?php echo $lang->gestureInteractionTypes->discrete ?></a></li>
+                                <li id="1"><a href="#"><?php echo $lang->gestureInteractionTypes->continuous ?></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label><?php echo $lang->gestureContext ?></label>
                     <input type="text" class="form-control" placeholder="<?php echo $lang->gestureContextQuestion ?>" id="gestureContext" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label><?php echo $lang->gestureAssociation ?></label>
                     <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000"  placeholder="<?php echo $lang->gestureAssociationQuestion ?>" required></textarea>
                 </div>
-                
+
                 <div class="form-group">
                     <label><?php echo $lang->gestureDescription ?></label>
                     <textarea class="form-control" id="gestureDescription" rows="3" maxlength="1000" required></textarea>
@@ -243,17 +271,17 @@ include '../includes/language.php';
                     <label><?php echo $lang->gestureName ?></label>
                     <input type="text" class="form-control" id="gestureName" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label><?php echo $lang->gestureContext ?></label>
                     <input type="text" class="form-control" placeholder="<?php echo $lang->gestureContextQuestion ?>" id="gestureContext" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label><?php echo $lang->gestureAssociation ?></label>
                     <textarea class="form-control" id="gestureAssociation" rows="3" maxlength="1000"  placeholder="<?php echo $lang->gestureAssociationQuestion ?>" required></textarea>
                 </div>
-                
+
                 <div class="form-group">
                     <label><?php echo $lang->gestureDescription ?></label>
                     <textarea class="form-control" id="gestureDescription" rows="3" maxlength="500" required></textarea>
