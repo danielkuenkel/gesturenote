@@ -236,6 +236,7 @@ include 'includes/language.php';
             $(this).closest('.gesture-rating').find('#rating-submit-buttons').addClass('hidden');
             $(this).closest('.gesture-rating').find('#btn-rate-gesture').removeClass('hidden');
             $(this).closest('.gesture-rating').find('.btn-gesture-rating').removeClass('btn-gesture-rating-clickable active');
+            console.log(currentRatings);
             renderGestureRating($(this).closest('.gesture-rating'), currentRatings, false);
         }
     });
@@ -328,6 +329,8 @@ include 'includes/language.php';
                     $(nthStar).next().find('.fa').removeClass('fa-star-o').addClass('fa-star-half-full');
                 }
             }
+        } else {
+            $(target).find('.btn-gesture-rating .fa').removeClass('fa-star-half-full fa-star').addClass('fa-star-o');
         }
     }
 

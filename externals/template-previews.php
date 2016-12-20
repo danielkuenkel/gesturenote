@@ -372,7 +372,10 @@ include '../includes/language.php';
                 <div class="panel-heading">
                     Beobachtungen
                 </div>
-                <div class="panel-body question-container"></div>
+                <div class="panel-body">
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="question-container"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -428,7 +431,10 @@ include '../includes/language.php';
                 <div class="panel-heading">
                     Beobachtungen
                 </div>
-                <div class="panel-body question-container"></div>
+                <div class="panel-body">
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="question-container"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -469,7 +475,7 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="panel panel-default" id="observations">
+            <div class="panel panel-default">
                 <div class="panel-heading">Elemente</div>
                 <div class="panel-body question-container"></div>
             </div>
@@ -520,7 +526,10 @@ include '../includes/language.php';
 
             <div class="panel panel-default" id="observations">
                 <div class="panel-heading"><?php echo $lang->observations ?></div>
-                <div class="panel-body question-container"></div>
+                <div class="panel-body">
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="question-container"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -584,17 +593,30 @@ include '../includes/language.php';
 
             <div class="panel panel-default" id="singleStressQuestions">
                 <div class="panel-heading">Fragen nach jeder Geste</div>
-                <div class="panel-body question-container"></div>
+                <div class="panel-body">
+                    <div class="question-container"></div>
+                    <span class="label label-default hidden" id="parts-body">Befragung über Anstrenung mit Grafik für Körper</span> 
+                    <span class="label label-default hidden" id="parts-hands">Befragung über Anstrenung mit Grafik für Hände</span> 
+                    <span class="label label-default hidden" id="parts-bodyHands">Befragung über Anstrenung mit Grafik für Körper und Hände</span> 
+                </div>
             </div>
 
             <div class="panel panel-default" id="sequenceStressQuestions">
                 <div class="panel-heading">Fragen nach einer Gesten-Squenz</div>
-                <div class="panel-body question-container"></div>
+                <div class="panel-body">
+                    <div class="question-container"></div>
+                    <span class="label label-default hidden" id="parts-body">Befragung über Anstrenung mit Grafik für Körper</span> 
+                    <span class="label label-default hidden" id="parts-hands">Befragung über Anstrenung mit Grafik für Hände</span> 
+                    <span class="label label-default hidden" id="parts-bodyHands">Befragung über Anstrenung mit Grafik für Körper und Hände</span> 
+                </div>
             </div>
 
             <div class="panel panel-default" id="observations">
                 <div class="panel-heading">Beobachtungen</div>
-                <div class="panel-body question-container"></div>
+                <div class="panel-body">
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="question-container"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -653,7 +675,10 @@ include '../includes/language.php';
                 <div class="panel-heading">
                     Beobachtungen
                 </div>
-                <div class="panel-body question-container"></div>
+                <div class="panel-body">
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="question-container"></div>
+                </div>
             </div>
         </div>
     </div>

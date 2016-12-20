@@ -910,6 +910,7 @@ var Tester = {
         $(container).find('#identificationContainer').empty().append(item);
 
         function renderIdentificationScene(source, container, sceneId) {
+            console.log('renderIdentificationScene', sceneId);
             $(container).find('#recorder-description').removeClass('hidden');
             $(container).css({position: 'fixed'});
             var sceneItem = renderSceneItem(source, container, sceneId);
@@ -917,7 +918,7 @@ var Tester = {
             var description = $(source).find('#identification-description').clone();
             $(description).height($(sceneItem).height());
             $(description).find('#description-text').text(data.identification[currentIdentificationIndex].sceneDescription);
-            console.log(container, description);
+
             $(container).append(description);
 
             $(window).on('resize', function (event) {
@@ -1856,6 +1857,7 @@ function getJointSelectionRatings(data, selectionRating, container) {
 }
 
 function renderSceneItem(source, container, sceneId) {
+    console.log('renderSceneItem', sceneId);
     if (sceneId !== 'none' || sceneId !== null) {
         $(container).find('#btn-refresh-scene').removeClass('hidden');
         var scene = getSceneById(sceneId);

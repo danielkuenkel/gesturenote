@@ -364,7 +364,7 @@ if (login_check($mysqli) == true) {
             }
 
             function renderIdentification(content, phaseData, phaseResults) {
-//                console.log(phaseData, phaseResults);
+                console.log(phaseData, phaseResults);
 
                 if (phaseData.identificationFor === 'gestures') {
                     $(content).find('#search-gestures').removeClass('hidden');
@@ -375,28 +375,35 @@ if (login_check($mysqli) == true) {
                             $(content).find('.list-container').append(item);
                             TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
                         }
+                    } else {
+                        console.log('no gestures there');
+                        appendAlert(content, ALERT_NO_PHASE_DATA);
                     }
                 } else if (phaseData.identificationFor === 'trigger') {
                     $(content).find('#search-trigger').removeClass('hidden');
                     var gestures = phaseData.identification;
-                    for (var i = 0; i < gestures.length; i++) {
-                        var gesture = getGestureById(gestures[i]);
-                        var gestureItem = getGestureCatalogListThumbnail(gesture, 'col-xs-6 col-lg-4');
+                    if (phaseResults.trigger && phaseResults.trigger.length > 0) {
+                        for (var i = 0; i < gestures.length; i++) {
+                            var gesture = getGestureById(gestures[i]);
+                            var gestureItem = getGestureCatalogListThumbnail(gesture, 'col-xs-6 col-lg-4');
 
-                        var item = $('#template-study-container').find('#trigger-identification').clone();
-                        $(item).prepend(gestureItem);
-                        $(item).find('#trigger-name .address').text(translation.trigger + ':');
-                        $(item).find('#trigger-name .text').text(phaseResults.trigger[i].name);
-                        $(item).find('#trigger-justification .address').text(translation.justification + ':');
-                        $(item).find('#trigger-justification .text').text(phaseResults.trigger[i].justification);
-                        $(content).find('.list-container').append(item);
+                            var item = $('#template-study-container').find('#trigger-identification').clone();
+                            $(item).prepend(gestureItem);
+                            $(item).find('#trigger-name .address').text(translation.trigger + ':');
+                            $(item).find('#trigger-name .text').text(phaseResults.trigger[i].name);
+                            $(item).find('#trigger-justification .address').text(translation.justification + ':');
+                            $(item).find('#trigger-justification .text').text(phaseResults.trigger[i].justification);
+                            $(content).find('.list-container').append(item);
 
-                        if (i < gestures.length - 1) {
-                            var line = document.createElement('hr');
-                            $(line).css({margin: 0, marginBottom: 20});
-                            $(content).find('.list-container').append(line);
+                            if (i < gestures.length - 1) {
+                                var line = document.createElement('hr');
+                                $(line).css({margin: 0, marginBottom: 20});
+                                $(content).find('.list-container').append(line);
+                            }
+                            TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
                         }
-                        TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
+                    } else {
+                        console.log('no triggers there');
                     }
                 }
             }

@@ -609,6 +609,7 @@ function renderAssembledGestures(targetContainer) {
     }
 }
 
+
 /* 
  * Actions for the trigger select dropdown
  */
@@ -635,10 +636,11 @@ function renderAssembledTriggers(targetContainer) {
             $(dropdown).find('.option').append(listItem);
         }
     } else {
-        $(dropdown).find('.dropdown-toggle').addClass('disabled');
+        $(target).find('.triggerSelect .dropdown-toggle').addClass('disabled');
         $('body').find('.option-trigger').attr('placeholder', 'Keine Funktionen vorhanden');
     }
 }
+
 
 /* 
  * Actions for the prototype select dropdown
@@ -647,8 +649,6 @@ function renderAssembledTriggers(targetContainer) {
 function renderAssembledScenes(targetContainer) {
     var scenes = getLocalItem(ASSEMBLED_SCENES);
     var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
-
-//    var dropdowns = $('body').find('.sceneSelect');
 
     if (scenes && scenes.length > 0) {
         var dropdown = target === null ? $('#form-item-container').find('.sceneSelect') : $(target).find('.sceneSelect');
@@ -667,37 +667,8 @@ function renderAssembledScenes(targetContainer) {
             listItem.appendChild(link);
             $(dropdown).find('.option').append(listItem);
         }
-        
-        
-        
-        
-////        var listItem;
-////        for (var j = 0; j < scenes.length; j++) {
-////            var listItem;
-////            for (var i = 0; i < scenes.length; i++) {
-////                var link = document.createElement('a');
-////
-////                if (i === 0 && !$(dropdown).hasClass('no-none')) {
-////                    listItem = document.createElement('li');
-////                    listItem.setAttribute('id', 'none');
-////                    link.setAttribute('href', '#');
-////                    link.appendChild(document.createTextNode(translation.none));
-////                    listItem.appendChild(link);
-////                    $(dropdown).find('.option').append(listItem);
-////                }
-////
-////                listItem = document.createElement('li');
-////                listItem.setAttribute('id', scenes[i].id);
-////                link = document.createElement('a');
-////                link.setAttribute('href', '#');
-////                link.appendChild(document.createTextNode(scenes[i].title));
-////                listItem.appendChild(link);
-////                $(dropdown).find('.option').append(listItem);
-////            }
-////            $('body').find('.item-input-text').attr('placeholder', 'Bitte wählen');
-//        }
     } else {
-        $(dropdowns).find('.dropdown-toggle').addClass('disabled');
+        $(target).find('.sceneSelect .dropdown-toggle').addClass('disabled');
         $('body').find('.item-input-text').attr('placeholder', 'Keine Szene vorhanden');
     }
 }

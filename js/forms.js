@@ -1064,15 +1064,16 @@ function renderGUS(item, studyData, resultsData) {
         score = parseInt(resultsData.selectedOption) + 1;
     }
 
+    var options = translation.gusOptions;
     var selectedOption = parseInt(resultsData.selectedOption);
     if (selectedOption === -1) {
         $(item).find('#score-container').remove();
         $(item).find('#no-answer').removeClass('hidden');
     } else {
-        renderRatingSigns($(item).find('#score-container'), score);
+        renderRatingSigns($(item).find('#score-container'), score, options.length);
     }
 
-    var options = translation.gusOptions;
+
     for (var i = 0; i < options.length; i++) {
         var option = $('#template-study-container').find('#gus-single-item-option').clone();
         $(option).text(options[i]);
@@ -1096,15 +1097,17 @@ function renderSUSItem(item, studyData, resultsData) {
         score = parseInt(resultsData.selectedOption) + 1;
     }
 
+    var options = translation.susOptions;
+    var maxScore = options.length;
     var selectedOption = parseInt(resultsData.selectedOption);
     if (selectedOption === -1) {
         $(item).find('#score-container').remove();
         $(item).find('#no-answer').removeClass('hidden');
     } else {
-        renderRatingSigns($(item).find('#score-container'), score);
+        renderRatingSigns($(item).find('#score-container'), score, maxScore);
     }
 
-    var options = translation.susOptions;
+
     for (var i = 0; i < options.length; i++) {
         var option = $('#template-study-container').find('#sus-item-option').clone();
         $(option).text(options[i]);
@@ -1120,7 +1123,7 @@ function renderSUSItem(item, studyData, resultsData) {
 function renderRatingSigns(container, score, maxScore) {
     $(container).find('.score-text').text(score);
     var balance = Math.floor(maxScore / 2) + (maxScore % 2);
-    console.log('maxScore', $(container), balance);
+    console.log('maxScore', $(container), score, balance);
     if (score > balance) {
         $(container).find('.fa').addClass('fa-thumbs-up');
     } else if (score === balance) {

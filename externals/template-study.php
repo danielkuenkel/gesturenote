@@ -89,6 +89,7 @@
             <div class="panel-body">
                 <span class="label label-default" id="user"><i class="fa fa-user"></i> <span class="label-text"></span></span>
                 <span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
+                <span class="label label-warning hidden" id="execution-error"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
                 <span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>
             </div>
         </div>
@@ -125,6 +126,7 @@
         <span class="label label-default hidden" id="search-gestures">Es wurden Gesten ermittelt</span> 
         <span class="label label-default hidden" id="search-trigger">Es wurden Funktionen ermittelt</span>
         <div id="item-view" style="margin-top: 30px;">
+            <div class="alert-space alert-no-phase-data"></div>
             <div class="list-container row" id="gestures-list-container"></div>
         </div>
     </div>

@@ -442,7 +442,7 @@ var Moderator = {
                 }
             }
         });
-        
+
         if (trainingTriggered) {
             $(item).find('#next-gesture, #training-done, #trigger-feedback').removeClass('disabled');
             item.find('#trigger-training').addClass('disabled');
@@ -784,16 +784,17 @@ var Moderator = {
             Moderator.getQuestionnaire($('#item-container-moderator'), $(container).find('#sequenceStressQuestions'), data.sequenceStressQuestions, true);
         }
 
+        if (data.singleStressGraphicsRating !== 'none') {
+            $(container).find('#singleStressQuestions #parts-' + data.singleStressGraphicsRating).removeClass('hidden');
+        }
+
+        console.log(data.singleStressGraphicsRating, data.sequenceStressGraphicsRating);
+        if (data.sequenceStressGraphicsRating !== 'none') {
+            $(container).find('#sequenceStressQuestions #parts-' + data.sequenceStressGraphicsRating).removeClass('hidden');
+        }
+
         // observation section
         renderObservations(data, container);
-//        if (data.observations && data.observations.length > 0) {
-//            Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
-//
-//            $(container).find('#observations').on('change', function () {
-//                var study = getLocalItem(STUDY);
-//                saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
-//            });
-//        }
 
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_REACTIVATE_CONTROLS).bind(MESSAGE_REACTIVATE_CONTROLS, function (event, payload) {
@@ -1241,7 +1242,6 @@ function updateCurrentScene(container) {
 
 function renderObservations(data, container) {
     if (data.observations && data.observations.length > 0) {
-
         if (!previewModeEnabled) {
             var savedObservations = getObservationResults(getCurrentPhase().id);
             if (savedObservations && savedObservations.length > 0) {
@@ -1257,5 +1257,7 @@ function renderObservations(data, container) {
         } else {
             Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
         }
+    } else {
+        appendAlert($(container).find('#observations'), ALERT_NO_PHASE_DATA);
     }
 }
