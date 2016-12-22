@@ -241,7 +241,7 @@ if (login_check($mysqli) == true) {
                             <button class="btn btn-default btn-shadow disabled" type="button" id="btn-number-of-gestures"><span class="btn-text">Anzahl der Gesten</span></button>
                             <button class="btn btn-default btn-shadow disabled" type="button" id="btn-guessability"><span class="btn-text">Formel der Erratbarkeit</span></button>
                             <button class="btn btn-default btn-shadow disabled" type="button" id="btn-cognitive-relationships"><span class="btn-text">Sinnzusammenhänge</span></button>
-                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-preferred-gestures"><span class="btn-text">Bevorzugte Gesten</span></button>
+                            <!--<button class="btn btn-default btn-shadow disabled" type="button" id="btn-preferred-gestures"><span class="btn-text">Bevorzugte Gesten</span></button>-->
                             <button class="btn btn-default btn-shadow disabled" type="button" id="btn-checklist"><span class="btn-text">Checkliste</span></button>
                         </div>
                     </div>
@@ -711,7 +711,7 @@ if (login_check($mysqli) == true) {
                         $(item).find('.panel').addClass('panel-success');
                         $(item).find('#execution-success').removeClass('hidden');
                         $(item).find('#execution-success .label-text').text(translation.studySuccessful);
-                    } 
+                    }
 //                    else if (result.aborted === 'no' && result.studySuccessfull === 'yes') {
 //                        $(item).find('.panel').addClass('panel-warning');
 //                        $(item).find('#execution-error').removeClass('hidden');
@@ -855,14 +855,17 @@ if (login_check($mysqli) == true) {
                         console.log('there is NO classification data');
                         $('#gesture-classification-parameters').removeClass('hidden');
                         $('#gesture-classification').addClass('hidden');
+
                         $('#classification-type').on('change', function (event) {
                             event.preventDefault();
                             $('#btn-start-classification').removeClass('disabled');
                         });
+
                         $('#btn-help-classification').on('click', function (event) {
                             event.preventDefault();
                             loadHTMLintoModal('custom-modal', 'modal-classification.php', 'modal-lg');
                         });
+
                         $('#btn-start-classification').on('click', function (event) {
                             event.preventDefault();
                             if (!$(this).hasClass('disabled')) {
@@ -894,12 +897,17 @@ if (login_check($mysqli) == true) {
                         renderGestureClassification();
                     }
                 });
+
                 $('#btn-redo').on('click', function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
                         reclassifiyGesture(gesturesLeft[gesturesLeftIndex - 1]);
                         gesturesLeftIndex--;
                         gesturesRightIndex = 0;
+
+                        if (gesturesRight.length === 0) {
+                            gesturesRight.push({mainGestureId: elicitedGestures[0].id, gestures: [elicitedGestures[0]]});
+                        }
                         saveClassification();
                         updateMatchingView();
                     }
@@ -907,7 +915,7 @@ if (login_check($mysqli) == true) {
             }
 
             function updateMatchingView() {
-                if (gesturesLeftIndex < gesturesLeft.length - 1) {
+                if (gesturesLeftIndex < gesturesLeft.length) {
 
                     if (gesturesLeftIndex > 0) {
                         $('#btn-redo').removeClass('disabled');
@@ -916,8 +924,9 @@ if (login_check($mysqli) == true) {
                     }
 
                     var leftGesture = gesturesLeft[gesturesLeftIndex];
+                    console.log("update matching view", leftGesture, gesturesRight, gesturesRightIndex);
                     var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
-                    console.log("update matching view", leftGesture, rightGesture);
+
                     var leftItem = getGestureCatalogListThumbnail(leftGesture, 'col-xs-12', ELICITED_GESTURES);
                     var rightItem = getGestureCatalogListThumbnail(rightGesture, 'col-xs-12', ELICITED_GESTURES);
                     $('#gesture-left').empty().append(leftItem);
@@ -999,8 +1008,9 @@ if (login_check($mysqli) == true) {
                                 $(row).append(gestureThumbnail);
                             }
                         }
+                    } else {
+                        appendAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
                     }
-
                 }
             }
 
@@ -1030,6 +1040,7 @@ if (login_check($mysqli) == true) {
                 updateMatchingView();
                 removeAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
             });
+
             $('#btn-gesture-no').on('click', function (event) {
                 event.preventDefault();
                 event.stopImmediatePropagation();
@@ -1044,9 +1055,7 @@ if (login_check($mysqli) == true) {
                     removeAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
                 }
 
-                // error lays down here
-                var elicitedGestures = getLocalItem(ELICITED_GESTURES);
-                if (gesturesLeftIndex < elicitedGestures.length - 1 && elicitedGestures.length > 0) {
+                if (gesturesLeft.length > 0 && gesturesLeftIndex < gesturesLeft.length) {
                     updateMatchingView();
                 } else {
                     renderClassifiedGestures();
@@ -1054,6 +1063,7 @@ if (login_check($mysqli) == true) {
                     appendAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION);
                 }
             });
+
             function classifyGesture(gesture, foundMatch) {
                 var classification = getLocalItem(CLASSIFICATION);
                 if (foundMatch) {
@@ -1104,7 +1114,7 @@ if (login_check($mysqli) == true) {
                         }
                     }
                 }
-
+                console.log(assignments);
                 gesturesRight = assignments;
 //                console.log(classification);
                 setLocalItem(CLASSIFICATION, classification);

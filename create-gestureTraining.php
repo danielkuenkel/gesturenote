@@ -53,6 +53,10 @@ include './includes/language.php';
             </div>
         </div>
         <div class="panel-body hidden">
+            
+            <div class="form-group container-root" id="list-container"></div>
+            
+            <hr>
 
             <div id="dimension-controls">
                 <div class="dimension-container" id="container-effectiveness">
@@ -79,7 +83,7 @@ include './includes/language.php';
                 <div class="input-group">
                     <span class="input-group-addon">Beobachtungsformat</span>
                     <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
-                    <div class="input-group-btn select" id="addFormatSelect" role="group">
+                    <div class="input-group-btn select dropup" id="addFormatSelect" role="group">
                         <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                             <li id="counter"><a href="#"><?php echo $lang->questionFormats->counter->text ?></a></li>
@@ -95,11 +99,6 @@ include './includes/language.php';
                 </div>
             </div>
 
-            <hr>
-
-            <div class="form-group container-root" id="list-container"></div>
-
-            <!--<button class="btn btn-info pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>-->
         </div>
     </div>
 
@@ -267,7 +266,7 @@ include './includes/language.php';
         if ($('#useObservationsSwitch').find('#yes').hasClass('active') && obersvationItems.length > 0)
         {
             var questionnaire = new Array();
-            for (var i = obersvationItems.length; i--; ) {
+            for (var i = 0; i < obersvationItems.length; i++) {
                 questionnaire.push(getFormatData(obersvationItems[i]));
             }
             training.observations = questionnaire;
@@ -275,4 +274,13 @@ include './includes/language.php';
 
         setLocalItem(currentIdForModal + ".data", training);
     }
+
+    $('#modal-body #observations #list-container').unbind('listItemAdded').bind('listItemAdded', function (event) {
+        event.preventDefault();
+        var scrollTarget = $(this).closest('.modal');
+        var newScrollTop = Math.max(0, scrollTarget.find('.modal-content').height() - scrollTarget.height() + 60);
+        $(scrollTarget).animate({
+            scrollTop: newScrollTop
+        }, 200);
+    });
 </script>

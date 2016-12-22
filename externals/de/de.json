@@ -1021,7 +1021,7 @@
     },
     "systemIs": "Das System wurde mit",
     "rated": "bewertet",
-    "defaultScales": ["Trifft nicht zu", "Weder noch", "Triff zu"],
+    "defaultScales": ["Trifft nicht zu", "Weder noch", "Trifft zu"],
     "susOptions": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"],
     "susScores": [
         {

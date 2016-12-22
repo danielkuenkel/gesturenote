@@ -55,7 +55,7 @@ function renderFormatItem(target, data) {
     var clone = $('#form-item-container').find('#' + data.format).clone();
     $(clone).find('.question').val(data.question);
     clone.addClass(data.dimension);
-    target.prepend(clone);
+    target.append(clone);
     var parameters = data.parameters;
     var options = data.options;
     switch (data.format) {

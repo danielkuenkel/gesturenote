@@ -124,12 +124,12 @@ var Moderator = {
 
 //            console.log('clone: ' + data[i].format + " form: " + source.attr('id'));
                 if (data.length > 1) {
-                    $(item).find('.question').text(data.length - i + '. ' + data[i].question);
+                    $(item).find('.question').text((i + 1) + '. ' + data[i].question);
                 } else {
                     $(item).find('.question').text(data[i].question);
                 }
 
-                $(container).find('.question-container').prepend(item);
+                $(container).find('.question-container').append(item);
                 if (data[i].dimension !== DIMENSION_ANY) {
                     $(item).find('#item-factors').removeClass('hidden');
                     $(item).find('#factor-primary').text(translation.dimensions[data[i].dimension]);

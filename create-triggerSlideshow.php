@@ -105,7 +105,7 @@ include './includes/language.php';
             }
         });
 
-        function renderData(data, forPrefiniedObservation)
+        function renderData(data)
         {
             var slideshowItems = data.slideshow;
 
@@ -144,28 +144,6 @@ include './includes/language.php';
                 }
                 checkCurrentListState(container);
             }
-
-
-//            var obeservationItems;
-//            if (!forPrefiniedObservation) {
-//                obeservationItems = data.observations;
-//            } else {
-//                obeservationItems = data;
-//            }
-//            if (obeservationItems !== undefined && obeservationItems.length > 0) {
-//                if (!forPrefiniedObservation) {
-//                    $('#useObservationsSwitch .switchButtonAddon').click();
-//                }
-//
-//                container = $('#list-container');
-//
-//                var listContainer = $('#list-container');
-//                for (var i = 0; i < obeservationItems.length; i++) {
-//                    renderFormatItem(listContainer, obeservationItems[i]);
-//                    updateBadges(listContainer, obeservationItems[i].format);
-//                }
-//                checkCurrentListState(listContainer);
-//            }
         }
 
         function saveData() {
@@ -196,24 +174,8 @@ include './includes/language.php';
                 slideshow.slideshow = set;
             }
 
-//            var obersvationItems = $('#list-container').children();
-//            if ($('#useObservationsSwitch').find('#yes').hasClass('active') && obersvationItems.length > 0)
-//            {
-//                var questionnaire = new Array();
-//                for (var i = obersvationItems.length; i--; ) {
-//                    questionnaire.push(getFormatData(obersvationItems[i]));
-//                }
-//                slideshow.observations = questionnaire;
-//            }
-
             setLocalItem(currentIdForModal + ".data", slideshow);
         }
-
-//        $('#addPredefinedObservations').on('click', function () {
-//            if (getLocalItem(PREDEFINED_OBSERVATIONS) !== null) {
-//                renderData(getLocalItem(PREDEFINED_OBSERVATIONS), true);
-//            }
-//        });
 
         $('body').on('click', '.btn-add-slideshowOption', function (event) {
             if (event.handled !== true)

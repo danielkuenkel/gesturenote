@@ -141,7 +141,7 @@ function renderAgeRanges() {
         var ageRange = calculateAgeRangeForGender(studyPanel.raw, selectedGender);
         slider.setAttribute('min', ageRange.min);
         slider.setAttribute('max', ageRange.max);
-        
+
         $('#ageSlider .slider-from').text(translation[$('#ageSlider .slider-from').attr('name')] + " " + translation.of + ' ' + translation.atLeast + " " + ageRange.min);
         $('#ageSlider .slider-to').text(translation.to + " " + ' ' + translation.maximal + ' ' + ageRange.max);
         currentSelectedAgeRange = [Math.max(ageRange.min, parseInt(currentSelectedAgeRange[0])), Math.min(ageRange.max, parseInt(currentSelectedAgeRange[1]))]
@@ -343,10 +343,11 @@ $(document).on('click', '#addFormat', function (event) {
         if (format !== 'unselected') {
             var clone = $('#form-item-container').find('#' + format).clone(true);
             var listContainer = $(this).closest('.root').find('#list-container');
-            $(listContainer).prepend(clone);
+            $(listContainer).append(clone);
             checkCurrentListState(listContainer);
             updateBadges(listContainer, format);
             TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
+            $(listContainer).trigger('listItemAdded');
         }
     }
 });
@@ -442,6 +443,7 @@ $(document).on('click', '.btn-add-triggerOption', function (event) {
         $(this).parent().prev().append(item);
         checkCurrentListState($(this).parent().prev());
         TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+        $(this).trigger('listItemAdded');
     }
 });
 

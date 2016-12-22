@@ -7,7 +7,10 @@ include './includes/language.php';
     <h4 class="modal-title" id="exampleModalLabel"><?php echo $lang->formats->questionnaire->text ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
-
+    <div class="container-root" id="list-container"></div>
+</div>
+<hr style="margin: 0;">
+<div id="modal-body" class="modal-body">
     <div class="form-group form-group-no-margin">
         <div class="input-group">
             <span class="input-group-addon">Format</span>
@@ -28,10 +31,6 @@ include './includes/language.php';
         </div>
     </div>
 </div>
-<hr style="margin: 0;">
-<div id="modal-body" class="modal-body">
-    <div class="container-root" id="list-container"></div>
-</div>
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> <?php echo $lang->saveAndClose ?></button>
 </div>
@@ -47,7 +46,7 @@ include './includes/language.php';
     function renderData(data) {
         var listContainer = $('#list-container');
         for (var i = 0; i < data.length; i++) {
-            console.log(data[i]);
+//            console.log(data[i]);
             renderFormatItem(listContainer, data[i]);
             updateBadges(listContainer, data[i].format);
         }
@@ -57,9 +56,18 @@ include './includes/language.php';
     function saveData() {
         var itemList = $('#list-container').children();
         var questionnaire = new Array();
-        for (var i = itemList.length; i--; ) {
+        for (var i = 0; i < itemList.length; i++) {
             questionnaire.push(getFormatData(itemList[i]));
         }
         setLocalItem(currentIdForModal + '.data', questionnaire);
     }
+
+    $('#list-container').unbind('listItemAdded').bind('listItemAdded', function (event) {
+        event.preventDefault();
+        var scrollTarget = $(this).closest('.modal');
+        var newScrollTop = Math.max(0, scrollTarget.find('.modal-content').height() - scrollTarget.height() + 60);
+        $(scrollTarget).animate({
+            scrollTop: newScrollTop
+        }, 200);
+    });
 </script>

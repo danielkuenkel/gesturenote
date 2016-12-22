@@ -7,12 +7,15 @@ include './includes/language.php';
     <h4 class="modal-title" id="exampleModalLabel">Feedbackset zusammenstellen</h4>
 </div>
 <div id="modal-body" class="modal-body">
-
+    <div class="container-root" id="list-container"></div>
+</div>
+<hr style="margin: 0;">
+<div id="modal-body" class="modal-body">
     <div class="form-group form-group-no-margin">
         <div class="input-group">
             <span class="input-group-addon">Feedback Format</span>
             <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
-            <div class="input-group-btn select" id="addFormatSelect" role="group">
+            <div class="input-group-btn select dropup" id="addFormatSelect" role="group">
                 <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                     <li id="text"><a href="#"><?php echo $lang->text ?></a></li>
@@ -22,10 +25,6 @@ include './includes/language.php';
             </div>
         </div>
     </div>
-</div>
-<hr style="margin: 0;">
-<div id="modal-body" class="modal-body">
-    <div class="container-root" id="list-container"></div>
 </div>
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal" onclick="onCloseClick()"><span class="glyphicon glyphicon-floppy-disk"></span> <?php echo $lang->saveAndClose ?></button>
@@ -105,4 +104,13 @@ include './includes/language.php';
         }
         setLocalItem(ASSEMBLED_FEEDBACK, assembledData);
     }
+
+    $('#modal-body #list-container').unbind('listItemAdded').bind('listItemAdded', function (event) {
+        event.preventDefault();
+        var scrollTarget = $(this).closest('.modal');
+        var newScrollTop = Math.max(0, scrollTarget.find('.modal-content').height() - scrollTarget.height() + 60);
+        $(scrollTarget).animate({
+            scrollTop: newScrollTop
+        }, 200);
+    });
 </script>
