@@ -33,7 +33,7 @@ function login($email, $password, $mysqli) {
         $stmt->store_result();
 
         // get variables from result.
-        $stmt->bind_result($user_id, $forename, $surname, $email, $db_password, $birthday, $gender, $usertype, $created);
+        $stmt->bind_result($user_id, $forename, $surname, $email, $db_password, $birthday, $gender, $usertype, $created, $passwordReset);
         $stmt->fetch();
 
         if ($stmt->num_rows == 1) {

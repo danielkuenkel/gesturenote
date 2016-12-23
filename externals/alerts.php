@@ -6,9 +6,14 @@ include '../includes/language.php';
 <div id="alert-container" class="hidden">
     <div class="alert alert-danger"  id="general-error" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->generalError->text ?></span></div>
     <div class="alert alert-warning" id="missing-fields" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->missingFields->text ?></span></div>
+    <div class="alert alert-warning" id="missing-email" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->missingEmail->text ?></span></div>
     <div class="alert alert-warning" id="login-failed" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->loginFailed->text ?></span></div>
     <div class="alert alert-danger"  id="account-logged" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->accountLogged->text ?></span></div>
     <div class="alert alert-warning" id="invalid-email" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->invalidEmail->text ?></span></div>
+    <div class="alert alert-warning" id="check-email" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->checkEmail->text ?></span></div>
+    <div class="alert alert-success" id="password-reset-send" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->passwordResetSend->text ?></span></div>
+    <div class="alert alert-success" id="password-reset-success" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->passwordResetSuccess->text ?></span></div>
+    <div class="alert alert-warning" id="reset-password-error" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->resetPasswordError->text ?></span></div>
     <div class="alert alert-warning" id="wrong-password" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->wrongPassword->text ?></span></div>
     <div class="alert alert-warning" id="password-short" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->passwordShort->text ?></span></div>
     <div class="alert alert-warning" id="password-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->passwordInvalid->text ?></span></div>

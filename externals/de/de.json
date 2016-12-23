@@ -20,6 +20,7 @@
         "gestureCatalog": "Gesten-Katalog",
         "profile": "Profil",
         "publications": "Veröffentlichungen",
+        "resetPassword": "Passwort zurücksetzen",
         "imprint": "Impressum"
     },
     "months": {
@@ -110,7 +111,9 @@
     "birthday": "Geburtstag",
     "birthdate": "Geburtsdatum",
     "password": "Passwort",
+    "newPassword": "Neues Passwort",
     "passwordConfirm": "Passwort wiederholen",
+    "newPasswordConfirm": "Neues Passwort wiederholen",
     "forgotPassword": "Passwort vergessen",
     "currentPassword": "Aktuelles Passwort",
     "newPassword": "Neues Passwort",
@@ -2608,6 +2611,31 @@
             "id": "missing-fields",
             "type": "warning",
             "text": "Bitte alle Felder ausfüllen!"
+        },
+        "missingEmail": {
+            "id": "missing-email",
+            "type": "warning",
+            "text": "Bitte geben Sie eine E-Mail-Adresse an!"
+        },
+        "checkEmail": {
+            "id": "check-email",
+            "type": "warning",
+            "text": "Bitte überprüfen Sie die eingegebene E-Mail-Adresse!"
+        },
+        "passwordResetSend": {
+            "id": "password-reset-send",
+            "type": "success",
+            "text": "Es wurde eine E-Mail an Ihre eingegebene E-Mail-Adresse mit einem Passwort-Reset gesendet. Überprüfen Sie auch Ihr Spam-Postfach."
+        },
+        "passwordResetSuccess": {
+            "id": "password-reset-success",
+            "type": "success",
+            "text": "Das neue Passwort wurde erfolgreich gespeichert. Sie können sich nun einloggen."
+        },
+        "resetPasswordError": {
+            "id": "reset-password-error",
+            "type": "danger",
+            "text": "Es ist ein Fehler beim Passwort-Reset aufgetreten. Bitte überprüfen Sie ihre Eingaben."
         },
         "loginFailed": {
             "id": "login-failed",

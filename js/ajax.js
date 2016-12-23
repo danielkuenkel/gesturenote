@@ -41,6 +41,41 @@ function login(data, callback) {
     });
 }
 
+
+function requestPasswordReset(data, callback) {
+    $.ajax({
+        url: 'includes/request-password-reset.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function resetPassword(data, callback) {
+    $.ajax({
+        url: 'includes/reset-password.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function register(data, callback) {
     $.ajax({
         url: 'includes/register.php',

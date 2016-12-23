@@ -8,9 +8,14 @@
 // login/register alerts
 var ALERT_GENERAL_ERROR = 'general-error';
 var ALERT_MISSING_FIELDS = 'missing-fields';
+var ALERT_MISSING_EMAIL = 'missing-email';
+var ALERT_CHECK_EMAIL = 'check-email';
+var ALERT_PASSWORD_RESET_SUCCESS = 'password-reset-success';
+var ALERT_RESET_PASSWORD_ERROR = 'reset-password-error';
 var ALERT_LOGIN_FAILED = 'login-failed';
 var ALERT_ACCOUNT_LOGGED = 'account-logged';
 var ALERT_INVALID_EMAIL = 'invalid-email';
+var ALERT_PASSWORD_RESET_SEND = 'password-reset-send';
 var ALERT_WRONG_PASSWORD = 'wrong-password';
 var ALERT_PASSWORD_SHORT = 'password-short';
 var ALERT_PASSWORD_INVALID = 'password-invalid';

@@ -14,7 +14,7 @@ $(document).on('click', '#btn-login', function (event) {
     }
 });
 
-$(document).on('click', '#btn-forgot', function (event) {
+$(document).on('click', '#btn-forgot-password', function (event) {
     event.preventDefault();
     if (!$(this).hasClass('disabled')) {
         form = 'forgot';
@@ -28,10 +28,10 @@ $(document).on('submit', '#login-form', function (event) {
     var formElement = $(this);
     clearAlerts(formElement);
     disableInputs();
+
     if (form === 'login') {
         var data = {email: $('#login-form #email').val().trim(), p: $('#login-form #p').val()};
         login(data, function (result) {
-            clearAlerts(formElement);
             enableInputs();
             if (result.status === 'accountLogged') {
                 appendAlert($('#login'), ALERT_ACCOUNT_LOGGED);
@@ -48,6 +48,18 @@ $(document).on('submit', '#login-form', function (event) {
             }
         });
     } else if (form === 'forgot') {
-        forgot({email: $('#login-form #email').val().trim()});
+        console.log('reset password');
+        requestPasswordReset({email: $('#login-form #email').val().trim()}, function (result) {
+            enableInputs();
+
+            if (result.status === RESULT_SUCCESS) {
+                $('#login-form #email').val('');
+                appendAlert($('#login'), ALERT_PASSWORD_RESET_SEND);
+            } else if (result.status === 'emailDoesntExist') {
+                appendAlert($('#login'), ALERT_CHECK_EMAIL);
+            } else {
+                appendAlert($('#login'), ALERT_GENERAL_ERROR);
+            }
+        });
     }
 });

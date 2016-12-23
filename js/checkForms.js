@@ -25,9 +25,16 @@ function loginFormhash(form, email, password) {
 }
 
 function forgotFormhash(form, email) {
-    if ($(email).val().trim() === '' || $(password).val().trim() === '') {
-        appendAlert($('#login'), ALERT_MISSING_FIELDS);
-//        showAlert($('#login'), ALERT_MISSING_FIELDS);
+    if ($(email).val().trim() === '') {
+        appendAlert(form, ALERT_MISSING_EMAIL);
+        $(email).focus();
+        return false;
+    }
+
+    // validate email
+    if (!validateEmail($(email).val().trim())) {
+        $(email).focus();
+        appendAlert(form, ALERT_INVALID_EMAIL);
         return false;
     }
 
@@ -143,6 +150,86 @@ function registerFormhash(form) {
 //        showAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
             return false;
         }
+    }
+
+    // Add the new element to our form. 
+    if ($(form).find('#p').length > 0) {
+        $(form).find('#p').val(hex_sha512(password.val()));
+    } else {
+        var p = document.createElement("input");
+        $(form).append(p);
+        $(p).attr('id', 'p');
+        $(p).attr('name', 'p');
+        $(p).attr('type', 'hidden');
+        $(p).val(hex_sha512($(password).val()));
+    }
+
+    // Make sure the plaintext password doesn't get sent. 
+    $(password).val('');
+    $(passwordconfirm).val('');
+
+    // Finally submit the form. 
+    form.submit();
+}
+
+function resetPasswordFormhash(form) {
+    // Check each field has a value
+
+    var email = $(form).find('#email');
+    var password = $(form).find('#password');
+    var passwordconfirm = $(form).find('#confirmPassword');
+    
+
+    if ($(email).val().trim() === '' ||
+            $(password).val().trim() === '' ||
+            $(passwordconfirm).val().trim() === '') {
+        appendAlert(form, ALERT_MISSING_FIELDS);
+        return false;
+    }
+
+    // Check the username
+
+//    re = "([a-zA-Z]{3,30}\s*)+"; 
+//    if(!re.test($(username).val())) { 
+//        alert("Username must contain only letters, numbers and underscores. Please try again"); 
+//        $(username).focus();
+//        return false; 
+//    }
+
+    // validate email
+    if (!validateEmail($(email).val().trim())) {
+        $(email).focus();
+        appendAlert(form, ALERT_INVALID_EMAIL);
+//        showAlert($('#modal-register'), ALERT_INVALID_EMAIL);
+        return false;
+    }
+
+    // Check that the password is sufficiently long (min 6 chars)
+    // The check is duplicated below, but this is included to give more
+    // specific guidance to the user
+    if ($(password).val().length < 6) {
+        $(password).focus();
+        appendAlert(form, ALERT_PASSWORD_SHORT);
+//        showAlert($('#modal-register'), ALERT_PASSWORD_SHORT);
+        return false;
+    }
+
+    // At least one number, one lowercase and one uppercase letter 
+    // At least six characters 
+
+    var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+    if (!re.test($(password).val())) {
+        $(password).focus();
+        appendAlert(form, ALERT_PASSWORD_INVALID);
+//        showAlert($('#modal-register'), ALERT_PASSWORD_INVALID);
+        return false;
+    }
+
+    // Check password and confirmation are the same
+    if ($(password).val() !== $(passwordconfirm).val()) {
+        $(passwordconfirm).focus();
+        appendAlert(form, ALERT_PASSWORDS_NOT_MATCHING);
+        return false;
     }
 
     // Add the new element to our form. 
@@ -295,9 +382,9 @@ function validateEmail(email) {
 }
 
 function disableInputs() {
-    $('#btn-login, #btn-forgot, #btn-open-register, #btn-register').addClass('disabled');
+    $('#btn-login, #btn-forgot-password, #btn-open-register, #btn-register, #btn-reset-password').addClass('disabled');
 }
 
 function enableInputs() {
-    $('#btn-login, #btn-forgot, #btn-open-register, #btn-register').removeClass('disabled');
+    $('#btn-login, #btn-forgot-password, #btn-open-register, #btn-register, #btn-reset-password').removeClass('disabled');
 }
