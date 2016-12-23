@@ -18,7 +18,8 @@ if (isset($_POST['email'])) {
             $stmt->fetch();
 
             if ($stmt->num_rows == 1) {
-                $str = hash('sha512', $id . $forename . $surname . $email);
+                $now = time();
+                $str = hash('sha512', $id . $forename . $surname . $email . $now);
                 if ($insert_stmt = $mysqli->prepare("UPDATE users SET password_reset = '$str' WHERE id = '$id'")) {
                     if (!$insert_stmt->execute()) {
                         echo json_encode(array('status' => 'insertError'));

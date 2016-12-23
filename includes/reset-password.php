@@ -24,13 +24,7 @@ if (isset($_POST['email'], $_POST['p'], $_POST['hash'])) {
             $select_stmt->bind_result($id, $forename, $surname, $email, $resetPassword);
             $select_stmt->fetch();
 
-            $str = hash('sha512', $id . $forename . $surname . $email);
-
-//            if ($resetPassword === NULL) {
-//                echo json_encode(array('status' => 'resetPasswordError', 'reset' => $resetPassword));
-//                exit();
-//            } else {
-            if ($select_stmt->num_rows == 1 && strcmp($str, $hash) == 0) {
+            if ($select_stmt->num_rows == 1) {
                 if ($update_stmt = $mysqli->prepare("UPDATE users SET password = '$password', password_reset = NULL WHERE id = '$id'")) {
                     if (!$update_stmt->execute()) {
                         echo json_encode(array('status' => 'updateError'));
@@ -47,7 +41,6 @@ if (isset($_POST['email'], $_POST['p'], $_POST['hash'])) {
                 echo json_encode(array('status' => 'resetPasswordError'));
                 exit();
             }
-//            }
         }
     } else {
         echo json_encode(array('status' => 'statemantError'));
