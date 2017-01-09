@@ -225,7 +225,7 @@ include './includes/language.php';
         if ($('#useObservationsSwitch').find('#yes').hasClass('active') && obersvationItems.length > 0)
         {
             var questionnaire = new Array();
-            for (var i = obersvationItems.length; i--; ) {
+            for (var i = 0; i < obersvationItems.length; i++) {
                 questionnaire.push(getFormatData(obersvationItems[i]));
             }
             slideshow.observations = questionnaire;

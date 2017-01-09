@@ -656,7 +656,7 @@ function renderAssembledScenes(targetContainer) {
         $(dropdown).find('.dropdown-toggle').removeClass('disabled');
         $(target).find('.sceneSelect .dropdown-toggle').removeClass('disabled');
         $(target).find('.option-scene').attr('placeholder', 'Bitte wählen');
-        
+
         var listItem;
         for (var i = 0; i < scenes.length; i++) {
             listItem = document.createElement('li');
@@ -1522,7 +1522,7 @@ function getTimeString(object, short, milliseconds) {
 var currentPreviewGesture = null;
 var gesturePreviewOpened = false;
 var gesturePreviewDeleteable = true;
-function getGestureCatalogListThumbnail(data, layout, source) {
+function getGestureCatalogListThumbnail(data, layout, source, panelStyle) {
     if (!source || source === null || source === undefined) {
         source = GESTURE_CATALOG;
     }
@@ -1533,6 +1533,11 @@ function getGestureCatalogListThumbnail(data, layout, source) {
     clone.find('#title .text').text(data.title);
     clone.find('#gesture-scope .label-text').text(translation.gestureScopes[data.scope]);
     clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
+
+
+    if (panelStyle) {
+        clone.find('.panel').removeClass('panel-default').addClass(panelStyle);
+    }
 
     if (layout) {
         clone.addClass(layout);

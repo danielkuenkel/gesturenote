@@ -1208,12 +1208,13 @@
             "styleguide": "Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011) Ermüdung vorbeugen, indem Gesten (für Intel) so designt werden, dass sie mit einem Ellbogen auf dem Tisch ausgeführt werden können Kurze Gesten, die kleine Pausen zulassen und keine präzisen Eingaben erfordern wirken Ermüdung entgegen. (Intel, 2012) Bei häufiger Verwendung sollen Gesten nicht ermüdend sein. (Microsoft, 2013; Nielsen et al., 2004)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
-            "question": "Ich denke, dass das Feedback nicht zur Geste passt.",
+            "question": "Ich denke, dass das Feedback zur Geste passt.",
             "parameters": {
                 "used": "used",
-                "negative": "yes"
+                "justification": "yes",
+                "justificationFor": "no"
             },
             "styleguide": "Es gibt Systeme mit vordefinierten Gestensets oder nutzerdefinierten Vokabularen. Hier sollte die kognitive Belastung der Nutzer in Hinblick auf die Auswahl oder das Training von Gesten und das dazugehörige Feedback beachtet werden. (Wachs u. a., 2011)"
         },

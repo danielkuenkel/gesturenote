@@ -343,7 +343,7 @@ include './includes/language.php';
         if ($('#useSingleStressQuestionsSwitch').find('#yes').hasClass('active') && (singleStressQuestions.length > 0 || $('#useGraphicalSingleStressSwitch').find('.active').attr('id') !== 'none'))
         {
             var questionnaire = new Array();
-            for (var i = singleStressQuestions.length; i--; ) {
+            for (var i = 0; i < singleStressQuestions.length; i++) {
                 questionnaire.push(getFormatData(singleStressQuestions[i]));
             }
             if (questionnaire.length > 0) {
@@ -356,7 +356,7 @@ include './includes/language.php';
         if ($('#useSequenceStressQuestionsSwitch').find('#yes').hasClass('active') && (sequenceStressQuestions.length > 0 || $('#useGraphicalSequenceStressSwitch').find('.active').attr('id') !== 'none'))
         {
             var questionnaire = new Array();
-            for (var i = sequenceStressQuestions.length; i--; ) {
+            for (var i = 0; i < sequenceStressQuestions.length; i++) {
                 questionnaire.push(getFormatData(sequenceStressQuestions[i]));
             }
             if (questionnaire.length > 0) {

@@ -2,7 +2,7 @@
 
     <div class="root" id="gestures-catalog-thumbnail">
         <div class="panel panel-default btn-shadow">
-            <div class="panel-heading" style=" text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
+            <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
                 <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
             </div>
 
@@ -722,6 +722,49 @@
             </div>
         </div>
     </div>
+
+
+
+
+    <div id="amount-container-appearance-trigger" style="margin-bottom: 30px">
+        <h4 id="headline" style="margin-top: 0"></h4>
+        <!--<hr>-->
+        <div id="item-view"></div>
+    </div>
+
+    <div id="appearance-trigger-gesture" class="panel panel-default" style="margin-bottom: 20px">
+        <div class="panel-heading" id="headline-main-gesture"></div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-5 col-sm-6 root" id="main-gesture">
+                    <div class="previewGesture mousePlayable btn-shadow"></div>
+                    <div class="text-center hidden gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-7 col-sm-6">
+                    text
+                </div>
+            </div>
+        </div>
+
+        <hr style="margin: 0">
+
+        <div class="panel-body">
+            Klassifizierte Gesten
+            <div class="row" style="margin-top: 10px">
+                <div id="gestures-list-container"></div>
+            </div>
+        </div>
+
+    </div>
+
 
 </div>
 

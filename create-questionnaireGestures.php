@@ -71,7 +71,7 @@ include './includes/language.php';
     function saveData() {
         var itemList = $('#list-container').children();
         var questionnaire = new Array();
-        for (var i = itemList.length; i--; ) {
+        for (var i = 0; i < itemList.length; i++) {
             questionnaire.push(getFormatData(itemList[i]));
         }
         setLocalItem(currentIdForModal + '.data', {gus: questionnaire});
