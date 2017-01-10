@@ -16,8 +16,10 @@
                         <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
                     </div>
                 </div>
-                <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
-                <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+                <div class="text-center">
+                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+                </div>
             </div>
             <div class="panel-footer">
                 <div class="btn-group btn-group-justified">
@@ -727,17 +729,17 @@
 
 
     <div id="amount-container-appearance-trigger" style="margin-bottom: 30px">
-        <h4 id="headline" style="margin-top: 0"></h4>
+        <h4 id="headline" style="margin-top: 0"><span class="text"></span> <span class="badge"></span></h4> 
         <!--<hr>-->
         <div id="item-view"></div>
     </div>
 
-    <div id="appearance-trigger-gesture" class="panel panel-default" style="margin-bottom: 20px">
+    <div id="appearance-trigger-gesture" class="panel panel-default" style="margin-bottom: 40px">
         <div class="panel-heading" id="headline-main-gesture"></div>
 
         <div class="panel-body">
             <div class="row">
-                <div class="col-xs-5 col-sm-6 root" id="main-gesture">
+                <div class="col-xs-12 col-md-4 col-lg-5 root" id="main-gesture" style="margin-bottom: 15px">
                     <div class="previewGesture mousePlayable btn-shadow"></div>
                     <div class="text-center hidden gestureControls">
                         <div class="btn-group">
@@ -748,21 +750,40 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-7 col-sm-6">
-                    text
-                </div>
+                <div class="col-xs-12 col-md-8 col-lg-7" id="potential-parameters"></div>
             </div>
         </div>
 
         <hr style="margin: 0">
 
         <div class="panel-body">
-            Klassifizierte Gesten
+            <div><span>Klassifizierte Gesten</span></div>
             <div class="row" style="margin-top: 10px">
                 <div id="gestures-list-container"></div>
             </div>
         </div>
 
+    </div>
+
+    <div id="potential-gesture-parameters">
+        <div id="parameters-amount">
+            <div><h4 style="margin: 0"><i class="fa fa-pie-chart" aria-hidden="true"></i> Anzahl</h4></div>
+            <span class="text" id="justification"></span>
+            <br/>
+            <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span>geeignet</span></span>
+            <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span>weder noch</span></span>
+            <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span>nicht geeignet</span></span>
+        </div>
+        <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
+            <div><h4 style="margin: 0"><i class="fa fa-road" aria-hidden="true"></i> Formel der Erratbarkeit</h4></div>
+        </div>
+        <div id="parameters-cognitive-relationships" style="margin-top: 20px">
+            <div><h4 style="margin: 0"><i class="fa fa-flash" aria-hidden="true"></i> Sinnzusammenhänge</h4></div>
+        </div>
+        <div id="parameters-checklist" style="margin-top: 20px">
+            <div><h4 style="margin: 0"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Checkliste</h4></div>
+        </div>
+        
     </div>
 
 

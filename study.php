@@ -235,25 +235,27 @@ if (login_check($mysqli) == true) {
                         <div class="btn-group-vertical btn-block" id="btns-general">
                             <button class="btn btn-default btn-shadow" type="button" id="btn-all-gestures"><span class="btn-text">Alle ermittelten Gesten</span></button>
                             <button class="btn btn-default btn-shadow" type="button" id="btn-gesture-classification"><span class="btn-text">Gesten-Klassifizierung</span></button>
+                            <button class="btn btn-default btn-shadow" type="button" id="btn-checklist"><span class="btn-text">Checkliste</span></button>
                         </div>
 
-                        <h5 class="text" style="margin-top: 20px">Potenzielle Gesten</h5>
-                        <div class="btn-group-vertical btn-block" id="btns-extraction">
-                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-amount"><span class="btn-text">Anzahl</span></button>
-                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-guessability"><span class="btn-text">Formel der Erratbarkeit</span></button>
-                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-cognitive-relationships"><span class="btn-text">Sinnzusammenhänge</span></button>
-                            <!--<button class="btn btn-default btn-shadow disabled" type="button" id="btn-preferred-gestures"><span class="btn-text">Bevorzugte Gesten</span></button>-->
-                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-checklist"><span class="btn-text">Checkliste</span></button>
-                        </div>
-
-                        <h5 class="text" style="margin-top: 20px">Gestenset(s)</h5>
+                        <h5 class="text" style="margin-top: 20px">Extraktion</h5>
+                        <!--                        <div class="btn-group-vertical btn-block" id="btns-extraction">
+                                                    <button class="btn btn-default btn-shadow disabled" type="button" id="btn-amount"><span class="btn-text">Anzahl</span></button>
+                                                    <button class="btn btn-default btn-shadow disabled" type="button" id="btn-guessability"><span class="btn-text">Formel der Erratbarkeit</span></button>
+                                                    <button class="btn btn-default btn-shadow disabled" type="button" id="btn-cognitive-relationships"><span class="btn-text">Sinnzusammenhänge</span></button>
+                                                    <button class="btn btn-default btn-shadow disabled" type="button" id="btn-preferred-gestures"><span class="btn-text">Bevorzugte Gesten</span></button>
+                                                    <button class="btn btn-default btn-shadow disabled" type="button" id="btn-checklist"><span class="btn-text">Checkliste</span></button>
+                                                </div>-->
                         <div class="btn-group-vertical btn-block" id="btns-arrange-gesture-sets">
-                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-arrange"><span class="btn-text">Extraktion</span></button>
+                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-potential-gestures"><span class="btn-text">Potentielle Gesten</span></button>
+                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-gesture-sets"><span class="btn-text">Gestenset(s)</span></button>
                         </div>
+
                     </div>
 
                     <div class="col-sm-8 col-md-9" id="extraction-navigation-content" style="margin-top: 5px">
                         <div id="content-btn-all-gestures" class="hidden"></div>
+
                         <div id="content-btn-gesture-classification" class="hidden">
                             <div><span class="text">Gesten klassifizieren</span> 
                                 <button type="button" class="btn btn-xs btn-default btn-shadow disabled" id="btn-reclassify-gestures" style="margin-left:5px"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text">Neu initiieren</span></button>
@@ -354,24 +356,11 @@ if (login_check($mysqli) == true) {
                             <div class="alert-space alert-no-gestures-classified"></div>
                         </div>
 
-                        <div id="content-btn-amount" class="hidden">
-                        </div>
+                        <div id="content-btn-checklist" class="hidden">checklist</div>
 
-                        <div id="content-btn-guessability" class="hidden">
-                            Formel der Erratbarkeit
-                        </div>
+                        <div id="content-btn-potential-gestures" class="hidden"></div>
 
-                        <div id="content-btn-cognitive-relationships" class="hidden">
-                            Sinnzusammenhänge
-                        </div>
-
-                        <div id="content-btn-checklist" class="hidden">
-                            checklist
-                        </div>
-
-                        <div id="content-btn-arrange" class="hidden">
-                            Gesten extrahieren bzw. extrahierte Gesten
-                        </div>
+                        <div id="content-btn-gesture-sets" class="hidden">Gestensets</div>
                     </div>
 
                 </div>

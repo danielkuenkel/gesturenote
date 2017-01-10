@@ -15,7 +15,7 @@ body {
     padding-bottom: 70px;
 }
 
-/*.danger {
+.danger {
     color:#d9534f;
 }
 .info{
@@ -24,12 +24,13 @@ body {
 .primary {
     color:#428bca;
 }
+.warning {
+    color: #f0ad4e;
+}
+
 .success {
     color:#5cb85c;
 }
-.warning {
-    color: #f0ad4e;
-}*/
 
 .modal {
     padding-top: 30px;
