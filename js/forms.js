@@ -56,11 +56,11 @@ function renderFormatItem(target, data) {
     $(clone).find('.question').val(data.question);
     clone.addClass(data.dimension);
     target.append(clone);
+    
     var parameters = data.parameters;
     var options = data.options;
     switch (data.format) {
         case SUS_ITEM:
-//            console.log($(clone).find('#negative'));
             $(clone).find('.negative #' + parameters.negative).click();
             break;
         case COUNTER:
@@ -84,12 +84,8 @@ function renderFormatItem(target, data) {
             $(clone).find('.justification-for #' + parameters.justificationFor).click();
             break;
         case GROUPING_QUESTION:
-//            if (parameters[0] === true) {
             $(clone).find('.multiselect #' + parameters.multiselect).click();
-//            }
-//            if (parameters[1] === true) {
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
-//            }
 
             if (options) {
                 for (var j = 0; j < options.length; j++) {
@@ -105,12 +101,8 @@ function renderFormatItem(target, data) {
             if (parameters.used === 'used') {
                 $(clone).find('.btn-use').click();
             }
-//            if (parameters[1] === true) {
             $(clone).find('.multiselect .switchButtonAddon').click();
-//            }
-//            if (parameters[2] === true) {
             $(clone).find('.justification #' + parameters.justification).click();
-//            }
             $(clone).find('.justification-for #' + parameters.justificationFor).click();
             $(clone).find('.optionselect #' + parameters.optionSource).click();
             break;

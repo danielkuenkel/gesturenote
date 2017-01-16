@@ -157,6 +157,7 @@
     "justification": "Begründung(en)",
     "justificationFor": "Begründung(en) bei",
     "alternative": "Alternative",
+    "useChecklist": "Checkliste nutzen?",
     "option": "Option",
     "options": "Optionen",
     "multipleAnswersAllowed": "Auswahl mehrerer Antworten erlaubt?",
@@ -1072,6 +1073,18 @@
             "adjective": "Denkbar am Besten",
             "score": "90.1",
             "color": "#19a83b"
+        }
+    ],
+    "extractionChecklistItems": [
+        {
+            "format": "dichotomousQuestionGUS",
+            "dimension": "uxSatisfactionOfUse",
+            "question": "Die Geste ist peinlich.",
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "yes"
+            }
         }
     ],
     "sus": [

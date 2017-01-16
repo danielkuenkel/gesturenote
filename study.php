@@ -23,6 +23,7 @@ if (login_check($mysqli) == true) {
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
         <link rel="stylesheet" href="css/study.css">
+        <link rel="stylesheet" href="css/study-create.css">
         <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
@@ -43,6 +44,8 @@ if (login_check($mysqli) == true) {
         <script src="js/storage.js"></script>
         <script src="js/storageFunctions.js"></script>
         <script src="js/globalFunctions.js"></script>
+        <script src="js/forms.js"></script>
+        <script src="js/dimensions.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/study.js"></script>
     </head>
@@ -51,6 +54,7 @@ if (login_check($mysqli) == true) {
         <!-- externals -->
         <div id="alerts"></div>
         <div id="template-subpages"></div>
+        <div id="template-create"></div>
         <div id="template-study"></div>
 
         <!-- Modal -->
@@ -356,7 +360,19 @@ if (login_check($mysqli) == true) {
                             <div class="alert-space alert-no-gestures-classified"></div>
                         </div>
 
-                        <div id="content-btn-checklist" class="hidden">checklist</div>
+                        <div id="content-btn-checklist" class="hidden">
+                            <span class="text" id="checklist-info">Um eine objektive Bewertung der klassifizierten Gesten durchzuführen, kann hier eine Checkliste zusammengestellt werden. Diese muss dann für jede potenzielle Geste beantwortet werden.</span>
+                            
+                            <div id="checklist-success-criterias" style="margin-top: 10px">
+                                <div class="btn-group" id="use-checklist-switch" style="margin-bottom: 10px; margin-right: 15px;">
+                                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->useChecklist ?></button>
+                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                                </div>
+
+                            </div>
+                            <div id="checklist-container" style="margin-top: 20px"></div>
+                        </div>
 
                         <div id="content-btn-potential-gestures" class="hidden"></div>
 
@@ -377,6 +393,7 @@ if (login_check($mysqli) == true) {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-create', PATH_EXTERNALS + 'template-create.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     loadExternals(externals);
                 });

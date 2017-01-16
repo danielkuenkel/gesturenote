@@ -497,7 +497,7 @@ function renderGestureClassification() {
                     $('#gesture-classification-parameters').addClass('hidden');
                     $('#gesture-classification').removeClass('hidden');
                     var checked = $('#classification-type').find('.btn-option-checked').attr('id');
-                    classification = {type: checked};
+                    classification = {type: checked, checklist: {used: 'no', items: null}};
                     setLocalItem(CLASSIFICATION, classification);
                     saveClassification();
                     gesturesRight = new Array();
@@ -714,15 +714,13 @@ function classifyGesture(gesture, foundMatch) {
     var classification = getLocalItem(CLASSIFICATION);
     if (foundMatch) {
         if (classification && classification.assignments && classification.assignments.length > 0) {
-            var matchedSourceGesture = getGestureById(classification.assignments[gesturesRightIndex].gestures[0], ELICITED_GESTURES);
-//                        console.log(classification.assignments[gesturesRightIndex].gestures[0]);
-
+            var matchedSourceGesture = getGestureById(classification.assignments[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
             if (classification.type === TYPE_CLASSIFICATION_APPEARANCE ||
                     (classification.type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER && parseInt(matchedSourceGesture.triggerId) === parseInt(gesture.triggerId)))
             {
                 classification.assignments[gesturesRightIndex].gestures.push(gesture.id);
             } else {
-                classification.assignments.push({mainGestureId: gesture.id, triggerId: gesture.triggerId, gestures: [gesture.id]});
+                classification.assignments.push({mainGestureId: gesture.id, triggerId: gesture.triggerId, sameAs: matchedSourceGesture.id, gestures: [gesture.id]});
             }
         } else {
             classification.assignments = [{mainGestureId: gesture.id, triggerId: gesture.triggerId, gestures: [gesture.id]}];
@@ -779,7 +777,46 @@ function saveClassification() {
 }
 
 function renderChecklist() {
-    console.log('render Checklist');
+    var classification = getLocalItem(CLASSIFICATION);
+    var predefinedItems = translation.extractionChecklistItems;
+    if (classification.checklist.items !== '' || classification.checklist.items !== null) {
+        predefinedItems = classification.checklist.items;
+    }
+
+    var listContainer = $('#checklist-container').empty();
+    for (var i = 0; i < predefinedItems.length; i++) {
+        console.log(listContainer, predefinedItems[i]);
+        renderFormatItem(listContainer, predefinedItems[i]);
+        updateBadges(listContainer, predefinedItems[i].format);
+    }
+    checkCurrentListState(listContainer);
+
+    $('#use-checklist-switch').find('#' + classification.checklist.used).click();
+
+    $('#use-checklist-switch').unbind('change').bind('change', function (event, activeId) {
+        event.preventDefault();
+        var classification = getLocalItem(CLASSIFICATION);
+        classification.checklist.used = activeId;
+        saveChecklist(classification);
+    });
+
+    $(listContainer).unbind('change').bind('change', function (event) {
+        event.preventDefault();
+        console.log('checklist has changed');
+        saveChecklist(getLocalItem(CLASSIFICATION));
+    });
+
+    function saveChecklist(classification) {
+        var questionnaire = new Array();
+        var itemList = listContainer.children();
+        for (var i = 0; i < itemList.length; i++) {
+            questionnaire.push(getFormatData(itemList[i]));
+        }
+
+        classification.checklist.items = questionnaire;
+        setLocalItem(CLASSIFICATION, classification);
+        saveClassification();
+    }
 }
 
 function renderPotentialGestures() {
@@ -801,29 +838,54 @@ function renderPotentialGesturesParameters(target, assignment, triggerId) {
     var classification = getLocalItem(CLASSIFICATION);
     if (classification.type === 'appearanceTrigger') {
         $(target).find('#potential-parameters').append($('#potential-gesture-parameters').clone());
-        var amountRange = getAmountRange(triggerId);
 
         // amount
+        var amountRange = getAmountRange(triggerId);
         $(target).find('#parameters-amount #justification').text(translation.Minimal + ': ' + amountRange.min + ', ' + translation.maximal + ': ' + amountRange.max + ', ' + assignment.gestures.length + ' ' + (assignment.gestures.length === 1 ? translation.classifiedGesture : translation.classifiedGestures));
 
         if (amountRange.max > amountRange.min) {
             if (assignment.gestures.length === amountRange.max) {
-                target.find('#well').removeClass('hidden');
+                target.find('#parameters-amount #well').removeClass('hidden');
             } else if (assignment.gestures.length === amountRange.min) {
-                target.find('#less-well').removeClass('hidden');
+                target.find('#parameters-amount #less-well').removeClass('hidden');
             } else {
-                target.find('#even').removeClass('hidden');
+                target.find('#parameters-amount #even').removeClass('hidden');
             }
         } else {
             // can't found best gesture for these trigger, because every gesture are demonstrated the same amount
         }
 
-        // guessability
+        // agreement measures
+        if (amountRange.max > 1) {
+            var agreementMeasures = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_TRIGGER);
+            if (agreementMeasures) {
+                $(target).find('#agreement .text').text(agreementMeasures + '%');
+            } else {
+                $(target).find('#agreement .text').text('Konnte nicht berechnet werden, da diese Geste nur einmal vorkommt.');
+            }
+        }
+
+        // guessability / accordance
+        var accordance = getAccordance(triggerId).toFixed(2);
         $(target).find('#parameters-guessability').removeClass('hidden');
+        $(target).find('#accordance .text').text(accordance);
+//        console.log('accordance: ', accordance);
 
         // cognitive relationships
+        $(target).find('#btn-open-cognitive-relationships').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            loadHTMLintoModal('custom-modal', 'modal-cognitive-relationships.php', 'modal-lg');
+        });
 
         // checklist
+        if (classification.checklist.used === 'yes') {
+            $(target).find('#parameters-checklist').removeClass('hidden');
+            $(target).find('#btn-open-checklist').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'modal-checklist.php', 'modal-lg');
+            });
+        }
+
     } else if (classification.type === 'appearance') {
 
     }
@@ -842,4 +904,84 @@ function getAmountRange(triggerId) {
     }
 
     return {min: min, max: max};
+}
+
+function getGestureEffectAmount(triggerId) {
+    var classification = getLocalItem(CLASSIFICATION);
+    var amount = 0;
+    for (var i = 0; i < classification.assignments.length; i++) {
+        if (parseInt(classification.assignments[i].triggerId) === parseInt(triggerId)) {
+            amount += classification.assignments[i].gestures.length;
+        }
+    }
+    return amount;
+}
+
+function getAccordance(triggerId) {
+    var classification = getLocalItem(CLASSIFICATION);
+    var accordance = 0;
+    var effectAmount = getGestureEffectAmount(triggerId);
+
+    for (var i = 0; i < classification.assignments.length; i++) {
+        if (parseInt(classification.assignments[i].triggerId) === parseInt(triggerId)) {
+            accordance += Math.pow((classification.assignments[i].gestures.length / effectAmount), 2);
+        }
+    }
+
+    return accordance;
+}
+
+function getAgreementMeasures(assignment, type) {
+    var agreementMeasures = 0;
+
+    if (type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER) {
+        var allSameGestures = 0;
+        allSameGestures += assignment.gestures.length;
+
+        var sameAssignments = null;
+        if (assignment.sameAs) {
+            sameAssignments = getAssignmentByGestureId(assignment.sameAs);
+        } else {
+            sameAssignments = getSameGestureByGestureId(assignment.mainGestureId);
+        }
+
+        if (sameAssignments && sameAssignments.length > 0) {
+            for (var i = 0; i < sameAssignments.length; i++) {
+                allSameGestures += sameAssignments[i].gestures.length;
+            }
+        } else {
+            return null;
+        }
+
+        agreementMeasures = Math.floor(assignment.gestures.length / allSameGestures * 100);
+    } else {
+
+    }
+
+    return agreementMeasures;
+}
+
+
+function getAssignmentByGestureId(gestureId) {
+    var classification = getLocalItem(CLASSIFICATION);
+    var assignments = new Array();
+    for (var i = 0; i < classification.assignments.length; i++) {
+        if (parseInt(classification.assignments[i].mainGestureId) === parseInt(gestureId)) {
+            assignments.push(classification.assignments[i]);
+        }
+    }
+
+    return assignments;
+}
+
+function getSameGestureByGestureId(gestureId) {
+    var classification = getLocalItem(CLASSIFICATION);
+    var assignments = new Array();
+    for (var i = 0; i < classification.assignments.length; i++) {
+        if (classification.assignments[i].sameAs && parseInt(classification.assignments[i].sameAs) === parseInt(gestureId)) {
+            assignments.push(classification.assignments[i]);
+        }
+    }
+
+    return assignments;
 }

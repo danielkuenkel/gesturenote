@@ -157,6 +157,7 @@ $(document).on('click', '.btn-use', function (event) {
             $(this).closest('.root').addClass('used');
         }
         checkUsedItems($(this).closest('.root'));
+        $(this).trigger('change');
     }
 });
 
