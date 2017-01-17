@@ -10,7 +10,7 @@ session_start();
 if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['classification'])) {
     $sessionUserId = $_SESSION['user_id'];
     $studyId = $_POST['studyId'];
-    $data = json_encode($_POST['classification']);
+    $data = mysqli_real_escape_string($mysqli, json_encode($_POST['classification']));
     
     if ($select_stmt = $mysqli->prepare("SELECT id FROM classification WHERE study_id = '$studyId' LIMIT 1")) {
         if (!$select_stmt->execute()) {

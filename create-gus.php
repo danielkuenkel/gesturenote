@@ -41,6 +41,17 @@ include './includes/language.php';
         </div>
     </div>
 
+</div>
+
+<hr id="factor-seperator" style="margin: 0;">
+
+<div id="modal-body" class="modal-body">
+    <div class="container-root" id="list-container"></div>
+</div>
+
+<hr id="factor-seperator" style="margin: 0;">
+
+<div class="modal-body">
     <div id="dimension-controls">
         <div class="dimension-container" id="container-effectiveness">
             <h4 style="margin-top: 0px; color: #3379b7"><?php echo $lang->mainDimensions->effectiveness ?></h4>
@@ -61,11 +72,6 @@ include './includes/language.php';
             </div>
         </div>
     </div>
-
-</div>
-<hr id="factor-seperator" style="margin: 0;">
-<div id="modal-body" class="modal-body">
-    <div class="container-root" id="list-container"></div>
 </div>
 
 <div id="modal-footer" class="modal-footer">
@@ -148,4 +154,14 @@ include './includes/language.php';
 
         setLocalItem(currentIdForModal + '.data', {gestureId: gestureId, triggerId: triggerId, feedbackId: feedbackId, gus: questionnaire});
     }
+
+    $('#dimension-controls').unbind('listItemAdded').bind('listItemAdded', function (event) {
+        event.preventDefault();
+        console.log('listitem added');
+        var scrollTarget = $(this).closest('.modal');
+        var newScrollTop = Math.max(0, scrollTarget.find('.modal-content').height() - scrollTarget.height() + 60);
+        $(scrollTarget).animate({
+            scrollTop: newScrollTop
+        }, 200);
+    });
 </script>

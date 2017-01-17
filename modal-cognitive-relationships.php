@@ -17,10 +17,11 @@ include './includes/language.php';
 
 <script>
     $(document).ready(function () {
+        renderData();
     });
 
-    function renderData(data) {
-
+    function renderData() {
+        
     }
 
     function saveData() {

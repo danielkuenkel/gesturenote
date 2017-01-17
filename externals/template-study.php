@@ -785,7 +785,7 @@
         <div id="parameters-cognitive-relationships" style="margin-top: 20px">
             <div><h4 style="margin: 0"><i class="fa fa-flash" aria-hidden="true"></i> Sinnzusammenhänge</h4></div>
             <div style="margin-top: 8px">
-                <button type="button" class="btn btn-default" id="btn-open-cognitive-relationships"><i class="fa fa-check-square-o"></i> Überprüfen</button>
+                <button type="button" class="btn btn-default btn-shadow" id="btn-open-cognitive-relationships"><i class="fa fa-check-square-o"></i> Überprüfen</button>
                 <div style="margin-left: 10px">
                     <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span>geeignet</span></span>
                     <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span>weder noch</span></span>
@@ -796,7 +796,7 @@
         <div id="parameters-checklist" class="hidden" style="margin-top: 20px">
             <div><h4 style="margin: 0"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Checkliste</h4></div>
             <div style="margin-top: 8px">
-                <button type="button" class="btn btn-default" id="btn-open-checklist"><i class="fa fa-check-square-o"></i> Überprüfen</button>
+                <button type="button" class="btn btn-default btn-shadow" id="btn-open-checklist"><i class="fa fa-check-square-o"></i> Überprüfen</button>
                 <div style="margin-left: 10px">
                     <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span>geeignet</span></span>
                     <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span>weder noch</span></span>

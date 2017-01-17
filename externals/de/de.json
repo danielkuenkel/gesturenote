@@ -1079,7 +1079,17 @@
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
-            "question": "Die Geste ist peinlich.",
+            "question": "Die Geste könnte peinlich sein.",
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "yes"
+            }
+        },
+        {
+            "format": "dichotomousQuestionGUS",
+            "dimension": "uxSatisfactionOfUse",
+            "question": "Die Geste könnte dem Nutzer unangenehm sein.",
             "parameters": {
                 "used": "used",
                 "justification": "yes",

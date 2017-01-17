@@ -84,20 +84,25 @@ function renderData(data, hash) {
             var step = document.createElement('div');
             $(step).addClass('study-phase-step');
             $('#phase-steps-container').append(step);
+
             var iconContainer = document.createElement('div');
             $(iconContainer).addClass('study-phase-icon-container');
             $(step).append(iconContainer);
+
             var colorIcon = document.createElement('i');
             $(colorIcon).addClass('study-phase-step-color-icon fa fa-circle');
             $(colorIcon).css({color: studyData.phases[i].color});
             $(iconContainer).append(colorIcon);
+
             var icon = document.createElement('i');
             $(icon).addClass('study-phase-step-icon fa fa-circle-thin');
             $(iconContainer).append(icon);
+
             var iconMiddle = document.createElement('span');
             $(iconMiddle).addClass((i > 8) ? 'study-phase-step-middle-icon-small' : 'study-phase-step-middle-icon');
             $(iconMiddle).text(i + 1);
             $(iconContainer).append(iconMiddle);
+
             var text = document.createElement('span');
             $(text).addClass('text');
             $(text).text(translation.formats[studyData.phases[i].format].text);
@@ -152,14 +157,17 @@ function renderData(data, hash) {
         renderStudyGestures(studyGestures);
         noCatalogData = false;
     }
+
     if (studyScenes && studyScenes.length > 0) {
         renderStudyScenes(studyScenes);
         noCatalogData = false;
     }
+
     if (studyTrigger && studyTrigger.length > 0) {
         renderStudyTrigger(studyTrigger);
         noCatalogData = false;
     }
+
     if (studyFeedback && studyFeedback.length > 0) {
         renderStudyFeedback(studyFeedback);
         noCatalogData = false;
@@ -779,8 +787,13 @@ function saveClassification() {
 function renderChecklist() {
     var classification = getLocalItem(CLASSIFICATION);
     var predefinedItems = translation.extractionChecklistItems;
-    if (classification.checklist.items !== '' || classification.checklist.items !== null) {
+    console.log(predefinedItems, classification.checklist);
+    if (classification.checklist && (classification.checklist.items !== '' || classification.checklist.items !== null)) {
         predefinedItems = classification.checklist.items;
+        $('#use-checklist-switch').find('#' + classification.checklist.used).click();
+    } else {
+        classification.checklist = {used: 'no', items: predefinedItems};
+        setLocalItem(CLASSIFICATION, classification);
     }
 
     var listContainer = $('#checklist-container').empty();
@@ -791,7 +804,7 @@ function renderChecklist() {
     }
     checkCurrentListState(listContainer);
 
-    $('#use-checklist-switch').find('#' + classification.checklist.used).click();
+
 
     $('#use-checklist-switch').unbind('change').bind('change', function (event, activeId) {
         event.preventDefault();
@@ -833,6 +846,7 @@ function renderGestureSets() {
     console.log('render gesture sets');
 }
 
+var currentAssignment = null;
 function renderPotentialGesturesParameters(target, assignment, triggerId) {
 
     var classification = getLocalItem(CLASSIFICATION);
@@ -874,6 +888,7 @@ function renderPotentialGesturesParameters(target, assignment, triggerId) {
         // cognitive relationships
         $(target).find('#btn-open-cognitive-relationships').unbind('click').bind('click', function (event) {
             event.preventDefault();
+            currentAssignment = assignment;
             loadHTMLintoModal('custom-modal', 'modal-cognitive-relationships.php', 'modal-lg');
         });
 
@@ -882,6 +897,7 @@ function renderPotentialGesturesParameters(target, assignment, triggerId) {
             $(target).find('#parameters-checklist').removeClass('hidden');
             $(target).find('#btn-open-checklist').unbind('click').bind('click', function (event) {
                 event.preventDefault();
+                currentAssignment = assignment;
                 loadHTMLintoModal('custom-modal', 'modal-checklist.php', 'modal-lg');
             });
         }

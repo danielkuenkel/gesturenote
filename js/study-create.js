@@ -342,6 +342,7 @@ $(document).on('click', '#addFormat', function (event) {
         var format = $(this).parent().find('.chosen').attr('id');
         if (format !== 'unselected') {
             var clone = $('#form-item-container').find('#' + format).clone(true);
+            clone.attr('name', chance.natural());
             var listContainer = $(this).closest('.root').find('#list-container');
             $(listContainer).append(clone);
             checkCurrentListState(listContainer);

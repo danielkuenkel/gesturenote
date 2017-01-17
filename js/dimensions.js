@@ -75,6 +75,8 @@ $(document).on('click', '.dimension-btn-group .btn-toggle', function (event) {
             } else {
                 checkDimensionItems(dimensionContainer);
             }
+            
+            $(this).trigger('listItemAdded');
         }
     }
 });

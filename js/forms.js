@@ -54,9 +54,10 @@ function updateBadges(container, selector) {
 function renderFormatItem(target, data) {
     var clone = $('#form-item-container').find('#' + data.format).clone();
     $(clone).find('.question').val(data.question);
+    clone.attr('name', data.id || chance.natural());
     clone.addClass(data.dimension);
     target.append(clone);
-    
+
     var parameters = data.parameters;
     var options = data.options;
     switch (data.format) {
@@ -223,10 +224,12 @@ function renderFormatItem(target, data) {
  */
 function getFormatData(element) {
     var format = $(element).attr('id');
+    var id = $(element).attr('name');
     var dimension = getDimensionByElement($(element));
     var question = $(element).find('.question').val();
     var parameters = null;
     var options = null;
+
     switch (format) {
         case SUS_ITEM:
             parameters = {negative: $(element).find('.negative .active').attr('id')};
@@ -332,10 +335,89 @@ function getFormatData(element) {
                 negative: $(element).find('.negative .active').attr('id')};
             break;
     }
-    return {format: format, dimension: dimension, question: question, parameters: parameters, options: options};
+    return {id: id, format: format, dimension: dimension, question: question, parameters: parameters, options: options};
 //    return new QuestionnaireItem(format, dimension, question, parameters, options);
 }
 
+
+/*
+ * render a simple questionnaire
+ * @param {type} questionnaire
+ * @returns {Array|getQuestionnaireAnswers.questionnaireAnswers}
+ */
+
+function renderQuestionnaire(target, questionnaire, answers) {
+    $(target).find('.question-container').empty();
+
+    if (questionnaire && questionnaire.length > 0) {
+        for (var i = 0; i < questionnaire.length; i++) {
+            var item = $('#item-container-inputs').find('#' + questionnaire[i].format).clone(false);
+            item.attr('name', questionnaire[i].id);
+
+            if (questionnaire.length > 1) {
+                $(item).find('.question').text((i + 1) + '. ' + questionnaire[i].question);
+            } else {
+                $(item).find('.question').text(questionnaire[i].question);
+            }
+
+            $(target).find('.question-container').append(item);
+
+            var answer = null;
+            if (answers && answers.length > 0) {
+                for (var j = 0; j < answers.length; j++) {
+                    if (parseInt(questionnaire[i].id) === parseInt(answers[j].id)) {
+                        answer = answers[j].answer;
+                        break;
+                    }
+                }
+            }
+
+            var parameters = questionnaire[i].parameters;
+            var options = questionnaire[i].options;
+            if (answer) {
+                console.log('there is an answer for', questionnaire[i], answer);
+            } else {
+                switch (questionnaire[i].format) {
+                    case DICHOTOMOUS_QUESTION:
+                        renderDichotomousQuestionInput(item, parameters);
+                        break;
+                    case DICHOTOMOUS_QUESTION_GUS:
+                        renderDichotomousQuestionGUSInput(item, parameters);
+                        break;
+                    case GROUPING_QUESTION:
+                        renderGroupingQuestionInput(item, parameters, options);
+                        break;
+                    case GROUPING_QUESTION_GUS:
+                        renderGroupingQuestionGUSInput(item, parameters);
+                        break;
+                    case RATING:
+                        renderRatingInput(item, options);
+                        break;
+                    case SUM_QUESTION:
+                        renderSumQuestionInput(item, parameters, options);
+                        break;
+                    case RANKING:
+                        renderRankingInput(item, options);
+                        break;
+                    case ALTERNATIVE_QUESTION:
+                        renderAlternativeQuestionInput(item, questionnaire[i]);
+                        break;
+                    case GUS_SINGLE:
+                        renderGUSSingleInput(item, options);
+                        break;
+                    case COUNTER:
+                        renderCounterInput(item, parameters);
+                        break;
+                    case SUS_ITEM:
+                        renderSusInput(item);
+                        break;
+                }
+            }
+        }
+    }
+
+    return target;
+}
 
 /* 
  * get questionnaire form answers
@@ -345,41 +427,43 @@ function getQuestionnaireAnswers(questionnaire) {
     var questionnaireAnswers = new Array();
     for (var i = 0; i < questionnaire.length; i++) {
         var format = $(questionnaire[i]).attr('id');
+        var id = $(questionnaire[i]).attr('name');
+
         switch (format) {
             case COUNTER:
-                questionnaireAnswers.push(getCounterAnswers($(questionnaire[i])));
+                questionnaireAnswers.push({id: id, answer: getCounterAnswers($(questionnaire[i]))});
                 break;
             case OPEN_QUESTION:
             case OPEN_QUESTION_GUS:
-                questionnaireAnswers.push(getOpenQuestionAnswers($(questionnaire[i])));
+                questionnaireAnswers.push({id: id, answer: getOpenQuestionAnswers($(questionnaire[i]))});
                 break;
             case DICHOTOMOUS_QUESTION:
             case DICHOTOMOUS_QUESTION_GUS:
-                questionnaireAnswers.push(getDichotomousQuestionAnswers($(questionnaire[i])));
+                questionnaireAnswers.push({id: id, answer: getDichotomousQuestionAnswers($(questionnaire[i]))});
                 break;
             case GROUPING_QUESTION:
-                questionnaireAnswers.push(getGroupingQuestionAnswers($(questionnaire[i])));
+                questionnaireAnswers.push({id: id, answer: getGroupingQuestionAnswers($(questionnaire[i]))});
                 break;
             case GROUPING_QUESTION_GUS:
-                questionnaireAnswers.push(getGroupingQuestionGUSAnswers($(questionnaire[i])));
+                questionnaireAnswers.push({id: id, answer: getGroupingQuestionGUSAnswers($(questionnaire[i]))});
                 break;
             case RATING:
-                questionnaireAnswers.push(getRatingAnswers($(questionnaire[i])));
+                questionnaireAnswers.push({id: id, answer: getRatingAnswers($(questionnaire[i]))});
                 break;
             case SUM_QUESTION:
-                questionnaireAnswers.push(getSumQuestionAnswers($(questionnaire[i])));
+                questionnaireAnswers.push({id: id, answer: getSumQuestionAnswers($(questionnaire[i]))});
                 break;
             case RANKING:
-                questionnaireAnswers.push(getRankingAnswers($(questionnaire[i])));
+                questionnaireAnswers.push({id: id, answer: getRankingAnswers($(questionnaire[i]))});
                 break;
             case ALTERNATIVE_QUESTION:
-                questionnaireAnswers.push(getAlternativeQuestionAnswers($(questionnaire[i])));
+                questionnaireAnswers.push({id: id, answer: getAlternativeQuestionAnswers($(questionnaire[i]))});
                 break;
             case GUS_SINGLE:
-                questionnaireAnswers.push(getSingleUSAnswers($(questionnaire[i])));
+                questionnaireAnswers.push({id: id, answer: getSingleUSAnswers($(questionnaire[i]))});
                 break;
             case SUS_ITEM:
-                questionnaireAnswers.push(getSingleUSAnswers($(questionnaire[i])));
+                questionnaireAnswers.push({id: id, answer: getSingleUSAnswers($(questionnaire[i]))});
                 break;
         }
     }
@@ -509,74 +593,84 @@ function renderQuestionnaireAnswers(content, studyData, resultsData) {
         var listItem = $('#template-study-container').find('#' + studyData[i].format).clone();
         listItem.find('#format .format-text').text(translation.questionFormats[studyData[i].format].text);
         $(content).find('.list-container').append(listItem);
+
         if (studyData[i].dimension !== DIMENSION_ANY) {
             $(listItem).find('#item-factors').removeClass('hidden');
             $(listItem).find('#factor-primary').text(translation.dimensions[studyData[i].dimension]);
             $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
         }
 
-        switch (studyData[i].format) {
-            case COUNTER:
-                renderCounter(listItem, studyData[i], resultsData.answers[i]);
+        for (var j = 0; j < resultsData.answers.length; j++) {
+            if (parseInt(studyData[i].id) === parseInt(resultsData.answers[j].id)) {
+                var answer = resultsData.answers[j].answer;
+                switch (studyData[i].format) {
+                    case COUNTER:
+                        renderCounter(listItem, studyData[i], answer);
+                        break;
+                    case OPEN_QUESTION:
+                    case OPEN_QUESTION_GUS:
+                        renderOpenQuestion(listItem, studyData[i], answer);
+                        break;
+                    case DICHOTOMOUS_QUESTION:
+                        renderDichotomousQuestion(listItem, studyData[i], answer);
+                        break;
+                    case DICHOTOMOUS_QUESTION_GUS:
+                        renderDichotomousQuestion(listItem, studyData[i], answer);
+                        break;
+                    case GROUPING_QUESTION:
+                        renderGroupingQuestion(listItem, studyData[i], answer);
+                        break;
+                    case GROUPING_QUESTION_GUS:
+                        renderGroupingQuestionGUS(listItem, studyData[i], answer);
+                        break;
+                    case RATING:
+                        renderRating(listItem, studyData[i], answer);
+                        break;
+                    case SUM_QUESTION:
+                        renderSumQuestion(listItem, studyData[i], answer);
+                        break;
+                    case RANKING:
+                        renderRanking(listItem, studyData[i], answer);
+                        break;
+                    case ALTERNATIVE_QUESTION:
+                        renderAlternativeQuestion(listItem, studyData[i], answer);
+                        break;
+                    case GUS_SINGLE:
+                        renderGUS(listItem, studyData[i], answer);
+                        break;
+                    case SUS_ITEM:
+                        renderSUSItem(listItem, studyData[i], answer);
+                        break;
+                }
+
                 break;
-            case OPEN_QUESTION:
-            case OPEN_QUESTION_GUS:
-                renderOpenQuestion(listItem, studyData[i], resultsData.answers[i]);
-                break;
-            case DICHOTOMOUS_QUESTION:
-                renderDichotomousQuestion(listItem, studyData[i], resultsData.answers[i]);
-                break;
-            case DICHOTOMOUS_QUESTION_GUS:
-                renderDichotomousQuestion(listItem, studyData[i], resultsData.answers[i]);
-                break;
-            case GROUPING_QUESTION:
-                renderGroupingQuestion(listItem, studyData[i], resultsData.answers[i]);
-                break;
-            case GROUPING_QUESTION_GUS:
-                renderGroupingQuestionGUS(listItem, studyData[i], resultsData.answers[i]);
-                break;
-            case RATING:
-                renderRating(listItem, studyData[i], resultsData.answers[i]);
-                break;
-            case SUM_QUESTION:
-                renderSumQuestion(listItem, studyData[i], resultsData.answers[i]);
-                break;
-            case RANKING:
-                renderRanking(listItem, studyData[i], resultsData.answers[i]);
-                break;
-            case ALTERNATIVE_QUESTION:
-                renderAlternativeQuestion(listItem, studyData[i], resultsData.answers[i]);
-                break;
-            case GUS_SINGLE:
-                renderGUS(listItem, studyData[i], resultsData.answers[i]);
-                break;
-            case SUS_ITEM:
-                renderSUSItem(listItem, studyData[i], resultsData.answers[i]);
-                break;
+            }
         }
+
         $(listItem).css({y: 0, opacity: 1});
         TweenMax.from(listItem, .1, {delay: i * .1, opacity: 0, y: -10});
     }
 }
 
-function renderCounter(item, studyData, resultsData) {
+function renderCounter(item, studyData, answer) {
     var parameters = studyData.parameters;
     $(item).find('.question').text(studyData.question);
     $(item).find('#counter-label .counter-from').text(translation.of + ' ' + translation.atLeast + ' ' + parameters.countFrom);
     $(item).find('#counter-label .counter-to').text(translation.to + ' ' + translation.maximal + ' ' + parameters.countTo);
-    if (resultsData.count && resultsData.count !== '') {
-        $(item).find('.answer').text(resultsData.count);
+    if (answer.count && answer.count !== '') {
+        $(item).find('.answer').text(answer.count);
     } else {
         $(item).find('#no-answer').removeClass('hidden');
     }
 }
 
-function renderEditableCounter(item, question, answer) {
-    var parameters = question.parameters;
-    $(item).find('.question').text(question.question);
+function renderEditableCounter(item, studyData, answer) {
+    var parameters = studyData.parameters;
+
     renderCounterInput(item, parameters);
     $(item).find('#counter-label .counter-from').text(translation.of + ' ' + translation.atLeast + ' ' + parameters.countFrom);
     $(item).find('#counter-label .counter-to').text(translation.to + ' ' + translation.maximal + ' ' + parameters.countTo);
+
     if (answer && !isNaN(parseInt(answer.count))) {
         $(item).find('.stepper-text').val(answer.count);
     }
@@ -591,8 +685,7 @@ function renderOpenQuestion(item, studyData, resultsData) {
     }
 }
 
-function renderEditableOpenQuestion(item, question, answer) {
-    $(item).find('.question').text(question.question);
+function renderEditableOpenQuestion(item, answer) {
     renderOpenQuestionInput(item);
     if (answer) {
         $(item).find('#openQuestionInput').val(answer.openAnswer);
@@ -624,9 +717,8 @@ function renderDichotomousQuestion(item, studyData, resultsData) {
     }
 }
 
-function renderEditableDichotomousQuestion(item, question, answer) {
-    $(item).find('.question').text(question.question);
-    var parameters = question.parameters;
+function renderEditableDichotomousQuestion(item, studyData, answer) {
+    var parameters = studyData.parameters;
     renderDichotomousQuestionInput(item, parameters);
     if (answer && answer.selectedSwitch) {
         setTimeout(function () {
@@ -696,10 +788,9 @@ function renderGroupingQuestion(item, studyData, resultsData) {
     }
 }
 
-function renderEditableGroupingQuestion(item, question, answer) {
-    $(item).find('.question').text(question.question);
-    var parameters = question.parameters;
-    var options = question.options;
+function renderEditableGroupingQuestion(item, studyData, answer) {
+    var parameters = studyData.parameters;
+    var options = studyData.options;
     renderGroupingQuestionInput(item, parameters, options);
     if (parameters.multiselect === 'yes') {
         $(item).find('#multiselect').removeClass('hidden');
@@ -806,9 +897,8 @@ function renderGroupingQuestionGUS(item, studyData, resultsData) {
 }
 
 
-function renderEditableGroupingQuestionGUS(item, question, answer) {
-    $(item).find('.question').text(question.question);
-    var parameters = question.parameters;
+function renderEditableGroupingQuestionGUS(item, studyData, answer) {
+    var parameters = studyData.parameters;
 //    var options = question.options;
     renderGroupingQuestionGUSInput(item, parameters);
     if (parameters.multiselect === 'yes') {
@@ -880,9 +970,8 @@ function renderRating(item, studyData, resultsData) {
     }
 }
 
-function renderEditableRating(item, question, answer) {
-    $(item).find('.question').text(question.question);
-    renderRatingInput(item, question.options);
+function renderEditableRating(item, studyData, answer) {
+    renderRatingInput(item, studyData.options);
     if (answer && answer.scales && answer.scales.length > 0) {
         for (var i = 0; i < answer.scales.length; i++) {
             if (answer.scales[i] !== '-1') {
@@ -914,10 +1003,9 @@ function renderSumQuestion(item, studyData, resultsData) {
     }
 }
 
-function renderEditableSumQuestion(item, question, answer) {
-    var parameters = question.parameters;
-    var options = question.options;
-    $(item).find('.question').text(question.question);
+function renderEditableSumQuestion(item, studyData, answer) {
+    var parameters = studyData.parameters;
+    var options = studyData.options;
     $(item).find('#maximum .label-text').text(translation.maximum + ': ' + parameters.maximum);
     $(item).find('#allocation .label-text').text(translation.scaleTypes[parameters.allocation]);
     renderSumQuestionInput(item, parameters, options);
@@ -945,9 +1033,8 @@ function renderRanking(item, studyData, resultsData) {
     }
 }
 
-function renderEditableRanking(item, question, answer) {
-    $(item).find('.question').text(question.question);
-    var options = question.options;
+function renderEditableRanking(item, studyData, answer) {
+    var options = studyData.options;
     if (answer && answer.arrangement && answer.arrangement.length > 0) {
         var tempOptions = new Array();
         for (var i = 0; i < answer.arrangement.length; i++) {
@@ -1178,6 +1265,7 @@ function renderDichotomousQuestionInput(item, parameters) {
     if (parameters.justification === 'yes') {
         var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
         justification.css({marginTop: '10px'});
+        
         item.find('#panel-body').append(justification);
         setInputChangeEvent(justification.find('#justificationInput'), 1000);
         if (parameters.justificationFor === 'always') {
@@ -1207,7 +1295,9 @@ function renderDichotomousQuestionGUSPreview(item, parameters) {
 function renderDichotomousQuestionGUSInput(item, parameters) {
     if (parameters.justification === 'yes') {
         var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
+        justification.css({marginTop: '10px'});
         item.find('.panel-body').append(justification);
+        
         if (parameters.justificationFor === 'always') {
             justification.removeClass('hidden');
         } else {
@@ -1657,42 +1747,51 @@ function renderEditableObservations(target, studyData, resultData) {
     if (studyData && studyData.length > 0) {
         for (var i = 0; i < studyData.length; i++) {
             var listItem = $('#item-container-inputs').find('#' + studyData[i].format).clone();
+            $(listItem).find('.question').text(studyData[i].question);
+            $(listItem).attr('name', studyData[i].id);
             $(target).append(listItem);
+
             if (studyData[i].dimension !== DIMENSION_ANY) {
                 $(listItem).find('#item-factors').removeClass('hidden');
                 $(listItem).find('#factor-primary').text(translation.dimensions[studyData[i].dimension]);
                 $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
             }
 
-            var answer = resultData ? resultData[i] : null;
-//            console.log('renderEditableObservations', studyData[i].format, answer);
-            switch (studyData[i].format) {
-                case COUNTER:
-                    renderEditableCounter(listItem, studyData[i], answer);
+            for (var j = 0; j < resultData.length; j++) {
+                if (parseInt(studyData[i].id) === parseInt(resultData[j].id)) {
+                    var answer = resultData[j].answer ? resultData[j].answer : null;
+
+                    switch (studyData[i].format) {
+                        case COUNTER:
+                            renderEditableCounter(listItem, studyData[i], answer);
+                            break;
+                        case OPEN_QUESTION:
+                        case OPEN_QUESTION_GUS:
+                            renderEditableOpenQuestion(listItem, answer);
+                            break;
+                        case DICHOTOMOUS_QUESTION:
+                        case DICHOTOMOUS_QUESTION_GUS:
+                            renderEditableDichotomousQuestion(listItem, studyData[i], answer);
+                            break;
+                        case GROUPING_QUESTION:
+                            renderEditableGroupingQuestion(listItem, studyData[i], answer);
+                            break;
+                        case GROUPING_QUESTION_GUS:
+                            renderEditableGroupingQuestionGUS(listItem, studyData[i], answer);
+                            break;
+                        case RATING:
+                            renderEditableRating(listItem, studyData[i], answer);
+                            break;
+                        case SUM_QUESTION:
+                            renderEditableSumQuestion(listItem, studyData[i], answer);
+                            break;
+                        case RANKING:
+                            renderEditableRanking(listItem, studyData[i], answer);
+                            break;
+                    }
+
                     break;
-                case OPEN_QUESTION:
-                case OPEN_QUESTION_GUS:
-                    renderEditableOpenQuestion(listItem, studyData[i], answer);
-                    break;
-                case DICHOTOMOUS_QUESTION:
-                case DICHOTOMOUS_QUESTION_GUS:
-                    renderEditableDichotomousQuestion(listItem, studyData[i], answer);
-                    break;
-                case GROUPING_QUESTION:
-                    renderEditableGroupingQuestion(listItem, studyData[i], answer);
-                    break;
-                case GROUPING_QUESTION_GUS:
-                    renderEditableGroupingQuestionGUS(listItem, studyData[i], answer);
-                    break;
-                case RATING:
-                    renderEditableRating(listItem, studyData[i], answer);
-                    break;
-                case SUM_QUESTION:
-                    renderEditableSumQuestion(listItem, studyData[i], answer);
-                    break;
-                case RANKING:
-                    renderEditableRanking(listItem, studyData[i], answer);
-                    break;
+                }
             }
         }
     }
@@ -1703,7 +1802,7 @@ function saveObservationAnwers(target, studyId, testerId, currentPhaseId) {
 //    var currentPhaseId = getCurrentPhase().id; //$('#phase-results-nav').find('.active').attr('id');
 //    console.log(observationAnswerItems, currentPhaseId);
     var answers = getQuestionnaireAnswers(observationAnswerItems);
-//    console.log("answers", observationAnswerItems, answers)
+    console.log("answers", observationAnswerItems, answers);
     var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
     if (observations && answers) {
         if (isObservationPresent(currentPhaseId)) {

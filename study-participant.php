@@ -266,7 +266,7 @@ if (login_check($mysqli) == true) {
                             renderThanks(content, phaseData);
                             break;
                         case QUESTIONNAIRE:
-                            renderQuestionnaireAnswers(content, phaseData.reverse(), phaseResults);
+                            renderQuestionnaireAnswers(content, phaseData, phaseResults);
                             break;
                         case IDENTIFICATION:
                             renderIdentification(content, phaseData, phaseResults);
@@ -278,7 +278,7 @@ if (login_check($mysqli) == true) {
                             renderSingleGUS(content, phaseData, phaseResults);
                             break;
                         case GUS_MULTIPLE_GESTURES:
-                            renderQuestionnaireAnswers(content, getAssembledItems(phaseData.gus.reverse()), phaseResults);
+                            renderQuestionnaireAnswers(content, getAssembledItems(phaseData.gus), phaseResults);
                             break;
                         case GESTURE_TRAINING:
                             renderGestureTraining(content, phaseData, phaseResults);
@@ -494,7 +494,7 @@ if (login_check($mysqli) == true) {
             function renderSingleGUS(content, studyData, resultsData) {
 //                console.log(studyData, resultsData);
                 currentGUSData = studyData;
-                renderQuestionnaireAnswers(content, getAssembledItems(studyData.gus.reverse()), resultsData);
+                renderQuestionnaireAnswers(content, getAssembledItems(studyData.gus), resultsData);
 
                 var gesture = getGestureById(studyData.gestureId);
                 if (gesture && isGestureAssembled(studyData.gestureId)) {
@@ -755,7 +755,7 @@ if (login_check($mysqli) == true) {
 
                             for (var j = 0; j < resultsData.answers.length; j++) {
                                 if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].singleAnswers) {
-                                    results.answers = results.answers.concat(resultsData.answers[j].singleAnswers.answers.reverse());
+                                    results.answers = results.answers.concat(resultsData.answers[j].singleAnswers.answers);
                                     questions = questions.concat(singleStressQuestionnaire);
                                 }
                             }
@@ -764,7 +764,7 @@ if (login_check($mysqli) == true) {
 //                            results.answers = results.answers.reverse();
 //                            console.log('singleStressQuestionnaire');
                                 //                            console.log(questions, results);
-                                renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions.reverse(), results);
+                                renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions, results);
                             }
                         }
 
@@ -779,16 +779,17 @@ if (login_check($mysqli) == true) {
                             for (var j = 0; j < resultsData.answers.length; j++) {
                                 if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].sequenceAnswers) {
                                     //                                console.log(resultsData.answers[j].sequenceAnswers.answers);
-                                    results.answers = results.answers.concat(resultsData.answers[j].sequenceAnswers.answers.reverse());
+//                                    results.answers = results.answers.concat(resultsData.answers[j].sequenceAnswers.answers.reverse());
+                                    results.answers = results.answers.concat(resultsData.answers[j].sequenceAnswers.answers);
                                     questions = questions.concat(sequenceStressQuestionnaire);
                                 }
                             }
 
                             if (questions.length > 0 && results.answers.length > 0) {
-                                results.answers = results.answers.reverse();
+//                                results.answers = results.answers.reverse();
 //                            console.log('sequenceStressQuestionnaire');
                                 //                            console.log(questions, results);
-                                renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), questions.reverse(), results);
+                                renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), questions, results);
                             }
                         }
                     }

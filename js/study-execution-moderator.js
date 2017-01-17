@@ -121,6 +121,7 @@ var Moderator = {
         if (data && data.length > 0) {
             for (var i = 0; i < data.length; i++) {
                 var item = $(source).find('#' + data[i].format).clone();
+                item.attr('name', data[i].id);
 
 //            console.log('clone: ' + data[i].format + " form: " + source.attr('id'));
                 if (data.length > 1) {
@@ -1244,14 +1245,16 @@ function renderObservations(data, container) {
     if (data.observations && data.observations.length > 0) {
         if (!previewModeEnabled) {
             var savedObservations = getObservationResults(getCurrentPhase().id);
+            console.log('render observations with answers: ', savedObservations, data.observations);
             if (savedObservations && savedObservations.length > 0) {
-                renderEditableObservations($(container).find('#observations .question-container'), data.observations.reverse(), savedObservations);
+                renderEditableObservations($(container).find('#observations .question-container'), data.observations, savedObservations);
             } else {
                 Moderator.getQuestionnaire($('#item-container-inputs'), $(container).find('#observations'), data.observations, false);
             }
 
             $(container).find('#observations').on('change', function () {
                 var study = getLocalItem(STUDY);
+                console.log('save observation answers');
                 saveObservationAnwers($(container).find('#observations .question-container'), study.id, study.testerId, getCurrentPhase().id);
             });
         } else {

@@ -47,6 +47,7 @@ if (login_check($mysqli) == true) {
         <script src="js/forms.js"></script>
         <script src="js/dimensions.js"></script>
         <script src="js/sha512.js"></script>
+        <script src="js/chance.min.js"></script>
         <script src="js/study.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -54,6 +55,7 @@ if (login_check($mysqli) == true) {
         <!-- externals -->
         <div id="alerts"></div>
         <div id="template-subpages"></div>
+        <div id="template-previews"></div>
         <div id="template-create"></div>
         <div id="template-study"></div>
 
@@ -393,6 +395,7 @@ if (login_check($mysqli) == true) {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     externals.push(['#template-create', PATH_EXTERNALS + 'template-create.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     loadExternals(externals);
@@ -406,12 +409,8 @@ if (login_check($mysqli) == true) {
                 if (query.studyId && query.h === hash) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
-                            //                            if (result.data) {
                             setStudyData(result);
                             renderData(result, hash);
-                            //                            } else {
-                            //                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
-                            //                            }
                         }
                     });
                 }

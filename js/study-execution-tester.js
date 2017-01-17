@@ -184,63 +184,11 @@ var Tester = {
             $(container).append(content);
         }
 
-//        console.log(data);
+        container = renderQuestionnaire(container, data, null);
 
-        $(container).find('.question-container').empty();
-        if (data && data.length > 0) {
-            for (var i = 0; i < data.length; i++) {
-                var item = $('#item-container-inputs').find('#' + data[i].format).clone(false);
-                if (data.length > 1) {
-                    $(item).find('.question').text((i + 1) + '. ' + data[i].question);
-                } else {
-                    $(item).find('.question').text(data[i].question);
-                }
+//        $(container).find('.question-container').empty();
 
-                $(container).find('.question-container').append(item);
-//                if (data[i].dimension !== DIMENSION_ANY) {
-//                    $(item).find('#dimension').removeClass('hidden');
-//                    $(item).find('#dimension').text(translation.dimensions[data[i].dimension]);
-//                }
-
-                var parameters = data[i].parameters;
-                var options = data[i].options;
-                switch (data[i].format) {
-                    case DICHOTOMOUS_QUESTION:
-                        renderDichotomousQuestionInput(item, parameters);
-                        break;
-                    case DICHOTOMOUS_QUESTION_GUS:
-                        renderDichotomousQuestionGUSInput(item, parameters);
-                        break;
-                    case GROUPING_QUESTION:
-                        renderGroupingQuestionInput(item, parameters, options);
-                        break;
-                    case GROUPING_QUESTION_GUS:
-                        renderGroupingQuestionGUSInput(item, parameters);
-                        break;
-                    case RATING:
-                        renderRatingInput(item, options);
-                        break;
-                    case SUM_QUESTION:
-                        renderSumQuestionInput(item, parameters, options);
-                        break;
-                    case RANKING:
-                        renderRankingInput(item, options);
-                        break;
-                    case ALTERNATIVE_QUESTION:
-                        renderAlternativeQuestionInput(item, data[i]);
-                        break;
-                    case GUS_SINGLE:
-                        renderGUSSingleInput(item, options);
-                        break;
-                    case COUNTER:
-                        renderCounterInput(item, parameters);
-                        break;
-                    case SUS_ITEM:
-                        renderSusInput(item);
-                        break;
-                }
-            }
-        }
+        
 
         if (questionnaireDone) {
             $(container).find('#btn-next-step').prev().addClass('hidden');
