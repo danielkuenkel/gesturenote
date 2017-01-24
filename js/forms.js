@@ -375,7 +375,28 @@ function renderQuestionnaire(target, questionnaire, answers) {
             var parameters = questionnaire[i].parameters;
             var options = questionnaire[i].options;
             if (answer) {
-                console.log('there is an answer for', questionnaire[i], answer);
+                switch (questionnaire[i].format) {
+                    case DICHOTOMOUS_QUESTION:
+                    case DICHOTOMOUS_QUESTION_GUS:
+                        renderEditableDichotomousQuestion(item, questionnaire[i], answer);
+                        break;
+                    case GROUPING_QUESTION:
+                    case GROUPING_QUESTION_GUS:
+                        renderEditableGroupingQuestion(item, questionnaire[i], answer);
+                        break;
+                    case RATING:
+                        renderEditableRating(item, questionnaire[i], answer);
+                        break;
+                    case SUM_QUESTION:
+                        renderEditableSumQuestion(item, questionnaire[i], answer);
+                        break;
+                    case RANKING:
+                        renderEditableRanking(item, questionnaire[i], answer);
+                        break;
+                    case COUNTER:
+                        renderEditableCounter(item, questionnaire[i], answer);
+                        break;
+                }
             } else {
                 switch (questionnaire[i].format) {
                     case DICHOTOMOUS_QUESTION:
@@ -399,18 +420,18 @@ function renderQuestionnaire(target, questionnaire, answers) {
                     case RANKING:
                         renderRankingInput(item, options);
                         break;
-                    case ALTERNATIVE_QUESTION:
-                        renderAlternativeQuestionInput(item, questionnaire[i]);
-                        break;
-                    case GUS_SINGLE:
-                        renderGUSSingleInput(item, options);
-                        break;
+//                    case ALTERNATIVE_QUESTION:
+//                        renderAlternativeQuestionInput(item, questionnaire[i]);
+//                        break;
+//                    case GUS_SINGLE:
+//                        renderGUSSingleInput(item, options);
+//                        break;
                     case COUNTER:
                         renderCounterInput(item, parameters);
                         break;
-                    case SUS_ITEM:
-                        renderSusInput(item);
-                        break;
+//                    case SUS_ITEM:
+//                        renderSusInput(item);
+//                        break;
                 }
             }
         }
@@ -592,6 +613,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData) {
     for (var i = 0; i < studyData.length; i++) {
         var listItem = $('#template-study-container').find('#' + studyData[i].format).clone();
         listItem.find('#format .format-text').text(translation.questionFormats[studyData[i].format].text);
+        $(listItem).find('.question').text(studyData[i].question);
         $(content).find('.list-container').append(listItem);
 
         if (studyData[i].dimension !== DIMENSION_ANY) {
@@ -654,7 +676,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData) {
 
 function renderCounter(item, studyData, answer) {
     var parameters = studyData.parameters;
-    $(item).find('.question').text(studyData.question);
+//    $(item).find('.question').text(studyData.question);
     $(item).find('#counter-label .counter-from').text(translation.of + ' ' + translation.atLeast + ' ' + parameters.countFrom);
     $(item).find('#counter-label .counter-to').text(translation.to + ' ' + translation.maximal + ' ' + parameters.countTo);
     if (answer.count && answer.count !== '') {
@@ -677,7 +699,7 @@ function renderEditableCounter(item, studyData, answer) {
 }
 
 function renderOpenQuestion(item, studyData, resultsData) {
-    $(item).find('.question').text(studyData.question);
+//    $(item).find('.question').text(studyData.question);
     if (resultsData.openAnswer && resultsData.openAnswer !== '') {
         $(item).find('.answer').text(resultsData.openAnswer);
     } else {
@@ -693,13 +715,10 @@ function renderEditableOpenQuestion(item, answer) {
 }
 
 function renderDichotomousQuestion(item, studyData, resultsData) {
-//                console.log(studyData, resultsData);
-    $(item).find('.question').text(studyData.question);
     if (resultsData.selectedSwitch === 'none') {
         $(item).find('#no-answer').removeClass('hidden');
         $(item).find('#selection').remove();
     } else {
-//                    console.log(translation[resultsData.selectedSwitch])
         $(item).find('#selection .text').text(translation[resultsData.selectedSwitch]);
     }
 
@@ -739,7 +758,7 @@ function renderEditableDichotomousQuestion(item, studyData, answer) {
 
 function renderGroupingQuestion(item, studyData, resultsData) {
 //    console.log(studyData, resultsData);
-    $(item).find('.question').text(studyData.question);
+//    $(item).find('.question').text(studyData.question);
     if (studyData.parameters.multiselect === 'yes') {
         $(item).find('#multiselect').removeClass('hidden');
     } else {
@@ -826,7 +845,7 @@ function renderEditableGroupingQuestion(item, studyData, answer) {
 
 function renderGroupingQuestionGUS(item, studyData, resultsData) {
     //                console.log(studyData, resultsData);
-    $(item).find('.question').text(studyData.question);
+//    $(item).find('.question').text(studyData.question);
     var options;
     switch (studyData.parameters.optionSource) {
         case 'gestures':
@@ -923,7 +942,7 @@ function renderEditableGroupingQuestionGUS(item, studyData, answer) {
 
 function renderRating(item, studyData, resultsData) {
 //    console.log('render rating:', studyData, resultsData);
-    $(item).find('.question').text(studyData.question);
+//    $(item).find('.question').text(studyData.question);
     for (var i = 0; i < studyData.options.length; i++) {
         var optionItem = $('#template-study-container').find('#rating-item').clone();
         $(optionItem).find('#rating-option').text(studyData.options[i].option);
@@ -985,7 +1004,7 @@ function renderEditableRating(item, studyData, answer) {
 }
 
 function renderSumQuestion(item, studyData, resultsData) {
-    $(item).find('.question').text(studyData.question);
+//    $(item).find('.question').text(studyData.question);
     $(item).find('#maximum .label-text').text(translation.maximum + ': ' + studyData.parameters.maximum);
     $(item).find('#allocation .label-text').text(translation.scaleTypes[studyData.parameters.allocation]);
     var count = 0;
@@ -1018,7 +1037,7 @@ function renderEditableSumQuestion(item, studyData, answer) {
 
 function renderRanking(item, studyData, resultsData) {
 //    console.log(studyData, resultsData);
-    $(item).find('.question').text(studyData.question);
+//    $(item).find('.question').text(studyData.question);
     for (var i = 0; i < resultsData.arrangement.length; i++) {
         var listItemAnswer = $('#template-study-container').find('#ranking-item').clone();
         var text = '';
@@ -1052,7 +1071,7 @@ function renderEditableRanking(item, studyData, answer) {
 function renderAlternativeQuestion(item, studyData, resultsData) {
     //                console.log(studyData, resultsData);
 
-    $(item).find('.question').text(studyData.question);
+//    $(item).find('.question').text(studyData.question);
     if (studyData.parameters.optionalanswer === 'yes') {
         $(item).find('#optionalanswer').removeClass('hidden');
     }
@@ -1133,7 +1152,7 @@ function renderAlternativeQuestion(item, studyData, resultsData) {
 }
 
 function renderGUS(item, studyData, resultsData) {
-    $(item).find('.question').text(studyData.question);
+//    $(item).find('.question').text(studyData.question);
     var score = 0;
     if (studyData.parameters.negative === 'yes') {
         $(item).find('#negative').removeClass('hidden');
@@ -1166,7 +1185,7 @@ function renderGUS(item, studyData, resultsData) {
 }
 
 function renderSUSItem(item, studyData, resultsData) {
-    $(item).find('.question').text(studyData.question);
+//    $(item).find('.question').text(studyData.question);
     var score = 0;
     if (studyData.parameters.negative === 'yes') {
         $(item).find('#negative').removeClass('hidden');
@@ -1265,8 +1284,8 @@ function renderDichotomousQuestionInput(item, parameters) {
     if (parameters.justification === 'yes') {
         var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
         justification.css({marginTop: '10px'});
-        
-        item.find('#panel-body').append(justification);
+
+        item.find('.panel-body').append(justification);
         setInputChangeEvent(justification.find('#justificationInput'), 1000);
         if (parameters.justificationFor === 'always') {
             justification.removeClass('hidden');
@@ -1297,7 +1316,7 @@ function renderDichotomousQuestionGUSInput(item, parameters) {
         var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
         justification.css({marginTop: '10px'});
         item.find('.panel-body').append(justification);
-        
+
         if (parameters.justificationFor === 'always') {
             justification.removeClass('hidden');
         } else {

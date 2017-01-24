@@ -364,15 +364,15 @@ if (login_check($mysqli) == true) {
 
                         <div id="content-btn-checklist" class="hidden">
                             <span class="text" id="checklist-info">Um eine objektive Bewertung der klassifizierten Gesten durchzuführen, kann hier eine Checkliste zusammengestellt werden. Diese muss dann für jede potenzielle Geste beantwortet werden.</span>
-                            
+
                             <div id="checklist-success-criterias" style="margin-top: 10px">
                                 <div class="btn-group" id="use-checklist-switch" style="margin-bottom: 10px; margin-right: 15px;">
                                     <button class="btn btn-default switchButtonAddon"><?php echo $lang->useChecklist ?></button>
                                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
                                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                                 </div>
-
                             </div>
+
                             <div id="checklist-container" style="margin-top: 20px"></div>
                         </div>
 
@@ -403,6 +403,8 @@ if (login_check($mysqli) == true) {
             });
 
             function onAllExternalsLoadedSuccessfully() {
+                
+
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');

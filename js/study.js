@@ -642,6 +642,7 @@ function renderClassifiedGestures(target, type) {
 
                         var appearanceTriggerGesture = $('#template-study-container').find('#appearance-trigger-gesture').clone();
                         appearanceTriggerGesture.find('#headline-main-gesture').text(translation.gesture + ' ' + counter);
+                        appearanceTriggerGesture.attr('name', assignment.mainGestureId);
 //                        appearanceTriggerGesture.find('#amount-classified-gestures').text(assignment.gestures.length);
                         container.find('#item-view').append(appearanceTriggerGesture);
 
@@ -888,23 +889,52 @@ function renderPotentialGesturesParameters(target, assignment, triggerId) {
         // cognitive relationships
         $(target).find('#btn-open-cognitive-relationships').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            currentAssignment = assignment;
+            currentAssignment = getAssignmentByMainGestureId($(this).closest('.root').attr('name'));
             loadHTMLintoModal('custom-modal', 'modal-cognitive-relationships.php', 'modal-lg');
         });
+
+        if (assignment.cognitiveRelationship && assignment.cognitiveRelationship.objectiveAnswer) {
+            target.find('#parameters-cognitive-relationships #' + assignment.cognitiveRelationship.objectiveAnswer).removeClass('hidden');
+        } else {
+            target.find('#parameters-cognitive-relationships #even').removeClass('hidden');
+        }
 
         // checklist
         if (classification.checklist.used === 'yes') {
             $(target).find('#parameters-checklist').removeClass('hidden');
             $(target).find('#btn-open-checklist').unbind('click').bind('click', function (event) {
                 event.preventDefault();
-                currentAssignment = assignment;
+                currentAssignment = getAssignmentByMainGestureId($(this).closest('.root').attr('name'));
                 loadHTMLintoModal('custom-modal', 'modal-checklist.php', 'modal-lg');
             });
+
+            if (assignment.checklist && assignment.checklist.objectiveAnswer) {
+                target.find('#parameters-checklist #' + assignment.checklist.objectiveAnswer).removeClass('hidden');
+            } else {
+                target.find('#parameters-checklist #even').removeClass('hidden');
+            }
         }
 
     } else if (classification.type === 'appearance') {
 
     }
+
+    $(target).find('#btn-add-to-gesture-set').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        currentAssignment = getAssignmentByMainGestureId($(this).closest('.root').attr('name'));
+        loadHTMLintoModal('custom-modal', 'modal-add-to-gesture-set.php', 'modal-md');
+    });
+}
+
+function getAssignmentByMainGestureId(mainGestureId) {
+    var classification = getLocalItem(CLASSIFICATION);
+    for (var i = 0; i < classification.assignments.length; i++) {
+        if (parseInt(mainGestureId) === parseInt(classification.assignments[i].mainGestureId)) {
+            return classification.assignments[i];
+            break;
+        }
+    }
+    return null;
 }
 
 function getAmountRange(triggerId) {

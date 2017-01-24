@@ -78,6 +78,7 @@ var ALERT_PLEASE_WAIT = 'please-wait';
 var ALERT_NO_RECORDED_GESTURES = 'no-recorded-gestures';
 var ALERT_NO_GESTURES_CLASSIFIED = 'no-gestures-classified';
 var ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION = 'no-more-gestures-for-classification';
+var ALERT_NO_GESTURE_SETS_FOR_STUDY = 'no-gesture-sets-for-study';
 
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);

@@ -1774,7 +1774,7 @@ include '../includes/language.php';
                 <i class="fa fa-square hidden" id="over"></i>
                 <i class="fa fa-check-square hidden" id="checked"></i>
             </span>
-            <span class="option-text"></span></button>
+            <span class="option-text ellipsis"></span></button>
     </div>
 
     <div id="checkbox-optionalanswer" style="width: 100%">
@@ -1796,7 +1796,7 @@ include '../includes/language.php';
                 <i class="fa fa-circle hidden" id="over"></i>
                 <i class="fa fa-check-circle hidden" id="checked"></i>
             </span>
-            <span class="option-text"></span>
+            <span class="option-text ellipsis"></span>
         </button>
     </div>
 

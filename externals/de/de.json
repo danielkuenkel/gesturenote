@@ -143,7 +143,10 @@
     "furtherDown": "Weiter nach unten",
     "yes": "Ja",
     "no": "Nein",
+    "dontKnow": "Weiß nicht",
     "always": "Immer",
+    "or": "oder",
+    "Or": "Oder",
     "delete": "Löschen",
     "arrange": "Zusammenstellen",
     "open": "Öffnen",
@@ -860,6 +863,8 @@
     "gestureContextQuestion": "Wo soll die Geste eingesetzt werden?",
     "gestureAssociation": "Assoziation(en)",
     "gestureAssociationQuestion": "Warum wurde diese Geste gewählt?",
+    "noAssociation": "Keine Assoziation(en) verfügbar",
+    "addToGestureset": "Zu einem Gesten-Set hinzufügen",
     "gestureDescription": "Gesten-Beschreibung",
     "gestureGraphicsQuestion": "Welche Teile des Körpers werden für die Geste genutzt?",
     "startRecording": "Aufzeichnung starten",
@@ -1075,11 +1080,13 @@
             "color": "#19a83b"
         }
     ],
+    "objectiveExtractionChecklistQuestion": "Ist die Geste aufgrund der beantworteten Fragen für ein Gesten-Set geeignet?",
+    "objectiveCognitiveRelationshipQuestion": "Ist die Geste aufgrund der Assoziationen für ein Gesten-Set geeignet?",
     "extractionChecklistItems": [
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
-            "question": "Die Geste könnte peinlich sein.",
+            "question": "Könnte die Geste dem Nutzer peinlich sein?",
             "parameters": {
                 "used": "used",
                 "justification": "yes",
@@ -1089,7 +1096,7 @@
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
-            "question": "Die Geste könnte dem Nutzer unangenehm sein.",
+            "question": "Könnte die Geste dem Nutzer unangenehm sein?",
             "parameters": {
                 "used": "used",
                 "justification": "yes",
@@ -2954,6 +2961,11 @@
             "id": "no-plan",
             "type": "warning",
             "text": "Es wurde kein Zeitplan hinterlegt."
+        },
+        "noGestureSetsForStudy": {
+            "id": "no-gesture-sets-for-study-text",
+            "type": "warning",
+            "text": "Es wurden noch keine Gesten-Sets für diese Studie angelegt."
         }
     }
 }

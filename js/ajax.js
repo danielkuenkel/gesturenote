@@ -373,6 +373,56 @@ function saveExtractionData(data, callback) {
     });
 }
 
+function getGestureSets(callback) {
+    $.ajax({
+        url: 'includes/get-gesture-sets.php',
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function getGestureSetsForStudyId(data, callback) {
+    $.ajax({
+        url: 'includes/get-gesture-sets-for-study-id.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function saveGestureSetForStudyId(data, callback) {
+    $.ajax({
+        url: 'includes/save-gesture-set-for-study-id.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getStudiesCatalog(callback) {
     $.ajax({
         url: 'includes/get-studies.php',
