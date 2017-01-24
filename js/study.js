@@ -54,10 +54,11 @@ function renderData(data, hash) {
         // url copy clipboard view
         var absoluteStaticStudyUrl = 'https://gesturenote.de/study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
         var relativeStaticStudyUrl = 'study-prepare.php?studyId=' + data.id + '&h=' + data.urlToken;
-        $('#static-study-url').val(absoluteStaticStudyUrl);
-        $('#static-study-url').click(function () {
-            $('#static-study-url').select();
+        $('#copy-to-clipboard #static-study-url').val(absoluteStaticStudyUrl);
+        $('#copy-to-clipboard #static-study-url').click(function () {
+            $('#copy-to-clipboard #static-study-url').select();
         });
+        
         // prepare study
         if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED &&
                 now > dateFrom && now < dateTo) {
