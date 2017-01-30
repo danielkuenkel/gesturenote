@@ -58,7 +58,7 @@ function renderData(data, hash) {
         $('#copy-to-clipboard #static-study-url').click(function () {
             $('#copy-to-clipboard #static-study-url').select();
         });
-        
+
         // prepare study
         if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED &&
                 now > dateFrom && now < dateTo) {
@@ -626,6 +626,7 @@ function renderClassifiedGestures(target, type) {
             for (var i = 0; i < trigger.length; i++) {
                 var counter = 0;
                 var container = $('#template-study-container').find('#amount-container-appearance-trigger').clone();
+                TweenMax.from(container, .2, {delay: .2 + (i * .1), opacity: 0, y: -20});
                 $(target).append(container);
 
                 if (classification.type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER) {
@@ -641,7 +642,8 @@ function renderClassifiedGestures(target, type) {
                             container.find('#headline .badge').text(counter);
                         }
 
-                        var appearanceTriggerGesture = $('#template-study-container').find('#appearance-trigger-gesture').clone();
+                        var appearanceTriggerGesture = $('#template-study-container').find('#appearance-trigger-gesture').clone().removeAttr('id');
+                        appearanceTriggerGesture.attr('id', assignment.mainGestureId);
                         appearanceTriggerGesture.find('#headline-main-gesture').text(translation.gesture + ' ' + counter);
                         appearanceTriggerGesture.attr('name', assignment.mainGestureId);
 //                        appearanceTriggerGesture.find('#amount-classified-gestures').text(assignment.gestures.length);
@@ -657,7 +659,7 @@ function renderClassifiedGestures(target, type) {
                         }
 
                         if (type === POTENTIAL_GESTURES) {
-                            renderPotentialGesturesParameters(appearanceTriggerGesture, assignment, trigger[i].id)
+                            renderPotentialGesturesParameters(appearanceTriggerGesture, assignment, trigger[i].id);
                         }
                     }
                 }
@@ -845,7 +847,43 @@ function renderPotentialGestures() {
 }
 
 function renderGestureSets() {
-    console.log('render gesture sets');
+    $('#content-btn-gesture-sets').empty();
+
+    var query = getQueryParams(document.location.search);
+    getGestureSetsForStudyId({studyId: query.studyId}, function (result) {
+        if (result.status === RESULT_SUCCESS) {
+            setLocalItem(GESTURE_SETS, result.gestureSets);
+            for (var i = 0; i < result.gestureSets.length; i++) {
+                var set = result.gestureSets[i];
+                var setPanel = $('#panel-gesture-set').clone().removeAttr('id');
+                $(setPanel).find('.panel-heading .panel-heading-text').text(set.title);
+                $('#content-btn-gesture-sets').append(setPanel);
+                TweenMax.from(setPanel, .2, {delay: i * .1, opacity: 0, y: -20});
+
+//                console.log(result.gestureSets[i].gestures)
+                if (set.gestures !== null) {
+                    for (var j = 0; j < set.gestures.length; j++) {
+                        var gesture = getGestureById(set.gestures[j], ELICITED_GESTURES);
+                        var gestureThumbnail = getGestureCatalogListThumbnail(gesture, 'col-xs-6 col-sm-6 col-md-4', ELICITED_GESTURES);
+                        $(setPanel).find('#gestures-list-container').append(gestureThumbnail);
+                    }
+                } else {
+                    //append alert
+                }
+
+                $(setPanel).find('#btn-delete-gesture-set').unbind('click').bind('click', {setId: set.id}, function (event) {
+                    event.preventDefault();
+                    deleteGestureSet({setId: event.data.setId}, function (result) {
+                        if (result.status === RESULT_SUCCESS) {
+                            renderGestureSets();
+                        } else {
+                            // append alert
+                        }
+                    });
+                });
+            }
+        }
+    });
 }
 
 var currentAssignment = null;
@@ -853,7 +891,7 @@ function renderPotentialGesturesParameters(target, assignment, triggerId) {
 
     var classification = getLocalItem(CLASSIFICATION);
     if (classification.type === 'appearanceTrigger') {
-        $(target).find('#potential-parameters').append($('#potential-gesture-parameters').clone());
+        $(target).find('#potential-parameters').empty().append($('#potential-gesture-parameters').clone());
 
         // amount
         var amountRange = getAmountRange(triggerId);
@@ -916,6 +954,22 @@ function renderPotentialGesturesParameters(target, assignment, triggerId) {
             }
         }
 
+        // attached gesture sets
+        var query = getQueryParams(document.location.search);
+        getGestureSetsForStudyId({studyId: query.studyId}, function (result) {
+            if (result.status === RESULT_SUCCESS) {
+                setLocalItem(GESTURE_SETS, result.gestureSets);
+
+                var sets = getAttachedGestureSets(assignment.mainGestureId);
+                if (sets && sets.length > 0) {
+                    for (var i = 0; i < sets.length; i++) {
+                        var item = $('#attacted-gesture-set-item').clone().removeAttr('id');
+                        $(item).find('#gesture-set-title').text(sets[i].title);
+                        $(target).find('#attacted-gesture-sets-container').append(item);
+                    }
+                }
+            }
+        });
     } else if (classification.type === 'appearance') {
 
     }
@@ -925,6 +979,22 @@ function renderPotentialGesturesParameters(target, assignment, triggerId) {
         currentAssignment = getAssignmentByMainGestureId($(this).closest('.root').attr('name'));
         loadHTMLintoModal('custom-modal', 'modal-add-to-gesture-set.php', 'modal-md');
     });
+}
+
+function getAttachedGestureSets(gestureId) {
+    var sets = getLocalItem(GESTURE_SETS);
+    var array = new Array();
+    for (var i = 0; i < sets.length; i++) {
+        if (sets[i].gestures && sets[i].gestures.length > 0) {
+            for (var j = 0; j < sets[i].gestures.length; j++) {
+                if (parseInt(sets[i].gestures[j]) === parseInt(gestureId)) {
+                    array.push(sets[i]);
+                    break;
+                }
+            }
+        }
+    }
+    return array;
 }
 
 function getAssignmentByMainGestureId(mainGestureId) {

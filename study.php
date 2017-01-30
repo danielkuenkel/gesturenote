@@ -378,7 +378,9 @@ if (login_check($mysqli) == true) {
 
                         <div id="content-btn-potential-gestures" class="hidden"></div>
 
-                        <div id="content-btn-gesture-sets" class="hidden">Gestensets</div>
+                        <div id="content-btn-gesture-sets" class="hidden">
+                            
+                        </div>
                     </div>
 
                 </div>
@@ -403,7 +405,7 @@ if (login_check($mysqli) == true) {
             });
 
             function onAllExternalsLoadedSuccessfully() {
-                
+
 
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);

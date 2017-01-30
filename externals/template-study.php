@@ -833,9 +833,11 @@ include '../includes/language.php';
             <div id="accordance"><span id="label">Übereinstimmung:</span> <span class="text"></span></div>
         </div>
         <div id="parameters-cognitive-relationships" style="margin-top: 20px">
-            <div><h4 style="margin: 0"><i class="fa fa-flash" aria-hidden="true"></i> Sinnzusammenhänge</h4></div>
-            <div style="margin-top: 8px">
-                <button type="button" class="btn btn-default btn-shadow" id="btn-open-cognitive-relationships"><i class="fa fa-check-square-o"></i> Überprüfen</button>
+            <div>
+                <h4 style="margin: 0; float: left; "><i class="fa fa-flash" aria-hidden="true"></i> Sinnzusammenhänge</h4>
+                <button type="button" class="btn btn-sm btn-default btn-shadow" id="btn-open-cognitive-relationships"style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> Überprüfen</button>
+            </div>
+            <div style="margin-top: 8px; clear: both">
                 <div>
                     <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span>geeignet</span></span>
                     <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->dontKnow ?></span></span>
@@ -844,9 +846,12 @@ include '../includes/language.php';
             </div>
         </div>
         <div id="parameters-checklist" class="hidden" style="margin-top: 20px">
-            <div><h4 style="margin: 0"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Checkliste</h4></div>
-            <div style="margin-top: 8px">
-                <button type="button" class="btn btn-default btn-shadow" id="btn-open-checklist"><i class="fa fa-check-square-o"></i> Überprüfen</button>
+            <div>
+                <h4 style="margin: 0; float: left"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Checkliste</h4>
+                <button type="button" class="btn btn-sm btn-default btn-shadow" id="btn-open-checklist" style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> Überprüfen</button>
+            </div>
+
+            <div style="margin-top: 8px; clear: both">
                 <div>
                     <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span>geeignet</span></span>
                     <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->dontKnow ?></span></span>
@@ -854,11 +859,33 @@ include '../includes/language.php';
                 </div>
             </div>
         </div>
+        <div id="parameters-gesture-sets" style="margin-top: 20px">
+            <div><h4 style="margin: 0"><i class="fa fa-star" aria-hidden="true"></i> Zuweisung zu Gesten-Sets</h4></div>
+            <ul id="attacted-gesture-sets-container" style="list-style-position: inside; padding-left: 0px; margin-top: 5px"></ul>
+        </div>
 
-        <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-to-gesture-set" style="margin-top: 20px"><i class="fa fa-plus"></i> <span><?php echo $lang->addToGestureset ?></span></button>
+        <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-to-gesture-set" style="margin-top: 10px"><i class="fa fa-plus"></i> <span><?php echo $lang->addToGestureset ?></span></button>
 
     </div>
 
+    <li id="attacted-gesture-set-item" class="text">
+        <span id="gesture-set-title"></span>
+    </li>
+
+    <div class="panel panel-default" id="panel-gesture-set">
+        <div class="panel-heading">
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow" id="btn-delete-gesture-set"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span class="panel-heading-text"></span>
+        </div>
+
+        <div class="panel-body" id="item-view">
+            <div class="row" id="gestures-list-container">
+
+            </div>
+        </div>
+    </div>
 
 </div>
 

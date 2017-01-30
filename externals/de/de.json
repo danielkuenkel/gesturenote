@@ -864,7 +864,7 @@
     "gestureAssociation": "Assoziation(en)",
     "gestureAssociationQuestion": "Warum wurde diese Geste gewählt?",
     "noAssociation": "Keine Assoziation(en) verfügbar",
-    "addToGestureset": "Zu einem Gesten-Set hinzufügen",
+    "addToGestureset": "Gesten-Set-Zuweisung hinzufügen/ändern",
     "gestureDescription": "Gesten-Beschreibung",
     "gestureGraphicsQuestion": "Welche Teile des Körpers werden für die Geste genutzt?",
     "startRecording": "Aufzeichnung starten",
@@ -917,12 +917,14 @@
         "elicitedGestures": "Ermittelte Gesten"
     },
     "mainDimensions": {
-        "effectiveness": "Zweckmäßigkeit",
+        "effectiveness": "Effektivität",
         "efficiency": "Effizienz",
         "satisfaction": "Zufriedenheit"
     },
     "mainDimensionsForDimension": {
-        "purposeOfFullfillment": "effectiveness",
+        "taskAppropriateness": "effectiveness",
+        "advantage": "effectiveness",
+        "meaningfulness": "effectiveness",
         "accuracy": "effectiveness",
         "physicalFatigue": "efficiency",
         "cognitiveLoadMentalModel": "efficiency",
@@ -936,7 +938,9 @@
         "discrimination": "satisfaction"
     },
     "dimensions": {
-        "purposeOfFullfillment": "Zweckerfüllung",
+        "taskAppropriateness": "Aufgabenangemessenheit",
+        "advantage": "Vorteilhaftigkeit",
+        "meaningfulness": "Sinnhaftigkeit",
         "accuracy": "Genauigkeit & Fehlerrate",
         "physicalFatigue": "Körperliche Ermüdung",
         "cognitiveLoadMentalModel": "Kognitive Belastung & Mentales Modell",
@@ -1189,89 +1193,136 @@
     "gusOptions": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Weder noch", "Trifft eher zu", "Trifft voll und ganz zu"],
     "singleGUS": [
         {
-            "format": "gusSingle",
-            "dimension": "purposeOfFullfillment",
+            "format": "dichotomousQuestionGUS",
+            "dimension": "taskAppropriateness",
             "question": "Ich denke, dass ich mit der Geste die Aufgabe erledigen kann.",
             "parameters": {
                 "used": "used",
-                "negative": "yes"
+                "justification": "yes",
+                "justificationFor": "no"
             },
             "styleguide": "Die Geste erfüllt ihren Zweck. Betrachtung der entsprechenden Denkweise der Nutzer. Miteinbeziehung der Anwendungsdomäne und Zweckerfüllung (z.B. Geste für ein Spiel oder für ein normales Programm?). (Microsoft, 2013) Gesten sollen intuitiv/benutzbar sein, d.h. Nutzer erledigt seine Aufgabe damit effizient, einfach und intuitiv. (Microsoft, 2013; Nielsen, Störring, Moeslund, & Granum, 2004; Wachs, Kölsch, Stern, & Edan, 2011)"
         },
         {
-            "format": "gusSingle",
-            "dimension": "purposeOfFullfillment",
+            "format": "dichotomousQuestionGUS",
+            "dimension": "advantage",
             "question": "Ich denke, dass mir die Geste Vorteile gegenüber anderen Eingabegeräten bringt.",
             "parameters": {
                 "used": "used",
-                "negative": "yes"
+                "justification": "yes",
+                "justificationFor": "yes"
             },
             "styleguide": "Die Geste bringt Vorteile gegenüber anderen Eingabemodalitäten. Nutzung von Gesten nur, wenn diese der Mensch-Maschine-Interaktion einen Vorteil bringen. Wird z.B. eine virtuelle Tastatur in der Regel über andere Eingabegeräte gesteuert (z.B. Sprache, Tastatur), erscheint eine Steuerung mit Gesten nicht zweckmäßig. Oder bei hygienischen Aspekten. (Microsoft, 2013)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
+            "dimension": "meaningfulness",
+            "question": "Ich denke, dass diese Geste zur Funktion passt.",
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "no"
+            },
+            "styleguide": "Eine Geste sollte eine klare kognitive Verknüpfung zur jeweiligen Funktion aufweisen. (Wachs et al., 2011) Metaphorisch und ikonisch an die Funktion geknüpft sein. (Nielsen et al., 2004) Eine Geste sollte zur Funktion/Aktion passen. (Intel, 2012; Microsoft, 2013) Richtige Wahl eines Gestentyps für eine Aktion. (Intel, 2012)"
+        },
+        {
+            "format": "dichotomousQuestionGUS",
+            "dimension": "meaningfulness",
+            "question": "Ich denke, dass diese Geste (dennoch) besser zu einer anderen Funktion passt.",
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "yes"
+            },
+            "styleguide": "Eine Geste sollte eine klare kognitive Verknüpfung zur jeweiligen Funktion aufweisen. (Wachs et al., 2011) Metaphorisch und ikonisch an die Funktion geknüpft sein. (Nielsen et al., 2004) Eine Geste sollte zur Funktion/Aktion passen. (Intel, 2012; Microsoft, 2013) Richtige Wahl eines Gestentyps für eine Aktion. (Intel, 2012)"
+        },
+        {
+            "format": "dichotomousQuestionGUS",
+            "dimension": "meaningfulness",
+            "question": "Ich denke, dass diese Geste prägnant ist.",
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "no"
+            },
+            "styleguide": "Gesten sollten prägnant sein. (Wachs et al., 2011)"
+        },
+        {
+            "format": "dichotomousQuestionGUS",
+            "dimension": "accuracy",
+            "question": "Ich denke, dass sich die Geste von alltäglichen Bewegungen ausreichend unterscheidet.",
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "no"
+            },
+            "styleguide": "Gesten von Alltagsbewegungen unterscheidbar machen. (Microsoft, 2013; Ruiz et al., 2011; Wachs et al., 2011)"
+        },
+        {
+            "format": "dichotomousQuestionGUS",
             "dimension": "accuracy",
             "question": "Die Geste hat eine andere Systemfunktion aktiviert.",
             "parameters": {
                 "used": "used",
-                "negative": "yes"
+                "justification": "yes",
+                "justificationFor": "yes"
             },
             "styleguide": "Die Gesten müssen zuverlässig die gewünschten Funktionen aktivieren. (Ashbrook & Starner, 2010) Das Ausführen von Gesten soll keine anderen Funktionen aktivieren, d.h. keine Funktionen die nicht für spezifische Gesten hinterlegt wurden. (Ashbrook & Starner, 2010)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "accuracy",
-            "question": "Die Geste wurde immer vom System korrekt erkannt.",
+            "question": "Die Geste wurde vom System immer korrekt erkannt.",
             "parameters": {
                 "used": "used",
-                "negative": "no"
+                "justification": "yes",
+                "justificationFor": "no"
             },
             "styleguide": "Das System kann die Geste eindeutig [sicher] erkennen. (Long, Landay, & Rowe, 1999; Nielsen et al., 2004) Eine Gesteninteraktion sollte präzise und zuverlässig sein. (Microsoft, 2013)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "accuracy",
             "question": "Das System hat ausreichend schnell auf die Geste reagiert.",
             "parameters": {
                 "used": "used",
-                "negative": "no"
+                "justification": "no",
+                "justificationFor": "always"
             },
             "styleguide": "Aus praktischen Gründen sollte ein Gesteninterface Daten in Echtzeit verarbeiten können. (Wachs et al., 2011) Aktionen sollten unmittelbares Feedback liefern. (Leap Motion, n.d.-a) Eine Gesteninteraktion sollte schnell sein. (Microsoft, 2013)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "physicalFatigue",
             "question": "Ich denke, dass die Geste ermüdend ist und mich körperlich zu sehr fordert.",
             "parameters": {
                 "used": "used",
-                "negative": "yes"
+                "justification": "yes",
+                "justificationFor": "yes"
             },
             "styleguide": "Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011) Ermüdung vorbeugen, indem Gesten (für Intel) so designt werden, dass sie mit einem Ellbogen auf dem Tisch ausgeführt werden können Kurze Gesten, die kleine Pausen zulassen und keine präzisen Eingaben erfordern wirken Ermüdung entgegen. (Intel, 2012) Bei häufiger Verwendung sollen Gesten nicht ermüdend sein. (Microsoft, 2013; Nielsen et al., 2004)"
         },
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
-            "question": "Ich denke, dass das Feedback zur Geste passt.",
+            "question": "Ich kenne diese Geste von einem anderen Gerät oder anderen Erfahrungen.",
             "parameters": {
                 "used": "used",
                 "justification": "yes",
-                "justificationFor": "no"
+                "justificationFor": "yes"
             },
-            "styleguide": "Es gibt Systeme mit vordefinierten Gestensets oder nutzerdefinierten Vokabularen. Hier sollte die kognitive Belastung der Nutzer in Hinblick auf die Auswahl oder das Training von Gesten und das dazugehörige Feedback beachtet werden. (Wachs u. a., 2011)"
+            "styleguide": "Berücksichtigung von Erwartungen aus anderen üblichen Eingabemechanismen (Touch, Tastatur, Maus, etc.). (Microsoft, 2013)"
         },
         {
-            "format": "alternativeQuestion",
+            "format": "dichotomousQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
-            "question": "Ich denke, dass diese Geste besser zu einer anderen Funktion passt.",
+            "question": "Ich denke, dass auch andere Anwendungen diese Geste nutzen könnten.",
             "parameters": {
                 "used": "used",
                 "justification": "yes",
-                "justificationFor": "selectOne",
-                "optionalanswer": "yes",
-                "alternative": "triggers",
-                "alternativeFor": "alternativeGesture"
+                "justificationFor": "yes"
             },
-            "styleguide": "Eine Geste sollte eine klare kognitive Verknüpfung zur jeweiligen Funktion aufweisen. (Wachs et al., 2011) Metaphorisch und ikonisch an die Funktion geknüpft sein. (Nielsen et al., 2004) Eine Geste sollte zur Funktion/Aktion passen. (Intel, 2012; Microsoft, 2013) Richtige Wahl eines Gestentyps für eine Aktion. (Intel, 2012)"
+            "styleguide": "Gesten generalisieren. (Ruiz, Li, & Lank, 2011)"
         },
         {
             "format": "dichotomousQuestionGUS",
@@ -1283,28 +1334,6 @@
                 "justificationFor": "no"
             },
             "styleguide": "Konsistentes Design von Gestensets, da Menschen sich maximal 6 Gesten merken können. (Microsoft, 2013)"
-        },
-        {
-            "format": "dichotomousQuestionGUS",
-            "dimension": "cognitiveLoadMentalModel",
-            "question": "Ich kenne diese Geste von einem anderen Gerät oder anderen Erfahrungen.",
-            "parameters": {
-                "used": "used",
-                "justification": "yes",
-                "justificationFor": "yes"
-            },
-            "styleguide": "Berücksichtigung von Erwartungen aus anderen üblichen Eingabemechanismen (Touch, Tastatur, Maus, etc.). (Microsoft, 2013) "
-        },
-        {
-            "format": "dichotomousQuestionGUS",
-            "dimension": "cognitiveLoadMentalModel",
-            "question": "Ich denke, dass auch andere Anwendungen diese Geste nutzen könnten.",
-            "parameters": {
-                "used": "used",
-                "justification": "yes",
-                "justificationFor": "always"
-            },
-            "styleguide": "Gesten generalisieren. (Ruiz, Li, & Lank, 2011)"
         },
         {
             "format": "alternativeQuestion",
@@ -1321,254 +1350,200 @@
             "styleguide": "Kognitive Belastung durch die Wahl von bekannten [angeborenen] und zu erlernenden Gesten abwägen. (Intel, 2012)"
         },
         {
+            "format": "dichotomousQuestionGUS",
+            "dimension": "cognitiveLoadMentalModel",
+            "question": "Ich denke, dass das Feedback nicht zur Geste passt. ",
+            "parameters": {
+                "used": "used",
+                "justification": "yes",
+                "justificationFor": "yes"
+            },
+            "styleguide": "Es gibt Systeme mit vordefinierten Gestensets oder nutzerdefinierten Vokabularen. Hier sollte die kognitive Belastung der Nutzer in Hinblick auf die Auswahl oder das Training von Gesten und das dazugehörige Feedback beachtet werden. (Wachs et al., 2011)"
+        },
+        {
             "format": "gusSingle",
-            "dimension": "learnabilityMemorability",
+            "dimension": "dichotomousQuestionGUS",
             "question": "Ich denke, dass ich mir diese Geste sehr gut merken kann.",
             "parameters": {
                 "used": "used",
-                "negative": "no"
+                "justification": "yes",
+                "justificationFor": "no"
             },
             "styleguide": "Eine Geste / ein Gestenset sollte einfach zu erlernen/merken sein. (Ashbrook & Starner, 2010; Long et al., 1999; Nielsen et al., 2004; Wachs et al., 2011) Nutzer müssen sich an Bewegungsabläufe und die mit den Gesten verbundenen Funktionen/Aktionen erinnern. (Wachs et al., 2011)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "learnabilityMemorability",
             "question": "Ich glaube, dass die meisten Menschen sich die Geste gut merken können.",
             "parameters": {
                 "used": "used",
-                "negative": "no"
+                "justification": "yes",
+                "justificationFor": "no"
             },
             "styleguide": "Eine Geste / ein Gestenset sollte einfach zu erlernen/merken sein. (Ashbrook & Starner, 2010; Long et al., 1999; Nielsen et al., 2004; Wachs et al., 2011) Nutzer müssen sich an Bewegungsabläufe und die mit den Gesten verbundenen Funktionen/Aktionen erinnern. (Wachs et al., 2011)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass die Geste zu komplex ist, um sie sich zu merken.",
             "parameters": {
                 "used": "used",
-                "negative": "yes"
+                "justification": "yes",
+                "justificationFor": "yes"
             },
             "styleguide": "Gesten sollten nicht zu komplex sein. (Microsoft, 2013)"
         },
         {
-            "format": "gusSingle",
-            "dimension": "learnabilityMemorability",
-            "question": "Ich denke, dass die Geste zu lang ist, um sie sich zu merken.",
-            "parameters": {
-                "used": "used",
-                "negative": "yes"
-            },
-            "styleguide": "Gesten sollten nicht zu komplex sein. (Microsoft, 2013)"
-        },
-        {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass die Geste zu einfach ist, um sie sich zu merken.",
             "parameters": {
                 "used": "used",
-                "negative": "yes"
+                "justification": "yes",
+                "justificationFor": "yes"
             },
             "styleguide": "Gesten sollten nicht zu einfach sein. (Microsoft, 2013)"
         },
         {
-            "format": "gusSingle",
-            "dimension": "learnabilityMemorability",
-            "question": "Ich denke, dass die Geste prägnant ist.",
-            "parameters": {
-                "used": "used",
-                "negative": "no"
-            },
-            "styleguide": "Gesten sollten prägnant sein. (Wachs et al., 2011)"
-        },
-        {
-            "format": "gusSingle",
-            "dimension": "physicalContext",
-            "question": "Ich denke, dass sich die Geste von alltäglichen Bewegungen ausreichend unterscheidet.",
-            "parameters": {
-                "used": "used",
-                "negative": "no"
-            },
-            "styleguide": "Gesten von Alltagsbewegungen unterscheidbar machen. (Microsoft, 2013; Ruiz et al., 2011; Wachs et al., 2011)"
-        },
-        {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "physicalContext",
             "question": "Ich denke, dass immer genügend Platz für die Geste da ist.",
             "parameters": {
                 "used": "used",
-                "negative": "no"
+                "justification": "yes",
+                "justificationFor": "no"
             },
             "styleguide": "Das Umfeld bietet den benötigten Raum für die Interaktionen. Der Interaktionsraum muss gesichert sein. (Eigene Erfahrungen) Den gegebenen Interaktionsraum ausnutzen, d.h. keine zu kleinen und keine zu großen Gesten designen. (Intel, 2012)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "physicalContext",
-            "question": "Ich denke, dass die Geste immer unmittelbar genutzt werden kann. Meine Kleidung hat mich z.B. beim der Ausführung nicht gestört.",
+            "question": "Ich denke, dass die Geste immer unmittelbar genutzt werden kann. Meine Kleidung hat mich z.B. beim der Ausführung der Geste nicht gestört.",
             "parameters": {
                 "used": "used",
-                "negative": "no"
+                "justification": "yes",
+                "justificationFor": "no"
             },
             "styleguide": "<em>Komm wie du bist</em>. Es sollten keine Anforderungen an den Benutzer gestellt werden (z.B. das Tragen von Handschuhen oder Markern. Der Nutzer soll sich keine Gedanken über die richtige Umgebung machen müssen). (Wachs et al., 2011)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "physicalContext",
             "question": "Ich denke, dass die Geste andere Personen im Umfeld beeinträchtigt.",
             "parameters": {
                 "used": "used",
-                "negative": "yes"
+                "justification": "yes",
+                "justificationFor": "no"
             },
             "styleguide": "Die Geste beeinträchtigt beim Ausführen nicht das Umfeld (z.B. durch Schlagen). (Eigene Erfahrungen)"
         },
         {
-            "format": "gusSingle",
-            "dimension": "naturalnessIntuitiveness",
-            "question": "Ich denke, dass die Geste zur Funktion passt.",
-            "parameters": {
-                "used": "used",
-                "negative": "no"
-            },
-            "styleguide": "Eine Geste sollte eine klare kognitive Verknüpfung zur jeweiligen Funktion aufweisen. (Wachs et al., 2011) Metaphorisch und ikonisch an die Funktion geknüpft sein. (Nielsen et al., 2004) Eine Geste sollte zur Funktion/Aktion passen. (Intel, 2012; Microsoft, 2013) Richtige Wahl eines Gestentyps für eine Aktion. (Intel, 2012)"
-        },
-        {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "naturalnessIntuitiveness",
             "question": "Ich denke, dass die Geste zu abstrakt ist, d.h. sie hat kein Bezug zur Realität.",
             "parameters": {
                 "used": "used",
-                "negative": "yes"
+                "justification": "no",
+                "justificationFor": "yes"
             },
             "styleguide": "Es sind abstrakte Gesten zu vermeiden, die keinen Bezug zur Realität haben. (Intel, 2012)"
         },
         {
             "format": "dichotomousQuestionGUS",
             "dimension": "naturalnessIntuitiveness",
-            "question": "Ich denke, dass die Geste, aufgrund Ihrer Funktion, besser einhändig funktioniert.",
+            "question": "Ich denke, dass die Geste, aufgrund Ihrer ausgelösten Funktion, besser einhändig funktioniert.",
             "parameters": {
                 "used": "used",
-                "justification": "yes",
+                "justification": "no",
                 "justificationFor": "yes"
             },
             "styleguide": "Für eine vielfältige natürliche Interaktion sollten Ein- und Zweihandgesten benutzt werden. Für kritische Ein- und für unkritische Zweihandgesten. (Microsoft, 2013) Je nach Aufgabe/Funktion sind Zweihandgesten zu unterstützen. (Intel, 2012)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "comfortErgonomics",
-            "question": "Ich denke, dass die Geste bequem ist.",
+            "question": "Ich denke, dass die Geste für mich bequem bzw. komfortabel ist.",
             "parameters": {
                 "used": "used",
-                "negative": "no"
+                "justification": "yes",
+                "justificationFor": "no"
             },
-            "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011)"
+            "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011) Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011). Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012) Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "comfortErgonomics",
-            "question": "Ich denke, dass die Geste komfortabel ist.",
+            "question": "Ich glaube, dass die Geste für die meisten Menschen bequem bzw. komfortabel ist.",
             "parameters": {
                 "used": "used",
-                "negative": "no"
+                "justification": "yes",
+                "justificationFor": "no"
             },
-            "styleguide": "Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011). Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012)"
+            "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011) Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011). Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012) Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "comfortErgonomics",
-            "question": "Ich glaube, dass die meisten Menschen die Geste einfach ausführen können.",
+            "question": "Ich denke, dass die Geste von der Bewegung her komisch bzw. seltsam ist.",
             "parameters": {
                 "used": "used",
-                "negative": "no"
-            },
-            "styleguide": "Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004)"
-        },
-        {
-            "format": "gusSingle",
-            "dimension": "comfortErgonomics",
-            "question": "Ich denke, dass die Geste von der Bewegung her komisch ist.",
-            "parameters": {
-                "used": "used",
-                "negative": "yes"
+                "justification": "no",
+                "justificationFor": "yes"
             },
             "styleguide": "Eine Geste sollte von der Bewegung her nicht komisch sein. (Eigene Erfahrungen) Beachtung der genauen Körperhaltung eines Nutzers. (Intel, 2012; Microsoft, 2013)"
         },
         {
-            "format": "gusSingle",
-            "dimension": "comfortErgonomics",
-            "question": "Ich denke, dass die Geste von der Bewegung zu komplex ist.",
-            "parameters": {
-                "used": "used",
-                "negative": "yes"
-            },
-            "styleguide": "Eine Geste sollte nicht zu komplex sein. (Leap Motion, n.d.-a; Microsoft, 2013)"
-        },
-        {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "easeOfUse",
             "question": "Für die Geste gab es immer ausreichend Hilfestellung.",
             "parameters": {
                 "used": "used",
-                "negative": "no"
+                "justification": "yes",
+                "justificationFor": "no"
             },
             "styleguide": "Gesten erlernbar machen. (Intel, 2012; Microsoft, 2013) Es sollten ausreichend Hilfestellungen oder Alternativen bereitgestellt werden. (Leap Motion, n.d.-b) Dem Nutzer sollte die Gesten auf irgendeine Weise beigebracht werden. (Intel, 2012) Integrierte leicht verständliche Nutzerschulung für jede neue Interaktion anbieten. (Microsoft, 2013)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
-            "question": "Ich fühle mich beim Ausführen der Geste wohl. Die Geste ist z.B. nicht peinlich.",
+            "question": "Ich fühle mich beim Ausführen der Geste wohl. Die Geste ist z.B. nicht komisch oder peinlich.",
             "parameters": {
                 "used": "used",
-                "negative": "yes"
+                "justification": "no",
+                "justificationFor": "no"
             },
             "styleguide": "Wohlfühlfaktor: Bloßstellung oder Unbehagen beim Ausführen von Gesten ist zu vermeiden. (Eigene Erfahrungen) Gesten sollten unverfänglich sein (z.B. Mittelfingergeste im Auto). (Eigene Erfahrungen) Berücksichtigung soziologischer Faktoren. Der Benutzer sollte sich während der Ausführung in dessen Umgebung wohlfühlen. (Microsoft, 2013)"
         },
         {
             "format": "dichotomousQuestionGUS",
-            "dimension": "uxSatisfactionOfUse",
-            "question": "Ich denke, dass die Geste Einschränkungen mit sich bringt.",
+            "dimension": "socialAcceptance",
+            "question": "Ich denke, dass die Geste andere Personen im Umfeld stört oder irritiert.",
             "parameters": {
                 "used": "used",
                 "justification": "yes",
                 "justificationFor": "yes"
             },
-            "styleguide": "Es sollten die körperlichen und kognitiven Fähigkeiten des Nutzers berücksichtigt werden. (Microsoft, 2013) Des Weiteren ist auf den Kontext des Nutzers zu achten, d.h. Kleidung, Einschränkungen, etc. (Eigene Erfahrungen)"
+            "styleguide": "Die Gestensteuerung sollte Kollegen oder anderen Personen im Umfeld nicht stören (z.B. durch laute Geräusche). (Eigene Erfahrungen) Andere Personen im Umfeld sollten nicht irritiert werden (z.B. wenn die Person im Umfeld Angst bekommt). (Eigene Erfahrungen)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "socialAcceptance",
-            "question": "Ich denke, dass die Geste andere Personen im Umfeld stört.",
+            "question": "Ich denke, dass die Geste im sozialen Umfeld akzeptiert wird.",
             "parameters": {
                 "used": "used",
-                "negative": "yes"
-            },
-            "styleguide": "Die Gestensteuerung sollte Kollegen oder anderen Personen im Umfeld nicht stören (z.B. durch laute Geräusche). (Eigene Erfahrungen)"
-        },
-        {
-            "format": "gusSingle",
-            "dimension": "socialAcceptance",
-            "question": "Ich denke, dass die Geste andere Personen irritiert.",
-            "parameters": {
-                "used": "used",
-                "negative": "yes"
-            },
-            "styleguide": "Andere Personen im Umfeld sollten nicht irritiert werden (z.B. wenn die Person im Umfeld Angst bekommt). (Eigene Erfahrungen)"
-        },
-        {
-            "format": "gusSingle",
-            "dimension": "socialAcceptance",
-            "question": "Ich denke, dass die Geste sozialverträglich ist.",
-            "parameters": {
-                "used": "used",
-                "negative": "no"
+                "justification": "yes",
+                "justificationFor": "no"
             },
             "styleguide": "Eine Geste sollte sozial akzeptiert (sozialverträglich) sein. (Ashbrook & Starner, 2010)"
         },
         {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "discrimination",
             "question": "Ich denke, dass die Geste diskriminierend ist (z.B. nur für Linkshänder geeignet oder in bestimmtem Kulturraum unangemessen).",
             "parameters": {
                 "used": "used",
-                "negative": "yes"
+                "justification": "yes",
+                "justificationFor": "yes"
             },
             "styleguide": "Gesten sollten für alle Anwender benutzbar sein. D.h. Linkshänder sollte nicht ausgeschlossen werden. (Intel, 2012; Microsoft, 2013) Oder andere Kulturkreise lehnen die Eingabemodalität aufgrund der gewählten Gesten ab."
         }
@@ -1576,7 +1551,7 @@
     "multipleGUS": [
         {
             "format": "groupingQuestionGUS",
-            "dimension": "purposeOfFullfillment",
+            "dimension": "taskAppropriateness",
             "question": "Ich denke, dass ich mit einer oder mehreren Gesten nicht die Aufgaben erledigen kann.",
             "parameters": {
                 "used": "used",
@@ -1589,8 +1564,8 @@
         },
         {
             "format": "groupingQuestionGUS",
-            "dimension": "purposeOfFullfillment",
-            "question": "Ich denke, dass mir eine Gesteuerung Vorteile gegenüber anderen Eingabegeräten bringt (z.B. gegenüber Maus und Tastatur).",
+            "dimension": "advantage",
+            "question": "Ich denke, dass mir eine oder mehrere Gesten Vorteile gegenüber anderen Eingabegeräten bringen (z.B. gegenüber Maus und Tastatur).",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -1599,6 +1574,58 @@
                 "optionSource": "gestures"
             },
             "styleguide": "Die Geste bringt Vorteile gegenüber anderen Eingabemodalitäten. Nutzung von Gesten nur, wenn diese der Mensch-Maschine-Interaktion einen Vorteil bringen. Wird z.B. eine virtuelle Tastatur in der Regel über andere Eingabegeräte gesteuert (z.B. Sprache, Tastatur), erscheint eine Steuerung mit Gesten nicht zweckmäßig. Oder bei hygienischen Aspekten. (Microsoft, 2013)"
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "meaningfulness",
+            "question": "Ich denke, dass eine oder mehrere Gesten nicht zu den Funktionen passen.",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": "Eine Geste sollte eine klare kognitive Verknüpfung zur jeweiligen Funktion aufweisen. (Wachs et al., 2011) Metaphorisch und ikonisch an die Funktion geknüpft sein. (Nielsen et al., 2004) Eine Geste sollte zur Funktion/Aktion passen. (Intel, 2012; Microsoft, 2013) Richtige Wahl eines Gestentyps für eine Aktion. (Intel, 2012)"
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "meaningfulness",
+            "question": "Ich denke, dass eine oder mehrere Gesten besser zu anderen Funktionen passen.",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": "Eine Geste sollte eine klare kognitive Verknüpfung zur jeweiligen Funktion aufweisen. (Wachs et al., 2011) Metaphorisch und ikonisch an die Funktion geknüpft sein. (Nielsen et al., 2004) Eine Geste sollte zur Funktion/Aktion passen. (Intel, 2012; Microsoft, 2013) Richtige Wahl eines Gestentyps für eine Aktion. (Intel, 2012)"
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "meaningfulness",
+            "question": "Ich denke, dass eine oder mehrere Gesten nicht prägnant sind.",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": "Gesten sollten prägnant sein. (Wachs et al., 2011)"
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "accuracy",
+            "question": "Ich denke, dass sich eine oder mehrere Gesten nicht ausreichend von alltäglichen Bewegungen unterschieden.",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
         },
         {
             "format": "groupingQuestionGUS",
@@ -1655,7 +1682,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "cognitiveLoadMentalModel",
-            "question": "Das Feedback passt nicht zu einer oder mehreren Gesten",
+            "question": "Ich kenne eine oder mehrere Gesten von anderen Geräten oder anderen Erfahrungen.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -1663,20 +1690,7 @@
                 "justificationFor": "selectOne",
                 "optionSource": "gestures"
             },
-            "styleguide": "Es gibt Systeme mit vordefinierten Gestensets oder nutzerdefinierten Vokabularen. Hier sollte die kognitive Belastung der Nutzer in Hinblick auf die Auswahl oder das Training von Gesten und das dazugehörige Feedback beachtet werden. (Wachs et al., 2011)"
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "cognitiveLoadMentalModel",
-            "question": "Eine oder mehrere Gesten passen besser zu anderen Funktionen.",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "yes",
-                "justificationFor": "selectOne",
-                "optionSource": "gestures"
-            },
-            "styleguide": "Eine Geste sollte eine klare kognitive Verknüpfung zur jeweiligen Funktion aufweisen. (Wachs et al., 2011) Metaphorisch und ikonisch an die Funktion geknüpft sein. (Nielsen et al., 2004) Eine Geste sollte zur Funktion/Aktion passen. (Intel, 2012; Microsoft, 2013) Richtige Wahl eines Gestentyps für eine Aktion. (Intel, 2012)"
+            "styleguide": "Berücksichtigung von Erwartungen aus anderen üblichen Eingabemechanismen (Touch, Tastatur, Maus, etc.). (Microsoft, 2013)"
         },
         {
             "format": "groupingQuestionGUS",
@@ -1690,19 +1704,6 @@
                 "optionSource": "gestures"
             },
             "styleguide": "Konsistentes Design von Gestensets, da Menschen sich maximal 6 Gesten merken können. (Microsoft, 2013)"
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "cognitiveLoadMentalModel",
-            "question": "Ich kenne eine oder mehrere Gesten von einem anderen Gerät oder anderen Erfahrungen.",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "yes",
-                "justificationFor": "selectOne",
-                "optionSource": "gestures"
-            },
-            "styleguide": "Berücksichtigung von Erwartungen aus anderen üblichen Eingabemechanismen (Touch, Tastatur, Maus, etc.). (Microsoft, 2013)"
         },
         {
             "format": "groupingQuestionGUS",
@@ -1729,6 +1730,41 @@
                 "optionSource": "gestures"
             },
             "styleguide": "Kognitive Belastung durch die Wahl von bekannten und zu erlernenden Gesten abwägen. (Intel, 2012)"
+        },
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "cognitiveLoadMentalModel",
+            "question": "Das Feedback passt nicht zu einer oder mehreren Gesten.",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": "Es gibt Systeme mit vordefinierten Gestensets oder nutzerdefinierten Vokabularen. Hier sollte die kognitive Belastung der Nutzer in Hinblick auf die Auswahl oder das Training von Gesten und das dazugehörige Feedback beachtet werden. (Wachs et al., 2011)"
+        },
+        {
+            "format": "dichotomousQuestionGUS",
+            "dimension": "cognitiveLoadMentalModel",
+            "question": "Ich denke, dass man sich zu viele Gesten merken muss.",
+            "parameters": {
+                "used": "used",
+                "justification": "no",
+                "justificationFor": "yes"
+            },
+            "styleguide": "Konsistentes Design von Gestensets. Menschen können sich maximal 6 Gesten merken. (Microsoft, 2013)"
+        },
+        {
+            "format": "dichotomousQuestionGUS",
+            "dimension": "cognitiveLoadMentalModel",
+            "question": "Ich denke, dass man sich zu viele neue Gesten merken muss.",
+            "parameters": {
+                "used": "used",
+                "justification": "no",
+                "justificationFor": "yes"
+            },
+            "styleguide": "Konsistentes Design von Gestensets. Menschen können sich maximal 6 Gesten merken. (Microsoft, 2013)"
         },
         {
             "format": "groupingQuestionGUS",
@@ -1772,19 +1808,6 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "learnabilityMemorability",
-            "question": "Ich denke, dass eine oder mehrere Gesten zu lang sind, um sie sich zu merken.",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "no",
-                "justificationFor": "unselected",
-                "optionSource": "gestures"
-            },
-            "styleguide": "Gesten sollten nicht zu komplex sein. (Microsoft, 2013)"
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "learnabilityMemorability",
             "question": "Ich denke, dass eine oder mehrere Gesten zu einfach sind, um sie sich zu merken.",
             "parameters": {
                 "used": "used",
@@ -1794,54 +1817,6 @@
                 "optionSource": "gestures"
             },
             "styleguide": "Gesten sollten nicht zu einfach sein. (Microsoft, 2013)"
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "learnabilityMemorability",
-            "question": "Ich denke, dass eine oder mehrere Gesten nicht prägnant sind.",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "no",
-                "justificationFor": "unselected",
-                "optionSource": "gestures"
-            },
-            "styleguide": "Gesten sollten prägnant sein. (Wachs et al., 2011)"
-        },
-        {
-            "format": "dichotomousQuestionGUS",
-            "dimension": "learnabilityMemorability",
-            "question": "Ich denke, dass man sich zu viele Gesten merken muss.",
-            "parameters": {
-                "used": "used",
-                "justification": "no",
-                "justificationFor": "unselected"
-            },
-            "styleguide": "Konsistentes Design von Gestensets. Menschen können sich maximal 6 Gesten merken. (Microsoft, 2013)"
-        },
-        {
-            "format": "dichotomousQuestionGUS",
-            "dimension": "learnabilityMemorability",
-            "question": "Ich denke, dass man sich zu viele neue Gesten merken muss.",
-            "parameters": {
-                "used": "used",
-                "justification": "no",
-                "justificationFor": "unselected"
-            },
-            "styleguide": "Konsistentes Design von Gestensets. Menschen können sich maximal 6 Gesten merken. (Microsoft, 2013)"
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "physicalContext",
-            "question": "Ich denke, dass sich eine oder mehrere Gesten nicht ausreichend von alltäglichen Bewegungen unterscheiden.",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "yes",
-                "justificationFor": "selectOne",
-                "optionSource": "gestures"
-            },
-            "styleguide": "Gesten von Alltagsbewegungen unterscheidbar machen. (Microsoft, 2013; Ruiz et al., 2011; Wachs et al., 2011)"
         },
         {
             "format": "groupingQuestionGUS",
@@ -1859,7 +1834,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "physicalContext",
-            "question": "Eine oder mehrere Gesten können nicht unmittelbar genutzt werden. Meine Kleidung hat mich z.B. beim der Ausführung nicht gestört.",
+            "question": "Eine oder mehrere Gesten können nicht unmittelbar genutzt werden. Meine Kleidung hat mich z.B. beim Ausführen der jeweiligen Geste gestört.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -1885,19 +1860,6 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "naturalnessIntuitiveness",
-            "question": "Ich denke, dass eine oder mehrere Gesten nicht zu ihren Funktionen passen.",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "no",
-                "justificationFor": "unselected",
-                "optionSource": "gestures"
-            },
-            "styleguide": "Eine Geste sollte eine klare kognitive Verknüpfung zur jeweiligen Funktion aufweisen. (Wachs et al., 2011) Metaphorisch und ikonisch an die Funktion geknüpft sein. (Nielsen et al., 2004) Eine Geste sollte zur Funktion/Aktion passen. (Intel, 2012; Microsoft, 2013) Richtige Wahl eines Gestentyps für eine Aktion. (Intel, 2012)"
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "naturalnessIntuitiveness",
             "question": "Ich denke, dass eine oder mehrere Gesten zu abstrakt sind.",
             "parameters": {
                 "used": "used",
@@ -1911,12 +1873,12 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "naturalnessIntuitiveness",
-            "question": "Ich denke, dass eine oder mehrere Gesten besser einhändig funktionieren. ",
+            "question": "Ich denke, dass eine oder mehrere Gesten aufgrund ihrer ausgelösten Funktionen besser einhändig funktionieren.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
-                "justification": "no",
-                "justificationFor": "unselected",
+                "justification": "yes",
+                "justificationFor": "selectOne",
                 "optionSource": "gestures"
             },
             "styleguide": "Für eine vielfältige natürliche Interaktion sollten Ein- und Zweihandgesten benutzt werden. Für kritische Ein- und für unkritische Zweihandgesten. (Microsoft, 2013) Je nach Aufgabe/Funktion sind Zweihandgesten zu unterstützen. (Intel, 2012)"
@@ -1924,33 +1886,20 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "comfortErgonomics",
-            "question": "Ich denke, dass eine oder mehrere Gesten zu unbequem sind.",
+            "question": "Eine oder mehrere Gesten sind für mich unbequem bzw. unkomfortabel.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
-                "justification": "no",
-                "justificationFor": "unselected",
+                "justification": "yes",
+                "justificationFor": "selectOne",
                 "optionSource": "gestures"
             },
-            "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011)"
+            "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011) Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011). Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012) Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004)"
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "comfortErgonomics",
-            "question": "Ich denke, dass eine oder mehrere Gesten unkomfortabel sind.",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "no",
-                "justificationFor": "unselected",
-                "optionSource": "gestures"
-            },
-            "styleguide": "Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011). Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012)"
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "comfortErgonomics",
-            "question": "Ich glaube, dass die meisten Menschen eine oder mehrere Gesten nicht einfach ausführen können.",
+            "question": "Ich glaube, dass eine oder mehrere Gesten für die meisten Menschen unbequem bzw. unkomfortabel sind.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -1958,12 +1907,12 @@
                 "justificationFor": "selectOption",
                 "optionSource": "gestures"
             },
-            "styleguide": "Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004)"
+            "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011) Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011). Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012) Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004)"
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "comfortErgonomics",
-            "question": "Ich denke, dass eine oder mehrere Gesten von der Bewegung her komisch sind.",
+            "question": "Ich denke, dass eine oder mehrere Gesten von der Bewegung her komisch bzw. seltsam sind.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -1974,32 +1923,20 @@
             "styleguide": "Eine Geste sollte von der Bewegung her nicht komisch sein. (Eigene Erfahrungen) Beachtung der genauen Körperhaltung eines Nutzers. (Intel, 2012; Microsoft, 2013)"
         },
         {
-            "format": "groupingQuestionGUS",
-            "dimension": "comfortErgonomics",
-            "question": "Ich denke, dass eine oder mehrere Gesten von der Bewegung zu komplex sind.",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "no",
-                "justificationFor": "unselected",
-                "optionSource": "gestures"
-            },
-            "styleguide": "Eine Geste sollte nicht zu komplex sein. (Leap Motion, n.d.-a; Microsoft, 2013)"
-        },
-        {
-            "format": "gusSingle",
+            "format": "dichotomousQuestionGUS",
             "dimension": "easeOfUse",
             "question": "Ich denke, dass es ausreichend Hilfestellung für die Bedienung des Systems mit den Gesten gibt.",
             "parameters": {
                 "used": "used",
-                "negative": "no"
+                "justification": "yes",
+                "justificationFor": "no"
             },
             "styleguide": "Gesten erlernbar machen. (Intel, 2012; Microsoft, 2013) Es sollten ausreichend Hilfestellungen oder Alternativen bereitgestellt werden. (Leap Motion, n.d.-b) Dem Nutzer sollte die Gesten auf irgendeine Weise beigebracht werden. (Intel, 2012) Integrierte leicht verständliche Nutzerschulung für jede neue Interaktion anbieten. (Microsoft, 2013)"
         },
         {
             "format": "groupingQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
-            "question": "Ich denke, dass ich mich bei der Ausführung einer oder mehrerer Gesten nicht wohl fühle. Einige Gesten sind z.B. peinlich.",
+            "question": "Ich denke, dass ich mich bei der Ausführung einer oder mehrerer Gesten nicht wohl fühle. Einige Gesten sind z.B. komisch oder peinlich.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -2008,19 +1945,6 @@
                 "optionSource": "gestures"
             },
             "styleguide": "Wohlfühlfaktor: Bloßstellung oder Unbehagen beim Ausführen von Gesten ist zu vermeiden. (Eigene Erfahrungen) Gesten sollten unverfänglich sein (z.B. Mittelfingergeste im Auto). (Eigene Erfahrungen) Berücksichtigung soziologischer Faktoren. Der Benutzer sollte sich während der Ausführung in dessen Umgebung wohlfühlen. (Microsoft, 2013)"
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "uxSatisfactionOfUse",
-            "question": "Ich denke, dass eine oder mehrere Gesten nicht ohne Einschränkungen von mir genutzt werden können (motorisch als auch mental).",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "yes",
-                "justificationFor": "selectOne",
-                "optionSource": "gestures"
-            },
-            "styleguide": "Es sollten die körperlichen und kognitiven Fähigkeiten des Nutzers berücksichtigt werden. (Microsoft, 2013) Des Weiteren ist auf den Kontext des Nutzers zu achten, d.h. Kleidung, Einschränkungen, etc. (Eigene Erfahrungen)"
         },
         {
             "format": "openQuestionGUS",
@@ -2043,7 +1967,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "socialAcceptance",
-            "question": "Ich denke, dass eine oder mehrere Gesten andere Personen im Umfeld stören.",
+            "question": "Ich denke, dass eine oder mehrere Gesten andere Personen im Umfeld stören oder irritieren.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -2056,20 +1980,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "socialAcceptance",
-            "question": "Ich denke, dass eine oder mehrere Gesten andere Personen irritieren.",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "yes",
-                "justificationFor": "selectOne",
-                "optionSource": "gestures"
-            },
-            "styleguide": "Andere Personen im Umfeld sollten nicht irritiert werden (z.B. wenn die Person im Umfeld Angst bekommt). (Eigene Erfahrungen)"
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "socialAcceptance",
-            "question": "Ich denke, dass eine oder mehrere Gesten nicht sozialverträglich sind.",
+            "question": "Ich denke, dass eine oder mehrere Gesten nicht im sozialen Umfeld akzeptiert werden würden.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -2082,7 +1993,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "discrimination",
-            "question": "Ich denke, dass eine oder mehrere Gesten diskriminierend sind? (z.B. nur für Rechts- oder nur für Linkshänder geeignet sind)",
+            "question": "Ich denke, dass eine oder mehrere Gesten diskriminierend sind. Z.B. nur für Rechts- oder nur für Linkshänder geeignet. Oder andere Kulturkreise lehnen die Eingabemodalität aufgrund der gewählten Gesten ab.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -2188,19 +2099,6 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
-            "question": "Welche Gesten waren dem Nutzer peinlich? Gibt es Hinweise für Unbehagen?",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "yes",
-                "justificationFor": "selectOne",
-                "optionSource": "gestures"
-            },
-            "styleguide": ""
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "uxSatisfactionOfUse",
             "question": "Welche Gesten führten zu Einschränkungen beim Ausführen? (z.B. durch Kleidung, etc.)",
             "parameters": {
                 "used": "used",
@@ -2214,7 +2112,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "socialAcceptance",
-            "question": "Welche Gesten haben andere Personen im Umfeld gestört?",
+            "question": "Welche Gesten waren dem Nutzer peinlich? Gibt es Hinweise für Unbehagen?",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -2227,7 +2125,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "socialAcceptance",
-            "question": "Welche Gesten haben andere Personen im Umfeld irritiert?",
+            "question": "Welche Gesten haben andere Personen im Umfeld gestört oder irritiert?",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -2241,7 +2139,7 @@
     "observationsScenario": [
         {
             "format": "groupingQuestionGUS",
-            "dimension": "purposeOfFullfillment",
+            "dimension": "taskAppropriateness",
             "question": "Mit welchen Gesten konnte der Benutzer die Aufgaben nicht erledigen?",
             "parameters": {
                 "used": "used",
@@ -2254,21 +2152,8 @@
         },
         {
             "format": "groupingQuestionGUS",
-            "dimension": "purposeOfFullfillment",
+            "dimension": "meaningfulness",
             "question": "Welches Feedback konnte vom Benutzer nicht gedeutet werden?",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "yes",
-                "justificationFor": "selectOne",
-                "optionSource": "feedbacks"
-            },
-            "styleguide": ""
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "purposeOfFullfillment",
-            "question": "Welches Feedback irritierte den Benutzer?",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -2424,19 +2309,6 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
-            "question": "Welche Gesten waren dem Nutzer peinlich? Gibt es Hinweise für Unbehagen?",
-            "parameters": {
-                "used": "used",
-                "multiselect": "yes",
-                "justification": "yes",
-                "justificationFor": "selectOne",
-                "optionSource": "gestures"
-            },
-            "styleguide": ""
-        },
-        {
-            "format": "groupingQuestionGUS",
-            "dimension": "uxSatisfactionOfUse",
             "question": "Welche Gesten führten zu Einschränkungen beim Ausführen? (z.B. durch Kleidung, etc.)",
             "parameters": {
                 "used": "used",
@@ -2450,7 +2322,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "socialAcceptance",
-            "question": "Welche Gesten haben andere Personen im Umfeld gestört?",
+            "question": "Welche Gesten waren dem Nutzer peinlich? Gibt es Hinweise für Unbehagen?",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -2463,7 +2335,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "socialAcceptance",
-            "question": "Welche Gesten haben andere Personen im Umfeld irritiert?",
+            "question": "Welche Gesten haben andere Personen im Umfeld gestört oder irritiert?",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -2504,7 +2376,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
-            "question": "Welche Gesten waren dem Nutzer peinlich? Gibt es Hinweise für Unbehagen?",
+            "question": "Welche Gesten führten zu Einschränkungen beim Ausführen? (z.B. durch Kleidung, etc.)",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -2516,8 +2388,8 @@
         },
         {
             "format": "groupingQuestionGUS",
-            "dimension": "uxSatisfactionOfUse",
-            "question": "Welche Gesten führten zu Einschränkungen beim Ausführen? (z.B. durch Kleidung, etc.)",
+            "dimension": "socialAcceptance",
+            "question": "Welche Gesten waren dem Nutzer peinlich? Gibt es Hinweise für Unbehagen?",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -2597,7 +2469,7 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "uxSatisfactionOfUse",
-            "question": "Welche Gesten waren dem Nutzer peinlich? Gibt es Hinweise für Unbehagen?",
+            "question": "Welche Gesten führten zu Einschränkungen beim Ausführen? (z.B. durch Kleidung, etc.)",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
@@ -2609,8 +2481,8 @@
         },
         {
             "format": "groupingQuestionGUS",
-            "dimension": "uxSatisfactionOfUse",
-            "question": "Welche Gesten führten zu Einschränkungen beim Ausführen? (z.B. durch Kleidung, etc.)",
+            "dimension": "socialAcceptance",
+            "question": "Welche Gesten waren dem Nutzer peinlich? Gibt es Hinweise für Unbehagen?",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",

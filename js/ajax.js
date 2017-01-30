@@ -423,6 +423,40 @@ function saveGestureSetForStudyId(data, callback) {
     });
 }
 
+function updateGestureSets(data, callback) {
+    $.ajax({
+        url: 'includes/update-gesture-sets.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function deleteGestureSet(data, callback) {
+    $.ajax({
+        url: 'includes/delete-gesture-set.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getStudiesCatalog(callback) {
     $.ajax({
         url: 'includes/get-studies.php',
