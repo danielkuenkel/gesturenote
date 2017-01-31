@@ -30,7 +30,7 @@ include './includes/language.php';
     <p class="question text"><?php echo $lang->objectiveExtractionChecklistQuestion ?></p>
     <div class="btn-group switch">
         <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="well" name="btn-success"><?php echo $lang->yes ?></button>
-        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="less-even" name="btn-danger"><?php echo $lang->no ?></button>
+        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="less-well" name="btn-danger"><?php echo $lang->no ?></button>
         <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="even" name="btn-warning"><?php echo $lang->dontKnow ?></button>
     </div>
 </div>
@@ -61,8 +61,8 @@ include './includes/language.php';
             renderQuestionnaire(('#editable-checklist'), items, null);
         }
         
-        if (currentAssignment.cognitiveRelationship && currentAssignment.checklist.objectiveAnswer) {
-            $('#objective-question').find('.switch #' + currentAssignment.checklist.objectiveAnswer).click();
+        if (currentAssignment.checklist && currentAssignment.checklist.objectiveAnswer) {
+            $('#objective-question .switch').find('#' + currentAssignment.checklist.objectiveAnswer).click();
         }
     }
 
@@ -73,8 +73,7 @@ include './includes/language.php';
         var objectiveAnswer = $('#objective-question').find('.switch .active').attr('id');
 
         for (var i = 0; i < classification.assignments.length; i++) {
-            if (parseInt(classification.assignments[i].mainGestureId) === parseInt(currentAssignment.mainGestureId) &&
-                    parseInt(classification.assignments[i].triggerId) === parseInt(currentAssignment.triggerId)) {
+            if (parseInt(classification.assignments[i].mainGestureId) === parseInt(currentAssignment.mainGestureId)) {
                 classification.assignments[i].checklist = {answers: answers, objectiveAnswer: objectiveAnswer};
                 break;
             }

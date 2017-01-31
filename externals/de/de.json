@@ -89,6 +89,7 @@
     "studyPeriod": "Studien-Zeitraum",
     "classifiedGesture": "klassifizierte Geste",
     "ClassifiedGesture": "Klassifizierte Geste",
+    "classifiednGestures": "klassifizierten Gesten",
     "classifiedGestures": "klassifizierte Gesten",
     "ClassifiedGestures": "Klassifizierte Gesten",
     "still": "noch",
@@ -163,9 +164,13 @@
     "useChecklist": "Checkliste nutzen?",
     "option": "Option",
     "options": "Optionen",
+    "rep": "Stellvertreter",
+    "repShort": "Stellv.",
     "multipleAnswersAllowed": "Auswahl mehrerer Antworten erlaubt?",
     "multipleOptionsAllowed": "Auswahl mehrerer Optionen erlaubt?",
     "ownAnswerAllowed": "Eigene Antwort erlaubt?",
+    "noAnswer": "Nicht beantwortet",
+    "notChecked": "Nicht überprüft",
     "execution": "Dauer",
     "recognitionTime": "Zeitfenster",
     "restart": "Neustart",
@@ -2838,6 +2843,11 @@
             "id": "no-gesture-sets-for-study-text",
             "type": "warning",
             "text": "Es wurden noch keine Gesten-Sets für diese Studie angelegt."
+        },
+        "gestureSetTitleTooShort": {
+            "id": "gesture-set-title-too-short",
+            "type": "warning",
+            "text": "Der Name eines Gesten-Sets muss mindestens 8 Zeichen lang sein."
         }
     }
 }

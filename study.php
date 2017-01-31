@@ -55,6 +55,7 @@ if (login_check($mysqli) == true) {
         <!-- externals -->
         <div id="alerts"></div>
         <div id="template-subpages"></div>
+        <div id="template-gesture"></div>
         <div id="template-previews"></div>
         <div id="template-create"></div>
         <div id="template-study"></div>
@@ -397,6 +398,7 @@ if (login_check($mysqli) == true) {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                    externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     externals.push(['#template-create', PATH_EXTERNALS + 'template-create.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);

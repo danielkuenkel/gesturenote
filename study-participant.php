@@ -371,7 +371,7 @@ if (login_check($mysqli) == true) {
                     var elicitedGestures = getLocalItem(GESTURE_CATALOG);
                     if (phaseResults.gestures && phaseResults.gestures.length > 0 && elicitedGestures) {
                         for (var i = 0; i < elicitedGestures.length; i++) {
-                            var item = getGestureCatalogListThumbnail(elicitedGestures[i], 'col-xs-6 col-lg-4');
+                            var item = getGestureCatalogListThumbnail(elicitedGestures[i], null, 'col-xs-6 col-lg-4');
                             $(content).find('.list-container').append(item);
                             TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
                         }
@@ -385,7 +385,7 @@ if (login_check($mysqli) == true) {
                     if (phaseResults.trigger && phaseResults.trigger.length > 0) {
                         for (var i = 0; i < gestures.length; i++) {
                             var gesture = getGestureById(gestures[i]);
-                            var gestureItem = getGestureCatalogListThumbnail(gesture, 'col-xs-6 col-lg-4');
+                            var gestureItem = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-lg-4');
 
                             var item = $('#template-study-container').find('#trigger-identification').clone();
                             $(item).prepend(gestureItem);

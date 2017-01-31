@@ -53,6 +53,7 @@ if (login_check($mysqli) == true) {
         <!-- externals -->
         <div id="alerts"></div>
         <div id="template-subpages"></div>
+        <div id="template-gesture"></div>
         <div id="template-gesture-recorder"></div>
 
         <!-- Modal -->
@@ -63,42 +64,6 @@ if (login_check($mysqli) == true) {
                 <div class="modal-content root"></div>
             </div>
         </div>
-
-
-        <div class="root col-xs-6 col-sm-4 col-lg-3 hidden deleteable" id="gestures-catalog-thumbnail">
-            <div class="panel panel-default btn-shadow">
-                <div class="panel-heading" style=" text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
-                    <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
-                </div>
-
-                <div class="panel-body">
-                    <div class="previewGesture"></div>
-                    <div class="text-center hidden gestureControls">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
-                        </div>
-                    </div>
-                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
-                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
-                </div>
-                <div class="panel-footer">
-                    <div class="btn-group btn-group-justified">
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-info update-list-view" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default" id="btn-show-gesture-info">Mehr</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
 
         <!-- Container (Landing Section) -->
         <div class="container-fluid bg-grey wall">
@@ -200,6 +165,7 @@ if (login_check($mysqli) == true) {
                 var externals = new Array();
                 externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                 externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                 externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                 loadExternals(externals);
             });

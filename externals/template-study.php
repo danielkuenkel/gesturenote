@@ -4,86 +4,6 @@ include '../includes/language.php';
 
 <div id="template-study-container" class="hidden">
 
-    <div class="root" id="gestures-catalog-thumbnail">
-        <div class="panel panel-default btn-shadow">
-            <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
-                <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
-            </div>
-
-            <div class="panel-body">
-                <div class="previewGesture"></div>
-                <div class="text-center hidden gestureControls">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
-                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
-                </div>
-            </div>
-            <div class="panel-footer">
-                <div class="btn-group btn-group-justified">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="root" id="simple-gesture-thumbnail">
-        <div class="panel panel-default btn-shadow">
-            <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
-                <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
-            </div>
-
-            <div class="panel-body">
-                <div class="previewGesture"></div>
-                <div class="text-center hidden gestureControls">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
-                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
-                </div>
-            </div>
-            <!--            <div class="panel-footer">
-                            <div class="btn-group btn-group-justified">
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                                </div>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
-                                </div>
-                            </div>
-                        </div>-->
-        </div>
-    </div>
-
-    <div class="root" id="rudimentary-gesture-thumbnail">
-        <div class="previewGesture btn-shadow mousePlayable"></div>
-        <div class="text-center hidden gestureControls">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
-                <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
-            </div>
-        </div>
-    </div>
-
     <div id="scenes-catalog-thumbnail">
 
         <div id="pidoco" class="hidden" style="float: left;">
@@ -815,7 +735,7 @@ include '../includes/language.php';
 
     </div>
 
-    <div id="potential-gesture-parameters">
+    <div id="potential-gesture-parameters-appearance-trigger">
         <div id="parameters-amount">
             <div><h4 style="margin: 0"><i class="fa fa-pie-chart" aria-hidden="true"></i> Anzahl</h4></div>
             <span class="text" id="justification"></span>
@@ -842,6 +762,7 @@ include '../includes/language.php';
                     <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span>geeignet</span></span>
                     <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->dontKnow ?></span></span>
                     <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span>nicht geeignet</span></span>
+                    <span class="hidden warning" id="not-checked"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notChecked ?></span></span>
                 </div>
             </div>
         </div>
@@ -856,6 +777,68 @@ include '../includes/language.php';
                     <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span>geeignet</span></span>
                     <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->dontKnow ?></span></span>
                     <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span>nicht geeignet</span></span>
+                    <span class="hidden warning" id="not-checked"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notChecked ?></span></span>
+                </div>
+            </div>
+        </div>
+        <div id="parameters-gesture-sets" style="margin-top: 20px">
+            <div><h4 style="margin: 0"><i class="fa fa-star" aria-hidden="true"></i> Zuweisung zu Gesten-Sets</h4></div>
+            <ul id="attacted-gesture-sets-container" style="list-style-position: inside; padding-left: 0px; margin-top: 5px"></ul>
+        </div>
+
+        <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-to-gesture-set" style="margin-top: 10px"><i class="fa fa-plus"></i> <span><?php echo $lang->addToGestureset ?></span></button>
+
+    </div>
+
+    <div id="potential-gesture-parameters-appearance-trigger-amount-item" style="margin-top: ">
+        <span id="trigger-title-label"><?php echo $lang->trigger ?></span>: <span class="text" id="trigger-title"></span><br/>
+        <span class="text" id="justification"></span>
+        <br/>
+        <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span>geeignet</span></span>
+        <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span>weder noch</span></span>
+        <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span>nicht geeignet</span></span>
+    </div>
+
+    <div id="potential-gesture-parameters-appearance">
+        <div id="parameters-amount">
+            <div><h4 style="margin: 0"><i class="fa fa-pie-chart" aria-hidden="true"></i> Anzahl</h4></div>
+            <div id="trigger-container"></div>
+
+        </div>
+        <!--        <div id="parameters-agreement-measures" style="margin-top: 20px">
+                    <div><h4 style="margin: 0"><i class="fa fa-percent" aria-hidden="true"></i> Maß der Vermutung</h4></div>
+                    <div id="agreement"><span id="label">Schätzbarkeit:</span> <span class="text"></span></div>
+                </div>
+                <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
+                    <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> Maß der Zustimmung</h4></div>
+                    <div id="accordance"><span id="label">Übereinstimmung:</span> <span class="text"></span></div>
+                </div>-->
+        <div id="parameters-cognitive-relationships" style="margin-top: 20px">
+            <div>
+                <h4 style="margin: 0; float: left; "><i class="fa fa-flash" aria-hidden="true"></i> Sinnzusammenhänge</h4>
+                <button type="button" class="btn btn-sm btn-default btn-shadow" id="btn-open-cognitive-relationships"style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> Überprüfen</button>
+            </div>
+            <div style="margin-top: 8px; clear: both">
+                <div>
+                    <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span>geeignet</span></span>
+                    <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->dontKnow ?></span></span>
+                    <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span>nicht geeignet</span></span>
+                    <span class="hidden warning" id="not-checked"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notChecked ?></span></span>
+                </div>
+            </div>
+        </div>
+        <div id="parameters-checklist" class="hidden" style="margin-top: 20px">
+            <div>
+                <h4 style="margin: 0; float: left"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Checkliste</h4>
+                <button type="button" class="btn btn-sm btn-default btn-shadow" id="btn-open-checklist" style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> Überprüfen</button>
+            </div>
+
+            <div style="margin-top: 8px; clear: both">
+                <div>
+                    <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span>geeignet</span></span>
+                    <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->dontKnow ?></span></span>
+                    <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span>nicht geeignet</span></span>
+                    <span class="hidden warning" id="not-checked"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notChecked ?></span></span>
                 </div>
             </div>
         </div>

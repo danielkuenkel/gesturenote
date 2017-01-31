@@ -24,6 +24,9 @@ include './includes/language.php';
 
     <div id="add-set-container">
         <label class="text">Neues Gesten-Set anlegen</label>
+        
+        <div class="alert-space alert-gesture-set-title-too-short"></div>
+        
         <div class="input-group">
             <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
             <span class="input-group-btn">
@@ -57,6 +60,8 @@ include './includes/language.php';
     }
 
     function renderData(preselect, id) {
+        clearAlerts($('#modal-body'));
+        
         var sets = getLocalItem(GESTURE_SETS);
         if (sets && sets !== null && sets !== '' && sets.length > 0) {
             $('#existing-sets-container').find('.option-container').empty();
@@ -73,7 +78,6 @@ include './includes/language.php';
                 }
 
                 // check gestures and make checkbox selected if gesture is in gesture set [i]
-                console.log(sets[i].gestures);
                 if (sets[i].gestures && sets[i].gestures.length > 0) {
                     if (checkSetAssignment(sets[i].gestures)) {
                         option.find('.btn-checkbox').click();
@@ -131,6 +135,7 @@ include './includes/language.php';
                     }
                 });
             } else {
+                appendAlert($('#modal-body'), ALERT_GESTURE_SET_TITLE_TOO_SHORT);
             }
         } else {
             // show errors for invalid input 

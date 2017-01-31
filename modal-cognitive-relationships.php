@@ -18,7 +18,7 @@ include './includes/language.php';
     <p class="question text"><?php echo $lang->objectiveExtractionChecklistQuestion ?></p>
     <div class="btn-group switch">
         <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="well" name="btn-success"><?php echo $lang->yes ?></button>
-        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="less-even" name="btn-danger"><?php echo $lang->no ?></button>
+        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="less-well" name="btn-danger"><?php echo $lang->no ?></button>
         <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="even" name="btn-warning"><?php echo $lang->dontKnow ?></button>
     </div>
 </div>
