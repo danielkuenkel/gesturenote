@@ -237,7 +237,7 @@ if (login_check($mysqli) == true) {
 
                 <div id="extraction-content" class="row">
 
-                    <div class="col-sm-4 col-md-3" id="extraction-navigation">
+                    <div class="col-sm-4 col-md-3" id="extraction-navigation" style="margin-bottom: 20px">
                         <h5 class="text">Vorbereitung</h5>
                         <div class="btn-group-vertical btn-block" id="btns-general">
                             <button class="btn btn-default btn-shadow" type="button" id="btn-all-gestures"><span class="btn-text">Alle ermittelten Gesten</span></button>

@@ -12,7 +12,7 @@ include '../includes/language.php';
         <div class="previewGesture"></div>
     </div>
 
-    <div class="root col-xs-6 col-sm-4 col-lg-3 hidden deleteable" id="gestures-catalog-thumbnail">
+    <div class="root hidden deleteable" id="gestures-catalog-thumbnail">
         <div class="panel panel-default btn-shadow">
             <div class="panel-heading" style=" text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
                 <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
@@ -28,13 +28,15 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
                     </div>
                 </div>
-                <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
-                <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+                <div class="text-center">
+                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+                </div>
             </div>
             <div class="panel-footer">
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-info update-list-view" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                        <button type="button" class="btn btn-info update-list-view" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text hidden-sm hidden-xs"></span></button>
                     </div>
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default" id="btn-show-gesture-info">Mehr</button>
@@ -68,7 +70,7 @@ include '../includes/language.php';
             <div class="panel-footer">
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default btn-tag-as-main-gesture" id="btn-tag-as-main-gesture"><i class="fa fa-tag" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->repShort ?></span></button>
+                        <button type="button" class="btn btn-default btn-tag-as-main-gesture" id="btn-tag-as-main-gesture"><i class="fa fa-tag" aria-hidden="true"></i> <span class="btn-text hidden-sm hidden-xs hidden-lg"><?php echo $lang->rep ?></span><span class="btn-text hidden-md"><?php echo $lang->repShort ?></span></button>
                     </div>
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>

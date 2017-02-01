@@ -457,6 +457,23 @@ function deleteGestureSet(data, callback) {
     });
 }
 
+function deleteGestureSets(data, callback) {
+    $.ajax({
+        url: 'includes/delete-gesture-sets.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getStudiesCatalog(callback) {
     $.ajax({
         url: 'includes/get-studies.php',

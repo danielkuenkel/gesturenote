@@ -337,16 +337,23 @@ function renderStudyParticipants(data, hash) {
 
 
 function renderExtraction() {
-    var elicitedGestures = getLocalItem(ELICITED_GESTURES);
-    if (elicitedGestures && elicitedGestures.length > 0)
-    {
-        checkClassificationType();
-    } else {
-        appendAlert($('#gesture-extraction'), ALERT_NO_PHASE_DATA);
-        $('#extraction-content').addClass('hidden');
-    }
+    var query = getQueryParams(document.location.search);
+    getGestureSetsForStudyId({studyId: query.studyId}, function (result) {
+        if (result.status === RESULT_SUCCESS) {
+            setLocalItem(GESTURE_SETS, result.gestureSets);
 
-    $('#btn-all-gestures').click();
+            var elicitedGestures = getLocalItem(ELICITED_GESTURES);
+            if (elicitedGestures && elicitedGestures.length > 0)
+            {
+                checkClassificationType();
+            } else {
+                appendAlert($('#gesture-extraction'), ALERT_NO_PHASE_DATA);
+                $('#extraction-content').addClass('hidden');
+            }
+
+            $('#btn-all-gestures').click();
+        }
+    });
 }
 
 $(document).on('click', '#extraction-navigation button', function (event) {
@@ -407,14 +414,22 @@ function renderExtractionContent(id) {
             break;
     }
 
+    addUpdateMainGestureButtonEvent();
+}
+
+function addUpdateMainGestureButtonEvent() {
     $('.btn-tag-as-main-gesture').unbind('click').bind('click', function (event) {
         event.preventDefault();
-        console.log('btn-tag-as-main-gesture');
         if (!$(this).hasClass('btn-info')) {
+            console.log('tag-as-main-gesture')
+            var id = $(this).closest('.root').attr('id');
+            $(this).closest('.root').closest('.panel').attr('id', id);
+            $(this).closest('.root').closest('.panel').attr('name', id);
             $(this).closest('.root').parent().find('.panel').removeClass('panel-info').addClass('panel-default');
             $(this).closest('.root').parent().find('.btn-tag-as-main-gesture').removeClass('btn-info');
             $(this).closest('.root').find('.panel').addClass('panel-info');
             $(this).addClass('btn-info');
+            updateMainGesture(id, $(this).closest('#item-view'));
         }
     });
 }
@@ -440,7 +455,7 @@ function renderAllGestures() {
             for (var j = 0; j < gestures.length; j++) {
                 var gesture = gestures[j];
                 if (parseInt(trigger[i].id) === parseInt(gesture.triggerId)) {
-                    var clone = getGestureCatalogListThumbnail(gestures[j], null, 'col-xs-6 col-sm-6 col-md-4', ELICITED_GESTURES);
+                    var clone = getGestureCatalogListThumbnail(gestures[j], null, 'col-xs-6 col-lg-4', ELICITED_GESTURES);
                     $(container).append(clone);
                     TweenMax.from(clone, .2, {delay: j * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                     gestureCount++;
@@ -519,16 +534,16 @@ function renderGestureClassification() {
         appendAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
     }
 
-    $('#btn-reclassify-gestures').on('click', function (event) {
+    $('#btn-reclassify-gestures').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
             $(this).addClass('disabled');
             removeAlert($('#content-btn-gesture-classification'), ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION);
             setLocalItem(CLASSIFICATION, null);
             saveClassification();
+            clearGestureSets();
             renderClassifiedGestures($('#classified-gestures'));
             renderGestureClassification();
-
         }
     });
 
@@ -558,11 +573,11 @@ function updateMatchingView() {
         }
 
         var leftGesture = gesturesLeft[gesturesLeftIndex];
-        console.log("update matching view", leftGesture, gesturesRight, gesturesRightIndex);
+//        console.log("update matching view", leftGesture, gesturesRight, gesturesRightIndex);
         var rightGesture = getGestureById(gesturesRight[gesturesRightIndex].mainGestureId, ELICITED_GESTURES);
 
-        var leftItem = getGestureCatalogListThumbnail(leftGesture, 'classified-gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
-        var rightItem = getGestureCatalogListThumbnail(rightGesture, 'classified-gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
+        var leftItem = getGestureCatalogListThumbnail(leftGesture, 'gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
+        var rightItem = getGestureCatalogListThumbnail(rightGesture, 'gestures-catalog-thumbnail', 'col-xs-12', ELICITED_GESTURES);
         $('#gesture-left').empty().append(leftItem);
         $('#gesture-right').empty().append(rightItem);
         renderClassifiedGestures($('#classified-gestures'));
@@ -607,7 +622,7 @@ function getUnclassifiedGestures() {
                 }
             }
         }
-        console.log(array);
+//        console.log(array);
         return array;
     }
 
@@ -654,7 +669,7 @@ function renderClassifiedGestures(target, type) {
 //                                if (type === POTENTIAL_GESTURES) {
 //                                    gestureType = 'gestures-catalog-thumbnail';
 //                                }
-                                var involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-6 col-md-4 col-lg-3', ELICITED_GESTURES);
+                                var involvedGesture = getGestureCatalogListThumbnail(gesture, gestureType, 'col-xs-6 col-lg-4', ELICITED_GESTURES);
                                 appearanceTriggerGesture.find('#gestures-list-container').append(involvedGesture);
 
                                 if (parseInt(assignment.mainGestureId) === parseInt(gesture.id)) {
@@ -688,7 +703,7 @@ function renderClassifiedGestures(target, type) {
 
                     for (var k = 0; k < assignment.gestures.length; k++) {
                         var gesture = getGestureById(assignment.gestures[k], ELICITED_GESTURES);
-                        var involvedGesture = getGestureCatalogListThumbnail(gesture, 'classified-gestures-catalog-thumbnail', 'col-xs-6 col-md-4 col-lg-3', ELICITED_GESTURES);
+                        var involvedGesture = getGestureCatalogListThumbnail(gesture, 'classified-gestures-catalog-thumbnail', 'col-xs-6 col-lg-4', ELICITED_GESTURES);
                         appearanceTriggerGesture.find('#gestures-list-container').append(involvedGesture);
 
                         if (parseInt(assignment.mainGestureId) === parseInt(gesture.id)) {
@@ -706,6 +721,8 @@ function renderClassifiedGestures(target, type) {
             appendAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
         }
     }
+    
+    addUpdateMainGestureButtonEvent();
 }
 
 function getClassifiedGestureIndex(gesture) {
@@ -785,13 +802,12 @@ function classifyGesture(gesture, foundMatch) {
 
     gesturesRight = classification.assignments;
     setLocalItem(CLASSIFICATION, classification);
-    console.log(classification);
+//    console.log(classification);
     saveClassification();
     $('#btn-reclassify-gestures').removeClass('disabled');
 }
 
 function reclassifiyGesture(gesture) {
-    console.log('reclassify gesture:', gesture);
     var classification = getLocalItem(CLASSIFICATION);
     var assignments = classification.assignments;
     for (var i = 0; i < assignments.length; i++) {
@@ -808,7 +824,6 @@ function reclassifiyGesture(gesture) {
             }
         }
     }
-    console.log(assignments);
     gesturesRight = assignments;
     setLocalItem(CLASSIFICATION, classification);
 }
@@ -908,7 +923,7 @@ function renderGestureSets() {
                     if (set.gestures !== null) {
                         for (var j = 0; j < set.gestures.length; j++) {
                             var gesture = getGestureById(set.gestures[j], ELICITED_GESTURES);
-                            var gestureThumbnail = getGestureCatalogListThumbnail(gesture, 'gestures-catalog-thumbnail', 'col-xs-6 col-sm-6 col-md-4', ELICITED_GESTURES);
+                            var gestureThumbnail = getGestureCatalogListThumbnail(gesture, 'gestures-catalog-thumbnail', 'col-xs-6 col-lg-4', ELICITED_GESTURES);
                             $(setPanel).find('#gestures-list-container').append(gestureThumbnail);
                         }
                     } else {
@@ -1192,4 +1207,73 @@ function getSameGestureByGestureId(gestureId) {
     }
 
     return assignments;
+}
+
+function updateMainGesture(id, target) {
+    var classification = getLocalItem(CLASSIFICATION);
+    for (var i = 0; i < classification.assignments.length; i++) {
+        var assignment = classification.assignments[i];
+//        console.log(assignment);
+        for (var j = 0; j < assignment.gestures.length; j++) {
+            if (parseInt(assignment.gestures[j]) === parseInt(id)) {
+                updateMainGestureInGestureSet(assignment.mainGestureId, id);
+                assignment.mainGestureId = id;
+                break;
+            }
+        }
+    }
+
+//    console.log($(target).find('#main-gesture'));
+    var mainGesture = getGestureById(id, ELICITED_GESTURES);
+    renderGestureImages($(target).children('#' + id).find('#main-gesture .previewGesture'), mainGesture.images, mainGesture.previewImage, null);
+
+    setLocalItem(CLASSIFICATION, classification);
+    saveClassification();
+}
+
+function updateMainGestureInGestureSet(oldId, newId) {
+    var sets = getLocalItem(GESTURE_SETS);
+    if (sets && sets.length > 0) {
+        for (var i = 0; i < sets.length; i++) {
+            var set = sets[i];
+            if (set.gestures && set.gestures.length > 0) {
+                for (var j = 0; j < set.gestures.length; j++) {
+                    if (parseInt(set.gestures[j]) === parseInt(oldId)) {
+                        set.gestures[j] = newId;
+                    }
+                }
+            }
+
+        }
+        setLocalItem(GESTURE_SETS, sets);
+        updateGestureSets({sets: getLocalItem(GESTURE_SETS)});
+    }
+}
+
+function clearGestureSets() {
+    resetGestureSets();
+    updateGestureSets({sets: getLocalItem(GESTURE_SETS)});
+}
+
+function resetGestureSets() {
+    var sets = getLocalItem(GESTURE_SETS);
+    if (sets && sets.length > 0) {
+        for (var i = 0; i < sets.length; i++) {
+            sets[i].gestures = null;
+        }
+    }
+    setLocalItem(GESTURE_SETS, sets);
+}
+
+function gestureSetsAreEmpty() {
+    var sets = getLocalItem();
+    if (sets && sets.length > 0) {
+        for (var i = 0; i < sets.length; i++) {
+            var set = sets[i];
+            if (set.gestures && set.gestures.length > 0) {
+                return false;
+            }
+        }
+    }
+    return true;
 }

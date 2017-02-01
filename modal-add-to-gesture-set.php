@@ -90,16 +90,13 @@ include './includes/language.php';
     }
 
     function saveData() {
+        console.log('saveData');
         var listItems = $('#existing-sets-container').find('.option-container').find('.btn-checkbox');
         for (var i = 0; i < listItems.length; i++) {
-//            console.log(listItems[i]);
             if ($(listItems[i]).hasClass('btn-option-checked')) {
-//                console.log('add to gesture set with id:', $(listItems[i]).attr('id'));
                 addToGestureSet($(listItems[i]).attr('id'), currentAssignment.mainGestureId);
             } else {
-//                console.log('remove from gesture set with id:', $(listItems[i]).attr('id'));
                 removeFromGestureSet($(listItems[i]).attr('id'), currentAssignment.mainGestureId);
-
             }
         }
 

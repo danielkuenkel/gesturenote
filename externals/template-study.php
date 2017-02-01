@@ -709,7 +709,7 @@ include '../includes/language.php';
 
         <div class="panel-body">
             <div class="row">
-                <div class="col-xs-12 col-md-4 col-lg-5 root" id="main-gesture" style="margin-bottom: 15px">
+                <div class="col-xs-12 col-md-6 root" id="main-gesture" style="margin-bottom: 15px">
                     <div class="previewGesture mousePlayable btn-shadow"></div>
                     <div class="text-center hidden gestureControls">
                         <div class="btn-group">
@@ -720,7 +720,7 @@ include '../includes/language.php';
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-8 col-lg-7" id="potential-parameters"></div>
+                <div class="col-xs-12 col-md-6" id="potential-parameters"></div>
             </div>
         </div>
 
