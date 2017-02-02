@@ -90,7 +90,7 @@ include './includes/language.php';
     }
 
     function saveData() {
-        console.log('saveData');
+//        console.log('saveData');
         var listItems = $('#existing-sets-container').find('.option-container').find('.btn-checkbox');
         for (var i = 0; i < listItems.length; i++) {
             if ($(listItems[i]).hasClass('btn-option-checked')) {
@@ -103,14 +103,14 @@ include './includes/language.php';
         // call ajax update gesture sets, calling php 
         updateGestureSets({sets: getLocalItem(GESTURE_SETS)});
         var target = $('#content-btn-potential-gestures').find('#' + currentAssignment.mainGestureId);
-        console.log(target);
+//        console.log(target);
         renderPotentialGesturesParameters(target, currentAssignment, currentAssignment.triggerId);
     }
 
     function checkSetAssignment(gestures) {
         for (var i = 0; i < gestures.length; i++) {
             for (var j = 0; j < currentAssignment.gestures.length; j++) {
-                console.log('checkSetAssignment', gestures[i], currentAssignment.gestures[j]);
+//                console.log('checkSetAssignment', gestures[i], currentAssignment.gestures[j]);
                 if (parseInt(gestures[i]) === parseInt(currentAssignment.gestures[j])) {
                     return true;
                 }

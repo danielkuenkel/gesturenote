@@ -380,7 +380,19 @@ if (login_check($mysqli) == true) {
                         <div id="content-btn-potential-gestures" class="hidden"></div>
 
                         <div id="content-btn-gesture-sets" class="hidden">
-                            
+                            <div id="add-new-set">
+                                <label class="text">Neues Gesten-Set anlegen</label>
+
+                                <div class="alert-space alert-gesture-set-title-too-short"></div>
+
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div id="gesture-sets-container" class="root" style="margin-top: 20px"></div>
                         </div>
                     </div>
 

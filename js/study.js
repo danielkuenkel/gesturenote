@@ -721,7 +721,7 @@ function renderClassifiedGestures(target, type) {
             appendAlert($('#content-btn-gesture-classification'), ALERT_NO_GESTURES_CLASSIFIED);
         }
     }
-    
+
     addUpdateMainGestureButtonEvent();
 }
 
@@ -904,7 +904,7 @@ function renderPotentialGestures() {
 }
 
 function renderGestureSets() {
-    $('#content-btn-gesture-sets').empty();
+    $('#content-btn-gesture-sets #gesture-sets-container').empty();
 
     var query = getQueryParams(document.location.search);
     getGestureSetsForStudyId({studyId: query.studyId}, function (result) {
@@ -916,7 +916,7 @@ function renderGestureSets() {
                     var set = result.gestureSets[i];
                     var setPanel = $('#panel-gesture-set').clone().removeAttr('id');
                     $(setPanel).find('.panel-heading .panel-heading-text').text(set.title);
-                    $('#content-btn-gesture-sets').append(setPanel);
+                    $('#content-btn-gesture-sets #gesture-sets-container').append(setPanel);
                     TweenMax.from(setPanel, .2, {delay: i * .1, opacity: 0, y: -20});
 
 //                console.log(result.gestureSets[i].gestures)
@@ -944,6 +944,26 @@ function renderGestureSets() {
             } else {
                 // append alert, no gesture set(s) available
             }
+        }
+    });
+
+    $('#btn-add-gesture-set').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        var title = $('#content-btn-gesture-sets').find('#input-new-set-title').val();
+        if (title && title !== undefined && title.trim() !== '') {
+            if (title.trim().length > 7) {
+                var query = getQueryParams(document.location.search);
+                saveGestureSetForStudyId({studyId: query.studyId, title: title}, function (result) {
+                    if (result.status === RESULT_SUCCESS) {
+                        $('#content-btn-gesture-sets').find('#input-new-set-title').val('');
+                        renderGestureSets();
+                    }
+                });
+            } else {
+                appendAlert($('#content-btn-gesture-sets'), ALERT_GESTURE_SET_TITLE_TOO_SHORT);
+            }
+        } else {
+            // show errors for invalid input 
         }
     });
 }
@@ -975,6 +995,7 @@ function renderPotentialGesturesParameters(target, assignment) {
         // agreement measures
         if (amountRange.max > 1) {
             var agreementMeasures = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_TRIGGER);
+            console.log('agreementMeasures', agreementMeasures);
             if (agreementMeasures) {
                 $(target).find('#agreement .text').text(agreementMeasures + '%');
             } else {
@@ -1217,6 +1238,7 @@ function updateMainGesture(id, target) {
         for (var j = 0; j < assignment.gestures.length; j++) {
             if (parseInt(assignment.gestures[j]) === parseInt(id)) {
                 updateMainGestureInGestureSet(assignment.mainGestureId, id);
+                updateSameAsGesture(classification, assignment.mainGestureId, id);
                 assignment.mainGestureId = id;
                 break;
             }
@@ -1227,6 +1249,7 @@ function updateMainGesture(id, target) {
     var mainGesture = getGestureById(id, ELICITED_GESTURES);
     renderGestureImages($(target).children('#' + id).find('#main-gesture .previewGesture'), mainGesture.images, mainGesture.previewImage, null);
 
+    console.log(classification);
     setLocalItem(CLASSIFICATION, classification);
     saveClassification();
 }
@@ -1247,6 +1270,15 @@ function updateMainGestureInGestureSet(oldId, newId) {
         }
         setLocalItem(GESTURE_SETS, sets);
         updateGestureSets({sets: getLocalItem(GESTURE_SETS)});
+    }
+}
+
+function updateSameAsGesture(classification, oldId, newId) {
+    for (var i = 0; i < classification.assignments.length; i++) {
+        var assignment = classification.assignments[i];
+        if (parseInt(assignment.sameAs) === parseInt(oldId)) {
+            assignment.sameAs = newId;
+        }
     }
 }
 
