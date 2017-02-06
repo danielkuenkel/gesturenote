@@ -106,7 +106,8 @@
     "insertTitle": "Titel einfügen",
     "studyDescription": "Studien-Beschreibung",
     "insertDescription": "Beschreibung einfügen",
-    "studyPhase": "Studien-Phase",
+    "studyPhase": "Gesten-Design-Phase",
+    "studySurveyMethod": "Befragungs-Methode",
     "studySurveyType": "Befragungsart",
     "done": "Fertig",
     "cancel": "Abbrechen",
@@ -689,6 +690,84 @@
                 "enableDataChannels": "no"
             },
             "notes": "yes"
+        },
+        "exploration": {
+            "text": "Exploration",
+            "class": "extraction",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
+            "notes": "yes"
+        },
+        "favoriteGestures": {
+            "text": "Favorisierte Gesten",
+            "class": "extraction",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "no",
+                    "audio": "yes",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
+            "notes": "yes"
         }
     },
     "questionFormats": {
@@ -712,6 +791,9 @@
         },
         "groupingQuestionGUS": {
             "text": "Eingruppierungs-Frage"
+        },
+        "groupingQuestionOptions": {
+            "text": "Eingruppierungs-Frage (auswählbare Optionen)"
         },
         "rating": {
             "text": "Rating"
@@ -739,7 +821,12 @@
     "phaseStep": "Phasenschritt",
     "phaseType": {
         "elicitation": "Identifikation",
+        "extraction": "Extraktion",
         "evaluation": "Evaluierung"
+    },
+    "surveyMethod": {
+        "singleInterview": "Einzelbefragung",
+        "focusGroup": "Fokusgruppen-Interview"
     },
     "surveyType": {
         "moderated": "Moderiert",
@@ -1004,6 +1091,7 @@
             "openQuestion": "<strong>Offene Frage</strong>: Der Proband beantwortet die Frage mit einem Wort oder einem längeren Text, z.B. mit der Frage <em>Woher kommen Sie?</em>",
             "dichotomousQuestion": "<strong>Ja/nein-Frage</strong>: Ja/nein-Fragen lassen nur zwei Antwortmöglichkeiten zu. Es können Begründungen angefordert werden, z.B. wenn <em>Nein</em> ausgewählt wurde.",
             "groupingQuestion": "<strong>Eingruppierungs-Frage</strong>: Bei Eingruppierungsfragen werden bestimmte Wertebereiche festgelegt, in die sich der Befragte einordnen soll. Wertebereiche z.B. für <em>Wie alt sind Sie?</em>: unter 20 | 21 - 30 | über 30. Mit diesem Format kann aber auch Fragen wie <em>Welche Gesten-Erkenner sind Ihnen bekannt?</em> abgedeckt werden. Eine Ein- oder Mehrfachauswahl von Antworten ist möglich. Eigene Antworten können ebenfalls angegeben werden.",
+            "groupingQuestionOptions": "<strong>Eingruppierungs-Frage (auswählbare Optionen)</strong>: Dies ist eine Sonderform einer normalen Eingruppierungs-Frage. Hier müssen die Antwortmöglichkeiten nicht einzeln eingetragen werden, sondern werden automatisch angezeigt. Je nach Auswahl <em>Gesten</em>, <em>Feedback</em> oder <em>Funktionen</em> werden die entsprechend hinterlegten Daten aus den Katalogen übernommen.",
             "sumQuestion": "<strong>Summenfrage</strong>: Hier kann eine Maximum definiert und mehrere Antwortoptionen definiert werden. Der Proband soll dann z.B. 100 Punkte oder Prozent auf die jeweiligen Optionen verteilen.",
             "ranking": "<strong>Ranking</strong>: Beim Ranking sind Optionen anzugeben, die der Proband dann mit Pfeil-Buttons sortieren soll, z.B. nach Wichtigkeit.",
             "rating": "<strong>Rating</strong>: Skalierte Antworten bedeutet hier, dass die einzelnen Stufen die Häufigkeiten, Zutreffensgrade, Intensitäten usw. graduell abstufen. Z.B. mit der Frage: <em>Wie häufig arbeiten Sie mit den jeweiligen Gesten-Steuerungen</em> und deren Optionen: <em>Kinect</em>, <em>Leap Motion Controller</em>, <em>Nintendo Wii</em> und deren Skalen von <em>überhaupt nicht</em> bis <em>täglich</em>. Mit dem Format Ratings können in GestureNote somit auch Matrixfragen erstellt werden.",
@@ -1016,7 +1104,8 @@
             "scenario": "Gesteninteraktionen werden typischerweise mit Szenario-basierten Aufgaben in Verbindung mit WOZ-Experimenten evaluiert. Der Fokus wurde dabei auf die Erstellung explorativer WOZ-Experimente gelegt. Mit Szenario-baiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe (moderiert) anzubieten oder (unmoderiert) abzurufen.",
             "gestureSlideshow": "Die Erinnerbarkeit und Intuitivität von Gesten kann mit einer Gesten-Slideshow abgefragt werden. Es werden die hinterlegten Funktionen angezeigt. Der Proband muss dann die korrekte Geste innerhalb eines bestimmten Zeitfensters (z.B. 2 Sekunden) demonstrieren. Konnte der Proband der Funktion nicht die korrekte Geste zuordnen, beginnt die Slideshow erneut. Der Benutzer bekommt bei einem Neustart alle Gesten nochmals eingeblendet. GestureNote bietet, neben der Erstellung von Gesten-Funktions-Paaren, die Möglichkeit das Zeitfenster für jedes Paar zu definieren.",
             "triggerSlideshow": "Hier werden dem Probanden nacheinander die Gesten eines Vokabulars und eine Liste von Funktionen gezeigt. Der Proband soll die dazugehörige Funktion auswählen. In GestureNote wurde dies mit Hilfe von Eingruppierungsfragen (für die Funktionsliste) und der Vorschau jeder einzelnen Geste realisiert. Legen Sie hier einfach eine Liste mit Funktions-Gesten-Paaren an.",
-            "physicalStressTest": "Ziel dieser Methode ist es, die physische Belastung von Gesten bei der Benutzung herauszufinden. Dies geschieht mit einem Test, bei dem der Proband jede Geste aus einem Vokabular X-Mal vorführt, um Rückschlüsse auf eine besondere Beanspruchung der ausführenden Körperteile zu schließen. Es wird vorgeschlagen die Gesten eines Vokabulares in Summe 200 Mal durchführen zu lassen. In GestureNote können Sie diese Anzahl erhöhen oder verringern, da die Anzahl der Durchläufe an die Gesten gekoppelt sind (d.h. man gibt den Wert 10 an, dann werden für jede Geste 10 Wiederholungen veranschlagt. Für 3 Gesten entpspricht das 30 Durchläufen). Nach jedem Vorführen einer Geste haben Sie die Möglichkeit, die Beanspruchung bewerten zu lassen. Zusätzlich sollte nach jeder Gesten-Sequenz die Beanspruchung insgesamt bewertet werden. In GestureNote stehen dafür die bekannten Fragenformate (z.B. offene Fragen, Ja-/Nein-Frage, Summenfrage, etc.) zur Verfügung. Darüber hinaus gibt es in GestureNote auch die Möglichkeit den Probanden mit Hilfe einer Grafik über besondere Beanspruchungen zu befragen. Der Proband kann einfach die jeweiligen Bereiche auswählen. Aktuell können Körper, Handgesten oder beide Gestenarten abgefragt werden."
+            "physicalStressTest": "Ziel dieser Methode ist es, die physische Belastung von Gesten bei der Benutzung herauszufinden. Dies geschieht mit einem Test, bei dem der Proband jede Geste aus einem Vokabular X-Mal vorführt, um Rückschlüsse auf eine besondere Beanspruchung der ausführenden Körperteile zu schließen. Es wird vorgeschlagen die Gesten eines Vokabulares in Summe 200 Mal durchführen zu lassen. In GestureNote können Sie diese Anzahl erhöhen oder verringern, da die Anzahl der Durchläufe an die Gesten gekoppelt sind (d.h. man gibt den Wert 10 an, dann werden für jede Geste 10 Wiederholungen veranschlagt. Für 3 Gesten entpspricht das 30 Durchläufen). Nach jedem Vorführen einer Geste haben Sie die Möglichkeit, die Beanspruchung bewerten zu lassen. Zusätzlich sollte nach jeder Gesten-Sequenz die Beanspruchung insgesamt bewertet werden. In GestureNote stehen dafür die bekannten Fragenformate (z.B. offene Fragen, Ja-/Nein-Frage, Summenfrage, etc.) zur Verfügung. Darüber hinaus gibt es in GestureNote auch die Möglichkeit den Probanden mit Hilfe einer Grafik über besondere Beanspruchungen zu befragen. Der Proband kann einfach die jeweiligen Bereiche auswählen. Aktuell können Körper, Handgesten oder beide Gestenarten abgefragt werden.",
+            "exploration": "Ziel dieser Methode ist es, den Probanden einen Überblick über die ermittelten Gesten zu geben. Dieser wird benötigt um im Anschluss z.B. eine Befragung über bevorzugte Gesten durchzuführen."
         },
         "panel": {
             "overview": "Hier können Sie einstellen, in welchem Zeitraum die Studie läuft. Dies bedeutet auch, wenn der Zeitraum überschritten ist, kann nicht mehr an der Studie teilgenommen werden. Zusätzlich können Sie eine Pool-Befragung mit in GestureNote registrierten Testern durchführen. Diese sehen aktuell laufende Studien und können daran teilnehmen.",
@@ -1193,6 +1282,21 @@
             "parameters": {
                 "negative": "yes"
             }
+        }
+    ],
+    "favoriteGesturesQuestionnaire": [
+        {
+            "format": "groupingQuestionGUS",
+            "dimension": "any",
+            "question": "Welche Geste(n) finden Sie für die Funktion {fn} am Besten geeignet?",
+            "parameters": {
+                "used": "used",
+                "multiselect": "yes",
+                "justification": "yes",
+                "justificationFor": "selectOne",
+                "optionSource": "gestures"
+            },
+            "styleguide": ""
         }
     ],
     "gusOptions": ["Trifft gar nicht zu", "Trifft eher nicht zu", "Weder noch", "Trifft eher zu", "Trifft voll und ganz zu"],

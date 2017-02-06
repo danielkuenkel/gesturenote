@@ -4,7 +4,7 @@ include './includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
-    <h4 class="modal-title" id="exampleModalLabel"><?php echo $lang->formats->questionnaire->text ?></h4>
+    <h4 class="modal-title" id="exampleModalLabel"><?php echo $lang->formats->favoriteGestures->text ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
     <div class="container-root" id="list-container"></div>
@@ -38,7 +38,9 @@ include './includes/language.php';
 
 <script>
     $(document).ready(function () {
+//        var originData = getLocalItem(STUDY_ORIGIN_FAVORITE_GESTURES);
         var data = getLocalItem(currentIdForModal + '.data');
+
         if (data !== null) {
             renderData(data);
         }
@@ -61,7 +63,7 @@ include './includes/language.php';
         }
         setLocalItem(currentIdForModal + '.data', questionnaire);
     }
-
+    
     $('#list-container').unbind('listItemAdded').bind('listItemAdded', function (event) {
         event.preventDefault();
         var scrollTarget = $(this).closest('.modal');

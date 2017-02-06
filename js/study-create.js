@@ -48,6 +48,10 @@ function renderSessionStorageData() {
             firstInit = false;
             $('#phaseSelect').find('#' + study.phase).click();
         }
+        if (study.surveyMethod !== 'unselected') {
+            firstInit = false;
+            $('#surveyMethodSelect').find('#' + study.surveyMethod).click();
+        }
         if (study.surveyType !== 'unselected') {
             firstInit = false;
             $('#surveyTypeSelect').find('#' + study.surveyType).click();
@@ -207,9 +211,15 @@ function renderPhaseSteps() {
             if (getLocalItem(STUDY).phase === TYPE_PHASE_ELICITATION) {
                 $('#phaseStepList').find('.' + TYPE_PHASE_ELICITATION).removeClass('hidden');
                 $('#phaseStepList').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
+                $('#phaseStepList').find('.' + TYPE_PHASE_EXTRACTION).addClass('hidden');
             } else if (getLocalItem(STUDY).phase === TYPE_PHASE_EVALUATION) {
                 $('#phaseStepList').find('.' + TYPE_PHASE_EVALUATION).removeClass('hidden');
                 $('#phaseStepList').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
+                $('#phaseStepList').find('.' + TYPE_PHASE_EXTRACTION).addClass('hidden');
+            } else if(getLocalItem(STUDY).phase === TYPE_PHASE_EXTRACTION) {
+                $('#phaseStepList').find('.' + TYPE_PHASE_EXTRACTION).removeClass('hidden');
+                $('#phaseStepList').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
+                $('#phaseStepList').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
             } else {
                 $('#phaseStepList').find('.both').removeClass('hidden');
             }
@@ -264,6 +274,7 @@ function saveGeneralData() {
     study.title = $('#studyTitle').val();
     study.description = $('#studyDescription').val();
     study.phase = $('#phaseSelect .chosen').attr('id');
+    study.surveyMethod = $('#surveyMethodSelect .chosen').attr('id');
     study.surveyType = $('#surveyTypeSelect .chosen').attr('id');
 //    study.recordType = $('#recordSelect .chosen').attr('id');
     study.panelSurvey = $('#panelSurveySwitch').find('.active').attr('id');

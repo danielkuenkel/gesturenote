@@ -54,6 +54,9 @@ var Moderator = {
                 case PHYSICAL_STRESS_TEST:
                     item = Moderator.getPhysicalStressTest(source, container, currentPhaseData);
                     break;
+                case EXPLORATION:
+                    item = Moderator.getExploration(source, container, currentPhaseData);
+                    break;
             }
 
             if (item !== false) {
@@ -155,6 +158,7 @@ var Moderator = {
                             renderGroupingQuestionPreview(source, item, parameters, options);
                             break;
                         case GROUPING_QUESTION_GUS:
+                        case GROUPING_QUESTION_OPTIONS:
                             renderGroupingQuestionGUSPreview(source, item, parameters);
                             break;
                         case GUS_SINGLE:
@@ -194,6 +198,7 @@ var Moderator = {
                             renderGroupingQuestionInput(item, parameters, options);
                             break;
                         case GROUPING_QUESTION_GUS:
+                        case GROUPING_QUESTION_OPTIONS:
                             renderGroupingQuestionGUSInput(item, parameters, options);
                             break;
                         case RATING:
@@ -931,6 +936,28 @@ var Moderator = {
 
             }
         });
+    },
+    getExploration: function getExploration(source, container, data) {
+        console.log(source, container, data);
+        $(container).find('#general .panel-heading').text(data.title);
+        $(container).find('#general #description').text(data.description);
+        
+        // observation section
+        renderObservations(data, container);
+        
+        if(explorationStartTriggered) {
+            $(container).find('#btn-start-exploration').remove();
+            $(container).find('#btn-next-step').removeClass('hidden');
+        }
+        
+        $(container).find('#btn-start-exploration').unbind('click').bind('click', function(event) {
+            $(container).find('#btn-next-step').removeClass('hidden');
+            explorationStartTriggered = true;
+//            wobble();
+            $(this).remove();
+        });
+        
+        return container;
     },
     getScenario: function getScenario(source, container, data) {
         if (!data.scene || !data.woz) {

@@ -208,7 +208,23 @@ if (login_check($mysqli) == true) {
                                     <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                         <li id="elicitation"><a href="#"><?php echo $lang->phaseType->elicitation ?></a></li>
+                                        <li id="extraction"><a href="#"><?php echo $lang->phaseType->extraction ?></a></li>
+                                        <!--<li id="extraction" class="disabled"><a href="#"><?php echo $lang->phaseType->extraction ?></a></li>-->
                                         <li id="evaluation"><a href="#"><?php echo $lang->phaseType->evaluation ?></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><?php echo $lang->studySurveyMethod ?></span>
+                                <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="<?php echo $lang->pleaseSelect ?>"/>
+                                <div class="input-group-btn select saveGeneralData" id="surveyMethodSelect" role="group">
+                                    <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                        <li id="singleInterview"><a href="#"><?php echo $lang->surveyMethod->singleInterview ?></a></li>
+                                        <li id="focusGroup" class="disabled"><a href="#"><?php echo $lang->surveyMethod->focusGroup ?></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -307,21 +323,24 @@ if (login_check($mysqli) == true) {
                                 <div class="input-group-btn select saveGeneralData" id="phaseStepSelect"  role="group">
                                     <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                     <ul class="dropdown-menu option" role="menu">
+
                                         <li class="dropdown-header"><?php echo $lang->questionnaires ?></li>
                                         <li id="questionnaire"><a href="#"><?php echo $lang->formats->questionnaire->text ?></a></li>
                                         <li id="gus" class="evaluation"><a href="#"><?php echo $lang->formats->gus->text ?></a></li>
                                         <li id="questionnaireGestures" class="evaluation"><a href="#"><?php echo $lang->formats->questionnaireGestures->text ?></a></li>
                                         <li id="sus" class="evaluation"><a href="#"><?php echo $lang->formats->sus->text ?></a></li>
-                                        <li class="divider"></li>
-                                        <li class="dropdown-header"><?php echo $lang->miscellaneous ?></li>
+                                        <!--<li id="favoriteGestures" class="extraction"><a href="#"><?php echo $lang->formats->favoriteGestures->text ?></a></li>-->
 
+                                        <li class="divider"></li>
+
+                                        <li class="dropdown-header"><?php echo $lang->miscellaneous ?></li>
                                         <li id="identification" class="elicitation"><a href="#"><?php echo $lang->formats->identification->text ?></a></li>
                                         <li id="gestureTraining" class="evaluation"><a href="#"><?php echo $lang->formats->gestureTraining->text ?></a></li>
                                         <li id="scenario" class="evaluation"><a href="#"><?php echo $lang->formats->scenario->text ?></a></li>
                                         <li id="gestureSlideshow" class="evaluation"><a href="#"><?php echo $lang->formats->gestureSlideshow->text ?></a></li>
                                         <li id="triggerSlideshow" class="evaluation"><a href="#"><?php echo $lang->formats->triggerSlideshow->text ?></a></li>
                                         <li id="physicalStressTest" class="evaluation"><a href="#"><?php echo $lang->formats->physicalStressTest->text ?></a></li>
-
+                                        <li id="exploration" class="extraction"><a href="#"><?php echo $lang->formats->exploration->text ?></a></li>
                                     </ul>
                                     <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addPhaseStep" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                                 </div>
@@ -713,9 +732,13 @@ if (login_check($mysqli) == true) {
                         removeLocalItem(event.data.id + ".data");
                         checkPreviewAvailability();
                     });
-
-                    if (format === SUS) {
-                        setLocalItem(id + ".data", translation.sus);
+                    switch (format) {
+                        case SUS:
+                            setLocalItem(id + ".data", translation.sus);
+                            break;
+                        case FAVORITE_GESTURES:
+                            setLocalItem(id + ".data", translation.favoriteGesturesQuestionnaire);
+                            break;
                     }
                 }
 
@@ -731,16 +754,13 @@ if (login_check($mysqli) == true) {
                     $('#panel-survey-container').addClass('hidden');
                 }
             });
-
             $('#phaseSelect').on('change', function (event, id) {
                 event.preventDefault();
-
                 var catalogsNav = $('#create-tab-navigation #catalogs');
                 var phasesNav = $('#create-tab-navigation #phases');
                 if ($(phasesNav).hasClass('disabled') && $(catalogsNav).hasClass('disabled')) {
                     $(phasesNav).removeClass('disabled');
                     $(catalogsNav).removeClass('disabled');
-
                     if (firstInit) {
                         firstInit = false;
                         TweenMax.to(catalogsNav, .1, {y: -20});
@@ -750,25 +770,28 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
+                $('#phaseStepSelect').find('.' + id).removeClass('hidden');
                 if (id === TYPE_PHASE_ELICITATION) {
-                    $('#phaseStepSelect').find('.' + id).removeClass('hidden');
+                    $('#phaseStepSelect').find('.' + TYPE_PHASE_EXTRACTION).addClass('hidden');
                     $('#phaseStepSelect').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
                     $('#feedback-catalog').addClass('hidden');
                 } else if (id === TYPE_PHASE_EVALUATION) {
-                    $('#phaseStepSelect').find('.' + id).removeClass('hidden');
                     $('#phaseStepSelect').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
+                    $('#phaseStepSelect').find('.' + TYPE_PHASE_EXTRACTION).addClass('hidden');
                     $('#feedback-catalog').removeClass('hidden');
+                } else if (id === TYPE_PHASE_EXTRACTION) {
+                    $('#phaseStepSelect').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
+                    $('#phaseStepSelect').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
+                    $('#feedback-catalog').addClass('hidden');
                 }
 
                 renderPhaseSteps();
             });
-
             $('.breadcrumb li').click(function () {
                 clearSceneImages();
                 clearSounds();
                 clearLocalItems();
             });
-
             $('#btn-clear-data').click(function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
@@ -778,7 +801,6 @@ if (login_check($mysqli) == true) {
                     location.reload(true);
                 }
             });
-
             $('#btn-preview-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true && !$(this).hasClass('disabled')) {
@@ -790,7 +812,6 @@ if (login_check($mysqli) == true) {
                     }
                 }
             });
-
             $('#btn-save-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true) {
@@ -830,10 +851,10 @@ if (login_check($mysqli) == true) {
                     }
                 }
             });
-
             function checkInputs() {
                 resetErrors();
                 var errors = 0;
+                $('.tab-general').find('.has-error').removeClass('has-error');
                 if ($('#studyTitle').val().trim() === "") {
                     $('#studyTitle').closest('.form-group').addClass('has-error');
                     errors++;
@@ -846,6 +867,11 @@ if (login_check($mysqli) == true) {
 
                 if ($('#phaseSelect').find('.chosen').attr('id') === 'unselected') {
                     $('#phaseSelect').closest('.form-group').addClass('has-error');
+                    errors++;
+                }
+
+                if ($('#surveyMethodSelect').find('.chosen').attr('id') === 'unselected') {
+                    $('#surveyMethodSelect').closest('.form-group').addClass('has-error');
                     errors++;
                 }
 
@@ -874,18 +900,22 @@ if (login_check($mysqli) == true) {
                     TweenMax.from(activeTaps[i], .2, {delay: (i * .1), opacity: 0, y: -20, clearProps: 'all'});
                 }
                 TweenMax.from($('#btn-group-submit'), .3, {y: -20});
-
                 $("html, body").animate({scrollTop: 0}, 100);
                 window.location.hash = activeTapId;
-
             });
 
             $('#btn-more-infos-phases').on('click', function (event) {
                 event.preventDefault();
-                if (getLocalItem(STUDY).phase === TYPE_PHASE_EVALUATION) {
-                    loadHTMLintoModal('custom-modal', 'create-info-phases-evaluation.php');
-                } else {
-                    loadHTMLintoModal('custom-modal', 'create-info-phases-identification.php');
+                switch (getLocalItem(STUDY).phase) {
+                    case TYPE_PHASE_EVALUATION:
+                        loadHTMLintoModal('custom-modal', 'create-info-phases-evaluation.php');
+                        break;
+                    case TYPE_PHASE_ELICITATION:
+                        loadHTMLintoModal('custom-modal', 'create-info-phases-identification.php');
+                        break;
+                    case TYPE_PHASE_EXTRACTION:
+                        loadHTMLintoModal('custom-modal', 'create-info-phases-extraction.php');
+                        break;
                 }
             });
 
@@ -897,14 +927,13 @@ if (login_check($mysqli) == true) {
                     loadHTMLintoModal('custom-modal', 'create-info-catalogs-identification.php');
                 }
             });
-
+            
             $('#btn-study').on('click', function (event) {
                 event.preventDefault();
                 clearLocalItems();
                 var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                 goto("study.php?studyId=" + editableStudyId + "&h=" + hash);
             });
-
         </script>
 
     </body>

@@ -24,6 +24,7 @@ var STUDY_DATA_EVALUATOR = 'dataEvaluator';
 var STUDY_EVALUATOR_OBSERVATIONS = 'evaluatorObservations';
 var STUDY_ORIGIN_GUS = 'study.originGUS';
 var STUDY_ORIGIN_SUS = 'study.originSUS';
+var STUDY_ORIGIN_FAVORITE_GESTURES = 'study.originFavoriteGestures';
 var STUDY_PHASE_STEPS = 'study.phaseSteps';
 //var PREDEFINED_GESTURE_SET = 'predefinedGestureSet';
 var GESTURE_CATALOG = 'gestureCatalog';
@@ -45,6 +46,7 @@ var TYPE_SURVEY_UNMODERATED = 'unmoderated';
 var TYPE_SURVEY_MODERATED = 'moderated';
 var TYPE_PHASE_ELICITATION = 'elicitation';
 var TYPE_PHASE_EVALUATION = 'evaluation';
+var TYPE_PHASE_EXTRACTION = 'extraction';
 
 // feedback types
 var TYPE_FEEDBACK_TEXT = 'text';
@@ -63,6 +65,8 @@ var SLIDESHOW_TRIGGER = 'triggerSlideshow';
 var IDENTIFICATION = 'identification';
 var PHYSICAL_STRESS_TEST = 'physicalStressTest';
 var THANKS = 'thanks';
+var EXPLORATION = 'exploration';
+var FAVORITE_GESTURES = 'favoriteGestures';
 
 // questionnaire formats
 var OPEN_QUESTION = 'openQuestion';
@@ -72,6 +76,7 @@ var DICHOTOMOUS_QUESTION_GUS = 'dichotomousQuestionGUS';
 var ALTERNATIVE_QUESTION = 'alternativeQuestion';
 var GROUPING_QUESTION = 'groupingQuestion';
 var GROUPING_QUESTION_GUS = 'groupingQuestionGUS';
+var GROUPING_QUESTION_OPTIONS = 'groupingQuestionOptions';
 var RATING = 'rating';
 var SUM_QUESTION = 'sumQuestion';
 var RANKING = 'ranking';

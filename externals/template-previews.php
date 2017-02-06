@@ -194,6 +194,27 @@ include '../includes/language.php';
         </div>
     </div>
 
+    <div class="panel panel-default root" id="groupingQuestionOptions" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <div class="question text"></div>
+            <div class="hidden" style="width: 100%" id="item-factors">
+                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">
+                <div class="label label-info" id="factor-primary"></div>
+            </div>
+            <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+            <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
+            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            <div>Eingruppierungs-Optionen</div>
+            <div class="option-container"></div>
+        </div>
+    </div>
+
     <div class="panel panel-default root" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
@@ -683,6 +704,100 @@ include '../includes/language.php';
         </div>
     </div>
 
+
+    <!-- exploration container -->
+
+    <div class="row root" id="exploration">
+        <div class="col-md-6 rtc-scalable" id="column-left">
+            <div id="exploration-items-container">
+                <!--                <div class="panel-heading"></div>
+                                <div class="panel-body">-->
+                <!--                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div id="repeats-left"><span class="address">Wiederholungen übrig:</span> <span class="text"></span></div>
+                                            <div id="stress-for"><span class="address">Gezeigt wird Geste:</span> <span class="text"></span></div>
+                                            <button type="button" class="btn btn-default btn-block btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+                                        </div>
+                
+                                        <div class="col-md-6">
+                                            <div class="btn-group-vertical btn-block">
+                                                <button type="button" class="btn btn-info btn-shadow disabled" id="btn-show-gesture">Auffordern</button>
+                                                <button type="button" class="btn btn-info btn-shadow disabled" id="btn-show-question">Fragen zeigen</button>
+                                                <button type="button" class="btn btn-success btn-shadow disabled" id="btn-next-gesture"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+                                            </div>
+                                        </div>
+                                    </div>   -->
+                <!--</div>-->
+            </div>
+        </div>
+        <div class="col-md-6" id="column-right">
+            <div class="panel panel-default" id="general">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <p id="description"></p>
+                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-exploration" style="margin-top: 6px;">Jetzt starten</button>
+                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow hidden" id="btn-next-step" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+                </div>
+            </div>
+
+            <!--            <div class="panel panel-default" id="singleStressQuestions">
+                            <div class="panel-heading">Fragen nach jeder Geste</div>
+                            <div class="panel-body">
+                                <div class="question-container"></div>
+                                <span class="label label-default hidden" id="parts-body">Befragung über Anstrenung mit Grafik für Körper</span> 
+                                <span class="label label-default hidden" id="parts-hands">Befragung über Anstrenung mit Grafik für Hände</span> 
+                                <span class="label label-default hidden" id="parts-bodyHands">Befragung über Anstrenung mit Grafik für Körper und Hände</span> 
+                            </div>
+                        </div>
+            
+                        <div class="panel panel-default" id="sequenceStressQuestions">
+                            <div class="panel-heading">Fragen nach einer Gesten-Squenz</div>
+                            <div class="panel-body">
+                                <div class="question-container"></div>
+                                <span class="label label-default hidden" id="parts-body">Befragung über Anstrenung mit Grafik für Körper</span> 
+                                <span class="label label-default hidden" id="parts-hands">Befragung über Anstrenung mit Grafik für Hände</span> 
+                                <span class="label label-default hidden" id="parts-bodyHands">Befragung über Anstrenung mit Grafik für Körper und Hände</span> 
+                            </div>
+                        </div>-->
+
+            <div class="panel panel-default" id="observations">
+                <div class="panel-heading">Beobachtungen</div>
+                <div class="panel-body">
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="question-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="" id="grouped-exploration-item">
+
+    </div>
+    
+    <div class="" id="ungrouped-exploration-scene-panel">
+        <h4 class=""><?php echo $lang->scenes ?></h4>
+        <div class="">
+            
+        </div>
+    </div>
+
+    <div class="" id="ungrouped-exploration-trigger-panel" style="margin-top: 20px">
+        <h4 class=""><?php echo $lang->trigger ?></h4>
+        <div class="">
+            
+        </div>
+    </div>
+
+    <div class="" id="ungrouped-exploration-gesture-panel" style="margin-top: 20px">
+        <h4 class=""><?php echo $lang->gestures ?></h4>
+        <div class="">
+            
+        </div>
+    </div>
+
+
+
+
     <div class="col-xs-12 col-sm-6 col-lg-12" id="wozItem" style="margin-bottom: 10px;">
 
         <!--<div id="task"></div>-->
@@ -1111,9 +1226,37 @@ include '../includes/language.php';
     </div>
 
 
-    <!-- identification container -->
+    <!-- exploration -->
 
-    <!--<div class="root container" id="identification" style="margin-top: 80px;"></div>-->
+    <div class="root" id="exploration" style="margin-top: 80px;"></div>
+
+    <div id="exploration-moderated">
+        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-8" id="column-right">
+            <div id="general">
+                <h3 style="margin: 0"  class="headline"></h3>
+                <div class="description"></div>
+                <hr>
+            </div>
+            <div class="alert-space alert-waiting-for-moderator"></div>
+            <div class="hidden" id="exploration-items-container"></div>
+        </div>
+    </div>
+
+    <div class="container" id="exploration-unmoderated">
+        <div id="general">
+            <h3 style="margin: 0"  class="headline"></h3>
+            <div class="description"></div>
+            <hr>
+        </div>
+
+        <div class="row hidden" id="slideshowContainer"></div>
+        <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-done" name="btn-success">Fertig</button>
+    </div>
+
+
+
+    <!-- identification container -->
 
     <div class="root" id="identification" style="width: 100%;">
 
@@ -1495,8 +1638,6 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="thanks" style="margin-top: 80px;">
-
-
     </div>
 
     <div id="thanks-moderated">
@@ -1664,6 +1805,12 @@ include '../includes/language.php';
     </div>
 
     <div class="panel panel-default root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question text"></p> 
+            <div class="option-container root"></div>
+        </div>
+    </div>
+    <div class="panel panel-default root" id="groupingQuestionOptions" style="margin-bottom: 5px;">
         <div class="panel-body">
             <p class="question text"></p> 
             <div class="option-container root"></div>

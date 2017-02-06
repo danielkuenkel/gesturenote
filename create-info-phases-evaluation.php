@@ -22,6 +22,7 @@ include './includes/language.php';
             <li><?php echo $lang->createStudyInfos->phases->openQuestion ?></li>
             <li><?php echo $lang->createStudyInfos->phases->dichotomousQuestion ?></li>
             <li><?php echo $lang->createStudyInfos->phases->groupingQuestion ?></li>
+            <li><?php echo $lang->createStudyInfos->phases->groupingQuestionOptions ?></li>
             <li><?php echo $lang->createStudyInfos->phases->sumQuestion ?></li>
             <li><?php echo $lang->createStudyInfos->phases->ranking ?></li>
             <li><?php echo $lang->createStudyInfos->phases->rating ?></li>

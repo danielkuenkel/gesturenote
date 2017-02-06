@@ -21,6 +21,7 @@ var currentIdentificationIndex = 0;
 var identificationTriggered = false;
 var identificationStartTriggered = false;
 var identificationDone = false;
+var explorationStartTriggered = false;
 
 var currentStressTestCount = 0;
 var currentStressTestIndex = 0;
@@ -228,6 +229,8 @@ function resetConstraints() {
     identificationStartTriggered = false;
     identificationDone = false;
 
+    explorationStartTriggered = false;
+
     singleGUSGesture = null;
 }
 
@@ -398,5 +401,50 @@ function getItemsForSceneId(data, sceneId) {
         }
         return array;
     }
+    return null;
+}
+
+function getUngroupedExplorationGestures(data) {
+    if (data && data.length > 0) {
+        var items = new Array();
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].gestureId && data[i].gestureId !== '') {
+                items.push(data[i].gestureId);
+            }
+        }
+        items = unique(items);
+        return items;
+    }
+
+    return null;
+}
+
+function getUngroupedExplorationTrigger(data) {
+    if (data && data.length > 0) {
+        var items = new Array();
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].triggerId && data[i].triggerId !== '' && data[i].triggerId !== 'none') {
+                items.push(data[i].triggerId);
+            }
+        }
+        items = unique(items);
+        return items;
+    }
+
+    return null;
+}
+
+function getUngroupedExplorationScenes(data) {
+    if (data && data.length > 0) {
+        var items = new Array();
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].sceneId && data[i].sceneId !== '' && data[i].sceneId !== 'none') {
+                items.push(data[i].sceneId);
+            }
+        }
+        items = unique(items);
+        return items;
+    }
+
     return null;
 }

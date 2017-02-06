@@ -63,6 +63,9 @@ var Tester = {
                 case PHYSICAL_STRESS_TEST:
                     item = Tester.getPhysicalStressTest(source, container, currentPhaseData);
                     break;
+                case EXPLORATION:
+                    item = Tester.getExploration(source, container, currentPhaseData);
+                    break;
             }
 
             if (item !== false || item !== null) {
@@ -188,7 +191,7 @@ var Tester = {
 
 //        $(container).find('.question-container').empty();
 
-        
+
 
         if (questionnaireDone) {
             $(container).find('#btn-next-step').prev().addClass('hidden');
@@ -256,25 +259,6 @@ var Tester = {
         $(container).append(content);
         container = Tester.getQuestionnaire(container, data, false);
         return container;
-
-//        for (var i = 0; i < data.length; i++) {
-//            var item = $(source).find('#susItem').clone(false).removeAttr('id');
-//            item.attr('id', SUS_ITEM);
-//            $(item).find('.question').text(i + 1 + '. ' + data[i].question);
-//            renderSusInput(item);
-//            $(container).find('.question-container').append(item);
-//        }
-//
-//        $(container).find('#btn-next-step').unbind('click').bind('click', function (event) {
-//            event.preventDefault();
-//            $(container).find('#btn-next-step').prev().addClass('hidden');
-//            $(container).find('#btn-next-step').addClass('hidden');
-//            questionnaireDone = true;
-//            if (!previewModeEnabled && peerConnection) {
-//                peerConnection.sendMessage(MESSAGE_QUESTIONNAIRE_DONE);
-//            }
-//        });
-//        return container;
     },
     getGestureTraining: function getGestureTraining(source, container, data) {
         // general data section
@@ -1055,16 +1039,13 @@ var Tester = {
     },
     getPhysicalStressTest: function getPhysicalStressTest(source, container, data) {
         if (!data.stressTestItems || data.stressTestItems.length === 0) {
-            return false;
+            appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
+            return container;
         }
 
         // general data section
         $(container).find('.headline').text(data.title);
         $(container).find('.description').text(data.description);
-        if (data.stressTestItems.length === 0) {
-            appendAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-            return container;
-        }
 
         if (stressTestStartTriggered) {
             $(container).find('#general').remove();
@@ -1602,6 +1583,59 @@ var Tester = {
             nextStep();
         });
     },
+    getExploration: function getExploration(source, container, data) {
+
+        var panelContent = $(source).find('#exploration-' + getLocalItem(STUDY).surveyType).clone();
+        container.empty().append(panelContent);
+        console.log('get Exploration', data, container, panelContent);
+        // general data section
+        $(container).find('.headline').text(data.title);
+        $(container).find('.description').text(data.description);
+//  
+        if (!explorationStartTriggered) {
+            appendAlert(container, ALERT_WAITING_FOR_MODERATOR);
+        } else {
+            $(container).find('#exploration-items-container').removeClass('hidden')
+        }
+
+        // render data (gestures, trigger, scenes)
+        if (data.grouping === 'ungrouped') {
+            var gestures = getUngroupedExplorationGestures(data.exploration);
+            var trigger = getUngroupedExplorationTrigger(data.exploration);
+            var scenes = getUngroupedExplorationScenes(data.exploration);
+            var itemContainer;
+
+            if (scenes && scenes.length > 0) {
+                console.log('there are scenes');
+            }
+
+            if (trigger && trigger.length > 0) {
+                console.log('there are trigger');
+            }
+
+            if (gestures && gestures.length > 0) {
+                console.log('there are gestures');
+                itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-gesture-panel').clone();
+                $(container).find('#exploration-items-container').append(itemContainer);
+                console.log('there are gestures', itemContainer);
+            }
+        } else {
+
+        }
+
+//        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+//            Tester.renderUnmoderatedExploration(source, container, data);
+//        } else {
+//            Tester.renderModeratedExploration(source, container, data);
+//        }
+        return container;
+    },
+//    renderUnmoderatedExploration: function renderUnmoderatedExploration(source, container, data) {
+//
+//    },
+//    renderModeratedExploration: function renderModeratedExploration(source, container, data) {
+//
+//    },
     initializeRTC: function initializeRTC() {
         // check preview or live mode, and check if webRTC is needed
         if (isWebRTCNeededInFuture()) {

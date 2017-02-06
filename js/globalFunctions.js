@@ -196,7 +196,7 @@ function renderSubPageElements(hasTopNavbar) {
 
 $(document).on('click', '.select .option li', function (event) {
     event.preventDefault();
-    if (!event.handled) {
+    if (!event.handled && !$(this).hasClass('disabled')) {
         event.handled = true;
         if ($(this).hasClass('dropdown-header') || $(this).hasClass('divider') || $(this).hasClass('selected')) {
             return false;
@@ -606,7 +606,11 @@ $(document).on('mouseup', '.simple-stepper .btn-stepper-decrease', function (eve
 
 function renderAssembledGestures(targetContainer) {
     var gestures = assembledGestures();
-    var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
+    var target = $('#form-item-container');
+    if (targetContainer !== undefined && targetContainer !== null) {
+        target = targetContainer;
+    }
+
     if (gestures !== null) {
         var dropdown = target === null ? $('#form-item-container').find('.gestureSelect') : $(target).find('.gestureSelect');
         $(dropdown).find('.option').empty();
@@ -633,10 +637,14 @@ function renderAssembledGestures(targetContainer) {
  * Actions for the trigger select dropdown
  */
 
-function renderAssembledTriggers(targetContainer) {
+function renderAssembledTriggers(targetContainer, addNoneItem) {
     var triggers = getLocalItem(ASSEMBLED_TRIGGER);
-    var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
+    var target = $('#form-item-container');
+    if (targetContainer !== undefined && targetContainer !== null) {
+        target = targetContainer;
+    }
 
+    var listItem, link;
     if (triggers && triggers.length > 0) {
         var dropdown = target === null ? $('#form-item-container').find('.triggerSelect') : $(target).find('.triggerSelect');
         $(dropdown).find('.option').empty();
@@ -644,20 +652,31 @@ function renderAssembledTriggers(targetContainer) {
         $(target).find('.triggerSelect .dropdown-toggle').removeClass('disabled');
         $(target).find('.option-trigger').attr('placeholder', 'Bitte wählen');
 
-        var listItem;
         for (var i = 0; i < triggers.length; i++) {
             listItem = document.createElement('li');
             listItem.setAttribute('id', triggers[i].id);
-            var link = document.createElement('a');
+            link = document.createElement('a');
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode(triggers[i].title));
             listItem.appendChild(link);
             $(dropdown).find('.option').append(listItem);
         }
+
+        if (addNoneItem) {
+            link = document.createElement('a');
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', 'none');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(translation.none));
+            listItem.appendChild(link);
+            $(dropdown).find('.option').append(listItem);
+        }
     } else {
         $(target).find('.triggerSelect .dropdown-toggle').addClass('disabled');
-        $('body').find('.option-trigger').attr('placeholder', 'Keine Funktionen vorhanden');
+        $(target).find('.option-trigger').attr('placeholder', 'Keine Funktionen vorhanden');
     }
+
+
 }
 
 
@@ -665,10 +684,14 @@ function renderAssembledTriggers(targetContainer) {
  * Actions for the prototype select dropdown
  */
 
-function renderAssembledScenes(targetContainer) {
+function renderAssembledScenes(targetContainer, addNoneItem) {
     var scenes = getLocalItem(ASSEMBLED_SCENES);
-    var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
+    var target = $('#form-item-container');
+    if (targetContainer !== undefined && targetContainer !== null) {
+        target = targetContainer;
+    }
 
+    var listItem, link;
     if (scenes && scenes.length > 0) {
         var dropdown = target === null ? $('#form-item-container').find('.sceneSelect') : $(target).find('.sceneSelect');
         $(dropdown).find('.option').empty();
@@ -676,19 +699,30 @@ function renderAssembledScenes(targetContainer) {
         $(target).find('.sceneSelect .dropdown-toggle').removeClass('disabled');
         $(target).find('.option-scene').attr('placeholder', 'Bitte wählen');
 
-        var listItem;
+
         for (var i = 0; i < scenes.length; i++) {
             listItem = document.createElement('li');
             listItem.setAttribute('id', scenes[i].id);
-            var link = document.createElement('a');
+            link = document.createElement('a');
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode(scenes[i].title));
             listItem.appendChild(link);
             $(dropdown).find('.option').append(listItem);
         }
+
+        if (addNoneItem) {
+            link = document.createElement('a');
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', 'none');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(translation.none));
+            listItem.appendChild(link);
+            $(dropdown).find('.option').append(listItem);
+        }
     } else {
+        console.log('disabled scene dropdown');
         $(target).find('.sceneSelect .dropdown-toggle').addClass('disabled');
-        $('body').find('.item-input-text').attr('placeholder', 'Keine Szene vorhanden');
+        $(target).find('.option-scene').attr('placeholder', 'Keine Zustände vorhanden');
     }
 }
 
@@ -698,7 +732,7 @@ function renderAssembledScenes(targetContainer) {
 
 function renderAssembledFeedback(targetContainer) {
     var feedback = getLocalItem(ASSEMBLED_FEEDBACK);
-    var target = targetContainer === undefined ? $('#form-item-container') : targetContainer;
+    var target = targetContainer === undefined || null ? $('#form-item-container') : targetContainer;
     if (feedback !== null) {
         feedback = sortByKey(feedback, 'type', true);
         var currentType = null;

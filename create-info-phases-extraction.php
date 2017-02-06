@@ -29,10 +29,8 @@ include './includes/language.php';
         </ul>
     </div>
     <div style="margin-top: 20px">
-        <div style="font-weight: bold"><?php echo $lang->formats->identification->text ?></div>
-        <p><?php echo $lang->createStudyInfos->phases->identification ?></p>
-        <p><?php echo $lang->createStudyInfos->phases->identificationGestures ?></p>
-        <span><?php echo $lang->createStudyInfos->phases->identificationTrigger ?></span>
+        <div style="font-weight: bold"><?php echo $lang->formats->exploration->text ?></div>
+        <p><?php echo $lang->createStudyInfos->phases->exploration ?></p>
     </div>
 </div>
 <div id="modal-footer" class="modal-footer">

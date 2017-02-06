@@ -99,7 +99,8 @@ function renderFormatItem(target, data) {
             }
             break;
         case GROUPING_QUESTION_GUS:
-            if (parameters.used === 'used') {
+        case GROUPING_QUESTION_OPTIONS:
+            if (parameters.used && parameters.used === 'used') {
                 $(clone).find('.btn-use').click();
             }
             $(clone).find('.multiselect .switchButtonAddon').click();
@@ -267,6 +268,12 @@ function getFormatData(element) {
                 justification: $(element).find('.justification .active').attr('id'),
                 justificationFor: $(element).find('.justification-for .active').attr('id')};
             break;
+        case GROUPING_QUESTION_OPTIONS:
+            parameters = {multiselect: $(element).find('.multiselect .active').attr('id'),
+                optionSource: $(element).find('.optionselect .active').attr('id'),
+                justification: $(element).find('.justification .active').attr('id'),
+                justificationFor: $(element).find('.justification-for .active').attr('id')};
+            break;
         case RATING:
             options = new Array();
             var optionList = $(element).find('.option-container').children();
@@ -382,6 +389,7 @@ function renderQuestionnaire(target, questionnaire, answers) {
                         break;
                     case GROUPING_QUESTION:
                     case GROUPING_QUESTION_GUS:
+                    case GROUPING_QUESTION_OPTIONS:
                         renderEditableGroupingQuestion(item, questionnaire[i], answer);
                         break;
                     case RATING:
@@ -409,6 +417,7 @@ function renderQuestionnaire(target, questionnaire, answers) {
                         renderGroupingQuestionInput(item, parameters, options);
                         break;
                     case GROUPING_QUESTION_GUS:
+                    case GROUPING_QUESTION_OPTIONS:
                         renderGroupingQuestionGUSInput(item, parameters);
                         break;
                     case RATING:
@@ -466,6 +475,7 @@ function getQuestionnaireAnswers(questionnaire) {
                 questionnaireAnswers.push({id: id, answer: getGroupingQuestionAnswers($(questionnaire[i]))});
                 break;
             case GROUPING_QUESTION_GUS:
+            case GROUPING_QUESTION_OPTIONS:
                 questionnaireAnswers.push({id: id, answer: getGroupingQuestionGUSAnswers($(questionnaire[i]))});
                 break;
             case RATING:
@@ -643,6 +653,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData) {
                         renderGroupingQuestion(listItem, studyData[i], answer);
                         break;
                     case GROUPING_QUESTION_GUS:
+                    case GROUPING_QUESTION_OPTIONS:
                         renderGroupingQuestionGUS(listItem, studyData[i], answer);
                         break;
                     case RATING:
@@ -1796,6 +1807,7 @@ function renderEditableObservations(target, studyData, resultData) {
                             renderEditableGroupingQuestion(listItem, studyData[i], answer);
                             break;
                         case GROUPING_QUESTION_GUS:
+                        case GROUPING_QUESTION_OPTIONS:
                             renderEditableGroupingQuestionGUS(listItem, studyData[i], answer);
                             break;
                         case RATING:
