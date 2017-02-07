@@ -122,65 +122,68 @@ var Moderator = {
     getQuestionnaire: function getQuestionnaire(source, container, data, isPreview) {
         data = getAssembledItems(data);
         if (data && data.length > 0) {
-            for (var i = 0; i < data.length; i++) {
-                var item = $(source).find('#' + data[i].format).clone();
-                item.attr('name', data[i].id);
+            if (isPreview) {
+                renderQuestionnaireAnswers(container, data, null);
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    var item = $(source).find('#' + data[i].format).clone();
+                    item.attr('name', data[i].id);
 
 //            console.log('clone: ' + data[i].format + " form: " + source.attr('id'));
-                if (data.length > 1) {
-                    $(item).find('.question').text((i + 1) + '. ' + data[i].question);
-                } else {
-                    $(item).find('.question').text(data[i].question);
-                }
-
-                $(container).find('.question-container').append(item);
-                if (data[i].dimension !== DIMENSION_ANY) {
-                    $(item).find('#item-factors').removeClass('hidden');
-                    $(item).find('#factor-primary').text(translation.dimensions[data[i].dimension]);
-                    $(item).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(data[i].dimension)]);
-                }
-
-                var parameters = data[i].parameters;
-                var options = data[i].options;
-                if (isPreview) {
-                    item.find('#format .format-text').text(translation.questionFormats[data[i].format].text);
-                    switch (data[i].format) {
-                        case COUNTER:
-                            renderCounterPreview(item, parameters);
-                            break;
-                        case DICHOTOMOUS_QUESTION:
-                            renderDichotomousQuestionPreview(item, parameters);
-                            break;
-                        case DICHOTOMOUS_QUESTION_GUS:
-                            renderDichotomousQuestionGUSPreview(item, parameters);
-                            break;
-                        case GROUPING_QUESTION:
-                            renderGroupingQuestionPreview(source, item, parameters, options);
-                            break;
-                        case GROUPING_QUESTION_GUS:
-                        case GROUPING_QUESTION_OPTIONS:
-                            renderGroupingQuestionGUSPreview(source, item, parameters);
-                            break;
-                        case GUS_SINGLE:
-                            renderGUSSinglePreview(item, data[i]);
-                            break;
-                        case RATING:
-                            renderRatingPreview(source, item, options);
-                            break;
-                        case SUM_QUESTION:
-                            renderSumQuestionPreview(source, item, parameters, options);
-                            break;
-                        case RANKING:
-                            renderRankingPreview(source, item, options);
-                            break;
-                        case ALTERNATIVE_QUESTION:
-                            renderAlternativeQuestionPreview(item, parameters);
-                            break;
-                        case SUS_ITEM:
-                            renderSUSPreview(item, parameters);
-                            break;
+                    if (data.length > 1) {
+                        $(item).find('.question').text((i + 1) + '. ' + data[i].question);
+                    } else {
+                        $(item).find('.question').text(data[i].question);
                     }
-                } else {
+
+                    $(container).find('.question-container').append(item);
+                    if (data[i].dimension !== DIMENSION_ANY) {
+                        $(item).find('#item-factors').removeClass('hidden');
+                        $(item).find('#factor-primary').text(translation.dimensions[data[i].dimension]);
+                        $(item).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(data[i].dimension)]);
+                    }
+
+                    var parameters = data[i].parameters;
+                    var options = data[i].options;
+//                if (isPreview) {
+//                    item.find('#format .format-text').text(translation.questionFormats[data[i].format].text);
+//                    switch (data[i].format) {
+//                        case COUNTER:
+//                            renderCounterPreview(item, parameters);
+//                            break;
+//                        case DICHOTOMOUS_QUESTION:
+//                            renderDichotomousQuestionPreview(item, parameters);
+//                            break;
+//                        case DICHOTOMOUS_QUESTION_GUS:
+//                            renderDichotomousQuestionGUSPreview(item, parameters);
+//                            break;
+//                        case GROUPING_QUESTION:
+//                            renderGroupingQuestionPreview(source, item, parameters, options);
+//                            break;
+//                        case GROUPING_QUESTION_GUS:
+//                        case GROUPING_QUESTION_OPTIONS:
+//                            renderGroupingQuestionGUSPreview(source, item, parameters);
+//                            break;
+//                        case GUS_SINGLE:
+//                            renderGUSSinglePreview(item, data[i]);
+//                            break;
+//                        case RATING:
+//                            renderRatingPreview(source, item, options);
+//                            break;
+//                        case SUM_QUESTION:
+//                            renderSumQuestionPreview(source, item, parameters, options);
+//                            break;
+//                        case RANKING:
+//                            renderRankingPreview(source, item, options);
+//                            break;
+//                        case ALTERNATIVE_QUESTION:
+//                            renderAlternativeQuestionPreview(item, parameters);
+//                            break;
+//                        case SUS_ITEM:
+//                            renderSUSPreview(item, parameters);
+//                            break;
+//                    }
+//                } else {
                     switch (data[i].format) {
                         case OPEN_QUESTION:
                             renderOpenQuestionInput(item);
@@ -213,6 +216,7 @@ var Moderator = {
                         case ALTERNATIVE_QUESTION:
                             renderAlternativeQuestionInput(item, parameters);
                             break;
+//                    }
                     }
                 }
             }
@@ -941,22 +945,34 @@ var Moderator = {
         console.log(source, container, data);
         $(container).find('#general .panel-heading').text(data.title);
         $(container).find('#general #description').text(data.description);
-        
+
         // observation section
         renderObservations(data, container);
-        
-        if(explorationStartTriggered) {
+
+        // render data (gestures, trigger, scenes)
+        renderExplorationItems(container, data, 'modal-gesture-rudimentary');
+
+        if (explorationStartTriggered) {
             $(container).find('#btn-start-exploration').remove();
             $(container).find('#btn-next-step').removeClass('hidden');
         }
-        
-        $(container).find('#btn-start-exploration').unbind('click').bind('click', function(event) {
+
+        $(container).find('#btn-start-exploration').unbind('click').bind('click', function (event) {
+            event.preventDefault();
             $(container).find('#btn-next-step').removeClass('hidden');
             explorationStartTriggered = true;
-//            wobble();
+            wobble(container.find('#exploration-items-container'));
             $(this).remove();
         });
-        
+
+        $(container).find('#btn-next-step').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+            }
+            nextStep();
+        });
+
         return container;
     },
     getScenario: function getScenario(source, container, data) {

@@ -66,6 +66,7 @@ if (login_check($mysqli) == true) {
         <div id="alerts"></div>
         <div id="template-gesture"></div>
         <div id="template-previews"></div>
+        <div id="template-study"></div>
         <div id="template-gesture-recorder"></div>
 
         <div id="preview-bar-top" style="padding: 10px; position: fixed">
@@ -186,6 +187,7 @@ if (login_check($mysqli) == true) {
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
+                    externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
                 });

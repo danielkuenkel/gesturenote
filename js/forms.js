@@ -87,6 +87,8 @@ function renderFormatItem(target, data) {
         case GROUPING_QUESTION:
             $(clone).find('.multiselect #' + parameters.multiselect).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
+            $(clone).find('.justification #' + parameters.justification).click();
+            $(clone).find('.justification-for #' + parameters.justificationFor).click();
 
             if (options) {
                 for (var j = 0; j < options.length; j++) {
@@ -103,7 +105,8 @@ function renderFormatItem(target, data) {
             if (parameters.used && parameters.used === 'used') {
                 $(clone).find('.btn-use').click();
             }
-            $(clone).find('.multiselect .switchButtonAddon').click();
+            $(clone).find('.multiselect #' + parameters.multiselect).click();
+            $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
             $(clone).find('.justification #' + parameters.justification).click();
             $(clone).find('.justification-for #' + parameters.justificationFor).click();
             $(clone).find('.optionselect #' + parameters.optionSource).click();
@@ -254,6 +257,8 @@ function getFormatData(element) {
             break;
         case GROUPING_QUESTION:
             parameters = {multiselect: $(element).find('.multiselect .active').attr('id'),
+                justification: $(element).find('.justification .active').attr('id'),
+                justificationFor: $(element).find('.justification-for .active').attr('id'),
                 optionalanswer: $(element).find('.optionalanswer .active').attr('id')};
             options = new Array();
             var groupingOptions = $(element).find('.option-container').children();
@@ -266,13 +271,15 @@ function getFormatData(element) {
                 multiselect: $(element).find('.multiselect .active').attr('id'),
                 optionSource: $(element).find('.optionselect .active').attr('id'),
                 justification: $(element).find('.justification .active').attr('id'),
-                justificationFor: $(element).find('.justification-for .active').attr('id')};
+                justificationFor: $(element).find('.justification-for .active').attr('id'),
+                optionalanswer: $(element).find('.optionalanswer .active').attr('id')};
             break;
         case GROUPING_QUESTION_OPTIONS:
             parameters = {multiselect: $(element).find('.multiselect .active').attr('id'),
                 optionSource: $(element).find('.optionselect .active').attr('id'),
                 justification: $(element).find('.justification .active').attr('id'),
-                justificationFor: $(element).find('.justification-for .active').attr('id')};
+                justificationFor: $(element).find('.justification-for .active').attr('id'),
+                optionalanswer: $(element).find('.optionalanswer .active').attr('id')};
             break;
         case RATING:
             options = new Array();
@@ -472,11 +479,9 @@ function getQuestionnaireAnswers(questionnaire) {
                 questionnaireAnswers.push({id: id, answer: getDichotomousQuestionAnswers($(questionnaire[i]))});
                 break;
             case GROUPING_QUESTION:
-                questionnaireAnswers.push({id: id, answer: getGroupingQuestionAnswers($(questionnaire[i]))});
-                break;
             case GROUPING_QUESTION_GUS:
             case GROUPING_QUESTION_OPTIONS:
-                questionnaireAnswers.push({id: id, answer: getGroupingQuestionGUSAnswers($(questionnaire[i]))});
+                questionnaireAnswers.push({id: id, answer: getGroupingQuestionAnswers($(questionnaire[i]))});
                 break;
             case RATING:
                 questionnaireAnswers.push({id: id, answer: getRatingAnswers($(questionnaire[i]))});
@@ -536,20 +541,7 @@ function getGroupingQuestionAnswers(source) {
     } else {
         data.selectedOptions = array;
     }
-    data.optionalAnswer = $(source).find('.optionalInput').val();
-    return data;
-}
 
-function getGroupingQuestionGUSAnswers(source) {
-    var data = new Object();
-    var selectedOptions = $(source).find('.option-container .btn-option-checked');
-    var array = new Array();
-    for (var i = 0; i < selectedOptions.length; i++) {
-        if ($(selectedOptions[i]).parent().attr('id') !== 'checkbox-optionalanswer') {
-            array.push($(selectedOptions[i]).find('.option-text').attr('id'));
-        }
-    }
-    data.selectedOptions = array;
     data.optionalAnswer = $(source).find('.optionalInput').val();
     var justificationInput = $(source).find('#justificationInput');
     if (justificationInput && justificationInput.length > 0) {
@@ -560,6 +552,27 @@ function getGroupingQuestionGUSAnswers(source) {
 
     return data;
 }
+
+//function getGroupingQuestionGUSAnswers(source) {
+//    var data = new Object();
+//    var selectedOptions = $(source).find('.option-container .btn-option-checked');
+//    var array = new Array();
+//    for (var i = 0; i < selectedOptions.length; i++) {
+//        if ($(selectedOptions[i]).parent().attr('id') !== 'checkbox-optionalanswer') {
+//            array.push($(selectedOptions[i]).find('.option-text').attr('id'));
+//        }
+//    }
+//    data.selectedOptions = array;
+//    data.optionalAnswer = $(source).find('.optionalInput').val();
+//    var justificationInput = $(source).find('#justificationInput');
+//    if (justificationInput && justificationInput.length > 0) {
+//        data.justification = $(source).find('#justificationInput').val();
+//    } else {
+//        data.justification = '';
+//    }
+//
+//    return data;
+//}
 
 function getRatingAnswers(source) {
     var data = new Object();
@@ -623,8 +636,9 @@ function renderQuestionnaireAnswers(content, studyData, resultsData) {
     for (var i = 0; i < studyData.length; i++) {
         var listItem = $('#template-study-container').find('#' + studyData[i].format).clone();
         listItem.find('#format .format-text').text(translation.questionFormats[studyData[i].format].text);
-        $(listItem).find('.question').text(studyData[i].question);
-        $(content).find('.list-container').append(listItem);
+        $(listItem).find('.question').text((i + 1) + '. ' + studyData[i].question);
+        $(content).find('.question-container').append(listItem);
+//        console.log(content, listItem);
 
         if (studyData[i].dimension !== DIMENSION_ANY) {
             $(listItem).find('#item-factors').removeClass('hidden');
@@ -632,57 +646,71 @@ function renderQuestionnaireAnswers(content, studyData, resultsData) {
             $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
         }
 
-        for (var j = 0; j < resultsData.answers.length; j++) {
-            if (parseInt(studyData[i].id) === parseInt(resultsData.answers[j].id)) {
-                var answer = resultsData.answers[j].answer;
-                switch (studyData[i].format) {
-                    case COUNTER:
-                        renderCounter(listItem, studyData[i], answer);
-                        break;
-                    case OPEN_QUESTION:
-                    case OPEN_QUESTION_GUS:
-                        renderOpenQuestion(listItem, studyData[i], answer);
-                        break;
-                    case DICHOTOMOUS_QUESTION:
-                        renderDichotomousQuestion(listItem, studyData[i], answer);
-                        break;
-                    case DICHOTOMOUS_QUESTION_GUS:
-                        renderDichotomousQuestion(listItem, studyData[i], answer);
-                        break;
-                    case GROUPING_QUESTION:
-                        renderGroupingQuestion(listItem, studyData[i], answer);
-                        break;
-                    case GROUPING_QUESTION_GUS:
-                    case GROUPING_QUESTION_OPTIONS:
-                        renderGroupingQuestionGUS(listItem, studyData[i], answer);
-                        break;
-                    case RATING:
-                        renderRating(listItem, studyData[i], answer);
-                        break;
-                    case SUM_QUESTION:
-                        renderSumQuestion(listItem, studyData[i], answer);
-                        break;
-                    case RANKING:
-                        renderRanking(listItem, studyData[i], answer);
-                        break;
-                    case ALTERNATIVE_QUESTION:
-                        renderAlternativeQuestion(listItem, studyData[i], answer);
-                        break;
-                    case GUS_SINGLE:
-                        renderGUS(listItem, studyData[i], answer);
-                        break;
-                    case SUS_ITEM:
-                        renderSUSItem(listItem, studyData[i], answer);
-                        break;
-                }
 
+//        for (var j = 0; j < resultsData.answers.length; j++) {
+//            if (parseInt(studyData[i].id) === parseInt(resultsData.answers[j].id)) {
+//                var answer = resultsData.answers[j].answer;
+        switch (studyData[i].format) {
+            case COUNTER:
+                renderCounter(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData));
+//                        renderCounter(listItem, studyData[i], answer);
                 break;
-            }
+            case OPEN_QUESTION:
+            case OPEN_QUESTION_GUS:
+                renderOpenQuestion(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData));
+                break;
+            case DICHOTOMOUS_QUESTION:
+                renderDichotomousQuestion(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData));
+                break;
+            case DICHOTOMOUS_QUESTION_GUS:
+                renderDichotomousQuestion(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData));
+                break;
+            case GROUPING_QUESTION:
+                renderGroupingQuestion(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData));
+                break;
+            case GROUPING_QUESTION_GUS:
+            case GROUPING_QUESTION_OPTIONS:
+                renderGroupingQuestionGUS(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData));
+                break;
+            case RATING:
+                renderRating(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData));
+                break;
+            case SUM_QUESTION:
+                renderSumQuestion(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData));
+                break;
+            case RANKING:
+                renderRanking(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData));
+                break;
+            case ALTERNATIVE_QUESTION:
+                renderAlternativeQuestion(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData));
+                break;
+            case GUS_SINGLE:
+                renderGUS(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData));
+                break;
+            case SUS_ITEM:
+                renderSUSItem(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData));
+                break;
         }
+
+//                break;
+//            }
+//        }
 
         $(listItem).css({y: 0, opacity: 1});
         TweenMax.from(listItem, .1, {delay: i * .1, opacity: 0, y: -10});
     }
+}
+
+function getAnswerForId(id, data) {
+    if (data && data.length > 0) {
+        for (var i = 0; i < data.answers.length; i++) {
+            if (parseInt(id) === parseInt(data.answers[i].id)) {
+                return data.answers[i].answer;
+            }
+        }
+    }
+
+    return null;
 }
 
 function renderCounter(item, studyData, answer) {
@@ -690,7 +718,7 @@ function renderCounter(item, studyData, answer) {
 //    $(item).find('.question').text(studyData.question);
     $(item).find('#counter-label .counter-from').text(translation.of + ' ' + translation.atLeast + ' ' + parameters.countFrom);
     $(item).find('#counter-label .counter-to').text(translation.to + ' ' + translation.maximal + ' ' + parameters.countTo);
-    if (answer.count && answer.count !== '') {
+    if (answer && answer.count && answer.count !== '') {
         $(item).find('.answer').text(answer.count);
     } else {
         $(item).find('#no-answer').removeClass('hidden');
@@ -709,10 +737,10 @@ function renderEditableCounter(item, studyData, answer) {
     }
 }
 
-function renderOpenQuestion(item, studyData, resultsData) {
+function renderOpenQuestion(item, studyData, answer) {
 //    $(item).find('.question').text(studyData.question);
-    if (resultsData.openAnswer && resultsData.openAnswer !== '') {
-        $(item).find('.answer').text(resultsData.openAnswer);
+    if (answer && answer.openAnswer && answer.openAnswer !== '') {
+        $(item).find('.answer').text(answer.openAnswer);
     } else {
         $(item).find('#no-answer').removeClass('hidden');
     }
@@ -725,22 +753,30 @@ function renderEditableOpenQuestion(item, answer) {
     }
 }
 
-function renderDichotomousQuestion(item, studyData, resultsData) {
-    if (resultsData.selectedSwitch === 'none') {
+function renderDichotomousQuestion(item, studyData, answer) {
+    if (answer) {
+        if (answer.selectedSwitch === 'none') {
+            $(item).find('#no-answer').removeClass('hidden');
+            $(item).find('#selection').remove();
+        } else {
+            $(item).find('#selection .text').text(translation[answer.selectedSwitch]);
+        }
+    } else {
         $(item).find('#no-answer').removeClass('hidden');
         $(item).find('#selection').remove();
-    } else {
-        $(item).find('#selection .text').text(translation[resultsData.selectedSwitch]);
     }
 
     if (studyData.parameters.justification === 'yes') {
         $(item).find('#justification').removeClass('hidden');
         $(item).find('#' + studyData.parameters.justificationFor).removeClass('hidden');
-        if ((resultsData.selectedSwitch === studyData.parameters.justificationFor || studyData.parameters.justificationFor === 'always') && resultsData.justification !== '') {
-            $(item).find('#justification-content').removeClass('hidden');
-            $(item).find('#justification-content .text').text(resultsData.justification);
-        } else if (resultsData.justification === '' && (resultsData.selectedSwitch === studyData.parameters.justificationFor || studyData.parameters.justificationFor === 'always')) {
-            $(item).find('#no-justification-result').removeClass('hidden');
+
+        if (answer) {
+            if ((answer.selectedSwitch === studyData.parameters.justificationFor || studyData.parameters.justificationFor === 'always') && answer.justification !== '') {
+                $(item).find('#justification-content').removeClass('hidden');
+                $(item).find('#justification-content .text').text(answer.justification);
+            } else if (answer.justification === '' && (answer.selectedSwitch === studyData.parameters.justificationFor || studyData.parameters.justificationFor === 'always')) {
+                $(item).find('#no-justification-result').removeClass('hidden');
+            }
         }
     } else {
         $(item).find('#no-justification').removeClass('hidden');
@@ -767,7 +803,7 @@ function renderEditableDichotomousQuestion(item, studyData, answer) {
     }
 }
 
-function renderGroupingQuestion(item, studyData, resultsData) {
+function renderGroupingQuestion(item, studyData, answer) {
 //    console.log(studyData, resultsData);
 //    $(item).find('.question').text(studyData.question);
     if (studyData.parameters.multiselect === 'yes') {
@@ -777,17 +813,19 @@ function renderGroupingQuestion(item, studyData, resultsData) {
     }
 
     if (studyData.parameters.optionalanswer === 'yes') {
-//                    $(item).find('#optionalanswer, #optionalanswer-headline').removeClass('hidden');
-
-        if (resultsData.optionalAnswer !== '') {
+        if (answer && answer.optionalAnswer !== '') {
             $(item).find('#optionalanswer-content').removeClass('hidden');
-            $(item).find('#optionalanswer-content .text').text(resultsData.optionalAnswer);
+            $(item).find('#optionalanswer-content .text').text(answer.optionalAnswer);
         } else {
             $(item).find('#no-optional-answer').removeClass('hidden');
         }
     }
 
-    if ((resultsData.selectedOptions && parseInt(resultsData.selectedOptions) === -1) || !resultsData.selectedOptions) {
+    if (answer) {
+        if ((answer.selectedOptions && parseInt(answer.selectedOptions) === -1) || !answer.selectedOptions) {
+            $(item).find('#no-answer').removeClass('hidden');
+        }
+    } else {
         $(item).find('#no-answer').removeClass('hidden');
     }
 
@@ -799,10 +837,10 @@ function renderGroupingQuestion(item, studyData, resultsData) {
             item.find('.option-container').append(document.createElement('br'));
         }
 
-        if (resultsData.selectedOptions && resultsData.selectedOptions.length > 0) {
+        if (answer && answer.selectedOptions && answer.selectedOptions.length > 0) {
 //                        console.log(resultsData.selectedOptions);
-            for (var j = 0; j < resultsData.selectedOptions.length; j++) {
-                if (parseInt(resultsData.selectedOptions[j]) === parseInt(studyData.options[i].id)) {
+            for (var j = 0; j < answer.selectedOptions.length; j++) {
+                if (parseInt(answer.selectedOptions[j]) === parseInt(studyData.options[i].id)) {
                     $(optionItem).addClass('bordered-scale-item');
                     if (i > 0) {
                         $(optionItem).css({marginTop: '5px'});
@@ -815,6 +853,28 @@ function renderGroupingQuestion(item, studyData, resultsData) {
         } else {
             $(optionItem).css({paddingLeft: "0px"});
         }
+    }
+
+    if (studyData.parameters.justification === 'yes') {
+        item.find('#justification').removeClass('hidden');
+        item.find('#' + studyData.parameters.justificationFor).removeClass('hidden');
+
+        if (answer) {
+            if (studyData.parameters.justificationFor === 'selectOne' && answer.selectedOptions && answer.selectedOptions.length > 0 && answer.justification !== '') {
+                $(item).find('#justification-content').removeClass('hidden');
+                $(item).find('#justification-content .text').text(answer.justification);
+            } else if (studyData.parameters.justificationFor === 'selectNothing' && !answer.selectedOptions && answer.justification !== '') {
+                $(item).find('#justification-content').removeClass('hidden');
+                $(item).find('#justification-content .text').text(answer.justification);
+            } else if (studyData.parameters.justificationFor === 'always' && answer.justification !== '') {
+                $(item).find('#justification-content').removeClass('hidden');
+                $(item).find('#justification-content .text').text(answer.justification);
+            } else if (answer.selectedOptions && answer.selectedOptions.length > 0 && answer.justification === '') {
+                $(item).find('#no-answer').removeClass('hidden');
+            }
+        }
+    } else {
+        item.find('#no-justification').removeClass('hidden');
     }
 }
 
@@ -854,7 +914,7 @@ function renderEditableGroupingQuestion(item, studyData, answer) {
 }
 
 
-function renderGroupingQuestionGUS(item, studyData, resultsData) {
+function renderGroupingQuestionGUS(item, studyData, answer) {
     //                console.log(studyData, resultsData);
 //    $(item).find('.question').text(studyData.question);
     var options;
@@ -876,19 +936,35 @@ function renderGroupingQuestionGUS(item, studyData, resultsData) {
         item.find('#singleselect').removeClass('hidden');
     }
 
+    if (studyData.parameters.optionalanswer === 'yes') {
+//                    $(item).find('#optionalanswer, #optionalanswer-headline').removeClass('hidden');
+
+        if (answer && answer.optionalAnswer !== '') {
+            $(item).find('#optionalanswer-content').removeClass('hidden');
+            $(item).find('#optionalanswer-content .text').text(answer.optionalAnswer);
+        } else {
+            $(item).find('#no-optional-answer').removeClass('hidden');
+        }
+    }
+
     if (studyData.parameters.justification === 'yes') {
         item.find('#justification').removeClass('hidden');
         item.find('#' + studyData.parameters.justificationFor).removeClass('hidden');
-        if (studyData.parameters.justificationFor === 'selectOne' && resultsData.selectedOptions && resultsData.selectedOptions.length > 0 && resultsData.justification !== '') {
-            $(item).find('#justification-content').removeClass('hidden');
-            $(item).find('#justification-content .text').text(resultsData.justification);
-        } else if (studyData.parameters.justificationFor === 'selectNothing' && !resultsData.selectedOptions && resultsData.justification !== '') {
-            $(item).find('#justification-content').removeClass('hidden');
-            $(item).find('#justification-content .text').text(resultsData.justification);
-        } else if (studyData.parameters.justificationFor === 'always' && resultsData.justification !== '') {
-            $(item).find('#justification-content').removeClass('hidden');
-            $(item).find('#justification-content .text').text(resultsData.justification);
-        } else if (resultsData.selectedOptions && resultsData.selectedOptions.length > 0 && resultsData.justification === '') {
+
+        if (answer) {
+            if (studyData.parameters.justificationFor === 'selectOne' && answer.selectedOptions && answer.selectedOptions.length > 0 && answer.justification !== '') {
+                $(item).find('#justification-content').removeClass('hidden');
+                $(item).find('#justification-content .text').text(answer.justification);
+            } else if (studyData.parameters.justificationFor === 'selectNothing' && !answer.selectedOptions && answer.justification !== '') {
+                $(item).find('#justification-content').removeClass('hidden');
+                $(item).find('#justification-content .text').text(answer.justification);
+            } else if (studyData.parameters.justificationFor === 'always' && answer.justification !== '') {
+                $(item).find('#justification-content').removeClass('hidden');
+                $(item).find('#justification-content .text').text(answer.justification);
+            } else if (answer.selectedOptions && answer.selectedOptions.length > 0 && answer.justification === '') {
+                $(item).find('#no-answer').removeClass('hidden');
+            }
+        } else {
             $(item).find('#no-answer').removeClass('hidden');
         }
     } else {
@@ -910,9 +986,9 @@ function renderGroupingQuestionGUS(item, studyData, resultsData) {
                 $(optionItem).find('.btn-popover-gesture-preview').attr('name', options[i].id);
             }
 
-            if (resultsData.selectedOptions && resultsData.selectedOptions.length > 0) {
-                for (var j = 0; j < resultsData.selectedOptions.length; j++) {
-                    if (parseInt(resultsData.selectedOptions[j]) === parseInt(options[i].id)) {
+            if (answer && answer.selectedOptions && answer.selectedOptions.length > 0) {
+                for (var j = 0; j < answer.selectedOptions.length; j++) {
+                    if (parseInt(answer.selectedOptions[j]) === parseInt(options[i].id)) {
                         $(optionItem).addClass('bordered-scale-item');
                         break;
                     } else {
@@ -951,51 +1027,54 @@ function renderEditableGroupingQuestionGUS(item, studyData, answer) {
     }
 }
 
-function renderRating(item, studyData, resultsData) {
+function renderRating(item, studyData, answer) {
 //    console.log('render rating:', studyData, resultsData);
 //    $(item).find('.question').text(studyData.question);
+
     for (var i = 0; i < studyData.options.length; i++) {
         var optionItem = $('#template-study-container').find('#rating-item').clone();
         $(optionItem).find('#rating-option').text(studyData.options[i].option);
         $(item).find('.option-container').append(optionItem);
-        var score = 0;
-        var maxScore = studyData.options[i].scales.length;
-        var selectedScale = parseInt(resultsData.scales[i]);
-        if (studyData.options[i].negative === 'yes') {
-            $(optionItem).find('#negative').removeClass('hidden');
-            score = studyData.options[i].scales.length - selectedScale;
+
+        if (answer) {
+            var score = 0;
+            var maxScore = studyData.options[i].scales.length;
+            var selectedScale = parseInt(answer.scales[i]);
+            if (studyData.options[i].negative === 'yes') {
+                $(optionItem).find('#negative').removeClass('hidden');
+                score = studyData.options[i].scales.length - selectedScale;
+            } else {
+                $(optionItem).find('#positive').removeClass('hidden');
+                score = selectedScale + 1;
+            }
+
+            if (i < studyData.options.length - 1) {
+                var hr = document.createElement('hr');
+                $(hr).css({marginTop: "15px", marginBottom: "5px"});
+                $(item).find('.option-container').append(hr);
+            }
+
+            if (selectedScale === -1) {
+                $(item).find('#score-container').remove();
+                $(item).find('#no-answer').removeClass('hidden');
+            } else {
+                renderRatingSigns($(optionItem).find('#score-container'), score, maxScore);
+                $(item).find('#no-answer').remove();
+            }
+
+            for (var j = 0; j < studyData.options[i].scales.length; j++) {
+                var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
+                $(optionItem).find('#scale-container').append(scaleItem);
+                $(scaleItem).text((j + 1) + '. ' + studyData.options[i].scales[j]);
+                if (j === selectedScale) {
+                    $(scaleItem).addClass('bordered-scale-item');
+                } else if (j === 0) {
+                    $(scaleItem).css({paddingLeft: "0px"});
+                }
+            }
         } else {
-            $(optionItem).find('#positive').removeClass('hidden');
-            score = selectedScale + 1;
-        }
-
-        if (i < studyData.options.length - 1) {
-            var hr = document.createElement('hr');
-            $(hr).css({marginTop: "15px", marginBottom: "5px"});
-            $(item).find('.option-container').append(hr);
-        }
-
-
-//        console.log('selectedScale', selectedScale === -1)
-
-        if (selectedScale === -1) {
             $(item).find('#score-container').remove();
             $(item).find('#no-answer').removeClass('hidden');
-        } else {
-//            console.log('rating score: ', optionItem, selectedScale, score, maxScore);
-            renderRatingSigns($(optionItem).find('#score-container'), score, maxScore);
-            $(item).find('#no-answer').remove();
-        }
-
-        for (var j = 0; j < studyData.options[i].scales.length; j++) {
-            var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
-            $(optionItem).find('#scale-container').append(scaleItem);
-            $(scaleItem).text((j + 1) + '. ' + studyData.options[i].scales[j]);
-            if (j === selectedScale) {
-                $(scaleItem).addClass('bordered-scale-item');
-            } else if (j === 0) {
-                $(scaleItem).css({paddingLeft: "0px"});
-            }
         }
     }
 }
@@ -1014,22 +1093,27 @@ function renderEditableRating(item, studyData, answer) {
     }
 }
 
-function renderSumQuestion(item, studyData, resultsData) {
+function renderSumQuestion(item, studyData, answer) {
 //    $(item).find('.question').text(studyData.question);
     $(item).find('#maximum .label-text').text(translation.maximum + ': ' + studyData.parameters.maximum);
     $(item).find('#allocation .label-text').text(translation.scaleTypes[studyData.parameters.allocation]);
-    var count = 0;
-    for (var i = 0; i < resultsData.sumCounts.length; i++) {
-        var listItemAnswer = $('#template-study-container').find('#sum-question-item').clone();
-        count += parseInt(resultsData.sumCounts[i]);
-        $(listItemAnswer).text(studyData.options[i] + ': ' + resultsData.sumCounts[i] + ' ' + translation.scaleTypes[studyData.parameters.allocation]);
-        $(item).find('.option-container').append(listItemAnswer);
-    }
 
-    if (count === parseInt(studyData.parameters.maximum)) {
-        $(item).find('#distributeAllPoints').removeClass('hidden');
+    if (answer) {
+        var count = 0;
+        for (var i = 0; i < answer.sumCounts.length; i++) {
+            var listItemAnswer = $('#template-study-container').find('#sum-question-item').clone();
+            count += parseInt(answer.sumCounts[i]);
+            $(listItemAnswer).text(studyData.options[i] + ': ' + answer.sumCounts[i] + ' ' + translation.scaleTypes[studyData.parameters.allocation]);
+            $(item).find('.option-container').append(listItemAnswer);
+        }
+
+        if (count === parseInt(studyData.parameters.maximum)) {
+            $(item).find('#distributeAllPoints').removeClass('hidden');
+        } else {
+            $(item).find('#distributeNotAllPoints').removeClass('hidden');
+        }
     } else {
-        $(item).find('#distributeNotAllPoints').removeClass('hidden');
+        $(item).find('#no-answer').removeClass('hidden');
     }
 }
 
@@ -1046,20 +1130,24 @@ function renderEditableSumQuestion(item, studyData, answer) {
     }
 }
 
-function renderRanking(item, studyData, resultsData) {
+function renderRanking(item, studyData, answer) {
 //    console.log(studyData, resultsData);
 //    $(item).find('.question').text(studyData.question);
-    for (var i = 0; i < resultsData.arrangement.length; i++) {
-        var listItemAnswer = $('#template-study-container').find('#ranking-item').clone();
-        var text = '';
-        var optionsId = parseInt(resultsData.arrangement[i]);
-        for (var j = 0; j < studyData.options.length; j++) {
-            if (optionsId === parseInt(studyData.options[j].id)) {
-                text = studyData.options[j].text;
+    if (answer) {
+        for (var i = 0; i < answer.arrangement.length; i++) {
+            var listItemAnswer = $('#template-study-container').find('#ranking-item').clone();
+            var text = '';
+            var optionsId = parseInt(answer.arrangement[i]);
+            for (var j = 0; j < studyData.options.length; j++) {
+                if (optionsId === parseInt(studyData.options[j].id)) {
+                    text = studyData.options[j].text;
+                }
             }
+            $(listItemAnswer).text((i + 1) + '. ' + text);
+            $(item).find('.option-container').append(listItemAnswer);
         }
-        $(listItemAnswer).text((i + 1) + '. ' + text);
-        $(item).find('.option-container').append(listItemAnswer);
+    } else {
+        $(item).find('#no-answer').removeClass('hidden');
     }
 }
 
@@ -1079,7 +1167,7 @@ function renderEditableRanking(item, studyData, answer) {
     renderRankingInput(item, options);
 }
 
-function renderAlternativeQuestion(item, studyData, resultsData) {
+function renderAlternativeQuestion(item, studyData, answer) {
     //                console.log(studyData, resultsData);
 
 //    $(item).find('.question').text(studyData.question);
@@ -1090,18 +1178,24 @@ function renderAlternativeQuestion(item, studyData, resultsData) {
     if (studyData.parameters.justification === 'yes') {
         $(item).find('#justification').removeClass('hidden');
         $(item).find('#' + studyData.parameters.justificationFor).removeClass('hidden');
-        if (studyData.parameters.justificationFor === 'selectOne' && resultsData.selectedOptions && resultsData.selectedOptions.length > 0 && resultsData.justification !== '') {
-            $(item).find('#justification-content').removeClass('hidden');
-            $(item).find('#justification-content .text').text(resultsData.justification);
-        } else if (studyData.parameters.justificationFor === 'selectNothing' && !resultsData.selectedOptions && resultsData.justification !== '') {
-            $(item).find('#justification-content').removeClass('hidden');
-            $(item).find('#justification-content .text').text(resultsData.justification);
-        } else if (studyData.parameters.justificationFor === 'always' && resultsData.justification !== '') {
-            $(item).find('#justification-content').removeClass('hidden');
-            $(item).find('#justification-content .text').text(resultsData.justification);
-        } else if (resultsData.selectedOptions && resultsData.selectedOptions.length > 0 && resultsData.justification === '') {
+
+        if (answer) {
+            if (studyData.parameters.justificationFor === 'selectOne' && answer.selectedOptions && answer.selectedOptions.length > 0 && answer.justification !== '') {
+                $(item).find('#justification-content').removeClass('hidden');
+                $(item).find('#justification-content .text').text(answer.justification);
+            } else if (studyData.parameters.justificationFor === 'selectNothing' && !answer.selectedOptions && answer.justification !== '') {
+                $(item).find('#justification-content').removeClass('hidden');
+                $(item).find('#justification-content .text').text(answer.justification);
+            } else if (studyData.parameters.justificationFor === 'always' && answer.justification !== '') {
+                $(item).find('#justification-content').removeClass('hidden');
+                $(item).find('#justification-content .text').text(answer.justification);
+            } else if (answer.selectedOptions && answer.selectedOptions.length > 0 && answer.justification === '') {
+                $(item).find('#no-answer').removeClass('hidden');
+            }
+        } else {
             $(item).find('#no-answer').removeClass('hidden');
         }
+
     } else {
         $(item).find('#no-justification').removeClass('hidden');
     }
@@ -1139,9 +1233,9 @@ function renderAlternativeQuestion(item, studyData, resultsData) {
                 $(optionItem).find('.btn-popover-gesture-preview').attr('name', options[i].id);
             }
 
-            if (resultsData.selectedOptions && resultsData.selectedOptions.length > 0) {
-                for (var j = 0; j < resultsData.selectedOptions.length; j++) {
-                    if (parseInt(resultsData.selectedOptions[j]) === parseInt(options[i].id)) {
+            if (answer && answer.selectedOptions && answer.selectedOptions.length > 0) {
+                for (var j = 0; j < answer.selectedOptions.length; j++) {
+                    if (parseInt(answer.selectedOptions[j]) === parseInt(options[i].id)) {
                         $(optionItem).addClass('bordered-scale-item');
                         break;
                     }
@@ -1154,34 +1248,40 @@ function renderAlternativeQuestion(item, studyData, resultsData) {
         }
     }
 
-    if (resultsData.optionalAnswer !== '') {
-        $(item).find('#optionalanswer-content').removeClass('hidden');
-        $(item).find('#optionalanswer-content .text').text(resultsData.optionalAnswer);
-    } else {
-        $(item).find('#no-optional-answer').removeClass('hidden');
+    if (answer) {
+        if (answer.optionalAnswer !== '') {
+            $(item).find('#optionalanswer-content').removeClass('hidden');
+            $(item).find('#optionalanswer-content .text').text(answer.optionalAnswer);
+        } else {
+            $(item).find('#no-optional-answer').removeClass('hidden');
+        }
     }
 }
 
-function renderGUS(item, studyData, resultsData) {
+function renderGUS(item, studyData, answer) {
 //    $(item).find('.question').text(studyData.question);
-    var score = 0;
-    if (studyData.parameters.negative === 'yes') {
-        $(item).find('#negative').removeClass('hidden');
-        score = translation.gusOptions.length - parseInt(resultsData.selectedOption);
-    } else {
-        $(item).find('#positive').removeClass('hidden');
-        score = parseInt(resultsData.selectedOption) + 1;
-    }
-
     var options = translation.gusOptions;
-    var selectedOption = parseInt(resultsData.selectedOption);
-    if (selectedOption === -1) {
+    if (answer) {
+        var score = 0;
+        if (studyData.parameters.negative === 'yes') {
+            $(item).find('#negative').removeClass('hidden');
+            score = translation.gusOptions.length - parseInt(answer.selectedOption);
+        } else {
+            $(item).find('#positive').removeClass('hidden');
+            score = parseInt(answer.selectedOption) + 1;
+        }
+
+        var selectedOption = parseInt(answer.selectedOption);
+        if (selectedOption === -1) {
+            $(item).find('#score-container').remove();
+            $(item).find('#no-answer').removeClass('hidden');
+        } else {
+            renderRatingSigns($(item).find('#score-container'), score, options.length);
+        }
+    } else {
         $(item).find('#score-container').remove();
         $(item).find('#no-answer').removeClass('hidden');
-    } else {
-        renderRatingSigns($(item).find('#score-container'), score, options.length);
     }
-
 
     for (var i = 0; i < options.length; i++) {
         var option = $('#template-study-container').find('#gus-single-item-option').clone();
@@ -1195,26 +1295,38 @@ function renderGUS(item, studyData, resultsData) {
     }
 }
 
-function renderSUSItem(item, studyData, resultsData) {
+function renderSUSItem(item, studyData, answer) {
 //    $(item).find('.question').text(studyData.question);
     var score = 0;
     if (studyData.parameters.negative === 'yes') {
         $(item).find('#negative').removeClass('hidden');
-        score = translation.susOptions.length - parseInt(resultsData.selectedOption);
+        if (answer) {
+            score = translation.susOptions.length - parseInt(answer.selectedOption);
+        }
+
     } else {
         $(item).find('#positive').removeClass('hidden');
-        score = parseInt(resultsData.selectedOption) + 1;
+        if (answer) {
+            score = parseInt(answer.selectedOption) + 1;
+        }
+
     }
 
+
     var options = translation.susOptions;
-    var maxScore = options.length;
-    var selectedOption = parseInt(resultsData.selectedOption);
-    if (selectedOption === -1) {
-        $(item).find('#score-container').remove();
-        $(item).find('#no-answer').removeClass('hidden');
+    if (answer) {
+        var maxScore = options.length;
+        var selectedOption = parseInt(answer.selectedOption);
+        if (selectedOption === -1) {
+            $(item).find('#score-container').remove();
+            $(item).find('#no-answer').removeClass('hidden');
+        } else {
+            renderRatingSigns($(item).find('#score-container'), score, maxScore);
+        }
     } else {
-        renderRatingSigns($(item).find('#score-container'), score, maxScore);
+        $(item).find('#no-answer').removeClass('hidden');
     }
+
 
 
     for (var i = 0; i < options.length; i++) {
@@ -1232,7 +1344,7 @@ function renderSUSItem(item, studyData, resultsData) {
 function renderRatingSigns(container, score, maxScore) {
     $(container).find('.score-text').text(score);
     var balance = Math.floor(maxScore / 2) + (maxScore % 2);
-    console.log('maxScore', $(container), score, balance);
+//    console.log('maxScore', $(container), score, balance);
     if (score > balance) {
         $(container).find('.fa').addClass('fa-thumbs-up');
     } else if (score === balance) {
@@ -1357,6 +1469,13 @@ function renderGroupingQuestionPreview(source, item, parameters, options) {
         item.find('#optionalanswer').removeClass('hidden');
     }
 
+    if (parameters.justification === 'yes') {
+        item.find('#justification').removeClass('hidden');
+        item.find('#' + parameters.justificationFor).removeClass('hidden');
+    } else {
+        item.find('#no-justification').removeClass('hidden');
+    }
+
     for (var j = 0; j < options.length; j++) {
         var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
         optionItem.text(options[j].title);
@@ -1378,6 +1497,30 @@ function renderGroupingQuestionInput(item, parameters, options) {
         var option = $('#item-container-inputs').find('#' + optionType + '-optionalanswer').clone();
         $(item).find('.option-container').append(option);
         setInputChangeEvent(option.find('.optionalInput'), 1000);
+    }
+
+    if (parameters.justification === 'yes') {
+        var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
+        item.find('.option-container').append(justification);
+        if (parameters.justificationFor === 'always') {
+            justification.removeClass('hidden');
+        } else {
+            if (parameters.justificationFor === 'selectNothing') {
+                justification.removeClass('hidden');
+            }
+
+            $(item).find('.option-container').bind('change', function () {
+                var totalCheckboxButtons = $(this).find('.btn-' + optionType);
+                var activeCheckboxButtons = $(totalCheckboxButtons).filter('.btn-option-checked');
+                if (parameters.justificationFor === 'selectOne' && activeCheckboxButtons.length > 0) {
+                    $(item).find('#justification').removeClass('hidden');
+                } else if (parameters.justificationFor === 'selectNothing' && activeCheckboxButtons.length === 0) {
+                    $(item).find('#justification').removeClass('hidden');
+                } else {
+                    $(item).find('#justification').addClass('hidden');
+                }
+            });
+        }
     }
 }
 
@@ -1402,6 +1545,10 @@ function renderGroupingQuestionGUSPreview(source, item, parameters) {
         item.find('#multiselect').removeClass('hidden');
     } else {
         item.find('#singleselect').removeClass('hidden');
+    }
+
+    if (parameters.optionalanswer === 'yes') {
+        item.find('#optionalanswer').removeClass('hidden');
     }
 
     if (parameters.justification === 'yes') {
@@ -1472,6 +1619,12 @@ function renderGroupingQuestionGUSInput(item, parameters) {
             option.find('.option-text').attr('id', optionItem.id);
             $(item).find('.option-container').append(document.createElement('br'));
         }
+    }
+
+    if (parameters.optionalanswer === 'yes') {
+        var option = $('#item-container-inputs').find('#' + optionType + '-optionalanswer').clone();
+        $(item).find('.option-container').append(option);
+        setInputChangeEvent(option.find('.optionalInput'), 1000);
     }
 
     if (parameters.justification === 'yes') {

@@ -1294,7 +1294,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         }
@@ -1661,13 +1662,14 @@
         {
             "format": "groupingQuestionGUS",
             "dimension": "taskAppropriateness",
-            "question": "Ich denke, dass ich mit einer oder mehreren Gesten nicht die Aufgaben erledigen kann.",
+            "question": "Ich denke, dass ich mit einer oder mehreren Gesten die Aufgaben nicht erledigen kann.",
             "parameters": {
                 "used": "used",
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Die Geste erfüllt ihren Zweck. Betrachtung der entsprechenden Denkweise der Nutzer. Miteinbeziehung der Anwendungsdomäne und Zweckerfüllung (z.B. Geste für ein Spiel oder für ein normales Programm?). (Microsoft, 2013) Gesten sollen intuitiv/benutzbar sein, d.h. Nutzer erledigt seine Aufgabe damit effizient, einfach und intuitiv. (Microsoft, 2013; Nielsen, Störring, Moeslund, & Granum, 2004; Wachs, Kölsch, Stern, & Edan, 2011)"
         },
@@ -1680,7 +1682,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Die Geste bringt Vorteile gegenüber anderen Eingabemodalitäten. Nutzung von Gesten nur, wenn diese der Mensch-Maschine-Interaktion einen Vorteil bringen. Wird z.B. eine virtuelle Tastatur in der Regel über andere Eingabegeräte gesteuert (z.B. Sprache, Tastatur), erscheint eine Steuerung mit Gesten nicht zweckmäßig. Oder bei hygienischen Aspekten. (Microsoft, 2013)"
         },
@@ -1693,7 +1696,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Eine Geste sollte eine klare kognitive Verknüpfung zur jeweiligen Funktion aufweisen. (Wachs et al., 2011) Metaphorisch und ikonisch an die Funktion geknüpft sein. (Nielsen et al., 2004) Eine Geste sollte zur Funktion/Aktion passen. (Intel, 2012; Microsoft, 2013) Richtige Wahl eines Gestentyps für eine Aktion. (Intel, 2012)"
         },
@@ -1706,7 +1710,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"yes"
             },
             "styleguide": "Eine Geste sollte eine klare kognitive Verknüpfung zur jeweiligen Funktion aufweisen. (Wachs et al., 2011) Metaphorisch und ikonisch an die Funktion geknüpft sein. (Nielsen et al., 2004) Eine Geste sollte zur Funktion/Aktion passen. (Intel, 2012; Microsoft, 2013) Richtige Wahl eines Gestentyps für eine Aktion. (Intel, 2012)"
         },
@@ -1719,7 +1724,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Gesten sollten prägnant sein. (Wachs et al., 2011)"
         },
@@ -1732,7 +1738,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -1745,7 +1752,8 @@
                 "multiselect": "yes",
                 "justification": "no",
                 "justificationFor": "unselected",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Die Gesten müssen zuverlässig die gewünschten Funktionen aktivieren. (Ashbrook & Starner, 2010) Das Ausführen von Gesten soll keine anderen Funktionen aktivieren, d.h. keine Funktionen die nicht für spezifische Gesten hinterlegt wurden. (Ashbrook & Starner, 2010)"
         },
@@ -1758,7 +1766,8 @@
                 "multiselect": "yes",
                 "justification": "no",
                 "justificationFor": "unselected",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Das System kann die Geste eindeutig [sicher] erkennen. (Long, Landay, & Rowe, 1999; Nielsen et al., 2004) Eine Gesteninteraktion sollte präzise und zuverlässig sein. (Microsoft, 2013)"
         },
@@ -1771,7 +1780,8 @@
                 "multiselect": "yes",
                 "justification": "no",
                 "justificationFor": "unselected",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Aus praktischen Gründen sollte ein Gesteninterface Daten in Echtzeit verarbeiten können. (Wachs et al., 2011) Aktionen sollten unmittelbares Feedback liefern. (Leap Motion, n.d.-a) Eine Gesteninteraktion sollte schnell sein. (Microsoft, 2013)"
         },
@@ -1784,7 +1794,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011) Ermüdung vorbeugen, indem Gesten (für Intel) so designt werden, dass sie mit einem Ellbogen auf dem Tisch ausgeführt werden können Kurze Gesten, die kleine Pausen zulassen und keine präzisen Eingaben erfordern wirken Ermüdung entgegen. (Intel, 2012) Bei häufiger Verwendung sollen Gesten nicht ermüdend sein. (Microsoft, 2013; Nielsen et al., 2004)"
         },
@@ -1797,7 +1808,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Berücksichtigung von Erwartungen aus anderen üblichen Eingabemechanismen (Touch, Tastatur, Maus, etc.). (Microsoft, 2013)"
         },
@@ -1810,7 +1822,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Konsistentes Design von Gestensets, da Menschen sich maximal 6 Gesten merken können. (Microsoft, 2013)"
         },
@@ -1836,7 +1849,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"yes"
             },
             "styleguide": "Kognitive Belastung durch die Wahl von bekannten und zu erlernenden Gesten abwägen. (Intel, 2012)"
         },
@@ -1849,7 +1863,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Es gibt Systeme mit vordefinierten Gestensets oder nutzerdefinierten Vokabularen. Hier sollte die kognitive Belastung der Nutzer in Hinblick auf die Auswahl oder das Training von Gesten und das dazugehörige Feedback beachtet werden. (Wachs et al., 2011)"
         },
@@ -1884,7 +1899,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Eine Geste / ein Gestenset sollte einfach zu erlernen/merken sein. (Ashbrook & Starner, 2010; Long et al., 1999; Nielsen et al., 2004; Wachs et al., 2011) Nutzer müssen sich an Bewegungsabläufe und die mit den Gesten verbundenen Funktionen/Aktionen erinnern. (Wachs et al., 2011)"
         },
@@ -1897,7 +1913,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Eine Geste / ein Gestenset sollte einfach zu erlernen/merken sein. (Ashbrook & Starner, 2010; Long et al., 1999; Nielsen et al., 2004; Wachs et al., 2011) Nutzer müssen sich an Bewegungsabläufe und die mit den Gesten verbundenen Funktionen/Aktionen erinnern. (Wachs et al., 2011)"
         },
@@ -1910,7 +1927,8 @@
                 "multiselect": "yes",
                 "justification": "no",
                 "justificationFor": "unselected",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Gesten sollten nicht zu komplex sein. (Microsoft, 2013)"
         },
@@ -1923,7 +1941,8 @@
                 "multiselect": "yes",
                 "justification": "no",
                 "justificationFor": "unselected",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Gesten sollten nicht zu einfach sein. (Microsoft, 2013)"
         },
@@ -1936,7 +1955,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Das Umfeld bietet den benötigten Raum für die Interaktionen. Der Interaktionsraum muss gesichert sein. (Eigene Erfahrungen) Den gegebenen Interaktionsraum ausnutzen, d.h. keine zu kleinen und keine zu großen Gesten designen. (Intel, 2012)"
         },
@@ -1949,7 +1969,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "<em>Komm wie du bist</em>. Es sollten keine Anforderungen an den Benutzer gestellt werden (z.B. das Tragen von Handschuhen oder Markern. Der Nutzer soll sich keine Gedanken über die richtige Umgebung machen müssen). (Wachs et al., 2011)"
         },
@@ -1962,7 +1983,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Die Geste beeinträchtigt beim Ausführen nicht das Umfeld (z.B. durch Schlagen). (Eigene Erfahrungen)"
         },
@@ -1975,7 +1997,8 @@
                 "multiselect": "yes",
                 "justification": "no",
                 "justificationFor": "unselected",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Es sind abstrakte Gesten zu vermeiden die keinen Bezug zur Realität haben. (Intel, 2012)"
         },
@@ -1988,7 +2011,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Für eine vielfältige natürliche Interaktion sollten Ein- und Zweihandgesten benutzt werden. Für kritische Ein- und für unkritische Zweihandgesten. (Microsoft, 2013) Je nach Aufgabe/Funktion sind Zweihandgesten zu unterstützen. (Intel, 2012)"
         },
@@ -2001,7 +2025,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011) Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011). Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012) Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004)"
         },
@@ -2014,7 +2039,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOption",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011) Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011). Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012) Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004)"
         },
@@ -2027,7 +2053,8 @@
                 "multiselect": "yes",
                 "justification": "no",
                 "justificationFor": "unselected",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Eine Geste sollte von der Bewegung her nicht komisch sein. (Eigene Erfahrungen) Beachtung der genauen Körperhaltung eines Nutzers. (Intel, 2012; Microsoft, 2013)"
         },
@@ -2051,7 +2078,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Wohlfühlfaktor: Bloßstellung oder Unbehagen beim Ausführen von Gesten ist zu vermeiden. (Eigene Erfahrungen) Gesten sollten unverfänglich sein (z.B. Mittelfingergeste im Auto). (Eigene Erfahrungen) Berücksichtigung soziologischer Faktoren. Der Benutzer sollte sich während der Ausführung in dessen Umgebung wohlfühlen. (Microsoft, 2013)"
         },
@@ -2082,7 +2110,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Die Gestensteuerung sollte Kollegen oder anderen Personen im Umfeld nicht stören (z.B. durch laute Geräusche). (Eigene Erfahrungen)"
         },
@@ -2095,7 +2124,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Eine Geste sollte sozial akzeptiert (sozialverträglich) sein. (Ashbrook & Starner, 2010)"
         },
@@ -2108,7 +2138,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": "Gesten sollten für alle Anwender benutzbar sein. D.h. Linkshänder sollte nicht ausgeschlossen werden. (Intel, 2012; Microsoft, 2013) Oder andere Kulturkreise lehnen die Eingabemodalität aufgrund der gewählten Gesten ab."
         }
@@ -2123,7 +2154,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2136,7 +2168,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2149,7 +2182,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2162,7 +2196,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2175,7 +2210,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2188,7 +2224,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2201,7 +2238,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2214,7 +2252,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2227,7 +2266,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2240,7 +2280,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         }
@@ -2255,7 +2296,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2268,7 +2310,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "feedbacks"
+                "optionSource": "feedbacks",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2281,7 +2324,8 @@
                 "multiselect": "yes",
                 "justification": "no",
                 "justificationFor": "unselected",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2294,7 +2338,8 @@
                 "multiselect": "yes",
                 "justification": "no",
                 "justificationFor": "unselected",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2307,7 +2352,8 @@
                 "multiselect": "yes",
                 "justification": "no",
                 "justificationFor": "unselected",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2320,7 +2366,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2333,7 +2380,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2346,7 +2394,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2359,7 +2408,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2372,7 +2422,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2385,7 +2436,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2398,7 +2450,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2411,7 +2464,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2424,7 +2478,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2437,7 +2492,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2450,7 +2506,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         }
@@ -2465,7 +2522,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2478,7 +2536,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2491,7 +2550,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2504,7 +2564,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         }
@@ -2519,7 +2580,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2532,7 +2594,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2545,7 +2608,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2558,7 +2622,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2571,7 +2636,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2584,7 +2650,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         },
@@ -2597,7 +2664,8 @@
                 "multiselect": "yes",
                 "justification": "yes",
                 "justificationFor": "selectOne",
-                "optionSource": "gestures"
+                "optionSource": "gestures",
+                "optionalAnswer":"no"
             },
             "styleguide": ""
         }

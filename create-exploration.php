@@ -163,7 +163,7 @@ include './includes/language.php';
                 if (items[i].sceneId === 'none') {
                     $(clone).find('.sceneSelect #none').click();
                 } else {
-                    var scene = getSceneById(items[i].feedbackId);
+                    var scene = getSceneById(items[i].sceneId);
                     if (scene) {
                         $(clone).find('.sceneSelect #' + scene.id).click();
                     } else {
@@ -207,19 +207,20 @@ include './includes/language.php';
     }
 
     function saveData() {
-        var traningItems = $('#explorationContainer').find('.option-container').children();
+        var explorationItem = $('#explorationContainer').find('.option-container').children();
         var obersvationItems = $('#list-container').children();
         var data = new Object();
         data.title = $('#explorationTitle').val();
         data.description = $('#explorationDescription').val();
         data.grouping = $('#grouping-select').find('.active').attr('id');
 
-        if (traningItems) {
+        if (explorationItem) {
             var set = new Array();
-            for (var i = 0; i < traningItems.length; i++) {
-                var item = traningItems[i];
+            for (var i = 0; i < explorationItem.length; i++) {
+                var item = explorationItem[i];
                 var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
                 var gesture = getGestureById(gestureId);
+                
                 var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
                 var trigger = getTriggerById(triggerId);
                 if (triggerId === 'unselected' || triggerId === 'none') {
@@ -233,14 +234,14 @@ include './includes/language.php';
                 if (sceneId === 'unselected' || sceneId === 'none') {
                     scene = sceneId = 'none';
                 } else {
-                    scene = getFeedbackById(sceneId);
+                    scene = getSceneById(sceneId);
                 }
 //                var repeats = $(item).find('#repeats-stepper .stepper-text').val();
 //                var recognitionTime = $(item).find('#recognition-stepper .stepper-text').val();
 
 //                console.log(feedbackId, gesture, trigger, feedback, $(item).find('.triggerSelect .chosen'));
                 if (gesture && trigger && scene) {
-                    set.push({sceneId: scene, triggerId: triggerId, gestureId: gestureId});
+                    set.push({sceneId: sceneId, triggerId: triggerId, gestureId: gestureId});
                 }
             }
 //            console.log(set);

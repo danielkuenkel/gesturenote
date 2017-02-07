@@ -127,7 +127,7 @@ include '../includes/language.php';
             </div>
         </div>
         <hr>
-        <div class="list-container"></div>
+        <div class="question-container"></div>
     </div>
 
     <div class="text" id="sus-marker-item" style="position: absolute; display: inline-block">
@@ -162,17 +162,17 @@ include '../includes/language.php';
             </div>
         </div>
 
-        <div class="list-container" style="margin-top: 30px;"></div>
+        <div class="question-container" style="margin-top: 30px;"></div>
     </div>
 
     <div class="root" id="questionnaireGestures">
         <h3 id="headline" style="margin-top: 0"></h3>
-        <div class="list-container" style="margin-top: 20px;"></div>
+        <div class="question-container" style="margin-top: 20px;"></div>
     </div>
 
     <div class="root" id="questionnaire">
         <h3 id="headline" style="margin-top: 0"></h3>
-        <div class="list-container" style="margin-top: 20px;"></div>
+        <div class="question-container" style="margin-top: 20px;"></div>
     </div>
 
     <div class="panel panel-default" id="counter" style="margin-bottom: 5px;">
@@ -260,6 +260,11 @@ include '../includes/language.php';
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
             <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
+            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
             <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
             <div class="question text"></div>
         </div>
@@ -269,6 +274,8 @@ include '../includes/language.php';
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
             <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
             <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
+            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
         </div>
     </div>
 
@@ -284,6 +291,7 @@ include '../includes/language.php';
             <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
             <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
             <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <span class="label label-primary" id="factor-main"></span>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">
@@ -294,6 +302,9 @@ include '../includes/language.php';
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+            <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
+            <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
             <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
         </div>
@@ -304,6 +315,35 @@ include '../includes/language.php';
     <div id="grouping-question-gus-gestures-option" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px">
         <span class="text"></span>
         <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+    </div>
+    
+    <div class="panel panel-default" id="groupingQuestionOptions" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+            <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
+            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            <div class="hidden" style="width: 100%" id="item-factors">
+                <span class="label label-primary" id="factor-main"></span>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">
+                <span class="label label-info" id="factor-primary"></span>
+            </div>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="option-container"></div>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+            <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
+            <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
+            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
+        </div>
     </div>
 
     <div class="panel panel-default" id="rating" style="margin-bottom: 5px;">
@@ -339,6 +379,7 @@ include '../includes/language.php';
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
             <div class="label label-success hidden" id="distributeAllPoints"><i class="fa fa-check"></i> <span class="label-text">Alle Punkte verteilt</span></div>
             <div class="label label-danger hidden" id="distributeNotAllPoints"><i class="fa fa-bolt"></i> <span class="label-text">Nicht alle Punkte verteilt</span></div>
         </div>
@@ -354,6 +395,7 @@ include '../includes/language.php';
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
         </div>
     </div>
 
@@ -624,11 +666,11 @@ include '../includes/language.php';
             <div id="gesture"><span class="address"></span> <span class="text"></span></div>
             <div id="single-stress-answers">
                 <h4 id="headline-single-questions">Einzel-Antworten</h4>
-                <div class="list-container"></div>
+                <div class="question-container"></div>
             </div>
             <div id="sequence-stress-answers" style="margin-top: 40px">
                 <h4 id="headline-sequence-questions">Abschließende Antworten</h4>
-                <div class="list-container"></div>
+                <div class="question-container"></div>
             </div>
 
             <!--<div id="trigger"><span class="address"></span> <span class="text"></span></div>-->
@@ -675,7 +717,7 @@ include '../includes/language.php';
     </div>
 
 
-    <div id="add-observations-dropdown" style="margin-top: 20px">
+<!--    <div id="add-observations-dropdown" style="margin-top: 20px">
         <div class="input-group">
             <span class="input-group-addon">Beobachtungsformat</span>
             <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
@@ -693,7 +735,7 @@ include '../includes/language.php';
                 <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="btn-add-observation" type="button"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
         </div>
-    </div>
+    </div>-->
 
 
 

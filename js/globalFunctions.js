@@ -720,7 +720,7 @@ function renderAssembledScenes(targetContainer, addNoneItem) {
             $(dropdown).find('.option').append(listItem);
         }
     } else {
-        console.log('disabled scene dropdown');
+//        console.log('disabled scene dropdown');
         $(target).find('.sceneSelect .dropdown-toggle').addClass('disabled');
         $(target).find('.option-scene').attr('placeholder', 'Keine Zustände vorhanden');
     }
@@ -865,7 +865,7 @@ $(document).on('slide change', '.custom-range-slider', function () {
 
 // hint handling
 function appendHint(source, target, data, surveyType) {
-    console.log(data);
+//    console.log(data);
     if (data.feedbackId !== 'none') {
         removeHint($(target).find('#hint'));
         var hint = $(source).find('#feedback-hint').clone();
@@ -888,7 +888,7 @@ function appendHint(source, target, data, surveyType) {
 
 function renderDataForHint(data, hint, source, surveyType) {
     var feedback = getFeedbackById(data.feedbackId);
-    console.log(feedback, data);
+//    console.log(feedback, data);
     switch (feedback.type) {
         case TYPE_FEEDBACK_TEXT:
             hint.find('.hint-content').prepend($(source).find('#feedback-hint-text-content').clone().removeAttr('id'));
@@ -1320,7 +1320,7 @@ $(document).on('keyup', '.search-input', function (event) {
 
         var filter = $(this).val();
         var container = currentFilterList;
-        console.log(container, $('#item-view'));
+//        console.log(container, $('#item-view'));
         if (filter.trim() !== "" && event.keyCode !== 27) {
             var matched = searchThroughArray(sort(), filter.trim());
             if (matched.length > 0) {
@@ -1575,13 +1575,12 @@ function getTimeString(object, short, milliseconds) {
 var currentPreviewGesture = null;
 var gesturePreviewOpened = false;
 var gesturePreviewDeleteable = true;
-function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle) {
+function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle, modalId) {
     if (!source || source === null || source === undefined) {
         source = GESTURE_CATALOG;
     }
 
     var clone;
-    console.log(typeId);
     if (typeId && typeId !== null) {
         clone = $('#' + typeId).clone().removeClass('hidden').removeAttr('id');
     } else {
@@ -1653,8 +1652,12 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
             checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
             renderData(currentFilterData);
         });
-
-        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
+//        console.log('open modal', modalId);
+        if (modalId) {
+            loadHTMLintoModal('custom-modal', modalId + '.php', 'modal-lg');
+        } else {
+            loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
+        }
     });
 
     if (data.isOwner) {

@@ -9,7 +9,7 @@ include 'includes/language.php';
 <div id="modal-body" class="modal-body">
 
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-5 root">
             <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
             <div class="progress gesture-progress">
                 <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
@@ -355,38 +355,6 @@ include 'includes/language.php';
             return false;
         }
 
-//        console.log(gesture);
-
-        function getGestureType(index) {
-            if (index === null) {
-                return '-';
-            }
-
-            switch (parseInt(index)) {
-                case 0:
-                    return translation.gestureTypes.pose;
-                    break;
-                case 1:
-                    return translation.gestureTypes.dynamic;
-                    break;
-            }
-        }
-
-        function getGestureInteractionType(index) {
-            if (index === null) {
-                return '-';
-            }
-
-            switch (parseInt(index)) {
-                case 0:
-                    return translation.gestureInteractionTypes.discrete;
-                    break;
-                case 1:
-                    return translation.gestureInteractionTypes.continuous;
-                    break;
-            }
-        }
-
         var container = $('#modal-body');
         container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleString());
         container.find('#title .text').text(gesture.title);
@@ -577,7 +545,7 @@ include 'includes/language.php';
                     });
                 }
             } else {
-                console.log($('#gestureTypeSelect').find('#' + gesture.type));
+//                console.log($('#gestureTypeSelect').find('#' + gesture.type));
                 $(this).removeClass('gesture-previewable').addClass('gesture-editable');
                 $(this).find('.btn-text').text(translation.gesturePreviewable);
                 $('#modal-body #gesture-data-preview').addClass('hidden');

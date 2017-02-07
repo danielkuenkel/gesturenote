@@ -300,7 +300,20 @@ include '../includes/language.php';
                     <button class="btn btn-warning btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 </div>
 
-                <div class="btn-group optionalanswer" style="margin-bottom: 10px;">
+                <div class="btn-group justification" style="margin-right: 15px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->justification ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                </div>
+
+                <div class="btn-group justification-for" style="margin-right: 15px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->justificationFor ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectOne" name="btn-success">Auswahl einer Option</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectNothing" name="btn-success">Keiner Auswahl</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success"><?php echo $lang->always ?></button>
+                </div>
+                
+                <div class="btn-group optionalanswer" style="margin-right: 15px; margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon"><?php echo $lang->ownAnswerAllowed ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
@@ -393,11 +406,17 @@ include '../includes/language.php';
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectNothing" name="btn-success">Keiner Auswahl</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success"><?php echo $lang->always ?></button>
                 </div>
+                
+                <div class="btn-group optionalanswer" style="margin-right: 15px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->ownAnswerAllowed ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                </div>
             </div>
 
         </div>
     </div>
-    
+
     <div class="panel panel-default root" id="groupingQuestionOptions">
         <div class="panel-heading">
             <div class="btn-group" style="margin-right: 10px">
@@ -457,6 +476,12 @@ include '../includes/language.php';
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectOne" name="btn-success">Auswahl einer Option</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectNothing" name="btn-success">Keiner Auswahl</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success"><?php echo $lang->always ?></button>
+                </div>
+                
+                <div class="btn-group optionalanswer" style="margin-right: 15px; margin-bottom: 10px;">
+                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->ownAnswerAllowed ?></button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 </div>
             </div>
 

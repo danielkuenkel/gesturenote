@@ -166,6 +166,11 @@ include '../includes/language.php';
             <div class="question text"></div>
             <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
             <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
+            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
             <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
             <span class="label label-default hidden" id="dimension"></span>
             <div>Eingruppierungs-Optionen</div>
@@ -189,6 +194,7 @@ include '../includes/language.php';
             <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
             <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
             <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
             <div>Eingruppierungs-Optionen</div>
             <div class="option-container"></div>
         </div>
@@ -210,6 +216,7 @@ include '../includes/language.php';
             <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
             <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
             <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
             <div>Eingruppierungs-Optionen</div>
             <div class="option-container"></div>
         </div>
@@ -770,29 +777,50 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="" id="grouped-exploration-item">
+    <div class="" id="grouped-exploration-item"></div>
 
-    </div>
-    
     <div class="" id="ungrouped-exploration-scene-panel">
         <h4 class=""><?php echo $lang->scenes ?></h4>
-        <div class="">
-            
-        </div>
+        <div class="" id="panel-container"></div>
     </div>
 
     <div class="" id="ungrouped-exploration-trigger-panel" style="margin-top: 20px">
-        <h4 class=""><?php echo $lang->trigger ?></h4>
-        <div class="">
-            
+        <h4 class=""><?php echo $lang->triggers ?></h4>
+        <div class="" id="panel-container">
+
         </div>
     </div>
 
     <div class="" id="ungrouped-exploration-gesture-panel" style="margin-top: 20px">
         <h4 class=""><?php echo $lang->gestures ?></h4>
-        <div class="">
-            
+        <div class="row" id="panel-container">
+
         </div>
+    </div>
+    
+    <div id="trigger-catalog-thumbnail" class="text"></div>
+
+    <div id="scenes-catalog-thumbnail">
+        <div id="info-pidoco" class="hidden" style="float: left;">
+            <span class="label label-default"><i class="fa fa-link"></i> <span class="label-text"></span></span>
+            <span class="text"></span>
+        </div>
+        <div id="info-web" class="hidden" style="float: left;">
+            <span class="label label-default"><i class="fa fa-link"></i> <span class="label-text"></span></span>
+            <span class="text"></span>
+        </div>
+        <div id="info-image" class="hidden" style="float: left;">
+            <span class="label label-default"><i class="fa fa-image"></i> <span class="label-text"></span></span>
+            <span class="text"></span>
+        </div>
+        <div id="info-videoEmbed" class="hidden" style="float: left;">
+            <span class="label label-default"><i class="fa fa-film"></i> <span class="label-text"></span></span>
+            <span class="text"></span>
+        </div>
+        <div style="float: left; margin-left: 10px;">
+            <button type="button" class="btn btn-default btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text">Zustands-Vorschau</span></button>
+        </div>
+        <div style="clear: both;"></div>
     </div>
 
 
@@ -1232,7 +1260,7 @@ include '../includes/language.php';
 
     <div id="exploration-moderated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="col-md-8" id="column-right">
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
             <div id="general">
                 <h3 style="margin: 0"  class="headline"></h3>
                 <div class="description"></div>
@@ -1253,6 +1281,7 @@ include '../includes/language.php';
         <div class="row hidden" id="slideshowContainer"></div>
         <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-done" name="btn-success">Fertig</button>
     </div>
+
 
 
 

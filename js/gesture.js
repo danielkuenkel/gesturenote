@@ -300,3 +300,33 @@ function getGesturePreviewIndex(source) {
         }
     }
 }
+
+function getGestureType(index) {
+    if (index === null) {
+        return '-';
+    }
+
+    switch (parseInt(index)) {
+        case 0:
+            return translation.gestureTypes.pose;
+            break;
+        case 1:
+            return translation.gestureTypes.dynamic;
+            break;
+    }
+}
+
+function getGestureInteractionType(index) {
+    if (index === null) {
+        return '-';
+    }
+
+    switch (parseInt(index)) {
+        case 0:
+            return translation.gestureInteractionTypes.discrete;
+            break;
+        case 1:
+            return translation.gestureInteractionTypes.continuous;
+            break;
+    }
+}

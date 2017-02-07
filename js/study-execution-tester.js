@@ -1599,29 +1599,8 @@ var Tester = {
         }
 
         // render data (gestures, trigger, scenes)
-        if (data.grouping === 'ungrouped') {
-            var gestures = getUngroupedExplorationGestures(data.exploration);
-            var trigger = getUngroupedExplorationTrigger(data.exploration);
-            var scenes = getUngroupedExplorationScenes(data.exploration);
-            var itemContainer;
+        renderExplorationItems(container, data, 'modal-gesture-info');
 
-            if (scenes && scenes.length > 0) {
-                console.log('there are scenes');
-            }
-
-            if (trigger && trigger.length > 0) {
-                console.log('there are trigger');
-            }
-
-            if (gestures && gestures.length > 0) {
-                console.log('there are gestures');
-                itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-gesture-panel').clone();
-                $(container).find('#exploration-items-container').append(itemContainer);
-                console.log('there are gestures', itemContainer);
-            }
-        } else {
-
-        }
 
 //        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
 //            Tester.renderUnmoderatedExploration(source, container, data);
