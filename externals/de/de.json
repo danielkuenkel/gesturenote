@@ -700,7 +700,7 @@
                     "video": "yes",
                     "audio": "yes",
                     "visualizeStream": "yes",
-                    "recordStream": "no"
+                    "recordStream": "yes"
                 },
                 "moderator": {
                     "stream": "yes",
@@ -717,7 +717,7 @@
                     "video": "no",
                     "audio": "no",
                     "visualizeStream": "no",
-                    "recordStream": "no"
+                    "recordStream": "yes"
                 },
                 "moderator": {
                     "stream": "no",

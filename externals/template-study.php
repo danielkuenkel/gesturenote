@@ -275,7 +275,7 @@ include '../includes/language.php';
             <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
             <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
             <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
-            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
+            <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
         </div>
     </div>
 
@@ -306,7 +306,7 @@ include '../includes/language.php';
             <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
             <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
             <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
-            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
+            <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
         </div>
     </div>
 
@@ -342,7 +342,7 @@ include '../includes/language.php';
             <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
             <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
             <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
-            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
+            <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
         </div>
     </div>
 

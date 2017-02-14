@@ -63,7 +63,7 @@ include '../includes/language.php';
                 </div>
                 <div class="panel-body question-container"></div>
             </div>
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -263,7 +263,7 @@ include '../includes/language.php';
                 </div>
                 <div class="panel-body question-container"></div>
             </div>
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -304,7 +304,7 @@ include '../includes/language.php';
                     <div class="col-sm-12 question-container" style="margin-top: 20px"></div>
                 </div>
             </div>
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -333,7 +333,7 @@ include '../includes/language.php';
                 </div>
                 <div class="panel-body question-container"></div>
             </div>
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -428,7 +428,7 @@ include '../includes/language.php';
             </div>
 
             <button type="button" class="btn btn-success btn-shadow btn-block disabled" id="next-gesture"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-            <button type="button" class="btn btn-success btn-shadow btn-block disabled hidden" id="training-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button type="button" class="btn btn-success btn-shadow btn-block disabled hidden" id="training-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -484,7 +484,7 @@ include '../includes/language.php';
                 <button type="button" class="btn btn-info btn-shadow" id="trigger-slide"><span class="btn-text">Auffordern</span></button>
 <!--                <button type="button" class="btn btn-danger btn-shadow disabled" id="wrong-slide"><span class="btn-text">Falsch</span></button>
                 <button type="button" class="btn btn-success btn-shadow disabled" id="correct-slide"><span class="btn-text">Richtig</span></button>-->
-                <button type="button" class="btn btn-success btn-shadow disabled" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+                <button type="button" class="btn btn-success btn-shadow disabled" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
         </div>
     </div>
@@ -508,7 +508,7 @@ include '../includes/language.php';
                 <div class="panel-body question-container"></div>
             </div>
 
-            <button type="button" class="btn btn-lg btn-success btn-block btn-shadow hidden" id="btn-done-slideshow" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button type="button" class="btn btn-lg btn-success btn-block btn-shadow hidden" id="btn-done-slideshow" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -540,7 +540,7 @@ include '../includes/language.php';
                 </div>
                 <div class="panel-body">
                     <div id="identificationContainer"></div>
-                    <button class="btn btn-lg btn-block btn-success btn-shadow disabled" id="btn-done" name="btn-success" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+                    <button class="btn btn-lg btn-block btn-success btn-shadow disabled" id="btn-done" name="btn-success" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 </div>
             </div>
 
@@ -579,7 +579,7 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
                         <button type="button" class="btn btn-info btn-shadow" id="trigger-identification"><span class="btn-text">Auffordern</span></button>
                         <button type="button" class="btn btn-success btn-shadow disabled" id="next-identification"><span class="btn-text"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
-                        <button type="button" class="btn btn-success btn-shadow disabled" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+                        <button type="button" class="btn btn-success btn-shadow disabled" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                     </div>
                 </div>-->
     </div>
@@ -603,7 +603,7 @@ include '../includes/language.php';
                             <div class="btn-group-vertical btn-block">
                                 <button type="button" class="btn btn-info btn-shadow disabled" id="btn-show-gesture">Auffordern</button>
                                 <button type="button" class="btn btn-info btn-shadow disabled" id="btn-show-question">Fragen zeigen</button>
-                                <button type="button" class="btn btn-success btn-shadow disabled" id="btn-next-gesture"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+                                <button type="button" class="btn btn-success btn-shadow disabled" id="btn-next-gesture"><i class="fa fa-check hidden"></i> <span class="btn-text">Nächste Geste</span> <span id="next-arrow" aria-hidden="true">&rarr;</span></button>
                             </div>
                         </div>
                     </div>   
@@ -619,25 +619,37 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="panel panel-default" id="singleStressQuestions">
-                <div class="panel-heading">Fragen nach jeder Geste</div>
-                <div class="panel-body">
+            <div id="gestures-container">
+<!--                <div id="single-stress-answers">
+                    <h4 id="headline-single-questions">Einzel-Antworten</h4>
                     <div class="question-container"></div>
-                    <span class="label label-default hidden" id="parts-body">Befragung über Anstrenung mit Grafik für Körper</span> 
-                    <span class="label label-default hidden" id="parts-hands">Befragung über Anstrenung mit Grafik für Hände</span> 
-                    <span class="label label-default hidden" id="parts-bodyHands">Befragung über Anstrenung mit Grafik für Körper und Hände</span> 
                 </div>
+                <div id="sequence-stress-answers" style="margin-top: 40px">
+                    <h4 id="headline-sequence-questions">Abschließende Antworten</h4>
+                    <div class="question-container"></div>
+                </div>-->
             </div>
 
-            <div class="panel panel-default" id="sequenceStressQuestions">
-                <div class="panel-heading">Fragen nach einer Gesten-Squenz</div>
-                <div class="panel-body">
-                    <div class="question-container"></div>
-                    <span class="label label-default hidden" id="parts-body">Befragung über Anstrenung mit Grafik für Körper</span> 
-                    <span class="label label-default hidden" id="parts-hands">Befragung über Anstrenung mit Grafik für Hände</span> 
-                    <span class="label label-default hidden" id="parts-bodyHands">Befragung über Anstrenung mit Grafik für Körper und Hände</span> 
-                </div>
-            </div>
+
+            <!--            <div class="panel panel-default" id="singleStressQuestions">
+                            <div class="panel-heading">Fragen nach jeder Geste</div>
+                            <div class="panel-body">
+                                <div class="question-container"></div>
+                                <span class="label label-default hidden" id="parts-body">Befragung über Anstrenung mit Grafik für Körper</span> 
+                                <span class="label label-default hidden" id="parts-hands">Befragung über Anstrenung mit Grafik für Hände</span> 
+                                <span class="label label-default hidden" id="parts-bodyHands">Befragung über Anstrenung mit Grafik für Körper und Hände</span> 
+                            </div>
+                        </div>
+            
+                        <div class="panel panel-default" id="sequenceStressQuestions">
+                            <div class="panel-heading">Fragen nach einer Gesten-Squenz</div>
+                            <div class="panel-body">
+                                <div class="question-container"></div>
+                                <span class="label label-default hidden" id="parts-body">Befragung über Anstrenung mit Grafik für Körper</span> 
+                                <span class="label label-default hidden" id="parts-hands">Befragung über Anstrenung mit Grafik für Hände</span> 
+                                <span class="label label-default hidden" id="parts-bodyHands">Befragung über Anstrenung mit Grafik für Körper und Hände</span> 
+                            </div>
+                        </div>-->
 
             <div class="panel panel-default" id="observations">
                 <div class="panel-heading">Beobachtungen</div>
@@ -646,6 +658,31 @@ include '../includes/language.php';
                     <div class="question-container"></div>
                 </div>
             </div>
+        </div>
+    </div>
+    
+    <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
+        <div class="col-sm-6 col-sm-offset-2 root">
+            <div class="previewGesture mousePlayable btn-shadow"></div>
+            <div class="text-center gestureControls">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+            <div id="single-stress-answers">
+                <h4 id="headline-single-questions">Einzel-Antworten</h4>
+                <div class="question-container"></div>
+            </div>
+            <div id="sequence-stress-answers" style="margin-top: 40px">
+                <h4 id="headline-sequence-questions">Abschließende Antworten</h4>
+                <div class="question-container"></div>
+            </div>
+
         </div>
     </div>
 
@@ -743,7 +780,7 @@ include '../includes/language.php';
                 <div class="panel-body">
                     <p id="description"></p>
                     <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-exploration" style="margin-top: 6px;">Jetzt starten</button>
-                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow hidden" id="btn-next-step" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow hidden" id="btn-next-step" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 </div>
             </div>
 
@@ -797,7 +834,7 @@ include '../includes/language.php';
 
         </div>
     </div>
-    
+
     <div id="trigger-catalog-thumbnail" class="text"></div>
 
     <div id="scenes-catalog-thumbnail">
@@ -919,7 +956,7 @@ include '../includes/language.php';
         <div class="col-md-7" id="column-right">
             <h3 class="headline" style="margin: 0" >Einverständniserklärung</h3>
             <hr>
-            <div class="letter-text"></div>
+            <div class="letter-text text"></div>
             <hr>
             <div>
                 <button type="button" class="btn btn-success btn-shadow" id="letter-agreed">Ich bin einverstanden</button>
@@ -950,7 +987,7 @@ include '../includes/language.php';
             <hr>
             <div class="question-container"></div>
             <hr>
-            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -959,7 +996,7 @@ include '../includes/language.php';
         <hr>
         <div class="question-container"></div>
         <hr>
-        <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+        <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
     </div>
 
 
@@ -973,7 +1010,7 @@ include '../includes/language.php';
             <hr>
             <div class="question-container"></div>
             <hr>
-            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -982,7 +1019,7 @@ include '../includes/language.php';
         <hr>
         <div class="question-container"></div>
         <hr>
-        <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+        <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
     </div>
 
     <!-- GUS container & item -->
@@ -1011,7 +1048,7 @@ include '../includes/language.php';
             <hr>
             <div class="question-container"></div>
             <hr>
-            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -1036,7 +1073,7 @@ include '../includes/language.php';
         <hr>
         <div class="question-container"></div>
         <hr>
-        <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+        <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
     </div>
 
 
@@ -1050,7 +1087,7 @@ include '../includes/language.php';
             <hr>
             <div class="question-container"></div>
             <hr>
-            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -1059,7 +1096,7 @@ include '../includes/language.php';
         <hr>
         <div class="question-container"></div>
         <hr>
-        <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+        <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
     </div>
 
     <!-- gesture training container -->
@@ -1126,7 +1163,7 @@ include '../includes/language.php';
                 <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="start-single-training" name="btn-success"><span class="btn-text">Gesten-Training beginnen</span></button>
                 <button class="btn btn-lg btn-block btn-info btn-shadow hidden" id="repeat-training" name="btn-success"><span class="btn-text">Geste nochmal ausführen</span></button>
                 <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="training-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="training-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
             <div class="progress progress-training hidden" style="border-radius: 10px">
                 <div class="progress-bar progress-bar-training progress-bar-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
@@ -1249,7 +1286,7 @@ include '../includes/language.php';
         <div class="col-sm-7">
             <div class="question-container"></div>
             <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-next-slide" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-done-slide" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-done-slide" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>        
     </div>
 
@@ -1278,8 +1315,9 @@ include '../includes/language.php';
             <hr>
         </div>
 
-        <div class="row hidden" id="slideshowContainer"></div>
-        <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-done" name="btn-success">Fertig</button>
+        <div id="exploration-items-container"></div>
+        <hr>
+        <button class="btn btn-success btn-shadow pull-right" id="btn-exploration-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
     </div>
 
 
@@ -1359,7 +1397,7 @@ include '../includes/language.php';
                     </div>
                     <!--<div style="margin-top: 20px;" id="next-controls" class="hidden">-->
                     <button type="button" class="btn btn-success btn-block btn-shadow" id="next-identification"><span class="btn-text"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-                    <button type="button" class="btn btn-success btn-block btn-shadow" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+                    <button type="button" class="btn btn-success btn-block btn-shadow" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                     <!--</div>-->
 
                 </div>
@@ -1376,7 +1414,7 @@ include '../includes/language.php';
                     <div id="gesture-recorder-container" style="width: 450px; margin: auto; margin-top: 15px;"></div>
                     <div style="margin-top: 20px;" id="next-controls" class="hidden">
                         <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="next-identification"><span class="btn-text">Nächste Funktion</span> <span aria-hidden="true">&rarr;</span></button>
-                        <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+                        <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                     </div>
                 </div>
 
@@ -1464,7 +1502,7 @@ include '../includes/language.php';
                 <div id="sequence-joint-selection" class="hidden">
                     <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
-                            <p class="question">Welche Teile des Körpers wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <p class="question text">Welche Teile des Körpers wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
                             <div class="select-joints-humand-body" id="human-body" style="max-width: 410px; width:410px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_body.svg">
@@ -1490,7 +1528,7 @@ include '../includes/language.php';
 
             <hr>
 
-            <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-done-questionnaire" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-done-questionnaire" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
 
     </div>
@@ -1555,7 +1593,7 @@ include '../includes/language.php';
                 <div id="sequence-joint-selection" class="hidden">
                     <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
-                            <p class="question">Welche Teile des Körpers wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
+                            <p class="question text">Welche Teile des Körpers wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
                             <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_body.svg">
@@ -1583,7 +1621,7 @@ include '../includes/language.php';
             <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-gesture-done" name="btn-success">Geste wurde ausgeführt</button>
             <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-questionnaire-done" name="btn-success">Weiter</button>
             <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
 
     </div>
@@ -1618,7 +1656,7 @@ include '../includes/language.php';
                 <button class="btn btn-link pull-left hidden" id="btn-hide-scenario-info"><i class="glyphicon glyphicon-menu-up text-center"></i> <span id="less-text"></span></button>
             </div>
             <div class="pull-right">
-                <button type="button" class="btn btn-success" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+                <button type="button" class="btn btn-success" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 <button type="button" class="btn btn-info" id="btn-refresh-scene"><i class="glyphicon glyphicon-refresh"></i> <span class="btn-text">Neu laden</span></button>
                 <button type="button" class="btn btn-info" id="btn-getting-help"><i class="fa fa-life-ring"></i> <span class="btn-text">Hilfe</span></button>
             </div>
@@ -1716,7 +1754,7 @@ include '../includes/language.php';
                 <hr>
             </div>
 
-            <button type="button" class="btn btn-success btn-shadow pull-right hidden" id="btn-execution-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+            <button type="button" class="btn btn-success btn-shadow pull-right hidden" id="btn-execution-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -1765,7 +1803,7 @@ include '../includes/language.php';
             <hr>
         </div>
 
-        <button type="button" class="btn btn-success btn-shadow pull-right hidden" id="btn-execution-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text">Fertig</span></button>
+        <button type="button" class="btn btn-success btn-shadow pull-right hidden" id="btn-execution-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
     </div>
 
 </div>

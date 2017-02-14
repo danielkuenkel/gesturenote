@@ -178,6 +178,7 @@ var MESSAGE_SYNC_PHASE_STEP = 'syncPhaseStep';
 var MESSAGE_ENTER_SURVEY = 'enterSurvey';
 var MESSAGE_NEXT_STEP = 'nextStep';
 var MESSAGE_CANCEL_SURVEY = 'cancelSurvey';
+var MESSAGE_UPDATE_QUESTIONNAIRE = 'updateQuestionnaire';
 var MESSAGE_QUESTIONNAIRE_DONE = 'questionnaireDone';
 
 var MESSAGE_START_IDENTIFICATION = 'startIdentification';
@@ -207,7 +208,7 @@ var MESSAGE_TRIGGER_STRESS_TEST_GESTURE = 'triggerStressTestGesture';
 var MESSAGE_TRIGGER_STRESS_TEST_QUESTION = 'triggerStressTestQuestion';
 var MESSAGE_TRIGGER_NEXT_STRESS_TEST_GESTURE = 'triggerNextStressTestGesture';
 
-
+var MESSAGE_START_EXPLORATION = 'startExploration';
 /*
  * gesture classifcation
  */

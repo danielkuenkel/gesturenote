@@ -35,6 +35,8 @@ var previewModeEnabled = false;
 var syncPhaseStep = false;
 var peerConnection = null;
 
+var currentQuestionnaireAnswers = null;
+
 function checkStorage() {
     if (isLocalStorageSupported()) {
         var phaseSteps = getContextualPhaseSteps();
@@ -232,6 +234,8 @@ function resetConstraints() {
     explorationStartTriggered = false;
 
     singleGUSGesture = null;
+    
+    currentQuestionnaireAnswers = null;
 }
 
 function rescueVideoCaller() {

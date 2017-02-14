@@ -53,6 +53,7 @@ if (login_check($mysqli) == true) {
         <script src="js/joint-selection.js"></script>
         <script src="js/study-execution.js"></script>
         <script src="js/study-execution-tester.js"></script>
+        <script src="js/study-execution-tester-save.js"></script>
         <script src="js/study-execution-moderator.js"></script>
 
         <!-- gesture recorder sources -->
@@ -70,6 +71,7 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
 
         <div id="preview-bar-top" style="padding: 10px; position: fixed">
+                 
             <div class="input-group">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-default" id="btnViewModerator">Moderator</button>
@@ -80,6 +82,8 @@ if (login_check($mysqli) == true) {
                     <button class="btn btn-default btn-dropdown dropdown-toggle" id="btn-phaseStepSelect" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                     <ul class="dropdown-menu option" role="menu">
                     </ul>
+                    <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span> <?php echo $lang->previous ?></button>
+                    <button type="button" class="btn btn-default next disabled"><?php echo $lang->next ?> <span aria-hidden="true">&rarr;</span></button>
                     <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="glyphicon glyphicon-remove"></i> <?php echo $lang->close ?></button>
                 </div>
             </div>
@@ -147,12 +151,12 @@ if (login_check($mysqli) == true) {
                 </div>-->
 
         <!--affixed pager-->
-        <nav id="pager-bottom">
+<!--        <nav id="pager-bottom">
             <ul class="pager">
                 <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> <?php echo $lang->previous ?></a></li>
                 <li class="next disabled"><a href="#"><?php echo $lang->next ?> <span aria-hidden="true">&rarr;</span></a></li>
             </ul>
-        </nav>
+        </nav>-->
 
         <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 99; top: 150px; left:100px; display: block">
             <img src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>

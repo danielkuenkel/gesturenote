@@ -266,7 +266,7 @@ if (login_check($mysqli) == true) {
                             renderThanks(content, phaseData);
                             break;
                         case QUESTIONNAIRE:
-                            renderQuestionnaireAnswers(content, phaseData, phaseResults);
+                            renderQuestionnaireAnswers(content, phaseData, phaseResults, true);
                             break;
                         case IDENTIFICATION:
                             renderIdentification(content, phaseData, phaseResults);
@@ -278,7 +278,7 @@ if (login_check($mysqli) == true) {
                             renderSingleGUS(content, phaseData, phaseResults);
                             break;
                         case GUS_MULTIPLE_GESTURES:
-                            renderQuestionnaireAnswers(content, getAssembledItems(phaseData.gus), phaseResults);
+                            renderQuestionnaireAnswers(content, getAssembledItems(phaseData.gus), phaseResults, true);
                             break;
                         case GESTURE_TRAINING:
                             renderGestureTraining(content, phaseData, phaseResults);
@@ -410,7 +410,7 @@ if (login_check($mysqli) == true) {
 
             function renderSUS(content, studyData, resultsData) {
 //                console.log(studyData, resultsData);
-                renderQuestionnaireAnswers(content, studyData, resultsData);
+                renderQuestionnaireAnswers(content, studyData, resultsData, true);
 
                 // calculate the average sus score
                 var susResultsValid = true;
@@ -494,7 +494,7 @@ if (login_check($mysqli) == true) {
             function renderSingleGUS(content, studyData, resultsData) {
 //                console.log(studyData, resultsData);
                 currentGUSData = studyData;
-                renderQuestionnaireAnswers(content, getAssembledItems(studyData.gus), resultsData);
+                renderQuestionnaireAnswers(content, getAssembledItems(studyData.gus), resultsData, true);
 
                 var gesture = getGestureById(studyData.gestureId);
                 if (gesture && isGestureAssembled(studyData.gestureId)) {
@@ -748,7 +748,6 @@ if (login_check($mysqli) == true) {
                         // single answers section
                         var singleStressQuestionnaire = studyData.singleStressQuestions;
                         if (singleStressQuestionnaire && singleStressQuestionnaire.length > 0) {
-                            //                        singleStressQuestionnaire = singleStressQuestionnaire.reverse();
                             var results = new Object();
                             results.answers = new Array();
                             var questions = new Array();
@@ -761,35 +760,26 @@ if (login_check($mysqli) == true) {
                             }
 
                             if (questions.length > 0 && results.answers.length > 0) {
-//                            results.answers = results.answers.reverse();
-//                            console.log('singleStressQuestionnaire');
-                                //                            console.log(questions, results);
-                                renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions, results);
+                                renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions, results, true, true);
                             }
                         }
 
                         // sequence answers section
                         var sequenceStressQuestionnaire = studyData.sequenceStressQuestions;
                         if (sequenceStressQuestionnaire && sequenceStressQuestionnaire.length > 0) {
-                            //                        sequenceStressQuestionnaire = sequenceStressQuestionnaire.reverse();
                             var results = new Object();
                             results.answers = new Array();
                             var questions = new Array();
 
                             for (var j = 0; j < resultsData.answers.length; j++) {
                                 if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].sequenceAnswers) {
-                                    //                                console.log(resultsData.answers[j].sequenceAnswers.answers);
-//                                    results.answers = results.answers.concat(resultsData.answers[j].sequenceAnswers.answers.reverse());
                                     results.answers = results.answers.concat(resultsData.answers[j].sequenceAnswers.answers);
                                     questions = questions.concat(sequenceStressQuestionnaire);
                                 }
                             }
 
                             if (questions.length > 0 && results.answers.length > 0) {
-//                                results.answers = results.answers.reverse();
-//                            console.log('sequenceStressQuestionnaire');
-                                //                            console.log(questions, results);
-                                renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), questions, results);
+                                renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), questions, results, true, true);
                             }
                         }
                     }

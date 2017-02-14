@@ -800,25 +800,33 @@ $(document).on('click', '.btn-checkbox, .btn-radio', function (event) {
     {
         event.handled = true;
         if ($(this).hasClass('btn-checkbox') && $(this).hasClass('btn-option-checked')) {
-            $(this).removeClass('btn-option-checked');
-            $(this).find('#normal').removeClass('hidden');
-            $(this).find('#checked').addClass('hidden');
+            uncheckOption($(this));
         } else {
-            if ($(this).hasClass('btn-radio')) {
-                var children = $(this).closest('.root').children('#radio, #radio-optionalanswer').find('.btn-radio');
-                $(children).removeClass('btn-option-checked');
-                $(children).find('#normal').removeClass('hidden');
-                $(children).find('#checked').addClass('hidden');
-            }
-
-            $(this).addClass('btn-option-checked');
-            $(this).find('#over, #normal').addClass('hidden');
-            $(this).find('#checked').removeClass('hidden');
+            checkOption($(this));
         }
-
-        $(this).trigger('change');
     }
 });
+
+function uncheckOption(optionItem) {
+    $(optionItem).removeClass('btn-option-checked');
+    $(optionItem).find('#normal').removeClass('hidden');
+    $(optionItem).find('#checked').addClass('hidden');
+    $(optionItem).trigger('change');
+}
+
+function checkOption(optionItem) {
+    if ($(optionItem).hasClass('btn-radio')) {
+        var children = $(optionItem).closest('.root').children('#radio, #radio-optionalanswer').find('.btn-radio');
+        $(children).removeClass('btn-option-checked');
+        $(children).find('#normal').removeClass('hidden');
+        $(children).find('#checked').addClass('hidden');
+    }
+
+    $(optionItem).addClass('btn-option-checked');
+    $(optionItem).find('#over, #normal').addClass('hidden');
+    $(optionItem).find('#checked').removeClass('hidden');
+    $(optionItem).trigger('change');
+}
 
 $(document).on('focus focusin select', '.optionalInput', function (event) {
     if (event.handled !== true)
