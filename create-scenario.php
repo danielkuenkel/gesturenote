@@ -96,7 +96,7 @@ include './includes/language.php';
             </div>
         </div>
         <div class="panel-body hidden">
-            
+
             <div class="form-group container-root" id="list-container"></div>
 
             <hr>
@@ -142,8 +142,8 @@ include './includes/language.php';
                 </div>
             </div>
 
-            
-            <!--<button class="btn btn-info btn-shadow pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>-->
+
+<!--<button class="btn btn-info btn-shadow pull-right" id="addPredefinedObservations" type="button"><span class="glyphicon glyphicon-plus"></span><span> Vordefiniertes Formular hinzufügen</span></button>-->
 
             <!--<div class="form-group container-root" id="list-container" style="margin-top: 65px"></div>-->
 
@@ -193,7 +193,7 @@ include './includes/language.php';
             $('#helpContainer').find('.btn-add-helpOption').addClass('hidden');
         }
 
-        renderAssembledGestures();
+        renderAssembledGestures(null, [{id: 'wrongGesture', title: translation.wrongGesture}]);
         if (!assembledGestures()) {
             appendAlert($('#wozExperimentPanel'), ALERT_NO_GESTURES_ASSEMBLED);
             $('#wozExperimentContainer').find('.btn-add-woz-experimentOption').addClass('hidden');

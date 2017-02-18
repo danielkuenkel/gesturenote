@@ -604,7 +604,7 @@ $(document).on('mouseup', '.simple-stepper .btn-stepper-decrease', function (eve
  * Actions for the gesture select dropdown
  */
 
-function renderAssembledGestures(targetContainer) {
+function renderAssembledGestures(targetContainer, optionalSelections) {
     var gestures = assembledGestures();
     var target = $('#form-item-container');
     if (targetContainer !== undefined && targetContainer !== null) {
@@ -616,15 +616,35 @@ function renderAssembledGestures(targetContainer) {
         $(dropdown).find('.option').empty();
         $(target).find('.gestureSelect .dropdown-toggle').removeClass('disabled');
         $(target).find('.option-gesture').attr('placeholder', 'Bitte wählen');
+
+        var listItem, link;
         for (var i = 0; i < gestures.length; i++) {
             var gesture = gestures[i];
-            var listItem = document.createElement('li');
+            listItem = document.createElement('li');
             listItem.setAttribute('id', gesture.id);
-            var link = document.createElement('a');
+
+            link = document.createElement('a');
             link.setAttribute('href', '#');
             link.appendChild(document.createTextNode(gesture.title));
             listItem.appendChild(link);
             $(dropdown).find('.option').append(listItem);
+        }
+
+        if (optionalSelections && optionalSelections.length > 0) {
+            listItem = document.createElement('li');
+            listItem.setAttribute('class', 'divider');
+            $(dropdown).find('.option').append(listItem);
+            
+            for (var i = 0; i < optionalSelections.length; i++) {
+                listItem = document.createElement('li');
+                listItem.setAttribute('id', optionalSelections[i].id);
+
+                link = document.createElement('a');
+                link.setAttribute('href', '#');
+                link.appendChild(document.createTextNode(optionalSelections[i].title));
+                listItem.appendChild(link);
+                $(dropdown).find('.option').append(listItem);
+            }
         }
     } else {
         $(target).find('.gestureSelect .dropdown-toggle').addClass('disabled');
@@ -1766,10 +1786,10 @@ function getGestureElicitationListThumbnail(clone, data, layout, source) {
     clone.find('.title-text').text(data.title + " ");
     clone.find('#title .text').text(data.title);
 
-    if(!source) {
+    if (!source) {
         source = ASSEMBLED_GESTURE_SET;
     }
-    
+
     if (layout) {
         clone.addClass(layout);
     } else {

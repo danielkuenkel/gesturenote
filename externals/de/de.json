@@ -947,6 +947,7 @@
     "phases": "Leitfaden",
     "gestureElicitation": "Gesten-Ermittlung",
     "gestureEvaluation": "Gesten-Evaluierung",
+    "wrongGesture": "Falsche Geste",
     "answer": "Antwort",
     "answers": "Antworten",
     "gus": "GUS (Gesture Usability Scale)",
