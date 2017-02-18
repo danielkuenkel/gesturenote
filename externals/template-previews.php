@@ -508,14 +508,25 @@ include '../includes/language.php';
                 <div class="panel-body question-container"></div>
             </div>
 
-            <button type="button" class="btn btn-lg btn-success btn-block btn-shadow hidden" id="btn-done-slideshow" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <button type="button" class="btn btn-lg btn-success btn-block btn-shadow disabled hidden" id="btn-done-slideshow" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+        </div>
+    </div>
+
+    <div id="gestureSlideshowItem" class="panel panel-default" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div>Erfragt wird Funktion: <span id="searched" style="color: #303030"></span></div>
+            <div>Gezeigt wird Geste: <span id="given" style="color: #303030"></span></div>
         </div>
     </div>
 
     <div id="triggerSlideshowItem" class="panel panel-default" style="margin-bottom: 5px;">
         <div class="panel-body">
+            <div class="label label-success hidden" id="answered-correct"><i class="fa fa-check"></i> <span class="label-text"><?php echo $lang->answeredCorrect ?></span></div>
+            <div class="label label-danger hidden" id="answered-wrong"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->answeredWrong ?></span></div>
+            <div class="label label-warning hidden" id="not-answered"><i class="fa fa-ellipsis-h"></i> <span class="label-text"><?php echo $lang->notAnswered ?></span></div>
             <div>Erfragt wird Funktion: <span id="searched" style="color: #303030"></span></div>
-            <div>Gezeigt wird Geste: <span id="given" style="color: #303030"></span></div>
+            <div style="margin-right: 10px; float: left">Gezeigt wird Geste: <span id="given" style="color: #303030"></span></div>
+            <button style=" float: left" type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
         </div>
     </div>
 
@@ -620,14 +631,14 @@ include '../includes/language.php';
             </div>
 
             <div id="gestures-container">
-<!--                <div id="single-stress-answers">
-                    <h4 id="headline-single-questions">Einzel-Antworten</h4>
-                    <div class="question-container"></div>
-                </div>
-                <div id="sequence-stress-answers" style="margin-top: 40px">
-                    <h4 id="headline-sequence-questions">Abschließende Antworten</h4>
-                    <div class="question-container"></div>
-                </div>-->
+                <!--                <div id="single-stress-answers">
+                                    <h4 id="headline-single-questions">Einzel-Antworten</h4>
+                                    <div class="question-container"></div>
+                                </div>
+                                <div id="sequence-stress-answers" style="margin-top: 40px">
+                                    <h4 id="headline-sequence-questions">Abschließende Antworten</h4>
+                                    <div class="question-container"></div>
+                                </div>-->
             </div>
 
 
@@ -660,7 +671,7 @@ include '../includes/language.php';
             </div>
         </div>
     </div>
-    
+
     <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
         <div class="col-sm-6 col-sm-offset-2 root">
             <div class="previewGesture mousePlayable btn-shadow"></div>
@@ -693,34 +704,42 @@ include '../includes/language.php';
         <div class="col-md-7 col-lg-6 rtc-scalable" id="column-left">
             <div class="panel panel-default" id="woz-controls">
                 <div class="panel-heading">Wizard-of-Oz-Experiment</div>
-                <div class="panel-body">
-                    <div style="float: left">
-                        Aktuelle Szene: <span class="label label-default">
-                            <i class="fa fa-link hidden" id="icon-pidoco"></i>
-                            <i class="fa fa-link hidden" id="icon-web"></i>
-                            <i class="fa fa-image hidden" id="icon-image"></i>
-                            <i class="fa fa-film hidden" id="icon-videoEmbed"></i> <span class="label-text"></span></span> <span id="current-scene" class="text">
-                        </span>
-                    </div>
-                    <div class="btn-group" style="float: left; margin-left: 10px; margin-top: 4px">
-                        <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text">Zustands-Vorschau</span></button>
-                        <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-reload-scene"><i class="glyphicon glyphicon-refresh"></i> <span class="btn-text">Zustand neu laden</span></button>
-                    </div>
-                    <div style="clear: both;"></div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-lg-6" id="wozExperiment" style="margin-bottom: 20px;">
-                            <h4 style="margin-top: 0px; margin-bottom: 10px">Simulationselemente</h4>
-                            <div class="alert-space alert-no-phase-data"></div>
-                            <div class="row woz-container"></div>
+                <div class="panel-body" style="padding-bottom: 0">
+                    <!--<div class="row">-->
+                    <div style="margin-bottom: 20px;">
+                        <div style="float: left;  margin-right: 10px; ">
+                            Aktuelle Szene: <span class="label label-default">
+                                <i class="fa fa-link hidden" id="icon-pidoco"></i>
+                                <i class="fa fa-link hidden" id="icon-web"></i>
+                                <i class="fa fa-image hidden" id="icon-image"></i>
+                                <i class="fa fa-film hidden" id="icon-videoEmbed"></i> <span class="label-text"></span></span> <span id="current-scene" class="text">
+                            </span>
                         </div>
-
-                        <div class="col-lg-6" id="help">
-                            <h4 style="margin-top: 0px; margin-bottom: 10px">Hilfe</h4>
-                            <div class="alert-space alert-no-phase-data"></div>
-                            <div class="help-container"></div>
+                        <div class="btn-group" style="float: left;margin-top: 4px">
+                            <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text">Zustands-Vorschau</span></button>
+                            <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-reload-scene"><i class="glyphicon glyphicon-refresh"></i> <span class="btn-text">Zustand neu laden</span></button>
                         </div>
+                        <div style="clear: both;"></div>
                     </div>
+                </div>
+                <hr style="margin: 0">
+                <div class="panel-body" style="padding-bottom: 0">
+                    <div id="wozExperiment" style="margin-bottom: 20px;">
+                        <h4 style="margin-top: 0px; margin-bottom: 10px">Simulationselemente</h4>
+                        <div class="text">Welche Geste hat der Proband vorgeführt?</div>
+                        <div class="alert-space alert-no-phase-data"></div>
+                        <div class="row woz-container" style="margin-top: 10px"></div>
+                        <button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found">Es wurde eine ganz andere Geste vorgeführt</button>
+                    </div>
+                </div>
+                <hr style="margin: 0">
+                <div class="panel-body" style="padding-bottom: 0">
+                    <div id="help">
+                        <h4 style="margin-top: 0px; margin-bottom: 10px">Hilfe</h4>
+                        <div class="alert-space alert-no-phase-data"></div>
+                        <div class="help-container"></div>
+                    </div>
+                    <!--</div>-->
                 </div>
             </div>
         </div>
@@ -780,7 +799,7 @@ include '../includes/language.php';
                 <div class="panel-body">
                     <p id="description"></p>
                     <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-exploration" style="margin-top: 6px;">Jetzt starten</button>
-                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow hidden" id="btn-next-step" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow hidden disabled" id="btn-next-step" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 </div>
             </div>
 
@@ -863,20 +882,36 @@ include '../includes/language.php';
 
 
 
-    <div class="col-xs-12 col-sm-6 col-lg-12" id="wozItem" style="margin-bottom: 10px;">
+<!--    <div class="col-xs-12 col-sm-6 col-lg-12" id="wozItem" style="margin-bottom: 10px;">
 
-        <!--<div id="task"></div>-->
-        <!--<div id="description"></div>-->
-        <!--        <div id="gesture-title" style=""></div>
-                <div id="trigger-title" style=""></div>-->
+        <div id="task"></div>
+        <div id="description"></div>
+                <div id="gesture-title" style=""></div>
+                <div id="trigger-title" style=""></div>
         <div class="btn-group-vertical btn-block">
             <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
             <button type="button" class="btn btn-default btn-shadow" id="btn-show-transition-scene"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Folge-Zustand zeigen</span></button>
             <button type="button" class="btn btn-info btn-shadow ellipsis disabled" id="trigger-woz">Simulieren</button>
         </div>
-    </div> 
+    </div> -->
 
-    <div id="helpItem" style="margin-bottom: 6px;">
+    <div class="col-xs-6 col-sm-4 col-md-4 root" id="wozItem">
+        <div class="panel panel-default btn-shadow">
+            <div class="panel-body">
+                <div class="previewGesture mousePlayable"></div>
+                <div class="text-center  hidden gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-success btn-block" id="btn-trigger-woz" style="margin-top: 10px;">Diese</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="helpItem" style="margin-bottom: 16px;">
         <div class="help-title"></div>
         <div class="btn-group" style="margin-top: 10px;">
             <button type="button" class="btn btn-info btn-shadow disabled" id="offer-help"><i class="fa fa-life-ring"></i> Hilfe anbieten</button>
@@ -944,15 +979,17 @@ include '../includes/language.php';
 
 
     <!-- rtc preview -->
-    <div id="tester-web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
-        <img src="img/web-rtc-placeholder.jpg" style="width: 100%; height: auto" />
+    <div id="tester-web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%;">
+        <img src="img/web-rtc-placeholder.jpg" style="width: 100%; height: auto;" />
     </div>
 
     <!-- main formats -->
     <div class="root" id="letterOfAcceptance" style="margin-top: 80px;"></div>
 
     <div id="letterOfAcceptance-moderated">
-        <div class="col-md-5" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-5" id="column-left" style="margin-bottom: 15px;">
+        </div>
+
         <div class="col-md-7" id="column-right">
             <h3 class="headline" style="margin: 0" >Einverständniserklärung</h3>
             <hr>
@@ -1304,20 +1341,27 @@ include '../includes/language.php';
                 <hr>
             </div>
             <div class="alert-space alert-waiting-for-moderator"></div>
-            <div class="hidden" id="exploration-items-container"></div>
+            <div id="exploration-container" class="hidden">
+                <div id="exploration-items-container"></div>
+                <hr>
+                <button class="btn btn-success btn-shadow pull-right" id="btn-exploration-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            </div>
         </div>
     </div>
 
-    <div class="container" id="exploration-unmoderated">
-        <div id="general">
-            <h3 style="margin: 0"  class="headline"></h3>
-            <div class="description"></div>
-            <hr>
-        </div>
+    <div id="exploration-unmoderated">
+        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
+            <div id="general">
+                <h3 style="margin: 0"  class="headline"></h3>
+                <div class="description"></div>
+                <hr>
+            </div>
 
-        <div id="exploration-items-container"></div>
-        <hr>
-        <button class="btn btn-success btn-shadow pull-right" id="btn-exploration-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <div id="exploration-items-container"></div>
+            <hr>
+            <button class="btn btn-success btn-shadow pull-right" id="btn-exploration-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+        </div>
     </div>
 
 

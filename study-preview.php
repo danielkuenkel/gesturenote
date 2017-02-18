@@ -165,6 +165,7 @@ if (login_check($mysqli) == true) {
         <!-- main content -->
         <div class="mainContent" id="mainContent" style="padding-top: 54px;">
             <div id="viewTester" class="hidden">
+                <!--<div id="fixedRTC" style="position: fixed"></div>-->
                 <div id="phase-content"></div>
             </div>
 

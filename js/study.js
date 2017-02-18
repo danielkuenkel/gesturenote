@@ -308,7 +308,7 @@ function renderStudyParticipants(data, hash) {
             $(item).find('#user .label-text').text(translation.userTypes.registered);
         }
 
-        if (result.aborted === 'no' && result.studySuccessfull === 'no') {
+        if (result.aborted === 'no' && result.studySuccessfull === 'yes') {
             successfullStudies++;
             $(item).find('.panel').addClass('panel-success');
             $(item).find('#execution-success').removeClass('hidden');

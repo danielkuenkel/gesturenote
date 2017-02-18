@@ -385,7 +385,7 @@ function renderQuestionnaire(target, questionnaire, answers) {
 //                    }
 //                }
 //            }
-
+    console.log(answer);
             var parameters = questionnaire[i].parameters;
             var options = questionnaire[i].options;
             if (answer) {
@@ -393,8 +393,12 @@ function renderQuestionnaire(target, questionnaire, answers) {
                     case OPEN_QUESTION:
                         renderEditableOpenQuestion(item, answer);
                         break;
+                    case COUNTER:
+                        renderEditableCounter(item, questionnaire[i], answer);
+                        break;
                     case DICHOTOMOUS_QUESTION:
                     case DICHOTOMOUS_QUESTION_GUS:
+                        console.log(item, answer);
                         renderEditableDichotomousQuestion(item, questionnaire[i], answer);
                         break;
                     case GROUPING_QUESTION:
@@ -413,14 +417,17 @@ function renderQuestionnaire(target, questionnaire, answers) {
                     case RANKING:
                         renderEditableRanking(item, questionnaire[i], answer);
                         break;
-                    case COUNTER:
-                        renderEditableCounter(item, questionnaire[i], answer);
+                    case ALTERNATIVE_QUESTION:
+                        renderEditableAlternativeQuestion(item, questionnaire[i], answer);
                         break;
                 }
             } else {
                 switch (questionnaire[i].format) {
                     case OPEN_QUESTION:
                         renderOpenQuestionInput(item);
+                        break;
+                    case COUNTER:
+                        renderCounterInput(item, parameters);
                         break;
                     case DICHOTOMOUS_QUESTION:
                         renderDichotomousQuestionInput(item, parameters);
@@ -444,15 +451,13 @@ function renderQuestionnaire(target, questionnaire, answers) {
                     case RANKING:
                         renderRankingInput(item, options);
                         break;
-//                    case ALTERNATIVE_QUESTION:
-//                        renderAlternativeQuestionInput(item, questionnaire[i]);
-//                        break;
+                    case ALTERNATIVE_QUESTION:
+                        renderAlternativeQuestionInput(item, questionnaire[i]);
+                        break;
 //                    case GUS_SINGLE:
 //                        renderGUSSingleInput(item, options);
 //                        break;
-                    case COUNTER:
-                        renderCounterInput(item, parameters);
-                        break;
+
 //                    case SUS_ITEM:
 //                        renderSusInput(item);
 //                        break;
@@ -501,7 +506,7 @@ function getQuestionnaireAnswers(questionnaire) {
                 questionnaireAnswers.push({id: id, answer: getRankingAnswers($(questionnaire[i]))});
                 break;
             case ALTERNATIVE_QUESTION:
-                questionnaireAnswers.push({id: id, answer: getAlternativeQuestionAnswers($(questionnaire[i]))});
+                questionnaireAnswers.push({id: id, answer: getGroupingQuestionAnswers($(questionnaire[i]))});
                 break;
             case GUS_SINGLE:
                 questionnaireAnswers.push({id: id, answer: getSingleUSAnswers($(questionnaire[i]))});
@@ -626,20 +631,20 @@ function getRankingAnswers(source) {
     return data;
 }
 
-function getAlternativeQuestionAnswers(source) {
-    var data = new Object();
-    var selectedOptions = $(source).find('.option-container .btn-option-checked');
-    var array = new Array();
-    for (var i = 0; i < selectedOptions.length; i++) {
-        if ($(selectedOptions[i]).parent().attr('id') !== 'checkbox-optionalanswer') {
-            array.push($(selectedOptions[i]).find('.option-text').attr('id'));
-        }
-    }
-    data.selectedOptions = array;
-    data.optionalAnswer = $(source).find('.optionalInput').val();
-    data.justification = $(source).find('#justificationInput').val();
-    return data;
-}
+//function getAlternativeQuestionAnswers(source) {
+//    var data = new Object();
+//    var selectedOptions = $(source).find('.option-container .btn-option-checked');
+//    var array = new Array();
+//    for (var i = 0; i < selectedOptions.length; i++) {
+//        if ($(selectedOptions[i]).parent().attr('id') !== 'checkbox-optionalanswer') {
+//            array.push($(selectedOptions[i]).attr('id'));
+//        }
+//    }
+//    data.selectedOptions = array;
+//    data.optionalAnswer = $(source).find('.optionalInput').val();
+//    data.justification = $(source).find('#justificationInput').val();
+//    return data;
+//}
 
 function getSingleUSAnswers(source) {
     return {selectedOption: $(source).find('.option-container .btn-option-checked').closest('.btn-group').index() >> 1};
@@ -652,7 +657,7 @@ function getSingleUSAnswers(source) {
  */
 
 function renderQuestionnaireAnswers(content, studyData, resultsData, enableTweening, sequentialAnswerSearch) {
-    console.log($(content), $(content).find('.question-container'));
+//    console.log($(content), $(content).find('.question-container'));
 
     $(content).find('.question-container').empty();
     for (var i = 0; i < studyData.length; i++) {
@@ -775,7 +780,7 @@ function renderOpenQuestion(item, studyData, answer) {
 
 function renderEditableOpenQuestion(item, answer) {
     renderOpenQuestionInput(item);
-    console.log(answer);
+//    console.log(answer);
     if (answer) {
         $(item).find('#openQuestionInput').val(answer.openAnswer);
     }
@@ -1072,6 +1077,9 @@ function renderRating(item, studyData, answer) {
         $(optionItem).find('#rating-option').text(studyData.options[i].option);
         $(item).find('.option-container').append(optionItem);
 
+
+
+
         if (answer) {
             var score = 0;
             var maxScore = studyData.options[i].scales.length;
@@ -1107,6 +1115,11 @@ function renderRating(item, studyData, answer) {
                 } else if (j === 0) {
                     $(scaleItem).css({paddingLeft: "0px"});
                 }
+
+                if (j < studyData.options[i].scales.length - 1) {
+                    var breakItem = document.createElement('br');
+                    $(optionItem).find('#scale-container').append(breakItem);
+                }
             }
         } else {
             $(item).find('#score-container').remove();
@@ -1117,7 +1130,7 @@ function renderRating(item, studyData, answer) {
 
 function renderEditableRating(item, studyData, answer) {
     renderRatingInput(item, studyData.options);
-    console.log('rating', answer);
+//    console.log('rating', answer);
     if (answer && answer.scales && answer.scales.length > 0) {
         for (var i = 0; i < answer.scales.length; i++) {
             if (parseInt(answer.scales[i]) !== -1) {
@@ -1257,6 +1270,8 @@ function renderAlternativeQuestion(item, studyData, answer) {
         cloneItem = '#alternativeQuestion-gesture-item';
     }
 
+//    console.log(options, studyData, currentGUSData)
+
     for (var i = 0; i < options.length; i++) {
         if (parseInt(options[i].id) !== parseInt(currentGUSData.gestureId)) {
             var optionItem = $('#template-study-container').find(cloneItem).clone();
@@ -1291,6 +1306,35 @@ function renderAlternativeQuestion(item, studyData, answer) {
             $(item).find('#optionalanswer-content .text').text(answer.optionalAnswer);
         } else {
             $(item).find('#no-optional-answer').removeClass('hidden');
+        }
+    }
+}
+
+function renderEditableAlternativeQuestion(item, studyData, answer) {
+    var parameters = studyData.parameters;
+    renderAlternativeQuestionInput(item, studyData);
+    if (parameters.multiselect === 'yes') {
+        $(item).find('#multiselect').removeClass('hidden');
+    } else {
+        $(item).find('#singleselect').removeClass('hidden');
+    }
+
+    if (answer) {
+        if (answer.selectedOptions && answer.selectedOptions !== '-1' && answer.selectedOptions !== -1 && answer.selectedOptions.length > 0) {
+            for (var i = 0; i < answer.selectedOptions.length; i++) {
+                var elementID = answer.selectedOptions[i];
+                checkOption($(item).find('#' + elementID));
+            }
+        }
+
+        if (answer.optionalAnswer !== '') {
+            checkOption($(item).find('#checkbox-optionalanswer .btn-checkbox'));
+            checkOption($(item).find('#radio-optionalanswer .btn-radio'));
+            $(item).find('.optionalInput').val(answer.optionalAnswer);
+        }
+
+        if (answer.justification !== '') {
+            $(item).find('#justificationInput').val(answer.justification);
         }
     }
 }
@@ -1657,7 +1701,7 @@ function renderGroupingQuestionGUSInput(item, parameters) {
                     break;
             }
             option.find('.option-text').text(optionItem.title);
-            option.find('.option-text').attr('id', optionItem.id);
+//            option.find('.option-text').attr('id', optionItem.id);
             $(item).find('.option-container').append(document.createElement('br'));
         }
     }
@@ -1857,15 +1901,16 @@ function renderAlternativeQuestionInput(item, data) {
     if (options) {
         for (var i = 0; i < options.length; i++) {
             if (optionId === null || (parseInt(optionId) !== parseInt(options[i].id))) {
-                var optionButton = $('#item-container-inputs').find('#checkbox').clone();
-                optionButton.find('.option-text').html(options[i].title);
-                optionButton.find('.option-text').attr('id', options[i].id);
-                item.find('.option-container').append(optionButton);
+                var option = $('#item-container-inputs').find('#checkbox').clone();
+                option.find('.option-text').html(options[i].title);
+                option.find('.btn-checkbox').attr('id', options[i].id);
+//                option.find('.option-text').attr('id', options[i].id);
+                item.find('.option-container').append(option);
                 item.find('.option-container').append(document.createElement('br'));
                 if (parameters.alternative === 'gestures') {
                     var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
                     button.attr('name', options[i].id);
-                    optionButton.append(button);
+                    option.append(button);
                 }
             }
         }
@@ -2032,7 +2077,7 @@ function saveObservationAnwers(target, studyId, testerId, currentPhaseId) {
 //    var currentPhaseId = getCurrentPhase().id; //$('#phase-results-nav').find('.active').attr('id');
 //    console.log(observationAnswerItems, currentPhaseId);
     var answers = getQuestionnaireAnswers(observationAnswerItems);
-    console.log("answers", observationAnswerItems, answers);
+//    console.log("answers", observationAnswerItems, answers);
     var observations = getLocalItem(STUDY_EVALUATOR_OBSERVATIONS);
     if (observations && answers) {
         if (isObservationPresent(currentPhaseId)) {

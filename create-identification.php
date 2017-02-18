@@ -4,7 +4,7 @@ include './includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
-    <h4 class="modal-title">Identifikation</h4>
+    <h4 class="modal-title">Ermittlung</h4>
 </div>
 <div id="modal-body" class="modal-body">
 

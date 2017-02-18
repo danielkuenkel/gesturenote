@@ -195,9 +195,9 @@ var MESSAGE_HELP_CLOSED = 'helpClosed';
 
 var MESSAGE_START_GESTURE_SLIDESHOW = 'startGestureSlideshow';
 var MESSAGE_TRIGGER_GESTURE_SLIDE = 'triggerGestureSlide';
-//var MESSAGE_RESTART_GESTURE_SLIDES = 'restartGestureSlides';
 var MESSAGE_REACTIVATE_CONTROLS = 'reactivateControls';
 var MESSAGE_GESTURE_PERFORMED = 'gesturePerformed';
+var MESSAGE_TRIGGER_SLIDESHOW_DONE = 'triggerSlideshowDone';
 
 var MESSAGE_START_GESTURE_TRAINING = 'startGestureTraining';
 var MESSAGE_TRAINING_TRIGGERED = 'trainingTriggered';

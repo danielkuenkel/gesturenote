@@ -8,6 +8,7 @@ var triggeredFeedback = null;
 var slidesRestartCount = 0;
 var slideshowStartTriggered = false;
 var slideRestarted = false;
+var triggerSlideshowDone = false;
 var currentSlideIndex = 0;
 var slideTriggered = false;
 var currentWOZScene = null;
@@ -22,6 +23,7 @@ var identificationTriggered = false;
 var identificationStartTriggered = false;
 var identificationDone = false;
 var explorationStartTriggered = false;
+var explorationDone = false;
 
 var currentStressTestCount = 0;
 var currentStressTestIndex = 0;
@@ -31,6 +33,8 @@ var stressTestQuestionsTriggered = false;
 
 var testerDoneTriggered = false;
 var previewModeEnabled = false;
+
+var currentGUSData = null;
 
 var syncPhaseStep = false;
 var peerConnection = null;
@@ -215,6 +219,7 @@ function resetConstraints() {
     currentSlideIndex = 0;
     slideRestarted = false;
     slidesRestartCount = 0;
+    triggerSlideshowDone = false;
 
     scenarioStartTriggered = false;
     triggeredHelp = null;
@@ -232,8 +237,10 @@ function resetConstraints() {
     identificationDone = false;
 
     explorationStartTriggered = false;
+    explorationDone = false;
 
     singleGUSGesture = null;
+    currentGUSData = null;
     
     currentQuestionnaireAnswers = null;
 }
@@ -459,9 +466,9 @@ function renderExplorationItems(target, data, modalId) {
         var triggers = getUngroupedExplorationTrigger(data.exploration);
         var scenes = getUngroupedExplorationScenes(data.exploration);
         var itemContainer, item;
-        console.log(data);
+//        console.log(data);
         if (scenes && scenes.length > 0) {
-            console.log('there are scenes');
+//            console.log('there are scenes');
             itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-scene-panel').clone();
             $(target).find('#exploration-items-container').append(itemContainer);
 
@@ -483,12 +490,12 @@ function renderExplorationItems(target, data, modalId) {
         }
 
         if (triggers && triggers.length > 0) {
-            console.log('there are trigger', triggers);
+//            console.log('there are trigger', triggers);
             itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-trigger-panel').clone();
             $(target).find('#exploration-items-container').append(itemContainer);
             for (var i = 0; i < triggers.length; i++) {
                 var trigger = getTriggerById(triggers[i]);
-                console.log('trigger', trigger)
+//                console.log('trigger', trigger)
                 item = $(getSourceContainer(VIEW_MODERATOR)).find('#trigger-catalog-thumbnail').clone().removeAttr('id');
                 item.text(trigger.title);
                 itemContainer.find('#panel-container').append(item);

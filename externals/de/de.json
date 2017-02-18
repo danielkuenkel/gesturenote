@@ -341,7 +341,7 @@
             "notes": "yes"
         },
         "identification": {
-            "text": "Identifikation",
+            "text": "Ermittlung",
             "class": "elicitation",
             "moderated": {
                 "tester": {
@@ -820,7 +820,7 @@
     },
     "phaseStep": "Phasenschritt",
     "phaseType": {
-        "elicitation": "Identifikation",
+        "elicitation": "Ermittlung",
         "extraction": "Extraktion",
         "evaluation": "Evaluierung"
     },
@@ -922,6 +922,9 @@
     "less": "weniger",
     "oneLess": "Eins weniger",
     "oneSecondLess": "Eine Sekunde weniger",
+    "answeredCorrect": "Richtig beantwortet",
+    "answeredWrong": "Falsch beantwortet",
+    "notAnswered": "Noch nicht beantwortet",
     "for": "für",
     "For": "Für",
     "of": "von",
@@ -942,7 +945,7 @@
     "ratedByUser": "Person",
     "ratedByUsers": "Personen",
     "phases": "Leitfaden",
-    "gestureElicitation": "Gesten-Identifikation",
+    "gestureElicitation": "Gesten-Ermittlung",
     "gestureEvaluation": "Gesten-Evaluierung",
     "answer": "Antwort",
     "answers": "Antworten",
@@ -1066,12 +1069,12 @@
             "overview": "Hier können allgemeine Daten, die einem Probanden vor der Teilnahme an einer Studie anzeigt werden sollen, gespeichert werden. Des Weiteren kann die Design-Phase und die Durchführungsart ausgewählt werden.",
             "text1": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Jede Studie hat eine eindeutige ID, d.h. es können zwei Studien mit dem gleichen Namen angelegt werden, die jedoch einmal eine Ermittlung und einmal eine Evaluierung der zuvor ermittelten Gesten durchführen.",
             "text2": "Geben Sie den zu Befragenden - ähnlich wie bei Usability-Tests - Informationen über die Studie. Diese Informationen werden zusammen mit dem Titel immer vor einer Studien-Teilnahme angezeigt.",
-            "text3": "Bei der Identifikation sollen potenzielle Nutzer mögliche Gesten vorführen. Diese Gesten werden Funktionen zugeordnet. Es können aber auch für vorhandene Gesten Funktionen identifiziert werden. Bei der Evaluierung werden Gesten in GestureNote nutzerzentriert getestet und bewertet. Weitere Informationen finden Sie im Leitfaden. Der Leitfaden kann erst erstellt werden, wenn eine Studien-Phase ausgewählt wurde.",
+            "text3": "Bei der Ermittlung sollen potenzielle Nutzer mögliche Gesten vorführen. Diese Gesten werden Funktionen zugeordnet. Es können aber auch für vorhandene Gesten Funktionen identifiziert werden. Bei der Evaluierung werden Gesten in GestureNote nutzerzentriert getestet und bewertet. Weitere Informationen finden Sie im Leitfaden. Der Leitfaden kann erst erstellt werden, wenn eine Studien-Phase ausgewählt wurde.",
             "text4": "Haben Sie wenig Zeit, wollen aber trotzdem eine Gesten-Design-Studie durchführen? Unmoderierte Befragungen bieten Ihnen die Möglichkeit potenzielle Nutzer zu befragen, ohne dafür jedes Mal als Moderator zu fungieren. Bei Moderierten Befragungen schlüpfen Sie dagegen in die Rolle eines Modereators, Evaluators oder sogar WOZ-Experiemt-Leiters. Sie steuern die Befragung und der Befragte wartet z.B. bis Sie eine Geste angefordert haben."
         },
         "catalogs": {
             "overview": "Kataloge dienen zur Bereitstellung von Basisdaten, die im Leitfaden benötigt werden, um z.B. einen Gesture Usability Scale oder WOZ-Experimente zu erstellen.",
-            "text1": "Gesten sind für eine Gesten-Design-Studie am wichtigsten. Sie können für jede Studie ein separates Gesten-Set zusammenstellen. Dafür bietet GestureNote Zugriff auf von Ihnen identifizierte Gesten und freigegebene Gesten von anderen Evaluatoren. Zusätzlich können auch neue Gesten aufgezeichnet und dem Gesten-Set hinzugefügt werden. Angezeigte Gesten können sortiert, gefiltert und durchsucht (Titel) werden.",
+            "text1": "Gesten sind für eine Gesten-Design-Studie am wichtigsten. Sie können für jede Studie ein separates Gesten-Set zusammenstellen. Dafür bietet GestureNote Zugriff auf von Ihnen ermittelte Gesten und freigegebene Gesten von anderen Evaluatoren. Zusätzlich können auch neue Gesten aufgezeichnet und dem Gesten-Set hinzugefügt werden. Angezeigte Gesten können sortiert, gefiltert und durchsucht (Titel) werden.",
             "text2": "Unter Funktionen sind von Gesten ausgelöste Aktionen zu verstehen. Z.B. nach Ausführung einer Geste soll die Musik lauter gestellt werden. Die Funktion wäre dann Musik lauter stellen. Funktionen können im Leitfaden an Gesten gekoppelt werden und umgekehrt. Sie sind z.B. wichtig, um einen Scorewert für richtig beantwortete Geste in einer Trigger-Slideshow zu berechnen.",
             "text3": "Zustände sind für ein WOZ-Experiment während einer Szenario-basierten Aufgabe von Bedeutung, um eine gewisse Immersion für potenzielle Nutzer zu gewährleisten. Mit Zuständen können explorative WOZ-Experimente erstellt werden. In GestureNote werden 4 unterschiedliche Formate unterstützt, die auch miteinader kombiniert werden können:",
             "text3Image": "<strong>Bild</strong>: Es können Bilder im Format JPEG und PNG hinterlegt werden.",
@@ -1095,7 +1098,7 @@
             "sumQuestion": "<strong>Summenfrage</strong>: Hier kann eine Maximum definiert und mehrere Antwortoptionen definiert werden. Der Proband soll dann z.B. 100 Punkte oder Prozent auf die jeweiligen Optionen verteilen.",
             "ranking": "<strong>Ranking</strong>: Beim Ranking sind Optionen anzugeben, die der Proband dann mit Pfeil-Buttons sortieren soll, z.B. nach Wichtigkeit.",
             "rating": "<strong>Rating</strong>: Skalierte Antworten bedeutet hier, dass die einzelnen Stufen die Häufigkeiten, Zutreffensgrade, Intensitäten usw. graduell abstufen. Z.B. mit der Frage: <em>Wie häufig arbeiten Sie mit den jeweiligen Gesten-Steuerungen</em> und deren Optionen: <em>Kinect</em>, <em>Leap Motion Controller</em>, <em>Nintendo Wii</em> und deren Skalen von <em>überhaupt nicht</em> bis <em>täglich</em>. Mit dem Format Ratings können in GestureNote somit auch Matrixfragen erstellt werden.",
-            "identification": "Wählen Sie aus, ob Sie Gesten oder Funktionen identifizieren wollen. Legen Sie eine Liste von Elementen an für die Sie Gesten bzw. Funktionen identifizieren möchten.",
+            "identification": "Wählen Sie aus, ob Sie Gesten oder Funktionen ermittelt wollen. Legen Sie eine Liste von Elementen an für die Sie Gesten bzw. Funktionen ermitteln möchten.",
             "identificationGestures": "<strong>Gesten <em>(Bottom-Up)</em></strong>: Bei Bottom-Up werden für vorhandene Funktionen geeignete Gesten gesucht. Des Weiteren kann die Ermittlung von Gesten zum einen nutzer-basiert und zum anderen experten-basiert erfolgen. In GestureNote ist es möglich, dass Sie eigene Gesten ad-hoc für eine Studie aufzeichnen, oder mit Hilfe von potentiellen Endanwendern identifizieren. Für eine nutzer-basierte Gesten-Ermittlung müssen vorab Zustände hinterlegt werden, damit der Benutzer sich besser in die Situation hineinversetzen kann. Dies kann in Form von Bildern, Webseiten oder eingebetteten Videos von YouTube oder Vimeo geschehen.",
             "identificationTrigger": "<strong>Funktionen <em>(Top-Down)</em></strong>: Bei Top-Down werden logische Verknüpfungen von Funktionen zu vorhandenen Gesten hergestellt. Wichtig ist dabei, dass eine Quelle für die Gesten angeboten wird. In GestureNote können Funktionen für bereits vorhandene Gesten (ermittelte oder freigegebene Gesten anderer Evaluatoren) oder von Ihnen ad-hoc aufgezeichnete Gesten gesucht werden.",
             "gus": "Der Gesture Usability Scale liegt in GestureNote in zwei Varianten vor. Zum einen können Gesten einzeln, zum anderen gebündelt abgefragt werden. Diese Fragebögen können mit Hilfe eines Baukastens durch die Auswahl abzufragender Faktoren (z.B. Komfort & Ergonomie, Soziale Akzeptanz oder Physischer Kontext) zusammengestellt werden. Im Unterschied zu normalen Labor- und Feldtests sehen die beiden Varianten des GUS eine Kopplung der Gesten, Funktionen als auch Feedback vor. Ein Vorteil gegenüber eines normalen Fragebogens ist, dass Probanden sich die Gesten (in beiden Varianten des GUS) nochmals ansehen können und wissen, welche Funktion und welches Feedback daran gekoppelt ist (in der Variante der Einzelgestenbewertung).",
@@ -1116,7 +1119,7 @@
     "gestureStyleguides": {
         "process": {
             "headline": "Gesten-Designprozess",
-            "info": "Ein Gesten-Designprozess besteht typischerweise aus den 3 Schritten <em>Identifizierung</em>, <em>Extraktion</em> und <em>Evaluierung</em> von Gesten. Diese Schritte können in den Usability Engineering Lifecycle eingebettet werden."
+            "info": "Ein Gesten-Designprozess besteht typischerweise aus den 3 Schritten <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluierung</em> von Gesten. Diese Schritte können in den Usability Engineering Lifecycle eingebettet werden."
         },
         "processStyleguides": {
             "headline": "Allgemeine Styleguides",
@@ -1295,7 +1298,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         }
@@ -1669,7 +1672,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Die Geste erfüllt ihren Zweck. Betrachtung der entsprechenden Denkweise der Nutzer. Miteinbeziehung der Anwendungsdomäne und Zweckerfüllung (z.B. Geste für ein Spiel oder für ein normales Programm?). (Microsoft, 2013) Gesten sollen intuitiv/benutzbar sein, d.h. Nutzer erledigt seine Aufgabe damit effizient, einfach und intuitiv. (Microsoft, 2013; Nielsen, Störring, Moeslund, & Granum, 2004; Wachs, Kölsch, Stern, & Edan, 2011)"
         },
@@ -1683,7 +1686,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Die Geste bringt Vorteile gegenüber anderen Eingabemodalitäten. Nutzung von Gesten nur, wenn diese der Mensch-Maschine-Interaktion einen Vorteil bringen. Wird z.B. eine virtuelle Tastatur in der Regel über andere Eingabegeräte gesteuert (z.B. Sprache, Tastatur), erscheint eine Steuerung mit Gesten nicht zweckmäßig. Oder bei hygienischen Aspekten. (Microsoft, 2013)"
         },
@@ -1697,7 +1700,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Eine Geste sollte eine klare kognitive Verknüpfung zur jeweiligen Funktion aufweisen. (Wachs et al., 2011) Metaphorisch und ikonisch an die Funktion geknüpft sein. (Nielsen et al., 2004) Eine Geste sollte zur Funktion/Aktion passen. (Intel, 2012; Microsoft, 2013) Richtige Wahl eines Gestentyps für eine Aktion. (Intel, 2012)"
         },
@@ -1711,7 +1714,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"yes"
+                "optionalAnswer": "yes"
             },
             "styleguide": "Eine Geste sollte eine klare kognitive Verknüpfung zur jeweiligen Funktion aufweisen. (Wachs et al., 2011) Metaphorisch und ikonisch an die Funktion geknüpft sein. (Nielsen et al., 2004) Eine Geste sollte zur Funktion/Aktion passen. (Intel, 2012; Microsoft, 2013) Richtige Wahl eines Gestentyps für eine Aktion. (Intel, 2012)"
         },
@@ -1725,7 +1728,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Gesten sollten prägnant sein. (Wachs et al., 2011)"
         },
@@ -1739,7 +1742,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -1753,7 +1756,7 @@
                 "justification": "no",
                 "justificationFor": "unselected",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Die Gesten müssen zuverlässig die gewünschten Funktionen aktivieren. (Ashbrook & Starner, 2010) Das Ausführen von Gesten soll keine anderen Funktionen aktivieren, d.h. keine Funktionen die nicht für spezifische Gesten hinterlegt wurden. (Ashbrook & Starner, 2010)"
         },
@@ -1767,7 +1770,7 @@
                 "justification": "no",
                 "justificationFor": "unselected",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Das System kann die Geste eindeutig [sicher] erkennen. (Long, Landay, & Rowe, 1999; Nielsen et al., 2004) Eine Gesteninteraktion sollte präzise und zuverlässig sein. (Microsoft, 2013)"
         },
@@ -1781,7 +1784,7 @@
                 "justification": "no",
                 "justificationFor": "unselected",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Aus praktischen Gründen sollte ein Gesteninterface Daten in Echtzeit verarbeiten können. (Wachs et al., 2011) Aktionen sollten unmittelbares Feedback liefern. (Leap Motion, n.d.-a) Eine Gesteninteraktion sollte schnell sein. (Microsoft, 2013)"
         },
@@ -1795,7 +1798,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011) Ermüdung vorbeugen, indem Gesten (für Intel) so designt werden, dass sie mit einem Ellbogen auf dem Tisch ausgeführt werden können Kurze Gesten, die kleine Pausen zulassen und keine präzisen Eingaben erfordern wirken Ermüdung entgegen. (Intel, 2012) Bei häufiger Verwendung sollen Gesten nicht ermüdend sein. (Microsoft, 2013; Nielsen et al., 2004)"
         },
@@ -1809,7 +1812,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Berücksichtigung von Erwartungen aus anderen üblichen Eingabemechanismen (Touch, Tastatur, Maus, etc.). (Microsoft, 2013)"
         },
@@ -1823,7 +1826,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Konsistentes Design von Gestensets, da Menschen sich maximal 6 Gesten merken können. (Microsoft, 2013)"
         },
@@ -1850,7 +1853,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"yes"
+                "optionalAnswer": "yes"
             },
             "styleguide": "Kognitive Belastung durch die Wahl von bekannten und zu erlernenden Gesten abwägen. (Intel, 2012)"
         },
@@ -1864,7 +1867,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Es gibt Systeme mit vordefinierten Gestensets oder nutzerdefinierten Vokabularen. Hier sollte die kognitive Belastung der Nutzer in Hinblick auf die Auswahl oder das Training von Gesten und das dazugehörige Feedback beachtet werden. (Wachs et al., 2011)"
         },
@@ -1900,7 +1903,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Eine Geste / ein Gestenset sollte einfach zu erlernen/merken sein. (Ashbrook & Starner, 2010; Long et al., 1999; Nielsen et al., 2004; Wachs et al., 2011) Nutzer müssen sich an Bewegungsabläufe und die mit den Gesten verbundenen Funktionen/Aktionen erinnern. (Wachs et al., 2011)"
         },
@@ -1914,7 +1917,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Eine Geste / ein Gestenset sollte einfach zu erlernen/merken sein. (Ashbrook & Starner, 2010; Long et al., 1999; Nielsen et al., 2004; Wachs et al., 2011) Nutzer müssen sich an Bewegungsabläufe und die mit den Gesten verbundenen Funktionen/Aktionen erinnern. (Wachs et al., 2011)"
         },
@@ -1928,7 +1931,7 @@
                 "justification": "no",
                 "justificationFor": "unselected",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Gesten sollten nicht zu komplex sein. (Microsoft, 2013)"
         },
@@ -1942,7 +1945,7 @@
                 "justification": "no",
                 "justificationFor": "unselected",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Gesten sollten nicht zu einfach sein. (Microsoft, 2013)"
         },
@@ -1956,7 +1959,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Das Umfeld bietet den benötigten Raum für die Interaktionen. Der Interaktionsraum muss gesichert sein. (Eigene Erfahrungen) Den gegebenen Interaktionsraum ausnutzen, d.h. keine zu kleinen und keine zu großen Gesten designen. (Intel, 2012)"
         },
@@ -1970,7 +1973,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "<em>Komm wie du bist</em>. Es sollten keine Anforderungen an den Benutzer gestellt werden (z.B. das Tragen von Handschuhen oder Markern. Der Nutzer soll sich keine Gedanken über die richtige Umgebung machen müssen). (Wachs et al., 2011)"
         },
@@ -1984,7 +1987,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Die Geste beeinträchtigt beim Ausführen nicht das Umfeld (z.B. durch Schlagen). (Eigene Erfahrungen)"
         },
@@ -1998,7 +2001,7 @@
                 "justification": "no",
                 "justificationFor": "unselected",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Es sind abstrakte Gesten zu vermeiden die keinen Bezug zur Realität haben. (Intel, 2012)"
         },
@@ -2012,7 +2015,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Für eine vielfältige natürliche Interaktion sollten Ein- und Zweihandgesten benutzt werden. Für kritische Ein- und für unkritische Zweihandgesten. (Microsoft, 2013) Je nach Aufgabe/Funktion sind Zweihandgesten zu unterstützen. (Intel, 2012)"
         },
@@ -2026,7 +2029,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011) Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011). Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012) Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004)"
         },
@@ -2040,7 +2043,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOption",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011) Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011). Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012) Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004)"
         },
@@ -2054,7 +2057,7 @@
                 "justification": "no",
                 "justificationFor": "unselected",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Eine Geste sollte von der Bewegung her nicht komisch sein. (Eigene Erfahrungen) Beachtung der genauen Körperhaltung eines Nutzers. (Intel, 2012; Microsoft, 2013)"
         },
@@ -2079,7 +2082,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Wohlfühlfaktor: Bloßstellung oder Unbehagen beim Ausführen von Gesten ist zu vermeiden. (Eigene Erfahrungen) Gesten sollten unverfänglich sein (z.B. Mittelfingergeste im Auto). (Eigene Erfahrungen) Berücksichtigung soziologischer Faktoren. Der Benutzer sollte sich während der Ausführung in dessen Umgebung wohlfühlen. (Microsoft, 2013)"
         },
@@ -2111,7 +2114,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Die Gestensteuerung sollte Kollegen oder anderen Personen im Umfeld nicht stören (z.B. durch laute Geräusche). (Eigene Erfahrungen)"
         },
@@ -2125,7 +2128,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Eine Geste sollte sozial akzeptiert (sozialverträglich) sein. (Ashbrook & Starner, 2010)"
         },
@@ -2139,7 +2142,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": "Gesten sollten für alle Anwender benutzbar sein. D.h. Linkshänder sollte nicht ausgeschlossen werden. (Intel, 2012; Microsoft, 2013) Oder andere Kulturkreise lehnen die Eingabemodalität aufgrund der gewählten Gesten ab."
         }
@@ -2155,7 +2158,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2169,7 +2172,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2183,7 +2186,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2197,7 +2200,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2211,7 +2214,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2225,7 +2228,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2239,7 +2242,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2253,7 +2256,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2267,7 +2270,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2281,7 +2284,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         }
@@ -2297,7 +2300,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2311,7 +2314,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "feedbacks",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2325,7 +2328,7 @@
                 "justification": "no",
                 "justificationFor": "unselected",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2339,7 +2342,7 @@
                 "justification": "no",
                 "justificationFor": "unselected",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2353,7 +2356,7 @@
                 "justification": "no",
                 "justificationFor": "unselected",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2367,7 +2370,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2381,7 +2384,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2395,7 +2398,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2409,7 +2412,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2423,7 +2426,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2437,7 +2440,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2451,7 +2454,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2465,7 +2468,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2479,7 +2482,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2493,7 +2496,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2507,7 +2510,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         }
@@ -2523,7 +2526,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2537,7 +2540,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2551,7 +2554,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2565,7 +2568,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         }
@@ -2581,7 +2584,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2595,7 +2598,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2609,7 +2612,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2623,7 +2626,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2637,7 +2640,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2651,7 +2654,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         },
@@ -2665,7 +2668,7 @@
                 "justification": "yes",
                 "justificationFor": "selectOne",
                 "optionSource": "gestures",
-                "optionalAnswer":"no"
+                "optionalAnswer": "no"
             },
             "styleguide": ""
         }

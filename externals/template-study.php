@@ -505,7 +505,7 @@ include '../includes/language.php';
         <div id="gestures-container"></div>
         <h3 id="headline-observations">Beobachtungen</h3>
         <hr>
-        <div id="observations-container"></div>
+        <div class="question-container" id="observations-container"></div>
     </div>
 
     <div class="row" id="training-gesture-item" style="margin-bottom: 30px">
@@ -555,7 +555,7 @@ include '../includes/language.php';
         </div>
         <h3 id="headline-observations">Beobachtungen</h3>
         <hr>
-        <div id="observations-container"></div>
+        <div class="question-container"  id="observations-container"></div>
     </div>
 
     <div class="row" id="slideshow-gesture-item" style="margin-bottom: 30px">
@@ -647,7 +647,7 @@ include '../includes/language.php';
         <div id="gestures-container"></div>
         <h3 id="headline-observations">Beobachtungen</h3>
         <hr>
-        <div id="observations-container"></div>
+        <div class="question-container"  id="observations-container"></div>
         <!--<button class="btn btn-info btn-block btn-add-observations"><i class="fa fa-plus"></i> <span class="btn-text">Beobachtungen hinzufügen</span></button>-->
     </div>
 
@@ -713,7 +713,7 @@ include '../includes/language.php';
         <div class="list-container" style="margin-top: 30px;"></div>
         <h3 id="headline-observations">Beobachtungen</h3>
         <hr>
-        <div id="observations-container"></div>
+        <div class="question-container"  id="observations-container"></div>
     </div>
 
 

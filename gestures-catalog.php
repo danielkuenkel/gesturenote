@@ -64,10 +64,21 @@ if (login_check($mysqli) == true) {
                 <div class="modal-content root"></div>
             </div>
         </div>
-
+        
+        
+        <div class="container" id="breadcrumb" style="padding-top: 40px">
+            <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                        <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
+                        <li class="active"><?php echo $lang->breadcrump->gestureCatalog ?></li>
+                    </ol>
+                </div>
+        </div>
+        
         <!-- Container (Landing Section) -->
-        <div class="container-fluid bg-grey wall">
-            <!-- Container (Breadcrump) -->
+<!--        <div class="container-fluid bg-grey wall">
+             Container (Breadcrump) 
             <div class="container" id="breadcrumb">
                 <div class="row">
                     <ol class="breadcrumb">
@@ -83,9 +94,9 @@ if (login_check($mysqli) == true) {
                 <p>Hier werden alle Gesten, die veröffentlicht wurden angezeigt. Zusätzlich werden hier auch die Gesten aufgelistet, die für eine Studie aufgezeichnet wurden, sei es vom Studien-Ersteller oder von einer Testperson. Private Gesten, z.B. von anderen Moderatoren werden dagegen nicht aufgelistet.</p>
                 <p>Von anderen Moderatoren veröffentlichte Gesten können bewertet werden. Des Weiteren gibt es die Möglichkeit, über die Geste zu diskutieren.</p>
             </div>
-        </div>
+        </div>-->
 
-        <div class="container mainContent" style="margin-top: 35px;" id="item-view">
+        <div class="container mainContent" style="margin-top: 0px;" id="item-view">
 
             <button type="button" class="btn btn-success btn-block btn-lg btn-shadow" id="btn-record-gesture"><i class="fa fa-video-camera" aria-hidden="true"></i> <span class="btn-text">Neue Geste aufzeichnen</span></button>
 
@@ -140,7 +151,7 @@ if (login_check($mysqli) == true) {
 
             <div class="text-center custom-pagination" id="custom-pager">
                 <nav>
-                    <ul class="pagination pagination-custom hidden" itemprop="clipping_2">
+                    <ul class="pagination pagination-custom hidden" itemprop="clipping_5">
                         <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
                         <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
                         <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>

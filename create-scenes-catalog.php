@@ -4,7 +4,7 @@ include './includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
-    <h4 class="modal-title" id="exampleModalLabel">Szenen-Katalog</h4>
+    <h4 class="modal-title" id="exampleModalLabel">Zustands-Katalog</h4>
 </div>
 <div id="modal-body" class="modal-body">
     <div class="container-root" id="list-container"></div>
@@ -13,7 +13,7 @@ include './includes/language.php';
 <div id="modal-body" class="modal-body">
     <div class="form-group form-group-no-margin">
         <div class="input-group">
-            <span class="input-group-addon">Szenen-Format</span>
+            <span class="input-group-addon">Zustands-Format</span>
             <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
             <div class="input-group-btn select dropup" id="addFormatSelect" role="group">
                 <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>

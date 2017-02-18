@@ -580,7 +580,7 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
-                renderObservation($(container).find('#observations-container'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
+                renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
 //                addObservationsDropdown(container);
             }
 
@@ -630,7 +630,7 @@ if (login_check($mysqli) == true) {
                 }
 
                 console.log($('#phase-results-nav').find('.active').attr('id'));
-                renderObservation($(container).find('#observations-container'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
+                renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 
             function renderTriggerSlideshow(container, studyData, resultsData) {
@@ -785,26 +785,29 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
-                renderObservation($(container).find('#observations-container'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
+                renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 
             function renderScenario(container, studyData, resultsData) {
                 console.log($('#phase-results-nav').find('.active').attr('id'));
-                renderObservation($(container).find('#observations-container'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
+                renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
 //                addObservationsDropdown(container);
             }
 
             function renderObservation(target, studyData, observationResults) {
-                console.log('observationResults', studyData.observations, observationResults);
+                console.log('observationResults', studyData.observations);
                 if (observationResults && observationResults.length > 0) {
-                    renderEditableObservations(target, studyData.observations, observationResults);
+                    console.log(observationResults);
+                    renderQuestionnaire(target, studyData.observations, {answers:observationResults});
+//                    renderEditableObservations(target, studyData.observations, {answers:observationResults});
                 } else {
-                    renderEditableObservations(target, studyData.observations, null);
+                    renderQuestionnaire(target, studyData.observations, null);
                 }
 
 
-                $(target).on('change', function () {
-                    saveObservationAnwers($(target), getLocalItem(STUDY).id, getLocalItem(STUDY_RESULTS).userId, $('#phase-results-nav').find('.active').attr('id'));
+                $(target).find('#observations-container').on('change', function (event) {
+                    console.log('change observations');
+                    saveObservationAnwers($(target).find('#observations-container'), getLocalItem(STUDY).id, getLocalItem(STUDY_RESULTS).userId, $('#phase-results-nav').find('.active').attr('id'));
                 });
             }
 
