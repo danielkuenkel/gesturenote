@@ -149,5 +149,39 @@ include '../includes/language.php';
             </div>
         </div>
     </div>
+    
+    <div class="root" id="favorite-gesture-catalog-thumbnail">
+        <div class="panel panel-default btn-shadow">
+            <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
+                <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
+            </div>
+
+            <div class="panel-body">
+                <div class="previewGesture"></div>
+                <div class="text-center hidden gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default btn-tag-as-favorite-gesture" id="btn-tag-as-favorite-gesture"><i class="fa fa-star" aria-hidden="true"></i> <span class="btn-text hidden-sm hidden-xs hidden-lg"><?php echo $lang->addToStudySetShort ?></span><span class="btn-text hidden-md"><?php echo $lang->addToStudySet ?></span></button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>

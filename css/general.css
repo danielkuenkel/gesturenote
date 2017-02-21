@@ -296,14 +296,14 @@ footer .glyphicon {
     text-transform: uppercase;
 }
 
-.nav-pills {
+.navbar-fixed-bottom .nav-pills {
     letter-spacing: 1px;
     margin-top: 9px;
     font-size: 10px;
     color: white;
     text-transform: uppercase;
 }
-.nav-pills :hover, .nav-pills .btn-primary {
+.navbar-fixed-bottom .nav-pills :hover, .nav-pills .btn-primary {
     background-color: transparent !important;
     border-color: white;
     border: 2px white;
