@@ -634,7 +634,7 @@ function renderAssembledGestures(targetContainer, optionalSelections) {
             listItem = document.createElement('li');
             listItem.setAttribute('class', 'divider');
             $(dropdown).find('.option').append(listItem);
-            
+
             for (var i = 0; i < optionalSelections.length; i++) {
                 listItem = document.createElement('li');
                 listItem.setAttribute('id', optionalSelections[i].id);
@@ -960,54 +960,97 @@ function removeHint(hint) {
 
 
 // pagination handling
-function initPagination(pagination, dataLength, maxElements) {
-    console.log(pagination);
-    $(pagination).children('.clickable-pagination-item').remove();
+currentPaginationData = null;
+function initPagination(data) {
+    console.log(data);
+    currentPaginationData = data;
 
-    var maxPages = Math.ceil(dataLength / maxElements);
-    $(pagination).attr('maxPages', maxPages);
+    var maxPages = Math.ceil(data.pager.dataLength / data.pager.maxElements);
+    var paginationClipping = null;
 
-    if (maxPages <= 1) {
-        $(pagination).addClass('hidden');
-    } else {
-        $(pagination).removeClass('hidden');
-    }
+    if (data.pager.top) {
+        paginationClipping = parseInt($(data.pager.top).attr('itemprop').split('_')[1]);
+        $(data.pager.top).children('.clickable-pagination-item').remove();
+        $(data.pager.top).attr('maxPages', maxPages);
 
-    var paginationClipping = parseInt($(pagination).attr('itemprop').split('_')[1]);
-    var currentIndex = isNaN(getCurrentPaginationIndex()) ? 0 : getCurrentPaginationIndex();
-    for (var i = 0; i < Math.min(paginationClipping, maxPages); i++) {
-        var listItem = getPaginationItem(i + 1);
-        $(listItem).insertBefore($(pagination).find('#btn-next-page'));
-        if (currentIndex !== null && currentIndex === i) {
-            $(listItem).click();
+        if (maxPages <= 1) {
+            $(data.pager.top).addClass('hidden');
         }
     }
 
-    updatePagination(pagination);
+    if (data.pager.bottom) {
+        paginationClipping = parseInt($(data.pager.top).attr('itemprop').split('_')[1]);
+        $(data.pager.bottom).children('.clickable-pagination-item').remove();
+        $(data.pager.bottom).attr('maxPages', maxPages);
+
+        if (maxPages <= 1) {
+            $(data.pager.bottom).addClass('hidden');
+        }
+    }
+
+    var currentIndex = isNaN(getCurrentPaginationIndex()) ? 0 : getCurrentPaginationIndex();
+    for (var i = 0; i < Math.min(paginationClipping, maxPages); i++) {
+        var listItem;
+        if (data.pager.top) {
+            listItem = getPaginationItem(i + 1);
+            $(listItem).insertBefore($(data.pager.top).find('#btn-next-page'));
+
+            if (currentIndex !== null && currentIndex === i) {
+                $(listItem).click();
+            }
+        }
+        if (data.pager.bottom) {
+            listItem = getPaginationItem(i + 1);
+            $(listItem).insertBefore($(data.pager.bottom).find('#btn-next-page'));
+
+            if (currentIndex !== null && currentIndex === i) {
+                $(listItem).click();
+            }
+        }
+    }
+
+    updatePagination();
 }
 
-function updatePagination(pagination) {
-    var currentMaxPages = parseInt($(pagination).attr('maxPages'));
-    var currentIndex = parseInt($(pagination).find('.active').text()) - 1;
+function updatePagination() {
+    var mainPager = null;
+    var paginations = new Array();
+    if (currentPaginationData.pager.top) {
+        mainPager = currentPaginationData.pager.top;
+        if (currentPaginationData.pager.bottom) {
+            paginations.push(currentPaginationData.pager.bottom);
+        }
+    } else if (currentPaginationData.pager.bottom) {
+        mainPager = currentPaginationData.pager.bottom;
+    }
+    paginations.push(mainPager);
+    console.log('paginations', paginations);
+
+    var currentMaxPages = parseInt($(mainPager).attr('maxPages'));
+    var currentIndex = parseInt($(mainPager).find('.active').text()) - 1;
 
     if (currentIndex === 0 && currentMaxPages <= 1) {
-        $(pagination).find('#btn-first-page, #btn-previous-page').addClass('disabled');
-        $(pagination).find('#btn-last-page, #btn-next-page').addClass('disabled');
+        $(paginations).find('#btn-first-page, #btn-previous-page').addClass('disabled');
+        $(paginations).find('#btn-last-page, #btn-next-page').addClass('disabled');
     } else if (currentIndex === 0) {
-        $(pagination).find('#btn-first-page, #btn-previous-page').addClass('disabled');
-        $(pagination).find('#btn-last-page, #btn-next-page').removeClass('disabled');
+        $(paginations).find('#btn-first-page, #btn-previous-page').addClass('disabled');
+        $(paginations).find('#btn-last-page, #btn-next-page').removeClass('disabled');
     } else if (currentIndex === currentMaxPages - 1) {
-        $(pagination).find('#btn-first-page, #btn-previous-page').removeClass('disabled');
-        $(pagination).find('#btn-last-page, #btn-next-page').addClass('disabled');
+        $(paginations).find('#btn-first-page, #btn-previous-page').removeClass('disabled');
+        $(paginations).find('#btn-last-page, #btn-next-page').addClass('disabled');
     } else {
-        $(pagination).find('#btn-first-page, #btn-previous-page').removeClass('disabled');
-        $(pagination).find('#btn-last-page, #btn-next-page').removeClass('disabled');
+        $(paginations).find('#btn-first-page, #btn-previous-page').removeClass('disabled');
+        $(paginations).find('#btn-last-page, #btn-next-page').removeClass('disabled');
     }
 }
 
 function updatePaginationItems() {
     if (currentFilterData && currentFilterData.length > 0) {
-        initPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+        var maxElements = parseInt($(currentPaginationData.filter.countSelect).find('.chosen').attr('id').split('_')[1]);
+        console.log('maxElements', maxElements);
+        currentPaginationData.pager.dataLength = currentFilterData.length;
+        currentPaginationData.pager.maxElements = maxElements;
+        initPagination(currentPaginationData);
     }
 }
 
@@ -1027,8 +1070,13 @@ function checkPagination(pagination, dataLength, maxElements) {
     }
 }
 
-function getCurrentPaginationIndex(pagination) {
-    return parseInt($(pagination).find('.active').text()) - 1;
+function getCurrentPaginationIndex() {
+    if (currentPaginationData.pager.top) {
+        return parseInt($(currentPaginationData.pager.top).find('.active').text()) - 1;
+    } else if (currentPaginationData.pager.bottom) {
+        return parseInt($(currentPaginationData.pager.bottom).find('.active').text()) - 1;
+    }
+    return null;
 }
 
 $(document).on('click', '.pagination li', function (event) {
@@ -1217,8 +1265,43 @@ function toggleGestureThumbnailCollapse(element) {
     }
 }
 
+$(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
+    event.preventDefault();
+
+    if (!event.handled) {
+        event.handled = true;
+
+        var assemble = false;
+        var gestureId = $(this).closest('.root').attr('id');
+        var thumbnail = $(this).closest('.panel');
+        if (!$(this).hasClass('selected')) {
+            $(this).addClass('selected btn-success');
+            $(thumbnail).addClass('panel-success');
+            $(this).find('root').addClass('selected');
+            assemble = true;
+        } else {
+            $(this).removeClass('selected btn-success');
+            $(thumbnail).removeClass('panel-success');
+            $(this).find('root').removeClass('selected');
+        }
+
+        $(this).trigger('change', [gestureId, assemble]);
+    }
+});
+
+$(document).on('click', '.btn-untag-as-favorite-gesture', function (event) {
+    event.preventDefault();
+
+    if (!event.handled) {
+        event.handled = true;
+        var gestureId = $(this).closest('.root').attr('id');
+        $(this).trigger('change', [gestureId]);
+    }
+});
+
 $(document).on('click', '.gesture-assemble, .gesture-assemble-description, .gesture-unassemble-description', function (event) {
     event.preventDefault();
+
     if (!event.handled) {
         event.handled = true;
         var thumbnail = $(this).closest('.gesture-thumbnail');
@@ -1238,6 +1321,8 @@ $(document).on('click', '.gesture-assemble, .gesture-assemble-description, .gest
             thumbnail.find('.gesture-unassemble-description').addClass('hidden');
             thumbnail.find('#gesture-source, #gesture-scope').removeClass('label-success');
         }
+
+
     }
 });
 
@@ -1796,8 +1881,8 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
     clone.attr('id', data.id);
     clone.find('.title-text').text(data.title + " ");
     clone.find('#title .text').text(data.title);
-    clone.find('#gesture-scope .label-text').text(translation.gestureScopes[data.scope]);
-    clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
+//    clone.find('#gesture-scope .label-text').text(translation.gestureScopes[data.scope]);
+//    clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
 
 
     if (panelStyle) {
@@ -1810,23 +1895,23 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
         clone.addClass('col-xs-6 col-sm-4 col-lg-3');
     }
 
-    if (data.isOwner === true) {
-        if (data.source === SOURCE_GESTURE_EVALUATOR) {
-            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_OWN]);
-            clone.find('#gesture-source #' + SOURCE_GESTURE_OWN).removeClass('hidden');
-        } else {
-            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
-            clone.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
-        }
-    } else {
-        if (data.source === SOURCE_GESTURE_EVALUATOR) {
-            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
-            clone.find('#gesture-source #' + SOURCE_GESTURE_EVALUATOR).removeClass('hidden');
-        } else {
-            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
-            clone.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
-        }
-    }
+//    if (data.isOwner === true) {
+//        if (data.source === SOURCE_GESTURE_EVALUATOR) {
+//            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_OWN]);
+//            clone.find('#gesture-source #' + SOURCE_GESTURE_OWN).removeClass('hidden');
+//        } else {
+//            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
+//            clone.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
+//        }
+//    } else {
+//        if (data.source === SOURCE_GESTURE_EVALUATOR) {
+//            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
+//            clone.find('#gesture-source #' + SOURCE_GESTURE_EVALUATOR).removeClass('hidden');
+//        } else {
+//            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
+//            clone.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
+//        }
+//    }
 
     if (!clone.hasClass('deleteable')) {
         gesturePreviewDeleteable = false;
@@ -1866,96 +1951,6 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
             loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
         }
     });
-
-    if (data.isOwner) {
-        var shareButton = $(clone).find('#btn-share-gesture');
-        if (data.scope === SCOPE_GESTURE_PRIVATE) {
-            shareButton.removeClass('unshare-gesture').addClass('share-gesture');
-            shareButton.find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-            shareButton.find('.btn-text').text(translation.share);
-        } else {
-            shareButton.removeClass('share-gesture').addClass('unshare-gesture');
-            shareButton.find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-            shareButton.find('.btn-text').text(translation.unshare);
-        }
-    } else {
-        $(clone).find('#btn-share-gesture').parent().remove();
-    }
-
-//    $(clone).find('#btn-share-gesture').click({gestureId: data.id}, function (event) {
-//        event.preventDefault();
-//        if (!$(this).hasClass('disabled')) {
-//            $(this).addClass('disabled');
-//            var button = $(this);
-//            var updateList = false;
-//
-//            if ($(this).hasClass('share-gesture')) {
-//                showCursor($('body'), CURSOR_PROGRESS);
-//
-//                if ($(this).hasClass('update-list-view')) {
-//                    updateList = true;
-//                }
-//
-//                shareGesture({gestureId: event.data.gestureId}, function (result) {
-//                    showCursor($('body'), CURSOR_DEFAULT);
-//                    $(button).removeClass('disabled');
-//                    if (result.status === RESULT_SUCCESS) {
-//                        $(button).removeClass('share-gesture').addClass('unshare-gesture');
-//                        $(button).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-//                        $(button).find('.btn-text').text(translation.unshare);
-//                        clone.find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
-//                        clone.find('#gesture-scope .fa').addClass('hidden');
-//                        clone.find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
-//
-//                        updateGestureById(source, result.id, {scope: 'public'});
-//
-//                        // check if this is needed after updateGesture() call
-//                        if (updateList === true) {
-//                            getGestureCatalog(function (result) {
-//                                if (result.status === RESULT_SUCCESS) {
-//                                    originalFilterData = result.gestures;
-////                                        currentFilterData = sort();
-//                                }
-//                            });
-//                        }
-//                    }
-//                });
-//            } else if ($(this).hasClass('unshare-gesture')) {
-//                showCursor($('body'), CURSOR_PROGRESS);
-//                unshareGesture({gestureId: event.data.gestureId}, function (result) {
-//                    showCursor($('body'), CURSOR_DEFAULT);
-//                    $(button).removeClass('disabled');
-//                    if (result.status === RESULT_SUCCESS) {
-//                        $(button).removeClass('unshare-gesture').addClass('share-gesture');
-//                        $(button).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-//                        $(button).find('.btn-text').text(translation.share);
-//                        clone.find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
-//                        clone.find('#gesture-scope .fa').addClass('hidden');
-//                        clone.find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
-//
-//                        updateGestureById(source, result.id, {scope: 'private'});
-//
-//                        // check if this is needed after updateGesture() call
-//                        if (updateList === true) {
-//                            getGestureCatalog(function (result) {
-//                                if (result.status === RESULT_SUCCESS) {
-//                                    originalFilterData = result.gestures;
-////                                        currentFilterData = sort();
-//                                }
-//                            });
-//                        }
-//                    }
-//                });
-//            }
-//        }
-//    });
-//
-//    $(clone).find('#btn-unshare-gesture').click(function (event) {
-//        event.preventDefault();
-//        if (!$(this).hasClass('disabled')) {
-//            $(this).addClass('disabled');
-//        }
-//    });
 
     return clone;
 }

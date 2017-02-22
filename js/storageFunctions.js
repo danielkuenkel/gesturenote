@@ -59,6 +59,7 @@ function assembledGestures() {
 }
 
 function assembleGesture(id) {
+    id = parseInt(id);
     var aGestures = getLocalItem(ASSEMBLED_GESTURE_SET);
     if (aGestures) {
         aGestures.push(id);
