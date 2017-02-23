@@ -64,37 +64,37 @@ if (login_check($mysqli) == true) {
                 <div class="modal-content root"></div>
             </div>
         </div>
-        
-        
+
+
         <div class="container" id="breadcrumb" style="padding-top: 40px">
             <div class="row">
-                    <ol class="breadcrumb">
-                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                        <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
-                        <li class="active"><?php echo $lang->breadcrump->gestureCatalog ?></li>
-                    </ol>
-                </div>
+                <ol class="breadcrumb">
+                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
+                    <li class="active"><?php echo $lang->breadcrump->gestureCatalog ?></li>
+                </ol>
+            </div>
         </div>
-        
-        <!-- Container (Landing Section) -->
-<!--        <div class="container-fluid bg-grey wall">
-             Container (Breadcrump) 
-            <div class="container" id="breadcrumb">
-                <div class="row">
-                    <ol class="breadcrumb">
-                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                        <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
-                        <li class="active"><?php echo $lang->breadcrump->gestureCatalog ?></li>
-                    </ol>
-                </div>
-            </div>
 
-            <div class="container text-center dropShadowText">
-                <h1><i class="fa fa-sign-language" style="font-size: 60pt" aria-hidden="true"></i> GESTEN-KATALOG</h1>
-                <p>Hier werden alle Gesten, die veröffentlicht wurden angezeigt. Zusätzlich werden hier auch die Gesten aufgelistet, die für eine Studie aufgezeichnet wurden, sei es vom Studien-Ersteller oder von einer Testperson. Private Gesten, z.B. von anderen Moderatoren werden dagegen nicht aufgelistet.</p>
-                <p>Von anderen Moderatoren veröffentlichte Gesten können bewertet werden. Des Weiteren gibt es die Möglichkeit, über die Geste zu diskutieren.</p>
-            </div>
-        </div>-->
+        <!-- Container (Landing Section) -->
+        <!--        <div class="container-fluid bg-grey wall">
+                     Container (Breadcrump) 
+                    <div class="container" id="breadcrumb">
+                        <div class="row">
+                            <ol class="breadcrumb">
+                                <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                                <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
+                                <li class="active"><?php echo $lang->breadcrump->gestureCatalog ?></li>
+                            </ol>
+                        </div>
+                    </div>
+        
+                    <div class="container text-center dropShadowText">
+                        <h1><i class="fa fa-sign-language" style="font-size: 60pt" aria-hidden="true"></i> GESTEN-KATALOG</h1>
+                        <p>Hier werden alle Gesten, die veröffentlicht wurden angezeigt. Zusätzlich werden hier auch die Gesten aufgelistet, die für eine Studie aufgezeichnet wurden, sei es vom Studien-Ersteller oder von einer Testperson. Private Gesten, z.B. von anderen Moderatoren werden dagegen nicht aufgelistet.</p>
+                        <p>Von anderen Moderatoren veröffentlichte Gesten können bewertet werden. Des Weiteren gibt es die Möglichkeit, über die Geste zu diskutieren.</p>
+                    </div>
+                </div>-->
 
         <div class="container mainContent" style="margin-top: 0px;" id="item-view">
 
@@ -116,7 +116,7 @@ if (login_check($mysqli) == true) {
                     <span class="input-group-addon">Sortierung</span>
                     <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
                     <div class="input-group-btn select" id="sort" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="newest"></span><span class="caret"></span></button>
+                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                             <li class="dropdown-header">Datum</li>
                             <li id="oldest"><a href="#">Älteste zuerst</a></li>
@@ -149,7 +149,7 @@ if (login_check($mysqli) == true) {
             </div>
 
 
-            <div class="text-center custom-pagination" id="custom-pager">
+            <div class="text-center custom-pagination" id="pager-top">
                 <nav>
                     <ul class="pagination pagination-custom hidden" itemprop="clipping_5">
                         <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
@@ -164,6 +164,17 @@ if (login_check($mysqli) == true) {
 
             <div class="alert-space alert-no-search-results"></div>
             <div class="alert-space alert-no-gestures"></div>
+
+            <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+                <nav>
+                    <ul class="pagination pagination-custom" itemprop="clipping_5">
+                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
 
     </div>
@@ -190,7 +201,22 @@ if (login_check($mysqli) == true) {
 //                    currentModalId = GESTURE_CATALOG;
                     if (result.gestures && result.gestures.length > 0) {
                         originalFilterData = result.gestures;
-                        initPagination($('#custom-pager .pagination'), result.gestures.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+
+                        var data = {
+                            pager: {
+                                top: $('#item-view #pager-top .pagination'),
+                                bottom: $('#item-view #pager-bottom .pagination'),
+                                dataLength: originalFilterData.length,
+                                maxElements: parseInt($('#item-view').find('#resultsCountSelect .chosen').attr('id').split('_')[1])
+                            },
+                            filter: {
+                                countSelect: $('#item-view').find('#resultsCountSelect'),
+                                filter: $('#item-view').find('#filter'),
+                                sort: $('#item-view').find('#sort')
+                            }
+                        };
+                        initPagination(data);
+//                        initPagination($('#custom-pager .pagination'), result.gestures.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
                         $('#sort #newest').click();
                     } else {
                         appendAlert($('#item-view'), ALERT_NO_GESTURES);
@@ -200,11 +226,12 @@ if (login_check($mysqli) == true) {
         }
 
         function renderData(data) {
+            console.log('renderData', data);
             currentFilterData = data;
-            $('#gestures-list-container').empty();
+            $(currentFilterList).empty();
             clearAlerts($('#item-view'));
 //            initPagination($('#gesture-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-            var index = parseInt($('#custom-pager .pagination').find('.active').text()) - 1;
+            var index = getCurrentPaginationIndex();
             var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
             var viewFromIndex = index * listCount;
             var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
@@ -213,7 +240,7 @@ if (login_check($mysqli) == true) {
                 var count = 0;
                 for (var i = viewFromIndex; i < viewToIndex; i++) {
                     var clone = getGestureCatalogListThumbnail(currentFilterData[i]);
-                    $('#gestures-list-container').append(clone);
+                    $(currentFilterList).append(clone);
                     TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                     count++;
                 }
@@ -226,10 +253,10 @@ if (login_check($mysqli) == true) {
             event.preventDefault();
             currentFilterData = sort();
             updatePaginationItems();
-            renderData(currentFilterData);
-
-            if ($('#searched-input').val().trim() !== "") {
-                $('#searched-input').trigger('keyup');
+            if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+                $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+            } else {
+                renderData(currentFilterData);
             }
         });
 
@@ -237,23 +264,25 @@ if (login_check($mysqli) == true) {
             event.preventDefault();
             currentFilterData = sort();
             updatePaginationItems();
-
-            if ($('#searched-input').val().trim() !== "") {
-                $('#searched-input').trigger('keyup');
+            if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+                $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+            } else {
+                renderData(currentFilterData);
             }
         });
 
-        $('#resultsCountSelect').unbind('change').bind('change', function (event, id) {
+        $('#resultsCountSelect').unbind('change').bind('change', function (event) {
             event.preventDefault();
             currentFilterData = sort();
             updatePaginationItems();
-
-            if ($('#searched-input').val().trim() !== "") {
-                $('#searched-input').trigger('keyup');
+            if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+                $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+            } else {
+                renderData(currentFilterData);
             }
         });
 
-        $('#custom-pager .pagination').on('indexChanged', function (event) {
+        $('body').on('indexChanged', '.pagination', function (event, index) {
             event.preventDefault();
             if (!event.handled) {
                 event.handled = true;
@@ -274,7 +303,7 @@ if (login_check($mysqli) == true) {
                     }
                 });
             });
-            
+
             $('#custom-modal').unbind('deleteSuccess').bind('deleteSuccess', function (event, gestureId) {
                 getGestureCatalog(function (result) {
                     if (result.status === RESULT_SUCCESS) {

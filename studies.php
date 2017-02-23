@@ -98,7 +98,7 @@ if (login_check($mysqli) == true) {
 
         <!-- Container (Landing Section) -->
         <div class="container-fluid bg-grey wall" id="landingText">
-            
+
             <!-- Container (Breadcrump) -->
             <div class="container" id="breadcrumb">
                 <div class="row">
@@ -109,7 +109,7 @@ if (login_check($mysqli) == true) {
                     </ol>
                 </div>
             </div>
-            
+
             <!-- headline -->
             <div class="container text-center dropShadowText">
                 <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> STUDIEN</h1>
@@ -162,6 +162,7 @@ if (login_check($mysqli) == true) {
                     <div class="input-group-btn select" id="resultsCountSelect" role="group">
                         <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_12"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            <li id="results_3"><a href="#">3</a></li>
                             <li id="results_6"><a href="#">6</a></li>
                             <li id="results_12" class="selected"><a href="#">12</a></li>
                             <li id="results_48"><a href="#">48</a></li>
@@ -179,7 +180,7 @@ if (login_check($mysqli) == true) {
                 <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #d9534f"></i> <span class="text">Studie ohne Zeitplan</span></span>
             </div>
 
-            <div class="text-center custom-pagination" id="custom-pager">
+            <div class="text-center custom-pagination" id="pager-top">
                 <nav>
                     <ul class="pagination pagination-custom hidden" itemprop="clipping_2">
                         <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
@@ -191,7 +192,18 @@ if (login_check($mysqli) == true) {
             </div>
 
             <div class="container-root row root" id="list-container" style="margin-top: 10px;"></div>
-
+            
+            <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+                <nav>
+                    <ul class="pagination pagination-custom hidden" itemprop="clipping_2">
+                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+            
             <div class="alert-space alert-no-search-results"></div>
             <div class="alert-space alert-no-studies"></div>
 
@@ -217,7 +229,23 @@ if (login_check($mysqli) == true) {
 //                        console.log(result.studies);
                         if (result.studies && result.studies.length > 0) {
                             originalFilterData = result.studies;
-                            initPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+
+                            var data = {
+                                pager: {
+                                    top: $('#item-view #pager-top .pagination'),
+                                    bottom: $('#item-view #pager-bottom .pagination'),
+                                    dataLength: originalFilterData.length,
+                                    maxElements: parseInt($('#item-view').find('#resultsCountSelect .chosen').attr('id').split('_')[1])
+                                },
+                                filter: {
+                                    countSelect: $('#item-view').find('#resultsCountSelect'),
+                                    filter: $('#item-view').find('#filter'),
+                                    sort: $('#item-view').find('#sort')
+                                }
+                            };
+                            initPagination(data);
+
+//                            initPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
                             $('#sort #newest').click();
                         } else {
                             appendAlert($('#item-view'), ALERT_NO_STUDIES);
@@ -229,7 +257,7 @@ if (login_check($mysqli) == true) {
             function renderData(data) {
                 $('#list-container').empty();
 
-                var index = parseInt($('#custom-pager .pagination').find('.active').text()) - 1;
+                var index = getCurrentPaginationIndex();
                 var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
                 var viewFromIndex = index * listCount;
                 var viewToIndex = Math.min((index + 1) * listCount, data.length);
@@ -278,7 +306,7 @@ if (login_check($mysqli) == true) {
                 }
             });
 
-            $('#custom-pager .pagination').on('indexChanged', function (event, id) {
+            $('body').on('indexChanged', '.pagination', function (event, index) {
                 event.preventDefault();
                 if (!event.handled) {
                     event.handled = true;

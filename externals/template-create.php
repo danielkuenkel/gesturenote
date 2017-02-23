@@ -312,7 +312,7 @@ include '../includes/language.php';
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectNothing" name="btn-success">Keiner Auswahl</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success"><?php echo $lang->always ?></button>
                 </div>
-                
+
                 <div class="btn-group optionalanswer" style="margin-right: 15px; margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon"><?php echo $lang->ownAnswerAllowed ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -406,7 +406,7 @@ include '../includes/language.php';
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectNothing" name="btn-success">Keiner Auswahl</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success"><?php echo $lang->always ?></button>
                 </div>
-                
+
                 <div class="btn-group optionalanswer" style="margin-right: 15px; margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon"><?php echo $lang->ownAnswerAllowed ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -477,7 +477,7 @@ include '../includes/language.php';
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectNothing" name="btn-success">Keiner Auswahl</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success"><?php echo $lang->always ?></button>
                 </div>
-                
+
                 <div class="btn-group optionalanswer" style="margin-right: 15px; margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon"><?php echo $lang->ownAnswerAllowed ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -1694,6 +1694,18 @@ include '../includes/language.php';
                 </div>
 
             </div>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default panel-sm" id="gesture-comment-item" style="margin-top: 0px; margin-bottom: 8px">
+        <div class="panel-heading" style="font-size: 10pt">
+            <span id="user"><i class="fa fa-comment" aria-hidden="true"></i> <span class="text"></span></span>
+            <span id="created" class="pull-right"><i class="fa fa-clock-o" aria-hidden="true"></i> <span class="text"></span></span>
+        </div>
+        <div class="panel-body" style="color: #303030; font-size: 10pt"></div>
+        <div class="panel-footer">
+            <button class="btn btn-xs btn-danger" id="btn-delete-comment">Kommentar löschen</button>
         </div>
     </div>
 
