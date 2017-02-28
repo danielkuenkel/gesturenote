@@ -7,10 +7,14 @@ include '../includes/language.php';
     <!-- gesture image thumbnail -->
     <img class="gestureImage" id="gestureThumbnailImage">
 
-
     <div class="" id="popover-gesture-preview" style="position: absolute; opacity: 0; width: 300px;">
         <div class="previewGesture"></div>
     </div>
+    
+    
+    <li id="attached-gesture-set-item" class="text">
+        <span id="gesture-set-title"></span>
+    </li>
 
     <div class="root hidden deleteable" id="gestures-catalog-thumbnail">
         <div class="panel panel-default btn-shadow">
@@ -115,7 +119,7 @@ include '../includes/language.php';
             </div>
         </div>
     </div>
-    
+
     <div class="root" id="exploration-gestures-catalog-thumbnail">
         <div class="panel panel-default btn-shadow">
             <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
@@ -132,16 +136,16 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
                     </div>
                 </div>
-<!--                <div class="text-center">
-                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
-                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
-                </div>-->
+                <!--                <div class="text-center">
+                                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+                                </div>-->
             </div>
             <div class="panel-footer">
                 <div class="btn-group btn-group-justified">
-<!--                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default btn-tag-as-main-gesture" id="btn-tag-as-main-gesture"><i class="fa fa-tag" aria-hidden="true"></i> <span class="btn-text hidden-sm hidden-xs hidden-lg"><?php echo $lang->rep ?></span><span class="btn-text hidden-md"><?php echo $lang->repShort ?></span></button>
-                    </div>-->
+                    <!--                    <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-default btn-tag-as-main-gesture" id="btn-tag-as-main-gesture"><i class="fa fa-tag" aria-hidden="true"></i> <span class="btn-text hidden-sm hidden-xs hidden-lg"><?php echo $lang->rep ?></span><span class="btn-text hidden-md"><?php echo $lang->repShort ?></span></button>
+                                        </div>-->
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
                     </div>
@@ -149,7 +153,7 @@ include '../includes/language.php';
             </div>
         </div>
     </div>
-    
+
     <div class="root" id="favorite-gesture-catalog-thumbnail">
         <div class="panel panel-default btn-shadow">
             <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
@@ -166,10 +170,10 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
                     </div>
                 </div>
-<!--                <div class="text-center">
-                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text hidden-lg hiddel-md"></span></span>
-                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text hidden-lg hiddel-md"></span></span>
-                </div>-->
+                <!--                <div class="text-center">
+                                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text hidden-lg hiddel-md"></span></span>
+                                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text hidden-lg hiddel-md"></span></span>
+                                </div>-->
             </div>
             <div class="panel-footer">
                 <div class="btn-group btn-group-justified">
@@ -183,7 +187,7 @@ include '../includes/language.php';
             </div>
         </div>
     </div>
-    
+
     <div class="root" id="study-gesture-catalog-thumbnail">
         <div class="panel panel-default btn-shadow">
             <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
@@ -210,6 +214,24 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default" id="create-study-gesture-set-panel">
+        <div class="panel-heading">
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow" id="btn-delete-gesture-set"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span class="panel-heading-text"></span>
+            <button class="btn btn-default btn-shadow pull-right" id="btn-mark-hole-set"><i class="fa fa-star"></i> <span class="btn-text">Alle Gesten zum Studien-Gesten-Set hinzufügen</span></button>
+            <div style="clear: both"></div>
+        </div>
+
+        <div class="panel-body" id="item-view">
+            <div class="alert-space alert-empty-gesture-set"></div>
+            <div class="row" id="gestures-list-container">
+
             </div>
         </div>
     </div>

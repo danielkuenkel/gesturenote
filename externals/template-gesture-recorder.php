@@ -66,18 +66,21 @@ include '../includes/language.php';
 
             <div id="preview-controls" class="hidden">
                 <div class="alert-space alert-gesture-too-short"></div>
-                <div class="previewGesture previewProgress autoplay" id="gesturePreview" style="max-width: 600px"></div>
-                <div class="progress gesture-progress">
-                    <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                </div>
-                <div class="text-center gestureControls">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                        <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                        <button type="button" class="btn btn-default btn-shadow" id="btn-choose-preview-image"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
 
+                <div style="max-width: 600px">
+                    <div class="previewGesture previewProgress autoplay" id="gesturePreview"></div>
+                    <div class="progress gesture-progress">
+                        <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                    </div>
+                    <div class="text-center gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                            <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                            <button type="button" class="btn btn-default btn-shadow" id="btn-choose-preview-image"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
+                        </div>
                     </div>
                 </div>
+
                 <div class="text-center btn-group" style="margin-top: 10px;">
                     <button type="button" class="btn btn-default btn-shadow" id="btn-repeat-trimming"><i class="glyphicon glyphicon-scissors"></i> <?php echo $lang->recut ?></button>
                     <button type="button" class="btn btn-default btn-repeat-recording btn-shadow"><i class="fa fa-refresh" aria-hidden="true"></i> <?php echo $lang->reRecord ?></button>
@@ -109,7 +112,7 @@ include '../includes/language.php';
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="form-group" style="margin-top: 10px">
                     <label><?php echo $lang->gestureInteractionType ?></label>
                     <div class="input-group">
@@ -156,17 +159,22 @@ include '../includes/language.php';
             <div class="alert-space alert-gesture-save-success"></div>
             <div class="alert-space alert-general-error"></div>
 
-            <div class="previewGesture previewProgress previewProgress autoplay" style="max-width: 600px"></div>
-            <div class="progress gesture-progress">
-                <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-            </div>
-            <div class="text-center gestureControls">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                    <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+            <!--<div style="width: 100%" class="text-center">-->
+                <div style="max-width: 600px; margin: auto">
+                    <div class="previewGesture previewProgress previewProgress autoplay"></div>
+                    <div class="progress gesture-progress">
+                        <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                    </div>
+                    <div class="text-center gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                            <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="btn-group-vertical btn-block" style="margin-top: 10px">
+            <!--</div>-->
+
+            <div class="btn-group-vertical btn-block" style="margin-top: 20px">
                 <button class="btn btn-danger btn-shadow" id="btn-delete-saved-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <?php echo $lang->deleteSavedGesture ?></button>
                 <button class="btn btn-default btn-shadow" id="btn-record-new-gesture"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordMoreGestures ?></button>
             </div>
@@ -242,18 +250,22 @@ include '../includes/language.php';
 
             <div id="preview-controls" class="hidden">
                 <div class="alert-space alert-gesture-too-short"></div>
-                <div class="previewGesture autoplay mousePlayable" id="gesturePreview" style="max-width: 600px"></div>
-                <div class="progress gesture-progress">
-                    <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                </div>
-                <div class="text-center gestureControls">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                        <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                        <button type="button" class="btn btn-default btn-shadow" id="btn-choose-preview-image"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
 
+                <div style="max-width: 600px">
+                    <div class="previewGesture autoplay mousePlayable" id="gesturePreview"></div>
+                    <div class="progress gesture-progress">
+                        <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                    </div>
+                    <div class="text-center gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                            <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                            <button type="button" class="btn btn-default btn-shadow" id="btn-choose-preview-image"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
+
+                        </div>
                     </div>
                 </div>
+
                 <div class="text-center btn-group" style="margin-top: 10px;">
                     <button type="button" class="btn btn-default btn-shadow" id="btn-repeat-trimming"><i class="glyphicon glyphicon-scissors"></i> <?php echo $lang->recut ?></button>
                     <button type="button" class="btn btn-default btn-shadow btn-repeat-recording"><i class="fa fa-refresh" aria-hidden="true"></i> <?php echo $lang->reRecord ?></button>
@@ -304,17 +316,21 @@ include '../includes/language.php';
             <div class="alert-space alert-gesture-save-success"></div>
             <div class="alert-space alert-general-error"></div>
 
-            <div class="previewGesture previewProgress autoplay" style="max-width: 600px"></div>
-            <div class="progress gesture-progress">
-                <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-            </div>
-            <div class="text-center gestureControls">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                    <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                    <button class="btn btn-danger btn-shadow" id="btn-delete-saved-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <?php echo $lang->deleteSavedGesture ?></button>
+            <div style="max-width: 600px; margin: auto">
+                <div class="previewGesture previewProgress autoplay"></div>
+                <div class="progress gesture-progress">
+                    <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                </div>
+                <div class="text-center gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    </div>
                 </div>
             </div>
+
+            <button class="btn btn-danger btn-shadow" id="btn-delete-saved-gesture" style="margin-top: 20px"><i class="fa fa-trash" aria-hidden="true"></i> <?php echo $lang->deleteSavedGesture ?></button>
+
         </div>
 
         <div class="hidden root" id="delete-success-controls">

@@ -1710,3 +1710,17 @@ include '../includes/language.php';
     </div>
 
 </div>
+
+<div id="create-item-container-inputs" class="hidden">
+    
+    <div class="btn-group" id="checkbox">
+        <button class="btn btn-default btn-checkbox" name="primary">
+            <span id="icons" style="margin-right: 6px">
+                <i class="fa fa-square-o" id="normal"></i>
+                <i class="fa fa-square hidden" id="over"></i>
+                <i class="fa fa-check-square hidden" id="checked"></i>
+            </span>
+            <span class="option-text ellipsis"></span></button>
+    </div>
+    
+</div>

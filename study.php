@@ -58,6 +58,7 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture"></div>
         <div id="template-previews"></div>
         <div id="template-create"></div>
+        <div id="template-general"></div>
         <div id="template-study"></div>
 
         <!-- Modal -->
@@ -364,7 +365,7 @@ if (login_check($mysqli) == true) {
                         </div>
 
                         <div id="content-btn-checklist" class="hidden">
-                            <span class="text" id="checklist-info">Um eine objektive Bewertung der klassifizierten Gesten durchzuführen, kann hier eine Checkliste zusammengestellt werden. Diese muss dann für jede potenzielle Geste beantwortet werden.</span>
+                            <span class="text" id="checklist-info">Um eine zusätzliche Bewertung der klassifizierten Gesten durchzuführen, kann hier eine Checkliste zusammengestellt werden. Diese muss dann für jede potenzielle Geste beantwortet werden.</span>
 
                             <div id="checklist-success-criterias" style="margin-top: 10px">
                                 <div class="btn-group" id="use-checklist-switch" style="margin-bottom: 10px; margin-right: 15px;">
@@ -380,7 +381,7 @@ if (login_check($mysqli) == true) {
                         <div id="content-btn-potential-gestures" class="hidden"></div>
 
                         <div id="content-btn-gesture-sets" class="hidden">
-                            <div id="add-new-set">
+                            <div class="create-gesture-set-input" id="add-new-set">
                                 <label class="text">Neues Gesten-Set anlegen</label>
 
                                 <div class="alert-space alert-gesture-set-title-too-short"></div>
@@ -392,6 +393,7 @@ if (login_check($mysqli) == true) {
                                     </span>
                                 </div>
                             </div>
+
                             <div id="gesture-sets-container" class="root" style="margin-top: 20px"></div>
                         </div>
                     </div>
@@ -413,6 +415,7 @@ if (login_check($mysqli) == true) {
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     externals.push(['#template-create', PATH_EXTERNALS + 'template-create.php']);
+                    externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     loadExternals(externals);
                 });

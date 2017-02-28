@@ -42,6 +42,8 @@ if (login_check($mysqli) == true) {
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/joint-selection.js"></script>
+        <script src="js/gesture-recorder.js"></script>
+        <script src="js/upload-queue.js"></script>
 
         <!-- gesture recorder sources -->
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
@@ -54,6 +56,7 @@ if (login_check($mysqli) == true) {
         <div id="alerts"></div>
         <div id="template-subpages"></div>
         <div id="template-gesture"></div>
+        <div id="template-general"></div>
         <div id="template-gesture-recorder"></div>
 
         <!-- Modal -->
@@ -76,105 +79,356 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        <!-- Container (Landing Section) -->
-        <!--        <div class="container-fluid bg-grey wall">
-                     Container (Breadcrump) 
-                    <div class="container" id="breadcrumb">
-                        <div class="row">
-                            <ol class="breadcrumb">
-                                <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                                <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
-                                <li class="active"><?php echo $lang->breadcrump->gestureCatalog ?></li>
-                            </ol>
+        <!-- Nav tabs -->
+        <ul class="nav nav-pills" id="gesture-catalogs-nav-tab" style="display: flex; justify-content: center;">
+            <li role="presentation"><a href="#gesture-catalog" aria-controls="gesture-catalog" role="tab" data-toggle="pill">Gesten-Katalog</a></li>
+            <li role="presentation"><a href="#gesture-sets" aria-controls="gesture-sets" role="tab" data-toggle="pill">Gesten-Sets</a></li>
+            <li role="presentation"><a href="#gesture-recorder-content" aria-controls="gesture-recorder-content" role="tab" data-toggle="pill">Gesten aufzeichnen</a></li>
+        </ul> 
+
+
+        <!--        <div class="container mainContent" style="margin-top: 0px;" id="item-view">
+        
+                    <button type="button" class="btn btn-success btn-block btn-lg btn-shadow" id="btn-record-gesture"><i class="fa fa-video-camera" aria-hidden="true"></i> <span class="btn-text">Neue Geste aufzeichnen</span></button>
+        
+                    <div class="form-group form-group-no-margin" style="margin-top: 20px">
+                        <div class="input-group">
+                            <span class="input-group-addon">Filter</span>
+                            <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
+                            <div class="input-group-btn select" id="filter" role="group">
+                                <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    <li id="all" class="selected"><a href="#">Alle</a></li>
+                                    <li id="recorded"><a href="#">Eigene Aufgezeichnete</a></li>
+                                    <li id="tester"><a href="#">Tester</a></li>
+                                    <li id="public"><a href="#">Öffentlich</a></li>
+                                </ul>
+                            </div>
+                            <span class="input-group-addon">Sortierung</span>
+                            <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                            <div class="input-group-btn select" id="sort" role="group">
+                                <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    <li class="dropdown-header">Datum</li>
+                                    <li id="oldest"><a href="#">Älteste zuerst</a></li>
+                                    <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Titel</li>
+                                    <li id="asc"><a href="#">A bis Z</a></li>
+                                    <li id="desc"><a href="#">Z bis A</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
         
-                    <div class="container text-center dropShadowText">
-                        <h1><i class="fa fa-sign-language" style="font-size: 60pt" aria-hidden="true"></i> GESTEN-KATALOG</h1>
-                        <p>Hier werden alle Gesten, die veröffentlicht wurden angezeigt. Zusätzlich werden hier auch die Gesten aufgelistet, die für eine Studie aufgezeichnet wurden, sei es vom Studien-Ersteller oder von einer Testperson. Private Gesten, z.B. von anderen Moderatoren werden dagegen nicht aufgelistet.</p>
-                        <p>Von anderen Moderatoren veröffentlichte Gesten können bewertet werden. Des Weiteren gibt es die Möglichkeit, über die Geste zu diskutieren.</p>
+                    <div class="form-group form-group-margin-top">
+                        <div class="input-group">
+                            <span class="input-group-addon">Suchen</span>
+                            <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
+                            <span class="input-group-addon">Einträge pro Seite</span>
+                            <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="12"/>
+                            <div class="input-group-btn select" id="resultsCountSelect" role="group">
+                                <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_12"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    <li id="results_6"><a href="#">6</a></li>
+                                    <li id="results_12" class="selected"><a href="#">12</a></li>
+                                    <li id="results_48"><a href="#">48</a></li>
+                                    <li id="results_96"><a href="#">96</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+                    <div class="text-center custom-pagination" id="pager-top">
+                        <nav>
+                            <ul class="pagination pagination-custom hidden" itemprop="clipping_5">
+                                <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+        
+                    <div class="container-root row root" id="gestures-list-container" style="margin-top: 10px;"></div>
+        
+                    <div class="alert-space alert-no-search-results"></div>
+                    <div class="alert-space alert-no-gestures"></div>
+        
+                    <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+                        <nav>
+                            <ul class="pagination pagination-custom" itemprop="clipping_5">
+                                <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>-->
 
-        <div class="container mainContent" style="margin-top: 0px;" id="item-view">
 
-            <button type="button" class="btn btn-success btn-block btn-lg btn-shadow" id="btn-record-gesture"><i class="fa fa-video-camera" aria-hidden="true"></i> <span class="btn-text">Neue Geste aufzeichnen</span></button>
+        <div class="container mainContent" style="margin-top: 0px;">
 
-            <div class="form-group form-group-no-margin" style="margin-top: 20px">
-                <div class="input-group">
-                    <span class="input-group-addon">Filter</span>
-                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
-                    <div class="input-group-btn select" id="filter" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="all" class="selected"><a href="#">Alle</a></li>
-                            <li id="recorded"><a href="#">Eigene Aufgezeichnete</a></li>
-                            <li id="tester"><a href="#">Tester</a></li>
-                            <li id="public"><a href="#">Öffentlich</a></li>
-                        </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+
+                <div role="tabpanel" class="tab-pane" id="study-gesture-set">
+                    <div id="item-view">
+                        <div>
+                            <div class="form-group form-group-no-margin">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Filter</span>
+                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
+                                    <div class="input-group-btn select filter" id="filter" role="group">
+                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
+                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                            <li id="all" class="selected"><a href="#">Alle</a></li>
+                                            <li id="recorded"><a href="#">Eigene Aufgezeichnete</a></li>
+                                            <li id="tester"><a href="#">Tester</a></li>
+                                            <li id="public"><a href="#">Öffentlich</a></li>
+                                        </ul>
+                                    </div>
+                                    <span class="input-group-addon">Sortierung</span>
+                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                                    <div class="input-group-btn select sort" id="sort" role="group">
+                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                            <li class="dropdown-header">Datum</li>
+                                            <li id="oldest"><a href="#">Älteste zuerst</a></li>
+                                            <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                            <li class="divider"></li>
+                                            <li class="dropdown-header">Gestentitel</li>
+                                            <li id="asc"><a href="#">A bis Z</a></li>
+                                            <li id="desc"><a href="#">Z bis A</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-margin-top">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Suchen</span>
+                                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
+                                    <span class="input-group-addon">Einträge pro Seite</span>
+                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="16"/>
+                                    <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
+                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_16"></span><span class="caret"></span></button>
+                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                            <li id="results_8"><a href="#">8</a></li>
+                                            <li id="results_16" class="selected"><a href="#">16</a></li>
+                                            <li id="results_40"><a href="#">40</a></li>
+                                            <li id="results_100"><a href="#">100</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center custom-pagination" id="pager-top">
+                            <nav>
+                                <ul class="pagination pagination-custom" itemprop="clipping_2">
+                                    <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                    <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                    <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                    <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
+
+                        <div class="container-root row root" id="gesture-list-container" style="margin-top: 10px;"></div>
+
+                        <div class="alert-space alert-no-search-results"></div>
+                        <div class="alert-space alert-no-gestures-assembled"></div>
+
+                        <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+                            <nav>
+                                <ul class="pagination pagination-custom" itemprop="clipping_2">
+                                    <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                    <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                    <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                    <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
                     </div>
-                    <span class="input-group-addon">Sortierung</span>
-                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
-                    <div class="input-group-btn select" id="sort" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li class="dropdown-header">Datum</li>
-                            <li id="oldest"><a href="#">Älteste zuerst</a></li>
-                            <li id="newest"><a href="#">Neueste zuerst</a></li>
-                            <li class="divider"></li>
-                            <li class="dropdown-header">Titel</li>
-                            <li id="asc"><a href="#">A bis Z</a></li>
-                            <li id="desc"><a href="#">Z bis A</a></li>
-                        </ul>
+
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="gesture-catalog">
+                    <div id="item-view">
+                        <div>
+                            <div class="form-group form-group-no-margin">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Filter</span>
+                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
+                                    <div class="input-group-btn select filter" id="filter" role="group">
+                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
+                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                            <li id="all" class="selected"><a href="#">Alle</a></li>
+                                            <li id="recorded"><a href="#">Eigene Aufgezeichnete</a></li>
+                                            <li id="tester"><a href="#">Tester</a></li>
+                                            <li id="public"><a href="#">Öffentlich</a></li>
+                                        </ul>
+                                    </div>
+                                    <span class="input-group-addon">Sortierung</span>
+                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                                    <div class="input-group-btn select sort" id="sort" role="group">
+                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                            <li class="dropdown-header">Datum</li>
+                                            <li id="oldest"><a href="#">Älteste zuerst</a></li>
+                                            <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                            <li class="divider"></li>
+                                            <li class="dropdown-header">Gestentitel</li>
+                                            <li id="asc"><a href="#">A bis Z</a></li>
+                                            <li id="desc"><a href="#">Z bis A</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-margin-top">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Suchen</span>
+                                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
+                                    <span class="input-group-addon">Einträge pro Seite</span>
+                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="16"/>
+                                    <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
+                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_16"></span><span class="caret"></span></button>
+                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                            <li id="results_8"><a href="#">8</a></li>
+                                            <li id="results_16" class="selected"><a href="#">16</a></li>
+                                            <li id="results_40"><a href="#">40</a></li>
+                                            <li id="results_100"><a href="#">100</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center custom-pagination" id="pager-top">
+                            <nav>
+                                <ul class="pagination pagination-custom" itemprop="clipping_5">
+                                    <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                    <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                    <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                    <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
+
+                        <div class="container-root row root" id="gesture-list-container" style="margin-top: 10px;"></div>
+
+                        <div class="alert-space alert-no-search-results"></div>
+
+                        <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+                            <nav>
+                                <ul class="pagination pagination-custom" itemprop="clipping_5">
+                                    <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                    <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                    <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                    <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group form-group-margin-top">
-                <div class="input-group">
-                    <span class="input-group-addon">Suchen</span>
-                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
-                    <span class="input-group-addon">Einträge pro Seite</span>
-                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="12"/>
-                    <div class="input-group-btn select" id="resultsCountSelect" role="group">
-                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_12"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="results_6"><a href="#">6</a></li>
-                            <li id="results_12" class="selected"><a href="#">12</a></li>
-                            <li id="results_48"><a href="#">48</a></li>
-                            <li id="results_96"><a href="#">96</a></li>
-                        </ul>
+                <div role="tabpanel" class="tab-pane" id="gesture-sets">
+
+                    <div class="create-gesture-set-input">
+                        <label class="text">Neues Gesten-Set anlegen</label>
+
+                        <div class="alert-space alert-gesture-set-title-too-short"></div>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
+                            <span class="input-group-btn">
+                                <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div id="item-view">
+
+                        <div>
+                            <div class="form-group form-group-no-margin">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Sortierung</span>
+                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                                    <div class="input-group-btn select sort" id="sort" role="group">
+                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                            <li class="dropdown-header">Datum</li>
+                                            <li id="oldest"><a href="#">Älteste zuerst</a></li>
+                                            <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                            <li class="divider"></li>
+                                            <li class="dropdown-header">Gestentitel</li>
+                                            <li id="asc"><a href="#">A bis Z</a></li>
+                                            <li id="desc"><a href="#">Z bis A</a></li>
+                                        </ul>
+                                    </div>
+                                    <span class="input-group-addon">Einträge pro Seite</span>
+                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="4"/>
+                                    <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
+                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_4"></span><span class="caret"></span></button>
+                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                            <li id="results_2"><a href="#">2</a></li>
+                                            <li id="results_4" class="selected"><a href="#">4</a></li>
+                                            <li id="results_10"><a href="#">10</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group form-group-margin-top">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Suchen</span>
+                                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center custom-pagination" id="pager-top">
+                            <nav>
+                                <ul class="pagination pagination-custom" itemprop="clipping_2">
+                                    <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                    <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                    <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                    <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <div class="container-root root" id="gesture-sets-container" style="margin-top: 10px;"></div>
+
+                        <div class="alert-space alert-no-search-results"></div>
+
+                        <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+                            <nav>
+                                <ul class="pagination pagination-custom" itemprop="clipping_2">
+                                    <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                    <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                    <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                    <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
                     </div>
                 </div>
+
+                <div role="tabpanel" class="tab-pane" id="gesture-recorder-content"></div>
+
             </div>
 
-
-            <div class="text-center custom-pagination" id="pager-top">
-                <nav>
-                    <ul class="pagination pagination-custom hidden" itemprop="clipping_5">
-                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-                    </ul>
-                </nav>
-            </div>
-
-            <div class="container-root row root" id="gestures-list-container" style="margin-top: 10px;"></div>
-
-            <div class="alert-space alert-no-search-results"></div>
-            <div class="alert-space alert-no-gestures"></div>
-
-            <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
-                <nav>
-                    <ul class="pagination pagination-custom" itemprop="clipping_5">
-                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-                    </ul>
-                </nav>
-            </div>
         </div>
 
     </div>
@@ -187,6 +441,7 @@ if (login_check($mysqli) == true) {
                 var externals = new Array();
                 externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                 externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
+                externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                 externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                 externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                 loadExternals(externals);
@@ -195,61 +450,98 @@ if (login_check($mysqli) == true) {
 
         function onAllExternalsLoadedSuccessfully() {
             renderSubPageElements();
-
-            getGestureCatalog(function (result) {
-                if (result.status === RESULT_SUCCESS) {
-//                    currentModalId = GESTURE_CATALOG;
-                    if (result.gestures && result.gestures.length > 0) {
-                        originalFilterData = result.gestures;
-
-                        var data = {
-                            pager: {
-                                top: $('#item-view #pager-top .pagination'),
-                                bottom: $('#item-view #pager-bottom .pagination'),
-                                dataLength: originalFilterData.length,
-                                maxElements: parseInt($('#item-view').find('#resultsCountSelect .chosen').attr('id').split('_')[1])
-                            },
-                            filter: {
-                                countSelect: $('#item-view').find('#resultsCountSelect'),
-                                filter: $('#item-view').find('#filter'),
-                                sort: $('#item-view').find('#sort')
-                            }
-                        };
-                        initPagination(data);
-//                        initPagination($('#custom-pager .pagination'), result.gestures.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-                        $('#sort #newest').click();
-                    } else {
-                        appendAlert($('#item-view'), ALERT_NO_GESTURES);
-                    }
-                }
-            });
+//            getGestureSets(function (result) {
+//                if (result.status === RESULT_SUCCESS) {
+//                    setLocalItem(GESTURE_SETS, result.gestureSets);
+//                    initGestureRating($('#gesture-rating'), 5);
+                    $('#gesture-catalogs-nav-tab a[href="#gesture-catalog"]').tab('show');
+                    getWholeGestureCatalog();
+//                }
+//            });
+//            getGestureCatalog(function (result) {
+//                if (result.status === RESULT_SUCCESS) {
+////                    currentModalId = GESTURE_CATALOG;
+//                    if (result.gestures && result.gestures.length > 0) {
+//                        originalFilterData = result.gestures;
+//
+//                        console.log($('#item-view'));
+//                        var data = {
+//                            pager: {
+//                                top: $('.mainContent #item-view #pager-top .pagination'),
+//                                bottom: $('.mainContent #item-view #pager-bottom .pagination'),
+//                                dataLength: originalFilterData.length,
+//                                maxElements: parseInt($('.mainContent #item-view').find('#resultsCountSelect .chosen').attr('id').split('_')[1])
+//                            },
+//                            filter: {
+//                                countSelect: $('.mainContent #item-view').find('#resultsCountSelect'),
+//                                filter: $('.mainContent #item-view').find('#filter'),
+//                                sort: $('.mainContent #item-view').find('#sort')
+//                            }
+//                        };
+//                        initPagination(data);
+////                        initPagination($('#custom-pager .pagination'), result.gestures.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+//                        $('#sort #newest').click();
+//                    } else {
+//                        appendAlert($('.mainContent #item-view'), ALERT_NO_GESTURES);
+//                    }
+//                }
+//            });
         }
 
+//        function renderData(data) {
+//            console.log('renderData', data);
+//            currentFilterData = data;
+//            $(currentFilterList).empty();
+//            clearAlerts($('.mainContent #item-view'));
+////            initPagination($('#gesture-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+//            var index = getCurrentPaginationIndex();
+//            var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
+//            var viewFromIndex = index * listCount;
+//            var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
+//
+//            if (currentFilterData && currentFilterData.length > 0) {
+//                var count = 0;
+//                for (var i = viewFromIndex; i < viewToIndex; i++) {
+//                    var clone = getGestureCatalogListThumbnail(currentFilterData[i]);
+//                    $(currentFilterList).append(clone);
+//                    TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+//                    count++;
+//                }
+//            } else {
+////                appendAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
+//            }
+//        }
+
+        var currentFilterList;
         function renderData(data) {
-            console.log('renderData', data);
+            var currentActiveTab = getCurrentActiveTab();
             currentFilterData = data;
             $(currentFilterList).empty();
-            clearAlerts($('#item-view'));
-//            initPagination($('#gesture-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
             var index = getCurrentPaginationIndex();
-            var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
+            var listCount = parseInt($(currentPaginationData.filter.countSelect).find('.chosen').attr('id').split('_')[1]);
             var viewFromIndex = index * listCount;
             var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
+            var count = 0;
+            var clone;
+            for (var i = viewFromIndex; i < viewToIndex; i++) {
 
-            if (currentFilterData && currentFilterData.length > 0) {
-                var count = 0;
-                for (var i = viewFromIndex; i < viewToIndex; i++) {
-                    var clone = getGestureCatalogListThumbnail(currentFilterData[i]);
-                    $(currentFilterList).append(clone);
-                    TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-                    count++;
+                switch ($(currentActiveTab).attr('id')) {
+                    case 'gesture-sets':
+                        clone = getGestureCatalogGestureSetPanel(currentFilterData[i]);
+                        $(currentFilterList).append(clone);
+                        TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, y: -10});
+                        break;
+                    case 'gesture-catalog':
+                        clone = getGestureCatalogListThumbnail(currentFilterData[i]);
+                        $(currentFilterList).append(clone);
+                        TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                        break;
                 }
-            } else {
-//                appendAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
+                count++;
             }
         }
 
-        $('#filter').unbind('change').bind('change', function (event) {
+        $('.filter').unbind('change').bind('change', function (event) {
             event.preventDefault();
             currentFilterData = sort();
             updatePaginationItems();
@@ -260,7 +552,8 @@ if (login_check($mysqli) == true) {
             }
         });
 
-        $('#sort').unbind('change').bind('change', function (event) {
+        $('.sort').unbind('change').bind('change', function (event) {
+            console.log('sort changed', getCurrentActiveTab());
             event.preventDefault();
             currentFilterData = sort();
             updatePaginationItems();
@@ -271,7 +564,7 @@ if (login_check($mysqli) == true) {
             }
         });
 
-        $('#resultsCountSelect').unbind('change').bind('change', function (event) {
+        $('.resultsCountSelect').unbind('change').bind('change', function (event) {
             event.preventDefault();
             currentFilterData = sort();
             updatePaginationItems();
@@ -290,30 +583,181 @@ if (login_check($mysqli) == true) {
             }
         });
 
-        $('#btn-record-gesture').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            loadHTMLintoModal('custom-modal', 'create-gesture-recorder.php', 'modal-md');
-
-            $('#custom-modal').unbind('saveSuccess').bind('saveSuccess', function (event, gestureId) {
-                getGestureCatalog(function (result) {
-                    if (result.status === RESULT_SUCCESS) {
-                        originalFilterData = result.gestures;
-                        $('#sort #newest').removeClass('selected');
-                        $('#sort #newest').click();
-                    }
-                });
-            });
-
-            $('#custom-modal').unbind('deleteSuccess').bind('deleteSuccess', function (event, gestureId) {
-                getGestureCatalog(function (result) {
-                    if (result.status === RESULT_SUCCESS) {
-                        originalFilterData = result.gestures;
-                        $('#sort #newest').removeClass('selected');
-                        $('#sort #newest').click();
-                    }
-                });
-            });
+        $('#gesture-catalogs-nav-tab').on('shown.bs.tab', function (event) {
+            $($(event.target).attr('href')).find('#sort .achtive').removeClass('selected');
+            resetRecorder();
+            switch ($(event.target).attr('href')) {
+                case '#gesture-catalog':
+                    getWholeGestureCatalog();
+                    break;
+                case '#gesture-sets':
+                    getWholeGestureSets();
+                    break;
+                case '#gesture-recorder-content':
+                    getWholeGestureRecorder();
+                    break;
+            }
         });
+
+        $('#gesture-catalogs-nav-tab').on('hide.bs.tab', function (event) {
+//            console.log('hide', $(event.relatedTarget).attr('href'), $(event.target).attr('href'));
+            closeGestureInfo($(event.target).attr('href'));
+        });
+
+        function getWholeGestureCatalog() {
+            currentFilterList = $('#gesture-catalog').find('#gesture-list-container');
+            currentFilterList.empty();
+
+            getGestureCatalog(function (result) {
+                if (result.status === RESULT_SUCCESS) {
+                    originalFilterData = result.gestures;
+                    if (originalFilterData && originalFilterData.length > 0) {
+                        var data = {
+                            pager: {
+                                top: $('#gesture-catalog #pager-top .pagination'),
+                                bottom: $('#gesture-catalog #pager-bottom .pagination'),
+                                dataLength: originalFilterData.length,
+                                maxElements: parseInt($('#gesture-catalog').find('#resultsCountSelect .chosen').attr('id').split('_')[1])
+                            },
+                            filter: {
+                                countSelect: $('#gesture-catalog').find('#resultsCountSelect'),
+                                filter: $('#gesture-catalog').find('#filter'),
+                                sort: $('#gesture-catalog').find('#sort')
+                            }
+                        };
+                        initPagination(data);
+                        $('#gesture-catalog').find('#sort #newest').removeClass('selected');
+                        $('#gesture-catalog').find('#sort #newest').click();
+                    } else {
+                        // show alert that no data is there
+                    }
+                }
+            });
+
+            $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble) {
+                event.preventDefault();
+                if (assemble) {
+                    assembleGesture(gestureId);
+                } else {
+                    reassembleGesture(gestureId);
+                }
+            });
+
+            $(currentFilterList).unbind('openGestureInfo').bind('openGestureInfo', function (event) {
+                event.preventDefault();
+                gesturePreviewDeleteable = true;
+                renderGestureInfoData();
+                showGestureInfo($('#gesture-catalog'));
+            });
+        }
+
+        function getWholeGestureSets() {
+            currentFilterList = $('#gesture-sets').find('#gesture-sets-container');
+            currentFilterList.empty();
+
+            getGestureSets(function (result) {
+                if (result.status === RESULT_SUCCESS) {
+                    originalFilterData = result.gestureSets;
+                    setLocalItem(GESTURE_SETS, result.gestureSets);
+
+                    if (originalFilterData && originalFilterData.length > 0) {
+                        var data = {
+                            pager: {
+                                top: $('#gesture-sets #pager-top .pagination'),
+                                bottom: $('#gesture-sets #pager-bottom .pagination'),
+                                dataLength: originalFilterData.length,
+                                maxElements: parseInt($('#gesture-sets').find('#resultsCountSelect .chosen').attr('id').split('_')[1])
+                            },
+                            filter: {
+                                countSelect: $('#gesture-sets').find('#resultsCountSelect'),
+//                            filter: $('#gesture-sets').find('#filter'),
+                                sort: $('#gesture-sets').find('#sort')
+                            }
+                        };
+                        initPagination(data);
+                        $('#gesture-sets').find('#sort #newest').removeClass('selected');
+                        $('#gesture-sets').find('#sort #newest').click();
+                    } else {
+                        // show alert that no data is there
+                    }
+                }
+            });
+
+            $(currentFilterList).unbind('openGestureInfo').bind('openGestureInfo', function (event) {
+                event.preventDefault();
+                renderGestureInfoData();
+                showGestureInfo($('#gesture-sets'));
+            });
+
+            $('#gesture-sets .create-gesture-set-input').unbind('gestureSetCreated').bind('gestureSetCreated', function (event) {
+                getWholeGestureSets();
+            });
+
+            $('#gesture-sets #gesture-sets-container').unbind('gestureSetDeleted').bind('gestureSetDeleted', function (event) {
+                getWholeGestureSets();
+            });
+        }
+
+        function getWholeGestureRecorder() {
+            var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder').clone().removeAttr('id');
+            $('#gesture-recorder-content').empty().append(recorder);
+            renderBodyJoints($(recorder).find('#human-body'));
+
+            var options = {
+                alertTarget: $('#gesture-recorder-content'),
+                recorderTarget: recorder,
+                saveGestures: true,
+                checkType: true,
+                checkInteractionType: true
+            };
+
+            new GestureRecorder(options);
+        }
+
+//        $('#btn-record-gesture').unbind('click').bind('click', function (event) {
+//            event.preventDefault();
+//            loadHTMLintoModal('custom-modal', 'create-gesture-recorder.php', 'modal-md');
+//
+//            $('#custom-modal').unbind('saveSuccess').bind('saveSuccess', function (event, gestureId) {
+//                getGestureCatalog(function (result) {
+//                    if (result.status === RESULT_SUCCESS) {
+//                        originalFilterData = result.gestures;
+//                        $('#sort #newest').removeClass('selected');
+//                        $('#sort #newest').click();
+//                    }
+//                });
+//            });
+//
+//            $('#custom-modal').unbind('deleteSuccess').bind('deleteSuccess', function (event, gestureId) {
+//                getGestureCatalog(function (result) {
+//                    if (result.status === RESULT_SUCCESS) {
+//                        originalFilterData = result.gestures;
+//                        $('#sort #newest').removeClass('selected');
+//                        $('#sort #newest').click();
+//                    }
+//                });
+//            });
+//        });
+
+        function getCurrentActiveTab() {
+            return $($('#gesture-catalogs-nav-tab').find('.active a').attr('href'));
+        }
+
+        function showGestureInfo(currentActiveContent) {
+            $(currentActiveContent).addClass('hidden');
+            $('#gesture-info').removeClass('hidden');
+            TweenMax.from($('#gesture-info'), .3, {x: 25, opacity: 0});
+        }
+
+        function closeGestureInfo(currentActiveContent) {
+            currentPreviewGesture = null;
+            gesturePreviewOpened = false;
+
+            $(currentActiveContent).removeClass('hidden');
+            $('#gesture-info').addClass('hidden');
+            $('#add-to-gesture-set').addClass('hidden');
+            TweenMax.from(currentActiveContent, .3, {x: -25, opacity: 0});
+        }
     </script>
 
 </body>

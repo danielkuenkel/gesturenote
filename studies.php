@@ -131,6 +131,7 @@ if (login_check($mysqli) == true) {
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                             <li id="all" class="selected"><a href="#">Alle</a></li>
                             <li id="elicitation"><a href="#">Ermittlung</a></li>
+                            <li id="extraction"><a href="#">Extraktion</a></li>
                             <li id="evaluation"><a href="#">Evaluierung</a></li>
                             <li id="unmoderated"><a href="#">Unmoderiet</a></li>
                             <li id="moderated"><a href="#">Moderiert</a></li>
@@ -192,7 +193,7 @@ if (login_check($mysqli) == true) {
             </div>
 
             <div class="container-root row root" id="list-container" style="margin-top: 10px;"></div>
-            
+
             <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
                 <nav>
                     <ul class="pagination pagination-custom hidden" itemprop="clipping_2">
@@ -203,7 +204,7 @@ if (login_check($mysqli) == true) {
                     </ul>
                 </nav>
             </div>
-            
+
             <div class="alert-space alert-no-search-results"></div>
             <div class="alert-space alert-no-studies"></div>
 
@@ -279,10 +280,10 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 currentFilterData = sort();
                 updatePaginationItems();
-                renderData(currentFilterData);
-
-                if ($('#searched-input').val().trim() !== "") {
-                    $('#searched-input').trigger('keyup');
+                if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+                    $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+                } else {
+                    renderData(currentFilterData);
                 }
             });
 
@@ -290,19 +291,21 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 currentFilterData = sort();
                 updatePaginationItems();
-
-                if ($('#searched-input').val().trim() !== "") {
-                    $('#searched-input').trigger('keyup');
+                if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+                    $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+                } else {
+                    renderData(currentFilterData);
                 }
             });
 
-            $('#resultsCountSelect').unbind('change').bind('change', function (event, id) {
+            $('#resultsCountSelect').unbind('change').bind('change', function (event) {
                 event.preventDefault();
                 currentFilterData = sort();
                 updatePaginationItems();
-
-                if ($('#searched-input').val().trim() !== "") {
-                    $('#searched-input').trigger('keyup');
+                if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+                    $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+                } else {
+                    renderData(currentFilterData);
                 }
             });
 
