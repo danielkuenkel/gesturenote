@@ -61,13 +61,15 @@ function assembledGestures() {
 function assembleGesture(id) {
     id = parseInt(id);
     var aGestures = getLocalItem(ASSEMBLED_GESTURE_SET);
-    if (aGestures) {
-        aGestures.push(id);
-    } else {
-        aGestures = new Array();
-        aGestures.push(id);
+    if (!isGestureAssembled(id)) {
+        if (aGestures) {
+            aGestures.push(id);
+        } else {
+            aGestures = new Array();
+            aGestures.push(id);
+        }
+        setLocalItem(ASSEMBLED_GESTURE_SET, aGestures);
     }
-    setLocalItem(ASSEMBLED_GESTURE_SET, aGestures);
 }
 
 function isGestureAssembled(id) {

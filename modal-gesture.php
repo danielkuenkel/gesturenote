@@ -8,7 +8,7 @@ include 'includes/language.php';
 </div>
 <div id="modal-body" class="modal-body">
 
-    <div class="row">
+    <div class="row" id="gesture-info">
         <div class="col-md-5 root">
             <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
             <div class="progress gesture-progress">
@@ -22,7 +22,9 @@ include 'includes/language.php';
                     <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
                 </div>
             </div>
+
             <hr>
+
             <div class="gesture-rating" id="gesture-rating" style="margin-top: 20px; margin-bottom: 30px">
                 <h3><i class="fa fa-star-o"></i> Bewertung</h3>
                 <div class="rating-container rating-physicalContext row" id="rating-physicalContext">
@@ -46,6 +48,12 @@ include 'includes/language.php';
                     <button type="button" class="btn btn-success" id="btn-submit-gesture-rating">Bewertung abgeben</button>
                     <button type="button" class="btn btn-danger" id="btn-cancel-gesture-rating">Abbrechen</button>
                 </div>
+            </div>
+
+            <div id="attached-gesture-sets" style="margin-top: 30px; margin-bottom: 30px">
+                <h3><i class="fa fa-paperclip"></i> Zuweisung zu Gesten-Sets</h3>
+                <ul id="attached-gesture-sets-container" style="list-style-position: inside; padding-left: 0px; margin-top: 5px"></ul>
+                <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-to-gesture-set" style="margin-top: 10px"><i class="fa fa-plus"></i> <span><?php echo $lang->addToGestureset ?></span></button>
             </div>
         </div>
         <div class="col-md-7">
@@ -136,9 +144,39 @@ include 'includes/language.php';
 
         </div>
     </div>
+
+    <div class="hidden" id="add-to-gesture-set">
+        <button type="button" class="btn btn-default" id="btn-back"><i class="fa fa-angle-left" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->previous ?></span></button>
+
+        <div style="margin-top: 20px">
+            <label class="text">Zu vorhandenen Gesten-Sets zuweisen</label>
+
+            <div id="existing-sets-container">
+                <div class="option-container root"></div>
+            </div>
+            <div class="alert-space alert-no-gesture-sets-for-study"></div>
+        </div>
+
+        <div class="row text-center">
+            <label class="uppercase" style="font-size: 10pt"><?php echo $lang->or ?></label>
+        </div>
+
+        <div class="create-gesture-set-input">
+            <label class="text">Neues Gesten-Set anlegen</label>
+
+            <div class="alert-space alert-gesture-set-title-too-short"></div>
+
+            <div class="input-group">
+                <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
+                <span class="input-group-btn">
+                    <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
+                </span>
+            </div>
+        </div>
+    </div>
 </div>
 
-<hr style="margin: 0; padding: 0">
+<hr id="info-discussion-separator" style="margin: 0; padding: 0">
 
 <div id="discussion-body" class="modal-body">
     <h3 style="margin-bottom: 20px"><i class="fa fa-comments-o" aria-hidden="true"></i> Mitreden</h3>
@@ -170,7 +208,7 @@ include 'includes/language.php';
 </div>
 
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
 </div>
 
 <script>
@@ -178,7 +216,14 @@ include 'includes/language.php';
     var currentRatings = [{physicalContext: 0, adaption: 0, fittingTask: 0}];
     $(document).ready(function () {
         initGestureRating($('#gesture-rating'), 5);
-        renderModalData();
+
+        getGestureSets(function (result) {
+            if (result.status === RESULT_SUCCESS) {
+                setLocalItem(GESTURE_SETS, result.gestureSets);
+                renderModalData();
+            }
+        });
+
 //        renderGestureRating($('#gesture-rating'), testRatings, true); //result.ratings);
 
         $('#custom-modal').bind('hidden.bs.modal', function () {
@@ -587,6 +632,107 @@ include 'includes/language.php';
         } else {
             $(container).find('#btn-delete-gesture').remove();
         }
+
+        // gesture set attachment
+        renderAttachedGestureSetInfo(container);
+
+        $(container).find('#btn-add-to-gesture-set').unbind('click').bind('click', function (event) {
+            showAddGestureToSet();
+        });
+    }
+
+    function renderAttachedGestureSetInfo(container) {
+        var sets = getAttachedGestureSets(currentPreviewGesture.gesture.id);
+        $(container).find('#attached-gesture-sets-container').empty();
+        if (sets) {
+            for (var i = 0; i < sets.length; i++) {
+
+                var item = $('#attached-gesture-set-item').clone().removeAttr('id');
+                $(item).find('#gesture-set-title').text(sets[i].title);
+                $(container).find('#attached-gesture-sets-container').append(item);
+            }
+        }
+    }
+
+    /*
+     * gesture set adding and attached rendering
+     */
+
+    function renderAttachedGestureSets(preselect, id) {
+        var sets = getLocalItem(GESTURE_SETS);
+        if (sets && sets !== null && sets !== '' && sets.length > 0) {
+            var container = $('#add-to-gesture-set #existing-sets-container');
+            container.find('.option-container').empty();
+            for (var i = 0; i < sets.length; i++) {
+                var option = $('#template-general-container').find('#checkbox').clone();
+                console.log(option);
+                option.find('.option-text').text(sets[i].title);
+                option.find('.btn-checkbox').attr('id', sets[i].id);
+                container.find('.option-container').append(option);
+                container.find('.option-container').append(document.createElement('br'));
+
+                // preselect item after adding new gesture set
+                if (preselect === true && id && parseInt(id) === parseInt(sets[i].id)) {
+                    option.find('.btn-checkbox').click();
+                }
+
+                // check gestures and make checkbox selected if gesture is in gesture set [i]
+                if (sets[i].gestures && sets[i].gestures.length > 0) {
+                    if (checkSetAssignment(currentPreviewGesture.gesture.id)) {
+                        option.find('.btn-checkbox').click();
+                    }
+                }
+            }
+
+            $('#add-to-gesture-set .create-gesture-set-input').unbind('gestureSetCreated').bind('gestureSetCreated', function (event, newSetId) {
+                event.preventDefault();
+                getGestureSets(function (result) {
+                    if (result.status === RESULT_SUCCESS) {
+                        setLocalItem(GESTURE_SETS, result.gestureSets);
+                        renderAttachedGestureSets(true, newSetId);
+                    }
+                });
+            });
+
+            $(container).unbind('change').bind('change', function (event) {
+                event.preventDefault();
+                saveGestureSets();
+                renderAttachedGestureSetInfo($('#gesture-info'));
+            });
+
+            function saveGestureSets() {
+                var listItems = $(container).find('.option-container').find('.btn-checkbox');
+                for (var i = 0; i < listItems.length; i++) {
+                    if ($(listItems[i]).hasClass('btn-option-checked')) {
+                        addToGestureSet($(listItems[i]).attr('id'), currentPreviewGesture.gesture.id);
+                    } else {
+                        removeFromGestureSet($(listItems[i]).attr('id'), currentPreviewGesture.gesture.id);
+                    }
+                }
+
+                // call ajax update gesture sets, calling php 
+                updateGestureSets({sets: getLocalItem(GESTURE_SETS)}, function (result) {
+                    getWholeGestureSets();
+                });
+            }
+        } else {
+            appendAlert($('#add-to-gesture-set'), ALERT_NO_GESTURE_SETS_FOR_STUDY);
+        }
+    }
+
+    function checkSetAssignment(gestureId) {
+        var sets = getLocalItem(GESTURE_SETS);
+
+        for (var i = 0; i < sets.length; i++) {
+            if (sets[i].gestures && sets[i].gestures.length > 0) {
+                for (var j = 0; j < sets[i].gestures.length; j++) {
+                    if (parseInt(gestureId) === parseInt(sets[i].gestures[j])) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     function renderComments(data) {
@@ -731,5 +877,29 @@ include 'includes/language.php';
             $('#btn-edit-gesture').addClass('disabled');
         }
     });
+
+    $('#add-to-gesture-set').find('#btn-back').unbind('click').bind('click', function (event) {
+//        if (getCurrentActiveTab().attr('id') === 'gesture-sets') {
+//            getWholeGestureSets();
+//        }
+        closeAddGestureToSet();
+    });
+
+    function showAddGestureToSet() {
+        $('#gesture-info').addClass('hidden');
+        $('#info-discussion-separator').addClass('hidden');
+        $('#discussion-body').addClass('hidden');
+        $('#add-to-gesture-set').removeClass('hidden');
+        TweenMax.from($('#add-to-gesture-set'), .3, {x: 25, opacity: 0});
+        renderAttachedGestureSets();
+    }
+
+    function closeAddGestureToSet() {
+        $('#gesture-info').removeClass('hidden');
+        $('#info-discussion-separator').removeClass('hidden');
+        $('#discussion-body').removeClass('hidden');
+        $('#add-to-gesture-set').addClass('hidden');
+        TweenMax.from($('#gesture-info'), .3, {x: -25, opacity: 0});
+    }
 
 </script>

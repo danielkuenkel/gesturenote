@@ -825,7 +825,7 @@ include '../includes/language.php';
         </div>
         <div id="parameters-gesture-sets" style="margin-top: 20px">
             <div><h4 style="margin: 0"><i class="fa fa-star" aria-hidden="true"></i> Zuweisung zu Gesten-Sets</h4></div>
-            <ul id="attacted-gesture-sets-container" style="list-style-position: inside; padding-left: 0px; margin-top: 5px"></ul>
+            <ul id="attached-gesture-sets-container" style="list-style-position: inside; padding-left: 0px; margin-top: 5px"></ul>
         </div>
 
         <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-to-gesture-set" style="margin-top: 10px"><i class="fa fa-plus"></i> <span><?php echo $lang->addToGestureset ?></span></button>
@@ -892,10 +892,6 @@ include '../includes/language.php';
         <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-to-gesture-set" style="margin-top: 10px"><i class="fa fa-plus"></i> <span><?php echo $lang->addToGestureset ?></span></button>
 
     </div>
-
-    <li id="attacted-gesture-set-item" class="text">
-        <span id="gesture-set-title"></span>
-    </li>
 
     <div class="panel panel-default" id="panel-gesture-set">
         <div class="panel-heading">

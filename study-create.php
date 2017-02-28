@@ -257,11 +257,8 @@ if (login_check($mysqli) == true) {
                                 <button class="btn btn-default btn-shadow hidden" id="btn-clear-study-gestures">
                                     <i class="fa fa-trash" aria-hidden="true"></i> <span class="hidden-xs btn-text"><?php echo $lang->delete ?></span>
                                 </button>
-                                <button class="btn btn-default btn-shadow hidden" id="btn-study-gestures">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
-                                </button>
                                 <button class="btn btn-default btn-shadow" id="btn-assemble-study-gestures">
-                                    <i class="fa fa-star" aria-hidden="true"></i> <span class=""><span class="hidden-xs btn-text"><?php echo $lang->set ?> </span><?php echo $lang->arrange ?></span>
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
                                 </button>
                                 <button class="btn btn-default btn-shadow" id="btn-record-gestures">
                                     <i class="fa fa-video-camera" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->record ?></span>
@@ -449,7 +446,7 @@ if (login_check($mysqli) == true) {
 
                 <!-- Guidelines -->
                 <div class="col-sm-12 col-md-5" style="margin-top: 20px">
-                    <div class="col-md-11 col-md-offset-1">
+                    <!--<div class="col-md-11 col-md-offset-1">-->
                         <div class="tab-content hidden tab-general">
                             <div><h3><?php echo $lang->studyCreateNav->general ?></h3></div>
                             <span id="styleguide-info" class="text">
@@ -493,7 +490,7 @@ if (login_check($mysqli) == true) {
                                 <button type="button" class="btn btn-default btn-shadow" onclick="loadHTMLintoModal('custom-modal', 'create-info-panel.php');"><span class="glyphicon glyphicon-info-sign"></span> <?php echo $lang->moreInfos ?></button>
                             </div>
                         </div>
-                    </div>
+                    <!--</div>-->
                 </div>
             </div>
         </div>

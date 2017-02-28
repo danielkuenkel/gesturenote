@@ -230,9 +230,13 @@ function renderPhaseSteps() {
 function updateCatalogButtons() {
     var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
     if (gestures && gestures.length > 0) {
-        $('#btn-study-gestures, #btn-clear-study-gestures').removeClass('hidden');
+        $('#btn-assemble-study-gestures .btn-text').text(translation.openSet);
+        $('#btn-assemble-study-gestures .fa').removeClass('fa-pencil').addClass('fa-folder-open');
+        $('#btn-clear-study-gestures').removeClass('hidden');
     } else {
-        $('#btn-study-gestures, #btn-clear-study-gestures').addClass('hidden');
+        $('#btn-assemble-study-gestures .btn-text').text(translation.arrangeSet);
+        $('#btn-assemble-study-gestures .fa').removeClass('fa-folder-open').addClass('fa-pencil');
+        $('#btn-clear-study-gestures').addClass('hidden');
     }
 
     var feedback = getLocalItem(ASSEMBLED_FEEDBACK);

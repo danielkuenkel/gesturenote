@@ -3028,6 +3028,11 @@
             "id": "gesture-set-title-too-short",
             "type": "warning",
             "text": "Der Name eines Gesten-Sets muss mindestens 8 Zeichen lang sein."
+        },
+        "emptyGestureSet": {
+            "id": "empty-gesture-set",
+            "type": "warning",
+            "text": "Das Gesten-Set ist leer."
         }
     }
 }

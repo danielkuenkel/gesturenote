@@ -49,11 +49,7 @@ include './includes/language.php';
         var query = getQueryParams(document.location.search);
         getGestureSetsForStudyId({studyId: query.studyId}, function (result) {
             if (result.status === RESULT_SUCCESS) {
-//                var sets = getLocalItem(GESTURE_SETS);
-//                if (sets === undefined || sets === null) {
                 setLocalItem(GESTURE_SETS, result.gestureSets);
-//                }
-
                 renderData(preselect, id);
             }
         });
@@ -90,7 +86,6 @@ include './includes/language.php';
     }
 
     function saveData() {
-//        console.log('saveData');
         var listItems = $('#existing-sets-container').find('.option-container').find('.btn-checkbox');
         for (var i = 0; i < listItems.length; i++) {
             if ($(listItems[i]).hasClass('btn-option-checked')) {
@@ -103,7 +98,6 @@ include './includes/language.php';
         // call ajax update gesture sets, calling php 
         updateGestureSets({sets: getLocalItem(GESTURE_SETS)});
         var target = $('#content-btn-potential-gestures').find('#' + currentAssignment.mainGestureId);
-//        console.log(target);
         renderPotentialGesturesParameters(target, currentAssignment, currentAssignment.triggerId);
     }
 
@@ -138,62 +132,4 @@ include './includes/language.php';
             // show errors for invalid input 
         }
     });
-
-    function addToGestureSet(setId, gestureId) {
-        var sets = getLocalItem(GESTURE_SETS);
-        for (var i = 0; i < sets.length; i++) {
-            if (parseInt(sets[i].id) === parseInt(setId)) {
-                var gestureIsAvailable = false;
-                if (sets[i].gestures && sets[i].gestures !== null && sets[i].gestures.length > 0) {
-                    for (var j = 0; j < sets[i].gestures.length; j++) {
-                        if (parseInt(gestureId) === parseInt(sets[i].gestures[j])) {
-                            gestureIsAvailable = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!gestureIsAvailable) {
-                    if (sets[i].gestures && sets[i].gestures !== null && sets[i].gestures.length > 0) {
-                        sets[i].gestures.push(gestureId);
-                    } else {
-//                        console.log('add new gestures array');
-                        sets[i].gestures = [gestureId];
-                    }
-                }
-            }
-        }
-
-//        console.log(sets);
-        setLocalItem(GESTURE_SETS, sets);
-    }
-
-    function removeFromGestureSet(setId, gestureId) {
-        var sets = getLocalItem(GESTURE_SETS);
-        for (var i = 0; i < sets.length; i++) {
-            if (parseInt(sets[i].id) === parseInt(setId)) {
-//                var gestureIsAvailable = false;
-                if (sets[i].gestures && sets[i].gestures !== null && sets[i].gestures.length > 0) {
-                    for (var j = 0; j < sets[i].gestures.length; j++) {
-                        if (parseInt(gestureId) === parseInt(sets[i].gestures[j])) {
-                            sets[i].gestures.splice(j, 1);
-                            if (sets[i].gestures.length === 0) {
-                                sets[i].gestures = null;
-                            }
-                            break;
-                        }
-                    }
-                }
-//
-//                if (!gestureIsAvailable) {
-//                    console.log('remove gesture from array');
-//                    sets[i].gestures = [gestureId];
-//                    break;
-//                }
-            }
-        }
-
-//        console.log(sets);
-        setLocalItem(GESTURE_SETS, sets);
-    }
 </script>

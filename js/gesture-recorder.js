@@ -325,7 +325,7 @@ function showSave() {
     }
 
     $('#gestureName, #gestureContext, #gestureAssociation, #gestureDescription').unbind('input').bind('input', function () {
-        if (inputsValid()) {
+        if (gestureInputsValid()) {
             $(recorder.options.recorderTarget).find('#btn-save-gesture').removeClass('disabled');
         } else {
             $(recorder.options.recorderTarget).find('#btn-save-gesture').addClass('disabled');
@@ -334,7 +334,7 @@ function showSave() {
 
     $('#gestureTypeSelect, #gestureInteractionTypeSelect').unbind('change').bind('change', function () {
         console.log('on change');
-        if (inputsValid()) {
+        if (gestureInputsValid()) {
             $(recorder.options.recorderTarget).find('#btn-save-gesture').removeClass('disabled');
         } else {
             $(recorder.options.recorderTarget).find('#btn-save-gesture').addClass('disabled');
@@ -342,7 +342,7 @@ function showSave() {
     });
 
     $('#save-controls #human-body').unbind('change').bind('change', function () {
-        if (inputsValid()) {
+        if (gestureInputsValid()) {
             $(recorder.options.recorderTarget).find('#btn-save-gesture').removeClass('disabled');
         } else {
             $(recorder.options.recorderTarget).find('#btn-save-gesture').addClass('disabled');
@@ -380,7 +380,7 @@ function showSave() {
         var button = $(this);
         clearAlerts(recorder.options.alertTarget);
 
-        if (inputsValid(true) && !$(this).hasClass('disabled')) {
+        if (gestureInputsValid(true) && !$(this).hasClass('disabled')) {
             $(button).addClass('disabled');
             showCursor($('body'), CURSOR_PROGRESS);
 
@@ -470,7 +470,7 @@ function resetInputs() {
     $(recorder.options.recorderTarget).find('#save-controls #btn-save-gesture').addClass('disabled');
 }
 
-function inputsValid(showErrors) {
+function gestureInputsValid(showErrors) {
     var title = $(recorder.options.recorderTarget).find('#gestureName').val();
     if (title !== undefined && title.trim() === '') {
         if (showErrors) {

@@ -374,22 +374,9 @@ $(document).on('click', '#extraction-navigation button', function (event) {
 function checkClassificationType() {
     var unclassifiedGestures = getUnclassifiedGestures();
     if (unclassifiedGestures && unclassifiedGestures.length === 0) {
-//        var classificationData = getLocalItem(CLASSIFICATION);
-//        console.log('there are no gestures for classification, but there are classified gestures', classificationData);
-//        if (classificationData.type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER) {
-//            $('#extraction-navigation #btn-amount').removeClass('disabled');
-//            $('#extraction-navigation #btn-guessability').removeClass('disabled');
-//            $('#extraction-navigation #btn-cognitive-relationships').removeClass('disabled');
-//            $('#extraction-navigation #btn-checklist').removeClass('disabled');
         $('#extraction-navigation #btn-potential-gestures').removeClass('disabled');
         $('#extraction-navigation #btn-gesture-sets').removeClass('disabled');
-//        } else {
-//
-//        }
     } else {
-//        $('#extraction-navigation #btn-amount').addClass('disabled');
-//        $('#extraction-navigation #btn-guessability').addClass('disabled');
-//        $('#extraction-navigation #btn-checklist').addClass('disabled');
         $('#extraction-navigation #btn-potential-gestures').addClass('disabled');
         $('#extraction-navigation #btn-gesture-sets').addClass('disabled');
     }
@@ -1090,9 +1077,9 @@ function renderPotentialGesturesParameters(target, assignment) {
             var sets = getAttachedGestureSets(assignment.mainGestureId);
             if (sets) {
                 for (var i = 0; i < sets.length; i++) {
-                    var item = $('#attacted-gesture-set-item').clone().removeAttr('id');
+                    var item = $('#attached-gesture-set-item').clone().removeAttr('id');
                     $(item).find('#gesture-set-title').text(sets[i].title);
-                    $(target).find('#attacted-gesture-sets-container').append(item);
+                    $(target).find('#attached-gesture-sets-container').append(item);
                 }
             }
         }
@@ -1103,25 +1090,6 @@ function renderPotentialGesturesParameters(target, assignment) {
         currentAssignment = getAssignmentByMainGestureId($(this).closest('.root').attr('name'));
         loadHTMLintoModal('custom-modal', 'modal-add-to-gesture-set.php', 'modal-md');
     });
-}
-
-function getAttachedGestureSets(gestureId) {
-    var sets = getLocalItem(GESTURE_SETS);
-    if (sets && sets.length > 0) {
-        var array = new Array();
-        for (var i = 0; i < sets.length; i++) {
-            if (sets[i].gestures && sets[i].gestures.length > 0) {
-                for (var j = 0; j < sets[i].gestures.length; j++) {
-                    if (parseInt(sets[i].gestures[j]) === parseInt(gestureId)) {
-                        array.push(sets[i]);
-                        break;
-                    }
-                }
-            }
-        }
-        return array;
-    }
-    return null;
 }
 
 function getAssignmentByMainGestureId(mainGestureId) {
