@@ -204,7 +204,7 @@ function renderPhaseSteps() {
     {
         for (var i = 0; i < phaseSteps.length; i++) {
             var item = phaseSteps[i];
-            addPhaseStep(item.id, item.format, item.color);
+            addPhaseStep(item.id, item.format, item.color, item.title);
         }
 
         if (getLocalItem(STUDY) && getLocalItem(STUDY).phase) {
@@ -216,7 +216,7 @@ function renderPhaseSteps() {
                 $('#phaseStepList').find('.' + TYPE_PHASE_EVALUATION).removeClass('hidden');
                 $('#phaseStepList').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
                 $('#phaseStepList').find('.' + TYPE_PHASE_EXTRACTION).addClass('hidden');
-            } else if(getLocalItem(STUDY).phase === TYPE_PHASE_EXTRACTION) {
+            } else if (getLocalItem(STUDY).phase === TYPE_PHASE_EXTRACTION) {
                 $('#phaseStepList').find('.' + TYPE_PHASE_EXTRACTION).removeClass('hidden');
                 $('#phaseStepList').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
                 $('#phaseStepList').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
@@ -224,6 +224,16 @@ function renderPhaseSteps() {
                 $('#phaseStepList').find('.both').removeClass('hidden');
             }
         }
+    }
+}
+
+function renderModalTitel(target) {
+    var currentPhaseData = getPhaseById(currentIdForModal);
+    console.log(currentPhaseData);
+    if (currentPhaseData.title) {
+        $(target).text(currentPhaseData.title);
+    } else {
+        $(target).text(translation.formats[currentPhaseData.format].text);
     }
 }
 
@@ -322,6 +332,18 @@ function savePhases() {
         phases.push({id: id, format: format, color: color});
     }
     setLocalItem(STUDY_PHASE_STEPS, phases);
+}
+
+function getPhaseById(id) {
+    var phases = getLocalItem(STUDY_PHASE_STEPS);
+    if (phases && phases.length > 0) {
+        for (var i = 0; i < phases.length; i++) {
+            if (parseInt(id) === parseInt(phases[i].id)) {
+                return phases[i];
+            }
+        }
+    }
+    return null;
 }
 
 function getAvailableGender(tester) {

@@ -4,7 +4,7 @@ include './includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
-    <h4 class="modal-title" id="exampleModalLabel"><?php echo $lang->formats->questionnaire->text ?></h4>
+    <h4 class="modal-title" id="phase-step-title"></h4>
 </div>
 <div id="modal-body" class="modal-body">
     <div class="container-root" id="list-container"></div>
@@ -42,6 +42,8 @@ include './includes/language.php';
         if (data !== null) {
             renderData(data);
         }
+        
+        renderModalTitel($('#custom-modal').find('#phase-step-title'));
     });
 
     function renderData(data) {
