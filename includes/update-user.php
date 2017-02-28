@@ -14,7 +14,14 @@ if (isset($_SESSION['user_id'], $_POST['forename'], $_POST['surname'], $_POST['b
     $forename = filter_input(INPUT_POST, 'forename', FILTER_SANITIZE_STRING);
     $surname = filter_input(INPUT_POST, 'surname', FILTER_SANITIZE_STRING);
 //    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+
     $birthday = strtotime($_POST['birthday']);
+    if($birthday !== 0) {
+        $birthday = strtotime($_POST['birthday']);
+    } else {
+        $birthday = NULL;
+    }
+    
 //    $birthday = date("Y.m.d", mktime(0, 0, 0, $_POST['month'], $_POST['date'], $_POST['year']));
 
     if (isset($_POST['p'], $_POST['pO'])) {

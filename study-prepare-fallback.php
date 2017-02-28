@@ -42,6 +42,7 @@ if ($h && $studyId) {
         <script src="js/constants.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
+        <script type="text/JavaScript" src="js/login.js"></script>
         <script src="js/language.js"></script>
         <script src="js/goto-general.js"></script>
         <script type="text/JavaScript" src="js/login.js"></script>
@@ -77,15 +78,6 @@ if ($h && $studyId) {
             </div>
         </div>
 
-        <!--         Container (Landing Section)  
-                <div class="container-fluid text-center bg-grey" id="landingText">
-                    <div class="container">
-                        <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase">An Studie teilnehmen</span></h1>
-                        <p class="text">Haben Sie ein Account bei GestureNote? Dann loggen Sie sich bitte ein. </p>
-                        <p class="text">Sind Sie auf dieser Seite gelandet, weil Sie einen Link für die Teilnahme an einer Studie erhalten haben? Sie können ohne Account fortfahren indem Sie auf "Teilnahme ohne Account" klicken. Oder Sie registrieren sich bei GestureNote und können in Zukunft an weiteren interessanten Studien teilnehmen, ganz ohne Einladung.</p>
-                    </div>
-                </div>-->
-
         <!-- Container (Panel Section) -->
         <div class="container mainContent" style="margin-top: 0px;">
             <div class="row">
@@ -95,15 +87,6 @@ if ($h && $studyId) {
                     <hr>
                     <p class="text">Haben Sie ein Account bei GestureNote? Dann loggen Sie sich bitte ein. </p>
                     <p class="text">Sind Sie auf dieser Seite gelandet, weil Sie einen Link für die Teilnahme an einer Studie erhalten haben? Sie können ohne Account fortfahren indem Sie auf "Teilnahme ohne Account" klicken. Oder Sie registrieren sich bei GestureNote und können in Zukunft an weiteren interessanten Studien teilnehmen, ganz ohne Einladung.</p>
-                    <!--                <h2 id="study-headline" style="margin-top: 0"></h2>
-                                    <hr>-->
-                    <!--                <div class="label label-default" id="type-phase"></div>
-                                    <div class="label label-default" id="type-survey"></div>-->
-
-                    <!--                <div id="study-description">
-                                        <h3 class="address"></h3>
-                                        <p class="text"></p>
-                                    </div>-->
 
                 </div>
 
@@ -117,9 +100,13 @@ if ($h && $studyId) {
                             <div id="login-form">
                                 <div class="alert-space alert-general-error"></div>
                                 <div class="alert-space alert-missing-fields"></div>
+                                <div class="alert-space alert-missing-email"></div>
+                                <div class="alert-space alert-check-email"></div>
+                                <div class="alert-space alert-invalid-email"></div>
                                 <div class="alert-space alert-account-logged"></div>
                                 <div class="alert-space alert-wrong-password"></div>
                                 <div class="alert-space alert-no-user-exists"></div>
+                                <div class="alert-space alert-password-reset-send"></div>
 
                                 <div class="form-group">
                                     <label for="email"><?php echo $lang->email ?></label>
@@ -131,7 +118,7 @@ if ($h && $studyId) {
                                 </div>
                                 <div class="btn-group-vertical btn-block">
                                     <button type="button" class="btn btn-success" id="btn-login"><i class="glyphicon glyphicon-log-in"></i> <span class="btn-text"><?php echo $lang->signIn ?></button>
-                                    <button type="button" class="btn btn-primary disabled" id="btn-forgot"><i class="glyphicon glyphicon-time"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
+                                    <button type="button" class="btn btn-primary" id="btn-forgot-password"><i class="glyphicon glyphicon-time"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
                                 </div>
                             </div>
                         </div>
@@ -168,17 +155,12 @@ if ($h && $studyId) {
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements(false);
                 var query = getQueryParams(document.location.search);
-                if (query.studyId && query.h) {
-//                    getStudyById({studyId: query.studyId}, function (result) {
-//                        if (result.status === RESULT_SUCCESS) {
-////                            if (result.data) {
-//                                renderData(result);
-////                            } else {
-////                                //                            appendAlert($('#item-view'), ALERT_NO_STUDIES);
-////                            }
-//                        }
-//                    });
-                }
+                
+                $('#login-form #password, #login-form #email').keypress(function (event) {
+                    if (event.keyCode === 13) {
+                        $('#login-form #btn-login').click();
+                    }
+                });
 
                 $('#login-form').on('loginSuccess', function (event, result) {
                     var hash = hex_sha512(parseInt(query.studyId) + result.userId + result.forename + result.surname);
@@ -190,6 +172,7 @@ if ($h && $studyId) {
                 });
 
                 $('#register-form').on('registerSuccess', function (event, result) {
+                    event.preventDefault();
                     var hash = hex_sha512(parseInt(query.studyId) + result.userId + result.forename + result.surname);
                     if (result.userType === 'evaluator') {
                         goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
@@ -205,19 +188,9 @@ if ($h && $studyId) {
                 });
             }
 
-            function renderData(data) {
-                var studyData = data.studyData;
-//                $('#study-headline').text(studyData.generalData.title);
-//                $('#type-survey').text(translation.surveyType[studyData.generalData.surveyType]);
-//                $('#type-phase').text(translation.phaseType[studyData.generalData.phase]);
-//                $('#study-description .address').text(translation.description);
-//                $('#study-description .text').text(studyData.generalData.description);
-            }
-
             $('#btn-open-register').on('click', function (event) {
                 event.preventDefault();
                 loadHTMLintoModal('custom-modal', 'modal-register.php', 'modal-md');
-//    $('#modal-register').modal('show');
             });
         </script>
     </body>

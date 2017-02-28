@@ -78,7 +78,7 @@ if (login_check($mysqli) == true) {
                             <div id="user-surname"><span class="address"></span> <span class="text"></span></div>
                             <div id="user-email"><span class="address"></span> <span class="text"></span></div>
                             <div id="user-type"><span class="address"></span> <span class="text"></span></div>
-                            <div id="user-birthday"><span class="address"></span> <span class="text"></span></div>
+                            <!--<div id="user-birthday"><span class="address"></span> <span class="text"></span></div>-->
                             <div id="user-registered"><span class="address"></span> <span class="text"></span></div>
                         </div>
                         <div class="panel-footer">
@@ -135,7 +135,7 @@ if (login_check($mysqli) == true) {
                                     <input type="password" class="form-control" name="confirmPassword" id="input-confirm-new-password" placeholder="">
                                 </div>
 
-                                <hr>
+<!--                                <hr>
 
                                 <div class="alert-space alert-invalid-birthday"></div>
 
@@ -149,7 +149,7 @@ if (login_check($mysqli) == true) {
                                         <span class="input-group-addon" id="label-year"></span>
                                         <input class="form-control" id="input-year" type="text" placeholder="z.B. 1980" minlength="4" maxlength="4"/>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
 
                         </div>
@@ -220,16 +220,16 @@ if (login_check($mysqli) == true) {
                         $('#user-type .address').text(translation.userType + ": ");
                         $('#user-type .text').text(translation.userTypes[user.userType]);
 
-                        var birthday = new Date(user.birthday);
-                        $('#user-birthday .address').text(translation.birthday + ": ");
-                        $('#label-birthday').text(translation.birthday);
-                        $('#user-birthday .text').text(birthday.toLocaleDateString());
-                        $('#label-date').text(translation.day);
-                        $('#input-date').val(birthday.getDate());
-                        $('#label-month').text(translation.month);
-                        $('#input-month').val(parseInt(birthday.getMonth()) + 1);
-                        $('#label-year').text(translation.year);
-                        $('#input-year').val(birthday.getFullYear());
+//                        var birthday = new Date(user.birthday);
+//                        $('#user-birthday .address').text(translation.birthday + ": ");
+//                        $('#label-birthday').text(translation.birthday);
+//                        $('#user-birthday .text').text(birthday.toLocaleDateString());
+//                        $('#label-date').text(translation.day);
+//                        $('#input-date').val(birthday.getDate());
+//                        $('#label-month').text(translation.month);
+//                        $('#input-month').val(parseInt(birthday.getMonth()) + 1);
+//                        $('#label-year').text(translation.year);
+//                        $('#input-year').val(birthday.getFullYear());
 
                         $('#user-registered .address').text(translation.userRegistered + ": ");
                         $('#user-registered .text').text(convertSQLTimestampToDate(user.created).toLocaleDateString());
@@ -258,7 +258,7 @@ if (login_check($mysqli) == true) {
                 if (!event.handled) {
                     event.handled = true;
                     clearAlerts($('#update-form'));
-                    updateFormhash($('#update-form'), $('#update-form'));
+                    updateFormhashEvaluator($('#update-form'), $('#update-form'));
                 }
             });
 
@@ -277,18 +277,18 @@ if (login_check($mysqli) == true) {
                 if ($('#update-form #pO') !== undefined && $('#update-form #pO').length !== 0) {
                     pO = $('#update-form #pO').val().trim();
                 }
-                var date = parseInt($('#update-form #input-date').val().trim());
-                var month = parseInt($('#update-form #input-month').val().trim());
-                var year = parseInt($('#update-form #input-year').val().trim());
-                var birthday = year + "-" + month + "-" + date;
+//                var date = parseInt($('#update-form #input-date').val().trim());
+//                var month = parseInt($('#update-form #input-month').val().trim());
+//                var year = parseInt($('#update-form #input-year').val().trim());
+//                var birthday = year + "-" + month + "-" + date;
 
                 if (p !== null && pO !== null) {
-                    updateUser({forename: forename, surname: surname, p: p, pO: pO, birthday: birthday}, function (result) {
+                    updateUser({forename: forename, surname: surname, p: p, pO: pO, birthday: null}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             $('#user-forename .text').text(forename);
                             $('#user-surname .text').text(surname);
 //                            $('#user-email .text').text(email);
-                            $('#user-birthday .text').text(new Date(year, month - 1, date, 0, 0, 0, 0).toLocaleDateString());
+//                            $('#user-birthday .text').text(new Date(year, month - 1, date, 0, 0, 0, 0).toLocaleDateString());
                             $('#general-edit').addClass('hidden');
                             $('#general-preview').removeClass('hidden');
                             $('#input-current-password').val('');
@@ -303,12 +303,12 @@ if (login_check($mysqli) == true) {
                         }
                     });
                 } else {
-                    updateUser({forename: forename, surname: surname, birthday: birthday}, function (result) {
+                    updateUser({forename: forename, surname: surname, birthday: null}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             $('#user-forename .text').text(forename);
                             $('#user-surname .text').text(surname);
 //                            $('#user-email .text').text(email);
-                            $('#user-birthday .text').text(new Date(year, month - 1, date, 0, 0, 0, 0).toLocaleDateString());
+//                            $('#user-birthday .text').text(new Date(year, month - 1, date, 0, 0, 0, 0).toLocaleDateString());
                             $('#general-edit').addClass('hidden');
                             $('#general-preview').removeClass('hidden');
                             $('#input-current-password').val('');

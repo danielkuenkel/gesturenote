@@ -55,9 +55,26 @@ include './includes/language.php';
             </div>
         </div>
 
-        <div class="container mainContent" style="margin-top: 50px">
+        <div class="container mainContent" style="margin-top: 0px">
+            <h3>2016</h3>
+            <hr>
             <div class="row">
-
+                <div class="col-xs-12">
+                    <div><span>Titel:</span> <span class="text">Bewertung der Gebrauchstauglichkeit von 3D-Gesten</span></div>
+                    <div><span>Autor(en):</span> <span class="text">Daniel Künkel, Birgit Bomsdorf</span></div>
+                    <div><span>In:</span> <span class="text">Prinz, W., Borchers, J. & Jarke, M. (Hrsg.), Mensch und Computer 2016 - Tagungsband. Aachen: Gesellschaft für Informatik e.V.</span></div>
+                    <a target="blank" href="http://dl.mensch-und-computer.de/bitstream/handle/123456789/5036/Künkel_Bomsdorf_2016.pdf?sequence=1"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF</a>
+                </div>
+            </div>
+            <h3 style="margin-top:50px">2015</h3>
+            <hr>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div><span>Titel:</span> <span class="text">Participative development of touchless user interfaces: Elicitation and evaluation of contactless hand gestures for anesthesia</span></div>
+                    <div><span>Autor(en):</span> <span class="text">Daniel Künkel, Birgit Bomsdorf, Rainer Röhrig, Janko Ahlbrandt und Markus Weigand</span></div>
+                    <div><span>In:</span> <span class="text">Interfaces and Human Computer Interaction (IHCI) Konferenz</span></div>
+                    <a target="blank" href="http://www.iadisportal.org/ihci-2015-proceedings"><i class="fa fa-external-link" aria-hidden="true"></i> Mehr Infos</a>
+                </div>
             </div>
         </div>
 

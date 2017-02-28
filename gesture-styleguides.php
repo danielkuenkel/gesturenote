@@ -256,6 +256,7 @@ if (login_check($mysqli) == true) {
 
                 if (!$(this).hasClass('disabled')) {
                     if ($(this).hasClass('active')) {
+                        $(this).removeClass('active');
                         TweenMax.to($(this).find('#plus-sign'), .3, {rotation: '0'});
                         $('#multiple-gus-list, #single-gus-list').addClass('hidden');
                     } else {
