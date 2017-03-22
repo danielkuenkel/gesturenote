@@ -463,8 +463,13 @@ function hideSave() {
 function resetInputs() {
     $(recorder.options.recorderTarget).find('#gestureName').val('');
     $(recorder.options.recorderTarget).find('#gestureContext').val('');
+    $(recorder.options.recorderTarget).find('#gestureAssociation').val('');
     $(recorder.options.recorderTarget).find('#gestureTypeSelect .chosen').attr('id', 'unselected');
+    $(recorder.options.recorderTarget).find('#gestureTypeSelect .selected').removeClass('selected');
+    $(recorder.options.recorderTarget).find('.option-gesture-type').val('');
     $(recorder.options.recorderTarget).find('#gestureInteractionTypeSelect .chosen').attr('id', 'unselected');
+    $(recorder.options.recorderTarget).find('#gestureInteractionTypeSelect .selected').removeClass('selected');
+    $(recorder.options.recorderTarget).find('.option-gesture-interaction-type').val('');
     $(recorder.options.recorderTarget).find('#gestureDescription').val('');
     $(recorder.options.recorderTarget).find('#save-controls #human-body #joint-container').children('.active').click();
     $(recorder.options.recorderTarget).find('#save-controls #btn-save-gesture').addClass('disabled');

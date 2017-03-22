@@ -1020,7 +1020,7 @@ include '../includes/language.php';
     <div id="questionnaire-moderated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0" >Fragebogen</h3>
+            <h3 class="headline" style="margin: 0">Fragebogen</h3>
             <hr>
             <div class="question-container"></div>
             <hr>

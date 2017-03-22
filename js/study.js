@@ -106,7 +106,7 @@ function renderData(data, hash) {
 
             var text = document.createElement('span');
             $(text).addClass('text');
-            $(text).text(translation.formats[studyData.phases[i].format].text);
+            $(text).text(studyData.phases[i].title);
             $(step).append(text);
             if (i < studyData.phases.length - 1) {
                 var transition = document.createElement('i');

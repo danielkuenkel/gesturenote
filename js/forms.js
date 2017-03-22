@@ -385,7 +385,7 @@ function renderQuestionnaire(target, questionnaire, answers) {
 //                    }
 //                }
 //            }
-    console.log(answer);
+            console.log(answer);
             var parameters = questionnaire[i].parameters;
             var options = questionnaire[i].options;
             if (answer) {
@@ -420,6 +420,9 @@ function renderQuestionnaire(target, questionnaire, answers) {
                     case ALTERNATIVE_QUESTION:
                         renderEditableAlternativeQuestion(item, questionnaire[i], answer);
                         break;
+//                    case SUS_ITEM:
+//                        renderEditableSUSQuestion();
+//                        break;
                 }
             } else {
                 switch (questionnaire[i].format) {
@@ -458,9 +461,9 @@ function renderQuestionnaire(target, questionnaire, answers) {
 //                        renderGUSSingleInput(item, options);
 //                        break;
 
-//                    case SUS_ITEM:
-//                        renderSusInput(item);
-//                        break;
+                    case SUS_ITEM:
+                        renderSusInput(item);
+                        break;
                 }
             }
         }

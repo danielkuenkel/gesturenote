@@ -227,13 +227,43 @@ function renderPhaseSteps() {
     }
 }
 
-function renderModalTitel(target) {
+function renderModalTitle(target, input) {
     var currentPhaseData = getPhaseById(currentIdForModal);
-    console.log(currentPhaseData);
     if (currentPhaseData.title) {
-        $(target).text(currentPhaseData.title);
+        $(target).find('#phase-step-title').text(currentPhaseData.title);
     } else {
-        $(target).text(translation.formats[currentPhaseData.format].text);
+        $(target).find('#phase-step-title').text(translation.formats[currentPhaseData.format].text);
+    }
+
+    $(target).unbind('click').bind('click', function (event) {
+        $(target).addClass('hidden');
+        $(input).find('#phase-step-title-input').val($(target).find('#phase-step-title').text());
+        $(input).removeClass('hidden');
+    });
+
+    $(input).find('#btn-save-phase-step-title').unbind('click').bind('click', function (event) {
+        $(input).addClass('hidden');
+        $(target).removeClass('hidden');
+        updatePhaseStepTitle(currentIdForModal, input);
+        var currentPhaseData = getPhaseById(currentIdForModal);
+        $(target).find('#phase-step-title').text(currentPhaseData.title);
+    });
+}
+
+function updatePhaseStepTitle(phaseStepId, inputContainer, target) {
+    var title = $(inputContainer).find('#phase-step-title-input').val();
+    if (title && title.trim().length > 0) {
+        var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+        for (var i = 0; i < phaseSteps.length; i++) {
+            if (parseInt(phaseStepId) === parseInt(phaseSteps[i].id)) {
+                phaseSteps[i].title = title.trim();
+                break;
+            }
+        }
+        setLocalItem(STUDY_PHASE_STEPS, phaseSteps);
+        renderPhaseSteps();
+    } else {
+
     }
 }
 
@@ -329,7 +359,8 @@ function savePhases() {
         var id = $(item).attr('id');
         var format = $(item).find('.btn-modify').attr('id');
         var color = $(item).find('.glyphicon-tag').css('color');
-        phases.push({id: id, format: format, color: color});
+        var title = $(item).find('.phase-step-format').text();
+        phases.push({id: id, format: format, color: color, title: title});
     }
     setLocalItem(STUDY_PHASE_STEPS, phases);
 }

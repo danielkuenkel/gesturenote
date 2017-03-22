@@ -260,9 +260,9 @@ if (login_check($mysqli) == true) {
                                 <button class="btn btn-default btn-shadow" id="btn-assemble-study-gestures">
                                     <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
                                 </button>
-                                <button class="btn btn-default btn-shadow" id="btn-record-gestures">
+<!--                                <button class="btn btn-default btn-shadow" id="btn-record-gestures">
                                     <i class="fa fa-video-camera" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->record ?></span>
-                                </button>
+                                </button>-->
 
                             </div>
                         </div>
@@ -359,7 +359,7 @@ if (login_check($mysqli) == true) {
                                     <i class="glyphicon glyphicon-cog"></i>
                                 </button>
                                 <button class="btn btn-default btn-shadow btn-text-button">
-                                    <span class="glyphicon glyphicon-tag"></span><span class="phase-step-format"></span>
+                                    <span class="glyphicon glyphicon-tag"></span><span class="phase-step-format" style="margin-left: 5px"></span>
                                 </button>
                                 <button class="btn btn-default btn-shadow btn-delete saveGeneralData" title="<?php echo $lang->delete ?>">
                                     <i class="glyphicon glyphicon-trash"></i>
@@ -690,7 +690,7 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled') && format !== 'unselected') {
                     var format = $(this).parent().find('.chosen').attr('id');
-                    addPhaseStep(chance.natural(), format, null, null);
+                    addPhaseStep(chance.natural(), format, null, null, true);
                     savePhases();
                     checkPreviewAvailability();
                 }
@@ -705,21 +705,20 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-            function addPhaseStep(id, format, color, title) {
-                console.log('title', title, translation.formats[format].text);
-                if(title === null || title === undefined) {
+            function addPhaseStep(id, format, color, title, animate) {
+                if (title === null || title === undefined) {
                     title = translation.formats[format].text;
                 }
-                
+
                 var clone = $('#phaseStepItem').clone().removeAttr('id');
                 clone.removeClass('hidden').addClass(translation.formats[format].class);
                 clone.attr('id', id);
                 $('#phaseStepList').append(clone);
                 clone.find('.btn-modify').attr('id', format);
                 clone.find('.glyphicon-tag').css('color', color === null ? color = colors.pop() : color);
-                clone.find('.phase-step-format').text(" " + title);
-                
-                
+                clone.find('.phase-step-format').text(title);
+
+
                 clone.find('.btn-text-button, .btn-modify').bind("click", {format: format, id: id}, function (event) {
                     event.preventDefault();
                     currentIdForModal = event.data.id;
@@ -728,9 +727,6 @@ if (login_check($mysqli) == true) {
                 if (format === THANKS || format === LETTER_OF_ACCEPTANCE) {
                     clone.find('.btn-delete').remove();
                 } else {
-//                    var children = $('#phaseStepList').children().length;
-//                    $('#phaseStepList>div:eq(' + children + ')').before(clone);
-//                    $(clone).insertBefore($('#phaseStepList').children().last());
                     clone.find('.btn-delete').bind("click", {format: format, id: id}, function (event) {
                         event.preventDefault();
                         removeLocalItem(event.data.id + ".data");
@@ -747,7 +743,9 @@ if (login_check($mysqli) == true) {
                 }
 
                 checkCurrentListState($('#phaseStepList'));
-                TweenMax.from(clone, .3, {opacity: 0, y: -20, clearProps: 'all'});
+                if (animate === true) {
+                    TweenMax.from(clone, .3, {opacity: 0, y: -20, clearProps: 'all'});
+                }
             }
 
             $('#panelSurveySwitch').on('change', function (event, id) {

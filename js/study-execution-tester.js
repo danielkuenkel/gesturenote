@@ -188,6 +188,7 @@ var Tester = {
         }
 
         container = renderQuestionnaire(container, data, currentQuestionnaireAnswers);
+        $(container).find('.headline').text(getCurrentPhase().title);
 
 //        $(container).find('.question-container').empty();
 

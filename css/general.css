@@ -337,6 +337,14 @@ footer .glyphicon {
 .breadcrumb>li+li:before {color: #777777; content: "\276F\00a0";}
 
 
+.modal-title-editable {
+    cursor: pointer;
+}
+
+.modal-title-editable :hover{
+    color: #696969
+}
+
 /*@keyframes slide {
     0% {
         opacity: 0;

@@ -4,7 +4,13 @@ include './includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
-    <h4 class="modal-title">Szenario-basierte Aufgabe</h4>
+    <h4 class="modal-title modal-title-editable" id="modal-titel"><span id="phase-step-title"></span> <i class="fa fa-pencil" id="btn-edit-phase-step-title"></i></h4>
+    <div class="input-group hidden" id="phase-step-title-input-container" style="padding-right: 20px">
+        <input class="form-control item-input-text" id="phase-step-title-input" type="text" value="" maxlength="30"/>
+        <div class="input-group-btn">
+            <button class="btn btn-default btn-shadow" id="btn-save-phase-step-title" data-toggle="tooltip"><i class="fa fa-check"></i></button>
+        </div>
+    </div>
 </div>
 <div id="modal-body" class="modal-body">
 
@@ -178,6 +184,8 @@ include './includes/language.php';
     });
 
     $(document).ready(function () {
+        renderModalTitle($('#custom-modal').find('#modal-titel'), $('#custom-modal').find('#phase-step-title-input-container'));
+        
         var woz = $('#form-item-container #wozExperiment').clone().removeAttr('id');
         $('#wozExperimentContainer').append(woz);
 
@@ -358,6 +366,8 @@ include './includes/language.php';
     }
 
     function saveData() {
+        $('#custom-modal').find('#btn-save-phase-step-title').click();
+        
         var wozItems = $('#wozExperimentContainer').find('.option-container').children();
         var helpItems = $('#helpContainer').find('.option-container').children();
 

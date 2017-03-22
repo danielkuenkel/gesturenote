@@ -177,7 +177,7 @@ if (login_check($mysqli) == true) {
                         $('#phase-results-nav').append(navItem);
 
                         var text = document.createElement('span');
-                        $(text).text(translation.formats[studyData.phases[i].format].text);
+                        $(text).text(studyData.phases[i].title);
                         $(navItem).append(text);
 
                         TweenMax.from($(navItem), .3, {delay: 0.2 + (i * .05), y: -10, opacity: 0, clearProps: 'all'});
