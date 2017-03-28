@@ -7,10 +7,15 @@
 var currentIdForModal;
 var colors;
 function checkSessionStorage() {
-    checkAssembledGestures(getLocalItem(ASSEMBLED_GESTURE_SET), getLocalItem(GESTURE_CATALOG));
-    createOriginPhases();
-    createPredefinedGestureFeedback();
-    renderSessionStorageData();
+    console.log('checkSessionStorage');
+    if (typeof (Storage) !== "undefined") {
+        checkAssembledGestures(getLocalItem(ASSEMBLED_GESTURE_SET), getLocalItem(GESTURE_CATALOG));
+        createOriginPhases();
+        createPredefinedGestureFeedback();
+        renderSessionStorageData();
+    } else {
+        appendAlert($('#mainContent'), ALERT_NO_STORAGE_API);
+    }
 }
 
 function createOriginPhases() {
@@ -74,9 +79,9 @@ function renderSessionStorageData() {
         }
 
         var studyPanel = getLocalItem(STUDY_PANEL);
-        var ranges = [studyPanel.min, studyPanel.max];
+        var ranges = {min: studyPanel.min, max: studyPanel.max};
         if (study.ageRange && study.ageRange !== '' && studyPanel) {
-            ranges = study.ageRange.split(',');
+            ranges = study.ageRange;
         }
         updateSelectionText(ranges, $('#genderSwitch').find('.active').attr('id'));
 
@@ -102,25 +107,24 @@ function renderSessionStorageData() {
 function renderAgeRanges() {
     var study = getLocalItem(STUDY);
     var studyPanel = getLocalItem(STUDY_PANEL);
-    var ranges = calculateAgeRangeForGender(studyPanel.raw, $('#genderSwitch').find('.active').attr('id'));
-
-
-
-//    var value = slider.getValue();
-//    console.log(value)
+    var selectedGender = $('#genderSwitch').find('.active').attr('id');
+    var ranges = calculateAgeRangeForGender(studyPanel.raw, selectedGender);
 
     if (study) {
-        if (study.ageRange && study.ageRange !== '' && studyPanel) {
-            ranges.min = parseInt(study.ageRange.split(',')[0]);
-            ranges.max = parseInt(study.ageRange.split(',')[1]);
+        if (study.ageRange && study.ageRange !== undefined && studyPanel) {
+            ranges.min = parseInt(study.ageRange.min);
+            ranges.max = parseInt(study.ageRange.max);
 //            $("#ageSlider .custom-range-slider").slider({min: studyPanel.min, max: studyPanel.max, range: true, value: [Math.max(studyPanel.min, parseInt(ranges[0])), Math.min(studyPanel.max, parseInt(ranges[1]))], tooltip: 'hide'});
         } else {
+            
 //            $("#ageSlider .custom-range-slider").slider({min: studyPanel.min, max: studyPanel.max, range: true, value: [parseInt(ranges[0]), parseInt(ranges[1])], tooltip: 'hide'});
         }
-    } else {
+    } else if(studyPanel) {
+        ranges.min = parseInt(studyPanel.min);
+            ranges.max = parseInt(studyPanel.max);
 //        $("#ageSlider .custom-range-slider").slider({min: studyPanel.min, max: studyPanel.max, range: true, value: [parseInt(ranges[0]), parseInt(ranges[1])], tooltip: 'hide'});
     }
-    console.log(studyPanel.min, ranges.min, studyPanel.max, ranges.max);
+    console.log(selectedGender, ranges);
     var slider = new Slider('#ageSlider .custom-range-slider', {
         formatter: function (value) {
             return 'Current value: ' + value;
@@ -136,8 +140,8 @@ function renderAgeRanges() {
     $('#ageSlider .slider-to').text(translation.to + " " + ' ' + translation.maximal + ' ' + studyPanel.max);
 
     $('#ageSlider').unbind('slide').bind('slide', function (slideEvt) {
-        currentSelectedAgeRange = slideEvt.value;
-        updateSelectionText(slideEvt.value, $('#genderSwitch').find('.active').attr('id'));
+        currentSelectedAgeRange = {min: parseInt(slideEvt.value[0]), max: parseInt(slideEvt.value[1])};
+        updateSelectionText(currentSelectedAgeRange, $('#genderSwitch').find('.active').attr('id'));
     });
 
     $('#genderSwitch').on('change', function () {
@@ -145,15 +149,19 @@ function renderAgeRanges() {
         var ageRange = calculateAgeRangeForGender(studyPanel.raw, selectedGender);
         slider.setAttribute('min', ageRange.min);
         slider.setAttribute('max', ageRange.max);
+        slider.refresh();
+
+        var savedRange = getLocalItem(STUDY).ageRange;
+//        console.log(slider.getAttribute('min'), slider.getAttribute('max'));
 
         $('#ageSlider .slider-from').text(translation[$('#ageSlider .slider-from').attr('name')] + " " + translation.of + ' ' + translation.atLeast + " " + ageRange.min);
         $('#ageSlider .slider-to').text(translation.to + " " + ' ' + translation.maximal + ' ' + ageRange.max);
-        currentSelectedAgeRange = [Math.max(ageRange.min, parseInt(currentSelectedAgeRange[0])), Math.min(ageRange.max, parseInt(currentSelectedAgeRange[1]))]
-        slider.setValue(currentSelectedAgeRange);
+        currentSelectedAgeRange = {min: Math.max(ageRange.min, savedRange.min), max: Math.min(ageRange.max, savedRange.max)};
+//        currentSelectedAgeRange = {min: ageRange.min, max: ageRange.max};
+        slider.setAttribute('value', [currentSelectedAgeRange.min, currentSelectedAgeRange.max]);
         slider.refresh();
-//                $("#ageSlider .custom-range-slider").attr('value', Math.max(ageRange.min, parseInt(currentSelectedAgeRange[0])) + ',' + Math.min(ageRange.max, parseInt(currentSelectedAgeRange[1])));//({min: ageRange.min, max: ageRange.max, range: true, value: [, ], tooltip: 'hide'});
-//        $("#ageSlider .custom-range-slider").attr('data-value', ageRange.min + ',' + ageRange.max);//({min: ageRange.min, max: ageRange.max, range: true, value: [Math.max(ageRange.min, parseInt(currentSelectedAgeRange[0])), Math.min(ageRange.max, parseInt(currentSelectedAgeRange[1]))], tooltip: 'hide'});
         updateSelectionText(currentSelectedAgeRange, selectedGender);
+        saveGeneralData();
     });
 
     currentSelectedAgeRange = ranges;
@@ -161,8 +169,9 @@ function renderAgeRanges() {
 }
 
 function updateSelectionText(range, gender) {
+    console.log(range, gender);
     var sampleSize = calculateSampleSize(range, gender);
-    $('#selectedAgeRange').text(translation.selection + ': ' + translation.of + ' ' + range[0] + ' ' + translation.to + ' ' + range[1] + ' ' + translation.years + ', ' + translation.sampleSize + ': ' + sampleSize);
+    $('#selectedAgeRange').text(translation.selection + ': ' + translation.of + ' ' + range.min + ' ' + translation.to + ' ' + range.max + ' ' + translation.years + ', ' + translation.sampleSize + ': ' + sampleSize);
 }
 
 function calculateSampleSize(range, gender) {
@@ -174,7 +183,7 @@ function calculateSampleSize(range, gender) {
             for (var i = 0; i < rawData.length; i++) {
                 var age = calculateAge(new Date(parseInt(rawData[i].birthday) * 1000));
 //                console.log(age);
-                if (age >= range[0] && age <= range[1] && (gender === rawData[i].gender || gender === 'identical')) {
+                if (age >= parseInt(range.min) && age <= parseInt(range.max) && (gender === rawData[i].gender || gender === 'identical')) {
 //                    console.log(age + ' age fit', rawData[i].gender);
                     count++;
                 }
@@ -327,7 +336,8 @@ function saveGeneralData() {
 
     if (study.panelSurvey === 'yes') {
         study.gender = $('#genderSwitch').find('.active').attr('id');
-        study.ageRange = $('#ageSlider .custom-range-slider').attr('value');
+        var ageRange = $('#ageSlider .custom-range-slider').attr('value');
+        study.ageRange = {min: ageRange.split(',')[0], max: ageRange.split(',')[1]};
     }
 
     $('#from-To-datepicker .input-daterange input').each(function () {

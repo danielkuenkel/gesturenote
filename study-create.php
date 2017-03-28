@@ -260,9 +260,9 @@ if (login_check($mysqli) == true) {
                                 <button class="btn btn-default btn-shadow" id="btn-assemble-study-gestures">
                                     <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
                                 </button>
-<!--                                <button class="btn btn-default btn-shadow" id="btn-record-gestures">
-                                    <i class="fa fa-video-camera" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->record ?></span>
-                                </button>-->
+                                <!--                                <button class="btn btn-default btn-shadow" id="btn-record-gestures">
+                                                                    <i class="fa fa-video-camera" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->record ?></span>
+                                                                </button>-->
 
                             </div>
                         </div>
@@ -373,7 +373,7 @@ if (login_check($mysqli) == true) {
 
                     <div class="tab-content hidden tab-panel">
 
-                        <div class="form-group">
+                        <div class="form-group form-group-no-margin">
                             <div class="btn-group" id="panelSurveySwitch">
                                 <button class="btn btn-default switchButtonAddon"><?php echo $lang->panelSurvey ?></button>
                                 <button class="btn btn-default btn-shadow btn-toggle-checkbox saveGeneralData inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -381,7 +381,7 @@ if (login_check($mysqli) == true) {
                             </div>
                         </div>
 
-                        <div id="panel-survey-container" class="hidden" style="margin-bottom: 30px">
+                        <div id="panel-survey-container" class="hidden" style="margin-top: 2px; margin-bottom: 26px">
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <div class="form-group">
@@ -420,7 +420,7 @@ if (login_check($mysqli) == true) {
                                                     </div>
                                                 </div>-->
 
-                        <div id="from-To-datepicker">
+                        <div id="from-To-datepicker" style="margin-top: 10px">
                             <div class="input-daterange input-group" id="datepicker">
                                 <span class="input-group-addon"><?php echo $lang->studyRunsFrom ?></span>
                                 <input type="text" class="input form-control readonly" id="start" name="start" />
@@ -571,29 +571,29 @@ if (login_check($mysqli) == true) {
                     if (result.status === RESULT_SUCCESS) {
                         if (result.tester && result.tester.length > 0) {
                             var ageRange = calculateAgeRangeForGender(result.tester, 'identical');
-//                            var ageMax = calculateAge(new Date(parseInt(result.tester[0].birthday) * 1000));
-//                            var ageMin = calculateAge(new Date(parseInt(result.tester[result.tester.length - 1].birthday) * 1000));
                             var data = {min: ageRange.min, max: ageRange.max, raw: result.tester};
                             data.availableGender = getAvailableGender(result.tester);
                             setLocalItem(STUDY_PANEL, data);
                         }
 
-                        if (typeof (Storage) !== "undefined") {
-                            checkSessionStorage();
-                        } else {
-                            appendAlert($('#mainContent'), ALERT_NO_STORAGE_API);
-                        }
-
-
-                        var status = window.location.hash.substr(1);
-                        var statusNavMatch = getStatusNavMatch(status);
-                        if (status !== '' && statusNavMatch !== null) {
-                            $('#create-tab-navigation').find('#' + statusNavMatch).click();
-                        } else {
-                            $('#create-tab-navigation').find('#general').click();
-                        }
+                        initAfterAgeRange();
+                    } else {
+                        // error handling
+                        initAfterAgeRange();
                     }
                 });
+
+                function initAfterAgeRange() {
+                    checkSessionStorage();
+
+                    var status = window.location.hash.substr(1);
+                    var statusNavMatch = getStatusNavMatch(status);
+                    if (status !== '' && statusNavMatch !== null) {
+                        $('#create-tab-navigation').find('#' + statusNavMatch).click();
+                    } else {
+                        $('#create-tab-navigation').find('#general').click();
+                    }
+                }
             }
 
             function getStatusNavMatch(status) {
@@ -724,6 +724,7 @@ if (login_check($mysqli) == true) {
                     currentIdForModal = event.data.id;
                     loadHTMLintoModal("custom-modal", "create-" + event.data.format + ".php", "modal-lg");
                 });
+                
                 if (format === THANKS || format === LETTER_OF_ACCEPTANCE) {
                     clone.find('.btn-delete').remove();
                 } else {
@@ -756,6 +757,7 @@ if (login_check($mysqli) == true) {
                     $('#panel-survey-container').addClass('hidden');
                 }
             });
+            
             $('#phaseSelect').on('change', function (event, id) {
                 event.preventDefault();
                 var catalogsNav = $('#create-tab-navigation #catalogs');
@@ -789,11 +791,13 @@ if (login_check($mysqli) == true) {
 
                 renderPhaseSteps();
             });
+            
             $('.breadcrumb li').click(function () {
                 clearSceneImages();
                 clearSounds();
                 clearLocalItems();
             });
+            
             $('#btn-clear-data').click(function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
@@ -803,6 +807,7 @@ if (login_check($mysqli) == true) {
                     location.reload(true);
                 }
             });
+            
             $('#btn-preview-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true && !$(this).hasClass('disabled')) {
@@ -812,8 +817,11 @@ if (login_check($mysqli) == true) {
                     } else {
                         gotoCreateStudyPreview();
                     }
+                } else {
+                    $('#create-tab-navigation').find('#general').click();
                 }
             });
+
             $('#btn-save-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true) {
@@ -851,6 +859,8 @@ if (login_check($mysqli) == true) {
                             }
                         });
                     }
+                } else {
+                    $('#create-tab-navigation').find('#general').click();
                 }
             });
             function checkInputs() {
