@@ -105,6 +105,7 @@ if (login_check($mysqli) == true) {
         <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
+        <script src="js/refreshSession.js"></script>
         <script src="js/localforage.js"></script>
         <script src="js/storage.js"></script>
         <script src="js/storageFunctions.js"></script>
@@ -501,6 +502,8 @@ if (login_check($mysqli) == true) {
             $(document).ready(function () {
                 firstInit = true;
                 checkDomain();
+                keepSessionAlive();
+                
                 checkLanguage(function () {
                     createRandomColors();
 
