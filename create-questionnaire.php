@@ -29,6 +29,7 @@ include './includes/language.php';
                     <li id="groupingQuestion"><a href="#"><?php echo $lang->questionFormats->groupingQuestion->text ?></a></li>
                     <li id="groupingQuestionOptions"><a href="#"><?php echo $lang->questionFormats->groupingQuestionOptions->text ?></a></li>
                     <li id="rating"><a href="#"><?php echo $lang->questionFormats->rating->text ?></a></li>
+                    <li id="matrix"><a href="#"><?php echo $lang->questionFormats->matrix->text ?></a></li>
                     <li id="sumQuestion"><a href="#"><?php echo $lang->questionFormats->sumQuestion->text ?></a></li>
                     <li id="ranking"><a href="#"><?php echo $lang->questionFormats->ranking->text ?></a></li>
                     <li id="counter"><a href="#"><?php echo $lang->questionFormats->counter->text ?></a></li>
@@ -74,6 +75,7 @@ include './includes/language.php';
 
     $('#list-container').unbind('listItemAdded').bind('listItemAdded', function (event) {
         event.preventDefault();
+        initTooltips();
         var scrollTarget = $(this).closest('.modal');
         var newScrollTop = Math.max(0, scrollTarget.find('.modal-content').height() - scrollTarget.height() + 60);
         $(scrollTarget).animate({

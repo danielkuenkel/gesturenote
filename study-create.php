@@ -535,7 +535,7 @@ if (login_check($mysqli) == true) {
             var editableStudyId = null;
             var studyEditable = false;
             function onAllExternalsLoadedSuccessfully() {
-                $('[data-toggle="tooltip"]').tooltip();
+                initTooltips();
 
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);

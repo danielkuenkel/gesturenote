@@ -78,6 +78,7 @@ var GROUPING_QUESTION = 'groupingQuestion';
 var GROUPING_QUESTION_GUS = 'groupingQuestionGUS';
 var GROUPING_QUESTION_OPTIONS = 'groupingQuestionOptions';
 var RATING = 'rating';
+var MATRIX = 'matrix';
 var SUM_QUESTION = 'sumQuestion';
 var RANKING = 'ranking';
 var COUNTER = 'counter';

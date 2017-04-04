@@ -224,12 +224,19 @@ $(document).on('click', '.select .option li', function (event) {
     }
 });
 
+function initTooltips() {
+    $('[data-toggle="tooltip"]').tooltip();
+}
+
 $(document).on('mouseenter', '.btn-show-hole-text', function (event) {
     if (!event.handled) {
+        initTooltips();
         event.handled = true;
         var inputVal = $(this).closest('.input-group').find('input').val();
         if (inputVal.trim() !== '') {
-            $(this).attr('title', inputVal);
+            console.log($(this).offset());
+            $(this).attr('data-original-title', inputVal);
+            $(this).tooltip({ container: 'body' });
             $(this).tooltip('show');
         }
     }

@@ -112,6 +112,28 @@ function renderFormatItem(target, data) {
             $(clone).find('.optionselect #' + parameters.optionSource).click();
             break;
         case RATING:
+            $(clone).find('#' + parameters.negative).click();
+
+            if (options) {
+                renderScaleItems($(clone).find('.ratingScaleItemContainer'), options.length, options);
+                $(clone).find('#scale_' + (options.length)).addClass('selected');
+                $(clone).find('.chosen').attr('id', (options.length));
+                $(clone).find('.show-dropdown').val(options.length);
+//                for (var j = 0; j < options.length; j++) {
+//                    var option = $('#ratingItem').clone().removeClass('hidden');
+//                    $(option).find('.option').val(options[j]);
+//                    $(clone).find('.option-container').append(option);
+//                    $(option).find('.optionQuestion').val(options[j].option);
+//                    $(option).find('.chosen').attr('id', (options.length));
+//                    $(option).find('.show-dropdown').val(options[j].scales.length);
+//                    $(option).find('#scale_' + (options.length)).addClass('selected');
+//                    checkCurrentListState($(clone).find('.option-container'));
+//                    
+//                    
+//                }
+            }
+            break;
+        case MATRIX:
             if (options) {
                 for (var j = 0; j < options.length; j++) {
                     var option = $('#ratingItem').clone().removeClass('hidden');
@@ -282,6 +304,16 @@ function getFormatData(element) {
                 optionalanswer: $(element).find('.optionalanswer .active').attr('id')};
             break;
         case RATING:
+            parameters = {negative: $(element).find('.negative').find('.active').attr('id')};
+            var ratingOptions = $(element).find('.ratingScaleItemContainer').children();
+            var tempArray = new Array();
+
+            for (var i = 0; i < ratingOptions.length; i++) {
+                tempArray.push($(ratingOptions[i]).find('.option').val());
+            }
+            options = tempArray;
+            break;
+        case MATRIX:
             options = new Array();
             var optionList = $(element).find('.option-container').children();
             for (var j = 0; j < optionList.length; j++) {
@@ -350,7 +382,6 @@ function getFormatData(element) {
             break;
     }
     return {id: id, format: format, dimension: dimension, question: question, parameters: parameters, options: options};
-//    return new QuestionnaireItem(format, dimension, question, parameters, options);
 }
 
 
@@ -411,6 +442,9 @@ function renderQuestionnaire(target, questionnaire, answers) {
                     case RATING:
                         renderEditableRating(item, questionnaire[i], answer);
                         break;
+                    case MATRIX:
+                        renderEditableRating(item, questionnaire[i], answer);
+                        break;
                     case SUM_QUESTION:
                         renderEditableSumQuestion(item, questionnaire[i], answer);
                         break;
@@ -446,6 +480,9 @@ function renderQuestionnaire(target, questionnaire, answers) {
                         renderGroupingQuestionGUSInput(item, parameters);
                         break;
                     case RATING:
+                        renderRatingInput(item, options);
+                        break;
+                    case MATRIX:
                         renderRatingInput(item, options);
                         break;
                     case SUM_QUESTION:
@@ -502,6 +539,9 @@ function getQuestionnaireAnswers(questionnaire) {
             case RATING:
                 questionnaireAnswers.push({id: id, answer: getRatingAnswers($(questionnaire[i]))});
                 break;
+            case MATRIX:
+                questionnaireAnswers.push({id: id, answer: getMatrixAnswers($(questionnaire[i]))});
+                break;
             case SUM_QUESTION:
                 questionnaireAnswers.push({id: id, answer: getSumQuestionAnswers($(questionnaire[i]))});
                 break;
@@ -549,20 +589,17 @@ function getGroupingQuestionAnswers(source) {
         selectedOptions = $(source).find('.option-container #radio .btn-option-checked');
     }
 
-//    console.log(selectedOptions);
     var array = new Array();
     for (var i = 0; i < selectedOptions.length; i++) {
         var selectedId = $(selectedOptions[i]).attr('id');
         array.push(selectedId);
     }
-//    console.log(array);
+
     if (array.length === 0) {
         data.selectedOptions = -1;
     } else {
         data.selectedOptions = array;
     }
-
-//    console.log(source, $(source).find('#checkbox-optionalanswer .btn-option-checked'))
 
     if ($(source).find('#checkbox-optionalanswer .btn-option-checked').length === 1 || $(source).find('#radio-optionalanswer .btn-option-checked').length === 1) {
         data.optionalAnswer = $(source).find('.optionalInput').val();
@@ -580,28 +617,18 @@ function getGroupingQuestionAnswers(source) {
     return data;
 }
 
-//function getGroupingQuestionGUSAnswers(source) {
-//    var data = new Object();
-//    var selectedOptions = $(source).find('.option-container .btn-option-checked');
-//    var array = new Array();
-//    for (var i = 0; i < selectedOptions.length; i++) {
-//        if ($(selectedOptions[i]).parent().attr('id') !== 'checkbox-optionalanswer') {
-//            array.push($(selectedOptions[i]).find('.option-text').attr('id'));
-//        }
-//    }
-//    data.selectedOptions = array;
-//    data.optionalAnswer = $(source).find('.optionalInput').val();
-//    var justificationInput = $(source).find('#justificationInput');
-//    if (justificationInput && justificationInput.length > 0) {
-//        data.justification = $(source).find('#justificationInput').val();
-//    } else {
-//        data.justification = '';
-//    }
-//
-//    return data;
-//}
-
 function getRatingAnswers(source) {
+    var data = new Object();
+    var array = new Array();
+    var scalesContainer = $(source).find('.scales-container');
+    for (var i = 0; i < scalesContainer.length; i++) {
+        array.push($(scalesContainer[i]).find('.btn-option-checked').closest('.btn-group').index() >> 1);
+    }
+    data.scales = array;
+    return data;
+}
+
+function getMatrixAnswers(source) {
     var data = new Object();
     var array = new Array();
     var scalesContainer = $(source).find('.scales-container');
@@ -704,6 +731,9 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
                 break;
             case RATING:
                 renderRating(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
+                break;
+            case MATRIX:
+                renderMatrix(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
                 break;
             case SUM_QUESTION:
                 renderSumQuestion(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
@@ -1072,16 +1102,10 @@ function renderEditableGroupingQuestionGUS(item, studyData, answer) {
 }
 
 function renderRating(item, studyData, answer) {
-//    console.log('render rating:', studyData, resultsData);
-//    $(item).find('.question').text(studyData.question);
-
     for (var i = 0; i < studyData.options.length; i++) {
         var optionItem = $('#template-study-container').find('#rating-item').clone();
         $(optionItem).find('#rating-option').text(studyData.options[i].option);
         $(item).find('.option-container').append(optionItem);
-
-
-
 
         if (answer) {
             var score = 0;
@@ -1133,7 +1157,74 @@ function renderRating(item, studyData, answer) {
 
 function renderEditableRating(item, studyData, answer) {
     renderRatingInput(item, studyData.options);
-//    console.log('rating', answer);
+    if (answer && answer.scales && answer.scales.length > 0) {
+        for (var i = 0; i < answer.scales.length; i++) {
+            if (parseInt(answer.scales[i]) !== -1) {
+                var container = $(item).find('.scales-container')[i];
+                setTimeout(function (target, index) {
+                    $(target).find('.btn-radio')[index].click();
+                }, 100, container, parseInt(answer.scales[i]));
+            }
+        }
+    }
+}
+
+function renderMatrix(item, studyData, answer) {
+    for (var i = 0; i < studyData.options.length; i++) {
+        var optionItem = $('#template-study-container').find('#rating-item').clone();
+        $(optionItem).find('#rating-option').text(studyData.options[i].option);
+        $(item).find('.option-container').append(optionItem);
+
+        if (answer) {
+            var score = 0;
+            var maxScore = studyData.options[i].scales.length;
+            var selectedScale = parseInt(answer.scales[i]);
+            if (studyData.options[i].negative === 'yes') {
+                $(optionItem).find('#negative').removeClass('hidden');
+                score = studyData.options[i].scales.length - selectedScale;
+            } else {
+                $(optionItem).find('#positive').removeClass('hidden');
+                score = selectedScale + 1;
+            }
+
+            if (i < studyData.options.length - 1) {
+                var hr = document.createElement('hr');
+                $(hr).css({marginTop: "15px", marginBottom: "5px"});
+                $(item).find('.option-container').append(hr);
+            }
+
+            if (selectedScale === -1) {
+                $(item).find('#score-container').remove();
+                $(item).find('#no-answer').removeClass('hidden');
+            } else {
+                renderRatingSigns($(optionItem).find('#score-container'), score, maxScore);
+                $(item).find('#no-answer').remove();
+            }
+
+            for (var j = 0; j < studyData.options[i].scales.length; j++) {
+                var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
+                $(optionItem).find('#scale-container').append(scaleItem);
+                $(scaleItem).text((j + 1) + '. ' + studyData.options[i].scales[j]);
+                if (j === selectedScale) {
+                    $(scaleItem).addClass('bordered-scale-item');
+                } else if (j === 0) {
+                    $(scaleItem).css({paddingLeft: "0px"});
+                }
+
+                if (j < studyData.options[i].scales.length - 1) {
+                    var breakItem = document.createElement('br');
+                    $(optionItem).find('#scale-container').append(breakItem);
+                }
+            }
+        } else {
+            $(item).find('#score-container').remove();
+            $(item).find('#no-answer').removeClass('hidden');
+        }
+    }
+}
+
+function renderEditableMatrix(item, studyData, answer) {
+    renderMaInput(item, studyData.options);
     if (answer && answer.scales && answer.scales.length > 0) {
         for (var i = 0; i < answer.scales.length; i++) {
             if (parseInt(answer.scales[i]) !== -1) {
@@ -1764,7 +1855,11 @@ function renderRatingPreview(source, item, options) {
     }
 }
 
-function renderRatingInput(item, options) {
+function renderMatrixInput(item, parameter, options) {
+
+}
+
+function renderMatrixInput(item, options) {
     for (var j = 0; j < options.length; j++) {
         var ratingItem = $('#item-container-inputs').find('#rating-item').clone().removeAttr('id');
         ratingItem.find('#rating-header').text(options[j].option);
