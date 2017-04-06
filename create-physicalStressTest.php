@@ -29,13 +29,6 @@ include './includes/language.php';
                     <textarea class="form-control" id="stressTestDescription" rows="5" placeholder="Beschreibung einfügen"></textarea>
                 </div>
                 <div class="row">
-                    <!--                    <div class="col-md-6" style="margin-bottom: 10px">
-                                            <div class="btn-group" id="randomizeSwitch">
-                                                <button class="btn btn-default switchButtonAddon">Gesten randomisiert abfragen?</button>
-                                                <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="yes" name="btn-success">Ja</button>
-                                                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-warning">Nein</button>
-                                            </div>
-                                        </div>-->
                     <div class="col-md-6">
                         <div class="input-group simple-stepper">
                             <div class="input-group-btn">
@@ -98,6 +91,7 @@ include './includes/language.php';
                             <li id="dichotomousQuestion"><a href="#">Ja/nein-Frage</a></li>
                             <li id="groupingQuestion"><a href="#">Eingruppierungs-Frage</a></li>
                             <li id="rating"><a href="#">Rating</a></li>
+                            <li id="matrix"><a href="#"><?php echo $lang->questionFormats->matrix->text ?></a></li>
                             <li id="sumQuestion"><a href="#">Summenfrage</a></li>
                             <li id="ranking"><a href="#">Ranking</a></li>
                         </ul>
@@ -141,6 +135,7 @@ include './includes/language.php';
                             <li id="dichotomousQuestion"><a href="#">Ja/nein-Frage</a></li>
                             <li id="groupingQuestion"><a href="#">Eingruppierungs-Frage</a></li>
                             <li id="rating"><a href="#">Rating</a></li>
+                            <li id="matrix"><a href="#"><?php echo $lang->questionFormats->matrix->text ?></a></li>
                             <li id="sumQuestion"><a href="#">Summenfrage</a></li>
                             <li id="ranking"><a href="#">Ranking</a></li>
                         </ul>
@@ -196,6 +191,7 @@ include './includes/language.php';
                             <li id="dichotomousQuestion"><a href="#"><?php echo $lang->questionFormats->dichotomousQuestion->text ?></a></li>
                             <li id="groupingQuestion"><a href="#"><?php echo $lang->questionFormats->groupingQuestion->text ?></a></li>
                             <li id="rating"><a href="#"><?php echo $lang->questionFormats->rating->text ?></a></li>
+                            <li id="matrix"><a href="#"><?php echo $lang->questionFormats->matrix->text ?></a></li>
                             <li id="sumQuestion"><a href="#"><?php echo $lang->questionFormats->sumQuestion->text ?></a></li>
                             <li id="ranking"><a href="#"><?php echo $lang->questionFormats->ranking->text ?></a></li>
                         </ul>
@@ -230,7 +226,7 @@ include './includes/language.php';
             renderAssembledGestures();
         } else {
             appendAlert(stressTest, ALERT_NO_GESTURES_ASSEMBLED);
-            $(stressTest).find('.btn-add-physicalStressTestOption').addClass('hidden');
+            $(stressTest).find('#btn-add-physicalStressTestOption').addClass('hidden');
         }
 
         renderDimensions($('#dimension-controls'), translation.observationsPhysicalStressTest, $('#observations #list-container'));

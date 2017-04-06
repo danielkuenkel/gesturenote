@@ -316,7 +316,7 @@ include '../includes/language.php';
         <span class="text"></span>
         <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
     </div>
-    
+
     <div class="panel panel-default" id="groupingQuestionOptions" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
@@ -349,6 +349,28 @@ include '../includes/language.php';
     <div class="panel panel-default" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
+            <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
+            <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+            <div class="question text"></div>
+        </div>
+        <hr style="margin: 0">
+        <div class="panel-body">
+            <div class="option-container"></div>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+        </div>
+    </div>
+
+    <div id="rating-item" class="text">
+        <!--<span id="rating-option" style="margin-right: 5px"></span>-->
+        <div class="pull-right text" id="score-container"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
+        <div id="scale-container"></div>
+    </div>
+
+    <span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>
+
+    <div class="panel panel-default" id="matrix" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
         </div>
         <hr style="margin: 0">
@@ -357,7 +379,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="rating-item" class="text">
+    <div id="matrix-item" class="text">
         <span id="rating-option" style="margin-right: 5px"></span>
         <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
         <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
@@ -365,9 +387,6 @@ include '../includes/language.php';
         <div id="scale-container" style="margin-top: 10px;"></div>
         <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
     </div>
-
-    <span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>
-    <!--<span id="rating-scale-item" class="text" style="padding: 7px; border-radius: 4px;"></span>-->
 
     <div class="panel panel-default" id="sumQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
@@ -717,25 +736,25 @@ include '../includes/language.php';
     </div>
 
 
-<!--    <div id="add-observations-dropdown" style="margin-top: 20px">
-        <div class="input-group">
-            <span class="input-group-addon">Beobachtungsformat</span>
-            <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
-            <div class="input-group-btn select" id="addFormatSelect" role="group">
-                <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                    <li id="counter"><a href="#"><?php echo $lang->questionFormats->counter->text ?></a></li>
-                    <li id="openQuestion"><a href="#"><?php echo $lang->questionFormats->openQuestion->text ?></a></li>
-                    <li id="dichotomousQuestion"><a href="#"><?php echo $lang->questionFormats->dichotomousQuestion->text ?></a></li>
-                    <li id="groupingQuestion"><a href="#"><?php echo $lang->questionFormats->groupingQuestion->text ?></a></li>
-                    <li id="rating"><a href="#"><?php echo $lang->questionFormats->rating->text ?></a></li>
-                    <li id="sumQuestion"><a href="#"><?php echo $lang->questionFormats->sumQuestion->text ?></a></li>
-                    <li id="ranking"><a href="#"><?php echo $lang->questionFormats->ranking->text ?></a></li>
-                </ul>
-                <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="btn-add-observation" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+    <!--    <div id="add-observations-dropdown" style="margin-top: 20px">
+            <div class="input-group">
+                <span class="input-group-addon">Beobachtungsformat</span>
+                <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+                <div class="input-group-btn select" id="addFormatSelect" role="group">
+                    <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                        <li id="counter"><a href="#"><?php echo $lang->questionFormats->counter->text ?></a></li>
+                        <li id="openQuestion"><a href="#"><?php echo $lang->questionFormats->openQuestion->text ?></a></li>
+                        <li id="dichotomousQuestion"><a href="#"><?php echo $lang->questionFormats->dichotomousQuestion->text ?></a></li>
+                        <li id="groupingQuestion"><a href="#"><?php echo $lang->questionFormats->groupingQuestion->text ?></a></li>
+                        <li id="rating"><a href="#"><?php echo $lang->questionFormats->rating->text ?></a></li>
+                        <li id="sumQuestion"><a href="#"><?php echo $lang->questionFormats->sumQuestion->text ?></a></li>
+                        <li id="ranking"><a href="#"><?php echo $lang->questionFormats->ranking->text ?></a></li>
+                    </ul>
+                    <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="btn-add-observation" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                </div>
             </div>
-        </div>
-    </div>-->
+        </div>-->
 
 
 

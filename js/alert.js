@@ -33,6 +33,7 @@ var ALERT_NO_STORAGE_API = 'no-storage-api';
 var ALERT_NO_WEBSOCKETS = 'no-websockets';
 var ALERT_NO_SCENES_ASSEMBLED = 'no-scenes-assembled';
 var ALERT_NO_GESTURES_ASSEMBLED = 'no-gestures-assembled';
+var ALERT_NO_STUDY_GESTURES_ASSEMBLED = 'no-study-gestures-assembled';
 var ALERT_ASSEMBLED_GESTURE_REMOVED = 'assembled-gesture-removed';
 var ALERT_NO_TRIGGER_ASSEMBLED = 'no-trigger-assembled';
 var ALERT_ASSEMBLED_TRIGGER_REMOVED = 'assembled-trigger-removed';

@@ -85,7 +85,7 @@ include './includes/language.php';
                 <div class="container-root row root" id="gesture-list-container" style="margin-top: 10px;"></div>
 
                 <div class="alert-space alert-no-search-results"></div>
-                <div class="alert-space alert-no-gestures-assembled"></div>
+                <div class="alert-space alert-no-study-gestures-assembled"></div>
 
                 <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
                     <nav>
@@ -320,12 +320,6 @@ include './includes/language.php';
                         <button type="button" class="btn btn-danger" id="btn-cancel-gesture-rating">Abbrechen</button>
                     </div>
                 </div>
-
-                <div id="attached-gesture-sets" style="margin-top: 30px; margin-bottom: 30px">
-                    <h3><i class="fa fa-paperclip"></i> Zuweisung zu Gesten-Sets</h3>
-                    <ul id="attached-gesture-sets-container" style="list-style-position: inside; padding-left: 0px; margin-top: 5px"></ul>
-                    <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-to-gesture-set" style="margin-top: 10px"><i class="fa fa-plus"></i> <span><?php echo $lang->addToGestureset ?></span></button>
-                </div>
             </div>
             <div class="col-md-7">
                 <h3 style="margin-top: 0"><i class="fa fa-bookmark-o"></i> Allgemeines</h3>
@@ -418,6 +412,43 @@ include './includes/language.php';
 
         <hr style="">
 
+        <div id="gesture-set-body">
+            <div id="attached-gesture-sets" style="margin-top: 30px; margin-bottom: 30px">
+                <h3><i class="fa fa-paperclip"></i> Zuweisung zu Gesten-Sets</h3>
+   
+                <div id="add-to-gesture-set">
+                    <div class="create-gesture-set-input">
+                        <label class="text">Neues Gesten-Set anlegen</label>
+
+                        <div class="alert-space alert-gesture-set-title-too-short"></div>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
+                            <span class="input-group-btn">
+                                <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row text-center" style="margin-top: 10px">
+                        <label class="uppercase" style="font-size: 10pt"><?php echo $lang->or ?></label>
+                    </div>
+
+                    <div style="margin-top: 0px">
+                        <label class="text">Zu vorhandenen Gesten-Sets zuweisen</label>
+
+                        <div id="existing-sets-container">
+                            <div class="option-container root"></div>
+                        </div>
+                        <div class="alert-space alert-no-gesture-sets-for-study"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <hr style="">
+
         <div id="discussion-body" class="row">
             <div class="col-xs-12">
                 <h3 style="margin-bottom: 20px"><i class="fa fa-comments-o" aria-hidden="true"></i> Mitreden</h3>
@@ -436,35 +467,35 @@ include './includes/language.php';
 
     </div>
 
-    <div class="hidden" id="add-to-gesture-set">
-        <button type="button" class="btn btn-default" id="btn-back"><i class="fa fa-angle-left" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->previous ?></span></button>
-
-        <div style="margin-top: 20px">
-            <label class="text">Zu vorhandenen Gesten-Sets zuweisen</label>
-
-            <div id="existing-sets-container">
-                <div class="option-container root"></div>
+    <!--    <div class="hidden" id="add-to-gesture-set">
+            <button type="button" class="btn btn-default" id="btn-back"><i class="fa fa-angle-left" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->previous ?></span></button>
+    
+            <div style="margin-top: 20px">
+                <label class="text">Zu vorhandenen Gesten-Sets zuweisen</label>
+    
+                <div id="existing-sets-container">
+                    <div class="option-container root"></div>
+                </div>
+                <div class="alert-space alert-no-gesture-sets-for-study"></div>
             </div>
-            <div class="alert-space alert-no-gesture-sets-for-study"></div>
-        </div>
-
-        <div class="row text-center">
-            <label class="uppercase" style="font-size: 10pt"><?php echo $lang->or ?></label>
-        </div>
-
-        <div class="create-gesture-set-input">
-            <label class="text">Neues Gesten-Set anlegen</label>
-
-            <div class="alert-space alert-gesture-set-title-too-short"></div>
-
-            <div class="input-group">
-                <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
-                <span class="input-group-btn">
-                    <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
-                </span>
+    
+            <div class="row text-center">
+                <label class="uppercase" style="font-size: 10pt"><?php echo $lang->or ?></label>
             </div>
-        </div>
-    </div>
+    
+            <div class="create-gesture-set-input">
+                <label class="text">Neues Gesten-Set anlegen</label>
+    
+                <div class="alert-space alert-gesture-set-title-too-short"></div>
+    
+                <div class="input-group">
+                    <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>-->
 
 
 </div>
@@ -557,7 +588,7 @@ include './includes/language.php';
             }
         });
 
-        
+
         $('#gesture-catalogs-nav-tab').on('shown.bs.tab', function (event) {
             $($(event.target).attr('href')).find('#sort .achtive').removeClass('selected');
             resetRecorder();
@@ -576,7 +607,7 @@ include './includes/language.php';
                     break;
             }
         });
-        
+
         $('#gesture-catalogs-nav-tab').on('hide.bs.tab', function (event) {
             console.log('hide', $(event.relatedTarget).attr('href'), $(event.target).attr('href'));
             closeGestureInfo($(event.target).attr('href'));
@@ -618,7 +649,7 @@ include './includes/language.php';
                         currentFilterList.empty();
                         $('#study-gesture-set #pager-top .pagination').addClass('hidden');
                         $('#study-gesture-set #pager-bottom .pagination').addClass('hidden');
-                        appendAlert($('#study-gesture-set'), ALERT_NO_GESTURES_ASSEMBLED);
+                        appendAlert($('#study-gesture-set'), ALERT_NO_STUDY_GESTURES_ASSEMBLED);
                     }
                 });
 
@@ -634,7 +665,7 @@ include './includes/language.php';
             } else {
                 $('#study-gesture-set #pager-top .pagination').addClass('hidden');
                 $('#study-gesture-set #pager-bottom .pagination').addClass('hidden');
-                appendAlert($('#study-gesture-set'), ALERT_NO_GESTURES_ASSEMBLED);
+                appendAlert($('#study-gesture-set'), ALERT_NO_STUDY_GESTURES_ASSEMBLED);
             }
         }
 
@@ -772,33 +803,13 @@ include './includes/language.php';
 
             $(currentActiveContent).removeClass('hidden');
             $('#gesture-info').addClass('hidden');
-            $('#add-to-gesture-set').addClass('hidden');
+//            $('#add-to-gesture-set').addClass('hidden');
             TweenMax.from(currentActiveContent, .3, {x: -25, opacity: 0});
         }
 
         $('#gesture-info').find('#btn-back').unbind('click').bind('click', function (event) {
             closeGestureInfo(getCurrentActiveTab());
         });
-
-        $('#add-to-gesture-set').find('#btn-back').unbind('click').bind('click', function (event) {
-            if (getCurrentActiveTab().attr('id') === 'gesture-sets') {
-                getWholeGestureSets();
-            }
-            closeAddGestureToSet();
-        });
-
-        function showAddGestureToSet() {
-            $('#gesture-info').addClass('hidden');
-            $('#add-to-gesture-set').removeClass('hidden');
-            TweenMax.from($('#add-to-gesture-set'), .3, {x: 25, opacity: 0});
-            renderAttachedGestureSets();
-        }
-
-        function closeAddGestureToSet() {
-            $('#gesture-info').removeClass('hidden');
-            $('#add-to-gesture-set').addClass('hidden');
-            TweenMax.from($('#gesture-info'), .3, {x: -25, opacity: 0});
-        }
 
         $(document).ready(function () {
             $('#custom-modal').bind('hidden.bs.modal', function () {
@@ -832,10 +843,14 @@ include './includes/language.php';
          */
 
         function renderAttachedGestureSets(preselect, id) {
+
             var sets = getLocalItem(GESTURE_SETS);
+
             if (sets && sets !== null && sets !== '' && sets.length > 0) {
                 var container = $('#add-to-gesture-set #existing-sets-container');
                 container.find('.option-container').empty();
+                $(container).unbind('change');
+
                 for (var i = 0; i < sets.length; i++) {
                     var option = $('#create-item-container-inputs').find('#checkbox').clone();
                     option.find('.option-text').text(sets[i].title);
@@ -846,11 +861,12 @@ include './includes/language.php';
                     // preselect item after adding new gesture set
                     if (preselect === true && id && parseInt(id) === parseInt(sets[i].id)) {
                         option.find('.btn-checkbox').click();
+                        saveGestureSets();
                     }
 
                     // check gestures and make checkbox selected if gesture is in gesture set [i]
                     if (sets[i].gestures && sets[i].gestures.length > 0) {
-                        if (checkSetAssignment(currentPreviewGesture.gesture.id)) {
+                        if (checkSetAssignment(sets[i].gestures, currentPreviewGesture.gesture.id)) {
                             option.find('.btn-checkbox').click();
                         }
                     }
@@ -866,48 +882,31 @@ include './includes/language.php';
                     });
                 });
 
-                $(container).unbind('change').bind('change', function (event) {
+                $(container).bind('change', function (event) {
                     event.preventDefault();
-//                console.log('save gesture set attachment');
                     saveGestureSets();
-                    renderAttachedGestureSetInfo($('#gesture-info'));
                 });
 
                 function saveGestureSets() {
                     var listItems = $(container).find('.option-container').find('.btn-checkbox');
                     for (var i = 0; i < listItems.length; i++) {
+                        var setId = $(listItems[i]).attr('id');
                         if ($(listItems[i]).hasClass('btn-option-checked')) {
-                            addToGestureSet($(listItems[i]).attr('id'), currentPreviewGesture.gesture.id);
+                            addToGestureSet(setId, currentPreviewGesture.gesture.id);
                         } else {
-                            removeFromGestureSet($(listItems[i]).attr('id'), currentPreviewGesture.gesture.id);
+                            removeFromGestureSet(setId, currentPreviewGesture.gesture.id);
                         }
                     }
 
                     // call ajax update gesture sets, calling php 
-                    updateGestureSets({sets: getLocalItem(GESTURE_SETS)});
+                    updateGestureSets({sets: getLocalItem(GESTURE_SETS)}, function (result) {
+                        getWholeGestureSets();
+                    });
                 }
             } else {
                 appendAlert($('#add-to-gesture-set'), ALERT_NO_GESTURE_SETS_FOR_STUDY);
             }
         }
-
-        function checkSetAssignment(gestureId) {
-            var sets = getLocalItem(GESTURE_SETS);
-
-            for (var i = 0; i < sets.length; i++) {
-                if (sets[i].gestures && sets[i].gestures.length > 0) {
-                    for (var j = 0; j < sets[i].gestures.length; j++) {
-                        if (parseInt(gestureId) === parseInt(sets[i].gestures[j])) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-
-
 
 
 
@@ -1100,6 +1099,7 @@ include './includes/language.php';
             if (gesture === null) {
                 return false;
             }
+            console.log('renderGestureInfoData', gesture);
 
             var container = $('#gesture-info');
             container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleString());
@@ -1118,7 +1118,8 @@ include './includes/language.php';
             var shareButton = $(container).find('#btn-share-gesture');
 
             if (gesture.isOwner === true) {
-                $(container).find('#gesture-rating #btn-rate-gesture').remove();
+                $(container).find('#gesture-rating #btn-rate-gesture').addClass('hidden');
+                $(container).find('#gesture-owner-controls').removeClass('hidden');
 
                 if (gesture.scope === SCOPE_GESTURE_PRIVATE) {
                     shareButton.removeClass('unshare-gesture').addClass('share-gesture');
@@ -1138,7 +1139,8 @@ include './includes/language.php';
                     container.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
                 }
             } else {
-                $(container).find('#gesture-owner-controls').remove();
+                $(container).find('#gesture-owner-controls').addClass('hidden');
+                $(container).find('#gesture-rating #btn-rate-gesture').removeClass('hidden');
 
                 if (gesture.source !== SOURCE_GESTURE_TESTER) {
                     container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
@@ -1309,44 +1311,20 @@ include './includes/language.php';
                         deleteGesture({gestureId: event.data.gestureId}, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
                             if (result.status === RESULT_SUCCESS) {
-//                                getWholeGestureCatalog();
-//                                getGestureCatalog(function (result) {
-//                                    if (result.status === RESULT_SUCCESS) {
-//                                        originalFilterData = result.gestures;
-//                                        currentFilterData = sort();
                                 $(container).trigger('gestureDeleted');
-//                                    }
-//                                });
                             }
                         });
                     }
                 });
             } else {
-                console.log('gesture is not deletable');
+//                console.log('gesture is not deletable');
                 $(container).find('#btn-delete-gesture').remove();
             }
 
             // gesture set attachment
-            renderAttachedGestureSetInfo(container);
-
-            $(container).find('#btn-add-to-gesture-set').unbind('click').bind('click', function (event) {
-                showAddGestureToSet();
-            });
+            renderAttachedGestureSets();
         }
 
-        function renderAttachedGestureSetInfo(container) {
-            var sets = getAttachedGestureSets(currentPreviewGesture.gesture.id);
-            $(container).find('#attached-gesture-sets-container').empty();
-            if (sets) {
-                for (var i = 0; i < sets.length; i++) {
-
-                    var item = $('#attached-gesture-set-item').clone().removeAttr('id');
-
-                    $(item).find('#gesture-set-title').text(sets[i].title);
-                    $(container).find('#attached-gesture-sets-container').append(item);
-                }
-            }
-        }
 
         function renderComments(data) {
             var list = $('#discussion-body #comments-list');

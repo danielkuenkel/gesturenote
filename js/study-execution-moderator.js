@@ -168,6 +168,9 @@ var Moderator = {
                         case RATING:
                             renderRatingInput(item, options);
                             break;
+                        case MATRIX:
+                            renderMatrixInput(item, options);
+                            break;
                         case SUM_QUESTION:
                             renderSumQuestionInput(item, parameters, options);
                             break;

@@ -443,7 +443,7 @@ function renderQuestionnaire(target, questionnaire, answers) {
                         renderEditableRating(item, questionnaire[i], answer);
                         break;
                     case MATRIX:
-                        renderEditableRating(item, questionnaire[i], answer);
+                        renderEditableMatrix(item, questionnaire[i], answer);
                         break;
                     case SUM_QUESTION:
                         renderEditableSumQuestion(item, questionnaire[i], answer);
@@ -483,7 +483,7 @@ function renderQuestionnaire(target, questionnaire, answers) {
                         renderRatingInput(item, options);
                         break;
                     case MATRIX:
-                        renderRatingInput(item, options);
+                        renderMatrixInput(item, options);
                         break;
                     case SUM_QUESTION:
                         renderSumQuestionInput(item, parameters, options);
@@ -619,12 +619,8 @@ function getGroupingQuestionAnswers(source) {
 
 function getRatingAnswers(source) {
     var data = new Object();
-    var array = new Array();
-    var scalesContainer = $(source).find('.scales-container');
-    for (var i = 0; i < scalesContainer.length; i++) {
-        array.push($(scalesContainer[i]).find('.btn-option-checked').closest('.btn-group').index() >> 1);
-    }
-    data.scales = array;
+    var selectedIndex = $(source).find('.option-container').find('.btn-option-checked').closest('.btn-group').index() >> 1;
+    data.scales = selectedIndex;
     return data;
 }
 
@@ -1102,78 +1098,80 @@ function renderEditableGroupingQuestionGUS(item, studyData, answer) {
 }
 
 function renderRating(item, studyData, answer) {
-    for (var i = 0; i < studyData.options.length; i++) {
+    if (studyData.parameters.negative === 'yes') {
+        $(item).find('#negative').removeClass('hidden');
+    } else {
+        $(item).find('#positive').removeClass('hidden');
+    }
+
+    if (answer) {
         var optionItem = $('#template-study-container').find('#rating-item').clone();
-        $(optionItem).find('#rating-option').text(studyData.options[i].option);
         $(item).find('.option-container').append(optionItem);
 
-        if (answer) {
-            var score = 0;
-            var maxScore = studyData.options[i].scales.length;
-            var selectedScale = parseInt(answer.scales[i]);
-            if (studyData.options[i].negative === 'yes') {
-                $(optionItem).find('#negative').removeClass('hidden');
-                score = studyData.options[i].scales.length - selectedScale;
-            } else {
-                $(optionItem).find('#positive').removeClass('hidden');
-                score = selectedScale + 1;
-            }
-
-            if (i < studyData.options.length - 1) {
-                var hr = document.createElement('hr');
-                $(hr).css({marginTop: "15px", marginBottom: "5px"});
-                $(item).find('.option-container').append(hr);
-            }
-
-            if (selectedScale === -1) {
-                $(item).find('#score-container').remove();
-                $(item).find('#no-answer').removeClass('hidden');
-            } else {
-                renderRatingSigns($(optionItem).find('#score-container'), score, maxScore);
-                $(item).find('#no-answer').remove();
-            }
-
-            for (var j = 0; j < studyData.options[i].scales.length; j++) {
-                var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
-                $(optionItem).find('#scale-container').append(scaleItem);
-                $(scaleItem).text((j + 1) + '. ' + studyData.options[i].scales[j]);
-                if (j === selectedScale) {
-                    $(scaleItem).addClass('bordered-scale-item');
-                } else if (j === 0) {
-                    $(scaleItem).css({paddingLeft: "0px"});
-                }
-
-                if (j < studyData.options[i].scales.length - 1) {
-                    var breakItem = document.createElement('br');
-                    $(optionItem).find('#scale-container').append(breakItem);
-                }
-            }
+        var score = 0;
+        var maxScore = studyData.options.length;
+        var selectedScale = parseInt(answer.scales);
+        if (studyData.parameters.negative === 'yes') {
+            score = studyData.options.length - selectedScale;
         } else {
+            score = selectedScale + 1;
+        }
+
+        if (selectedScale === -1) {
             $(item).find('#score-container').remove();
             $(item).find('#no-answer').removeClass('hidden');
+        } else {
+            renderRatingSigns($(optionItem).find('#score-container'), score, maxScore);
+            $(item).find('#no-answer').remove();
         }
+
+        for (var j = 0; j < studyData.options.length; j++) {
+            var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
+            $(optionItem).find('#scale-container').append(scaleItem);
+            $(scaleItem).text((j + 1) + '. ' + studyData.options[j]);
+            if (j === selectedScale) {
+                $(scaleItem).addClass('bordered-scale-item');
+            } else {
+                $(scaleItem).css({paddingLeft: "0px"});
+            }
+
+            if (j < studyData.options.length - 1) {
+                var breakItem = document.createElement('br');
+                $(optionItem).find('#scale-container').append(breakItem);
+            }
+        }
+    } else {
+        $(item).find('#scale-container').remove();
+        $(item).find('#score-container').remove();
+        $(item).find('#no-answer').removeClass('hidden');
     }
+//    }
 }
 
 function renderEditableRating(item, studyData, answer) {
     renderRatingInput(item, studyData.options);
-    if (answer && answer.scales && answer.scales.length > 0) {
-        for (var i = 0; i < answer.scales.length; i++) {
-            if (parseInt(answer.scales[i]) !== -1) {
-                var container = $(item).find('.scales-container')[i];
-                setTimeout(function (target, index) {
-                    $(target).find('.btn-radio')[index].click();
-                }, 100, container, parseInt(answer.scales[i]));
-            }
+    if (answer && answer.scales) {
+        if (parseInt(answer.scales) !== -1) {
+            var container = $(item).find('.option-container');
+            setTimeout(function (target, index) {
+                $(target).find('.btn-radio')[index].click();
+            }, 100, container, parseInt(answer.scales));
         }
     }
 }
 
 function renderMatrix(item, studyData, answer) {
+    console.log(studyData, answer);
     for (var i = 0; i < studyData.options.length; i++) {
-        var optionItem = $('#template-study-container').find('#rating-item').clone();
+        var optionItem = $('#template-study-container').find('#matrix-item').clone();
         $(optionItem).find('#rating-option').text(studyData.options[i].option);
         $(item).find('.option-container').append(optionItem);
+
+        if (i < studyData.options.length - 1) {
+            var hr = document.createElement('hr');
+            $(hr).css({marginTop: "15px", marginBottom: "5px"});
+            $(item).find('.option-container').append(hr);
+        }
 
         if (answer) {
             var score = 0;
@@ -1187,18 +1185,14 @@ function renderMatrix(item, studyData, answer) {
                 score = selectedScale + 1;
             }
 
-            if (i < studyData.options.length - 1) {
-                var hr = document.createElement('hr');
-                $(hr).css({marginTop: "15px", marginBottom: "5px"});
-                $(item).find('.option-container').append(hr);
-            }
+
 
             if (selectedScale === -1) {
-                $(item).find('#score-container').remove();
-                $(item).find('#no-answer').removeClass('hidden');
+                $(optionItem).find('#score-container').remove();
+                $(optionItem).find('#no-answer').removeClass('hidden');
             } else {
                 renderRatingSigns($(optionItem).find('#score-container'), score, maxScore);
-                $(item).find('#no-answer').remove();
+                $(optionItem).find('#no-answer').remove();
             }
 
             for (var j = 0; j < studyData.options[i].scales.length; j++) {
@@ -1207,7 +1201,7 @@ function renderMatrix(item, studyData, answer) {
                 $(scaleItem).text((j + 1) + '. ' + studyData.options[i].scales[j]);
                 if (j === selectedScale) {
                     $(scaleItem).addClass('bordered-scale-item');
-                } else if (j === 0) {
+                } else {
                     $(scaleItem).css({paddingLeft: "0px"});
                 }
 
@@ -1217,14 +1211,14 @@ function renderMatrix(item, studyData, answer) {
                 }
             }
         } else {
-            $(item).find('#score-container').remove();
+            $(optionItem).find('#score-container').remove();
             $(item).find('#no-answer').removeClass('hidden');
         }
     }
 }
 
 function renderEditableMatrix(item, studyData, answer) {
-    renderMaInput(item, studyData.options);
+    renderMatrixInput(item, studyData.options);
     if (answer && answer.scales && answer.scales.length > 0) {
         for (var i = 0; i < answer.scales.length; i++) {
             if (parseInt(answer.scales[i]) !== -1) {
@@ -1516,15 +1510,30 @@ function renderSUSItem(item, studyData, answer) {
 
 function renderRatingSigns(container, score, maxScore) {
     $(container).find('.score-text').text(score);
-    var balance = Math.floor(maxScore / 2) + (maxScore % 2);
-//    console.log('maxScore', $(container), score, balance);
-    if (score > balance) {
-        $(container).find('.fa').addClass('fa-thumbs-up');
-    } else if (score === balance) {
-        $(container).find('.fa').addClass('fa-caret-left');
+    var balance = 0;
+
+    if (maxScore % 2 === 0) {
+        balance = (maxScore / 2) + .5;
+        if (score > (balance + .5)) {
+            $(container).find('.fa').addClass('fa-thumbs-up');
+        } else if (score < (balance - .5)) {
+            $(container).find('.fa').addClass('fa-thumbs-down');
+        } else if (score >= (balance - .5) && score <= (balance + .5)) {
+            $(container).find('.fa').addClass('fa-caret-left');
+        }
     } else {
-        $(container).find('.fa').addClass('fa-thumbs-down');
+        balance = Math.floor(maxScore / 2) + (maxScore % 2);
+        if (score > balance) {
+            $(container).find('.fa').addClass('fa-thumbs-up');
+        } else if (score < balance) {
+            $(container).find('.fa').addClass('fa-thumbs-down');
+        } else if (score === balance) {
+            $(container).find('.fa').addClass('fa-caret-left');
+        }
     }
+
+    console.log('maxScore', maxScore, score, balance);
+
 }
 
 
@@ -1558,23 +1567,23 @@ function renderCounterInput(item, parameters) {
         item.find('.stepper-text').val(counterFrom);
     }
 }
-
-function renderCounterPreview(item, parameters) {
-    $(item).find('#counter-label .counter-from').text(translation.of + ' ' + translation.atLeast + ' ' + parameters.countFrom);
-    $(item).find('#counter-label .counter-to').text(translation.to + ' ' + translation.maximal + ' ' + parameters.countTo);
-}
+//
+//function renderCounterPreview(item, parameters) {
+//    $(item).find('#counter-label .counter-from').text(translation.of + ' ' + translation.atLeast + ' ' + parameters.countFrom);
+//    $(item).find('#counter-label .counter-to').text(translation.to + ' ' + translation.maximal + ' ' + parameters.countTo);
+//}
 
 /*
  * dichotomous question
  */
-function renderDichotomousQuestionPreview(item, parameters) {
-    if (parameters.justification === 'yes') {
-        item.find('#justification').removeClass('hidden');
-        item.find('#' + parameters.justificationFor).removeClass('hidden');
-    } else {
-        item.find('#no-justification').removeClass('hidden');
-    }
-}
+//function renderDichotomousQuestionPreview(item, parameters) {
+//    if (parameters.justification === 'yes') {
+//        item.find('#justification').removeClass('hidden');
+//        item.find('#' + parameters.justificationFor).removeClass('hidden');
+//    } else {
+//        item.find('#no-justification').removeClass('hidden');
+//    }
+//}
 
 function renderDichotomousQuestionInput(item, parameters) {
     if (parameters.justification === 'yes') {
@@ -1599,14 +1608,14 @@ function renderDichotomousQuestionInput(item, parameters) {
     }
 }
 
-function renderDichotomousQuestionGUSPreview(item, parameters) {
-    if (parameters.justification === 'yes') {
-        item.find('#justification').removeClass('hidden');
-        item.find('#' + parameters.justificationFor).removeClass('hidden');
-    } else {
-        item.find('#no-justification').removeClass('hidden');
-    }
-}
+//function renderDichotomousQuestionGUSPreview(item, parameters) {
+//    if (parameters.justification === 'yes') {
+//        item.find('#justification').removeClass('hidden');
+//        item.find('#' + parameters.justificationFor).removeClass('hidden');
+//    } else {
+//        item.find('#no-justification').removeClass('hidden');
+//    }
+//}
 
 function renderDichotomousQuestionGUSInput(item, parameters) {
     if (parameters.justification === 'yes') {
@@ -1633,30 +1642,30 @@ function renderDichotomousQuestionGUSInput(item, parameters) {
 /*
  * grouping question
  */
-function renderGroupingQuestionPreview(source, item, parameters, options) {
-    if (parameters.multiselect === 'yes') {
-        item.find('#multiselect').removeClass('hidden');
-    } else {
-        item.find('#singleselect').removeClass('hidden');
-    }
-
-    if (parameters.optionalanswer === 'yes') {
-        item.find('#optionalanswer').removeClass('hidden');
-    }
-
-    if (parameters.justification === 'yes') {
-        item.find('#justification').removeClass('hidden');
-        item.find('#' + parameters.justificationFor).removeClass('hidden');
-    } else {
-        item.find('#no-justification').removeClass('hidden');
-    }
-
-    for (var j = 0; j < options.length; j++) {
-        var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
-        optionItem.text(options[j].title);
-        item.find('.option-container').append(optionItem);
-    }
-}
+//function renderGroupingQuestionPreview(source, item, parameters, options) {
+//    if (parameters.multiselect === 'yes') {
+//        item.find('#multiselect').removeClass('hidden');
+//    } else {
+//        item.find('#singleselect').removeClass('hidden');
+//    }
+//
+//    if (parameters.optionalanswer === 'yes') {
+//        item.find('#optionalanswer').removeClass('hidden');
+//    }
+//
+//    if (parameters.justification === 'yes') {
+//        item.find('#justification').removeClass('hidden');
+//        item.find('#' + parameters.justificationFor).removeClass('hidden');
+//    } else {
+//        item.find('#no-justification').removeClass('hidden');
+//    }
+//
+//    for (var j = 0; j < options.length; j++) {
+//        var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
+//        optionItem.text(options[j].title);
+//        item.find('.option-container').append(optionItem);
+//    }
+//}
 
 function renderGroupingQuestionInput(item, parameters, options) {
     var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';
@@ -1704,59 +1713,59 @@ function renderGroupingQuestionInput(item, parameters, options) {
 /*
  * grouping question GUS
  */
-function renderGroupingQuestionGUSPreview(source, item, parameters) {
-    var options;
-    switch (parameters.optionSource) {
-        case 'gestures':
-            options = assembledGestures();
-            break;
-        case 'triggers':
-            options = getLocalItem(ASSEMBLED_TRIGGER);
-            break;
-        case 'feedbacks':
-            options = getLocalItem(ASSEMBLED_FEEDBACK);
-            break;
-    }
-
-    if (parameters.multiselect === 'yes') {
-        item.find('#multiselect').removeClass('hidden');
-    } else {
-        item.find('#singleselect').removeClass('hidden');
-    }
-
-    if (parameters.optionalanswer === 'yes') {
-        item.find('#optionalanswer').removeClass('hidden');
-    }
-
-    if (parameters.justification === 'yes') {
-        item.find('#justification').removeClass('hidden');
-        item.find('#' + parameters.justificationFor).removeClass('hidden');
-    } else {
-        item.find('#no-justification').removeClass('hidden');
-    }
-
-    if (options && options.length > 0) {
-        for (var i = 0; i < options.length; i++) {
-            var optionItem = $(source).find('#option-item').clone(false);
-            optionItem.attr('id', options[i].id);
-            item.find('.option-container').append(optionItem);
-            if (parameters.optionSource === 'triggers') {
-                var trigger = getTriggerById(options[i].id);
-                optionItem.text(trigger.title);
-            }
-
-            if (parameters.optionSource === 'gestures') {
-                var gesture = getGestureById(options[i].id);
-                optionItem.text(gesture.title);
-            }
-
-            if (parameters.optionSource === 'feeedbacks') {
-                var feedback = getFeedbackById(options[i].id);
-                optionItem.text(feedback.title);
-            }
-        }
-    }
-}
+//function renderGroupingQuestionGUSPreview(source, item, parameters) {
+//    var options;
+//    switch (parameters.optionSource) {
+//        case 'gestures':
+//            options = assembledGestures();
+//            break;
+//        case 'triggers':
+//            options = getLocalItem(ASSEMBLED_TRIGGER);
+//            break;
+//        case 'feedbacks':
+//            options = getLocalItem(ASSEMBLED_FEEDBACK);
+//            break;
+//    }
+//
+//    if (parameters.multiselect === 'yes') {
+//        item.find('#multiselect').removeClass('hidden');
+//    } else {
+//        item.find('#singleselect').removeClass('hidden');
+//    }
+//
+//    if (parameters.optionalanswer === 'yes') {
+//        item.find('#optionalanswer').removeClass('hidden');
+//    }
+//
+//    if (parameters.justification === 'yes') {
+//        item.find('#justification').removeClass('hidden');
+//        item.find('#' + parameters.justificationFor).removeClass('hidden');
+//    } else {
+//        item.find('#no-justification').removeClass('hidden');
+//    }
+//
+//    if (options && options.length > 0) {
+//        for (var i = 0; i < options.length; i++) {
+//            var optionItem = $(source).find('#option-item').clone(false);
+//            optionItem.attr('id', options[i].id);
+//            item.find('.option-container').append(optionItem);
+//            if (parameters.optionSource === 'triggers') {
+//                var trigger = getTriggerById(options[i].id);
+//                optionItem.text(trigger.title);
+//            }
+//
+//            if (parameters.optionSource === 'gestures') {
+//                var gesture = getGestureById(options[i].id);
+//                optionItem.text(gesture.title);
+//            }
+//
+//            if (parameters.optionSource === 'feeedbacks') {
+//                var feedback = getFeedbackById(options[i].id);
+//                optionItem.text(feedback.title);
+//            }
+//        }
+//    }
+//}
 
 function renderGroupingQuestionGUSInput(item, parameters) {
     var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';
@@ -1837,27 +1846,55 @@ function renderGroupingQuestionGUSInput(item, parameters) {
 /*
  * rating
  */
-function renderRatingPreview(source, item, options) {
+//function renderRatingPreview(source, item, options) {
+//    for (var j = 0; j < options.length; j++) {
+//        var ratingItem = $(source).find('#rating-item').clone().removeAttr('id');
+//        if (options[j].negative === 'yes') {
+//            ratingItem.find('#reversed').removeClass('hidden');
+//        }
+//
+//        ratingItem.find('#rating-header').text(options[j].option);
+//        for (var k = 0; k < options[j].scales.length; k++) {
+//            var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
+//            optionItem.text(options[j].scales[k]);
+//            ratingItem.find('#scales-container').append(optionItem);
+//        }
+//
+//        item.find('.option-container').append(ratingItem);
+//    }
+//}
+
+function renderRatingInput(item, options) {
     for (var j = 0; j < options.length; j++) {
-        var ratingItem = $(source).find('#rating-item').clone().removeAttr('id');
-        if (options[j].negative === 'yes') {
-            ratingItem.find('#reversed').removeClass('hidden');
-        }
-
-        ratingItem.find('#rating-header').text(options[j].option);
-        for (var k = 0; k < options[j].scales.length; k++) {
-            var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
-            optionItem.text(options[j].scales[k]);
-            ratingItem.find('#scales-container').append(optionItem);
-        }
-
-        item.find('.option-container').append(ratingItem);
+        var optionItem = $('#item-container-inputs').find('#radio').clone(false);
+        optionItem.find('.option-text').text(options[j]);
+        item.find('.option-container').append(optionItem);
+        item.find('.option-container').append(document.createElement('br'));
     }
 }
 
-function renderMatrixInput(item, parameter, options) {
 
-}
+
+/*
+ * matrix
+ */
+//function renderMatrixPreview(source, item, options) {
+//    for (var j = 0; j < options.length; j++) {
+//        var ratingItem = $(source).find('#rating-item').clone().removeAttr('id');
+//        if (options[j].negative === 'yes') {
+//            ratingItem.find('#reversed').removeClass('hidden');
+//        }
+//
+//        ratingItem.find('#rating-header').text(options[j].option);
+//        for (var k = 0; k < options[j].scales.length; k++) {
+//            var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
+//            optionItem.text(options[j].scales[k]);
+//            ratingItem.find('#scales-container').append(optionItem);
+//        }
+//
+//        item.find('.option-container').append(ratingItem);
+//    }
+//}
 
 function renderMatrixInput(item, options) {
     for (var j = 0; j < options.length; j++) {
@@ -1881,25 +1918,25 @@ function renderMatrixInput(item, options) {
 /*
  * sum question
  */
-function renderSumQuestionPreview(source, item, parameters, options) {
-    if (parameters.maximum !== null) {
-        var maximum = $(source).find('#option-item').clone(false).removeAttr('id');
-        maximum.text(translation.maximum + ': ' + parameters.maximum);
-        item.find('#distribution-container').append(maximum);
-    }
-
-    if (parameters.allocation !== null) {
-        var percent = $(source).find('#option-item').clone(false).removeAttr('id');
-        percent.text(translation.scaleTypes[parameters.allocation]);
-        item.find('#distribution-container').append(percent);
-    }
-
-    for (var i = 0; i < options.length; i++) {
-        var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
-        optionItem.text(options[i]);
-        item.find('.option-container').append(optionItem);
-    }
-}
+//function renderSumQuestionPreview(source, item, parameters, options) {
+//    if (parameters.maximum !== null) {
+//        var maximum = $(source).find('#option-item').clone(false).removeAttr('id');
+//        maximum.text(translation.maximum + ': ' + parameters.maximum);
+//        item.find('#distribution-container').append(maximum);
+//    }
+//
+//    if (parameters.allocation !== null) {
+//        var percent = $(source).find('#option-item').clone(false).removeAttr('id');
+//        percent.text(translation.scaleTypes[parameters.allocation]);
+//        item.find('#distribution-container').append(percent);
+//    }
+//
+//    for (var i = 0; i < options.length; i++) {
+//        var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
+//        optionItem.text(options[i]);
+//        item.find('.option-container').append(optionItem);
+//    }
+//}
 
 function renderSumQuestionInput(item, parameters, options) {
     for (var i = 0; i < options.length; i++) {
@@ -1925,13 +1962,13 @@ function renderSumQuestionInput(item, parameters, options) {
 /*
  * ranking
  */
-function renderRankingPreview(source, item, options) {
-    for (var i = 0; i < options.length; i++) {
-        var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
-        optionItem.text(options[i].text);
-        item.find('.option-container').append(optionItem);
-    }
-}
+//function renderRankingPreview(source, item, options) {
+//    for (var i = 0; i < options.length; i++) {
+//        var optionItem = $(source).find('#option-item').clone(false).removeAttr('id');
+//        optionItem.text(options[i].text);
+//        item.find('.option-container').append(optionItem);
+//    }
+//}
 
 function renderRankingInput(item, options) {
     if (options) {
@@ -1948,28 +1985,28 @@ function renderRankingInput(item, options) {
 /*
  * alternative question
  */
-function renderAlternativeQuestionPreview(item, parameters) {
-    if (parameters.optionalanswer === 'yes') {
-        $(item).find('#optionalanswer').removeClass('hidden');
-    }
-
-    if (parameters.justification === 'yes') {
-        $(item).find('#justification').removeClass('hidden');
-        $(item).find('#' + parameters.justificationFor).removeClass('hidden');
-    } else {
-        $(item).find('#no-justification').removeClass('hidden');
-    }
-
-    if (parameters.alternative === 'gestures' && parameters.alternativeFor === 'alternativeGesture') {
-        $(item).find('#gesturesForGesture').removeClass('hidden');
-    } else if (parameters.alternative === 'gestures' && parameters.alternativeFor === 'alternativeTrigger') {
-        $(item).find('#gesturesForTrigger').removeClass('hidden');
-    } else if (parameters.alternative === 'triggers' && parameters.alternativeFor === 'alternativeTrigger') {
-        $(item).find('#triggersForTrigger').removeClass('hidden');
-    } else {
-        $(item).find('#triggersForGesture').removeClass('hidden');
-    }
-}
+//function renderAlternativeQuestionPreview(item, parameters) {
+//    if (parameters.optionalanswer === 'yes') {
+//        $(item).find('#optionalanswer').removeClass('hidden');
+//    }
+//
+//    if (parameters.justification === 'yes') {
+//        $(item).find('#justification').removeClass('hidden');
+//        $(item).find('#' + parameters.justificationFor).removeClass('hidden');
+//    } else {
+//        $(item).find('#no-justification').removeClass('hidden');
+//    }
+//
+//    if (parameters.alternative === 'gestures' && parameters.alternativeFor === 'alternativeGesture') {
+//        $(item).find('#gesturesForGesture').removeClass('hidden');
+//    } else if (parameters.alternative === 'gestures' && parameters.alternativeFor === 'alternativeTrigger') {
+//        $(item).find('#gesturesForTrigger').removeClass('hidden');
+//    } else if (parameters.alternative === 'triggers' && parameters.alternativeFor === 'alternativeTrigger') {
+//        $(item).find('#triggersForTrigger').removeClass('hidden');
+//    } else {
+//        $(item).find('#triggersForGesture').removeClass('hidden');
+//    }
+//}
 
 function renderAlternativeQuestionInput(item, data) {
     var parameters = data.parameters;
@@ -2050,16 +2087,16 @@ function renderAlternativeQuestionInput(item, data) {
  * gus & sus
  */
 
-function renderGUSSinglePreview(item, data) {
-    if (data.parameters.negative === 'yes') {
-        $(item).find('#reversed').removeClass('hidden');
-    }
-    if (data.dimension !== DIMENSION_ANY) {
-        $(item).find('#item-factors').removeClass('hidden');
-        $(item).find('#factor-primary').text(translation.dimensions[data.dimension]);
-        $(item).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(data.dimension)]);
-    }
-}
+//function renderGUSSinglePreview(item, data) {
+//    if (data.parameters.negative === 'yes') {
+//        $(item).find('#reversed').removeClass('hidden');
+//    }
+//    if (data.dimension !== DIMENSION_ANY) {
+//        $(item).find('#item-factors').removeClass('hidden');
+//        $(item).find('#factor-primary').text(translation.dimensions[data.dimension]);
+//        $(item).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(data.dimension)]);
+//    }
+//}
 function renderGUSSingleInput(item) {
     var options = translation.gusOptions;
     for (var i = 0; i < options.length; i++) {
@@ -2080,11 +2117,11 @@ function renderSusInput(item) {
     }
 }
 
-function renderSUSPreview(item, parameters) {
-    if (parameters.negative === 'yes') {
-        $(item).find('#reversed').removeClass('hidden');
-    }
-}
+//function renderSUSPreview(item, parameters) {
+//    if (parameters.negative === 'yes') {
+//        $(item).find('#reversed').removeClass('hidden');
+//    }
+//}
 
 
 var changeTriggerTimer = null;

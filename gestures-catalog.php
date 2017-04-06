@@ -454,8 +454,8 @@ if (login_check($mysqli) == true) {
 //                if (result.status === RESULT_SUCCESS) {
 //                    setLocalItem(GESTURE_SETS, result.gestureSets);
 //                    initGestureRating($('#gesture-rating'), 5);
-                    $('#gesture-catalogs-nav-tab a[href="#gesture-catalog"]').tab('show');
-                    getWholeGestureCatalog();
+            $('#gesture-catalogs-nav-tab a[href="#gesture-catalog"]').tab('show');
+            getWholeGestureCatalog();
 //                }
 //            });
 //            getGestureCatalog(function (result) {
@@ -694,6 +694,10 @@ if (login_check($mysqli) == true) {
             });
 
             $('#gesture-sets #gesture-sets-container').unbind('gestureSetDeleted').bind('gestureSetDeleted', function (event) {
+                getWholeGestureSets();
+            });
+
+            $('#custom-modal').unbind('gestureSetsUpdated').bind('gestureSetsUpdated', function () {
                 getWholeGestureSets();
             });
         }

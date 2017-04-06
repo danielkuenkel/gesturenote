@@ -503,7 +503,7 @@ if (login_check($mysqli) == true) {
                 firstInit = true;
                 checkDomain();
                 keepSessionAlive();
-                
+
                 checkLanguage(function () {
                     createRandomColors();
 
@@ -612,6 +612,7 @@ if (login_check($mysqli) == true) {
             $('#custom-modal').on('hidden.bs.modal', function () {
                 $(this).find('.modal-content').empty();
             });
+
             // scenes handling
             $('#btn-assemble-scenes').click(function (event) {
                 event.preventDefault();
@@ -727,7 +728,7 @@ if (login_check($mysqli) == true) {
                     currentIdForModal = event.data.id;
                     loadHTMLintoModal("custom-modal", "create-" + event.data.format + ".php", "modal-lg");
                 });
-                
+
                 if (format === THANKS || format === LETTER_OF_ACCEPTANCE) {
                     clone.find('.btn-delete').remove();
                 } else {
@@ -760,7 +761,7 @@ if (login_check($mysqli) == true) {
                     $('#panel-survey-container').addClass('hidden');
                 }
             });
-            
+
             $('#phaseSelect').on('change', function (event, id) {
                 event.preventDefault();
                 var catalogsNav = $('#create-tab-navigation #catalogs');
@@ -794,13 +795,19 @@ if (login_check($mysqli) == true) {
 
                 renderPhaseSteps();
             });
-            
-            $('.breadcrumb li').click(function () {
-                clearSceneImages();
-                clearSounds();
-                clearLocalItems();
+
+            $('.breadcrumb li a').click(function (event) {
+                var button = $(this);
+                event.stopImmediatePropagation();
+                loadHTMLintoModal('custom-modal', 'modal-delete-data.php', 'modal-sm');
+                $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
+                    $(button).unbind('click').click();
+                    clearSceneImages();
+                    clearSounds();
+                    clearLocalItems();
+                });
             });
-            
+
             $('#btn-clear-data').click(function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
@@ -810,7 +817,7 @@ if (login_check($mysqli) == true) {
                     location.reload(true);
                 }
             });
-            
+
             $('#btn-preview-study').click(function (event) {
                 event.preventDefault();
                 if (checkInputs() === true && !$(this).hasClass('disabled')) {

@@ -1971,6 +1971,13 @@ include '../includes/language.php';
             <div class="option-container root"></div>
         </div>
     </div>
+    
+    <div class="panel panel-default root" id="matrix" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <p class="question text"></p> 
+            <div class="option-container root"></div>
+        </div>
+    </div>
 
     <div id="rating-item">
         <div id="rating-header"></div>

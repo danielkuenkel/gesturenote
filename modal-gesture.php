@@ -50,11 +50,11 @@ include 'includes/language.php';
                 </div>
             </div>
 
-            <div id="attached-gesture-sets" style="margin-top: 30px; margin-bottom: 30px">
+<!--            <div id="attached-gesture-sets" style="margin-top: 30px; margin-bottom: 30px">
                 <h3><i class="fa fa-paperclip"></i> Zuweisung zu Gesten-Sets</h3>
                 <ul id="attached-gesture-sets-container" style="list-style-position: inside; padding-left: 0px; margin-top: 5px"></ul>
                 <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-to-gesture-set" style="margin-top: 10px"><i class="fa fa-plus"></i> <span><?php echo $lang->addToGestureset ?></span></button>
-            </div>
+            </div>-->
         </div>
         <div class="col-md-7">
             <h3 style="margin-top: 0"><i class="fa fa-bookmark-o"></i> Allgemeines</h3>
@@ -144,34 +144,41 @@ include 'includes/language.php';
 
         </div>
     </div>
+</div>
 
-    <div class="hidden" id="add-to-gesture-set">
-        <button type="button" class="btn btn-default" id="btn-back"><i class="fa fa-angle-left" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->previous ?></span></button>
+<hr  style="margin: 0; padding: 0">
 
-        <div style="margin-top: 20px">
-            <label class="text">Zu vorhandenen Gesten-Sets zuweisen</label>
+<div id="gesture-set-body" class="modal-body">
+    <div id="attached-gesture-sets">
+        <h3 style="margin-bottom: 20px"><i class="fa fa-paperclip" aria-hidden="true"></i> Zuweisung zu Gesten-Sets</h3>
 
-            <div id="existing-sets-container">
-                <div class="option-container root"></div>
+        <div id="add-to-gesture-set">
+            <div class="create-gesture-set-input">
+                <label class="text">Neues Gesten-Set anlegen</label>
+
+                <div class="alert-space alert-gesture-set-title-too-short"></div>
+
+                <div class="input-group">
+                    <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
+                    </span>
+                </div>
             </div>
-            <div class="alert-space alert-no-gesture-sets-for-study"></div>
-        </div>
 
-        <div class="row text-center">
-            <label class="uppercase" style="font-size: 10pt"><?php echo $lang->or ?></label>
-        </div>
-
-        <div class="create-gesture-set-input">
-            <label class="text">Neues Gesten-Set anlegen</label>
-
-            <div class="alert-space alert-gesture-set-title-too-short"></div>
-
-            <div class="input-group">
-                <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
-                <span class="input-group-btn">
-                    <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
-                </span>
+            <div class="row text-center" style="margin-top: 20px">
+                <label class="uppercase" style="font-size: 10pt"><?php echo $lang->or ?></label>
             </div>
+
+            <div style="margin-top: 10px">
+                <label class="text">Zu vorhandenen Gesten-Sets zuweisen</label>
+
+                <div id="existing-sets-container">
+                    <div class="option-container root"></div>
+                </div>
+                <div class="alert-space alert-no-gesture-sets-for-study"></div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -348,7 +355,6 @@ include 'includes/language.php';
         }
 
         currentRatings = ratings;
-//        console.log()
 
         if (ratings) {
             for (var key in ratings) {
@@ -481,12 +487,6 @@ include 'includes/language.php';
                             updateGestureById(currentPreviewGesture.source, result.id, {scope: 'public'});
                             originalFilterData = getLocalItem(currentPreviewGesture.source);
                             currentFilterData = sort();
-//                            getGestureCatalog(function (result) {
-//                                if (result.status === RESULT_SUCCESS) {
-//                                    originalFilterData = result.gestures;
-////                                    currentFilterData = sort();
-//                                }
-//                            });
                         }
                     });
                 } else if ($(this).hasClass('unshare-gesture')) {
@@ -512,12 +512,6 @@ include 'includes/language.php';
                             updateGestureById(currentPreviewGesture.source, result.id, {scope: 'private'});
                             originalFilterData = getLocalItem(currentPreviewGesture.source);
                             currentFilterData = sort();
-//                            getGestureCatalog(function (result) {
-//                                if (result.status === RESULT_SUCCESS) {
-//                                    originalFilterData = result.gestures;
-////                                    currentFilterData = sort();
-//                                }
-//                            });
                         }
                     });
                 }
@@ -590,7 +584,6 @@ include 'includes/language.php';
                     });
                 }
             } else {
-//                console.log($('#gestureTypeSelect').find('#' + gesture.type));
                 $(this).removeClass('gesture-previewable').addClass('gesture-editable');
                 $(this).find('.btn-text').text(translation.gesturePreviewable);
                 $('#modal-body #gesture-data-preview').addClass('hidden');
@@ -634,30 +627,13 @@ include 'includes/language.php';
         }
 
         // gesture set attachment
-        renderAttachedGestureSetInfo(container);
-
-        $(container).find('#btn-add-to-gesture-set').unbind('click').bind('click', function (event) {
-            showAddGestureToSet();
-        });
+        renderAttachedGestureSets();
     }
 
-    function renderAttachedGestureSetInfo(container) {
-        var sets = getAttachedGestureSets(currentPreviewGesture.gesture.id);
-        $(container).find('#attached-gesture-sets-container').empty();
-        if (sets) {
-            for (var i = 0; i < sets.length; i++) {
-
-                var item = $('#attached-gesture-set-item').clone().removeAttr('id');
-                $(item).find('#gesture-set-title').text(sets[i].title);
-                $(container).find('#attached-gesture-sets-container').append(item);
-            }
-        }
-    }
 
     /*
      * gesture set adding and attached rendering
      */
-
     function renderAttachedGestureSets(preselect, id) {
         var sets = getLocalItem(GESTURE_SETS);
         if (sets && sets !== null && sets !== '' && sets.length > 0) {
@@ -678,7 +654,7 @@ include 'includes/language.php';
 
                 // check gestures and make checkbox selected if gesture is in gesture set [i]
                 if (sets[i].gestures && sets[i].gestures.length > 0) {
-                    if (checkSetAssignment(currentPreviewGesture.gesture.id)) {
+                    if (checkSetAssignment(sets[i].gestures, currentPreviewGesture.gesture.id)) {
                         option.find('.btn-checkbox').click();
                     }
                 }
@@ -697,7 +673,6 @@ include 'includes/language.php';
             $(container).unbind('change').bind('change', function (event) {
                 event.preventDefault();
                 saveGestureSets();
-                renderAttachedGestureSetInfo($('#gesture-info'));
             });
 
             function saveGestureSets() {
@@ -712,7 +687,7 @@ include 'includes/language.php';
 
                 // call ajax update gesture sets, calling php 
                 updateGestureSets({sets: getLocalItem(GESTURE_SETS)}, function (result) {
-                    getWholeGestureSets();
+                    $(container).trigger('gestureSetsUpdated');
                 });
             }
         } else {
@@ -720,20 +695,6 @@ include 'includes/language.php';
         }
     }
 
-    function checkSetAssignment(gestureId) {
-        var sets = getLocalItem(GESTURE_SETS);
-
-        for (var i = 0; i < sets.length; i++) {
-            if (sets[i].gestures && sets[i].gestures.length > 0) {
-                for (var j = 0; j < sets[i].gestures.length; j++) {
-                    if (parseInt(gestureId) === parseInt(sets[i].gestures[j])) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
 
     function renderComments(data) {
         var list = $('#discussion-body #comments-list');
@@ -877,29 +838,4 @@ include 'includes/language.php';
             $('#btn-edit-gesture').addClass('disabled');
         }
     });
-
-    $('#add-to-gesture-set').find('#btn-back').unbind('click').bind('click', function (event) {
-//        if (getCurrentActiveTab().attr('id') === 'gesture-sets') {
-//            getWholeGestureSets();
-//        }
-        closeAddGestureToSet();
-    });
-
-    function showAddGestureToSet() {
-        $('#gesture-info').addClass('hidden');
-        $('#info-discussion-separator').addClass('hidden');
-        $('#discussion-body').addClass('hidden');
-        $('#add-to-gesture-set').removeClass('hidden');
-        TweenMax.from($('#add-to-gesture-set'), .3, {x: 25, opacity: 0});
-        renderAttachedGestureSets();
-    }
-
-    function closeAddGestureToSet() {
-        $('#gesture-info').removeClass('hidden');
-        $('#info-discussion-separator').removeClass('hidden');
-        $('#discussion-body').removeClass('hidden');
-        $('#add-to-gesture-set').addClass('hidden');
-        TweenMax.from($('#gesture-info'), .3, {x: -25, opacity: 0});
-    }
-
 </script>

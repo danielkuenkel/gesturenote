@@ -215,6 +215,8 @@ $(document).on('click', '.select .option li', function (event) {
                 $(disabledElements[i]).removeClass('disabled');
             }
         }
+        
+        $(this).closest('.input-group').find('.item-input-text').attr('placeholder', '');
 
         if (parent.hasClass('saveGeneralData')) {
             saveGeneralData();
@@ -236,7 +238,7 @@ $(document).on('mouseenter', '.btn-show-hole-text', function (event) {
         if (inputVal.trim() !== '') {
             console.log($(this).offset());
             $(this).attr('data-original-title', inputVal);
-            $(this).tooltip({ container: 'body' });
+            $(this).tooltip({container: 'body'});
             $(this).tooltip('show');
         }
     }
@@ -2507,6 +2509,17 @@ function getAttachedGestureSets(gestureId) {
         return array;
     }
     return null;
+}
+
+function checkSetAssignment(gestures, gestureId) {
+    if (gestures && gestures.length > 0) {
+        for (var j = 0; j < gestures.length; j++) {
+            if (parseInt(gestureId) === parseInt(gestures[j])) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 

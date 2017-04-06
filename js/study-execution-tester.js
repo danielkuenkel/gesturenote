@@ -206,7 +206,7 @@ var Tester = {
                 }
             });
         }
-        
+
         var currentPhase = getCurrentPhase();
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED && currentPhase.format !== PHYSICAL_STRESS_TEST && currentPhase.format !== SLIDESHOW_TRIGGER) {
             $(container).unbind('change').bind('change', function (event) {
@@ -810,17 +810,17 @@ var Tester = {
                 array.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
                 tempData.selectedOptions = array;
             }
-            
+
             console.log(currentQuestionnaireAnswers);
             if (currentQuestionnaireAnswers) {
                 currentQuestionnaireAnswers.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
             } else {
                 currentQuestionnaireAnswers = [{correctTriggerId: slideData.triggerId, selectedId: selectedOption}];
             }
-            
+
             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-            
-            if(!previewModeEnabled && peerConnection) {
+
+            if (!previewModeEnabled && peerConnection) {
                 peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
             }
         }
@@ -837,14 +837,17 @@ var Tester = {
             container.append($(source).find('#identificationModerated').clone().removeAttr('id'));
         }
 
-        var currentPhase = getCurrentPhase();
-        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-        if (data.identificationFor === 'gestures') {
-            tempData.gestures = [];
-        } else if (data.identificationFor === 'trigger') {
-            tempData.trigger = [];
+        if (!previewModeEnabled) {
+            var currentPhase = getCurrentPhase();
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            if (data.identificationFor === 'gestures') {
+                tempData.gestures = [];
+            } else if (data.identificationFor === 'trigger') {
+                tempData.trigger = [];
+            }
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
         }
-        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+
 
         // general data
         $(container).find('.headline').text(data.title);

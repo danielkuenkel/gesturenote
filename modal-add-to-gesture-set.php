@@ -101,17 +101,17 @@ include './includes/language.php';
         renderPotentialGesturesParameters(target, currentAssignment, currentAssignment.triggerId);
     }
 
-    function checkSetAssignment(gestures) {
-        for (var i = 0; i < gestures.length; i++) {
-            for (var j = 0; j < currentAssignment.gestures.length; j++) {
-//                console.log('checkSetAssignment', gestures[i], currentAssignment.gestures[j]);
-                if (parseInt(gestures[i]) === parseInt(currentAssignment.gestures[j])) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+//    function checkSetAssignment(gestures) {
+//        for (var i = 0; i < gestures.length; i++) {
+//            for (var j = 0; j < currentAssignment.gestures.length; j++) {
+////                console.log('checkSetAssignment', gestures[i], currentAssignment.gestures[j]);
+//                if (parseInt(gestures[i]) === parseInt(currentAssignment.gestures[j])) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     $('#btn-add-gesture-set').unbind('click').bind('click', function (event) {
         event.preventDefault();

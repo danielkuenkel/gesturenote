@@ -26,6 +26,7 @@ include './includes/language.php';
             <li><?php echo $lang->createStudyInfos->phases->sumQuestion ?></li>
             <li><?php echo $lang->createStudyInfos->phases->ranking ?></li>
             <li><?php echo $lang->createStudyInfos->phases->rating ?></li>
+            <li><?php echo $lang->createStudyInfos->phases->matrix ?></li>
         </ul>
     </div>
     <div style="margin-top: 20px">

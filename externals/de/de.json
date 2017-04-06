@@ -1105,7 +1105,8 @@
             "groupingQuestionOptions": "<strong>Eingruppierungs-Frage (auswählbare Optionen)</strong>: Dies ist eine Sonderform einer normalen Eingruppierungs-Frage. Hier müssen die Antwortmöglichkeiten nicht einzeln eingetragen werden, sondern werden automatisch angezeigt. Je nach Auswahl <em>Gesten</em>, <em>Feedback</em> oder <em>Funktionen</em> werden die entsprechend hinterlegten Daten aus den Katalogen übernommen.",
             "sumQuestion": "<strong>Summenfrage</strong>: Hier kann eine Maximum definiert und mehrere Antwortoptionen definiert werden. Der Proband soll dann z.B. 100 Punkte oder Prozent auf die jeweiligen Optionen verteilen.",
             "ranking": "<strong>Ranking</strong>: Beim Ranking sind Optionen anzugeben, die der Proband dann mit Pfeil-Buttons sortieren soll, z.B. nach Wichtigkeit.",
-            "rating": "<strong>Rating</strong>: Skalierte Antworten bedeutet hier, dass die einzelnen Stufen die Häufigkeiten, Zutreffensgrade, Intensitäten usw. graduell abstufen. Z.B. mit der Frage: <em>Wie häufig arbeiten Sie mit den jeweiligen Gesten-Steuerungen</em> und deren Optionen: <em>Kinect</em>, <em>Leap Motion Controller</em>, <em>Nintendo Wii</em> und deren Skalen von <em>überhaupt nicht</em> bis <em>täglich</em>. Mit dem Format Ratings können in GestureNote somit auch Matrixfragen erstellt werden.",
+            "rating": "<strong>Rating</strong>: Hiermit können Fragen erstellt werden, die Häufigkeiten, Zutreffensgrade oder Intensitäten graduell abstufen. Z.B. mit der Frage: <em>Wie anstrengend fanden Sie die Geste?</em> und deren Skalen von <em>überhaupt nicht anstrengend</em> bis <em>sehr anstrengend</em>.",
+            "matrix": "<strong>Matrix</strong>: Dieses Fragenformat stellt eine Erweiterung zum Rating dar. Es lassen sich damit z.B. Fragen wie: <em>Wie häufig arbeiten Sie mit den jeweiligen Gesten-Steuerungen</em> und deren Optionen: <em>Kinect</em>, <em>Leap Motion Controller</em>, <em>Nintendo Wii</em> und deren Skalen von <em>überhaupt nicht</em> bis <em>täglich</em> erstellen.",
             "identification": "Wählen Sie aus, ob Sie Gesten oder Funktionen ermittelt wollen. Legen Sie eine Liste von Elementen an für die Sie Gesten bzw. Funktionen ermitteln möchten.",
             "identificationGestures": "<strong>Gesten <em>(Bottom-Up)</em></strong>: Bei Bottom-Up werden für vorhandene Funktionen geeignete Gesten gesucht. Des Weiteren kann die Ermittlung von Gesten zum einen nutzer-basiert und zum anderen experten-basiert erfolgen. In GestureNote ist es möglich, dass Sie eigene Gesten ad-hoc für eine Studie aufzeichnen, oder mit Hilfe von potentiellen Endanwendern identifizieren. Für eine nutzer-basierte Gesten-Ermittlung müssen vorab Zustände hinterlegt werden, damit der Benutzer sich besser in die Situation hineinversetzen kann. Dies kann in Form von Bildern, Webseiten oder eingebetteten Videos von YouTube oder Vimeo geschehen.",
             "identificationTrigger": "<strong>Funktionen <em>(Top-Down)</em></strong>: Bei Top-Down werden logische Verknüpfungen von Funktionen zu vorhandenen Gesten hergestellt. Wichtig ist dabei, dass eine Quelle für die Gesten angeboten wird. In GestureNote können Funktionen für bereits vorhandene Gesten (ermittelte oder freigegebene Gesten anderer Evaluatoren) oder von Ihnen ad-hoc aufgezeichnete Gesten gesucht werden.",
@@ -2803,6 +2804,11 @@
             "id": "no-gestures-assembled",
             "type": "danger",
             "text": "Bitte zuerst ein Gestenset für diese Studie zusammenstellen!"
+        },
+        "noStudyGesturesAssembled": {
+            "id": "no-study-gestures-assembled",
+            "type": "warning",
+            "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt. Dazu fügen Sie Gesten aus dem Gesten-Katalog oder Gesten-Sets mit einem Klick auf das Symbol <i class='fa fa-star'></i> hinzu. Sie können auch eigene Gesten aufzeichnen."
         },
         "assembledGestureRemoved": {
             "id": "assembled-gesture-removed",
