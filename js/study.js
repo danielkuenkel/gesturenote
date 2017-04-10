@@ -11,8 +11,8 @@ function renderData(data, hash) {
     if (studyData.generalData.panelSurvey === 'yes') {
         $('#panel-survey, .panel-survey').removeClass('hidden');
         $('.panel-survey .address').text(translation.panelSurvey + ":");
-        var ageFrom = studyData.generalData.ageRange.split(',')[0];
-        var ageTo = studyData.generalData.ageRange.split(',')[1];
+        var ageFrom = studyData.generalData.ageRange.min;
+        var ageTo = studyData.generalData.ageRange.max;
         if (studyData.generalData.gender !== undefined) {
             $('.panel-survey .text').text(translation.genderTypes[studyData.generalData.gender] + " " + translation.of + " " + ageFrom + " " + translation.to + " " + ageTo);
         } else {
