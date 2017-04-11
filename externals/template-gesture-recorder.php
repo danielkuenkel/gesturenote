@@ -38,12 +38,13 @@ include '../includes/language.php';
                             <button class="btn btn-danger btn-shadow disabled" id="btn-mark-end"><?php echo $lang->end ?> <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></button>
                         </div>
                     </div>
+                    <div class="alert-space alert-gesture-too-short"></div>
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><?php echo $lang->imageExportEvery ?></span>
-                            <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="150 <?php echo $lang->times->milliseconds ?>"/>
+                            <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="80 <?php echo $lang->times->milliseconds ?>"/>
                             <div class="input-group-btn dropup select" id="keyframeSelect" role="group">
-                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="keyframe_150"></span><span class="caret"></span></button>
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="keyframe_80"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                     <li id="keyframe_80"><a href="#">80 <?php echo $lang->times->milliseconds ?></a></li>
                                     <li id="keyframe_100"><a href="#">100 <?php echo $lang->times->milliseconds ?></a></li>
@@ -65,8 +66,6 @@ include '../includes/language.php';
             </div>
 
             <div id="preview-controls" class="hidden">
-                <div class="alert-space alert-gesture-too-short"></div>
-
                 <div style="max-width: 600px">
                     <div class="previewGesture previewProgress autoplay" id="gesturePreview"></div>
                     <div class="progress gesture-progress">
@@ -222,12 +221,13 @@ include '../includes/language.php';
                             <button class="btn btn-danger disabled" id="btn-mark-end"><?php echo $lang->end ?> <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></button>
                         </div>
                     </div>
+                    <div class="alert-space alert-gesture-too-short"></div>
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><?php echo $lang->imageExportEvery ?></span>
-                            <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="150 <?php echo $lang->times->milliseconds ?>"/>
+                            <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="80 <?php echo $lang->times->milliseconds ?>"/>
                             <div class="input-group-btn dropup select" id="keyframeSelect" role="group">
-                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="keyframe_150"></span><span class="caret"></span></button>
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="keyframe_80"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu">
                                     <li id="keyframe_80"><a href="#">80 <?php echo $lang->times->milliseconds ?></a></li>
                                     <li id="keyframe_100"><a href="#">100 <?php echo $lang->times->milliseconds ?></a></li>

@@ -12,13 +12,6 @@ var EVENT_GR_STATE_DELETE_SUCCESS = 'stateDeleteSuccess';
 var EVENT_GR_SAVE_SUCCESS = 'saveSuccess';
 var EVENT_GR_DELETE_SUCCESS = 'deleteSuccess';
 
-/*
- * global gesture variables
- */
-//var alertTarget = null;
-//var saveGesture = false;
-//var recorderTarget = null;
-//var ownerId = null;
 GestureRecorder.prototype.options = null;
 
 var recorder = null;
@@ -33,16 +26,6 @@ function GestureRecorder(options) {
         console.log('Native device media streaming (getUserMedia) not supported in this browser.');
     }
 }
-
-//function initCheckRecorder(aTarget, rTarget, canSaveGesture, oId) {
-//    this.options = options
-//    alertTarget = aTarget;
-//    recorderTarget = rTarget;
-//    saveGesture = canSaveGesture;
-//    ownerId = oId;
-//
-//
-//}
 
 
 function resetRecorder() {
@@ -195,13 +178,16 @@ function showPlayback() {
         $(window).on('mouseup', function () {
             $(window).unbind('mousemove');
         });
+        clearAlerts($(recorder.options.recorderTarget).find('#playback-controls'));
     });
+
     $(recorder.options.recorderTarget).find('#seek-bar, .recorder #trim-bar').unbind('click').bind('click', function (event) {
         event.preventDefault();
         var positionX = Math.abs(event.pageX - $(this).offset().left);
         var video = $(recorder.options.recorderTarget).find('#recorder-video')[0];
         var time = video.duration * (positionX / $(this).width());
         video.currentTime = time;
+        clearAlerts($(recorder.options.recorderTarget).find('#playback-controls'));
     });
 
     // trim operations
@@ -223,6 +209,7 @@ function showPlayback() {
             $(recorder.options.recorderTarget).find('#gesture-beginning').css({width: beginningWidth + 'px'});
             $(recorder.options.recorderTarget).find('#gesture-execution').css({width: (totalWidth - currentEndingWidth - beginningWidth) + 'px'});
         }
+        clearAlerts($(recorder.options.recorderTarget).find('#playback-controls'));
     });
 
     $(recorder.options.recorderTarget).find('.recorder #btn-mark-end').unbind('click').bind('click', function (event) {
@@ -243,6 +230,7 @@ function showPlayback() {
         } else if (!gestureStartMarked) {
             wobble($(recorder.options.recorderTarget).find('#btn-mark-start'));
         }
+        clearAlerts($(recorder.options.recorderTarget).find('#playback-controls'));
     });
 
     // trim operations, take screenshots and render the gesture preview based on the images (screenshots)
@@ -277,23 +265,23 @@ function showPlayback() {
                 }, keyframes);
             }, false);
 
-//             create blobs not data url's -> fix this issue
-//            draw_interval = setInterval(function () {
-//                ctx_draw.drawImage(video[0], 0, 0, canvas.width, canvas.height);
-//                canvas.toBlob(function (blob) {
-//                    shotsArray.push(URL.createObjectURL(blob));
-//                }, "image/jpeg")
-//            }, 200);
             $(recorder.options.recorderTarget).find('#btn-play').click();
 
             setTimeout(offsetReached, (endTimeOffset - startTimeOffset) * 1000);
             function offsetReached() {
                 clearInterval(draw_interval);
                 video.pause();
-                renderGestureImages($(recorder.options.recorderTarget).find('#preview-controls .previewGesture'), shotsArray, 0, function () {
-                    showPreview();
-                    showSave();
-                });
+                if (shotsArray.length > 0) {
+                    console.log(shotsArray.length, shotsArray);
+                    renderGestureImages($(recorder.options.recorderTarget).find('#preview-controls .previewGesture'), shotsArray, 0, function () {
+                        showPreview();
+                        showSave();
+                    });
+                } else {
+                    console.log('gesture too short');
+                    appendAlert($(recorder.options.recorderTarget).find('#playback-controls'), ALERT_GESTURE_TOO_SHORT);
+                    showPlayback();
+                }
             }
         } else {
             wobble($(recorder.options.recorderTarget).find('#btn-mark-start,#btn-mark-end'));
@@ -333,7 +321,7 @@ function showSave() {
     });
 
     $('#gestureTypeSelect, #gestureInteractionTypeSelect').unbind('change').bind('change', function () {
-        console.log('on change');
+//        console.log('on change');
         if (gestureInputsValid()) {
             $(recorder.options.recorderTarget).find('#btn-save-gesture').removeClass('disabled');
         } else {
@@ -348,6 +336,12 @@ function showSave() {
             $(recorder.options.recorderTarget).find('#btn-save-gesture').addClass('disabled');
         }
     });
+
+    if ($(recorder.options.recorderTarget).find('#btn-choose-preview-image').hasClass('active')) {
+        $(recorder.options.recorderTarget).find('#btn-choose-preview-image').removeClass('active');
+        $(recorder.options.recorderTarget).find('#btn-choose-preview-image').find('.text').text(translation.choosePreviewImage);
+        $(recorder.options.recorderTarget).find('#btn-choose-preview-image').find('.fa').removeClass('fa-check').addClass('fa-bookmark');
+    }
 
     $(recorder.options.recorderTarget).find('#btn-choose-preview-image').unbind('click').bind('click', function (event) {
         event.preventDefault();
@@ -550,15 +544,15 @@ function gestureInputsValid(showErrors) {
         return false;
     }
 
-    var gestureImagesData = getGestureImagesData($(recorder.options.recorderTarget).find('.recorder #gesturePreview'));
-    if (gestureImagesData.length === 0) {
-        if (showErrors) {
-            appendAlert($(recorder.options.recorderTarget).find('#preview-controls'), ALERT_GESTURE_TOO_SHORT);
-        } else {
-            removeAlert($(recorder.options.recorderTarget).find('#preview-controls'), ALERT_GESTURE_TOO_SHORT);
-        }
-        return false;
-    }
+//    var gestureImagesData = getGestureImagesData($(recorder.options.recorderTarget).find('.recorder #gesturePreview'));
+//    if (gestureImagesData.length === 0) {
+//        if (showErrors) {
+//            appendAlert($(recorder.options.recorderTarget).find('#preview-controls'), ALERT_GESTURE_TOO_SHORT);
+//        } else {
+//            removeAlert($(recorder.options.recorderTarget).find('#preview-controls'), ALERT_GESTURE_TOO_SHORT);
+//        }
+//        return false;
+//    }
     return true;
 }
 
