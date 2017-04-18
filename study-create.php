@@ -801,7 +801,13 @@ if (login_check($mysqli) == true) {
                 event.stopImmediatePropagation();
                 loadHTMLintoModal('custom-modal', 'modal-delete-data.php', 'modal-sm');
                 $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
-                    $(button).unbind('click').click();
+                    if ($(button).attr('id') === 'btn-study') {
+                        var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                        goto("study.php?studyId=" + editableStudyId + "&h=" + hash);
+                    } else {
+                        $(button).unbind('click').click();
+                    }
+
                     clearSceneImages();
                     clearSounds();
                     clearLocalItems();
@@ -950,12 +956,18 @@ if (login_check($mysqli) == true) {
                 }
             });
 
-            $('#btn-study').on('click', function (event) {
-                event.preventDefault();
-                clearLocalItems();
-                var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                goto("study.php?studyId=" + editableStudyId + "&h=" + hash);
-            });
+//            $('#btn-study').on('click', function (event) {
+//                event.stopImmediatePropagation();
+//                loadHTMLintoModal('custom-modal', 'modal-delete-data.php', 'modal-sm');
+//                $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
+//                    clearSceneImages();
+//                    clearSounds();
+//                    clearLocalItems();
+//
+//                    var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+//                    goto("study.php?studyId=" + editableStudyId + "&h=" + hash);
+//                });
+//            });
         </script>
 
     </body>

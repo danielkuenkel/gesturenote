@@ -57,7 +57,7 @@ include './includes/language.php';
         renderAssembledTriggers();
 
         var data = getLocalItem(currentIdForModal + '.data');
-        if (data !== null) {
+        if (data !== null && data.gus && data.gus.length > 0) {
             renderData(data);
         }
     });

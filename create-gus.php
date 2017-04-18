@@ -126,18 +126,20 @@ include './includes/language.php';
         }
 
 
-        var listContainer = $('#list-container');
-        for (var i = 0; i < data.gus.length; i++) {
-            renderFormatItem(listContainer, data.gus[i]);
-            updateBadges(listContainer, data.gus[i].format);
+        if (data !== null && data.gus && data.gus.length > 0) {
+            var listContainer = $('#list-container');
+            for (var i = 0; i < data.gus.length; i++) {
+                renderFormatItem(listContainer, data.gus[i]);
+                updateBadges(listContainer, data.gus[i].format);
+            }
+            checkDimensionItems($('#dimension-controls .dimension-container'));
+            checkCurrentListState(listContainer);
         }
-        checkDimensionItems($('#dimension-controls .dimension-container'));
-        checkCurrentListState(listContainer);
     }
 
     function saveData() {
         $('#custom-modal').find('#btn-save-phase-step-title').click();
-        
+
         var itemList = $('#list-container').children();
         var questionnaire = new Array();
 
