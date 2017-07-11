@@ -71,12 +71,12 @@
         <!-- externals -->
         <div id="alerts"></div>
 
-        <div class="btn-group">
+<!--        <div class="btn-group">
             <button type="button" id="btn-start-screen-sharing" class="btn btn-info">Start Screensharing</button>
-            <button type="button" id="btn-stop-screen-sharing" class="btn btn-warning">Stop Screensharing</button>
-        </div>
+            <button type="button" id="btn-stop-screen-sharing" class="btn btn-warning disabled">Stop Screensharing</button>
+        </div>-->
 
-        <button class="btn" onclick="openExtension('https://chrome.google.com/webstore/detail/ajhifddimkapgcifgcodmmfdlknahffk')" id="install-button">Add to Chrome</button>
+        <!--<button class="btn" onclick="openExtension('https://chrome.google.com/webstore/detail/ajhifddimkapgcifgcodmmfdlknahffk')" id="install-button">Add to Chrome</button>-->
 
 
         <div class="root" id="scenario" style="width: 100%;">
@@ -109,18 +109,15 @@
 
                 screen.onaddstream = function (e) {
 //                    document.body.appendChild(e.video);
+                    console.log('on add stream');
+                };
+                
+                screen.onuserleft = function(event) {
+                    console.log('on user left', event);
                 };
 
                 screen.check();
-                $('#btn-start-screen-sharing').on('click', function (event) {
-                    event.preventDefault();
-                    screen.share();
-                });
-
-                $('#btn-stop-screen-sharing').on('click', function (event) {
-                    event.preventDefault();
-                    screen.leave();
-                });
+                screen.share();
             }
 
 

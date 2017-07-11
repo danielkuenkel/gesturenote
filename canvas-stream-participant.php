@@ -56,6 +56,13 @@
 <!--        <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>-->
+
+        <style>
+            video {
+                display: table;
+                margin: 0 auto;
+            }
+        </style>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -69,7 +76,7 @@
         <script src="//cdn.webrtc-experiment.com/screen.js"></script>
         <script src="//cdn.webrtc-experiment.com/firebase.js"></script>
 
-        <div id="video-embed" class="embed-responsive embed-responsive-16by9"></div>
+        <div id="video-embed" class=""></div>
 
         <script>
             $(document).ready(function () {
@@ -86,15 +93,19 @@
             });
 
             function onAllExternalsLoadedSuccessfully() {
+                // do this, if the moderator shares his screen. message anlegen
                 var screen = new Screen('screen-unique-id'); // argument is optional
 
                 screen.onaddstream = function (e) {
                     console.log('on add screen');
                     var video = e.video;
                     $('#video-embed').append(video);
+                    $(video).removeAttr('controls');
+                    initWindowResizing(video);
                 };
-                
+
                 screen.onuserleft = function (userid) {
+                    console.log('on user left');
                     var video = $('#video-embed').find('#' + userid);
                     if (video)
                         $('#video-embed').empty();
@@ -102,6 +113,28 @@
 
                 screen.check();
 
+            }
+
+            function initWindowResizing(video) {
+                window.addEventListener('resize', resize, false);
+
+                video.height = 100; /* to get an initial width to work with*/
+                resize();
+
+                function resize() {
+                    var videoRatio = video.height / video.width;
+                    var windowRatio = window.innerHeight / window.innerWidth; /* browser size */
+
+                    if (windowRatio < videoRatio) {
+                        if (window.innerHeight > 50) { /* smallest video height */
+                            video.height = window.innerHeight;
+                        } else {
+                            video.height = 50;
+                        }
+                    } else {
+                        video.width = window.innerWidth;
+                    }
+                }
             }
         </script>
     </body>

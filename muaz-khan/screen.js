@@ -322,7 +322,7 @@
 
             // leave user media resources
             if (root.stream) {
-                console.log(root.stream);
+//                console.log(root.stream);
                 root.stream.getVideoTracks()[0].stop();
             }
 
@@ -363,8 +363,9 @@
                         if (root.onNumberOfParticipantsChnaged) {
                             root.onNumberOfParticipantsChnaged(numberOfParticipants);
                         }
-
-                        root.onuserleft(data.userid);
+                        
+                        console.log(root);
+//                        root.onuserleft(data.userid);
                     }
                 }
 
