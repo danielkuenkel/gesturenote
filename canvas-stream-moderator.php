@@ -12,7 +12,7 @@
         <title>GestureNote</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/study-preview.css">
@@ -71,10 +71,12 @@
         <!-- externals -->
         <div id="alerts"></div>
 
-<!--        <div class="btn-group">
+        <div class="btn-group">
             <button type="button" id="btn-start-screen-sharing" class="btn btn-info">Start Screensharing</button>
             <button type="button" id="btn-stop-screen-sharing" class="btn btn-warning disabled">Stop Screensharing</button>
-        </div>-->
+        </div>
+        
+        <video id="savedVideo" src=""></video>
 
         <!--<button class="btn" onclick="openExtension('https://chrome.google.com/webstore/detail/ajhifddimkapgcifgcodmmfdlknahffk')" id="install-button">Add to Chrome</button>-->
 
@@ -104,20 +106,70 @@
             function onAllExternalsLoadedSuccessfully() {
                 console.log('all externals loaded');
 
-
                 var screen = new Screen('screen-unique-id'); // argument is optional
 
-                screen.onaddstream = function (e) {
+                var screenSharingRecorder = null;
+                var recordedChunks = [];
+
+                screen.onaddstream = function (event) {
 //                    document.body.appendChild(e.video);
-                    console.log('on add stream');
+                    console.log('on add stream', event);
+                    screenSharingRecorder = new MediaRecorder(event.stream);
+
+                    screenSharingRecorder.ondataavailable = function (event) {
+                        console.log('on data available');
+                        recordedChunks.push(event.data);
+                    };
+                    
+                    screenSharingRecorder.onstop = function (event) {
+                        console.log('Stopped and save recording, state = ' + screenSharingRecorder.state + ', ' + new Date());
+                        var blob = new Blob(recordedChunks, {'type': 'video/webm;codecs=vp9'});
+                        recordedChunks = [];
+                        var docURL = URL.createObjectURL(blob);
+                        $('#savedVideo').attr('src', docURL);
+                    };
+
+                    screenSharingRecorder.onstart = function () {
+                        console.log('Start recording ... ' + new Date());
+                    };
+                    
+                    screenSharingRecorder.onerror = function (event) {
+                        console.log('Error: ', event);
+                    };
+
+                    screenSharingRecorder.onwarning = function (event) {
+                        console.log('Warning: ' + event);
+                    };
+                    screenSharingRecorder.start(5000);
                 };
-                
-                screen.onuserleft = function(event) {
+
+                screen.onuserleft = function (event) {
                     console.log('on user left', event);
                 };
 
                 screen.check();
-                screen.share();
+
+                $('#btn-start-screen-sharing').on('click', function (event) {
+                    event.preventDefault();
+                    if (!$(this).hasClass('disabled')) {
+                        $(this).addClass('disabled');
+                        $('#btn-stop-screen-sharing').removeClass('disabled');
+                        screen.share();
+                    }
+                });
+
+                $('#btn-stop-screen-sharing').on('click', function (event) {
+                    event.preventDefault();
+                    if (!$(this).hasClass('disabled')) {
+                        $(this).addClass('disabled');
+                        $('#btn-start-screen-sharing').removeClass('disabled');
+                        if(screenSharingRecorder.state !== 'inactive') {
+                            screenSharingRecorder.stop();
+                        }
+                        screen.leave();
+
+                    }
+                });
             }
 
 
