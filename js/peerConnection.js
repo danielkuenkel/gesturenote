@@ -40,33 +40,33 @@ PeerConnection.prototype.initialize = function (options) {
     console.log('initialize peer connection');
     if (options) {
         this.options = options;
+
         webrtc = new SimpleWebRTC({
             // the id/element dom element that will hold "our" video
             localVideoEl: options.localVideoElement,
             // the id/element dom element that will hold remote videos
             remoteVideosEl: options.remoteVideoElement,
             // immediately ask for camera access
-            autoRequestMedia: true, // immediately ask for camera access
+            autoRequestMedia: options.autoRequestMedia, // immediately ask for camera access
             localVideo: {
                 autoplay: true, // automatically play the video stream on the page
                 mirror: true, // flip the local video to mirror mode (for UX)
                 muted: true // mute local video stream to prevent echo
             },
-            peerConnectionConfig: {'iceServers': [STUN, TURN] },
-            enableDataChannels: options.enableDataChannels ? true : false
-            
+            peerConnectionConfig: {'iceServers': [STUN, TURN]},
+            enableDataChannels: options.enableDataChannels,
+            receiveMedia: {
+                offerToReceiveAudio: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0,
+                offerToReceiveVideo: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0
+            }
         });
-
-//        webrtc.config.peerConnectionConfig.iceServers = [STUN, TURN];
+//        console.log(webrtc);
 
         webrtc.connection.on('message', function (data) {
-//            if (data.type === TYPE_MESSAGE_CONTROL) {
-//                console.log('PEERCONNECTION: on message', data.type, data.playload);
-
+            console.log('on message', data);
             $(connection).trigger(data.type, [data.payload]);
-//            }
         });
-
+        
         // we have to wait until it's ready
         webrtc.on('readyToCall', function () {
             if (connection.options.roomId !== undefined) {
@@ -74,9 +74,6 @@ PeerConnection.prototype.initialize = function (options) {
                 webrtc.joinRoom(connection.options.roomId);
             }
 
-//            if (options.localStream.record === 'yes') {
-//                connection.startRecording();
-//            }
             if (!syncPhaseStep && connection.options.remoteStream.video === 'no') {
                 connection.update(connection.options);
             }
@@ -91,7 +88,7 @@ PeerConnection.prototype.initialize = function (options) {
             }
         });
 
-        // a peer video has been added
+        // a peer video has been removed
         webrtc.on('videoRemoved', function (video, peer) {
             $(connection).trigger('videoRemoved');
             $('#local-stream').removeClass('rtc-shadow');
@@ -101,12 +98,12 @@ PeerConnection.prototype.initialize = function (options) {
                 connection.stopRecording(null, false);
             }
         });
-        
-        webrtc.on('stunservers', function(event) {
+
+        webrtc.on('stunservers', function (event) {
             console.log('on stun servers', event);
         });
-        
-        webrtc.on('turnservers', function(event) {
+
+        webrtc.on('turnservers', function (event) {
             console.log('on turn servers', event);
         });
 
@@ -126,13 +123,13 @@ PeerConnection.prototype.initialize = function (options) {
             var pc = peer.pc;
             console.log('had local relay candidate', pc.hadLocalRelayCandidate);
             console.log('had remote relay candidate', pc.hadRemoteRelayCandidate);
-
-//            if (options.localStream.record === 'yes') {
             connection.stopRecording(null, false);
-//            }
         });
 
-
+        // called when a peer is created
+        webrtc.on('createdPeer', function (peer) {
+            console.log('createdPeer', peer);
+        });
     }
 };
 

@@ -279,6 +279,7 @@ if ($h && $token && $studyId) {
                 callerElement: $('#video-caller'),
                 localVideoElement: 'local-stream',
                 remoteVideoElement: 'remote-stream',
+                enableWebcamStream: true,
                 enableDataChannels: true,
                 roomId: rtcToken,
                 localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},

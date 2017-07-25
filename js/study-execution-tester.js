@@ -1778,6 +1778,7 @@ var Tester = {
             callerElement: $('#video-caller'),
             localVideoElement: 'local-stream',
             remoteVideoElement: 'remote-stream',
+            enableWebcamStream: true,
             enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
             roomId: query.roomId,
             localStream: {audio: options.tester.audio, video: options.tester.video, visualize: options.tester.visualizeStream, record: options.tester.recordStream},

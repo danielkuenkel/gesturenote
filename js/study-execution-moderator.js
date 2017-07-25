@@ -1367,29 +1367,28 @@ var Moderator = {
         var currentPhase = getCurrentPhase();
         var options = getPhaseStepOptions(currentPhase.format);
         var query = getQueryParams(document.location.search);
-        var enableDataChannels = options.enableDataChannels && enableDataChannels === 'yes' || false;
+//        var enableDataChannels = options.enableDataChannels && enableDataChannels === 'yes' || false;
         var callerOptions = {
             target: $('#viewModerator').find('#pinnedRTC'),
             callerElement: $('#video-caller'),
             localVideoElement: 'local-stream',
             remoteVideoElement: 'remote-stream',
+            enableWebcamStream: true,
             enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
             roomId: query.roomId,
             localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream},
             remoteStream: {audio: options.tester.audio, video: options.tester.video}
         };
         $(callerOptions.target).prepend(callerOptions.callerElement);
-
-        if (peerConnection.status === STATUS_UNINITIALIZED) {
-            peerConnection.update(callerOptions);
-        } else {
-            peerConnection.update(callerOptions);
+        
+        peerConnection.update(callerOptions);
+        if (peerConnection.status !== STATUS_UNINITIALIZED) {
             var videos = $(callerOptions.callerElement).find('video');
             for (var i = 0; i < videos.length; i++) {
                 videos[i].play();
             }
         }
-    },
+    }
 };
 
 function enableScenarioControls(container) {
