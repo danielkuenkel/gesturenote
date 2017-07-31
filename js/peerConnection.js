@@ -283,8 +283,8 @@ PeerConnection.prototype.initRecording = function () {
                 };
 
                 mediaRecorder.onstop = function () {
+                    console.log('Stopped and save recording, state = ' + mediaRecorder.state + ', ' + new Date());
                     if (saveRecording) {
-                        console.log('Stopped and save recording, state = ' + mediaRecorder.state + ', ' + new Date());
                         var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
                         uploadQueue.upload(chunks, filename, getCurrentPhase().id);
                     }

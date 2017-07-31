@@ -109,6 +109,9 @@ var Moderator = {
         return container;
     },
     getThanks: function getThanks(container, data) {
+        TweenMax.to(container.find('.fa-upload'), .5, {yoyo: true, repeat: -1, opacity: .4});
+        $(container).find('#thanks-text').text(data);
+
         $(container).find('.thanks-text').text(data);
         $(container).find('#btn-leave-survey').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -117,6 +120,18 @@ var Moderator = {
                 goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&h=' + query.h + '&token=' + query.token);
             }
         });
+
+        $(container).find('#btn-retry-upload').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (previewModeEnabled === false) {
+                submitFinalData(container);
+            }
+        });
+
+        if (previewModeEnabled === false) {
+            checkRTCUploadStatus(container);
+        }
+
         return container;
     },
     getQuestionnaire: function getQuestionnaire(source, container, data, isPreview) {
@@ -1117,24 +1132,11 @@ var Moderator = {
         return container;
     },
     getScenario: function getScenario(source, container, data) {
-        if (!data.scene || !data.woz) {
-            return false;
-        }
-
         triggeredHelp, triggeredWoz = null;
         $(container).find('#general #task .address').text(translation.taskTitle);
         $(container).find('#general #task .text').text(data.title);
         $(container).find('#general #description .address').text(translation.task);
         $(container).find('#general #description .text').text(data.description);
-        //scene
-        if (data.scene) {
-            $(container).find('#general #btn-preview-scene').removeClass('hidden');
-            $(container).find('#general #btn-preview-scene').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                currentSceneId = data.scene;
-                loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
-            });
-        }
 
         if (!currentWOZScene) {
             currentWOZScene = getSceneById(data.scene);
@@ -1156,15 +1158,39 @@ var Moderator = {
             enableScenarioControls(container);
         }
 
-        $(container).find('#btn-start-scenario').unbind('click').bind('click', function (event) {
+        var prototypeWindow = null;
+        var query = getQueryParams(document.location.search);
+        $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
             event.preventDefault();
             enableScenarioControls(container);
             scenarioStartTriggered = true;
             wobble([container.find('#woz-controls')]);
+            currentSceneId = data.scene;
+            $(container).find('#btn-start-screen-sharing').removeClass('hidden');
 
-            if (peerConnection) {
+            if (currentWOZScene && peerConnection) {
+                prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&roomId=" + query.roomId, "_blank");
                 peerConnection.sendMessage(MESSAGE_START_SCENARIO);
+            } else {
+                prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id, "_blank");
             }
+        });
+
+        var screenSharing = null;
+        $(container).find('#btn-start-screen-sharing').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            screenSharing = new ScreenSharing(query.roomId, true);
+            screenSharing.start();
+            $(this).addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+        });
+
+        $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            $(this).addClass('hidden');
+            $(container).find('#btn-done-scenario').removeClass('hidden');
+            screenSharing.stop();
+            prototypeWindow.close();
         });
 
         $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
@@ -1191,83 +1217,75 @@ var Moderator = {
         return container;
     },
     renderWOZ: function renderWOZ(source, container, data) {
-        var wozData = getItemsForSceneId(data.woz, currentWOZScene.id);
-        removeAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
-        $(container).find('.woz-container').empty();
-        if (data.woz && data.woz.length > 0) {
+        if (data.woz) {
+            var wozData = getItemsForSceneId(data.woz, currentWOZScene.id);
+            removeAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+            $(container).find('.woz-container').empty();
+            if (data.woz && data.woz.length > 0) {
 
-            for (var i = 0; i < wozData.length; i++) {
-                var item = $(source).find('#wozItem').clone().removeAttr('id');
-                $(container).find('.woz-container').append(item);
+                for (var i = 0; i < wozData.length; i++) {
+                    var item = $(source).find('#wozItem').clone().removeAttr('id');
+                    $(container).find('.woz-container').append(item);
 
-                var trigger = getTriggerById(wozData[i].triggerId);
-//                if (trigger) {
-////                    item.find('#btn-trigger-woz').text(trigger.title);
-////                item.find('#trigger-title').text(trigger.title);
-//                } else {
-////                item.find('#trigger-title').remove();
-//                }
+//                    var trigger = getTriggerById(wozData[i].triggerId);
 
-                var gesture = getGestureById(wozData[i].gestureId);
-                if (gesture) {
-                    renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
-//                item.find('#gesture-title').text(gesture.title);
-//                    item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
-                } else {
-//                item.find('#gesture-title').remove();
-//                    item.find('.btn-popover-gesture-preview').remove();
-                }
-
-                var transitionScene = getSceneById(wozData[i].transitionId);
-                if (transitionScene) {
-                    item.find('#btn-show-transition-scene').unbind('click').bind('click', {sceneId: wozData[i].transitionId}, function (event) {
-                        event.preventDefault();
-                        currentSceneId = event.data.sceneId;
-                        loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
-                    });
-                } else {
-                    item.find('#btn-show-transition-scene').remove();
-                }
-
-                item.find('#btn-trigger-woz').unbind('click').bind('click', {wozData: wozData[i], originalData: data}, function (event) {
-                    event.preventDefault();
-                    if (!$(this).hasClass('disabled')) {
-
-//                    triggeredHelp = null;
-                        triggeredWoz = event.data.wozData;
-                        currentWOZScene = getSceneById(triggeredWoz.transitionId);
-                        if (currentWOZScene) {
-                            updateCurrentScene(container);
-                            Moderator.renderWOZ(source, container, event.data.originalData);
-                            Moderator.renderHelp(source, container, event.data.originalData);
-                        } else {
-                            currentWOZScene = getSceneById(triggeredWoz.sceneId);
-                        }
-
-                        enableScenarioControls(container);
-
-                        if (peerConnection) {
-                            peerConnection.sendMessage(MESSAGE_TRIGGER_WOZ, {triggeredWOZ: triggeredWoz, currentWOZScene: currentWOZScene});
-                        }
+                    var gesture = getGestureById(wozData[i].gestureId);
+                    if (gesture) {
+                        renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
                     } else {
-                        if (!scenarioStartTriggered) {
-                            $(document).scrollTop(0);
-                            wobble(container.find('#general'));
-                        }
                     }
-                });
+
+                    var transitionScene = getSceneById(wozData[i].transitionId);
+                    if (transitionScene) {
+                        item.find('#btn-show-transition-scene').unbind('click').bind('click', {sceneId: wozData[i].transitionId}, function (event) {
+                            event.preventDefault();
+                            currentSceneId = event.data.sceneId;
+                            loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
+                        });
+                    } else {
+                        item.find('#btn-show-transition-scene').remove();
+                    }
+
+                    item.find('#btn-trigger-woz').unbind('click').bind('click', {wozData: wozData[i], originalData: data}, function (event) {
+                        event.preventDefault();
+                        if (!$(this).hasClass('disabled')) {
+
+                            triggeredWoz = event.data.wozData;
+                            currentWOZScene = getSceneById(triggeredWoz.transitionId);
+                            if (currentWOZScene) {
+                                updateCurrentScene(container);
+                                Moderator.renderWOZ(source, container, event.data.originalData);
+                                Moderator.renderHelp(source, container, event.data.originalData);
+                            } else {
+                                currentWOZScene = getSceneById(triggeredWoz.sceneId);
+                            }
+
+                            enableScenarioControls(container);
+
+                            if (peerConnection) {
+                                peerConnection.sendMessage(MESSAGE_TRIGGER_WOZ, {triggeredWOZ: triggeredWoz, currentWOZScene: currentWOZScene});
+                            }
+                        } else {
+                            if (!scenarioStartTriggered) {
+                                $(document).scrollTop(0);
+                                wobble(container.find('#general'));
+                            }
+                        }
+                    });
+                }
+            } else {
+                appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
             }
         } else {
-            appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+            $(container).find('#woz-controls').remove();
         }
-
-        return container;
     },
     renderHelp: function renderHelp(source, container, data) {
         var helpData = getItemsForSceneId(data.help, currentWOZScene.id);
+        console.log(helpData);
 
         $(container).find('.help-container').empty();
-        removeAlert($(container).find('#help'), ALERT_NO_PHASE_DATA);
+        removeAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);
         if (helpData && helpData.length > 0) {
 
             for (var i = 0; i < helpData.length; i++) {
@@ -1305,10 +1323,9 @@ var Moderator = {
 //                }
             }
         } else {
-            appendAlert($(container).find('#help'), ALERT_NO_PHASE_DATA);
+            $(container).find('#help-controls').remove();
+//            appendAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);
         }
-
-        return container;
     },
     initializeRTC: function initializeRTC() {
         // check preview or live mode, and check if webRTC is needed
@@ -1380,7 +1397,7 @@ var Moderator = {
             remoteStream: {audio: options.tester.audio, video: options.tester.video}
         };
         $(callerOptions.target).prepend(callerOptions.callerElement);
-        
+
         peerConnection.update(callerOptions);
         if (peerConnection.status !== STATUS_UNINITIALIZED) {
             var videos = $(callerOptions.callerElement).find('video');
@@ -1392,8 +1409,9 @@ var Moderator = {
 };
 
 function enableScenarioControls(container) {
-    $(container).find('#btn-start-scenario').remove();
-    $(container).find('#btn-done-scenario').removeClass('hidden');
+    $(container).find('#btn-open-prototype').remove();
+    $(container).find('#btn-start-screen-sharing').removeClass('hidden');
+//    $(container).find('#btn-done-scenario').removeClass('hidden');
     var wozItems = $(container).find('.woz-container .disabled');
     wozItems.removeClass('disabled');
     var helpItems = $(container).find('.help-container .disabled');
@@ -1436,4 +1454,43 @@ function renderObservations(data, container) {
     } else {
         appendAlert($(container).find('#observations'), ALERT_NO_PHASE_DATA);
     }
+}
+
+function checkRTCUploadStatus(container) {
+    if (!uploadQueue.allFilesUploaded()) {
+        console.log('sumbmit final data with upload queue, some files where not uploaded yet!');
+        submitFinalData(container, false);
+        $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED).bind(EVENT_ALL_FILES_UPLOADED, function () {
+            console.log('allVideosUploaded');
+            $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED);
+            submitFinalData(container, true);
+        });
+    } else {
+        console.log('sumbmit final data without upload queue, or all files where uploaded.');
+        submitFinalData(container, true);
+    }
+}
+
+function submitFinalData(container, areAllRTCsUploaded) {
+    $(container).find('#upload-instructions').removeClass('hidden');
+    $(container).find('#upload-done, #upload-retry, #btn-leave-survey').addClass('hidden');
+    if (!areAllRTCsUploaded) {
+        $(container).find('#rtc-uploads').addClass('hidden');
+    } else {
+        $(container).find('#rtc-uploads').removeClass('hidden');
+    }
+
+    saveCurrentStatus(areAllRTCsUploaded, function (result) {
+        if (result.status === RESULT_SUCCESS) {
+            if (areAllRTCsUploaded) {
+                $(container).find('#upload-instructions').addClass('hidden');
+                $(container).find('#upload-done, #btn-leave-survey').removeClass('hidden');
+            } else {
+                $(container).find('#rtc-uploads').removeClass('hidden');
+            }
+        } else {
+            $(container).find('#upload-instructions').addClass('hidden');
+            $(container).find('#upload-retry').removeClass('hidden');
+        }
+    });
 }

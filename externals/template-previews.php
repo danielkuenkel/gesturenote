@@ -361,7 +361,7 @@ include '../includes/language.php';
     </div>
 
     <div class="row root" id="thanks">
-        <div class="col-md-7 col-lg-4" id="column-left"></div>
+<!--        <div class="col-md-7 col-lg-4" id="column-left"></div>
         <div class="col-md-5 col-lg-8" id="column-right">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -372,6 +372,42 @@ include '../includes/language.php';
                     <button class="btn btn-success btn-block btn-shadow" id="btn-leave-survey">Befragung verlassen</button>
                 </div>
             </div>
+        </div>-->
+        
+        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
+            <h3 class="headline" style="margin: 0">Danke für die Teilnahme</h3>
+            <hr>
+            <div class="row">
+<!--                <div class="col-sm-6" style="margin-bottom: 20px;">
+                    <i class="fa fa-heart" style="font-size: 70pt; color: #ca3667"></i>
+                    <div class="text" id="thanks-text"></div>
+                </div>-->
+                <div class="col-sm-12" id="upload-instructions" style="margin-bottom: 20px;">
+                    <i class="fa fa-upload" aria-hidden="true" style="font-size: 70pt; color: #777"></i>
+                    <div class="text">
+                        Bitte warten! Die Daten werden nun gespeichert. Bitte nicht dieses Fenster, bzw. den Browser schließen oder neu laden. Wenn die Daten gespeichert sind, erscheint eine Meldung.
+                    </div>
+                    <div id="rtc-uploads-status" class="hidden text">
+                        Bitte warten… Videodaten werden gespeichert.
+                    </div>
+                </div>
+                <div class="col-sm-12 hidden" id="upload-retry" style="margin-bottom: 20px;">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size: 70pt; color: #d9534f"></i>
+                    <div class="text">
+                        <p>Es gab einen Fehler. Die Daten konnten nicht gespeichert werden. Bitte noch einmal versuchen.</p>
+                        <button type="button" class="btn btn-danger btn-shadow" id="btn-retry-upload"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text">Noch einmal probieren</span></button>
+                    </div>
+                </div>
+                <div class="col-sm-12 hidden" style="margin-bottom: 20px;" id="upload-done">
+                    <i class="fa fa-check" aria-hidden="true" style="font-size: 70pt; color: #5cb85c"></i>
+                    <div class="text">
+                        Die Studien-Daten wurden erfolgreich übertragen. Sie können das Fenster nun schließen oder an weiteren Studien teilnehmen.
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-success btn-block btn-shadow hidden" id="btn-leave-survey">Befragung verlassen</button>
         </div>
     </div>
 
@@ -705,7 +741,6 @@ include '../includes/language.php';
             <div class="panel panel-default" id="woz-controls">
                 <div class="panel-heading">Wizard-of-Oz-Experiment</div>
                 <div class="panel-body" style="padding-bottom: 0">
-                    <!--<div class="row">-->
                     <div style="margin-bottom: 20px;">
                         <div style="float: left;  margin-right: 10px; ">
                             Aktuelle Szene: <span class="label label-default">
@@ -732,14 +767,19 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found">Es wurde eine ganz andere Geste vorgeführt</button>
                     </div>
                 </div>
-                <hr style="margin: 0">
+<!--                <hr style="margin: 0">
                 <div class="panel-body" style="padding-bottom: 0">
                     <div id="help">
                         <h4 style="margin-top: 0px; margin-bottom: 10px">Hilfe</h4>
-                        <div class="alert-space alert-no-phase-data"></div>
-                        <div class="help-container"></div>
+
                     </div>
-                    <!--</div>-->
+                </div>-->
+            </div>
+            <div class="panel panel-default" id="help-controls">
+                <div class="panel-heading">Hilfe</div>
+                <div class="panel-body" style="padding-bottom: 0">
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="help-container"></div>
                 </div>
             </div>
         </div>
@@ -750,9 +790,12 @@ include '../includes/language.php';
                 <div class="panel-body">
                     <div id="task"><span class="address"></span>: <span class="text"></span></div>
                     <div id="description"><span class="address"></span>: <span class="text"></span></div>
-                    <button type="button" class="btn btn-default btn-shadow btn-block hidden" id="btn-preview-scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Start-Szene anzeigen</button>
-                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-scenario" style="margin-top: 6px;">Jetzt starten</button>
-                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;">Weiter <span aria-hidden="true">&rarr;</span></button>
+                    <!--<button type="button" class="btn btn-default btn-shadow btn-block hidden" id="btn-preview-scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Start-Szene anzeigen</button>-->
+                    <!--<button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-scenario" style="margin-top: 6px;">Jetzt starten</button>-->
+                    <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
+                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;">Screensharing starten</button>
+                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;">Screensharing beenden</button>
+                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 </div>
             </div>
             <div class="panel panel-default" id="observations">
@@ -763,6 +806,7 @@ include '../includes/language.php';
                     <div class="alert-space alert-no-phase-data"></div>
                     <div class="question-container"></div>
                 </div>
+                <!--<video id="savedVideo" src=""></video>-->
             </div>
         </div>
     </div>
@@ -882,18 +926,18 @@ include '../includes/language.php';
 
 
 
-<!--    <div class="col-xs-12 col-sm-6 col-lg-12" id="wozItem" style="margin-bottom: 10px;">
-
-        <div id="task"></div>
-        <div id="description"></div>
-                <div id="gesture-title" style=""></div>
-                <div id="trigger-title" style=""></div>
-        <div class="btn-group-vertical btn-block">
-            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
-            <button type="button" class="btn btn-default btn-shadow" id="btn-show-transition-scene"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Folge-Zustand zeigen</span></button>
-            <button type="button" class="btn btn-info btn-shadow ellipsis disabled" id="trigger-woz">Simulieren</button>
-        </div>
-    </div> -->
+    <!--    <div class="col-xs-12 col-sm-6 col-lg-12" id="wozItem" style="margin-bottom: 10px;">
+    
+            <div id="task"></div>
+            <div id="description"></div>
+                    <div id="gesture-title" style=""></div>
+                    <div id="trigger-title" style=""></div>
+            <div class="btn-group-vertical btn-block">
+                <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+                <button type="button" class="btn btn-default btn-shadow" id="btn-show-transition-scene"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Folge-Zustand zeigen</span></button>
+                <button type="button" class="btn btn-info btn-shadow ellipsis disabled" id="trigger-woz">Simulieren</button>
+            </div>
+        </div> -->
 
     <div class="col-xs-6 col-sm-4 col-md-4 root" id="wozItem">
         <div class="panel panel-default btn-shadow">
@@ -1773,7 +1817,7 @@ include '../includes/language.php';
                 <div class="col-sm-6 hidden" id="upload-retry" style="margin-bottom: 20px;">
                     <i class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size: 70pt; color: #d9534f"></i>
                     <div class="text">
-                        <p>Es gab einen Fehler. Die Daten konnten nicht gespeichert werden. Bitte noch einmal probieren.</p>
+                        <p>Es gab einen Fehler. Die Daten konnten nicht gespeichert werden. Bitte noch einmal versuchen.</p>
                         <button type="button" class="btn btn-danger btn-shadow" id="btn-retry-upload"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text">Noch einmal probieren</span></button>
                     </div>
                 </div>
@@ -1971,7 +2015,7 @@ include '../includes/language.php';
             <div class="option-container root"></div>
         </div>
     </div>
-    
+
     <div class="panel panel-default root" id="matrix" style="margin-bottom: 5px;">
         <div class="panel-body">
             <p class="question text"></p> 

@@ -47,7 +47,8 @@ include './includes/language.php';
                 container.find('.web-frame').attr('src', data.data[1]);
                 container.find('.btn-url').on('click', function (event) {
                     event.preventDefault();
-                    var win = window.open(data.options[1]);
+                    console.log(data);
+                    var win = window.open(data);
                     if (win) {
                         //Browser has allowed it to be opened
                         win.focus();
@@ -61,7 +62,8 @@ include './includes/language.php';
                 container.find('.web-frame').attr('src', data.data[0]);
                 container.find('.btn-url').on('click', function (event) {
                     event.preventDefault();
-                    var win = window.open(data.options[0]);
+                    console.log(data);
+                    var win = window.open(data.data[0]);
                     if (win) {
                         //Browser has allowed it to be opened
                         win.focus();

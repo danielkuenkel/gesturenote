@@ -149,7 +149,7 @@ var Tester = {
         return container;
     },
     getThanks: function getThanks(container, data) {
-        console.log('get thanks');
+
         var content = $(getSourceContainer(VIEW_TESTER)).find('#thanks-' + getLocalItem(STUDY).surveyType).clone().removeAttr('id');
         $(container).append(content);
 
@@ -1370,10 +1370,6 @@ var Tester = {
         }
     },
     getScenario: function getScenario(source, container, data) {
-        if (!data.scene || !data.woz) {
-            return false;
-        }
-
         if (!previewModeEnabled) {
             var currentPhase = getCurrentPhase();
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -1383,6 +1379,10 @@ var Tester = {
         }
 
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+            if (!data.scene || !data.woz) {
+                return false;
+            }
+
             Tester.renderUnmoderatedScenario(source, container, data);
         } else {
             Tester.renderModeratedScenario(source, container, data);
