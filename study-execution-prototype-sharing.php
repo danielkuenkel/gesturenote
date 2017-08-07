@@ -119,12 +119,12 @@
                 }
                 return false;
 
-                initializePeerConnection();
+                initializeWOZConnection();
             }
 
-            var peerConnection = null;
-            function initializePeerConnection() {
-                if (!peerConnection) {
+            var wozConnection = null;
+            function initializeWOZConnection() {
+                if (!wozConnection) {
                     var query = getQueryParams(document.location.search);
                     var callerOptions = {
 //                        target: $('#viewModerator').find('#pinnedRTC'),
@@ -134,14 +134,14 @@
                         autoRequestMedia: false,
                         enableWebcamStream: false,
                         enableDataChannels: true,
-                        roomId: "query.roomId"
+                        roomId: query.roomId + "WOZ"
 //                        localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream},
 //                        remoteStream: {audio: options.tester.audio, video: options.tester.video}
                     };
 
-                    peerConnection = new PeerConnection(false);
-                    peerConnection.update(callerOptions);
-                    peerConnection.joinRoom(query.roomId);
+                    wozConnection = new PeerConnection(false);
+                    wozConnection.update(callerOptions);
+                    wozConnection.joinRoom(query.roomId);
 //                    peerConnection.sendMessage('testNachricht', null);
                 }
             }

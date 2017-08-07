@@ -14,6 +14,7 @@ var slideTriggered = false;
 var currentWOZScene = null;
 var currentSceneId;
 var scenarioStartTriggered = false;
+var scenarioPrototypeOpened = false;
 var triggeredWoz = null;
 var triggeredHelp = null;
 var currentTriggeredSceneId = null;
@@ -222,6 +223,7 @@ function resetConstraints() {
     triggerSlideshowDone = false;
 
     scenarioStartTriggered = false;
+    scenarioPrototypeOpened = false;
     triggeredHelp = null;
     triggeredWoz = null;
 

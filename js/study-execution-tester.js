@@ -1403,22 +1403,41 @@ var Tester = {
         return container;
     },
     renderModeratedScenario: function renderModeratedScenario(source, container, data) {
-        var sceneItem;
+//        var sceneItem;
+
         $(container).css({marginTop: '0px'});
         $(container).find('#fixed-rtc-preview').css({top: '64px', opacity: '0.8'});
         container.find('#generalPanel').css({marginTop: '54px'});
 
         // handle scenario start state
-        if (scenarioStartTriggered) {
+        if (scenarioStartTriggered === true) {
             clearAlerts(container);
             $(container).find('#fixed-rtc-preview').removeClass('hidden');
-            if (currentTriggeredSceneId) {
-                sceneItem = renderSceneItem(source, container, currentTriggeredSceneId);
-            } else {
-                sceneItem = renderSceneItem(source, container, data.scene);
+
+            if (!previewModeEnabled) {
+                var query = getQueryParams(document.location.search);
+                var screen = null;
+                if (query.roomId === undefined && previewModeEnabled === true) {
+                    screen = new Screen('previewRoom');
+                } else {
+                    screen = new Screen(query.roomId);
+                }
+
+                screen.onaddstream = function (e) {
+                    console.log('on add screen');
+                    container.find('#generalPanel').remove();
+
+                    var video = e.video;
+                    container.find('#scene-container').empty().append(video);
+                    $(video).removeAttr('controls');
+                };
+
+                screen.onuserleft = function (userid) {
+                    console.log('on user left');
+                    container.find('#scene-container').empty();
+                };
+                screen.check();
             }
-            container.find('#generalPanel').remove();
-            sceneItem.removeClass('hidden');
         } else {
             var panelContent = $(source).find('#scenario-panel-moderated').clone();
             container.find('#generalPanel').append(panelContent);
@@ -1432,34 +1451,29 @@ var Tester = {
             checkHelp();
             checkWOZ();
         } else {
-            $(peerConnection).unbind(MESSAGE_TRIGGER_WOZ).bind(MESSAGE_TRIGGER_WOZ, function (event, payload) {
-//                console.log(messageData);
-                triggeredWoz = payload.triggeredWOZ;
-                currentWOZScene = payload.currentWOZScene;
-
-                checkWOZ();
-
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-            });
+//            $(peerConnection).unbind(MESSAGE_TRIGGER_WOZ).bind(MESSAGE_TRIGGER_WOZ, function (event, payload) {
+//                triggeredWoz = payload.triggeredWOZ;
+//                currentWOZScene = payload.currentWOZScene;
+//                checkWOZ();
+//
+//                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+//                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
+//                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//            });
 
             $(peerConnection).unbind(MESSAGE_TRIGGER_HELP).bind(MESSAGE_TRIGGER_HELP, function (event, payload) {
-//                console.log(messageData.options.help);
                 triggeredHelp = payload.help;
                 checkHelp();
 
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.actions.push({action: ACTION_REQUEST_HELP, time: new Date().getTime()});
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-
             });
 
             $(peerConnection).unbind(MESSAGE_RELOAD_SCENE).bind(MESSAGE_RELOAD_SCENE, function (event, payload) {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 tempData.actions.push({action: ACTION_REFRESH_SCENE, scene: data.scene, time: new Date().getTime()});
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-
                 renderModeratedScenario(source, container, data);
             });
         }

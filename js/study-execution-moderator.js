@@ -3,6 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+var screenSharing = null;
+var prototypeWindow = null;
 
 var Moderator = {
     renderView: function renderView() {
@@ -1154,35 +1156,52 @@ var Moderator = {
         renderObservations(data, container);
 
         // controls handling
-        if (scenarioStartTriggered) {
+        if (scenarioPrototypeOpened) {
             enableScenarioControls(container);
         }
 
-        var prototypeWindow = null;
         var query = getQueryParams(document.location.search);
         $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
             event.preventDefault();
             enableScenarioControls(container);
-            scenarioStartTriggered = true;
+            scenarioPrototypeOpened = true;
+
             wobble([container.find('#woz-controls')]);
             currentSceneId = data.scene;
             $(container).find('#btn-start-screen-sharing').removeClass('hidden');
 
-            if (currentWOZScene && peerConnection) {
-                prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&roomId=" + query.roomId, "_blank");
-                peerConnection.sendMessage(MESSAGE_START_SCENARIO);
+            if (data.woz) {
+                if (currentWOZScene && peerConnection) {
+                    prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&roomId=" + query.roomId, "_blank");
+                    peerConnection.sendMessage(MESSAGE_START_SCENARIO);
+                } else {
+                    prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id, "_blank");
+                }
             } else {
-                prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id, "_blank");
+                if (currentWOZScene) {
+                    prototypeWindow = window.open(currentWOZScene.data[0], "_blank");
+                }
             }
         });
 
-        var screenSharing = null;
+
         $(container).find('#btn-start-screen-sharing').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            screenSharing = new ScreenSharing(query.roomId, true);
+            if (screenSharing === null) {
+                if (query.roomId === undefined && previewModeEnabled === true) {
+                    screenSharing = new ScreenSharing('previewRoom', false);
+                } else {
+                    screenSharing = new ScreenSharing(query.roomId, true);
+                }
+
+                $(screenSharing).unbind(STATUS_STARTED).bind(STATUS_STARTED, function (event) {
+                    scenarioStartTriggered = true;
+                    $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+                });
+            }
+
             screenSharing.start();
-            $(this).addClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
         });
 
         $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
@@ -1190,14 +1209,36 @@ var Moderator = {
             $(this).addClass('hidden');
             $(container).find('#btn-done-scenario').removeClass('hidden');
             screenSharing.stop();
-            prototypeWindow.close();
+            scenarioPrototypeOpened = false;
+            scenarioStartTriggered = false;
+
+            if (prototypeWindow) {
+                scenarioPrototypeOpened = false;
+                prototypeWindow.close();
+            }
         });
+
+        if (scenarioPrototypeOpened && !scenarioStartTriggered) {
+            $(container).find('#btn-open-prototype').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').addClass('hidden')
+            $(container).find('#btn-start-screen-sharing').removeClass('hidden');
+        } else if (scenarioPrototypeOpened && scenarioStartTriggered && screenSharing && screenSharing.status === STATUS_STARTED) {
+            $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+        } else if (!scenarioPrototypeOpened && !scenarioStartTriggered && screenSharing && screenSharing.status === STATUS_STOPPED) {
+            $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').addClass('hidden');
+            $(container).find('#btn-open-prototype').addClass('hidden');
+            $(container).find('#btn-done-scenario').removeClass('hidden');
+        }
 
         $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_NEXT_STEP);
             }
+            
+            screenSharing = null;
             nextStep();
         });
 
@@ -1282,7 +1323,6 @@ var Moderator = {
     },
     renderHelp: function renderHelp(source, container, data) {
         var helpData = getItemsForSceneId(data.help, currentWOZScene.id);
-        console.log(helpData);
 
         $(container).find('.help-container').empty();
         removeAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);

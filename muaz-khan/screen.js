@@ -7,7 +7,7 @@
 
 // Documentation - https://github.com/muaz-khan/WebRTC-Experiment/tree/master/screen-sharing
 
-(function() {
+(function () {
 
     // via: https://bugs.chromium.org/p/chromium/issues/detail?id=487935#c17
     // you can capture screen on Android Chrome >= 55 with flag: "Experimental ScreenCapture android"
@@ -16,16 +16,18 @@
         if (navigator.userAgent.toLowerCase().indexOf("android") > -1 && /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
             window.IsAndroidChrome = true;
         }
-    } catch (e) {}
+    } catch (e) {
+    }
 
     // a middle-agent between public API and the Signaler object
-    window.Screen = function(channel) {
+    window.Screen = function (channel) {
         var signaler, self = this;
         this.channel = channel || location.href.replace(/\/|:|#|%|\.|\[|\]/g, '');
 
         // get alerted for each new meeting
-        this.onscreen = function(screen) {
-            if (self.detectedRoom) return;
+        this.onscreen = function (screen) {
+            if (self.detectedRoom)
+                return;
             self.detectedRoom = true;
 
             self.view(screen);
@@ -36,7 +38,7 @@
         }
 
         function captureUserMedia(callback, extensionAvailable) {
-            getScreenId(function(error, sourceId, screen_constraints) {
+            getScreenId(function (error, sourceId, screen_constraints) {
                 if (IsAndroidChrome) {
                     screen_constraints = {
                         mandatory: {
@@ -53,47 +55,50 @@
                 }
 
                 console.log('screen_constraints', JSON.stringify(screen_constraints, null, '\t'));
-                navigator.getUserMedia(screen_constraints, function(stream) {
-                    stream.onended = function() {
-                        if (self.onuserleft) self.onuserleft('self');
-                    };
+                if (screen_constraints != undefined) {
+                    navigator.getUserMedia(screen_constraints, function (stream) {
+                        stream.onended = function () {
+                            if (self.onuserleft)
+                                self.onuserleft('self');
+                        };
 
-                    self.stream = stream;
+                        self.stream = stream;
 
-                    var video = document.createElement('video');
-                    video.id = 'self';
-                    video[isFirefox ? 'mozSrcObject' : 'src'] = isFirefox ? stream : window.webkitURL.createObjectURL(stream);
-                    video.autoplay = true;
-                    video.controls = true;
-                    video.play();
+                        var video = document.createElement('video');
+                        video.id = 'self';
+                        video[isFirefox ? 'mozSrcObject' : 'src'] = isFirefox ? stream : window.webkitURL.createObjectURL(stream);
+                        video.autoplay = true;
+                        video.controls = true;
+                        video.play();
 
-                    self.onaddstream({
-                        video: video,
-                        stream: stream,
-                        userid: 'self',
-                        type: 'local'
+                        self.onaddstream({
+                            video: video,
+                            stream: stream,
+                            userid: 'self',
+                            type: 'local'
+                        });
+
+                        callback(stream);
+                    }, function (error) {
+                        if (isChrome && location.protocol === 'http:') {
+                            alert('You\'re not testing it on SSL origin (HTTPS domain) otherwise you didn\'t enable --allow-http-screen-capture command-line flag on canary.');
+                        } else if (isChrome) {
+                            alert('Screen capturing is either denied or not supported. Please install chrome extension for screen capturing or run chrome with command-line flag: --enable-usermedia-screen-capturing');
+                        } else if (isFirefox) {
+                            alert(Firefox_Screen_Capturing_Warning);
+                        }
+
+                        console.error(error);
                     });
-
-                    callback(stream);
-                }, function(error) {
-                    if (isChrome && location.protocol === 'http:') {
-                        alert('You\'re not testing it on SSL origin (HTTPS domain) otherwise you didn\'t enable --allow-http-screen-capture command-line flag on canary.');
-                    } else if (isChrome) {
-                        alert('Screen capturing is either denied or not supported. Please install chrome extension for screen capturing or run chrome with command-line flag: --enable-usermedia-screen-capturing');
-                    } else if (isFirefox) {
-                        alert(Firefox_Screen_Capturing_Warning);
-                    }
-
-                    console.error(error);
-                });
+                }
             });
         }
 
         var Firefox_Screen_Capturing_Warning = 'Make sure that you are using Firefox Nightly and you enabled: media.getusermedia.screensharing.enabled flag from about:config page. You also need to add your domain in "media.getusermedia.screensharing.allowed_domains" flag.';
 
         // share new screen
-        this.share = function(roomid) {
-            captureUserMedia(function() {
+        this.share = function (roomid) {
+            captureUserMedia(function () {
                 !signaler && initSignaler(roomid);
                 signaler.broadcast({
                     roomid: (roomid && roomid.length) || self.channel,
@@ -103,7 +108,7 @@
         };
 
         // view pre-shared screens
-        this.view = function(room) {
+        this.view = function (room) {
             !signaler && initSignaler();
             signaler.join({
                 to: room.userid,
@@ -139,18 +144,19 @@
         var numberOfParticipants = 0;
 
         // it is called when your signaling implementation fires "onmessage"
-        this.onmessage = function(message) {
+        this.onmessage = function (message) {
             // if new room detected
             if (message.roomid == roomid && message.broadcasting && !signaler.sentParticipationRequest)
                 root.onscreen(message);
 
             else {
                 // for pretty logging
-                console.debug(JSON.stringify(message, function(key, value) {
+                console.debug(JSON.stringify(message, function (key, value) {
                     if (value.sdp) {
                         console.log(value.sdp.type, '————', value.sdp.sdp);
                         return '';
-                    } else return value;
+                    } else
+                        return value;
                 }, '————'));
             }
 
@@ -171,12 +177,13 @@
 
                 numberOfParticipants++;
 
-                if (root.onNumberOfParticipantsChnaged) root.onNumberOfParticipantsChnaged(numberOfParticipants);
+                if (root.onNumberOfParticipantsChnaged)
+                    root.onNumberOfParticipantsChnaged(numberOfParticipants);
             }
         };
 
         // if someone shared SDP
-        this.onsdp = function(message) {
+        this.onsdp = function (message) {
             var sdp = JSON.parse(message.sdp);
 
             if (sdp.type == 'offer') {
@@ -193,14 +200,16 @@
         };
 
         // if someone shared ICE
-        this.onice = function(message) {
+        this.onice = function (message) {
             message.candidate = JSON.parse(message.candidate);
 
             var peer = peers[message.userid];
             if (!peer) {
                 var candidate = candidates[message.userid];
-                if (candidate) candidates[message.userid][candidate.length] = message.candidate;
-                else candidates[message.userid] = [message.candidate];
+                if (candidate)
+                    candidates[message.userid][candidate.length] = message.candidate;
+                else
+                    candidates[message.userid] = [message.candidate];
             } else {
                 peer.addIceCandidate(message.candidate);
 
@@ -216,7 +225,7 @@
 
         // it is passed over Offer/Answer objects for reusability
         var options = {
-            onsdp: function(sdp, to) {
+            onsdp: function (sdp, to) {
                 console.log('local-sdp', JSON.stringify(sdp.sdp, null, '\t'));
 
                 signaler.signal({
@@ -224,17 +233,18 @@
                     to: to
                 });
             },
-            onicecandidate: function(candidate, to) {
+            onicecandidate: function (candidate, to) {
                 signaler.signal({
                     candidate: JSON.stringify(candidate),
                     to: to
                 });
             },
-            onaddstream: function(stream, _userid) {
+            onaddstream: function (stream, _userid) {
                 console.debug('onaddstream', '>>>>>>', stream);
 
-                stream.onended = function() {
-                    if (root.onuserleft) root.onuserleft(_userid);
+                stream.onended = function () {
+                    if (root.onuserleft)
+                        root.onuserleft(_userid);
                 };
 
                 var video = document.createElement('video');
@@ -256,7 +266,8 @@
                 }
 
                 function afterRemoteStreamStartedFlowing() {
-                    if (!root.onaddstream) return;
+                    if (!root.onaddstream)
+                        return;
                     root.onaddstream({
                         video: video,
                         stream: stream,
@@ -270,7 +281,7 @@
         };
 
         // call only for session initiator
-        this.broadcast = function(_config) {
+        this.broadcast = function (_config) {
             signaler.roomid = _config.roomid || getToken();
 
             if (_config.userid) {
@@ -289,11 +300,12 @@
             })();
 
             // if broadcaster leaves; clear all JSON files from Firebase servers
-            if (socket.onDisconnect) socket.onDisconnect().remove();
+            if (socket.onDisconnect)
+                socket.onDisconnect().remove();
         };
 
         // called for each new participant
-        this.join = function(_config) {
+        this.join = function (_config) {
             signaler.roomid = _config.roomid;
             this.signal({
                 participationRequest: true,
@@ -302,11 +314,11 @@
             signaler.sentParticipationRequest = true;
         };
 
-        window.addEventListener('beforeunload', function() {
+        window.addEventListener('beforeunload', function () {
             leaveRoom();
         }, false);
 
-        window.addEventListener('keyup', function(e) {
+        window.addEventListener('keyup', function (e) {
             if (e.keyCode == 116) {
                 leaveRoom();
             }
@@ -318,7 +330,8 @@
             });
 
             // stop broadcasting room
-            if (signaler.isbroadcaster) signaler.stopBroadcasting = true;
+            if (signaler.isbroadcaster)
+                signaler.stopBroadcasting = true;
 
             // leave user media resources
             if (root.stream) {
@@ -327,7 +340,8 @@
             }
 
             // if firebase; remove data from their servers
-            if (window.Firebase) socket.remove();
+            if (window.Firebase)
+                socket.remove();
         }
 
         root.leave = leaveRoom;
@@ -335,12 +349,13 @@
         // signaling implementation
         // if no custom signaling channel is provided; use Firebase
         if (!root.openSignalingChannel) {
-            if (!window.Firebase) throw 'You must link <https://cdn.firebase.com/v0/firebase.js> file.';
+            if (!window.Firebase)
+                throw 'You must link <https://cdn.firebase.com/v0/firebase.js> file.';
 
             // Firebase is capable to store data in JSON format
             // root.transmitOnce = true;
             socket = new window.Firebase('https://' + (root.firebase || 'signaling') + '.firebaseIO.com/' + root.channel);
-            socket.on('child_added', function(snap) {
+            socket.on('child_added', function (snap) {
                 var data = snap.val();
 
                 var isRemoteMessage = false;
@@ -353,17 +368,20 @@
 
                 if (isRemoteMessage) {
                     if (data.to) {
-                        if (typeof userid == 'number') data.to = parseInt(data.to);
-                        if (typeof userid == 'string') data.to = data.to + '';
+                        if (typeof userid == 'number')
+                            data.to = parseInt(data.to);
+                        if (typeof userid == 'string')
+                            data.to = data.to + '';
                     }
 
-                    if (!data.leaving) signaler.onmessage(data);
+                    if (!data.leaving)
+                        signaler.onmessage(data);
                     else {
                         numberOfParticipants--;
                         if (root.onNumberOfParticipantsChnaged) {
                             root.onNumberOfParticipantsChnaged(numberOfParticipants);
                         }
-                        
+
                         console.log(root);
 //                        root.onuserleft(data.userid);
                     }
@@ -373,18 +391,19 @@
                 // that's why data is removed from firebase servers 
                 // as soon as it is received
                 // data.userid != userid && 
-                if (isRemoteMessage) snap.ref().remove();
+                if (isRemoteMessage)
+                    snap.ref().remove();
             });
 
             // method to signal the data
-            this.signal = function(data) {
+            this.signal = function (data) {
                 data.userid = userid;
                 socket.push(data);
             };
         } else {
             // custom signaling implementations
             // e.g. WebSocket, Socket.io, SignalR, WebSycn, XMLHttpRequest, Long-Polling etc.
-            socket = root.openSignalingChannel(function(message) {
+            socket = root.openSignalingChannel(function (message) {
                 message = JSON.parse(message);
 
                 var isRemoteMessage = false;
@@ -397,21 +416,25 @@
 
                 if (isRemoteMessage) {
                     if (message.to) {
-                        if (typeof userid == 'number') message.to = parseInt(message.to);
-                        if (typeof userid == 'string') message.to = message.to + '';
+                        if (typeof userid == 'number')
+                            message.to = parseInt(message.to);
+                        if (typeof userid == 'string')
+                            message.to = message.to + '';
                     }
 
-                    if (!message.leaving) signaler.onmessage(message);
+                    if (!message.leaving)
+                        signaler.onmessage(message);
                     else {
                         root.onuserleft(message.userid);
                         numberOfParticipants--;
-                        if (root.onNumberOfParticipantsChnaged) root.onNumberOfParticipantsChnaged(numberOfParticipants);
+                        if (root.onNumberOfParticipantsChnaged)
+                            root.onNumberOfParticipantsChnaged(numberOfParticipants);
                     }
                 }
             });
 
             // method to signal the data
-            this.signal = function(data) {
+            this.signal = function (data) {
                 data.userid = userid;
                 socket.send(JSON.stringify(data));
             };
@@ -478,8 +501,8 @@
 
     var optionalArgument = {
         optional: [{
-            DtlsSrtpKeyAgreement: true
-        }]
+                DtlsSrtpKeyAgreement: true
+            }]
     };
 
     function getToken() {
@@ -504,15 +527,16 @@
     };
 
     var Offer = {
-        createOffer: function(config) {
+        createOffer: function (config) {
             var peer = new RTCPeerConnection(iceServers, optionalArgument);
 
             peer.addStream(config.stream);
-            peer.onicecandidate = function(event) {
-                if (event.candidate) config.onicecandidate(event.candidate, config.to);
+            peer.onicecandidate = function (event) {
+                if (event.candidate)
+                    config.onicecandidate(event.candidate, config.to);
             };
 
-            peer.createOffer(function(sdp) {
+            peer.createOffer(function (sdp) {
                 sdp.sdp = setBandwidth(sdp.sdp);
                 peer.setLocalDescription(sdp);
                 config.onsdp(sdp, config.to);
@@ -522,11 +546,11 @@
 
             return this;
         },
-        setRemoteDescription: function(sdp) {
+        setRemoteDescription: function (sdp) {
             console.log('setting remote descriptions', sdp.sdp);
             this.peer.setRemoteDescription(new RTCSessionDescription(sdp), onSdpSuccess, onSdpError);
         },
-        addIceCandidate: function(candidate) {
+        addIceCandidate: function (candidate) {
             console.log('adding ice', candidate.candidate);
             this.peer.addIceCandidate(new RTCIceCandidate({
                 sdpMLineIndex: candidate.sdpMLineIndex,
@@ -546,19 +570,20 @@
         }
     };
     var Answer = {
-        createAnswer: function(config) {
+        createAnswer: function (config) {
             var peer = new RTCPeerConnection(iceServers, optionalArgument);
 
-            peer.onaddstream = function(event) {
+            peer.onaddstream = function (event) {
                 config.onaddstream(event.stream, config.to);
             };
-            peer.onicecandidate = function(event) {
-                if (event.candidate) config.onicecandidate(event.candidate, config.to);
+            peer.onicecandidate = function (event) {
+                if (event.candidate)
+                    config.onicecandidate(event.candidate, config.to);
             };
 
             console.log('setting remote descriptions', config.sdp.sdp);
             peer.setRemoteDescription(new RTCSessionDescription(config.sdp), onSdpSuccess, onSdpError);
-            peer.createAnswer(function(sdp) {
+            peer.createAnswer(function (sdp) {
                 sdp.sdp = setBandwidth(sdp.sdp);
                 peer.setLocalDescription(sdp);
                 config.onsdp(sdp, config.to);
@@ -568,7 +593,7 @@
 
             return this;
         },
-        addIceCandidate: function(candidate) {
+        addIceCandidate: function (candidate) {
             console.log('adding ice', candidate.candidate);
 
             this.peer.addIceCandidate(new RTCIceCandidate({
@@ -579,8 +604,10 @@
     };
 
     function setBandwidth(sdp) {
-        if (isFirefox) return sdp;
-        if (isMobileDevice) return sdp;
+        if (isFirefox)
+            return sdp;
+        if (isMobileDevice)
+            return sdp;
 
         // https://github.com/muaz-khan/RTCMultiConnection/blob/master/dev/BandwidthHandler.js
         if (typeof BandwidthHandler !== 'undefined') {

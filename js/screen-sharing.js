@@ -4,20 +4,25 @@
  * and open the template in the editor.
  */
 
+var STATUS_UNINITIALIZED = 'uninitialized';
+var STATUS_INITIALIZED = 'initialized';
+var STATUS_STOPPED = 'stopped';
+var STATUS_STARTED = 'started';
+
+ScreenSharing.prototype.status = STATUS_UNINITIALIZED;
+
 var screenSharingRecorder = null;
 var recordedChunks = [];
 var screen = null;
 function ScreenSharing(roomId, recording) {
     sharing = this;
-
     screen = new Screen(roomId); // argument is optional
 
-    if (recording && recording === true) {
+    screen.onaddstream = function (event) {
+        console.log('on add stream', event);
 
-        screen.onaddstream = function (event) {
-            console.log('on add stream', event);
+        if (recording && recording === true) {
             screenSharingRecorder = new MediaRecorder(event.stream);
-
             screenSharingRecorder.ondataavailable = function (event) {
                 console.log('on data available');
                 recordedChunks.push(event.data);
@@ -49,14 +54,20 @@ function ScreenSharing(roomId, recording) {
                 console.log('Warning: ' + event);
             };
             screenSharingRecorder.start(5000);
-        };
-    }
+        }
+
+        sharing.status = STATUS_STARTED;
+        $(sharing).trigger(STATUS_STARTED);
+    };
 
     screen.onuserleft = function (event) {
+        sharing.status = STATUS_STOPPED;
+        $(sharing).trigger(STATUS_STOPPED);
         console.log('on user left', event);
     };
 
     screen.check();
+    this.status = STATUS_INITIALIZED;
 }
 
 var stopSharingCallback = null;
@@ -74,6 +85,9 @@ ScreenSharing.prototype.stop = function (callback, save) {
     } else if (callback) {
         callback();
     }
+
+    sharing.status = STATUS_STOPPED;
+    $(sharing).trigger(STATUS_STOPPED);
 };
 
 ScreenSharing.prototype.start = function () {

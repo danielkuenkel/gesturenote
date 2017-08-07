@@ -112,7 +112,6 @@
                 };
 
                 screen.check();
-
             }
 
             function initWindowResizing(video) {
