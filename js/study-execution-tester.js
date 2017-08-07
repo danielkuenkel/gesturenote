@@ -1451,15 +1451,15 @@ var Tester = {
             checkHelp();
             checkWOZ();
         } else {
-//            $(peerConnection).unbind(MESSAGE_TRIGGER_WOZ).bind(MESSAGE_TRIGGER_WOZ, function (event, payload) {
-//                triggeredWoz = payload.triggeredWOZ;
-//                currentWOZScene = payload.currentWOZScene;
+            $(peerConnection).unbind(MESSAGE_TRIGGER_WOZ).bind(MESSAGE_TRIGGER_WOZ, function (event, payload) {
+                triggeredWoz = payload.triggeredWOZ;
+                currentWOZScene = payload.currentWOZScene;
 //                checkWOZ();
-//
-//                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-//                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
-//                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-//            });
+
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            });
 
             $(peerConnection).unbind(MESSAGE_TRIGGER_HELP).bind(MESSAGE_TRIGGER_HELP, function (event, payload) {
                 triggeredHelp = payload.help;

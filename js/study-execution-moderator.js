@@ -1237,7 +1237,7 @@ var Moderator = {
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_NEXT_STEP);
             }
-            
+
             screenSharing = null;
             nextStep();
         });
@@ -1303,6 +1303,7 @@ var Moderator = {
 
                             enableScenarioControls(container);
 
+                            prototypeWindow.postMessage({message: MESSAGE_TRIGGER_WOZ, currentWOZScene: currentWOZScene}, 'https://gesturenote.de');
                             if (peerConnection) {
                                 peerConnection.sendMessage(MESSAGE_TRIGGER_WOZ, {triggeredWOZ: triggeredWoz, currentWOZScene: currentWOZScene});
                             }

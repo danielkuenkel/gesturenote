@@ -71,10 +71,10 @@
         <!-- externals -->
         <div id="alerts"></div>
 
-<!--        <div class="btn-group">
-            <button type="button" id="btn-start-screen-sharing" class="btn btn-info">Start Screensharing</button>
-            <button type="button" id="btn-stop-screen-sharing" class="btn btn-warning disabled">Stop Screensharing</button>
-        </div>-->
+        <!--        <div class="btn-group">
+                    <button type="button" id="btn-start-screen-sharing" class="btn btn-info">Start Screensharing</button>
+                    <button type="button" id="btn-stop-screen-sharing" class="btn btn-warning disabled">Stop Screensharing</button>
+                </div>-->
 
         <!--<video id="savedVideo" src=""></video>-->
 
@@ -100,6 +100,13 @@
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     loadExternals(externals);
                 });
+
+                window.onmessage = function (event) {
+                    if (event.origin !== "https://gesturenote.de")
+                        return;
+                    
+                    console.log(event.data);
+                };
             });
 
             var checkInterval;
@@ -114,7 +121,7 @@
                 if (phaseStepData.scene) {
                     var scene = getSceneById(phaseStepData.scene); // get the starting scene
                     console.log(scene);
-                    
+
                     $('#shared-scenario').find('#webframe').attr('src', scene.data[0]);
                 }
                 return false;

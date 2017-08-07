@@ -43,6 +43,7 @@
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_HELP_CLOSED);
             }
+            triggeredHelp = null;
         });
     });
 
