@@ -374,8 +374,8 @@ include '../includes/language.php';
             </div>
         </div>-->
         
-        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
+        <div class="col-sm-5 col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-sm-7 col-md-8" id="column-right" style="margin-bottom: 80px;">
             <h3 class="headline" style="margin: 0">Danke für die Teilnahme</h3>
             <hr>
             <div class="row">
@@ -737,7 +737,7 @@ include '../includes/language.php';
     <!-- scenario container -->
 
     <div  class="row root" id="scenario">
-        <div class="col-md-7 col-lg-6 rtc-scalable" id="column-left">
+        <div class="col-sm-6 col-md-7 col-lg-6 rtc-scalable" id="column-left">
             <div class="panel panel-default" id="woz-controls">
                 <div class="panel-heading">Wizard-of-Oz-Experiment</div>
                 <div class="panel-body" style="padding-bottom: 0">
@@ -784,7 +784,7 @@ include '../includes/language.php';
             </div>
         </div>
 
-        <div class="col-md-5 col-lg-6" id="column-right">
+        <div class="col-sm-6 col-md-5 col-lg-6" id="column-right">
             <div class="panel panel-default" id="general">
                 <div class="panel-heading">Allgemeines</div>
                 <div class="panel-body">
@@ -798,11 +798,11 @@ include '../includes/language.php';
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 </div>
             </div>
-            <div class="panel panel-default" id="observations">
-                <div class="panel-heading">
-                    Beobachtungen
+            <div class="" id="observations">
+                <div class="">
+                    <h4>Beobachtungen</h4>
                 </div>
-                <div class="panel-body">
+                <div class="">
                     <div class="alert-space alert-no-phase-data"></div>
                     <div class="question-container"></div>
                 </div>
@@ -1764,7 +1764,7 @@ include '../includes/language.php';
 
     <iframe id="pidoco" class="web-frame" src="" frameborder="0" style="width: 100%;" scrolling="yes"></iframe>
 
-    <img id="image" style="width: auto;">
+    <img id="image" style="height: 100%; width: 100%; object-fit: contain;">
 
     <!-- embed-responsive-16by9 or embed-responsive-4by3 -->
     <div id="videoEmbed" style="margin: auto">
@@ -1796,8 +1796,8 @@ include '../includes/language.php';
     </div>
 
     <div id="thanks-moderated">
-        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
+        <div class="col-sm-5 col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-sm-7 col-md-8" id="column-right" style="margin-bottom: 80px;">
             <h3 class="headline" style="margin: 0">Danke für die Teilnahme</h3>
             <hr>
             <div class="row">

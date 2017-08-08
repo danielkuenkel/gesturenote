@@ -1177,6 +1177,17 @@ var Moderator = {
                 } else {
                     prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id, "_blank");
                 }
+//                prototypeWindow.onmessage = function (event) {
+//                    if (event.origin !== "https://gesturenote.de")
+//                        return;
+//
+//                    switch (event.data.message) {
+//                        case MESSAGE_REQUEST_WOZ_DATA:
+//                            console.log('request woz data');
+//                            prototypeWindow.postMessage({message: MESSAGE_WOZ_DATA, currentWOZScene: currentWOZScene}, "https://gesturenote.de");
+//                            break;
+//                    }
+//                };
             } else {
                 if (currentWOZScene) {
                     prototypeWindow = window.open(currentWOZScene.data[0], "_blank");

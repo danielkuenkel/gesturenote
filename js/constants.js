@@ -193,7 +193,6 @@ var MESSAGE_RELOAD_SCENE = 'reloadScene';
 var MESSAGE_TRIGGER_WOZ = 'triggerWOZ';
 var MESSAGE_TRIGGER_HELP = 'triggerHelp';
 var MESSAGE_HELP_CLOSED = 'helpClosed';
-var MESSAGE_INQUIRE_CURRENT_SCENE = 'inquireCurrentScene';
 
 var MESSAGE_START_GESTURE_SLIDESHOW = 'startGestureSlideshow';
 var MESSAGE_TRIGGER_GESTURE_SLIDE = 'triggerGestureSlide';

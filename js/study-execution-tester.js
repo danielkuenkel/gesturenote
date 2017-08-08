@@ -1449,7 +1449,7 @@ var Tester = {
         // handle triggered help & woz
         if (previewModeEnabled) {
             checkHelp();
-            checkWOZ();
+//            checkWOZ();
         } else {
             $(peerConnection).unbind(MESSAGE_TRIGGER_WOZ).bind(MESSAGE_TRIGGER_WOZ, function (event, payload) {
                 triggeredWoz = payload.triggeredWOZ;
