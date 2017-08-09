@@ -1420,7 +1420,7 @@ var Tester = {
                 if (query.roomId === undefined && previewModeEnabled === true) {
                     screen = new Screen('previewRoom');
                 } else {
-                    screen = new Screen(query.roomId);
+                    screen = new Screen(query.roomId + 'screensharing');
                 }
 
                 screen.onaddstream = function (e) {
@@ -1794,6 +1794,7 @@ var Tester = {
             remoteVideoElement: 'remote-stream',
             enableWebcamStream: true,
             enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
+            autoRequestMedia: true,
             roomId: query.roomId,
             localStream: {audio: options.tester.audio, video: options.tester.video, visualize: options.tester.visualizeStream, record: options.tester.recordStream},
             remoteStream: {audio: options.moderator.audio, video: options.moderator.video}

@@ -57,12 +57,12 @@ function ScreenSharing(roomId, recording) {
         }
 
         sharing.status = STATUS_STARTED;
-        $(sharing).trigger(STATUS_STARTED);
+        $(sharing).trigger('started');
     };
 
     screen.onuserleft = function (event) {
         sharing.status = STATUS_STOPPED;
-        $(sharing).trigger(STATUS_STOPPED);
+        $(sharing).trigger('stopped');
         console.log('on user left', event);
     };
 

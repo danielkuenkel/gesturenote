@@ -1202,10 +1202,10 @@ var Moderator = {
                 if (query.roomId === undefined && previewModeEnabled === true) {
                     screenSharing = new ScreenSharing('previewRoom', false);
                 } else {
-                    screenSharing = new ScreenSharing(query.roomId, true);
+                    screenSharing = new ScreenSharing(query.roomId + "screensharing", true);
                 }
 
-                $(screenSharing).unbind(STATUS_STARTED).bind(STATUS_STARTED, function (event) {
+                $(screenSharing).unbind('started').bind('started', function (event) {
                     scenarioStartTriggered = true;
                     $(container).find('#btn-start-screen-sharing').addClass('hidden');
                     $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
@@ -1273,7 +1273,7 @@ var Moderator = {
             var wozData = getItemsForSceneId(data.woz, currentWOZScene.id);
             removeAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
             $(container).find('.woz-container').empty();
-            if (data.woz && data.woz.length > 0) {
+            if (data.woz && data.woz.length > 0 && wozData && wozData.length > 0) {
 
                 for (var i = 0; i < wozData.length; i++) {
                     var item = $(source).find('#wozItem').clone().removeAttr('id');
@@ -1444,6 +1444,7 @@ var Moderator = {
             remoteVideoElement: 'remote-stream',
             enableWebcamStream: true,
             enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
+            autoRequestMedia: true,
             roomId: query.roomId,
             localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream},
             remoteStream: {audio: options.tester.audio, video: options.tester.video}

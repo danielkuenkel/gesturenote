@@ -397,6 +397,7 @@ if ($h && $token && $studyId) {
                         remoteVideoElement: 'remote-stream',
                         enableWebcamStream: true,
                         enableDataChannels: true,
+                        autoRequestMedia: true,
                         roomId: rtcToken,
                         localStream: {audio: 'yes', video: 'yes', visualize: 'yes'},
                         remoteStream: {audio: 'yes', video: 'yes'}

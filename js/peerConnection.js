@@ -60,7 +60,7 @@ PeerConnection.prototype.initialize = function (options) {
                 offerToReceiveVideo: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0
             }
         });
-//        console.log(webrtc);
+        console.log(webrtc);
 
         webrtc.connection.on('message', function (data) {
             console.log('on message', data);
@@ -69,6 +69,7 @@ PeerConnection.prototype.initialize = function (options) {
         
         // we have to wait until it's ready
         webrtc.on('readyToCall', function () {
+            console.log("webrtc is ready to call");
             if (connection.options.roomId !== undefined) {
                 console.log('ready to call', connection.options.roomId);
                 webrtc.joinRoom(connection.options.roomId);
@@ -81,7 +82,7 @@ PeerConnection.prototype.initialize = function (options) {
 
         // a peer video has been added
         webrtc.on('videoAdded', function (video, peer) {
-            console.log('videoAdded');
+            console.log('webrtc videoAdded');
             $(connection).trigger('videoAdded');
             if (!syncPhaseStep) {
                 connection.update(connection.options);
@@ -128,8 +129,10 @@ PeerConnection.prototype.initialize = function (options) {
 
         // called when a peer is created
         webrtc.on('createdPeer', function (peer) {
-            console.log('createdPeer', peer);
+            console.log('webrtc created peer', peer);
         });
+    } else {
+        console.log('no options for webrtc');
     }
 };
 
@@ -259,7 +262,7 @@ PeerConnection.prototype.initRecording = function () {
         }
 
         function onSuccess(stream) {
-            console.log('initRecorder');
+            console.log('init recorder');
             recordingStream = stream;
             if (!mediaRecorder || mediaRecorder === undefined) {
                 mediaRecorder = new MediaRecorder(stream);

@@ -738,7 +738,7 @@ include '../includes/language.php';
 
     <div  class="row root" id="scenario">
         <div class="col-sm-6 col-md-7 col-lg-6 rtc-scalable" id="column-left">
-            <div class="panel panel-default" id="woz-controls">
+            <div class="panel panel-sm panel-default" id="woz-controls">
                 <div class="panel-heading">Wizard-of-Oz-Experiment</div>
                 <div class="panel-body" style="padding-bottom: 0">
                     <div style="margin-bottom: 20px;">
@@ -775,7 +775,7 @@ include '../includes/language.php';
                     </div>
                 </div>-->
             </div>
-            <div class="panel panel-default" id="help-controls">
+            <div class="panel panel-sm panel-default" id="help-controls">
                 <div class="panel-heading">Hilfe</div>
                 <div class="panel-body" style="padding-bottom: 0">
                     <div class="alert-space alert-no-phase-data"></div>
@@ -785,9 +785,9 @@ include '../includes/language.php';
         </div>
 
         <div class="col-sm-6 col-md-5 col-lg-6" id="column-right">
-            <div class="panel panel-default" id="general">
-                <div class="panel-heading">Allgemeines</div>
-                <div class="panel-body">
+            <div class="" id="general">
+                <div class=""><h4>Allgemeines</h4></div>
+                <div class="">
                     <div id="task"><span class="address"></span>: <span class="text"></span></div>
                     <div id="description"><span class="address"></span>: <span class="text"></span></div>
                     <!--<button type="button" class="btn btn-default btn-shadow btn-block hidden" id="btn-preview-scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Start-Szene anzeigen</button>-->
@@ -798,7 +798,7 @@ include '../includes/language.php';
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 </div>
             </div>
-            <div class="" id="observations">
+            <div class="" id="observations" style="margin-top: 20px">
                 <div class="">
                     <h4>Beobachtungen</h4>
                 </div>
@@ -950,7 +950,7 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-success btn-block" id="btn-trigger-woz" style="margin-top: 10px;">Diese</button>
+                <button type="button" class="btn btn-success btn-block disabled" id="btn-trigger-woz" style="margin-top: 10px;">Diese</button>
             </div>
         </div>
     </div>

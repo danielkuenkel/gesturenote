@@ -79,6 +79,11 @@ if ($h && $token && $studyId) {
         <!-- streaming -->
         <script src="simplewebrtc/simplewebrtc.bundle.js"></script>
         <script src="js/peerConnection.js"></script>
+        
+        <!-- screen sharing -->
+        <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
+        <script src="//cdn.webrtc-experiment.com/screen.js"></script>
+        <script src="//cdn.webrtc-experiment.com/firebase.js"></script>
 
         <!-- gesture recorder sources -->
         <script src="js/gesture-recorder.js"></script>
