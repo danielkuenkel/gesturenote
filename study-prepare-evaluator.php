@@ -95,99 +95,70 @@ if ($h && $token && $studyId) {
                     <hr>
                     <div class="label label-default" id="type-phase"></div>
                     <div class="label label-default" id="type-survey"></div>
-
+                </div>
+                <div class="col-sm-7" style="margin-bottom: 20px">
                     <div id="study-description">
                         <h3 class="address"></h3>
                         <p class="text"></p>
                     </div>
 
                     <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                </div>
 
-                    <div style="margin-top: 10px">
+                <div class="col-sm-5">
+
+                    <div id="alert-hints" class="hidden">
                         <div class="alert-space alert-study-unmoderated"></div>
                         <div class="alert-space alert-web-rtc-not-supported"></div>
                         <div class="alert-space alert-another-browser-needed-for-web-rtc"></div>
                         <div class="alert-space alert-contact-support"></div>
                     </div>
 
-                </div>
-            </div>
+                    <div id="participation-queue" class="hidden">
+                        <h3>Wartende Probanden</h3>
 
-            <!--            <div class="row hidden" id="technical-check" style="margin-top: 30px">
-                            <div class="col-xs-12">
-                                <h2 id="check-headline" style="margin-top: 0">Überprüfung der Webcam</h2>
-                                <hr>
-            
+                        <div class="alert-space alert-search-participation-requests"></div>
+                        <div id="list-container" class="row"></div>
+                    </div>
+
+                    <div id="call-screen" class="row hidden">
+                        <div class="col-xs-12 text-center">
+                            <div class="btn-group">
+                                <button class="btn btn-danger btn-shadow" id="btn-close-call"><?php echo $lang->close ?></button>
+                                <button class="btn btn-info btn-shadow disabled" id="btn-enter-study"><?php echo $lang->enterStudyAsModerator ?></button>
                             </div>
-            
-                            <div class="col-sm-6">
-                                <div class="alert-space alert-web-rtc-not-supported"></div>
-                                <video autoplay id="rtc-video" class="rtc-stream hidden" style="width: 100%; height: auto; overflow: hidden; border-radius: 4px;"></video>
+                        </div>
+
+                        <div class="col-xs-12" id="video-caller" style="margin-top: 10px;">
+                            <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
+                            <div class="rtc-local-container">
+                                <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
                             </div>
-                            <div class="col-sm-6 text">
-                                <p><strong>Diese Studie benötigt Zugriff auf Ihre Webcam.</strong> Falls Ihr Browser die Technologie unterstützt, erhalten Sie einen Hinweis, dass diese Seite auf Ihre Kamera und Ihr Mikrofon zugreifen möchte. Akzeptieren Sie bitte den Zugriff auf Kamera und Mikrofon, wenn Sie an dieser Studie teilnehmen möchten. </p>
-                                <p>Danach prüfen Sie bitte, ob der Kamerastream funktioniert und Sie sich links sehen können. Beantworten Sie bitte die Frage. </p>
-            
-                                <div id="web-rtc-working">
-                                    <p>Können Sie sich sehen? </p>
-                                    <div class="btn-group">
-                                        <button class="btn btn-danger btn-shadow" id="btn-no"><?php echo $lang->no ?></button>
-                                        <button class="btn btn-success btn-shadow" id="btn-yes"><?php echo $lang->yes ?></button>
-                                    </div>
+                            <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                                <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="Mikrofon stummschalten"><i class="fa fa-microphone-slash"></i> </button>
+                                <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="Übetragung pausieren"><i class="fa fa-pause"></i> </button>
+                                <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="Gesprächspartner stummschalten"><i class="fa fa-volume-up"></i> </button>
+                            </div>
+                            <div id="stream-control-indicator">
+                                <div style="position: absolute; top: 4px; display: block; left: 25px; opacity: 1; color: white">
+                                    <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                                    <i id="pause-local-stream" class="hidden fa fa-pause"></i>
                                 </div>
-            
-                                <div id="web-rtc-not-working" class="hidden">
-                                    <p>Sehen Sie eine Meldung mit dem Hinweis einen anderen Browser zu nutzen? </p>
-                                    <div class="btn-group">
-                                        <button class="btn btn-danger btn-shadow" id="btn-no"><?php echo $lang->no ?></button>
-                                        <button class="btn btn-success btn-shadow" id="btn-yes"><?php echo $lang->yes ?></button>
-                                    </div>
+                                <div style="position: absolute; top: 4px; display: block; right: 25px; opacity: 1; color: white">
+                                    <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                                    <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
                                 </div>
-            
-                                <div class="alert-space alert-another-browser-needed-for-web-rtc"></div>
-                                
                             </div>
-                        </div>-->
+                        </div>
 
-            <div class="row hidden" id="participation-queue" style="margin-top: 20px">
-                <div class="col-xs-12">
-                    <h2 style="margin-top: 0">Wartende Probanden</h2>
-                    <hr>
-                    <div class="alert-space alert-no-participation-requests"></div>
-                    <div id="list-container" class="row"></div>
+                    </div>
                 </div>
+
             </div>
-
-
-            <div id="call-screen" class="row hidden">
-                <div class="col-xs-12">
-                    <div class="alert-space alert-waiting-for-moderator"></div>
-                </div>
-                <div class="col-xs-12 text-center">
-                    <div class="btn-group">
-                        <button class="btn btn-danger btn-shadow" id="btn-close-call"><?php echo $lang->close ?></button>
-                        <button class="btn btn-info btn-shadow disabled" id="btn-enter-study"><?php echo $lang->enterStudyAsModerator ?></button>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-md-6 col-md-offset-3" id="video-caller" style="margin-top: 10px;">
-                    <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
-                    <div class="rtc-local-container">
-                        <video autoplay id="local-stream" class="rtc-stream"></video>
-                    </div>
-                    <div class="btn-group" id="stream-controls" style="position: relative; bottom: 47px; display: table; margin: 0 auto; opacity: 0">
-                        <button type="button" class="btn btn-default stream-control" id="btn-stream-local-mute"><i class="fa fa-volume-up"></i> <span>ICH</span></button>
-                        <button type="button" class="btn btn-default stream-control" id="btn-stream-remote-mute"><i class="fa fa-volume-up"></i> <span>MODERATOR</span></button>
-                    </div>
-                </div>
-
-                <!--<div style="clear: both;"></div>-->
-            </div>
-
         </div>
 
-        <div class="root col-xs-12 col-sm-6 col-lg-4 hidden" id="queue-thumbnail">
-            <div class="panel panel-default btn-shadow">
+        <div class="root col-xs-12 col-lg-6 hidden" id="queue-thumbnail">
+            <div class="panel panel-default panel-sm btn-shadow">
                 <!--<div class="panel-heading"></div>-->
 
                 <div class="panel-body">
@@ -214,7 +185,9 @@ if ($h && $token && $studyId) {
                 });
             });
             function onAllExternalsLoadedSuccessfully() {
+                $('[data-toggle="tooltip"]').tooltip({container: 'body'});
                 renderSubPageElements(false);
+
                 var query = getQueryParams(document.location.search);
                 if (query.studyId && query.h && query.token) {
                     getStudyById({studyId: query.studyId}, function (result) {
@@ -252,7 +225,7 @@ if ($h && $token && $studyId) {
                     // check rtc is needed
                     if (isWebRTCSupported()) {
                         $('#participation-queue').removeClass('hidden');
-                        appendAlert($('#participation-queue'), ALERT_NO_PARTICIPATION_REQUESTS);
+                        appendAlert($('#participation-queue'), ALERT_SEARCH_PARTICIPATION_REQUESTS);
 
                         getParticipationRequests({studyId: studyData.generalData.id}, function (result) {
                             if (result.status === RESULT_SUCCESS) {
@@ -404,7 +377,9 @@ if ($h && $token && $studyId) {
                         remoteVideoElement: 'remote-stream',
                         streamControls: $('#stream-controls'),
                         localMuteElement: $('#btn-stream-local-mute'),
+                        pauseStreamElement: $('#btn-pause-stream'),
                         remoteMuteElement: $('#btn-stream-remote-mute'),
+                        indicator: $('#stream-control-indicator'),
                         enableWebcamStream: true,
                         enableDataChannels: true,
                         autoRequestMedia: true,

@@ -60,11 +60,9 @@ PeerConnection.prototype.initialize = function (options) {
                 offerToReceiveVideo: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0
             }
         });
-//        console.log(webrtc);
 
 
         if (options.localMuteElement && options.callerElement) {
-//            $(options.streamControls).css({opacity: 0});
             var tween = new TweenMax(options.streamControls, .3, {opacity: 1.0, paused: true});
             console.log(options.callerElement);
             $(options.callerElement).on('mouseenter', function (event) {
@@ -79,17 +77,71 @@ PeerConnection.prototype.initialize = function (options) {
 
             $(options.localMuteElement).on('click', function (event) {
                 event.preventDefault();
+                console.log('mute local');
                 if (!$(this).hasClass('muted')) {
                     $(this).addClass('muted');
-                    $(this).find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
-                    webrtc.mute();
+                    $(this).find('.fa').removeClass('fa fa-microphone-slash').addClass('fa fa-microphone');
                     $('#' + options.localVideoElement).attr('volume', 0);
+                    $(this).attr('title', 'Mikrofon anschalten')
+                            .tooltip('fixTitle')
+                            .tooltip('setContent')
+                            .tooltip('show');
+                    webrtc.mute();
+                    if (options.indicator) {
+                        $(options.indicator).find('#mute-local-audio').removeClass('hidden');
+                    }
                 } else {
                     $(this).removeClass('muted');
-                    $(this).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
-                    webrtc.unmute();
+                    $(this).find('.fa').removeClass('fa fa-microphone').addClass('fa fa-microphone-slash');
                     $('#' + options.localVideoElement).attr('volume', 1);
+                    $(this).attr('title', 'Mikrofon stummschalten')
+                            .tooltip('fixTitle')
+                            .tooltip('setContent')
+                            .tooltip('show');
+                    webrtc.unmute();
+                    if (options.indicator) {
+                        $(options.indicator).find('#mute-local-audio').addClass('hidden');
+                    }
                 }
+                $(this).blur();
+            });
+
+            $(options.pauseStreamElement).on('click', function (event) {
+                event.preventDefault();
+                console.log('pause/resume stream');
+                if (!$(this).hasClass('paused')) {
+                    $(this).addClass('paused');
+                    $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
+                    $(this).attr('title', 'Übertragung fortsetzen')
+                            .tooltip('fixTitle')
+                            .tooltip('setContent')
+                            .tooltip('show');
+                    webrtc.pause();
+
+                    if (options.localMuteElement) {
+                        $(options.indicator).find('#mute-local-audio').removeClass('hidden');
+                        $(options.indicator).find('#pause-local-stream').removeClass('hidden');
+                        $(options.localMuteElement).removeClass('muted');
+                        $(options.localMuteElement).find('.fa').removeClass('fa fa-microphone').addClass('fa fa-microphone-slash');
+                        $(options.localMuteElement).attr('title', 'Mikrofon stummschalten')
+                                .tooltip('fixTitle')
+                                .tooltip('setContent');
+                    }
+                } else {
+                    $(this).removeClass('paused');
+                    $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
+                    $(this).attr('title', 'Übertragung pausieren')
+                            .tooltip('fixTitle')
+                            .tooltip('setContent')
+                            .tooltip('show');
+                    webrtc.resume();
+
+                    if (options.localMuteElement) {
+                        $(options.indicator).find('#mute-local-audio').addClass('hidden');
+                        $(options.indicator).find('#pause-local-stream').addClass('hidden');
+                    }
+                }
+                $(this).blur();
             });
 
             $(options.remoteMuteElement).on('click', function (event) {
@@ -97,25 +149,31 @@ PeerConnection.prototype.initialize = function (options) {
                 if (!$(this).hasClass('muted')) {
                     $(this).addClass('muted');
                     $(this).find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
-
                     $('#' + options.remoteVideoElement).find('video').attr('volume', 0);
+                    $(this).attr('title', 'Gesprächspartner anschalten')
+                            .tooltip('fixTitle')
+                            .tooltip('setContent')
+                            .tooltip('show');
                 } else {
                     $(this).removeClass('muted');
                     $(this).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
-
                     $('#' + options.remoteVideoElement).find('video').attr('volume', 1);
+                    $(this).attr('title', 'Gesprächspartner stummschalten')
+                            .tooltip('fixTitle')
+                            .tooltip('setContent')
+                            .tooltip('show');
                 }
+                $(this).blur();
             });
         }
 
         webrtc.connection.on('message', function (data) {
-            console.log('on message', data);
+//            console.log('on message', data);
             $(connection).trigger(data.type, [data.payload]);
         });
 
         // we have to wait until it's ready
         webrtc.on('readyToCall', function () {
-//            console.log("webrtc is ready to call");
             if (connection.options.roomId !== undefined) {
                 console.log('ready to call', connection.options.roomId);
                 webrtc.joinRoom(connection.options.roomId);
@@ -139,11 +197,46 @@ PeerConnection.prototype.initialize = function (options) {
         webrtc.on('videoRemoved', function (video, peer) {
             $(connection).trigger('videoRemoved');
             $('#local-stream').removeClass('rtc-shadow');
+            if (options.indicator) {
+                $(options.indicator).find('#mute-remote-audio').addClass('hidden');
+                $(options.indicator).find('#pause-remote-stream').addClass('hidden');
+            }
+
+            if (options.remoteMuteElement) {
+                $(options.remoteMuteElement).removeClass('muted');
+                $(options.remoteMuteElement).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
+                $(options.remoteMuteElement).find('video').attr('volume', 1);
+                $(options.remoteMuteElement).attr('title', 'Gesprächspartner stummschalten')
+                        .tooltip('fixTitle')
+                        .tooltip('setContent');
+            }
+
             connection.hideRemoteStream();
 
             if (connection.options.localStream.record === 'yes') {
                 connection.stopRecording(null, false);
             }
+        });
+
+        // handle mute stream from other person
+        webrtc.on('mute', function (data) { // show muted symbol
+            webrtc.getPeers(data.id).forEach(function (peer) {
+                if (data.name === 'audio' && options.indicator) {
+                    $(options.indicator).find('#mute-remote-audio').removeClass('hidden');
+                } else if (data.name === 'video') {
+                    $(options.indicator).find('#pause-remote-stream').removeClass('hidden');
+                }
+            });
+        });
+
+        webrtc.on('unmute', function (data) { // hide muted symbol
+            webrtc.getPeers(data.id).forEach(function (peer) {
+                if (data.name === 'audio') {
+                    $(options.indicator).find('#mute-remote-audio').addClass('hidden');
+                } else if (data.name === 'video') {
+                    $(options.indicator).find('#pause-remote-stream').addClass('hidden');
+                }
+            });
         });
 
         webrtc.on('stunservers', function (event) {
@@ -183,24 +276,27 @@ PeerConnection.prototype.initialize = function (options) {
 };
 
 $(window).on('resize', function () {
-    var remoteHeight = $('.rtc-remote-container').find('video').height();
-    var offset = 0;
-
-    if (remoteHeight > 0) {
-        offset = remoteHeight - $('#local-stream').height();
-    }
-//    console.log(remoteHeight, offset, $('#local-stream'));
-    $('#local-stream').css({marginBottom: offset + 'px'});
+    var currentOptions = connection.options;
+    var width = Math.floor($('#' + currentOptions.remoteVideoElement).width() * .3);
+    var height = Math.floor(width * 3 / 4);
+    $('#local-stream').height(height);
+    $('#local-stream').width(width);
+    onTweenComplete();
 });
 
 function onTweenComplete() {
-    $(window).resize();
+    var remoteHeight = $('.rtc-remote-container').find('video').height();
+    var offset = 0;
+    if (remoteHeight > 0) {
+        offset = remoteHeight - $('#local-stream').height();
+    }
+    $('#local-stream').css({marginBottom: offset + 'px'});
 }
 
 PeerConnection.prototype.update = function (options) {
     this.status = STATUS_INITIALIZED;
     var currentOptions = this.options = options;
-//    console.log(webrtc, options);
+    
     if (webrtc) {
         if (currentOptions) {
             console.log('update caller states', currentOptions);
@@ -272,14 +368,12 @@ PeerConnection.prototype.showRemoteStream = function () {
     var currentOptions = this.options;
     var width = Math.floor($('#' + currentOptions.remoteVideoElement).width() * .3);
     var height = Math.floor(width * 3 / 4);
-    console.log('showRemoteStream', width, height);
     TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: .6, width: width, height: height, left: 5, top: 5, ease: Quad.easeIn});
     TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {delay: .6, opacity: 1.0, onComplete: onTweenComplete});
 };
 
 PeerConnection.prototype.hideRemoteStream = function () {
     var currentOptions = this.options;
-    console.log('hideRemoteStream');
     TweenMax.to($('#' + currentOptions.localVideoElement), .3, {width: '100%', height: 'auto', left: 0, top: 0, ease: Quad.easeIn});
     TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {opacity: 0, onComplete: onTweenComplete});
 };
@@ -361,8 +455,6 @@ PeerConnection.prototype.initRecording = function () {
                 mediaRecorder.onwarning = function (e) {
                     console.log('Warning: ' + e);
                 };
-
-//                connection.startRecording();
             }
         }
     } else {

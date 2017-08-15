@@ -68,7 +68,7 @@ if ($h && $token && $studyId) {
         <!-- streaming -->
         <script src="simplewebrtc/simplewebrtc.bundle.js"></script>
         <script src="js/peerConnection.js"></script>
-        
+
         <!-- screen sharing sources -->
         <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
         <script src="muaz-khan/screen.js"></script>
@@ -129,9 +129,24 @@ if ($h && $token && $studyId) {
 
         <div id="video-caller-holder" class="hidden">
             <div id="video-caller" style="width: 100%">
-                <div id="remote-stream" class="rtc-remote-container rtc-stream"></div>
+                <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
                 <div class="rtc-local-container">
-                    <video autoplay id="local-stream" class="rtc-stream" style=""></video>
+                    <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
+                </div>
+                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="Mikrofon stummschalten"><i class="fa fa-microphone-slash"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="Übetragung pausieren"><i class="fa fa-pause"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="Gesprächspartner stummschalten"><i class="fa fa-volume-up"></i> </button>
+                </div>
+                <div id="stream-control-indicator">
+                    <div style="position: absolute; top: 4px; display: block; left: 25px; opacity: 1; color: white">
+                        <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                        <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+                    </div>
+                    <div style="position: absolute; top: 4px; display: block; right: 25px; opacity: 1; color: white">
+                        <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                        <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -141,7 +156,7 @@ if ($h && $token && $studyId) {
             $(document).ready(function () {
                 checkDomain();
                 keepSessionAlive();
-                
+
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
@@ -153,6 +168,8 @@ if ($h && $token && $studyId) {
             });
 
             function onAllExternalsLoadedSuccessfully() {
+                $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+
                 var query = getQueryParams(document.location.search);
                 if (query.studyId && query.h && query.token && query.testerId) {
                     console.log('tester id:', query.testerId);
@@ -202,11 +219,13 @@ if ($h && $token && $studyId) {
             });
 
             function updateRTCHeight(newWidth) {
-                TweenMax.to($('#video-caller'), .1, {width: newWidth, onComplete: onResizeComplete});
+                var ratio = $('#video-caller').attr('ratio');
+                var height = newWidth * ratio;
+                TweenMax.to($('#video-caller'), .1, {width: newWidth, height: height, onComplete: onResizeComplete});
             }
 
             function onResizeComplete() {
-                var ratio = $('#video-caller').width() / $('#video-caller').height();
+                var ratio = 4 / 3;
                 $('#video-caller').attr('ratio', ratio);
                 TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: $('#video-caller').height() + 20, opacity: 1.0}});
             }

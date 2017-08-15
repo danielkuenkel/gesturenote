@@ -71,6 +71,7 @@ var ALERT_RECORD_URL_INVALID = 'record-url-invalid';
 
 var ALERT_WAITING_FOR_MODERATOR = 'waiting-for-moderator';
 var ALERT_NO_PARTICIPATION_REQUESTS = 'no-participation-requests';
+var ALERT_SEARCH_PARTICIPATION_REQUESTS = 'search-participation-requests';
 var ALERT_STUDY_OVER_RANGE = 'study-over-range';
 var ALERT_STUDY_UNDER_RANGE = 'study-under-range';
 

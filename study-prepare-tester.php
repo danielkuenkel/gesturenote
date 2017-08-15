@@ -120,13 +120,23 @@ if ($h && $token && $studyId) {
                             <div class="hidden" id="video-caller">
                                 <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
                                 <div class="rtc-local-container">
-                                    <video autoplay id="local-stream" class="rtc-stream"></video>
+                                    <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
                                 </div>
-                                <div class="btn-group" id="stream-controls" style="position: relative; bottom: 47px; display: table; margin: 0 auto; opacity: 0">
-                                    <button type="button" class="btn btn-default stream-control" id="btn-stream-local-mute"><i class="fa fa-volume-up"></i> <span>ICH</span></button>
-                                    <button type="button" class="btn btn-default stream-control" id="btn-stream-remote-mute"><i class="fa fa-volume-up"></i> <span>MODERATOR</span></button>
+                                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; display: inline; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="Mikrofon stummschalten"><i class="fa fa-microphone-slash"></i> </button>
+                                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="Übetragung pausieren"><i class="fa fa-pause"></i> </button>
+                                    <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="Gesprächspartner stummschalten"><i class="fa fa-volume-up"></i> </button>
                                 </div>
-                                
+                                <div id="stream-control-indicator">
+                                    <div style="position: absolute; top: 4px; display: block; left: 25px; opacity: 1; color: white">
+                                        <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                                        <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+                                    </div>
+                                    <div style="position: absolute; top: 4px; display: block; right: 25px; opacity: 1; color: white">
+                                        <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                                        <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -138,7 +148,6 @@ if ($h && $token && $studyId) {
                 <div class="col-xs-12">
                     <h2 id="check-headline" style="margin-top: 0">Überprüfung der Webcam</h2>
                     <hr>
-
                 </div>
 
                 <div class="col-sm-6">
@@ -189,6 +198,7 @@ if ($h && $token && $studyId) {
         });
 
         function onAllExternalsLoadedSuccessfully() {
+            $('[data-toggle="tooltip"]').tooltip({container: 'body'});
             renderSubPageElements(false);
 
             var query = getQueryParams(document.location.search);
@@ -284,7 +294,9 @@ if ($h && $token && $studyId) {
                 remoteVideoElement: 'remote-stream',
                 streamControls: $('#stream-controls'),
                 localMuteElement: $('#btn-stream-local-mute'),
+                pauseStreamElement: $('#btn-pause-stream'),
                 remoteMuteElement: $('#btn-stream-remote-mute'),
+                indicator: $('#stream-control-indicator'),
                 enableWebcamStream: true,
                 enableDataChannels: true,
                 autoRequestMedia: true,

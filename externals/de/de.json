@@ -2993,6 +2993,11 @@
             "type": "warning",
             "text": "Kein(e) Probanden mit Befragungs-Anfrage gefunden."
         },
+        "searchParticipationRequests": {
+            "id": "search-participation-requests",
+            "type": "warning",
+            "text": "Suche nach Probanden mit Befragungs-Anfrage …"
+        },
         "studyOverRange": {
             "id": "study-over-range",
             "type": "warning",
