@@ -348,11 +348,11 @@ include '../includes/language.php';
                         </div>-->
         </div>
         <div class="col-md-6 col-lg-8" id="column-right">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Einverständniserklärung
+            <div class="">
+                <div class="">
+                    <h3 style="margin-top: 0">Einverständniserklärung</h3>
                 </div>
-                <div class="panel-body">
+                <div class="">
                     <p class="text letter-text"></p>
                     <div class="alert-space alert-please-wait"></div>
                 </div>
@@ -786,7 +786,7 @@ include '../includes/language.php';
 
         <div class="col-sm-6 col-md-5 col-lg-6" id="column-right">
             <div class="" id="general">
-                <div class=""><h4>Allgemeines</h4></div>
+                <div class=""><h3 style="margin-top: 0px">Allgemeines</h3></div>
                 <div class="">
                     <div id="task"><span class="address"></span>: <span class="text"></span></div>
                     <div id="description"><span class="address"></span>: <span class="text"></span></div>
@@ -800,7 +800,7 @@ include '../includes/language.php';
             </div>
             <div class="" id="observations" style="margin-top: 20px">
                 <div class="">
-                    <h4>Beobachtungen</h4>
+                    <h3>Beobachtungen</h3>
                 </div>
                 <div class="">
                     <div class="alert-space alert-no-phase-data"></div>

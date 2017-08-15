@@ -97,16 +97,39 @@ if ($h && $token && $studyId) {
             <div class="row hidden" id="study-details">
                 <div class="col-xs-12">
                     <h2 id="study-headline" style="margin-top: 0"></h2>
-                    <hr>
-                    <!--<div class="label label-default" id="type-phase"></div>-->
-                    <div class="label label-default" id="type-survey"></div>
+                    <hr style="">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <!--<div class="label label-default" id="type-survey"></div>-->
 
-                    <div id="study-description">
-                        <h3 class="address"></h3>
-                        <p class="text"></p>
+                            <div id="study-description">
+                                <!--<h3 class="address"></h3>-->
+                                <p class="text"></p>
+                            </div>
+
+                            <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
+                            <button class="btn btn-block btn-info btn-shadow" id="btn-enter-study"><?php echo $lang->enterStudyAsTester ?></button>
+                        </div>
+                        <div class="col-sm-5 hidden" id="study-participation">
+                            <div id="alert-hints">
+                                <div class="alert-space alert-study-over-range"></div>
+                                <div class="alert-space alert-study-under-range"></div>
+                                <div class="alert-space alert-waiting-for-moderator"></div>
+                                <div class="alert-space alert-web-rtc-not-supported"></div>
+                            </div>
+                            <div class="hidden" id="video-caller">
+                                <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
+                                <div class="rtc-local-container">
+                                    <video autoplay id="local-stream" class="rtc-stream"></video>
+                                </div>
+                                <div class="btn-group" id="stream-controls" style="position: relative; bottom: 47px; display: table; margin: 0 auto; opacity: 0">
+                                    <button type="button" class="btn btn-default stream-control" id="btn-stream-local-mute"><i class="fa fa-volume-up"></i> <span>ICH</span></button>
+                                    <button type="button" class="btn btn-default stream-control" id="btn-stream-remote-mute"><i class="fa fa-volume-up"></i> <span>MODERATOR</span></button>
+                                </div>
+                                
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="hidden study-plan"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
 
                 </div>
             </div>
@@ -148,27 +171,6 @@ if ($h && $token && $studyId) {
                 </div>
             </div>
 
-
-            <div class="row hidden" id="study-participation" style="margin-top: 20px;">
-                <div class="col-xs-12">
-                    <div class="alert-space alert-study-over-range"></div>
-                    <div class="alert-space alert-study-under-range"></div>
-                    <div class="alert-space alert-web-rtc-not-supported"></div>
-                    <div class="alert-space alert-waiting-for-moderator"></div>
-                    <!--<div class="btn-group-justified">-->
-                    <button class="btn btn-block btn-info btn-shadow" id="btn-enter-study"><?php echo $lang->enterStudyAsTester ?></button>
-
-                    <!--</div>-->
-
-                </div>
-                <div class="col-xs-12 col-md-6 col-md-offset-3" id="video-caller">
-                    <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
-                    <div class="rtc-local-container">
-                        <video autoplay id="local-stream" class="rtc-stream"></video>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
     </div>
@@ -205,8 +207,8 @@ if ($h && $token && $studyId) {
 //            console.log(data);
             var studyData = data.studyData;
             $('#study-headline').text(studyData.generalData.title);
-            $('#type-survey').text(translation.surveyType[studyData.generalData.surveyType]);
-            $('#study-description .address').text(translation.description);
+//            $('#type-survey').text(translation.surveyType[studyData.generalData.surveyType]);
+//            $('#study-description .address').text(translation.description);
             $('#study-description .text').text(studyData.generalData.description);
 
             // date range view
@@ -215,9 +217,9 @@ if ($h && $token && $studyId) {
             var dateTo = addDays(studyData.generalData.dateTo * 1000, 1);
             var totalDays = rangeDays(dateFrom, dateTo);
 
-            $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
-            $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
-            $('.study-plan').removeClass('hidden');
+//            $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
+//            $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
+//            $('.study-plan').removeClass('hidden');
 
             $('#study-participation, #study-details').removeClass('hidden');
 
@@ -237,14 +239,14 @@ if ($h && $token && $studyId) {
                     });
 
                     if (getBrowser() !== BROWSER_CHROME) {
-                        appendAlert($('#study-participation'), ALERT_WEB_RTC_NOT_SUPPORTED);
+                        appendAlert($('#alert-hints'), ALERT_WEB_RTC_NOT_SUPPORTED);
                     } else {
-                        appendAlert($('#study-participation'), ALERT_WAITING_FOR_MODERATOR);
+                        appendAlert($('#alert-hints'), ALERT_WAITING_FOR_MODERATOR);
                         requestInterval = setInterval(function () {
                             requestParticipation({studyId: study.id, rtcToken: rtcToken}, function (result) {
                                 if (result.status === RESULT_SUCCESS) {
                                     if (!result.data) {
-                                        appendAlert($('#study-participation'), ALERT_WAITING_FOR_MODERATOR);
+                                        appendAlert($('#alert-hints'), ALERT_WAITING_FOR_MODERATOR);
                                     }
                                 }
                             });
@@ -259,9 +261,9 @@ if ($h && $token && $studyId) {
                 }
             } else {
                 if (now > dateFrom) {
-                    appendAlert($('#study-participation'), ALERT_STUDY_OVER_RANGE);
+                    appendAlert($('#alert-hints'), ALERT_STUDY_OVER_RANGE);
                 } else {
-                    appendAlert($('#study-participation'), ALERT_STUDY_UNDER_RANGE);
+                    appendAlert($('#alert-hints'), ALERT_STUDY_UNDER_RANGE);
                 }
 
                 if (data.studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
@@ -275,10 +277,14 @@ if ($h && $token && $studyId) {
         var peerConnection = null;
         function initVideoCaller(rtcToken) {
             console.log('initializeRTCPeerConnection', rtcToken);
+            $('#video-caller').removeClass('hidden');
             var callerOptions = {
                 callerElement: $('#video-caller'),
                 localVideoElement: 'local-stream',
                 remoteVideoElement: 'remote-stream',
+                streamControls: $('#stream-controls'),
+                localMuteElement: $('#btn-stream-local-mute'),
+                remoteMuteElement: $('#btn-stream-remote-mute'),
                 enableWebcamStream: true,
                 enableDataChannels: true,
                 autoRequestMedia: true,
@@ -289,15 +295,16 @@ if ($h && $token && $studyId) {
 
             peerConnection = new PeerConnection(callerOptions);
             peerConnection.initialize(callerOptions);
+            peerConnection.showLocalStream();
 
             // a peer video has been added
             $(peerConnection).on('videoAdded', function () {
-                clearAlerts($('#study-participation'));
+                clearAlerts($('#alert-hints'));
             });
 
             // a peer video has been removed
             $(peerConnection).on('videoRemoved', function () {
-                appendAlert($('#study-participation'), ALERT_WAITING_FOR_MODERATOR);
+                appendAlert($('#alert-hints'), ALERT_WAITING_FOR_MODERATOR);
             });
 
             $(peerConnection).on(MESSAGE_ENTER_SURVEY, function (event, payload) {

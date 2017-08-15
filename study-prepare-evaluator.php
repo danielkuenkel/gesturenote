@@ -39,6 +39,7 @@ if ($h && $token && $studyId) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
 
         <script src="js/constants.js"></script>
+        <script src="js/refreshSession.js"></script>
         <script src="js/storage.js"></script>
         <script src="js/storageFunctions.js"></script>
         <script src="js/alert.js"></script>
@@ -52,7 +53,7 @@ if ($h && $token && $studyId) {
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
-        
+
         <!-- streaming -->
         <script src="simplewebrtc/simplewebrtc.bundle.js"></script>
         <script src="js/peerConnection.js"></script>
@@ -174,6 +175,10 @@ if ($h && $token && $studyId) {
                     <div class="rtc-local-container">
                         <video autoplay id="local-stream" class="rtc-stream"></video>
                     </div>
+                    <div class="btn-group" id="stream-controls" style="position: relative; bottom: 47px; display: table; margin: 0 auto; opacity: 0">
+                        <button type="button" class="btn btn-default stream-control" id="btn-stream-local-mute"><i class="fa fa-volume-up"></i> <span>ICH</span></button>
+                        <button type="button" class="btn btn-default stream-control" id="btn-stream-remote-mute"><i class="fa fa-volume-up"></i> <span>MODERATOR</span></button>
+                    </div>
                 </div>
 
                 <!--<div style="clear: both;"></div>-->
@@ -199,6 +204,8 @@ if ($h && $token && $studyId) {
             var syncPhaseStep = false;
             $(document).ready(function () {
                 checkDomain();
+                keepSessionAlive();
+
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
@@ -395,6 +402,9 @@ if ($h && $token && $studyId) {
                         callerElement: $('#video-caller'),
                         localVideoElement: 'local-stream',
                         remoteVideoElement: 'remote-stream',
+                        streamControls: $('#stream-controls'),
+                        localMuteElement: $('#btn-stream-local-mute'),
+                        remoteMuteElement: $('#btn-stream-remote-mute'),
                         enableWebcamStream: true,
                         enableDataChannels: true,
                         autoRequestMedia: true,

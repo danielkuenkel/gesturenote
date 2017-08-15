@@ -40,6 +40,7 @@ if (login_check($mysqli) == true) {
         <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
+        <script src="js/refreshSession.js"></script>
         <script src="js/storage.js"></script>
         <script src="js/storageFunctions.js"></script>
         <script src="js/language.js"></script>
@@ -193,6 +194,7 @@ if (login_check($mysqli) == true) {
             var currentView;
             $(document).ready(function () {
                 checkDomain();
+                keepSessionAlive();
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);

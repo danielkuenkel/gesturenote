@@ -73,7 +73,7 @@ function initialize() {
         uploadQueue = new UploadQueue();
         $(uploadQueue).unbind(EVENT_FILE_SAVED).bind(EVENT_FILE_SAVED, function (event, result) {
             var phaseStepData = getLocalItem(result.phaseStepId + '.saveData');
-            console.log(result.phaseStepId, phaseStepData);
+            console.log('save current status', result.phaseStepId, phaseStepData);
             if (phaseStepData) {
                 phaseStepData.recordUrl = result.filename;
                 setLocalItem(result.phaseStepId + '.saveData', phaseStepData);
@@ -243,7 +243,7 @@ function resetConstraints() {
 
     singleGUSGesture = null;
     currentGUSData = null;
-    
+
     currentQuestionnaireAnswers = null;
 }
 
@@ -481,7 +481,7 @@ function renderExplorationItems(target, data, modalId) {
                 item.find('.label-text').text(translation.sceneTypes[scene.type]);
                 item.find('#info-' + scene.type).removeClass('hidden');
                 itemContainer.find('#panel-container').append(item);
-                
+
 //                TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                 $(item).find('#btn-preview-scene').click({sceneId: scene.id}, function (event) {
                     event.preventDefault();

@@ -30,16 +30,6 @@ function ScreenSharing(roomId, recording) {
 
             screenSharingRecorder.onstop = function (event) {
                 console.log('Stopped and save recording, state = ' + screenSharingRecorder.state + ', ' + new Date());
-                if (saveSharedScreenRecording) {
-                    var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
-                    uploadQueue.upload(chunks, filename, getCurrentPhase().id);
-                }
-
-                chunks = [];
-
-                if (stopSharingCallback) {
-                    stopSharingCallback();
-                }
             };
 
             screenSharingRecorder.onstart = function () {
@@ -71,25 +61,29 @@ function ScreenSharing(roomId, recording) {
 }
 
 var stopSharingCallback = null;
-var saveSharedScreenRecording = false;
-ScreenSharing.prototype.stop = function (callback, save) {
-    saveSharedScreenRecording = save;
+
+ScreenSharing.prototype.stop = function () {
     screen.leave();
 
     if (screenSharingRecorder && screenSharingRecorder.state !== 'inactive') {
-        stopSharingCallback = null;
-        if (callback) {
-            stopSharingCallback = callback;
-        }
         screenSharingRecorder.stop();
-    } else if (callback) {
-        callback();
     }
 
     sharing.status = STATUS_STOPPED;
-    $(sharing).trigger(STATUS_STOPPED);
+    $(sharing).trigger('stopped');
 };
 
 ScreenSharing.prototype.start = function () {
     screen.share();
+};
+
+ScreenSharing.prototype.upload = function (callback) {
+    var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
+    uploadQueue.upload(recordedChunks, filename, getCurrentPhase().id);
+
+    recordedChunks = [];
+
+    if (callback) {
+        callback();
+    }
 };

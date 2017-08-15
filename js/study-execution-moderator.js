@@ -12,6 +12,11 @@ var Moderator = {
         var currentPhase = getCurrentPhase();
         var currentPhaseData = getCurrentPhaseData();
         var source = getSourceContainer(currentView);
+
+        if (previewModeEnabled === false) {
+            setLocalItem(currentPhase.id + '.tempSaveData', {startTime: new Date().getTime()});
+        }
+
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
             Moderator.initializePeerConnection();
 
@@ -1144,6 +1149,14 @@ var Moderator = {
             currentWOZScene = getSceneById(data.scene);
         }
 
+        if (!previewModeEnabled) {
+            var currentPhase = getCurrentPhase();
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            tempData.actions = new Array();
+            tempData.transitions = new Array();
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+        }
+
         updateCurrentScene(container);
 
         //woz section
@@ -1170,27 +1183,21 @@ var Moderator = {
             currentSceneId = data.scene;
             $(container).find('#btn-start-screen-sharing').removeClass('hidden');
 
-            if (data.woz) {
-                if (currentWOZScene && peerConnection) {
-                    prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&roomId=" + query.roomId, "_blank");
-                    peerConnection.sendMessage(MESSAGE_START_SCENARIO);
+            if (currentWOZScene) {
+                if (data.woz) {
+                    if (peerConnection) {
+                        prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&roomId=" + query.roomId, "_blank");
+                    } else {
+                        prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id, "_blank");
+                    }
                 } else {
-                    prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id, "_blank");
-                }
-//                prototypeWindow.onmessage = function (event) {
-//                    if (event.origin !== "https://gesturenote.de")
-//                        return;
-//
-//                    switch (event.data.message) {
-//                        case MESSAGE_REQUEST_WOZ_DATA:
-//                            console.log('request woz data');
-//                            prototypeWindow.postMessage({message: MESSAGE_WOZ_DATA, currentWOZScene: currentWOZScene}, "https://gesturenote.de");
-//                            break;
-//                    }
-//                };
-            } else {
-                if (currentWOZScene) {
-                    prototypeWindow = window.open(currentWOZScene.data[0], "_blank");
+                    if (peerConnection && currentWOZScene.type !== SCENE_WEB && currentWOZScene.type !== SCENE_PIDOCO) {
+                        prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&roomId=" + query.roomId, "_blank");
+                    } else if (currentWOZScene.type !== SCENE_WEB && currentWOZScene.type !== SCENE_PIDOCO) {
+                        prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id, "_blank");
+                    } else {
+                        prototypeWindow = window.open(currentWOZScene.data[0], "_blank");
+                    }
                 }
             }
         });
@@ -1209,6 +1216,16 @@ var Moderator = {
                     scenarioStartTriggered = true;
                     $(container).find('#btn-start-screen-sharing').addClass('hidden');
                     $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+
+                    if (peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_START_SCENARIO);
+
+                        var time = new Date().getTime();
+                        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                        tempData.actions.push({action: ACTION_START_TASK, time: time});
+                        tempData.transitions.push({scene: data.scene, time: time});
+                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    }
                 });
             }
 
@@ -1246,10 +1263,12 @@ var Moderator = {
         $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (peerConnection) {
+                screenSharing.upload(function () {
+                    screenSharing = null;
+                });
                 peerConnection.sendMessage(MESSAGE_NEXT_STEP);
             }
 
-            screenSharing = null;
             nextStep();
         });
 
@@ -1257,6 +1276,11 @@ var Moderator = {
             event.preventDefault();
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_RELOAD_SCENE);
+
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_REFRESH_SCENE, scene: data.scene, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                renderModeratedScenario(source, container, data);
             }
         });
 
@@ -1317,6 +1341,10 @@ var Moderator = {
                             prototypeWindow.postMessage({message: MESSAGE_TRIGGER_WOZ, currentWOZScene: currentWOZScene}, 'https://gesturenote.de');
                             if (peerConnection) {
                                 peerConnection.sendMessage(MESSAGE_TRIGGER_WOZ, {triggeredWOZ: triggeredWoz, currentWOZScene: currentWOZScene});
+
+                                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
+                                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                             }
                         } else {
                             if (!scenarioStartTriggered) {
@@ -1353,6 +1381,10 @@ var Moderator = {
                         if (peerConnection) {
                             peerConnection.sendMessage(MESSAGE_TRIGGER_HELP, {help: triggeredHelp});
                             $(container).find('.btn-info').addClass('disabled');
+
+                            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                            tempData.actions.push({action: ACTION_REQUEST_HELP, time: new Date().getTime()});
+                            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                         }
                     } else {
                         if (!scenarioStartTriggered) {

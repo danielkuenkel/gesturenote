@@ -49,6 +49,7 @@ function UploadQueue() {
 
 //var tempUploads = new Array();
 UploadQueue.prototype.upload = function (blob, filename, phaseStepId) {
+    console.log('upload file:', filename, this.getStatus());
     if (this.getStatus() !== STATUS_UNINITIALIZED) {
         var file = new File(blob, filename);
         if (phaseStepId) {

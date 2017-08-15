@@ -60,7 +60,6 @@ function getLetterOfAcceptanceFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.accepted = tempData.accepted;
-//        removeLocalItem(data.id + '.tempSaveData');
     }
 
     return data;
@@ -70,7 +69,6 @@ function getThanksFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
         data.startTime = tempData.startTime;
-//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }
@@ -82,7 +80,6 @@ function getGestureTrainingFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.startTrainingTime = tempData.startTrainingTime;
         data.training = tempData.training;
-//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }
@@ -116,7 +113,6 @@ function getScenarioFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.actions = tempData.actions;
         data.transitions = tempData.transitions;
-//        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
 }
@@ -178,13 +174,13 @@ function saveCurrentStatus(studyFinished, callback) {
     }
 
     var study = getLocalItem(STUDY);
-    if (study.surveyType === TYPE_SURVEY_UNMODERATED) {
-        saveExecutionTester({studyId: study.id, data: data}, function (result) {
-            if (callback) {
-                callback(result);
-            }
-        });
-    }
+    console.log(study);
+    saveExecutionModerator({studyId: study.id, testerId: study.testerId, data: data}, function (result) {
+        console.log('saveExecutionModerator', result);
+        if (callback) {
+            callback(result);
+        }
+    });
 }
 
 function getFinishedStudyPhases() {

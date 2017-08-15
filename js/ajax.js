@@ -892,11 +892,33 @@ function requestParticipation(data, callback) {
 }
 
 /*
- * execution save
+ * tester execution save
  */
 function saveExecutionTester(data, callback) {
     $.ajax({
         url: 'includes/save-execution-tester.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+/*
+ * moderator execution save
+ */
+function saveExecutionModerator(data, callback) {
+    console.log('ajax saveExecutionModerator:', data);
+    $.ajax({
+        url: 'includes/save-execution-moderator.php',
         data: data,
         type: 'post',
         dataType: 'json',
