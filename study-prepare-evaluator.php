@@ -124,8 +124,8 @@ if ($h && $token && $studyId) {
                     <div id="call-screen" class="row hidden">
                         <div class="col-xs-12 text-center">
                             <div class="btn-group">
-                                <button class="btn btn-danger btn-shadow" id="btn-close-call"><?php echo $lang->close ?></button>
-                                <button class="btn btn-info btn-shadow disabled" id="btn-enter-study"><?php echo $lang->enterStudyAsModerator ?></button>
+                                <button class="btn btn-danger btn-shadow" id="btn-close-call"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
+                                <button class="btn btn-success btn-shadow disabled" id="btn-enter-study"><i class="fa fa-chevron-right"></i> <?php echo $lang->enterStudyAsModerator ?></button>
                             </div>
                         </div>
 
@@ -137,7 +137,7 @@ if ($h && $token && $studyId) {
                             <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
                                 <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="Mikrofon stummschalten"><i class="fa fa-microphone-slash"></i> </button>
                                 <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="Übetragung pausieren"><i class="fa fa-pause"></i> </button>
-                                <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="Gesprächspartner stummschalten"><i class="fa fa-volume-up"></i> </button>
+                                <button type="button" class="btn stream-control disabled" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="Gesprächspartner stummschalten"><i class="fa fa-volume-up"></i> </button>
                             </div>
                             <div id="stream-control-indicator">
                                 <div style="position: absolute; top: 4px; display: block; left: 25px; opacity: 1; color: white">
@@ -150,7 +150,6 @@ if ($h && $token && $studyId) {
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -163,7 +162,7 @@ if ($h && $token && $studyId) {
 
                 <div class="panel-body">
                     <span class="label label-default" id="user"><i class="fa fa-user"></i> <span class="label-text"></span></span>
-                    <span id="waiting" style="margin-left: 6px"><span class="address">wartet:</span> <span class="text"></span></span>
+                    <span id="waiting" style="margin-left: 6px; font-size: 9pt"><span class="address">wartet:</span> <span class="text"></span></span>
                     <!--<span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text hidden-xs hidden-sm"></span></span>-->
                     <!--<span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>-->
                 </div>
@@ -302,7 +301,7 @@ if ($h && $token && $studyId) {
                             renderQueue(checkRequests(result.requests));
                         }
                     });
-                }, 4000);
+                }, 1513);
             }
 
             function renderQueue(requests) {
@@ -338,7 +337,7 @@ if ($h && $token && $studyId) {
                         });
                     }
                 } else {
-                    appendAlert($('#participation-queue'), ALERT_NO_PARTICIPATION_REQUESTS);
+                    appendAlert($('#participation-queue'), ALERT_SEARCH_PARTICIPATION_REQUESTS);
                 }
             }
 
@@ -395,6 +394,12 @@ if ($h && $token && $studyId) {
                     $(peerConnection).on('videoAdded', function () {
                         clearAlerts($('#study-participation'));
                         $('#btn-enter-study').removeClass('disabled');
+                    });
+
+                    // a peer video has been removed
+                    $(peerConnection).on('videoRemoved', function () {
+                        clearAlerts($('#study-participation'));
+                        $('#btn-enter-study').addClass('disabled');
                     });
                 }
             }

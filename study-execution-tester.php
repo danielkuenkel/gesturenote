@@ -127,6 +127,7 @@ if ($h && $token && $studyId) {
         <!-- Container (Panel Section) -->
         <div class="mainContent" id="mainContent">
             <div id="viewTester">
+                <div id="pinnedRTC" style="position: fixed; left: 18px"></div>
                 <div id="phase-content"></div>
             </div>
         </div>
@@ -139,20 +140,20 @@ if ($h && $token && $studyId) {
         <div id="video-caller-holder" class="hidden">
             <div id="video-caller" style="width: 100%">
                 <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
-                <div class="rtc-local-container">
+                <div class="rtc-local-container" style="position: absolute">
                     <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
                 </div>
-                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 11px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
                     <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="Mikrofon stummschalten"><i class="fa fa-microphone-slash"></i> </button>
                     <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="Übetragung pausieren"><i class="fa fa-pause"></i> </button>
                     <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="Gesprächspartner stummschalten"><i class="fa fa-volume-up"></i> </button>
                 </div>
                 <div id="stream-control-indicator">
-                    <div style="position: absolute; top: 4px; display: block; left: 25px; opacity: 1; color: white">
+                    <div style="position: absolute; top: 2px; display: block; left: 10px; opacity: 1; color: white">
                         <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
                         <i id="pause-local-stream" class="hidden fa fa-pause"></i>
                     </div>
-                    <div style="position: absolute; top: 4px; display: block; right: 25px; opacity: 1; color: white">
+                    <div style="position: absolute; top: 2px; display: block; right:10px; opacity: 1; color: white">
                         <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
                         <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
                     </div>
@@ -178,7 +179,7 @@ if ($h && $token && $studyId) {
 
             function onAllExternalsLoadedSuccessfully() {
                 $('[data-toggle="tooltip"]').tooltip({container: 'body'});
-                
+
                 var query = getQueryParams(document.location.search);
                 if (query.studyId && query.h && query.token) {
                     currentView = VIEW_TESTER;
@@ -211,6 +212,44 @@ if ($h && $token && $studyId) {
                 $('#viewTester').find('#phase-content').empty();
                 Tester.renderView();
                 window.location.hash = getCurrentPhase().id;
+            }
+
+            $(window).on('resize', function () {
+                if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewTester #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
+                    updateRTCHeight($('#viewTester #column-left').width());
+                }
+            });
+
+            function updateRTCHeight(newWidth) {
+                var height = newWidth * 3 / 4;
+                TweenMax.to($('#video-caller'), .1, {width: newWidth, height: height, onComplete: onResizeComplete});
+            }
+
+            function onResizeComplete() {
+                TweenMax.to($('#viewTester #column-left'), .2, {css: {marginTop: $('#video-caller').height() + 20, opacity: 1.0}});
+            }
+
+            var resetRTCTimeout;
+            $(window).scroll(function () {
+//                return null;
+                if ($('#viewTester #column-left').hasClass('rtc-scalable') && !$('#pinnedRTC').hasClass('hidden')) {
+                    if ($(document).scrollTop() <= 0 && ($('#viewTester #column-left').width() !== $('#video-caller').width() || $('#video-caller').height() !== $('#viewTester #column-left').offset().top - 40)) {
+                        resetRTCTimeout = setTimeout(resetRTC(), 100);
+                        return false;
+                    } else {
+                        clearTimeout(resetRTCTimeout);
+                    }
+
+                    var ratio = 4 / 3;
+                    var newHeight = Math.min($('#viewTester #column-left').offset().top - 75 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewTester #column-left').offset().top - $(document).scrollTop() - 75 - parseInt($('#mainContent').css('padding-top')), 170));
+                    $('#video-caller').width(Math.min(newHeight * ratio, $('#viewTester #column-left').width()));
+                    $('#video-caller').height(newHeight);
+                }
+            });
+
+            function resetRTC() {
+                clearTimeout(resetRTCTimeout);
+                $(window).resize();
             }
         </script>
     </body>

@@ -7,10 +7,11 @@
 var currentIdForModal;
 var colors;
 function checkSessionStorage() {
-    console.log('checkSessionStorage');
     if (typeof (Storage) !== "undefined") {
+        
         checkAssembledGestures(getLocalItem(ASSEMBLED_GESTURE_SET), getLocalItem(GESTURE_CATALOG));
         createOriginPhases();
+        console.log(getLocalItem(STUDY_PHASE_STEPS));
         createPredefinedGestureFeedback();
         renderSessionStorageData();
     } else {
@@ -23,8 +24,8 @@ function createOriginPhases() {
     if (phaseSteps === null || phaseSteps === undefined || (phaseSteps && phaseSteps.length === 0))
     {
         var phases = new Array();
-        phases.push({id: chance.natural(), format: LETTER_OF_ACCEPTANCE, color: colors.pop()});//new PhaseItem(chance.natural(), LETTER_OF_ACCEPTANCE, colors.pop()));
-        phases.push({id: chance.natural(), format: THANKS, color: colors.pop()});//new PhaseItem(chance.natural(), THANKS, colors.pop()));
+        phases.push({id: chance.natural(), format: LETTER_OF_ACCEPTANCE});//new PhaseItem(chance.natural(), LETTER_OF_ACCEPTANCE, colors.pop()));
+        phases.push({id: chance.natural(), format: THANKS});//new PhaseItem(chance.natural(), THANKS, colors.pop()));
         setLocalItem(STUDY_PHASE_STEPS, phases);
     }
 }
@@ -211,9 +212,10 @@ function renderPhaseSteps() {
     var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
     if (phaseSteps)
     {
+        console.log(phaseSteps);
         for (var i = 0; i < phaseSteps.length; i++) {
             var item = phaseSteps[i];
-            addPhaseStep(item.id, item.format, item.color, item.title);
+            addPhaseStep(item.id, item.format, item.title);
         }
 
         if (getLocalItem(STUDY) && getLocalItem(STUDY).phase) {
@@ -368,9 +370,8 @@ function savePhases() {
         var item = phaseSteps[i];
         var id = $(item).attr('id');
         var format = $(item).find('.btn-modify').attr('id');
-        var color = $(item).find('.glyphicon-tag').css('color');
         var title = $(item).find('.phase-step-format').text();
-        phases.push({id: id, format: format, color: color, title: title});
+        phases.push({id: id, format: format, title: title});
     }
     setLocalItem(STUDY_PHASE_STEPS, phases);
 }
@@ -438,9 +439,9 @@ $(document).on('click', '.btn-add-groupingQuestionOption', function (event) {
         event.handled = true;
         var item = $('#form-item-container').find('#groupingQuestionItem').clone().removeAttr('id');
         item.attr('id', chance.natural());
-        $(this).prev().find('.panel-body').append(item);
-        checkCurrentListState($(this).prev().find('.panel-body'));
-        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+        $(this).prev().find('.option-container').append(item);
+        checkCurrentListState($(this).prev().find('.option-container'));
+        TweenMax.from(item, .2, {y: -10, opacity: 0});
     }
 });
 

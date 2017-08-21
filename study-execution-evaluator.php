@@ -113,16 +113,14 @@ if ($h && $token && $studyId) {
             </div>
         </div>
 
+        <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 999; top: 150px; left:100px; display: block">
+            <img src="img/resize-white.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
+        </div>
 
         <!-- Container (Panel Section) -->
         <div class="mainContent" id="mainContent" style="padding:20px; margin-top:60px">
             <div id="viewModerator">
-                <div id="pinnedRTC" style="position: fixed">
-                    <!--                    <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
-                                            <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
-                                        </div>-->
-                </div>
-
+                <div id="pinnedRTC" style="position: fixed"></div>
                 <div id="phase-content"></div>
             </div>
         </div>
@@ -130,23 +128,26 @@ if ($h && $token && $studyId) {
         <div id="video-caller-holder" class="hidden">
             <div id="video-caller" style="width: 100%">
                 <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
-                <div class="rtc-local-container">
+                <div class="rtc-local-container" style="position: absolute">
                     <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
                 </div>
-                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 11px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
                     <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="Mikrofon stummschalten"><i class="fa fa-microphone-slash"></i> </button>
                     <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="Übetragung pausieren"><i class="fa fa-pause"></i> </button>
                     <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="Gesprächspartner stummschalten"><i class="fa fa-volume-up"></i> </button>
                 </div>
                 <div id="stream-control-indicator">
-                    <div style="position: absolute; top: 4px; display: block; left: 25px; opacity: 1; color: white">
+                    <div style="position: absolute; top: 2px; display: block; left: 10px; opacity: 1; color: white">
                         <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
                         <i id="pause-local-stream" class="hidden fa fa-pause"></i>
                     </div>
-                    <div style="position: absolute; top: 4px; display: block; right: 25px; opacity: 1; color: white">
+                    <div style="position: absolute; top: 2px; display: block; right:45px; opacity: 1; color: white">
                         <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
                         <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
                     </div>
+                </div>
+                <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; right: 0;">
+                    <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
                 </div>
             </div>
         </div>
@@ -219,19 +220,17 @@ if ($h && $token && $studyId) {
             });
 
             function updateRTCHeight(newWidth) {
-                var ratio = $('#video-caller').attr('ratio');
-                var height = newWidth * ratio;
+                var height = newWidth * 3 / 4;
                 TweenMax.to($('#video-caller'), .1, {width: newWidth, height: height, onComplete: onResizeComplete});
             }
 
             function onResizeComplete() {
-                var ratio = 4 / 3;
-                $('#video-caller').attr('ratio', ratio);
                 TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: $('#video-caller').height() + 20, opacity: 1.0}});
             }
 
             var resetRTCTimeout;
             $(window).scroll(function () {
+//                return null;
                 if ($('#viewModerator #column-left').hasClass('rtc-scalable') && !$('#pinnedRTC').hasClass('hidden')) {
                     if ($(document).scrollTop() <= 0 && ($('#viewModerator #column-left').width() !== $('#video-caller').width() || $('#video-caller').height() !== $('#viewModerator #column-left').offset().top - 40)) {
                         resetRTCTimeout = setTimeout(resetRTC(), 100);
@@ -240,9 +239,10 @@ if ($h && $token && $studyId) {
                         clearTimeout(resetRTCTimeout);
                     }
 
-                    var ratio = $('#video-caller').attr('ratio');
+                    var ratio = 4 / 3;
                     var newHeight = Math.min($('#viewModerator #column-left').offset().top - 75 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 75 - parseInt($('#mainContent').css('padding-top')), 170));
                     $('#video-caller').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
+                    $('#video-caller').height(newHeight);
                 }
             });
 
@@ -267,10 +267,9 @@ if ($h && $token && $studyId) {
             });
 
 
-
             function renderPhaseStep() {
                 removeAlert($('#mainContent'), ALERT_NO_PHASE_DATA);
-                rescueVideoCaller();
+//                rescueVideoCaller();
                 $('#viewModerator').find('#phase-content').empty();
                 Moderator.renderView();
                 window.location.hash = getCurrentPhase().id;

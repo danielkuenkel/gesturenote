@@ -76,6 +76,7 @@ function renderFormatItem(target, data) {
         case DICHOTOMOUS_QUESTION:
             $(clone).find('.justification #' + parameters.justification).click();
             $(clone).find('.justification-for #' + parameters.justificationFor).click();
+            initJustificationFormElements(clone, parameters);
             break;
         case DICHOTOMOUS_QUESTION_GUS:
             if (parameters.used === 'used') {
@@ -85,10 +86,12 @@ function renderFormatItem(target, data) {
             $(clone).find('.justification-for #' + parameters.justificationFor).click();
             break;
         case GROUPING_QUESTION:
+            console.log(parameters);
             $(clone).find('.multiselect #' + parameters.multiselect).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
             $(clone).find('.justification #' + parameters.justification).click();
             $(clone).find('.justification-for #' + parameters.justificationFor).click();
+            initJustificationFormElements(clone, parameters);
 
             if (options) {
                 for (var j = 0; j < options.length; j++) {
@@ -110,6 +113,7 @@ function renderFormatItem(target, data) {
             $(clone).find('.justification #' + parameters.justification).click();
             $(clone).find('.justification-for #' + parameters.justificationFor).click();
             $(clone).find('.optionselect #' + parameters.optionSource).click();
+            initJustificationFormElements(clone, parameters);
             break;
         case RATING:
             $(clone).find('#' + parameters.negative).click();
@@ -244,6 +248,21 @@ function renderFormatItem(target, data) {
     TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
 }
 
+function initJustificationFormElements(clone, parameters) {
+    $(clone).find('.justification').unbind('change').bind('change', function (event) {
+        event.preventDefault();
+        if ($(event.target).attr('id') === 'yes') {
+            $(clone).find('.justification-for').removeClass('hidden');
+        } else {
+            $(clone).find('.justification-for').addClass('hidden');
+        }
+    });
+
+    if (parameters && parameters.justification === 'yes') {
+        $(clone).find('.justification-for').removeClass('hidden');
+    }
+}
+
 
 /*
  * get the format item data for study creation
@@ -269,19 +288,19 @@ function getFormatData(element) {
             parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used'};
             break;
         case DICHOTOMOUS_QUESTION:
-            parameters = {justification: $(element).find('.justification .active').attr('id'),
-                justificationFor: $(element).find('.justification-for .active').attr('id')};
+            parameters = {justification: $(element).find('.justification .btn-option-checked').attr('id'),
+                justificationFor: $(element).find('.justification-for .btn-option-checked').attr('id')};
             break;
         case DICHOTOMOUS_QUESTION_GUS:
             parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
-                justification: $(element).find('.justification .active').attr('id'),
-                justificationFor: $(element).find('.justification-for .active').attr('id')};
+                justification: $(element).find('.justification .btn-option-checked').attr('id'),
+                justificationFor: $(element).find('.justification-for .btn-option-checked').attr('id')};
             break;
         case GROUPING_QUESTION:
-            parameters = {multiselect: $(element).find('.multiselect .active').attr('id'),
-                justification: $(element).find('.justification .active').attr('id'),
-                justificationFor: $(element).find('.justification-for .active').attr('id'),
-                optionalanswer: $(element).find('.optionalanswer .active').attr('id')};
+            parameters = {multiselect: $(element).find('.multiselect .btn-option-checked').attr('id'),
+                justification: $(element).find('.justification .btn-option-checked').attr('id'),
+                justificationFor: $(element).find('.justification-for .btn-option-checked').attr('id'),
+                optionalanswer: $(element).find('.optionalanswer .btn-option-checked').attr('id')};
             options = new Array();
             var groupingOptions = $(element).find('.option-container').children();
             for (var j = 0; j < groupingOptions.length; j++) {
@@ -290,18 +309,18 @@ function getFormatData(element) {
             break;
         case GROUPING_QUESTION_GUS:
             parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
-                multiselect: $(element).find('.multiselect .active').attr('id'),
-                optionSource: $(element).find('.optionselect .active').attr('id'),
-                justification: $(element).find('.justification .active').attr('id'),
-                justificationFor: $(element).find('.justification-for .active').attr('id'),
-                optionalanswer: $(element).find('.optionalanswer .active').attr('id')};
+                multiselect: $(element).find('.multiselect .btn-option-checked').attr('id'),
+                optionSource: $(element).find('.optionselect .btn-option-checked').attr('id'),
+                justification: $(element).find('.justification .btn-option-checked').attr('id'),
+                justificationFor: $(element).find('.justification-for .btn-option-checked').attr('id'),
+                optionalanswer: $(element).find('.optionalanswer .btn-option-checked').attr('id')};
             break;
         case GROUPING_QUESTION_OPTIONS:
-            parameters = {multiselect: $(element).find('.multiselect .active').attr('id'),
-                optionSource: $(element).find('.optionselect .active').attr('id'),
-                justification: $(element).find('.justification .active').attr('id'),
-                justificationFor: $(element).find('.justification-for .active').attr('id'),
-                optionalanswer: $(element).find('.optionalanswer .active').attr('id')};
+            parameters = {multiselect: $(element).find('.multiselect .btn-option-checked').attr('id'),
+                optionSource: $(element).find('.optionselect .btn-option-checked').attr('id'),
+                justification: $(element).find('.justification .btn-option-checked').attr('id'),
+                justificationFor: $(element).find('.justification-for .btn-option-checked').attr('id'),
+                optionalanswer: $(element).find('.optionalanswer .btn-option-checked').attr('id')};
             break;
         case RATING:
             parameters = {negative: $(element).find('.negative').find('.active').attr('id')};

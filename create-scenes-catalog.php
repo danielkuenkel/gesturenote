@@ -4,27 +4,50 @@ include './includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" onclick="onCloseClick()">&times;</button>
-    <h4 class="modal-title" id="exampleModalLabel">Zustands-Katalog</h4>
+    <h4 class="modal-title" id="exampleModalLabel">Zustands-Katalog <i class="fa fa-info-circle" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text3 ?>"></i></h4>
 </div>
 <div id="modal-body" class="modal-body">
     <div class="container-root" id="list-container"></div>
 </div>
 <hr style="margin: 0;">
 <div id="modal-body" class="modal-body">
-    <div class="form-group form-group-no-margin">
-        <div class="input-group">
-            <span class="input-group-addon">Zustands-Format</span>
-            <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
-            <div class="input-group-btn select dropup" id="addFormatSelect" role="group">
-                <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                    <!--<li id="pidoco"><a href="#">Pidoco</a></li>-->
-                    <li id="web"><a href="#">Webseite</a></li>
-                    <li id="image"><a href="#">Bild</a></li>
-                    <!--<li id="video"><a href="#">Video</a></li>-->
-                    <li id="videoEmbed"><a href="#">Videoeinbettung</a></li>
-                </ul>
-                <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+
+    <!--        <div class="form-group form-group-no-margin">
+                <div class="input-group">
+                    <span class="input-group-addon">Zustands-Format</span>
+                    <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
+                    <div class="input-group-btn select dropup" id="addFormatSelect" role="group">
+                        <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            <li id="pidoco"><a href="#">Pidoco</a></li>
+                            <li id="web"><a href="#">Webseite</a></li>
+                            <li id="image"><a href="#">Bild</a></li>
+                            <li id="video"><a href="#">Video</a></li>
+                            <li id="videoEmbed"><a href="#">Videoeinbettung</a></li>
+                        </ul>
+                        <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="addFormat" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                    </div>
+                </div>
+            </div>-->
+
+    <span class="text">Um einen Zustand für die Verwendung z.B. in einer Szenario-basierten Aufgabe oder einem Gesten-Training hinzuzufügen, klick Sie auf das entsprechende Format. Es wird ein Element hinzugefügt, welches anschließend noch bearbeitet werden muss.</span>
+    <div class="add-button-group" id="add-scenes-button-group">
+        <div class="btn-group">
+            <div class="btn btn-info btn-add-item font-bold" id="web">
+                <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->web ?> 
+                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+            </div>
+        </div>
+        <div class="btn-group">
+            <div class="btn btn-info btn-add-item font-bold" id="image">
+                <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->image ?>
+                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+            </div>
+        </div>
+        <div class="btn-group">
+            <div class="btn btn-info btn-add-item font-bold" id="videoEmbed">
+                <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->videoEmbed ?>
+                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
             </div>
         </div>
     </div>
@@ -38,6 +61,7 @@ include './includes/language.php';
 <script>
     $(document).ready(function () {
         closeClicked = false;
+        $('[data-toggle="popover"]').popover({container: 'body', delay: {"show": 300, "hide": 0}});
 
         var data = getLocalItem(ASSEMBLED_SCENES);
         if (data !== null) {
@@ -205,6 +229,36 @@ include './includes/language.php';
             console.log('transmit gestures clicked');
         }
     });
+
+    $('#modal-body .add-button-group').unbind('change').bind('change', function (event) {
+        var itemType = $(event.target).attr('id');
+        var clone = $('#form-item-container').find('#' + itemType).clone();
+        clone.attr('name', itemType);
+
+        var listContainer = $(this).closest('.root').find('#list-container');
+        var tweenTarget = listContainer.children().last();
+        if(!tweenTarget || (tweenTarget && tweenTarget.length === 0)) {
+            TweenMax.to($(event.target), .3, {y: '-=120', opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: onMoveComplete, onCompleteParams: [clone, listContainer, itemType]});
+            return null;
+        }
+        
+        var tweenTargetOffset = $(tweenTarget).offset();
+        var tweenElementOffset = $(event.target).offset();
+        var tweenOffset = {offsetY: tweenTargetOffset.top - tweenElementOffset.top + tweenTarget.height(), offsetX: tweenTargetOffset.left - tweenElementOffset.left};
+        var alphaY = tweenOffset.offsetY < 0 ? '' + tweenOffset.offsetY : '+' + tweenOffset.offsetY;
+        var alphaX = tweenOffset.offsetX < 0 ? '' + tweenOffset.offsetX : '+' + tweenOffset.offsetX;
+        TweenMax.to($(event.target), .3, {x: alphaX, y: alphaY, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: onMoveComplete, onCompleteParams: [clone, listContainer, itemType]});
+    });
+
+
+    function onMoveComplete(clone, listContainer, itemType) {
+        $(listContainer).append(clone);
+        checkCurrentListState(listContainer);
+        updateBadges($('#modal-body #list-container'), itemType);
+
+        TweenMax.from(clone, 1, {y: -40, opacity: 0, ease: Elastic.easeOut, clearProps: 'all'});
+        $(listContainer).trigger('listItemAdded');
+    }
 
     $('#modal-body #list-container').unbind('listItemAdded').bind('listItemAdded', function (event) {
         event.preventDefault();

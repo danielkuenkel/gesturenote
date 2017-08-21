@@ -44,6 +44,7 @@ var ALERT_NO_TITLE = 'no-title';
 var ALERT_PIDOCO_EDIT_URL_INVALID = 'pidoco-edit-url-invalid';
 var ALERT_PIDOCO_EMBED_URL_INVALID = 'pidoco-embed-url-invalid';
 var ALERT_VIDEO_EMBED_URL_INVALID = 'video-embed-url-invalid';
+var ALERT_IMAGE_TO_LARGE = 'image-to-large';
 var ALERT_NO_SEARCH_RESULTS = 'no-search-results';
 var ALERT_NO_PHASE_DATA = 'no-phase-data';
 var ALERT_WAITING_FOR_TRAINING_GESTURE = 'waiting-for-training-gesture';
@@ -83,6 +84,9 @@ var ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION = 'no-more-gestures-for-classifica
 var ALERT_NO_GESTURE_SETS_FOR_STUDY = 'no-gesture-sets-for-study';
 var ALERT_GESTURE_SET_TITLE_TOO_SHORT = 'gesture-set-title-too-short';
 var ALERT_EMPTY_GESTURE_SET = 'empty-gesture-set';
+
+// create study alert modal hints
+var ALERT_NO_DATA_QUESTIONNAIRE = 'no-data-questionnaire';
 
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);

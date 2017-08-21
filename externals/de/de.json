@@ -11,7 +11,7 @@
     "breadcrump": {
         "home": "Home",
         "dashboard": "Dashboard",
-        "studies": "Studien",
+        "studies": "Studien-Übersicht",
         "study": "Studie",
         "studyParticipant": "Teilnahme",
         "createStudy": "Neue Studie",
@@ -150,6 +150,7 @@
     "or": "oder",
     "Or": "Oder",
     "delete": "Löschen",
+    "reset": "Zurücksetzen",
     "arrange": "Zusammenstellen",
     "open": "Öffnen",
     "set": "Set",
@@ -203,7 +204,7 @@
     "dashboard": {
         "dashboard": "dashboard",
         "dashboardInfo": "Um fortzufahren wählen Sie bitte aus einer der unten stehenden Kategorien.",
-        "studies": "Studien",
+        "studies": "Studien-Übersicht",
         "studiesPanelBody": "Katalog Ihrer erstellen und durchgeführten Gesten-Designstudien",
         "gesturesStyleguides": "Gesten-Styleguides",
         "gesturesStyleguidesPanelBody": "Erfahren Sie, welchen Kriterien gebrauchstaugliche Gesten unterliegen",
@@ -509,9 +510,9 @@
                 },
                 "moderator": {
                     "stream": "yes",
-                    "video": "no",
+                    "video": "yes",
                     "audio": "yes",
-                    "visualizeStream": "no",
+                    "visualizeStream": "yes",
                     "recordStream": "no"
                 },
                 "enableDataChannels": "yes"
@@ -841,7 +842,7 @@
     "sceneTypes": {
         "image": "Bild",
         "web": "Webseite",
-        "videoEmbed": "Video-Embed",
+        "videoEmbed": "Video-Einbettung",
         "pidoco": "Pidoco",
         "video": "Video"
     },
@@ -1111,6 +1112,7 @@
             "identificationGestures": "<strong>Gesten <em>(Bottom-Up)</em></strong>: Bei Bottom-Up werden für vorhandene Funktionen geeignete Gesten gesucht. Des Weiteren kann die Ermittlung von Gesten zum einen nutzer-basiert und zum anderen experten-basiert erfolgen. In GestureNote ist es möglich, dass Sie eigene Gesten ad-hoc für eine Studie aufzeichnen, oder mit Hilfe von potentiellen Endanwendern identifizieren. Für eine nutzer-basierte Gesten-Ermittlung müssen vorab Zustände hinterlegt werden, damit der Benutzer sich besser in die Situation hineinversetzen kann. Dies kann in Form von Bildern, Webseiten oder eingebetteten Videos von YouTube oder Vimeo geschehen.",
             "identificationTrigger": "<strong>Funktionen <em>(Top-Down)</em></strong>: Bei Top-Down werden logische Verknüpfungen von Funktionen zu vorhandenen Gesten hergestellt. Wichtig ist dabei, dass eine Quelle für die Gesten angeboten wird. In GestureNote können Funktionen für bereits vorhandene Gesten (ermittelte oder freigegebene Gesten anderer Evaluatoren) oder von Ihnen ad-hoc aufgezeichnete Gesten gesucht werden.",
             "gus": "Der Gesture Usability Scale liegt in GestureNote in zwei Varianten vor. Zum einen können Gesten einzeln, zum anderen gebündelt abgefragt werden. Diese Fragebögen können mit Hilfe eines Baukastens durch die Auswahl abzufragender Faktoren (z.B. Komfort & Ergonomie, Soziale Akzeptanz oder Physischer Kontext) zusammengestellt werden. Im Unterschied zu normalen Labor- und Feldtests sehen die beiden Varianten des GUS eine Kopplung der Gesten, Funktionen als auch Feedback vor. Ein Vorteil gegenüber eines normalen Fragebogens ist, dass Probanden sich die Gesten (in beiden Varianten des GUS) nochmals ansehen können und wissen, welche Funktion und welches Feedback daran gekoppelt ist (in der Variante der Einzelgestenbewertung).",
+            "questionnaireGestures": "Diese Variante des GUS …",
             "sus": "Der System Usability Scale ist ein einfacher und technologieunabhängiger Fragebogen, mit dem die Gebrauchstauglichkeit eines Systems bewertet werden kann. Es handelt sich um eine etablierte Methode zur quantitativen Analyse der Gebrauchstauglichkeit. Der Scorewert (zwischen 0 und 100) wird in GestureNote automatisch berechnet. Sie müssen deshalb nichts weiter tun als diesen Fragebogen in den Leitfaden hinzuzufügen.",
             "gestureTraining": "Bevor Gesten (z.B. in einem Szenario-basierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen.",
             "scenario": "Gesteninteraktionen werden typischerweise mit Szenario-basierten Aufgaben in Verbindung mit WOZ-Experimenten evaluiert. Der Fokus wurde dabei auf die Erstellung explorativer WOZ-Experimente gelegt. Mit Szenario-baiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe (moderiert) anzubieten oder (unmoderiert) abzurufen.",
@@ -2865,6 +2867,11 @@
             "type": "warning",
             "text": "Die eingegebene Videoeinbettungs-URL wird nicht unterstützt oder scheint nicht korrekt zu sein."
         },
+        "imageToLarge": {
+            "id": "image-to-large",
+            "type": "warning",
+            "text": "Das Bild ist zu groß. Es darf eine Dateigröße von bis zu 8MB haben."
+        },
         "noSearchResults": {
             "id": "no-search-results",
             "type": "warning",
@@ -3047,6 +3054,11 @@
             "id": "empty-gesture-set",
             "type": "warning",
             "text": "Das Gesten-Set ist leer."
+        },
+        "noDataQuestionnaire": {
+            "id": "no-data-questionnaire",
+            "type": "warning",
+            "text": "Noch kein Fragebogen erstellt. Einzelne Frage mit Klick auf entsprechendes Format hinzufügen."
         }
     }
 }

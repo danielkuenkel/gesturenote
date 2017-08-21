@@ -292,7 +292,7 @@ var Moderator = {
         }
 
         // general data section
-        $(container).find('#general .panel-heading').text(data.title);
+        $(container).find('#general #heading').text(data.title);
         $(container).find('#general #description').text(data.description);
 
         // gestures section
@@ -341,9 +341,11 @@ var Moderator = {
             item.find('#feedback .text').prepend(label);
         } else {
             item.find('#feedback .text').text(translation.nones);
+            item.find('#trigger-feedback').remove();
         }
 
         if (gestureTrainingStartTriggered) {
+            console.log('gestureTrainingStartTriggered', gestureTrainingStartTriggered)
             item.find('#trigger-training').removeClass('disabled');
             container.find('#btn-start-training').addClass('hidden');
         }
@@ -363,16 +365,29 @@ var Moderator = {
         item.find('#trigger-training').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
-                $(item).find('#trigger-feedback').removeClass('disabled');
                 $(this).addClass('disabled');
                 trainingTriggered = true;
+
+                if (feedback) {
+                    $(item).find('#trigger-feedback').removeClass('disabled');
+                } else {
+                    if(currentGestureTrainingIndex >= (data.length - 1)) {
+                        $(item).find('#training-done').removeClass('disabled');
+                    } else {
+                        $(item).find('#next-gesture').removeClass('disabled');
+                    }
+                }
 
                 if (!previewModeEnabled && peerConnection) {
                     peerConnection.sendMessage(MESSAGE_TRAINING_TRIGGERED, {currentGestureTrainingIndex: currentGestureTrainingIndex, gestureId: gesture.id});
                 }
             } else {
                 if (gestureTrainingStartTriggered) {
-                    wobble(item.find('#trigger-feedback'));
+                    if (feedback) {
+                        wobble(item.find('#trigger-feedback'));
+                    } else {
+                        wobble(item.find('#next-gesture'));
+                    }
                 } else {
                     wobble(container.find('#btn-start-training'));
                 }
@@ -454,7 +469,7 @@ var Moderator = {
                 item.find('#trigger-training').addClass('disabled');
                 $(item).find('#next-gesture, #training-done').removeClass('disabled');
             } else {
-                item.find('#trigger-training').removeClass('disabled');
+//                item.find('#trigger-training').removeClass('disabled');
             }
         }
 

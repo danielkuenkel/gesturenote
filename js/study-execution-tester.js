@@ -89,6 +89,8 @@ var Tester = {
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
         }
+        
+        updateRTCHeight($('#phase-content #column-left').width());
     },
     checkPositioning: function checkPositioning(format) {
         var posY = '0px';
@@ -1772,7 +1774,7 @@ var Tester = {
     },
     appendRTCLiveStream: function appendRTCLiveStream() {
         var currentPhase = getCurrentPhase();
-        var target = $('#viewTester').find('#column-left');
+        var target = $('#viewTester').find('#pinnedRTC');
         switch (currentPhase.format) {
             case SCENARIO:
                 target = $('#viewTester').find('#fixed-rtc-preview');

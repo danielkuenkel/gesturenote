@@ -8,7 +8,7 @@ include './includes/language.php';
     <div class="input-group hidden" id="phase-step-title-input-container" style="padding-right: 20px">
         <input class="form-control item-input-text" id="phase-step-title-input" type="text" value="" maxlength="30"/>
         <div class="input-group-btn">
-            <button class="btn btn-default btn-shadow" id="btn-save-phase-step-title" data-toggle="tooltip"><i class="fa fa-check"></i></button>
+            <button class="btn btn-default btn-success btn-shadow" id="btn-save-phase-step-title" data-toggle="tooltip"><i class="fa fa-check"></i></button>
         </div>
     </div>
 </div>

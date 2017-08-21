@@ -36,6 +36,7 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="pidoco-embed-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->pidocoEmbedUrlInvalid->text ?></span></div>
     <div class="alert alert-warning" id="pidoco-edit-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->pidocoEditUrlInvalid->text ?></span></div>
     <div class="alert alert-warning" id="video-embed-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->videoEmbedUrlInvalid->text ?></span></div>
+    <div class="alert alert-warning" id="image-to-large" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->imageToLarge->text ?></span></div>
     <div class="alert alert-warning" id="no-search-results" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noSearchResults->text ?></span></div>
     <div class="alert alert-warning" id="no-phase-data" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noPhaseData->text ?></span></div>
     <div class="alert alert-warning" id="waiting-for-training-gesture" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->waitingForTrainingGesture->text ?></span></div>
@@ -71,4 +72,5 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-gesture-sets-for-study" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noGestureSetsForStudy->text ?></span></div>
     <div class="alert alert-warning" id="gesture-set-title-too-short" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->gestureSetTitleTooShort->text ?></span></div>
     <div class="alert alert-warning" id="empty-gesture-set" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->emptyGestureSet->text ?></span></div>
+    <div class="alert alert-warning" id="no-data-questionnaire" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noDataQuestionnaire->text ?></span></div>
 </div>

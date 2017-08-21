@@ -23,35 +23,56 @@ $(document).on('change', '.imageUpload', function (event) {
         var control = $(this);
         var button = $(element).find('.chooseSceneImage');
         button.addClass('disabled');
-        var imageUrl = $(element).find('.imageAreaContent').attr('src');
-        if (imageUrl.trim() !== '') {
-            deleteSceneImage({image: ["../" + imageUrl]}, function (result) {
-//                console.log('image deleted: ' + result);
-            });
-        }
+        clearAlerts(element);
 
-        var form = new FormData($(element).find('#upload-image-form'));
+        var form = $(element).find('#upload-image-form');
+        var formData = new FormData(form[0]);
         var uploadFiles = $(this)[0].files[0];
         if (uploadFiles) {
-            form.append('image', uploadFiles);
+            formData.append('image', uploadFiles);
         }
-//        console.log(form, uploadFiles);
+
+        // check file
+        if (uploadFiles) {
+            if (uploadFiles.size > 8000000) {
+                appendAlert(element, ALERT_IMAGE_TO_LARGE);
+                $(button).next().attr('src', '');
+                $(button).removeClass('disabled');
+                $(button).closest('.root').find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
+                $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture').addClass('glyphicon-refresh');
+                control.replaceWith(control = control.clone(true));
+                saveData();
+                return null;
+            }
+            $(element).find('.title').val(uploadFiles.name);
+        }
+
+        var imageUrl = $(element).find('.imageAreaContent').attr('src');
+        if (imageUrl.trim() !== '') {
+            deleteSceneImage({image: ["../" + imageUrl]});
+        }
+
         readFile(this.files[0], function () {
             showCursor($('body'), CURSOR_PROGRESS);
-            uploadSceneImage(form, function (result) {
+            $(button).closest('.root').find('#image-loading-indicator').removeClass('hidden');
+            $(imageArea).addClass('hidden');
+            
+            uploadSceneImage(formData, function (result) {
                 showCursor($('body'), CURSOR_DEFAULT);
                 $(button).removeClass('disabled');
                 if (result.status === RESULT_SUCCESS) {
+                    $(button).closest('.root').find('#image-loading-indicator').addClass('hidden');
                     $(imageAreaContent).attr("src", result.imageUrl);
-                    $(imageArea).removeClass('hidden');
                     $(element).find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
-                    $(element).find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture');
-                    $(element).find('.chooseSceneImage .btn-icon').addClass('glyphicon-refresh');
+                    $(element).find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture').addClass('glyphicon-refresh');
                     control.replaceWith(control = control.clone(true));
                     saveData();
                 } else {
-
+                    
                 }
+                
+                $(button).closest('.root').find('#image-loading-indicator').addClass('hidden');
+                $(imageArea).removeClass('hidden');
             });
         });
     }
@@ -66,6 +87,8 @@ $(document).on('click', '.btn-delete-image', function (event) {
         var element = $(this).closest('.root');
         var imageUrl = ["../" + $(element).find('.imageAreaContent').attr('src')];
         showCursor($('body'), CURSOR_PROGRESS);
+        clearAlerts(element);
+
         deleteSceneImage({image: imageUrl}, function (result) {
             showCursor($('body'), CURSOR_DEFAULT);
             $(button).removeClass('disabled');
@@ -73,8 +96,8 @@ $(document).on('click', '.btn-delete-image', function (event) {
                 $(button).next().attr('src', '');
                 $(button).parent().addClass('hidden');
                 $(button).closest('.root').find('.chooseSceneImage .btn-text').text('Bild auswählen');
-                $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('glyphicon-refresh');
-                $(button).closest('.root').find('.chooseSceneImage .btn-icon').addClass('glyphicon-picture');
+                $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('glyphicon-refresh').addClass('glyphicon-picture');
+                $(element).find('.title').val('');
                 saveData();
             } else {
 
@@ -265,21 +288,14 @@ $(document).on('click', '.checkVideoEmbedURL', function (event) {
         var videoContainer = $(this).closest('.root').find('.videoContainer');
         var inputContainer = $(this).closest('.form-group');
         var button = $(this);
-//        var ratio = $(this).closest('.root').find('.ratioSelect .chosen').attr('id');
-//        console.log(ratio);
 
-        $(this).closest('.root').find('.alert-' + ALERT_VIDEO_EMBED_URL_INVALID).empty();
+        clearAlerts($(this).closest('.root'));
         if (url && url.trim() !== "" && urlIsValid(url, TYPE_URL_VIDEO_EMBED)) {
             // check the video URL if they is valid. works for vimeo & youtube
             videoContainer.html(url);
             videoContainer.removeClass('hidden');
             var video = $(this).closest('.root').find('.videoContainer iframe');
             $(video).addClass('embed-responsive-item');
-//            var newWidth = videoContainer.width();
-//            video.data('aspectRatio', video.attr('height') / video.attr('width'));
-//            console.log('url valid: ' + video.data('aspectRatio') + ", " + video.attr('height') + ", " + video.attr('width') + ', ' + newWidth);
-//            video.attr('width', newWidth);
-//            video.attr('height', newWidth * video.data('aspectRatio'));
             inputContainer.removeClass('has-error');
             inputContainer.addClass('has-success');
             button.removeClass('btn-danger');
@@ -419,6 +435,7 @@ function urlIsValid(url, type) {
 }
 
 $(document).on("keyup", '.enter-key', function (event) {
+    clearAlerts($(this).closest('.root'));
     if (event.keyCode === 13) {
         $(this).parent().find('.checkInput').click();
     } else {

@@ -146,22 +146,24 @@ PeerConnection.prototype.initialize = function (options) {
 
             $(options.remoteMuteElement).on('click', function (event) {
                 event.preventDefault();
-                if (!$(this).hasClass('muted')) {
-                    $(this).addClass('muted');
-                    $(this).find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
-                    $('#' + options.remoteVideoElement).find('video').attr('volume', 0);
-                    $(this).attr('title', 'Gesprächspartner anschalten')
-                            .tooltip('fixTitle')
-                            .tooltip('setContent')
-                            .tooltip('show');
-                } else {
-                    $(this).removeClass('muted');
-                    $(this).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
-                    $('#' + options.remoteVideoElement).find('video').attr('volume', 1);
-                    $(this).attr('title', 'Gesprächspartner stummschalten')
-                            .tooltip('fixTitle')
-                            .tooltip('setContent')
-                            .tooltip('show');
+                if (!$(this).hasClass('disabled')) {
+                    if (!$(this).hasClass('muted')) {
+                        $(this).addClass('muted');
+                        $(this).find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
+                        $('#' + options.remoteVideoElement).find('video').attr('volume', 0);
+                        $(this).attr('title', 'Gesprächspartner anschalten')
+                                .tooltip('fixTitle')
+                                .tooltip('setContent')
+                                .tooltip('show');
+                    } else {
+                        $(this).removeClass('muted');
+                        $(this).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
+                        $('#' + options.remoteVideoElement).find('video').attr('volume', 1);
+                        $(this).attr('title', 'Gesprächspartner stummschalten')
+                                .tooltip('fixTitle')
+                                .tooltip('setContent')
+                                .tooltip('show');
+                    }
                 }
                 $(this).blur();
             });
@@ -191,6 +193,10 @@ PeerConnection.prototype.initialize = function (options) {
             if (!syncPhaseStep) {
                 connection.update(connection.options);
             }
+
+            if (options.remoteMuteElement) {
+                $(options.remoteMuteElement).removeClass('disabled');
+            }
         });
 
         // a peer video has been removed
@@ -215,6 +221,10 @@ PeerConnection.prototype.initialize = function (options) {
 
             if (connection.options.localStream.record === 'yes') {
                 connection.stopRecording(null, false);
+            }
+
+            if (options.remoteMuteElement) {
+                $(options.remoteMuteElement).addClass('disabled');
             }
         });
 
@@ -276,11 +286,6 @@ PeerConnection.prototype.initialize = function (options) {
 };
 
 $(window).on('resize', function () {
-    var currentOptions = connection.options;
-    var width = Math.floor($('#' + currentOptions.remoteVideoElement).width() * .3);
-    var height = Math.floor(width * 3 / 4);
-    $('#local-stream').height(height);
-    $('#local-stream').width(width);
     onTweenComplete();
 });
 
@@ -288,15 +293,19 @@ function onTweenComplete() {
     var remoteHeight = $('.rtc-remote-container').find('video').height();
     var offset = 0;
     if (remoteHeight > 0) {
-        offset = remoteHeight - $('#local-stream').height();
+        offset = remoteHeight - $('#local-stream').height() - 5;
     }
     $('#local-stream').css({marginBottom: offset + 'px'});
+}
+
+function onLocalTweenComplete() {
+    $('#local-stream').css({width: '30%', height: 'auto'});
 }
 
 PeerConnection.prototype.update = function (options) {
     this.status = STATUS_INITIALIZED;
     var currentOptions = this.options = options;
-    
+
     if (webrtc) {
         if (currentOptions) {
             console.log('update caller states', currentOptions);
@@ -365,11 +374,13 @@ PeerConnection.prototype.hideLocalStream = function () {
 };
 
 PeerConnection.prototype.showRemoteStream = function () {
-    var currentOptions = this.options;
-    var width = Math.floor($('#' + currentOptions.remoteVideoElement).width() * .3);
-    var height = Math.floor(width * 3 / 4);
-    TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: .6, width: width, height: height, left: 5, top: 5, ease: Quad.easeIn});
-    TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {delay: .6, opacity: 1.0, onComplete: onTweenComplete});
+    setTimeout(function () {
+        var currentOptions = connection.options;
+        var width = Math.floor($('#' + currentOptions.remoteVideoElement).width() * .3);
+        var height = Math.floor(width * 3 / 4);
+        TweenMax.to($('#' + currentOptions.localVideoElement), .3, {delay: .6, width: width, height: height, left: 5, top: 5, ease: Quad.easeIn, onComplete: onLocalTweenComplete});
+        TweenMax.to($('#' + currentOptions.remoteVideoElement), .3, {delay: .6, opacity: 1.0, onComplete: onTweenComplete});
+    }, 500);
 };
 
 PeerConnection.prototype.hideRemoteStream = function () {

@@ -6,7 +6,7 @@ include '../includes/language.php';
 
     <div id="moderator-web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
         <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
-        <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
+        <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; right: 0;">
             <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow btn-toggle-rtc-fixed"><i class="glyphicon glyphicon-new-window"></i></button>
         </div>
     </div>
@@ -361,28 +361,28 @@ include '../includes/language.php';
     </div>
 
     <div class="row root" id="thanks">
-<!--        <div class="col-md-7 col-lg-4" id="column-left"></div>
-        <div class="col-md-5 col-lg-8" id="column-right">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Danksagung
-                </div>
-                <div class="panel-body">
-                    <p class="text thanks-text"></p>
-                    <button class="btn btn-success btn-block btn-shadow" id="btn-leave-survey">Befragung verlassen</button>
-                </div>
-            </div>
-        </div>-->
-        
+        <!--        <div class="col-md-7 col-lg-4" id="column-left"></div>
+                <div class="col-md-5 col-lg-8" id="column-right">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Danksagung
+                        </div>
+                        <div class="panel-body">
+                            <p class="text thanks-text"></p>
+                            <button class="btn btn-success btn-block btn-shadow" id="btn-leave-survey">Befragung verlassen</button>
+                        </div>
+                    </div>
+                </div>-->
+
         <div class="col-sm-5 col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-sm-7 col-md-8" id="column-right" style="margin-bottom: 80px;">
             <h3 class="headline" style="margin: 0">Danke für die Teilnahme</h3>
             <hr>
             <div class="row">
-<!--                <div class="col-sm-6" style="margin-bottom: 20px;">
-                    <i class="fa fa-heart" style="font-size: 70pt; color: #ca3667"></i>
-                    <div class="text" id="thanks-text"></div>
-                </div>-->
+                <!--                <div class="col-sm-6" style="margin-bottom: 20px;">
+                                    <i class="fa fa-heart" style="font-size: 70pt; color: #ca3667"></i>
+                                    <div class="text" id="thanks-text"></div>
+                                </div>-->
                 <div class="col-sm-12" id="upload-instructions" style="margin-bottom: 20px;">
                     <i class="fa fa-upload" aria-hidden="true" style="font-size: 70pt; color: #777"></i>
                     <div class="text">
@@ -414,8 +414,8 @@ include '../includes/language.php';
 
     <!-- gesture training container -->
     <div class="row root" id="gestureTraining">
-        <div class="col-md-6 rtc-scalable" id="column-left">
-            <div class="panel panel-default" id="training">
+        <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 20px">
+            <div class="panel panel-sm panel-default" id="training">
                 <div class="panel-heading">
                     <span class="panel-heading-text"></span>
                 </div>
@@ -424,22 +424,16 @@ include '../includes/language.php';
                 </div>
             </div>
         </div>
-        <div class="col-md-6" id="column-right">
-            <div class="panel panel-default" id="general">
-                <div class="panel-heading"></div>
-                <div class="panel-body">
-                    <div id="description"></div>
-                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-training" style="margin-top: 6px;">Jetzt starten</button>
-                </div>
+        <div class="col-md-6 col-lg-7" id="column-right">
+            <div class="" id="general">
+                <h3 id="heading" style="margin-top: 0"></h3>
+                <div id="description"></div>
+                <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-training" style="margin-top: 6px;">Jetzt starten</button>
             </div>
-            <div class="panel panel-default" id="observations">
-                <div class="panel-heading">
-                    Beobachtungen
-                </div>
-                <div class="panel-body">
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="question-container"></div>
-                </div>
+            <div class="" id="observations">
+                <h3><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
             </div>
         </div>
     </div>
@@ -453,12 +447,10 @@ include '../includes/language.php';
                 <div id="trigger"><span class="address"></span> <span class="text"></span></div>
                 <div id="feedback"><span class="address"></span> <span class="text"></span></div>
             </div>
-
-            <button type="button" class="btn btn-default btn-shadow btn-block btn-popover-gesture-preview" style="margin-top: 10px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
         </div>
         <div class="col-sm-6 col-md-12 col-lg-6 right">
             <div class="btn-group-vertical btn-block">
-
+                <button type="button" class="btn btn-default btn-shadow btn-block btn-popover-gesture-preview" style="margin-top: 10px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
                 <button type="button" class="btn btn-info btn-shadow disabled" id="trigger-training"><span class="btn-text">Trainieren</span></button>
                 <button type="button" class="btn btn-info btn-shadow disabled" id="trigger-feedback"><span class="btn-text">Feedback geben</span></button>
             </div>
@@ -491,14 +483,10 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="panel panel-default" id="observations">
-                <div class="panel-heading">
-                    Beobachtungen
-                </div>
-                <div class="panel-body">
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="question-container"></div>
-                </div>
+            <div class="" id="observations">
+                <h3><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
             </div>
         </div>
     </div>
@@ -598,13 +586,11 @@ include '../includes/language.php';
                     <div id="gestures-list-container" class="row" style="margin-bottom: 0"></div>
                 </div>
             </div>
-
-            <div class="panel panel-default" id="observations">
-                <div class="panel-heading"><?php echo $lang->observations ?></div>
-                <div class="panel-body">
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="question-container"></div>
-                </div>
+            
+            <div class="" id="observations">
+                <h3><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
             </div>
         </div>
     </div>
@@ -698,12 +684,10 @@ include '../includes/language.php';
                             </div>
                         </div>-->
 
-            <div class="panel panel-default" id="observations">
-                <div class="panel-heading">Beobachtungen</div>
-                <div class="panel-body">
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="question-container"></div>
-                </div>
+            <div class="" id="observations">
+                <h3><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
             </div>
         </div>
     </div>
@@ -767,13 +751,13 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found">Es wurde eine ganz andere Geste vorgeführt</button>
                     </div>
                 </div>
-<!--                <hr style="margin: 0">
-                <div class="panel-body" style="padding-bottom: 0">
-                    <div id="help">
-                        <h4 style="margin-top: 0px; margin-bottom: 10px">Hilfe</h4>
-
-                    </div>
-                </div>-->
+                <!--                <hr style="margin: 0">
+                                <div class="panel-body" style="padding-bottom: 0">
+                                    <div id="help">
+                                        <h4 style="margin-top: 0px; margin-bottom: 10px">Hilfe</h4>
+                
+                                    </div>
+                                </div>-->
             </div>
             <div class="panel panel-sm panel-default" id="help-controls">
                 <div class="panel-heading">Hilfe</div>
@@ -798,15 +782,10 @@ include '../includes/language.php';
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 </div>
             </div>
-            <div class="" id="observations" style="margin-top: 20px">
-                <div class="">
-                    <h3>Beobachtungen</h3>
-                </div>
-                <div class="">
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="question-container"></div>
-                </div>
-                <!--<video id="savedVideo" src=""></video>-->
+            <div class="" id="observations">
+                <h3><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
             </div>
         </div>
     </div>
@@ -867,12 +846,10 @@ include '../includes/language.php';
                             </div>
                         </div>-->
 
-            <div class="panel panel-default" id="observations">
-                <div class="panel-heading">Beobachtungen</div>
-                <div class="panel-body">
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="question-container"></div>
-                </div>
+            <div class="" id="observations">
+                <h3><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
             </div>
         </div>
     </div>
@@ -1034,7 +1011,7 @@ include '../includes/language.php';
         <div class="col-md-5" id="column-left" style="margin-bottom: 15px;">
         </div>
 
-        <div class="col-md-7" id="column-right">
+        <div class="col-md-7" id="column-right" style="margin-bottom: 60px">
             <h3 class="headline" style="margin: 0" >Einverständniserklärung</h3>
             <hr>
             <div class="letter-text text"></div>

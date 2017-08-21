@@ -215,7 +215,7 @@ $(document).on('click', '.select .option li', function (event) {
                 $(disabledElements[i]).removeClass('disabled');
             }
         }
-        
+
         $(this).closest('.input-group').find('.item-input-text').attr('placeholder', '');
 
         if (parent.hasClass('saveGeneralData')) {
@@ -226,8 +226,15 @@ $(document).on('click', '.select .option li', function (event) {
     }
 });
 
+$(document).on('click', '.add-button-group .btn-add-item', function (event) {
+    if (!$(this).hasClass('disabled')) {
+        $(this).trigger('change');
+        $(this).find('[data-toggle="popover"]').popover('hide');
+    }
+});
+
 function initTooltips() {
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
 }
 
 $(document).on('mouseenter', '.btn-show-hole-text', function (event) {
@@ -825,6 +832,7 @@ function onWobbleComplete() {
 }
 
 $(document).on('click', '.btn-checkbox, .btn-radio', function (event) {
+    event.preventDefault();
     if (event.handled !== true)
     {
         event.handled = true;
@@ -1403,52 +1411,6 @@ $(document).on('click', '.btn-untag-as-favorite-gesture', function (event) {
     }
 });
 
-//$(document).on('click', '.gesture-assemble, .gesture-assemble-description, .gesture-unassemble-description', function (event) {
-//    event.preventDefault();
-//
-//    if (!event.handled) {
-//        event.handled = true;
-//        var thumbnail = $(this).closest('.gesture-thumbnail');
-//
-//        if (!$(thumbnail).hasClass('selected')) {
-//            thumbnail.addClass('selected');
-//            thumbnail.addClass('panel-success');
-//            thumbnail.find('.gesture-assemble').addClass('btn-success');
-//            thumbnail.find('.gesture-assemble-description').addClass('hidden');
-//            thumbnail.find('.gesture-unassemble-description').removeClass('hidden');
-//            thumbnail.find('#gesture-source, #gesture-scope').addClass('label-success');
-//        } else {
-//            thumbnail.removeClass('selected');
-//            thumbnail.removeClass('panel-success');
-//            thumbnail.find('.gesture-assemble').removeClass('btn-success');
-//            thumbnail.find('.gesture-assemble-description').removeClass('hidden');
-//            thumbnail.find('.gesture-unassemble-description').addClass('hidden');
-//            thumbnail.find('#gesture-source, #gesture-scope').removeClass('label-success');
-//        }
-//
-//
-//    }
-//});
-//
-//$(document).on('click', '.gesture-reassemble, .gesture-unassemble-description', function (event) {
-//    event.preventDefault();
-//    if (!event.handled) {
-//        event.handled = true;
-//        var thumbnail = $(this).closest('.gesture-thumbnail');
-//        var gestureId = thumbnail.attr('id');
-//        reassembleGesture(gestureId);
-//        saveData();
-//        originalFilterData = assembledGestures();
-//        if (originalFilterData && originalFilterData.length > 0) {
-//            checkPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-//        } else {
-//            checkPagination($('#custom-pager .pagination'), 0, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-//        }
-//        renderData(sort());
-//    }
-//});
-
-
 
 /*
  * sorting
@@ -1777,12 +1739,12 @@ function getTimeString(object, short, milliseconds) {
     for (var key in object) {
         if (key !== 'milliseconds' || milliseconds === true) {
             if (short) {
-                timeString += object[key] + ' ' + translation.timesShort[key] + ' ';
+                timeString += object[key] + '' + translation.timesShort[key] + ' ';
             } else {
                 if (parseInt(object[key]) === 1) {
-                    timeString += object[key] + ' ' + translation.timesSingular[key] + ' ';
+                    timeString += object[key] + '' + translation.timesSingular[key] + ' ';
                 } else {
-                    timeString += object[key] + ' ' + translation.times[key] + ' ';
+                    timeString += object[key] + '' + translation.times[key] + ' ';
                 }
             }
         }

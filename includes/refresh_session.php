@@ -11,4 +11,5 @@ if (isset($_SESSION['user_id'], $_SESSION['forename'], $_SESSION['surname'], $_S
     $_SESSION['usertype'] = $_SESSION['usertype'];
     $_SESSION['birthday'] = $_SESSION['birthday'];
 }
+print_r($_SESSION);
 ?>
