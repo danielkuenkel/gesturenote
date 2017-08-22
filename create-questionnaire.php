@@ -169,6 +169,9 @@ include './includes/language.php';
 
     $('#modal-body #list-container').unbind('listItemAdded').bind('listItemAdded', function (event) {
         event.preventDefault();
+        var addedElement = $(event.target).children().last();
+        console.log(addedElement);
+        initializeItemType(addedElement);
         clearAlerts($('#modal-body'));
         var scrollTarget = $(this).closest('.modal');
         var newScrollTop = Math.max(0, scrollTarget.find('.modal-content').height() - scrollTarget.height() + 60);
@@ -176,9 +179,9 @@ include './includes/language.php';
             scrollTop: newScrollTop
         }, 200);
     });
-    
+
     $('#modal-body #list-container').unbind('change').bind('change', function (event) {
-        if($(this).children().length > 0) {
+        if ($(this).children().length > 0) {
             clearAlerts($('#modal-body'));
         } else {
             appendAlert($('#modal-body'), ALERT_NO_DATA_QUESTIONNAIRE);

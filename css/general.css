@@ -450,8 +450,17 @@ label {
     top: -2px;
 }
 
-.btn-checkbox:hover, .btn-radio:hover {
-    background-color: #5bb85c;    
+.btn-checkbox:hover, 
+.btn-radio:hover {
+    background-color: #5bb85c;
+    color: #fff !important;
+}
+
+.btn-checkbox.disabled:hover,
+.btn-checkbox[disabled]:hover,
+.btn-radio.disabled:hover,
+.btn-radio[disabled]:hover {
+    background-color: #5bb85c;
     color: #fff !important;
 }
 
@@ -490,10 +499,10 @@ label {
 }
 
 .input-group-addon {
-    color: #696969 !important;
+    /*color: #696969 !important;*/
 }
 .input-group-addon:hover {
-    color: #303030 !important;
+    /*color: #303030 !important;*/
 }
 
 .btn-addon {

@@ -177,12 +177,12 @@ if (login_check($mysqli) == true) {
                 </div>
 
                 <div class="row" style="margin-top: 20px;">
-                    <div id="study-trigger-catalog" class="hidden col-sm-6">
+                    <div id="study-trigger-catalog" class="hidden col-sm-6" style="margin-bottom: 20px">
                         <h4 class="address"></h4>
                         <div class="list-container"></div>
                     </div>
 
-                    <div id="study-feedback-catalog" class="hidden col-sm-6" style="margin-top: 20px;">
+                    <div id="study-feedback-catalog" class="hidden col-sm-6">
                         <h4 class="address"></h4>
                         <div class="list-container"></div>
                     </div>
@@ -422,8 +422,6 @@ if (login_check($mysqli) == true) {
             });
 
             function onAllExternalsLoadedSuccessfully() {
-
-
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');

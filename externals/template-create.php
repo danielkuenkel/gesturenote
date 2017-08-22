@@ -22,12 +22,7 @@ include '../includes/language.php';
 
             <div class="form-group form-group-no-margin">
                 <label><?php echo $lang->question ?></label>
-                <!--<div class="input-group">-->
                 <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
-                <!--                    <div class="input-group-btn">
-                                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
-                                    </div>-->
-                <!--</div>-->
             </div>
         </div>
     </div>
@@ -42,7 +37,7 @@ include '../includes/language.php';
             </div>
             <span><?php echo $lang->questionFormats->openQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
-        <div class="panel-body">
+        <div class="panel-body hide-when-unused">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">
@@ -50,13 +45,8 @@ include '../includes/language.php';
             </div>
 
             <div class="form-group form-group-no-margin">
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
-                    <!--                    <div class="input-group-btn">
-                                            <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
-                                        </div>-->
-                </div>
+                <label><?php echo $lang->question ?></label>
+                <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
             </div>
         </div>
     </div>
@@ -107,7 +97,7 @@ include '../includes/language.php';
                             <span class="option-text"><?php echo $lang->yes ?></span>
                         </button>
                     </div>
-                    
+
                 </div>
 
                 <div class="form-group form-group-margin-top root justification-for hidden">
@@ -159,7 +149,7 @@ include '../includes/language.php';
             </div>
             <span><?php echo $lang->questionFormats->alternativeQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
-        <div class="panel-body">
+        <div class="panel-body hide-when-unused">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">
@@ -182,21 +172,215 @@ include '../includes/language.php';
             <div class="alert-space alert-assembled-trigger-removed"></div>
             <div class="alert-space alert-no-feedback-assembled"></div>
             <div class="alert-space alert-assembled-feedback-removed"></div>
-
+            
             <div class="form-group form-group-no-margin">
-                <div class="btn-group alternative" style="margin-right: 15px;margin-bottom: 10px;">
+                <label><?php echo $lang->demandRequest ?></label>
+                <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
+            </div>
+
+            <form class="form-inline">
+                <div class="form-group form-group-margin-top root justification" style="margin-right: 20px">
+                    <label style="margin: 0"><?php echo $lang->justification ?></label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="form-group form-group-margin-top root justification-for hidden">
+                    <label style="margin: 0"><?php echo $lang->justificationFor ?></label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="selectOne">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text">Auswahl einer Option</span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="selectNothing">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text">Keiner Auswahl</span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="always">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->always ?></span>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+            <form class="form-inline">
+                <div class="form-group form-group-margin-top root alternative" style="margin-right: 20px">
+                    <label style="margin: 0"><?php echo $lang->alternative ?></label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="gestures">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->gestures ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="triggers">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->triggers ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="feedbacks">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->feedback ?></span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group form-group-margin-top root alternativeFor" style="margin-right: 20px">
+                    <label style="margin: 0"><?php echo $lang->alternative ?></label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="alternativeGesture">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->theGesture ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="alternativeTrigger">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->theTrigger ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="alternativeFeedback">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->theFeedback ?></span>
+                        </button>
+                    </div>
+                </div>
+<!--
+                <div class="form-group form-group-margin-top root multiselect" style="margin-right: 20px">
+                    <label style="margin: 0"><?php echo $lang->multipleAnswersAllowed ?></label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
+
+                </div>-->
+
+                <div class="form-group form-group-margin-top root optionalanswer">
+                    <label style="margin: 0"><?php echo $lang->ownAnswerAllowed ?></label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+            
+            
+            <!--<div class="form-group form-group-no-margin">-->
+<!--                <div class="btn-group alternative" style="margin-right: 15px;margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon"><?php echo $lang->alternative ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="gestures" name="btn-success"><?php echo $lang->gestures ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-trigger-assembled inactive" id="triggers" name="btn-success"><?php echo $lang->triggers ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-feedback-assembled inactive" id="feedbacks" name="btn-success"><?php echo $lang->feedback ?></button>
-                </div>
-                <div class="btn-group alternativeFor" style="margin-right: 15px; margin-bottom: 10px;">
+                </div>-->
+<!--                <div class="btn-group alternativeFor" style="margin-right: 15px; margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon"><?php echo $lang->for ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="alternativeGesture" name="btn-success"><?php echo $lang->theGesture ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-trigger-assembled inactive" id="alternativeTrigger" name="btn-success"><?php echo $lang->theTrigger ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-feedback-assembled inactive" id="alternativeFeedback" name="btn-success"><?php echo $lang->theFeedback ?></button>
-                </div>
-                <div class="btn-group justification" style="margin-right: 15px; margin-bottom: 10px;">
+                </div>-->
+<!--                <div class="btn-group justification" style="margin-right: 15px; margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon"><?php echo $lang->justification ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
@@ -206,13 +390,13 @@ include '../includes/language.php';
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectOne" name="btn-success">Auswahl einer Alternative</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="selectNothing" name="btn-success">Keiner Auswahl</button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success">Immer</button>
-                </div>
-                <div class="btn-group optionalanswer" style="margin-right: 15px; margin-bottom: 10px;">
+                </div>-->
+<!--                <div class="btn-group optionalanswer" style="margin-right: 15px; margin-bottom: 10px;">
                     <button class="btn btn-default switchButtonAddon"><?php echo $lang->ownAnswerAllowed ?></button>
                     <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
                     <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 </div>
-            </div>
+            </div>-->
 
             <div class="form-group form-group-no-margin alternativeGestureSelect hidden">
                 <div class="input-group">
@@ -350,7 +534,7 @@ include '../includes/language.php';
                             <span class="option-text"><?php echo $lang->yes ?></span>
                         </button>
                     </div>
-                    
+
                 </div>
 
                 <div class="form-group form-group-margin-top root justification-for hidden">
@@ -414,7 +598,7 @@ include '../includes/language.php';
                             <span class="option-text"><?php echo $lang->yes ?></span>
                         </button>
                     </div>
-                    
+
                 </div>
 
                 <div class="form-group form-group-margin-top root optionalanswer">
@@ -440,7 +624,7 @@ include '../includes/language.php';
                             <span class="option-text"><?php echo $lang->yes ?></span>
                         </button>
                     </div>
-                    
+
                 </div>
             </form>
 
@@ -475,7 +659,7 @@ include '../includes/language.php';
             </div>
             <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
-        <div class="panel-body">
+        <div class="panel-body hide-when-unused">
 
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
@@ -519,7 +703,7 @@ include '../includes/language.php';
                             <span class="option-text"><?php echo $lang->yes ?></span>
                         </button>
                     </div>
-                    
+
                 </div>
 
                 <div class="form-group form-group-margin-top root justification-for hidden">
@@ -535,7 +719,6 @@ include '../includes/language.php';
                             <span class="option-text">Auswahl einer Option</span>
                         </button>
                     </div>
-
                     <div class="btn-group" id="radio" style="margin: 0">
                         <button class="btn btn-default btn-radio" name="primary" id="selectNothing">
                             <span id="icons" style="margin-right: 6px">
@@ -595,7 +778,7 @@ include '../includes/language.php';
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="form-group form-group-margin-top root multiselect" style="margin-right: 20px">
                     <label style="margin: 0"><?php echo $lang->multipleAnswersAllowed ?></label><br>
 
@@ -619,7 +802,7 @@ include '../includes/language.php';
                             <span class="option-text"><?php echo $lang->yes ?></span>
                         </button>
                     </div>
-                    
+
                 </div>
 
                 <div class="form-group form-group-margin-top root optionalanswer">
@@ -645,7 +828,7 @@ include '../includes/language.php';
                             <span class="option-text"><?php echo $lang->yes ?></span>
                         </button>
                     </div>
-                    
+
                 </div>
             </form>
 
@@ -675,7 +858,7 @@ include '../includes/language.php';
             <div class="alert-space alert-assembled-trigger-removed"></div>
             <div class="alert-space alert-no-feedback-assembled"></div>
             <div class="alert-space alert-assembled-feedback-removed"></div>
-            
+
             <div class="form-group form-group-no-margin">
                 <label><?php echo $lang->demandRequest ?></label>
                 <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
@@ -705,7 +888,7 @@ include '../includes/language.php';
                             <span class="option-text"><?php echo $lang->yes ?></span>
                         </button>
                     </div>
-                    
+
                 </div>
 
                 <div class="form-group form-group-margin-top root justification-for hidden">
@@ -782,7 +965,7 @@ include '../includes/language.php';
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="form-group form-group-margin-top root multiselect" style="margin-right: 20px">
                     <label style="margin: 0"><?php echo $lang->multipleAnswersAllowed ?></label><br>
 
@@ -806,7 +989,7 @@ include '../includes/language.php';
                             <span class="option-text"><?php echo $lang->yes ?></span>
                         </button>
                     </div>
-                    
+
                 </div>
 
                 <div class="form-group form-group-margin-top root optionalanswer">
@@ -832,7 +1015,7 @@ include '../includes/language.php';
                             <span class="option-text"><?php echo $lang->yes ?></span>
                         </button>
                     </div>
-                    
+
                 </div>
             </form>
 
@@ -856,13 +1039,8 @@ include '../includes/language.php';
             </div>
 
             <div class="form-group form-group-no-margin">
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
-                    <!--                    <div class="input-group-btn">
-                                            <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
-                                        </div>-->
-                </div>
+                <label><?php echo $lang->demandRequest ?></label>
+                <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
             </div>
 
             <!--            <hr>
@@ -874,70 +1052,143 @@ include '../includes/language.php';
                         </div>
             
                         <button type="button" class="btn btn-info btn-shadow pull-right btn-add-ratingOption"><span class="glyphicon glyphicon-plus"></span> Neue Ratingoption hinzufügen</button>-->
+            <form class="form-inline" style="margin-top: 10px">
+                <div class="form-group root negative" style="margin-right: 20px">
+                    <label style="margin: 0"><?php echo $lang->negativeQuestionmark ?></label><br>
 
-            <div class="input-group" style="margin-top: 10px;">
-
-                <div class="input-group-btn negative">
-                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->negativeQuestionmark ?></button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger"><?php echo $lang->yes ?></button>
-                    <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
                 </div>
 
-                <span class="input-group-addon"><?php echo $lang->scale ?></span>
-                <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value=""/>
+                <div class="form-group">
+                    <label style="margin: 0"><?php echo $lang->scale ?></label><br>
 
-                <div class="input-group-btn select scaleSelect" role="group">
-                    <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen" id="unselected"></span><span class="caret"></span></button>
-                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                        <li id="scale_3"><a href="#">3</a></li>
-                        <li id="scale_4"><a href="#">4</a></li>
-                        <li id="scale_5"><a href="#">5</a></li>
-                        <li id="scale_6"><a href="#">6</a></li>
-                        <li id="scale_7"><a href="#">7</a></li>
-                    </ul>
+                    <div class="input-group">
+                        <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="3"/>
+                        <div class="input-group-btn select scaleSelect" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="scale_3"><a href="#">3</a></li>
+                                <li id="scale_4"><a href="#">4</a></li>
+                                <li id="scale_5"><a href="#">5</a></li>
+                                <li id="scale_6"><a href="#">6</a></li>
+                                <li id="scale_7"><a href="#">7</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+
+            </form>
+
+
+
+            <!--            <div class="input-group" style="margin-top: 10px;">
+            
+                            <div class="input-group-btn negative">
+                                <button class="btn btn-default switchButtonAddon"><?php echo $lang->negativeQuestionmark ?></button>
+                                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger"><?php echo $lang->yes ?></button>
+                                <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
+                            </div>
+            
+                            <span class="input-group-addon"><?php echo $lang->scale ?></span>
+                            <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value=""/>
+            
+                            <div class="input-group-btn select scaleSelect" role="group">
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    <li id="scale_3"><a href="#">3</a></li>
+                                    <li id="scale_4"><a href="#">4</a></li>
+                                    <li id="scale_5"><a href="#">5</a></li>
+                                    <li id="scale_6"><a href="#">6</a></li>
+                                    <li id="scale_7"><a href="#">7</a></li>
+                                </ul>
+                            </div>
+                        </div>-->
+
+            <div class="ratingScaleItemContainer">
+
             </div>
-
-            <div class="ratingScaleItemContainer"></div>
         </div>
     </div>
 
-    <div class="form-group form-group-margin-top root" id="ratingItem" style="margin-bottom: 20px;">
-        <div class="input-group">
-            <div class="input-group-btn">
-                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+    <div class="panel panel-default root" id="ratingItem" style="margin-bottom: 10px;">
+        <div class="panel-body">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
 
 
+                </div>
+                <input class="form-control item-input-text optionQuestion" type="text" value="" placeholder="Option"/>
             </div>
-            <span class="input-group-addon"><?php echo $lang->option ?></span>
-            <input class="form-control item-input-text optionQuestion" type="text" value="" placeholder="Option"/>
+            <form class="form-inline" style="margin-top: 10px">
+                <div class="form-group root negative" style="margin-right: 20px">
+                    <label style="margin: 0"><?php echo $lang->negativeQuestionmark ?></label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="margin: 0"><?php echo $lang->scale ?></label><br>
+
+                    <div class="input-group">
+                        <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="3"/>
+                        <div class="input-group-btn select scaleSelect" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen" id="scale_3"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                <li id="scale_3" class="selected"><a href="#">3</a></li>
+                                <li id="scale_4"><a href="#">4</a></li>
+                                <li id="scale_5"><a href="#">5</a></li>
+                                <li id="scale_6"><a href="#">6</a></li>
+                                <li id="scale_7"><a href="#">7</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="ratingScaleItemContainer"></div>
         </div>
-        <div class="input-group" style="margin-top: 10px;">
-
-            <div class="input-group-btn negative">
-                <button class="btn btn-default switchButtonAddon"><?php echo $lang->negativeQuestionmark ?></button>
-                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger"><?php echo $lang->yes ?></button>
-                <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
-            </div>
-
-            <span class="input-group-addon"><?php echo $lang->scale ?></span>
-            <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value=""/>
-
-            <div class="input-group-btn select scaleSelect" role="group">
-                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen" id="unselected"></span><span class="caret"></span></button>
-                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                    <li id="scale_3"><a href="#">3</a></li>
-                    <li id="scale_4"><a href="#">4</a></li>
-                    <li id="scale_5"><a href="#">5</a></li>
-                    <li id="scale_6"><a href="#">6</a></li>
-                    <li id="scale_7"><a href="#">7</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="ratingScaleItemContainer"></div>
     </div>
 
     <div class="form-group form-group-margin-top" id="ratingScaleItem">
@@ -964,24 +1215,17 @@ include '../includes/language.php';
             </div>
 
             <div class="form-group form-group-no-margin">
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
-                    <!--                    <div class="input-group-btn">
-                                            <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
-                                        </div>-->
+                <label><?php echo $lang->demandRequest ?></label>
+                <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
+            </div>
+
+            <label style="margin-top: 10px">Matrix-Zeilen</label>
+            <div class="">
+                <div class="option-container">
                 </div>
             </div>
 
-            <hr>
-
-            <div class="panel panel-default">
-                <div class="panel-body option-container">
-                    Matrix-Zeilen
-                </div>
-            </div>
-
-            <button type="button" class="btn btn-info btn-shadow pull-right btn-add-ratingOption"><span class="glyphicon glyphicon-plus"></span> Neue Zeile hinzufügen</button>
+            <button type="button" class="btn btn-info btn-shadow btn-add-ratingOption"><span class="glyphicon glyphicon-plus"></span> Neue Zeile hinzufügen</button>
         </div>
     </div>
 
@@ -1002,66 +1246,113 @@ include '../includes/language.php';
             </div>
 
             <div class="form-group form-group-no-margin">
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
-                    <!--                    <div class="input-group-btn">
-                                            <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
-                                        </div>-->
+                <label><?php echo $lang->demandRequest ?></label>
+                <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
+            </div>
+
+            <!--<div class="form-group form-group-no-margin">-->
+            <!--                <div class="input-group">
+                                <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
+                                <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
+                                                    </div>
+                            </div>-->
+
+            <form class="form-inline">
+                <div class="form-group form-group-margin-top root allocationSelect" style="margin-right: 20px">
+                    <label style="margin: 0">Verteilung in</label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="percent">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->scaleTypes->percent ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="points">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->scaleTypes->points ?></span>
+                        </button>
+                    </div>
                 </div>
 
-                <!--<div class="container">-->
-                <div class="row" style="margin-top: 10px">
-                    <div class="form-group form-group-no-margin col-md-6" style="margin-bottom: 10px;">
-                        <div class="input-group">
-                            <span class="input-group-addon">Verteilung in</span>
-                            <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Prozent"/>
+                <div class="form-group form-group-margin-top" style="margin-right: 20px">
+                    <label><?php echo $lang->maximum ?></label><br/>
 
-                            <div class="input-group-btn select allocationSelect" role="group">
-                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen" id="percent"></span><span class="caret"></span></button>
-                                <!--<button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen allocation" id="percent">Prozent </span><span class="caret"></span></button>-->
-                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                    <li id="percent"><a href="#"><?php echo $lang->scaleTypes->percent ?> </a></li>
-                                    <li id="points"><a href="#"><?php echo $lang->scaleTypes->points ?> </a></li>
-                                </ul>
-                            </div>
-
+                    <div class="input-group simple-stepper" id="counter-maximum" style="max-width: 140px;">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
+                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->less ?></span>
+                            </button>
+                        </div>
+                        <input type="text" class="form-control readonly text-center stepper-text" value="0">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="1000">
+                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->more ?></span>
+                            </button>
                         </div>
                     </div>
-                    <div class="form-group form-group-no-margin col-md-6" style="margin-bottom: 10px;">
-                        <div class="input-group">
-                            <span class="input-group-addon"><?php echo $lang->maximum ?></span>
-                            <input class="form-control item-input-text maximum" type="text" value="" placeholder="<?php echo $lang->forExample100 ?>"/>
-                        </div> 
-                    </div>
-
                 </div>
-                <!--</div>-->
+            </form>
 
-            </div>
+            <!--<div class="container">-->
+            <!--                <div class="row" style="margin-top: 10px">
+                                <div class="form-group form-group-no-margin col-md-6" style="margin-bottom: 10px;">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Verteilung in</span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Prozent"/>
+            
+                                        <div class="input-group-btn select allocationSelect" role="group">
+                                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen" id="percent"></span><span class="caret"></span></button>
+                                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen allocation" id="percent">Prozent </span><span class="caret"></span></button>
+                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                <li id="percent"><a href="#"><?php echo $lang->scaleTypes->percent ?> </a></li>
+                                                <li id="points"><a href="#"><?php echo $lang->scaleTypes->points ?> </a></li>
+                                            </ul>
+                                        </div>
+            
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-no-margin col-md-6" style="margin-bottom: 10px;">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><?php echo $lang->maximum ?></span>
+                                        <input class="form-control item-input-text maximum" type="number" value="" placeholder="<?php echo $lang->forExample100 ?>"/>
+                                    </div> 
+                                </div>
+            
+                            </div>-->
+            <!--</div>-->
 
-            <hr style="margin-top: 10px">
+            <!--</div>-->
 
+            <!--<hr style="margin-top: 10px">-->
 
-
-            <div class="panel panel-default">
-                <div class="panel-body option-container">
-                    Antworten der Summenfrage
+            <!--<div class="panel panel-default">-->
+            <label style="margin-top: 10px">Antworten</label>
+            <div class="">
+                <div class="option-container">
                 </div>
             </div>
-
-            <button type="button" class="btn btn-info btn-shadow pull-right btn-add-sumQuestionOption"><span class="glyphicon glyphicon-plus"></span> Neue Antwort hinzufügen</button>
+            <button type="button" class="btn btn-info btn-shadow btn-add-sumQuestionOption"><span class="glyphicon glyphicon-plus"></span> Neue Antwort hinzufügen</button>
         </div>
     </div>
 
-    <div class="form-group form-group-margin-top root" id="sumQuestionItem">
+    <div class="root" id="sumQuestionItem" style="margin-bottom: 8px">
         <div class="input-group">
             <div class="input-group-btn">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span class="input-group-addon"><?php echo $lang->answer ?></span>
             <input class="form-control item-input-text option" type="text" value="" placeholder="Antwort"/>
         </div>
     </div>
@@ -1085,37 +1376,39 @@ include '../includes/language.php';
             </div>
 
             <div class="form-group form-group-no-margin">
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
-                    <!--                    <div class="input-group-btn">
-                                            <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
-                                        </div>-->
+                <label><?php echo $lang->demandRequest ?></label>
+                <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
+            </div>
+            <!--            <div class="form-group form-group-no-margin">
+                            <div class="input-group">
+                                <span class="input-group-addon"><?php echo $lang->demandRequest ?></span>
+                                <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
+                                                    </div>
+                            </div>
+                        </div>-->
+
+            <!--<hr>-->
+
+
+            <label style="margin-top: 10px">Ranking-Optionen</label>
+            <div class="">
+                <div class="option-container">
                 </div>
             </div>
 
-            <hr>
-
-
-
-            <div class="panel panel-default">
-                <div class="panel-body option-container">
-                    Ranking-Optionen
-                </div>
-            </div>
-
-            <button type="button" class="btn btn-info btn-shadow pull-right btn-add-rankingOption"><span class="glyphicon glyphicon-plus"></span> Neue Rankingoption hinzufügen</button>
+            <button type="button" class="btn btn-info btn-shadow btn-add-rankingOption"><span class="glyphicon glyphicon-plus"></span> Neue Rankingoption hinzufügen</button>
         </div>
     </div>
 
-    <div class="form-group form-group-margin-top root"  id="rankingItem">
+    <div class="root" id="rankingItem" style="margin-bottom: 8px">
         <div class="input-group">
             <div class="input-group-btn">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span class="input-group-addon"><?php echo $lang->option ?></span>
             <input class="form-control item-input-text option" type="text" value="" placeholder="Rankingoption"/>
         </div>
     </div>
@@ -1851,7 +2144,7 @@ include '../includes/language.php';
             </div>
             <span><?php echo $lang->questionFormats->rating->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
-        <div class="panel-body">
+        <div class="panel-body hide-when-unused">
             <div>
                 <div style="width: 100%" id="item-factors">
                     <div class="label label-primary" id="factor-main"></div>
@@ -1885,7 +2178,7 @@ include '../includes/language.php';
             </div>
             <span><?php echo $lang->questionFormats->dichotomousQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
-        <div class="panel-body">
+        <div class="panel-body hide-when-unused">
 
             <div style="width: 100%" id="item-factors">
                 <div class="label label-primary" id="factor-main"></div>
@@ -1893,32 +2186,74 @@ include '../includes/language.php';
                 <div class="label label-info" id="factor-primary"></div>
             </div>
 
-            <div class="input-group" style="margin-top: 5px;">
-                <span class="input-group-addon"><?php echo $lang->item ?></span>
-                <input class="form-control item-input-text question readonly" type="text" value=""/>
-
-                <!--<div class="input-group-btn">-->
-                    <!--<button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>-->
-                <!--                    <button class="btn btn-default switchButtonAddon">Negativ?</button>
-                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger">Ja</button>
-                                    <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success">Nein</button>-->
-                <!--</div>-->
+            <div class="form-group form-group-no-margin">
+                <label><?php echo $lang->question ?></label>
+                <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->questionFormats->dichotomousQuestion->text ?>"/>
             </div>
 
-            <div class="form-group form-group-margin-top">
-                <div class="btn-group justification" style="margin-bottom: 10px; margin-right: 15px;">
-                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->justification ?></button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+            <form class="form-inline">
+                <div class="form-group form-group-margin-top root justification" style="margin-right: 20px">
+                    <label style="margin: 0"><?php echo $lang->justification ?></label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
+
                 </div>
 
-                <div class="btn-group justification-for" style="margin-bottom: 10px; margin-right: 15px;">
-                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->justificationFor ?></button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-success"><?php echo $lang->no ?></button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="always" name="btn-success"><?php echo $lang->always ?></button>
+                <div class="form-group form-group-margin-top root justification-for hidden">
+                    <label style="margin: 0"><?php echo $lang->justificationFor ?></label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="no">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="always">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->always ?></span>
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </form>
+
         </div>
     </div>
 
@@ -2133,7 +2468,8 @@ include '../includes/language.php';
                 <i class="fa fa-square hidden" id="over"></i>
                 <i class="fa fa-check-square hidden" id="checked"></i>
             </span>
-            <span class="option-text ellipsis"></span></button>
+            <span class="option-text ellipsis"></span>
+        </button>
     </div>
 
 </div>

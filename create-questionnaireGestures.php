@@ -13,7 +13,8 @@ include './includes/language.php';
     </div>
 </div>
 
-<div id="modal-body" class="modal-body">
+<div id="modal-body" class="modal-body" style="padding-bottom: 0px">
+    <div class="alert-space alert-no-data-gus-questionnaire"></div>
     <div class="container-root" id="list-container"></div>
 </div>
 
@@ -59,6 +60,8 @@ include './includes/language.php';
         var data = getLocalItem(currentIdForModal + '.data');
         if (data !== null && data.gus && data.gus.length > 0) {
             renderData(data);
+        } else {
+            appendAlert($('#custom-modal'), ALERT_NO_DATA_GUS_QUESTIONNAIRE);
         }
     });
 
@@ -85,11 +88,19 @@ include './includes/language.php';
 
     $('#dimension-controls').unbind('listItemAdded').bind('listItemAdded', function (event) {
         event.preventDefault();
-        console.log('listitem added');
+        clearAlerts('#modal-body');
         var scrollTarget = $(this).closest('.modal');
         var newScrollTop = Math.max(0, scrollTarget.find('.modal-content').height() - scrollTarget.height() + 60);
         $(scrollTarget).animate({
             scrollTop: newScrollTop
         }, 200);
+    });
+    
+    $('#modal-body #list-container').unbind('change').bind('change', function (event) {
+        if($(this).children().length > 0) {
+            clearAlerts($('#modal-body'));
+        } else {
+            appendAlert($('#modal-body'), ALERT_NO_DATA_GUS_QUESTIONNAIRE);
+        }
     });
 </script>

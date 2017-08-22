@@ -87,6 +87,8 @@ var ALERT_EMPTY_GESTURE_SET = 'empty-gesture-set';
 
 // create study alert modal hints
 var ALERT_NO_DATA_QUESTIONNAIRE = 'no-data-questionnaire';
+var ALERT_NO_DATA_GUS = 'no-data-gus';
+var ALERT_NO_DATA_GUS_QUESTIONNAIRE = 'no-data-gus-questionnaire';
 
 function appendAlert(target, alertType) {
     var children = $(target).find('.alert-' + alertType).find('#' + alertType);

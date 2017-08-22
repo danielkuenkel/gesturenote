@@ -57,13 +57,9 @@ include '../includes/language.php';
     <div class="row root" id="questionnaire">
         <div class="col-md-4" id="column-left"></div>
         <div class="col-md-8" id="column-right">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Fragen & Aufforderungen
-                </div>
-                <div class="panel-body question-container"></div>
-            </div>
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <h3 style="margin-top: 0"><?php echo $lang->questionnaire ?></h3>
+            <div class="question-container"></div>
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -257,13 +253,9 @@ include '../includes/language.php';
     <div class="row root" id="sus">
         <div class="col-md-4" id="column-left"></div>
         <div class="col-md-8" id="column-right">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    System Usability Scale Items
-                </div>
-                <div class="panel-body question-container"></div>
-            </div>
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <h3 style="margin-top: 0">System Usability Scale</h3>
+            <div class="question-container"></div>
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -280,31 +272,31 @@ include '../includes/language.php';
     <div class="row root" id="gus">
         <div class="col-md-4" id="column-left"></div>
         <div class="col-md-8" id="column-right">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Gesture Usability Scale Items
+            <!--<div class="panel panel-default">-->
+            <!--<div class="panel-heading">-->
+            <h3 style="margin-top: 0">Gesture Usability Scale</h3>
+            <!--</div>-->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+                    <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+                    <div id="feedback"><span class="address"></span> <span class="text"></span></div>
                 </div>
-                <div class="panel-body row">
-                    <div class="col-sm-6">
-                        <div id="gesture"><span class="address"></span> <span class="text"></span></div>
-                        <div id="trigger"><span class="address"></span> <span class="text"></span></div>
-                        <div id="feedback"><span class="address"></span> <span class="text"></span></div>
-                    </div>
 
-                    <div class="col-sm-6">
-                        <div class="previewGesture autoplay mousePlayable btn-shadow"></div>
-                        <div class="text-center gestureControls">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                            </div>
+                <div class="col-sm-6">
+                    <div class="previewGesture autoplay mousePlayable btn-shadow"></div>
+                    <div class="text-center gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
                         </div>
                     </div>
-
-                    <div class="col-sm-12 question-container" style="margin-top: 20px"></div>
                 </div>
+
+                <div class="col-sm-12 question-container" style="margin-top: 10px"></div>
             </div>
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <!--</div>-->
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -327,13 +319,12 @@ include '../includes/language.php';
     <div class="row root" id="questionnaireGestures">
         <div class="col-md-4" id="column-left"></div>
         <div class="col-md-8" id="column-right">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Fragen & Aufforderungen
-                </div>
-                <div class="panel-body question-container"></div>
-            </div>
-            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+
+            <h3 style="margin-top: 0">Gesture Usability Scale</h3>
+
+            <div class="question-container"></div>
+
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -506,7 +497,7 @@ include '../includes/language.php';
         <div class="col-xs-6 right">
             <div class="btn-group-vertical btn-block">
                 <button type="button" class="btn btn-info btn-shadow" id="trigger-slide"><span class="btn-text">Auffordern</span></button>
-<!--                <button type="button" class="btn btn-danger btn-shadow disabled" id="wrong-slide"><span class="btn-text">Falsch</span></button>
+    <!--                <button type="button" class="btn btn-danger btn-shadow disabled" id="wrong-slide"><span class="btn-text">Falsch</span></button>
                 <button type="button" class="btn btn-success btn-shadow disabled" id="correct-slide"><span class="btn-text">Richtig</span></button>-->
                 <button type="button" class="btn btn-success btn-shadow disabled" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
@@ -586,7 +577,7 @@ include '../includes/language.php';
                     <div id="gestures-list-container" class="row" style="margin-bottom: 0"></div>
                 </div>
             </div>
-            
+
             <div class="" id="observations">
                 <h3><?php echo $lang->observations ?></h3>
                 <div class="alert-space alert-no-phase-data"></div>
@@ -1041,7 +1032,7 @@ include '../includes/language.php';
     <div id="questionnaire-moderated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0">Fragebogen</h3>
+            <h3 class="headline" style="margin: 0"><?php echo $lang->questionnaire ?></h3>
             <hr>
             <div class="question-container"></div>
             <hr>

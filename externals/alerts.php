@@ -73,4 +73,6 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="gesture-set-title-too-short" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->gestureSetTitleTooShort->text ?></span></div>
     <div class="alert alert-warning" id="empty-gesture-set" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->emptyGestureSet->text ?></span></div>
     <div class="alert alert-warning" id="no-data-questionnaire" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noDataQuestionnaire->text ?></span></div>
+    <div class="alert alert-warning" id="no-data-gus" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noDataGUS->text ?></span></div>
+    <div class="alert alert-warning" id="no-data-gus-questionnaire" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noDataGUSQuestionnaire->text ?></span></div>
 </div>

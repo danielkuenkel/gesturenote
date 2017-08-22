@@ -51,7 +51,8 @@ include './includes/language.php';
 
 <hr id="factor-seperator" style="margin: 0;">
 
-<div id="modal-body" class="modal-body">
+<div id="modal-body" class="modal-body" style="padding-bottom: 0px">
+    <div class="alert-space alert-no-data-gus"></div>
     <div class="container-root" id="list-container"></div>
 </div>
 
@@ -94,6 +95,7 @@ include './includes/language.php';
         renderDimensions($('#dimension-controls'), translation.singleGUS, $('#list-container'));
 
         var data = getLocalItem(currentIdForModal + '.data');
+        console.log(data);
         if (data !== null) {
             renderData(data);
         }
@@ -134,6 +136,8 @@ include './includes/language.php';
             }
             checkDimensionItems($('#dimension-controls .dimension-container'));
             checkCurrentListState(listContainer);
+        } else {
+            appendAlert($('#custom-modal'), ALERT_NO_DATA_GUS);
         }
     }
 
@@ -168,11 +172,19 @@ include './includes/language.php';
 
     $('#dimension-controls').unbind('listItemAdded').bind('listItemAdded', function (event) {
         event.preventDefault();
-        console.log('listitem added');
+        clearAlerts($('#modal-body'));
         var scrollTarget = $(this).closest('.modal');
         var newScrollTop = Math.max(0, scrollTarget.find('.modal-content').height() - scrollTarget.height() + 60);
         $(scrollTarget).animate({
             scrollTop: newScrollTop
         }, 200);
+    });
+    
+    $('#modal-body #list-container').unbind('change').bind('change', function (event) {
+        if($(this).children().length > 0) {
+            clearAlerts($('#modal-body'));
+        } else {
+            appendAlert($('#modal-body'), ALERT_NO_DATA_GUS);
+        }
     });
 </script>

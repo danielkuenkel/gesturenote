@@ -8,10 +8,8 @@ include './includes/language.php';
 </div>
 <div id="modal-body" class="modal-body">
     <div class="form-group">
-
-        <textarea class="form-control" id="declaration" rows="5" placeholder="Erklärung einfügen"></textarea>
+        <textarea class="form-control" id="declaration" rows="10" placeholder="Erklärung einfügen"></textarea>
         <label class="sr-only" for="declaration">Einverständniserklärung</label>
-
     </div>
 </div>
 <div id="modal-footer" class="modal-footer">

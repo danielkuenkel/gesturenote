@@ -3059,6 +3059,16 @@
             "id": "no-data-questionnaire",
             "type": "warning",
             "text": "Noch kein Fragebogen erstellt. Einzelne Frage mit Klick auf entsprechendes Format hinzufügen."
+        },
+        "noDataGUS": {
+            "id": "no-data-gus",
+            "type": "warning",
+            "text": "Um einen GUS zu erstellen, wählen Sie den gewünschten Aspekt aus (z.B. <em>Soziale Akzeptanz</em>). Sie können anschließend die vordefinierten Fragen anpassen. Falls einmal eine Frage nicht für die Befragung übernommen werden soll, klicken Sie auf das Symbol <i class='fa fa-star'></i>. Die Einstellungen werden für diese Frage ausgeblendet und das Element zusätzlich ausgegraut."
+        },
+        "noDataGUSQuestionnaire": {
+            "id": "no-data-gus-questionnaire",
+            "type": "warning",
+            "text": "Um einen GUS zu erstellen, wählen Sie den gewünschten Aspekt aus (z.B. <em>Soziale Akzeptanz</em>). Sie können anschließend die vordefinierten Fragen anpassen. Falls einmal eine Frage nicht für die Befragung übernommen werden soll, klicken Sie auf das Symbol <i class='fa fa-star'></i>. Die Einstellungen werden für diese Frage ausgeblendet und das Element zusätzlich ausgegraut."
         }
     }
 }

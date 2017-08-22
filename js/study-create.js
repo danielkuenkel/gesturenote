@@ -11,7 +11,6 @@ function checkSessionStorage() {
         
         checkAssembledGestures(getLocalItem(ASSEMBLED_GESTURE_SET), getLocalItem(GESTURE_CATALOG));
         createOriginPhases();
-        console.log(getLocalItem(STUDY_PHASE_STEPS));
         createPredefinedGestureFeedback();
         renderSessionStorageData();
     } else {
@@ -125,7 +124,6 @@ function renderAgeRanges() {
             ranges.max = parseInt(studyPanel.max);
 //        $("#ageSlider .custom-range-slider").slider({min: studyPanel.min, max: studyPanel.max, range: true, value: [parseInt(ranges[0]), parseInt(ranges[1])], tooltip: 'hide'});
     }
-    console.log(selectedGender, ranges);
     var slider = new Slider('#ageSlider .custom-range-slider', {
         formatter: function (value) {
             return 'Current value: ' + value;
@@ -170,7 +168,7 @@ function renderAgeRanges() {
 }
 
 function updateSelectionText(range, gender) {
-    console.log(range, gender);
+//    console.log(range, gender);
     var sampleSize = calculateSampleSize(range, gender);
     $('#selectedAgeRange').text(translation.selection + ': ' + translation.of + ' ' + range.min + ' ' + translation.to + ' ' + range.max + ' ' + translation.years + ', ' + translation.sampleSize + ': ' + sampleSize);
 }
@@ -212,7 +210,6 @@ function renderPhaseSteps() {
     var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
     if (phaseSteps)
     {
-        console.log(phaseSteps);
         for (var i = 0; i < phaseSteps.length; i++) {
             var item = phaseSteps[i];
             addPhaseStep(item.id, item.format, item.title);
@@ -328,13 +325,15 @@ function saveGeneralData() {
     var study = new Object();
     study.title = $('#studyTitle').val();
     study.description = $('#studyDescription').val();
-    study.phase = $('#phaseSelect .chosen').attr('id');
-    study.surveyMethod = $('#surveyMethodSelect .chosen').attr('id');
-    study.surveyType = $('#surveyTypeSelect .chosen').attr('id');
+    study.phase = $('#phaseSelect .btn-option-checked').attr('id');
+    study.surveyMethod = $('#surveyMethodSelect .btn-option-checked').attr('id');
+    study.surveyType = $('#surveyTypeSelect .btn-option-checked').attr('id');
 //    study.recordType = $('#recordSelect .chosen').attr('id');
     study.panelSurvey = $('#panelSurveySwitch').find('.active').attr('id');
     study.gender = 'unselected';
     study.ageRange = null;
+    
+//    console.log('save general data', study);
 
     if (study.panelSurvey === 'yes') {
         study.gender = $('#genderSwitch').find('.active').attr('id');
@@ -446,18 +445,19 @@ $(document).on('click', '.btn-add-groupingQuestionOption', function (event) {
 });
 
 $(document).on('click', '.btn-add-ratingOption', function (event) {
+    console.log('btn add rating option click event');
     event.preventDefault();
     if (event.handled !== true)
     {
         event.handled = true;
         var item = $('#form-item-container').find('#ratingItem').clone().removeAttr('id');
-        $(this).prev().find('.panel-body').append(item);
-        checkCurrentListState($(this).prev().find('.panel-body'));
+        $(this).prev().find('.option-container').append(item);
+        checkCurrentListState($(this).prev().find('.option-container'));
         $(item).find('.chosen').attr('id', 3);
         $(item).find('.show-dropdown').val(3);
         $(item).find('#scale_3').addClass('selected');
         renderScaleItems($(item).find('.ratingScaleItemContainer'), 3, translation.defaultScales);
-        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+        TweenMax.from(item, .2, {y: -10, opacity: 0});
     }
 });
 
@@ -467,9 +467,9 @@ $(document).on('click', '.btn-add-sumQuestionOption', function (event) {
     {
         event.handled = true;
         var item = $('#form-item-container').find('#sumQuestionItem').clone().removeAttr('id');
-        $(this).prev().find('.panel-body').append(item);
-        checkCurrentListState($(this).prev().find('.panel-body'));
-        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+        $(this).prev().find('.option-container').append(item);
+        checkCurrentListState($(this).prev().find('.option-container'));
+        TweenMax.from(item, .2, {y: -10, opacity: 0});
     }
 });
 
@@ -480,9 +480,9 @@ $(document).on('click', '.btn-add-rankingOption', function (event) {
         event.handled = true;
         var item = $('#form-item-container').find('#rankingItem').clone().removeAttr('id');
         $(item).attr('id', chance.natural());
-        $(this).prev().find('.panel-body').append(item);
-        checkCurrentListState($(this).prev().find('.panel-body'));
-        TweenMax.from(item, .2, {y: -10, opacity: 0, clearProps: 'all'});
+        $(this).prev().find('.option-container').append(item);
+        checkCurrentListState($(this).prev().find('.option-container'));
+        TweenMax.from(item, .2, {y: -10, opacity: 0});
     }
 });
 

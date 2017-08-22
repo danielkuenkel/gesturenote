@@ -71,6 +71,8 @@ function renderFormatItem(target, data) {
         case OPEN_QUESTION_GUS:
             if (parameters.used === 'used') {
                 $(clone).find('.btn-use').click();
+            } else {
+                $(clone).find('.hide-when-unused').addClass('hidden');
             }
             break;
         case DICHOTOMOUS_QUESTION:
@@ -79,8 +81,11 @@ function renderFormatItem(target, data) {
             initJustificationFormElements(clone, parameters);
             break;
         case DICHOTOMOUS_QUESTION_GUS:
+            initJustificationFormElements(clone, parameters);
             if (parameters.used === 'used') {
                 $(clone).find('.btn-use').click();
+            } else {
+                $(clone).find('.hide-when-unused').addClass('hidden');
             }
             $(clone).find('.justification #' + parameters.justification).click();
             $(clone).find('.justification-for #' + parameters.justificationFor).click();
@@ -107,6 +112,8 @@ function renderFormatItem(target, data) {
         case GROUPING_QUESTION_OPTIONS:
             if (parameters.used && parameters.used === 'used') {
                 $(clone).find('.btn-use').click();
+            } else {
+                $(clone).find('.hide-when-unused').addClass('hidden');
             }
             $(clone).find('.multiselect #' + parameters.multiselect).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
@@ -155,7 +162,7 @@ function renderFormatItem(target, data) {
             break;
         case SUM_QUESTION:
             $(clone).find('.allocationSelect #' + parameters.allocation).click();
-            $(clone).find('.maximum').val(parameters.maximum);
+            $(clone).find('#counter-maximum .stepper-text').val(parameters.maximum);
             if (options) {
                 for (var j = 0; j < options.length; j++) {
                     var option = $('#sumQuestionItem').clone().removeClass('hidden');
@@ -179,11 +186,15 @@ function renderFormatItem(target, data) {
         case ALTERNATIVE_QUESTION:
             if (parameters.used === 'used') {
                 $(clone).find('.btn-use').click();
+            } else {
+                $(clone).find('.hide-when-unused').addClass('hidden');
             }
             $(clone).find('.justification #' + parameters.justification).click();
             $(clone).find('.justification-for #' + parameters.justificationFor).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
             $(clone).find('.alternative #' + parameters.alternative).click();
+            initJustificationFormElements(clone, parameters);
+            
             var currentPhase = getPhaseById(currentIdForModal);
             if (currentPhase && currentPhase.format === GUS_SINGLE_GESTURES) {
                 $(clone).find('#alternativeTrigger').remove();
@@ -225,6 +236,8 @@ function renderFormatItem(target, data) {
         case GUS_SINGLE:
             if (parameters.used === 'used') {
                 $(clone).find('.btn-use').click();
+            } else {
+                $(clone).find('.hide-when-unused').addClass('hidden');
             }
             $(clone).find('.negative #' + parameters.negative).click();
             break;
@@ -250,6 +263,7 @@ function renderFormatItem(target, data) {
 
 function initJustificationFormElements(clone, parameters) {
     $(clone).find('.justification').unbind('change').bind('change', function (event) {
+        console.log('justification changed');
         event.preventDefault();
         if ($(event.target).attr('id') === 'yes') {
             $(clone).find('.justification-for').removeClass('hidden');
@@ -323,7 +337,7 @@ function getFormatData(element) {
                 optionalanswer: $(element).find('.optionalanswer .btn-option-checked').attr('id')};
             break;
         case RATING:
-            parameters = {negative: $(element).find('.negative').find('.active').attr('id')};
+            parameters = {negative: $(element).find('.negative .btn-option-checked').attr('id')};
             var ratingOptions = $(element).find('.ratingScaleItemContainer').children();
             var tempArray = new Array();
 
@@ -345,8 +359,8 @@ function getFormatData(element) {
             }
             break;
         case SUM_QUESTION:
-            parameters = {allocation: $(element).find('.allocationSelect .chosen').attr('id'),
-                maximum: $(element).find('.maximum').val()};
+            parameters = {allocation: $(element).find('.allocationSelect .btn-option-checked').attr('id'),
+                maximum: parseInt($(element).find('#counter-maximum .stepper-text').val())};
             options = new Array();
             var sumQuestionOptions = $(element).find('.option-container').children();
             for (var j = 0; j < sumQuestionOptions.length; j++) {
@@ -363,10 +377,10 @@ function getFormatData(element) {
             break;
         case ALTERNATIVE_QUESTION:
             parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
-                optionalanswer: $(element).find('.optionalanswer .active').attr('id'),
-                justification: $(element).find('.justification .active').attr('id'),
-                justificationFor: $(element).find('.justification-for .active').attr('id'),
-                alternative: $(element).find('.alternative').find('.active').attr('id')};
+                optionalanswer: $(element).find('.optionalanswer .btn-option-checked').attr('id'),
+                justification: $(element).find('.justification .btn-option-checked').attr('id'),
+                justificationFor: $(element).find('.justification-for .btn-option-checked').attr('id'),
+                alternative: $(element).find('.alternative .btn-option-checked').attr('id')};
             var aGestures = assembledGestures();
             var aTriggers = getLocalItem(ASSEMBLED_TRIGGER);
             var currentPhase = getPhaseById(currentIdForModal);
@@ -2263,4 +2277,28 @@ function isObservationPresent(phaseId) {
         }
     }
     return false;
+}
+
+function initializeItemType(clone) {
+    var itemType = $(clone).attr('name');
+    switch (itemType) {
+        case MATRIX:
+            $(clone).find('.btn-add-ratingOption').click();
+            break;
+        case GROUPING_QUESTION:
+            $(clone).find('.btn-add-groupingQuestionOption').click();
+            $(clone).find('.btn-add-groupingQuestionOption').click();
+            break;
+        case SUM_QUESTION:
+            $(clone).find('.btn-add-sumQuestionOption').click();
+            $(clone).find('.btn-add-sumQuestionOption').click();
+            break;
+        case RATING:
+            $(clone).find('#scale_3').click();
+            break;
+        case RANKING:
+            $(clone).find('.btn-add-rankingOption').click();
+            $(clone).find('.btn-add-rankingOption').click();
+            break;
+    }
 }

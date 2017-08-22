@@ -329,10 +329,6 @@ function moveElement(direction, which, save) {
             timeline.add("start", 0)
                     .to(element, .2, {y: -offset}, "start")
                     .to(brother, .2, {y: heightBrother === heightElement ? offset : heightElement}, "start");
-//                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {}, "start")
-//                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start")
-//                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {}, "start")
-//                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start");
             break;
         case "down":
             brother = $(which).closest('.root').next();
@@ -346,11 +342,6 @@ function moveElement(direction, which, save) {
             timeline.add("start", 0)
                     .to(element, ELEMENT_MOVE_TRANSITION_DURATION, {y: heightBrother === heightElement ? offset : heightBrother}, "start")
                     .to(brother, ELEMENT_MOVE_TRANSITION_DURATION, {y: -offset}, "start");
-//                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {}, "start")
-//                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION / 2, {delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start")
-//                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {}, "start")
-//                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION / 2, {delay: ELEMENT_MOVE_TRANSITION_DURATION / 2}, "start");
-
             break;
     }
 }
@@ -397,17 +388,25 @@ function onMoveDownComplete(element, brother, save) {
 
 function checkCurrentListState(itemContainer) {
     var childList = $(itemContainer).children();
+//    console.log(childList);
     for (var i = 0; i < childList.length; i++) {
         var child = childList[i];
-        var firstElement = $(child).find('.btn-up').first();
-        var secondElement = firstElement.next();
-        firstElement.removeClass('disabled');
-        secondElement.removeClass('disabled');
+        var btnUp = $(child).find('.btn-up').first();
+        var btnDown = btnUp.next();
+        btnUp.removeClass('disabled');
+        btnDown.removeClass('disabled');
+//        console.log(btnUp, btnDown, $(child).prev().find('.btn-down'), $(child).next().find('.btn-up'));
+
         if (i === 0) {
-            firstElement.addClass('disabled');
+            btnUp.addClass('disabled');
+        } else if ($(child).prev().find('.btn-down').length === 0) {
+            btnUp.addClass('disabled');
         }
+
         if (i === childList.length - 1) {
-            secondElement.addClass('disabled');
+            btnDown.addClass('disabled');
+        } else if ($(child).next().find('.btn-up').length === 0) {
+            btnDown.addClass('disabled');
         }
     }
 }
@@ -833,13 +832,17 @@ function onWobbleComplete() {
 
 $(document).on('click', '.btn-checkbox, .btn-radio', function (event) {
     event.preventDefault();
-    if (event.handled !== true)
+    if (event.handled !== true && !$(this).hasClass('disabled'))
     {
         event.handled = true;
         if ($(this).hasClass('btn-checkbox') && $(this).hasClass('btn-option-checked')) {
             uncheckOption($(this));
         } else {
             checkOption($(this));
+        }
+
+        if ($(this).hasClass('saveGeneralData')) {
+            saveGeneralData();
         }
     }
 });

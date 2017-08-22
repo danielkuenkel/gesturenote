@@ -153,10 +153,16 @@ $(document).on('click', '.btn-use', function (event) {
             $(this).removeClass('used btn-success').addClass('not-used');
             $(this).closest('.root').removeClass('used');
             $(this).closest('.root').addClass('not-used');
+            if($(this).closest('.root').find('.hide-when-unused').length > 0) {
+                $(this).closest('.root').find('.hide-when-unused').addClass('hidden');
+            }
         } else {
             $(this).removeClass('not-used').addClass('used btn-success');
             $(this).closest('.root').removeClass('not-used');
             $(this).closest('.root').addClass('used');
+            if($(this).closest('.root').find('.hide-when-unused').length > 0) {
+                $(this).closest('.root').find('.hide-when-unused').removeClass('hidden');
+            }
         }
         checkUsedItems($(this).closest('.root'));
         $(this).trigger('change');

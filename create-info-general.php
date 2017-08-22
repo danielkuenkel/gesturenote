@@ -20,7 +20,7 @@ include './includes/language.php';
     </div>
     <div style="margin-top: 20px">
         <div style="font-weight: bold"><?php echo $lang->studySurveyType ?></div>
-        <span><?php echo $lang->createStudyInfos->general->text4 ?></span>
+        <span><?php echo $lang->createStudyInfos->general->text5 ?></span>
     </div>
 </div>
 <div id="modal-footer" class="modal-footer">

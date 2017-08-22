@@ -45,10 +45,6 @@ and open the template in the editor.
     color: #bbbbbb;
 }
 
-#phaseStepList .form-group {
-    margin-top: 4px !important;
-}
-
 .inactive-button {
     transition: none;
 }
