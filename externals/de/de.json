@@ -73,7 +73,8 @@
     "studyNoPlan": "Kein Zeitplan",
     "studyRun": "Studie läuft insgesamt",
     "studyRuns": "Studie lief insgesamt",
-    "studyRunsFrom": "Studie läuft vom",
+    "studyRunsFrom": "Studie läuft von",
+    "studyRunsTo": "Studie läuft bis",
     "startsAt": "startet in",
     "from": "vom",
     "of": "von",
@@ -1095,7 +1096,7 @@
             "text6": "Der Katalog für das Feedback wird nur bei der Evaluierung von Gesten benötigt, weshalb dieser aktuell ausgeblendet sind."
         },
         "phases": {
-            "overview": "Der Leitfaden ist das Kernstück des Gesten-Designs. In GestureNote beinhaltet ein Leitfaden immer eine Einverständniserklärung und eine Danksagung. Diese Schritte sind vorausgewählt und können nicht gelöscht werden. Achten Sie darauf, dass die Danksagung unten, d.h. am Ende des Leitfadens steht.",
+            "overview": "Der Leitfaden ist das Kernstück einer nutzerzentrierten Befragung. In GestureNote beinhaltet ein Leitfaden immer eine Einverständniserklärung und eine Danksagung. Diese Schritte sind vorausgewählt und können nicht gelöscht werden. Um weitere Abschnitte hinzuzufügen, klicken Sie einfach auf das entsprechende Format wie z.B. Fragebogen. Um die Abschnitte zu bearbeiten, klicken Sie in der Leitfadenliste auf den Titel des jeweiligen Abschnitts.",
             "letterOfAcceptance": "Die Einverständniserklärung sollte in GestureNote immer die Einwilligung des Probanden für die Aufzeichnung personenpesogener Daten einholen, d.h. bei einer Ermittlung Gesten in Bildform und bei einer Evalierung Videoaufnahmen. GestureNote bietet aktuell keine Funktion für eine Anonymisierung an. Die Aufnahmen könenn für Auswertungen jedoch nachträglich händisch anonymisiert werden.",
             "thanks": "Hier haben Sie die Möglichkeit den Probanden für die Teilnahme an Ihrer Studie zu danken. Des Weiteren umfasst dieser Schritt den finalen Upload der erhobenen Daten und Videoaufzeichnung, sowie eine Info-Anzeige, wann der Proband den Tab oder Browser schließen kann. Die Danksagung sollte im Leitfaden immer unten, d.h. am Ende des Leitfadens stehen.",
             "questionnaire": "Setzen Sie Fragebögen ein, um z.B. Eingangsfragen zu definieren. Folgende Frage- und Antwortformate bietet Ihnen GestureNote an:",
@@ -1218,84 +1219,94 @@
     ],
     "sus": [
         {
-            "format": "susItem",
+            "format": "rating",
             "dimension": "any",
             "question": "Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.",
             "parameters": {
                 "negative": "no"
-            }
+            },
+            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "format": "susItem",
+            "format": "rating",
             "dimension": "any",
             "question": "Ich fand das System unnötig komplex.",
             "parameters": {
                 "negative": "yes"
-            }
+            },
+            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "format": "susItem",
+            "format": "rating",
             "dimension": "any",
             "question": "Ich denke, das System war leicht zu benutzen.",
             "parameters": {
                 "negative": "no"
-            }
+            },
+            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "format": "susItem",
+            "format": "rating",
             "dimension": "any",
             "question": "Ich denke, ich würde die  Unterstützung einer fachkundigen Person benötigen, um das System benutzen zu können.",
             "parameters": {
                 "negative": "yes"
-            }
+            },
+            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "format": "susItem",
+            "format": "rating",
             "dimension": "any",
             "question": "Ich fand, die verschiedenen Funktionen des Systems waren gut integriert.",
             "parameters": {
                 "negative": "no"
-            }
+            },
+            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "format": "susItem",
+            "format": "rating",
             "dimension": "any",
             "question": "Ich halte das System für zu inkonsistent.",
             "parameters": {
                 "negative": "yes"
-            }
+            },
+            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "format": "susItem",
+            "format": "rating",
             "dimension": "any",
             "question": "Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dem System umzugehen.",
             "parameters": {
                 "negative": "no"
-            }
+            },
+            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "format": "susItem",
+            "format": "rating",
             "dimension": "any",
             "question": "Ich fand das System sehr umständlich zu benutzen.",
             "parameters": {
                 "negative": "yes"
-            }
+            },
+            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "format": "susItem",
+            "format": "rating",
             "dimension": "any",
             "question": "Ich fühlte mich bei der Nutzung des Systems sehr sicher.",
             "parameters": {
                 "negative": "no"
-            }
+            },
+            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "format": "susItem",
+            "format": "rating",
             "dimension": "any",
             "question": "Ich musste viele Dinge lernen, bevor ich  mit dem System arbeiten konnte.",
             "parameters": {
                 "negative": "yes"
-            }
+            },
+            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         }
     ],
     "favoriteGesturesQuestionnaire": [

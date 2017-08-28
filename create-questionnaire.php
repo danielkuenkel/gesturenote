@@ -42,55 +42,55 @@ include './includes/language.php';
 
     <div class="add-button-group" id="add-question-button-group">
         <div class="btn-group">
-            <div class="btn btn-info btn-add-item font-bold" id="openQuestion">
+            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
                 <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
             </div>
         </div>
         <div class="btn-group">
-            <div class="btn btn-info btn-add-item font-bold" id="dichotomousQuestion">
+            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
                 <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
             </div>
         </div>
         <div class="btn-group">
-            <div class="btn btn-info btn-add-item font-bold" id="groupingQuestion">
+            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
                 <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
             </div>
         </div>
         <div class="btn-group">
-            <div class="btn btn-info btn-add-item font-bold" id="groupingQuestionOptions">
+            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
                 <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
             </div>
         </div>
         <div class="btn-group">
-            <div class="btn btn-info btn-add-item font-bold" id="rating">
+            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
                 <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
             </div>
         </div>
         <div class="btn-group">
-            <div class="btn btn-info btn-add-item font-bold" id="matrix">
+            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
                 <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
             </div>
         </div>
         <div class="btn-group">
-            <div class="btn btn-info btn-add-item font-bold" id="sumQuestion">
+            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
                 <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
             </div>
         </div>
         <div class="btn-group">
-            <div class="btn btn-info btn-add-item font-bold" id="ranking">
+            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
                 <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
             </div>
         </div>
         <div class="btn-group">
-            <div class="btn btn-info btn-add-item font-bold" id="counter">
+            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
                 <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
             </div>

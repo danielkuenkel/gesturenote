@@ -91,7 +91,6 @@ include './includes/language.php';
         renderAssembledTriggers($('#gesture-trigger'));
         renderAssembledFeedback($('#gesture-feedback'));
         renderModalTitle($('#custom-modal').find('#modal-titel'), $('#custom-modal').find('#phase-step-title-input-container'));
-
         renderDimensions($('#dimension-controls'), translation.singleGUS, $('#list-container'));
 
         var data = getLocalItem(currentIdForModal + '.data');

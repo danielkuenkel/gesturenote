@@ -18,12 +18,12 @@
     <nav class="navbar navbar-default navbar-fixed-bottom" id="sub-page-footer">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-xs-6">
                     <ul class="nav nav-pills">
                         <li role="presentation"><a><i class="glyphicon glyphicon-copyright-mark"></i> DANIEL KUENKEL</a></li>
                     </ul>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-xs-6">
                     <ul class="nav nav-pills pull-right">
                         <li role="presentation"><a id="btn-imprint" class="uppercase"></a></li>
                     </ul>

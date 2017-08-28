@@ -37,6 +37,30 @@ body {
     padding-bottom: 100px;
     z-index: 10000;
 }
+.btn-close-overlay {
+    font-size: 12pt;
+    color: #696969;
+    cursor: pointer
+}
+.btn-close-overlay:hover{
+    color: #303030;
+} 
+
+.overlay-title-editable {
+    cursor: pointer;
+    margin: 0;
+    height: 34px;
+}
+
+.overlay-title-editable :hover{
+    color: #696969
+}
+/*
+.btn-close-overlay {
+    margin-top: -31px;
+}*/
+
+
 
 .popover {
     z-index: 10001; /* A value higher than 1010 that solves the problem */
@@ -341,13 +365,6 @@ footer .glyphicon {
 .breadcrumb>li+li:before {color: #777777; content: "\276F\00a0";}
 
 
-.modal-title-editable {
-    cursor: pointer;
-}
-
-.modal-title-editable :hover{
-    color: #696969
-}
 
 /*@keyframes slide {
     0% {
@@ -436,18 +453,20 @@ label {
 }
 
 .btn-checkbox, .btn-radio {
+    height:34px;
     border: none;
+    background-color: rgba(255,255,255,0);
 }
 
 .btn-checkbox #icons, .btn-radio #icons {
     font-size: 14pt;
     position: relative;
-    top: -1px;
+    top: -3px;
 }
 
 .btn-checkbox .option-text, .btn-radio .option-text {
     position: relative;
-    top: -2px;
+    top: -5px;
 }
 
 .btn-checkbox:hover, 
@@ -797,7 +816,7 @@ fieldset[disabled] .stream-control:hover {
 }
 
 .add-button-group .btn-group {
-    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .add-button-group .btn-group:nth-child(n+1) {

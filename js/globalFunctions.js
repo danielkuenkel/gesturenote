@@ -177,6 +177,7 @@ function renderSubPageElements(hasTopNavbar) {
     header.insertBefore($('body').find('#breadcrumb'));
     header.find('#btn-sign-out .btn-text').text(translation.signOut);
     header.find('#btn-sign-out').on('click', function (event) {
+        event.preventDefault();
         clearLocalItems();
     });
 
