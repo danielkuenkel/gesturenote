@@ -41,7 +41,7 @@ $(document).on('change', '.imageUpload', function (event) {
                 $(button).closest('.root').find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
                 $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture').addClass('glyphicon-refresh');
                 control.replaceWith(control = control.clone(true));
-                saveData();
+                $(button).trigger('saveData');
                 return null;
             }
             $(element).find('.title').val(uploadFiles.name);
@@ -66,7 +66,7 @@ $(document).on('change', '.imageUpload', function (event) {
                     $(element).find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
                     $(element).find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture').addClass('glyphicon-refresh');
                     control.replaceWith(control = control.clone(true));
-                    saveData();
+                    $(button).trigger('saveData');
                 } else {
                     
                 }
@@ -98,7 +98,7 @@ $(document).on('click', '.btn-delete-image', function (event) {
                 $(button).closest('.root').find('.chooseSceneImage .btn-text').text('Bild auswählen');
                 $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('glyphicon-refresh').addClass('glyphicon-picture');
                 $(element).find('.title').val('');
-                saveData();
+                $(button).trigger('saveData');
             } else {
 
             }
@@ -151,7 +151,7 @@ $(document).on('change', '.soundUpload', function (event) {
                     $(element).find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-volume-up');
                     $(element).find('.chooseFeedbackSound .btn-icon').addClass('glyphicon glyphicon-refresh');
                     control.replaceWith(control = control.clone(true));
-                    saveData();
+                    $(button).trigger('saveData');
                 } else {
 
                 }
@@ -180,7 +180,7 @@ $(document).on('click', '.btn-delete-sound', function (event) {
                 $(element).find('.chooseFeedbackSound .btn-icon').removeClass('glyphicon glyphicon-refresh');
                 $(element).find('.chooseFeedbackSound .btn-icon').addClass('fa fa-volume-up');
                 $(element).find('#stop').click();
-                saveData();
+                $(button).trigger('saveData');
             } else {
 
             }

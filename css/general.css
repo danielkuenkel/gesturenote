@@ -823,3 +823,6 @@ fieldset[disabled] .stream-control:hover {
     margin-right: 10px;
 }
 
+.btn-show-info {
+    cursor: help;
+}

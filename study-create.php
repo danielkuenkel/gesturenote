@@ -512,79 +512,59 @@ if (login_check($mysqli) == true) {
                     <?php echo $lang->createStudyInfos->catalogs->overview ?>
                 </p>
 
-                <!-- Use of well/predefined gestures -->
+                <div class="row">
+                    <div class="col-md-12" id="gestures-catalog">
+                        <div style="display: inline">
+                            <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->gestures ?> 
+                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text1 ?>"></i>
+                            </h4>
+                            <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-gestures">
+                                <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
+                            </button>
+                        </div>
 
+                        <div style="margin-top: 10px" class="row" id="gestures-list-container"></div>
+                    </div>
 
-                <div class="form-group" id="gestures-catalog"> 
-                    <label for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text1 ?>">
-                        <?php echo $lang->gestures ?> 
-                        <i class="fa fa-info-circle text"></i>
-                    </label><br/>
-                    <!--<div class="btn-group">-->
-                    <!--                        <button class="btn btn-default btn-shadow hidden" id="btn-clear-study-gestures">
-                                                <i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->reset ?></span>
-                                            </button>-->
-                    <button class="btn btn-default btn-shadow" id="btn-assemble-study-gestures">
-                        <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
-                    </button>
-                    <!--</div>-->
+                    <div class="col-md-6" id="trigger-catalog" style="margin-top: 20px">
+                        <div style="display: inline">
+                            <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->triggers ?> 
+                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text2 ?>"></i>
+                            </h4>
+                            <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-trigger">
+                                <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
+                            </button>
+                        </div>
+
+                        <div class="list-container"></div>
+                    </div>
+
+                    <div class="col-md-6" id="feedback-catalog" style="margin-top: 20px">
+                        <div style="display: inline">
+                            <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->feedback ?> 
+                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text4 ?>"></i>
+                            </h4>
+                            <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-feedback">
+                                <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
+                            </button>
+                        </div>
+                        
+                        <div class="list-container"></div>
+                    </div>
+
+                    <div class="col-md-12" id="scenes-catalog" style="margin-top: 20px">
+                        <div style="display: inline">
+                            <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->scenes ?> 
+                                <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text3 ?>"></i>
+                            </h4>
+                            <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-scenes">
+                                <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
+                            </button>
+                        </div>
+                        
+                        <div class="list-container"></div>
+                    </div>
                 </div>
-
-                <!-- Use of well/predefined trigger -->
-
-
-                <div class="form-group" id="trigger-catalog">
-                    <label for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text2 ?>">
-                        <?php echo $lang->triggers ?> 
-                        <i class="fa fa-info-circle text" ></i>
-                    </label><br/>
-                    <!--<div class="btn-group">-->
-                    <!--                        <button class="btn btn-default btn-shadow" id="btn-clear-trigger">
-                                                <i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->reset ?></span>
-                                            </button>-->
-                    <button class="btn btn-default btn-shadow" id="btn-assemble-trigger">
-                        <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
-                    </button>
-                    <!--</div>-->
-                </div>
-
-                <!-- Use of well/predefined feedback -->
-
-
-                <div class="form-group" id="feedback-catalog">
-                    <label for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text4 ?>">
-                        <?php echo $lang->feedback ?> 
-                        <i class="fa fa-info-circle" ></i>
-                    </label><br/>
-                    <!--<div class="btn-group">-->
-                    <!--                        <button class="btn btn-default btn-shadow" id="btn-clear-feedback">
-                                                <i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->reset ?></span>
-                                            </button>-->
-                    <button class="btn btn-default btn-shadow" id="btn-assemble-feedback">
-                        <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
-                    </button>
-                    <!--</div>-->
-                </div>
-
-                <!-- Use of well/predefined scenes -->
-
-
-                <div class="form-group" id="scenes-catalog">
-                    <label for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text3 ?>">
-                        <?php echo $lang->scenes ?> 
-                        <i class="fa fa-info-circle text"></i>
-                    </label><br/>
-
-                    <!--<div class="btn-group">-->
-                    <!--                        <button class="btn btn-default btn-shadow" id="btn-clear-scenes">
-                                                <i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->reset ?></span>
-                                            </button>-->
-                    <button class="btn btn-default btn-shadow" id="btn-assemble-scenes">
-                        <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
-                    </button>
-                    <!--</div>-->
-                </div>
-
             </div>
 
 
@@ -941,18 +921,18 @@ if (login_check($mysqli) == true) {
                 $(this).find('.modal-content').empty();
             });
 
-            // scenes handling
-            $('#btn-assemble-scenes').click(function (event) {
-                event.preventDefault();
-                currentIdForModal = ASSEMBLED_SCENES;
-                loadHTMLintoModal('custom-modal', 'create-scenes-catalog.php', 'modal-lg');
-            });
-
-            $('#btn-clear-scenes').click(function (event) {
-                event.preventDefault();
-                removeAssembledScenes();
-                updateCatalogButtons();
-            });
+//            // scenes handling
+//            $('#btn-assemble-scenes').click(function (event) {
+//                event.preventDefault();
+//                currentIdForModal = ASSEMBLED_SCENES;
+//                loadHTMLintoModal('custom-modal', 'create-scenes-catalog.php', 'modal-lg');
+//            });
+//
+//            $('#btn-clear-scenes').click(function (event) {
+//                event.preventDefault();
+//                removeAssembledScenes();
+//                updateCatalogButtons();
+//            });
 
             // gesture catalog handling
             $('#btn-assemble-study-gestures').click(function (event) {
@@ -1340,7 +1320,13 @@ if (login_check($mysqli) == true) {
 
             $(document).on('click', '.btn-open-overlay', function (event) {
                 event.preventDefault();
-                initOverlayContent($(this).attr('id'), $(this).closest('.root').attr('id'));
+                var format = $(this).attr('id');
+                var id = $(this).closest('.root').attr('id');
+                if (format && id) {
+                    initOverlayContent(format, id);
+                } else if (format) {
+                    initOverlayContentByFormat(format);
+                }
                 overlayTween.play();
                 setTimeout(function () {
                     $('body').animate({
@@ -1361,17 +1347,12 @@ if (login_check($mysqli) == true) {
                 overlayTween.reverse();
             });
 
+            var datePickerFromOpened = false;
             $('#btn-show-datepicker-from').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 if (!event.handled) {
                     event.handled = true;
-                    console.log($(this).hasClass('.active'));
-                    if (!$(this).hasClass('active')) {
-                        $('#from-To-datepicker #start').datepicker('show');
-                    }
-                    else {
-                        $('#from-To-datepicker #start').datepicker('hide');
-                    }
+                    $('#from-To-datepicker #start').datepicker('show');
                 }
             });
 
@@ -1387,11 +1368,7 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 if (!event.handled) {
                     event.handled = true;
-                    if (!$(this).hasClass('activeactive')) {
-                        $('#from-To-datepicker #end').datepicker('show');
-                    } else {
-                        $('#from-To-datepicker #end').datepicker('hide');
-                    }
+                    $('#from-To-datepicker #end').datepicker('show');
                 }
             });
 

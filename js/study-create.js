@@ -100,6 +100,7 @@ function renderSessionStorageData() {
         });
     }
     updateCatalogButtons();
+    renderCatalogOverview();
     checkPreviewAvailability();
 }
 
@@ -142,8 +143,8 @@ function renderAgeRanges() {
         currentSelectedAgeRange = {min: parseInt(slideEvt.value[0]), max: parseInt(slideEvt.value[1])};
         updateSelectionText(currentSelectedAgeRange, $('#genderSwitch').find('.btn-option-checked').attr('id'));
     });
-    $('#ageSlider').on('mouseup', function(event) {
-       console.log('age slider clicked'); 
+    $('#ageSlider').on('mouseup', function (event) {
+        console.log('age slider clicked');
     });
 
     $('#genderSwitch').on('change', function () {
@@ -241,6 +242,96 @@ function renderPhaseSteps() {
     }
 }
 
+function renderCatalogOverview() {
+    var studyGestures = getLocalItem(ASSEMBLED_GESTURE_SET)
+    if (studyGestures && studyGestures.length > 0) {
+        clearAlerts($('#gestures-catalog'));
+        renderStudyGestures(studyGestures);
+    } else {
+        appendAlert($('#gestures-catalog'), ALERT_NO_PHASE_DATA);
+    }
+
+    var studyTrigger = getLocalItem(ASSEMBLED_TRIGGER);
+    if (studyTrigger && studyTrigger.length > 0) {
+        clearAlerts($('#trigger-catalog'));
+        renderStudyTrigger(studyTrigger);
+    } else {
+        appendAlert($('#trigger-catalog'), ALERT_NO_PHASE_DATA);
+    }
+
+    var studyFeedback = getLocalItem(ASSEMBLED_FEEDBACK);
+    if (studyFeedback && studyFeedback.length > 0) {
+        clearAlerts($('#feedback-catalog'));
+        renderStudyFeedback(studyFeedback);
+    } else {
+        appendAlert($('#feedback-catalog'), ALERT_NO_PHASE_DATA);
+    }
+
+    var studyScenes = getLocalItem(ASSEMBLED_SCENES);
+    if (studyScenes && studyScenes.length > 0) {
+        clearAlerts($('#scenes-catalog'));
+        renderStudyScenes(studyScenes);
+    } else {
+        appendAlert($('#scenes-catalog'), ALERT_NO_PHASE_DATA);
+    }
+}
+
+function renderStudyGestures(gestures) {
+    $('#gestures-catalog').find('#gestures-list-container').empty();
+    for (var i = 0; i < gestures.length; i++) {
+        var gesture = getGestureById(gestures[i]);
+        var isGestureAss = isGestureAssembled(gesture.id);
+        var item = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-3 col-lg-2', null, isGestureAss ? 'panel-success' : null);
+        if (isGestureAss) {
+            item.find('#btn-tag-as-favorite-gesture').addClass('selected btn-success');
+        }
+        $('#gestures-catalog').find('#gestures-list-container').append(item);
+        TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+    }
+}
+
+function renderStudyTrigger(trigger) {
+    $('#trigger-catalog').find('.list-container').empty();
+    for (var i = 0; i < trigger.length; i++) {
+        var item = $('#template-study-container').find('#trigger-catalog-thumbnail').clone().removeAttr('id');
+        item.text(trigger[i].title);
+        $('#trigger-catalog').find('.list-container').append(item);
+        TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+    }
+}
+
+function renderStudyFeedback(feedback) {
+    $('#feedback-catalog').find('.list-container').empty();
+    for (var i = 0; i < feedback.length; i++) {
+        var item = $('#template-study-container').find('#feedback-catalog-thumbnail').clone().removeAttr('id');
+        item.find('.text').text(feedback[i].title);
+        item.find('#' + feedback[i].type).removeClass('hidden');
+        if (feedback[i].type === TYPE_FEEDBACK_SOUND) {
+            item.find('.audio-holder').attr('src', feedback[i].data);
+        }
+        $('#feedback-catalog').find('.list-container').append(item);
+        TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+    }
+}
+
+function renderStudyScenes(scenes) {
+    console.log('render study scenes');
+    $('#scenes-catalog').find('.list-container').empty();
+    for (var i = 0; i < scenes.length; i++) {
+        var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id');
+        item.find('.text').text(scenes[i].title);
+        item.find('.label-text').text(translation.sceneTypes[scenes[i].type]);
+        item.find('#' + scenes[i].type).removeClass('hidden');
+        $('#scenes-catalog').find('.list-container').append(item);
+        TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+        $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
+            event.preventDefault();
+            currentSceneId = event.data.sceneId;
+            loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
+        });
+    }
+}
+
 function renderOverlayTitle(id, target, input) {
     var currentPhaseData = getPhaseById(id);
     if (currentPhaseData.title) {
@@ -282,48 +373,49 @@ function updatePhaseStepTitle(phaseStepId, inputContainer, target) {
 }
 
 function updateCatalogButtons() {
+//    console.log('update catalog buttons', $('#gestures-catalog .btn-open-overlay .btn-text'));
     var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
     if (gestures && gestures.length > 0) {
-        $('#btn-assemble-study-gestures .btn-text').text(translation.openSet);
-        $('#btn-assemble-study-gestures .fa').removeClass('fa-pencil').addClass('fa-folder-open');
-        $('#btn-clear-study-gestures').removeClass('hidden');
+        $('#gestures-catalog .btn-open-overlay .btn-text').text(translation.openSet);
+        $('#gestures-catalog .btn-open-overlay .fa').removeClass('fa-pencil').addClass('fa-folder-open');
+//        $('#btn-clear-study-gestures').removeClass('hidden');
     } else {
-        $('#btn-assemble-study-gestures .btn-text').text(translation.arrangeSet);
-        $('#btn-assemble-study-gestures .fa').removeClass('fa-folder-open').addClass('fa-pencil');
-        $('#btn-clear-study-gestures').addClass('hidden');
+        $('#gestures-catalog .btn-open-overlay .btn-text').text(translation.arrangeSet);
+        $('#gestures-catalog .btn-open-overlay .fa').removeClass('fa-folder-open').addClass('fa-pencil');
+//        $('#btn-clear-study-gestures').addClass('hidden');
     }
 
     var feedback = getLocalItem(ASSEMBLED_FEEDBACK);
     if (feedback && feedback.length > 0) {
-        $('#btn-clear-feedback').removeClass('hidden');
-        $('#btn-assemble-feedback .btn-text').text(translation.openSet);
-        $('#btn-assemble-feedback .fa').removeClass('fa-pencil').addClass('fa-folder-open');
+//        $('#btn-clear-feedback').removeClass('hidden');
+        $('#feedback-catalog .btn-open-overlay .btn-text').text(translation.openSet);
+        $('#feedback-catalog .btn-open-overlay .fa').removeClass('fa-pencil').addClass('fa-folder-open');
     } else {
-        $('#btn-clear-feedback').addClass('hidden');
-        $('#btn-assemble-feedback .btn-text').text(translation.arrangeSet);
-        $('#btn-assemble-feedback .fa').removeClass('fa-folder-open').addClass('fa-pencil');
+//        $('#btn-clear-feedback').addClass('hidden');
+        $('#feedback-catalog .btn-open-overlay .btn-text').text(translation.arrangeSet);
+        $('#feedback-catalog .btn-open-overlay .fa').removeClass('fa-folder-open').addClass('fa-pencil');
     }
 
     var trigger = getLocalItem(ASSEMBLED_TRIGGER);
     if (trigger && trigger.length > 0) {
-        $('#btn-clear-trigger').removeClass('hidden');
-        $('#btn-assemble-trigger .btn-text').text(translation.openSet);
-        $('#btn-assemble-trigger .fa').removeClass('fa-pencil').addClass('fa-folder-open');
+//        $('#btn-clear-trigger').removeClass('hidden');
+        $('#trigger-catalog .btn-open-overlay .btn-text').text(translation.openSet);
+        $('#trigger-catalog .btn-open-overlay .fa').removeClass('fa-pencil').addClass('fa-folder-open');
     } else {
-        $('#btn-clear-trigger').addClass('hidden');
-        $('#btn-assemble-trigger .btn-text').text(translation.arrangeSet);
-        $('#btn-assemble-trigger .fa').removeClass('fa-folder-open').addClass('fa-pencil');
+//        $('#btn-clear-trigger').addClass('hidden');
+        $('#trigger-catalog .btn-open-overlay .btn-text').text(translation.arrangeSet);
+        $('#trigger-catalog .btn-open-overlay .fa').removeClass('fa-folder-open').addClass('fa-pencil');
     }
 
     var scenes = getLocalItem(ASSEMBLED_SCENES);
     if (scenes && scenes.length > 0) {
-        $('#btn-clear-scenes').removeClass('hidden');
-        $('#btn-assemble-scenes .btn-text').text(translation.openSet);
-        $('#btn-assemble-scenes .fa').removeClass('fa-pencil').addClass('fa-folder-open');
+//        $('#btn-clear-scenes').removeClass('hidden');
+        $('#scenes-catalog .btn-open-overlay .btn-open-overlay .btn-text').text(translation.openSet);
+        $('#scenes-catalog .btn-open-overlay .fa').removeClass('fa-pencil').addClass('fa-folder-open');
     } else {
-        $('#btn-clear-scenes').addClass('hidden');
-        $('#btn-assemble-scenes .btn-text').text(translation.arrangeSet);
-        $('#btn-assemble-scenes .fa').removeClass('fa-folder-open').addClass('fa-pencil');
+//        $('#btn-clear-scenes').addClass('hidden');
+        $('#scenes-catalog .btn-open-overlay .btn-text').text(translation.arrangeSet);
+        $('#scenes-catalog .btn-open-overlay .fa').removeClass('fa-folder-open').addClass('fa-pencil');
     }
 }
 

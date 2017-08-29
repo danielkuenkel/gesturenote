@@ -1958,59 +1958,6 @@ include '../includes/language.php';
     </div>
 
 
-    <div class="panel panel-default root" id="pidoco">
-        <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
-                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-            </div>
-            <span>Pidoco <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-        </div>
-        <div class="panel-body">
-            <div class="form-group">
-                <div class="alert-space alert-no-title"></div>
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->title ?></span>
-                    <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="alert-space alert-pidoco-edit-url-invalid"></div>
-
-                <div class="input-group">
-                    <span class="input-group-addon">Bearbeitungs-URL</span>
-                    <input class="form-control item-input-text pidoco-edit-url enter-key" type="text" value="" placeholder="Pidoco Bearbeitungs-URL"/>
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow checkInput checkPidocoEditURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text">Überprüfen</span></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="alert-space alert-pidoco-embed-url-invalid"></div>
-
-                <div class="input-group">
-                    <span class="input-group-addon">Simulations-URL</span>
-                    <input class="form-control item-input-text pidoco-embed-url enter-key" type="text" value="" placeholder="Pidoco Simulations-URL"/>
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow checkInput checkPidocoEmbedURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text">Überprüfen</span></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="alert-space alert-no-gestures-assembled"></div>
-
-            <div class="form-group">
-                <div class="btn-group transmit-gestures-select hidden" style="margin-right: 10px;">
-                    <button class="btn btn-default switchButtonAddon">Gestenset an Pidoco koppeln?</button>
-                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                </div>
-                <button class="btn btn-default btn-shadow hidden" id="transmitGestures"><i class="glyphicon glyphicon-share-alt"></i> <span>Gesten an Pidoco übertragen</span></button>
-            </div>
-        </div>
-    </div>
 
 
     <!-- exploration container -->
@@ -2067,12 +2014,12 @@ include '../includes/language.php';
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
     </div>
+
+
+
 
 
     <div class="panel panel-default root" id="web">
@@ -2087,16 +2034,66 @@ include '../includes/language.php';
         <div class="panel-body">
             <div class="alert-space alert-no-title"></div>
             <div class="form-group form-group-no-margin">
+                <label><?php echo $lang->title ?></label>
+                <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
+            </div>
+            <div class="form-group form-group-margin-top">
+                <label><?php echo $lang->url ?></label>
+                <input class="form-control item-input-text website-url" type="text" value="" placeholder="Webseiten-URL"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="pidoco">
+        <div class="panel-heading">
+            <div class="btn-group" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span>Pidoco <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="alert-space alert-no-title"></div>
                 <div class="input-group">
                     <span class="input-group-addon"><?php echo $lang->title ?></span>
                     <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
                 </div>
             </div>
-            <div class="form-group form-group-margin-top">
+            <div class="form-group">
+                <div class="alert-space alert-pidoco-edit-url-invalid"></div>
+
                 <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->url ?></span>
-                    <input class="form-control item-input-text website-url" type="text" value="" placeholder="Webseiten-URL"/>
+                    <span class="input-group-addon">Bearbeitungs-URL</span>
+                    <input class="form-control item-input-text pidoco-edit-url enter-key" type="text" value="" placeholder="Pidoco Bearbeitungs-URL"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-shadow checkInput checkPidocoEditURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text">Überprüfen</span></button>
+                    </div>
                 </div>
+            </div>
+
+            <div class="form-group">
+                <div class="alert-space alert-pidoco-embed-url-invalid"></div>
+
+                <div class="input-group">
+                    <span class="input-group-addon">Simulations-URL</span>
+                    <input class="form-control item-input-text pidoco-embed-url enter-key" type="text" value="" placeholder="Pidoco Simulations-URL"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default btn-shadow checkInput checkPidocoEmbedURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text">Überprüfen</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-space alert-no-gestures-assembled"></div>
+
+            <div class="form-group">
+                <div class="btn-group transmit-gestures-select hidden" style="margin-right: 10px;">
+                    <button class="btn btn-default switchButtonAddon">Gestenset an Pidoco koppeln?</button>
+                    <button class="btn btn-default btn-shadow btn-toggle-checkbox check no-gestures-assembled inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox reset no-gestures-assembled active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                </div>
+                <button class="btn btn-default btn-shadow hidden" id="transmitGestures"><i class="glyphicon glyphicon-share-alt"></i> <span>Gesten an Pidoco übertragen</span></button>
             </div>
         </div>
     </div>
@@ -2111,11 +2108,12 @@ include '../includes/language.php';
             <span>Bild <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
-            <div class="alert-space alert-no-title"></div>
-            <div class="alert-space alert-image-to-large"></div>
-            <div class="form-group form-group-no-margin">
+
+            <div class="form-group">
+                <label><?php echo $lang->title ?></label>
+                <div class="alert-space alert-no-title"></div>
+
                 <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->title ?></span>
                     <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow chooseSceneImage"><i class="btn-icon glyphicon glyphicon-picture"></i> <span class="btn-text">Bild auswählen</span></button>
@@ -2125,12 +2123,18 @@ include '../includes/language.php';
                 <form enctype="multipart/form-data" id="upload-image-form" class="hidden">
                     <input class="imageUpload hidden" name="image" type="file" accept="image/jpeg, image/gif, image/png" />
                 </form>
-
-                <div class="imageArea hidden" style="margin-top: 10px; width: 400px; height: auto; position: relative;">
-                    <button class="btn btn-danger btn-shadow btn-delete-image" style="position: absolute; margin: 10px; right: 0px;"><span class="glyphicon glyphicon-trash"></span> Bild löschen</button>
-                    <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 4px;" />
-                </div>
             </div>
+            <div class="alert-space alert-image-to-large"></div>
+
+            <div class="imageArea hidden" style="margin-top: 10px; width: 400px; height: auto; position: relative;">
+                <div class="btn-group"style="position: absolute; margin: 10px;">
+                    <button class="btn btn-danger btn-shadow btn-delete-image"><span class="glyphicon glyphicon-trash"></span> Bild löschen</button>
+                    <button class="btn btn-default btn-shadow btn-decrease-image"><i class="fa fa-minus"></i></button>
+                    <button class="btn btn-default btn-shadow btn-increase-image"><i class="fa fa-plus"></i></button>
+                </div>
+                <img class="imageAreaContent" src="" alt="..." style="width: 100%; height: auto; border-radius: 4px;" />
+            </div>
+
             <div id="image-loading-indicator" class="hidden" style="margin-top: 10px">
                 <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
             </div>
@@ -2176,32 +2180,35 @@ include '../includes/language.php';
             <span>Videoeinbettung <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
-            <div class="alert-space alert-no-title"></div>
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->title ?></span>
-                    <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label><?php echo $lang->title ?></label>
+                        <div class="alert-space alert-no-title"></div>
+                        <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon">Verhältnis</span>
-                    <input class="form-control item-input-text option-ratio show-dropdown readonly" type="text" value="16:9" placeholder=""/>
-                    <div class="input-group-btn select ratioSelect" role="group">
-                        <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="ratio_16_9"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="ratio_16_9"><a href="#">16:9</a></li>
-                            <li id="ratio_4_3"><a href="#">4:3</a></li>
-                        </ul>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Seitenverhältnis</label>
+                        <div class="input-group">
+                            <input class="form-control item-input-text option-ratio show-dropdown readonly" type="text" value="16:9" placeholder=""/>
+                            <div class="input-group-btn select ratioSelect" role="group">
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="ratio_16_9"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    <li id="ratio_16_9" class="selected"><a href="#">16:9</a></li>
+                                    <li id="ratio_4_3"><a href="#">4:3</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="alert-space alert-video-embed-url-invalid"></div>
-
             <div class="form-group">
+                <label><?php echo $lang->url ?></label>
+                <div class="alert-space alert-video-embed-url-invalid"></div>
                 <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->url ?></span>
                     <input class="form-control item-input-text video-embed-url enter-key" type="text" value="" placeholder="Videoeinbettungs-URL"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow checkInput checkVideoEmbedURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text">Überprüfen</span></button>
@@ -2209,7 +2216,14 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="videoContainer embed-responsive embed-responsive-16by9 hidden" style="margin-top: 10px; margin-bottom: 0px;"></div>
+            <div class="root" style="width:400px; height:auto; border-radius: 4px; margin-top: 10px; margin-bottom: 0px;">
+                <div class="btn-group"style="position: absolute; margin: 10px; z-index: 301">
+                    <button class="btn btn-default btn-shadow btn-decrease-video-embed"><i class="fa fa-minus"></i></button>
+                    <button class="btn btn-default btn-shadow btn-increase-video-embed"><i class="fa fa-plus"></i></button>
+                </div>
+                <div class="videoContainer embed-responsive embed-responsive-16by9 hidden" style="z-index:300"></div>
+            </div>
+
         </div>
     </div>
 

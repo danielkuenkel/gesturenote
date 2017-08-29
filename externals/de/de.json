@@ -848,10 +848,10 @@
         "video": "Video"
     },
     "studyCatalogs": {
-        "gestures": "Studien-Gesten",
-        "scenes": "Studien-Zustände",
-        "trigger": "Studien-Funktionen",
-        "feedback": "Studien-Feedback"
+        "gestures": "Gesten-Katalog",
+        "scenes": "Zustands-Katalog",
+        "trigger": "Funktionen-Katalog",
+        "feedback": "Feedback-Katalog"
     },
     "gestureType": "Gestentyp",
     "bodyType": "Körperteile",
