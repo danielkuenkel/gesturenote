@@ -706,7 +706,7 @@ include '../includes/language.php';
     <div id="joint-answers">
         <div id="joint-answers-body" style="margin-bottom: 20px">
             <p class="question text">Welche Teile des Körpers wurden besonders beansprucht?</p>
-            <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
+            <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
                 <div id="joint-container" style="position: absolute"></div>
                 <img src="img/human_body.svg">
             </div>
@@ -714,7 +714,7 @@ include '../includes/language.php';
 
         <div id="joint-answers-hands" style="margin-bottom: 20px">
             <p class="question text">Welche Teile der Hand oder Hände wurden besonders beansprucht?</p>
-            <div class="select-joints-humand-hand" id="human-hand" style="width: 450px; margin: auto">
+            <div class="select-joints-humand-hand" id="human-hand" style="width: 350px; margin: auto">
                 <div id="joint-container" style="position: absolute"></div>
                 <img src="img/human_hand.svg">
             </div>

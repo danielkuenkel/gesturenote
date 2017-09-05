@@ -226,7 +226,7 @@ include '../includes/language.php';
             <div style="clear: both"></div>
         </div>
 
-        <div class="panel-body" id="item-view">
+        <div class="panel-body" id="item-view" style="padding-bottom: 0px">
             <div class="alert-space alert-empty-gesture-set"></div>
             <div class="row" id="gestures-list-container">
 

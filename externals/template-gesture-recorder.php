@@ -65,7 +65,7 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div id="preview-controls" class="hidden">
+            <div id="preview-controls" class="hidden root">
                 <div style="max-width: 600px">
                     <div class="previewGesture previewProgress autoplay embed-responsive embed-responsive-4by3" id="gesturePreview"></div>
                     <div class="progress gesture-progress">
@@ -105,42 +105,70 @@ include '../includes/language.php';
                     </label><br>
 
                     <div class="btn-group" id="radio" style="margin: 0">
-                        <button class="btn btn-default btn-radio" name="primary" id="gestures">
+                        <button class="btn btn-default btn-radio" name="primary" id="pose">
                             <span id="icons" style="margin-right: 6px">
                                 <i class="fa fa-circle-thin" id="normal"></i>
                                 <i class="fa fa-circle hidden" id="over"></i>
                                 <i class="fa fa-check-circle hidden" id="checked"></i>
                             </span>
-                            <span class="option-text"><?php echo $lang->gestures ?></span>
+                            <span class="option-text"><?php echo $lang->gestureTypes->pose ?></span>
                         </button>
                     </div>
                     <div class="btn-group" id="radio" style="margin: 0">
-                        <button class="btn btn-default btn-radio" name="primary" id="trigger">
+                        <button class="btn btn-default btn-radio" name="primary" id="dynamic">
                             <span id="icons" style="margin-right: 6px">
                                 <i class="fa fa-circle-thin" id="normal"></i>
                                 <i class="fa fa-circle hidden" id="over"></i>
                                 <i class="fa fa-check-circle hidden" id="checked"></i>
                             </span>
-                            <span class="option-text"><?php echo $lang->triggers ?></span>
+                            <span class="option-text"><?php echo $lang->gestureTypes->dynamic ?></span>
                         </button>
                     </div>
                 </div>
-                
-                <div class="form-group" style="margin-top: 10px">
-                    <label><?php echo $lang->gestureType ?></label>
-                    <div class="input-group">
-                        <input class="form-control item-input-text option-gesture-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                        <div class="input-group-btn select gestureTypeSelect" role="group" id="gestureTypeSelect">
-                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                <li id="0"><a href="#"><?php echo $lang->gestureTypes->pose ?></a></li>
-                                <li id="1"><a href="#"><?php echo $lang->gestureTypes->dynamic ?></a></li>
-                            </ul>
-                        </div>
+
+                <!--                <div class="form-group" style="margin-top: 10px">
+                                    <label><?php echo $lang->gestureType ?></label>
+                                    <div class="input-group">
+                                        <input class="form-control item-input-text option-gesture-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                        <div class="input-group-btn select gestureTypeSelect" role="group" id="gestureTypeSelect">
+                                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                <li id="0"><a href="#"><?php echo $lang->gestureTypes->pose ?></a></li>
+                                                <li id="1"><a href="#"><?php echo $lang->gestureTypes->dynamic ?></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>-->
+
+                <div class="form-group root" id="gestureInteractionTypeSelect">
+                    <label>
+                        <?php echo $lang->gestureInteractionType ?> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                    </label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="discrete">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->gestureInteractionTypes->discrete ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="continuous">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->gestureInteractionTypes->continuous ?></span>
+                        </button>
                     </div>
                 </div>
 
-                <div class="form-group" style="margin-top: 10px">
+<!--                <div class="form-group" style="margin-top: 10px">
                     <label><?php echo $lang->gestureInteractionType ?></label>
                     <div class="input-group">
                         <input class="form-control item-input-text option-gesture-interaction-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
@@ -152,7 +180,7 @@ include '../includes/language.php';
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div>-->
 
                 <div class="form-group">
                     <label><?php echo $lang->gestureContext ?></label>
@@ -171,7 +199,7 @@ include '../includes/language.php';
 
                 <div class="form-group">
                     <label><?php echo $lang->gestureGraphicsQuestion ?></label>
-                    <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
+                    <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
                         <div id="joint-container" style="position: absolute"></div>
                         <img src="img/human_body.svg">
                     </div>
@@ -276,7 +304,7 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div id="preview-controls" class="hidden">
+            <div id="preview-controls" class="hidden root">
                 <div class="alert-space alert-gesture-too-short"></div>
 
                 <div style="max-width: 600px">
@@ -329,7 +357,7 @@ include '../includes/language.php';
 
                 <div class="form-group">
                     <label><?php echo $lang->gestureGraphicsQuestion ?></label>
-                    <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
+                    <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
                         <div id="joint-container" style="position: absolute"></div>
                         <img src="img/human_body.svg">
                     </div>

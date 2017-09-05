@@ -1530,7 +1530,7 @@ include '../includes/language.php';
                     <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text">Welche Teile des Körpers wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
-                            <div class="select-joints-humand-body" id="human-body" style="max-width: 410px; width:410px; margin: auto">
+                            <div class="select-joints-humand-body" id="human-body" style="max-width: 350px; width:350px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_body.svg">
                             </div>
@@ -1540,7 +1540,7 @@ include '../includes/language.php';
                     <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text">Welche Teile der Hand oder Hände wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
-                            <div class="select-joints-humand-hand" id="human-hand" style="max-width: 410px; width:410px; margin: auto">
+                            <div class="select-joints-humand-hand" id="human-hand" style="max-width: 350px; width:350px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_hand.svg">
                             </div>
@@ -1558,7 +1558,7 @@ include '../includes/language.php';
                     <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text">Welche Teile des Körpers wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
-                            <div class="select-joints-humand-body" id="human-body" style="max-width: 410px; width:410px; margin: auto">
+                            <div class="select-joints-humand-body" id="human-body" style="max-width: 350px; width:350px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_body.svg">
                             </div>
@@ -1568,7 +1568,7 @@ include '../includes/language.php';
                     <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text">Welche Teile der Hand oder Hände wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
-                            <div class="select-joints-humand-hand" id="human-hand" style="max-width: 410px; width:410px; margin: auto">
+                            <div class="select-joints-humand-hand" id="human-hand" style="max-width: 350px; width:350px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_hand.svg">
                             </div>
@@ -1621,7 +1621,7 @@ include '../includes/language.php';
                     <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text">Welche Teile des Körpers wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
-                            <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
+                            <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_body.svg">
                             </div>
@@ -1631,7 +1631,7 @@ include '../includes/language.php';
                     <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text">Welche Teile der Hand oder Hände wurden <u>GERADE EBEN</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
-                            <div class="select-joints-humand-hand" id="human-hand" style="width: 450px; margin: auto">
+                            <div class="select-joints-humand-hand" id="human-hand" style="width: 350px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_hand.svg">
                             </div>
@@ -1649,7 +1649,7 @@ include '../includes/language.php';
                     <div class="panel panel-default" id="human-body-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text">Welche Teile des Körpers wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
-                            <div class="select-joints-humand-body" id="human-body" style="width: 450px; margin: auto">
+                            <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_body.svg">
                             </div>
@@ -1659,7 +1659,7 @@ include '../includes/language.php';
                     <div class="panel panel-default" id="hand-selection-rating" style="margin-bottom: 5px;">
                         <div class="panel-body">
                             <p class="question text">Welche Teile der Hand oder Hände wurden <u>INSGESAMT</u> besonders beansprucht? Klicken Sie auf die entsprechenden Stellen. Falls es Ihrer Ansicht nach keine Beanspruchung gab, markieren Sie nichts.</p>
-                            <div class="select-joints-humand-hand" id="human-hand" style="width: 450px; margin: auto">
+                            <div class="select-joints-humand-hand" id="human-hand" style="width: 350px; margin: auto">
                                 <div id="joint-container" style="position: absolute"></div>
                                 <img src="img/human_hand.svg">
                             </div>

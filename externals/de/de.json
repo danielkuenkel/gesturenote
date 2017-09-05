@@ -2823,7 +2823,7 @@
         "noStudyGesturesAssembled": {
             "id": "no-study-gestures-assembled",
             "type": "warning",
-            "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt. Dazu fügen Sie Gesten aus dem Gesten-Katalog oder Gesten-Sets mit einem Klick auf das Symbol <i class='fa fa-star'></i> hinzu. Sie können auch eigene Gesten aufzeichnen."
+            "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt. Die Quellen für ein Studien-Gesten-Set können der Gesten-Katalog, die Gesten-Sets oder neu aufgezeichnete Gesten sein. Wählen Sie zunächst eine dieser drei Quellen aus und fügen Sie mit einem Klick auf den Button <div class='btn btn-sm btn-info'><i class='fa fa-plus'></i></div> eine Geste zum Studien-Gesten-Set hinzu. Das Entfernen ist mit einem Klick auf den Button <div class='btn btn-sm btn-danger'><i class='fa fa-minus'></i></div> möglich."
         },
         "assembledGestureRemoved": {
             "id": "assembled-gesture-removed",

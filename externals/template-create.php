@@ -2505,7 +2505,7 @@ include '../includes/language.php';
                         <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
                         <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
 
-                        <div class="select-joints-humand-body" id="human-body" style="width: 400px; margin: auto; margin-top: 10px">
+                        <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto; margin-top: 10px">
                             <div id="joint-container" style="position: absolute"></div>
                             <img src="img/human_body.svg">
                         </div>
@@ -2560,7 +2560,7 @@ include '../includes/language.php';
                         <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
                         <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
 
-                        <div class="select-joints-humand-body" id="human-body" style="width: 400px; margin: auto; margin-top: 10px">
+                        <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto; margin-top: 10px">
                             <div id="joint-container" style="position: absolute"></div>
                             <img src="img/human_body.svg">
                         </div>

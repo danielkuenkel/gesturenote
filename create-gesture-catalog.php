@@ -394,7 +394,7 @@ include './includes/language.php';
 
                     <div class="form-group">
                         <label><?php echo $lang->gestureGraphicsQuestion ?></label>
-                        <div class="select-joints-humand-body" id="select-joints-human-body" style="width: 400px; margin: auto; margin-top: 10px">
+                        <div class="select-joints-humand-body" id="select-joints-human-body" style="width: 350px; margin: auto; margin-top: 10px">
                             <div id="joint-container" style="position: absolute"></div>
                             <img src="img/human_body.svg">
                         </div>
@@ -1104,8 +1104,8 @@ include './includes/language.php';
             var container = $('#gesture-info');
             container.find('#created .text').text(convertSQLTimestampToDate(gesture.created).toLocaleString());
             container.find('#title .text').text(gesture.title);
-            container.find('#type .text').text(getGestureType(gesture.type));
-            container.find('#interactionType .text').text(getGestureInteractionType(gesture.interactionType));
+//            container.find('#type .text').text(getGestureType(gesture.type));
+//            container.find('#interactionType .text').text(getGestureInteractionType(gesture.interactionType));
             container.find('#context .text').text(gesture.context);
             container.find('#association .text').text(gesture.association === null ? '-' : gesture.association);
             container.find('#description .text').text(gesture.description);

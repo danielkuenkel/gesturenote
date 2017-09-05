@@ -391,11 +391,11 @@ function showSave() {
             var joints = getSelectedJoints($(recorder.options.recorderTarget).find('#human-body #joint-container'));
 
             if (recorder.options.checkType && recorder.options.checkType === true) {
-                type = $(recorder.options.recorderTarget).find('#gestureTypeSelect .chosen').attr('id');
+                type = $(recorder.options.recorderTarget).find('#gestureTypeSelect .btn-option-checked').attr('id');
             }
 
             if (recorder.options.checkInteractionType && recorder.options.checkInteractionType === true) {
-                interactionType = $(recorder.options.recorderTarget).find('#gestureInteractionTypeSelect .chosen').attr('id');
+                interactionType = $(recorder.options.recorderTarget).find('#gestureInteractionTypeSelect .btn-option-checked').attr('id');
             }
 
             if (recorder.options.saveGestures && recorder.options.saveGestures === true) {
@@ -481,8 +481,8 @@ function gestureInputsValid(showErrors) {
     }
 
     if (recorder.options.checkType && recorder.options.checkType === true) {
-        var type = $(recorder.options.recorderTarget).find('#gestureTypeSelect .chosen').attr('id');
-        if (type === 'unselected') {
+        var type = $(recorder.options.recorderTarget).find('#gestureTypeSelect .btn-option-checked').attr('id');
+        if (type === undefined) {
             if (showErrors) {
                 appendAlert($(recorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
             } else {
@@ -493,8 +493,8 @@ function gestureInputsValid(showErrors) {
     }
 
     if (recorder.options.checkInteractionType && recorder.options.checkInteractionType === true) {
-        var interactionType = $(recorder.options.recorderTarget).find('#gestureInteractionTypeSelect .chosen').attr('id');
-        if (interactionType === 'unselected') {
+        var interactionType = $(recorder.options.recorderTarget).find('#gestureInteractionTypeSelect .btn-option-checked').attr('id');
+        if (interactionType === undefined) {
             if (showErrors) {
                 appendAlert($(recorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
             } else {
