@@ -84,55 +84,55 @@ include '../includes/language.php';
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                             <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                            <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                             <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                            <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                             <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                            <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                             <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                            <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                             <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                            <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                             <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                            <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                             <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                            <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                             <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                            <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                             <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                            <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                         </div>
                     </div>
                 </div>
@@ -447,55 +447,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                     </div>
@@ -712,55 +712,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                     </div>
@@ -881,55 +881,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                     </div>
@@ -1028,55 +1028,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                     </div>
@@ -1192,63 +1192,63 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group root" id="useGraphicalSingleStressSwitch">
-                        <label style="margin: 0"  data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>">
+                        <label style="margin: 0">
                             Mit interaktiven Grafik über Anstrengung befragen 
-                            <i class="fa fa-info-circle text"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1326,63 +1326,63 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group root" id="useGraphicalSequenceStressSwitch">
-                        <label style="margin: 0"  data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>">
+                        <label style="margin: 0" >
                             Mit interaktiven Grafik über Anstrengung befragen 
-                            <i class="fa fa-info-circle text"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1479,55 +1479,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                     </div>
@@ -1597,9 +1597,9 @@ include '../includes/language.php';
             <div class="col-md-4 col-lg-3">
                 <div class="toggle-dynamic-affix">
                     <div class="form-group root" id="identificationTypeSwitch">
-                        <label style="margin: 0"  data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>">
+                        <label style="margin: 0"  >
                             Was soll identifiziert werden? 
-                            <i class="fa fa-info-circle text"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1655,55 +1655,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                             </div>
                         </div>
                     </div>
@@ -1719,6 +1719,572 @@ include '../includes/language.php';
 
 
 
+
+
+    <div id="catalog-gestures">
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+
+        <div class="row root">
+            <div class="col-md-9">
+                <div class="overlay-header">
+                    <div class="overlay-header-container">
+                        <h3 id="overlay-title" style="margin: 0; height:34px"></h3>
+                    </div>
+
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                </div>
+
+                <ul class="nav nav-pills hidden-md hidden-lg gesture-catalogs-nav-tab" id="gesture-catalogs-nav-tab-small">
+                    <li role="presentation" class="active" style="margin-right: 20px; margin-top: 10px"><a href="#study-gesture-set" role="tab" data-toggle="tab">Studien-Gesten-Set <span class="badge" id="study-gesture-set-badge"></span></a></li>
+                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-catalog" role="tab" data-toggle="tab">Gesten-Katalog <span class="badge" id="gesture-catalog-badge"></span></a></li>
+                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-sets" role="tab" data-toggle="tab">Gesten-Sets <span class="badge" id="gesture-sets-badge"></span></a></li>
+                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-recorder-content" role="tab" data-toggle="tab">Gesten-Recorder</a></li>
+                </ul>
+
+                <div class="tab-content" style="margin-top: 10px">
+                    <div role="tabpanel" class="tab-pane active" id="tab-study-gesture-set">
+                        <div id="item-view">
+                            <div>
+                                <div class="form-group form-group-no-margin">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Filter</span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
+                                        <div class="input-group-btn select filter" id="filter" role="group">
+                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
+                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                <li id="all" class="selected"><a href="#">Alle</a></li>
+                                                <li id="recorded"><a href="#">Eigene Aufgezeichnete</a></li>
+                                                <li id="tester"><a href="#">Tester</a></li>
+                                                <li id="public"><a href="#">Öffentlich</a></li>
+                                            </ul>
+                                        </div>
+                                        <span class="input-group-addon">Sortierung</span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                                        <div class="input-group-btn select sort" id="sort" role="group">
+                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                <li class="dropdown-header">Datum</li>
+                                                <li id="oldest"><a href="#">Älteste zuerst</a></li>
+                                                <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                                <li class="divider"></li>
+                                                <li class="dropdown-header">Gestentitel</li>
+                                                <li id="asc"><a href="#">A bis Z</a></li>
+                                                <li id="desc"><a href="#">Z bis A</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-margin-top">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Suchen</span>
+                                        <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
+                                        <span class="input-group-addon">Einträge pro Seite</span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="16"/>
+                                        <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
+                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_16"></span><span class="caret"></span></button>
+                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                <li id="results_8"><a href="#">8</a></li>
+                                                <li id="results_16" class="selected"><a href="#">16</a></li>
+                                                <li id="results_40"><a href="#">40</a></li>
+                                                <li id="results_100"><a href="#">100</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center custom-pagination" id="pager-top">
+                                <nav>
+                                    <ul class="pagination pagination-custom" itemprop="clipping_2">
+                                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+
+                            <div class="container-root row root" id="gesture-list-container" style="margin-top: 10px;"></div>
+
+                            <div class="alert-space alert-no-search-results"></div>
+                            <div class="alert-space alert-no-study-gestures-assembled"></div>
+
+                            <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+                                <nav>
+                                    <ul class="pagination pagination-custom" itemprop="clipping_2">
+                                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="tab-gesture-catalog">
+                        <div id="item-view">
+                            <div>
+                                <div class="form-group form-group-no-margin">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Filter</span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
+                                        <div class="input-group-btn select filter" id="filter" role="group">
+                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
+                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                <li id="all" class="selected"><a href="#">Alle</a></li>
+                                                <li id="recorded"><a href="#">Eigene Aufgezeichnete</a></li>
+                                                <li id="tester"><a href="#">Tester</a></li>
+                                                <li id="public"><a href="#">Öffentlich</a></li>
+                                            </ul>
+                                        </div>
+                                        <span class="input-group-addon">Sortierung</span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                                        <div class="input-group-btn select sort" id="sort" role="group">
+                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                <li class="dropdown-header">Datum</li>
+                                                <li id="oldest"><a href="#">Älteste zuerst</a></li>
+                                                <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                                <li class="divider"></li>
+                                                <li class="dropdown-header">Gestentitel</li>
+                                                <li id="asc"><a href="#">A bis Z</a></li>
+                                                <li id="desc"><a href="#">Z bis A</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-margin-top">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Suchen</span>
+                                        <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
+                                        <span class="input-group-addon">Einträge pro Seite</span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="16"/>
+                                        <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
+                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_16"></span><span class="caret"></span></button>
+                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                <li id="results_8"><a href="#">8</a></li>
+                                                <li id="results_16" class="selected"><a href="#">16</a></li>
+                                                <li id="results_40"><a href="#">40</a></li>
+                                                <li id="results_100"><a href="#">100</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center custom-pagination" id="pager-top">
+                                <nav>
+                                    <ul class="pagination pagination-custom" itemprop="clipping_7">
+                                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+
+                            <div class="container-root row root" id="gesture-list-container" style="margin-top: 10px;"></div>
+
+                            <div class="alert-space alert-no-search-results"></div>
+
+                            <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+                                <nav>
+                                    <ul class="pagination pagination-custom" itemprop="clipping_7">
+                                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="tab-gesture-sets">
+                        <div class="create-gesture-set-input">
+                            <label class="text">Neues Gesten-Set anlegen</label>
+
+                            <div class="alert-space alert-gesture-set-title-too-short"></div>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div id="item-view">
+
+                            <div>
+                                <div class="form-group form-group-no-margin">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Sortierung</span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                                        <div class="input-group-btn select sort" id="sort" role="group">
+                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                <li class="dropdown-header">Datum</li>
+                                                <li id="oldest"><a href="#">Älteste zuerst</a></li>
+                                                <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                                <li class="divider"></li>
+                                                <li class="dropdown-header">Gestentitel</li>
+                                                <li id="asc"><a href="#">A bis Z</a></li>
+                                                <li id="desc"><a href="#">Z bis A</a></li>
+                                            </ul>
+                                        </div>
+                                        <span class="input-group-addon">Einträge pro Seite</span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="4"/>
+                                        <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
+                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_4"></span><span class="caret"></span></button>
+                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                                <li id="results_2"><a href="#">2</a></li>
+                                                <li id="results_4" class="selected"><a href="#">4</a></li>
+                                                <li id="results_10"><a href="#">10</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-margin-top">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Suchen</span>
+                                        <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center custom-pagination" id="pager-top">
+                                <nav>
+                                    <ul class="pagination pagination-custom" itemprop="clipping_2">
+                                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                            <div class="container-root root" id="gesture-sets-container" style="margin-top: 10px;"></div>
+
+                            <div class="alert-space alert-no-search-results"></div>
+
+                            <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
+                                <nav>
+                                    <ul class="pagination pagination-custom" itemprop="clipping_2">
+                                        <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+                                        <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                        <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                        <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="tab-gesture-recorder-content"></div>
+                </div>
+            </div>
+
+            <div class="col-md-3 hidden-xs hidden-sm">
+                <div class="toggle-affix">
+                    <ul class="nav nav-pills nav-stacked gesture-catalogs-nav-tab" id="gesture-catalogs-nav-tab">
+                        <li role="presentation" class="active"><a href="#study-gesture-set" role="tab" data-toggle="tab">Studien-Gesten-Set <span class="badge" id="study-gesture-set-badge"></span></a></li>
+                        <h4 style="margin-top: 20px">Studien-Gesten wählen</h4>
+                        <li role="presentation"><a href="#gesture-catalog" role="tab" data-toggle="tab">Gesten-Katalog <span class="badge" id="gesture-catalog-badge"></span></a></li>
+                        <li role="presentation"><a href="#gesture-sets" role="tab" data-toggle="tab">Gesten-Sets <span class="badge" id="gesture-sets-badge"></span></a></li>
+                        <li role="presentation"><a href="#gesture-recorder-content" role="tab" data-toggle="tab">Gesten-Recorder</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+        <br/>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+    </div>
+
+<!--    <div id="gesture-info">
+        <button type="button" class="btn btn-default" id="btn-back"><i class="fa fa-angle-left" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->previous ?></span></button>
+
+        <div class="row" id="general-gesture-info" style="margin-top: 20px">
+            <div class="col-md-5 root">
+                <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
+                <div class="progress gesture-progress">
+                    <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                </div>
+                <div class="text-center">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                    </div>
+                </div>
+                <hr>
+                <div class="gesture-rating" id="gesture-rating" style="margin-top: 20px;">
+                    <h3><i class="fa fa-star-o"></i> Bewertung</h3>
+                    <div class="rating-container rating-physicalContext row" id="rating-physicalContext">
+                        <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
+                        <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Gestentyp für Kontext stimmig? (z.B. Ganzkörper-Geste für Arbeitsplatz stimmig?)</span></div>
+                    </div>
+                    <div class="rating-container rating-adaption row" id="rating-adaption">
+                        <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
+                        <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Kontext-Adaption (Könnte die Geste auch woanders eingesetzt werden?)</span></div>
+                    </div>
+                    <div class="rating-container rating-fittingTask row" id="rating-fittingTask">
+                        <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
+                        <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Passt die Geste zur beschriebenen Aufgabe?</span></div>
+                    </div>
+                    <div id="rating-infos">
+                        <span id="rated-by"></span> <span id="rating-users-count"></span> <span id="rated-by-users"></span>
+                        <div class="alert-space alert-rating-submitted" style="margin-top: 10px;"></div>
+                    </div>
+                    <button type="button" class="btn btn-block btn-warning" id="btn-rate-gesture" style="margin-top: 10px;">Geste bewerten</button>
+                    <div class="btn-group-vertical btn-block hidden" id="rating-submit-buttons" style="margin-top: 0px;">
+                        <button type="button" class="btn btn-success" id="btn-submit-gesture-rating">Bewertung abgeben</button>
+                        <button type="button" class="btn btn-danger" id="btn-cancel-gesture-rating">Abbrechen</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <h3 style="margin-top: 0"><i class="fa fa-bookmark-o"></i> Allgemeines</h3>
+                <div id="gesture-data-preview">
+                    <div id="created"><span class="address">Erstellt:</span> <span class="text"></span></div>
+                    <div id="title">Titel:<span class="address"></span> <span class="text"></span></div>
+                    <div id="type">Gesten-Typ:<span class="address"></span> <span class="text"></span></div>
+                    <div id="interactionType">Gesten-Interaktions-Typ:<span class="address"></span> <span class="text"></span></div>
+                    <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
+                    <div id="association">Assoziation:<span class="address"></span> <span class="text"></span></div>
+                    <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
+
+                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+
+                    <div class="preview-joints-humand-body" id="human-body" style="width: 400px; margin: auto; margin-top: 10px">
+                        <div id="joint-container" style="position: absolute"></div>
+                        <img src="img/human_body.svg">
+                    </div>
+                </div>
+
+                <div id="gesture-data-edit" class="hidden">
+                    <div class="alert-space alert-missing-fields"></div>
+
+                    <div class="form-group">
+                        <label><?php echo $lang->gestureName ?></label>
+                        <input type="text" class="form-control" id="gesture-name-input" required>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 10px">
+                        <label><?php echo $lang->gestureType ?></label>
+                        <div class="input-group">
+                            <input class="form-control item-input-text option-gesture-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <div class="input-group-btn select gestureTypeSelect" role="group" id="gestureTypeSelect">
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    <li id="0"><a href="#"><?php echo $lang->gestureTypes->pose ?></a></li>
+                                    <li id="1"><a href="#"><?php echo $lang->gestureTypes->dynamic ?></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 10px">
+                        <label><?php echo $lang->gestureInteractionType ?></label>
+                        <div class="input-group">
+                            <input class="form-control item-input-text option-gesture-interaction-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <div class="input-group-btn select gestureInteractionTypeSelect" role="group" id="gestureInteractionTypeSelect">
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    <li id="0"><a href="#"><?php echo $lang->gestureInteractionTypes->discrete ?></a></li>
+                                    <li id="1"><a href="#"><?php echo $lang->gestureInteractionTypes->continuous ?></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><?php echo $lang->gestureContext ?></label>
+                        <input type="text" class="form-control" placeholder="Wo soll die Geste eingesetzt werden?" id="gesture-context-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><?php echo $lang->gestureAssociation ?></label>
+                        <textarea class="form-control" id="gesture-association-input" rows="3" maxlength="500" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label><?php echo $lang->gestureDescription ?></label>
+                        <textarea class="form-control" id="gesture-description-input" rows="3" maxlength="500" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label><?php echo $lang->gestureGraphicsQuestion ?></label>
+                        <div class="select-joints-humand-body" id="select-joints-human-body" style="width: 400px; margin: auto; margin-top: 10px">
+                            <div id="joint-container" style="position: absolute"></div>
+                            <img src="img/human_body.svg">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group-vertical btn-block" style="margin-top: 20px" id="gesture-owner-controls">
+                    <button type="button" class="btn btn-default gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                    <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                    <button type="button" class="btn btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text">Geste löschen</span></button>
+                </div>
+
+            </div>
+        </div>
+
+        <hr style="">
+
+        <div id="gesture-set-body">
+            <div id="attached-gesture-sets" style="margin-top: 30px; margin-bottom: 30px">
+                <h3><i class="fa fa-paperclip"></i> Zuweisung zu Gesten-Sets</h3>
+
+                <div id="add-to-gesture-set">
+                    <div class="create-gesture-set-input">
+                        <label class="text">Neues Gesten-Set anlegen</label>
+
+                        <div class="alert-space alert-gesture-set-title-too-short"></div>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
+                            <span class="input-group-btn">
+                                <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row text-center" style="margin-top: 10px">
+                        <label class="uppercase" style="font-size: 10pt"><?php echo $lang->or ?></label>
+                    </div>
+
+                    <div style="margin-top: 0px">
+                        <label class="text">Zu vorhandenen Gesten-Sets zuweisen</label>
+
+                        <div id="existing-sets-container">
+                            <div class="option-container root"></div>
+                        </div>
+                        <div class="alert-space alert-no-gesture-sets-for-study"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <hr style="">
+
+        <div id="discussion-body" class="row">
+            <div class="col-xs-12">
+                <h3 style="margin-bottom: 20px"><i class="fa fa-comments-o" aria-hidden="true"></i> Mitreden</h3>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <textarea class="form-control" id="comment" rows="4" maxlength="500" placeholder="Kommentar einfügen" required></textarea>
+                </div>
+                <button type="button" class="btn btn-default btn-block" id="btn-comment-gesture"><i class="fa fa-commenting" aria-hidden="true"></i> <span class="btn-text">Kommentar abschicken</span></button>
+            </div>
+            <div class="col-md-7">
+                <div class="alert-space alert-no-comments"></div>
+                <div id="comments-list"></div>
+            </div>
+        </div>
+
+    </div>-->
+
+    <div id="catalog-trigger">
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+
+        <div class="row">
+            <div class="col-md-7">
+                <div class="overlay-header">
+                    <div class="overlay-header-container">
+                        <h3 id="overlay-title" style="margin: 0; height:34px"></h3>
+                    </div>
+
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                </div>
+
+                <div style="margin-top: 20px">
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="container-root" id="list-container"></div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+
+                <div class="add-button-group toggle-affix" id="add-trigger-button-group" style="margin-top: 10px">
+                    <div class="btn-group">
+                        <div class="btn btn-info btn-add-item font-bold" id="triggerItem">
+                            <i class="fa fa-plus"></i> Funktion hinzufügen
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <br/>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+    </div>
+
+    <div id="catalog-feedback">
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+
+        <div class="row">
+            <div class="col-md-7">
+                <div class="overlay-header">
+                    <div class="overlay-header-container">
+                        <h3 id="overlay-title" style="margin: 0; height:34px"></h3>
+                    </div>
+
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                </div>
+
+                <div style="margin-top: 20px">
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="container-root" id="list-container"></div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+
+                <div class="add-button-group toggle-affix" id="add-feedback-button-group" style="margin-top: 10px">
+                    <div class="btn-group">
+                        <div class="btn btn-info btn-add-item font-bold" id="text">
+                            <i class="fa fa-plus"></i> <?php echo $lang->text ?> 
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <div class="btn btn-info btn-add-item font-bold" id="sound">
+                            <i class="fa fa-plus"></i> <?php echo $lang->sound ?>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <br/>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+    </div>
 
     <div id="catalog-scenes">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
@@ -1745,79 +2311,23 @@ include '../includes/language.php';
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="web">
                             <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->web ?> 
-                            <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="image">
                             <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->image ?>
-                            <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="videoEmbed">
                             <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->videoEmbed ?>
-                            <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
                         </div>
                     </div>
                 </div>
 
-                <!--                    <div class="add-button-group" id="add-observation-button-group">
-                                        <div class="btn-group">
-                                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
-                                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
-                                            </div>
-                                        </div>
-                                        <div class="btn-group">
-                                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
-                                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
-                                            </div>
-                                        </div>
-                                        <div class="btn-group">
-                                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
-                                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                                            </div>
-                                        </div>
-                                        <div class="btn-group">
-                                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
-                                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                                            </div>
-                                        </div>
-                                        <div class="btn-group">
-                                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
-                                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                                            </div>
-                                        </div>
-                                        <div class="btn-group">
-                                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
-                                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                                            </div>
-                                        </div>
-                                        <div class="btn-group">
-                                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
-                                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                                            </div>
-                                        </div>
-                                        <div class="btn-group">
-                                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
-                                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                                            </div>
-                                        </div>
-                                        <div class="btn-group">
-                                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
-                                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                                <i class="fa fa-info-circle" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                                            </div>
-                                        </div>
-                                    </div>-->
             </div>
 
         </div>

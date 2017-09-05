@@ -313,7 +313,7 @@ footer .glyphicon {
     cursor: pointer;
 }
 .btn-show-info:hover {
-    color: #303030   
+    /*color: #303030*/
 }
 
 .footer-copyright {
@@ -825,4 +825,17 @@ fieldset[disabled] .stream-control:hover {
 
 .btn-show-info {
     cursor: help;
+}
+
+
+.disabledTab {
+    cursor: not-allowed;
+}
+/* Clicks are not permitted and change the opacity. */
+li.disabledTab > a[data-toggle="tab"] {
+    pointer-events: none;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
 }

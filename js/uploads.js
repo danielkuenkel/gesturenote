@@ -56,7 +56,7 @@ $(document).on('change', '.imageUpload', function (event) {
             showCursor($('body'), CURSOR_PROGRESS);
             $(button).closest('.root').find('#image-loading-indicator').removeClass('hidden');
             $(imageArea).addClass('hidden');
-            
+
             uploadSceneImage(formData, function (result) {
                 showCursor($('body'), CURSOR_DEFAULT);
                 $(button).removeClass('disabled');
@@ -68,9 +68,9 @@ $(document).on('change', '.imageUpload', function (event) {
                     control.replaceWith(control = control.clone(true));
                     $(button).trigger('saveData');
                 } else {
-                    
+
                 }
-                
+
                 $(button).closest('.root').find('#image-loading-indicator').addClass('hidden');
                 $(imageArea).removeClass('hidden');
             });
@@ -94,7 +94,7 @@ $(document).on('click', '.btn-delete-image', function (event) {
             $(button).removeClass('disabled');
             if (result.status === RESULT_SUCCESS) {
                 $(button).next().attr('src', '');
-                $(button).parent().addClass('hidden');
+                $(element).find('.imageArea').addClass('hidden');
                 $(button).closest('.root').find('.chooseSceneImage .btn-text').text('Bild auswählen');
                 $(button).closest('.root').find('.chooseSceneImage .btn-icon').removeClass('glyphicon-refresh').addClass('glyphicon-picture');
                 $(element).find('.title').val('');
@@ -125,36 +125,59 @@ $(document).on('change', '.soundUpload', function (event) {
         var control = $(this);
         var button = $(dataHolder).parent().find('.chooseFeedbackSound');
         button.addClass('disabled');
-        var soundUrl = $(element).find('.audio-holder').attr('src');
-        if (soundUrl.trim() !== '') {
-            deleteSound({sound: ["../" + soundUrl]}, function (result) {
-//                console.log('sound deleted ' + result);
-            });
-        }
+
 
         var form = new FormData();
         var uploadFiles = $(this)[0].files[0];
         if (uploadFiles) {
             form.append('sound', uploadFiles);
         }
+
+        // check file
+        if (uploadFiles) {
+            if (uploadFiles.size > 8000000) {
+                appendAlert(element, ALERT_SOUND_TO_LARGE);
+                $(button).next().attr('src', '');
+                $(button).removeClass('disabled');
+                $(button).closest('.root').find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
+                $(button).closest('.root').find('.chooseFeedbackSound .btn-icon').removeClass('glyphicon-picture').addClass('glyphicon-refresh');
+                control.replaceWith(control = control.clone(true));
+                $(button).trigger('saveData');
+                return null;
+            }
+            $(element).find('.title').val(uploadFiles.name);
+        }
+
+        var soundUrl = $(element).find('.audio-holder').attr('src');
+        if (soundUrl.trim() !== '') {
+            deleteSound({sound: ["../" + soundUrl]}, function (result) {
+            });
+        }
+
 //        console.log(form, uploadFiles);
         readFile(this.files[0], function () {
             showCursor($('body'), CURSOR_PROGRESS);
-//            console.log(uploadFiles.size);
+            $(element).find('#sound-loading-indicator').removeClass('hidden');
+            $(audioPlayer).addClass('hidden');
+
             uploadSound(form, function (result) {
                 showCursor($('body'), CURSOR_DEFAULT);
                 $(button).removeClass('disabled');
                 if (result.status === RESULT_SUCCESS) {
+                    $(element).find('#sound-loading-indicator').addClass('hidden');
                     $(dataHolder).attr("src", result.soundUrl);
                     $(audioPlayer).removeClass('hidden');
                     $(element).find('.chooseFeedbackSound .btn-text').text('Andere Sounddatei auswählen');
                     $(element).find('.chooseFeedbackSound .btn-icon').removeClass('fa fa-volume-up');
                     $(element).find('.chooseFeedbackSound .btn-icon').addClass('glyphicon glyphicon-refresh');
                     control.replaceWith(control = control.clone(true));
-                    $(button).trigger('saveData');
+                    $(element).trigger('saveData');
                 } else {
 
                 }
+
+                $(element).find('#sound-loading-indicator').addClass('hidden');
+                $(audioPlayer).removeClass('hidden');
             });
 //
         });
@@ -180,6 +203,7 @@ $(document).on('click', '.btn-delete-sound', function (event) {
                 $(element).find('.chooseFeedbackSound .btn-icon').removeClass('glyphicon glyphicon-refresh');
                 $(element).find('.chooseFeedbackSound .btn-icon').addClass('fa fa-volume-up');
                 $(element).find('#stop').click();
+                $(element).find('.title').val('');
                 $(button).trigger('saveData');
             } else {
 
@@ -285,16 +309,16 @@ $(document).on('click', '.checkVideoEmbedURL', function (event) {
         event.handled = true;
         var url = $(this).closest('.root').find('.video-embed-url').val();
         var inputField = $(this).closest('.root').find('.video-embed-url');
-        var videoContainer = $(this).closest('.root').find('.videoContainer');
+        var videoContainer = $(this).closest('.root').find('#video-holder');
         var inputContainer = $(this).closest('.form-group');
         var button = $(this);
 
         clearAlerts($(this).closest('.root'));
         if (url && url.trim() !== "" && urlIsValid(url, TYPE_URL_VIDEO_EMBED)) {
             // check the video URL if they is valid. works for vimeo & youtube
-            videoContainer.html(url);
+            videoContainer.find('.videoContainer').html(url);
             videoContainer.removeClass('hidden');
-            var video = $(this).closest('.root').find('.videoContainer iframe');
+            var video = videoContainer.find('.videoContainer iframe');
             $(video).addClass('embed-responsive-item');
             inputContainer.removeClass('has-error');
             inputContainer.addClass('has-success');
@@ -303,7 +327,7 @@ $(document).on('click', '.checkVideoEmbedURL', function (event) {
             inputField.blur();
         } else if (url && url.trim() !== "") {
             videoContainer.addClass('hidden');
-            videoContainer.html('');
+            videoContainer.find('.videoContainer').html('');
             inputContainer.removeClass('has-success');
             inputContainer.addClass('has-error');
             button.removeClass('btn-success');
@@ -319,6 +343,7 @@ $(document).on('click', '.checkVideoEmbedURL', function (event) {
             inputContainer.removeClass('has-error');
             inputField.focus();
         }
+        $(this).trigger('saveData');
 
         $(this).closest('.root').find('.ratioSelect .option li').on('click', function (event) {
             event.preventDefault();

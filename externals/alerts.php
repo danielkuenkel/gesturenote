@@ -37,6 +37,7 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="pidoco-edit-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->pidocoEditUrlInvalid->text ?></span></div>
     <div class="alert alert-warning" id="video-embed-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->videoEmbedUrlInvalid->text ?></span></div>
     <div class="alert alert-warning" id="image-to-large" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->imageToLarge->text ?></span></div>
+    <div class="alert alert-warning" id="sound-to-large" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->soundToLarge->text ?></span></div>
     <div class="alert alert-warning" id="no-search-results" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noSearchResults->text ?></span></div>
     <div class="alert alert-warning" id="no-phase-data" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noPhaseData->text ?></span></div>
     <div class="alert alert-warning" id="waiting-for-training-gesture" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->waitingForTrainingGesture->text ?></span></div>

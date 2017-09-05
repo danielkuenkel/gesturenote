@@ -45,6 +45,7 @@ var ALERT_PIDOCO_EDIT_URL_INVALID = 'pidoco-edit-url-invalid';
 var ALERT_PIDOCO_EMBED_URL_INVALID = 'pidoco-embed-url-invalid';
 var ALERT_VIDEO_EMBED_URL_INVALID = 'video-embed-url-invalid';
 var ALERT_IMAGE_TO_LARGE = 'image-to-large';
+var ALERT_SOUND_TO_LARGE = 'sound-to-large';
 var ALERT_NO_SEARCH_RESULTS = 'no-search-results';
 var ALERT_NO_PHASE_DATA = 'no-phase-data';
 var ALERT_WAITING_FOR_TRAINING_GESTURE = 'waiting-for-training-gesture';

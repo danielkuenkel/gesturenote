@@ -896,6 +896,8 @@
     },
     "gesture": "Geste",
     "gestures": "Gesten",
+    "studyGestures" : "Studien-Gesten",
+    "studyGestureSet" : "Studien-Gesten-Set",
     "theGesture": "die Geste",
     "theTrigger": "die Funktion",
     "theFeedback": "das Feedback",
@@ -2881,7 +2883,12 @@
         "imageToLarge": {
             "id": "image-to-large",
             "type": "warning",
-            "text": "Das Bild ist zu groß. Es darf eine Dateigröße von bis zu 8MB haben."
+            "text": "Das Bild ist zu groß. Es darf eine Dateigröße von 8MB nicht überschreiten!"
+        },
+        "soundToLarge": {
+            "id": "sound-to-large",
+            "type": "warning",
+            "text": "Die Sounddatei ist zu groß. Es darf eine Dateigröße von 8MB nicht überschreiten!"
         },
         "noSearchResults": {
             "id": "no-search-results",

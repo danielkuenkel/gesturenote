@@ -10,8 +10,8 @@ include '../includes/language.php';
     <div class="" id="popover-gesture-preview" style="position: absolute; opacity: 0; width: 300px;">
         <div class="previewGesture"></div>
     </div>
-    
-    
+
+
     <li id="attached-gesture-set-item" class="text">
         <span id="gesture-set-title"></span>
     </li>
@@ -127,7 +127,7 @@ include '../includes/language.php';
             </div>
 
             <div class="panel-body">
-                <div class="previewGesture"></div>
+                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -160,8 +160,8 @@ include '../includes/language.php';
                 <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
             </div>
 
-            <div class="panel-body">
-                <div class="previewGesture"></div>
+            <div class="panel-body text-center">
+                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -170,15 +170,12 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
                     </div>
                 </div>
-                <!--                <div class="text-center">
-                                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text hidden-lg hiddel-md"></span></span>
-                                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text hidden-lg hiddel-md"></span></span>
-                                </div>-->
+
             </div>
             <div class="panel-footer">
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default btn-tag-as-favorite-gesture" id="btn-tag-as-favorite-gesture"><i class="fa fa-star" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-info btn-tag-as-favorite-gesture" id="btn-tag-as-favorite-gesture"  data-trigger="hover" data-placement="auto" data-content="Zum Studien-Gesten-Set hinzufügen"><i class="fa fa-plus" aria-hidden="true"></i></button>
                     </div>
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
@@ -224,7 +221,8 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow" id="btn-delete-gesture-set"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
             <span class="panel-heading-text"></span>
-            <button class="btn btn-default btn-shadow pull-right" id="btn-mark-hole-set"><i class="fa fa-star"></i> <span class="btn-text">Alle Gesten zum Studien-Gesten-Set hinzufügen</span></button>
+            <button class="btn btn-default btn-shadow pull-right" id="btn-mark-hole-set"><i class="fa fa-plus"></i> <span class="btn-text">Alle Gesten zum Studien-Gesten-Set hinzufügen</span></button>
+            <button class="btn btn-default btn-shadow pull-right hidden" id="btn-unmark-hole-set"><i class="fa fa-minus"></i> <span class="btn-text">Alle Gesten vom Studien-Gesten-Set entfernen</span></button>
             <div style="clear: both"></div>
         </div>
 

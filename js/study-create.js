@@ -243,10 +243,12 @@ function renderPhaseSteps() {
 }
 
 function renderCatalogOverview() {
+    updateCatalogButtons();
+
     var studyGestures = getLocalItem(ASSEMBLED_GESTURE_SET)
     if (studyGestures && studyGestures.length > 0) {
         clearAlerts($('#gestures-catalog'));
-        renderStudyGestures(studyGestures);
+        renderStudyGestures(studyGestures, true);
     } else {
         appendAlert($('#gestures-catalog'), ALERT_NO_PHASE_DATA);
     }
@@ -276,18 +278,34 @@ function renderCatalogOverview() {
     }
 }
 
-function renderStudyGestures(gestures) {
+function renderStudyGestures(gestures, animate) {
     $('#gestures-catalog').find('#gestures-list-container').empty();
-    for (var i = 0; i < gestures.length; i++) {
-        var gesture = getGestureById(gestures[i]);
-        var isGestureAss = isGestureAssembled(gesture.id);
-        var item = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-3 col-lg-2', null, isGestureAss ? 'panel-success' : null);
-        if (isGestureAss) {
-            item.find('#btn-tag-as-favorite-gesture').addClass('selected btn-success');
+    if (gestures && gestures.length > 0) {
+        for (var i = 0; i < gestures.length; i++) {
+            var gesture = getGestureById(gestures[i]);
+            var isGestureAss = isGestureAssembled(gesture.id);
+            var clone = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-3 col-lg-2', null, isGestureAss ? 'panel-default' : 'custom-modal');
+            if (isGestureAss) {
+                clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
+                clone.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
+            }
+            $('#gestures-catalog').find('#gestures-list-container').append(clone);
+            if (animate && animate === true) {
+                TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+            }
         }
-        $('#gestures-catalog').find('#gestures-list-container').append(item);
-        TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+    } else {
+        appendAlert($('#gestures-catalog'), ALERT_NO_PHASE_DATA);
     }
+
+    $('#gestures-catalog').find('#gestures-list-container').unbind('change').bind('change', function (event, gestureId, assemble) {
+        TweenMax.to($(event.target).closest('.root'), .2, {scale: 0, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: function () {
+                reassembleGesture(gestureId);
+                updateCatalogButtons();
+                renderStudyGestures(getLocalItem(ASSEMBLED_GESTURE_SET), false);
+            }
+        });
+    });
 }
 
 function renderStudyTrigger(trigger) {
@@ -315,7 +333,6 @@ function renderStudyFeedback(feedback) {
 }
 
 function renderStudyScenes(scenes) {
-    console.log('render study scenes');
     $('#scenes-catalog').find('.list-container').empty();
     for (var i = 0; i < scenes.length; i++) {
         var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id');
@@ -323,6 +340,7 @@ function renderStudyScenes(scenes) {
         item.find('.label-text').text(translation.sceneTypes[scenes[i].type]);
         item.find('#' + scenes[i].type).removeClass('hidden');
         $('#scenes-catalog').find('.list-container').append(item);
+        console.log(scenes[i]);
         TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
         $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
             event.preventDefault();

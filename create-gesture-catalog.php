@@ -590,7 +590,7 @@ include './includes/language.php';
 
 
         $('#gesture-catalogs-nav-tab').on('shown.bs.tab', function (event) {
-            $($(event.target).attr('href')).find('#sort .achtive').removeClass('selected');
+            $($(event.target).attr('href')).find('#sort .active').removeClass('selected');
             resetRecorder();
             switch ($(event.target).attr('href')) {
                 case '#study-gesture-set':

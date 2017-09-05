@@ -33,7 +33,7 @@ var CLASSIFICATION = 'classification';
 var GESTURE_SETS = 'gestureSets';
 
 var CATALOG_GESTURES = 'catalog-gestures';
-var CATALOG_TRIGGER = 'catalog-frigger';
+var CATALOG_TRIGGER = 'catalog-trigger';
 var CATALOG_FEEDBACK = 'catalog-feedback';
 var CATALOG_SCENES = 'catalog-scenes';
 

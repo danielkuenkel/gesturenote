@@ -238,6 +238,10 @@ function initTooltips() {
     $('[data-toggle="tooltip"]').tooltip({container: 'body'});
 }
 
+function initPopover(delayShow, delayHide) {
+    $('[data-toggle="popover"]').popover({container: 'body', delay: {"show": delayShow ? delayShow : 300, "hide": delayHide ? delayHide : 0}});
+}
+
 $(document).on('mouseenter', '.btn-show-hole-text', function (event) {
     if (!event.handled) {
         initTooltips();
@@ -1321,15 +1325,19 @@ function getDimensionByElement(element) {
 }
 
 // tab navigation handling
-$(document).on('click', '.nav-tabs li', function (event) {
-    event.preventDefault();
-    if (!event.handled && !$(this).hasClass('active') && !$(this).hasClass('disabled')) {
-        event.handled = true;
-        $(this).parent().find('.active').removeClass('active');
-        $(this).addClass('active');
-        $(this).trigger('change');
-    }
+$(document).on('click', '.nav-tabs li.disabled > a[data-toggle=tab]', function (e) {
+//    console.log('stop propagation')
+    e.stopImmediatePropagation();
 });
+//$(document).on('click', '.nav-tabs li', function (event) {
+//    event.preventDefault();
+//    if (!event.handled && !$(this).hasClass('active') && !$(this).hasClass('disabled')) {
+//        event.handled = true;
+////        $(this).parent().find('.active').removeClass('active');
+////        $(this).addClass('active');
+//        $(this).trigger('change');
+//    }
+//});
 
 function getAssembledItems(source) {
     var array = new Array();
@@ -1391,13 +1399,15 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
         var gestureId = $(this).closest('.root').attr('id');
         var thumbnail = $(this).closest('.panel');
         if (!$(this).hasClass('selected')) {
-            $(this).addClass('selected btn-success');
-            $(thumbnail).removeClass('panel-default').addClass('panel-success');
+            $(this).removeClass('btn-info').addClass('selected btn-danger');
+            $(this).find('.fa').removeClass('fa-plus').addClass('fa-minus');
+            $(thumbnail).removeClass('panel-default').addClass('panel-info');
             $(this).find('root').addClass('selected');
             assemble = true;
         } else {
-            $(this).removeClass('selected btn-success');
-            $(thumbnail).removeClass('panel-success').addClass('panel-default');
+            $(this).removeClass('selected btn-danger').addClass('btn-info');
+            $(this).find('.fa').removeClass('fa-minus').addClass('fa-plus');
+            $(thumbnail).removeClass('panel-info').addClass('panel-default');
             $(this).find('root').removeClass('selected');
         }
 
@@ -1499,6 +1509,7 @@ $(document).on('keyup', '.search-input', function (event) {
         event.handled = true;
 
         if ($(this).hasClass('save-data')) {
+            $(this).trigger('saveData');
             saveData();
         }
 
@@ -1513,7 +1524,8 @@ $(document).on('keyup', '.search-input', function (event) {
                 removeAlert(container.closest('#item-view'), ALERT_NO_SEARCH_RESULTS);
                 currentFilterData = matched;
                 updatePaginationItems();
-                renderData(matched);
+                $(container).trigger('renderData', [matched]);
+//                renderData(matched);
             } else {
                 container.addClass('hidden');
 //                $('#pager-top').addClass('hidden');
@@ -1525,7 +1537,8 @@ $(document).on('keyup', '.search-input', function (event) {
             removeAlert(container.closest('#item-view'), ALERT_NO_SEARCH_RESULTS);
             currentFilterData = sort();
             updatePaginationItems();
-            renderData(currentFilterData);
+//            renderData(currentFilterData);
+            $(container).trigger('renderData', [currentFilterData]);
 
             if (event.keyCode === 27) {
                 $(this).val('');
@@ -2012,13 +2025,21 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
         currentPreviewGesture = {gesture: event.data.gesture, source: source};
         gesturePreviewOpened = true;
         $(clone).find('#btn-stop-gesture').click();
+        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
+        console.log(event.data.gesture);
 
-        $('#custom-modal').on('gesture-deleted', function () {
-            checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-            renderData(currentFilterData);
-        });
 
-        $(this).trigger('openGestureInfo');
+//        var modalTarget = 'custom-modal';
+//        if (modalId) {
+//            modalTarget = modalId;
+//        }
+//        loadHTMLintoModal(modalTarget, 'modal-gesture.php', 'modal-lg');
+//        $('#' + modalTarget).on('gesture-deleted', function () {
+//            checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+//            renderData(currentFilterData);
+//        });
+
+//        $(this).trigger('openGestureInfo');
     });
 
     return clone;
@@ -2306,15 +2327,25 @@ function getGestureSetPanel(data) {
         for (var j = 0; j < data.gestures.length; j++) {
             var gesture = getGestureById(data.gestures[j]);
             var isGestureAss = isGestureAssembled(gesture.id);
-            var gestureThumbnail = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-md-3', null, isGestureAss ? 'panel-success' : null);
+            var gestureThumbnail = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-md-3', null, isGestureAss ? 'panel-info' : null);
             $(panel).find('#gestures-list-container').append(gestureThumbnail);
 
             if (isGestureAss) {
-                gestureThumbnail.find('#btn-tag-as-favorite-gesture').addClass('selected btn-success');
+                gestureThumbnail.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
+                gestureThumbnail.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
+//                gestureThumbnail.find('#btn-tag-as-favorite-gesture').
             }
         }
+        var assembledGesturesLength = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture.selected').length;
+        if (assembledGesturesLength === $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture').length) {
+            console.log(assembledGesturesLength);
+            $(panel).find('#btn-mark-hole-set').addClass('hidden');
+            $(panel).find('#btn-unmark-hole-set').removeClass('hidden');
+        }
+
     } else {
         $(panel).find('#btn-mark-hole-set').addClass('hidden');
+        $(panel).find('#btn-unmark-hole-set').removeClass('hidden');
         appendAlert(panel, ALERT_EMPTY_GESTURE_SET);
     }
 
@@ -2332,14 +2363,28 @@ function getGestureSetPanel(data) {
 
     $(panel).find('#btn-mark-hole-set').unbind('click').bind('click', function (event) {
         event.preventDefault();
-        var gesturesItems = $(panel).find('#gestures-list-container').children();
-        if (gesturesItems && gesturesItems.length > 0) {
-            for (var i = 0; i < gesturesItems.length; i++) {
-                $(gesturesItems[i]).find('#btn-tag-as-favorite-gesture').addClass('selected btn-success');
-                $(gesturesItems[i]).find('.panel').addClass('.panel-success');
-                assembleGesture($(gesturesItems[i]).attr('id'));
-            }
-        }
+        $(this).addClass('hidden');
+        $(panel).find('#btn-unmark-hole-set').removeClass('hidden');
+        var gesturesItems = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture:not(.selected)');
+        $(gesturesItems).click();
+        console.log(gesturesItems);
+//        if (gesturesItems && gesturesItems.length > 0) {
+//            for (var i = 0; i < gesturesItems.length; i++) {
+//                var tagButton = $(gesturesItems[i]).find('.btn-tag-as-favorite-gesture');
+//                if (!$(tagButton).hasClass('btn-info')) {
+//                    assembleGesture($(gesturesItems[i]).attr('id'));
+//                    $(tagButton).click();
+//                }
+//            }
+//        }
+    });
+    
+    $(panel).find('#btn-unmark-hole-set').unbind('click').bind('click', function(event) {
+        event.preventDefault();
+        $(this).addClass('hidden');
+        $(panel).find('#btn-mark-hole-set').removeClass('hidden');
+        var assembledGesturesButtons = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture.selected');
+        $(assembledGesturesButtons).click();
     });
 
     return panel;

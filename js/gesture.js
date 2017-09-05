@@ -160,11 +160,12 @@ function renderGestureImages(container, images, preview, callback) {
     $(container).empty();
     $(container).addClass('text-center');
 
-    addLoadingIcon(container);
+    $(container).addClass('hidden');
+    addLoadingIcon($(container).parent());    
 
     for (var i = 0; i < images.length; i++) {
         var image = document.createElement('img');
-        $(image).addClass('gestureImage mirroredHorizontally');
+        $(image).addClass('gestureImage mirroredHorizontally embed-responsive-item');
         container.append(image);
         if (i === parseInt(preview)) {
             $(image).addClass('previewImage active');
@@ -175,7 +176,10 @@ function renderGestureImages(container, images, preview, callback) {
         image.onload = function () {
             if (numImagesLoaded === images.length - 1) {
                 resetThumbnails(container);
-                removeLoadingIcon(container);
+                
+                removeLoadingIcon($(container).parent());
+                $(container).removeClass('hidden');
+                
                 if ($(container).hasClass('autoplay')) {
                     $(container).parent().find('#btn-stop-gesture').click();
                     $(container).parent().find('#btn-play-gesture').click();
@@ -188,6 +192,7 @@ function renderGestureImages(container, images, preview, callback) {
             numImagesLoaded++;
         };
         image.src = images[i];
+//        console.log(image.width);
     }
 }
 
@@ -271,7 +276,7 @@ function updateModalProgress(container) {
 function addLoadingIcon(target) {
     var icon = document.createElement('i');
     $(icon).addClass('fa fa-circle-o-notch fa-spin fa-3x fa-fw');
-    $(icon).css({position: 'absolute', margin: 'auto'});
+//    $(icon).css({position: 'relative', margin: '0 auto'});
     $(icon).attr('id', 'loading-icon');
     $(target).append(icon);
 }

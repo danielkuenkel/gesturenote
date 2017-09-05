@@ -1571,22 +1571,26 @@ include '../includes/language.php';
     </div>
 
 
-    <div class="root" id="trigger">
-        <div class="option-container"></div>
-        <div class="text-right">
-            <button type="button" class="btn btn-info btn-shadow btn-add-triggerOption"><span class="glyphicon glyphicon-plus"></span> <span>Funktion hinzufügen</span></button>
-        </div>
-    </div>
+    <!--    <div class="root" id="trigger">
+            <div class="option-container"></div>
+            <div class="text-right">
+                <button type="button" class="btn btn-info btn-shadow btn-add-triggerOption"><span class="glyphicon glyphicon-plus"></span> <span>Funktion hinzufügen</span></button>
+            </div>
+        </div>-->
 
-    <div class="form-group root" id="triggerItem">
-        <div class="input-group">
-            <div class="input-group-btn">
+    <div class="panel panel-default root" id="triggerItem">
+        <div class="panel-heading">
+            <div class="btn-group" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
-            <span class="input-group-addon"><?php echo $lang->triggerName ?></span>
-            <input class="form-control item-input-text option" type="text" value="" placeholder=""/>
+        </div>
+        <div class="panel-body">
+            <div class="form-group form-group-no-margin">
+                <label><?php echo $lang->triggerName ?></label>
+                <input class="form-control item-input-text option" type="text" value="" placeholder=""/>
+            </div>
         </div>
     </div>
 
@@ -2124,7 +2128,7 @@ include '../includes/language.php';
                     <input class="imageUpload hidden" name="image" type="file" accept="image/jpeg, image/gif, image/png" />
                 </form>
             </div>
-            <div class="alert-space alert-image-to-large"></div>
+            <div class="alert-space alert-image-to-large" style="margin-top: 10px"></div>
 
             <div class="imageArea hidden" style="margin-top: 10px; width: 400px; height: auto; position: relative;">
                 <div class="btn-group"style="position: absolute; margin: 10px;">
@@ -2216,12 +2220,12 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="root" style="width:400px; height:auto; border-radius: 4px; margin-top: 10px; margin-bottom: 0px;">
+            <div class="root hidden" id="video-holder" style="width:400px; height:auto; border-radius: 4px; margin-top: 10px; margin-bottom: 0px;">
                 <div class="btn-group"style="position: absolute; margin: 10px; z-index: 301">
                     <button class="btn btn-default btn-shadow btn-decrease-video-embed"><i class="fa fa-minus"></i></button>
                     <button class="btn btn-default btn-shadow btn-increase-video-embed"><i class="fa fa-plus"></i></button>
                 </div>
-                <div class="videoContainer embed-responsive embed-responsive-16by9 hidden" style="z-index:300"></div>
+                <div class="videoContainer embed-responsive embed-responsive-16by9" style="z-index:300"></div>
             </div>
 
         </div>
@@ -2375,17 +2379,44 @@ include '../includes/language.php';
         </div>
         <div class="panel-body">
             <div>
-                <div class="input-group" style="margin-top: 5px;">
+                <!--<div class="input-group" style="margin-top: 5px;">-->
 
-                    <span class="input-group-addon">Rückmeldungstext</span>
+                <div class="form-group">
+                    <label>Rückmeldungstext</label>
+                <!--<span class="input-group-addon">Rückmeldungstext</span>-->
                     <input class="form-control item-input-text" type="text" value=""/>
+                </div>
 
-                    <div class="input-group-btn negative">
-                        <button class="btn btn-default switchButtonAddon"><?php echo $lang->negativeQuestionmark ?></button>
-                        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger"><?php echo $lang->yes ?></button>
-                        <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
+                <div class="form-group form-group-margin-top root negative">
+                    <label style="margin: 0"><?php echo $lang->negativeQuestionmark ?></label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
                     </div>
                 </div>
+                <!--                    <div class="input-group-btn negative">
+                                        <button class="btn btn-default switchButtonAddon"><?php echo $lang->negativeQuestionmark ?></button>
+                                        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger"><?php echo $lang->yes ?></button>
+                                        <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
+                                    </div>-->
+                <!--</div>-->
 
             </div>
         </div>
@@ -2401,11 +2432,11 @@ include '../includes/language.php';
             <span>Sound <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
         </div>
         <div class="panel-body">
-            <div class="alert-space alert-no-title"></div>
-            <div class="form-group form-group-no-margin">
-                <div class="input-group">
 
-                    <span class="input-group-addon"><?php echo $lang->title ?></span>
+            <div class="form-group form-group-no-margin">
+                <label><?php echo $lang->title ?></label>
+                <div class="alert-space alert-no-title"></div>
+                <div class="input-group">
                     <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
                     <div class="input-group-btn">
                         <button class="btn btn-default btn-shadow chooseFeedbackSound"><i class="btn-icon fa fa-volume-up"></i> <span class="btn-text">Sounddatei auswählen</span></button>
@@ -2416,6 +2447,7 @@ include '../includes/language.php';
                     <input class="soundUpload hidden" name="sound" type="file" accept="audio/mp3" />
                 </form>
 
+                <div class="alert-space alert-sound-to-large" style="margin-top: 10px"></div>
                 <div class="audioPlayer hidden" style="margin-top: 10px">
                     <div class="btn-group">
                         <button class="btn btn-default btn-shadow" id="play"><i class="glyphicon glyphicon-play"></i></button>
@@ -2425,6 +2457,10 @@ include '../includes/language.php';
                     </div>
 
                     <audio class="audio-holder" src="" preload="auto"></audio>
+                </div>
+
+                <div id="sound-loading-indicator" class="hidden" style="margin-top: 10px">
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
                 </div>
             </div>
         </div>

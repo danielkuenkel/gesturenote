@@ -635,7 +635,9 @@ include 'includes/language.php';
      * gesture set adding and attached rendering
      */
     function renderAttachedGestureSets(preselect, id) {
+        
         var sets = getLocalItem(GESTURE_SETS);
+        console.log('render attached gesture sets', sets);
         if (sets && sets !== null && sets !== '' && sets.length > 0) {
             var container = $('#add-to-gesture-set #existing-sets-container');
             container.find('.option-container').empty();
