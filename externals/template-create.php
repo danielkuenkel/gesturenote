@@ -2466,7 +2466,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="panel panel-default gesture-thumbnail root" id="gesture-thumbnail">
+<!--    <div class="panel panel-default gesture-thumbnail root" id="gesture-thumbnail">
         <div class="panel-heading" style=" text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
 
             <div class="btn-group btn-group-sm">
@@ -2572,7 +2572,7 @@ include '../includes/language.php';
 
             </div>
         </div>
-    </div>
+    </div>-->
 
 
     <div class="panel panel-default panel-sm" id="gesture-comment-item" style="margin-top: 0px; margin-bottom: 8px">

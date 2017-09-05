@@ -67,7 +67,7 @@ include '../includes/language.php';
 
             <div id="preview-controls" class="hidden">
                 <div style="max-width: 600px">
-                    <div class="previewGesture previewProgress autoplay" id="gesturePreview"></div>
+                    <div class="previewGesture previewProgress autoplay embed-responsive embed-responsive-4by3" id="gesturePreview"></div>
                     <div class="progress gesture-progress">
                         <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                     </div>
@@ -98,6 +98,34 @@ include '../includes/language.php';
                     <input type="text" class="form-control" id="gestureName" required>
                 </div>
 
+                <div class="form-group root" id="gestureTypeSelect">
+                    <label>
+                        <?php echo $lang->gestureType ?> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                    </label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="gestures">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->gestures ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="trigger">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->triggers ?></span>
+                        </button>
+                    </div>
+                </div>
+                
                 <div class="form-group" style="margin-top: 10px">
                     <label><?php echo $lang->gestureType ?></label>
                     <div class="input-group">
@@ -159,18 +187,18 @@ include '../includes/language.php';
             <div class="alert-space alert-general-error"></div>
 
             <!--<div style="width: 100%" class="text-center">-->
-                <div style="max-width: 600px; margin: auto">
-                    <div class="previewGesture previewProgress previewProgress autoplay"></div>
-                    <div class="progress gesture-progress">
-                        <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                    </div>
-                    <div class="text-center gestureControls">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                            <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                        </div>
+            <div style="max-width: 600px; margin: auto">
+                <div class="previewGesture previewProgress previewProgress autoplay embed-responsive embed-responsive-4by3"></div>
+                <div class="progress gesture-progress">
+                    <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                </div>
+                <div class="text-center gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
                     </div>
                 </div>
+            </div>
             <!--</div>-->
 
             <div class="btn-group-vertical btn-block" style="margin-top: 20px">
@@ -252,7 +280,7 @@ include '../includes/language.php';
                 <div class="alert-space alert-gesture-too-short"></div>
 
                 <div style="max-width: 600px">
-                    <div class="previewGesture autoplay mousePlayable" id="gesturePreview"></div>
+                    <div class="previewGesture autoplay mousePlayable embed-responsive embed-responsive-4by3" id="gesturePreview"></div>
                     <div class="progress gesture-progress">
                         <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                     </div>
@@ -317,7 +345,7 @@ include '../includes/language.php';
             <div class="alert-space alert-general-error"></div>
 
             <div style="max-width: 600px; margin: auto">
-                <div class="previewGesture previewProgress autoplay"></div>
+                <div class="previewGesture previewProgress autoplay embed-responsive embed-responsive-4by3"></div>
                 <div class="progress gesture-progress">
                     <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                 </div>

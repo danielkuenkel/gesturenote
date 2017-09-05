@@ -21,8 +21,6 @@ function initOverlayContentByFormat(format) {
     console.log(format, formatClone);
     $(window).unbind('scroll resize');
     initOverlayContentFunctionalitiesByFormat(format, formatClone);
-    initPopover();
-    initTooltips();
 }
 
 function resetOverlayContent(target) {
@@ -1590,22 +1588,25 @@ function initCatalogGesturesOverlay(formatClone) {
                     break;
                 case 'study-gesture-set':
                 case 'gesture-catalog':
-                    isGestureAss = isGestureAssembled(currentFilterData[i].id);
-                    clone = getCreateStudyGestureListThumbnail(currentFilterData[i], 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-3', null, isGestureAss ? 'panel-info' : null);
+//                    isGestureAss = isGestureAssembled(currentFilterData[i].id);
+                    clone = getCreateStudyGestureListThumbnail(currentFilterData[i], 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-3', null, null, 'custom-modal');
                     $(currentFilterList).append(clone);
 
                     if (animation && animation === true) {
                         TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                     }
 
-                    if (isGestureAss) {
-                        clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
-                        clone.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
-                    }
+//                    if (isGestureAss) {
+//                        clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
+//                        clone.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
+//                    }
+
                     break;
             }
             count++;
         }
+        initPopover();
+        initTooltips();
         updateNavBadges();
     }
 
@@ -1909,15 +1910,20 @@ function initCatalogGesturesOverlay(formatClone) {
         $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
             renderData(data);
         });
+
+        $('#custom-modal').on('hidden.bs.modal', function (event) {
+            event.preventDefault();
+            getWholeGestureSets();
+        });
     }
 
     function getWholeGestureRecorder() {
         var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder').clone().removeAttr('id');
-        $(formatClone).find('#gesture-recorder-content').empty().append(recorder);
+        $(formatClone).find('#gesture-recorder-container').empty().append(recorder);
         renderBodyJoints($(recorder).find('#human-body'));
 
         var options = {
-            alertTarget: $(formatClone).find('#gesture-recorder-content'),
+            alertTarget: $(formatClone).find('#gesture-recorder-container'),
             recorderTarget: recorder,
             saveGestures: true,
             checkType: true,
@@ -1925,6 +1931,15 @@ function initCatalogGesturesOverlay(formatClone) {
         };
 
         new GestureRecorder(options);
+
+        var recorderDescription = $('#item-container-gesture-recorder').find('#gesture-recorder-description').clone();
+        formatClone.find('#recorder-description').empty().append(recorderDescription);
+
+        $(recorder).unbind(EVENT_GR_UPDATE_STATE).bind(EVENT_GR_UPDATE_STATE, function (event, type) {
+            var descriptions = $('#item-container-gesture-recorder').find('#' + type).clone();
+            recorderDescription.empty().append(descriptions);
+            TweenMax.from(descriptions, .3, {y: -20, opacity: 0, clearProps: 'all'});
+        });
     }
 }
 

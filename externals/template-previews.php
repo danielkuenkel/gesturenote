@@ -27,7 +27,7 @@ include '../includes/language.php';
             </div>
 
             <div class="panel-body">
-                <div class="previewGesture mousePlayable"></div>
+                <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -284,7 +284,7 @@ include '../includes/language.php';
                 </div>
 
                 <div class="col-sm-6">
-                    <div class="previewGesture autoplay mousePlayable btn-shadow"></div>
+                    <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
                     <div class="text-center gestureControls">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -431,7 +431,7 @@ include '../includes/language.php';
 
     <div id="trainingItem" class="row">
         <div class="col-sm-6 col-md-12 col-lg-6 left" style="margin-bottom: 10px;">
-            <!--<div class="previewGesture"></div>-->
+            <!--<div class="previewGesture embed-responsive embed-responsive-4by3"></div>-->
             <div>
                 <div id="title"><span class="address"></span> <span class="text"></span></div>
                 <div id="repeats"><span class="address"></span> <span class="text"></span></div>
@@ -685,7 +685,7 @@ include '../includes/language.php';
 
     <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
         <div class="col-sm-6 col-sm-offset-2 root">
-            <div class="previewGesture mousePlayable btn-shadow"></div>
+            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -910,7 +910,7 @@ include '../includes/language.php';
     <div class="col-xs-6 col-sm-4 col-md-4 root" id="wozItem">
         <div class="panel panel-default btn-shadow">
             <div class="panel-body">
-                <div class="previewGesture mousePlayable"></div>
+                <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center  hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -1085,7 +1085,7 @@ include '../includes/language.php';
                     <div id="feedback"><span class="address"></span> <span class="text"></span></div>
                 </div>
                 <div class="col-sm-6 left" id="gesturePreview">
-                    <div class="previewGesture autoplay mousePlayable btn-shadow"></div>
+                    <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
                     <div class="text-center gestureControls">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -1110,7 +1110,7 @@ include '../includes/language.php';
                 <div id="feedback"><span class="address"></span> <span class="text"></span></div>
             </div>
             <div class="col-sm-6 left" id="gesturePreview">
-                <div class="previewGesture autoplay mousePlayable btn-shadow"></div>
+                <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -1175,7 +1175,7 @@ include '../includes/language.php';
             <!--</div>-->
         </div>
         <div class="col-sm-6" style="margin-bottom: 20px;">
-            <div class="previewGesture autoplay"></div>
+            <div class="previewGesture autoplay embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -1197,7 +1197,7 @@ include '../includes/language.php';
             </div>
 
             <div class="col-sm-12 col-lg-6" style="margin-top: 20px">
-                <div class="previewGesture autoplay" style="margin:auto;"></div>
+                <div class="previewGesture autoplay embed-responsive embed-responsive-4by3" style="margin:auto;"></div>
                 <div class="text-center gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -1247,7 +1247,7 @@ include '../includes/language.php';
     <!-- moderated gesture slideshow items -->
 
     <div id="gestureSlideshowOverviewItemModerated" class="col-xs-6 col-sm-4 col-md-6 col-lg-4 root">
-        <div class="previewGesture mousePlayable btn-shadow"></div>
+        <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
         <div class="text-center gestureControls">
             <div class="btn-group">
                 <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -1266,7 +1266,7 @@ include '../includes/language.php';
     <!-- unmoderated gesture slideshow items -->
 
     <div id="gestureSlideshowOverviewItemUnmoderated" class="col-xs-6 col-sm-4 col-md-6 col-lg-4 root" style="margin-bottom: 15px;">
-        <div class="previewGesture mousePlayable btn-shadow"></div>
+        <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
         <div class="text-center gestureControls">
             <div class="btn-group">
                 <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -1324,7 +1324,7 @@ include '../includes/language.php';
 
     <div id="triggerSlideshowItemUnmoderated">
         <div class="col-sm-5 text-center" style="margin-bottom: 15px;" id="gesturePreview">
-            <div class="previewGesture autoplay"></div>
+            <div class="previewGesture autoplay embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -1430,7 +1430,7 @@ include '../includes/language.php';
         <div id="identification-content" class="hidden">
             <div id="trigger-identification">
                 <div class="col-sm-5 col-md-6 text-center" style="margin-bottom: 15px">
-                    <div class="previewGesture previewProgress autoplay mousePlayable btn-shadow" style="max-width: 500px;"></div>
+                    <div class="previewGesture previewProgress autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3" style="max-width: 500px;"></div>
                     <div class="progress gesture-progress" style="max-width: 500px; margin: auto">
                         <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                     </div>
@@ -1473,7 +1473,6 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -1507,7 +1506,7 @@ include '../includes/language.php';
 
     <div class="root" id="physicalStressTestModerated">
         <div class="col-sm-12 text-center" style="margin-bottom: 15px;">
-            <div class="previewGesture previewProgress autoplay" style="max-width: 400px"></div>
+            <div class="previewGesture previewProgress autoplay embed-responsive embed-responsive-4by3" style="max-width: 400px"></div>
             <div class="progress gesture-progress" style="max-width: 400px; margin: auto">
                 <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
             </div>
@@ -1602,7 +1601,7 @@ include '../includes/language.php';
         </div>
 
         <div class="col-sm-12 text-center" style="margin-bottom: 15px;">
-            <div class="previewGesture previewProgress autoplay" style="max-width: 400px"></div>
+            <div class="previewGesture previewProgress autoplay embed-responsive embed-responsive-4by3" style="max-width: 400px"></div>
             <div class="progress gesture-progress" style="max-width: 400px; margin: auto">
                 <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
             </div>

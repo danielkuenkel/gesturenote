@@ -283,12 +283,9 @@ function renderStudyGestures(gestures, animate) {
     if (gestures && gestures.length > 0) {
         for (var i = 0; i < gestures.length; i++) {
             var gesture = getGestureById(gestures[i]);
-            var isGestureAss = isGestureAssembled(gesture.id);
-            var clone = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-3 col-lg-2', null, isGestureAss ? 'panel-default' : 'custom-modal');
-            if (isGestureAss) {
-                clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
-                clone.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
-            }
+//            var isGestureAss = isGestureAssembled(gesture.id);
+            var clone = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-3 col-lg-2', null, 'panel-default', 'custom-modal');
+            
             $('#gestures-catalog').find('#gestures-list-container').append(clone);
             if (animate && animate === true) {
                 TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
@@ -306,6 +303,9 @@ function renderStudyGestures(gestures, animate) {
             }
         });
     });
+    
+    initPopover();
+    initTooltips();
 }
 
 function renderStudyTrigger(trigger) {

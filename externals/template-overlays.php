@@ -1990,7 +1990,16 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane" id="tab-gesture-recorder-content"></div>
+                    <div role="tabpanel" class="tab-pane" id="tab-gesture-recorder-content">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div id="recorder-description"></div>
+                            </div>
+                            <div class="col-sm-6" id="gesture-recorder-container">
+                                
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -2013,194 +2022,194 @@ include '../includes/language.php';
         <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
     </div>
 
-<!--    <div id="gesture-info">
-        <button type="button" class="btn btn-default" id="btn-back"><i class="fa fa-angle-left" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->previous ?></span></button>
-
-        <div class="row" id="general-gesture-info" style="margin-top: 20px">
-            <div class="col-md-5 root">
-                <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
-                <div class="progress gesture-progress">
-                    <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                </div>
-                <div class="text-center">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+    <!--    <div id="gesture-info">
+            <button type="button" class="btn btn-default" id="btn-back"><i class="fa fa-angle-left" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->previous ?></span></button>
+    
+            <div class="row" id="general-gesture-info" style="margin-top: 20px">
+                <div class="col-md-5 root">
+                    <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
+                    <div class="progress gesture-progress">
+                        <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                     </div>
-                </div>
-                <hr>
-                <div class="gesture-rating" id="gesture-rating" style="margin-top: 20px;">
-                    <h3><i class="fa fa-star-o"></i> Bewertung</h3>
-                    <div class="rating-container rating-physicalContext row" id="rating-physicalContext">
-                        <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
-                        <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Gestentyp für Kontext stimmig? (z.B. Ganzkörper-Geste für Arbeitsplatz stimmig?)</span></div>
-                    </div>
-                    <div class="rating-container rating-adaption row" id="rating-adaption">
-                        <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
-                        <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Kontext-Adaption (Könnte die Geste auch woanders eingesetzt werden?)</span></div>
-                    </div>
-                    <div class="rating-container rating-fittingTask row" id="rating-fittingTask">
-                        <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
-                        <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Passt die Geste zur beschriebenen Aufgabe?</span></div>
-                    </div>
-                    <div id="rating-infos">
-                        <span id="rated-by"></span> <span id="rating-users-count"></span> <span id="rated-by-users"></span>
-                        <div class="alert-space alert-rating-submitted" style="margin-top: 10px;"></div>
-                    </div>
-                    <button type="button" class="btn btn-block btn-warning" id="btn-rate-gesture" style="margin-top: 10px;">Geste bewerten</button>
-                    <div class="btn-group-vertical btn-block hidden" id="rating-submit-buttons" style="margin-top: 0px;">
-                        <button type="button" class="btn btn-success" id="btn-submit-gesture-rating">Bewertung abgeben</button>
-                        <button type="button" class="btn btn-danger" id="btn-cancel-gesture-rating">Abbrechen</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-7">
-                <h3 style="margin-top: 0"><i class="fa fa-bookmark-o"></i> Allgemeines</h3>
-                <div id="gesture-data-preview">
-                    <div id="created"><span class="address">Erstellt:</span> <span class="text"></span></div>
-                    <div id="title">Titel:<span class="address"></span> <span class="text"></span></div>
-                    <div id="type">Gesten-Typ:<span class="address"></span> <span class="text"></span></div>
-                    <div id="interactionType">Gesten-Interaktions-Typ:<span class="address"></span> <span class="text"></span></div>
-                    <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
-                    <div id="association">Assoziation:<span class="address"></span> <span class="text"></span></div>
-                    <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
-
-                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
-                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
-
-                    <div class="preview-joints-humand-body" id="human-body" style="width: 400px; margin: auto; margin-top: 10px">
-                        <div id="joint-container" style="position: absolute"></div>
-                        <img src="img/human_body.svg">
-                    </div>
-                </div>
-
-                <div id="gesture-data-edit" class="hidden">
-                    <div class="alert-space alert-missing-fields"></div>
-
-                    <div class="form-group">
-                        <label><?php echo $lang->gestureName ?></label>
-                        <input type="text" class="form-control" id="gesture-name-input" required>
-                    </div>
-
-                    <div class="form-group" style="margin-top: 10px">
-                        <label><?php echo $lang->gestureType ?></label>
-                        <div class="input-group">
-                            <input class="form-control item-input-text option-gesture-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                            <div class="input-group-btn select gestureTypeSelect" role="group" id="gestureTypeSelect">
-                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                    <li id="0"><a href="#"><?php echo $lang->gestureTypes->pose ?></a></li>
-                                    <li id="1"><a href="#"><?php echo $lang->gestureTypes->dynamic ?></a></li>
-                                </ul>
-                            </div>
+                    <div class="text-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
                         </div>
                     </div>
-
-                    <div class="form-group" style="margin-top: 10px">
-                        <label><?php echo $lang->gestureInteractionType ?></label>
-                        <div class="input-group">
-                            <input class="form-control item-input-text option-gesture-interaction-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                            <div class="input-group-btn select gestureInteractionTypeSelect" role="group" id="gestureInteractionTypeSelect">
-                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                    <li id="0"><a href="#"><?php echo $lang->gestureInteractionTypes->discrete ?></a></li>
-                                    <li id="1"><a href="#"><?php echo $lang->gestureInteractionTypes->continuous ?></a></li>
-                                </ul>
-                            </div>
+                    <hr>
+                    <div class="gesture-rating" id="gesture-rating" style="margin-top: 20px;">
+                        <h3><i class="fa fa-star-o"></i> Bewertung</h3>
+                        <div class="rating-container rating-physicalContext row" id="rating-physicalContext">
+                            <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
+                            <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Gestentyp für Kontext stimmig? (z.B. Ganzkörper-Geste für Arbeitsplatz stimmig?)</span></div>
+                        </div>
+                        <div class="rating-container rating-adaption row" id="rating-adaption">
+                            <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
+                            <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Kontext-Adaption (Könnte die Geste auch woanders eingesetzt werden?)</span></div>
+                        </div>
+                        <div class="rating-container rating-fittingTask row" id="rating-fittingTask">
+                            <div class="col-xs-4 col-sm-3 col-md-5 rating-stars-container"></div>
+                            <div class="col-xs-8 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Passt die Geste zur beschriebenen Aufgabe?</span></div>
+                        </div>
+                        <div id="rating-infos">
+                            <span id="rated-by"></span> <span id="rating-users-count"></span> <span id="rated-by-users"></span>
+                            <div class="alert-space alert-rating-submitted" style="margin-top: 10px;"></div>
+                        </div>
+                        <button type="button" class="btn btn-block btn-warning" id="btn-rate-gesture" style="margin-top: 10px;">Geste bewerten</button>
+                        <div class="btn-group-vertical btn-block hidden" id="rating-submit-buttons" style="margin-top: 0px;">
+                            <button type="button" class="btn btn-success" id="btn-submit-gesture-rating">Bewertung abgeben</button>
+                            <button type="button" class="btn btn-danger" id="btn-cancel-gesture-rating">Abbrechen</button>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label><?php echo $lang->gestureContext ?></label>
-                        <input type="text" class="form-control" placeholder="Wo soll die Geste eingesetzt werden?" id="gesture-context-input" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label><?php echo $lang->gestureAssociation ?></label>
-                        <textarea class="form-control" id="gesture-association-input" rows="3" maxlength="500" required></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label><?php echo $lang->gestureDescription ?></label>
-                        <textarea class="form-control" id="gesture-description-input" rows="3" maxlength="500" required></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label><?php echo $lang->gestureGraphicsQuestion ?></label>
-                        <div class="select-joints-humand-body" id="select-joints-human-body" style="width: 400px; margin: auto; margin-top: 10px">
+                </div>
+                <div class="col-md-7">
+                    <h3 style="margin-top: 0"><i class="fa fa-bookmark-o"></i> Allgemeines</h3>
+                    <div id="gesture-data-preview">
+                        <div id="created"><span class="address">Erstellt:</span> <span class="text"></span></div>
+                        <div id="title">Titel:<span class="address"></span> <span class="text"></span></div>
+                        <div id="type">Gesten-Typ:<span class="address"></span> <span class="text"></span></div>
+                        <div id="interactionType">Gesten-Interaktions-Typ:<span class="address"></span> <span class="text"></span></div>
+                        <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
+                        <div id="association">Assoziation:<span class="address"></span> <span class="text"></span></div>
+                        <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
+    
+                        <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                        <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+    
+                        <div class="preview-joints-humand-body" id="human-body" style="width: 400px; margin: auto; margin-top: 10px">
                             <div id="joint-container" style="position: absolute"></div>
                             <img src="img/human_body.svg">
                         </div>
                     </div>
-                </div>
-
-                <div class="btn-group-vertical btn-block" style="margin-top: 20px" id="gesture-owner-controls">
-                    <button type="button" class="btn btn-default gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                    <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                    <button type="button" class="btn btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text">Geste löschen</span></button>
-                </div>
-
-            </div>
-        </div>
-
-        <hr style="">
-
-        <div id="gesture-set-body">
-            <div id="attached-gesture-sets" style="margin-top: 30px; margin-bottom: 30px">
-                <h3><i class="fa fa-paperclip"></i> Zuweisung zu Gesten-Sets</h3>
-
-                <div id="add-to-gesture-set">
-                    <div class="create-gesture-set-input">
-                        <label class="text">Neues Gesten-Set anlegen</label>
-
-                        <div class="alert-space alert-gesture-set-title-too-short"></div>
-
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
-                            <span class="input-group-btn">
-                                <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
-                            </span>
+    
+                    <div id="gesture-data-edit" class="hidden">
+                        <div class="alert-space alert-missing-fields"></div>
+    
+                        <div class="form-group">
+                            <label><?php echo $lang->gestureName ?></label>
+                            <input type="text" class="form-control" id="gesture-name-input" required>
+                        </div>
+    
+                        <div class="form-group" style="margin-top: 10px">
+                            <label><?php echo $lang->gestureType ?></label>
+                            <div class="input-group">
+                                <input class="form-control item-input-text option-gesture-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                <div class="input-group-btn select gestureTypeSelect" role="group" id="gestureTypeSelect">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                        <li id="0"><a href="#"><?php echo $lang->gestureTypes->pose ?></a></li>
+                                        <li id="1"><a href="#"><?php echo $lang->gestureTypes->dynamic ?></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="form-group" style="margin-top: 10px">
+                            <label><?php echo $lang->gestureInteractionType ?></label>
+                            <div class="input-group">
+                                <input class="form-control item-input-text option-gesture-interaction-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                                <div class="input-group-btn select gestureInteractionTypeSelect" role="group" id="gestureInteractionTypeSelect">
+                                    <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                        <li id="0"><a href="#"><?php echo $lang->gestureInteractionTypes->discrete ?></a></li>
+                                        <li id="1"><a href="#"><?php echo $lang->gestureInteractionTypes->continuous ?></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="form-group">
+                            <label><?php echo $lang->gestureContext ?></label>
+                            <input type="text" class="form-control" placeholder="Wo soll die Geste eingesetzt werden?" id="gesture-context-input" required>
+                        </div>
+    
+                        <div class="form-group">
+                            <label><?php echo $lang->gestureAssociation ?></label>
+                            <textarea class="form-control" id="gesture-association-input" rows="3" maxlength="500" required></textarea>
+                        </div>
+    
+                        <div class="form-group">
+                            <label><?php echo $lang->gestureDescription ?></label>
+                            <textarea class="form-control" id="gesture-description-input" rows="3" maxlength="500" required></textarea>
+                        </div>
+    
+                        <div class="form-group">
+                            <label><?php echo $lang->gestureGraphicsQuestion ?></label>
+                            <div class="select-joints-humand-body" id="select-joints-human-body" style="width: 400px; margin: auto; margin-top: 10px">
+                                <div id="joint-container" style="position: absolute"></div>
+                                <img src="img/human_body.svg">
+                            </div>
                         </div>
                     </div>
-
-                    <div class="row text-center" style="margin-top: 10px">
-                        <label class="uppercase" style="font-size: 10pt"><?php echo $lang->or ?></label>
+    
+                    <div class="btn-group-vertical btn-block" style="margin-top: 20px" id="gesture-owner-controls">
+                        <button type="button" class="btn btn-default gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                        <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                        <button type="button" class="btn btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text">Geste löschen</span></button>
                     </div>
-
-                    <div style="margin-top: 0px">
-                        <label class="text">Zu vorhandenen Gesten-Sets zuweisen</label>
-
-                        <div id="existing-sets-container">
-                            <div class="option-container root"></div>
+    
+                </div>
+            </div>
+    
+            <hr style="">
+    
+            <div id="gesture-set-body">
+                <div id="attached-gesture-sets" style="margin-top: 30px; margin-bottom: 30px">
+                    <h3><i class="fa fa-paperclip"></i> Zuweisung zu Gesten-Sets</h3>
+    
+                    <div id="add-to-gesture-set">
+                        <div class="create-gesture-set-input">
+                            <label class="text">Neues Gesten-Set anlegen</label>
+    
+                            <div class="alert-space alert-gesture-set-title-too-short"></div>
+    
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
+                                </span>
+                            </div>
                         </div>
-                        <div class="alert-space alert-no-gesture-sets-for-study"></div>
+    
+                        <div class="row text-center" style="margin-top: 10px">
+                            <label class="uppercase" style="font-size: 10pt"><?php echo $lang->or ?></label>
+                        </div>
+    
+                        <div style="margin-top: 0px">
+                            <label class="text">Zu vorhandenen Gesten-Sets zuweisen</label>
+    
+                            <div id="existing-sets-container">
+                                <div class="option-container root"></div>
+                            </div>
+                            <div class="alert-space alert-no-gesture-sets-for-study"></div>
+                        </div>
+    
                     </div>
-
                 </div>
             </div>
-        </div>
-
-        <hr style="">
-
-        <div id="discussion-body" class="row">
-            <div class="col-xs-12">
-                <h3 style="margin-bottom: 20px"><i class="fa fa-comments-o" aria-hidden="true"></i> Mitreden</h3>
-            </div>
-            <div class="col-md-5">
-                <div class="form-group">
-                    <textarea class="form-control" id="comment" rows="4" maxlength="500" placeholder="Kommentar einfügen" required></textarea>
+    
+            <hr style="">
+    
+            <div id="discussion-body" class="row">
+                <div class="col-xs-12">
+                    <h3 style="margin-bottom: 20px"><i class="fa fa-comments-o" aria-hidden="true"></i> Mitreden</h3>
                 </div>
-                <button type="button" class="btn btn-default btn-block" id="btn-comment-gesture"><i class="fa fa-commenting" aria-hidden="true"></i> <span class="btn-text">Kommentar abschicken</span></button>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <textarea class="form-control" id="comment" rows="4" maxlength="500" placeholder="Kommentar einfügen" required></textarea>
+                    </div>
+                    <button type="button" class="btn btn-default btn-block" id="btn-comment-gesture"><i class="fa fa-commenting" aria-hidden="true"></i> <span class="btn-text">Kommentar abschicken</span></button>
+                </div>
+                <div class="col-md-7">
+                    <div class="alert-space alert-no-comments"></div>
+                    <div id="comments-list"></div>
+                </div>
             </div>
-            <div class="col-md-7">
-                <div class="alert-space alert-no-comments"></div>
-                <div id="comments-list"></div>
-            </div>
-        </div>
-
-    </div>-->
+    
+        </div>-->
 
     <div id="catalog-trigger">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>

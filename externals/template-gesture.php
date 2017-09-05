@@ -8,7 +8,7 @@ include '../includes/language.php';
     <img class="gestureImage" id="gestureThumbnailImage">
 
     <div class="" id="popover-gesture-preview" style="position: absolute; opacity: 0; width: 300px;">
-        <div class="previewGesture"></div>
+        <<div class="previewGesture embed-responsive embed-responsive-4by3"></div>
     </div>
 
 
@@ -23,7 +23,7 @@ include '../includes/language.php';
             </div>
 
             <div class="panel-body">
-                <div class="previewGesture"></div>
+                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -57,7 +57,7 @@ include '../includes/language.php';
             </div>
 
             <div class="panel-body">
-                <div class="previewGesture"></div>
+                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -91,7 +91,7 @@ include '../includes/language.php';
             </div>
 
             <div class="panel-body">
-                <div class="previewGesture"></div>
+                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -109,7 +109,7 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="rudimentary-gesture-thumbnail">
-        <div class="previewGesture btn-shadow mousePlayable"></div>
+        <div class="previewGesture btn-shadow mousePlayable embed-responsive embed-responsive-4by3"></div>
         <div class="text-center hidden gestureControls">
             <div class="btn-group">
                 <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -175,7 +175,7 @@ include '../includes/language.php';
             <div class="panel-footer">
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-info btn-tag-as-favorite-gesture" id="btn-tag-as-favorite-gesture"  data-trigger="hover" data-placement="auto" data-content="Zum Studien-Gesten-Set hinzufügen"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-info btn-tag-as-favorite-gesture" id="btn-tag-as-favorite-gesture" data-toggle="popover"  data-trigger="hover" data-placement="auto" data-content="Zum Studien-Gesten-Set hinzufügen"><i class="fa fa-plus" aria-hidden="true"></i></button>
                     </div>
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
@@ -192,7 +192,7 @@ include '../includes/language.php';
             </div>
 
             <div class="panel-body">
-                <div class="previewGesture"></div>
+                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>

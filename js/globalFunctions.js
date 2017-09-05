@@ -234,8 +234,8 @@ $(document).on('click', '.add-button-group .btn-add-item', function (event) {
     }
 });
 
-function initTooltips() {
-    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+function initTooltips(delayShow, delayHide) {
+    $('[data-toggle="tooltip"]').tooltip({container: 'body', delay: {"show": delayShow ? delayShow : 300, "hide": delayHide ? delayHide : 0}});
 }
 
 function initPopover(delayShow, delayHide) {
@@ -1398,32 +1398,41 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
         var assemble = false;
         var gestureId = $(this).closest('.root').attr('id');
         var thumbnail = $(this).closest('.panel');
+        $(this).popover('hide');
         if (!$(this).hasClass('selected')) {
+            $(this).attr('data-content', 'Vom Studien-Gesten-Set entfernen').data('bs.popover').setContent();
             $(this).removeClass('btn-info').addClass('selected btn-danger');
             $(this).find('.fa').removeClass('fa-plus').addClass('fa-minus');
             $(thumbnail).removeClass('panel-default').addClass('panel-info');
             $(this).find('root').addClass('selected');
             assemble = true;
         } else {
+            $(this).attr('data-content', 'Zum Studien-Gesten-Set hinzufügen').data('bs.popover').setContent();
             $(this).removeClass('selected btn-danger').addClass('btn-info');
             $(this).find('.fa').removeClass('fa-minus').addClass('fa-plus');
             $(thumbnail).removeClass('panel-info').addClass('panel-default');
             $(this).find('root').removeClass('selected');
         }
-
+        
         $(this).trigger('change', [gestureId, assemble]);
     }
 });
 
-$(document).on('click', '.btn-untag-as-favorite-gesture', function (event) {
-    event.preventDefault();
+//$(document).on('mouseenter', '.btn-tag-as-favorite-gesture', function (event) {
+//    event.preventDefault();
+//    console.log('mouse enter');
+//    $(this).tooltip('show');
+//});
 
-    if (!event.handled) {
-        event.handled = true;
-        var gestureId = $(this).closest('.root').attr('id');
-        $(this).trigger('change', [gestureId]);
-    }
-});
+//$(document).on('click', '.btn-untag-as-favorite-gesture', function (event) {
+//    event.preventDefault();
+//
+//    if (!event.handled) {
+//        event.handled = true;
+//        var gestureId = $(this).closest('.root').attr('id');
+//        $(this).trigger('change', [gestureId]);
+//    }
+//});
 
 
 /*
@@ -2042,6 +2051,14 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
 //        $(this).trigger('openGestureInfo');
     });
 
+    var isGestureAss = isGestureAssembled(data.id);
+    if (isGestureAss) {
+        clone.find('.panel').addClass('panel-info');
+        clone.find('#btn-tag-as-favorite-gesture').attr('data-content', 'Vom Studien-Gesten-Set entfernen');
+        clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
+        clone.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
+    }
+
     return clone;
 }
 
@@ -2378,8 +2395,8 @@ function getGestureSetPanel(data) {
 //            }
 //        }
     });
-    
-    $(panel).find('#btn-unmark-hole-set').unbind('click').bind('click', function(event) {
+
+    $(panel).find('#btn-unmark-hole-set').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(this).addClass('hidden');
         $(panel).find('#btn-mark-hole-set').removeClass('hidden');

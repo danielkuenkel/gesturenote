@@ -152,7 +152,7 @@ include '../includes/language.php';
             </div>
 
             <div class="col-sm-6">
-                <div class="previewGesture autoplay mousePlayable btn-shadow"></div>
+                <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -529,7 +529,7 @@ include '../includes/language.php';
 
     <div class="row" id="training-gesture-item" style="margin-bottom: 30px">
         <div class="col-sm-6 root">
-            <div class="previewGesture mousePlayable btn-shadow"></div>
+            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -579,7 +579,7 @@ include '../includes/language.php';
 
     <div class="row" id="slideshow-gesture-item" style="margin-bottom: 30px">
         <div class="col-sm-6 root">
-            <div class="previewGesture mousePlayable btn-shadow"></div>
+            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -629,7 +629,7 @@ include '../includes/language.php';
 
     <div class="row" id="slideshow-trigger-item" style="margin-bottom: 30px">
         <div class="col-sm-6 root">
-            <div class="previewGesture mousePlayable btn-shadow"></div>
+            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -672,7 +672,7 @@ include '../includes/language.php';
 
     <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
         <div class="col-sm-5 root">
-            <div class="previewGesture mousePlayable btn-shadow"></div>
+            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
@@ -771,7 +771,7 @@ include '../includes/language.php';
         <div class="panel-body">
             <div class="row">
                 <div class="col-xs-12 col-md-6 root" id="main-gesture" style="margin-bottom: 15px">
-                    <div class="previewGesture mousePlayable btn-shadow"></div>
+                    <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
                     <div class="text-center hidden gestureControls">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>

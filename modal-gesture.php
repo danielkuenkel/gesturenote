@@ -637,13 +637,13 @@ include 'includes/language.php';
     function renderAttachedGestureSets(preselect, id) {
         
         var sets = getLocalItem(GESTURE_SETS);
-        console.log('render attached gesture sets', sets);
+//        console.log('render attached gesture sets', sets);
         if (sets && sets !== null && sets !== '' && sets.length > 0) {
             var container = $('#add-to-gesture-set #existing-sets-container');
             container.find('.option-container').empty();
             for (var i = 0; i < sets.length; i++) {
                 var option = $('#template-general-container').find('#checkbox').clone();
-                console.log(option);
+//                console.log(option);
                 option.find('.option-text').text(sets[i].title);
                 option.find('.btn-checkbox').attr('id', sets[i].id);
                 container.find('.option-container').append(option);
