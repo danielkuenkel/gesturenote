@@ -391,6 +391,18 @@ function onMoveDownComplete(element, brother, save) {
     $(element).trigger('change');
 }
 
+var currentPreviewData = null;
+$(document).on('click', '.btn-preview', function (event) {
+    event.preventDefault();
+    if (!$(this).hasClass('disabled')) {
+        $(this).popover('hide');
+        var formatData = getFormatData($(this).closest('.root'));
+//        console.log(formatData);
+        currentPreviewData = [formatData];
+        loadHTMLintoModal('custom-modal', 'modal-preview.php', 'modal-lg');
+    }
+});
+
 function checkCurrentListState(itemContainer) {
     var childList = $(itemContainer).children();
 //    console.log(childList);
@@ -414,6 +426,7 @@ function checkCurrentListState(itemContainer) {
             btnDown.addClass('disabled');
         }
     }
+    initPopover();
 }
 
 
@@ -861,7 +874,7 @@ function uncheckOption(optionItem) {
 
 function checkOption(optionItem) {
     if ($(optionItem).hasClass('btn-radio')) {
-        var children = $(optionItem).closest('.root').children('#radio, #radio-optionalanswer').find('.btn-radio');
+        var children = $(optionItem).closest('.root').find('.btn-radio');
         $(children).removeClass('btn-option-checked');
         $(children).find('#normal').removeClass('hidden');
         $(children).find('#checked').addClass('hidden');
@@ -1340,6 +1353,7 @@ $(document).on('click', '.nav-tabs li.disabled > a[data-toggle=tab]', function (
 //});
 
 function getAssembledItems(source) {
+    console.log(source)
     var array = new Array();
     if (source && source.length > 0) {
         for (var i = 0; i < source.length; i++) {
@@ -1413,7 +1427,7 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
             $(thumbnail).removeClass('panel-info').addClass('panel-default');
             $(this).find('root').removeClass('selected');
         }
-        
+
         $(this).trigger('change', [gestureId, assemble]);
     }
 });
@@ -2053,7 +2067,9 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
 
     var isGestureAss = isGestureAssembled(data.id);
     if (isGestureAss) {
-        clone.find('.panel').addClass('panel-info');
+        if (!panelStyle) {
+            clone.find('.panel').addClass('panel-primary');
+        }
         clone.find('#btn-tag-as-favorite-gesture').attr('data-content', 'Vom Studien-Gesten-Set entfernen');
         clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
         clone.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');

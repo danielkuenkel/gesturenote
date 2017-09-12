@@ -179,8 +179,9 @@ function nextStep() {
     var phases = getContextualPhaseSteps();
     if (previewModeEnabled === false) {
         if (currentPhaseStepIndex < phases.length - 1) {
-            saveCurrentStatus(false);
+            saveCurrentStatus(false); 
         }
+//        return false;
 
         if (isUploadRecordingNeededForPhaseStep(getCurrentPhase())) {
             peerConnection.stopRecording(function () {

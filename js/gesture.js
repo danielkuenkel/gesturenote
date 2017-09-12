@@ -120,7 +120,7 @@ $(window).load(function () {
                 var popover = $('#popover-gesture');
                 var top = btn.offset().top - (popover.height()) + 0;
                 var left = btn.offset().left + (btn.width() / 2) - ((popover.width() - 27) / 2);
-                popover.css({left: left, top: top});
+                popover.css({left: left, top: top, zIndex:10000});
                 playThroughThumbnails(popover.find('.previewGesture'));
                 TweenMax.to(popover, .2, {autoAlpha: 1});
                 showCursor(btn, CURSOR_POINTER);

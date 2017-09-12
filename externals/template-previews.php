@@ -368,7 +368,6 @@ include '../includes/language.php';
         <div class="col-sm-5 col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-sm-7 col-md-8" id="column-right" style="margin-bottom: 80px;">
             <h3 class="headline" style="margin: 0">Danke für die Teilnahme</h3>
-            <hr>
             <div class="row">
                 <!--                <div class="col-sm-6" style="margin-bottom: 20px;">
                                     <i class="fa fa-heart" style="font-size: 70pt; color: #ca3667"></i>
@@ -419,7 +418,7 @@ include '../includes/language.php';
             <div class="" id="general">
                 <h3 id="heading" style="margin-top: 0"></h3>
                 <div id="description"></div>
-                <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-training" style="margin-top: 6px;">Jetzt starten</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-training" style="margin-top: 6px;">Jetzt starten</button>
             </div>
             <div class="" id="observations">
                 <h3><?php echo $lang->observations ?></h3>
@@ -466,12 +465,10 @@ include '../includes/language.php';
             </div>
         </div>
         <div class="col-md-6" id="column-right">
-            <div class="panel panel-default" id="general">
-                <div class="panel-heading"></div>
-                <div class="panel-body">
-                    <p id="description"></p>
-                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;">Jetzt starten</button>
-                </div>
+            <div class="" id="general">
+                <h3 class="headline" style="margin: 0"></h3>
+                <p id="description"></p>
+                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;">Jetzt starten</button>
             </div>
 
             <div class="" id="observations">
@@ -491,7 +488,6 @@ include '../includes/language.php';
             </div>
             <div class="btn-group-vertical btn-block" style="margin-top: 10px">
                 <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
-
             </div>
         </div>
         <div class="col-xs-6 right">
@@ -510,20 +506,19 @@ include '../includes/language.php';
     <div class="row root" id="triggerSlideshow">
         <div class="col-md-4" id="column-left"></div>
         <div class="col-md-8" id="column-right">
-            <div class="panel panel-default" id="general">
-                <div class="panel-heading"></div>
-                <div class="panel-body">
-                    <p id="description"></p>
-                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;">Jetzt starten</button>
-                </div>
+
+            <div id="general">
+                <h3 class="headline" style="margin: 0"></h3>
+                <p id="description"></p>
+                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-slideshow" style="margin-top: 6px;">Jetzt starten</button>
             </div>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">Elemente</div>
-                <div class="panel-body question-container"></div>
+            <div >
+                <h3>Elemente</h3>
+                <div class="question-container"></div>
             </div>
 
-            <button type="button" class="btn btn-lg btn-success btn-block btn-shadow disabled hidden" id="btn-done-slideshow" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <button type="button" class="btn btn-success btn-block btn-shadow disabled hidden" id="btn-done-slideshow" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
@@ -540,8 +535,9 @@ include '../includes/language.php';
             <div class="label label-danger hidden" id="answered-wrong"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->answeredWrong ?></span></div>
             <div class="label label-warning hidden" id="not-answered"><i class="fa fa-ellipsis-h"></i> <span class="label-text"><?php echo $lang->notAnswered ?></span></div>
             <div>Erfragt wird Funktion: <span id="searched" style="color: #303030"></span></div>
-            <div style="margin-right: 10px; float: left">Gezeigt wird Geste: <span id="given" style="color: #303030"></span></div>
-            <button style=" float: left" type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+            <div style="margin-right: 10px; float: left">Gezeigt wird Geste: <span id="given" style="color: #303030"></span>
+                <button style="height: auto" type="button" class="btn btn-xs btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+            </div>
         </div>
     </div>
 
@@ -551,13 +547,11 @@ include '../includes/language.php';
         <div class="col-md-6" id="column-left"></div>
         <div class="col-md-6" id="column-right">
             <div class="panel panel-default" id="general">
-                <div class="panel-heading"></div>
-                <div class="panel-body">
-                    <p id="description"></p>
-                    <span class="label label-default hidden" id="search-gestures">Es werden Gesten ermittelt</span> 
-                    <span class="label label-default hidden" id="search-trigger">Es werden Funktionen ermittelt</span>
-                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-identification" style="margin-top: 6px;">Jetzt starten</button>
-                </div>
+                <h3 class="headline" style="margin: 0"></h3>
+                <p id="description"></p>
+                <span class="label label-default hidden" id="search-gestures">Es werden Gesten ermittelt</span> 
+                <span class="label label-default hidden" id="search-trigger">Es werden Funktionen ermittelt</span>
+                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-identification" style="margin-top: 6px;">Jetzt starten</button>
             </div>
 
             <div class="panel panel-default" id="slides">
@@ -566,7 +560,7 @@ include '../includes/language.php';
                 </div>
                 <div class="panel-body">
                     <div id="identificationContainer"></div>
-                    <button class="btn btn-lg btn-block btn-success btn-shadow disabled" id="btn-done" name="btn-success" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+                    <button class="btn btn-block btn-success btn-shadow disabled" id="btn-done" name="btn-success" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 </div>
             </div>
 
@@ -635,45 +629,14 @@ include '../includes/language.php';
             </div>
         </div>
         <div class="col-md-6" id="column-right">
-            <div class="panel panel-default" id="general">
-                <div class="panel-heading"></div>
-                <div class="panel-body">
-                    <p id="description"></p>
-                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-stress-test" style="margin-top: 6px;">Jetzt starten</button>
-                </div>
+
+            <div id="general">
+                <h3 class="headline" style="margin: 0"></h3>
+                <p id="description"></p>
+                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-stress-test" style="margin-top: 6px;">Jetzt starten</button>
             </div>
 
-            <div id="gestures-container">
-                <!--                <div id="single-stress-answers">
-                                    <h4 id="headline-single-questions">Einzel-Antworten</h4>
-                                    <div class="question-container"></div>
-                                </div>
-                                <div id="sequence-stress-answers" style="margin-top: 40px">
-                                    <h4 id="headline-sequence-questions">Abschließende Antworten</h4>
-                                    <div class="question-container"></div>
-                                </div>-->
-            </div>
-
-
-            <!--            <div class="panel panel-default" id="singleStressQuestions">
-                            <div class="panel-heading">Fragen nach jeder Geste</div>
-                            <div class="panel-body">
-                                <div class="question-container"></div>
-                                <span class="label label-default hidden" id="parts-body">Befragung über Anstrenung mit Grafik für Körper</span> 
-                                <span class="label label-default hidden" id="parts-hands">Befragung über Anstrenung mit Grafik für Hände</span> 
-                                <span class="label label-default hidden" id="parts-bodyHands">Befragung über Anstrenung mit Grafik für Körper und Hände</span> 
-                            </div>
-                        </div>
-            
-                        <div class="panel panel-default" id="sequenceStressQuestions">
-                            <div class="panel-heading">Fragen nach einer Gesten-Squenz</div>
-                            <div class="panel-body">
-                                <div class="question-container"></div>
-                                <span class="label label-default hidden" id="parts-body">Befragung über Anstrenung mit Grafik für Körper</span> 
-                                <span class="label label-default hidden" id="parts-hands">Befragung über Anstrenung mit Grafik für Hände</span> 
-                                <span class="label label-default hidden" id="parts-bodyHands">Befragung über Anstrenung mit Grafik für Körper und Hände</span> 
-                            </div>
-                        </div>-->
+            <div id="gestures-container" style="margin-top: 30px"></div>
 
             <div class="" id="observations">
                 <h3><?php echo $lang->observations ?></h3>
@@ -683,25 +646,27 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
-        <div class="col-sm-6 col-sm-offset-2 root">
-            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-            <div class="text-center gestureControls">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+    <div class="" id="physicalStressTest-item" style="margin-bottom: 40px">
+        <div class="root">
+            <div style="max-width: 300px; margin: 0 auto">
+                <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                <div class="text-center gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-12">
-            <div id="gesture"><span class="address"></span> <span class="text"></span></div>
+        <div class="">
+            <!--<div id="gesture"><span class="address"></span> <span class="text"></span></div>-->
             <div id="single-stress-answers">
-                <h4 id="headline-single-questions">Einzel-Antworten</h4>
+                <h3 id="headline-single-questions">Einzel-Antworten</h3>
                 <div class="question-container"></div>
             </div>
             <div id="sequence-stress-answers" style="margin-top: 40px">
-                <h4 id="headline-sequence-questions">Abschließende Antworten</h4>
+                <h3 id="headline-sequence-questions">Abschließende Antworten</h3>
                 <div class="question-container"></div>
             </div>
 
@@ -713,7 +678,7 @@ include '../includes/language.php';
 
     <div  class="row root" id="scenario">
         <div class="col-sm-6 col-md-7 col-lg-6 rtc-scalable" id="column-left">
-            <div class="panel panel-sm panel-default" id="woz-controls">
+            <div class="panel panel-default" id="woz-controls">
                 <div class="panel-heading">Wizard-of-Oz-Experiment</div>
                 <div class="panel-body" style="padding-bottom: 0">
                     <div style="margin-bottom: 20px;">
@@ -750,7 +715,7 @@ include '../includes/language.php';
                                     </div>
                                 </div>-->
             </div>
-            <div class="panel panel-sm panel-default" id="help-controls">
+            <div class="panel panel-default" id="help-controls">
                 <div class="panel-heading">Hilfe</div>
                 <div class="panel-body" style="padding-bottom: 0">
                     <div class="alert-space alert-no-phase-data"></div>
@@ -761,7 +726,7 @@ include '../includes/language.php';
 
         <div class="col-sm-6 col-md-5 col-lg-6" id="column-right">
             <div class="" id="general">
-                <div class=""><h3 style="margin-top: 0px">Allgemeines</h3></div>
+                <h3 class="headline" style="margin-top: 0px">Allgemeines</h3>
                 <div class="">
                     <div id="task"><span class="address"></span>: <span class="text"></span></div>
                     <div id="description"><span class="address"></span>: <span class="text"></span></div>
@@ -808,13 +773,11 @@ include '../includes/language.php';
             </div>
         </div>
         <div class="col-md-6" id="column-right">
-            <div class="panel panel-default" id="general">
-                <div class="panel-heading"></div>
-                <div class="panel-body">
-                    <p id="description"></p>
-                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-exploration" style="margin-top: 6px;">Jetzt starten</button>
-                    <button type="button" class="btn btn-lg btn-success btn-block btn-shadow hidden disabled" id="btn-next-step" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
-                </div>
+            <div id="general">
+                <h3 class="headline" style="margin-top: 0px">Allgemeines</h3>
+                <p id="description"></p>
+                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-exploration" style="margin-top: 6px;">Jetzt starten</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden disabled" id="btn-next-step" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
 
             <!--            <div class="panel panel-default" id="singleStressQuestions">
@@ -1208,11 +1171,11 @@ include '../includes/language.php';
         </div>
         <div class="col-sm-12" style="margin-top: 10px">
             <div id="training-controls">
-                <button class="btn btn-lg btn-block btn-success btn-shadow" id="start-training" name="btn-success"><span class="btn-text">Jetzt Starten</span></button>
-                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="start-single-training" name="btn-success"><span class="btn-text">Gesten-Training beginnen</span></button>
-                <button class="btn btn-lg btn-block btn-info btn-shadow hidden" id="repeat-training" name="btn-success"><span class="btn-text">Geste nochmal ausführen</span></button>
-                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-                <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="training-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+                <button class="btn btn-block btn-success btn-shadow" id="start-training" name="btn-success"><span class="btn-text">Jetzt Starten</span></button>
+                <button class="btn btn-block btn-success btn-shadow hidden" id="start-single-training" name="btn-success"><span class="btn-text">Gesten-Training beginnen</span></button>
+                <button class="btn btn-block btn-info btn-shadow hidden" id="repeat-training" name="btn-success"><span class="btn-text">Geste nochmal ausführen</span></button>
+                <button class="btn btn-block btn-success btn-shadow hidden" id="next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+                <button class="btn btn-block btn-success btn-shadow hidden" id="training-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
             <div class="progress progress-training hidden" style="border-radius: 10px">
                 <div class="progress-bar progress-bar-training progress-bar-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
@@ -1276,7 +1239,7 @@ include '../includes/language.php';
     </div>
 
     <div id="gestureSlideshowItemUnmoderated" class="text-center col-xs-12">
-        <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="startSlideshow" name="btn-success">Jetzt Starten</button>
+        <button class="btn btn-block btn-success btn-shadow hidden" id="startSlideshow" name="btn-success">Jetzt Starten</button>
 
         <div class="triggerContainer hidden">
             <div class="trigger-title" style="font-size: 30pt; color: #303030; font-weight: bold; line-height: 1.3em;"></div>
@@ -1301,7 +1264,7 @@ include '../includes/language.php';
                 <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
             </div>
             <div class="row hidden" id="slideshowContainer"></div>
-            <button class="btn btn-lg btn-block btn-success btn-shadow" id="startSlideshow" name="btn-success">Jetzt Starten</button>
+            <button class="btn btn-block btn-success btn-shadow" id="startSlideshow" name="btn-success">Jetzt Starten</button>
         </div>
     </div>
 
@@ -1316,7 +1279,7 @@ include '../includes/language.php';
             <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
         </div>
         <div class="row hidden" id="slideshowContainer"></div>
-        <button class="btn btn-lg btn-block btn-success btn-shadow" id="startSlideshow" name="btn-success">Jetzt Starten</button>
+        <button class="btn btn-block btn-success btn-shadow" id="startSlideshow" name="btn-success">Jetzt Starten</button>
     </div>
 
 
@@ -1334,8 +1297,8 @@ include '../includes/language.php';
         </div>
         <div class="col-sm-7">
             <div class="question-container"></div>
-            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-next-slide" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-done-slide" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-slide" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-done-slide" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>        
     </div>
 
@@ -1415,7 +1378,7 @@ include '../includes/language.php';
                     <h3 class="headline" style="margin: 0"></h3>
                     <div class="description" style="color: #303030"></div>
                     <hr>
-                    <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-start-identification" style="margin-top: 20px">Jetzt Starten</button>
+                    <button class="btn btn-block btn-success btn-shadow" id="btn-start-identification" style="margin-top: 20px">Jetzt Starten</button>
                 </div>
             </div>
             <div class="col-xs-12">
@@ -1469,8 +1432,8 @@ include '../includes/language.php';
                     </div>
                     <div id="gesture-recorder-container" style="width: 450px; margin: auto; margin-top: 15px;"></div>
                     <div style="margin-top: 20px;" id="next-controls" class="hidden">
-                        <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="next-identification"><span class="btn-text">Nächste Funktion</span> <span aria-hidden="true">&rarr;</span></button>
-                        <button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+                        <button type="button" class="btn btn-success btn-block btn-shadow" id="next-identification"><span class="btn-text">Nächste Funktion</span> <span aria-hidden="true">&rarr;</span></button>
+                        <button type="button" class="btn btn-success btn-block btn-shadow" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                     </div>
                 </div>
             </div>
@@ -1481,7 +1444,7 @@ include '../includes/language.php';
     <div class="container text-center" id="identification-description" style="height: 100%; top: 40px">
         <div style="position: relative; top: 50%; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); transform: translateY(-50%);">
             <h3 id="description-text" class="text-shadow-black" style="color: white; width: 400px; margin: auto">Test</h3>
-            <button type="button" class="btn btn-lg btn-info btn-shadow" id="btn-start-gesture-recording" style="margin-top: 15px"><span class="btn-text">Jetzt die Geste aufzeichnen</span></button>
+            <button type="button" class="btn btn-info btn-shadow" id="btn-start-gesture-recording" style="margin-top: 15px"><span class="btn-text">Jetzt die Geste aufzeichnen</span></button>
         </div>
     </div>
 
@@ -1500,22 +1463,25 @@ include '../includes/language.php';
 
             <div class="row" id="stressTestContainer"></div>
 
-            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-start-stress-test" name="btn-success">Jetzt Starten</button>
+            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-start-stress-test" name="btn-success">Jetzt Starten</button>
         </div>
     </div>
 
     <div class="root" id="physicalStressTestModerated">
         <div class="col-sm-12 text-center" style="margin-bottom: 15px;">
-            <div class="previewGesture previewProgress autoplay embed-responsive embed-responsive-4by3" style="max-width: 400px"></div>
-            <div class="progress gesture-progress" style="max-width: 400px; margin: auto">
-                <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-            </div>
-            <div class="text-center gestureControls">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+            <div style="max-width: 400px; margin: 0 auto">
+                <div class="previewGesture previewProgress autoplay embed-responsive embed-responsive-4by3" style=""></div>
+                <div class="progress gesture-progress">
+                    <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                </div>
+                <div class="text-center gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    </div>
                 </div>
             </div>
+
         </div>
 
         <div class="col-sm-12 hidden" id="stress-test-questionnaire">
@@ -1583,7 +1549,7 @@ include '../includes/language.php';
 
             <hr>
 
-            <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-done-questionnaire" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <button class="btn btn-block btn-success btn-shadow" id="btn-done-questionnaire" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
 
     </div>
@@ -1673,10 +1639,10 @@ include '../includes/language.php';
         </div>
 
         <div class="col-xs-12">
-            <button class="btn btn-lg btn-block btn-success btn-shadow" id="btn-gesture-done" name="btn-success">Geste wurde ausgeführt</button>
-            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-questionnaire-done" name="btn-success">Weiter</button>
-            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-            <button class="btn btn-lg btn-block btn-success btn-shadow hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+            <button class="btn btn-block btn-success btn-shadow" id="btn-gesture-done" name="btn-success">Geste wurde ausgeführt</button>
+            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-questionnaire-done" name="btn-success">Weiter</button>
+            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-next-gesture" name="btn-success"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
 
     </div>
@@ -1723,7 +1689,7 @@ include '../includes/language.php';
         </div>
 
         <div class="text-center hidden" id="start-controls">
-            <button type="button" class="btn btn-success btn-block btn-lg" id="start-scene"><span class="btn-text">Jetzt starten</span></button>
+            <button type="button" class="btn btn-success btn-block" id="start-scene"><span class="btn-text">Jetzt starten</span></button>
         </div>
     </div>    
 
@@ -1742,7 +1708,7 @@ include '../includes/language.php';
     <!-- hints and hint contents-->
     <div id="feedback-hint" class="hint">
         <div class="hint-content">
-            <button type="button" class="btn btn-lg btn-info btn-block" id="btn-close-hint" style="margin-top: 20px"><span class="btn-text">Okay</span></button>
+            <button type="button" class="btn btn-info btn-block" id="btn-close-hint" style="margin-top: 20px"><span class="btn-text">Okay</span></button>
             <div class="progress progress-hint" style="height: 73px; border-radius: 10px; margin-top: 20px">
                 <div class="progress-bar progress-bar-info progress-bar-hint" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
             </div>
@@ -1887,61 +1853,105 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="openQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question text"></p> 
-            <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
+            <div class="form-group">
+                <label class="question text"></label> 
+                <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
+            </div>
         </div>
     </div>
 
     <div class="panel panel-default root" id="openQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question text"></p> 
-            <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
+            <div class="form-group">
+                <label class="question text"></label> 
+                <textarea class="form-control" id="openQuestionInput" rows="5" placeholder=""></textarea>
+            </div>
         </div>
     </div>
 
     <div class="panel panel-default root" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body" id="panel-body">
-            <p class="question text"></p>
-            <div class="btn-group switch">
-                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-success">Nein</button>
+            <div class="form-group">
+                <label class="question text"></label> 
+                <div class="switch root">
+                    <div class="btn-group" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="no">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="panel panel-default root" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question text"></p>
-            <div class="btn-group switch">
-                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success">Ja</button>
-                <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="no" name="btn-success">Nein</button>
+            <div class="form-group">
+                <label class="question text"></label> 
+                <div class="switch root">
+                    <div class="btn-group" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="no">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="panel panel-default root" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question text"></p> 
+            <label class="question text"></label>
             <div class="option-container root"></div>
         </div>
     </div>
 
     <div class="panel panel-default root" id="groupingQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question text"></p> 
+            <label class="question text"></label>
             <div class="option-container root"></div>
         </div>
     </div>
     <div class="panel panel-default root" id="groupingQuestionOptions" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question text"></p> 
+            <label class="question text"></label>
             <div class="option-container root"></div>
         </div>
     </div>
 
     <div class="panel panel-default root" id="counter" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question text"></p>
+            <label class="question text"></label>
             <div class="input-group simple-stepper" style="max-width: 130px;">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="0">
@@ -1961,7 +1971,7 @@ include '../includes/language.php';
     <div class="panel panel-default root" id="susItem" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="question text"></span> 
+                <label class="question text"></label>
                 <div class="option-container root"></div>
             </div>
         </div>
@@ -1970,7 +1980,7 @@ include '../includes/language.php';
     <div class="panel panel-default root" id="gusSingle" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
-                <span class="question text"></span> 
+                <label class="question text"></label>
                 <div class="option-container root"></div>
             </div>
         </div>
@@ -1978,14 +1988,14 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question text"></p> 
+            <label class="question text"></label>
             <div class="option-container root"></div>
         </div>
     </div>
 
     <div class="panel panel-default root" id="matrix" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question text"></p> 
+            <label class="question text"></label>
             <div class="option-container root"></div>
         </div>
     </div>
@@ -1997,7 +2007,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="sumQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question text"></p> 
+            <label class="question text"></label>
             <div class="option-container root"></div>
         </div>
     </div>
@@ -2016,12 +2026,12 @@ include '../includes/language.php';
                 </button>
             </div>
         </div>
-        <span class="option-text text" style="margin-left: 8px; float: left; margin-top: 8px; margin-bottom: 12px"></span>
+        <span class="option-text text" style="margin-left: 8px; float: left; margin-top: 4px; margin-bottom: 12px"></span>
     </div>
 
     <div class="panel panel-default root" id="ranking" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question text"></p> 
+            <label class="question text"></label>
             <div class="option-container root"></div>
         </div>
     </div>
@@ -2036,7 +2046,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="alternativeQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <p class="question text"></p>
+            <label class="question text"></label>
             <div class="option-container root"></div>
         </div>
     </div>
@@ -2093,6 +2103,6 @@ include '../includes/language.php';
         <textarea class="form-control" id="justificationInput" rows="3"></textarea>
     </div>
 
-    <button type="button" class="btn btn-default btn-popover-gesture-preview" id="btn-show-gesture" style="border: none; height: 39px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+    <button type="button" class="btn btn-default btn-popover-gesture-preview" id="btn-show-gesture" style="border: none; height: 34px;"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
 
 </div>

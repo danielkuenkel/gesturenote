@@ -51,12 +51,13 @@ function updateBadges(container, selector) {
  * render the format item for study creation
  */
 
-function renderFormatItem(target, data) {
+function renderFormatItem(target, data, currentPhaseFormat) {
     var clone = $('#form-item-container').find('#' + data.format).clone();
     $(clone).find('.question').val(data.question);
     clone.attr('name', data.id || chance.natural());
     clone.addClass(data.dimension);
-    target.append(clone);
+    console.log(target);
+    $(target).append(clone);
 
     var parameters = data.parameters;
     var options = data.options;
@@ -76,8 +77,8 @@ function renderFormatItem(target, data) {
             }
             break;
         case DICHOTOMOUS_QUESTION:
-            $(clone).find('.justification #' + parameters.justification).click();
-            $(clone).find('.justification-for #' + parameters.justificationFor).click();
+//            $(clone).find('.justification #' + parameters.justification).click();
+//            $(clone).find('.justification-for #' + parameters.justificationFor).click();
             initJustificationFormElements(clone, parameters);
             break;
         case DICHOTOMOUS_QUESTION_GUS:
@@ -87,16 +88,16 @@ function renderFormatItem(target, data) {
             } else {
                 $(clone).find('.hide-when-unused').addClass('hidden');
             }
-            $(clone).find('.justification #' + parameters.justification).click();
-            $(clone).find('.justification-for #' + parameters.justificationFor).click();
+//            $(clone).find('.justification #' + parameters.justification).click();
+//            $(clone).find('.justification-for #' + parameters.justificationFor).click();
             break;
         case GROUPING_QUESTION:
             console.log(parameters);
             $(clone).find('.multiselect #' + parameters.multiselect).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
-            $(clone).find('.justification #' + parameters.justification).click();
-            $(clone).find('.justification-for #' + parameters.justificationFor).click();
-            initJustificationFormElements(clone, parameters);
+//            $(clone).find('.justification #' + parameters.justification).click();
+//            $(clone).find('.justification-for #' + parameters.justificationFor).click();
+
 
             if (options) {
                 for (var j = 0; j < options.length; j++) {
@@ -104,6 +105,7 @@ function renderFormatItem(target, data) {
                     $(option).find('.option').val(options[j].title);
                     $(option).attr('id', options[j].id);
                     $(clone).find('.option-container').append(option);
+                    initJustificationFormElements(option, options[j]);
                     checkCurrentListState($(clone).find('.option-container'));
                 }
             }
@@ -117,8 +119,8 @@ function renderFormatItem(target, data) {
             }
             $(clone).find('.multiselect #' + parameters.multiselect).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
-            $(clone).find('.justification #' + parameters.justification).click();
-            $(clone).find('.justification-for #' + parameters.justificationFor).click();
+//            $(clone).find('.justification #' + parameters.justification).click();
+//            $(clone).find('.justification-for #' + parameters.justificationFor).click();
             $(clone).find('.optionselect #' + parameters.optionSource).click();
             initJustificationFormElements(clone, parameters);
             break;
@@ -189,14 +191,13 @@ function renderFormatItem(target, data) {
             } else {
                 $(clone).find('.hide-when-unused').addClass('hidden');
             }
-            $(clone).find('.justification #' + parameters.justification).click();
-            $(clone).find('.justification-for #' + parameters.justificationFor).click();
+//            $(clone).find('.justification #' + parameters.justification).click();
+//            $(clone).find('.justification-for #' + parameters.justificationFor).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
             $(clone).find('.alternative #' + parameters.alternative).click();
             initJustificationFormElements(clone, parameters);
-            
-            var currentPhase = getPhaseById(currentIdForModal);
-            if (currentPhase && currentPhase.format === GUS_SINGLE_GESTURES) {
+
+            if (currentPhaseFormat === GUS_SINGLE_GESTURES) {
                 $(clone).find('#alternativeTrigger').remove();
                 $(clone).find('.alternativeFor').addClass('hidden');
                 break;
@@ -273,7 +274,12 @@ function initJustificationFormElements(clone, parameters) {
     });
 
     if (parameters && parameters.justification === 'yes') {
-        $(clone).find('.justification-for').removeClass('hidden');
+        $(clone).find('.justification #yes').click();
+//        $(clone).find('.justification-for').removeClass('hidden');
+
+        if (parameters.justificationFor) {
+            $(clone).find('.justification-for #' + parameters.justificationFor).click();
+        }
     }
 }
 
@@ -281,7 +287,7 @@ function initJustificationFormElements(clone, parameters) {
 /*
  * get the format item data for study creation
  */
-function getFormatData(element) {
+function getFormatData(element, currentPhaseFormat) {
     var format = $(element).attr('id');
     var id = $(element).attr('name');
     var dimension = getDimensionByElement($(element));
@@ -312,13 +318,15 @@ function getFormatData(element) {
             break;
         case GROUPING_QUESTION:
             parameters = {multiselect: $(element).find('.multiselect .btn-option-checked').attr('id'),
-                justification: $(element).find('.justification .btn-option-checked').attr('id'),
-                justificationFor: $(element).find('.justification-for .btn-option-checked').attr('id'),
+//                justification: $(element).find('.justification .btn-option-checked').attr('id'),
+//                justificationFor: $(element).find('.justification-for .btn-option-checked').attr('id'),
                 optionalanswer: $(element).find('.optionalanswer .btn-option-checked').attr('id')};
             options = new Array();
             var groupingOptions = $(element).find('.option-container').children();
             for (var j = 0; j < groupingOptions.length; j++) {
-                options.push({id: $(groupingOptions[j]).attr('id'), title: $(groupingOptions[j]).find('.option').val()});
+                options.push({id: $(groupingOptions[j]).attr('id'), title: $(groupingOptions[j]).find('.option').val(),
+                    justification: $(groupingOptions[j]).find('.justification .btn-option-checked').attr('id'),
+                    justificationFor: $(groupingOptions[j]).find('.justification-for .btn-option-checked').attr('id')});
             }
             break;
         case GROUPING_QUESTION_GUS:
@@ -383,8 +391,8 @@ function getFormatData(element) {
                 alternative: $(element).find('.alternative .btn-option-checked').attr('id')};
             var aGestures = assembledGestures();
             var aTriggers = getLocalItem(ASSEMBLED_TRIGGER);
-            var currentPhase = getPhaseById(currentIdForModal);
-            if (currentPhase && currentPhase.format === GUS_SINGLE_GESTURES) {
+//            var currentPhase = getPhaseById(currentIdForModal);
+            if (currentPhaseFormat === GUS_SINGLE_GESTURES) {
                 parameters.alternativeFor = 'alternativeGesture';
                 break;
             }
@@ -427,8 +435,11 @@ function getFormatData(element) {
 function renderQuestionnaire(target, questionnaire, answers) {
     $(target).find('.question-container').empty();
 
+
     if (questionnaire && questionnaire.length > 0) {
+
         for (var i = 0; i < questionnaire.length; i++) {
+
             var item = $('#item-container-inputs').find('#' + questionnaire[i].format).clone(false);
             item.attr('name', questionnaire[i].id);
 
@@ -439,17 +450,10 @@ function renderQuestionnaire(target, questionnaire, answers) {
             }
 
             $(target).find('.question-container').append(item);
+            console.log($(target).find('.question-container'), questionnaire[i], item);
 
             var answer = getAnswerForId(questionnaire[i].id, answers);
-//            if (answers && answers.length > 0) {
-//                for (var j = 0; j < answers.length; j++) {
-//                    if (parseInt(questionnaire[i].id) === parseInt(answers[j].id)) {
-//                        answer = answers[j].answer;
-//                        break;
-//                    }
-//                }
-//            }
-            console.log(answer);
+
             var parameters = questionnaire[i].parameters;
             var options = questionnaire[i].options;
             if (answer) {
@@ -462,7 +466,6 @@ function renderQuestionnaire(target, questionnaire, answers) {
                         break;
                     case DICHOTOMOUS_QUESTION:
                     case DICHOTOMOUS_QUESTION_GUS:
-                        console.log(item, answer);
                         renderEditableDichotomousQuestion(item, questionnaire[i], answer);
                         break;
                     case GROUPING_QUESTION:
@@ -605,7 +608,7 @@ function getOpenQuestionAnswers(source) {
 
 function getDichotomousQuestionAnswers(source) {
     var data = new Object();
-    data.selectedSwitch = $(source).find('.switch .active').attr('id') === undefined ? 'none' : $(source).find('.switch .active').attr('id');
+    data.selectedSwitch = $(source).find('.switch .btn-option-checked').attr('id') === undefined ? 'none' : $(source).find('.switch .btn-option-checked').attr('id');
     var justificationInput = $(source).find('#justificationInput');
     if (justificationInput && justificationInput.length > 0) {
         data.justification = $(source).find('#justificationInput').val();
@@ -617,34 +620,29 @@ function getDichotomousQuestionAnswers(source) {
 
 function getGroupingQuestionAnswers(source) {
     var data = new Object();
-    var selectedOptions = $(source).find('.option-container #checkbox .btn-option-checked');
-    if (selectedOptions.length === 0) {
-        selectedOptions = $(source).find('.option-container #radio .btn-option-checked');
-    }
+    var options = $(source).find('.option-container .formgroup');
+    for (var i = 0; i < options.length; i++) {
+        var params = {};
 
-    var array = new Array();
-    for (var i = 0; i < selectedOptions.length; i++) {
-        var selectedId = $(selectedOptions[i]).attr('id');
-        array.push(selectedId);
-    }
+        params.justification = '';
+        var justification = $(options[i]).find('#justification');
+        if (justification.length === 1 && justification !== undefined && !$(justification).hasClass('hidden')) {
+            params.justification = $(justification).find('#justificationInput').val();
+        }
 
-    if (array.length === 0) {
-        data.selectedOptions = -1;
-    } else {
-        data.selectedOptions = array;
+        params.selected = 'no';
+        if ($(options[i]).find('.btn-option-checked').length === 1) {
+            params.selected = 'yes';
+        }
+
+        var id = $(options[i]).find('.btn').attr('id');
+        data[id] = params;
     }
 
     if ($(source).find('#checkbox-optionalanswer .btn-option-checked').length === 1 || $(source).find('#radio-optionalanswer .btn-option-checked').length === 1) {
         data.optionalAnswer = $(source).find('.optionalInput').val();
     } else {
         data.optionalAnswer = '';
-    }
-
-    var justificationInput = $(source).find('#justificationInput');
-    if (justificationInput && justificationInput.length > 0) {
-        data.justification = $(source).find('#justificationInput').val();
-    } else {
-        data.justification = '';
     }
 
     return data;
@@ -899,8 +897,7 @@ function renderEditableDichotomousQuestion(item, studyData, answer) {
 }
 
 function renderGroupingQuestion(item, studyData, answer) {
-//    console.log(studyData, resultsData);
-//    $(item).find('.question').text(studyData.question);
+    console.log(studyData, answer);
     if (studyData.parameters.multiselect === 'yes') {
         $(item).find('#multiselect').removeClass('hidden');
     } else {
@@ -911,67 +908,73 @@ function renderGroupingQuestion(item, studyData, answer) {
         $(item).find('#optionalanswer').removeClass('hidden');
         if (answer) {
             if (answer.optionalAnswer !== '') {
+                $(item).find('#no-answer').addClass('hidden');
+                $(item).find('#no-optional-answer').addClass('hidden');
                 $(item).find('#optionalanswer-content').removeClass('hidden');
                 $(item).find('#optionalanswer-content .text').text(answer.optionalAnswer);
-            } else {
-                $(item).find('#no-optional-answer').removeClass('hidden');
             }
         }
     }
 
     for (var i = 0; i < studyData.options.length; i++) {
         var optionItem = $('#template-study-container').find('#grouping-question-item').clone();
-        $(optionItem).text(studyData.options[i].title);
+        $(optionItem).find('#option-text').text(studyData.options[i].title);
         $(item).find('.option-container').append(optionItem);
-        if (i < studyData.options.length - 1) {
-            item.find('.option-container').append(document.createElement('br'));
+
+        if (i < studyData.options.length) {
+            var hr = document.createElement('hr');
+            $(hr).css({marginTop: "15px", marginBottom: "5px"});
+            $(item).find('.option-container').append(hr);
         }
 
-        if (answer && answer.selectedOptions && answer.selectedOptions.length > 0) {
-//                        console.log(resultsData.selectedOptions);
-            for (var j = 0; j < answer.selectedOptions.length; j++) {
-                if (parseInt(answer.selectedOptions[j]) === parseInt(studyData.options[i].id)) {
-                    $(optionItem).addClass('bordered-scale-item');
-                    if (i > 0) {
-                        $(optionItem).css({marginTop: '5px'});
+        if (studyData.options[i].justification === 'yes') {
+            optionItem.find('#justification').removeClass('hidden');
+            optionItem.find('#' + studyData.options[i].justificationFor).removeClass('hidden');
+
+            if (answer) {
+                var values = answer[studyData.options[i].id];
+                if (studyData.options[i].justificationFor === 'selectOne') {
+                    if (values.selected === 'yes' && values.justification !== '') {
+                        $(optionItem).find('#justification-content').removeClass('hidden');
+                        $(optionItem).find('#justification-content .text').text(values.justification);
+                    } else if (values.selected === 'yes') {
+                        $(optionItem).find('#no-answer-justification').removeClass('hidden');
                     }
-                    break;
+                } else if (studyData.options[i].justificationFor === 'selectNothing') {
+                    if (values.selected === 'no' && values.justification !== '') {
+                        $(optionItem).find('#justification-content').removeClass('hidden');
+                        $(optionItem).find('#justification-content .text').text(values.justification);
+                    } else if (values.selected === 'no') {
+                        $(optionItem).find('#no-answer-justification').removeClass('hidden');
+                    }
+                } else if (studyData.options[i].justificationFor === 'always' && values.justification !== '') {
+                    $(optionItem).find('#justification-content').removeClass('hidden');
+                    $(optionItem).find('#justification-content .text').text(values.justification);
                 } else {
-//                                $(optionItem).css({paddingLeft: "0px"});
+                    $(optionItem).find('#no-answer-justification').removeClass('hidden');
                 }
+            } else {
+                $(item).find('#no-answer').removeClass('hidden');
             }
+        } else {
+            optionItem.find('#no-justification').removeClass('hidden');
+        }
+
+        if (answer) {
+            var value = answer[studyData.options[i].id];
+            if (value.selected === 'yes') {
+                $(item).find('#no-answer').addClass('hidden');
+                $(optionItem).find('#option-text').addClass('bordered-scale-item');
+                if (i > 0) {
+                    $(optionItem).css({marginTop: '5px'});
+                }
+            } else {
+                $(optionItem).find('#option-text').css({paddingLeft: "0px"});
+            }
+
         } else {
             $(optionItem).css({paddingLeft: "0px"});
         }
-    }
-
-    if (studyData.parameters.justification === 'yes') {
-        item.find('#justification').removeClass('hidden');
-        item.find('#' + studyData.parameters.justificationFor).removeClass('hidden');
-
-        if (answer) {
-            if (((studyData.parameters.justificationFor === 'selectOne' && answer.selectedOptions && answer.selectedOptions.length > 0) ||
-                    studyData.parameters.optionalanswer === 'yes' && answer.optionalAnswer !== '') && answer.justification !== '') {
-                $(item).find('#justification-content').removeClass('hidden');
-                $(item).find('#justification-content .text').text(answer.justification);
-            } else if (studyData.parameters.justificationFor === 'selectNothing' && parseInt(answer.selectedOptions) === -1 && answer.justification !== '') {
-                $(item).find('#justification-content').removeClass('hidden');
-                $(item).find('#justification-content .text').text(answer.justification);
-            } else if (studyData.parameters.justificationFor === 'always' && answer.justification !== '') {
-                $(item).find('#justification-content').removeClass('hidden');
-                $(item).find('#justification-content .text').text(answer.justification);
-            } else if (answer.selectedOptions && answer.selectedOptions.length > 0 && answer.justification === '') {
-                $(item).find('#no-answer-justification').removeClass('hidden');
-            }
-        } else {
-            $(item).find('#no-answer').removeClass('hidden');
-        }
-    } else {
-        item.find('#no-justification').removeClass('hidden');
-    }
-
-    if (answer && answer.selectedOptions && parseInt(answer.selectedOptions) === -1 && studyData.parameters.optionalanswer === 'yes' && answer.optionalAnswer === '') {
-        $(item).find('#no-answer').removeClass('hidden');
     }
 }
 
@@ -1027,77 +1030,146 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
         item.find('#singleselect').removeClass('hidden');
     }
 
-//    console.log('studyData.parameters.optionalanswer', studyData.parameters.optionalanswer);
     if (studyData.parameters.optionalanswer === 'yes') {
         $(item).find('#optionalanswer').removeClass('hidden');
         if (answer) {
             if (answer.optionalAnswer !== '') {
+                $(item).find('#no-answer').addClass('hidden');
+                $(item).find('#no-optional-answer').addClass('hidden');
                 $(item).find('#optionalanswer-content').removeClass('hidden');
                 $(item).find('#optionalanswer-content .text').text(answer.optionalAnswer);
-            } else {
-                $(item).find('#no-optional-answer').removeClass('hidden');
             }
         }
     }
-
-    if (studyData.parameters.justification === 'yes') {
-        item.find('#justification').removeClass('hidden');
-        item.find('#' + studyData.parameters.justificationFor).removeClass('hidden');
-
-        if (answer) {
-            if (((studyData.parameters.justificationFor === 'selectOne' && answer.selectedOptions && answer.selectedOptions.length > 0) ||
-                    studyData.parameters.optionalanswer === 'yes' && answer.optionalAnswer !== '') && answer.justification !== '') {
-                $(item).find('#justification-content').removeClass('hidden');
-                $(item).find('#justification-content .text').text(answer.justification);
-            } else if (studyData.parameters.justificationFor === 'selectNothing' && parseInt(answer.selectedOptions) === -1 && answer.justification !== '') {
-                $(item).find('#justification-content').removeClass('hidden');
-                $(item).find('#justification-content .text').text(answer.justification);
-            } else if (studyData.parameters.justificationFor === 'always' && answer.justification !== '') {
-                $(item).find('#justification-content').removeClass('hidden');
-                $(item).find('#justification-content .text').text(answer.justification);
-            } else if (answer.selectedOptions && answer.selectedOptions.length > 0 && answer.justification === '') {
-                $(item).find('#no-answer-justification').removeClass('hidden');
-            }
-        } else {
-            $(item).find('#no-answer').removeClass('hidden');
-        }
-    } else {
-        item.find('#no-justification').removeClass('hidden');
-    }
-
-    if (answer && answer.selectedOptions && parseInt(answer.selectedOptions) === -1 && studyData.parameters.optionalanswer === 'yes' && answer.optionalAnswer === '') {
-        $(item).find('#no-answer').removeClass('hidden');
-    }
-
 
     if (options && options.length > 0) {
         for (var i = 0; i < options.length; i++) {
-            var optionItem = $('#template-study-container').find('#grouping-question-gus-' + studyData.parameters.optionSource + '-option').clone(false);
-            optionItem.attr('id', options[i].id);
-            optionItem.find('.text').text(options[i].title);
-            item.find('.option-container').append(optionItem);
-            if (i < options.length - 1) {
-                item.find('.option-container').append(document.createElement('br'));
+            var optionItem = $('#template-study-container').find('#grouping-question-item').clone();
+            $(optionItem).find('#option-text').text(options[i].title);
+            $(item).find('.option-container').append(optionItem);
+
+            if (i < options.length) {
+                var hr = document.createElement('hr');
+                $(hr).css({marginTop: "15px", marginBottom: "5px"});
+                $(item).find('.option-container').append(hr);
             }
 
-            if (studyData.parameters.optionSource === 'gestures') {
-                $(optionItem).find('.btn-popover-gesture-preview').attr('name', options[i].id);
-            }
+            if (studyData.parameters.justification === 'yes') {
+                optionItem.find('#justification').removeClass('hidden');
+                optionItem.find('#' + studyData.parameters.justificationFor).removeClass('hidden');
 
-            if (answer && answer.selectedOptions && answer.selectedOptions.length > 0) {
-                for (var j = 0; j < answer.selectedOptions.length; j++) {
-                    if (parseInt(answer.selectedOptions[j]) === parseInt(options[i].id)) {
-                        $(optionItem).addClass('bordered-scale-item');
-                        break;
+                if (answer) {
+                    var values = answer[options[i].id];
+                    if (studyData.parameters.justificationFor === 'selectOne') {
+                        if (values.selected === 'yes' && values.justification !== '') {
+                            $(optionItem).find('#justification-content').removeClass('hidden');
+                            $(optionItem).find('#justification-content .text').text(values.justification);
+                        } else if (values.selected === 'yes') {
+                            $(optionItem).find('#no-answer-justification').removeClass('hidden');
+                        }
+                    } else if (studyData.parameters.justificationFor === 'selectNothing') {
+                        if (values.selected === 'no' && values.justification !== '') {
+                            $(optionItem).find('#justification-content').removeClass('hidden');
+                            $(optionItem).find('#justification-content .text').text(values.justification);
+                        } else if (values.selected === 'no') {
+                            $(optionItem).find('#no-answer-justification').removeClass('hidden');
+                        }
+                    } else if (studyData.parameters.justificationFor === 'always' && values.justification !== '') {
+                        $(optionItem).find('#justification-content').removeClass('hidden');
+                        $(optionItem).find('#justification-content .text').text(values.justification);
                     } else {
-                        //                                    $(optionItem).css({paddingLeft: "0px"});
+                        $(optionItem).find('#no-answer-justification').removeClass('hidden');
                     }
+                } else {
+                    $(item).find('#no-answer').removeClass('hidden');
                 }
+            } else {
+                optionItem.find('#no-justification').removeClass('hidden');
+            }
+
+            if (answer) {
+                var value = answer[options[i].id];
+                if (value.selected === 'yes') {
+                    $(item).find('#no-answer').addClass('hidden');
+                    $(optionItem).find('#option-text').addClass('bordered-scale-item');
+                    if (i > 0) {
+                        $(optionItem).css({marginTop: '5px'});
+                    }
+                } else {
+                    $(optionItem).find('#option-text').css({paddingLeft: "0px"});
+                }
+
             } else {
                 $(optionItem).css({paddingLeft: "0px"});
             }
         }
     }
+
+
+
+
+
+
+
+//    return false;
+//    if (studyData.parameters.justification === 'yes') {
+//        item.find('#justification').removeClass('hidden');
+//        item.find('#' + studyData.parameters.justificationFor).removeClass('hidden');
+//
+//        if (answer) {
+//            if (((studyData.parameters.justificationFor === 'selectOne' && answer.selectedOptions && answer.selectedOptions.length > 0) ||
+//                    studyData.parameters.optionalanswer === 'yes' && answer.optionalAnswer !== '') && answer.justification !== '') {
+//                $(item).find('#justification-content').removeClass('hidden');
+//                $(item).find('#justification-content .text').text(answer.justification);
+//            } else if (studyData.parameters.justificationFor === 'selectNothing' && parseInt(answer.selectedOptions) === -1 && answer.justification !== '') {
+//                $(item).find('#justification-content').removeClass('hidden');
+//                $(item).find('#justification-content .text').text(answer.justification);
+//            } else if (studyData.parameters.justificationFor === 'always' && answer.justification !== '') {
+//                $(item).find('#justification-content').removeClass('hidden');
+//                $(item).find('#justification-content .text').text(answer.justification);
+//            } else if (answer.selectedOptions && answer.selectedOptions.length > 0 && answer.justification === '') {
+//                $(item).find('#no-answer-justification').removeClass('hidden');
+//            }
+//        } else {
+//            $(item).find('#no-answer').removeClass('hidden');
+//        }
+//    } else {
+//        item.find('#no-justification').removeClass('hidden');
+//    }
+//
+//    if (answer && answer.selectedOptions && parseInt(answer.selectedOptions) === -1 && studyData.parameters.optionalanswer === 'yes' && answer.optionalAnswer === '') {
+//        $(item).find('#no-answer').removeClass('hidden');
+//    }
+//
+//
+//    if (options && options.length > 0) {
+//        for (var i = 0; i < options.length; i++) {
+//            var optionItem = $('#template-study-container').find('#grouping-question-gus-' + studyData.parameters.optionSource + '-option').clone(false);
+//            optionItem.attr('id', options[i].id);
+//            optionItem.find('.text').text(options[i].title);
+//            item.find('.option-container').append(optionItem);
+//            if (i < options.length - 1) {
+//                item.find('.option-container').append(document.createElement('br'));
+//            }
+//
+//            if (studyData.parameters.optionSource === 'gestures') {
+//                $(optionItem).find('.btn-popover-gesture-preview').attr('name', options[i].id);
+//            }
+//
+//            if (answer && answer.selectedOptions && answer.selectedOptions.length > 0) {
+//                for (var j = 0; j < answer.selectedOptions.length; j++) {
+//                    if (parseInt(answer.selectedOptions[j]) === parseInt(options[i].id)) {
+//                        $(optionItem).addClass('bordered-scale-item');
+//                        break;
+//                    } else {
+//                        //                                    $(optionItem).css({paddingLeft: "0px"});
+//                    }
+//                }
+//            } else {
+//                $(optionItem).css({paddingLeft: "0px"});
+//            }
+//        }
+//    }
 }
 
 
@@ -1630,7 +1702,7 @@ function renderDichotomousQuestionInput(item, parameters) {
             justification.removeClass('hidden');
         } else {
             $(item).find('.switch').bind('change', function () {
-                var activeButton = $(this).find('.active');
+                var activeButton = $(this).find('.btn-option-checked');
                 if (parameters.justificationFor === activeButton.attr('id')) {
                     $(item).find('#justification').removeClass('hidden');
                 } else {
@@ -1661,7 +1733,7 @@ function renderDichotomousQuestionGUSInput(item, parameters) {
             justification.removeClass('hidden');
         } else {
             $(item).find('.switch').bind('change', function () {
-                var activeButton = $(this).find('.active');
+                var activeButton = $(this).find('.btn-option-checked');
                 if (parameters.justificationFor === activeButton.attr('id')) {
                     $(item).find('#justification').removeClass('hidden');
                 } else {
@@ -1703,43 +1775,52 @@ function renderDichotomousQuestionGUSInput(item, parameters) {
 function renderGroupingQuestionInput(item, parameters, options) {
     var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';
     for (var i = 0; i < options.length; i++) {
+        var formGroup = document.createElement('div');
+        $(formGroup).addClass('formgroup');
+
         var option = $('#item-container-inputs').find('#' + optionType).clone();
         option.find('.option-text').text(options[i].title);
         option.find('.btn-' + optionType).attr('id', options[i].id);
-        $(item).find('.option-container').append(option);
-        $(item).find('.option-container').append(document.createElement('br'));
+        $(formGroup).append(option);
+        $(item).find('.option-container').append(formGroup);
+
+        if (options[i].justification === 'yes') {
+            var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
+            $(justification).css({marginTop: '5px'});
+            $(formGroup).append(justification);
+            setInputChangeEvent(justification.find('#justificationInput'), 1000);
+
+            if (options[i].justificationFor === 'always') {
+                justification.removeClass('hidden');
+            } else {
+                if (options[i].justificationFor === 'selectNothing') {
+                    justification.removeClass('hidden');
+                }
+
+                $(option).bind('change', {options: options[i]}, function (event) {
+                    if (event.data.options.justificationFor === 'selectOne' && $(this).find('.btn-' + optionType).hasClass('btn-option-checked')) {
+                        $(this).closest('.formgroup').find('#justification').removeClass('hidden');
+                    } else if (event.data.options.justificationFor === 'selectNothing' && !$(this).find('.btn-' + optionType).hasClass('btn-option-checked')) {
+                        $(this).closest('.formgroup').find('#justification').removeClass('hidden');
+                    } else {
+                        $(this).closest('.formgroup').find('#justification').addClass('hidden');
+                    }
+                });
+            }
+        }
+
+        if (options.length > 1 && i < options.length - 1 && options[i].justification === 'yes') {
+            $(item).find('.option-container').append(document.createElement('hr'));
+        }
     }
 
     if (parameters.optionalanswer === 'yes') {
+        if (options.length > 0) {
+            $(item).find('.option-container').append(document.createElement('hr'));
+        }
         var option = $('#item-container-inputs').find('#' + optionType + '-optionalanswer').clone();
         $(item).find('.option-container').append(option);
         setInputChangeEvent(option.find('.optionalInput'), 1000);
-    }
-
-    if (parameters.justification === 'yes') {
-        var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
-        item.find('.option-container').append(justification);
-        setInputChangeEvent(justification.find('#justificationInput'), 1000);
-
-        if (parameters.justificationFor === 'always') {
-            justification.removeClass('hidden');
-        } else {
-            if (parameters.justificationFor === 'selectNothing') {
-                justification.removeClass('hidden');
-            }
-
-            $(item).find('.option-container').bind('change', function () {
-                var totalCheckboxButtons = $(this).find('.btn-' + optionType);
-                var activeCheckboxButtons = $(totalCheckboxButtons).filter('.btn-option-checked');
-                if (parameters.justificationFor === 'selectOne' && activeCheckboxButtons.length > 0) {
-                    $(item).find('#justification').removeClass('hidden');
-                } else if (parameters.justificationFor === 'selectNothing' && activeCheckboxButtons.length === 0) {
-                    $(item).find('#justification').removeClass('hidden');
-                } else {
-                    $(item).find('#justification').addClass('hidden');
-                }
-            });
-        }
     }
 }
 
@@ -1817,9 +1898,13 @@ function renderGroupingQuestionGUSInput(item, parameters) {
 
     if (options && options.length > 0) {
         for (var i = 0; i < options.length; i++) {
+            var formGroup = document.createElement('div');
+            $(formGroup).addClass('formgroup');
+
             var option = $('#item-container-inputs').find('#' + optionType).clone();
             option.find('.btn-' + optionType).attr('id', options[i].id);
-            $(item).find('.option-container').append(option);
+            $(formGroup).append(option);
+            $(item).find('.option-container').append(formGroup);
 
             var optionItem = null;
             switch (parameters.optionSource) {
@@ -1837,42 +1922,72 @@ function renderGroupingQuestionGUSInput(item, parameters) {
                     break;
             }
             option.find('.option-text').text(optionItem.title);
-//            option.find('.option-text').attr('id', optionItem.id);
-            $(item).find('.option-container').append(document.createElement('br'));
+
+            if (parameters.justification === 'yes') {
+                var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
+                $(justification).css({marginTop: '5px'});
+                $(formGroup).append(justification);
+                setInputChangeEvent(justification.find('#justificationInput'), 1000);
+
+                if (parameters.justificationFor === 'always') {
+                    justification.removeClass('hidden');
+                } else {
+                    if (parameters.justificationFor === 'selectNothing') {
+                        justification.removeClass('hidden');
+                    }
+
+                    $(option).bind('change', {options: parameters}, function (event) {
+                        if (event.data.options.justificationFor === 'selectOne' && $(this).find('.btn-' + optionType).hasClass('btn-option-checked')) {
+                            $(this).closest('.formgroup').find('#justification').removeClass('hidden');
+                        } else if (event.data.options.justificationFor === 'selectNothing' && !$(this).find('.btn-' + optionType).hasClass('btn-option-checked')) {
+                            $(this).closest('.formgroup').find('#justification').removeClass('hidden');
+                        } else {
+                            $(this).closest('.formgroup').find('#justification').addClass('hidden');
+                        }
+                    });
+                }
+            }
+
+            if (options.length > 1 && i < options.length - 1 && parameters.justification === 'yes') {
+                $(item).find('.option-container').append(document.createElement('hr'));
+            }
         }
     }
 
     if (parameters.optionalanswer === 'yes') {
+        if (options.length > 0) {
+            $(item).find('.option-container').append(document.createElement('hr'));
+        }
         var option = $('#item-container-inputs').find('#' + optionType + '-optionalanswer').clone();
         $(item).find('.option-container').append(option);
         setInputChangeEvent(option.find('.optionalInput'), 1000);
     }
 
-    if (parameters.justification === 'yes') {
-        var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
-        item.find('.option-container').append(justification);
-        setInputChangeEvent(justification.find('#justificationInput'), 1000);
-
-        if (parameters.justificationFor === 'always') {
-            justification.removeClass('hidden');
-        } else {
-            if (parameters.justificationFor === 'selectNothing') {
-                justification.removeClass('hidden');
-            }
-
-            $(item).find('.option-container').bind('change', function () {
-                var totalCheckboxButtons = $(this).find('.btn-' + optionType);
-                var activeCheckboxButtons = $(totalCheckboxButtons).filter('.btn-option-checked');
-                if (parameters.justificationFor === 'selectOne' && activeCheckboxButtons.length > 0) {
-                    $(item).find('#justification').removeClass('hidden');
-                } else if (parameters.justificationFor === 'selectNothing' && activeCheckboxButtons.length === 0) {
-                    $(item).find('#justification').removeClass('hidden');
-                } else {
-                    $(item).find('#justification').addClass('hidden');
-                }
-            });
-        }
-    }
+//    if (parameters.justification === 'yes') {
+//        var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
+//        item.find('.option-container').append(justification);
+//        setInputChangeEvent(justification.find('#justificationInput'), 1000);
+//
+//        if (parameters.justificationFor === 'always') {
+//            justification.removeClass('hidden');
+//        } else {
+//            if (parameters.justificationFor === 'selectNothing') {
+//                justification.removeClass('hidden');
+//            }
+//
+//            $(item).find('.option-container').bind('change', function () {
+//                var totalCheckboxButtons = $(this).find('.btn-' + optionType);
+//                var activeCheckboxButtons = $(totalCheckboxButtons).filter('.btn-option-checked');
+//                if (parameters.justificationFor === 'selectOne' && activeCheckboxButtons.length > 0) {
+//                    $(item).find('#justification').removeClass('hidden');
+//                } else if (parameters.justificationFor === 'selectNothing' && activeCheckboxButtons.length === 0) {
+//                    $(item).find('#justification').removeClass('hidden');
+//                } else {
+//                    $(item).find('#justification').addClass('hidden');
+//                }
+//            });
+//        }
+//    }
 }
 
 
@@ -2069,51 +2184,87 @@ function renderAlternativeQuestionInput(item, data) {
     if (options) {
         for (var i = 0; i < options.length; i++) {
             if (optionId === null || (parseInt(optionId) !== parseInt(options[i].id))) {
+                var formGroup = document.createElement('div');
+                $(formGroup).addClass('formgroup');
+
                 var option = $('#item-container-inputs').find('#checkbox').clone();
-                option.find('.option-text').html(options[i].title);
                 option.find('.btn-checkbox').attr('id', options[i].id);
-//                option.find('.option-text').attr('id', options[i].id);
-                item.find('.option-container').append(option);
-                item.find('.option-container').append(document.createElement('br'));
+                option.find('.option-text').html(options[i].title);
+                $(formGroup).append(option);
+                $(item).find('.option-container').append(formGroup);
+
                 if (parameters.alternative === 'gestures') {
                     var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
                     button.attr('name', options[i].id);
                     option.append(button);
+                }
+
+                if (parameters.justification === 'yes') {
+                    var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
+                    $(justification).css({marginTop: '5px'});
+                    $(formGroup).append(justification);
+                    setInputChangeEvent(justification.find('#justificationInput'), 1000);
+
+                    if (parameters.justificationFor === 'always') {
+                        justification.removeClass('hidden');
+                    } else {
+                        if (parameters.justificationFor === 'selectNothing') {
+                            justification.removeClass('hidden');
+                        }
+
+                        $(option).bind('change', {options: parameters}, function (event) {
+                            if (event.data.options.justificationFor === 'selectOne' && $(this).find('.btn-checkbox').hasClass('btn-option-checked')) {
+                                $(this).closest('.formgroup').find('#justification').removeClass('hidden');
+                            } else if (event.data.options.justificationFor === 'selectNothing' && !$(this).find('.btn-checkbox').hasClass('btn-option-checked')) {
+                                $(this).closest('.formgroup').find('#justification').removeClass('hidden');
+                            } else {
+                                $(this).closest('.formgroup').find('#justification').addClass('hidden');
+                            }
+                        });
+                    }
+                }
+
+                if (options.length > 1 && i < options.length - 1 && parameters.justification === 'yes') {
+                    $(item).find('.option-container').append(document.createElement('hr'));
                 }
             }
         }
     }
 
     if (parameters.optionalanswer === 'yes') {
+        if (options.length > 0) {
+            $(item).find('.option-container').append(document.createElement('hr'));
+        }
+
         var optionalAnswer = $('#item-container-inputs').find('#checkbox-optionalanswer').clone();
         item.find('.option-container').append(optionalAnswer);
     }
 
-    if (parameters.justification === 'yes') {
-        var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
-        item.find('.option-container').append(justification);
-        setInputChangeEvent(justification.find('#justificationInput'), 1000);
-
-        if (parameters.justificationFor === 'always') {
-            justification.removeClass('hidden');
-        } else {
-            if (parameters.justificationFor === 'selectNothing') {
-                justification.removeClass('hidden');
-            }
-
-            $(item).find('.option-container').bind('change', function () {
-                var totalCheckboxButtons = $(this).find('.btn-checkbox');
-                var activeCheckboxButtons = $(totalCheckboxButtons).filter('.btn-option-checked');
-                if (parameters.justificationFor === 'selectOne' && activeCheckboxButtons.length > 0) {
-                    $(item).find('#justification').removeClass('hidden');
-                } else if (parameters.justificationFor === 'selectNothing' && activeCheckboxButtons.length === 0) {
-                    $(item).find('#justification').removeClass('hidden');
-                } else {
-                    $(item).find('#justification').addClass('hidden');
-                }
-            });
-        }
-    }
+//    if (parameters.justification === 'yes') {
+//        var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
+//        item.find('.option-container').append(justification);
+//        setInputChangeEvent(justification.find('#justificationInput'), 1000);
+//
+//        if (parameters.justificationFor === 'always') {
+//            justification.removeClass('hidden');
+//        } else {
+//            if (parameters.justificationFor === 'selectNothing') {
+//                justification.removeClass('hidden');
+//            }
+//
+//            $(item).find('.option-container').bind('change', function () {
+//                var totalCheckboxButtons = $(this).find('.btn-checkbox');
+//                var activeCheckboxButtons = $(totalCheckboxButtons).filter('.btn-option-checked');
+//                if (parameters.justificationFor === 'selectOne' && activeCheckboxButtons.length > 0) {
+//                    $(item).find('#justification').removeClass('hidden');
+//                } else if (parameters.justificationFor === 'selectNothing' && activeCheckboxButtons.length === 0) {
+//                    $(item).find('#justification').removeClass('hidden');
+//                } else {
+//                    $(item).find('#justification').addClass('hidden');
+//                }
+//            });
+//        }
+//    }
 }
 
 /*
@@ -2280,7 +2431,7 @@ function isObservationPresent(phaseId) {
 }
 
 function initializeItemType(clone) {
-    var itemType = $(clone).attr('name');
+    var itemType = $(clone).attr('id');
     switch (itemType) {
         case MATRIX:
             $(clone).find('.btn-add-ratingOption').click();

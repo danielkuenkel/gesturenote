@@ -103,6 +103,8 @@
         "phases": "Leitfaden",
         "panel": "Wen, Was & Wann?"
     },
+    "showIntroduction": "Zeige Einführung",
+    "introduction": "Einführung",
     "studyTitle": "Studien-Titel",
     "insertTitle": "Titel einfügen",
     "studyDescription": "Studien-Beschreibung",
@@ -164,6 +166,7 @@
     "justification": "Begründung(en)",
     "justificationFor": "Begründung(en) bei",
     "alternative": "Alternative",
+    "alternativeFor": "Alternative für",
     "useChecklist": "Checkliste nutzen?",
     "option": "Option",
     "options": "Optionen",
@@ -894,10 +897,17 @@
         "private": "Privat",
         "public": "Öffentlich"
     },
+    "stateCharts": {
+        "state": "Zustand",
+        "transition": "Zustandsübergang",
+        "transitionCondition": "Bedingung für den Zustandsübergang",
+        "entryAction": "Folgezustand",
+        "transitionFeedback": "Zustandübergangsrückmeldung"
+    },
     "gesture": "Geste",
     "gestures": "Gesten",
-    "studyGestures" : "Studien-Gesten",
-    "studyGestureSet" : "Studien-Gesten-Set",
+    "studyGestures": "Studien-Gesten",
+    "studyGestureSet": "Studien-Gesten-Set",
     "theGesture": "die Geste",
     "theTrigger": "die Funktion",
     "theFeedback": "das Feedback",
@@ -977,6 +987,7 @@
     "startRecording": "Aufzeichnung starten",
     "stopRecording": "Aufzeichnung beenden",
     "selectPreviewImage": "Vorschaubild auswählen",
+    "preview": "Vorschau",
     "recut": "Neu schneiden",
     "reRecord": "Neue Aufzeichnung",
     "recordGesture": "Geste aufzeichnen",
@@ -1125,7 +1136,7 @@
             "exploration": "Ziel dieser Methode ist es, den Probanden einen Überblick über die ermittelten Gesten zu geben. Dieser wird benötigt um im Anschluss z.B. eine Befragung über bevorzugte Gesten durchzuführen."
         },
         "panel": {
-            "overview": "Hier können Sie einstellen, in welchem Zeitraum die Studie läuft. Dies bedeutet auch, wenn der Zeitraum überschritten ist, kann nicht mehr an der Studie teilgenommen werden. Zusätzlich können Sie eine Pool-Befragung mit in GestureNote registrierten Testern durchführen. Diese sehen aktuell laufende Studien und können daran teilnehmen.",
+            "overview": "Nachfolgend können Sie einstellen, in welchem Zeitraum die Studie läuft. Dies bedeutet auch, wenn der Zeitraum überschritten ist, kann nicht mehr an der Studie teilgenommen werden. Zusätzlich können Sie eine Pool-Befragung mit in GestureNote registrierten Testern durchführen. Diese sehen aktuell laufende Studien und können daran teilnehmen.",
             "text1": "Bei einer Pool-Befragung haben Sie Zugriff auf die in GestureNote registrierte Tester. D.h. dass diese Tester, je nach Einstellung (Geschlecht und Alterr), aktuell laufende Studien in ihrem Dashboard sehen und teilnehmen können. Falls Sie keine Pool-Befragung durchführen wollen, haben Sie nach dem Speichern eines Studien-Designs immer noch die Möglichkeit Personen über einen Link einzuladen. Eine Kombination aus Pool-Befragung und Teilen eines Links ist ebenfalls möglich.",
             "text2": "Während des eingestellten Zeitraums können Pool-Tester oder auch akquirierte Personen via Links an der Studie teilnehmen. Bei Pool-Testern wird die Studie während des eingestellten Zeitraums im Dashboard angezeigt. Laden Sie Personen über den Studien-Link ein (z.B. über soziale Netzwerke, E-Mail oder Messaging-Apps), können diese ebenfalls nur innerhalb des eingestellten Zeitraums an der Studie teilnehmen. Stellen Sie keinen Zeitraum ein, wird die Studie nicht freigeschaltet."
         }
@@ -1227,7 +1238,7 @@
             "parameters": {
                 "negative": "no"
             },
-            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
             "format": "rating",
@@ -1236,7 +1247,7 @@
             "parameters": {
                 "negative": "yes"
             },
-            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
             "format": "rating",
@@ -1245,7 +1256,7 @@
             "parameters": {
                 "negative": "no"
             },
-            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
             "format": "rating",
@@ -1254,7 +1265,7 @@
             "parameters": {
                 "negative": "yes"
             },
-            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
             "format": "rating",
@@ -1263,7 +1274,7 @@
             "parameters": {
                 "negative": "no"
             },
-            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
             "format": "rating",
@@ -1272,7 +1283,7 @@
             "parameters": {
                 "negative": "yes"
             },
-            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
             "format": "rating",
@@ -1281,7 +1292,7 @@
             "parameters": {
                 "negative": "no"
             },
-            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
             "format": "rating",
@@ -1290,7 +1301,7 @@
             "parameters": {
                 "negative": "yes"
             },
-            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
             "format": "rating",
@@ -1299,7 +1310,7 @@
             "parameters": {
                 "negative": "no"
             },
-            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
             "format": "rating",
@@ -1308,7 +1319,7 @@
             "parameters": {
                 "negative": "yes"
             },
-            "options":["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
+            "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         }
     ],
     "favoriteGesturesQuestionnaire": [
@@ -3088,5 +3099,22 @@
             "type": "warning",
             "text": "Um einen GUS zu erstellen, wählen Sie den gewünschten Aspekt aus (z.B. <em>Soziale Akzeptanz</em>). Sie können anschließend die vordefinierten Fragen anpassen. Falls einmal eine Frage nicht für die Befragung übernommen werden soll, klicken Sie auf das Symbol <i class='fa fa-star'></i>. Die Einstellungen werden für diese Frage ausgeblendet und das Element zusätzlich ausgegraut."
         }
-    }
+    },
+    "introductionCreateStudy": [
+        {
+            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "title": "Willkommen",
+            "text": "Dies ist ein Infotext …"
+        },
+        {
+            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "title": "Allgemeines, Kataloge & Leitfaden",
+            "text": "Dies ist ein Infotext …"
+        },
+        {
+            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "title": "Allgemeines, Kataloge & Leitfaden",
+            "text": "Dies ist ein Infotext …"
+        }
+    ]
 }

@@ -89,7 +89,7 @@ var Tester = {
         if ($(document).scrollTop() > 0) {
             $(document).scrollTop(0);
         }
-        
+
         updateRTCHeight($('#phase-content #column-left').width());
     },
     checkPositioning: function checkPositioning(format) {
@@ -213,9 +213,8 @@ var Tester = {
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED && currentPhase.format !== PHYSICAL_STRESS_TEST && currentPhase.format !== SLIDESHOW_TRIGGER) {
             $(container).unbind('change').bind('change', function (event) {
                 event.preventDefault();
-                console.log('on change');
                 var answers = {answers: getQuestionnaireAnswers(container.find('.question-container').children())};
-                if (!previewModeEnabled && peerConnection) {
+                if (previewModeEnabled === false && peerConnection) {
                     peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, answers);
                 } else {
                     currentQuestionnaireAnswers = answers;
@@ -802,28 +801,28 @@ var Tester = {
         function saveTriggerSlideshowAnswer(container) {
             var selectedOption = $(container).find('.option-container .btn-option-checked').attr('id');
             selectedOption = selectedOption === undefined ? -1 : selectedOption;
-            var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-
-            if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
-                tempData.selectedOptions.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
-            } else {
-                var array = new Array();
-                array.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
-                tempData.selectedOptions = array;
-            }
-
-            console.log(currentQuestionnaireAnswers);
-            if (currentQuestionnaireAnswers) {
-                currentQuestionnaireAnswers.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
-            } else {
-                currentQuestionnaireAnswers = [{correctTriggerId: slideData.triggerId, selectedId: selectedOption}];
-            }
-
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-
+            
             if (!previewModeEnabled && peerConnection) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+
+                if (tempData.selectedOptions !== null && tempData.selectedOptions !== undefined) {
+                    tempData.selectedOptions.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
+                } else {
+                    var array = new Array();
+                    array.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
+                    tempData.selectedOptions = array;
+                }
+
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
+            } else {
+                console.log(currentQuestionnaireAnswers);
+                if (currentQuestionnaireAnswers) {
+                    currentQuestionnaireAnswers.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
+                } else {
+                    currentQuestionnaireAnswers = [{correctTriggerId: slideData.triggerId, selectedId: selectedOption}];
+                }
             }
         }
     },

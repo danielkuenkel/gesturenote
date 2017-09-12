@@ -79,62 +79,65 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="col-md-5">
+                <div class="toggle-affix" style="margin-top: 10px">
+                    <div class="add-button-group" id="add-question-button-group">
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="add-button-group toggle-affix" id="add-question-button-group" style="margin-top: 10px">
-                    <div class="btn-group">
-                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
-                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
-                        </div>
-                    </div>
-                    <div class="btn-group">
-                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
-                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
-                        </div>
-                    </div>
-                    <div class="btn-group">
-                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
-                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                        </div>
-                    </div>
-                    <div class="btn-group">
-                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
-                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                        </div>
-                    </div>
-                    <div class="btn-group">
-                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
-                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                        </div>
-                    </div>
-                    <div class="btn-group">
-                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
-                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                        </div>
-                    </div>
-                    <div class="btn-group">
-                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
-                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                        </div>
-                    </div>
-                    <div class="btn-group">
-                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
-                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                        </div>
-                    </div>
-                    <div class="btn-group">
-                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
-                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
-                        </div>
-                    </div>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
                 </div>
 
             </div>
@@ -207,27 +210,31 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="col-md-5">
+                <div class="toggle-affix">
+                    <div id="dimension-controls">
+                        <div class="dimension-container" id="container-effectiveness">
+                            <h4 style="margin-top: 0"><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                            <div class="dimension-btn-group">
+                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                            </div>
+                        </div>
+                        <div class="dimension-container" id="container-efficiency">
+                            <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
+                            <div class="dimension-btn-group">
+                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                            </div>
+                        </div>
+                        <div class="dimension-container" id="container-satisfaction">
+                            <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
+                            <div class="dimension-btn-group">
+                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                            </div>
+                        </div>
+                    </div>
 
-                <div id="dimension-controls" class="toggle-affix">
-                    <div class="dimension-container" id="container-effectiveness">
-                        <h4 style=""><?php echo $lang->mainDimensions->effectiveness ?></h4>
-                        <div class="dimension-btn-group">
-                            <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                        </div>
-                    </div>
-                    <div class="dimension-container" id="container-efficiency">
-                        <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                        <div class="dimension-btn-group">
-                            <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                        </div>
-                    </div>
-                    <div class="dimension-container" id="container-satisfaction">
-                        <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                        <div class="dimension-btn-group">
-                            <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                        </div>
-                    </div>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
                 </div>
+
 
             </div>
         </div>
@@ -263,26 +270,28 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="col-md-5">
-
-                <div id="dimension-controls" class="toggle-affix">
-                    <div class="dimension-container" id="container-effectiveness">
-                        <h4 style=""><?php echo $lang->mainDimensions->effectiveness ?></h4>
-                        <div class="dimension-btn-group">
-                            <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                <div class="toggle-affix">
+                    <div id="dimension-controls">
+                        <div class="dimension-container" id="container-effectiveness">
+                            <h4 style="margin-top: 0"><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                            <div class="dimension-btn-group">
+                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                            </div>
+                        </div>
+                        <div class="dimension-container" id="container-efficiency">
+                            <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
+                            <div class="dimension-btn-group">
+                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                            </div>
+                        </div>
+                        <div class="dimension-container" id="container-satisfaction">
+                            <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
+                            <div class="dimension-btn-group">
+                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                            </div>
                         </div>
                     </div>
-                    <div class="dimension-container" id="container-efficiency">
-                        <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                        <div class="dimension-btn-group">
-                            <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                        </div>
-                    </div>
-                    <div class="dimension-container" id="container-satisfaction">
-                        <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                        <div class="dimension-btn-group">
-                            <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                        </div>
-                    </div>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
                 </div>
 
             </div>
@@ -320,7 +329,9 @@ include '../includes/language.php';
             </div>
 
             <div class="col-md-5">
-
+                <div class="toggle-affix">
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                </div>
             </div>
 
         </div>
@@ -423,7 +434,7 @@ include '../includes/language.php';
                 <div class="toggle-dynamic-affix">
                     <div id="dimension-controls">
                         <div class="dimension-container" id="container-effectiveness">
-                            <h4 style=""><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                            <h4 style="margin-top: 0px"><?php echo $lang->mainDimensions->effectiveness ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
@@ -499,56 +510,12 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
+
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
                 </div>
 
             </div>
         </div>
-
-
-        <!--        <div style="display: inline;">
-                    <h3 style="display:inline-block">Beobachtungsbogen Test</h3>
-                    <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
-                        <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                        <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-11">
-                        <hr style="margin-top: 10px">
-                    </div>
-                </div>
-                <div class="row" id="test">
-                    <div class="col-md-7" style="height:700px">
-                        <div class="alert-space alert-no-data-questionnaire"></div>
-                        <div class="form-group container-root" id="list-container"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="toggle-dynamic-affix">
-                            <div id="dimension-controls">
-                                <div class="dimension-container" id="container-effectiveness">
-                                    <h4 style="margin-top: 0px; color: #3379b7"><?php echo $lang->mainDimensions->effectiveness ?></h4>
-                                    <div class="dimension-btn-group">
-                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                    </div>
-                                </div>
-                                <div class="dimension-container" id="container-efficiency">
-                                    <h4 style="color: #3379b7"><?php echo $lang->mainDimensions->efficiency ?></h4>
-                                    <div class="dimension-btn-group">
-                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                    </div>
-                                </div>
-                                <div class="dimension-container" id="container-satisfaction">
-                                    <h4 style="color: #3379b7"><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                                    <div class="dimension-btn-group">
-                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                    </div>
-                                </div>
-                            </div>
-        
-                        </div>
-        
-                    </div>
-                </div>-->
 
         <br/>
         <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
@@ -588,7 +555,7 @@ include '../includes/language.php';
                     <div class="alert-space alert-assembled-scene-removed"></div>
 
                     <div class="form-group" id="start-scene-select">
-                        <label for="scenarioDescription">Start-Zustand</label>
+                        <label for="scenarioDescription">Startzustand <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Dies ist ein Testcontent für ein Popover …"></i></label>
                         <div class="input-group"> 
                             <input class="form-control item-input-text show-dropdown option-scene readonly" type="text" value="" placeholder="Bitte wählen"/>
                             <div class="input-group-btn select sceneSelect" role="group">
@@ -600,9 +567,6 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="col-md-5">
-
-
-
             </div>
         </div>
 
@@ -631,7 +595,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-woz-experimentOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span>WoZ-Element hinzufügen</span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-woz-experimentOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span>WOZ-Element hinzufügen</span></button>
                 </div>
             </div>
         </div>
@@ -688,7 +652,7 @@ include '../includes/language.php';
                 <div class="toggle-dynamic-affix">
                     <div id="dimension-controls">
                         <div class="dimension-container" id="container-effectiveness">
-                            <h4 style=""><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                            <h4 style="margin-top: 0"><?php echo $lang->mainDimensions->effectiveness ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
@@ -764,6 +728,8 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
+
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
                 </div>
 
             </div>
@@ -857,7 +823,7 @@ include '../includes/language.php';
                 <div class="toggle-dynamic-affix">
                     <div id="dimension-controls">
                         <div class="dimension-container" id="container-effectiveness">
-                            <h4 style=""><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                            <h4 style="margin-top: 0"><?php echo $lang->mainDimensions->effectiveness ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
@@ -876,7 +842,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <h4 style="margin-bottom: 0">Benutzerdefiniert</h4>
+                    <h4 style="">Benutzerdefiniert</h4>
                     <div class="add-button-group" id="add-observation-button-group">
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
@@ -933,6 +899,8 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
+
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
                 </div>
 
             </div>
@@ -1080,6 +1048,8 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
+
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
                 </div>
 
             </div>
@@ -1293,6 +1263,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
                 </div>
 
             </div>
@@ -1426,6 +1397,8 @@ include '../includes/language.php';
                             </button>
                         </div>
                     </div>
+
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
                 </div>
 
             </div>
@@ -1455,7 +1428,7 @@ include '../includes/language.php';
                 <div class="toggle-dynamic-affix">
                     <div id="dimension-controls">
                         <div class="dimension-container" id="container-effectiveness">
-                            <h4 style=""><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                            <h4 style="margin-top: 0"><?php echo $lang->mainDimensions->effectiveness ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
@@ -1531,6 +1504,8 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
+
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
                 </div>
 
             </div>
@@ -1707,6 +1682,8 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
+
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
                 </div>
 
             </div>
@@ -1715,6 +1692,216 @@ include '../includes/language.php';
 
         <br/>
         <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+    </div>
+
+
+    <div id="exploration">
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+
+        <div class="row">
+            <div class="col-md-7">
+                <div class="overlay-header">
+                    <div class="overlay-header-container">
+                        <h3 class="overlay-title-editable" id="overlay-title"><span id="phase-step-title"></span> <i class="fa fa-pencil" id="btn-edit-phase-step-title"></i></h3>
+
+                        <div class="input-group hidden" id="phase-step-title-input-container">
+                            <input class="form-control item-input-text" id="phase-step-title-input" type="text" value="" maxlength="30"/>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default btn-success btn-shadow" id="btn-save-phase-step-title" data-toggle="tooltip"><i class="fa fa-check"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                </div>
+
+                <div id="general" style="margin-top: 16px">
+                    <div class="form-group">
+                        <label for="explorationTitle"><?php echo $lang->title ?></label>
+                        <input type="text" class="form-control" id="explorationTitle" placeholder="<?php echo $lang->insertTitle ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="explorationDescription"><?php echo $lang->description ?></label>
+                        <textarea class="form-control" id="explorationDescription" rows="7" placeholder="<?php echo $lang->insertDescription ?>" style="resize: none"></textarea>
+                    </div>
+                    
+                    <div class="form-group root" id="grouping-select">
+                        <label style="margin: 0">
+                            Darstellung
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                        </label><br>
+
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="grouped">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text">Gruppiert (Zuständen zugewiesen)</span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="ungrouped">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text">Nicht gruppiert</span>
+                            </button>
+                        </div>
+                    </div>
+<!--                    <div class="btn-group" id="grouping-select">
+                        <button class="btn btn-default switchButtonAddon">Darstellung</button>
+                        <button class="btn btn-success btn-shadow btn-toggle-checkbox check no-gestures-assembled active" id="grouped" name="btn-success">Gruppiert (Zuständen zugewiesen)</button>
+                        <button class="btn btn-default btn-shadow btn-toggle-checkbox reset no-gestures-assembled inactive" id="ungrouped" name="btn-success">Nicht gruppiert</button>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <h3 style="margin-top: 20px;">Elemente</h3>
+        <div class="row">
+            <div class="col-md-11">
+                <hr style="margin-top: 10px">
+            </div>
+        </div>
+        <div class="row" id="explorationElements" style="margin-bottom: 30px;">
+            <div class="col-md-8">
+                <div class="alert-space alert-no-gestures-assembled"></div>
+                <div class="alert-space alert-no-trigger-assembled"></div>
+                <div class="alert-space alert-no-scenes-assembled"></div>
+                <div class="alert-space alert-no-phase-data"></div>
+
+                <div class="option-container"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="toggle-dynamic-affix">
+<!--                    <div class="form-group root" id="identificationTypeSwitch">
+                        <label style="margin: 0"  >
+                            Was soll identifiziert werden? 
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                        </label><br>
+
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="gestures">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->gestures ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="trigger">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->triggers ?></span>
+                            </button>
+                        </div>
+                    </div>-->
+
+                    <button class="btn btn-info btn-shadow btn-add-explorationOption font-bold" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span>Identifikationselement hinzufügen</span></button>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+
+        <div style="display: inline;">
+            <h3 style="display:inline-block">Beobachtungsbogen</h3>
+            <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
+                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-11">
+                <hr style="margin-top: 10px">
+            </div>
+        </div>
+        <div class="row hidden" id="observations">
+            <div class="col-md-7">
+                <div class="alert-space alert-no-data-questionnaire"></div>
+                <div class="form-group container-root" id="list-container"></div>
+            </div>
+            <div class="col-md-5">
+                <div class="toggle-dynamic-affix">
+                    <div class="add-button-group" id="add-observation-button-group">
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
+                                <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                </div>
+
+            </div>
+        </div>
+
+
+        <br/>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+
     </div>
 
 
@@ -1745,7 +1932,7 @@ include '../includes/language.php';
                     <div role="tabpanel" class="tab-pane active" id="tab-study-gesture-set">
                         <div id="item-view">
                             <div class="alert-space alert-no-study-gestures-assembled"></div>
-                            
+
                             <div id="filter-controls">
                                 <div class="form-group form-group-no-margin">
                                     <div class="input-group">

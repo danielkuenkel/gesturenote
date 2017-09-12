@@ -92,7 +92,7 @@ function renderData(data, hash) {
 
             var colorIcon = document.createElement('i');
             $(colorIcon).addClass('study-phase-step-color-icon fa fa-circle');
-            $(colorIcon).css({color: '#5cb85c'}); // studyData.phases[i].color
+            $(colorIcon).css({color: '#337ab7'}); // studyData.phases[i].color // #5bb85c
             $(iconContainer).append(colorIcon);
 
             var icon = document.createElement('i');

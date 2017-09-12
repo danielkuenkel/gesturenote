@@ -341,6 +341,8 @@ function renderBodyJointAnswers(target, answers, gestureId, renderType) {
             var left = Math.round((ratio * jointData.position[1]) - (21 / 2));
             $(buttonJoint).css({top: top, left: left});
         }
+    } else {
+        renderBodyJointsPreview(target);
     }
 }
 
@@ -429,6 +431,8 @@ function renderHandJointAnswers(target, answers, gestureId, renderType) {
             var left = Math.round((ratio * jointData.position[1]) - (21 / 2));
             $(buttonJoint).css({top: top, left: left});
         }
+    } else {
+        renderHandJointsPreview(target);
     }
 }
 

@@ -177,9 +177,11 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="counter" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-default" id="counter-label"><span class="counter-from"></span> <span class="counter-to"></span></span>
-            <div class="question text"></div>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-default" id="counter-label"><span class="counter-from"></span> <span class="counter-to"></span></span>
+            </div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -190,8 +192,10 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="openQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question text"></div>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+            </div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -202,8 +206,10 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="openQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question text"></div>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+            </div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -214,13 +220,15 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-default hidden" id="justification">Mit Begründung</span>
-            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
-            <span class="label label-default hidden" id="yes">Begründung bei Auswahl <em>Ja</em></span>
-            <span class="label label-default hidden" id="no">Begründung bei Auswahl <em>Nein</em></span>
-            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
-            <div class="question text"></div>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-default hidden" id="justification">Mit Begründung</span>
+                <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+                <span class="label label-default hidden" id="yes">Begründung bei Auswahl <em>Ja</em></span>
+                <span class="label label-default hidden" id="no">Begründung bei Auswahl <em>Nein</em></span>
+                <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            </div>
+            <label class="question "></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -233,18 +241,20 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="dichotomousQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-default hidden" id="justification">Mit Begründung</span>
-            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
-            <span class="label label-default hidden" id="yes">Begründung bei Auswahl <em>Ja</em></span>
-            <span class="label label-default hidden" id="no">Begründung bei Auswahl <em>Nein</em></span>
-            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-default hidden" id="justification">Mit Begründung</span>
+                <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+                <span class="label label-default hidden" id="yes">Begründung bei Auswahl <em>Ja</em></span>
+                <span class="label label-default hidden" id="no">Begründung bei Auswahl <em>Nein</em></span>
+                <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            </div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <span class="label label-primary" id="factor-main"></span>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <span class="label label-info" id="factor-primary"></span>
             </div>
-            <div class="question text"></div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -257,56 +267,61 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
-            <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
-            <span class="label label-default hidden" id="justification">Mit Begründung</span>
-            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
-            <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
-            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
-            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
-            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
-            <div class="question text"></div>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+                <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
+                <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            </div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
-            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+            <span class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
             <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
-            <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
-            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
-            <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
+            <span class="label label-warning" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
+<!--            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
+            <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>-->
         </div>
     </div>
 
-    <span id="grouping-question-item" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>
+    <span id="grouping-question-item">
+        <div>
+            <span class="label label-default hidden" id="justification">Mit Begründung</span>
+            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+            <span class="label label-default hidden" id="selectOne">Begründung bei Auswahl</span>
+            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
+            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+        </div>
+        <div id="option-text" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></div>
+        <div>
+            <div class="hidden" id="justification-content"><span class="address">Begründung:</span> <span class="text"></span></div>
+            <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung</span></span>
+        </div>
+    </span>
 
     <div class="panel panel-default" id="groupingQuestionGUS" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
-            <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
-            <span class="label label-default hidden" id="justification">Mit Begründung</span>
-            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
-            <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
-            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
-            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
-            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+                <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
+                <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            </div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <span class="label label-primary" id="factor-main"></span>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <span class="label label-info" id="factor-primary"></span>
             </div>
-            <div class="question text"></div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
-            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+            <span class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
             <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
-            <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
-            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
-            <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
+            <span class="label label-warning" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
         </div>
     </div>
 
@@ -319,39 +334,36 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="groupingQuestionOptions" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
-            <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
-            <span class="label label-default hidden" id="justification">Mit Begründung</span>
-            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
-            <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
-            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
-            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
-            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
+                <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
+                <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            </div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <span class="label label-primary" id="factor-main"></span>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <span class="label label-info" id="factor-primary"></span>
             </div>
-            <div class="question text"></div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
             <div class="option-container"></div>
-            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
+            <span class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text">Keine Antwort</span></span>
             <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
-            <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
-            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
-            <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>
+            <span class="label label-warning" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
         </div>
     </div>
 
     <div class="panel panel-default" id="rating" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
-            <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
-            <div class="question text"></div>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
+                <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+            </div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -370,8 +382,10 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="matrix" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question text"></div>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+            </div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -390,10 +404,12 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="sumQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-default" id="maximum"><span class="label-text"></span></span>
-            <span class="label label-default" id="allocation"><span class="label-text"></span></span>
-            <div class="question text"></div>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-default" id="maximum"><span class="label-text"></span></span>
+                <span class="label label-default" id="allocation"><span class="label-text"></span></span>
+            </div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -408,8 +424,10 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="ranking" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <div class="question text"></div>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+            </div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -422,23 +440,25 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="alternativeQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
-            <span class="label label-default hidden" id="justification">Mit Begründung</span>
-            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
-            <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
-            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
-            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
-            <span class="label label-default hidden" id="gesturesForGesture">Es werden alternative Gesten für die Geste gesucht</span>
-            <span class="label label-default hidden" id="triggersForGesture">Es werden alternative Funktionen für die Geste gesucht</span>
-            <span class="label label-default hidden" id="triggersForTrigger">Es werden alternative Funktionen für die Funktion gesucht</span>
-            <span class="label label-default hidden" id="gesturesForTrigger">Es werden alternative Gesten für die Funktion gesucht</span>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+                <span class="label label-default hidden" id="justification">Mit Begründung</span>
+                <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
+                <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
+                <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
+                <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+                <span class="label label-default hidden" id="gesturesForGesture">Es werden alternative Gesten für die Geste gesucht</span>
+                <span class="label label-default hidden" id="triggersForGesture">Es werden alternative Funktionen für die Geste gesucht</span>
+                <span class="label label-default hidden" id="triggersForTrigger">Es werden alternative Funktionen für die Funktion gesucht</span>
+                <span class="label label-default hidden" id="gesturesForTrigger">Es werden alternative Gesten für die Funktion gesucht</span>
+            </div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <span class="label label-primary" id="factor-main"></span>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <span class="label label-info" id="factor-primary"></span>
             </div>
-            <div class="question text"></div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -459,15 +479,17 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="gusSingle" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
-            <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
+                <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+            </div>
             <div class="hidden" style="width: 100%" id="item-factors">
                 <span class="label label-primary" id="factor-main"></span>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">
                 <span class="label label-info" id="factor-primary"></span>
             </div>
-            <div class="question text"></div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -481,10 +503,12 @@ include '../includes/language.php';
 
     <div class="panel panel-default" id="susItem" style="margin-bottom: 5px;">
         <div class="panel-body">
-            <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
-            <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
-            <div class="question text"></div>
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
+                <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+            </div>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">

@@ -153,6 +153,7 @@ function getIdentificationFormData(data) {
 
 function getQuestionnaireFormData(questionnaire, data) {
     data.answers = getQuestionnaireAnswers(questionnaire);
+    console.log(data.answers);
 
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {

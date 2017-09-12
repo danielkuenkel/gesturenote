@@ -340,7 +340,7 @@ function renderStudyScenes(scenes) {
         item.find('.label-text').text(translation.sceneTypes[scenes[i].type]);
         item.find('#' + scenes[i].type).removeClass('hidden');
         $('#scenes-catalog').find('.list-container').append(item);
-        console.log(scenes[i]);
+//        console.log(scenes[i]);
         TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
         $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
             event.preventDefault();
@@ -555,6 +555,7 @@ $(document).on('click', '.btn-add-groupingQuestionOption', function (event) {
         var item = $('#form-item-container').find('#groupingQuestionItem').clone().removeAttr('id');
         item.attr('id', chance.natural());
         $(this).prev().find('.option-container').append(item);
+        initJustificationFormElements(item, null);
         checkCurrentListState($(this).prev().find('.option-container'));
         TweenMax.from(item, .2, {y: -10, opacity: 0});
     }
