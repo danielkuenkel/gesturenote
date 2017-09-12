@@ -74,9 +74,9 @@ if (login_check($mysqli) == true) {
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-studies" style="opacity: 0">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->dashboard->studies ?></div>
                         <div class="panel-body"><?php echo $lang->dashboard->studiesPanelBody ?></div>
-                        <div class="panel-footer">
+<!--                        <div class="panel-footer">
                             <button type="button" class="btn btn-success btn-block" id="btn-create-study"><i class="glyphicon glyphicon-plus"></i> <span class="btn-text"><?php echo $lang->createNewStudy ?></span></button>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">

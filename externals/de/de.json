@@ -209,7 +209,7 @@
         "dashboard": "dashboard",
         "dashboardInfo": "Um fortzufahren wählen Sie bitte aus einer der unten stehenden Kategorien.",
         "studies": "Studien-Übersicht",
-        "studiesPanelBody": "Katalog Ihrer erstellen und durchgeführten Gesten-Designstudien",
+        "studiesPanelBody": "Katalog Ihrer erstellten und durchgeführten Gesten-Designstudien. Sie können hier auch eine neue Studie erstellen.",
         "gesturesStyleguides": "Gesten-Styleguides",
         "gesturesStyleguidesPanelBody": "Erfahren Sie, welchen Kriterien gebrauchstaugliche Gesten unterliegen",
         "gesturesCatalog": "Gesten-Katalog",
@@ -2835,6 +2835,11 @@
             "id": "no-study-gestures-assembled",
             "type": "warning",
             "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt. Die Quellen für ein Studien-Gesten-Set können der Gesten-Katalog, die Gesten-Sets oder neu aufgezeichnete Gesten sein. Wählen Sie zunächst eine dieser drei Quellen aus und fügen Sie mit einem Klick auf den Button <div class='btn btn-sm btn-info'><i class='fa fa-plus'></i></div> eine Geste zum Studien-Gesten-Set hinzu. Das Entfernen ist mit einem Klick auf den Button <div class='btn btn-sm btn-danger'><i class='fa fa-minus'></i></div> möglich."
+        },
+        "noStudyGesturesAssembledLink": {
+            "id": "no-study-gestures-assembled-link",
+            "type": "warning",
+            "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt! <a href='#' class='alert-link' id='btn-assemble-study-gesture-set'>Jetzt zusammenstellen</a>"
         },
         "assembledGestureRemoved": {
             "id": "assembled-gesture-removed",

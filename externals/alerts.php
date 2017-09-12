@@ -25,6 +25,7 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="wrong-current-password" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->wrongCurrentPassword->text ?></span></div>
     <div class="alert alert-danger"  id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noGesturesAssembled->text ?></span></div>
     <div class="alert alert-warning" id="no-study-gestures-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noStudyGesturesAssembled->text ?></span></div>
+    <div class="alert alert-warning" id="no-study-gestures-assembled-link" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noStudyGesturesAssembledLink->text ?></span></div>
     <div class="alert alert-warning" id="assembled-gesture-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> <span class="alert-text"><?php echo $lang->alerts->assembledGestureRemoved->text ?></span></div>
     <div class="alert alert-danger"  id="no-trigger-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noTriggerAssembled->text ?></span></div>
     <div class="alert alert-warning" id="assembled-trigger-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> <span class="alert-text"><?php echo $lang->alerts->assembledTriggerRemoved->text ?></span></div>

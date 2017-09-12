@@ -1771,7 +1771,7 @@ include '../includes/language.php';
         </div>
         <div class="row" id="explorationElements" style="margin-bottom: 30px;">
             <div class="col-md-8">
-                <div class="alert-space alert-no-gestures-assembled"></div>
+                <div class="alert-space alert-no-study-gestures-assembled-link"></div>
                 <div class="alert-space alert-no-trigger-assembled"></div>
                 <div class="alert-space alert-no-scenes-assembled"></div>
                 <div class="alert-space alert-no-phase-data"></div>

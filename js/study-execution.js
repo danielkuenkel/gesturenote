@@ -496,6 +496,7 @@ function renderExplorationItems(target, data, modalId) {
         var gestures = getUngroupedExplorationGestures(data.exploration);
         var triggers = getUngroupedExplorationTrigger(data.exploration);
         var scenes = getUngroupedExplorationScenes(data.exploration);
+        
         var itemContainer, item;
 //        console.log(data);
         if (scenes && scenes.length > 0) {

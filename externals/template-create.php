@@ -168,15 +168,15 @@ include '../includes/language.php';
                 <div class="label label-info" id="factor-primary"></div>
             </div>
 
-<!--            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->item ?></span>
-                    <input class="form-control item-input-text question" type="text" value="" placeholder=""/>
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
-                                        </div>
-                </div>
-            </div>-->
+            <!--            <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><?php echo $lang->item ?></span>
+                                <input class="form-control item-input-text question" type="text" value="" placeholder=""/>
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-default btn-shadow btn-show-hole-text" data-toggle="tooltip"><i class="glyphicon glyphicon-eye-open"></i></button>
+                                                    </div>
+                            </div>
+                        </div>-->
 
             <div class="alert-space alert-no-gestures-assembled"></div>
             <div class="alert-space alert-assembled-gesture-removed"></div>
@@ -771,7 +771,7 @@ include '../includes/language.php';
             </form>
 
             <form class="form-inline">
-   
+
                 <div class="form-group form-group-margin-top root optionalanswer">
                     <label style="margin: 0"><?php echo $lang->ownAnswerAllowed ?></label><br>
 
@@ -823,7 +823,7 @@ include '../includes/language.php';
                     </div>
 
                 </div>
-                
+
                 <div class="form-group form-group-margin-top root optionselect">
                     <label style="margin: 0"><?php echo $lang->options ?></label><br>
 
@@ -962,7 +962,7 @@ include '../includes/language.php';
             </form>
 
             <form class="form-inline">
-                
+
 
                 <div class="form-group form-group-margin-top root multiselect" style="margin-right: 20px">
                     <label style="margin: 0"><?php echo $lang->multipleAnswersAllowed ?></label><br>
@@ -1015,7 +1015,7 @@ include '../includes/language.php';
                     </div>
 
                 </div>
-                
+
                 <div class="form-group form-group-margin-top root optionselect">
                     <label style="margin: 0"><?php echo $lang->options ?></label><br>
 
@@ -2011,52 +2011,57 @@ include '../includes/language.php';
 
 
     <!-- exploration container -->
-    <div class="root" id="exploration">
-        <div class="alert-space alert-no-scenes-assembled"></div>
-        <div class="alert-space alert-no-gestures-assembled"></div>
-        <div class="alert-space alert-no-trigger-assembled"></div>
-
-        <div class="option-container"></div>
-
-        <button class="btn btn-info btn-shadow pull-right btn-add-explorationOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Explorationselement hinzufügen</span></button>
-    </div>
+    <!--    <div class="root" id="exploration">
+            <div class="alert-space alert-no-scenes-assembled"></div>
+            <div class="alert-space alert-no-gestures-assembled"></div>
+            <div class="alert-space alert-no-trigger-assembled"></div>
+    
+            <div class="option-container"></div>
+    
+            <button class="btn btn-info btn-shadow pull-right btn-add-explorationOption" type="button"><span class="glyphicon glyphicon-plus"></span> <span>Explorationselement hinzufügen</span></button>
+        </div>-->
 
     <!-- exploration item -->
     <div class="form-group root" id="explorationItem">
         <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="btn-group" style="margin-right: 10px">
+                    <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+            </div>
             <div class="panel-body">
 
                 <div class="alert-space alert-assembled-scene-removed"></div>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="alert-space alert-assembled-trigger-removed"></div>
 
-                <div class="input-group" style="position: relative">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
-                    <span class="input-group-addon"><?php echo $lang->scene ?></span>
-                    <input class="form-control item-input-text option-scene show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                    <div class="input-group-btn select sceneSelect" role="group">
-                        <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
-                    </div>
-
-                </div>
-
-                <div class="input-group" style="margin-top: 10px; position: relative">
-                    <span class="input-group-addon"><?php echo $lang->gesture ?></span>
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                    <div class="input-group-btn select gestureSelect" role="group">
-                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
-                    </div>
-                </div>
-
-                <div style="padding: 0; margin-top: 10px; position: relative">
+                <div class="form-group">
+                    <label><?php echo $lang->scene ?></label>
                     <div class="input-group">
-                        <span class="input-group-addon"><?php echo $lang->trigger ?></span>
+                        <input class="form-control item-input-text option-scene show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                        <div class="input-group-btn select sceneSelect" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><?php echo $lang->gesture ?></label>
+                    <div class="input-group">
+                        <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                        <div class="input-group-btn select gestureSelect" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><?php echo $lang->trigger ?></label>
+                    <div class="input-group">
                         <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                         <div class="input-group-btn select triggerSelect" role="group">
                             <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>

@@ -1383,7 +1383,137 @@ function initExplorationOverlay(id, formatClone) {
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#observations #add-observation-button-group'), $(formatClone).find('#observations #list-container'), $(formatClone).find('#observations'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
     initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
-    
+
+    if (assembledGestures()) {
+        renderAssembledGestures();
+    } else {
+        appendAlert($(formatClone).find('#explorationElements'), ALERT_NO_STUDY_GESTURES_ASSEMBLED_LINK);
+        $(formatClone).find('#explorationElements .btn-add-explorationOption').addClass('disabled');
+        $(formatClone).find('#btn-assemble-study-gesture-set').on('click', function (event) {
+            event.preventDefault();
+            $(formatClone).find('.btn-close-overlay').click();
+            $('.mainContent').find('#catalogs #catalog-gestures').click();
+        });
+    }
+
+    renderAssembledTriggers(null, true);
+    renderAssembledScenes(null, true);
+
+    var data = getLocalItem(id + '.data');
+    if (data) {
+        renderData(data);
+    } else if (assembledGestures() !== null) {
+        appendAlert($(formatClone).find('#explorationElements'), ALERT_NO_PHASE_DATA);
+    }
+
+    function renderData(data)
+    {
+        $('#explorationTitle').val(data.title);
+        $('#explorationDescription').val(data.description);
+        $('#grouping-select').find('#' + data.grouping).click();
+
+        var container;
+        var items = data.exploration;
+        console.log(data.exploration);
+        if (items !== undefined && items.length > 0) {
+
+            container = $(formatClone).find('#explorationElements .option-container');
+            for (var i = 0; i < items.length; i++) {
+                var clone = $('#form-item-container').find('#explorationItem').clone().removeAttr('id');
+                $(clone).removeAttr('id');
+                container.append(clone);
+
+                if (items[i].sceneId === 'none') {
+                    $(clone).find('.sceneSelect #none').click();
+                } else {
+                    var scene = getSceneById(items[i].sceneId);
+                    if (scene) {
+                        $(clone).find('.sceneSelect #' + scene.id).click();
+                    } else {
+                        appendAlert(clone, ALERT_ASSEMBLED_SCENE_REMOVED);
+                    }
+                }
+
+                var gesture = getGestureById(items[i].gestureId);
+                if (gesture && isGestureAssembled(gesture.id))
+                {
+                    $(clone).find('.gestureSelect #' + gesture.id).click();
+                } else {
+                    appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
+                }
+
+                var trigger = getTriggerById(items[i].triggerId);
+                if (trigger) {
+                    if (!getTriggerById(trigger.id)) {
+                        appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
+                    } else {
+                        $(clone).find('.triggerSelect #' + trigger.id).click();
+                    }
+                }
+            }
+            checkCurrentListState(container);
+        }
+
+        var obeservationItems = data.observations;
+        if (obeservationItems !== undefined && obeservationItems.length > 0) {
+            $('#useObservationsSwitch .switchButtonAddon').click();
+            container = $('#list-container');
+
+            var listContainer = $('#list-container');
+            for (var i = 0; i < obeservationItems.length; i++) {
+                renderFormatItem(listContainer, obeservationItems[i]);
+                updateBadges(listContainer, obeservationItems[i].format);
+            }
+            checkCurrentListState(listContainer);
+            checkDimensionItems($('#dimension-controls .dimension-container'));
+        }
+    }
+
+    $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
+        $(formatClone).find('#btn-save-phase-step-title').click();
+
+        var data = new Object();
+        data.title = $(formatClone).find('#explorationTitle').val();
+        data.description = $(formatClone).find('#explorationDescription').val();
+        data.grouping = $(formatClone).find('#grouping-select .btn-option-checked').attr('id');
+
+        var explorationItem = $(formatClone).find('#explorationElements .option-container').children();
+        if (explorationItem) {
+            var set = new Array();
+            for (var i = 0; i < explorationItem.length; i++) {
+                var item = explorationItem[i];
+                var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
+                var gesture = getGestureById(gestureId);
+
+                var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
+                var trigger = getTriggerById(triggerId);
+                if (triggerId === 'unselected' || triggerId === 'none') {
+                    trigger = triggerId = 'none';
+                } else {
+                    trigger = getTriggerById(triggerId);
+                }
+
+                var sceneId = $(item).find('.sceneSelect .chosen').attr('id');
+                var scene;
+                if (sceneId === 'unselected' || sceneId === 'none') {
+                    scene = sceneId = 'none';
+                } else {
+                    scene = getSceneById(sceneId);
+                }
+
+                console.log(gesture, scene, trigger, triggerId);
+
+                if (gesture && trigger && scene) {
+                    set.push({sceneId: sceneId, triggerId: triggerId, gestureId: gestureId});
+                }
+            }
+            data.exploration = set;
+        }
+
+        saveObservations(formatClone, $(formatClone).find('#observations #list-container').children(), data);
+        setLocalItem(id + ".data", data);
+    });
+
     $(formatClone).find('#explorationElements .btn-add-explorationOption').on('click', function (event) {
         event.preventDefault();
         if (event.handled !== true)
@@ -1391,16 +1521,14 @@ function initExplorationOverlay(id, formatClone) {
             event.handled = true;
             if (!$(this).hasClass('disabled')) {
                 clearAlerts($(formatClone).find('#explorationElements'));
-                var type = $(formatClone).find('#identificationTypeSwitch .btn-option-checked').attr('id');
                 var item = $('#form-item-container').find('#explorationItem').clone().removeAttr('id');
-
                 tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#explorationElements .option-container'), null, true);
             } else {
 //                wobble($(formatClone).find('#identificationTypeSwitch'));
             }
         }
     });
-    
+
     $(formatClone).find('#explorationElements .option-container').unbind('change').bind('change', function (event) {
         if ($(this).children().length > 0) {
             clearAlerts($(formatClone).find('#explorationElements'));
@@ -1838,7 +1966,6 @@ function initCatalogGesturesOverlay(formatClone) {
 }
 
 function initCatalogTriggerOverlay(formatClone) {
-    console.log('init trigger overlay', translation.studyCatalogs.trigger);
     $(formatClone).find('#overlay-title').text(translation.studyCatalogs.trigger);
     initDynamicAffixScrolling(formatClone);
     var data = getLocalItem(ASSEMBLED_TRIGGER);
@@ -1850,8 +1977,8 @@ function initCatalogTriggerOverlay(formatClone) {
         for (var i = 0; i < data.length; i++) {
             var clone = $('#triggerItem').clone().removeClass('hidden');
             clone.find('.option').val(data[i].title);
-            var id = parseInt(data[i].id);
-            clone.attr('id', data[i].type + '_' + id);
+            clone.attr('id', data[i].type);
+            clone.attr('name', data[i].id);
             $(formatClone).find('#list-container').append(clone);
         }
         checkCurrentListState($(formatClone).find('#list-container'));
@@ -1861,15 +1988,10 @@ function initCatalogTriggerOverlay(formatClone) {
         var trigger = new Array();
         var elements = $(formatClone).find('#list-container').children();
         for (var i = 0; i < elements.length; i++) {
-            var triggerId;
+            var triggerId = $(element).attr('name');
             var element = elements[i];
             var title = $(elements[i]).find('.option').val();
-            if ($(element).attr('id') !== undefined) {
-                var splitId = $(element).attr('id').split('_');
-                if (splitId[0] === TYPE_TRIGGER) {
-                    triggerId = splitId[1];
-                }
-            } else {
+            if (triggerId === undefined) {
                 triggerId = chance.natural();
             }
             if (title.trim() !== "") {
