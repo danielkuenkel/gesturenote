@@ -97,28 +97,28 @@ if (login_check($mysqli) == true) {
 
 
         <!-- Container (Landing Section) -->
-        <div class="container-fluid bg-grey wall" id="landingText">
+        <!--<div class="container-fluid bg-grey wall" id="landingText">-->
 
             <!-- Container (Breadcrump) -->
-            <div class="container" id="breadcrumb">
+            <div class="container" id="breadcrumb" style="margin-top: 40px">
                 <div class="row">
                     <ol class="breadcrumb">
-                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                        <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
-                        <li class="active"><?php echo $lang->breadcrump->studies ?></li>
+                        <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
+                        <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
+                        <li class="active"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></li>
                     </ol>
                 </div>
             </div>
 
             <!-- headline -->
-            <div class="container text-center dropShadowText">
+<!--            <div class="container text-center dropShadowText">
                 <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> STUDIEN</h1>
                 <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-            </div>
-        </div>
+            </div>-->
+        <!--</div>-->
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent" style="margin-top: 35px;" id="item-view">
+        <div class="container mainContent" style="margin-top: 0px;" id="item-view">
 
             <button type="button" class="btn btn-success btn-lg btn-block btn-shadow" onclick="gotoCreateStudy()"><i class="glyphicon glyphicon-plus"></i> <?php echo $lang->createNewStudy ?></button>
 

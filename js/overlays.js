@@ -1496,7 +1496,7 @@ function initExplorationOverlay(id, formatClone) {
         });
     }
 
-    console.log(assembledTrigger, assembledScenes);
+//    console.log(assembledTrigger, assembledScenes);
 
     var data = getLocalItem(id + '.data');
     if (data) {
@@ -1510,6 +1510,7 @@ function initExplorationOverlay(id, formatClone) {
     function renderData(data) {
         $(formatClone).find('#explorationTitle').val(data.title);
         $(formatClone).find('#explorationDescription').val(data.description);
+        $(formatClone).find('#askPreferredGestureSwitch #' + data.askPreferredGesture).click();
 
         renderExplorationItems(data.exploration);
         renderObservations(formatClone, data.observations);
@@ -1581,6 +1582,7 @@ function initExplorationOverlay(id, formatClone) {
         var data = new Object();
         data.title = $(formatClone).find('#explorationTitle').val();
         data.description = $(formatClone).find('#explorationDescription').val();
+        data.askPreferredGesture = $(formatClone).find('#askPreferredGestureSwitch .btn-option-checked').attr('id');
 
         saveExplorationItems(data);
         saveObservations(formatClone, $(formatClone).find('#observations #list-container').children(), data);

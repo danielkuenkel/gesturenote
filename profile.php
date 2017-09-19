@@ -49,24 +49,24 @@ if (login_check($mysqli) == true) {
 
 
         <!-- Container (Landing Section) -->
-        <div class=" container-fluid bg-grey wall" id="landingText">
+        <!--<div class=" container-fluid bg-grey wall" id="landingText">-->
             <!-- Container (Breadcrump) -->
-            <div class="container" id="breadcrumb">
+            <div class="container" id="breadcrumb"style="margin-top: 40px">
                 <div class="row">
                     <ol class="breadcrumb">
-                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                        <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
-                        <li class="active"><?php echo $lang->breadcrump->profile ?></li>
+                        <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
+                        <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
+                        <li class="active"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->breadcrump->profile ?></li>
                     </ol>
                 </div>
             </div>
 
-            <div class="container text-center dropShadowText">
+<!--            <div class="container text-center dropShadowText">
                 <h1><i class="fa fa-user" style="font-size: 60pt" aria-hidden="true"></i> BENUTZERPROFIL</h1>
             </div>
-        </div>
+        </div>-->
 
-        <div class="container mainContent" style="margin-top: 50px">
+        <div class="container mainContent" style="margin-top: 0px">
             <div class="row">
                 <div class="col-md-7">
                     <div class="panel panel-default" id="general-preview">

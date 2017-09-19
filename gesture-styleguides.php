@@ -45,24 +45,24 @@ if (login_check($mysqli) == true) {
 
 
         <!-- Container (Landing Section) -->
-        <div class="container-fluid bg-grey wall" id="landingText">
+        <!--<div class="container-fluid bg-grey wall" id="landingText">-->
             <!-- Container (Breadcrump) -->
-            <div class="container" id="breadcrumb">
+            <div class="container" id="breadcrumb" style="margin-top: 40px">
                 <div class="row">
                     <ol class="breadcrumb">
-                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
-                        <li><a class="breadcrump-btn" id="btn-dashboard"><?php echo $lang->breadcrump->dashboard ?></a></li>
-                        <li class="active"><?php echo $lang->breadcrump->gestureStyleguides ?></li>
+                        <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
+                        <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
+                        <li class="active"><i class="fa fa-map-signs" aria-hidden="true"></i> <?php echo $lang->breadcrump->gestureStyleguides ?></li>
                     </ol>
                 </div>
             </div>
 
-            <div class="container text-center dropShadowText">
+<!--            <div class="container text-center dropShadowText">
                 <h1><i class="fa fa-map-signs" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase"><?php echo $lang->breadcrump->gestureStyleguides ?></span></h1>
-            </div>
-        </div>
+            </div>-->
+        <!--</div>-->
 
-        <div class="container" id="general-styleguides" style="margin-top: 50px">
+        <div class="container" id="general-styleguides" style="margin-top: 0px">
             <h2 style="margin-top: 40px"><?php echo $lang->gestureStyleguides->process->headline ?></h2>
             <hr>
             <div class="text">
@@ -264,7 +264,7 @@ if (login_check($mysqli) == true) {
                         $(this).addClass('active');
                         TweenMax.to($('.btn-toggle-gus-items').find('#plus-sign'), .3, {rotation: '0'});
                         TweenMax.to($(this).find('#plus-sign'), .3, {rotation: '45'});
-                        $("html, body").animate({scrollTop: 1600}, "slow");
+                        $("html, body").animate({scrollTop: 1360}, "slow");
 
                         if ($(this).attr('id') === 'btn-toggle-single') {
                             $('#single-gus-list').removeClass('hidden');
