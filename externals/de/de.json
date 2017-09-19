@@ -950,6 +950,7 @@
     "For": "Für",
     "GestureForTrigger": "Geste für Funktion",
     "TriggerForGesture": "Funktion für Geste",
+    "askPreferredTriggerForGesture":"Welche Funktion passt am Besten zur Geste? Bitte die Auswahl begründen.",
     "of": "von",
     "text": "Text",
     "sound": "Sound",

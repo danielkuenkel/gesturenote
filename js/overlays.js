@@ -1296,6 +1296,11 @@ function initElicitationOverlay(id, formatClone) {
                 appendAlert(container, ALERT_NO_GESTURES_ASSEMBLED);
                 $(container).find('.btn-add-identificationOption').addClass('disabled');
             }
+            
+            var scenes = getLocalItem(ASSEMBLED_SCENES);
+            if (scenes && scenes.length > 0) {
+                renderAssembledScenes();
+            }
         }
     });
     var data = getLocalItem(id + '.data');
@@ -1322,7 +1327,6 @@ function initElicitationOverlay(id, formatClone) {
                 $(clone).removeAttr('id');
                 container.append(clone);
                 if (data.identificationFor === 'gestures') {
-
                     var trigger = getTriggerById(identificationItems[i].triggerId);
                     if (trigger && isTriggerAssembled(trigger.id)) {
                         $(clone).find('.triggerSelect #' + trigger.id).click();
@@ -1331,25 +1335,7 @@ function initElicitationOverlay(id, formatClone) {
                     }
 
                     $(clone).find('#context-input').val(identificationItems[i].context);
-//                    $(clone).find('#sceneDescription').val(identificationItems[i].sceneDescription);
-
-                    if (identificationItems[i].transitionScenes && identificationItems[i].transitionScenes.length > 0) {
-                        for (var j = 0; j < identificationItems[i].transitionScenes.length; j++) {
-                            var scene = getSceneById(identificationItems[i].transitionScenes[j].sceneId);
-                            var item = $('#form-item-container').find('#transition-scene-option').clone().removeAttr('id');
-                            $(clone).find('.transition-scenes-option-container').append(item);
-                            $(item).find('#scene-description').val(identificationItems[i].transitionScenes[j].description);
-                            if (scene) {
-                                $(item).find('.sceneSelect #' + scene.id).click();
-                            } else if (identificationItems[i].transitionScenes[j].sceneId !== 'unselected') {
-                                appendAlert(item, ALERT_ASSEMBLED_SCENE_REMOVED);
-                            }
-                        }
-                        checkCurrentListState($(clone).find('.transition-scenes-option-container'));
-                    }
-                    initAddTransitionSceneButton(clone);
                 } else {
-//                    $(clone).find('#group-trigger').remove();
                     var gesture = getGestureById(identificationItems[i].gestureId);
                     if (gesture && isGestureAssembled(gesture.id)) {
                         $(clone).find('.gestureSelect #' + gesture.id).click();
@@ -1358,6 +1344,21 @@ function initElicitationOverlay(id, formatClone) {
                     }
                 }
 
+                if (identificationItems[i].transitionScenes && identificationItems[i].transitionScenes.length > 0) {
+                    for (var j = 0; j < identificationItems[i].transitionScenes.length; j++) {
+                        var scene = getSceneById(identificationItems[i].transitionScenes[j].sceneId);
+                        var item = $('#form-item-container').find('#transition-scene-option').clone().removeAttr('id');
+                        $(clone).find('.transition-scenes-option-container').append(item);
+                        $(item).find('#scene-description').val(identificationItems[i].transitionScenes[j].description);
+                        if (scene) {
+                            $(item).find('.sceneSelect #' + scene.id).click();
+                        } else if (identificationItems[i].transitionScenes[j].sceneId !== 'unselected') {
+                            appendAlert(item, ALERT_ASSEMBLED_SCENE_REMOVED);
+                        }
+                    }
+                    checkCurrentListState($(clone).find('.transition-scenes-option-container'));
+                }
+                initAddTransitionSceneButton(clone);
             }
             checkCurrentListState(container);
         } else if (data.identificationFor !== undefined) {
@@ -1396,7 +1397,12 @@ function initElicitationOverlay(id, formatClone) {
                     }
                 } else {
                     var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
-                    set.push({gestureId: gestureId});
+                    var transitionScenes = [];
+                    $(item).find('.transition-scenes-option-container').children().each(function () {
+                        transitionScenes.push({sceneId: $(this).find('.sceneSelect .chosen').attr('id'),
+                            description: $(this).find('#scene-description').val()});
+                    });
+                    set.push({gestureId: gestureId, transitionScenes: transitionScenes});
                 }
             }
 
@@ -1418,10 +1424,10 @@ function initElicitationOverlay(id, formatClone) {
                 var item = $('#form-item-container').find('#identificationItem-' + type).clone().removeAttr('id');
                 tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#identificationElements .option-container'), null, true);
 
-                if (data.identificationFor === 'gestures') {
+//                if (data.identificationFor === 'gestures') {
                     initAddTransitionSceneButton(item);
                     $(item).find('.btn-add-transition-scene').click();
-                }
+//                }
             } else {
                 wobble($(formatClone).find('#identificationTypeSwitch'));
             }

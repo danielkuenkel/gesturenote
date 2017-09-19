@@ -225,14 +225,6 @@ var Moderator = {
         return container;
     },
     getSUS: function getSUS(source, container, data) {
-//        for (var i = 0; i < data.length; i++) {
-//            var item = $(source).find('#susItem').clone(false).removeAttr('id');
-//            $(item).find('.question').text(i + 1 + '. ' + data[i].question);
-//            $(container).find('.question-container').append(item);
-//            if (data[i].parameters.negative === 'yes') {
-//                $(item).find('#reversed').removeClass('hidden');
-//            }
-//        }
         Moderator.getQuestionnaire(source, container, data, true);
         return container;
     },
@@ -1314,8 +1306,6 @@ var Moderator = {
                 }
             }
 
-
-
             $(item).find('#btn-done').unbind('click').bind('click', function (event) {
                 if (!$(this).hasClass('disabled')) {
                     $(this).addClass('hidden');
@@ -1341,21 +1331,21 @@ var Moderator = {
         if (identificationPrototypeOpened && !identificationStartTriggered) {
             $(container).find('#btn-open-prototype').addClass('hidden');
             $(container).find('#btn-start-screen-sharing').removeClass('hidden');
-        } else if (identificationPrototypeOpened && identificationStartTriggered && screenSharingModerator && screenSharingModerator.status === STATUS_STARTED) {
+        } else if (identificationPrototypeOpened && identificationStartTriggered) {
             $(container).find('#btn-open-prototype').remove();
             $(container).find('#btn-start-screen-sharing').addClass('hidden');
             $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
-        } else if (!identificationPrototypeOpened && !identificationStartTriggered && screenSharingModerator && screenSharingModerator.status === STATUS_STOPPED) {
-            $(container).find('#btn-start-screen-sharing').addClass('hidden');
-            $(container).find('#btn-open-prototype').remove();
+        } else if (!identificationPrototypeOpened && !identificationStartTriggered) {
+//            $(container).find('#btn-start-screen-sharing').removeClass('hidden');
+//            $(container).find('#btn-open-prototype').remove();
         }
 
         function openPrototypeScene(scene, isSingleScene) {
-            if (prototypeWindow && !isSingleScene) {
+            if (prototypeWindow && !prototypeWindow.closed && !isSingleScene) {
                 prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
-            } else if (!isSingleScene) {
+            } else if (!prototypeWindow && !isSingleScene) {
                 prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank");
-            } else if (isSingleScene === true && (scene.type !== SCENE_WEB || scene.type !== SCENE_PIDOCO)) {
+            } else if (!prototypeWindow && isSingleScene === true && (scene.type !== SCENE_WEB || scene.type !== SCENE_PIDOCO)) {
                 prototypeWindow = window.open(scene.data[0], "_blank");
             }
 
@@ -1366,7 +1356,7 @@ var Moderator = {
 
         function renderGestureRecorder(videoURL) {
             var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder').clone().removeAttr('id');
-            container.find('#gesture-recorder-container').empty().append(gestureRecorder);
+            container.find('#gesture-recorder-container').empty().append(gestureRecorder).removeClass('hidden');
             var options = {
                 alertTarget: container.find('#gesture-recorder-container'),
                 recorderTarget: gestureRecorder,
@@ -1378,35 +1368,31 @@ var Moderator = {
                 startState: EVENT_GR_STATE_PLAYBACK,
                 videoUrl: videoURL,
                 initMediaStream: false,
-                allowRerecordGesture: false
+                allowRerecordGesture: false,
+                allowDeletingGesture: false
             };
             new GestureRecorder(options);
             renderBodyJoints(gestureRecorder.find('#human-body'));
 
             $(gestureRecorder).unbind(EVENT_GR_SAVE_SUCCESS).bind(EVENT_GR_SAVE_SUCCESS, function (event, gesture) {
                 event.preventDefault();
-//                $(item).find('#next-controls').removeClass('hidden');
                 if (!previewModeEnabled) {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                     var triggerId = data.identification[currentExplorationIndex].triggerId;
-                    if(tempData.gestures) {
+                    if (tempData.gestures) {
                         tempData.gestures.push({id: gesture.id, triggerId: triggerId});
                     } else {
                         tempData.gestures = [{id: gesture.id, triggerId: triggerId}];
                     }
-                    
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
-//                    if (peerConnection) {
-//                        peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED, {gesture: gesture, index: currentIdentificationIndex});
-//                    }
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
             });
 
             $(gestureRecorder).unbind(EVENT_GR_DELETE_SUCCESS).bind(EVENT_GR_DELETE_SUCCESS, function (event, gestureId) {
                 event.preventDefault();
-                
+
                 if (!previewModeEnabled) {
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -1420,9 +1406,35 @@ var Moderator = {
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
             });
+
+            initRerecordingButton(gestureRecorder);
         }
 
-        function renderIdentificationForGesturesItem(item, container, data) {
+        function initRerecordingButton(gestureRecorder) {
+            $(container).find('#btn-start-gesture-rerecording').unbind('click').bind('click', function (event) {
+                if (!$(this).hasClass('disabled')) {
+                    $(this).addClass('hidden');
+                    if (gestureRecorder) {
+                        $(gestureRecorder).find('#success-controls #btn-delete-saved-gesture').click();
+                    }
+                    $(container).find('#identified-gesture').addClass('hidden');
+                    $(container).find('#gesture-recorder-container').addClass('hidden');
+                    $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
+                    $(container).find('#btn-next-trigger').addClass('hidden');
+                    identificationRecordingStartTriggered = true;
+                    identificationRecordingStopTriggered = false;
+
+                    if (peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_START_RECORDING_GESTURE);
+                    }
+                } else {
+                    $(document).scrollTop(0);
+                    wobble([container.find('#general')]);
+                }
+            });
+        }
+
+        function renderSceneTriggerItems(item, container, data) {
             for (var i = 0; i < data.identification[currentIdentificationIndex].transitionScenes.length; i++) {
                 var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[i].sceneId);
                 var transitionItem = $(source).find('#transition-scene-item').clone().attr('id', scene.id);
@@ -1440,12 +1452,12 @@ var Moderator = {
 
                 $(itemData).find('.btn-trigger-scene').unbind('click').bind('click', {scene: scene, index: i}, function (event) {
                     if (!$(this).hasClass('btn-primary') && !$(this).hasClass('disabled')) {
-                        openPrototypeScene(event.data.scene, data.identification.length === 1);
                         $(this).closest('.root').find('.btn-trigger-scene').removeClass('btn-primary');
                         $(this).closest('.root').find('.scene-description').addClass('hidden');
                         $(this).addClass('btn-primary');
                         $(this).parent().parent().find('.scene-description').removeClass('hidden');
                         currentIdentificationScene = event.data.index;
+                        openPrototypeScene(event.data.scene, data.identification.length === 1);
                     }
 
                     if ($(this).hasClass('disabled')) {
@@ -1458,6 +1470,10 @@ var Moderator = {
             if (currentIdentificationIndex > 0) {
                 $(container).find('.btn-trigger-scene').removeClass('disabled');
             }
+        }
+
+        function renderIdentificationForGesturesItem(item, container, data) {
+            renderSceneTriggerItems(item, container, data);
 
             $(container).find('#btn-start-gesture-recording').removeClass('hidden');
             var searchedData = getTriggerById(data.identification[currentIdentificationIndex].triggerId);
@@ -1489,9 +1505,12 @@ var Moderator = {
 
                 if (identificationRecordingStopTriggered === true) {
                     $(container).find('#btn-start-gesture-recording').addClass('hidden');
+                    $(container).find('#btn-start-gesture-rerecording').removeClass('hidden');
                     $(container).find('#btn-stop-gesture-recording').addClass('hidden');
                     $(container).find('#identified-gesture').removeClass('hidden');
+                    $(container).find('#file-transfer-loader').addClass('hidden');
                     renderGestureRecorder();
+                    initRerecordingButton(null);
 
                     if (currentIdentificationIndex < data.identification.length - 1) {
                         $(container).find('#btn-next-trigger').removeClass('hidden disabled');
@@ -1501,13 +1520,16 @@ var Moderator = {
                 }
             }
 
-            $(item).find('#btn-start-gesture-recording, #btn-start-gesture-rerecording').unbind('click').bind('click', function (event) {
+            $(item).find('#btn-start-gesture-recording').unbind('click').bind('click', function (event) {
                 if (!$(this).hasClass('disabled')) {
                     $(this).addClass('hidden');
+                    $(container).find('#identified-gesture').addClass('hidden');
+                    $(container).find('#gesture-recorder-container').addClass('hidden');
                     $(container).find('#btn-stop-gesture-recording').removeClass('hidden');
                     $(container).find('#btn-next-trigger').addClass('hidden');
                     identificationRecordingStartTriggered = true;
                     identificationRecordingStopTriggered = false;
+
                     if (peerConnection) {
                         peerConnection.sendMessage(MESSAGE_START_RECORDING_GESTURE);
                     }
@@ -1525,6 +1547,8 @@ var Moderator = {
                 if (peerConnection) {
                     $(peerConnection).unbind(MESSAGE_GESTURE_IDENTIFIED).bind(MESSAGE_GESTURE_IDENTIFIED, function (event, payload) {
                         $(container).find('#identified-gesture').removeClass('hidden');
+                        $(container).find('#file-transfer-loader').removeClass('hidden');
+                        $(container).find('#file-transfer-loading-indicator').css({width: '0%'});
                         $(container).find('#btn-start-gesture-rerecording').removeClass('hidden');
                         if (currentIdentificationIndex < data.identification.length - 1) {
                             $(container).find('#btn-next-trigger').removeClass('hidden disabled');
@@ -1535,28 +1559,36 @@ var Moderator = {
 
                     $(peerConnection).unbind(EVENT_FILE_TRANSFER).bind(EVENT_FILE_TRANSFER, function (event, bytesReceived, size) {
                         console.log('transfer video file', bytesReceived, size);
+                        var percent = Math.round(bytesReceived * 100 / size);
+                        $(container).find('#file-transfer-loading-indicator').css({width: percent + "%"});
                     });
 
                     $(peerConnection).unbind(EVENT_RECEIVED_FILE).bind(EVENT_RECEIVED_FILE, function (event, file, metadata) {
                         console.log('received video file', file, metadata);
                         if (metadata.size > 0) {
                             var blobUrl = URL.createObjectURL(file);
-                            console.log(blobUrl);
+//                            console.log(blobUrl);
+                            $(container).find('#file-transfer-loading-indicator').css({width: "0%"});
+                            $(container).find('#file-transfer-loader').addClass('hidden');
                             renderGestureRecorder(blobUrl);
                         }
                     });
-                    
+
                     peerConnection.sendMessage(MESSAGE_STOP_RECORDING_GESTURE);
                 } else {
-                    renderGestureRecorder();
-
+                    $(container).find('#file-transfer-loader').removeClass('hidden');
                     $(container).find('#identified-gesture').removeClass('hidden');
-                    $(container).find('#btn-start-gesture-rerecording').removeClass('hidden');
-                    if (currentIdentificationIndex < data.identification.length - 1) {
-                        $(container).find('#btn-next-trigger').removeClass('hidden disabled');
-                    } else {
-                        $(container).find('#btn-done').removeClass('hidden disabled');
-                    }
+                    TweenMax.from($(container).find('#file-transfer-loading-indicator'), 2, {width: "0%", ease: Linear.easeNone, onComplete: function () {
+                            renderGestureRecorder();
+                            initRerecordingButton(null);
+                            $(container).find('#file-transfer-loader').addClass('hidden');
+                            $(container).find('#btn-start-gesture-rerecording').removeClass('hidden');
+                            if (currentIdentificationIndex < data.identification.length - 1) {
+                                $(container).find('#btn-next-trigger').removeClass('hidden disabled');
+                            } else {
+                                $(container).find('#btn-done').removeClass('hidden disabled');
+                            }
+                        }});
                 }
             });
 
@@ -1576,22 +1608,48 @@ var Moderator = {
         }
 
         function renderIdentificationForTriggerItem(item, container, data) {
+            renderSceneTriggerItems(item, container, data);
+
             var searchedData = getGestureById(data.identification[currentIdentificationIndex].gestureId);
             $(item).find('#search-for .address').text(translation.TriggerForGesture + ':');
             $(item).find('#search-for .text').text(searchedData.title);
             item.find('.btn-popover-gesture-preview').attr('name', searchedData.id);
 
             if (identificationStartTriggered) {
-                $(container).find('#btn-start-identification').remove();
-                $(container).find('#btn-next-trigger').removeClass('disabled');
-                var listItems = $(container).find('#identificationContainer .identificationItem');
-                if (currentIdentificationIndex > 0 && listItems && listItems.length > 0) {
-                    for (var i = 0; i < currentIdentificationIndex; i++) {
-                        var listItem = listItems[i];
-                        $(listItem).addClass('text-green');
-                        $(listItem).find('.fa-check').removeClass('hidden');
-                    }
+                $(container).find('.btn-trigger-scene, .btn-reset-scene, #btn-request-trigger').removeClass('disabled');
+            }
+
+            $(item).find('#btn-request-trigger').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(this).addClass('hidden');
+                $(container).find('#identified-trigger').removeClass('hidden');
+                appendAlert($(container).find('#identified-trigger'), ALERT_WAITING_FOR_TESTER);
+                identificationTriggerRequest = true;
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_REQUEST_TRIGGER);
                 }
+            });
+
+            var questionnaireData = [{id: 'identifiedTrigger',
+                    format: GROUPING_QUESTION_OPTIONS,
+                    dimension: DIMENSION_ANY,
+                    question: translation.askPreferredTriggerForGesture,
+                    parameters: {multiselect: 'yes', optionSource: 'triggers', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes'}
+                }];
+            
+            if (identificationTriggerRequest) {
+                clearAlerts($(container).find('#identified-trigger'));
+                $(container).find('#identified-trigger').removeClass('hidden');
+                $(item).find('#btn-request-trigger').addClass('hidden');
+                renderQuestionnaireAnswers($(container).find('#identified-trigger'), questionnaireData, currentQuestionnaireAnswers, true);
+            }
+
+            if (peerConnection) {
+                $(peerConnection).unbind(MESSAGE_RESPONSE_TRIGGER).bind(MESSAGE_RESPONSE_TRIGGER, function (event, payload) {
+                    clearAlerts($(container).find('#identified-trigger'));
+                    currentQuestionnaireAnswers = payload;
+                    renderQuestionnaireAnswers($(container).find('#identified-trigger'), questionnaireData, currentQuestionnaireAnswers, true);
+                });
             }
         }
 
@@ -1622,7 +1680,7 @@ var Moderator = {
                     console.log('sharing started');
                     identificationStartTriggered = true;
                     wobble([container.find('#slides')]);
-                    $(container).find('#btn-start-gesture-recording, .btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
+                    $(container).find('#btn-start-gesture-recording, .btn-trigger-scene, .btn-reset-scene, #btn-request-trigger').removeClass('disabled');
                     $(container).find('#btn-start-screen-sharing').addClass('hidden');
                     if (peerConnection) {
                         peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION);
@@ -1634,7 +1692,7 @@ var Moderator = {
             } else {
                 identificationStartTriggered = true;
                 wobble([container.find('#slides')]);
-                $(container).find('#btn-start-gesture-recording, .btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
+                $(container).find('#btn-start-gesture-recording, .btn-trigger-scene, .btn-reset-scene, #btn-request-trigger').removeClass('disabled');
                 $(container).find('#btn-start-screen-sharing').addClass('hidden');
             }
         });

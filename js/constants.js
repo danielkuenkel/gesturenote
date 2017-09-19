@@ -191,6 +191,8 @@ var MESSAGE_START_IDENTIFICATION = 'startIdentification';
 var MESSAGE_GESTURE_IDENTIFIED = 'gestureIdentified';
 var MESSAGE_START_RECORDING_GESTURE = 'startGestureRecording';
 var MESSAGE_STOP_RECORDING_GESTURE = 'stopGestureRecording';
+var MESSAGE_REQUEST_TRIGGER = 'requestTrigger';
+var MESSAGE_RESPONSE_TRIGGER = 'responseTrigger';
 
 var MESSAGE_START_TRIGGER_SLIDESHOW = 'startTriggerSlideshow';
 var MESSAGE_START_SCENARIO = 'startScenario';

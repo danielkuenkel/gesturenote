@@ -753,23 +753,29 @@ include '../includes/language.php';
                     <div id="identificationContainer"></div>
                 </div>
             </div>
-            
+
             <div class="panel panel-default hidden" id="identified-gesture">
                 <div class="panel-heading">
                     <span class="panel-heading-text">Aufgezeichnete Geste speichern</span>
                 </div>
                 <div class="panel-body">
-                    <div id="gesture-recorder-container"></div>
+                    <div id="file-transfer-loader">
+                        <p class="text"><i class="fa fa-circle-o-notch fa-spin"></i> Geste wird übertragen …</p>
+                        <div id="file-transfer-loading-indicator" style="height: 10px; width:100%; background-color: #3379b7; border-radius: 4px"></div>
+                    </div>
+                    <div class="hidden" id="gesture-recorder-container"></div>
                 </div>
             </div>
 
-            <!--            <div class="panel panel-default" id="recordedGestures">
-                            <div class="panel-heading"><?php echo $lang->recordedGestures ?></div>
-                            <div class="panel-body" id="item-view">
-                                <div class="alert-space alert-no-recorded-gestures" style="margin-bottom: 0"></div>
-                                <div id="gestures-list-container" class="row" style="margin-bottom: 0"></div>
-                            </div>
-                        </div>-->
+            <div class="panel panel-default hidden" id="identified-trigger">
+                <div class="panel-heading">
+                    <span class="panel-heading-text">Favorisierte Funktion(en)</span>
+                </div>
+                <div class="panel-body">
+                    <div class="alert-space alert-waiting-for-tester"></div>
+                    <div class="question-container"></div>
+                </div>
+            </div>
         </div>
         <div class="col-md-6 col-lg-7" id="column-right">
             <div class="" id="general">
@@ -781,10 +787,7 @@ include '../includes/language.php';
                 <p id="description"></p>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;">Screensharing starten</button>
-                <!--<button type="button" class="btn btn-success btn-block btn-shadow disabled hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;">Screensharing beenden</button>-->
-                <!--<button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
             </div>
-
 
             <div class="" id="observations">
                 <h3><?php echo $lang->observations ?></h3>
@@ -794,7 +797,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="identificationItem-gestures" class="identificationItem">
+    <div id="identificationItem-gestures">
         <div id="search-for"><span class="address"></span> <span class="text"></span></div>
         <div id="transition-scenes" class="root"></div>
         <div style="margin-top: 10px">
@@ -802,6 +805,16 @@ include '../includes/language.php';
             <button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success"><i class="glyphicon glyphicon-record"></i> Geste neu aufzeichnen</button>
             <button class="btn btn-block btn-success btn-shadow hidden" id="btn-stop-gesture-recording" name="btn-success"><i class="glyphicon glyphicon-stop"></i> Aufzeichnung stoppen</span></button>
             <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-next-trigger" name="btn-success">Nächste Funktion &rarr;</button>
+            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+        </div>
+    </div>
+
+    <div id="identificationItem-trigger">
+        <div id="search-for"><span class="address"></span> <span class="text"></span></div>
+        <div id="transition-scenes" class="root"></div>
+        <div style="margin-top: 10px">
+            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-trigger" name="btn-success">Funktion erfragen</span></button>
+            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-next-trigger" name="btn-success">Nächste Geste &rarr;</button>
             <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
@@ -1398,14 +1411,13 @@ include '../includes/language.php';
 
 
     <!-- identification container -->
+    <div class="root" id="identification" style="width: 100%; margin-top: 54px"></div>
 
-    <div class="root" id="identification" style="width: 100%;"></div>
 
-
-    <div class="" id="identificationModerated" style="">
+    <div class="" id="identificationModerated">
 
         <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
-        <div style="position: absolute; top: 5px; left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px" class="text-shadow-black text-center" id="scene-description"><h4 style="color:white">Beschreibung</h4><p></p></div>
+        <div class="text-shadow-black text-center" id="scene-description" style="position: absolute; top: 5px; left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
 
         <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; top: 5px; left: 10px; pointer-events: none; opacity: 0.8"></div>
 

@@ -68,7 +68,7 @@ var Tester = {
                 if (!syncPhaseStep) {
                     $('#viewTester #phase-content').empty().append(item);
                 }
-                Tester.initializeRTC();
+                Tester.initializeRTC(item);
             }
 
             if (currentPhase.format === THANKS) {
@@ -854,35 +854,45 @@ var Tester = {
             $(container).find('#scene-container').css({top: '-108px'});
         }
 
-        // handle scenario start state in preview mode
+        // handle states in preview mode
         if (identificationStartTriggered === true) {
 
             clearAlerts(container);
             $(container).find('#fixed-rtc-preview').removeClass('hidden');
+            $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
             $(container).find('#scene-description').removeClass('hidden');
 
-            if (isWebRTCSupported()) {
-                Tester.initScreenSharing(container);
+            if (data.identificationFor === 'gestures') {
+                if (identificationRecordingStartTriggered === true) {
+                    animateLiveStream(true);
+                    $(container).find('#scene-description').addClass('hidden');
+                    $(container).find('#scene-container').removeClass('hidden');
+                }
+
+                if (identificationRecordingStopTriggered === true) {
+                    appendAlert($(container), ALERT_PLEASE_WAIT);
+                    $(container).find('#fixed-rtc-preview').addClass('hidden');
+                    $(container).find('#scene-description').addClass('hidden');
+                    $(container).find('#scene-container').addClass('hidden');
+                }
             } else {
 
             }
 
-            if (identificationRecordingStartTriggered === true) {
-                animateLiveStream(true);
-            }
-
-            if (identificationRecordingStopTriggered === true) {
-                appendAlert($(container), ALERT_PLEASE_WAIT);
-                $(container).find('#fixed-rtc-preview').addClass('hidden');
-                $(container).find('#scene-description').addClass('hidden');
+            if (!previewModeEnabled && isWebRTCSupported()) {
+                Tester.initScreenSharing(container);
+            } else {
+                // render scene manually
+                renderSceneItem(source, container, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId);
             }
         } else {
             appendAlert($(container), ALERT_PLEASE_WAIT);
             $(container).find('#fixed-rtc-preview').addClass('hidden');
             $(container).find('#scene-description').addClass('hidden');
+            $(container).find('#scene-container').addClass('hidden');
         }
 
-        // handle live mode
+        // generic identification live events
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_START_IDENTIFICATION).bind(MESSAGE_START_IDENTIFICATION, function (event, payload) {
                 Tester.initScreenSharing(container);
@@ -893,58 +903,93 @@ var Tester = {
             });
 
             $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
+                currentIdentificationIndex = payload.index;
+                currentIdentificationScene = payload.sceneIndex;
                 console.log('render scene', payload);
+//                if (data.identificationFor === 'gestures') {
                 $(container).find('#scene-description p').text(payload.description);
+//                }
                 $(container).find('#scene-container').removeClass('hidden');
             });
-
-            $(peerConnection).unbind(MESSAGE_START_RECORDING_GESTURE).bind(MESSAGE_START_RECORDING_GESTURE, function (event, payload) {
-                console.log('start separate gesture recording');
-                peerConnection.startRecordSeparateChunks();
-                animateLiveStream(true);
-                $(container).find('#fixed-rtc-preview').removeClass('hidden');
-                $(container).find('#scene-description').removeClass('hidden');
-            });
-
-            $(peerConnection).unbind(MESSAGE_STOP_RECORDING_GESTURE).bind(MESSAGE_STOP_RECORDING_GESTURE, function (event, payload) {
-                var recordedChunks = peerConnection.stopRecordSeparateChunks();
-//                console.log("stop recording separate chunks", recordedChunks);
-                var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
-                
-//                var blob = new Blob(recordedChunks, { type: 'video/webm' });
-                var file = new File(recordedChunks, filename, {type: "video/webm"});
-                console.log(file);
-                peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED);
-                peerConnection.transferFile(file);
-                animateLiveStream();
-                appendAlert($(container), ALERT_PLEASE_WAIT);
-                $(container).find('#fixed-rtc-preview').addClass('hidden');
-                $(container).find('#scene-description').addClass('hidden');
-                $(container).find('#scene-container').addClass('hidden');
-
-            });
-        } else {
-            $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
         }
+
+        console.log(data.identificationFor);
+        // handle live mode
+        if (data.identificationFor === 'gestures') {
+            if (!previewModeEnabled && peerConnection) {
+                $(peerConnection).unbind(MESSAGE_START_RECORDING_GESTURE).bind(MESSAGE_START_RECORDING_GESTURE, function (event, payload) {
+                    console.log('start separate gesture recording');
+                    peerConnection.startRecordSeparateChunks();
+                    animateLiveStream(true);
+                    $(container).find('#fixed-rtc-preview').removeClass('hidden');
+                    $(container).find('#scene-description').removeClass('hidden');
+                });
+
+                $(peerConnection).unbind(MESSAGE_STOP_RECORDING_GESTURE).bind(MESSAGE_STOP_RECORDING_GESTURE, function (event, payload) {
+                    var recordedChunks = peerConnection.stopRecordSeparateChunks();
+                    var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
+                    var file = new File(recordedChunks, filename, {type: "video/webm"});
+                    peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED);
+                    peerConnection.transferFile(file);
+                    animateLiveStream();
+                    appendAlert($(container), ALERT_PLEASE_WAIT);
+                    $(container).find('#fixed-rtc-preview').addClass('hidden');
+                    $(container).find('#scene-description').addClass('hidden');
+                    $(container).find('#scene-container').addClass('hidden');
+
+                });
+            } else {
+                $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+            }
+        } else {
+            if (!previewModeEnabled && peerConnection) {
+                $(peerConnection).unbind(MESSAGE_REQUEST_TRIGGER).bind(MESSAGE_REQUEST_TRIGGER, function (event, payload) {
+                    console.log('request trigger');
+                    loadHTMLintoModal('custom-modal', 'modal-preferred-trigger.php', 'modal-md');
+                });
+            } else {
+                console.log('show modal');
+                $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+//                if (identificationTriggerRequest) {
+                    loadHTMLintoModal('custom-modal', 'modal-preferred-trigger.php', 'modal-md');
+//                }
+            }
+        }
+
 
         function animateLiveStream(zoom) {
             if (zoom === true) {
-                var screenSize = {width: $(window).width(), height: $(window).height()};
-                var newTop = previewModeEnabled ? ((screenSize.height - (500 * 3 / 4)) / 2) - 88 : ((screenSize.height - (500 * 3 / 4)) / 2) - 55;
-                var newLeft = (screenSize.width - 500) / 2;
-//                console.log(newTop, newLeft);
-                TweenMax.to($(container).find('#fixed-rtc-preview'), .3, {width: 500 + 'px', top: newTop + 'px', left: newLeft + 'px', opacity: 1, onComplete: function () {
+                var dimensions = calcDimensions();
+                TweenMax.to($(container).find('#fixed-rtc-preview'), .3, {width: dimensions.width + 'px', top: dimensions.top + 'px', left: dimensions.left + 'px', opacity: 1, onComplete: function () {
                         $(window).on('resize', function () {
-                            var screenSize = {width: $(window).width(), height: $(window).height()};
-                            var newTop = previewModeEnabled ? ((screenSize.height - (500 * 3 / 4)) / 2) - 88 : ((screenSize.height - (500 * 3 / 4)) / 2) - 55;
-                            var newLeft = (screenSize.width - 500) / 2;
-                            $(container).find('#fixed-rtc-preview').css({top: newTop + 'px', left: newLeft + 'px'});
+                            var dimensions = calcDimensions();
+//                            var screenSize = {width: $(window).width(), height: $(window).height()};
+//                            var newTop = previewModeEnabled ? ((screenSize.height - (500 * 3 / 4)) / 2) - 88 : ((screenSize.height - (500 * 3 / 4)) / 2) - 55;
+//                            var newLeft = (screenSize.width - 500) / 2;
+                            $(container).find('#fixed-rtc-preview').css({width: dimensions.width + 'px', top: dimensions.top + 'px', left: dimensions.left + 'px'});
                         });
                     }});
             } else {
                 TweenMax.to($(container).find('#fixed-rtc-preview'), .2, {width: 300 + 'px', top: '5px', left: '10px', opacity: .8, onComplete: function () {
                     }});
             }
+        }
+
+        function calcDimensions() {
+            var screenSize = {width: $(window).width(), height: $(window).height()};
+            var maxHeight = screenSize.height - 200;
+            var maxWidth = maxHeight * 4 / 3;
+
+            var ratio = screenSize.width / screenSize.height;
+            if (ratio < 1) {
+                maxWidth = screenSize.width - 50;
+                maxHeight = maxWidth * 3 / 4;
+            }
+
+            var newTop = previewModeEnabled ? ((screenSize.height - maxHeight) / 2) - 88 : ((screenSize.height - maxHeight) / 2) - 55;
+            var newLeft = (screenSize.width - maxWidth) / 2;
+//            console.log(maxWidth, maxHeight, newTop, newLeft);
+            return {width: maxWidth, height: maxHeight, top: newTop, left: newLeft};
         }
     },
     initScreenSharing: function initScreenSharing(container) {
@@ -1767,11 +1812,11 @@ var Tester = {
 
         return container;
     },
-    initializeRTC: function initializeRTC() {
+    initializeRTC: function initializeRTC(container) {
         // check preview or live mode, and check if webRTC is needed
         if (isWebRTCNeededInFuture()) {
             if (previewModeEnabled === true) {
-                Tester.appendRTCPreviewStream();
+                Tester.appendRTCPreviewStream(container);
             } else {
                 Tester.appendRTCLiveStream();
             }
@@ -1779,7 +1824,7 @@ var Tester = {
 //            resetLiveStream();
         }
     },
-    appendRTCPreviewStream: function appendRTCPreviewStream() {
+    appendRTCPreviewStream: function appendRTCPreviewStream(container) {
         var currentPhase = getCurrentPhase();
         var source = getSourceContainer(currentView);
         var target = $('#viewTester').find('#column-left');
@@ -1787,10 +1832,10 @@ var Tester = {
         switch (currentPhase.format) {
             case SCENARIO:
             case IDENTIFICATION:
-                target = $('#fixed-rtc-preview');
+                target = $(container).find('#fixed-rtc-preview');
                 break;
         }
-//        console.log($(source).find('#tester-web-rtc-placeholder'));
+        console.log('appendRTCPreviewStream' + target);
         $(target).empty().append($(source).find('#tester-web-rtc-placeholder').clone().removeAttr('id'));
 
 //        var source = getSourceContainer(currentView);
@@ -2036,7 +2081,7 @@ function renderSceneItem(source, container, sceneId) {
 
 // scene positioning
         var containerOffsetTop = container.offset().top;
-        var generalPanelHeight = 55;
+        var generalPanelHeight = previewModeEnabled ? 107 : 54;
         var study = getLocalItem(STUDY);
 
 

@@ -133,7 +133,7 @@ function showRecord() {
             });
         }
     });
- 
+
     $(recorder.options.recorderTarget).find('.btn-repeat-recording').unbind('click').bind('click', function (event) {
         event.preventDefault();
         initializeRecorder();
@@ -155,7 +155,7 @@ function showPlayback() {
         var percent = $(this)[0].currentTime / $(this)[0].duration * 100;
         $(recorder.options.recorderTarget).find('.recorder #seek-bar .progress-bar').css({width: percent + '%'});
     });
-    
+
     if (recorder.options.allowRerecordGesture === false) {
         $(recorder.options.recorderTarget).find('.btn-repeat-recording').remove();
     }
@@ -579,6 +579,9 @@ function showSaveSuccess() {
     $(recorder.options.recorderTarget).find('.recorder').addClass('hidden');
     hideSave();
 
+    if (recorder.options.allowDeletingGesture === false) {
+        $(recorder.options.recorderTarget).find('#success-controls #btn-delete-saved-gesture').addClass('hidden');
+    }
     $(recorder.options.recorderTarget).find('#success-controls #btn-delete-saved-gesture').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
@@ -603,6 +606,9 @@ function showSaveSuccess() {
         }
     });
 
+    if (recorder.options.allowRerecordGesture === false) {
+        $(recorder.options.recorderTarget).find('#success-controls #btn-record-new-gesture').remove();
+    }
     $(recorder.options.recorderTarget).find('#success-controls #btn-record-new-gesture').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(recorder.options.recorderTarget).find('.recorder').removeClass('hidden');

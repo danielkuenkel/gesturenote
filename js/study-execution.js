@@ -26,6 +26,7 @@ var identificationTriggered = false;
 var identificationStartTriggered = false;
 var identificationRecordingStartTriggered = false;
 var identificationRecordingStopTriggered = false;
+var identificationTriggerRequest = false;
 var identificationDone = false;
 var recordedIdentificationMedia = [];
 var currentExplorationIndex = 0;

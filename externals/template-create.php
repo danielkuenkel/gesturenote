@@ -1754,10 +1754,10 @@ include '../includes/language.php';
                 <input class="form-control" id="context-input" placeholder="Wo soll die Geste genutzt werden?" />
             </div>
 
-<!--            <div class="form-group">
-                <label>Beschreibung</label>
-                <textarea class="form-control" id="sceneDescription" rows="5" placeholder="Beschreibung einfügen . Was ist zu sehen? Was soll der Nutzer tun?" style="resize: none"></textarea>
-            </div>-->
+            <!--            <div class="form-group">
+                            <label>Beschreibung</label>
+                            <textarea class="form-control" id="sceneDescription" rows="5" placeholder="Beschreibung einfügen . Was ist zu sehen? Was soll der Nutzer tun?" style="resize: none"></textarea>
+                        </div>-->
 
             <!--            <div class="form-group">
                             <label><?php echo $lang->stateCharts->inputState ?></label>
@@ -1785,6 +1785,30 @@ include '../includes/language.php';
 
     </div>
 
+    <!--    <div class="panel panel-default root" id="identificationItem-trigger">
+            <div class="panel-heading">
+                <div class="btn-group" style="margin-right: 10px">
+                    <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label><?php echo $lang->gesture ?></label>
+                    <div class="alert-space alert-assembled-gesture-removed"></div>
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                        <div class="input-group-btn select gestureSelect" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
     <div class="panel panel-default root" id="identificationItem-trigger">
         <div class="panel-heading">
             <div class="btn-group" style="margin-right: 10px">
@@ -1793,12 +1817,11 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" style="padding-bottom: 0px">
             <div class="form-group">
-                <label><?php echo $lang->gesture ?></label>
+                <label><?php echo $lang->gesture ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="input-group">
-                    <!--<span class="input-group-addon"></span>-->
                     <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
@@ -1806,6 +1829,17 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
+
+            <div class="form-group" id="scenes">
+                <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="">
+                    <div class="transition-scenes-option-container">
+                    </div>
+                </div>
+                <button class="btn btn-info btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span>Zustand hinzufügen</span></button>
+            </div>
+
         </div>
     </div>
 
