@@ -899,9 +899,12 @@
     },
     "stateCharts": {
         "state": "Zustand",
+        "states": "Zustände",
+        "inputState": "Ausgangszustand",
         "transition": "Zustandsübergang",
         "transitionCondition": "Bedingung für den Zustandsübergang",
         "entryAction": "Folgezustand",
+        "entryActions": "Folgezustände",
         "transitionFeedback": "Zustandübergangsrückmeldung"
     },
     "gesture": "Geste",
@@ -913,6 +916,7 @@
     "theFeedback": "das Feedback",
     "repeats": "Wiederholungen",
     "none": "Keine",
+    "noner": "Keiner",
     "nones": "Keines",
     "incompleteData": "Daten unvollständig",
     "trigger": "Funktion",
@@ -944,6 +948,8 @@
     "notAnswered": "Noch nicht beantwortet",
     "for": "für",
     "For": "Für",
+    "GestureForTrigger": "Geste für Funktion",
+    "TriggerForGesture": "Funktion für Geste",
     "of": "von",
     "text": "Text",
     "sound": "Sound",
@@ -2851,6 +2857,11 @@
             "type": "danger",
             "text": "Bitte zuerst ein Funktions-Set für diese Studie erstellen!"
         },
+        "noTriggerAssembledLink": {
+            "id": "no-trigger-assembled-link",
+            "type": "danger",
+            "text": "Bitte zuerst ein Funktions-Set für diese Studie erstellen! <a href='#' class='alert-link' id='btn-assemble-trigger'>Jetzt zusammenstellen</a>"
+        },
         "assembledTriggerRemoved": {
             "id": "assembled-trigger-removed",
             "type": "warning",
@@ -2860,6 +2871,11 @@
             "id": "no-feedback-assembled",
             "type": "danger",
             "text": "Bitte zuerst ein Feedbackset für diese Studie erstellen!"
+        },
+        "noFeedbackAssembledLink": {
+            "id": "no-feedback-assembled-link",
+            "type": "danger",
+            "text": "Bitte zuerst ein Feedbackset für diese Studie erstellen! <a href='#' class='alert-link' id='btn-assemble-feedback'>Jetzt zusammenstellen</a>"
         },
         "assembledFeedbackRemoved": {
             "id": "assembled-feedback-removed",
@@ -2875,6 +2891,11 @@
             "id": "no-scenes-assembled",
             "type": "danger",
             "text": "Bitte zuerst Zustände für diese Studie zusammenstellen!"
+        },
+        "noScenesAssembledLink": {
+            "id": "no-scenes-assembled-link",
+            "type": "danger",
+            "text": "Bitte zuerst Zustände für diese Studie zusammenstellen! <a href='#' class='alert-link' id='btn-assemble-scenes'>Jetzt zusammenstellen</a>"
         },
         "assembledSceneRemoved": {
             "id": "assembled-scene-removed",
@@ -3028,6 +3049,11 @@
             "id": "waiting-for-moderator",
             "type": "warning",
             "text": "Bitte haben Sie etwas Geduld. Auf Moderator warten …"
+        },
+        "waitingForTester": {
+            "id": "waiting-for-tester",
+            "type": "warning",
+            "text": "Auf Proband warten …"
         },
         "noParticipationRequests": {
             "id": "no-participation-requests",

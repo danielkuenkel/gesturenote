@@ -40,7 +40,7 @@ include './includes/language.php';
         <div class="input-group" id="gesture-feedback" style="margin-top: 10px">
             <span class="input-group-addon">Feedback</span>
             <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
-            <div class="input-group-btn select feedbackSelect no-none" role="group">
+            <div class="input-group-btn select feedbackSelect" role="group">
                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
             </div>

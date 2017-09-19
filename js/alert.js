@@ -32,13 +32,16 @@ var ALERT_ANOTHER_BROWSER_NEEDED_FOR_WEB_RTC = 'another-browser-needed-for-web-r
 var ALERT_NO_STORAGE_API = 'no-storage-api';
 var ALERT_NO_WEBSOCKETS = 'no-websockets';
 var ALERT_NO_SCENES_ASSEMBLED = 'no-scenes-assembled';
+var ALERT_NO_SCENES_ASSEMBLED_LINK = 'no-scenes-assembled-link';
 var ALERT_NO_GESTURES_ASSEMBLED = 'no-gestures-assembled';
 var ALERT_NO_STUDY_GESTURES_ASSEMBLED = 'no-study-gestures-assembled';
 var ALERT_NO_STUDY_GESTURES_ASSEMBLED_LINK = 'no-study-gestures-assembled-link';
 var ALERT_ASSEMBLED_GESTURE_REMOVED = 'assembled-gesture-removed';
 var ALERT_NO_TRIGGER_ASSEMBLED = 'no-trigger-assembled';
+var ALERT_NO_TRIGGER_ASSEMBLED_LINK = 'no-trigger-assembled-link';
 var ALERT_ASSEMBLED_TRIGGER_REMOVED = 'assembled-trigger-removed';
 var ALERT_NO_FEEDBACK_ASSEMBLED = 'no-feedback-assembled';
+var ALERT_NO_FEEDBACK_ASSEMBLED_LINK = 'no-feedback-assembled-link';
 var ALERT_ASSEMBLED_FEEDBACK_REMOVED = 'assembled-feedback-removed';
 var ALERT_ASSEMBLED_SCENE_REMOVED = 'assembled-scene-removed';
 var ALERT_NO_TITLE = 'no-title';
@@ -73,6 +76,7 @@ var ALERT_NO_RECORD = 'no-record';
 var ALERT_RECORD_URL_INVALID = 'record-url-invalid';
 
 var ALERT_WAITING_FOR_MODERATOR = 'waiting-for-moderator';
+var ALERT_WAITING_FOR_TESTER = 'waiting-for-tester';
 var ALERT_NO_PARTICIPATION_REQUESTS = 'no-participation-requests';
 var ALERT_SEARCH_PARTICIPATION_REQUESTS = 'search-participation-requests';
 var ALERT_STUDY_OVER_RANGE = 'study-over-range';
@@ -97,7 +101,7 @@ function appendAlert(target, alertType) {
 
     if (children.length === 0) {
         var alert = $('#alert-container').find('#' + alertType).clone();
-        console.log('append alert: ' + alertType);
+        console.log('append alert: ', alertType, 'target', target);
         $(target).find('.alert-' + alert.attr('id')).append(alert);
     }
 }

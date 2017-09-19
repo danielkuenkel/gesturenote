@@ -17,8 +17,12 @@ include 'includes/language.php';
 <script>
     $(document).ready(function () {
         if (currentPreviewData) {
-//            console.log(currentPreviewData, $('#custom-modal').find('#list-container'));
             renderQuestionnaire($('#custom-modal'), currentPreviewData, null);
+            if (currentPreviewData.length === 1) {
+                $('#custom-modal').find('.panel').removeClass('panel panel-default');
+                $('#custom-modal').find('.panel-body').css({padding: 0});
+                $('#custom-modal').find('.modal-body').css({paddingBottom: 0});
+            }
         }
     });
 </script>

@@ -435,7 +435,6 @@ function getFormatData(element, currentPhaseFormat) {
 function renderQuestionnaire(target, questionnaire, answers) {
     $(target).find('.question-container').empty();
 
-
     if (questionnaire && questionnaire.length > 0) {
 
         for (var i = 0; i < questionnaire.length; i++) {

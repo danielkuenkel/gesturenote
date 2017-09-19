@@ -303,6 +303,7 @@ $(document).on('click', '.btn-up', function (event) {
         }
     }
 });
+
 $(document).on('click', '.btn-down', function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -313,6 +314,7 @@ $(document).on('click', '.btn-down', function (event) {
         }
     }
 });
+
 function moveElement(direction, which, save) {
     var element = $(which).closest('.root');
     var brother;
@@ -328,12 +330,12 @@ function moveElement(direction, which, save) {
             var offset = element.offset().top - brother.offset().top;
             var heightBrother = brother.outerHeight(true);
             var heightElement = element.outerHeight(true);
-            var opacityElement = $(element).css('opacity');
-            var opacityBrother = $(brother).css('opacity');
+//            var opacityElement = $(element).css('opacity');
+//            var opacityBrother = $(brother).css('opacity');
             var timeline = new TimelineMax({onComplete: onMoveUpComplete, onCompleteParams: [element, brother, save]});
             timeline.add("start", 0)
-                    .to(element, .2, {y: -offset}, "start")
-                    .to(brother, .2, {y: heightBrother === heightElement ? offset : heightElement}, "start");
+                    .to(element, .2, {y: -offset, clearProps: 'all'}, "start")
+                    .to(brother, .2, {y: heightBrother === heightElement ? offset : heightElement, clearProps: 'all'}, "start");
             break;
         case "down":
             brother = $(which).closest('.root').next();
@@ -345,17 +347,17 @@ function moveElement(direction, which, save) {
             var heightElement = element.outerHeight(true);
             var timeline = new TimelineMax({onComplete: onMoveDownComplete, onCompleteParams: [element, brother, save]});
             timeline.add("start", 0)
-                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION, {y: heightBrother === heightElement ? offset : heightBrother}, "start")
-                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION, {y: -offset}, "start");
+                    .to(element, ELEMENT_MOVE_TRANSITION_DURATION, {y: heightBrother === heightElement ? offset : heightBrother, clearProps: 'all'}, "start")
+                    .to(brother, ELEMENT_MOVE_TRANSITION_DURATION, {y: -offset, clearProps: 'all'}, "start");
             break;
     }
 }
 
 function onMoveUpComplete(element, brother, save) {
-    var timeline = new TimelineMax();
-    timeline.add("start", 0)
-            .to(element, 0, {y: 0}, "start")
-            .to(brother, 0, {y: 0}, "start");
+//    var timeline = new TimelineMax();
+//    timeline.add("start", 0)
+//            .to(element, 0, {y: 0}, "start")
+//            .to(brother, 0, {y: 0}, "start");
     $(element).insertBefore(brother);
     if (save === true) {
         savePhases();
@@ -372,10 +374,10 @@ function onMoveUpComplete(element, brother, save) {
 }
 
 function onMoveDownComplete(element, brother, save) {
-    var timeline = new TimelineMax();
-    timeline.add("start", 0)
-            .to(element, 0, {y: 0}, "start")
-            .to(brother, 0, {y: 0}, "start");
+//    var timeline = new TimelineMax();
+//    timeline.add("start", 0)
+//            .to(element, 0, {y: 0}, "start")
+//            .to(brother, 0, {y: 0}, "start");
     $(element).insertAfter(brother);
     if (save === true) {
         savePhases();
@@ -559,7 +561,9 @@ $(document).on('click', '.simple-stepper .btn-stepper-decrease', function (event
         event.handled = true;
         var min = parseInt($(this).val());
         var currentValue = parseInt($(this).closest('.simple-stepper').find('.stepper-text').val());
-        if (currentValue > min) {
+        if (currentValue === "" || isNaN(currentValue)) {
+            currentValue = min;
+        } else if (currentValue > min) {
             currentValue--;
         } else {
             currentValue = min;
@@ -568,14 +572,19 @@ $(document).on('click', '.simple-stepper .btn-stepper-decrease', function (event
         $(this).closest('.simple-stepper').find('.stepper-text').trigger('change');
     }
 });
+
 $(document).on('click', '.simple-stepper .btn-stepper-increase', function (event) {
     event.preventDefault();
     if (event.handled !== true)
     {
         event.handled = true;
         var max = parseInt($(this).val());
+        var min = parseInt($(this).closest('.simple-stepper').find('.btn-stepper-decrease').val());
         var currentValue = parseInt($(this).closest('.simple-stepper').find('.stepper-text').val());
-        if (currentValue < max) {
+
+        if (currentValue === "" || isNaN(currentValue)) {
+            currentValue = min;
+        } else if (currentValue < max) {
             currentValue++;
         } else {
             currentValue = max;
@@ -644,9 +653,10 @@ function renderAssembledGestures(targetContainer, optionalSelections) {
         target = targetContainer;
     }
 
+    var dropdown = target === null ? $('#form-item-container').find('.gestureSelect') : $(target).find('.gestureSelect');
+    $(dropdown).find('.option').empty();
+
     if (gestures !== null) {
-        var dropdown = target === null ? $('#form-item-container').find('.gestureSelect') : $(target).find('.gestureSelect');
-        $(dropdown).find('.option').empty();
         $(target).find('.gestureSelect .dropdown-toggle').removeClass('disabled');
         $(target).find('.option-gesture').attr('placeholder', 'Bitte wählen');
 
@@ -680,8 +690,28 @@ function renderAssembledGestures(targetContainer, optionalSelections) {
             }
         }
     } else {
-        $(target).find('.gestureSelect .dropdown-toggle').addClass('disabled');
-        $(target).find('.option-gesture').attr('placeholder', 'Kein Gestenset vorhanden');
+        if (optionalSelections && optionalSelections.length > 0) {
+            $(target).find('.gestureSelect .dropdown-toggle').removeClass('disabled');
+            $(target).find('.option-gesture').attr('placeholder', 'Bitte wählen');
+
+            listItem = document.createElement('li');
+            listItem.setAttribute('class', 'divider');
+            $(dropdown).find('.option').append(listItem);
+
+            for (var i = 0; i < optionalSelections.length; i++) {
+                listItem = document.createElement('li');
+                listItem.setAttribute('id', optionalSelections[i].id);
+
+                link = document.createElement('a');
+                link.setAttribute('href', '#');
+                link.appendChild(document.createTextNode(optionalSelections[i].title));
+                listItem.appendChild(link);
+                $(dropdown).find('.option').append(listItem);
+            }
+        } else {
+            $(target).find('.gestureSelect .dropdown-toggle').addClass('disabled');
+            $(target).find('.option-gesture').attr('placeholder', 'Kein Gestenset vorhanden');
+        }
     }
 }
 
@@ -698,9 +728,10 @@ function renderAssembledTriggers(targetContainer, addNoneItem) {
     }
 
     var listItem, link;
+    var dropdown = target === null ? $('#form-item-container').find('.triggerSelect') : $(target).find('.triggerSelect');
+    $(dropdown).find('.option').empty();
+
     if (triggers && triggers.length > 0) {
-        var dropdown = target === null ? $('#form-item-container').find('.triggerSelect') : $(target).find('.triggerSelect');
-        $(dropdown).find('.option').empty();
         $(dropdown).find('.dropdown-toggle').removeClass('disabled');
         $(target).find('.triggerSelect .dropdown-toggle').removeClass('disabled');
         $(target).find('.option-trigger').attr('placeholder', 'Bitte wählen');
@@ -725,8 +756,21 @@ function renderAssembledTriggers(targetContainer, addNoneItem) {
             $(dropdown).find('.option').append(listItem);
         }
     } else {
-        $(target).find('.triggerSelect .dropdown-toggle').addClass('disabled');
-        $(target).find('.option-trigger').attr('placeholder', 'Keine Funktionen vorhanden');
+        if (addNoneItem === true) {
+            $(target).find('.triggerSelect .dropdown-toggle').removeClass('disabled');
+            $(target).find('.option-trigger').attr('placeholder', 'Bitte wählen');
+
+            link = document.createElement('a');
+            listItem = document.createElement('li');
+            listItem.setAttribute('id', 'none');
+            link.setAttribute('href', '#');
+            link.appendChild(document.createTextNode(translation.none));
+            listItem.appendChild(link);
+            $(dropdown).find('.option').append(listItem);
+        } else {
+            $(target).find('.triggerSelect .dropdown-toggle').addClass('disabled');
+            $(target).find('.option-trigger').attr('placeholder', 'Keine Funktionen vorhanden');
+        }
     }
 
 
@@ -737,7 +781,7 @@ function renderAssembledTriggers(targetContainer, addNoneItem) {
  * Actions for the prototype select dropdown
  */
 
-function renderAssembledScenes(targetContainer, addNoneItem) {
+function renderAssembledScenes(targetContainer, optionalSelections) {
     var scenes = getLocalItem(ASSEMBLED_SCENES);
     var target = $('#form-item-container');
     if (targetContainer !== undefined && targetContainer !== null) {
@@ -745,6 +789,7 @@ function renderAssembledScenes(targetContainer, addNoneItem) {
     }
 
     var listItem, link;
+    console.log('renderAssembledScenes', scenes);
     if (scenes && scenes.length > 0) {
         var dropdown = target === null ? $('#form-item-container').find('.sceneSelect') : $(target).find('.sceneSelect');
         $(dropdown).find('.option').empty();
@@ -763,19 +808,45 @@ function renderAssembledScenes(targetContainer, addNoneItem) {
             $(dropdown).find('.option').append(listItem);
         }
 
-        if (addNoneItem) {
-            link = document.createElement('a');
+        if (optionalSelections && optionalSelections.length > 0) {
             listItem = document.createElement('li');
-            listItem.setAttribute('id', 'none');
-            link.setAttribute('href', '#');
-            link.appendChild(document.createTextNode(translation.none));
-            listItem.appendChild(link);
+            listItem.setAttribute('class', 'divider');
             $(dropdown).find('.option').append(listItem);
+
+            for (var i = 0; i < optionalSelections.length; i++) {
+                listItem = document.createElement('li');
+                listItem.setAttribute('id', optionalSelections[i].id);
+
+                link = document.createElement('a');
+                link.setAttribute('href', '#');
+                link.appendChild(document.createTextNode(optionalSelections[i].title));
+                listItem.appendChild(link);
+                $(dropdown).find('.option').append(listItem);
+            }
         }
     } else {
-//        console.log('disabled scene dropdown');
-        $(target).find('.sceneSelect .dropdown-toggle').addClass('disabled');
-        $(target).find('.option-scene').attr('placeholder', 'Keine Zustände vorhanden');
+        if (optionalSelections && optionalSelections.length > 0) {
+            $(target).find('.sceneSelect .dropdown-toggle').removeClass('disabled');
+            $(target).find('.option-scene').attr('placeholder', 'Bitte wählen');
+
+            listItem = document.createElement('li');
+            listItem.setAttribute('class', 'divider');
+            $(dropdown).find('.option').append(listItem);
+
+            for (var i = 0; i < optionalSelections.length; i++) {
+                listItem = document.createElement('li');
+                listItem.setAttribute('id', optionalSelections[i].id);
+
+                link = document.createElement('a');
+                link.setAttribute('href', '#');
+                link.appendChild(document.createTextNode(optionalSelections[i].title));
+                listItem.appendChild(link);
+                $(dropdown).find('.option').append(listItem);
+            }
+        } else {
+            $(target).find('.sceneSelect .dropdown-toggle').addClass('disabled');
+            $(target).find('.option-scene').attr('placeholder', 'Keine Zustände vorhanden');
+        }
     }
 }
 
@@ -783,7 +854,7 @@ function renderAssembledScenes(targetContainer, addNoneItem) {
  * Actions for the feedback selection dropdown
  */
 
-function renderAssembledFeedback(targetContainer) {
+function renderAssembledFeedback(targetContainer, optionalSelections) {
     var feedback = getLocalItem(ASSEMBLED_FEEDBACK);
     var target = targetContainer === undefined || null ? $('#form-item-container') : targetContainer;
     if (feedback !== null) {
@@ -795,15 +866,6 @@ function renderAssembledFeedback(targetContainer) {
         var listItem;
         for (var i = 0; i < feedback.length; i++) {
             var link = document.createElement('a');
-            if (i === 0 && !$(dropdown).hasClass('no-none')) {
-                listItem = document.createElement('li');
-                listItem.setAttribute('id', 'none');
-                link.setAttribute('href', '#');
-                link.appendChild(document.createTextNode(translation.nones));
-                listItem.appendChild(link);
-                $(dropdown).find('.option').append(listItem);
-            }
-
             var type = feedback[i].type;
             if (currentType !== type) {
                 currentType = type;
@@ -829,9 +891,47 @@ function renderAssembledFeedback(targetContainer) {
             $(target).find('.feedbackSelect .dropdown-toggle').removeClass('disabled');
             $(target).find('.option-feedback').attr('placeholder', 'Bitte wählen');
         }
+        
+        console.log('renderAssembledFeedback', optionalSelections);
+        if (optionalSelections && optionalSelections.length > 0) {
+            listItem = document.createElement('li');
+            listItem.setAttribute('class', 'divider');
+            $(dropdown).find('.option').append(listItem);
+
+            for (var i = 0; i < optionalSelections.length; i++) {
+                listItem = document.createElement('li');
+                listItem.setAttribute('id', optionalSelections[i].id);
+
+                link = document.createElement('a');
+                link.setAttribute('href', '#');
+                link.appendChild(document.createTextNode(optionalSelections[i].title));
+                listItem.appendChild(link);
+                $(dropdown).find('.option').append(listItem);
+            }
+        }
     } else {
-        $(target).find('.feedbackSelect .dropdown-toggle').addClass('disabled');
-        $(target).find('.option-feedback').attr('placeholder', 'Keine Feedbacks vorhanden');
+        if (optionalSelections && optionalSelections.length > 0) {
+            $(target).find('.sceneSelect .dropdown-toggle').removeClass('disabled');
+            $(target).find('.option-scene').attr('placeholder', 'Bitte wählen');
+
+            listItem = document.createElement('li');
+            listItem.setAttribute('class', 'divider');
+            $(dropdown).find('.option').append(listItem);
+
+            for (var i = 0; i < optionalSelections.length; i++) {
+                listItem = document.createElement('li');
+                listItem.setAttribute('id', optionalSelections[i].id);
+
+                link = document.createElement('a');
+                link.setAttribute('href', '#');
+                link.appendChild(document.createTextNode(optionalSelections[i].title));
+                listItem.appendChild(link);
+                $(dropdown).find('.option').append(listItem);
+            }
+        } else {
+            $(target).find('.sceneSelect .dropdown-toggle').addClass('disabled');
+            $(target).find('.option-scene').attr('placeholder', 'Kein Feedback vorhanden');
+        }
     }
 }
 
@@ -1432,21 +1532,34 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
     }
 });
 
-//$(document).on('mouseenter', '.btn-tag-as-favorite-gesture', function (event) {
-//    event.preventDefault();
-//    console.log('mouse enter');
-//    $(this).tooltip('show');
-//});
+$(document).on('click', '.btn-add-gesture-to-scene', function (event) {
+    event.preventDefault();
 
-//$(document).on('click', '.btn-untag-as-favorite-gesture', function (event) {
-//    event.preventDefault();
-//
-//    if (!event.handled) {
-//        event.handled = true;
-//        var gestureId = $(this).closest('.root').attr('id');
-//        $(this).trigger('change', [gestureId]);
-//    }
-//});
+    if (!event.handled) {
+        event.handled = true;
+
+        var assemble = false;
+        var gestureId = $(this).closest('.root').attr('id');
+        var thumbnail = $(this).closest('.panel');
+        $(this).popover('hide');
+        if (!$(this).hasClass('selected')) {
+            $(this).attr('data-content', 'Von Zustand entfernen').data('bs.popover').setContent();
+            $(this).removeClass('btn-info').addClass('selected btn-danger');
+            $(this).find('.fa').removeClass('fa-plus').addClass('fa-minus');
+            $(thumbnail).removeClass('panel-default').addClass('panel-info');
+            $(this).find('root').addClass('selected');
+            assemble = true;
+        } else {
+            $(this).attr('data-content', 'Zum Zustand hinzufügen').data('bs.popover').setContent();
+            $(this).removeClass('selected btn-danger').addClass('btn-info');
+            $(this).find('.fa').removeClass('fa-minus').addClass('fa-plus');
+            $(thumbnail).removeClass('panel-info').addClass('panel-default');
+            $(this).find('root').removeClass('selected');
+        }
+
+        $(this).trigger('change', [gestureId, assemble]);
+    }
+});
 
 
 /*
@@ -2068,7 +2181,7 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
     var isGestureAss = isGestureAssembled(data.id);
     if (isGestureAss) {
         if (!panelStyle) {
-            clone.find('.panel').addClass('panel-primary');
+            clone.find('.panel').addClass('panel-info');
         }
         clone.find('#btn-tag-as-favorite-gesture').attr('data-content', 'Vom Studien-Gesten-Set entfernen');
         clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
@@ -2124,6 +2237,83 @@ function getGestureElicitationListThumbnail(clone, data, layout, source) {
 
     return clone;
 }
+
+function getGestureSceneListThumbnail(gesture, typeId, layout, source, panelStyle) {
+    if (!source || source === null || source === undefined) {
+        source = GESTURE_CATALOG;
+    }
+
+    var clone = $('#' + typeId).clone().removeClass('hidden').removeAttr('id');
+    clone.attr('id', gesture.id);
+    clone.find('.title-text').text(gesture.title + " ");
+    clone.find('#title .text').text(gesture.title);
+
+    if (panelStyle) {
+        clone.find('.panel').removeClass('panel-default').addClass(panelStyle);
+    }
+
+    if (layout) {
+        clone.addClass(layout);
+    } else {
+        clone.addClass('col-xs-6 col-sm-4 col-lg-3');
+    }
+
+    if (!clone.hasClass('deleteable')) {
+        gesturePreviewDeleteable = false;
+    }
+
+    renderGestureImages(clone.find('.previewGesture'), gesture.images, gesture.previewImage, null);
+
+    $(clone).find('.panel').mouseenter(function (event) {
+        event.preventDefault();
+        if (gesturePreviewOpened === false) {
+            playThroughThumbnails($(this).find('.previewGesture'), 0);
+        }
+    });
+
+    $(clone).find('.panel').mouseleave(function (event) {
+        event.preventDefault();
+        if (gesturePreviewOpened === false) {
+            resetThumbnails($(this).find('.previewGesture'));
+        }
+    });
+
+    $(clone).find('#btn-show-gesture-info').click({gesture: gesture, clone: clone}, function (event) {
+        event.preventDefault();
+        resetThumbnails($(event.data.clone).find('.previewGesture'));
+        currentPreviewGesture = {gesture: event.data.gesture, source: source};
+        gesturePreviewOpened = true;
+        $(clone).find('#btn-stop-gesture').click();
+        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
+        console.log(event.data.gesture);
+
+
+//        var modalTarget = 'custom-modal';
+//        if (modalId) {
+//            modalTarget = modalId;
+//        }
+//        loadHTMLintoModal(modalTarget, 'modal-gesture.php', 'modal-lg');
+//        $('#' + modalTarget).on('gesture-deleted', function () {
+//            checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+//            renderData(currentFilterData);
+//        });
+
+//        $(this).trigger('openGestureInfo');
+    });
+//
+//    var isGestureAss = isGestureAssembled(data.id);
+//    if (isGestureAss) {
+//        if (!panelStyle) {
+//            clone.find('.panel').addClass('panel-primary');
+//        }
+//        clone.find('#btn-tag-as-favorite-gesture').attr('data-content', 'Vom Studien-Gesten-Set entfernen');
+//        clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
+//        clone.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
+//    }
+
+    return clone;
+}
+
 
 //function getGestureElicitationListThumbnail(clone, data, layout, source) {
 //    clone.attr('id', data.id);

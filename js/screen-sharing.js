@@ -16,7 +16,12 @@ var recordedChunks = [];
 var screen = null;
 function ScreenSharing(roomId, recording) {
     sharing = this;
-    screen = new Screen(roomId); // argument is optional
+    if (!screen) {
+        screen = new Screen(roomId); // argument is optional
+    } else {
+        screen.check();
+        return false;
+    }
 
     screen.onaddstream = function (event) {
         console.log('on add stream', event);
@@ -64,6 +69,7 @@ var stopSharingCallback = null;
 
 ScreenSharing.prototype.stop = function () {
     screen.leave();
+//    screen = null;
 
     if (screenSharingRecorder && screenSharingRecorder.state !== 'inactive') {
         screenSharingRecorder.stop();

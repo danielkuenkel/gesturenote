@@ -45,8 +45,12 @@ function initializeRecorder() {
     clearAlerts(recorder.options.alertTarget);
     resetRecorder();
 
-    var mediaConstraints = {video: true, audio: false};
-    navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
+    if (recorder.options.initMediaStream === false) {
+        successCallback(null);
+    } else {
+        var mediaConstraints = {video: true, audio: false};
+        navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
+    }
 }
 
 function errorCallback(error) {
@@ -56,9 +60,17 @@ function errorCallback(error) {
 
 var recordRTC, liveStream;
 function successCallback(stream) {
-    liveStream = stream;
-    $(recorder.options.recorderTarget).find('#recorder-video').attr('src', URL.createObjectURL(stream));
-    showRecord();
+    switch (recorder.options.startState) {
+        case EVENT_GR_STATE_PLAYBACK:
+            $('.recorder #recorder-video').attr('src', recorder.options.videoUrl);
+            showPlayback();
+            break;
+        default:
+            liveStream = stream;
+            $(recorder.options.recorderTarget).find('#recorder-video').attr('src', URL.createObjectURL(stream));
+            showRecord();
+            break;
+    }
 }
 
 var timerTween = null;
@@ -121,7 +133,7 @@ function showRecord() {
             });
         }
     });
-
+ 
     $(recorder.options.recorderTarget).find('.btn-repeat-recording').unbind('click').bind('click', function (event) {
         event.preventDefault();
         initializeRecorder();
@@ -143,7 +155,10 @@ function showPlayback() {
         var percent = $(this)[0].currentTime / $(this)[0].duration * 100;
         $(recorder.options.recorderTarget).find('.recorder #seek-bar .progress-bar').css({width: percent + '%'});
     });
-
+    
+    if (recorder.options.allowRerecordGesture === false) {
+        $(recorder.options.recorderTarget).find('.btn-repeat-recording').remove();
+    }
     $(recorder.options.recorderTarget).find('.recorder #btn-play').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(recorder.options.recorderTarget).find('.recorder #recorder-video')[0].play();

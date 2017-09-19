@@ -368,7 +368,7 @@ include '../includes/language.php';
         <div class="col-sm-5 col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-sm-7 col-md-8" id="column-right" style="margin-bottom: 80px;">
             <h3 class="headline" style="margin: 0">Danke für die Teilnahme</h3>
-            <div class="row">
+            <div class="row " style="margin-top: 20px">
                 <!--                <div class="col-sm-6" style="margin-bottom: 20px;">
                                     <i class="fa fa-heart" style="font-size: 70pt; color: #ca3667"></i>
                                     <div class="text" id="thanks-text"></div>
@@ -542,67 +542,6 @@ include '../includes/language.php';
     </div>
 
 
-    <!-- identification container -->
-    <div class="row root" id="identification">
-        <div class="col-md-6" id="column-left"></div>
-        <div class="col-md-6" id="column-right">
-            <div class="panel panel-default" id="general">
-                <h3 class="headline" style="margin: 0"></h3>
-                <p id="description"></p>
-                <span class="label label-default hidden" id="search-gestures">Es werden Gesten ermittelt</span> 
-                <span class="label label-default hidden" id="search-trigger">Es werden Funktionen ermittelt</span>
-                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-identification" style="margin-top: 6px;">Jetzt starten</button>
-            </div>
-
-            <div class="panel panel-default" id="slides">
-                <div class="panel-heading">
-                    <span class="panel-heading-text"></span>
-                </div>
-                <div class="panel-body">
-                    <div id="identificationContainer"></div>
-                    <button class="btn btn-block btn-success btn-shadow disabled" id="btn-done" name="btn-success" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
-                </div>
-            </div>
-
-            <div class="panel panel-default" id="recordedGestures">
-                <div class="panel-heading"><?php echo $lang->recordedGestures ?></div>
-                <div class="panel-body" id="item-view">
-                    <div class="alert-space alert-no-recorded-gestures" style="margin-bottom: 0"></div>
-                    <div id="gestures-list-container" class="row" style="margin-bottom: 0"></div>
-                </div>
-            </div>
-
-            <div class="" id="observations">
-                <h3><?php echo $lang->observations ?></h3>
-                <div class="alert-space alert-no-phase-data"></div>
-                <div class="question-container"></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="identificationItem" class="identificationItem">
-        <!--<div>-->
-        <div class="text" id="index" style="float: left">
-
-        </div>
-        <div class="triggerContainer" style="float: left; margin-left: 10px">
-            <div id="search"><span class="address">Ermittelt wird:</span> <span class="text"></span> <i class="fa fa-check text-green hidden"></i></div>
-            <div id="search-for"><span class="address">Für:</span> <span class="text"></span></div>
-            <!--<div id="gesture-repeats" class="hidden"><span class="address">Geste wiederholen:</span> <span class="text"></span></div>-->
-        </div>
-        <div style="clear: both"></div>
-        <!--</div>-->
-        <!--        <div class="col-xs-6 right">
-                    <div class="btn-group-vertical btn-block">
-                        <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
-                        <button type="button" class="btn btn-info btn-shadow" id="trigger-identification"><span class="btn-text">Auffordern</span></button>
-                        <button type="button" class="btn btn-success btn-shadow disabled" id="next-identification"><span class="btn-text"><span class="btn-text">Weiter</span> <span aria-hidden="true">&rarr;</span></button>
-                        <button type="button" class="btn btn-success btn-shadow disabled" id="done-identification"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
-                    </div>
-                </div>-->
-    </div>
-
-
     <!-- physical stress test container -->
 
     <div class="row root" id="physicalStressTest">
@@ -679,7 +618,207 @@ include '../includes/language.php';
     <div  class="row root" id="scenario">
         <div class="col-sm-6 col-md-7 col-lg-6 rtc-scalable" id="column-left">
             <div class="panel panel-default" id="woz-controls">
-                <div class="panel-heading">Wizard-of-Oz-Experiment</div>
+                <div class="panel-heading">Wizard-of-Oz-Experiment <button class="btn btn-xs btn-default disabled pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button></div>
+                <!--                <div class="panel-body" style="padding-bottom: 0">
+                                    <div style="margin-bottom: 20px;">
+                                        <div style="float: left;  margin-right: 10px; ">
+                                            Aktuelle Szene: <span class="label label-default">
+                                                <i class="fa fa-link hidden" id="icon-pidoco"></i>
+                                                <i class="fa fa-link hidden" id="icon-web"></i>
+                                                <i class="fa fa-image hidden" id="icon-image"></i>
+                                                <i class="fa fa-film hidden" id="icon-videoEmbed"></i> <span class="label-text"></span></span> <span id="current-scene" class="text">
+                                            </span>
+                                        </div>
+                                        <div class="btn-group" style="float: left;margin-top: 4px">
+                                            <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text">Zustands-Vorschau</span></button>
+                                            <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-reload-scene"><i class="glyphicon glyphicon-refresh"></i> <span class="btn-text">Zustand neu laden</span></button>
+                                        </div>
+                                        <div style="clear: both;"></div>
+                                    </div>
+                                </div>-->
+                <!--<hr style="margin: 0">-->
+                <div class="panel-body" style="padding-bottom: 0">
+                    <div id="wozExperiment" style="margin-bottom: 20px;">
+                        <!--<h4 style="margin-top: 0px; margin-bottom: 10px">Simulationselemente</h4>-->
+                        <div style="margin-bottom: 10px" class="text">Welche Geste hat der Proband vorgeführt?</div>
+                        <div class="alert-space alert-no-phase-data"></div>
+                        <div class="row woz-container"></div>
+                        <button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found" style="margin-top: 20px">Es wurde eine ganz andere Geste vorgeführt</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="help-controls">
+                <div class="panel-heading">Hilfe</div>
+                <div class="panel-body" style="padding-bottom: 0">
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="help-container"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-5 col-lg-6" id="column-right">
+            <div class="" id="general">
+                <h3 class="headline" style="margin-top: 0px">Allgemeines</h3>
+                <div class="">
+                    <div id="task"><span class="address"></span>: <span class="text"></span></div>
+                    <div id="description"><span class="address"></span>: <span class="text"></span></div>
+                    <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
+                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;">Screensharing starten</button>
+                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;">Screensharing beenden</button>
+                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+                </div>
+            </div>
+            <div class="" id="observations">
+                <h3><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-6 col-sm-4 col-md-4 root" id="wozItem">
+        <div class="panel panel-default btn-shadow">
+            <div class="panel-body">
+                <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3"></div>
+                <div class="text-center  hidden gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-success btn-block disabled" id="btn-trigger-woz" style="margin-top: 10px;">Diese</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 root" id="wozItemWithScenes">
+        <div class="row">
+            <div class="col-xs-5 col-sm-6 col-md-4">
+                <div class="panel panel-default btn-shadow">
+                    <div class="panel-body">
+                        <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3"></div>
+                        <div class="text-center  hidden gestureControls">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-success btn-block disabled" id="btn-trigger-woz" style="margin-top: 10px;">Diese</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-7 col-sm-6 col-md-8" id="transition-scenes">
+                <h4 style="margin:0">Aktueller Zustand</h4>
+                <div id="start-scene-container"></div>
+                <h4 style="margin-bottom: 0" id="transition-feedback-header" class="hidden">Feedback</h4>
+                <div class="hidden" id="transition-feedback-container"></div>
+                <h4 style="margin-bottom: 0" id="transition-scene-header" class="hidden">Zwischenzustände</h4>
+                <div class="hidden" id="transition-scene-container"></div>
+                <h4 style="margin-bottom: 0" id="follow-scene-header" class="hidden">Folgezustand</h4>
+                <div id="follow-scene-container" class="hidden"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="btn-group" id="wozItemWithScenesButton" style="margin-top: 8px">
+        <!--<button type="button" class="btn btn-default btn-shadow"><i class="fa fa-eye"></i></button>-->
+        <button type="button" class="btn btn-default btn-shadow disabled btn-trigger-scene"><span class="btn-text ellipsis"></span> <span class="badge transition-time"></span><div id="transition-indicator" class="hidden" style="position: absolute; bottom: 0; height: 3px; left: 0; right: 0; background-color: white"></div></button>
+    </div>
+
+    <div class="btn-group" id="wozItemWithScenesFeedbackButton" style="margin-top: 8px">
+        <button type="button" class="btn btn-default disabled btn-feedback-scene" style="pointer-events: none"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <span class="btn-text ellipsis"></span></button>
+    </div>
+
+    <div id="helpItem" style="margin-bottom: 16px;">
+        <div class="help-title"></div>
+        <div class="btn-group" style="margin-top: 10px;">
+            <button type="button" class="btn btn-info btn-shadow disabled" id="offer-help"><i class="fa fa-life-ring"></i> Hilfe anbieten</button>
+            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+        </div>
+    </div>
+
+
+    <!-- identification container -->
+
+    <div class="row root" id="identification">
+        <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left">
+            <div class="panel panel-default" id="slides">
+                <div class="panel-heading">
+                    <span class="panel-heading-text"></span>
+                </div>
+                <div class="panel-body">
+                    <div id="identificationContainer"></div>
+                </div>
+            </div>
+            
+            <div class="panel panel-default hidden" id="identified-gesture">
+                <div class="panel-heading">
+                    <span class="panel-heading-text">Aufgezeichnete Geste speichern</span>
+                </div>
+                <div class="panel-body">
+                    <div id="gesture-recorder-container"></div>
+                </div>
+            </div>
+
+            <!--            <div class="panel panel-default" id="recordedGestures">
+                            <div class="panel-heading"><?php echo $lang->recordedGestures ?></div>
+                            <div class="panel-body" id="item-view">
+                                <div class="alert-space alert-no-recorded-gestures" style="margin-bottom: 0"></div>
+                                <div id="gestures-list-container" class="row" style="margin-bottom: 0"></div>
+                            </div>
+                        </div>-->
+        </div>
+        <div class="col-md-6 col-lg-7" id="column-right">
+            <div class="" id="general">
+                <h3 class="headline" style="margin: 0"></h3>
+                <div>
+                    <span class="label label-default hidden" id="search-gestures">Es werden Gesten ermittelt</span> 
+                    <span class="label label-default hidden" id="search-trigger">Es werden Funktionen ermittelt</span>
+                </div>
+                <p id="description"></p>
+                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;">Screensharing starten</button>
+                <!--<button type="button" class="btn btn-success btn-block btn-shadow disabled hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;">Screensharing beenden</button>-->
+                <!--<button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>-->
+            </div>
+
+
+            <div class="" id="observations">
+                <h3><?php echo $lang->observations ?></h3>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="question-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="identificationItem-gestures" class="identificationItem">
+        <div id="search-for"><span class="address"></span> <span class="text"></span></div>
+        <div id="transition-scenes" class="root"></div>
+        <div style="margin-top: 10px">
+            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-start-gesture-recording" name="btn-success"><i class="glyphicon glyphicon-record"></i> Geste aufzeichnen</button>
+            <button class="btn btn-block btn-default btn-shadow hidden" id="btn-start-gesture-rerecording" name="btn-success"><i class="glyphicon glyphicon-record"></i> Geste neu aufzeichnen</button>
+            <button class="btn btn-block btn-success btn-shadow hidden" id="btn-stop-gesture-recording" name="btn-success"><i class="glyphicon glyphicon-stop"></i> Aufzeichnung stoppen</span></button>
+            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-next-trigger" name="btn-success">Nächste Funktion &rarr;</button>
+            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+        </div>
+    </div>
+
+    <div id="transition-scene-item" style="display: inline">
+        <div class="selected-icon hidden" style="display: inline-block"></div>
+        <div class="scene-data" style="display: inline-block"></div>
+    </div>
+
+
+    <!-- exploration container -->
+
+    <div class="row root" id="exploration">
+        <div class="col-md-6 rtc-scalable" id="column-left">
+
+            <div class="panel panel-default" id="exploration-controls">
+                <div class="panel-heading">Exploration</div>
                 <div class="panel-body" style="padding-bottom: 0">
                     <div style="margin-bottom: 20px;">
                         <div style="float: left;  margin-right: 10px; ">
@@ -699,77 +838,16 @@ include '../includes/language.php';
                 </div>
                 <hr style="margin: 0">
                 <div class="panel-body" style="padding-bottom: 0">
-                    <div id="wozExperiment" style="margin-bottom: 20px;">
+                    <div style="margin-bottom: 20px;">
                         <h4 style="margin-top: 0px; margin-bottom: 10px">Simulationselemente</h4>
-                        <div class="text">Welche Geste hat der Proband vorgeführt?</div>
+                        <div class="text">Welche Geste stehen zur Auswahl?</div>
                         <div class="alert-space alert-no-phase-data"></div>
-                        <div class="row woz-container" style="margin-top: 10px"></div>
-                        <button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found">Es wurde eine ganz andere Geste vorgeführt</button>
+                        <div class="row" id="exploration-items-container" style="margin-top: 10px"></div>
+                        <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-show-gestures">Gestenauswahl starten</button>
+                        <button type="button" class="btn btn-default btn-block btn-shadow hidden disabled" id="btn-next-scene">Nächste Scene</button>
+                        <button type="button" class="btn btn-success btn-block btn-shadow hidden disabled" id="btn-next-step" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                     </div>
                 </div>
-                <!--                <hr style="margin: 0">
-                                <div class="panel-body" style="padding-bottom: 0">
-                                    <div id="help">
-                                        <h4 style="margin-top: 0px; margin-bottom: 10px">Hilfe</h4>
-                
-                                    </div>
-                                </div>-->
-            </div>
-            <div class="panel panel-default" id="help-controls">
-                <div class="panel-heading">Hilfe</div>
-                <div class="panel-body" style="padding-bottom: 0">
-                    <div class="alert-space alert-no-phase-data"></div>
-                    <div class="help-container"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-5 col-lg-6" id="column-right">
-            <div class="" id="general">
-                <h3 class="headline" style="margin-top: 0px">Allgemeines</h3>
-                <div class="">
-                    <div id="task"><span class="address"></span>: <span class="text"></span></div>
-                    <div id="description"><span class="address"></span>: <span class="text"></span></div>
-                    <!--<button type="button" class="btn btn-default btn-shadow btn-block hidden" id="btn-preview-scene" style="margin-top: 6px;"><i class="glyphicon glyphicon-eye-open"></i> Hinterlegte Start-Szene anzeigen</button>-->
-                    <!--<button type="button" class="btn btn-lg btn-success btn-block btn-shadow" id="btn-start-scenario" style="margin-top: 6px;">Jetzt starten</button>-->
-                    <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
-                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;">Screensharing starten</button>
-                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;">Screensharing beenden</button>
-                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
-                </div>
-            </div>
-            <div class="" id="observations">
-                <h3><?php echo $lang->observations ?></h3>
-                <div class="alert-space alert-no-phase-data"></div>
-                <div class="question-container"></div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- exploration container -->
-
-    <div class="row root" id="exploration">
-        <div class="col-md-6 rtc-scalable" id="column-left">
-            <div id="exploration-items-container">
-                <!--                <div class="panel-heading"></div>
-                                <div class="panel-body">-->
-                <!--                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div id="repeats-left"><span class="address">Wiederholungen übrig:</span> <span class="text"></span></div>
-                                            <div id="stress-for"><span class="address">Gezeigt wird Geste:</span> <span class="text"></span></div>
-                                            <button type="button" class="btn btn-default btn-block btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
-                                        </div>
-                
-                                        <div class="col-md-6">
-                                            <div class="btn-group-vertical btn-block">
-                                                <button type="button" class="btn btn-info btn-shadow disabled" id="btn-show-gesture">Auffordern</button>
-                                                <button type="button" class="btn btn-info btn-shadow disabled" id="btn-show-question">Fragen zeigen</button>
-                                                <button type="button" class="btn btn-success btn-shadow disabled" id="btn-next-gesture"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
-                                            </div>
-                                        </div>
-                                    </div>   -->
-                <!--</div>-->
             </div>
         </div>
         <div class="col-md-6" id="column-right">
@@ -777,28 +855,7 @@ include '../includes/language.php';
                 <h3 class="headline" style="margin-top: 0px">Allgemeines</h3>
                 <p id="description"></p>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-exploration" style="margin-top: 6px;">Jetzt starten</button>
-                <button type="button" class="btn btn-success btn-block btn-shadow hidden disabled" id="btn-next-step" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
-
-            <!--            <div class="panel panel-default" id="singleStressQuestions">
-                            <div class="panel-heading">Fragen nach jeder Geste</div>
-                            <div class="panel-body">
-                                <div class="question-container"></div>
-                                <span class="label label-default hidden" id="parts-body">Befragung über Anstrenung mit Grafik für Körper</span> 
-                                <span class="label label-default hidden" id="parts-hands">Befragung über Anstrenung mit Grafik für Hände</span> 
-                                <span class="label label-default hidden" id="parts-bodyHands">Befragung über Anstrenung mit Grafik für Körper und Hände</span> 
-                            </div>
-                        </div>
-            
-                        <div class="panel panel-default" id="sequenceStressQuestions">
-                            <div class="panel-heading">Fragen nach einer Gesten-Squenz</div>
-                            <div class="panel-body">
-                                <div class="question-container"></div>
-                                <span class="label label-default hidden" id="parts-body">Befragung über Anstrenung mit Grafik für Körper</span> 
-                                <span class="label label-default hidden" id="parts-hands">Befragung über Anstrenung mit Grafik für Hände</span> 
-                                <span class="label label-default hidden" id="parts-bodyHands">Befragung über Anstrenung mit Grafik für Körper und Hände</span> 
-                            </div>
-                        </div>-->
 
             <div class="" id="observations">
                 <h3><?php echo $lang->observations ?></h3>
@@ -854,45 +911,43 @@ include '../includes/language.php';
         <div style="clear: both;"></div>
     </div>
 
-
-
-
-    <!--    <div class="col-xs-12 col-sm-6 col-lg-12" id="wozItem" style="margin-bottom: 10px;">
-    
-            <div id="task"></div>
-            <div id="description"></div>
-                    <div id="gesture-title" style=""></div>
-                    <div id="trigger-title" style=""></div>
-            <div class="btn-group-vertical btn-block">
-                <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
-                <button type="button" class="btn btn-default btn-shadow" id="btn-show-transition-scene"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Folge-Zustand zeigen</span></button>
-                <button type="button" class="btn btn-info btn-shadow ellipsis disabled" id="trigger-woz">Simulieren</button>
-            </div>
-        </div> -->
-
-    <div class="col-xs-6 col-sm-4 col-md-4 root" id="wozItem">
-        <div class="panel panel-default btn-shadow">
-            <div class="panel-body">
-                <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3"></div>
-                <div class="text-center  hidden gestureControls">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                    </div>
-                </div>
-
-                <button type="button" class="btn btn-success btn-block disabled" id="btn-trigger-woz" style="margin-top: 10px;">Diese</button>
-            </div>
+    <div id="interactive-scenes-catalog-thumbnail" style="margin-top: 8px">
+        <div class="btn-group hidden" id="info-pidoco">
+            <button class="btn btn-default btn-reset-scene disabled"><i class="fa fa-refresh"></i></button>
+            <button class="btn btn-default btn-trigger-scene disabled">
+                <span class=""><i class="fa fa-link"></i> <?php echo $lang->sceneTypes->pidoco ?></span>
+                <span class="btn-text"></span>
+            </button>
+        </div>             
+        <div class="btn-group hidden" id="info-web">
+            <button class="btn btn-default btn-reset-scene disabled"><i class="fa fa-refresh"></i></button>
+            <button class="btn btn-default btn-trigger-scene disabled">
+                <span class=""><i class="fa fa-link"></i> <?php echo $lang->sceneTypes->web ?></span>
+                <span class="btn-text"></span>
+            </button>
+        </div>
+        <div class="btn-group hidden" id="info-image">
+            <button class="btn btn-default btn-reset-scene disabled"><i class="fa fa-refresh"></i></button>
+            <button class="btn btn-default btn-trigger-scene disabled">
+                <span class=""><i class="fa fa-image"></i> <?php echo $lang->sceneTypes->image ?></span> 
+                <span class="btn-text"></span>
+            </button>
+        </div>
+        <div class="btn-group hidden" id="info-videoEmbed">
+            <button class="btn btn-default btn-reset-scene disabled"><i class="fa fa-refresh"></i></button>
+            <button class="btn btn-default btn-trigger-scene disabled">
+                <span class=""><i class="fa fa-film"></i> <?php echo $lang->sceneTypes->videoEmbed ?></span>
+                <span class="btn-text"></span>
+            </button>
+        </div>
+        <div class="scene-description hidden text" style="margin-bottom: 10px">
+            test test
         </div>
     </div>
 
-    <div id="helpItem" style="margin-bottom: 16px;">
-        <div class="help-title"></div>
-        <div class="btn-group" style="margin-top: 10px;">
-            <button type="button" class="btn btn-info btn-shadow disabled" id="offer-help"><i class="fa fa-life-ring"></i> Hilfe anbieten</button>
-            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
-        </div>
-    </div>
+
+
+
 
     <div id="web">
         <span>Titel: </span><span class="title"></span><br/>
@@ -1122,7 +1177,7 @@ include '../includes/language.php';
                 <div class="description"></div>
                 <hr>
             </div>
-            <div class="alert-space alert-waiting-for-training-gesture"></div>
+            <div class="alert-space alert-please-wait"></div>
             <div class="row" id="trainingContainer"></div>
         </div>
         <!--</div>-->
@@ -1198,7 +1253,7 @@ include '../includes/language.php';
                 <h3 style="margin: 0" class="headline">Bitte noch einmal neu starten</h3>
                 <hr>
             </div>
-            <div class="alert-space alert-waiting-for-slideshow"></div>
+            <div class="alert-space alert-please-wait"></div>
             <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
                 <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
             </div>
@@ -1259,7 +1314,7 @@ include '../includes/language.php';
                 <div class="description"></div>
                 <hr>
             </div>
-            <div class="alert-space alert-waiting-for-slideshow"></div>
+            <div class="alert-space alert-please-wait"></div>
             <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
                 <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
             </div>
@@ -1274,7 +1329,7 @@ include '../includes/language.php';
             <div class="description"></div>
             <hr>
         </div>
-        <div class="alert-space alert-waiting-for-slideshow"></div>
+        <div class="alert-space alert-please-wait"></div>
         <div class="progress progress-slideshow hidden" style="border-radius: 10px;">
             <div class="progress-bar progress-bar-slideshow progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height: 100%"></div>
         </div>
@@ -1315,7 +1370,7 @@ include '../includes/language.php';
                 <div class="description"></div>
                 <hr>
             </div>
-            <div class="alert-space alert-waiting-for-moderator"></div>
+            <div class="alert-space alert-please-wait"></div>
             <div id="exploration-container" class="hidden">
                 <div id="exploration-items-container"></div>
                 <hr>
@@ -1344,30 +1399,18 @@ include '../includes/language.php';
 
     <!-- identification container -->
 
-    <div class="root" id="identification" style="width: 100%;">
-
-        <div style="position: absolute; width: 100%; height:auto;" id="scenePanel">
-            <div id="scene-container" class="text-center" style="position: absolute; width: 100%; height:auto; overflow:auto"></div>
-        </div>
-
-    </div>
+    <div class="root" id="identification" style="width: 100%;"></div>
 
 
-    <div class="container" id="identificationModerated" style="position: relative; top: 80px">
-        <!--<div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>-->
-        <!--<div class="" id="column-right">-->
-        <div class="row">
-            <div class="col-xs-12" style="margin-bottom: 15px;" id="general">
-                <div>
-                    <h3 class="headline" style="margin: 0"></h3>
-                    <div class="description" style="color: #303030"></div>
-                    <hr>
-                    <div class="alert-space alert-waiting-for-identification"></div>
-                </div>
-            </div>
-            <div class="col-xs-12">
-                <div id="identificationContainer" class="row"></div>
-            </div>
+    <div class="" id="identificationModerated" style="">
+
+        <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
+        <div style="position: absolute; top: 5px; left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px" class="text-shadow-black text-center" id="scene-description"><h4 style="color:white">Beschreibung</h4><p></p></div>
+
+        <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; top: 5px; left: 10px; pointer-events: none; opacity: 0.8"></div>
+
+        <div class="" style="margin-top: 55px; padding: 20px">
+            <div class="alert-space alert-please-wait"></div>
         </div>
     </div>
 
@@ -1459,7 +1502,7 @@ include '../includes/language.php';
                 <div class="description"></div>
                 <hr>
             </div>
-            <div class="alert-space alert-waiting-for-identification"></div>
+            <div class="alert-space alert-please-wait"></div>
 
             <div class="row" id="stressTestContainer"></div>
 
@@ -1649,22 +1692,26 @@ include '../includes/language.php';
 
 
     <!-- scenario container -->
-    <div class="root" id="scenario" style="width: 100%; margin-top: 55px">
+    <div class="root" id="scenario" style="">
 
-        <div style="position: absolute; width: 100%; height:auto;" id="scenePanel">
-            <div id="scene-container" class="text-center" style="position: absolute; width: 100%; height:auto; overflow:auto"></div>
+        <!--<div style="">-->
+        <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
+        <!--</div>-->
+
+        <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; top: 5px; left: 10px; pointer-events: none; opacity: 0.8"></div>
+
+        <div class="" style="margin-top: 55px; padding: 20px">
+            <div class="alert-space alert-please-wait"></div>
         </div>
-
-        <div id="fixed-rtc-preview" class="hidden" style="position: fixed; width: 300px; top: 10px; left: 10px; pointer-events: none;"></div>
-
-        <div class="hidden" id="generalPanel" style="width: 100%"></div>
     </div>
 
-    <div id="scenario-panel-moderated">
-        <div class="alert-space alert-waiting-for-scenario-start" style="margin-top: 10px"></div>
-    </div>
+    <!--    <div id="scenario-panel-moderated">
+            
+        </div>-->
 
     <div id="scenario-panel-unmoderated" style="width: 100%">
+        <div class="hidden" id="generalPanel" style="width: 100%"></div>
+
         <div id="info-content" class="hidden" style="width: 100%">
             <div id="task-header"></div>
             <div id="task-text" style="color: #303030; line-height: 1.2em"></div>

@@ -20,12 +20,19 @@ var triggeredHelp = null;
 var currentTriggeredSceneId = null;
 var gestureTrainingStartTriggered = false;
 var currentIdentificationIndex = 0;
+var currentIdentificationScene = 0;
+var identificationPrototypeOpened = false;
 var identificationTriggered = false;
 var identificationStartTriggered = false;
+var identificationRecordingStartTriggered = false;
+var identificationRecordingStopTriggered = false;
 var identificationDone = false;
+var recordedIdentificationMedia = [];
+var currentExplorationIndex = 0;
+var currentExplorationScene = 0;
+var explorationPrototypeOpened = false;
 var explorationStartTriggered = false;
 var explorationDone = false;
-
 var currentStressTestCount = 0;
 var currentStressTestIndex = 0;
 var stressTestStartTriggered = false;
@@ -179,7 +186,7 @@ function nextStep() {
     var phases = getContextualPhaseSteps();
     if (previewModeEnabled === false) {
         if (currentPhaseStepIndex < phases.length - 1) {
-            saveCurrentStatus(false); 
+            saveCurrentStatus(false);
         }
 //        return false;
 
@@ -236,8 +243,13 @@ function resetConstraints() {
 
     currentIdentificationIndex = 0;
     identificationTriggered = false;
-    identificationStartTriggered = false;
     identificationDone = false;
+    identificationStartTriggered = false;
+    identificationPrototypeOpened = false;
+    identificationRecordingStartTriggered = false;
+    identificationRecordingStopTriggered = false;
+    currentIdentificationIndex = 0;
+    currentIdentificationScene = 0;
 
     explorationStartTriggered = false;
     explorationDone = false;
@@ -433,6 +445,19 @@ function keepStreamsAlive(target) {
     }
 }
 
+function getWOZItemsForSceneId(data, sceneId) {
+    if (data && data.length > 0) {
+        var array = new Array();
+        for (var i = 0; i < data.length; i++) {
+            if (parseInt(data[i].transitionScenes[0].sceneId) === parseInt(sceneId)) {
+                array.push(data[i]);
+            }
+        }
+        return array;
+    }
+    return null;
+}
+
 function getItemsForSceneId(data, sceneId) {
     if (data && data.length > 0) {
         var array = new Array();
@@ -496,7 +521,7 @@ function renderExplorationItems(target, data, modalId) {
         var gestures = getUngroupedExplorationGestures(data.exploration);
         var triggers = getUngroupedExplorationTrigger(data.exploration);
         var scenes = getUngroupedExplorationScenes(data.exploration);
-        
+
         var itemContainer, item;
 //        console.log(data);
         if (scenes && scenes.length > 0) {

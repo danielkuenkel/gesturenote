@@ -215,6 +215,38 @@ include '../includes/language.php';
         </div>
     </div>
 
+
+    <div class="root" id="add-gesture-to-scene-thumbnail">
+        <div class="panel panel-default btn-shadow">
+            <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
+                <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
+            </div>
+
+            <div class="panel-body text-center">
+                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+                <div class="text-center hidden gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-info btn-add-gesture-to-scene" data-toggle="popover"  data-trigger="hover" data-placement="auto" data-content="Zum Zustand hinzufügen"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="panel panel-default" id="create-study-gesture-set-panel">
         <div class="panel-heading">
             <div class="btn-group" style="margin-right: 10px">

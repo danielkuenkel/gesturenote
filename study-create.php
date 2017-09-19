@@ -187,10 +187,14 @@ if (login_check($mysqli) == true) {
                 <li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->showIntroduction ?></a></li>
             </ul>
 
+            <div id="loading-indicator" class="text-center" style="margin-top: 10px; margin: 0 auto">
+                <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            </div>
 
             <div class="tab-content" id="create-study-tab-content">
 
                 <div role="tabpanel" class="tab-pane" id="generalData">
+
                     <p id="styleguide-info" class="text">
                         <?php echo $lang->createStudyInfos->general->overview ?>
                     </p>
@@ -613,7 +617,7 @@ if (login_check($mysqli) == true) {
                         </div>
                     </div>
 
-                    <div class="form-group hidden root" id="phaseStepItem" style="margin-bottom: 0px; margin-top: 10px">
+                    <div class="form-group-margin-top hidden root" id="phaseStepItem" style="">
                         <div class="btn-group">
                             <button class="btn btn-default btn-shadow btn-up saveGeneralData" title="<?php echo $lang->furtherUp ?>">
                                 <i class="glyphicon glyphicon-arrow-up"></i>
@@ -751,13 +755,12 @@ if (login_check($mysqli) == true) {
 
                     var status = window.location.hash.substr(1);
                     var statusNavMatch = getStatusNavMatch(status);
-                    console.log(status, statusNavMatch);
                     if (status !== '' && statusNavMatch !== null) {
                         $('#create-tab-navigation').find('#tab-' + statusNavMatch + ' a').click();
                     } else {
-                        console.log($('#create-tab-navigation').children().first());
                         $('#create-tab-navigation').children().first().find('a').click();
                     }
+                    $('#loading-indicator').remove();
                 }
             }
 
@@ -785,6 +788,7 @@ if (login_check($mysqli) == true) {
             }
 
             function addPhaseStep(id, format, title, animate, prependItem, callback) {
+                
                 if (title === null || title === undefined) {
                     title = translation.formats[format].text;
                 }
@@ -812,10 +816,11 @@ if (login_check($mysqli) == true) {
                             break;
                     }
                 }
-
+                
+                console.log('add phase step', prependItem, clone, $('#phaseStepList').find('.form-group').last());
                 if (prependItem && prependItem === true) {
                     setTimeout(function () {
-                        $(clone).insertBefore($('#phaseStepList').find('.form-group').last());
+                        $(clone).insertBefore($('#phaseStepList').children().last());
                         checkCurrentListState($('#phaseStepList'));
                         if (callback) {
                             callback();

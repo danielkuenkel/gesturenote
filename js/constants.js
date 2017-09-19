@@ -189,13 +189,15 @@ var MESSAGE_QUESTIONNAIRE_DONE = 'questionnaireDone';
 
 var MESSAGE_START_IDENTIFICATION = 'startIdentification';
 var MESSAGE_GESTURE_IDENTIFIED = 'gestureIdentified';
-var MESSAGE_IDENTIFIED_GESTURE_DELETED = 'identifiedGestureDeleted';
-var MESSAGE_IDENTIFICATION_DONE = 'gestureIdentificationDone';
+var MESSAGE_START_RECORDING_GESTURE = 'startGestureRecording';
+var MESSAGE_STOP_RECORDING_GESTURE = 'stopGestureRecording';
 
 var MESSAGE_START_TRIGGER_SLIDESHOW = 'startTriggerSlideshow';
 var MESSAGE_START_SCENARIO = 'startScenario';
 var MESSAGE_RELOAD_SCENE = 'reloadScene';
+var MESSAGE_RENDER_SCENE = 'renderScene';
 var MESSAGE_TRIGGER_WOZ = 'triggerWOZ';
+var MESSAGE_FEEDBACK_HIDDEN = 'feedbackHidden';
 var MESSAGE_TRIGGER_HELP = 'triggerHelp';
 var MESSAGE_HELP_CLOSED = 'helpClosed';
 

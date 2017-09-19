@@ -37,6 +37,7 @@ function renderData(data, hash) {
                     //                                $('#btn-edit-study, #btn-delete-study').remove();
                     renderStudyParticipants(result.studyResults, hash);
                 } else {
+                    $('#tab-pane').find('#participants .badge').text('0');
                     appendAlert($('#study-participants'), ALERT_NO_PHASE_DATA);
                 }
             }
@@ -294,6 +295,7 @@ function renderStudyParticipants(data, hash) {
     var guestUsers = 0;
     var registeredUsers = 0;
     var successfullStudies = 0;
+    $('#tab-pane').find('#participants .badge').text(data.length);
     for (var i = 0; i < data.length; i++) {
         var result = data[i].data;
         var item = $('#template-study-container').find('#participant-thumbnail').clone().removeAttr('id');

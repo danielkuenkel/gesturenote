@@ -30,7 +30,7 @@
 <script>
     $(document).ready(function () {
         var currentPhaseData = getCurrentPhaseData();
-        var items = getItemsForSceneId(currentPhaseData.woz, currentWOZScene.id);
+        var items = getWOZItemsForSceneId(currentPhaseData.woz, currentWOZScene.id);
 
         $('.btn-other-gesture-fit').on('click', function (event) {
             if (!event.handled) {

@@ -10,6 +10,8 @@ var STATUS_STOPPED = 1;
 var STATUS_STARTED = 2;
 var EVENT_FILE_SAVED = 'fileSaved';
 var EVENT_ALL_FILES_UPLOADED = 'allFilesUploaded';
+var EVENT_FILE_TRANSFER = 'fileTransfer';
+var EVENT_RECEIVED_FILE = 'receivedFile';
 
 PeerConnection.prototype.status = STATUS_UNINITIALIZED;
 PeerConnection.prototype.options = null;
@@ -17,6 +19,7 @@ PeerConnection.prototype.options = null;
 var TYPE_MESSAGE_CONTROL = 'controlMessage';
 
 var webrtc = null;
+var webRTCPeer = null;
 var connection = null;
 //var syncPhaseStep = false;
 
@@ -60,6 +63,8 @@ PeerConnection.prototype.initialize = function (options) {
                 offerToReceiveVideo: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0
             }
         });
+
+
 
 
         if (options.localMuteElement && options.callerElement) {
@@ -278,7 +283,24 @@ PeerConnection.prototype.initialize = function (options) {
 
         // called when a peer is created
         webrtc.on('createdPeer', function (peer) {
+            webRTCPeer = peer;
             console.log('webrtc created peer', peer);
+
+            webRTCPeer.on('fileTransfer', function (metadata, receiver) {
+                console.log('incoming filetransfer', metadata.name, metadata);
+                receiver.on('progress', function (bytesReceived) {
+//                    console.log('receive progress', bytesReceived, 'out of', metadata.size);
+                    $(connection).trigger(EVENT_FILE_TRANSFER, [bytesReceived, metadata.size]);
+                });
+
+                // get notified when file is done
+                receiver.on('receivedFile', function (file, metadata) {
+                    console.log('received file', file, metadata.name, metadata.size);
+                    $(connection).trigger(EVENT_RECEIVED_FILE, [file, metadata]);
+                    // close the channel
+                    receiver.channel.close();
+                });
+            });
         });
     } else {
         console.log('no options for webrtc');
@@ -396,7 +418,7 @@ PeerConnection.prototype.hideRemoteStream = function () {
 var chunks = [];
 var recordingStream = null;
 var mediaRecorder = null;
-PeerConnection.prototype.initRecording = function () {
+PeerConnection.prototype.initRecording = function (startRecording) {
     if (!recordingStream) {
         // check current browser for building constraints
         if (getBrowser() == "Chrome") {
@@ -430,6 +452,10 @@ PeerConnection.prototype.initRecording = function () {
                 mediaRecorder.ondataavailable = function (e) {
                     console.log('on data available');
                     chunks.push(e.data);
+
+                    if (separateChunksRecording === true) {
+                        separateChunks.push(e.data);
+                    }
                 };
 
                 mediaRecorder.onstart = function () {
@@ -466,10 +492,14 @@ PeerConnection.prototype.initRecording = function () {
                 mediaRecorder.onwarning = function (e) {
                     console.log('Warning: ' + e);
                 };
+
+                if (startRecording === true) {
+                    mediaRecorder.start(1000);
+                }
             }
         }
     } else {
-        mediaRecorder.start(5000);
+        mediaRecorder.start(1000);
     }
 };
 
@@ -493,5 +523,30 @@ PeerConnection.prototype.stopRecording = function (callback, save) {
         mediaRecorder.stop();
     } else if (callback) {
         callback();
+    }
+};
+
+var separateChunks = [];
+PeerConnection.prototype.startRecordSeparateChunks = function () {
+    console.log('start record separate chunks');
+    separateChunks = [];
+    separateChunksRecording = true;
+    connection.initRecording(true);
+};
+
+PeerConnection.prototype.stopRecordSeparateChunks = function () {
+    console.log('stop record separate chunks');
+    if(isUploadRecordingNeeded() === false ){
+        connection.stopRecording(null, false);
+    }
+    separateChunksRecording = false;
+    return separateChunks;
+};
+
+PeerConnection.prototype.transferFile = function (file) {
+    if (webRTCPeer) {
+        webRTCPeer.sendFile(file);
+    } else {
+        console.error('no peer created yet');
     }
 };

@@ -91,7 +91,7 @@ if ($h && $token && $studyId) {
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
     </head>
-    <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
+    <body id="pageBody">
 
         <!-- externals -->
         <div id="alerts"></div>

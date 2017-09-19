@@ -196,7 +196,7 @@ include '../includes/language.php';
                         <div class="input-group" id="gesture-feedback" style="margin-top: 10px">
                             <span class="input-group-addon"><?php echo $lang->feedback ?></span>
                             <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
-                            <div class="input-group-btn select feedbackSelect no-none" role="group">
+                            <div class="input-group-btn select feedbackSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
                             </div>
@@ -585,12 +585,11 @@ include '../includes/language.php';
         </div>
         <div class="row hidden" id="wozExperiment" style="margin-bottom: 30px;">
             <div class="col-md-7">
-                <div class="alert-space alert-no-scenes-assembled"></div>
-                <div class="alert-space alert-no-gestures-assembled"></div>
-                <div class="alert-space alert-no-trigger-assembled"></div>
-                <div class="alert-space alert-no-feedback-assembled"></div>
                 <div class="alert-space alert-no-phase-data"></div>
-
+                <div class="alert-space alert-no-scenes-assembled-link"></div>
+                <div class="alert-space alert-no-study-gestures-assembled-link"></div>
+                <div class="alert-space alert-no-trigger-assembled-link"></div>
+                <div class="alert-space alert-no-feedback-assembled-link"></div>
                 <div class="option-container"></div>
             </div>
             <div class="col-md-5">
@@ -615,12 +614,9 @@ include '../includes/language.php';
         </div>
         <div class="row hidden" id="help" style="margin-bottom: 30px;">
             <div class="col-md-7">
-                <div class="alert-space alert-no-scenes-assembled"></div>
-                <div class="alert-space alert-no-gestures-assembled"></div>
-                <div class="alert-space alert-no-trigger-assembled"></div>
-                <div class="alert-space alert-no-feedback-assembled"></div>
                 <div class="alert-space alert-no-phase-data"></div>
-
+                <div class="alert-space alert-no-scenes-assembled-link"></div>
+                <div class="alert-space alert-no-study-gestures-assembled-link"></div>
                 <div class="option-container"></div>
             </div>
             <div class="col-md-5">
@@ -1724,45 +1720,13 @@ include '../includes/language.php';
                         <label for="explorationDescription"><?php echo $lang->description ?></label>
                         <textarea class="form-control" id="explorationDescription" rows="7" placeholder="<?php echo $lang->insertDescription ?>" style="resize: none"></textarea>
                     </div>
-                    
-                    <div class="form-group root" id="grouping-select">
-                        <label style="margin: 0">
-                            Darstellung
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
-                        </label><br>
 
-                        <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="grouped">
-                                <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                    <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle" id="checked"></i>
-                                </span>
-                                <span class="option-text">Gruppiert (Zuständen zugewiesen)</span>
-                            </button>
-                        </div>
-                        <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio" name="primary" id="ungrouped">
-                                <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin" id="normal"></i>
-                                    <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle hidden" id="checked"></i>
-                                </span>
-                                <span class="option-text">Nicht gruppiert</span>
-                            </button>
-                        </div>
-                    </div>
-<!--                    <div class="btn-group" id="grouping-select">
-                        <button class="btn btn-default switchButtonAddon">Darstellung</button>
-                        <button class="btn btn-success btn-shadow btn-toggle-checkbox check no-gestures-assembled active" id="grouped" name="btn-success">Gruppiert (Zuständen zugewiesen)</button>
-                        <button class="btn btn-default btn-shadow btn-toggle-checkbox reset no-gestures-assembled inactive" id="ungrouped" name="btn-success">Nicht gruppiert</button>
-                    </div>-->
                 </div>
             </div>
         </div>
-        
-        
-        
+
+
+
         <h3 style="margin-top: 20px;">Elemente</h3>
         <div class="row">
             <div class="col-md-11">
@@ -1770,51 +1734,23 @@ include '../includes/language.php';
             </div>
         </div>
         <div class="row" id="explorationElements" style="margin-bottom: 30px;">
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <div class="alert-space alert-no-study-gestures-assembled-link"></div>
-                <div class="alert-space alert-no-trigger-assembled"></div>
-                <div class="alert-space alert-no-scenes-assembled"></div>
+                <div class="alert-space alert-no-trigger-assembled-link"></div>
+                <div class="alert-space alert-no-scenes-assembled-link"></div>
                 <div class="alert-space alert-no-phase-data"></div>
 
                 <div class="option-container"></div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-<!--                    <div class="form-group root" id="identificationTypeSwitch">
-                        <label style="margin: 0"  >
-                            Was soll identifiziert werden? 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
-                        </label><br>
-
-                        <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio" name="primary" id="gestures">
-                                <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin" id="normal"></i>
-                                    <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle hidden" id="checked"></i>
-                                </span>
-                                <span class="option-text"><?php echo $lang->gestures ?></span>
-                            </button>
-                        </div>
-                        <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio" name="primary" id="trigger">
-                                <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin" id="normal"></i>
-                                    <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle hidden" id="checked"></i>
-                                </span>
-                                <span class="option-text"><?php echo $lang->triggers ?></span>
-                            </button>
-                        </div>
-                    </div>-->
-
-                    <button class="btn btn-info btn-shadow btn-add-explorationOption font-bold" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span>Identifikationselement hinzufügen</span></button>
+                    <button class="btn btn-info btn-shadow btn-add-explorationOption font-bold" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span>Explorationselement hinzufügen</span></button>
                 </div>
             </div>
         </div>
-        
-        
-        
+
+
+
 
         <div style="display: inline;">
             <h3 style="display:inline-block">Beobachtungsbogen</h3>

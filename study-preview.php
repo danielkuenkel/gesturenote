@@ -272,7 +272,7 @@ if (login_check($mysqli) == true) {
                     }
 
                     var ratio = 4 / 3;
-                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 75 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 75 - parseInt($('#mainContent').css('padding-top')), 170));
+                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 95 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 95 - parseInt($('#mainContent').css('padding-top')), 170));
                     $('#web-rtc-placeholder').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
                     $('#web-rtc-placeholder').height(newHeight);
                 }

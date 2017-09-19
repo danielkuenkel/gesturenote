@@ -107,7 +107,7 @@ if (login_check($mysqli) == true) {
                                         <li role="presentation"><a href="#study-feedback" aria-controls="study-feedback" role="tab" data-toggle="tab">Studien-Feedback</a></li>
                                     </ul>
                                 </li>-->
-                <li role="presentation" id="participants"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab">Teilnahmen</a></li>
+                <li role="presentation" id="participants"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab">Teilnahmen <span class="badge"></span></a></li>
                 <li role="presentation" class="hidden" id="extraction"><a href="#gesture-extraction" aria-controls="gesture-extraction" role="tab" data-toggle="tab">Extraktion</a></li>
             </ul>
         </div>

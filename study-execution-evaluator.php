@@ -76,8 +76,8 @@ if ($h && $token && $studyId) {
 
 
         <!-- gesture recorder sources -->
-<!--        <script src="js/gesture-recorder.js"></script>
-        <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
+        <script src="js/gesture-recorder.js"></script>
+<!--        <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>-->
     </head>
@@ -88,6 +88,7 @@ if ($h && $token && $studyId) {
         <div id="template-gesture"></div>
         <div id="template-previews"></div>
         <div id="template-study"></div>
+        <div id="template-gesture-recorder"></div>
 
         <!-- modals -->
         <div id="custom-modal" class="modal fade" role="dialog">
@@ -164,6 +165,7 @@ if ($h && $token && $studyId) {
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
+                    externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
                 });
             });
