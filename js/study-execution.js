@@ -33,6 +33,7 @@ var currentExplorationIndex = 0;
 var currentExplorationScene = 0;
 var explorationPrototypeOpened = false;
 var explorationStartTriggered = false;
+var explorationPreferredGesturesRequest = false;
 var explorationDone = false;
 var currentStressTestCount = 0;
 var currentStressTestIndex = 0;
@@ -253,7 +254,10 @@ function resetConstraints() {
     currentIdentificationScene = 0;
 
     explorationStartTriggered = false;
-    explorationDone = false;
+    currentExplorationIndex = 0;
+    currentExplorationScene = 0;
+    explorationPreferredGesturesRequest = false;
+    explorationPrototypeOpened = false;
 
     singleGUSGesture = null;
     currentGUSData = null;
@@ -472,105 +476,105 @@ function getItemsForSceneId(data, sceneId) {
     return null;
 }
 
-function getUngroupedExplorationGestures(data) {
-    if (data && data.length > 0) {
-        var items = new Array();
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].gestureId && data[i].gestureId !== '') {
-                items.push(data[i].gestureId);
-            }
-        }
-        items = unique(items);
-        return items;
-    }
+//function getUngroupedExplorationGestures(data) {
+//    if (data && data.length > 0) {
+//        var items = new Array();
+//        for (var i = 0; i < data.length; i++) {
+//            if (data[i].gestureId && data[i].gestureId !== '') {
+//                items.push(data[i].gestureId);
+//            }
+//        }
+//        items = unique(items);
+//        return items;
+//    }
+//
+//    return null;
+//}
 
-    return null;
-}
+//function getUngroupedExplorationTrigger(data) {
+//    if (data && data.length > 0) {
+//        var items = new Array();
+//        for (var i = 0; i < data.length; i++) {
+//            if (data[i].triggerId && data[i].triggerId !== '' && data[i].triggerId !== 'none') {
+//                items.push(data[i].triggerId);
+//            }
+//        }
+//        items = unique(items);
+//        return items;
+//    }
+//
+//    return null;
+//}
+//
+//function getUngroupedExplorationScenes(data) {
+//    if (data && data.length > 0) {
+//        var items = new Array();
+//        for (var i = 0; i < data.length; i++) {
+//            if (data[i].sceneId && data[i].sceneId !== '' && data[i].sceneId !== 'none') {
+//                items.push(data[i].sceneId);
+//            }
+//        }
+//        items = unique(items);
+//        return items;
+//    }
+//
+//    return null;
+//}
 
-function getUngroupedExplorationTrigger(data) {
-    if (data && data.length > 0) {
-        var items = new Array();
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].triggerId && data[i].triggerId !== '' && data[i].triggerId !== 'none') {
-                items.push(data[i].triggerId);
-            }
-        }
-        items = unique(items);
-        return items;
-    }
-
-    return null;
-}
-
-function getUngroupedExplorationScenes(data) {
-    if (data && data.length > 0) {
-        var items = new Array();
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].sceneId && data[i].sceneId !== '' && data[i].sceneId !== 'none') {
-                items.push(data[i].sceneId);
-            }
-        }
-        items = unique(items);
-        return items;
-    }
-
-    return null;
-}
-
-function renderExplorationItems(target, data, modalId) {
-    if (data.grouping === 'ungrouped') {
-        var gestures = getUngroupedExplorationGestures(data.exploration);
-        var triggers = getUngroupedExplorationTrigger(data.exploration);
-        var scenes = getUngroupedExplorationScenes(data.exploration);
-
-        var itemContainer, item;
-//        console.log(data);
-        if (scenes && scenes.length > 0) {
-//            console.log('there are scenes');
-            itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-scene-panel').clone();
-            $(target).find('#exploration-items-container').append(itemContainer);
-
-            for (var i = 0; i < scenes.length; i++) {
-                var scene = getSceneById(scenes[i]);
-                item = $(getSourceContainer(VIEW_MODERATOR)).find('#scenes-catalog-thumbnail').clone().removeAttr('id');
-                item.find('.text').text(scene.title);
-                item.find('.label-text').text(translation.sceneTypes[scene.type]);
-                item.find('#info-' + scene.type).removeClass('hidden');
-                itemContainer.find('#panel-container').append(item);
-
-//                TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-                $(item).find('#btn-preview-scene').click({sceneId: scene.id}, function (event) {
-                    event.preventDefault();
-                    currentSceneId = event.data.sceneId;
-                    loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
-                });
-            }
-        }
-
-        if (triggers && triggers.length > 0) {
-//            console.log('there are trigger', triggers);
-            itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-trigger-panel').clone();
-            $(target).find('#exploration-items-container').append(itemContainer);
-            for (var i = 0; i < triggers.length; i++) {
-                var trigger = getTriggerById(triggers[i]);
-//                console.log('trigger', trigger)
-                item = $(getSourceContainer(VIEW_MODERATOR)).find('#trigger-catalog-thumbnail').clone().removeAttr('id');
-                item.text(trigger.title);
-                itemContainer.find('#panel-container').append(item);
-            }
-        }
-
-        if (gestures && gestures.length > 0) {
-            itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-gesture-panel').clone();
-            $(target).find('#exploration-items-container').append(itemContainer);
-
-            for (var i = 0; i < gestures.length; i++) {
-                var gesture = getGestureById(gestures[i]);
-                item = getGestureCatalogListThumbnail(gesture, 'exploration-gestures-catalog-thumbnail', null, null, null, modalId);
-                itemContainer.find('#panel-container').append(item);
-            }
-        }
-    } else {
-
-    }
-}
+//function renderExplorationItems(target, data, modalId) {
+//    if (data.grouping === 'ungrouped') {
+//        var gestures = getUngroupedExplorationGestures(data.exploration);
+//        var triggers = getUngroupedExplorationTrigger(data.exploration);
+//        var scenes = getUngroupedExplorationScenes(data.exploration);
+//
+//        var itemContainer, item;
+////        console.log(data);
+//        if (scenes && scenes.length > 0) {
+////            console.log('there are scenes');
+//            itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-scene-panel').clone();
+//            $(target).find('#exploration-items-container').append(itemContainer);
+//
+//            for (var i = 0; i < scenes.length; i++) {
+//                var scene = getSceneById(scenes[i]);
+//                item = $(getSourceContainer(VIEW_MODERATOR)).find('#scenes-catalog-thumbnail').clone().removeAttr('id');
+//                item.find('.text').text(scene.title);
+//                item.find('.label-text').text(translation.sceneTypes[scene.type]);
+//                item.find('#info-' + scene.type).removeClass('hidden');
+//                itemContainer.find('#panel-container').append(item);
+//
+////                TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+//                $(item).find('#btn-preview-scene').click({sceneId: scene.id}, function (event) {
+//                    event.preventDefault();
+//                    currentSceneId = event.data.sceneId;
+//                    loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
+//                });
+//            }
+//        }
+//
+//        if (triggers && triggers.length > 0) {
+////            console.log('there are trigger', triggers);
+//            itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-trigger-panel').clone();
+//            $(target).find('#exploration-items-container').append(itemContainer);
+//            for (var i = 0; i < triggers.length; i++) {
+//                var trigger = getTriggerById(triggers[i]);
+////                console.log('trigger', trigger)
+//                item = $(getSourceContainer(VIEW_MODERATOR)).find('#trigger-catalog-thumbnail').clone().removeAttr('id');
+//                item.text(trigger.title);
+//                itemContainer.find('#panel-container').append(item);
+//            }
+//        }
+//
+//        if (gestures && gestures.length > 0) {
+//            itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-gesture-panel').clone();
+//            $(target).find('#exploration-items-container').append(itemContainer);
+//
+//            for (var i = 0; i < gestures.length; i++) {
+//                var gesture = getGestureById(gestures[i]);
+//                item = getGestureCatalogListThumbnail(gesture, 'exploration-gestures-catalog-thumbnail', null, null, null, modalId);
+//                itemContainer.find('#panel-container').append(item);
+//            }
+//        }
+//    } else {
+//
+//    }
+//}

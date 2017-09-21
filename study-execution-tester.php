@@ -100,7 +100,7 @@ if ($h && $token && $studyId) {
         <div id="template-gesture-recorder"></div>
 
         <!-- modals -->
-        <div id="custom-modal" class="modal fade" role="dialog">
+        <div id="custom-modal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->

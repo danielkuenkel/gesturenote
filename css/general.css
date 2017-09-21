@@ -635,10 +635,15 @@ label {
 }
 
 .wall {
+    padding-bottom: 20px;
     background: url(../img/shattered.jpg) repeat center;
     -webkit-box-shadow: inset 0px -3px 5px 0px rgba(0,0,0,0.1);
     -moz-box-shadow: inset 0px -3px 5px 0px rgba(0,0,0,0.1);
     box-shadow: inset 0px -3px 5px 0px rgba(0,0,0,0.04);
+}
+
+.wall .greenGrey {
+    margin: 0;
 }
 
 .dropShadowText {

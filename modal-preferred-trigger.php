@@ -35,16 +35,31 @@ include 'includes/language.php';
             });
         }
 
-        var data = [{id: 'identifiedTrigger', dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: translation.askPreferredTriggerForGesture, parameters: {multiselect: 'yes', optionSource: 'triggers', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes'}}];
+        var data = [{id: 123456, dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: translation.askPreferredTriggerForGesture, parameters: {multiselect: 'yes', optionSource: 'triggers', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes'}}];
         renderQuestionnaire($('#custom-modal'), data);
+
+        $('#custom-modal').find('.question-container').unbind('change').bind('change', function (event) {
+            saveAnswers($(this).children());
+        });
 
         $('#custom-modal').find('#btn-done-select').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            var answers = getQuestionnaireAnswers($(this).parent().parent().find('.question-container').children());
+            saveAnswers($(this).parent().parent().find('.question-container').children());
+            $('#custom-modal').modal('hide');
+        });
+
+        function saveAnswers(questionnaire) {
+            var answers = {answers: getQuestionnaireAnswers(questionnaire)};
+
             if (!previewModeEnabled) {
-//                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-//                tempData.actions.push({action: action, time: new Date().getTime()});
-//                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                if (tempData && tempData.trigger) {
+                    tempData.answers.push({gestureId: gesture.id, preferredTrigger: answers});
+                } else {
+                    tempData.answers = [{gestureId: gesture.id, preferredTrigger: answers}];
+                }
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
                 if (peerConnection) {
                     peerConnection.sendMessage(MESSAGE_RESPONSE_TRIGGER, answers);
@@ -52,8 +67,6 @@ include 'includes/language.php';
             } else {
                 currentQuestionnaireAnswers = answers;
             }
-
-            $('#custom-modal').modal('hide');
-        });
+        }
     });
 </script>

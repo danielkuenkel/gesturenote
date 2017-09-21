@@ -51,7 +51,7 @@ if (login_check($mysqli) == true) {
             <!-- Container (Breadcrump) -->
             <div class="container" id="breadcrumb">
                 <div class="row">
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumb" style="margin: 0">
                         <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
                         <li class="active"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></li>
                     </ol>

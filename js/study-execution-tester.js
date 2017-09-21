@@ -836,8 +836,8 @@ var Tester = {
             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
         }
 
-        $(container).find('.headline').text(data.title);
-        $(container).find('.description').text(data.description);
+//        $(container).find('.headline').text(data.title);
+//        $(container).find('.description').text(data.description);
 
         // general data
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
@@ -864,7 +864,7 @@ var Tester = {
 
             if (data.identificationFor === 'gestures') {
                 if (identificationRecordingStartTriggered === true) {
-                    animateLiveStream(true);
+                    animateLiveStream($(container).find('#fixed-rtc-preview'), true);
                     $(container).find('#scene-description').addClass('hidden');
                     $(container).find('#scene-container').removeClass('hidden');
                 }
@@ -920,7 +920,7 @@ var Tester = {
                 $(peerConnection).unbind(MESSAGE_START_RECORDING_GESTURE).bind(MESSAGE_START_RECORDING_GESTURE, function (event, payload) {
                     console.log('start separate gesture recording');
                     peerConnection.startRecordSeparateChunks();
-                    animateLiveStream(true);
+                    animateLiveStream($(container).find('#fixed-rtc-preview'), true);
                     $(container).find('#fixed-rtc-preview').removeClass('hidden');
                     $(container).find('#scene-description').removeClass('hidden');
                 });
@@ -931,7 +931,7 @@ var Tester = {
                     var file = new File(recordedChunks, filename, {type: "video/webm"});
                     peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED);
                     peerConnection.transferFile(file);
-                    animateLiveStream();
+                    animateLiveStream($(container).find('#fixed-rtc-preview'));
                     appendAlert($(container), ALERT_PLEASE_WAIT);
                     $(container).find('#fixed-rtc-preview').addClass('hidden');
                     $(container).find('#scene-description').addClass('hidden');
@@ -944,52 +944,29 @@ var Tester = {
         } else {
             if (!previewModeEnabled && peerConnection) {
                 $(peerConnection).unbind(MESSAGE_REQUEST_TRIGGER).bind(MESSAGE_REQUEST_TRIGGER, function (event, payload) {
-                    console.log('request trigger');
+                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                        event.preventDefault();
+                        appendAlert($(container), ALERT_PLEASE_WAIT);
+                        $(container).find('#fixed-rtc-preview').addClass('hidden');
+                        $(container).find('#scene-description').addClass('hidden');
+                        $(container).find('#scene-container').addClass('hidden');
+                    });
                     loadHTMLintoModal('custom-modal', 'modal-preferred-trigger.php', 'modal-md');
                 });
             } else {
                 console.log('show modal');
                 $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
-//                if (identificationTriggerRequest) {
+                if (identificationTriggerRequest) {
+                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                        event.preventDefault();
+                        appendAlert($(container), ALERT_PLEASE_WAIT);
+                        $(container).find('#fixed-rtc-preview').addClass('hidden');
+                        $(container).find('#scene-description').addClass('hidden');
+                        $(container).find('#scene-container').addClass('hidden');
+                    });
                     loadHTMLintoModal('custom-modal', 'modal-preferred-trigger.php', 'modal-md');
-//                }
+                }
             }
-        }
-
-
-        function animateLiveStream(zoom) {
-            if (zoom === true) {
-                var dimensions = calcDimensions();
-                TweenMax.to($(container).find('#fixed-rtc-preview'), .3, {width: dimensions.width + 'px', top: dimensions.top + 'px', left: dimensions.left + 'px', opacity: 1, onComplete: function () {
-                        $(window).on('resize', function () {
-                            var dimensions = calcDimensions();
-//                            var screenSize = {width: $(window).width(), height: $(window).height()};
-//                            var newTop = previewModeEnabled ? ((screenSize.height - (500 * 3 / 4)) / 2) - 88 : ((screenSize.height - (500 * 3 / 4)) / 2) - 55;
-//                            var newLeft = (screenSize.width - 500) / 2;
-                            $(container).find('#fixed-rtc-preview').css({width: dimensions.width + 'px', top: dimensions.top + 'px', left: dimensions.left + 'px'});
-                        });
-                    }});
-            } else {
-                TweenMax.to($(container).find('#fixed-rtc-preview'), .2, {width: 300 + 'px', top: '5px', left: '10px', opacity: .8, onComplete: function () {
-                    }});
-            }
-        }
-
-        function calcDimensions() {
-            var screenSize = {width: $(window).width(), height: $(window).height()};
-            var maxHeight = screenSize.height - 200;
-            var maxWidth = maxHeight * 4 / 3;
-
-            var ratio = screenSize.width / screenSize.height;
-            if (ratio < 1) {
-                maxWidth = screenSize.width - 50;
-                maxHeight = maxWidth * 3 / 4;
-            }
-
-            var newTop = previewModeEnabled ? ((screenSize.height - maxHeight) / 2) - 88 : ((screenSize.height - maxHeight) / 2) - 55;
-            var newLeft = (screenSize.width - maxWidth) / 2;
-//            console.log(maxWidth, maxHeight, newTop, newLeft);
-            return {width: maxWidth, height: maxHeight, top: newTop, left: newLeft};
         }
     },
     initScreenSharing: function initScreenSharing(container) {
@@ -1570,17 +1547,34 @@ var Tester = {
             $(container).find('#scene-container').css({top: '-108px'});
         }
 
-        // handle scenario start state
+//        // handle scenario start state
+//        if (scenarioStartTriggered === true) {
+//            clearAlerts(container);
+//            $(container).find('#fixed-rtc-preview').removeClass('hidden');
+//
+//            if (!previewModeEnabled && isWebRTCSupported()) {
+//                Tester.initScreenSharing(container);
+//            }
+//        } else {
+//            appendAlert($(container), ALERT_PLEASE_WAIT);
+//            $(container).find('#fixed-rtc-preview').addClass('hidden');
+//        }
+
+        // handle states in preview mode
         if (scenarioStartTriggered === true) {
             clearAlerts(container);
             $(container).find('#fixed-rtc-preview').removeClass('hidden');
 
             if (!previewModeEnabled && isWebRTCSupported()) {
                 Tester.initScreenSharing(container);
+            } else {
+                // render scene manually
+                renderSceneItem(source, container, currentWOZScene.id);
             }
         } else {
             appendAlert($(container), ALERT_PLEASE_WAIT);
             $(container).find('#fixed-rtc-preview').addClass('hidden');
+            $(container).find('#scene-container').addClass('hidden');
         }
 
         // handle triggered help & woz
@@ -1765,52 +1759,97 @@ var Tester = {
         });
     },
     getExploration: function getExploration(source, container, data) {
-        var panelContent = $(source).find('#exploration-' + getLocalItem(STUDY).surveyType).clone();
-        container.empty().append(panelContent);
-//        console.log('get Exploration', data, container, panelContent);
+//        var panelContent = $(source).find('#exploration-' + getLocalItem(STUDY).surveyType).clone();
+//        container.empty().append(panelContent);
 
+
+        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
+            Tester.renderModeratedExploration(source, container, data);
+        } else {
+            Tester.renderUnmoderatedExploration(source, container, data);
+        }
+
+        return container;
+    },
+    renderModeratedExploration: function renderModeratedExploration(source, container, data) {
+        container.empty().append($(source).find('#exploration-moderated').clone().removeAttr('id'));
+        if (previewModeEnabled) {
+            $(container).find('#scene-container').css({top: '-108px'});
+        }
+
+        // handle states in preview mode
+        if (explorationStartTriggered === true) {
+
+            clearAlerts(container);
+            $(container).find('#fixed-rtc-preview').removeClass('hidden');
+            $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
+            $(container).find('#scene-description').removeClass('hidden');
+
+            if (!previewModeEnabled && isWebRTCSupported()) {
+                Tester.initScreenSharing(container);
+            } else {
+                // render scene manually
+                renderSceneItem(source, container, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].sceneId);
+            }
+        } else {
+            appendAlert($(container), ALERT_PLEASE_WAIT);
+            $(container).find('#fixed-rtc-preview').addClass('hidden');
+            $(container).find('#scene-description').addClass('hidden');
+            $(container).find('#scene-container').addClass('hidden');
+        }
+
+        // generic exploration live events
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
+                Tester.initScreenSharing(container);
+                clearAlerts(container);
+                explorationStartTriggered = true;
+                $(container).find('#fixed-rtc-preview').removeClass('hidden');
+                $(container).find('#scene-description').removeClass('hidden');
+            });
+
+            $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
+                currentExplorationIndex = payload.index;
+                currentExplorationScene = payload.sceneIndex;
+                console.log('render scene', payload);
+                $(container).find('#scene-description p').text(payload.description);
+                $(container).find('#scene-container').removeClass('hidden');
+            });
+        }
+
+
+        // handle live mode
+        if (!previewModeEnabled && peerConnection) {
+            $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_GESTURES).bind(MESSAGE_REQUEST_PREFERRED_GESTURES, function (event, payload) {
+                $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                    event.preventDefault();
+                    appendAlert($(container), ALERT_PLEASE_WAIT);
+                    $(container).find('#fixed-rtc-preview').addClass('hidden');
+                    $(container).find('#scene-description').addClass('hidden');
+                    $(container).find('#scene-container').addClass('hidden');
+                });
+                loadHTMLintoModal('custom-modal', 'modal-preferred-gestures.php', 'modal-md');
+            });
+        } else {
+            console.log('show modal');
+            $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
+            if (explorationPreferredGesturesRequest) {
+                $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                    event.preventDefault();
+                    appendAlert($(container), ALERT_PLEASE_WAIT);
+                    $(container).find('#fixed-rtc-preview').addClass('hidden');
+                    $(container).find('#scene-description').addClass('hidden');
+                    $(container).find('#scene-container').addClass('hidden');
+                });
+                loadHTMLintoModal('custom-modal', 'modal-preferred-gestures.php', 'modal-md');
+            }
+        }
+
+    },
+    renderUnmoderatedExploration: function renderUnmoderatedExploration(source, container, data) {
         // general data section
         $(container).find('.headline').text(data.title);
         $(container).find('.description').text(data.description);
-
-        if (explorationStartTriggered) {
-            $(container).find('#exploration-container').removeClass('hidden');
-        } else {
-            appendAlert(container, ALERT_PLEASE_WAIT);
-        }
-
-        // render data (gestures, trigger, scenes)
-        renderExplorationItems(container, data, 'modal-gesture-info');
-
-        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
-            if (!previewModeEnabled && peerConnection) {
-                $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
-                    explorationStartTriggered = true;
-                    clearAlerts(container);
-                    $(container).find('#exploration-container').removeClass('hidden');
-                });
-            }
-        }
-
-        if (explorationDone) {
-            $(container).find('#btn-exploration-done').remove();
-        }
-
-        $(container).find('#btn-exploration-done').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
-                $(this).remove();
-                if (!previewModeEnabled && peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_REACTIVATE_CONTROLS);
-                } else {
-                    explorationDone = true;
-                }
-            } else {
-                nextStep();
-            }
-        });
-
-        return container;
     },
     initializeRTC: function initializeRTC(container) {
         // check preview or live mode, and check if webRTC is needed
@@ -1832,6 +1871,7 @@ var Tester = {
         switch (currentPhase.format) {
             case SCENARIO:
             case IDENTIFICATION:
+            case EXPLORATION:
                 target = $(container).find('#fixed-rtc-preview');
                 break;
         }
@@ -1902,6 +1942,7 @@ var Tester = {
         switch (currentPhase.format) {
             case SCENARIO:
             case IDENTIFICATION:
+            case EXPLORATION:
                 target = $('#viewTester').find('#fixed-rtc-preview');
                 break;
         }
@@ -2196,4 +2237,35 @@ function getSelectionRating(data) {
             return data.sequenceStressGraphicsRating;
         }
     }
+}
+
+function animateLiveStream(target, zoom) {
+    if (zoom === true) {
+        var dimensions = calcDimensions();
+        TweenMax.to(target, .3, {width: dimensions.width + 'px', top: dimensions.top + 'px', left: dimensions.left + 'px', opacity: 1, onComplete: function () {
+                $(window).on('resize', function () {
+                    var dimensions = calcDimensions();
+                    target.css({width: dimensions.width + 'px', top: dimensions.top + 'px', left: dimensions.left + 'px'});
+                });
+            }});
+    } else {
+        TweenMax.to(target, .2, {width: 300 + 'px', top: '5px', left: '10px', opacity: .8, onComplete: function () {
+            }});
+    }
+}
+
+function calcDimensions() {
+    var screenSize = {width: $(window).width(), height: $(window).height()};
+    var maxHeight = screenSize.height - 200;
+    var maxWidth = maxHeight * 4 / 3;
+
+    var ratio = screenSize.width / screenSize.height;
+    if (ratio < 1) {
+        maxWidth = screenSize.width - 50;
+        maxHeight = maxWidth * 3 / 4;
+    }
+
+    var newTop = previewModeEnabled ? ((screenSize.height - maxHeight) / 2) - 88 : ((screenSize.height - maxHeight) / 2) - 55;
+    var newLeft = (screenSize.width - maxWidth) / 2;
+    return {width: maxWidth, height: maxHeight, top: newTop, left: newLeft};
 }

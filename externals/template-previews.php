@@ -827,47 +827,84 @@ include '../includes/language.php';
 
     <!-- exploration container -->
 
-    <div class="row root" id="exploration">
-        <div class="col-md-6 rtc-scalable" id="column-left">
-
-            <div class="panel panel-default" id="exploration-controls">
-                <div class="panel-heading">Exploration</div>
-                <div class="panel-body" style="padding-bottom: 0">
-                    <div style="margin-bottom: 20px;">
-                        <div style="float: left;  margin-right: 10px; ">
-                            Aktuelle Szene: <span class="label label-default">
-                                <i class="fa fa-link hidden" id="icon-pidoco"></i>
-                                <i class="fa fa-link hidden" id="icon-web"></i>
-                                <i class="fa fa-image hidden" id="icon-image"></i>
-                                <i class="fa fa-film hidden" id="icon-videoEmbed"></i> <span class="label-text"></span></span> <span id="current-scene" class="text">
-                            </span>
+    <!--    <div class="row root" id="exploration">
+            <div class="col-md-6 rtc-scalable" id="column-left">
+    
+                <div class="panel panel-default" id="exploration-controls">
+                    <div class="panel-heading">Exploration</div>
+                    <div class="panel-body" style="padding-bottom: 0">
+                        <div style="margin-bottom: 20px;">
+                            <div style="float: left;  margin-right: 10px; ">
+                                Aktuelle Szene: <span class="label label-default">
+                                    <i class="fa fa-link hidden" id="icon-pidoco"></i>
+                                    <i class="fa fa-link hidden" id="icon-web"></i>
+                                    <i class="fa fa-image hidden" id="icon-image"></i>
+                                    <i class="fa fa-film hidden" id="icon-videoEmbed"></i> <span class="label-text"></span></span> <span id="current-scene" class="text">
+                                </span>
+                            </div>
+                            <div class="btn-group" style="float: left;margin-top: 4px">
+                                <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text">Zustands-Vorschau</span></button>
+                                <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-reload-scene"><i class="glyphicon glyphicon-refresh"></i> <span class="btn-text">Zustand neu laden</span></button>
+                            </div>
+                            <div style="clear: both;"></div>
                         </div>
-                        <div class="btn-group" style="float: left;margin-top: 4px">
-                            <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text">Zustands-Vorschau</span></button>
-                            <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-reload-scene"><i class="glyphicon glyphicon-refresh"></i> <span class="btn-text">Zustand neu laden</span></button>
-                        </div>
-                        <div style="clear: both;"></div>
                     </div>
-                </div>
-                <hr style="margin: 0">
-                <div class="panel-body" style="padding-bottom: 0">
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="margin-top: 0px; margin-bottom: 10px">Simulationselemente</h4>
-                        <div class="text">Welche Geste stehen zur Auswahl?</div>
-                        <div class="alert-space alert-no-phase-data"></div>
-                        <div class="row" id="exploration-items-container" style="margin-top: 10px"></div>
-                        <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-show-gestures">Gestenauswahl starten</button>
-                        <button type="button" class="btn btn-default btn-block btn-shadow hidden disabled" id="btn-next-scene">Nächste Scene</button>
-                        <button type="button" class="btn btn-success btn-block btn-shadow hidden disabled" id="btn-next-step" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+                    <hr style="margin: 0">
+                    <div class="panel-body" style="padding-bottom: 0">
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="margin-top: 0px; margin-bottom: 10px">Simulationselemente</h4>
+                            <div class="text">Welche Geste stehen zur Auswahl?</div>
+                            <div class="alert-space alert-no-phase-data"></div>
+                            <div class="row" id="exploration-items-container" style="margin-top: 10px"></div>
+                            <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-show-gestures">Gestenauswahl starten</button>
+                            <button type="button" class="btn btn-default btn-block btn-shadow hidden disabled" id="btn-next-scene">Nächste Scene</button>
+                            <button type="button" class="btn btn-success btn-block btn-shadow hidden disabled" id="btn-next-step" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-md-6" id="column-right">
+                <div id="general">
+                    <h3 class="headline" style="margin-top: 0px">Allgemeines</h3>
+                    <p id="description"></p>
+                    <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-exploration" style="margin-top: 6px;">Jetzt starten</button>
+                </div>
+    
+                <div class="" id="observations">
+                    <h3><?php echo $lang->observations ?></h3>
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="question-container"></div>
+                </div>
+            </div>
+        </div>-->
+
+    <div class="row root" id="exploration">
+        <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left">
+            <div class="panel panel-default" id="slides">
+                <div class="panel-heading">
+                    <span class="panel-heading-text"></span>
+                </div>
+                <div class="panel-body">
+                    <div id="exploration-container"></div>
+                </div>
+            </div>
+
+            <div class="panel panel-default hidden" id="identified-gestures">
+                <div class="panel-heading">
+                    <span class="panel-heading-text">Favorisierte Geste(n)</span>
+                </div>
+                <div class="panel-body">
+                    <div class="alert-space alert-waiting-for-tester"></div>
+                    <div class="question-container"></div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6" id="column-right">
-            <div id="general">
-                <h3 class="headline" style="margin-top: 0px">Allgemeines</h3>
+        <div class="col-md-6 col-lg-7" id="column-right">
+            <div class="" id="general">
+                <h3 class="headline" style="margin: 0"></h3>
                 <p id="description"></p>
-                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-exploration" style="margin-top: 6px;">Jetzt starten</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;">Screensharing starten</button>
             </div>
 
             <div class="" id="observations">
@@ -878,26 +915,26 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="" id="grouped-exploration-item"></div>
-
-    <div class="" id="ungrouped-exploration-scene-panel">
-        <h4 class=""><?php echo $lang->scenes ?></h4>
-        <div class="" id="panel-container"></div>
-    </div>
-
-    <div class="" id="ungrouped-exploration-trigger-panel" style="margin-top: 20px">
-        <h4 class=""><?php echo $lang->triggers ?></h4>
-        <div class="" id="panel-container">
-
+    <div id="explorationItem">
+        <div id="search-for"><span class="address"></span> <span class="text"></span></div>
+        <div id="transition-scenes" class="root"></div>
+        <div style="margin-top: 10px">
+            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-next-trigger" name="btn-success">Nächste Funktion &rarr;</button>
+            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
 
-    <div class="" id="ungrouped-exploration-gesture-panel" style="margin-top: 20px">
-        <h4 class=""><?php echo $lang->gestures ?></h4>
-        <div class="row" id="panel-container">
-
+    <div id="explorationItem-ask">
+        <div id="search-for"><span class="address"></span> <span class="text"></span></div>
+        <div id="transition-scenes" class="root"></div>
+        <div style="margin-top: 10px">
+            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-gestures" name="btn-success">Favorisierte Geste(n) erfragen</span></button>
+            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-next-trigger" name="btn-success">Nächste Funktion &rarr;</button>
+            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
+
+
 
     <div id="trigger-catalog-thumbnail" class="text"></div>
 
@@ -926,31 +963,31 @@ include '../includes/language.php';
 
     <div id="interactive-scenes-catalog-thumbnail" style="margin-top: 8px">
         <div class="btn-group hidden" id="info-pidoco">
-            <button class="btn btn-default btn-reset-scene disabled"><i class="fa fa-refresh"></i></button>
+            <!--<button class="btn btn-default btn-reset-scene disabled"><i class="fa fa-refresh"></i></button>-->
             <button class="btn btn-default btn-trigger-scene disabled">
-                <span class=""><i class="fa fa-link"></i> <?php echo $lang->sceneTypes->pidoco ?></span>
-                <span class="btn-text"></span>
+                <span class="badge"><i class="fa fa-link"></i> <?php echo $lang->sceneTypes->pidoco ?></span> 
+                <span class="btn-text" style="margin-left: 5px"></span>
             </button>
         </div>             
         <div class="btn-group hidden" id="info-web">
-            <button class="btn btn-default btn-reset-scene disabled"><i class="fa fa-refresh"></i></button>
+            <!--<button class="btn btn-default btn-reset-scene disabled"><i class="fa fa-refresh"></i></button>-->
             <button class="btn btn-default btn-trigger-scene disabled">
-                <span class=""><i class="fa fa-link"></i> <?php echo $lang->sceneTypes->web ?></span>
-                <span class="btn-text"></span>
+                <span class="badge"><i class="fa fa-link" style=""></i> <?php echo $lang->sceneTypes->web ?></span> 
+                <span class="btn-text" style="margin-left: 5px"></span>
             </button>
         </div>
         <div class="btn-group hidden" id="info-image">
-            <button class="btn btn-default btn-reset-scene disabled"><i class="fa fa-refresh"></i></button>
+            <!--<button class="btn btn-default btn-reset-scene disabled"><i class="fa fa-refresh"></i></button>-->
             <button class="btn btn-default btn-trigger-scene disabled">
-                <span class=""><i class="fa fa-image"></i> <?php echo $lang->sceneTypes->image ?></span> 
-                <span class="btn-text"></span>
+                <span class="badge"><i class="fa fa-image"></i> <?php echo $lang->sceneTypes->image ?></span> 
+                <span class="btn-text" style="margin-left: 5px"></span>
             </button>
         </div>
         <div class="btn-group hidden" id="info-videoEmbed">
-            <button class="btn btn-default btn-reset-scene disabled"><i class="fa fa-refresh"></i></button>
+            <!--<button class="btn btn-default btn-reset-scene disabled"><i class="fa fa-refresh"></i></button>-->
             <button class="btn btn-default btn-trigger-scene disabled">
-                <span class=""><i class="fa fa-film"></i> <?php echo $lang->sceneTypes->videoEmbed ?></span>
-                <span class="btn-text"></span>
+                <span class="badge"><i class="fa fa-film"></i> <?php echo $lang->sceneTypes->videoEmbed ?></span> 
+                <span class="btn-text" style="margin-left: 5px"></span>
             </button>
         </div>
         <div class="scene-description hidden text" style="margin-bottom: 10px">
@@ -1373,22 +1410,16 @@ include '../includes/language.php';
 
     <!-- exploration -->
 
-    <div class="root" id="exploration" style="margin-top: 80px;"></div>
+    <div class="root" id="exploration" style="width: 100%; margin-top: 54px"></div>
 
     <div id="exploration-moderated">
-        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <div id="general">
-                <h3 style="margin: 0"  class="headline"></h3>
-                <div class="description"></div>
-                <hr>
-            </div>
+        <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
+        <div class="text-shadow-black text-center" id="scene-description" style="position: absolute; top: 5px; left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
+
+        <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; top: 5px; left: 10px; pointer-events: none; opacity: 0.8"></div>
+
+        <div class="" style="margin-top: 55px; padding: 20px">
             <div class="alert-space alert-please-wait"></div>
-            <div id="exploration-container" class="hidden">
-                <div id="exploration-items-container"></div>
-                <hr>
-                <button class="btn btn-success btn-shadow pull-right" id="btn-exploration-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
-            </div>
         </div>
     </div>
 
@@ -1415,7 +1446,6 @@ include '../includes/language.php';
 
 
     <div class="" id="identificationModerated">
-
         <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
         <div class="text-shadow-black text-center" id="scene-description" style="position: absolute; top: 5px; left: 50%; margin-left: -225px; width: 450px; color:white; padding: 5px; background-color: rgba(0,0,0,.4); border-radius: 10px"><h4 style="color:white">Beschreibung</h4><p></p></div>
 

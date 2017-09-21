@@ -786,8 +786,8 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
 }
 
 function getAnswerForId(id, data, sequentialAnswerSearch, index) {
-//    console.log(id, data);
-    if (sequentialAnswerSearch === true) {
+    console.log(id, data, sequentialAnswerSearch);
+    if (sequentialAnswerSearch && sequentialAnswerSearch === true) {
         var answer = data.answers[index].answer;
         if (answer) {
             return answer;
@@ -795,7 +795,7 @@ function getAnswerForId(id, data, sequentialAnswerSearch, index) {
     } else if (data && data.answers && data.answers.length > 0) {
         for (var i = 0; i < data.answers.length; i++) {
             if (parseInt(id) === parseInt(data.answers[i].id)) {
-//                console.log('answer found for', id, data.answers[i].answer);
+                console.log('answer found for', id, data.answers[i].answer);
                 return data.answers[i].answer;
             }
         }
@@ -1010,6 +1010,7 @@ function renderEditableGroupingQuestion(item, studyData, answer) {
 
 
 function renderGroupingQuestionGUS(item, studyData, answer) {
+    console.log(item, studyData, answer);
     var options;
     switch (studyData.parameters.optionSource) {
         case 'gestures':
@@ -1021,6 +1022,10 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
         case 'feedbacks':
             options = getLocalItem(ASSEMBLED_FEEDBACK);
             break;
+    }
+    
+    if(studyData.parameters.options) {
+        options = studyData.parameters.options;
     }
 
     if (studyData.parameters.multiselect === 'yes') {
@@ -1058,6 +1063,7 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
                 optionItem.find('#' + studyData.parameters.justificationFor).removeClass('hidden');
 
                 if (answer) {
+                    console.log(answer, options[i].id);
                     var values = answer[options[i].id];
                     if (studyData.parameters.justificationFor === 'selectOne') {
                         if (values.selected === 'yes' && values.justification !== '') {
@@ -1893,6 +1899,10 @@ function renderGroupingQuestionGUSInput(item, parameters) {
         case 'feedbacks':
             options = getLocalItem(ASSEMBLED_FEEDBACK);
             break;
+    }
+    
+    if(parameters.options) {
+        options = parameters.options;
     }
 
     if (options && options.length > 0) {

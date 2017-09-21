@@ -544,7 +544,7 @@ function initScenarioOverlay(id, formatClone) {
     if (scenes === null) {
         appendAlert($(formatClone).find('#wozExperiment'), ALERT_NO_SCENES_ASSEMBLED_LINK);
         $(formatClone).find('#wozExperiment .btn-add-woz-experimentOption').addClass('hidden');
-        $(formatClone).find$('#help .btn-add-helpOption').addClass('hidden');
+        $(formatClone).find('#help .btn-add-helpOption').addClass('hidden');
         $(formatClone).find('#btn-assemble-scenes').on('click', function (event) {
             event.preventDefault();
             $(formatClone).find('.btn-close-overlay').click();
@@ -852,6 +852,8 @@ function initScenarioOverlay(id, formatClone) {
             $(optionItems).find('.transition-mode').removeClass('hidden');
             $(optionItems).first().find('.transition-mode').addClass('hidden');
             $(optionItems).last().find('.transition-mode').addClass('hidden');
+            $(optionItems).first().find('.transition-time-stepper').addClass('hidden');
+            $(optionItems).last().find('.transition-time-stepper').addClass('hidden');
             resetDynamicAffixScrolling(formatClone);
         });
 
@@ -1296,7 +1298,7 @@ function initElicitationOverlay(id, formatClone) {
                 appendAlert(container, ALERT_NO_GESTURES_ASSEMBLED);
                 $(container).find('.btn-add-identificationOption').addClass('disabled');
             }
-            
+
             var scenes = getLocalItem(ASSEMBLED_SCENES);
             if (scenes && scenes.length > 0) {
                 renderAssembledScenes();
@@ -1425,8 +1427,8 @@ function initElicitationOverlay(id, formatClone) {
                 tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#identificationElements .option-container'), null, true);
 
 //                if (data.identificationFor === 'gestures') {
-                    initAddTransitionSceneButton(item);
-                    $(item).find('.btn-add-transition-scene').click();
+                initAddTransitionSceneButton(item);
+                $(item).find('.btn-add-transition-scene').click();
 //                }
             } else {
                 wobble($(formatClone).find('#identificationTypeSwitch'));
@@ -1505,6 +1507,7 @@ function initExplorationOverlay(id, formatClone) {
 //    console.log(assembledTrigger, assembledScenes);
 
     var data = getLocalItem(id + '.data');
+    console.log(data);
     if (data) {
         renderData(data);
     } else if (assembledGestures() !== null && assembledTrigger && assembledScenes) {
@@ -1516,7 +1519,15 @@ function initExplorationOverlay(id, formatClone) {
     function renderData(data) {
         $(formatClone).find('#explorationTitle').val(data.title);
         $(formatClone).find('#explorationDescription').val(data.description);
-        $(formatClone).find('#askPreferredGestureSwitch #' + data.askPreferredGesture).click();
+
+        $(formatClone).find('#explorationTypeSwitch #' + data.explorationType).click();
+        if (data.explorationType === 'gestures') {
+            $(formatClone).find('#askPreferredGestureSwitch').removeClass('hidden');
+            $(formatClone).find('#askPreferredGestureSwitch #' + data.askPreferredGesture).click();
+        } else {
+            $(formatClone).find('#askPreferredTriggerSwitch').removeClass('hidden');
+            $(formatClone).find('#askPreferredTriggerSwitch #' + data.askPreferredTrigger).click();
+        }
 
         renderExplorationItems(data.exploration);
         renderObservations(formatClone, data.observations);
@@ -1524,41 +1535,52 @@ function initExplorationOverlay(id, formatClone) {
 
     function renderExplorationItems(items) {
         if (items !== undefined && items.length > 0) {
+            console.log(data.explorationType, items);
             var container = $(formatClone).find('#explorationElements .option-container');
             for (var i = 0; i < items.length; i++) {
-                var clone = $('#form-item-container').find('#explorationItem').clone().removeAttr('id');
+                var clone = $('#form-item-container').find('#explorationItem-' + data.explorationType).clone().removeAttr('id');
                 $(clone).removeAttr('id');
                 container.append(clone);
 
-                var trigger = getTriggerById(items[i].triggerId);
-                if (trigger && getTriggerById(trigger.id) !== null) {
-                    $(clone).find('.triggerSelect #' + trigger.id).click();
-                } else {
-                    appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
-                }
 
-                renderAssembledGestures(clone.find('#assembled-gestures-container'), items[i].gestures);
 
-                if (items[i].transitionScenes && items[i].transitionScenes.length > 0) {
-                    for (var j = 0; j < items[i].transitionScenes.length; j++) {
-                        var scene = getSceneById(items[i].transitionScenes[j].sceneId);
-                        var item = $('#form-item-container').find('#transition-scene-option').clone().removeAttr('id');
-                        $(clone).find('.transition-scenes-option-container').append(item);
-                        if (scene) {
-                            $(item).find('.sceneSelect #' + scene.id).click();
-                        } else if (items[i].transitionScenes[j].sceneId !== 'unselected') {
-                            appendAlert(item, ALERT_ASSEMBLED_SCENE_REMOVED);
-                        }
-
-//                        if (j > 0 && j < items[i].transitionScenes.length - 1) {
-//                            $(item).find('.transition-time-stepper').removeClass('hidden');
-//                            $(item).find('.transition-time-stepper .stepper-text').val(items[i].transitionScenes[j].transitionTime);
-//                        }
+                if (data.explorationType === 'gestures') {
+                    var trigger = getTriggerById(items[i].triggerId);
+                    if (trigger !== null) {
+                        $(clone).find('.triggerSelect #' + trigger.id).click();
+                    } else if (items[i].triggerId !== 'unselected') {
+                        appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
                     }
-                    checkCurrentListState($(clone).find('.transition-scenes-option-container'));
-                }
 
-                initAddTransitionSceneButton(clone);
+                    renderAssembledGesturesItems(clone.find('#assembled-gestures-container'), items[i].gestures);
+
+                    if (items[i].transitionScenes && items[i].transitionScenes.length > 0) {
+                        for (var j = 0; j < items[i].transitionScenes.length; j++) {
+                            var scene = getSceneById(items[i].transitionScenes[j].sceneId);
+                            var item = $('#form-item-container').find('#transition-scene-option').clone().removeAttr('id');
+                            $(clone).find('.transition-scenes-option-container').append(item);
+                            if (scene) {
+                                $(item).find('.sceneSelect #' + scene.id).click();
+                            } else if (items[i].transitionScenes[j].sceneId !== 'unselected') {
+                                appendAlert(item, ALERT_ASSEMBLED_SCENE_REMOVED);
+                            }
+
+                            $(item).find('#scene-description').val(items[i].transitionScenes[j].description);
+                        }
+                        checkCurrentListState($(clone).find('.transition-scenes-option-container'));
+                    }
+
+                    initAddTransitionSceneButton(clone);
+                } else {
+                    var gesture = getGestureById(items[i].gestureId);
+                    if (gesture) {
+                        $(clone).find('.gestureSelect #' + gesture.id).click();
+                    } else if (items[i].gestureId !== 'unselected') {
+                        appendAlert(clone, ALERT_ASSEMBLED_GESTURE_REMOVED);
+                    }
+
+                    renderAssembledTriggerItems(clone.find('#assembled-trigger-container'), items[i].trigger);
+                }
             }
             checkCurrentListState(container);
         } else {
@@ -1566,7 +1588,7 @@ function initExplorationOverlay(id, formatClone) {
         }
     }
 
-    function renderAssembledGestures(container, gestureIds) {
+    function renderAssembledGesturesItems(container, gestureIds) {
         var assemGestures = assembledGestures();
         for (var i = 0; i < assemGestures.length; i++) {
             var thumbnail = getGestureSceneListThumbnail(assemGestures[i], 'add-gesture-to-scene-thumbnail');
@@ -1576,8 +1598,39 @@ function initExplorationOverlay(id, formatClone) {
 
         if (gestureIds && gestureIds.length > 0) {
             for (var i = 0; i < gestureIds.length; i++) {
-                console.log($(container).find('#' + gestureIds[i]));
                 $(container).find('#' + gestureIds[i] + ' .btn-add-gesture-to-scene').click();
+            }
+        }
+    }
+
+    function renderAssembledTriggerItems(container, triggerIds) {
+        var assemTrigger = getLocalItem(ASSEMBLED_TRIGGER);
+        for (var i = 0; i < assemTrigger.length; i++) {
+            var item = $('#form-item-container').find('#assembled-trigger-option').clone().removeAttr('id');
+            $(item).attr('id', assemTrigger[i].id);
+            $(item).find('.trigger-title').text(assemTrigger[i].title);
+            $(container).append(item);
+
+            if (i > 0) {
+                $(item).css({marginTop: '5px'});
+            }
+
+            $(item).find('.btn-add-trigger-to-gesture').on('click', function (event) {
+                if ($(this).hasClass('btn-info')) {
+                    $(this).removeClass('btn-info').addClass('btn-danger');
+                    $(this).find('.fa').removeClass('fa-plus').addClass('fa-minus');
+                    $(this).parent().find('.trigger-title').addClass('text');
+                } else {
+                    $(this).removeClass('btn-danger').addClass('btn-info');
+                    $(this).find('.fa').removeClass('fa-minus').addClass('fa-plus');
+                    $(this).parent().find('.trigger-title').removeClass('text');
+                }
+            });
+        }
+
+        if (triggerIds && triggerIds.length > 0) {
+            for (var i = 0; i < triggerIds.length; i++) {
+                $(container).find('#' + triggerIds[i] + ' .btn-add-trigger-to-gesture').click();
             }
         }
     }
@@ -1588,7 +1641,12 @@ function initExplorationOverlay(id, formatClone) {
         var data = new Object();
         data.title = $(formatClone).find('#explorationTitle').val();
         data.description = $(formatClone).find('#explorationDescription').val();
-        data.askPreferredGesture = $(formatClone).find('#askPreferredGestureSwitch .btn-option-checked').attr('id');
+        data.explorationType = $(formatClone).find('#explorationTypeSwitch .btn-option-checked').attr('id');
+        if (data.explorationType === 'gestures') {
+            data.askPreferredGesture = $(formatClone).find('#askPreferredGestureSwitch .btn-option-checked').attr('id');
+        } else {
+            data.askPreferredTrigger = $(formatClone).find('#askPreferredTriggerSwitch .btn-option-checked').attr('id');
+        }
 
         saveExplorationItems(data);
         saveObservations(formatClone, $(formatClone).find('#observations #list-container').children(), data);
@@ -1601,35 +1659,56 @@ function initExplorationOverlay(id, formatClone) {
             var set = new Array();
             for (var i = 0; i < explorationItem.length; i++) {
                 var item = explorationItem[i];
+                console.log(data.explorationType);
+                if (data.explorationType === 'gestures') {
+                    var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
+                    var trigger = getTriggerById(triggerId);
+                    var gestureIds = [];
+                    $(item).find('#assembled-gestures-container .panel-info').each(function () {
+                        gestureIds.push($(this).closest('.root').attr("id"));
+                    });
 
-//                var sceneId = $(item).find('#start-scene .chosen').attr('id');
-//                var scene = getSceneById(sceneId);
-                var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
-                var trigger = getTriggerById(triggerId);
-                var gestureIds = [];
-                console.log($(item).find('#assembled-gestures-container').children());
-                $(item).find('#assembled-gestures-container .panel-info').each(function () {
-                    gestureIds.push($(this).closest('.root').attr("id"));
-                });
+                    var transitionScenes = [];
+                    var transitionItems = $(item).find('.transition-scenes-option-container').children();
+                    for (var j = 0; j < transitionItems.length; j++) {
+                        transitionScenes.push({sceneId: $(transitionItems[j]).find('.sceneSelect .chosen').attr('id'), description: $(transitionItems[j]).find('#scene-description').val().trim()});
+                    }
+                    console.log(trigger, triggerId, gestureIds, transitionScenes);
 
-                var transitionScenes = [];
-                var transitionItems = $(item).find('.transition-scenes-option-container').children()
-                for (var j = 0; j < transitionItems.length; j++) {
-                    var object = {sceneId: $(transitionItems[j]).find('.sceneSelect .chosen').attr('id')};
-//                    if (j > 0 && j < transitionItems.length - 1) {
-//                        object.transitionTime = $(transitionItems[j]).find('.transition-time-stepper .stepper-text').val();
-//                    }
-                    transitionScenes.push(object);
-                }
-                console.log(trigger, triggerId, gestureIds, transitionScenes);
+                    if (trigger && gestureIds.length > 0 && transitionScenes.length > 0) {
+                        set.push({triggerId: triggerId, gestures: gestureIds, transitionScenes: transitionScenes});
+                    }
+                } else {
+                    var gestureId = $(item).find('.gestureSelect .chosen').attr('id');
+                    var gesture = getGestureById(gestureId);
 
-                if (trigger && gestureIds.length > 0 && transitionScenes.length > 0) {
-                    set.push({triggerId: triggerId, gestures: gestureIds, transitionScenes: transitionScenes});
+                    var triggerIds = [];
+                    $(item).find('#assembled-trigger-container .btn-danger').each(function () {
+                        triggerIds.push($(this).closest('.root').attr("id"));
+                    });
+                    console.log(gesture, triggerIds);
+
+                    if (gesture && triggerIds.length > 0) {
+                        set.push({gestureId: gestureId, trigger: triggerIds});
+                    }
                 }
             }
             data.exploration = set;
         }
     }
+
+    $(formatClone).find('#explorationTypeSwitch').unbind('change').bind('change', function (event) {
+        event.preventDefault();
+        $(formatClone).find('#explorationElements .option-container').empty();
+        if ($(this).find('.btn-option-checked').attr('id') === 'gestures') {
+            $(formatClone).find('#askPreferredGestureSwitch').removeClass('hidden');
+            $(formatClone).find('#askPreferredTriggerSwitch').addClass('hidden');
+        } else {
+            $(formatClone).find('#askPreferredTriggerSwitch').removeClass('hidden');
+            $(formatClone).find('#askPreferredGestureSwitch').addClass('hidden');
+        }
+        $(formatClone).find('#explorationElements .option-container').trigger('change');
+    });
 
     $(formatClone).find('#explorationElements .btn-add-explorationOption').on('click', function (event) {
         event.preventDefault();
@@ -1638,11 +1717,17 @@ function initExplorationOverlay(id, formatClone) {
             event.handled = true;
             if (!$(this).hasClass('disabled')) {
                 clearAlerts($(formatClone).find('#explorationElements'));
-                var item = $('#form-item-container').find('#explorationItem').clone().removeAttr('id');
+                var explorationType = $(formatClone).find('#explorationTypeSwitch .btn-option-checked').attr('id');
+                var item = $('#form-item-container').find('#explorationItem-' + explorationType).clone().removeAttr('id');
                 tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#explorationElements .option-container'), null, true);
-                renderAssembledGestures(item.find('#assembled-gestures-container'));
-                initAddTransitionSceneButton(item);
-                $(item).find('.btn-add-transition-scene').click();
+
+                if (explorationType === 'gestures') {
+                    renderAssembledGesturesItems(item.find('#assembled-gestures-container'));
+                    initAddTransitionSceneButton(item);
+                    $(item).find('.btn-add-transition-scene').click();
+                } else {
+                    renderAssembledTriggerItems(item.find('#assembled-trigger-container'));
+                }
             } else {
 //                wobble($(formatClone).find('#identificationTypeSwitch'));
             }

@@ -86,11 +86,12 @@
                 switch (query.type) {
                     case SCENARIO:
                         startScene = getSceneById(phaseStepData.scene);
-                        console.log(startScene);
                         break;
                     case IDENTIFICATION:
-                    case EXPLORATION:
                         startScene = getSceneById(phaseStepData.identification[0].transitionScenes[0].sceneId);
+                        break;
+                    case EXPLORATION:
+                        startScene = getSceneById(phaseStepData.exploration[0].transitionScenes[0].sceneId);
                         break;
                 }
 

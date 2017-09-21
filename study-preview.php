@@ -111,7 +111,7 @@ if (login_check($mysqli) == true) {
         </div>
 
         <!-- modals -->
-        <div id="custom-modal" class="modal fade" role="dialog">
+        <div id="custom-modal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
@@ -120,50 +120,6 @@ if (login_check($mysqli) == true) {
                 </div>
             </div>
         </div>
-
-        <!--        <div class="modal fade" tabindex="-1" role="dialog" id="help-modal" data-keyboard="false">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Hilfe</h4>
-                            </div>
-                            <div class="modal-body root">
-                                <p id="help-text" class="text"></p>
-                                <div id="gesture-preview" class="hidden">
-                                    <div class="previewGesture autoplay"></div>
-                                    <div class="text-center gestureControls">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                                            <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
-                                            <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-info btn-block" data-dismiss="modal"><span class="btn-text">Okay</span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
-
-        <!--        <div class="modal fade" tabindex="-1" role="dialog" id="preview-modal" data-backdrop="static" >
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-        
-                        </div>
-                    </div>
-                </div>-->
-
-        <!--affixed pager-->
-<!--        <nav id="pager-bottom">
-            <ul class="pager">
-                <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> <?php echo $lang->previous ?></a></li>
-                <li class="next disabled"><a href="#"><?php echo $lang->next ?> <span aria-hidden="true">&rarr;</span></a></li>
-            </ul>
-        </nav>-->
 
         <div id="draggableRTC" class="hidden" style="position: fixed; z-index: 99; top: 150px; left:100px; display: block">
             <img src="img/resize.png" id="resize-sign" style="position: absolute; bottom: 0; right: 0;"/>
@@ -177,14 +133,7 @@ if (login_check($mysqli) == true) {
             </div>
 
             <div id="viewModerator" class="hidden" style="padding-left: 20px; padding-right: 20px;">
-                <div id="pinnedRTC" style="position: fixed">
-                    <!--                    <div id="web-rtc-placeholder" class="web-rtc-placeholder" style="width: 100%">
-                                            <img src="img/web-rtc-placeholder.jpg" width="100%" height="auto"/>
-                                            <div id="rtc-controls" class="btn-group" style="position: absolute; top: 0; left: 0;">
-                                                <button type="button" id="btn-toggle-rtc-fixed" class="btn btn-link btn-no-shadow"><i class="glyphicon glyphicon-new-window"></i></button>
-                                            </div>
-                                        </div>-->
-                </div>
+                <div id="pinnedRTC" style="position: fixed"></div>
 
                 <div id="phase-content"></div>
             </div>
@@ -204,47 +153,7 @@ if (login_check($mysqli) == true) {
                     externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
                 });
-            });
-
-//            $(window).on('resize', function () {
-////                            console.log('resize: ' + $(document).scrollTop());
-//                if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
-//                    updateRTCHeight($('#viewModerator #column-left').width());
-//                }
-//
-//            });
-//
-//            function updateRTCHeight(newWidth) {
-//                TweenMax.to($('#web-rtc-placeholder'), .1, {width: newWidth, onComplete: onResizeComplete});
-//            }
-//
-//            function onResizeComplete() {
-//                var ratio = $('#web-rtc-placeholder').width() / $('#web-rtc-placeholder').height();
-//                $('#web-rtc-placeholder').attr('ratio', ratio);
-//                TweenMax.to($('#viewModerator #column-left'), .2, {css: {marginTop: $('#web-rtc-placeholder').height() + 20, opacity: 1.0}});
-//            }
-//
-//            var resetRTCTimeout;
-//            $(window).scroll(function () {
-//                if ($('#viewModerator #column-left').hasClass('rtc-scalable') && !$('#pinnedRTC').hasClass('hidden')) {
-//                    if ($(document).scrollTop() <= 0 && ($('#viewModerator #column-left').width() !== $('#web-rtc-placeholder').width() || $('#web-rtc-placeholder').height() !== $('#viewModerator #column-left').offset().top - 20)) {
-//                        resetRTCTimeout = setTimeout(resetRTC(), 100);
-//                        return false;
-//                    } else {
-//                        clearTimeout(resetRTCTimeout);
-//                    }
-//
-//                    var ratio = $('#web-rtc-placeholder').attr('ratio');
-//                    var newHeight = Math.min($('#viewModerator #column-left').offset().top - 90 - parseInt($('#mainContent').css('padding-top')), Math.max($('#viewModerator #column-left').offset().top - $(document).scrollTop() - 90 - parseInt($('#mainContent').css('padding-top')), 170));
-//                    $('#web-rtc-placeholder').width(Math.min(newHeight * ratio, $('#viewModerator #column-left').width()));
-//                }
-//            });
-//
-//            function resetRTC() {
-//                clearTimeout(resetRTCTimeout);
-//                $(window).resize();
-//            }
-            
+            });            
             
             $(window).on('resize', function () {
                 if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
@@ -382,7 +291,6 @@ if (login_check($mysqli) == true) {
                     renderPhaseStepForModerator();
                 }
 
-//                console.log(getCurrentPhase().id);
                 window.location.hash = getCurrentPhase().id;
             }
 
@@ -402,7 +310,6 @@ if (login_check($mysqli) == true) {
             }
 
             $(document).on('click', '.btn-toggle-rtc-fixed', function (event) {
-                console.log('btn-toggle-rtc-fixed');
                 event.preventDefault();
                 if ($(this).hasClass('selected')) {
                     $(this).removeClass('selected');
