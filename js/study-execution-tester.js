@@ -906,9 +906,7 @@ var Tester = {
                 currentIdentificationIndex = payload.index;
                 currentIdentificationScene = payload.sceneIndex;
                 console.log('render scene', payload);
-//                if (data.identificationFor === 'gestures') {
                 $(container).find('#scene-description p').text(payload.description);
-//                }
                 $(container).find('#scene-container').removeClass('hidden');
             });
         }
@@ -918,11 +916,12 @@ var Tester = {
         if (data.identificationFor === 'gestures') {
             if (!previewModeEnabled && peerConnection) {
                 $(peerConnection).unbind(MESSAGE_START_RECORDING_GESTURE).bind(MESSAGE_START_RECORDING_GESTURE, function (event, payload) {
-                    console.log('start separate gesture recording');
+                    clearAlerts(container);
                     peerConnection.startRecordSeparateChunks();
                     animateLiveStream($(container).find('#fixed-rtc-preview'), true);
                     $(container).find('#fixed-rtc-preview').removeClass('hidden');
-                    $(container).find('#scene-description').removeClass('hidden');
+                    $(container).find('#scene-description').addClass('hidden');
+                    $(container).find('#scene-container').removeClass('hidden');
                 });
 
                 $(peerConnection).unbind(MESSAGE_STOP_RECORDING_GESTURE).bind(MESSAGE_STOP_RECORDING_GESTURE, function (event, payload) {
@@ -944,6 +943,7 @@ var Tester = {
         } else {
             if (!previewModeEnabled && peerConnection) {
                 $(peerConnection).unbind(MESSAGE_REQUEST_TRIGGER).bind(MESSAGE_REQUEST_TRIGGER, function (event, payload) {
+                    $(container).find('#scene-description').addClass('hidden');
                     $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                         event.preventDefault();
                         appendAlert($(container), ALERT_PLEASE_WAIT);
@@ -951,11 +951,11 @@ var Tester = {
                         $(container).find('#scene-description').addClass('hidden');
                         $(container).find('#scene-container').addClass('hidden');
                     });
-                    loadHTMLintoModal('custom-modal', 'modal-preferred-trigger.php', 'modal-md');
+                    loadHTMLintoModal('custom-modal', 'modal-request-trigger.php', 'modal-md');
                 });
             } else {
                 console.log('show modal');
-                $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                $(container).find('#scene-description').addClass('hidden');
                 if (identificationTriggerRequest) {
                     $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                         event.preventDefault();
@@ -964,42 +964,10 @@ var Tester = {
                         $(container).find('#scene-description').addClass('hidden');
                         $(container).find('#scene-container').addClass('hidden');
                     });
-                    loadHTMLintoModal('custom-modal', 'modal-preferred-trigger.php', 'modal-md');
+                    loadHTMLintoModal('custom-modal', 'modal-request-trigger.php', 'modal-md');
                 }
             }
         }
-    },
-    initScreenSharing: function initScreenSharing(container) {
-        var query = getQueryParams(document.location.search);
-        var screen = null;
-        if (query.roomId === undefined) {
-            screen = new Screen('previewRoom');
-        } else {
-            screen = new Screen(query.roomId + 'screensharing');
-        }
-
-        screen.onaddstream = function (e) {
-            console.log('on add screen');
-            var video = e.video;
-            container.find('#scene-container').empty().append(video);
-            var newHeight = $(window).height();
-            container.find('#scene-container').css({height: newHeight + "px"});
-            $(video).css({height: '100%', width: '100%', objectFit: 'contain'});
-            $(video).removeAttr('controls');
-
-            $(window).on('resize', function () {
-                var newHeight = $(window).height();
-                container.find('#scene-container').css({height: newHeight + "px"});
-            });
-        };
-
-        screen.onuserleft = function (userid) {
-            appendAlert($(container), ALERT_PLEASE_WAIT);
-            container.find('#scene-container').empty();
-            container.find('#scene-description').addClass('hidden');
-            $(container).find('#fixed-rtc-preview').addClass('hidden');
-        };
-        screen.check();
     },
     renderUnmoderatedIdentification: function renderUnmoderatedIdentification(source, container, data) {
         container.append($(source).find('#identificationUnmoderated').clone().removeAttr('id'));
@@ -1820,28 +1788,51 @@ var Tester = {
 
         // handle live mode
         if (!previewModeEnabled && peerConnection) {
-            $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_GESTURES).bind(MESSAGE_REQUEST_PREFERRED_GESTURES, function (event, payload) {
-                $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                    event.preventDefault();
-                    appendAlert($(container), ALERT_PLEASE_WAIT);
-                    $(container).find('#fixed-rtc-preview').addClass('hidden');
-                    $(container).find('#scene-description').addClass('hidden');
-                    $(container).find('#scene-container').addClass('hidden');
+            if (data.explorationType === 'gestures') {
+                $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_GESTURES).bind(MESSAGE_REQUEST_PREFERRED_GESTURES, function (event, payload) {
+                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                        event.preventDefault();
+                        appendAlert($(container), ALERT_PLEASE_WAIT);
+                        $(container).find('#scene-description').addClass('hidden');
+                        $(container).find('#scene-container').addClass('hidden');
+                    });
+                    loadHTMLintoModal('custom-modal', 'modal-preferred-gestures.php', 'modal-md');
                 });
-                loadHTMLintoModal('custom-modal', 'modal-preferred-gestures.php', 'modal-md');
-            });
+            } else {
+                $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_TRIGGER).bind(MESSAGE_REQUEST_PREFERRED_TRIGGER, function (event, payload) {
+                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                        event.preventDefault();
+                        appendAlert($(container), ALERT_PLEASE_WAIT);
+                        $(container).find('#scene-description').addClass('hidden');
+                        $(container).find('#scene-container').addClass('hidden');
+                    });
+                    loadHTMLintoModal('custom-modal', 'modal-preferred-trigger.php', 'modal-md');
+                });
+            }
         } else {
             console.log('show modal');
             $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
-            if (explorationPreferredGesturesRequest) {
-                $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
-                    event.preventDefault();
-                    appendAlert($(container), ALERT_PLEASE_WAIT);
-                    $(container).find('#fixed-rtc-preview').addClass('hidden');
-                    $(container).find('#scene-description').addClass('hidden');
-                    $(container).find('#scene-container').addClass('hidden');
-                });
-                loadHTMLintoModal('custom-modal', 'modal-preferred-gestures.php', 'modal-md');
+            if (data.explorationType === 'gestures') {
+                if (explorationPreferredGesturesRequest) {
+                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                        event.preventDefault();
+                        appendAlert($(container), ALERT_PLEASE_WAIT);
+                        $(container).find('#fixed-rtc-preview').addClass('hidden');
+                        $(container).find('#scene-description').addClass('hidden');
+                        $(container).find('#scene-container').addClass('hidden');
+                    });
+                    loadHTMLintoModal('custom-modal', 'modal-preferred-gestures.php', 'modal-md');
+                }
+            } else {
+                if (explorationPreferredGesturesRequest) {
+                    $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
+                        event.preventDefault();
+                        appendAlert($(container), ALERT_PLEASE_WAIT);
+                        $(container).find('#scene-description').addClass('hidden');
+                        $(container).find('#scene-container').addClass('hidden');
+                    });
+                    loadHTMLintoModal('custom-modal', 'modal-preferred-trigger.php', 'modal-md');
+                }
             }
         }
 
@@ -1922,6 +1913,7 @@ var Tester = {
 
                 $(peerConnection).unbind(MESSAGE_SYNC_PHASE_STEP).bind(MESSAGE_SYNC_PHASE_STEP, function (event, payload) {
                     console.log('on sync phase step', payload.index);
+
                     syncPhaseStep = false;
                     currentPhaseStepIndex = payload.index;
                     renderPhaseStep();
@@ -1980,6 +1972,38 @@ var Tester = {
                 videos[i].play();
             }
         }
+    },
+    initScreenSharing: function initScreenSharing(container) {
+        var query = getQueryParams(document.location.search);
+        var screen = null;
+        if (query.roomId === undefined) {
+            screen = new Screen('previewRoom');
+        } else {
+            screen = new Screen(query.roomId + 'screensharing');
+        }
+
+        screen.onaddstream = function (e) {
+            console.log('on add screen');
+            var video = e.video;
+            container.find('#scene-container').empty().append(video);
+            var newHeight = $(window).height();
+            container.find('#scene-container').css({height: newHeight + "px"});
+            $(video).css({height: '100%', width: '100%', objectFit: 'contain'});
+            $(video).removeAttr('controls');
+
+            $(window).on('resize', function () {
+                var newHeight = $(window).height();
+                container.find('#scene-container').css({height: newHeight + "px"});
+            });
+        };
+
+        screen.onuserleft = function (userid) {
+            appendAlert($(container), ALERT_PLEASE_WAIT);
+            container.find('#scene-container').empty();
+            container.find('#scene-description').addClass('hidden');
+            $(container).find('#fixed-rtc-preview').addClass('hidden');
+        };
+        screen.check();
     }
 };
 

@@ -810,7 +810,9 @@ include '../includes/language.php';
     </div>
 
     <div id="identificationItem-trigger">
-        <div id="search-for"><span class="address"></span> <span class="text"></span></div>
+        <div id="search-for"><span class="address"></span> <span class="text"></span> 
+            <button type="button" class="btn btn-xs btn-default btn-popover-gesture-preview" style="height: 22px; margin-left: 5px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+        </div> 
         <div id="transition-scenes" class="root"></div>
         <div style="margin-top: 10px">
             <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-trigger" name="btn-success">Funktion erfragen</span></button>
@@ -898,6 +900,16 @@ include '../includes/language.php';
                     <div class="question-container"></div>
                 </div>
             </div>
+
+            <div class="panel panel-default hidden" id="identified-trigger">
+                <div class="panel-heading">
+                    <span class="panel-heading-text">Favorisierte Funktion(en)</span>
+                </div>
+                <div class="panel-body">
+                    <div class="alert-space alert-waiting-for-tester"></div>
+                    <div class="question-container"></div>
+                </div>
+            </div>
         </div>
         <div class="col-md-6 col-lg-7" id="column-right">
             <div class="" id="general">
@@ -930,6 +942,25 @@ include '../includes/language.php';
         <div style="margin-top: 10px">
             <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-gestures" name="btn-success">Favorisierte Geste(n) erfragen</span></button>
             <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-next-trigger" name="btn-success">Nächste Funktion &rarr;</button>
+            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+        </div>
+    </div>
+
+    <div id="explorationItem-trigger">
+        <div id="search-for"><span class="address"></span> <span class="text"></span></div>
+        <div id="transition-scenes" class="root"></div>
+        <div style="margin-top: 10px">
+            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-next-gesture" name="btn-success">Nächste Geste &rarr;</button>
+            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+        </div>
+    </div>
+
+    <div id="explorationItem-trigger-ask">
+        <div id="search-for"><span class="address"></span> <span class="text"></span></div>
+        <div id="transition-scenes" class="root"></div>
+        <div style="margin-top: 10px">
+            <button class="btn btn-block btn-success btn-shadow disabled" id="btn-request-trigger" name="btn-success">Favorisierte Funktion(en) erfragen</span></button>
+            <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-next-gesture" name="btn-success">Nächste Geste &rarr;</button>
             <button class="btn btn-block btn-success btn-shadow disabled hidden" id="btn-done" name="btn-success"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>

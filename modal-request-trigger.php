@@ -29,21 +29,13 @@ include 'includes/language.php';
 <script>
     $(document).ready(function () {
         var currentPhaseData = getCurrentPhaseData();
-        var gesture = getGestureById(currentPhaseData.exploration[currentExplorationIndex].gestureId);
+        var gesture = getGestureById(currentPhaseData.identification[currentIdentificationIndex].gestureId);
         if (gesture) {
             renderGestureImages($('#custom-modal').find('.previewGesture'), gesture.images, gesture.previewImage, function () {
             });
         }
 
-        var data = [{id: chance.natural(), dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: translation.askPreferredTriggerForGesture, parameters: {multiselect: 'yes', optionSource: 'triggers', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes'}}];
-        if (getCurrentPhase().format === EXPLORATION) {
-            var triggerOptions = [];
-            for (var i = 0; i < currentPhaseData.exploration[currentExplorationIndex].trigger.length; i++) {
-                triggerOptions.push(getTriggerById(currentPhaseData.exploration[currentExplorationIndex].trigger[i]));
-            }
-            data.options = triggerOptions;
-        }
-
+        var data = [{id: chance.natural(), dimension: DIMENSION_ANY, format: OPEN_QUESTION, question: translation.requestPreferredTriggerForGesture}];
         renderQuestionnaire($('#custom-modal'), data);
 
         $('#custom-modal').find('.question-container').unbind('change').bind('change', function (event) {

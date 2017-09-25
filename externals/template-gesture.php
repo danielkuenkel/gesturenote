@@ -8,7 +8,7 @@ include '../includes/language.php';
     <img class="gestureImage" id="gestureThumbnailImage">
 
     <div class="" id="popover-gesture-preview" style="position: absolute; opacity: 0; width: 300px;">
-        <<div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+        <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
     </div>
 
 

@@ -342,6 +342,8 @@
             // if firebase; remove data from their servers
             if (window.Firebase)
                 socket.remove();
+            
+            console.warn('leave room');
         }
 
         root.leave = leaveRoom;

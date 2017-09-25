@@ -30,7 +30,7 @@ include 'includes/language.php';
 
         var question = translation.askPreferredGesturesForTrigger;
         question = question.replace('{trigger}', trigger.title);
-        var data = [{id: 123456, dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: question, parameters: {multiselect: 'yes', optionSource: 'gestures', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes', options: options}}];
+        var data = [{id: chance.natural(), dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: question, parameters: {multiselect: 'yes', optionSource: 'gestures', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes', options: options}}];
         renderQuestionnaire($('#custom-modal'), data);
 
         $('#custom-modal').find('.question-container').unbind('change').bind('change', function (event) {
@@ -56,10 +56,10 @@ include 'includes/language.php';
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
                 if (peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_RESPONSE_TRIGGER, answers);
+                    peerConnection.sendMessage(MESSAGE_RESPONSE_PREFERRED_GESTURES, {data: data, answers: answers});
                 }
             } else {
-                currentQuestionnaireAnswers = answers;
+                currentQuestionnaireAnswers = {data: data, answers: answers};
             }
         }
     });

@@ -1542,8 +1542,6 @@ function initExplorationOverlay(id, formatClone) {
                 $(clone).removeAttr('id');
                 container.append(clone);
 
-
-
                 if (data.explorationType === 'gestures') {
                     var trigger = getTriggerById(items[i].triggerId);
                     if (trigger !== null) {
@@ -1554,23 +1552,6 @@ function initExplorationOverlay(id, formatClone) {
 
                     renderAssembledGesturesItems(clone.find('#assembled-gestures-container'), items[i].gestures);
 
-                    if (items[i].transitionScenes && items[i].transitionScenes.length > 0) {
-                        for (var j = 0; j < items[i].transitionScenes.length; j++) {
-                            var scene = getSceneById(items[i].transitionScenes[j].sceneId);
-                            var item = $('#form-item-container').find('#transition-scene-option').clone().removeAttr('id');
-                            $(clone).find('.transition-scenes-option-container').append(item);
-                            if (scene) {
-                                $(item).find('.sceneSelect #' + scene.id).click();
-                            } else if (items[i].transitionScenes[j].sceneId !== 'unselected') {
-                                appendAlert(item, ALERT_ASSEMBLED_SCENE_REMOVED);
-                            }
-
-                            $(item).find('#scene-description').val(items[i].transitionScenes[j].description);
-                        }
-                        checkCurrentListState($(clone).find('.transition-scenes-option-container'));
-                    }
-
-                    initAddTransitionSceneButton(clone);
                 } else {
                     var gesture = getGestureById(items[i].gestureId);
                     if (gesture) {
@@ -1581,6 +1562,23 @@ function initExplorationOverlay(id, formatClone) {
 
                     renderAssembledTriggerItems(clone.find('#assembled-trigger-container'), items[i].trigger);
                 }
+
+                if (items[i].transitionScenes && items[i].transitionScenes.length > 0) {
+                    for (var j = 0; j < items[i].transitionScenes.length; j++) {
+                        var scene = getSceneById(items[i].transitionScenes[j].sceneId);
+                        var item = $('#form-item-container').find('#transition-scene-option').clone().removeAttr('id');
+                        $(clone).find('.transition-scenes-option-container').append(item);
+                        if (scene) {
+                            $(item).find('.sceneSelect #' + scene.id).click();
+                        } else if (items[i].transitionScenes[j].sceneId !== 'unselected') {
+                            appendAlert(item, ALERT_ASSEMBLED_SCENE_REMOVED);
+                        }
+
+                        $(item).find('#scene-description').val(items[i].transitionScenes[j].description);
+                    }
+                    checkCurrentListState($(clone).find('.transition-scenes-option-container'));
+                }
+                initAddTransitionSceneButton(clone);
             }
             checkCurrentListState(container);
         } else {
@@ -1659,7 +1657,7 @@ function initExplorationOverlay(id, formatClone) {
             var set = new Array();
             for (var i = 0; i < explorationItem.length; i++) {
                 var item = explorationItem[i];
-                console.log(data.explorationType);
+                
                 if (data.explorationType === 'gestures') {
                     var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
                     var trigger = getTriggerById(triggerId);
@@ -1686,10 +1684,16 @@ function initExplorationOverlay(id, formatClone) {
                     $(item).find('#assembled-trigger-container .btn-danger').each(function () {
                         triggerIds.push($(this).closest('.root').attr("id"));
                     });
+                    
+                    var transitionScenes = [];
+                    var transitionItems = $(item).find('.transition-scenes-option-container').children();
+                    for (var j = 0; j < transitionItems.length; j++) {
+                        transitionScenes.push({sceneId: $(transitionItems[j]).find('.sceneSelect .chosen').attr('id'), description: $(transitionItems[j]).find('#scene-description').val().trim()});
+                    }
                     console.log(gesture, triggerIds);
 
                     if (gesture && triggerIds.length > 0) {
-                        set.push({gestureId: gestureId, trigger: triggerIds});
+                        set.push({gestureId: gestureId, trigger: triggerIds, transitionScenes: transitionScenes});
                     }
                 }
             }

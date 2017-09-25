@@ -15,53 +15,51 @@ var screenSharingRecorder = null;
 var recordedChunks = [];
 var screen = null;
 function ScreenSharing(roomId, recording) {
+    console.log(screen);
     sharing = this;
     if (!screen) {
         screen = new Screen(roomId); // argument is optional
-    } else {
-        screen.check();
-        return false;
+
+        screen.onaddstream = function (event) {
+            console.log('on add stream', event);
+
+            if (recording && recording === true) {
+                screenSharingRecorder = new MediaRecorder(event.stream);
+                screenSharingRecorder.ondataavailable = function (event) {
+                    console.log('on data available');
+                    recordedChunks.push(event.data);
+                };
+
+                screenSharingRecorder.onstop = function (event) {
+                    console.log('Stopped and save recording, state = ' + screenSharingRecorder.state + ', ' + new Date());
+                };
+
+                screenSharingRecorder.onstart = function () {
+                    console.log('Start recording ... ' + new Date());
+                };
+
+                screenSharingRecorder.onerror = function (event) {
+                    console.log('Error: ', event);
+                };
+
+                screenSharingRecorder.onwarning = function (event) {
+                    console.log('Warning: ' + event);
+                };
+                screenSharingRecorder.start(5000);
+            }
+
+            sharing.status = STATUS_STARTED;
+            $(sharing).trigger('started');
+        };
+
+        screen.onuserleft = function (event) {
+            console.log('on user left', event);
+            sharing.stop();
+        };
     }
 
-    screen.onaddstream = function (event) {
-        console.log('on add stream', event);
 
-        if (recording && recording === true) {
-            screenSharingRecorder = new MediaRecorder(event.stream);
-            screenSharingRecorder.ondataavailable = function (event) {
-                console.log('on data available');
-                recordedChunks.push(event.data);
-            };
 
-            screenSharingRecorder.onstop = function (event) {
-                console.log('Stopped and save recording, state = ' + screenSharingRecorder.state + ', ' + new Date());
-            };
-
-            screenSharingRecorder.onstart = function () {
-                console.log('Start recording ... ' + new Date());
-            };
-
-            screenSharingRecorder.onerror = function (event) {
-                console.log('Error: ', event);
-            };
-
-            screenSharingRecorder.onwarning = function (event) {
-                console.log('Warning: ' + event);
-            };
-            screenSharingRecorder.start(5000);
-        }
-
-        sharing.status = STATUS_STARTED;
-        $(sharing).trigger('started');
-    };
-
-    screen.onuserleft = function (event) {
-        sharing.status = STATUS_STOPPED;
-        $(sharing).trigger('stopped');
-        console.log('on user left', event);
-    };
-
-    screen.check();
     this.status = STATUS_INITIALIZED;
 }
 
@@ -69,7 +67,8 @@ var stopSharingCallback = null;
 
 ScreenSharing.prototype.stop = function () {
     screen.leave();
-//    screen = null;
+
+    console.log('stop screen sharing');
 
     if (screenSharingRecorder && screenSharingRecorder.state !== 'inactive') {
         screenSharingRecorder.stop();
@@ -80,6 +79,7 @@ ScreenSharing.prototype.stop = function () {
 };
 
 ScreenSharing.prototype.start = function () {
+    console.log('screen share');
     screen.share();
 };
 

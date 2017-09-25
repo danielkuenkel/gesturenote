@@ -587,20 +587,9 @@ function showSaveSuccess() {
         if (!$(this).hasClass('disabled')) {
             var button = $(this);
             $(button).addClass('disabled');
-            showCursor($('body'), CURSOR_PROGRESS);
-            var gestureId = $(this).attr('name');
-            deleteGesture({gestureId: gestureId}, function (result) {
-                showCursor($('body'), CURSOR_DEFAULT);
-                $(button).removeClass('disabled');
 
-                if (result.status === RESULT_SUCCESS) {
-                    $(recorder.options.recorderTarget).trigger(EVENT_GR_DELETE_SUCCESS, [gestureId]);
-                    $(recorder.options.recorderTarget).find('#success-controls').addClass('hidden');
-                    showDeleteSuccess();
-                } else {
-                    appendAlert(recorder.options.alertTarget, ALERT_GENERAL_ERROR);
-                }
-            });
+            var gestureId = $(this).attr('name');
+            deleteLastRecordedGesture(gestureId, button);
         } else {
 //            $(this).removeClass('disabled');
         }
@@ -614,6 +603,22 @@ function showSaveSuccess() {
         $(recorder.options.recorderTarget).find('.recorder').removeClass('hidden');
         $(recorder.options.recorderTarget).find('#success-controls').addClass('hidden');
         initializeRecorder();
+    });
+}
+
+function deleteLastRecordedGesture(gestureId, deleteButton) {
+    showCursor($('body'), CURSOR_PROGRESS);
+    deleteGesture({gestureId: gestureId}, function (result) {
+        showCursor($('body'), CURSOR_DEFAULT);
+        $(deleteButton).removeClass('disabled');
+
+        if (result.status === RESULT_SUCCESS) {
+            $(recorder.options.recorderTarget).trigger(EVENT_GR_DELETE_SUCCESS, [gestureId]);
+            $(recorder.options.recorderTarget).find('#success-controls').addClass('hidden');
+            showDeleteSuccess();
+        } else {
+            appendAlert(recorder.options.alertTarget, ALERT_GENERAL_ERROR);
+        }
     });
 }
 

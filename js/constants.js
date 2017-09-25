@@ -221,6 +221,8 @@ var MESSAGE_TRIGGER_NEXT_STRESS_TEST_GESTURE = 'triggerNextStressTestGesture';
 var MESSAGE_START_EXPLORATION = 'startExploration';
 var MESSAGE_REQUEST_PREFERRED_GESTURES = 'requestPreferredGestures';
 var MESSAGE_RESPONSE_PREFERRED_GESTURES = 'responsePreferredGestures';
+var MESSAGE_REQUEST_PREFERRED_TRIGGER = 'requestPreferredTrigger';
+var MESSAGE_RESPONSE_PREFERRED_TRIGGER = 'responsePreferredTrigger';
 /*
  * gesture classifcation
  */

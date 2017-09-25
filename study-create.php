@@ -262,7 +262,7 @@ if (login_check($mysqli) == true) {
                             </div>
                         </div>
 
-                        <div class="form-group root" id="surveyMethodSelect" style="margin-right: 20px; margin-top: 15px">
+<!--                        <div class="form-group root" id="surveyMethodSelect" style="margin-right: 20px; margin-top: 15px">
                             <label style="margin: 0">
                                 <?php echo $lang->studySurveyMethod ?>
                                 <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
@@ -288,12 +288,12 @@ if (login_check($mysqli) == true) {
                                     <span class="option-text"><?php echo $lang->surveyMethod->focusGroup ?></span>
                                 </button>
                             </div>
-                        </div>
+                        </div>-->
 
                         <div class="form-group root" id="surveyTypeSelect" style="margin-top: 15px">
                             <label style="margin: 0">
                                 <?php echo $lang->studySurveyType ?>
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text5 ?>"></i>
+                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
                             </label><br>
 
                             <div class="btn-group" id="radio" style="margin: 0">

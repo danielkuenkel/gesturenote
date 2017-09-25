@@ -734,45 +734,6 @@
                 "enableDataChannels": "no"
             },
             "notes": "yes"
-        },
-        "favoriteGestures": {
-            "text": "Favorisierte Gesten",
-            "class": "extraction",
-            "moderated": {
-                "tester": {
-                    "stream": "yes",
-                    "video": "yes",
-                    "audio": "yes",
-                    "visualizeStream": "yes",
-                    "recordStream": "no"
-                },
-                "moderator": {
-                    "stream": "yes",
-                    "video": "no",
-                    "audio": "yes",
-                    "visualizeStream": "no",
-                    "recordStream": "no"
-                },
-                "enableDataChannels": "yes"
-            },
-            "unmoderated": {
-                "tester": {
-                    "stream": "no",
-                    "video": "no",
-                    "audio": "no",
-                    "visualizeStream": "no",
-                    "recordStream": "no"
-                },
-                "moderator": {
-                    "stream": "no",
-                    "video": "no",
-                    "audio": "no",
-                    "visualizeStream": "no",
-                    "recordStream": "no"
-                },
-                "enableDataChannels": "no"
-            },
-            "notes": "yes"
         }
     },
     "questionFormats": {
@@ -901,11 +862,11 @@
         "state": "Zustand",
         "states": "Zustände",
         "inputState": "Ausgangszustand",
-        "transition": "Zustandsübergang",
-        "transitionCondition": "Bedingung für den Zustandsübergang",
+        "transition": "Funktionalität",
+        "transitionCondition": "Geste",
         "entryAction": "Folgezustand",
         "entryActions": "Folgezustände",
-        "transitionFeedback": "Zustandübergangsrückmeldung"
+        "transitionFeedback": "Funktionalitätsrückmeldung"
     },
     "gesture": "Geste",
     "gestures": "Gesten",
@@ -950,8 +911,9 @@
     "For": "Für",
     "GestureForTrigger": "Geste für Funktion",
     "TriggerForGesture": "Funktion für Geste",
-    "askPreferredTriggerForGesture":"Welche Funktion passt am Besten zur Geste? Bitte die Auswahl begründen.",
-    "askPreferredGesturesForTrigger":"Welche Geste(n) passen am Besten zur Funktion: {trigger}? Bitte die Auswahl begründen.",
+    "requestPreferredTriggerForGesture": "Welche Funktion passt am Besten zur Geste? Bitte begründen!",
+    "askPreferredTriggerForGesture": "Welche Funktion passt am Besten zur Geste? Bitte die Auswahl begründen.",
+    "askPreferredGesturesForTrigger": "Welche Geste(n) passen am Besten zur Funktion: {trigger}? Bitte die Auswahl begründen.",
     "of": "von",
     "text": "Text",
     "sound": "Sound",
@@ -959,6 +921,7 @@
     "simulate": "simulieren",
     "identified": "Ermittelt wird",
     "userCenteredGestureExtraction": "Nutzer-zentrierte Gesten-Extraktion",
+    "userCenteredTriggerExtraction": "Nutzer-zentrierte Funktionen-Extraktion",
     "questionTriggerSlideshow": "Welche Funktion wird von der gezeigten Geste ausgelöst?",
     "choosePreviewImage": "Vorschaubild wählen",
     "stopChoosePreviewImage": "Auswahl beenden",

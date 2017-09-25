@@ -2196,15 +2196,15 @@ include '../includes/language.php';
                 <div id="assembled-trigger-container"></div>
             </div>
 
-            <!--            <div class="form-group" id="scenes">
-                            <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                            <div class="alert-space alert-no-phase-data"></div>
-                            <div class="">
-                                <div class="transition-scenes-option-container">
-                                </div>
-                            </div>
-                            <button class="btn btn-info btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span>Zustand hinzufügen</span></button>
-                        </div>-->
+            <div class="form-group" id="scenes">
+                <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="">
+                    <div class="transition-scenes-option-container">
+                    </div>
+                </div>
+                <button class="btn btn-info btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span>Zustand hinzufügen</span></button>
+            </div>
 
         </div>
     </div>

@@ -2803,7 +2803,7 @@ function isWebRTCNeededForPhaseStep(phaseStep) {
     if (phaseStep) {
 
         var options = getPhaseStepOptions(phaseStep.format);
-//        console.log(options);
+//        console.log(options, phaseStep);
 
 //        if (phaseStep.format === IDENTIFICATION) {
 //            var phaseData = getLocalItem(phaseStep.id + '.data');

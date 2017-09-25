@@ -53,10 +53,10 @@ function renderSessionStorageData() {
             firstInit = false;
             $('#phaseSelect').find('#' + study.phase).click();
         }
-        if (study.surveyMethod !== 'unselected') {
-            firstInit = false;
-            $('#surveyMethodSelect').find('#' + study.surveyMethod).click();
-        }
+//        if (study.surveyMethod !== 'unselected') {
+//            firstInit = false;
+//            $('#surveyMethodSelect').find('#' + study.surveyMethod).click();
+//        }
         if (study.surveyType !== 'unselected') {
             firstInit = false;
             $('#surveyTypeSelect').find('#' + study.surveyType).click();
@@ -442,7 +442,7 @@ function saveGeneralData() {
     study.title = $('#studyTitle').val();
     study.description = $('#studyDescription').val();
     study.phase = $('#phaseSelect .btn-option-checked').attr('id');
-    study.surveyMethod = $('#surveyMethodSelect .btn-option-checked').attr('id');
+//    study.surveyMethod = $('#surveyMethodSelect .btn-option-checked').attr('id');
     study.surveyType = $('#surveyTypeSelect .btn-option-checked').attr('id');
 //    study.recordType = $('#recordSelect .chosen').attr('id');
     study.panelSurvey = $('#panelSurveySwitch').find('.btn-option-checked').attr('id');
