@@ -789,34 +789,34 @@ include '../includes/language.php';
         <div id="item-view"></div>
     </div>
 
-    <div id="appearance-trigger-gesture" class="panel panel-default root" style="margin-bottom: 40px">
-        <div class="panel-heading" id="headline-main-gesture"></div>
+    <div id="appearance-trigger-gesture" class="root" style="margin-bottom: 40px">
+        <!--<div class="panel-heading" id="headline-main-gesture"></div>-->
 
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-xs-12 col-md-6 root" id="main-gesture" style="margin-bottom: 15px">
-                    <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-                    <div class="text-center hidden gestureControls">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+        <!--        <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6 root" id="main-gesture" style="margin-bottom: 15px">
+                            <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                            <div class="text-center hidden gestureControls">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                                    <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                                    <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                                </div>
+                            </div>
                         </div>
+                        <div class="col-xs-12 col-md-6" id="potential-parameters"></div>
                     </div>
-                </div>
-                <div class="col-xs-12 col-md-6" id="potential-parameters"></div>
-            </div>
-        </div>
+                </div>-->
 
-        <hr style="margin: 0">
+        <!--<hr style="margin: 0">-->
 
-        <div class="panel-body">
-            <div><span>Klassifizierte Gesten</span></div>
-            <div class="row" style="margin-top: 10px">
-                <div id="gestures-list-container"></div>
-            </div>
+        <!--<div class="panel-body">-->
+            <!--<div><span>Klassifizierte Gesten</span></div>-->
+        <div class="row" style="margin-top: 10px">
+            <div id="gestures-list-container"></div>
         </div>
+        <!--</div>-->
 
     </div>
 

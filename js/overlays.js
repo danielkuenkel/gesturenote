@@ -631,6 +631,7 @@ function initScenarioOverlay(id, formatClone) {
                     appendAlert(clone, ALERT_ASSEMBLED_TRIGGER_REMOVED);
                 }
 
+                initTransitionFeedbackMode(clone);
                 if (wozItems[i].feedbackId === 'none') {
                     $(clone).find('.feedbackSelect #none').click();
                 } else {
@@ -641,6 +642,9 @@ function initScenarioOverlay(id, formatClone) {
                         appendAlert(clone, ALERT_ASSEMBLED_FEEDBACK_REMOVED);
                     }
                 }
+
+                $(clone).find('.transitionFeedback-mode #' + wozItems[i].feedbackTransitionMode).click();
+                $(clone).find('.transitionFeedback-time-stepper .stepper-text').val(wozItems[i].feedbackTransitionTime);
 
                 if (wozItems[i].transitionScenes && wozItems[i].transitionScenes.length > 0) {
                     for (var j = 0; j < wozItems[i].transitionScenes.length; j++) {
@@ -664,6 +668,7 @@ function initScenarioOverlay(id, formatClone) {
                     }
                     checkCurrentListState($(clone).find('.transition-scenes-option-container'));
                 }
+
                 initAddTransitionSceneButton(clone);
             }
             checkCurrentListState(container);
@@ -732,6 +737,8 @@ function initScenarioOverlay(id, formatClone) {
                 if (feedbackId === 'unselected') {
                     feedbackId = 'none';
                 }
+                var feedbackTransitionMode = $(item).find('.transitionFeedback-mode .btn-option-checked').attr('id');
+                var feedbackTransitionTime = $(item).find('.transitionFeedback-time-stepper .stepper-text').val();
 
                 var transitionScenes = [];
                 var transitionItems = $(item).find('.transition-scenes-option-container').children();
@@ -747,7 +754,12 @@ function initScenarioOverlay(id, formatClone) {
                 }
 
                 if (trigger && gesture && transitionScenes.length > 0) {
-                    woz.push({triggerId: triggerId, gestureId: gestureId, feedbackId: feedbackId, transitionScenes: transitionScenes});
+                    woz.push({triggerId: triggerId,
+                        gestureId: gestureId,
+                        feedbackId: feedbackId,
+                        feedbackTransitionMode: feedbackTransitionMode,
+                        feedbackTransitionTime: feedbackTransitionTime,
+                        transitionScenes: transitionScenes});
                 }
 //                }
             }
@@ -792,6 +804,7 @@ function initScenarioOverlay(id, formatClone) {
             clearAlerts($(formatClone).find('#wozExperiment'));
             var item = $('#form-item-container').find('#wozExperimentItem').clone().removeAttr('id');
             tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#wozExperiment .option-container'), null, true);
+            initTransitionFeedbackMode(item);
             initAddTransitionSceneButton(item);
             $(item).find('.btn-add-transition-scene').click();
         }
@@ -831,6 +844,42 @@ function initScenarioOverlay(id, formatClone) {
             }
         }
     });
+
+    function initTransitionFeedbackMode(item) {
+        $(item).find('.feedbackSelect').unbind('change').bind('change', function (event) {
+            var selectedId = $(this).find('.chosen').attr('id');
+            if (selectedId === 'unselected' || selectedId === 'none') {
+                $(item).find('.transitionFeedback-mode').addClass('hidden');
+                $(item).find('.transitionFeedback-time-stepper').addClass('hidden');
+            } else {
+                $(item).find('.transitionFeedback-mode').removeClass('hidden');
+                if ($(item).find('.transitionFeedback-mode .btn-option-checked').attr('id') === 'automatically') {
+                    $(item).find('.transitionFeedback-time-stepper').removeClass('hidden');
+                } else {
+                    $(item).find('.transitionFeedback-time-stepper').addClass('hidden');
+                }
+            }
+        });
+
+        $(item).find('.transitionFeedback-mode').unbind('change').bind('change', function (event) {
+            console.log('feedback transition mode changed', $(this).find('.btn-option-checked').attr('id'));
+            event.preventDefault();
+            var selectedId = $(item).find('.feedbackSelect .chosen').attr('id');
+            if ($(this).find('.btn-option-checked').attr('id') === 'automatically' && selectedId !== 'unselected' && selectedId !== 'none') {
+                $(this).parent().find('.transitionFeedback-time-stepper').removeClass('hidden');
+            } else {
+                $(this).parent().find('.transitionFeedback-time-stepper').addClass('hidden');
+            }
+
+            resetDynamicAffixScrolling(formatClone);
+        });
+
+//        var selectedId = $(item).find('.feedbackSelect .chosen').attr('id');
+//        if (selectedId === 'unselected' || selectedId === 'none') {
+//            $(item).find('.transitionFeedback-mode').addClass('hidden');
+//            $(item).find('.transitionFeedback-time-stepper').addClass('hidden');
+//        }
+    }
 
     function initAddTransitionSceneButton(clone) {
         $(clone).find('.btn-add-transition-scene').unbind('click').bind('click', function (event) {
@@ -1657,7 +1706,7 @@ function initExplorationOverlay(id, formatClone) {
             var set = new Array();
             for (var i = 0; i < explorationItem.length; i++) {
                 var item = explorationItem[i];
-                
+
                 if (data.explorationType === 'gestures') {
                     var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
                     var trigger = getTriggerById(triggerId);
@@ -1684,7 +1733,7 @@ function initExplorationOverlay(id, formatClone) {
                     $(item).find('#assembled-trigger-container .btn-danger').each(function () {
                         triggerIds.push($(this).closest('.root').attr("id"));
                     });
-                    
+
                     var transitionScenes = [];
                     var transitionItems = $(item).find('.transition-scenes-option-container').children();
                     for (var j = 0; j < transitionItems.length; j++) {

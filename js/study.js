@@ -198,9 +198,10 @@ function renderData(data, hash) {
             }
         }
 
-        console.log('getExtractionData', gestures, trigger);
-        getExtractionData({studyId: data.id}, function (result) {
+//        console.log('getExtractionData', gestures, trigger);
+        getExtractionData({studyId: data.id, surveyType: studyData.generalData.surveyType}, function (result) {
             if (result.status === RESULT_SUCCESS) {
+                console.log('getExtractionData', result);
                 if (gestures && !trigger && result.elicitedGestures && result.elicitedGestures.length > 0) {
                     console.log('result classification', result.classification);
                     setLocalItem(ELICITED_GESTURES, result.elicitedGestures);
@@ -428,24 +429,32 @@ function renderAllGestures() {
     var gestures = getLocalItem(ELICITED_GESTURES);
     var trigger = getLocalItem(ASSEMBLED_TRIGGER);
     if (trigger && trigger.length > 0 && gestures && gestures.length > 0) {
+        var container = document.createElement('div');
+        $(container).attr('id', 'item-view');
+        $('#content-btn-all-gestures').append(container);
+
+        var gesturesListContainer = document.createElement('div');
+        $(gesturesListContainer).attr('id', 'gestures-list-container');
+        $(container).append(gesturesListContainer);
+
         for (var i = 0; i < trigger.length; i++) {
+
             var triggerTitle = document.createElement('div');
 //                        var headlineText = document.createElement('span');
             $(triggerTitle).addClass('text');
 //                        $(triggerTitle).css({margin: '0px', float: 'left'});
             $(triggerTitle).text(translation.trigger + ": " + trigger[i].title);
-            $('#content-btn-all-gestures').append(triggerTitle);
-            var container = document.createElement('div');
-            $(container).addClass('container-root row root');
-            $(container).attr('id', 'gestures-list-container');
-            $(container).css({marginTop: '20px', marginBottom: '30px'});
-            $('#content-btn-all-gestures').append(container);
+            $(gesturesListContainer).append(triggerTitle);
+            var listContainer = document.createElement('div');
+            $(listContainer).addClass('container-root row root');
+            $(listContainer).css({marginTop: '20px', marginBottom: '30px'});
+            $(gesturesListContainer).append(listContainer);
             var gestureCount = 0;
             for (var j = 0; j < gestures.length; j++) {
                 var gesture = gestures[j];
                 if (parseInt(trigger[i].id) === parseInt(gesture.triggerId)) {
                     var clone = getGestureCatalogListThumbnail(gestures[j], null, 'col-xs-6 col-lg-4', ELICITED_GESTURES);
-                    $(container).append(clone);
+                    $(listContainer).append(clone);
                     TweenMax.from(clone, .2, {delay: j * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                     gestureCount++;
                 }
@@ -896,6 +905,7 @@ function renderGestureSets() {
     $('#content-btn-gesture-sets #gesture-sets-container').empty();
 
     var query = getQueryParams(document.location.search);
+//    getGestureSets(function (result) {
     getGestureSetsForStudyId({studyId: query.studyId}, function (result) {
         if (result.status === RESULT_SUCCESS) {
             setLocalItem(GESTURE_SETS, result.gestureSets);

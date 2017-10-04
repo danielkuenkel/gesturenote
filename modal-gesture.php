@@ -488,6 +488,7 @@ include 'includes/language.php';
         renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
 
         var thumbnail = $('#item-view #gestures-list-container').find('#' + currentPreviewGesture.gesture.id);
+        console.log('thumbnail', thumbnail);
 
         $(container).find('#btn-share-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
             event.preventDefault();
@@ -606,8 +607,8 @@ include 'includes/language.php';
                             $(button).find('.btn-text').text(translation.edit);
                             $('#modal-body #gesture-data-preview').removeClass('hidden');
                             $('#modal-body #gesture-data-edit').addClass('hidden');
-                            currentPreviewGesture.gesture = getGestureById(result.id);
-                            console.log(currentPreviewGesture, result.id);
+                            currentPreviewGesture.gesture = getGestureById(result.id, currentPreviewGesture.source);
+                            console.log('btn-edit', currentPreviewGesture, result.id);
 //                            setLocalItem(GESTURE_CATALOG, result.gestures);
                             originalFilterData = getLocalItem(currentPreviewGesture.source);
 //                            currentFilterData = sort();

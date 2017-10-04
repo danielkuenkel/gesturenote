@@ -1599,25 +1599,60 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
-            <!--            <div class="form-group" id="transition-scene">
-                            <label><?php echo $lang->stateCharts->entryAction ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                            <div class="alert-space alert-assembled-scene-removed"></div>
-                            <div class="scene-input">
-                                <div class="input-group">
-                                    <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                                    <div class="input-group-btn select sceneSelect" role="group">
-                                        <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-            <div class="form-group" id="scenes">
+
+            <div class="form-inline">
+                <div class="form-group transitionFeedback-mode hidden" style="margin-right: 20px">
+                    <label>Anzeige der <?php echo $lang->stateCharts->transitionFeedback ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                    <div class="root">
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="manually">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text">manuell</span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="automatically">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text">automatisch</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group hidden transitionFeedback-time-stepper">
+                    <label>Übergangszeit (in Sekunden) <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                    <br/>
+                    <div class="input-group simple-stepper" style="max-width: 130px">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
+                            </button>
+                        </div>
+                        <input type="text" class="form-control readonly text-center stepper-text" value="1">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
+                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group" id="scenes" style="margin-top: 10px">
                 <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
                 <div class="alert-space alert-no-phase-data"></div>
                 <div class="">
-                    <div class="transition-scenes-option-container">
-                    </div>
+                    <div class="transition-scenes-option-container"></div>
                 </div>
                 <button class="btn btn-info btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span>Zustand hinzufügen</span></button>
             </div>
@@ -1687,8 +1722,8 @@ include '../includes/language.php';
                         </div>
                     </div>
                 </div>
-
             </div>
+
         </div>
     </div>
 

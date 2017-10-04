@@ -763,11 +763,37 @@ if (login_check($mysqli) == true) {
                 if (phaseData.identificationFor === 'gestures') {
                     $(content).find('#search-gestures').removeClass('hidden');
                     var elicitedGestures = getLocalItem(GESTURE_CATALOG);
+                    var gestureTriggerPairs;
+                    if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
+                        gestureTriggerPairs = getLocalItem(phaseResults.id + '.evaluator').gestures;
+                    } else {
+//                                gestureTriggerPairs = phaseResults;
+                    }
 
-                    if (elicitedGestures && elicitedGestures.length > 0) {
-                        for (var i = 0; i < elicitedGestures.length; i++) {
-                            var item = getGestureCatalogListThumbnail(elicitedGestures[i], null, 'col-xs-6 col-lg-4');
-                            $(content).find('.list-container').append(item);
+                    if (elicitedGestures && elicitedGestures.length > 0 && gestureTriggerPairs) {
+                        for (var i = 0; i < gestureTriggerPairs.length; i++) {
+                            var gesture = getGestureById(gestureTriggerPairs[i].id);
+                            var column = document.createElement('div');
+                            $(column).addClass('col-xs-12');
+                            $(content).find('.list-container').append(column);
+
+                            var row = document.createElement('div');
+                            $(row).addClass('row');
+                            $(column).append(row);
+
+                            var item = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-lg-4');
+                            $(row).append(item);
+
+                            var triggerText = document.createElement('div');
+                            $(triggerText).addClass('col-xs-6 col-lg-8');
+                            $(triggerText).html('<span class=text>' + translation.trigger + ':</span> <span>' + getTriggerById(gestureTriggerPairs[i].triggerId).title + '</span>');
+                            $(row).append(triggerText);
+
+                            if (i < gestureTriggerPairs.length - 1) {
+                                var line = document.createElement('hr');
+                                $(line).css({margin: 0, marginBottom: 20});
+                                $(column).append(line);
+                            }
                             TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
                         }
                     } else {

@@ -1025,44 +1025,78 @@ var Moderator = {
 
         function getWOZTransitionItem(transitionScene, disabled, active) {
             var scene = getSceneById(transitionScene.sceneId);
-            var sceneBtn = $(source).find('#wozItemWithScenesButton').clone().removeAttr('id');
-            $(sceneBtn).find('.btn-text').text(scene.title);
-            $(sceneBtn).find('.btn-trigger-scene').attr('id', scene.id);
-            $(sceneBtn).find('.btn-trigger-scene').attr('data-transition-mode', transitionScene.transitionMode);
+            var btn = $(source).find('#wozItemWithScenesButton').clone().removeAttr('id');
+            $(btn).find('.btn-text').text(scene.title);
+            $(btn).find('.btn-trigger-scene').attr('id', scene.id);
+            $(btn).find('.btn-trigger-scene').attr('data-transition-mode', transitionScene.transitionMode);
+            $(btn).find('.btn-trigger-scene').attr('data-transition-type', 'scene');
             if (transitionScene.transitionMode === 'automatically') {
-                $(sceneBtn).find('.btn-trigger-scene').attr('data-transition-time', transitionScenes[j].transitionTime);
-                $(sceneBtn).find('.btn-trigger-scene').find('.transition-time').text(transitionScenes[j].transitionTime + 's');
+                $(btn).find('.btn-trigger-scene').attr('data-transition-time', transitionScenes[j].transitionTime);
+                $(btn).find('.btn-trigger-scene').find('.transition-time').text(transitionScenes[j].transitionTime + 's');
             }
 
             if (disabled === false) {
-                $(sceneBtn).find('.btn-trigger-scene').removeClass('disabled');
+                $(btn).find('.btn-trigger-scene').removeClass('disabled');
             }
 
             if (active === true) {
-                $(sceneBtn).find('.btn-trigger-scene').addClass('btn-primary');
+                $(btn).find('.btn-trigger-scene').addClass('btn-primary');
             }
 
-            return sceneBtn;
+            return btn;
+        }
+
+
+        function getWOZTransitionFeedbackItem(feedback, transitionMode, time, disabled, active) {
+            var btn = $(source).find('#wozItemWithScenesButton').clone().removeAttr('id');
+            $(btn).find('.btn-text').text(feedback.title);
+            $(btn).find('.btn-trigger-scene').attr('id', feedback.id);
+            $(btn).find('.btn-trigger-scene').attr('data-transition-mode', transitionMode);
+            $(btn).find('.btn-trigger-scene').attr('data-transition-type', 'feedback');
+            if (transitionMode === 'automatically') {
+                $(btn).find('.btn-trigger-scene').attr('data-transition-time', time);
+                $(btn).find('.btn-trigger-scene').find('.transition-time').text(time + 's');
+            }
+
+            if (disabled === false) {
+                $(btn).find('.btn-trigger-scene').removeClass('disabled');
+            }
+//
+            if (active === true) {
+                $(btn).find('.btn-trigger-scene').addClass('btn-primary');
+            }
+
+            return btn;
         }
 
         function checkTransitionScenes(scenesContainer) {
             var transitionsLength = $(scenesContainer).find('.btn-trigger-scene').length;
 
             if (transitionsLength === 1) {
-                // no follow screen, only one scene
+                // this scene has no follow scene
             } else if (transitionsLength > 2) {
                 var leftSceneButtons = $(scenesContainer).find('#transition-scene-container').find('.btn-trigger-scene').not('.btn-primary');
 
                 if (leftSceneButtons.length > 0) {
                     var button = $(leftSceneButtons).first();
-                    currentWOZScene = getSceneById($(button).attr('id'));
-                    var transitionMode = $(button).attr('data-transition-mode');
+                    var transitionType = $(button).attr('data-transition-type');
+                    if (transitionType === 'scene') {
+                        currentWOZScene = getSceneById($(button).attr('id'));
+                    }
+
                     if (transitionsLength - 2 === leftSceneButtons.length) {
                         $(button).addClass('btn-primary');
-                        if (prototypeWindow && prototypeWindow.closed !== true) {
-                            prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
+
+                        if (transitionType === 'scene') {
+                            if (prototypeWindow && prototypeWindow.closed !== true) {
+                                prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
+                            }
+                        } else {
+                            // first, deal with the feedback
                         }
                     }
+
+                    var transitionMode = $(button).attr('data-transition-mode');
                     if (transitionMode === 'automatically') {
                         var transitionTime = parseFloat($(button).attr('data-transition-time'));
                         var indicator = $(button).find('#transition-indicator').removeClass('hidden');
@@ -1152,12 +1186,11 @@ var Moderator = {
                     if (wozData[i].feedbackId !== 'none') {
                         $(item).find('#transition-feedback-header, #transition-feedback-container').removeClass('hidden');
                         var feedback = getFeedbackById(wozData[i].feedbackId);
-                        var feedbackButton = $(source).find('#wozItemWithScenesFeedbackButton').clone().removeAttr('id');
-                        $(feedbackButton).find('.btn-text').text(feedback.title);
+                        var feedbackButton = getWOZTransitionFeedbackItem(feedback, wozData[i].feedbackTransitionMode, wozData[i].feedbackTransitionTime, !scenarioStartTriggered && !scenarioPrototypeOpened, false);
                         $(item).find('#transition-feedback-container').empty().append(feedbackButton);
-                        if (scenarioStartTriggered || scenarioPrototypeOpened) {
-                            $(feedbackButton).find('.btn-feedback-scene').removeClass('disabled');
-                        }
+//                        if (scenarioStartTriggered || scenarioPrototypeOpened) {
+//                            $(feedbackButton).find('.btn-feedback-scene').removeClass('disabled');
+//                        }
                     }
 
                     var gesture = getGestureById(wozData[i].gestureId);
@@ -1201,17 +1234,18 @@ var Moderator = {
                             var button = $(this);
                             $(button).closest('.root').find('#btn-trigger-woz').addClass('disabled');
 
-                            if (event.data.wozData.feedbackId !== 'none') {
+                            var transitionType = $(button).attr('data-transition-type');
+                            if (transitionType === 'feedback' && event.data.wozData.feedbackId !== 'none') {
                                 if (peerConnection && scenarioStartTriggered) {
                                     $(peerConnection).unbind(MESSAGE_FEEDBACK_HIDDEN).bind(MESSAGE_FEEDBACK_HIDDEN, function (event, payload) {
                                         $(button).closest('.root').find('.btn-feedback-scene').addClass('btn-primary');
                                         $(button).closest('.root').find('.btn-feedback-scene .fa').addClass('hidden');
                                         checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
                                     });
-                                    $(button).closest('.root').find('.btn-feedback-scene .fa').removeClass('hidden');
+//                                    $(button).closest('.root').find('.btn-feedback-scene .fa').removeClass('hidden');
                                     peerConnection.sendMessage(MESSAGE_TRIGGER_WOZ, {triggeredWOZ: event.data.wozData});
                                 } else {
-                                    $(button).closest('.root').find('.btn-feedback-scene').addClass('btn-primary');
+//                                    $(button).closest('.root').find('.btn-feedback-scene').addClass('btn-primary');
                                     checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
                                 }
                             } else {
@@ -1382,7 +1416,7 @@ var Moderator = {
                     event.preventDefault();
                     var currentPhase = getCurrentPhase();
                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    var triggerId = data.identification[currentExplorationIndex].triggerId;
+                    var triggerId = data.identification[currentIdentificationIndex].triggerId;
                     if (tempData.gestures) {
                         tempData.gestures.push({id: gesture.id, triggerId: triggerId});
                     } else {

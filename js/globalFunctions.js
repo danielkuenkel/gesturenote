@@ -1984,7 +1984,8 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
     $(clone).find('#btn-show-gesture-info').click({gesture: data, clone: clone}, function (event) {
         event.preventDefault();
         resetThumbnails($(event.data.clone).find('.previewGesture'));
-        currentPreviewGesture = {gesture: event.data.gesture, source: source};
+        console.log(event.data.gesture.id);
+        currentPreviewGesture = {gesture: getGestureById(event.data.gesture.id, source), source: source};
         gesturePreviewOpened = true;
         $(clone).find('#btn-stop-gesture').click();
 
