@@ -123,7 +123,7 @@ function checkAssembledGestures(gestures, gestureCatalog) {
     }
 }
 
-function updateGestureById(catalog, id, parameters) {
+    function updateGestureById(catalog, id, parameters) {
     var gestureCatalog = getLocalItem(catalog);
 
     var gesture;
@@ -359,7 +359,7 @@ function setStudyData(data) {
         setData.userId = data.resultData.userId;
         setData.created = data.resultData.created;
         setData.executionSuccess = data.resultData.results.studySuccessfull;
-        console.log(data.resultData.results.aborted);
+//        console.log(data.resultData.results.aborted);
         setData.executionAborted = data.resultData.results.aborted;
         setLocalItem(STUDY_RESULTS, setData);
 
@@ -383,13 +383,17 @@ function setStudyData(data) {
         setData.created = data.evaluatorData.created;
         setLocalItem(STUDY_DATA_EVALUATOR, setData);
 
-        if (data.evaluatorData.results && data.evaluatorData.phases) {
+        if (data.evaluatorData.results && data.evaluatorData.results.phases) {
             var phases = data.evaluatorData.results.phases;
             if (phases && phases.length > 0) {
                 for (var i = 0; i < phases.length; i++) {
                     setLocalItem(phases[i].id + '.evaluator', phases[i]);
                 }
             }
+        }
+
+        if (data.evaluatorData.elicitedGestures && data.evaluatorData.elicitedGestures.length > 0) {
+            setLocalItem(GESTURE_CATALOG, data.evaluatorData.elicitedGestures);
         }
 
         var notes = data.evaluatorData.notes;

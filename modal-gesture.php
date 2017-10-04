@@ -50,11 +50,11 @@ include 'includes/language.php';
                 </div>
             </div>
 
-<!--            <div id="attached-gesture-sets" style="margin-top: 30px; margin-bottom: 30px">
-                <h3><i class="fa fa-paperclip"></i> Zuweisung zu Gesten-Sets</h3>
-                <ul id="attached-gesture-sets-container" style="list-style-position: inside; padding-left: 0px; margin-top: 5px"></ul>
-                <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-to-gesture-set" style="margin-top: 10px"><i class="fa fa-plus"></i> <span><?php echo $lang->addToGestureset ?></span></button>
-            </div>-->
+            <!--            <div id="attached-gesture-sets" style="margin-top: 30px; margin-bottom: 30px">
+                            <h3><i class="fa fa-paperclip"></i> Zuweisung zu Gesten-Sets</h3>
+                            <ul id="attached-gesture-sets-container" style="list-style-position: inside; padding-left: 0px; margin-top: 5px"></ul>
+                            <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-to-gesture-set" style="margin-top: 10px"><i class="fa fa-plus"></i> <span><?php echo $lang->addToGestureset ?></span></button>
+                        </div>-->
         </div>
         <div class="col-md-7">
             <h3 style="margin-top: 0"><i class="fa fa-bookmark-o"></i> Allgemeines</h3>
@@ -430,7 +430,9 @@ include 'includes/language.php';
     }
 
     function renderModalData() {
+
         var gesture = currentPreviewGesture.gesture;
+        console.log('renderModalData', currentPreviewGesture);
         if (gesture === null) {
             return false;
         }
@@ -591,18 +593,21 @@ include 'includes/language.php';
                     var description = $('#gesture-description-input').val().trim();
                     var joints = getSelectedJoints($('#select-joints-human-body #joint-container'));
 
+
                     updateGesture({gestureId: gesture.id, title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints}, function (result) {
                         showCursor($('body'), CURSOR_DEFAULT);
                         $(button).removeClass('disabled');
                         $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').removeClass('disabled');
                         if (result.status === RESULT_SUCCESS) {
+
                             updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, type: type, interactionType: interactionType, context: result.context, association: association, description: result.description, joints: result.joints});
                             $(thumbnail).find('.title-text').text(title);
                             $(button).removeClass('gesture-editable').addClass('gesture-previewable');
                             $(button).find('.btn-text').text(translation.edit);
                             $('#modal-body #gesture-data-preview').removeClass('hidden');
                             $('#modal-body #gesture-data-edit').addClass('hidden');
-
+                            currentPreviewGesture.gesture = getGestureById(result.id);
+                            console.log(currentPreviewGesture, result.id);
 //                            setLocalItem(GESTURE_CATALOG, result.gestures);
                             originalFilterData = getLocalItem(currentPreviewGesture.source);
 //                            currentFilterData = sort();
@@ -664,9 +669,9 @@ include 'includes/language.php';
      * gesture set adding and attached rendering
      */
     function renderAttachedGestureSets(preselect, id) {
-        
+
         var sets = getLocalItem(GESTURE_SETS);
-//        console.log('render attached gesture sets', sets);
+        console.log('render attached gesture sets', sets);
         if (sets && sets !== null && sets !== '' && sets.length > 0) {
             var container = $('#add-to-gesture-set #existing-sets-container');
             container.find('.option-container').empty();

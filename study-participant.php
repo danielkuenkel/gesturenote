@@ -56,6 +56,7 @@ if (login_check($mysqli) == true) {
         <!-- externals -->
         <div id="alerts"></div>
         <div id="template-gesture"></div>
+        <div id="template-general"></div>
         <div id="template-subpages"></div>
         <div id="template-study"></div>
         <div id="template-previews"></div>
@@ -113,6 +114,7 @@ if (login_check($mysqli) == true) {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
+                    externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
@@ -157,7 +159,7 @@ if (login_check($mysqli) == true) {
                     $('#general-view').find('#user .label-text').text(translation.userTypes.registered);
                 }
 
-                if (results.aborted === 'no') {
+                if (results.aborted === 'no' && results.studySuccessfull === 'yes') {
                     $('#general-view').find('.panel').addClass('panel-success');
                     $('#general-view').find('#execution-success').removeClass('hidden');
                     $('#general-view').find('#execution-success .label-text').text(translation.studySuccessful);
@@ -221,7 +223,7 @@ if (login_check($mysqli) == true) {
                     if (!isEmpty(executionTime)) {
                         var badge = document.createElement('span');
                         $(badge).addClass('badge pull-right');
-                        $(badge).text(translation.lapse + ': ' + getTimeString(executionTime));
+                        $(badge).text(translation.lapse + ': ' + getTimeString(executionTime, true));
                         $(content).find('#headline').append(badge);
                     }
 
@@ -268,9 +270,6 @@ if (login_check($mysqli) == true) {
                         case QUESTIONNAIRE:
                             renderQuestionnaireAnswers(content, phaseData, phaseResults, true);
                             break;
-                        case IDENTIFICATION:
-                            renderIdentification(content, phaseData, phaseResults);
-                            break;
                         case SUS:
                             renderSUS(content, phaseData, phaseResults);
                             break;
@@ -294,6 +293,12 @@ if (login_check($mysqli) == true) {
                             break;
                         case SCENARIO:
                             renderScenario(content, phaseData, phaseResults);
+                            break;
+                        case IDENTIFICATION:
+                            renderIdentification(content, phaseData, phaseResults);
+                            break;
+                        case EXPLORATION:
+                            renderExploration(content, phaseData, phaseResults);
                             break;
                     }
 
@@ -361,51 +366,6 @@ if (login_check($mysqli) == true) {
 
             function renderThanks(content, studyData) {
                 $(content).find('#thanks-text').text(studyData);
-            }
-
-            function renderIdentification(content, phaseData, phaseResults) {
-                console.log(phaseData, phaseResults);
-
-                if (phaseData.identificationFor === 'gestures') {
-                    $(content).find('#search-gestures').removeClass('hidden');
-                    var elicitedGestures = getLocalItem(GESTURE_CATALOG);
-                    if (phaseResults.gestures && phaseResults.gestures.length > 0 && elicitedGestures) {
-                        for (var i = 0; i < elicitedGestures.length; i++) {
-                            var item = getGestureCatalogListThumbnail(elicitedGestures[i], null, 'col-xs-6 col-lg-4');
-                            $(content).find('.list-container').append(item);
-                            TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
-                        }
-                    } else {
-                        console.log('no gestures there');
-                        appendAlert(content, ALERT_NO_PHASE_DATA);
-                    }
-                } else if (phaseData.identificationFor === 'trigger') {
-                    $(content).find('#search-trigger').removeClass('hidden');
-                    var gestures = phaseData.identification;
-                    if (phaseResults.trigger && phaseResults.trigger.length > 0) {
-                        for (var i = 0; i < gestures.length; i++) {
-                            var gesture = getGestureById(gestures[i]);
-                            var gestureItem = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-lg-4');
-
-                            var item = $('#template-study-container').find('#trigger-identification').clone();
-                            $(item).prepend(gestureItem);
-                            $(item).find('#trigger-name .address').text(translation.trigger + ':');
-                            $(item).find('#trigger-name .text').text(phaseResults.trigger[i].name);
-                            $(item).find('#trigger-justification .address').text(translation.justification + ':');
-                            $(item).find('#trigger-justification .text').text(phaseResults.trigger[i].justification);
-                            $(content).find('.list-container').append(item);
-
-                            if (i < gestures.length - 1) {
-                                var line = document.createElement('hr');
-                                $(line).css({margin: 0, marginBottom: 20});
-                                $(content).find('.list-container').append(line);
-                            }
-                            TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
-                        }
-                    } else {
-                        console.log('no triggers there');
-                    }
-                }
             }
 
             function renderSUS(content, studyData, resultsData) {
@@ -794,11 +754,66 @@ if (login_check($mysqli) == true) {
 //                addObservationsDropdown(container);
             }
 
+            function renderIdentification(content, phaseData, phaseResults) {
+                console.log(phaseData, phaseResults, getLocalItem(GESTURE_CATALOG));
+
+//                if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
+//
+//                } else {
+                if (phaseData.identificationFor === 'gestures') {
+                    $(content).find('#search-gestures').removeClass('hidden');
+                    var elicitedGestures = getLocalItem(GESTURE_CATALOG);
+
+                    if (elicitedGestures && elicitedGestures.length > 0) {
+                        for (var i = 0; i < elicitedGestures.length; i++) {
+                            var item = getGestureCatalogListThumbnail(elicitedGestures[i], null, 'col-xs-6 col-lg-4');
+                            $(content).find('.list-container').append(item);
+                            TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
+                        }
+                    } else {
+                        console.log('no gestures there');
+                        appendAlert(content, ALERT_NO_PHASE_DATA);
+                    }
+                } else if (phaseData.identificationFor === 'trigger') {
+                    $(content).find('#search-trigger').removeClass('hidden');
+                    var gestures = phaseData.identification;
+                    if (phaseResults.trigger && phaseResults.trigger.length > 0) {
+                        for (var i = 0; i < gestures.length; i++) {
+                            var gesture = getGestureById(gestures[i]);
+                            var gestureItem = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-lg-4');
+
+                            var item = $('#template-study-container').find('#trigger-identification').clone();
+                            $(item).prepend(gestureItem);
+                            $(item).find('#trigger-name .address').text(translation.trigger + ':');
+                            $(item).find('#trigger-name .text').text(phaseResults.trigger[i].name);
+                            $(item).find('#trigger-justification .address').text(translation.justification + ':');
+                            $(item).find('#trigger-justification .text').text(phaseResults.trigger[i].justification);
+                            $(content).find('.list-container').append(item);
+
+                            if (i < gestures.length - 1) {
+                                var line = document.createElement('hr');
+                                $(line).css({margin: 0, marginBottom: 20});
+                                $(content).find('.list-container').append(line);
+                            }
+                            TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
+                        }
+                    } else {
+                        console.log('no triggers there');
+                    }
+                }
+//                }
+
+            }
+
+            function renderExploration(content, phaseData, phaseResults) {
+                console.log(phaseData, phaseResults);
+            }
+
             function renderObservation(target, studyData, observationResults) {
                 console.log('observationResults', studyData.observations);
                 if (observationResults && observationResults.length > 0) {
                     console.log(observationResults);
-                    renderQuestionnaire(target, studyData.observations, {answers:observationResults});
+                    renderQuestionnaire(target, studyData.observations, {answers: observationResults});
 //                    renderEditableObservations(target, studyData.observations, {answers:observationResults});
                 } else {
                     renderQuestionnaire(target, studyData.observations, null);

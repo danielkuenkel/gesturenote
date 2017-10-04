@@ -891,7 +891,7 @@ function renderAssembledFeedback(targetContainer, optionalSelections) {
             $(target).find('.feedbackSelect .dropdown-toggle').removeClass('disabled');
             $(target).find('.option-feedback').attr('placeholder', 'Bitte wählen');
         }
-        
+
         console.log('renderAssembledFeedback', optionalSelections);
         if (optionalSelections && optionalSelections.length > 0) {
             listItem = document.createElement('li');
@@ -1570,27 +1570,31 @@ var originalFilterData = null;
 var currentFilterData = null;
 
 function sort() {
-    var array = filter($(currentPaginationData.filter.filter).find('.chosen').attr('id'));
-    var sortType = $(currentPaginationData.filter.sort).find('.chosen').attr('id');
+    if (currentPaginationData) {
+        var array = filter($(currentPaginationData.filter.filter).find('.chosen').attr('id'));
+        var sortType = $(currentPaginationData.filter.sort).find('.chosen').attr('id');
 
-    if (array && array.length > 0) {
-        switch (sortType) {
-            case SORT_ASC:
-                array = sortByKey(array, 'title', false);
-                break;
-            case SORT_DESC:
-                array = sortByKey(array, 'title', true);
-                break;
-            case SORT_NEWEST:
-                array = sortByKey(array, 'created', true);
-                break;
-            case SORT_OLDEST:
-                array = sortByKey(array, 'created', false);
-                break;
+        if (array && array.length > 0) {
+            switch (sortType) {
+                case SORT_ASC:
+                    array = sortByKey(array, 'title', false);
+                    break;
+                case SORT_DESC:
+                    array = sortByKey(array, 'title', true);
+                    break;
+                case SORT_NEWEST:
+                    array = sortByKey(array, 'created', true);
+                    break;
+                case SORT_OLDEST:
+                    array = sortByKey(array, 'created', false);
+                    break;
+            }
         }
-    }
 
-    return array;
+        return array;
+    } else {
+        return originalFilterData;
+    }
 }
 
 

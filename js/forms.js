@@ -56,7 +56,7 @@ function renderFormatItem(target, data, currentPhaseFormat) {
     $(clone).find('.question').val(data.question);
     clone.attr('name', data.id || chance.natural());
     clone.addClass(data.dimension);
-    console.log(target);
+//    console.log(target);
     $(target).append(clone);
 
     var parameters = data.parameters;
@@ -92,7 +92,7 @@ function renderFormatItem(target, data, currentPhaseFormat) {
 //            $(clone).find('.justification-for #' + parameters.justificationFor).click();
             break;
         case GROUPING_QUESTION:
-            console.log(parameters);
+//            console.log(parameters);
             $(clone).find('.multiselect #' + parameters.multiselect).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
 //            $(clone).find('.justification #' + parameters.justification).click();
@@ -264,7 +264,7 @@ function renderFormatItem(target, data, currentPhaseFormat) {
 
 function initJustificationFormElements(clone, parameters) {
     $(clone).find('.justification').unbind('change').bind('change', function (event) {
-        console.log('justification changed');
+//        console.log('justification changed');
         event.preventDefault();
         if ($(event.target).attr('id') === 'yes') {
             $(clone).find('.justification-for').removeClass('hidden');
@@ -449,7 +449,7 @@ function renderQuestionnaire(target, questionnaire, answers) {
             }
 
             $(target).find('.question-container').append(item);
-            console.log($(target).find('.question-container'), questionnaire[i], item);
+//            console.log($(target).find('.question-container'), questionnaire[i], item);
 
             var answer = getAnswerForId(questionnaire[i].id, answers);
 
@@ -786,7 +786,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
 }
 
 function getAnswerForId(id, data, sequentialAnswerSearch, index) {
-    console.log(id, data, sequentialAnswerSearch);
+//    console.log(id, data, sequentialAnswerSearch);
     if (sequentialAnswerSearch && sequentialAnswerSearch === true) {
         var answer = data.answers[index].answer;
         if (answer) {
@@ -795,7 +795,7 @@ function getAnswerForId(id, data, sequentialAnswerSearch, index) {
     } else if (data && data.answers && data.answers.length > 0) {
         for (var i = 0; i < data.answers.length; i++) {
             if (parseInt(id) === parseInt(data.answers[i].id)) {
-                console.log('answer found for', id, data.answers[i].answer);
+//                console.log('answer found for', id, data.answers[i].answer);
                 return data.answers[i].answer;
             }
         }
@@ -896,7 +896,7 @@ function renderEditableDichotomousQuestion(item, studyData, answer) {
 }
 
 function renderGroupingQuestion(item, studyData, answer) {
-    console.log(studyData, answer);
+//    console.log(studyData, answer);
     if (studyData.parameters.multiselect === 'yes') {
         $(item).find('#multiselect').removeClass('hidden');
     } else {
@@ -1010,7 +1010,7 @@ function renderEditableGroupingQuestion(item, studyData, answer) {
 
 
 function renderGroupingQuestionGUS(item, studyData, answer) {
-    console.log(item, studyData, answer);
+//    console.log(item, studyData, answer);
     var options;
     switch (studyData.parameters.optionSource) {
         case 'gestures':
@@ -1063,7 +1063,7 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
                 optionItem.find('#' + studyData.parameters.justificationFor).removeClass('hidden');
 
                 if (answer) {
-                    console.log(answer, options[i].id);
+//                    console.log(answer, options[i].id);
                     var values = answer[options[i].id];
                     if (studyData.parameters.justificationFor === 'selectOne') {
                         if (values.selected === 'yes' && values.justification !== '') {
@@ -1271,7 +1271,7 @@ function renderEditableRating(item, studyData, answer) {
 }
 
 function renderMatrix(item, studyData, answer) {
-    console.log(studyData, answer);
+//    console.log(studyData, answer);
     for (var i = 0; i < studyData.options.length; i++) {
         var optionItem = $('#template-study-container').find('#matrix-item').clone();
         $(optionItem).find('#rating-option').text(studyData.options[i].option);
@@ -1642,7 +1642,7 @@ function renderRatingSigns(container, score, maxScore) {
         }
     }
 
-    console.log('maxScore', maxScore, score, balance);
+//    console.log('maxScore', maxScore, score, balance);
 
 }
 
@@ -2361,7 +2361,7 @@ function renderEditableObservations(target, studyData, resultData) {
             for (var j = 0; j < resultData.length; j++) {
                 if (parseInt(studyData[i].id) === parseInt(resultData[j].id)) {
                     var answer = getAnswerForId(studyData[i].id, resultData);
-                    console.log(studyData[i].format, answer);
+//                    console.log(studyData[i].format, answer);
 
                     switch (studyData[i].format) {
                         case COUNTER:
