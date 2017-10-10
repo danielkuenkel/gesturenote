@@ -1,9 +1,11 @@
 var currentPhaseStepIndex = 0;
 
 var questionnaireDone = false;
+var gestureTrainingStartTriggered = false;
 var currentGestureTrainingIndex = 0;
 var currentTrainingIndex = 0;
 var trainingTriggered = false;
+var trainingPrototypeOpened = false;
 var triggeredFeedback = null;
 var slidesRestartCount = 0;
 var slideshowStartTriggered = false;
@@ -16,9 +18,9 @@ var currentSceneId;
 var scenarioStartTriggered = false;
 var scenarioPrototypeOpened = false;
 var triggeredWoz = null;
+var triggeredFeedback = null;
 var triggeredHelp = null;
 var currentTriggeredSceneId = null;
-var gestureTrainingStartTriggered = false;
 var currentIdentificationIndex = 0;
 var currentIdentificationScene = 0;
 var identificationPrototypeOpened = false;
@@ -44,6 +46,7 @@ var stressTestQuestionsTriggered = false;
 var testerDoneTriggered = false;
 var previewModeEnabled = false;
 
+var currentTransitionSceneIndex = 0;
 var currentGUSData = null;
 
 var syncPhaseStep = false;
@@ -235,6 +238,7 @@ function resetConstraints() {
     scenarioStartTriggered = false;
     scenarioPrototypeOpened = false;
     triggeredHelp = null;
+    triggeredFeedback = null;
     triggeredWoz = null;
 
     currentStressTestCount = 0;
@@ -261,6 +265,7 @@ function resetConstraints() {
 
     singleGUSGesture = null;
     currentGUSData = null;
+    currentTransitionSceneIndex = 0;
 
     currentQuestionnaireAnswers = null;
 }

@@ -1914,7 +1914,7 @@ include '../includes/language.php';
                 <label><?php echo $lang->gesture ?></label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="input-group evaluation">
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>" tabindex="-1"/>
                     <div class="input-group-btn select gestureSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -1922,11 +1922,53 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="form-group" style="margin-bottom: 0px">
+            <div class="form-inline">
+
+                <!--<div class="col-md-6" >-->
+                <div class="form-group" id="repeats-stepper" style="margin-right: 20px">
+                    <label>Wiederholungen der Geste</label><br/>
+                    <div class="input-group simple-stepper">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneLess ?></span>
+                            </button>
+                        </div>
+                        <input type="text" class="form-control readonly text-center stepper-text" value="5" tabindex="-1">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
+                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneMore ?></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!--</div>-->
+
+                <!--<div class="col-md-6 ">-->
+                <div class="form-group hidden" id="recognition-stepper">
+                    <label>Reaktionszeit (Sekunden)</label><br/>
+                    <div class="input-group simple-stepper">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
+                            </button>
+                        </div>
+                        <input type="text" class="form-control readonly text-center stepper-text" value="3" tabindex="-1">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
+                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--</div>-->
+            </div>
+
+            <div class="form-group" style="margin-top: 15px">
                 <label><?php echo $lang->feedback ?></label>
                 <div class="alert-space alert-assembled-feedback-removed"></div>
                 <div class="input-group">
-                    <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>" tabindex="-1"/>
                     <div class="input-group-btn select feedbackSelect" role="group">
                         <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                         <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -1934,46 +1976,60 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="row">
-
-                <div class="col-md-6" id="repeats-stepper">
-                    <div class="form-group form-group-margin-top">
-                        <label>Wiederholungen der Geste</label>
-                        <div class="input-group simple-stepper">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneLess ?></span>
-                                </button>
-                            </div>
-                            <input type="text" class="form-control readonly text-center stepper-text" value="5">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneMore ?></span>
-                                </button>
-                            </div>
+            <div class="form-inline">
+                <div class="form-group transitionFeedback-mode hidden" style="margin-right: 10px">
+                    <label>Anzeige der <?php echo $lang->stateCharts->transitionFeedback ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                    <div class="root">
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="manually">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text">manuell</span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="automatically">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text">automatisch</span>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-6 hidden" id="recognition-stepper">
-                    <div class="form-group form-group-margin-top">
-                        <label>Reaktionszeit (Sekunden)</label>
-                        <div class="input-group simple-stepper">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
-                                </button>
-                            </div>
-                            <input type="text" class="form-control readonly text-center stepper-text" value="3">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="10">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
-                                </button>
-                            </div>
+                <div class="form-group hidden transitionFeedback-time-stepper">
+                    <label>Übergangszeit (in Sekunden) <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                    <br/>
+                    <div class="input-group simple-stepper" style="max-width: 130px">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
+                            </button>
+                        </div>
+                        <input type="text" class="form-control readonly text-center stepper-text" value="1">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
+                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
+                            </button>
                         </div>
                     </div>
-
                 </div>
+            </div>
+
+            <div class="form-group" id="scenes" style="margin-top: 15px">
+                <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="alert-space alert-no-scenes-assembled-link"></div>
+                <div class="">
+                    <div class="transition-scenes-option-container"></div>
+                </div>
+                <button class="btn btn-info btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span>Zustand hinzufügen</span></button>
             </div>
 
         </div>

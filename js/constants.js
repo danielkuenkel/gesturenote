@@ -199,6 +199,7 @@ var MESSAGE_START_SCENARIO = 'startScenario';
 var MESSAGE_RELOAD_SCENE = 'reloadScene';
 var MESSAGE_RENDER_SCENE = 'renderScene';
 var MESSAGE_TRIGGER_WOZ = 'triggerWOZ';
+var MESSAGE_TRIGGER_FEEDBACK = 'triggerFeedback';
 var MESSAGE_FEEDBACK_HIDDEN = 'feedbackHidden';
 var MESSAGE_TRIGGER_HELP = 'triggerHelp';
 var MESSAGE_HELP_CLOSED = 'helpClosed';

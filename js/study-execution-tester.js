@@ -272,8 +272,8 @@ var Tester = {
     },
     getGestureTraining: function getGestureTraining(source, container, data) {
         // general data section
-        $(container).find('.headline').text(data.title);
-        $(container).find('.description').text(data.description);
+//        $(container).find('.headline').text(data.title);
+//        $(container).find('.description').text(data.description);
         if (!data.training || data.training.length === 0) {
             return false;
         }
@@ -289,99 +289,112 @@ var Tester = {
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             Tester.renderUnmoderatedTraining(source, container, data.training);
         } else {
-            if (!previewModeEnabled && peerConnection) {
-                $(peerConnection).unbind(MESSAGE_START_GESTURE_TRAINING).bind(MESSAGE_START_GESTURE_TRAINING, function (event, payload) {
-                    gestureTrainingStartTriggered = true;
-                    container.find('#general').addClass('hidden');
+//            if (gestureTrainingStartTriggered) {
+////                container.find('#general').addClass('hidden');
+//            }
 
-                    var currentPhase = getCurrentPhase();
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    tempData.startTrainingTime = new Date().getTime();
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                });
-
-                $(peerConnection).unbind(MESSAGE_TRAINING_TRIGGERED).bind(MESSAGE_TRAINING_TRIGGERED, function (event, payload) {
-                    trainingTriggered = true;
-                    currentGestureTrainingIndex = payload.currentGestureTrainingIndex;
-                    Tester.renderModeratedTraining(source, container, data.training);
-
-                    var currentPhase = getCurrentPhase();
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    tempData.training.push({gestureId: payload.gestureId, gestureTrainingStart: new Date().getTime()});
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                });
-
-                $(peerConnection).unbind(MESSAGE_FEEDBACK_TRIGGERED).bind(MESSAGE_FEEDBACK_TRIGGERED, function (event, payload) {
-                    Tester.renderModeratedTrainingFeedback(source, {feedbackId: payload.feedbackId});
-
-                    var currentPhase = getCurrentPhase(); // save start training time for a specific gesture
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    for (var i = 0; i < tempData.training.length; i++) {
-                        if (parseInt(tempData.training[i].gestureId) === parseInt(payload.gestureId)) {
-                            tempData.training[i].gestureTrainingEnd = new Date().getTime();
-                        }
-                    }
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                });
-            }
-
-            if (gestureTrainingStartTriggered) {
-                container.find('#general').addClass('hidden');
-            }
-
-            if (trainingTriggered) {
-                Tester.renderModeratedTraining(source, container, data.training);
-            } else {
-                appendAlert($(container), ALERT_PLEASE_WAIT);
-            }
+//            if (trainingTriggered) {
+            Tester.renderModeratedTraining(source, container, data.training);
+//            } else {
+//                appendAlert($(container), ALERT_PLEASE_WAIT);
+//            }
         }
 
         return container;
     },
     renderModeratedTraining: function renderModeratedTraining(source, container, data) {
-        clearAlerts(container);
-        var trainingData = data[currentGestureTrainingIndex];
-        var item = $(source).find('#trainingItemModerated').clone().removeAttr('id');
-        $(container).append(item);
-        var gesture = getGestureById(trainingData.gestureId);
-        var trigger = getTriggerById(trainingData.triggerId);
-        var feedback = getFeedbackById(trainingData.feedbackId);
-        item.find('#title .address').text(translation.title + ":");
-        item.find('#title .text').text(gesture.title);
-        item.find('#trigger .address').text(translation.trigger + ":");
-        item.find('#trigger .text').text(trigger.title);
-        item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
-        item.find('#feedback .address').text(translation.feedback + ":");
-        $(container).find('#trainingContainer').empty().append(item);
+        if (previewModeEnabled) {
+            $(container).find('#scene-container').css({top: '-108px'});
+        }
 
-        if (feedback) {
-            var icon = document.createElement('i');
-            var label = document.createElement('div');
-            $(label).addClass('label label-default');
-            switch (feedback.type) {
-                case TYPE_FEEDBACK_SOUND:
-                    $(label).text(' Sound');
-                    $(icon).addClass('fa fa-volume-up');
-                    break;
-                case TYPE_FEEDBACK_TEXT:
-                    $(label).text(' Text');
-                    $(icon).addClass('fa fa-font');
-                    break;
+        // handle states in preview mode
+        if (gestureTrainingStartTriggered === true) {
+            clearAlerts(container);
+            $(container).find('#fixed-rtc-preview').removeClass('hidden');
+
+            if (!previewModeEnabled && isWebRTCSupported()) {
+                Tester.initScreenSharing(container);
+            } else {
+                // render scene manually
+                if (currentWOZScene) {
+                    renderSceneItem(source, container, currentWOZScene.id);
+                }
             }
-
-            item.find('#feedback .text').text(" " + feedback.title);
-            $(label).prepend(icon);
-            item.find('#feedback .text').prepend(label);
         } else {
-            item.find('#feedback .text').text(translation.nones);
+            appendAlert($(container), ALERT_PLEASE_WAIT);
+            $(container).find('#fixed-rtc-preview').addClass('hidden');
+            $(container).find('#scene-container').addClass('hidden');
         }
 
-        if (triggeredFeedback) {
-            trainingTriggered = false;
-            Tester.renderModeratedTrainingFeedback(source, trainingData);
+        // handle triggered help & woz
+        if (previewModeEnabled && gestureTrainingStartTriggered === true) {
+            checkFeedback();
+            checkGesture();
+        } else {
+            $(peerConnection).unbind(MESSAGE_TRIGGER_FEEDBACK).bind(MESSAGE_TRIGGER_FEEDBACK, function (event, payload) {
+                console.log(payload);
+                triggeredFeedback = payload.triggeredFeedback;
+                checkFeedback();
+
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            });
+
+            $(peerConnection).unbind(MESSAGE_START_GESTURE_TRAINING).bind(MESSAGE_START_GESTURE_TRAINING, function (event, payload) {
+                gestureTrainingStartTriggered = true;
+                container.find('#general').addClass('hidden');
+
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.startTrainingTime = new Date().getTime();
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            });
+
+            $(peerConnection).unbind(MESSAGE_TRAINING_TRIGGERED).bind(MESSAGE_TRAINING_TRIGGERED, function (event, payload) {
+                trainingTriggered = true;
+                currentGestureTrainingIndex = payload.currentGestureTrainingIndex;
+                Tester.renderModeratedTraining(source, container, data);
+                checkGesture();
+
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.training.push({gestureId: payload.gestureId, gestureTrainingStart: new Date().getTime()});
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            });
         }
 
-        renderGestureImages(item.find('.previewGesture'), gesture.images, gesture.previewImage, null);
+        function checkFeedback() {
+            if (triggeredFeedback) {
+                console.log(triggeredFeedback);
+
+                var hint = appendHint(source, $('body'), triggeredFeedback, TYPE_SURVEY_MODERATED);
+                if (hint !== null) {
+                    $(hint).on('hint.hidden', function () {
+                        triggeredFeedback = null;
+                        if (peerConnection) {
+                            peerConnection.sendMessage(MESSAGE_FEEDBACK_HIDDEN);
+                        } else {
+                            renderSceneItem(source, container, currentWOZScene.id);
+                        }
+                    });
+                } else {
+                    triggeredFeedback = null;
+                    if (peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_FEEDBACK_HIDDEN);
+                    } else {
+                        renderSceneItem(source, container, currentWOZScene.id);
+                    }
+                }
+            }
+        }
+
+        function checkGesture() {
+            if (trainingTriggered) {
+                trainingTriggered = false;
+                var gesture = getGestureById(data[currentGestureTrainingIndex].gestureId);
+            }
+        }
     },
     renderModeratedTrainingFeedback: function renderModeratedTrainingFeedback(source, data) {
         appendHint(source, $('body'), data, TYPE_SURVEY_MODERATED);
@@ -1515,19 +1528,6 @@ var Tester = {
             $(container).find('#scene-container').css({top: '-108px'});
         }
 
-//        // handle scenario start state
-//        if (scenarioStartTriggered === true) {
-//            clearAlerts(container);
-//            $(container).find('#fixed-rtc-preview').removeClass('hidden');
-//
-//            if (!previewModeEnabled && isWebRTCSupported()) {
-//                Tester.initScreenSharing(container);
-//            }
-//        } else {
-//            appendAlert($(container), ALERT_PLEASE_WAIT);
-//            $(container).find('#fixed-rtc-preview').addClass('hidden');
-//        }
-
         // handle states in preview mode
         if (scenarioStartTriggered === true) {
             clearAlerts(container);
@@ -1546,8 +1546,9 @@ var Tester = {
         }
 
         // handle triggered help & woz
-        if (previewModeEnabled) {
+        if (previewModeEnabled && scenarioStartTriggered === true) {
             checkHelp();
+            checkFeedback();
         } else {
             $(peerConnection).unbind(MESSAGE_TRIGGER_HELP).bind(MESSAGE_TRIGGER_HELP, function (event, payload) {
                 triggeredHelp = payload.help;
@@ -1557,8 +1558,15 @@ var Tester = {
             $(peerConnection).unbind(MESSAGE_TRIGGER_WOZ).bind(MESSAGE_TRIGGER_WOZ, function (event, payload) {
                 console.log(payload);
                 triggeredWoz = payload.triggeredWOZ;
-//                currentWOZScene = payload.currentWOZScene;
 
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            });
+
+            $(peerConnection).unbind(MESSAGE_TRIGGER_FEEDBACK).bind(MESSAGE_TRIGGER_FEEDBACK, function (event, payload) {
+                console.log(payload);
+                triggeredFeedback = payload.triggeredFeedback;
                 checkFeedback();
 
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
@@ -1574,22 +1582,26 @@ var Tester = {
         }
 
         function checkFeedback() {
-            if (triggeredWoz) {
-                console.log(triggeredWoz.feedbackId);
+            if (triggeredFeedback) {
+                console.log(triggeredFeedback);
 
-                var hint = appendHint(source, $('body'), triggeredWoz, TYPE_SURVEY_MODERATED);
+                var hint = appendHint(source, $('body'), triggeredFeedback, TYPE_SURVEY_MODERATED);
                 if (hint !== null) {
                     $(hint).on('hint.hidden', function () {
+                        triggeredFeedback = null;
                         if (peerConnection) {
-                            peerConnection.sendMessage(MESSAGE_FEEDBACK_HIDDEN, {triggeredWOZ: triggeredWoz});
+                            peerConnection.sendMessage(MESSAGE_FEEDBACK_HIDDEN);
+                        } else {
+                            renderSceneItem(source, container, currentWOZScene.id);
                         }
-                        triggeredWoz = null;
                     });
                 } else {
+                    triggeredFeedback = null;
                     if (peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_FEEDBACK_HIDDEN, {triggeredWOZ: triggeredWoz});
+                        peerConnection.sendMessage(MESSAGE_FEEDBACK_HIDDEN);
+                    } else {
+                        renderSceneItem(source, container, currentWOZScene.id);
                     }
-                    triggeredWoz = null;
                 }
             }
         }

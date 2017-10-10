@@ -405,12 +405,13 @@ include '../includes/language.php';
     <!-- gesture training container -->
     <div class="row root" id="gestureTraining">
         <div class="col-md-6 col-lg-5 rtc-scalable" id="column-left" style="margin-bottom: 20px">
-            <div class="panel panel-sm panel-default" id="training">
+            <div class="panel panel panel-default" id="training">
                 <div class="panel-heading">
                     <span class="panel-heading-text"></span>
                 </div>
                 <div class="panel-body">
                     <div id="trainingContainer"></div>
+                    <div class="alert-space alert-no-phase-data"></div>
                 </div>
             </div>
         </div>
@@ -418,7 +419,10 @@ include '../includes/language.php';
             <div class="" id="general">
                 <h3 id="heading" style="margin-top: 0"></h3>
                 <div id="description"></div>
-                <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-training" style="margin-top: 6px;">Jetzt starten</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-training" style="margin-top: 6px;">Jetzt starten</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;">Screensharing starten</button>
+                <!--<button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;">Screensharing beenden</button>-->
             </div>
             <div class="" id="observations">
                 <h3><?php echo $lang->observations ?></h3>
@@ -428,27 +432,67 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="trainingItem" class="row">
-        <div class="col-sm-6 col-md-12 col-lg-6 left" style="margin-bottom: 10px;">
-            <!--<div class="previewGesture embed-responsive embed-responsive-4by3"></div>-->
-            <div>
-                <div id="title"><span class="address"></span> <span class="text"></span></div>
-                <div id="repeats"><span class="address"></span> <span class="text"></span></div>
-                <div id="trigger"><span class="address"></span> <span class="text"></span></div>
-                <div id="feedback"><span class="address"></span> <span class="text"></span></div>
+    <!--    <div id="trainingItem" class="row">
+            <div class="col-sm-6 col-md-12 col-lg-6 left" style="margin-bottom: 10px;">
+                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+                <div>
+                    <div id="title"><span class="address"></span> <span class="text"></span></div>
+                    <div id="repeats"><span class="address"></span> <span class="text"></span></div>
+                    <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+                    <div id="feedback"><span class="address"></span> <span class="text"></span></div>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-6 col-md-12 col-lg-6 right">
-            <div class="btn-group-vertical btn-block">
-                <button type="button" class="btn btn-default btn-shadow btn-block btn-popover-gesture-preview" style="margin-top: 10px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
-                <button type="button" class="btn btn-info btn-shadow disabled" id="trigger-training"><span class="btn-text">Trainieren</span></button>
-                <button type="button" class="btn btn-info btn-shadow disabled" id="trigger-feedback"><span class="btn-text">Feedback geben</span></button>
+            <div class="col-sm-6 col-md-12 col-lg-6 right">
+                <div class="btn-group-vertical btn-block">
+                    <button type="button" class="btn btn-default btn-shadow btn-block btn-popover-gesture-preview" style="margin-top: 10px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+                    <button type="button" class="btn btn-info btn-shadow disabled" id="trigger-training"><span class="btn-text">Trainieren</span></button>
+                    <button type="button" class="btn btn-info btn-shadow disabled" id="trigger-feedback"><span class="btn-text">Feedback geben</span></button>
+                </div>
+    
+                <button type="button" class="btn btn-success btn-shadow btn-block disabled" id="next-gesture"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
+                <button type="button" class="btn btn-success btn-shadow btn-block disabled hidden" id="training-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
+        </div>-->
 
+    <!--<div class="col-xs-12 ">-->
+    <div class="row root"  id="trainingItem">
+        <div class="col-xs-5 col-sm-6 col-md-4">
+            <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+            <div id="repeats"><span class="address"></span> <span class="text"></span></div>
+            <div class="btn-shadow">
+                <!--<div class="panel-body">-->
+                <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3"></div>
+                <div class="text-center hidden gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    </div>
+                </div>
+
+                <!--<button type="button" class="btn btn-success btn-block disabled" id="btn-trigger-woz" style="margin-top: 10px;">Diese</button>-->
+                <!--</div>-->
+            </div>
+            <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-show-gesture" style="margin-top: 10px">Geste zeigen</button>
+
+        </div>
+        <div class="col-xs-7 col-sm-6 col-md-8" id="transition-scenes">
+            <h4 id="start-scene-header" class="hidden" style="margin:0">Zustand</h4>
+            <div class="hidden" id="start-scene-container"></div>
+            <h4 style="margin-bottom: 0" id="transition-feedback-header" class="hidden">Feedback</h4>
+            <div class="hidden" id="transition-feedback-container"></div>
+            <h4 style="margin-bottom: 0" id="transition-scene-header" class="hidden">Zwischenzustände</h4>
+            <div class="hidden" id="transition-scene-container"></div>
+            <h4 style="margin-bottom: 0" id="follow-scene-header" class="hidden">Folgezustand</h4>
+            <div id="follow-scene-container" class="hidden"></div>
+            <button type="button" class="btn btn-default btn-shadow btn-block disabled hidden" id="btn-repeat-training"  style="margin-top: 10px"><span class="btn-text">Training wiederholen</span></button>
+        </div>
+        <div class="col-xs-12" style="margin-top: 10px">
             <button type="button" class="btn btn-success btn-shadow btn-block disabled" id="next-gesture"><span class="btn-text">Nächste Geste</span> <span aria-hidden="true">&rarr;</span></button>
             <button type="button" class="btn btn-success btn-shadow btn-block disabled hidden" id="training-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
     </div>
+
+    <!--</div>-->
 
 
     <!-- slideshow container -->
@@ -680,7 +724,7 @@ include '../includes/language.php';
         <div class="panel panel-default btn-shadow">
             <div class="panel-body">
                 <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3"></div>
-                <div class="text-center  hidden gestureControls">
+                <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
                         <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
@@ -724,12 +768,23 @@ include '../includes/language.php';
     </div>
 
     <div class="btn-group" id="wozItemWithScenesButton" style="margin-top: 8px">
-        <!--<button type="button" class="btn btn-default btn-shadow"><i class="fa fa-eye"></i></button>-->
-        <button type="button" class="btn btn-default btn-shadow disabled btn-trigger-scene"><span class="btn-text ellipsis"></span> <span class="badge transition-time"></span><div id="transition-indicator" class="hidden" style="position: absolute; bottom: 0; height: 3px; left: 0; right: 0; background-color: white"></div></button>
+        <button type="button" class="btn btn-default btn-shadow disabled btn-trigger-scene">
+            <i class="hidden fa fa-image" id="scene-image"></i> 
+            <i class="hidden fa fa-link" id="scene-web"></i> 
+            <i class="hidden fa fa-link" id="scene-pidoco"></i> 
+            <i class="hidden fa fa-film" id="scene-videoEmbed"></i> 
+            <span class="btn-text ellipsis"></span> <span class="badge transition-time"></span>
+            <div id="transition-indicator" class="hidden" style="position: absolute; bottom: 0; height: 3px; left: 0; right: 0; background-color: white"></div>
+        </button>
     </div>
 
-    <div class="btn-group" id="wozItemWithScenesFeedbackButton" style="margin-top: 8px">
-        <button type="button" class="btn btn-default disabled btn-feedback-scene" style="pointer-events: none"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <span class="btn-text ellipsis"></span></button>
+    <div class="btn-group" id="wozFeedbackItemButton" style="margin-top: 8px">
+        <button type="button" class="btn btn-default btn-shadow disabled btn-trigger-feedback">
+            <i class="hidden fa fa-font" id="feedback-text"></i> 
+            <i class="hidden fa fa-volume-up" id="feedback-sound"></i> 
+            <span class="btn-text ellipsis"></span> <span class="badge transition-time"></span>
+            <div id="transition-indicator" class="hidden" style="position: absolute; bottom: 0; height: 3px; left: 0; right: 0; background-color: white"></div>
+        </button>
     </div>
 
     <div id="helpItem" style="margin-bottom: 16px;">
@@ -1248,10 +1303,10 @@ include '../includes/language.php';
     </div>
 
     <!-- gesture training container -->
-    <div class="root" id="gestureTraining" style="margin-top: 80px;">
+<!--    <div class="root" id="gestureTraining" style="margin-top: 80px;">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <!--<div class="row">-->
-        <!--<div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>-->
+        <div class="row">
+        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
             <div id="general">
                 <h3 class="headline" style="margin: 0"></h3>
@@ -1261,17 +1316,28 @@ include '../includes/language.php';
             <div class="alert-space alert-please-wait"></div>
             <div class="row" id="trainingContainer"></div>
         </div>
-        <!--</div>-->
+        </div>
+    </div>-->
+    
+    <div class="root" id="gestureTraining" style="margin-top: 80px;">
+
+        <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
+
+        <div id="fixed-rtc-preview" class="hidden rtc-shadow" style="position: fixed; width: 300px; top: 5px; left: 10px; pointer-events: none; opacity: 0.8"></div>
+
+        <div class="" style="margin-top: 55px; padding: 20px">
+            <div class="alert-space alert-please-wait"></div>
+        </div>
     </div>
 
-    <div id="trainingItemModerated">
+<!--    <div id="trainingItemModerated">
         <div class="col-sm-6" style="margin-bottom: 10px;">
-            <!--<div>-->
+            <div>
             <div id="title"><span class="address"></span> <span class="text"></span></div>
             <div id="repeats"><span class="address"></span> <span class="text"></span></div>
             <div id="trigger"><span class="address"></span> <span class="text"></span></div>
             <div id="feedback"><span class="address"></span> <span class="text"></span></div>
-            <!--</div>-->
+            </div>
         </div>
         <div class="col-sm-6" style="margin-bottom: 20px;">
             <div class="previewGesture autoplay embed-responsive embed-responsive-4by3"></div>
@@ -1282,7 +1348,7 @@ include '../includes/language.php';
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <div id="trainingItemUnmoderated">
         <div class="hidden" id="training-data">

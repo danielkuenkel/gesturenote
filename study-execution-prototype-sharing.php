@@ -93,6 +93,9 @@
                     case EXPLORATION:
                         startScene = getSceneById(phaseStepData.exploration[0].transitionScenes[0].sceneId);
                         break;
+                    case GESTURE_TRAINING:
+                        startScene = getSceneById(phaseStepData.training[0].transitionScenes[0].sceneId);
+                        break;
                 }
 
 //                console.log(query.phaseId, phaseStepData, startScene);
