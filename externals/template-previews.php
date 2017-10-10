@@ -421,7 +421,7 @@ include '../includes/language.php';
                 <div id="description"></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-training" style="margin-top: 6px;">Jetzt starten</button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
-                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;">Screensharing starten</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> Screensharing starten</button>
                 <!--<button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;">Screensharing beenden</button>-->
             </div>
             <div class="" id="observations">
@@ -472,17 +472,17 @@ include '../includes/language.php';
                 <!--<button type="button" class="btn btn-success btn-block disabled" id="btn-trigger-woz" style="margin-top: 10px;">Diese</button>-->
                 <!--</div>-->
             </div>
-            <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-show-gesture" style="margin-top: 10px">Geste zeigen</button>
+            <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-show-gesture" style="margin-top: 10px"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <span class="btn-text">Geste zeigen</span></button>
 
         </div>
         <div class="col-xs-7 col-sm-6 col-md-8" id="transition-scenes">
             <h4 id="start-scene-header" class="hidden" style="margin:0">Zustand</h4>
-            <div class="hidden" id="start-scene-container"></div>
-            <h4 style="margin-bottom: 0" id="transition-feedback-header" class="hidden">Feedback</h4>
-            <div class="hidden" id="transition-feedback-container"></div>
-            <h4 style="margin-bottom: 0" id="transition-scene-header" class="hidden">Zwischenzustände</h4>
-            <div class="hidden" id="transition-scene-container"></div>
-            <h4 style="margin-bottom: 0" id="follow-scene-header" class="hidden">Folgezustand</h4>
+            <div class="hidden" id="start-scene-container" style="margin-bottom: 10px"></div>
+            <h4 style="margin: 0" id="transition-feedback-header" class="hidden">Feedback</h4>
+            <div class="hidden" id="transition-feedback-container" style="margin-bottom: 10px"></div>
+            <h4 style="margin: 0" id="transition-scene-header" class="hidden">Zwischenzustände</h4>
+            <div class="hidden" id="transition-scene-container" style="margin-bottom: 10px"></div>
+            <h4 style="margin: 0" id="follow-scene-header" class="hidden">Folgezustand</h4>
             <div id="follow-scene-container" class="hidden"></div>
             <button type="button" class="btn btn-default btn-shadow btn-block disabled hidden" id="btn-repeat-training"  style="margin-top: 10px"><span class="btn-text">Training wiederholen</span></button>
         </div>
@@ -707,7 +707,7 @@ include '../includes/language.php';
                     <div id="task"><span class="address"></span>: <span class="text"></span></div>
                     <div id="description"><span class="address"></span>: <span class="text"></span></div>
                     <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
-                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;">Screensharing starten</button>
+                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> Screensharing starten</button>
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;">Screensharing beenden</button>
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 </div>
@@ -780,6 +780,7 @@ include '../includes/language.php';
 
     <div class="btn-group" id="wozFeedbackItemButton" style="margin-top: 8px">
         <button type="button" class="btn btn-default btn-shadow disabled btn-trigger-feedback">
+            <i class="hidden fa fa-circle-o-notch fa-spin" id="waiting-indicator"></i> 
             <i class="hidden fa fa-font" id="feedback-text"></i> 
             <i class="hidden fa fa-volume-up" id="feedback-sound"></i> 
             <span class="btn-text ellipsis"></span> <span class="badge transition-time"></span>
@@ -841,7 +842,7 @@ include '../includes/language.php';
                 </div>
                 <p id="description"></p>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
-                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;">Screensharing starten</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> Screensharing starten</button>
             </div>
 
             <div class="" id="observations">
@@ -971,7 +972,7 @@ include '../includes/language.php';
                 <h3 class="headline" style="margin: 0"></h3>
                 <p id="description"></p>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
-                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;">Screensharing starten</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> Screensharing starten</button>
             </div>
 
             <div class="" id="observations">
@@ -1319,7 +1320,7 @@ include '../includes/language.php';
         </div>
     </div>-->
     
-    <div class="root" id="gestureTraining" style="margin-top: 80px;">
+    <div class="root" id="gestureTraining" style="width: 100%; margin-top: 54px">
 
         <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
 

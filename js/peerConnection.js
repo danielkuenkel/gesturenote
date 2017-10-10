@@ -527,6 +527,7 @@ PeerConnection.prototype.stopRecording = function (callback, save) {
 };
 
 var separateChunks = [];
+var separateChunksRecording = false;
 PeerConnection.prototype.startRecordSeparateChunks = function () {
     console.log('start record separate chunks');
     separateChunks = [];

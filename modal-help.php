@@ -1,3 +1,7 @@
+<?php
+include 'includes/language.php';
+?>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     <h4 class="modal-title">Hilfe</h4>
@@ -20,7 +24,7 @@
 </div>
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-default btn-shadow" id="btn-more-help">Mehr Hilfe</button>
-    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal">Schließen</button>
+    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
 </div>
 
 <script>

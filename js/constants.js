@@ -213,6 +213,7 @@ var MESSAGE_TRIGGER_SLIDESHOW_DONE = 'triggerSlideshowDone';
 var MESSAGE_START_GESTURE_TRAINING = 'startGestureTraining';
 var MESSAGE_TRAINING_TRIGGERED = 'trainingTriggered';
 var MESSAGE_FEEDBACK_TRIGGERED = 'feedbackTriggered';
+var MESSAGE_GESTURE_INFO_CLOSED = 'gestureInfoClosed';
 
 var MESSAGE_START_STRESS_TEST = 'startStressTest';
 var MESSAGE_TRIGGER_STRESS_TEST_GESTURE = 'triggerStressTestGesture';
@@ -224,6 +225,8 @@ var MESSAGE_REQUEST_PREFERRED_GESTURES = 'requestPreferredGestures';
 var MESSAGE_RESPONSE_PREFERRED_GESTURES = 'responsePreferredGestures';
 var MESSAGE_REQUEST_PREFERRED_TRIGGER = 'requestPreferredTrigger';
 var MESSAGE_RESPONSE_PREFERRED_TRIGGER = 'responsePreferredTrigger';
+
+var MESSAGE_SCREEN_SHARING_ESTABLISHED = 'screenSharingEstablished';
 /*
  * gesture classifcation
  */

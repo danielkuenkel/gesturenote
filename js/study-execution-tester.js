@@ -5,6 +5,7 @@
  */
 
 var singleGUSGesture = null;
+var screenSharingTester = null;
 var Tester = {
     renderView: function renderView() {
         console.log('render view');
@@ -311,14 +312,11 @@ var Tester = {
         if (gestureTrainingStartTriggered === true) {
             clearAlerts(container);
             $(container).find('#fixed-rtc-preview').removeClass('hidden');
+            $(container).find('#scene-container').removeClass('hidden');
 
-            if (!previewModeEnabled && isWebRTCSupported()) {
-                Tester.initScreenSharing(container);
-            } else {
+            if (previewModeEnabled && currentWOZScene && areThereScenes(data) === false) {
                 // render scene manually
-                if (currentWOZScene) {
-                    renderSceneItem(source, container, currentWOZScene.id);
-                }
+                renderSceneItem(source, container, currentWOZScene.id);
             }
         } else {
             appendAlert($(container), ALERT_PLEASE_WAIT);
@@ -329,21 +327,28 @@ var Tester = {
         // handle triggered help & woz
         if (previewModeEnabled && gestureTrainingStartTriggered === true) {
             checkFeedback();
-            checkGesture();
+            if (trainingTriggered) {
+                onTrainingTriggered();
+            }
         } else {
             $(peerConnection).unbind(MESSAGE_TRIGGER_FEEDBACK).bind(MESSAGE_TRIGGER_FEEDBACK, function (event, payload) {
-                console.log(payload);
                 triggeredFeedback = payload.triggeredFeedback;
                 checkFeedback();
-
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+//                tempData.actions.push({action: ACTION_SELECT_GESTURE, time: new Date().getTime()});
+//                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             });
 
             $(peerConnection).unbind(MESSAGE_START_GESTURE_TRAINING).bind(MESSAGE_START_GESTURE_TRAINING, function (event, payload) {
+                console.log('start gesture training');
                 gestureTrainingStartTriggered = true;
-                container.find('#general').addClass('hidden');
+                clearAlerts(container);
+                $(container).find('#fixed-rtc-preview').removeClass('hidden');
+                $(container).find('#scene-container').removeClass('hidden');
+
+                if (areThereScenes(data)) {
+                    Tester.initScreenSharing(container);
+                }
 
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -353,9 +358,8 @@ var Tester = {
 
             $(peerConnection).unbind(MESSAGE_TRAINING_TRIGGERED).bind(MESSAGE_TRAINING_TRIGGERED, function (event, payload) {
                 trainingTriggered = true;
+                onTrainingTriggered();
                 currentGestureTrainingIndex = payload.currentGestureTrainingIndex;
-                Tester.renderModeratedTraining(source, container, data);
-                checkGesture();
 
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -374,7 +378,7 @@ var Tester = {
                         triggeredFeedback = null;
                         if (peerConnection) {
                             peerConnection.sendMessage(MESSAGE_FEEDBACK_HIDDEN);
-                        } else {
+                        } else if (currentWOZScene) {
                             renderSceneItem(source, container, currentWOZScene.id);
                         }
                     });
@@ -389,11 +393,15 @@ var Tester = {
             }
         }
 
-        function checkGesture() {
-            if (trainingTriggered) {
+        function onTrainingTriggered() {
+            currentPreviewGesture = {gesture: getGestureById(data[currentGestureTrainingIndex].gestureId)};
+            loadHTMLintoModal('custom-modal', 'modal-gesture-info.php', 'modal-md');
+            $('#custom-modal').on('hide.bs.modal', function (event) {
+                if (!previewModeEnabled && peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED);
+                }
                 trainingTriggered = false;
-                var gesture = getGestureById(data[currentGestureTrainingIndex].gestureId);
-            }
+            });
         }
     },
     renderModeratedTrainingFeedback: function renderModeratedTrainingFeedback(source, data) {
@@ -1532,6 +1540,7 @@ var Tester = {
         if (scenarioStartTriggered === true) {
             clearAlerts(container);
             $(container).find('#fixed-rtc-preview').removeClass('hidden');
+            $(container).find('#scene-container').removeClass('hidden');
 
             if (!previewModeEnabled && isWebRTCSupported()) {
                 Tester.initScreenSharing(container);
@@ -1765,9 +1774,7 @@ var Tester = {
             $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
             $(container).find('#scene-description').removeClass('hidden');
 
-            if (!previewModeEnabled && isWebRTCSupported()) {
-                Tester.initScreenSharing(container);
-            } else {
+            if (previewModeEnabled) {
                 // render scene manually
                 renderSceneItem(source, container, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].sceneId);
             }
@@ -1875,6 +1882,7 @@ var Tester = {
             case SCENARIO:
             case IDENTIFICATION:
             case EXPLORATION:
+            case GESTURE_TRAINING:
                 target = $(container).find('#fixed-rtc-preview');
                 break;
         }
@@ -1892,6 +1900,7 @@ var Tester = {
             if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
                 $(peerConnection).unbind(MESSAGE_NEXT_STEP).bind(MESSAGE_NEXT_STEP, function (event, payload) {
                     console.log('next step received');
+                    screenSharingTester = null;
                     nextStep();
                 });
 
@@ -1947,6 +1956,7 @@ var Tester = {
             case SCENARIO:
             case IDENTIFICATION:
             case EXPLORATION:
+            case GESTURE_TRAINING:
                 target = $('#viewTester').find('#fixed-rtc-preview');
                 break;
         }
@@ -1986,17 +1996,23 @@ var Tester = {
         }
     },
     initScreenSharing: function initScreenSharing(container) {
+
         var query = getQueryParams(document.location.search);
-        var screen = null;
         if (query.roomId === undefined) {
-            screen = new Screen('previewRoom');
+            screenSharingTester = new Screen('previewRoom');
         } else {
-            screen = new Screen(query.roomId + 'screensharing');
+            screenSharingTester = new Screen(query.roomId + 'screensharing');
         }
 
-        screen.onaddstream = function (e) {
+        console.log('init screen sharing', screenSharingTester);
+//        screenSharingTester.onscreen = function (event) {
+//            console.log('on screen', event);
+//        };
+
+//        $(screenSharingTester).on('onaddstream', function (userid) {
+        screenSharingTester.onaddstream = function (event) {
             console.log('on add screen');
-            var video = e.video;
+            var video = event.video;
             container.find('#scene-container').empty().append(video);
             var newHeight = $(window).height();
             container.find('#scene-container').css({height: newHeight + "px"});
@@ -2007,15 +2023,26 @@ var Tester = {
                 var newHeight = $(window).height();
                 container.find('#scene-container').css({height: newHeight + "px"});
             });
+
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
+            }
         };
 
-        screen.onuserleft = function (userid) {
+//        $(screenSharingTester).unbind('onuserleft').bind('onuserleft', function (userid) {
+        screenSharingTester.onuserleft = function (userid) {
+            screenSharingTester.leave();
+            console.log('on user left', userid);
             appendAlert($(container), ALERT_PLEASE_WAIT);
             container.find('#scene-container').empty();
             container.find('#scene-description').addClass('hidden');
             $(container).find('#fixed-rtc-preview').addClass('hidden');
+
+            screenSharingTester = null;
+            console.log(screenSharingTester);
         };
-        screen.check();
+
+        screenSharingTester.check();
     }
 };
 

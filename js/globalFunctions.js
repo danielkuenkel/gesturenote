@@ -1052,18 +1052,18 @@ function renderDataForHint(data, hint, source, surveyType) {
     if (data.transitionMode === 'automatically') {
         hint.find('#btn-close-hint').remove();
     } else {
-        if (surveyType === TYPE_SURVEY_MODERATED) {
-            hint.find('#btn-close-hint').remove();
-        } else {
+//        if (surveyType === TYPE_SURVEY_MODERATED) {
+//            hint.find('#btn-close-hint').remove();
+//        } else {
             hint.find('.progress-hint').remove();
-        }
+//        }
     }
 
     switch (feedback.type) {
         case TYPE_FEEDBACK_TEXT:
             hint.find('.hint-content').prepend($(source).find('#feedback-hint-text-content').clone().removeAttr('id'));
             hint.find('#feedback-title').text(feedback.title);
-            
+
             if (data.transitionMode === 'automatically') {
                 TweenMax.to(hint.find('.progress-bar'), data.transitionTime, {width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: hideHint, onCompleteParams: [hint]});
             }
@@ -1090,12 +1090,10 @@ function renderDataForHint(data, hint, source, surveyType) {
 }
 
 function hideHint(hint) {
-    TweenMax.to(hint, .2, {autoAlpha: 0, onComplete: onhideHintComplete, onCompleteParams: [hint]});
-}
-
-function onhideHintComplete(hint) {
-    $(hint).trigger('hint.hidden');
-    removeHint(hint);
+    TweenMax.to(hint, .2, {autoAlpha: 0, onComplete: function () {
+            $(hint).trigger('hint.hidden');
+            removeHint(hint);
+        }});
 }
 
 function removeHint(hint) {

@@ -18,7 +18,6 @@ var currentSceneId;
 var scenarioStartTriggered = false;
 var scenarioPrototypeOpened = false;
 var triggeredWoz = null;
-var triggeredFeedback = null;
 var triggeredHelp = null;
 var currentTriggeredSceneId = null;
 var currentIdentificationIndex = 0;
@@ -225,9 +224,11 @@ function resetConstraints() {
     testerDoneTriggered = false;
 
     gestureTrainingStartTriggered = false;
+    trainingPrototypeOpened = false;
+    trainingTriggered = false;
     currentGestureTrainingIndex = 0;
     currentTrainingIndex = 0;
-
+    
     slideshowStartTriggered = false;
     slideTriggered = false;
     currentSlideIndex = 0;
@@ -479,6 +480,19 @@ function getItemsForSceneId(data, sceneId) {
         return array;
     }
     return null;
+}
+
+
+function areThereScenes(array) {
+    console.log('areThereScenes', array);
+    if (array && array.length > 0) {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i].transitionScenes && array[i].transitionScenes.length > 0) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 //function getUngroupedExplorationGestures(data) {

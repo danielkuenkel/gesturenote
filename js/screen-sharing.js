@@ -26,7 +26,7 @@ function ScreenSharing(roomId, recording) {
             if (recording && recording === true) {
                 screenSharingRecorder = new MediaRecorder(event.stream);
                 screenSharingRecorder.ondataavailable = function (event) {
-                    console.log('on data available');
+                    console.log('on screen sharing data available');
                     recordedChunks.push(event.data);
                 };
 
@@ -40,10 +40,12 @@ function ScreenSharing(roomId, recording) {
 
                 screenSharingRecorder.onerror = function (event) {
                     console.log('Error: ', event);
+                    $(sharing).trigger('error');
                 };
 
                 screenSharingRecorder.onwarning = function (event) {
                     console.log('Warning: ' + event);
+                    $(sharing).trigger('warning');
                 };
                 screenSharingRecorder.start(5000);
             }
