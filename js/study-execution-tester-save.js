@@ -49,6 +49,9 @@ function savePhaseStep() {
         case IDENTIFICATION:
             data = getIdentificationFormData(data);
             break;
+        case EXPLORATION:
+            data = getExplorationFormData(data);
+            break;
     }
 
     data.endTime = new Date().getTime();
@@ -146,6 +149,18 @@ function getIdentificationFormData(data) {
             data.trigger = tempData.trigger;
         }
 
+//        removeLocalItem(data.id + '.tempSaveData');
+    }
+    return data;
+}
+
+function getExplorationFormData(data) {
+    var tempData = getLocalItem(data.id + '.tempSaveData');
+    if (tempData) {
+        data.startTime = tempData.startTime;
+        data.startRecordingTime = tempData.startRecordingTime;
+        data.actions = tempData.actions;
+        data.transitions = tempData.transitions;
 //        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;

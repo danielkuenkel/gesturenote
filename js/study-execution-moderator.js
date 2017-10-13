@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var screenSharingModerator = null;
+//var screenSharingModerator = null;
 var prototypeWindow = null;
 var Moderator = {
     renderView: function renderView() {
@@ -17,6 +17,10 @@ var Moderator = {
 
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
             Moderator.initializePeerConnection();
+//            Moderator.resetScreenSharing();
+//            if(!previewModeEnabled) {
+//                loadScreenSharingScript();
+//            }
 //        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
             var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
             $(container).find('#column-left').css('opacity', '0');
@@ -122,12 +126,14 @@ var Moderator = {
                 goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&h=' + query.h + '&token=' + query.token);
             }
         });
+        
         $(container).find('#btn-retry-upload').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (previewModeEnabled === false) {
                 submitFinalData(container);
             }
         });
+        
         if (previewModeEnabled === false) {
             checkRTCUploadStatus(container);
         }
@@ -572,12 +578,8 @@ var Moderator = {
                         gestureTrainingStartTriggered = false;
                         currentGestureTrainingIndex = 0;
                         if (peerConnection) {
+                            peerConnection.stopShareScreen(true);
                             peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-                        }
-
-                        if (!previewModeEnabled && screenSharingModerator) {
-                            $(screenSharingModerator).unbind('started');
-                            screenSharingModerator.stop();
                         }
 
                         if (prototypeWindow) {
@@ -629,10 +631,23 @@ var Moderator = {
         $(container).find('#btn-start-screen-sharing').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
-                $(this).addClass('disabled');
-                if (!previewModeEnabled) {
+                var button = $(this);
+                $(button).addClass('disabled');
+                if (!previewModeEnabled && peerConnection) {
                     $(container).find('#btn-start-screen-sharing').find('.fa-spin').removeClass('hidden');
-                    Moderator.initScreensharing(MESSAGE_START_GESTURE_TRAINING, enableControls);
+                    peerConnection.shareScreen(function (error) {
+                        $(button).removeClass('disabled');
+                        $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
+                        console.error(error);
+                    }, function () {
+                        peerConnection.startScreenRecording();
+                        $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
+                            event.preventDefault();
+                            $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
+                            enableControls();
+                        });
+                        peerConnection.sendMessage(MESSAGE_START_GESTURE_TRAINING);
+                    });
                 } else {
                     enableControls();
                 }
@@ -1111,6 +1126,8 @@ var Moderator = {
         }
     },
     getScenario: function getScenario(source, container, data) {
+//        Moderator.initScreenSharing();
+
         triggeredHelp, triggeredWoz = null;
         $(container).find('#general #task .address').text(translation.taskTitle);
         $(container).find('#general #task .text').text(data.title);
@@ -1159,15 +1176,29 @@ var Moderator = {
         $(container).find('#btn-start-screen-sharing').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
-                $(this).addClass('disabled');
-                if (!previewModeEnabled) {
+                var button = $(this);
+                $(button).addClass('disabled');
+                if (!previewModeEnabled && peerConnection) {
                     $(container).find('#btn-start-screen-sharing').find('.fa-spin').removeClass('hidden');
-                    Moderator.initScreensharing(MESSAGE_START_SCENARIO, enableControls);
+                    peerConnection.shareScreen(function (error) {
+                        $(button).removeClass('disabled');
+                        $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
+                        console.error(error);
+                    }, function () {
+                        peerConnection.startScreenRecording();
+                        $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
+                            event.preventDefault();
+                            $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
+                            enableControls();
+                        });
+                        peerConnection.sendMessage(MESSAGE_START_SCENARIO);
+                    });
                 } else {
                     enableControls();
                 }
             }
         });
+
 
         function enableControls() {
             scenarioStartTriggered = true;
@@ -1188,9 +1219,8 @@ var Moderator = {
 
         $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            if (!previewModeEnabled && screenSharingModerator) {
-                $(screenSharingModerator).unbind('started');
-                screenSharingModerator.stop();
+            if (peerConnection) {
+                peerConnection.stopShareScreen(true);
             }
             $(this).addClass('hidden');
             $(container).find('#btn-done-scenario').removeClass('hidden');
@@ -1238,9 +1268,9 @@ var Moderator = {
         $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (peerConnection) {
-                screenSharingModerator.upload(function () {
-                    screenSharingModerator = null;
-                });
+//                screenSharingModerator.upload(function () {
+//                    screenSharingModerator = null;
+//                });
                 peerConnection.sendMessage(MESSAGE_NEXT_STEP);
             }
 
@@ -1577,7 +1607,7 @@ var Moderator = {
                 var item = $(source).find('#identificationItem-' + data.identificationFor).clone().removeAttr('id');
                 $(container).find('#identificationContainer').empty().append(item);
                 if (data.identificationFor === 'gestures') {
-                    renderIdentificationForGesturesItem(item, container, data);
+                    renderIdentificationForGesturesIwitem(item, container, data);
                 } else {
                     renderIdentificationForTriggerItem(item, container, data);
                 }
@@ -1586,10 +1616,10 @@ var Moderator = {
             $(item).find('#btn-done').unbind('click').bind('click', function (event) {
                 if (!$(this).hasClass('disabled')) {
                     $(this).addClass('hidden');
-                    if (isWebRTCSupported() && screenSharingModerator) {
-                        $(screenSharingModerator).unbind('started');
-                        screenSharingModerator.stop();
-                    }
+//                    if (isWebRTCSupported() && screenSharingModerator) {
+//                        $(screenSharingModerator).unbind('started');
+//                        screenSharingModerator.stop();
+//                    }
 
                     if (prototypeWindow) {
                         prototypeWindow.close();
@@ -1597,6 +1627,7 @@ var Moderator = {
                     }
 
                     if (!previewModeEnabled) {
+                        peerConnection.stopShareScreen();
                         peerConnection.sendMessage(MESSAGE_NEXT_STEP);
                     }
                     nextStep();
@@ -2007,7 +2038,15 @@ var Moderator = {
                 $(this).addClass('disabled');
                 if (!previewModeEnabled) {
                     $(container).find('#btn-start-screen-sharing').find('.fa-spin').removeClass('hidden');
-                    Moderator.initScreensharing(MESSAGE_START_IDENTIFICATION, enableControls);
+                    peerConnection.shareScreen(function (error) {
+                        $(button).removeClass('disabled');
+                        $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
+                        console.error(error);
+                    }, function () {
+                        peerConnection.startScreenRecording();
+                        enableControls();
+                    });
+//                    Moderator.initScreensharing(MESSAGE_START_IDENTIFICATION, enableControls);
                 } else {
                     enableControls();
                 }
@@ -2298,10 +2337,10 @@ var Moderator = {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
                     $(this).addClass('hidden');
-                    if (isWebRTCSupported() && screenSharingModerator) {
-                        $(screenSharingModerator).unbind('started');
-                        screenSharingModerator.stop();
-                    }
+//                    if (isWebRTCSupported() && screenSharingModerator) {
+//                        $(screenSharingModerator).unbind('started');
+//                        screenSharingModerator.stop();
+//                    }
 
                     if (prototypeWindow) {
                         prototypeWindow.close();
@@ -2309,6 +2348,7 @@ var Moderator = {
                     }
 
                     if (!previewModeEnabled) {
+                        peerConnection.stopShareScreen(true);
                         peerConnection.sendMessage(MESSAGE_NEXT_STEP);
                     }
                     nextStep();
@@ -2417,10 +2457,19 @@ var Moderator = {
         $(container).find('#btn-start-screen-sharing').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
-                $(this).addClass('disabled');
+                var button = $(this);
+                $(button).addClass('disabled');
                 if (!previewModeEnabled) {
                     $(container).find('#btn-start-screen-sharing').find('.fa-spin').removeClass('hidden');
-                    Moderator.initScreensharing(MESSAGE_START_EXPLORATION, enableControls);
+                    peerConnection.shareScreen(function (error) {
+                        $(button).removeClass('disabled');
+                        $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
+                        console.error(error);
+                    }, function () {
+                        peerConnection.startScreenRecording();
+                        enableControls();
+                    });
+//                    Moderator.initScreensharing(MESSAGE_START_EXPLORATION, enableControls);
                 } else {
                     enableControls();
                 }
@@ -2495,10 +2544,7 @@ var Moderator = {
                     prototypeWindow.close();
                     prototypeWindow = null;
                 }
-                if (screenSharingModerator) {
-                    $(screenSharingModerator).unbind('started');
-                    screenSharingModerator.stop();
-                }
+//                Moderator.resetScreenSharing();
             });
             $(peerConnection).unbind(MESSAGE_SYNC_PHASE_STEP).bind(MESSAGE_SYNC_PHASE_STEP, function (event, payload) {
                 console.log('sync phase step', payload.index);
@@ -2511,10 +2557,7 @@ var Moderator = {
                     prototypeWindow.close();
                     prototypeWindow = null;
                 }
-                if (screenSharingModerator) {
-                    $(screenSharingModerator).unbind('started');
-                    screenSharingModerator.stop();
-                }
+//                Moderator.resetScreenSharing();
             });
             $(peerConnection).unbind('videoAdded').bind('videoAdded', function () {
                 if (syncPhaseStep) {
@@ -2533,6 +2576,7 @@ var Moderator = {
             callerElement: $('#video-caller'),
             localVideoElement: 'local-stream',
             remoteVideoElement: 'remote-stream',
+            sharingVideoElement: '#screen-stream',
             streamControls: $('#stream-controls'),
             localMuteElement: $('#btn-stream-local-mute'),
             pauseStreamElement: $('#btn-pause-stream'),
@@ -2554,34 +2598,68 @@ var Moderator = {
             }
         }
     },
-    initScreensharing: function initScreensharing(establishMessage, callback) {
-        var query = getQueryParams(document.location.search);
-        if (query.roomId === undefined) {
-            screenSharingModerator = new ScreenSharing('previewRoom', false);
-        } else {
-            screenSharingModerator = new ScreenSharing(query.roomId + "screensharing", true);
+    initScreenSharing: function initScreenSharing(recordingNeeded) {
+        if (!peerConnectionSharing) {
+            var query = getQueryParams(document.location.search);
+            var roomId = 'screenSharingRoom';
+            if (query.roomId) {
+                roomId = query.roomId + 'sharing';
+            }
+            var callerOptions = {
+//                        target: $('#viewModerator').find('#pinnedRTC'),
+//                        callerElement: $('#video-caller'),
+                localVideoElement: '',
+                remoteVideoElement: '',
+                sharingVideoElement: '#video-embed',
+                enableWebcamStream: false,
+                enableDataChannels: false,
+                autoRequestMedia: false,
+                roomId: roomId,
+                shareScreen: true,
+                localStream: {audio: 'no', video: 'no', visualize: 'no'},
+                remoteStream: {audio: 'no', video: 'no'}
+            };
+
+            peerConnectionSharing = new PeerConnectionSharing();
+            peerConnectionSharing.initialize(callerOptions);
         }
 
-        $(screenSharingModerator).unbind('started').bind('started', function (event) {
-            console.log('screen sharing started');
-
-            if (peerConnection) {
-                setTimeout(function () {
-                    $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
-                        event.preventDefault();
-
-                        if (callback) {
-                            callback();
-                        }
-                    });
-
-                    peerConnection.sendMessage(establishMessage);
-                }, 1000);
-            }
-        });
-
-        screenSharingModerator.start();
+//        if (!screenSharingModerator) {
+//            var query = getQueryParams(document.location.search);
+//            if (query.roomId === undefined) {
+//                screenSharingModerator = new ScreenSharing('previewRoom', false);
+//            } else {
+//                screenSharingModerator = new ScreenSharing(query.roomId + "screensharing", true);
+//            }
+//        }
+//
+//        $(screenSharingModerator).unbind('started').bind('started', {message: establishMessage}, function (event) {
+//            console.log('screen sharing started: message -> ', event.data.message);
+//
+//            if (peerConnection) {
+//                setTimeout(function () {
+//                    $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
+//                        event.preventDefault();
+//
+//                        if (callback) {
+//                            callback();
+//                        }
+//                    });
+//
+//                    peerConnection.sendMessage(establishMessage);
+//                }, 3000);
+//            }
+//        });
+//
+//        screenSharingModerator.start();
     }
+//    resetScreenSharing: function resetScreenSharing() {
+//        if (screenSharingModerator) {
+//            screenSharingModerator.stop();
+//            screenSharingModerator = null;
+//            $('#screenSharingTarget').empty();
+//        }
+//    }
 };
 function renderObservations(data, container) {
     if (data.observations && data.observations.length > 0) {

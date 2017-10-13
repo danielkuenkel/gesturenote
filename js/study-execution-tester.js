@@ -8,6 +8,7 @@ var singleGUSGesture = null;
 var screenSharingTester = null;
 var Tester = {
     renderView: function renderView() {
+
         console.log('render view');
         $('.alert-space').empty();
         var source = getSourceContainer(currentView);
@@ -21,6 +22,10 @@ var Tester = {
 
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
             Tester.initializePeerConnection();
+//            Tester.resetScreenSharing();
+//            if (!previewModeEnabled) {
+//                loadScreenSharingScript();
+//            }
             //        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
             var container = $(source).find('#' + currentPhase.format).clone(false);
             switch (currentPhase.format) {
@@ -290,15 +295,8 @@ var Tester = {
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             Tester.renderUnmoderatedTraining(source, container, data.training);
         } else {
-//            if (gestureTrainingStartTriggered) {
-////                container.find('#general').addClass('hidden');
-//            }
-
-//            if (trainingTriggered) {
             Tester.renderModeratedTraining(source, container, data.training);
-//            } else {
-//                appendAlert($(container), ALERT_PLEASE_WAIT);
-//            }
+            Tester.initScreenSharing(container.find('#scene-container'));
         }
 
         return container;
@@ -346,9 +344,9 @@ var Tester = {
                 $(container).find('#fixed-rtc-preview').removeClass('hidden');
                 $(container).find('#scene-container').removeClass('hidden');
 
-                if (areThereScenes(data)) {
-                    Tester.initScreenSharing(container);
-                }
+//                if (areThereScenes(data)) {
+//                    Tester.initScreenSharing(container);
+//                }
 
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -865,6 +863,7 @@ var Tester = {
             Tester.renderUnmoderatedIdentification(source, container, data);
         } else {
             Tester.renderModeratedIdentification(source, container, data);
+            Tester.initScreenSharing(container.find('#scene-container'));
         }
 
         return container;
@@ -900,9 +899,7 @@ var Tester = {
 
             }
 
-            if (!previewModeEnabled && isWebRTCSupported()) {
-                Tester.initScreenSharing(container);
-            } else {
+            if (previewModeEnabled) {
                 // render scene manually
                 renderSceneItem(source, container, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId);
             }
@@ -916,7 +913,7 @@ var Tester = {
         // generic identification live events
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_START_IDENTIFICATION).bind(MESSAGE_START_IDENTIFICATION, function (event, payload) {
-                Tester.initScreenSharing(container);
+//                Tester.initScreenSharing(container);
                 clearAlerts(container);
                 identificationStartTriggered = true;
                 $(container).find('#fixed-rtc-preview').removeClass('hidden');
@@ -1515,6 +1512,11 @@ var Tester = {
             Tester.renderUnmoderatedScenario(source, container, data);
         } else {
             Tester.renderModeratedScenario(source, container, data);
+            Tester.initScreenSharing(container.find('#scene-container'));
+//            $(peerConnection).unbind('videoSharingAdded').bind('videoSharingAdded', function (event, video) {
+//                console.log('add shared screen video');
+//                container.find('#scene-container').empty().append(video);
+//            });
 
             $(peerConnection).unbind(MESSAGE_START_SCENARIO).bind(MESSAGE_START_SCENARIO, function (event, payload) {
                 event.preventDefault();
@@ -1542,9 +1544,7 @@ var Tester = {
             $(container).find('#fixed-rtc-preview').removeClass('hidden');
             $(container).find('#scene-container').removeClass('hidden');
 
-            if (!previewModeEnabled && isWebRTCSupported()) {
-                Tester.initScreenSharing(container);
-            } else {
+            if (previewModeEnabled) {
                 // render scene manually
                 renderSceneItem(source, container, currentWOZScene.id);
             }
@@ -1756,6 +1756,7 @@ var Tester = {
             Tester.renderModeratedExploration(source, container, data);
         } else {
             Tester.renderUnmoderatedExploration(source, container, data);
+            Tester.initScreenSharing(container.find('#scene-container'));
         }
 
         return container;
@@ -1788,7 +1789,6 @@ var Tester = {
         // generic exploration live events
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
-                Tester.initScreenSharing(container);
                 clearAlerts(container);
                 explorationStartTriggered = true;
                 $(container).find('#fixed-rtc-preview').removeClass('hidden');
@@ -1900,7 +1900,6 @@ var Tester = {
             if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
                 $(peerConnection).unbind(MESSAGE_NEXT_STEP).bind(MESSAGE_NEXT_STEP, function (event, payload) {
                     console.log('next step received');
-                    screenSharingTester = null;
                     nextStep();
                 });
 
@@ -1930,6 +1929,7 @@ var Tester = {
                             renderPhaseStep();
                         }, false);
                     }
+//                    Tester.resetScreenSharing();
                 });
 
                 $(peerConnection).unbind(MESSAGE_SYNC_PHASE_STEP).bind(MESSAGE_SYNC_PHASE_STEP, function (event, payload) {
@@ -1939,6 +1939,7 @@ var Tester = {
                     currentPhaseStepIndex = payload.index;
                     renderPhaseStep();
                     updateProgress();
+//                    Tester.resetScreenSharing();
                 });
 
                 $(peerConnection).unbind('videoAdded').bind('videoAdded', function () {
@@ -1988,62 +1989,159 @@ var Tester = {
         }
 
         peerConnection.update(callerOptions);
+        Tester.keepStreamsPlaying(callerOptions.callerElement);
+
+    },
+    keepStreamsPlaying: function keepStreamsPlaying(element) {
         if (peerConnection.status !== STATUS_UNINITIALIZED) {
-            var videos = $(callerOptions.callerElement).find('video');
+            var videos = $(element).find('video');
             for (var i = 0; i < videos.length; i++) {
                 videos[i].play();
             }
         }
     },
     initScreenSharing: function initScreenSharing(container) {
+////        Tester.resetScreenSharing();
+//
+//        var query = getQueryParams(document.location.search);
+//        if (screenSharingTester === null) {
+//
+//            if (query.roomId === undefined) {
+//                screenSharingTester = new Screen('previewRoom');
+//            } else {
+//                screenSharingTester = new Screen(query.roomId + 'screensharing');
+//            }
+//        if (!peerConnectionSharing) {
+//            var query = getQueryParams(document.location.search);
+//            var roomId = 'screenSharingRoom';
+//            if (query.roomId) {
+//                roomId = query.roomId + 'sharing';
+//            }
+//            var callerOptions = {
+////                        target: $('#viewModerator').find('#pinnedRTC'),
+////                        callerElement: $('#video-caller'),
+//                localVideoElement: '',
+//                remoteVideoElement: '',
+//                sharingVideoElement: '#video-embed',
+//                enableWebcamStream: false,
+//                enableDataChannels: false,
+//                autoRequestMedia: false,
+//                roomId: roomId,
+//                shareScreen: true,
+//                localStream: {audio: 'no', video: 'no', visualize: 'no'},
+//                remoteStream: {audio: 'no', video: 'no'}
+//            };
+//
+//            peerConnectionSharing = new PeerConnectionSharing();
+//
+//            $(peerConnectionSharing).unbind(MESSAGE_SHARED_SCREEN_ADDED).bind(MESSAGE_SHARED_SCREEN_ADDED, function (event, video) {
+//                console.log('on add screen');
+//                $(container).empty().append(video);
+//                var newHeight = $(window).height();
+//                $(container).css({height: newHeight + "px"});
+//                $(video).css({height: '100%', width: '100%', objectFit: 'contain'});
+//                $(video).removeAttr('controls');
+//
+//                $(window).on('resize', function () {
+//                    var newHeight = $(window).height();
+//                    $(container).css({height: newHeight + "px"});
+//                });
+//
+//                if (peerConnection) {
+//                    peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
+//                }
+//            });
+//
+//            peerConnectionSharing.initialize(callerOptions);
+//        }
 
-        var query = getQueryParams(document.location.search);
-        if (query.roomId === undefined) {
-            screenSharingTester = new Screen('previewRoom');
-        } else {
-            screenSharingTester = new Screen(query.roomId + 'screensharing');
-        }
 
-        console.log('init screen sharing', screenSharingTester);
-//        screenSharingTester.onscreen = function (event) {
-//            console.log('on screen', event);
-//        };
-
-//        $(screenSharingTester).on('onaddstream', function (userid) {
-        screenSharingTester.onaddstream = function (event) {
-            console.log('on add screen');
-            var video = event.video;
-            container.find('#scene-container').empty().append(video);
+        $(peerConnection).unbind(MESSAGE_SHARED_SCREEN_ADDED).bind(MESSAGE_SHARED_SCREEN_ADDED, function (event, video) {
+            console.log('on add screen', video);
+            var videoClone = $(video).clone();
+            
+            $(container).empty().append(video);
             var newHeight = $(window).height();
-            container.find('#scene-container').css({height: newHeight + "px"});
+            $(container).css({height: newHeight + "px"});
             $(video).css({height: '100%', width: '100%', objectFit: 'contain'});
             $(video).removeAttr('controls');
+            $(video).removeAttr('id');
+
+            $('#video-caller').find('#remote-stream').append(videoClone);
+
 
             $(window).on('resize', function () {
                 var newHeight = $(window).height();
-                container.find('#scene-container').css({height: newHeight + "px"});
+                $(container).css({height: newHeight + "px"});
             });
+
+//            function updateBigVideo(v, c, w, h) {
+//                if (v.paused || v.ended)
+//                    return false;
+//                c.drawImage(v, 0, 0, w, h);
+//                setTimeout(updateBigVideo, 20, v, c, w, h);
+//            }
+//
+//            var canvas = document.createElement('canvas');
+//            $(container).empty().append(canvas);
+//            var context = canvas.getContext('2d');
+//            var cw = Math.floor(canvas.clientWidth);
+//            var ch = Math.floor(canvas.clientHeight);
+//            $(canvas).css({height: '100%', width: '100%', objectFit: 'contain'});
+//            video.addEventListener('play', function () {
+//                updateBigVideo(this, context, cw, ch);
+//            }, false);
 
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_SCREEN_SHARING_ESTABLISHED);
             }
-        };
+            Tester.keepStreamsPlaying($('#video-caller'));
+            Tester.keepStreamsPlaying(container);
+        });
 
-//        $(screenSharingTester).unbind('onuserleft').bind('onuserleft', function (userid) {
-        screenSharingTester.onuserleft = function (userid) {
-            screenSharingTester.leave();
-            console.log('on user left', userid);
-            appendAlert($(container), ALERT_PLEASE_WAIT);
-            container.find('#scene-container').empty();
-            container.find('#scene-description').addClass('hidden');
-            $(container).find('#fixed-rtc-preview').addClass('hidden');
-
-            screenSharingTester = null;
-            console.log(screenSharingTester);
-        };
-
-        screenSharingTester.check();
+//
+////        $(screenSharingTester).unbind('onuserleft').bind('onuserleft', function (userid) {
+//            screenSharingTester.onuserleft = function (userid) {
+////            screenSharingTester.leave();
+//                console.log('on user left', userid);
+//                appendAlert($(container), ALERT_PLEASE_WAIT);
+//                container.find('#scene-container').empty();
+//                container.find('#scene-description').addClass('hidden');
+//                $(container).find('#fixed-rtc-preview').addClass('hidden');
+//
+////            screenSharingTester = null;
+////                console.log(screenSharingTester);
+//            };
+//
+//            console.log('create new screen', screenSharingTester);
+//        } else {
+////            console.log('view screen sharing', screenSharingTester);
+////            screenSharingTester.view({userid: screenSharingTester.userid, roomid: query.roomId + 'screensharing'});
+//        }
+//        screenSharingTester.check();
+//
+////        else {
+////            screenSharingTester.check();
+////            return false;
+////        }
+//
+//        console.log('init screen sharing');
+////        screenSharingTester.onscreen = function (event) {
+////            console.log('on screen', event);
+////        };
+//
+////        $(screenSharingTester).on('onaddstream', function (userid) {
+//
+//
+//
     }
+//    resetScreenSharing: function resetScreenSharing() {
+//        if (screenSharingTester) {
+//            $('#screenSharingTarget').empty();
+//            delete screenSharingTester;
+//            screenSharingTester = null;
+//        }
+//    }
 };
 
 function checkRTCUploadStatus(container) {

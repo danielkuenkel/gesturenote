@@ -50,6 +50,7 @@ var currentGUSData = null;
 
 var syncPhaseStep = false;
 var peerConnection = null;
+//var peerConnectionSharing = null;
 
 var currentQuestionnaireAnswers = null;
 
@@ -83,11 +84,25 @@ function initialize() {
     } else {
         uploadQueue = new UploadQueue();
         $(uploadQueue).unbind(EVENT_FILE_SAVED).bind(EVENT_FILE_SAVED, function (event, result) {
-            var phaseStepData = getLocalItem(result.phaseStepId + '.saveData');
-            console.log('save current status', result.phaseStepId, phaseStepData);
-            if (phaseStepData) {
-                phaseStepData.recordUrl = result.filename;
-                setLocalItem(result.phaseStepId + '.saveData', phaseStepData);
+            var saveData = getLocalItem(result.phaseStepId + '.saveData');
+            var tempSaveData = null;
+            if(!saveData) {
+                tempSaveData = getLocalItem(result.phaseStepId + '.tempSaveData');
+            }
+            console.log('save current status', result, saveData, tempSaveData);
+            if (saveData) {
+                saveData[result.type] = result.filename;
+                setLocalItem(result.phaseStepId + '.saveData', saveData);
+                console.log('saved data:', saveData);
+
+                var phases = getContextualPhaseSteps();
+                if (currentPhaseStepIndex < phases.length - 1 && getCurrentPhase().format !== THANKS) {
+                    saveCurrentStatus(false);
+                }
+            } else if(tempSaveData) {
+                tempSaveData[result.type] = result.filename;
+                setLocalItem(result.phaseStepId + '.tempSaveData', tempSaveData);
+                console.log('temp saved data:', tempSaveData);
 
                 var phases = getContextualPhaseSteps();
                 if (currentPhaseStepIndex < phases.length - 1 && getCurrentPhase().format !== THANKS) {
@@ -228,7 +243,7 @@ function resetConstraints() {
     trainingTriggered = false;
     currentGestureTrainingIndex = 0;
     currentTrainingIndex = 0;
-    
+
     slideshowStartTriggered = false;
     slideTriggered = false;
     currentSlideIndex = 0;

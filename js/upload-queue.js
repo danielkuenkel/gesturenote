@@ -48,14 +48,14 @@ function UploadQueue() {
 }
 
 //var tempUploads = new Array();
-UploadQueue.prototype.upload = function (blob, filename, phaseStepId) {
-    console.log('upload file:', filename, this.getStatus());
+UploadQueue.prototype.upload = function (blob, filename, phaseStepId, type) {
+    console.log('upload file:', filename, this.getStatus(), phaseStepId, type);
     if (this.getStatus() !== STATUS_UNINITIALIZED) {
         var file = new File(blob, filename);
         if (phaseStepId) {
-            this.files.push({filename: filename, uploaded: false, phaseStepId: phaseStepId});
+            this.files.push({filename: filename, uploaded: false, phaseStepId: phaseStepId, type: type});
         } else {
-            this.files.push({filename: filename, uploaded: false});
+            this.files.push({filename: filename, uploaded: false, type: type});
         }
         this.uploader.addFile(file);
     }

@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="css/study-preview.css">
         <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
 
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
@@ -48,8 +49,8 @@
         <!--<script src="js/upload-queue.js"></script>-->
 
         <!-- streaming -->
-        <script src="simplewebrtc/simplewebrtc.bundle.js"></script>
-        <script src="js/peerConnection.js"></script>
+        <script src="https://simplewebrtc.com/latest-v2.js"></script>
+        <script src="js/peerConnectionSharing.js"></script>
 
         <!-- gesture recorder sources -->
         <!--<script src="js/gesture-recorder.js"></script>-->
@@ -58,10 +59,10 @@
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>-->
 
         <style>
-            video {
-                display: table;
-                margin: 0 auto;
-            }
+            /*            video {
+                            display: table;
+                            margin: 0 auto;
+                        }*/
         </style>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -72,11 +73,11 @@
         <div id="template-previews"></div>
         <div id="template-gesture-recorder"></div>
 
-        <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
+<!--        <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
         <script src="//cdn.webrtc-experiment.com/screen.js"></script>
-        <script src="//cdn.webrtc-experiment.com/firebase.js"></script>
+        <script src="//cdn.webrtc-experiment.com/firebase.js"></script>-->
 
-        <div id="video-embed" class=""></div>
+        <div id="video-embed" class="" style="width: 400px; height: auto"></div>
 
         <script>
             $(document).ready(function () {
@@ -93,46 +94,50 @@
             });
 
             function onAllExternalsLoadedSuccessfully() {
-                // do this, if the moderator shares his screen. message anlegen
-                var screen = new Screen('screen-unique-id'); // argument is optional
-
-                screen.onaddstream = function (e) {
-                    console.log('on add screen');
-                    var video = e.video;
-                    $('#video-embed').append(video);
-                    $(video).removeAttr('controls');
-                    initWindowResizing(video);
-                };
-
-                screen.onuserleft = function (userid) {
-                    console.log('on user left');
-                    var video = $('#video-embed').find('#' + userid);
-                    if (video)
-                        $('#video-embed').empty();
-                };
-
-                screen.check();
+                initializePeerConnection();
             }
 
-            function initWindowResizing(video) {
-                window.addEventListener('resize', resize, false);
+            var syncPhaseStep = false;
+            var peerConnection = null;
+            function initializePeerConnection() {
+                if (!peerConnection) {
+                    var query = getQueryParams(document.location.search);
+                    var callerOptions = {
+//                        target: $('#viewModerator').find('#pinnedRTC'),
+//                        callerElement: $('#video-caller'),
+                        localVideoElement: '',
+                        remoteVideoElement: '',
+                        sharingVideoElement: '#video-embed',
+                        enableWebcamStream: false,
+                        enableDataChannels: false,
+                        autoRequestMedia: true,
+                        roomId: "rtcToken",
+                        localStream: {audio: 'no', video: 'no', visualize: 'no'},
+                        remoteStream: {audio: 'no', video: 'no'}
+                    };
 
-                video.height = 100; /* to get an initial width to work with*/
-                resize();
+                    peerConnection = new PeerConnectionSharing(false);
 
-                function resize() {
-                    var videoRatio = video.height / video.width;
-                    var windowRatio = window.innerHeight / window.innerWidth; /* browser size */
 
-                    if (windowRatio < videoRatio) {
-                        if (window.innerHeight > 50) { /* smallest video height */
-                            video.height = window.innerHeight;
-                        } else {
-                            video.height = 50;
-                        }
-                    } else {
-                        video.width = window.innerWidth;
-                    }
+//                    $(peerConnection).unbind('localScreenAdded').bind('localScreenAdded', function(event, video) {
+//                        $('#video-embed').empty().append(video);
+//                        console.log(video);
+//                    });
+//                    
+//                    $(peerConnection).unbind('localScreenRemoved').bind('localScreenRemoved', function(event) {
+//                        $('#video-embed').empty();
+//                    });
+
+//                    $(peerConnection).unbind('reinitializeScreenSharing').bind('reinitializeScreenSharing', function (event) {
+//                        console.log('reinitializeScreenSharing');
+//                        peerConnection.leaveRoom();
+//                        peerConnection.joinRoom('rtcToken');
+//                    });
+                    peerConnection.initialize(callerOptions);
+//                    $(peerConnection).unbind('testNachricht').bind('testNachricht', function (event, payload) {
+//                        console.log('on test message');
+//                        $('#savedVideo').attr('src', payload.videoDocURL);
+//                    });
                 }
             }
         </script>

@@ -13,6 +13,9 @@ var EVENT_ALL_FILES_UPLOADED = 'allFilesUploaded';
 var EVENT_FILE_TRANSFER = 'fileTransfer';
 var EVENT_RECEIVED_FILE = 'receivedFile';
 
+var TYPE_PEER_SCREEN = 'screen';
+var TYPE_PEER_VIDEO = 'video';
+
 PeerConnection.prototype.status = STATUS_UNINITIALIZED;
 PeerConnection.prototype.options = null;
 
@@ -63,8 +66,6 @@ PeerConnection.prototype.initialize = function (options) {
                 offerToReceiveVideo: options.enableWebcamStream && options.enableWebcamStream === true ? 1 : 0
             }
         });
-
-
 
 
         if (options.localMuteElement && options.callerElement) {
@@ -174,11 +175,6 @@ PeerConnection.prototype.initialize = function (options) {
             });
         }
 
-        webrtc.connection.on('message', function (data) {
-//            console.log('on message', data);
-            $(connection).trigger(data.type, [data.payload]);
-        });
-
         // we have to wait until it's ready
         webrtc.on('readyToCall', function () {
             if (connection.options.roomId !== undefined) {
@@ -191,45 +187,114 @@ PeerConnection.prototype.initialize = function (options) {
             }
         });
 
+        // we got access to the camera
+        webrtc.on('localStream', function (stream) {
+            console.log('on local stream');
+        });
+
+        // we did not get access to the camera
+        webrtc.on('localMediaError', function (err) {
+            console.log('local media error');
+        });
+
+        webrtc.connection.on('message', function (data) {
+//            console.log('on message', data);
+            $(connection).trigger(data.type, [data.payload]);
+        });
+
+        // local screen obtained
+        webrtc.on('localScreenAdded', function (video) {
+            console.log('local screen added');
+//            video.onclick = function () {
+//                video.style.width = video.videoWidth + 'px';
+//                video.style.height = video.videoHeight + 'px';
+//            };
+            if (options.target && options.remoteVideoElement) {
+                $(video).addClass('hidden');
+                $(options.target).find('#' + options.remoteVideoElement).append(video);
+            }
+//            $('#localScreenContainer').empty().append(video);
+//            $('#localScreenContainer').show();
+        });
+
         // a peer video has been added
         webrtc.on('videoAdded', function (video, peer) {
-            console.log('webrtc video added');
-            $(connection).trigger('videoAdded');
-            if (!syncPhaseStep) {
-                connection.update(connection.options);
+            console.log('webrtc video added', peer);
+            if (peer.type === TYPE_PEER_SCREEN) {
+                $(connection).trigger(MESSAGE_SHARED_SCREEN_ADDED, [video]);
+            } else {
+                $(connection).trigger('videoAdded', [video]);
+                if (!syncPhaseStep) {
+                    connection.update(connection.options);
+                }
+
+                if (options.remoteMuteElement) {
+                    $(options.remoteMuteElement).removeClass('disabled');
+                }
             }
 
-            if (options.remoteMuteElement) {
-                $(options.remoteMuteElement).removeClass('disabled');
-            }
+
+            // show the ice connection state
+//            if (peer && peer.pc) {
+//                var connstate = document.createElement('div');
+//                connstate.className = 'connectionstate';
+//                container.appendChild(connstate);
+//                peer.pc.on('iceConnectionStateChange', function (event) {
+//                    switch (peer.pc.iceConnectionState) {
+//                        case 'checking':
+//                            connstate.innerText = 'Connecting to peer...';
+//                            break;
+//                        case 'connected':
+//                        case 'completed': // on caller side
+//                            $(vol).show();
+//                            connstate.innerText = 'Connection established.';
+//                            break;
+//                        case 'disconnected':
+//                            connstate.innerText = 'Disconnected.';
+//                            break;
+//                        case 'failed':
+//                            connstate.innerText = 'Connection failed.';
+//                            break;
+//                        case 'closed':
+//                            connstate.innerText = 'Connection closed.';
+//                            break;
+//                    }
+//                });
+//            }
         });
 
         // a peer video has been removed
         webrtc.on('videoRemoved', function (video, peer) {
-            $(connection).trigger('videoRemoved');
-            $('#local-stream').removeClass('rtc-shadow');
-            if (options.indicator) {
-                $(options.indicator).find('#mute-remote-audio').addClass('hidden');
-                $(options.indicator).find('#pause-remote-stream').addClass('hidden');
-            }
+            console.log('web rtc video removed', video, peer);
+            if (peer && peer.type === TYPE_PEER_SCREEN || $(video).attr('id') === 'localScreen') {
+//                $(video).remove();
+                $(connection).trigger('localScreenRemoved', [video]);
+            } else if (peer && peer.type === TYPE_PEER_VIDEO) {
+                $(connection).trigger('videoRemoved');
+                $('#local-stream').removeClass('rtc-shadow');
+                if (options.indicator) {
+                    $(options.indicator).find('#mute-remote-audio').addClass('hidden');
+                    $(options.indicator).find('#pause-remote-stream').addClass('hidden');
+                }
 
-            if (options.remoteMuteElement) {
-                $(options.remoteMuteElement).removeClass('muted');
-                $(options.remoteMuteElement).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
-                $(options.remoteMuteElement).find('video').attr('volume', 1);
-                $(options.remoteMuteElement).attr('title', 'Gesprächspartner stummschalten')
-                        .tooltip('fixTitle')
-                        .tooltip('setContent');
-            }
+                if (options.remoteMuteElement) {
+                    $(options.remoteMuteElement).removeClass('muted');
+                    $(options.remoteMuteElement).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
+                    $(options.remoteMuteElement).find('video').attr('volume', 1);
+                    $(options.remoteMuteElement).attr('title', 'Gesprächspartner stummschalten')
+                            .tooltip('fixTitle')
+                            .tooltip('setContent');
+                }
 
-            connection.hideRemoteStream();
+                connection.hideRemoteStream();
 
-            if (connection.options.localStream.record === 'yes') {
-                connection.stopRecording(null, false);
-            }
+                if (connection.options.localStream.record === 'yes') {
+                    connection.stopRecording(null, false);
+                }
 
-            if (options.remoteMuteElement) {
-                $(options.remoteMuteElement).addClass('disabled');
+                if (options.remoteMuteElement) {
+                    $(options.remoteMuteElement).addClass('disabled');
+                }
             }
         });
 
@@ -453,9 +518,9 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                     console.log('on data available');
                     chunks.push(e.data);
 
-                    if (separateChunksRecording === true) {
-                        separateChunks.push(e.data);
-                    }
+//                    if (separateChunksRecording === true) {
+//                        separateChunks.push(e.data);
+//                    }
                 };
 
                 mediaRecorder.onstart = function () {
@@ -472,10 +537,11 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                 };
 
                 mediaRecorder.onstop = function () {
-                    console.log('Stopped and save recording, state = ' + mediaRecorder.state + ', ' + new Date());
+                    console.log('Stopped recording, state = ' + mediaRecorder.state + ', ' + new Date());
                     if (saveRecording) {
+                        console.log('Save recording');
                         var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
-                        uploadQueue.upload(chunks, filename, getCurrentPhase().id);
+                        uploadQueue.upload(chunks, filename, getCurrentPhase().id, 'recordUrl');
                     }
 
                     chunks = [];
@@ -499,7 +565,9 @@ PeerConnection.prototype.initRecording = function (startRecording) {
             }
         }
     } else {
-        mediaRecorder.start(1000);
+        if (mediaRecorder.state !== 'recording') {
+            mediaRecorder.start(1000);
+        }
     }
 };
 
@@ -526,22 +594,55 @@ PeerConnection.prototype.stopRecording = function (callback, save) {
     }
 };
 
-var separateChunks = [];
-var separateChunksRecording = false;
-PeerConnection.prototype.startRecordSeparateChunks = function () {
-    console.log('start record separate chunks');
-    separateChunks = [];
-    separateChunksRecording = true;
-    connection.initRecording(true);
+
+var screenChunks = [];
+var screenMediaRecorder = null;
+PeerConnection.prototype.initScreenRecording = function () {
+    var localScreenStream = webrtc.getLocalScreen();
+    screenMediaRecorder = new MediaRecorder(localScreenStream);
+
+    screenMediaRecorder.ondataavailable = function (e) {
+        console.log('on screen sharing data available');
+        screenChunks.push(e.data);
+    };
+
+    screenMediaRecorder.onstop = function () {
+        console.log('Stopped screen recording, state = ' + screenMediaRecorder.state + ', ' + new Date());
+        if (saveScreenRecording) {
+            console.log('Save screen recording');
+            var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
+            uploadQueue.upload(screenChunks, filename, getCurrentPhase().id, 'screenRecordUrl');
+        }
+
+        screenChunks = [];
+
+        if (stopScreenRecordingCallback) {
+            stopScreenRecordingCallback();
+        }
+    };
+
+    screenMediaRecorder.start(1000);
 };
 
-PeerConnection.prototype.stopRecordSeparateChunks = function () {
-    console.log('stop record separate chunks');
-    if(isUploadRecordingNeeded() === false ){
-        connection.stopRecording(null, false);
+PeerConnection.prototype.startScreenRecording = function () {
+    console.log('start record screen sharing');
+    connection.initScreenRecording();
+};
+
+var stopScreenRecordingCallback = null;
+var saveScreenRecording = false;
+PeerConnection.prototype.stopScreenRecording = function (save, callback) {
+    console.log('stop recording screen sharing');
+    saveScreenRecording = save;
+    if (screenMediaRecorder && screenMediaRecorder.state !== 'inactive') {
+        stopScreenRecordingCallback = null;
+        if (callback) {
+            stopScreenRecordingCallback = callback;
+        }
+        screenMediaRecorder.stop();
+    } else if (callback) {
+        callback();
     }
-    separateChunksRecording = false;
-    return separateChunks;
 };
 
 PeerConnection.prototype.transferFile = function (file) {
@@ -549,5 +650,36 @@ PeerConnection.prototype.transferFile = function (file) {
         webRTCPeer.sendFile(file);
     } else {
         console.error('no peer created yet');
+    }
+};
+
+PeerConnection.prototype.shareScreen = function (errorCallback, successCallback) {
+
+    if (webrtc && webrtc.capabilities.supportScreenSharing) {
+        try {
+            webrtc.shareScreen(function (error) {
+                if (error) {
+                    if (errorCallback) {
+                        errorCallback(error);
+                    }
+                } else {
+                    console.log('start share screen');
+                    if (successCallback) {
+                        successCallback();
+                    }
+                }
+            });
+        } catch (error) {
+            console.log('error:', error);
+        }
+
+    }
+};
+
+PeerConnection.prototype.stopShareScreen = function (save, callback) {
+    connection.stopScreenRecording(save, callback);
+    if (webrtc) {
+        console.log('stop screen sharing');
+        webrtc.stopScreenShare();
     }
 };

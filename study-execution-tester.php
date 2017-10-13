@@ -77,13 +77,14 @@ if ($h && $token && $studyId) {
         <script src="js/upload-queue.js"></script>
 
         <!-- streaming -->
-        <script src="simplewebrtc/simplewebrtc.bundle.js"></script>
+        <script src="andyet/simplewebrtcbundle.js"></script>
         <script src="js/peerConnection.js"></script>
+        <!--<script src="js/peerConnectionSharing.js"></script>-->
 
         <!-- screen sharing -->
-        <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
-        <script src="//cdn.webrtc-experiment.com/screen.js"></script>
-        <script src="//cdn.webrtc-experiment.com/firebase.js"></script>
+<!--        <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
+        <script src="//cdn.webrtc-experiment.com/screen.js"></script>-->
+        <!--<script src="//cdn.webrtc-experiment.com/firebase.js"></script>-->
 
         <!-- gesture recorder sources -->
         <script src="js/gesture-recorder.js"></script>
@@ -98,6 +99,8 @@ if ($h && $token && $studyId) {
         <div id="template-gesture"></div>
         <div id="template-previews"></div>
         <div id="template-gesture-recorder"></div>
+        
+        <!--<div id="screenSharingTarget" class="hidden"></div>-->
 
         <!-- modals -->
         <div id="custom-modal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">

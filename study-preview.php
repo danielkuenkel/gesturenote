@@ -52,16 +52,16 @@ if (login_check($mysqli) == true) {
         <script src="js/gesture.js"></script>
         <script src="js/forms.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/screen-sharing.js"></script>
+        <!--<script src="js/screen-sharing.js"></script>-->
         <script src="js/study-execution.js"></script>
         <script src="js/study-execution-tester.js"></script>
         <script src="js/study-execution-tester-save.js"></script>
         <script src="js/study-execution-moderator.js"></script>
         
         <!-- screen sharing sources -->
-        <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
+<!--        <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
         <script src="muaz-khan/screen.js"></script>
-        <script src="//cdn.webrtc-experiment.com/firebase.js"></script>
+        <script src="//cdn.webrtc-experiment.com/firebase.js"></script>-->
         
         <!-- gesture recorder sources -->
         <script src="js/gesture-recorder.js"></script>

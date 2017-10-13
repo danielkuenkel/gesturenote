@@ -59,20 +59,20 @@ if ($h && $token && $studyId) {
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/screen-sharing.js"></script>
         <script src="js/study-execution.js"></script>
         <script src="js/study-execution-moderator.js"></script>
         <script src="js/study-execution-moderator-save.js"></script>
         <script src="js/upload-queue.js"></script>
 
         <!-- streaming -->
-        <script src="simplewebrtc/simplewebrtc.bundle.js"></script>
+        <script src="andyet/simplewebrtcbundle.js"></script>
         <script src="js/peerConnection.js"></script>
+        <!--<script src="js/peerConnectionSharing.js"></script>-->
 
         <!-- screen sharing sources -->
-        <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
-        <script src="muaz-khan/screen.js"></script>
-        <script src="//cdn.webrtc-experiment.com/firebase.js"></script>
+        <!--<script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>-->
+        <!--<script src="muaz-khan/screen.js"></script>-->
+        <!--<script src="//cdn.webrtc-experiment.com/firebase.js"></script>-->
 
 
         <!-- gesture recorder sources -->
@@ -89,6 +89,8 @@ if ($h && $token && $studyId) {
         <div id="template-previews"></div>
         <div id="template-study"></div>
         <div id="template-gesture-recorder"></div>
+
+        <!--<div id="screenSharingTarget" class="hidden"></div>-->
 
         <!-- modals -->
         <div id="custom-modal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -155,6 +157,11 @@ if ($h && $token && $studyId) {
 
 
         <script>
+            window.onerror = function (msg, url, lineNo, columnNo, error) {
+                console.log(msg, url, lineNo, columnNo, error);
+                return false;
+            };
+
             $(document).ready(function () {
                 checkDomain();
                 keepSessionAlive();

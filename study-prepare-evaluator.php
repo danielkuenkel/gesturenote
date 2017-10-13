@@ -55,7 +55,7 @@ if ($h && $token && $studyId) {
         <script src="js/sha512.js"></script>
 
         <!-- streaming -->
-        <script src="simplewebrtc/simplewebrtc.bundle.js"></script>
+        <script src="andyet/simplewebrtcbundle.js"></script>
         <script src="js/peerConnection.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -126,6 +126,7 @@ if ($h && $token && $studyId) {
                             <div class="btn-group">
                                 <button class="btn btn-danger btn-shadow" id="btn-close-call"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
                                 <button class="btn btn-success btn-shadow disabled" id="btn-enter-study"><i class="fa fa-chevron-right"></i> <?php echo $lang->enterStudyAsModerator ?></button>
+                                <!--<button class="btn btn-success btn-shadow disabled" id="btn-start-screen-sharing">Screensharing starten</button>-->
                             </div>
                         </div>
 
@@ -349,6 +350,7 @@ if ($h && $token && $studyId) {
                     $('#participation-queue').removeClass('hidden');
                     $('#call-screen').addClass('hidden');
                     $('#btn-enter-study').addClass('disabled');
+                    $('#btn-start-screen-sharing').addClass('disabled');
                     requestParticipations();
                 });
             });
@@ -394,13 +396,31 @@ if ($h && $token && $studyId) {
                     $(peerConnection).on('videoAdded', function () {
                         clearAlerts($('#study-participation'));
                         $('#btn-enter-study').removeClass('disabled');
+                        $('#btn-start-screen-sharing').removeClass('disabled');
                     });
 
                     // a peer video has been removed
                     $(peerConnection).on('videoRemoved', function () {
                         clearAlerts($('#study-participation'));
                         $('#btn-enter-study').addClass('disabled');
+                        $('#btn-start-screen-sharing').addClass('disabled');
                     });
+
+//                    $('#btn-start-screen-sharing').on('click', function (event) {
+//                        event.preventDefault();
+//                        if (!$(this).hasClass('active')) {
+//                            $(this).addClass('active');
+//                            peerConnection.shareScreen(function (error) {
+//                                $('#btn-start-screen-sharing').removeClass('active');
+//                                console.log(error);
+//                            }, function () {
+//                                console.log('screen sharing successful started');
+//                            });
+//                        } else {
+//                            $(this).removeClass('active');
+//                            peerConnection.stopShareScreen();
+//                        }
+//                    });
                 }
             }
         </script>

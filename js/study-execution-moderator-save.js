@@ -49,6 +49,9 @@ function savePhaseStep() {
         case IDENTIFICATION:
             data = getIdentificationFormData(data);
             break;
+        case EXPLORATION:
+            data = getExplorationFormData(data);
+            break;
     }
 
     data.endTime = new Date().getTime();
@@ -80,6 +83,7 @@ function getGestureTrainingFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.startTrainingTime = tempData.startTrainingTime;
         data.training = tempData.training;
+        data.screenRecordUrl = tempData.screenRecordUrl;
     }
     return data;
 }
@@ -113,6 +117,7 @@ function getScenarioFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.actions = tempData.actions;
         data.transitions = tempData.transitions;
+        data.screenRecordUrl = tempData.screenRecordUrl;
     }
     return data;
 }
@@ -132,7 +137,6 @@ function getPhysicalStressTestFormData(data) {
 
 function getIdentificationFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
-
     if (tempData) {
         data.startTime = tempData.startTime;
         var phaseData = getLocalItem(data.id + '.data');
@@ -143,6 +147,18 @@ function getIdentificationFormData(data) {
         }
 
 //        removeLocalItem(data.id + '.tempSaveData');
+    }
+    return data;
+}
+
+function getExplorationFormData(data) {
+    var tempData = getLocalItem(data.id + '.tempSaveData');
+    if (tempData) {
+        data.startTime = tempData.startTime;
+        data.startRecordingTime = tempData.startRecordingTime;
+        data.actions = tempData.actions;
+        data.transitions = tempData.transitions;
+        data.screenRecordUrl = tempData.screenRecordUrl;
     }
     return data;
 }
