@@ -1023,8 +1023,8 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
             options = getLocalItem(ASSEMBLED_FEEDBACK);
             break;
     }
-    
-    if(studyData.parameters.options) {
+
+    if (studyData.parameters.options) {
         options = studyData.parameters.options;
     }
 
@@ -1778,9 +1778,12 @@ function renderDichotomousQuestionGUSInput(item, parameters) {
 //}
 
 function renderGroupingQuestionInput(item, parameters, options) {
+    console.log(item, parameters, options);
     var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';
     for (var i = 0; i < options.length; i++) {
         var formGroup = document.createElement('div');
+        $(formGroup).attr('data-justification', options[i].justification);
+        $(formGroup).attr('data-justification-for', options[i].justificationFor);
         $(formGroup).addClass('formgroup');
 
         var option = $('#item-container-inputs').find('#' + optionType).clone();
@@ -1789,28 +1792,15 @@ function renderGroupingQuestionInput(item, parameters, options) {
         $(formGroup).append(option);
         $(item).find('.option-container').append(formGroup);
 
+
         if (options[i].justification === 'yes') {
             var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
             $(justification).css({marginTop: '5px'});
             $(formGroup).append(justification);
             setInputChangeEvent(justification.find('#justificationInput'), 1000);
 
-            if (options[i].justificationFor === 'always') {
+            if (options[i].justificationFor === 'always' || options[i].justificationFor === 'selectNothing') {
                 justification.removeClass('hidden');
-            } else {
-                if (options[i].justificationFor === 'selectNothing') {
-                    justification.removeClass('hidden');
-                }
-
-                $(option).bind('change', {options: options[i]}, function (event) {
-                    if (event.data.options.justificationFor === 'selectOne' && $(this).find('.btn-' + optionType).hasClass('btn-option-checked')) {
-                        $(this).closest('.formgroup').find('#justification').removeClass('hidden');
-                    } else if (event.data.options.justificationFor === 'selectNothing' && !$(this).find('.btn-' + optionType).hasClass('btn-option-checked')) {
-                        $(this).closest('.formgroup').find('#justification').removeClass('hidden');
-                    } else {
-                        $(this).closest('.formgroup').find('#justification').addClass('hidden');
-                    }
-                });
             }
         }
 
@@ -1827,6 +1817,26 @@ function renderGroupingQuestionInput(item, parameters, options) {
         $(item).find('.option-container').append(option);
         setInputChangeEvent(option.find('.optionalInput'), 1000);
     }
+
+    $(item).find('.option-container').unbind('change').bind('change', function (event) {
+        var formGroups = $(this).closest('.root').find('.formgroup');
+        for (var j = 0; j < formGroups.length; j++) {
+            var element = $(formGroups[j]);
+            if ($(element).attr('data-justification') === 'yes' && $(element).attr('data-justification-for') === 'selectOne' && $(element).find('.btn-' + optionType).hasClass('btn-option-checked')) {
+//                console.log('show justification for select one', element);
+                $(element).find('#justification').removeClass('hidden');
+            } else if ($(element).attr('data-justification') === 'yes' && $(element).attr('data-justification-for') === 'selectNothing' && !$(element).find('.btn-' + optionType).hasClass('btn-option-checked')) {
+//                console.log('show justification for select nothing', element);
+                $(element).find('#justification').removeClass('hidden');
+            } else if ($(element).attr('data-justification') === 'yes' && $(element).attr('data-justification-for') === 'always') {
+//                console.log('show justification for always', element);
+                $(element).find('#justification').removeClass('hidden');
+            } else {
+//                console.log('hide justification', element);
+                $(element).find('#justification').addClass('hidden');
+            }
+        }
+    });
 }
 
 /*
@@ -1900,8 +1910,8 @@ function renderGroupingQuestionGUSInput(item, parameters) {
             options = getLocalItem(ASSEMBLED_FEEDBACK);
             break;
     }
-    
-    if(parameters.options) {
+
+    if (parameters.options) {
         options = parameters.options;
     }
 
@@ -1909,6 +1919,8 @@ function renderGroupingQuestionGUSInput(item, parameters) {
         for (var i = 0; i < options.length; i++) {
             var formGroup = document.createElement('div');
             $(formGroup).addClass('formgroup');
+            $(formGroup).attr('data-justification', parameters.justification);
+            $(formGroup).attr('data-justification-for', parameters.justificationFor);
 
             var option = $('#item-container-inputs').find('#' + optionType).clone();
             option.find('.btn-' + optionType).attr('id', options[i].id);
@@ -1944,16 +1956,6 @@ function renderGroupingQuestionGUSInput(item, parameters) {
                     if (parameters.justificationFor === 'selectNothing') {
                         justification.removeClass('hidden');
                     }
-
-                    $(option).bind('change', {options: parameters}, function (event) {
-                        if (event.data.options.justificationFor === 'selectOne' && $(this).find('.btn-' + optionType).hasClass('btn-option-checked')) {
-                            $(this).closest('.formgroup').find('#justification').removeClass('hidden');
-                        } else if (event.data.options.justificationFor === 'selectNothing' && !$(this).find('.btn-' + optionType).hasClass('btn-option-checked')) {
-                            $(this).closest('.formgroup').find('#justification').removeClass('hidden');
-                        } else {
-                            $(this).closest('.formgroup').find('#justification').addClass('hidden');
-                        }
-                    });
                 }
             }
 
@@ -1972,31 +1974,25 @@ function renderGroupingQuestionGUSInput(item, parameters) {
         setInputChangeEvent(option.find('.optionalInput'), 1000);
     }
 
-//    if (parameters.justification === 'yes') {
-//        var justification = $('#item-container-inputs').find('#justification').clone().addClass('hidden');
-//        item.find('.option-container').append(justification);
-//        setInputChangeEvent(justification.find('#justificationInput'), 1000);
-//
-//        if (parameters.justificationFor === 'always') {
-//            justification.removeClass('hidden');
-//        } else {
-//            if (parameters.justificationFor === 'selectNothing') {
-//                justification.removeClass('hidden');
-//            }
-//
-//            $(item).find('.option-container').bind('change', function () {
-//                var totalCheckboxButtons = $(this).find('.btn-' + optionType);
-//                var activeCheckboxButtons = $(totalCheckboxButtons).filter('.btn-option-checked');
-//                if (parameters.justificationFor === 'selectOne' && activeCheckboxButtons.length > 0) {
-//                    $(item).find('#justification').removeClass('hidden');
-//                } else if (parameters.justificationFor === 'selectNothing' && activeCheckboxButtons.length === 0) {
-//                    $(item).find('#justification').removeClass('hidden');
-//                } else {
-//                    $(item).find('#justification').addClass('hidden');
-//                }
-//            });
-//        }
-//    }
+    $(item).find('.option-container').unbind('change').bind('change', function (event) {
+        var formGroups = $(this).closest('.root').find('.formgroup');
+        for (var j = 0; j < formGroups.length; j++) {
+            var element = $(formGroups[j]);
+            if ($(element).attr('data-justification') === 'yes' && $(element).attr('data-justification-for') === 'selectOne' && $(element).find('.btn-' + optionType).hasClass('btn-option-checked')) {
+//                console.log('show justification for select one', element);
+                $(element).find('#justification').removeClass('hidden');
+            } else if ($(element).attr('data-justification') === 'yes' && $(element).attr('data-justification-for') === 'selectNothing' && !$(element).find('.btn-' + optionType).hasClass('btn-option-checked')) {
+//                console.log('show justification for select nothing', element);
+                $(element).find('#justification').removeClass('hidden');
+            } else if ($(element).attr('data-justification') === 'yes' && $(element).attr('data-justification-for') === 'always') {
+//                console.log('show justification for always', element);
+                $(element).find('#justification').removeClass('hidden');
+            } else {
+//                console.log('hide justification', element);
+                $(element).find('#justification').addClass('hidden');
+            }
+        }
+    });
 }
 
 

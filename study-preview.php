@@ -81,17 +81,17 @@ if (login_check($mysqli) == true) {
                  
             <div class="input-group">
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-default" id="btnViewModerator">Moderator</button>
-                    <button type="button" class="btn btn-default" id="btnViewTester">Tester</button>
+                    <button type="button" class="btn btn-default" id="btnViewModerator"><span class="hidden-sm hidden-xs">Moderator</span><span class="hidden-md hidden-lg">M</span></button>
+                    <button type="button" class="btn btn-default" id="btnViewTester"><span class="hidden-sm hidden-xs">Tester</span><span class="hidden-md hidden-lg">T</span></button>
                 </div>
                 <input class="form-control item-input-text option-phase-steps show-dropdown text-center readonly" type="text" value=""/>
                 <div class="input-group-btn phaseStepsSelect select" role="group">
                     <button class="btn btn-default btn-dropdown dropdown-toggle" id="btn-phaseStepSelect" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                     <ul class="dropdown-menu option" role="menu">
                     </ul>
-                    <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span> <?php echo $lang->previous ?></button>
-                    <button type="button" class="btn btn-default next disabled"><?php echo $lang->next ?> <span aria-hidden="true">&rarr;</span></button>
-                    <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="glyphicon glyphicon-remove"></i> <?php echo $lang->close ?></button>
+                    <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
+                    <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
+                    <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="glyphicon glyphicon-remove"></i><span class="hidden-sm hidden-xs"> <?php echo $lang->close ?></span></button>
                 </div>
             </div>
         </div>

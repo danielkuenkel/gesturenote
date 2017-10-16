@@ -126,14 +126,14 @@ var Moderator = {
                 goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&h=' + query.h + '&token=' + query.token);
             }
         });
-        
+
         $(container).find('#btn-retry-upload').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (previewModeEnabled === false) {
                 submitFinalData(container);
             }
         });
-        
+
         if (previewModeEnabled === false) {
             checkRTCUploadStatus(container);
         }
@@ -574,20 +574,13 @@ var Moderator = {
                 $(item).find('#training-done').unbind('click').bind('click', function (event) {
                     event.preventDefault();
                     if (!$(this).hasClass('disabled')) {
+                        currentPhaseStepDone = true;
                         triggeredFeedback = null;
                         gestureTrainingStartTriggered = false;
                         currentGestureTrainingIndex = 0;
-                        if (peerConnection) {
-                            peerConnection.stopShareScreen(true);
-                            peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-                        }
-
-                        if (prototypeWindow) {
-                            prototypeWindow.close();
-                            prototypeWindow = null;
-                        }
-
-                        nextStep();
+                        $(container).find('#training').addClass('hidden');
+                        $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+                        $(document).scrollTop(0);
                     } else {
                         if (gestureTrainingStartTriggered) {
                             wobble($(container).find('#transition-scenes'));
@@ -603,7 +596,18 @@ var Moderator = {
         }
 
         if (areThereScenes(data)) {
-            if (trainingPrototypeOpened && !gestureTrainingStartTriggered) {
+            if (screenSharingStopped) {
+                $(container).find('#training').addClass('hidden');
+                $(container).find('#btn-open-prototype').remove();
+                $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                $(container).find('#btn-stop-screen-sharing').addClass('hidden');
+                $(container).find('#btn-done-training').removeClass('hidden');
+            } else if (currentPhaseStepDone) {
+                $(container).find('#training').addClass('hidden');
+                $(container).find('#btn-open-prototype').remove();
+                $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+            } else if (trainingPrototypeOpened && !gestureTrainingStartTriggered) {
                 $(container).find('#btn-open-prototype').addClass('hidden');
                 $(container).find('#btn-stop-screen-sharing').addClass('hidden');
                 $(container).find('#btn-start-screen-sharing').removeClass('hidden');
@@ -617,6 +621,17 @@ var Moderator = {
             }
         } else if (!gestureTrainingStartTriggered) {
             container.find('#btn-start-training').removeClass('hidden');
+        } else if (screenSharingStopped) {
+            $(container).find('#training').addClass('hidden');
+            $(container).find('#btn-open-prototype').remove();
+            $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').addClass('hidden');
+            $(container).find('#btn-done-training').removeClass('hidden');
+        } else if (currentPhaseStepDone) {
+            $(container).find('#training').addClass('hidden');
+            $(container).find('#btn-open-prototype').remove();
+            $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
         }
 
         $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
@@ -664,19 +679,40 @@ var Moderator = {
             $(container).find('#btn-repeat-training').removeClass('disabled');
         }
 
-//        $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
-//            event.preventDefault();
-//            if (!previewModeEnabled && screenSharingModerator) {
-//                screenSharingModerator.stop();
-//            }
-//            $(this).addClass('hidden');
-//            trainingPrototypeOpened = false;
-//            gestureTrainingStartTriggered = false;
-//            if (prototypeWindow) {
-//                prototypeWindow.close();
-//                prototypeWindow = null;
-//            }
-//        });
+        $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                screenSharingStopped = true;
+                $(this).addClass('hidden');
+                $(container).find('#btn-done-training').removeClass('hidden');
+                triggeredFeedback = null;
+                trainingPrototypeOpened = false;
+                gestureTrainingStartTriggered = false;
+                currentGestureTrainingIndex = 0;
+                if (peerConnection) {
+                    peerConnection.stopShareScreen(true);
+                }
+
+                if (prototypeWindow) {
+                    prototypeWindow.close();
+                    prototypeWindow = null;
+                }
+            } else {
+                if (gestureTrainingStartTriggered) {
+                    wobble($(container).find('#training'));
+                } else {
+                    $(document).scrollTop(0);
+                    wobble(container.find('#general'));
+                }
+            }
+        });
+
+        $(container).find('#btn-done-training').unbind('click').bind('click', function (event) {
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+            }
+            nextStep();
+        });
 
         $(container).find('#btn-start-training').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -1219,6 +1255,7 @@ var Moderator = {
 
         $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
             event.preventDefault();
+            screenSharingStopped = true;
             if (peerConnection) {
                 peerConnection.stopShareScreen(true);
             }
@@ -1227,7 +1264,6 @@ var Moderator = {
             scenarioPrototypeOpened = false;
             scenarioStartTriggered = false;
             if (prototypeWindow) {
-                scenarioPrototypeOpened = false;
                 prototypeWindow.close();
                 prototypeWindow = null;
             }
@@ -1268,12 +1304,8 @@ var Moderator = {
         $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (peerConnection) {
-//                screenSharingModerator.upload(function () {
-//                    screenSharingModerator = null;
-//                });
                 peerConnection.sendMessage(MESSAGE_NEXT_STEP);
             }
-
             nextStep();
         });
 
@@ -1607,46 +1639,49 @@ var Moderator = {
                 var item = $(source).find('#identificationItem-' + data.identificationFor).clone().removeAttr('id');
                 $(container).find('#identificationContainer').empty().append(item);
                 if (data.identificationFor === 'gestures') {
-                    renderIdentificationForGesturesIwitem(item, container, data);
+                    renderIdentificationForGesturesItem(item, container, data);
                 } else {
                     renderIdentificationForTriggerItem(item, container, data);
                 }
             }
 
             $(item).find('#btn-done').unbind('click').bind('click', function (event) {
+                event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
+                    currentPhaseStepDone = true;
                     $(this).addClass('hidden');
-//                    if (isWebRTCSupported() && screenSharingModerator) {
-//                        $(screenSharingModerator).unbind('started');
-//                        screenSharingModerator.stop();
-//                    }
-
-                    if (prototypeWindow) {
-                        prototypeWindow.close();
-                        prototypeWindow = null;
-                    }
-
-                    if (!previewModeEnabled) {
-                        peerConnection.stopShareScreen();
-                        peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-                    }
-                    nextStep();
+                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+                    $(container).find('#slides').addClass('hidden');
+                    $(container).find('#identified-gesture, #identified-trigger').addClass('hidden');
+                    wobble([container.find('#general')]);
+                    $(document).scrollTop(0);
                 } else if (!identificationStartTriggered) {
                     wobble([container.find('#slides')]);
                 }
             });
         }
 
-        if (identificationPrototypeOpened && !identificationStartTriggered) {
+        if (screenSharingStopped) {
+            $(container).find('#slides').addClass('hidden');
+            $(container).find('#identified-gesture, #identified-trigger').addClass('hidden');
+            $(container).find('#btn-open-prototype').remove();
+            $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').addClass('hidden');
+            $(container).find('#btn-done-identification').removeClass('hidden');
+        } else if (currentPhaseStepDone) {
+            $(container).find('#slides').addClass('hidden');
+            $(container).find('#identified-gesture, #identified-trigger').addClass('hidden');
+            $(container).find('#btn-open-prototype').remove();
+            $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+        } else if (identificationPrototypeOpened && !identificationStartTriggered) {
             $(container).find('#btn-open-prototype').addClass('hidden');
             $(container).find('#btn-start-screen-sharing').removeClass('hidden');
         } else if (identificationPrototypeOpened && identificationStartTriggered) {
             $(container).find('#btn-open-prototype').remove();
             $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
             $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
-        } else if (!identificationPrototypeOpened && !identificationStartTriggered) {
-//            $(container).find('#btn-start-screen-sharing').removeClass('hidden');
-//            $(container).find('#btn-open-prototype').remove();
         }
 
         function renderGestureRecorder(videoURL) {
@@ -1805,7 +1840,7 @@ var Moderator = {
             $(item).find('#search-for .text').text(searchedData.title);
             $(item).find('.btn-popover-gesture-preview').remove();
 
-            if (currentIdentificationIndex > 0) {
+            if (!screenSharingStopped && identificationPrototypeOpened && currentIdentificationIndex > 0) {
                 $(item).find('#btn-start-gesture-recording').removeClass('disabled');
                 var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[0].sceneId);
                 openPrototypeScene(scene, data.identification.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
@@ -1978,6 +2013,7 @@ var Moderator = {
 //                }];
 
             if (identificationTriggerRequest) {
+                identificationTriggerRequest = false;
                 clearAlerts($(container).find('#identified-trigger'));
                 $(container).find('#identified-trigger').removeClass('hidden');
                 $(item).find('#btn-request-trigger').addClass('hidden');
@@ -2044,9 +2080,13 @@ var Moderator = {
                         console.error(error);
                     }, function () {
                         peerConnection.startScreenRecording();
-                        enableControls();
+                        $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
+                            event.preventDefault();
+                            $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
+                            enableControls();
+                        });
+                        peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION);
                     });
-//                    Moderator.initScreensharing(MESSAGE_START_IDENTIFICATION, enableControls);
                 } else {
                     enableControls();
                 }
@@ -2058,60 +2098,41 @@ var Moderator = {
             wobble([container.find('#slides')]);
             $(container).find('#btn-start-gesture-recording, .btn-trigger-scene, .btn-reset-scene, #btn-request-trigger').removeClass('disabled');
             $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
         }
 
-        if (peerConnection) {
-//            
-//            $(peerConnection).unbind(MESSAGE_GESTURE_IDENTIFIED).bind(MESSAGE_GESTURE_IDENTIFIED, function (event, payload) {
-//                $(container).find('#btn-next-trigger, #btn-done').removeClass('disabled');
-//                var listItems = $(container).find('#identificationContainer .identificationItem');
-//                if (listItems && listItems.length > 0) {
-//                    var listItem = listItems[payload.index];
-//                    $(listItem).addClass('text-green');
-//                    $(listItem).find('.fa-check').removeClass('hidden');
-//                }
-//
-//                clearAlerts($(container).find('#recordedGestures'));
-//                console.log('gesture identified', payload, listItems);
-//                var elicitedGestures = getLocalItem(ELICITED_GESTURES);
-//                if (elicitedGestures) {
-//                    elicitedGestures.push(payload.gesture);
-//                    setLocalItem(ELICITED_GESTURES, elicitedGestures);
-//                } else {
-//                    var array = new Array();
-//                    array.push(payload.gesture);
-//                    setLocalItem(ELICITED_GESTURES, array);
-//                }
-//
-//                var thumbnail = getGestureElicitationListThumbnail($(source).find('#gesture-thumbnail').clone(), payload.gesture, 'col-xs-6 col-sm-4', ELICITED_GESTURES);
-//                $(container).find('#recordedGestures #gestures-list-container').append(thumbnail);
-//            });
+        $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                screenSharingStopped = true;
+                $(this).addClass('hidden');
+                $(container).find('#btn-done-identification').removeClass('hidden');
+                if (peerConnection) {
+                    peerConnection.stopShareScreen(true);
+                }
+                identificationPrototypeOpened = false;
+                identificationStartTriggered = false;
+                if (prototypeWindow) {
+                    prototypeWindow.close();
+                    prototypeWindow = null;
+                }
+            } else {
+                if (identificationStartTriggered) {
+                    wobble($(container).find('#slides'));
+                } else {
+                    $(document).scrollTop(0);
+                    wobble(container.find('#general'));
+                }
+            }
+        });
 
-//            $(peerConnection).unbind(MESSAGE_IDENTIFIED_GESTURE_DELETED).bind(MESSAGE_IDENTIFIED_GESTURE_DELETED, function (event, payload) {
-//                console.log('gestureDeleted', payload);
-//                var listItems = $(container).find('#identificationContainer .identificationItem');
-//                if (listItems && listItems.length > 0) {
-//                    var listItem = listItems[payload.index];
-//                    $(listItem).removeClass('text-green');
-//                    $(listItem).find('.fa-check').addClass('hidden');
-//                }
-//                $(container).find('#gestures-list-container').find('#' + payload.gestureId).remove();
-//                var gestures = $(container).find('#recordedContainer').find('.gesture-thumbnail');
-//                if (!gestures || gestures.length === 0) {
-//                    appendAlert($(container).find('#recordedGestures'), ALERT_NO_RECORDED_GESTURES);
-//                }
-//            });
-
-//            $(peerConnection).unbind(MESSAGE_IDENTIFICATION_DONE).bind(MESSAGE_IDENTIFICATION_DONE, function (event, payload) {
-//                console.log('identification done');
-//                $(container).find('#btn-done').removeClass('disabled');
-//            });
-        }
-
-//        if (identificationDone) {
-//            $(container).find('#btn-done').removeClass('disabled');
-//            $(container).find('#btn-start-identification').remove();
-//        }
+        $(container).find('#btn-done-identification').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+            }
+            nextStep();
+        });
     },
     getExploration: function getExploration(source, container, data) {
         $(container).find('#general .headline').text(data.title);
@@ -2189,6 +2210,7 @@ var Moderator = {
 //            }
 
             if (explorationPreferredGesturesRequest) {
+                explorationPreferredGesturesRequest = false;
                 clearAlerts($(container).find('#identified-getures'));
                 $(container).find('#identified-gestures').removeClass('hidden');
                 $(item).find('#btn-request-gestures').addClass('hidden');
@@ -2249,9 +2271,8 @@ var Moderator = {
                 if (data.askPreferredTrigger === 'yes') {
                     $(container).find('#btn-request-trigger').removeClass('hidden');
                 } else {
-                    $(container).find('#btn-done').removeClass('hidden');
+                    $(container).find('#btn-done').removeClass('hidden disabled');
                 }
-
             }
 
 
@@ -2264,6 +2285,7 @@ var Moderator = {
 //            }
 
             if (explorationPreferredGesturesRequest) {
+                explorationPreferredGesturesRequest = false;
                 clearAlerts($(container).find('#identified-trigger'));
                 $(container).find('#identified-trigger').removeClass('hidden');
                 $(item).find('#btn-request-trigger').addClass('hidden');
@@ -2281,12 +2303,24 @@ var Moderator = {
 
 
         // check preview buttons
-        if (explorationPrototypeOpened && !explorationStartTriggered) {
+        if (screenSharingStopped) {
+            $(container).find('#slides').addClass('hidden');
+            $(container).find('#btn-open-prototype').remove();
+            $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').addClass('hidden');
+            $(container).find('#btn-done-exploration').removeClass('hidden');
+        } else if (currentPhaseStepDone) {
+            $(container).find('#slides').addClass('hidden');
+            $(container).find('#btn-open-prototype').remove();
+            $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+        } else if (explorationPrototypeOpened && !explorationStartTriggered) {
             $(container).find('#btn-open-prototype').addClass('hidden');
             $(container).find('#btn-start-screen-sharing').removeClass('hidden');
         } else if (explorationPrototypeOpened && explorationStartTriggered) {
             $(container).find('#btn-open-prototype').remove();
             $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
             $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
         }
 
@@ -2336,24 +2370,21 @@ var Moderator = {
             $(container).find('#btn-done').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
+                    currentPhaseStepDone = true;
                     $(this).addClass('hidden');
-//                    if (isWebRTCSupported() && screenSharingModerator) {
-//                        $(screenSharingModerator).unbind('started');
-//                        screenSharingModerator.stop();
-//                    }
-
-                    if (prototypeWindow) {
-                        prototypeWindow.close();
-                        prototypeWindow = null;
-                    }
-
-                    if (!previewModeEnabled) {
-                        peerConnection.stopShareScreen(true);
-                        peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-                    }
-                    nextStep();
-                } else {
+                    $(container).find('#slides').addClass('hidden');
+                    $(container).find('#identified-gestures').addClass('hidden');
+                    $(container).find('#identified-trigger').addClass('hidden');
+                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
                     wobble([container.find('#general')]);
+                    $(document).scrollTop(0);
+                } else {
+                    if (explorationStartTriggered) {
+                        wobble([container.find('#slides')]);
+                    } else {
+                        wobble([container.find('#general')]);
+                        $(document).scrollTop(0);
+                    }
                 }
             });
 
@@ -2362,6 +2393,23 @@ var Moderator = {
                 if (!$(this).hasClass('disabled')) {
                     $(this).addClass('hidden');
                     $(container).find('#identified-gestures').addClass('hidden');
+                    currentExplorationIndex++;
+                    currentExplorationScene = 0;
+                    renderExplorationControls();
+                    if (peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_START_EXPLORATION);
+                    }
+                } else {
+                    wobble([container.find('#general')]);
+                    $(document).scrollTop(0);
+                }
+            });
+            
+            $(container).find('#btn-next-gesture').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    $(this).addClass('hidden');
+                    $(container).find('#identified-trigger').addClass('hidden');
                     currentExplorationIndex++;
                     currentExplorationScene = 0;
                     renderExplorationControls();
@@ -2404,6 +2452,14 @@ var Moderator = {
                     wobble([$(container).find('#general')]);
                     $(document).scrollTop(0);
                 }
+            });
+
+            $(container).find('#btn-done-exploration').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                }
+                nextStep();
             });
         }
 
@@ -2459,17 +2515,21 @@ var Moderator = {
             if (!$(this).hasClass('disabled')) {
                 var button = $(this);
                 $(button).addClass('disabled');
-                if (!previewModeEnabled) {
+                if (!previewModeEnabled && peerConnection) {
                     $(container).find('#btn-start-screen-sharing').find('.fa-spin').removeClass('hidden');
                     peerConnection.shareScreen(function (error) {
                         $(button).removeClass('disabled');
                         $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
-                        console.error(error);
+                        console.warn(error);
                     }, function () {
                         peerConnection.startScreenRecording();
-                        enableControls();
+                        $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
+                            event.preventDefault();
+                            $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
+                            enableControls();
+                        });
+                        peerConnection.sendMessage(MESSAGE_START_EXPLORATION);
                     });
-//                    Moderator.initScreensharing(MESSAGE_START_EXPLORATION, enableControls);
                 } else {
                     enableControls();
                 }
@@ -2479,9 +2539,8 @@ var Moderator = {
         function enableControls() {
             explorationStartTriggered = true;
             wobble([container.find('#slides')]);
-
             if (data.exploration.length === 1) {
-                if (data['askPreferred' + (data.explorationType === 'gestures' ? 'Gestures' : 'Trigger')] === 'yes') {
+                if (data['askPreferred' + (data.explorationType === 'gestures' ? 'Gesture' : 'Trigger')] === 'yes') {
                     $(container).find('#btn-request-gestures').removeClass('disabled');
                     $(container).find('#btn-request-trigger').removeClass('disabled');
                     console.log($(container).find('#btn-request-trigger'));
@@ -2489,16 +2548,43 @@ var Moderator = {
                     $(container).find('#btn-done').removeClass('disabled');
                 }
             } else {
-                if (data['askPreferred' + (data.explorationType === 'gestures' ? 'Gestures' : 'Trigger')] === 'yes') {
+                if (data['askPreferred' + (data.explorationType === 'gestures' ? 'Gesture' : 'Trigger')] === 'yes') {
                     $(container).find('#btn-request-gestures').removeClass('disabled');
                     $(container).find('#btn-request-trigger').removeClass('disabled');
                 } else {
-                    $(container).find('#btn-next-trigger').removeClass('disabled');
+                    $(container).find('#btn-next-trigger, #btn-next-gesture').removeClass('disabled');
+                    $(container).find('#btn-done').removeClass('disabled');
                 }
             }
-            $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
+//            $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
             $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
         }
+
+        $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                screenSharingStopped = true;
+                if (peerConnection) {
+                    peerConnection.stopShareScreen(true);
+                }
+                $(this).addClass('hidden');
+                $(container).find('#btn-done-exploration').removeClass('hidden');
+                explorationPrototypeOpened = false;
+                explorationStartTriggered = false;
+                if (prototypeWindow) {
+                    prototypeWindow.close();
+                    prototypeWindow = null;
+                }
+            } else {
+                if (explorationStartTriggered) {
+                    wobble($(container).find('#slides'));
+                } else {
+                    $(document).scrollTop(0);
+                    wobble(container.find('#general'));
+                }
+            }
+        });
 
         return container;
     },

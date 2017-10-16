@@ -198,8 +198,10 @@ PeerConnection.prototype.initialize = function (options) {
         });
 
         webrtc.connection.on('message', function (data) {
-//            console.log('on message', data);
-            $(connection).trigger(data.type, [data.payload]);
+            console.log('on message', data);
+            if (data.roomType === 'video') {
+                $(connection).trigger(data.type, [data.payload]);
+            }
         });
 
         // local screen obtained
@@ -221,6 +223,7 @@ PeerConnection.prototype.initialize = function (options) {
         webrtc.on('videoAdded', function (video, peer) {
             console.log('webrtc video added', peer);
             if (peer.type === TYPE_PEER_SCREEN) {
+                console.log('screen added');
                 $(connection).trigger(MESSAGE_SHARED_SCREEN_ADDED, [video]);
             } else {
                 $(connection).trigger('videoAdded', [video]);
@@ -235,32 +238,35 @@ PeerConnection.prototype.initialize = function (options) {
 
 
             // show the ice connection state
-//            if (peer && peer.pc) {
-//                var connstate = document.createElement('div');
-//                connstate.className = 'connectionstate';
+            if (peer && peer.pc) {
+                var connstate = document.createElement('div');
+                connstate.className = 'connectionstate';
 //                container.appendChild(connstate);
-//                peer.pc.on('iceConnectionStateChange', function (event) {
-//                    switch (peer.pc.iceConnectionState) {
-//                        case 'checking':
-//                            connstate.innerText = 'Connecting to peer...';
-//                            break;
-//                        case 'connected':
-//                        case 'completed': // on caller side
+                peer.pc.on('iceConnectionStateChange', function (event) {
+                    var state = null;
+                    switch (peer.pc.iceConnectionState) {
+                        case 'checking':
+                            state = 'Connecting to peer ...';
+                            break;
+                        case 'connected':
+                        case 'completed': // on caller side
 //                            $(vol).show();
-//                            connstate.innerText = 'Connection established.';
-//                            break;
-//                        case 'disconnected':
-//                            connstate.innerText = 'Disconnected.';
-//                            break;
-//                        case 'failed':
-//                            connstate.innerText = 'Connection failed.';
-//                            break;
-//                        case 'closed':
-//                            connstate.innerText = 'Connection closed.';
-//                            break;
-//                    }
-//                });
-//            }
+                            state = 'Connection established.';
+                            break;
+                        case 'disconnected':
+                            state = 'Disconnected.';
+                            break;
+                        case 'failed':
+                            state = 'Connection failed.';
+                            break;
+                        case 'closed':
+                            state = 'Connection closed.';
+                            break;
+                    }
+                    console.log('peer connection state', state);
+                });
+
+            }
         });
 
         // a peer video has been removed
@@ -518,9 +524,9 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                     console.log('on data available');
                     chunks.push(e.data);
 
-//                    if (separateChunksRecording === true) {
-//                        separateChunks.push(e.data);
-//                    }
+                    if (separateChunksRecording === true) {
+                        separateChunks.push(e.data);
+                    }
                 };
 
                 mediaRecorder.onstart = function () {
@@ -594,6 +600,24 @@ PeerConnection.prototype.stopRecording = function (callback, save) {
     }
 };
 
+var separateChunks = [];
+var separateChunksRecording = false;
+PeerConnection.prototype.startRecordSeparateChunks = function () {
+    console.log('start record separate chunks');
+    separateChunks = [];
+    separateChunksRecording = true;
+    connection.initRecording(true);
+};
+
+PeerConnection.prototype.stopRecordSeparateChunks = function () {
+    console.log('stop record separate chunks');
+    if (isUploadRecordingNeeded() === false) {
+        connection.stopRecording(null, false);
+    }
+    separateChunksRecording = false;
+    return separateChunks;
+};
+
 
 var screenChunks = [];
 var screenMediaRecorder = null;
@@ -606,9 +630,24 @@ PeerConnection.prototype.initScreenRecording = function () {
         screenChunks.push(e.data);
     };
 
+    screenMediaRecorder.onstart = function () {
+        console.log('Start screen recording ... ' + new Date());
+        // save start recording time
+        if (previewModeEnabled === false) {
+            var currentPhase = getCurrentPhase();
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            tempData.startScreenRecordingTime = new Date().getTime();
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+        }
+    };
+
     screenMediaRecorder.onstop = function () {
         console.log('Stopped screen recording, state = ' + screenMediaRecorder.state + ', ' + new Date());
         if (saveScreenRecording) {
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            tempData.endScreenRecordingTime = new Date().getTime();
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+
             console.log('Save screen recording');
             var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
             uploadQueue.upload(screenChunks, filename, getCurrentPhase().id, 'screenRecordUrl');

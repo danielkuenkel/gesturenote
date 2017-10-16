@@ -83,6 +83,7 @@ function getGestureTrainingFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.startTrainingTime = tempData.startTrainingTime;
         data.training = tempData.training;
+        data.startScreenRecordingTime = tempData.startScreenRecordingTime;
         data.screenRecordUrl = tempData.screenRecordUrl;
     }
     return data;
@@ -117,6 +118,7 @@ function getScenarioFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.actions = tempData.actions;
         data.transitions = tempData.transitions;
+        data.startScreenRecordingTime = tempData.startScreenRecordingTime;
         data.screenRecordUrl = tempData.screenRecordUrl;
     }
     return data;
@@ -154,10 +156,10 @@ function getIdentificationFormData(data) {
 function getExplorationFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
-        data.startTime = tempData.startTime;
-        data.startRecordingTime = tempData.startRecordingTime;
+        data.startTime = tempData.startTime;        
         data.actions = tempData.actions;
         data.transitions = tempData.transitions;
+        data.startScreenRecordingTime = tempData.startScreenRecordingTime;
         data.screenRecordUrl = tempData.screenRecordUrl;
     }
     return data;

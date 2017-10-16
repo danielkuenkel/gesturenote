@@ -422,7 +422,8 @@ include '../includes/language.php';
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-training" style="margin-top: 6px;">Jetzt starten</button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> Screensharing starten</button>
-                <!--<button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;">Screensharing beenden</button>-->
+                <button type="button" class="btn btn-success btn-block btn-shadow disabled hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;">Screensharing beenden</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-training" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>
             </div>
             <div class="" id="observations">
                 <h3><?php echo $lang->observations ?></h3>
@@ -843,6 +844,8 @@ include '../includes/language.php';
                 <p id="description"></p>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> Screensharing starten</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow disabled hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;">Screensharing beenden</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-identification" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>
             </div>
 
             <div class="" id="observations">
@@ -973,6 +976,8 @@ include '../includes/language.php';
                 <p id="description"></p>
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;">Prototyp öffnen</button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> Screensharing starten</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow disabled hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;">Screensharing beenden</button>
+                <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-exploration" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></button>
             </div>
 
             <div class="" id="observations">

@@ -41,6 +41,8 @@ var currentStressTestIndex = 0;
 var stressTestStartTriggered = false;
 var stressTestGestureTriggered = false;
 var stressTestQuestionsTriggered = false;
+var currentPhaseStepDone = false;
+var screenSharingStopped = false;
 
 var testerDoneTriggered = false;
 var previewModeEnabled = false;
@@ -93,6 +95,7 @@ function initialize() {
             if (saveData) {
                 saveData[result.type] = result.filename;
                 setLocalItem(result.phaseStepId + '.saveData', saveData);
+                setLocalItem(result.phaseStepId + '.tempSaveData', saveData);
                 console.log('saved data:', saveData);
 
                 var phases = getContextualPhaseSteps();
@@ -284,6 +287,8 @@ function resetConstraints() {
     currentTransitionSceneIndex = 0;
 
     currentQuestionnaireAnswers = null;
+    currentPhaseStepDone = false;
+    screenSharingStopped = false;
 }
 
 function rescueVideoCaller() {

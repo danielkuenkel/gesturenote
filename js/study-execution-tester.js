@@ -312,7 +312,7 @@ var Tester = {
             $(container).find('#fixed-rtc-preview').removeClass('hidden');
             $(container).find('#scene-container').removeClass('hidden');
 
-            if (previewModeEnabled && currentWOZScene && areThereScenes(data) === false) {
+            if (previewModeEnabled && currentWOZScene) {
                 // render scene manually
                 renderSceneItem(source, container, currentWOZScene.id);
             }
@@ -343,10 +343,6 @@ var Tester = {
                 clearAlerts(container);
                 $(container).find('#fixed-rtc-preview').removeClass('hidden');
                 $(container).find('#scene-container').removeClass('hidden');
-
-//                if (areThereScenes(data)) {
-//                    Tester.initScreenSharing(container);
-//                }
 
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -401,10 +397,6 @@ var Tester = {
                 trainingTriggered = false;
             });
         }
-    },
-    renderModeratedTrainingFeedback: function renderModeratedTrainingFeedback(source, data) {
-        appendHint(source, $('body'), data, TYPE_SURVEY_MODERATED);
-        triggeredFeedback = null;
     },
     renderUnmoderatedTraining: function renderUnmoderatedTraining(source, container, data) {
         var trainingData = data[currentGestureTrainingIndex];
@@ -913,7 +905,6 @@ var Tester = {
         // generic identification live events
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_START_IDENTIFICATION).bind(MESSAGE_START_IDENTIFICATION, function (event, payload) {
-//                Tester.initScreenSharing(container);
                 clearAlerts(container);
                 identificationStartTriggered = true;
                 $(container).find('#fixed-rtc-preview').removeClass('hidden');
@@ -1754,9 +1745,9 @@ var Tester = {
 
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
             Tester.renderModeratedExploration(source, container, data);
+            Tester.initScreenSharing(container.find('#scene-container'));
         } else {
             Tester.renderUnmoderatedExploration(source, container, data);
-            Tester.initScreenSharing(container.find('#scene-container'));
         }
 
         return container;
