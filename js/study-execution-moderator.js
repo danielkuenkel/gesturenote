@@ -220,9 +220,10 @@ var Moderator = {
                 console.log('questionnaire done');
                 $(container).find('#btn-next-step').removeClass('disabled');
             });
+            
             if (getCurrentPhase().format !== PHYSICAL_STRESS_TEST) {
                 $(peerConnection).unbind(MESSAGE_UPDATE_QUESTIONNAIRE).bind(MESSAGE_UPDATE_QUESTIONNAIRE, function (event, payload) {
-                    console.log('update questionnaire');
+                    console.log('update questionnaire', payload);
                     renderQuestionnaireAnswers(container, data, payload);
                 });
             }
@@ -860,6 +861,13 @@ var Moderator = {
                 peerConnection.sendMessage(MESSAGE_START_TRIGGER_SLIDESHOW);
                 $(peerConnection).unbind(MESSAGE_UPDATE_QUESTIONNAIRE).bind(MESSAGE_UPDATE_QUESTIONNAIRE, function (event, payload) {
                     renderSlideshowItems(payload);
+                });
+                $(peerConnection).unbind(MESSAGE_TRIGGER_SLIDESHOW_DONE).bind(MESSAGE_TRIGGER_SLIDESHOW_DONE, function (event, payload) {
+                    if(payload.selectedOptions) {
+                        renderSlideshowItems(payload.selectedOptions);
+                    }
+                    
+                    $(container).find('#btn-done-slideshow').removeClass('disabled');
                 });
             }
             slideshowStartTriggered = true;

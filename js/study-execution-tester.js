@@ -213,11 +213,10 @@ var Tester = {
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED && currentPhase.format !== PHYSICAL_STRESS_TEST && currentPhase.format !== SLIDESHOW_TRIGGER) {
             $(container).unbind('change').bind('change', function (event) {
                 event.preventDefault();
-                var answers = {answers: getQuestionnaireAnswers(container.find('.question-container').children())};
+                currentQuestionnaireAnswers = {answers: getQuestionnaireAnswers(container.find('.question-container').children())};
+                console.log('answers: ', answers, container.find('.question-container').children());
                 if (previewModeEnabled === false && peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, answers);
-                } else {
-                    currentQuestionnaireAnswers = answers;
+                    peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
                 }
             });
         }
@@ -816,11 +815,12 @@ var Tester = {
                 } else {
                     var array = new Array();
                     array.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
-                    tempData.selectedOptions = array;
-                }
-
+                    tempData.selectedOptions = array; 
+               }
+                
+                console.log(currentQuestionnaireAnswers, tempData.selectedOptions);
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
+                peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, tempData.selectedOptions);
             } else {
                 console.log(currentQuestionnaireAnswers);
                 if (currentQuestionnaireAnswers) {

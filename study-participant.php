@@ -49,6 +49,7 @@ if (login_check($mysqli) == true) {
         <script src="js/storageFunctions.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/rtc-result-player.js"></script>
+        <script src="js/screen-share-result-player.js"></script>
 
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -211,6 +212,7 @@ if (login_check($mysqli) == true) {
             function renderStudyPhaseResult(phaseId) {
                 var phaseData = getLocalItem(phaseId + '.data');
                 var phaseResults = getLocalItem(phaseId + '.results');
+                var evaluatorResults = getLocalItem(phaseId + '.evaluator');
 //                console.log(phaseData, phaseResults);
 
                 if (phaseData && phaseResults) {
@@ -256,6 +258,19 @@ if (login_check($mysqli) == true) {
                             }
                         } else {
                             appendAlert(content, ALERT_NO_RECORD);
+                        }
+                    }
+
+
+                    if (evaluatorResults && evaluatorResults.screenRecordUrl) {
+//                        console.log('evaluator data:', evaluatorResults);
+                        var screenSharePlayer = new ScreenShareResultsPlayer(evaluatorResults);
+
+                        if (getBrowser() !== 'Safari') {
+                            $(content).find('#horizontalLine').after(screenSharePlayer);
+                        } else {
+//                            console.log('webm not supported');
+                            appendAlert(content, ALERT_WEBM_UNSUPPORTED);
                         }
                     }
 

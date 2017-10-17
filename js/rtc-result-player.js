@@ -110,6 +110,8 @@ function initializeTimeline(timelineData) {
         timeline.setOptions(options);
         timeline.addCustomTime(itemRange.min);
         timeline.moveTo(itemRange.min);
+    } else {
+        console.warn('no timeline data');
     }
 }
 

@@ -644,6 +644,7 @@ PeerConnection.prototype.initScreenRecording = function () {
     screenMediaRecorder.onstop = function () {
         console.log('Stopped screen recording, state = ' + screenMediaRecorder.state + ', ' + new Date());
         if (saveScreenRecording) {
+            var currentPhase = getCurrentPhase();
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
             tempData.endScreenRecordingTime = new Date().getTime();
             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
