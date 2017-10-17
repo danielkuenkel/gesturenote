@@ -515,7 +515,7 @@ PeerConnection.prototype.initRecording = function (startRecording) {
         }
 
         function onSuccess(stream) {
-            console.log('init recorder');
+            console.log('init recorder', mediaRecorder, stream);
             recordingStream = stream;
             if (!mediaRecorder || mediaRecorder === undefined) {
                 mediaRecorder = new MediaRecorder(stream);
@@ -530,33 +530,37 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                 };
 
                 mediaRecorder.onstart = function () {
-                    console.log('Start recording ... ' + new Date());
+                    console.log('Start recording ... ');
                     // save start recording time
                     if (previewModeEnabled === false) {
                         var currentPhase = getCurrentPhase();
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                        if (tempData) {
-                            tempData.startRecordingTime = new Date().getTime();
-                        }
-                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                        getGMT(function (timestamp) {
+                            tempData.startRecordingTime = timestamp;
+                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                        });
                     }
                 };
 
                 mediaRecorder.onstop = function () {
-                    console.log('Stopped recording, state = ' + mediaRecorder.state + ', ' + new Date());
+                    console.log('Stopped recording, state = ' + mediaRecorder.state);
                     if (saveRecording) {
                         console.log('Save recording');
 
-                        var currentPhase = getCurrentPhase();
-                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                        tempData.endRecordingTime = new Date().getTime();
-                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                        getGMT(function (timestamp) {
+                            var currentPhase = getCurrentPhase();
+                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                            tempData.endRecordingTime = timestamp;
+                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
-                        var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
-                        uploadQueue.upload(chunks, filename, getCurrentPhase().id, 'recordUrl');
+                            var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
+                            uploadQueue.upload(chunks, filename, getCurrentPhase().id, 'recordUrl');
+                            chunks = [];
+                        });
+
                     }
 
-                    chunks = [];
+
 
                     if (stopRecordingCallback) {
                         stopRecordingCallback();
@@ -637,30 +641,33 @@ PeerConnection.prototype.initScreenRecording = function () {
     };
 
     screenMediaRecorder.onstart = function () {
-        console.log('Start screen recording ... ' + new Date());
+        console.log('Start screen recording ... ');
         // save start recording time
         if (previewModeEnabled === false) {
             var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.startScreenRecordingTime = new Date().getTime();
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            getGMT(function (timestamp) {
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.startScreenRecordingTime = timestamp;
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            });
         }
     };
 
     screenMediaRecorder.onstop = function () {
-        console.log('Stopped screen recording, state = ' + screenMediaRecorder.state + ', ' + new Date());
+        console.log('Stopped screen recording, state = ' + screenMediaRecorder.state);
         if (saveScreenRecording) {
-            var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.endScreenRecordingTime = new Date().getTime();
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            getGMT(function (timestamp) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.endScreenRecordingTime = timestamp;
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
-            console.log('Save screen recording');
-            var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
-            uploadQueue.upload(screenChunks, filename, getCurrentPhase().id, 'screenRecordUrl');
-        }
-
-        screenChunks = [];
+                console.log('Save screen recording');
+                var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
+                uploadQueue.upload(screenChunks, filename, getCurrentPhase().id, 'screenRecordUrl');
+                screenChunks = [];
+            });
+        }        
 
         if (stopScreenRecordingCallback) {
             stopScreenRecordingCallback();

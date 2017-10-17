@@ -55,15 +55,14 @@
                 }
 
                 if (!previewModeEnabled) {
-                    if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
-                        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                        tempData.actions.push({action: action, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: null, time: new Date().getTime()});
-                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                    } else {
-                        if (peerConnection) {
-                            peerConnection.sendMessage(MESSAGE_GESTURE_PERFORMED, {action: action, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: null, restartCount: slidesRestartCount});
+                    getGMT(function (timestamp) {
+                        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED || (peerConnection && getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED)) {
+                            var currentPhase = getCurrentPhase();
+                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                            tempData.actions.push({action: action, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: null, time: timestamp});
+                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                         }
-                    }
+                    });
                 }
 
                 if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
@@ -99,16 +98,15 @@
                     }
 
                     if (!previewModeEnabled) {
-                        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
-                            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                            tempData.restarts = slidesRestartCount;
-                            tempData.actions.push({action: ACTION_SELECT_GESTURE, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: event.data.gesture.id, fit: gestureFit, time: new Date().getTime()});
-                            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                        } else {
-                            if (peerConnection) {
-                                peerConnection.sendMessage(MESSAGE_GESTURE_PERFORMED, {action: ACTION_SELECT_GESTURE, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: event.data.gesture.id, fit: gestureFit, restartCount: slidesRestartCount});
+                        getGMT(function (timestamp) {
+                            if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED || (peerConnection && getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED)) {
+                                var currentPhase = getCurrentPhase();
+                                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                tempData.restarts = slidesRestartCount;
+                                tempData.actions.push({action: ACTION_SELECT_GESTURE, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: event.data.gesture.id, fit: gestureFit, time: timestamp});
+                                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                             }
-                        }
+                        });
                     }
 
                     if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {

@@ -249,7 +249,7 @@ if (login_check($mysqli) == true) {
                     if (isWebRTCNeededForPhaseStep(phaseResults)) {
                         if (phaseResults && phaseResults.recordUrl && phaseResults.recordUrl !== '') {
                             var timelineData = {phaseData: phaseData, phaseResults: phaseResults, executionTime: executionTime};
-                            var resultsPlayer = new RTCResultsPlayer(phaseResults.recordUrl, timelineData, evaluatorResults);
+                            var resultsPlayer = new RTCResultsPlayer(phaseResults, evaluatorResults, timelineData);
                             if (getBrowser() !== 'Safari') {
                                 $(content).find('#horizontalLine').after(resultsPlayer);
                             } else {

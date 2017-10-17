@@ -169,6 +169,9 @@ var ACTION_NO_GESTURE_FIT_FOUND = 'noGestureFitFound';
 var ACTION_NO_GESTURE_DEMONSTRATED = 'noGestureDemonstrated';
 var ACTION_START_QUESTIONNAIRE = 'startQuestionnaire';
 var ACTION_END_QUESTIONNAIRE = 'endQuestionnaire';
+var ACTION_RENDER_SCENE = 'renderScene';
+var ACTION_SHOW_FEEDBACK = 'showFeedback';
+var ACTION_HIDE_FEEDBACK = 'hideFeedback';
 
 // cursors
 var CURSOR_AUTO = 'auto';

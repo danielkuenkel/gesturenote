@@ -87,6 +87,8 @@ function getGestureTrainingFormData(data) {
         data.startScreenRecordingTime = tempData.startScreenRecordingTime;
         data.endScreenRecordingTime = tempData.endScreenRecordingTime;
         data.screenRecordUrl = tempData.screenRecordUrl;
+        data.training = tempData.training;
+        data.actions = tempData.actions;
     }
     return data;
 }

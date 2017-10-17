@@ -933,3 +933,20 @@ function saveExecutionModerator(data, callback) {
         }
     });
 }
+
+function getServerTime(callback) {
+    $.ajax({
+        url: 'includes/get-time.php',
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}

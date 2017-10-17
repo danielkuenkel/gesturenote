@@ -17,7 +17,12 @@ var Tester = {
         var currentPhaseData = getCurrentPhaseData();
         // save start time
         if (previewModeEnabled === false) {
-            setLocalItem(currentPhase.id + '.tempSaveData', {startTime: new Date().getTime()});
+            setLocalItem(currentPhase.id + '.tempSaveData', {});
+            getGMT(function (timestamp) {
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.startTime = timestamp;
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            });
         }
 
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
@@ -283,15 +288,16 @@ var Tester = {
             return false;
         }
 
-        if (!previewModeEnabled) {
-            var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.training = new Array();
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-        }
-
         // gestures section
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+            if (!previewModeEnabled) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.training = new Array();
+                tempData.actions = new Array();
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            }
+
             Tester.renderUnmoderatedTraining(source, container, data.training);
         } else {
             Tester.renderModeratedTraining(source, container, data.training);
@@ -332,7 +338,7 @@ var Tester = {
                 triggeredFeedback = payload.triggeredFeedback;
                 checkFeedback();
 //                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-//                tempData.actions.push({action: ACTION_SELECT_GESTURE, time: new Date().getTime()});
+//                tempData.actions.push({action: ACTION_SELECT_GESTURE, time: getGMT()});
 //                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             });
 
@@ -343,10 +349,10 @@ var Tester = {
                 $(container).find('#fixed-rtc-preview').removeClass('hidden');
                 $(container).find('#scene-container').removeClass('hidden');
 
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.startTrainingTime = new Date().getTime();
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                var currentPhase = getCurrentPhase();
+//                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                tempData.startTrainingTime = getGMT();
+//                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
 
             $(peerConnection).unbind(MESSAGE_TRAINING_TRIGGERED).bind(MESSAGE_TRAINING_TRIGGERED, function (event, payload) {
@@ -354,10 +360,10 @@ var Tester = {
                 onTrainingTriggered();
                 currentGestureTrainingIndex = payload.currentGestureTrainingIndex;
 
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.training.push({gestureId: payload.gestureId, gestureTrainingStart: new Date().getTime()});
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+//                var currentPhase = getCurrentPhase();
+//                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+//                tempData.training.push({gestureId: payload.gestureId, gestureTrainingStart: getGMT()});
+//                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
         }
 
@@ -450,10 +456,12 @@ var Tester = {
         item.find('#start-training').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!previewModeEnabled) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.startTrainingTime = new Date().getTime();
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.startTrainingTime = timestamp;
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                });
             }
 
             $(this).addClass('hidden');
@@ -471,10 +479,12 @@ var Tester = {
             if (!$(this).hasClass('disabled')) {
 
                 if ($(this).attr('id') === 'start-single-training' && !previewModeEnabled) {
-                    var currentPhase = getCurrentPhase();
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    tempData.training.push({gestureId: gesture.id, gestureTrainingStart: new Date().getTime()});
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                    getGMT(function (timestamp) {
+                        var currentPhase = getCurrentPhase();
+                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                        tempData.training.push({gestureId: gesture.id, gestureTrainingStart: timestamp});
+                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                    });
                 }
 
                 $(item).find('#training-controls').addClass('hidden');
@@ -482,6 +492,7 @@ var Tester = {
                 TweenMax.to(item.find('.progress-bar-training'), trainingData.recognitionTime, {width: '0%', autoRound: false, ease: Power0.easeNone, onComplete: onTrainingTimesUp});
             }
         });
+
         function onTrainingTimesUp() {
             repeatsLeft--;
             appendHint(source, $('body'), trainingData, TYPE_SURVEY_UNMODERATED);
@@ -495,7 +506,9 @@ var Tester = {
 //                    tempData.training.pop();
                     for (var i = 0; i < tempData.training.length; i++) {
                         if (parseInt(tempData.training[i].gestureId) === parseInt(gesture.id)) {
-                            tempData.training[i].gestureTrainingEnd = new Date().getTime();
+                            getGMT(function (timestamp) {
+                                tempData.training[i].gestureTrainingEnd = timestamp;
+                            });
                         }
                     }
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -540,15 +553,16 @@ var Tester = {
             $(container).find('#general').remove();
         }
 
-        if (!previewModeEnabled) {
-            var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.actions = new Array();
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-        }
-
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             slideRestarted = true;
+            
+            if (!previewModeEnabled) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.actions = new Array();
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            }
+
             Tester.renderUnmoderatedGestureSlideshow(source, container, data);
         } else {
             $(peerConnection).unbind(MESSAGE_START_GESTURE_SLIDESHOW).bind(MESSAGE_START_GESTURE_SLIDESHOW, function (event, payload) {
@@ -563,18 +577,23 @@ var Tester = {
                 Tester.renderModeratedGestureSlideshow(source, container, data);
             });
 
-            $(peerConnection).unbind(MESSAGE_GESTURE_PERFORMED).bind(MESSAGE_GESTURE_PERFORMED, function (event, payload) {
-//                console.log(payload);
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.restarts = parseInt(payload.restartCount);
-                if (payload.fit) {
-                    tempData.actions.push({action: payload.action, gestureId: payload.gestureId, triggerId: payload.triggerId, selectedGestureId: payload.selectedGestureId, fit: payload.fit, time: new Date().getTime()});
-                } else {
-                    tempData.actions.push({action: payload.action, gestureId: payload.gestureId, triggerId: payload.triggerId, selectedGestureId: null, time: new Date().getTime()});
-                }
-
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-            });
+//            $(peerConnection).unbind(MESSAGE_GESTURE_PERFORMED).bind(MESSAGE_GESTURE_PERFORMED, function (event, payload) {
+////                console.log(payload);
+//                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+//                tempData.restarts = parseInt(payload.restartCount);
+//                if (payload.fit) {
+//                    getGMT(function (timestamp) {
+//                        tempData.actions.push({action: payload.action, gestureId: payload.gestureId, triggerId: payload.triggerId, selectedGestureId: payload.selectedGestureId, fit: payload.fit, time: timestamp});
+//                    });
+//
+//                } else {
+//                    getGMT(function (timestamp) {
+//                        tempData.actions.push({action: payload.action, gestureId: payload.gestureId, triggerId: payload.triggerId, selectedGestureId: null, time: timestamp});
+//                    });
+//                }
+//
+//                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//            });
 
             if (slideshowStartTriggered) {
                 if (slideRestarted) {
@@ -613,9 +632,11 @@ var Tester = {
         $(container).find('#slideshowContainer').removeClass('hidden').empty().append(item);
 
         if (!previewModeEnabled) {
-            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-            tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: new Date().getTime()});
-            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            getGMT(function (timestamp) {
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+            });
         }
 
         var progress = $(container).find('.progress');
@@ -663,9 +684,11 @@ var Tester = {
         if (isActive) {
             var slideData = data.slideshow[currentSlideIndex];
             if (!previewModeEnabled) {
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: new Date().getTime()});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
+                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                });
             }
 
             var progress = $(container).find('.progress');
@@ -815,9 +838,9 @@ var Tester = {
                 } else {
                     var array = new Array();
                     array.push({correctTriggerId: slideData.triggerId, selectedId: selectedOption});
-                    tempData.selectedOptions = array; 
-               }
-                
+                    tempData.selectedOptions = array;
+                }
+
                 console.log(currentQuestionnaireAnswers, tempData.selectedOptions);
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, tempData.selectedOptions);
@@ -935,16 +958,17 @@ var Tester = {
 
                 $(peerConnection).unbind(MESSAGE_STOP_RECORDING_GESTURE).bind(MESSAGE_STOP_RECORDING_GESTURE, function (event, payload) {
                     var recordedChunks = peerConnection.stopRecordSeparateChunks();
-                    var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
-                    var file = new File(recordedChunks, filename, {type: "video/webm"});
-                    peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED);
-                    peerConnection.transferFile(file);
-                    animateLiveStream($(container).find('#fixed-rtc-preview'));
-                    appendAlert($(container), ALERT_PLEASE_WAIT);
-                    $(container).find('#fixed-rtc-preview').addClass('hidden');
-                    $(container).find('#scene-description').addClass('hidden');
-                    $(container).find('#scene-container').addClass('hidden');
-
+                    getGMT(function (timestamp) {
+                        var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
+                        var file = new File(recordedChunks, filename, {type: "video/webm"});
+                        peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED);
+                        peerConnection.transferFile(file);
+                        animateLiveStream($(container).find('#fixed-rtc-preview'));
+                        appendAlert($(container), ALERT_PLEASE_WAIT);
+                        $(container).find('#fixed-rtc-preview').addClass('hidden');
+                        $(container).find('#scene-description').addClass('hidden');
+                        $(container).find('#scene-container').addClass('hidden');
+                    });
                 });
             } else {
                 $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
@@ -1197,11 +1221,13 @@ var Tester = {
 
         if (!previewModeEnabled) {
             var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.startStressTestTime = new Date().getTime();
-            tempData.actions = new Array();
-            tempData.answers = new Array();
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            getGMT(function (timestamp) {
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.startStressTestTime = timestamp;
+                tempData.actions = new Array();
+                tempData.answers = new Array();
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            });
         }
 
         if (currentQuestionnaireAnswers === null) {
@@ -1268,10 +1294,12 @@ var Tester = {
 
         if (stressTestGestureTriggered) {
             if (!previewModeEnabled) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, time: new Date().getTime()});
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, time: timestamp});
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                });
             }
         }
 
@@ -1279,11 +1307,13 @@ var Tester = {
         if (stressTestQuestionsTriggered) {
             questionContainer.removeClass('hidden');
             if (!previewModeEnabled) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: gesture.id, time: new Date().getTime()});
-                tempData.actions.push({action: ACTION_START_QUESTIONNAIRE, gestureId: gesture.id, time: new Date().getTime()});
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: gesture.id, time: timestamp});
+                    tempData.actions.push({action: ACTION_START_QUESTIONNAIRE, gestureId: gesture.id, time: timestamp});
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                });
             }
 
             // single questions section
@@ -1347,20 +1377,24 @@ var Tester = {
         renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
 
         if (!previewModeEnabled) {
-            var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, time: new Date().getTime()});
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            getGMT(function (timestamp) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, time: timestamp});
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            });
         }
 
         $(item).find('#btn-gesture-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!previewModeEnabled) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: gesture.id, time: new Date().getTime()});
-                tempData.actions.push({action: ACTION_START_QUESTIONNAIRE, gestureId: gesture.id, time: new Date().getTime()});
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: gesture.id, time: timestamp});
+                    tempData.actions.push({action: ACTION_START_QUESTIONNAIRE, gestureId: gesture.id, time: timestamp});
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                });
             }
 
             // single questions section
@@ -1415,10 +1449,12 @@ var Tester = {
             $(item).find('#gesturePreview').removeClass('col-sm-5').addClass('col-sm-12');
             $(item).find('#stress-test-questionnaire').addClass('hidden');
             if (!previewModeEnabled) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, time: new Date().getTime()});
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: gesture.id, time: timestamp});
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                });
             }
         });
 
@@ -1441,7 +1477,10 @@ var Tester = {
         var singleQuestionnaire = $(target).find('#single-questions .question-container').children();
         var singleQuestionAnswers = getQuestionnaireFormData(singleQuestionnaire, {});
         answers.gestureId = gesture.id;
-        answers.time = new Date().getTime();
+        getGMT(function (timestamp) {
+            answers.time = timestamp;
+        });
+
 
         if ((getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED && currentStressTestCount < parseInt(data.stressAmount) - 1) || (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED && currentStressTestCount < parseInt(data.stressAmount))) {
             if (singleQuestionAnswers.answers && singleQuestionAnswers.answers.length > 0) {
@@ -1478,7 +1517,9 @@ var Tester = {
             if (saveToLocalDB === true) {
                 var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                 if (currentStressTestIndex < data.stressTestItems.length - 1) {
-                    tempData.actions.push({action: ACTION_END_QUESTIONNAIRE, gestureId: gesture.id, time: new Date().getTime()});
+                    getGMT(function (timestamp) {
+                        tempData.actions.push({action: ACTION_END_QUESTIONNAIRE, gestureId: gesture.id, time: timestamp});
+                    });
                 }
 //                console.log(currentStressTestCount, currentStressTestIndex);
                 tempData.answers.push(answers);
@@ -1487,17 +1528,19 @@ var Tester = {
         }
     },
     getScenario: function getScenario(source, container, data) {
-        if (!previewModeEnabled) {
-            var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            tempData.actions = new Array();
-            tempData.transitions = new Array();
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-        }
+
 
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             if (!data.scene || !data.woz) {
                 return false;
+            }
+
+            if (!previewModeEnabled) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.actions = new Array();
+                tempData.transitions = new Array();
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             }
 
             Tester.renderUnmoderatedScenario(source, container, data);
@@ -1514,11 +1557,12 @@ var Tester = {
                 scenarioStartTriggered = true;
                 Tester.renderModeratedScenario(source, container, data);
 
-                var time = new Date().getTime();
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_START_TASK, time: time});
-                tempData.transitions.push({scene: data.scene, time: time});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//                getGMT(function (timestamp) {
+//                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+//                    tempData.actions.push({action: ACTION_START_TASK, time: timestamp});
+//                    tempData.transitions.push({scene: data.scene, time: timestamp});
+//                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//                });
             });
         }
 
@@ -1555,23 +1599,23 @@ var Tester = {
                 checkHelp();
             });
 
-            $(peerConnection).unbind(MESSAGE_TRIGGER_WOZ).bind(MESSAGE_TRIGGER_WOZ, function (event, payload) {
-                console.log(payload);
-                triggeredWoz = payload.triggeredWOZ;
+//            $(peerConnection).unbind(MESSAGE_TRIGGER_WOZ).bind(MESSAGE_TRIGGER_WOZ, function (event, payload) {
+//                console.log(payload);
+//                triggeredWoz = payload.triggeredWOZ;
 
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-            });
+//                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+//                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: getGMT()});
+//                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//            });
 
             $(peerConnection).unbind(MESSAGE_TRIGGER_FEEDBACK).bind(MESSAGE_TRIGGER_FEEDBACK, function (event, payload) {
                 console.log(payload);
                 triggeredFeedback = payload.triggeredFeedback;
                 checkFeedback();
 
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+//                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: getGMT()});
+//                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             });
         }
 
@@ -1625,9 +1669,11 @@ var Tester = {
 
                 $(this).addClass('hidden');
                 if (!previewModeEnabled) {
-                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                    tempData.actions.push({action: ACTION_SHOW_INFO, time: new Date().getTime()});
-                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    getGMT(function (timestamp) {
+                        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                        tempData.actions.push({action: ACTION_SHOW_INFO, time: timestamp});
+                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    });
                 }
             }
 
@@ -1643,9 +1689,11 @@ var Tester = {
 
                 $(this).addClass('hidden');
                 if (!previewModeEnabled) {
-                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                    tempData.actions.push({action: ACTION_HIDE_INFO, time: new Date().getTime()});
-                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    getGMT(function (timestamp) {
+                        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                        tempData.actions.push({action: ACTION_HIDE_INFO, time: timestamp});
+                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    });
                 }
             }
 
@@ -1669,11 +1717,12 @@ var Tester = {
 
         container.find('#start-scene').unbind('click').bind('click', function () {
             if (!previewModeEnabled) {
-                var time = new Date().getTime();
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_START_TASK, time: time});
-                tempData.transitions.push({scene: data.scene, time: time});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_START_TASK, time: timestamp});
+                    tempData.transitions.push({scene: data.scene, time: timestamp});
+                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                });
             }
 
             container.find('#start-controls').addClass('hidden');
@@ -1689,9 +1738,11 @@ var Tester = {
         $(container).find('#btn-refresh-scene').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!previewModeEnabled) {
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_REFRESH_SCENE, scene: data.scene, time: new Date().getTime()});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_REFRESH_SCENE, scene: data.scene, time: timestamp});
+                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                });
             }
 
             renderUnmoderatedScenario(source, container, data);
@@ -1701,9 +1752,11 @@ var Tester = {
             event.preventDefault();
             $(this).addClass('hidden');
             if (!previewModeEnabled) {
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, time: new Date().getTime()});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, time: timestamp});
+                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                });
             }
 
             $(panelContent).find('#btn-stop-perform-gesture').removeClass('hidden');
@@ -1713,9 +1766,11 @@ var Tester = {
             event.preventDefault();
             $(this).addClass('hidden');
             if (!previewModeEnabled) {
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: new Date().getTime()});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, time: timestamp});
+                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                });
             }
 
             $(panelContent).find('#btn-perform-gesture').removeClass('hidden');
@@ -1725,9 +1780,11 @@ var Tester = {
         $(panelContent).find('#btn-getting-help').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!previewModeEnabled) {
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_REQUEST_HELP, time: new Date().getTime()});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_REQUEST_HELP, time: timestamp});
+                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                });
             }
 
             loadHTMLintoModal('custom-modal', 'modal-help.php', 'modal-md');
@@ -2050,7 +2107,7 @@ var Tester = {
         $(peerConnection).unbind(MESSAGE_SHARED_SCREEN_ADDED).bind(MESSAGE_SHARED_SCREEN_ADDED, function (event, video) {
             console.log('on add screen', video);
             var videoClone = $(video).clone();
-            
+
             $(container).empty().append(video);
             var newHeight = $(window).height();
             $(container).css({height: newHeight + "px"});
@@ -2319,14 +2376,17 @@ function renderSceneItem(source, container, sceneId) {
 
 function onAnswerTimeExpired(container, data) {
     if (!previewModeEnabled) {
-        var slideData = data.slideshow[currentSlideIndex];
-        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-        tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: new Date().getTime()});
-        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+        getGMT(function (timestamp) {
+            var slideData = data.slideshow[currentSlideIndex];
+            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+            tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
+            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
 
-        if (peerConnection) {
-            peerConnection.sendMessage(MESSAGE_REACTIVATE_CONTROLS);
-        }
+            if (peerConnection) {
+                peerConnection.sendMessage(MESSAGE_REACTIVATE_CONTROLS);
+            }
+        });
+
     }
     $(container).find('.gestureContainer .headline, .triggerContainer .headline').text(translation.timesUp);
     TweenMax.to(container.find('.previewGesture, .trigger-title'), .1, {opacity: 0});
@@ -2342,16 +2402,20 @@ function onHideSlideComplete(container) {
 
 function onUnmoderatedAnswerTimeExpired(source, container, data) {
     if (!previewModeEnabled) {
-        var slideData = data.slideshow[currentSlideIndex];
-        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-        tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: new Date().getTime()});
-        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+        getGMT(function (timestamp) {
+            var slideData = data.slideshow[currentSlideIndex];
+            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+            tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
+            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+
+            loadHTMLintoModal('custom-modal', 'modal-check-gesture.php', 'modal-lg');
+        });
+
     }
 
     $(container).find('.gestureContainer .headline, .triggerContainer .headline').text(translation.timesUp);
     TweenMax.to(container.find('.previewGesture, .trigger-title'), .1, {opacity: 0});
     TweenMax.to(container.find('#slideshowContainer, .progress'), .1, {opacity: 0, onComplete: onHideUnmoderatedSlideComplete, onCompleteParams: [source, container, data]});
-    loadHTMLintoModal('custom-modal', 'modal-check-gesture.php', 'modal-lg');
 }
 
 function onHideUnmoderatedSlideComplete(source, container, data) {

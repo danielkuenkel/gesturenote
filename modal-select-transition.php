@@ -48,9 +48,11 @@
                 }
 
                 if (!previewModeEnabled) {
-                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                    tempData.actions.push({action: action, time: new Date().getTime()});
-                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    getGMT(function (timestamp) {
+                        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                        tempData.actions.push({action: action, time: timestamp});
+                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    });
                 }
 
                 $('#custom-modal').modal('hide');
@@ -79,19 +81,20 @@
             $(clone).find('#btn-select-item').click({wozData: items[i]}, function (event) {
                 event.preventDefault();
                 var wozData = event.data.wozData;
-                
+
                 if (wozData.transitionId && wozData.transitionId !== 'none') {
                     currentWOZScene = getSceneById(wozData.transitionId);
                 }
 
                 // temp data 
                 if (!previewModeEnabled) {
-                    var currentPhase = getCurrentPhase();
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    var time = new Date().getTime();
-                    tempData.actions.push({action: ACTION_SELECT_GESTURE, selectedGestureId: wozData.gestureId, time: time});
-                    tempData.transitions.push({scene: currentWOZScene.id || null, time: time});
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                    getGMT(function (timestamp) {
+                        var currentPhase = getCurrentPhase();
+                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                        tempData.actions.push({action: ACTION_SELECT_GESTURE, selectedGestureId: wozData.gestureId, time: timestamp});
+                        tempData.transitions.push({scene: currentWOZScene.id || null, time: timestamp});
+                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                    });
                 }
 
                 // modal and hint hiding, trigger transition to scene for a gesture

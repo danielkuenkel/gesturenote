@@ -25,12 +25,12 @@ function UploadQueue() {
 
     this.uploader.on('fileAdded', function (file, event) {
         if (!uploadObject.isUploading()) {
-            console.log('start/resume uploading', new Date());
+            console.log('start/resume uploading …', file.filename);
             uploadObject.upload();
         }
     });
     this.uploader.on('fileSuccess', function (file, message) {
-        console.log('file success: ', file, message, new Date());
+        console.log('file success: ', file, message);
         var returnFile = uploadQueue.setUploadStatus(file.fileName);
         $(uploadQueue).trigger(EVENT_FILE_SAVED, [returnFile]);
 

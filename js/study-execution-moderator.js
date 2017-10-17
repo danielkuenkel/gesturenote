@@ -12,7 +12,12 @@ var Moderator = {
         var currentPhaseData = getCurrentPhaseData();
         var source = getSourceContainer(currentView);
         if (previewModeEnabled === false) {
-            setLocalItem(currentPhase.id + '.tempSaveData', {startTime: new Date().getTime()});
+            setLocalItem(currentPhase.id + '.tempSaveData', {});
+            getGMT(function (timestamp) {
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.startTime = timestamp;
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            });
         }
 
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
@@ -220,7 +225,7 @@ var Moderator = {
                 console.log('questionnaire done');
                 $(container).find('#btn-next-step').removeClass('disabled');
             });
-            
+
             if (getCurrentPhase().format !== PHYSICAL_STRESS_TEST) {
                 $(peerConnection).unbind(MESSAGE_UPDATE_QUESTIONNAIRE).bind(MESSAGE_UPDATE_QUESTIONNAIRE, function (event, payload) {
                     console.log('update questionnaire', payload);
@@ -277,6 +282,14 @@ var Moderator = {
             return false;
         }
 
+        if (!previewModeEnabled) {
+            var currentPhase = getCurrentPhase();
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            tempData.training = new Array();
+            tempData.actions = new Array();
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+        }
+
         // general data section
         $(container).find('#general #heading').text(data.title);
         $(container).find('#general #description').text(data.description);
@@ -327,6 +340,21 @@ var Moderator = {
                         }
 
                         $(feedbackButton).find('#waiting-indicator').addClass('hidden');
+
+                        getGMT(function (timestamp) {
+                            var currentPhase = getCurrentPhase();
+                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                            tempData.actions.push({action: ACTION_HIDE_FEEDBACK, time: timestamp});
+                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                        });
+
+                    });
+
+                    getGMT(function (timestamp) {
+                        var currentPhase = getCurrentPhase();
+                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                        tempData.actions.push({action: ACTION_SHOW_FEEDBACK, time: timestamp});
+                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                     });
 
                     peerConnection.sendMessage(MESSAGE_TRIGGER_FEEDBACK, {triggeredFeedback: triggeredFeedback});
@@ -360,7 +388,15 @@ var Moderator = {
 
                     if (transitionsLength - 2 === leftSceneButtons.length) {
                         $(button).addClass('btn-primary');
+
                         if (prototypeWindow && prototypeWindow.closed !== true) {
+                            getGMT(function (timestamp) {
+                                var currentPhase = getCurrentPhase();
+                                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene});
+                                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                            });
+
                             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
                         }
                     }
@@ -399,6 +435,13 @@ var Moderator = {
         function renderFollowScene(scenesContainer) {
             $(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').addClass('btn-primary');
             if (prototypeWindow && prototypeWindow.closed !== true) {
+                getGMT(function (timestamp) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene});
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                });
+
                 prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
             }
         }
@@ -427,6 +470,13 @@ var Moderator = {
                             currentTransitionSceneIndex = 0;
                             renderTrainingControls(trainingData);
                             if (prototypeWindow && prototypeWindow.closed !== true) {
+                                getGMT(function (timestamp) {
+                                    var currentPhase = getCurrentPhase();
+                                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                    tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene});
+                                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                                });
+
                                 prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
                             }
                         } else {
@@ -459,6 +509,13 @@ var Moderator = {
                                     $(button).find('.fa').addClass('hidden');
                                     $(button).removeClass('disabled');
                                     trainingTriggered = false;
+                                });
+
+                                getGMT(function (timestamp) {
+                                    var currentPhase = getCurrentPhase();
+                                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                    tempData.training.push({gestureId: gesture.id, gestureTrainingStart: timestamp});
+                                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                                 });
 
                                 peerConnection.sendMessage(MESSAGE_TRAINING_TRIGGERED, {currentGestureTrainingIndex: currentGestureTrainingIndex});
@@ -528,14 +585,7 @@ var Moderator = {
                     if (!$(this).hasClass('disabled') && !$(this).hasClass('btn-primary')) {
                         var button = $(this);
                         $(button).closest('.root').find('#btn-trigger-woz').addClass('disabled');
-
-//                        var transitionType = $(button).attr('data-transition-type');
-//                        if (transitionType === 'feedback' && event.data.data.feedbackId !== 'none') {
-//                            var feedback = getFeedbackById(event.data.data.feedbackId);
-//                                checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
-//                        } else {
                         checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
-//                        }
                     }
                 });
 
@@ -560,6 +610,13 @@ var Moderator = {
                         triggeredFeedback = null;
                         Moderator.renderGestureTraining(source, container, data);
                         if (prototypeWindow && prototypeWindow.closed !== true) {
+                            getGMT(function (timestamp) {
+                                var currentPhase = getCurrentPhase();
+                                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene});
+                                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                            });
+
                             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
                         }
                     } else {
@@ -662,6 +719,14 @@ var Moderator = {
                             $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
                             enableControls();
                         });
+
+                        getGMT(function (timestamp) {
+                            var currentPhase = getCurrentPhase();
+                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                            tempData.startTrainingTime = timestamp;
+                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                        });
+
                         peerConnection.sendMessage(MESSAGE_START_GESTURE_TRAINING);
                     });
                 } else {
@@ -728,6 +793,13 @@ var Moderator = {
 
             wobble([container.find('#training')]);
             if (!previewModeEnabled && peerConnection) {
+                getGMT(function (timestamp) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.startTrainingTime = timestamp;
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                });
+
                 peerConnection.sendMessage(MESSAGE_START_GESTURE_TRAINING);
             }
         });
@@ -863,10 +935,10 @@ var Moderator = {
                     renderSlideshowItems(payload);
                 });
                 $(peerConnection).unbind(MESSAGE_TRIGGER_SLIDESHOW_DONE).bind(MESSAGE_TRIGGER_SLIDESHOW_DONE, function (event, payload) {
-                    if(payload.selectedOptions) {
+                    if (payload.selectedOptions) {
                         renderSlideshowItems(payload.selectedOptions);
                     }
-                    
+
                     $(container).find('#btn-done-slideshow').removeClass('disabled');
                 });
             }
@@ -1253,11 +1325,12 @@ var Moderator = {
             $(container).find('.help-container .disabled').removeClass('disabled');
 
             if (peerConnection) {
-                var time = new Date().getTime();
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_START_TASK, time: time});
-                tempData.transitions.push({scene: data.scene, time: time});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                getGMT(function (timestamp) {
+                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_START_TASK, time: timestamp});
+                    tempData.transitions.push({scene: data.scene, time: timestamp});
+                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                });
             }
         }
 
@@ -1582,9 +1655,12 @@ var Moderator = {
                         if (peerConnection) {
                             peerConnection.sendMessage(MESSAGE_TRIGGER_HELP, {help: triggeredHelp});
                             $(container).find('.btn-info').addClass('disabled');
-                            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                            tempData.actions.push({action: ACTION_REQUEST_HELP, time: new Date().getTime()});
-                            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+
+                            getGMT(function (timestamp) {
+                                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                                tempData.actions.push({action: ACTION_REQUEST_HELP, time: timestamp});
+                                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                            });
                         }
                     } else {
                         if (!scenarioStartTriggered) {
@@ -2412,7 +2488,7 @@ var Moderator = {
                     $(document).scrollTop(0);
                 }
             });
-            
+
             $(container).find('#btn-next-gesture').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
@@ -2680,7 +2756,7 @@ var Moderator = {
             enableDataChannels: options.enableDataChannels && options.enableDataChannels === 'yes' || false,
             autoRequestMedia: true,
             roomId: query.roomId,
-            localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream},
+            localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream, record: options.moderator.recordStream},
             remoteStream: {audio: options.tester.audio, video: options.tester.video}
         };
         $(callerOptions.target).prepend(callerOptions.callerElement);

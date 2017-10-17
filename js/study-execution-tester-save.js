@@ -86,6 +86,7 @@ function getGestureTrainingFormData(data) {
         data.endRecordingTime = tempData.endRecordingTime;
         data.startTrainingTime = tempData.startTrainingTime;
         data.training = tempData.training;
+        data.actions = tempData.actions;
 //        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
