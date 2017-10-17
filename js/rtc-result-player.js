@@ -5,9 +5,26 @@
  */
 
 var resultsPlayer = null;
-function RTCResultsPlayer(url, timelineData) {
+function RTCResultsPlayer(url, timelineData, evaluatorResults) {
     if (getBrowser() !== 'Safari') {
         resultsPlayer = $('#template-study-container').find('#rtc-video-result').clone().removeAttr('id');
+
+        if (evaluatorResults && evaluatorResults.screenRecordUrl) {
+            console.log('handle screen record url', evaluatorResults.screenRecordUrl);
+            $(resultsPlayer).find('#screen-share-video-holder').removeClass('hidden');
+            $(resultsPlayer).find('#video-holder').css({width:'30%'});
+
+            $.get(UPLOADS + evaluatorResults.screenRecordUrl)
+                    .fail(function () {
+                        console.log('file does not exist: ' + UPLOADS + evaluatorResults.screenRecordUrl);
+                        appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
+                    })
+                    .done(function () {
+                        $(resultsPlayer).find('#screen-share-video-holder').attr('src', UPLOADS + evaluatorResults.screenRecordUrl);
+                    });
+        }
+
+
         var videoHolder = $(resultsPlayer).find('#video-holder');
         var fileExist = true;
         console.log('load video:', UPLOADS + url);
@@ -23,9 +40,17 @@ function RTCResultsPlayer(url, timelineData) {
 
 
         if (fileExist) {
+            initializeTimeline(timelineData);
             $(videoHolder).attr('src', UPLOADS + url);
 
-            initializeTimeline(timelineData);
+            // Buttons
+            var playButton = $(resultsPlayer).find('#btn-play-pause');
+            var muteButton = $(resultsPlayer).find('#btn-mute');
+            var fullScreenButton = $(resultsPlayer).find('#btn-full-screen');
+
+            // Sliders
+            var seekBar = $(resultsPlayer).find('#seek-bar');
+            var volumeBar = $(resultsPlayer).find('#volume-bar');
 
             $(videoHolder).on('loadedmetadata', function () {
                 // google chrome no-duration workaround
@@ -50,12 +75,50 @@ function RTCResultsPlayer(url, timelineData) {
                         showPlayer();
                     });
 
+                    $(playButton).unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        if (videoHolder[0].paused === true) {
+                            // Play the video
+                            videoHolder[0].play();
+
+                            // Update the button to 'Pause'
+//                            $(playButton).find('.fa').removeClass('fa-play').addClass('fa-pause');
+                        } else {
+                            // Pause the video
+                            videoHolder[0].pause();
+
+                            // Update the button to 'Play'
+//                            $(playButton).find('.fa').removeClass('fa-pause').addClass('fa-play');
+                        }
+                    });
+
+                    $(muteButton).unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        console.log('on mute clicked');
+                        if (videoHolder[0].muted === false) {
+                            // Mute the video
+                            videoHolder[0].muted = true;
+
+                            // Update the button text
+                            $(muteButton).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
+                        } else {
+                            // Unmute the video
+                            videoHolder[0].muted = false;
+
+                            // Update the button text
+                            $(muteButton).find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
+                        }
+                    });
+
                     $(videoHolder).on('pause', function () {
-                        console.log('on video pause');
+//                        console.log('on video pause');
+                        $(playButton).find('.fa').removeClass('fa-pause').addClass('fa-play');
+
                     });
 
                     $(videoHolder).on('play', function () {
-                        console.log('on video play');
+//                        console.log('on video play');
+                        $(playButton).find('.fa').removeClass('fa-play').addClass('fa-pause');
                     });
 
 //                    console.log(videoHolder[0].paused);
@@ -71,15 +134,70 @@ function RTCResultsPlayer(url, timelineData) {
                 }
             });
 
-        }
+            function showPlayer() {
+                resultsPlayer.find('#video-timeline').removeClass('hidden');
+                resultsPlayer.find('#loader').addClass('hidden');
 
-        function showPlayer() {
-            resultsPlayer.find('#video-timeline').removeClass('hidden');
-            resultsPlayer.find('#loader').addClass('hidden');
+                $(videoHolder).on('timeupdate', function () {
+                    updateTimeline(this.currentTime);
 
-            $(videoHolder).on('timeupdate', function () {
-                updateTimeline(this.currentTime);
-            });
+//                    var value = (100 / this.duration) * this.currentTime;
+                    var percent = this.currentTime / this.duration * 100;
+                    $(seekBar).find('.progress-bar').css({width: percent + '%'});
+                    // Update the slider value
+//                    seekBar.value = value;
+//                    console.log('timeupdate', value);
+                });
+
+//                // Pause the video when the slider handle is being dragged
+//                $(seekBar).on('mousedown', function () {
+//                    videoHolder[0].pause();
+//                });
+//
+//                // Play the video when the slider handle is dropped
+//                $(seekBar).on('mouseup', function () {
+//                    videoHolder[0].play();
+//                });
+//
+//                $(seekBar).on('change', function () {
+//                    
+//                    var time = videoHolder[0].duration * (seekBar.value / 100);
+//                    console.log('seekbar changed', time);
+//                    // Update the video time
+//                    videoHolder[0].currentTime = time;
+//                });
+
+// seekbar operations
+
+                $(seekBar).unbind('mousedown').bind('mousedown', function (event) {
+                    event.preventDefault();
+                    var video = videoHolder[0];
+                    video.pause();
+                    $(window).unbind('mousemove').bind('mousemove', function (event) {
+                        var positionX = Math.max(0, Math.min(Math.round(event.pageX - $(seekBar).offset().left), $(seekBar).width()));
+
+                        var time = video.duration * (positionX / $(seekBar).width());
+                        video.currentTime = Math.min(time, video.duration - 0.0001);
+
+                        var percent = video.currentTime / video.duration * 100;
+                        $(seekBar).find('.progress-bar').css({width: percent + '%'});
+                    });
+                    $(window).on('mouseup', function () {
+                        $(window).unbind('mouseup');
+                        $(window).unbind('mousemove');
+                        video.play();
+                    });
+                });
+
+                $(seekBar).unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    var positionX = Math.abs(event.pageX - $(this).offset().left);
+                    var video = videoHolder[0];
+                    var time = video.duration * (positionX / $(this).width());
+                    video.currentTime = time;
+                });
+            }
+
         }
 
         return resultsPlayer;

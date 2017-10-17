@@ -532,8 +532,21 @@ include '../includes/language.php';
             </div>
         </div>
         <div id="video-timeline" class="hidden">
-            <video id="video-holder" controls preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
-            <div id="results-timeline" style="margin-top: -8px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;"></div>
+            <div>
+                <video id="screen-share-video-holder" class="hidden" preload="auto" autoplay="false" style="width: 100%; height: auto;  border-radius: 4px; position: relative"></video>
+                <video id="video-holder" preload="auto" autoplay="false" style="width: 100%; height: auto; border-radius: 4px; position: relative"></video>
+            </div>
+            <div id="video-controls">
+                <button type="button" class="btn btn-default" id="btn-play-pause" style="display: inline-block"><i class="fa fa-play"></i></button>
+                <div class="progress" id="seek-bar" style="height: 34px; border-radius: 4px; cursor: pointer; margin: 0; display: inline-block; width: 70%">
+                    <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
+                </div>
+            <!--<input type="range" id="seek-bar" value="0">-->
+                <button type="button" class="btn btn-default" id="btn-mute" style="display: inline-block"><i class="fa fa-volume-off"></i></button>
+                <!--<input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">-->
+                <!--<button type="button" id="btn-full-screen">Full-Screen</button>-->
+            </div>
+            <div id="results-timeline" style="margin-top: 8px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;"></div>
         </div>
 
     </div>

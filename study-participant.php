@@ -49,7 +49,7 @@ if (login_check($mysqli) == true) {
         <script src="js/storageFunctions.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/rtc-result-player.js"></script>
-        <script src="js/screen-share-result-player.js"></script>
+        <!--<script src="js/screen-share-result-player.js"></script>-->
 
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -249,7 +249,7 @@ if (login_check($mysqli) == true) {
                     if (isWebRTCNeededForPhaseStep(phaseResults)) {
                         if (phaseResults && phaseResults.recordUrl && phaseResults.recordUrl !== '') {
                             var timelineData = {phaseData: phaseData, phaseResults: phaseResults, executionTime: executionTime};
-                            var resultsPlayer = new RTCResultsPlayer(phaseResults.recordUrl, timelineData);
+                            var resultsPlayer = new RTCResultsPlayer(phaseResults.recordUrl, timelineData, evaluatorResults);
                             if (getBrowser() !== 'Safari') {
                                 $(content).find('#horizontalLine').after(resultsPlayer);
                             } else {
@@ -262,17 +262,17 @@ if (login_check($mysqli) == true) {
                     }
 
 
-                    if (evaluatorResults && evaluatorResults.screenRecordUrl) {
-//                        console.log('evaluator data:', evaluatorResults);
-                        var screenSharePlayer = new ScreenShareResultsPlayer(evaluatorResults);
-
-                        if (getBrowser() !== 'Safari') {
-                            $(content).find('#horizontalLine').after(screenSharePlayer);
-                        } else {
-//                            console.log('webm not supported');
-                            appendAlert(content, ALERT_WEBM_UNSUPPORTED);
-                        }
-                    }
+//                    if (evaluatorResults && evaluatorResults.screenRecordUrl) {
+////                        console.log('evaluator data:', evaluatorResults);
+//                        var screenSharePlayer = new ScreenShareResultsPlayer(evaluatorResults);
+//
+//                        if (getBrowser() !== 'Safari') {
+//                            $(content).find('#horizontalLine').after(screenSharePlayer);
+//                        } else {
+////                            console.log('webm not supported');
+//                            appendAlert(content, ALERT_WEBM_UNSUPPORTED);
+//                        }
+//                    }
 
                     console.log('render phase step: ' + phaseResults.format);
                     switch (phaseResults.format) {
