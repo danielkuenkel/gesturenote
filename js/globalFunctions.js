@@ -1055,7 +1055,7 @@ function renderDataForHint(data, hint, source, surveyType) {
 //        if (surveyType === TYPE_SURVEY_MODERATED) {
 //            hint.find('#btn-close-hint').remove();
 //        } else {
-            hint.find('.progress-hint').remove();
+        hint.find('.progress-hint').remove();
 //        }
     }
 
@@ -1858,7 +1858,7 @@ function calculateAgeRangeForGender(raw, gender) { // birthday is a date
     return {min: minAge, max: maxAge};
 }
 
-function getSeconds(executionTime) {
+function getSeconds(executionTime, getMillis) {
     var seconds = 0;
     if (executionTime.days) {
         seconds += 60 * 60 * 24 * executionTime.days;
@@ -1874,6 +1874,10 @@ function getSeconds(executionTime) {
 
     if (executionTime.seconds > 0) {
         seconds += executionTime.seconds;
+    }
+
+    if (getMillis === true) {
+        seconds += executionTime.milliseconds / 1000;
     }
 //    console.log(seconds, executionTime);
     return seconds;

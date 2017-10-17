@@ -9,23 +9,59 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
     if (getBrowser() !== 'Safari') {
         resultsPlayer = $('#template-study-container').find('#rtc-video-result').clone().removeAttr('id');
 
+        var screenShareVideoHolder = null;
+        var screenSharingStartGap, screenSharingEndGap = null;
         if (evaluatorResults && evaluatorResults.screenRecordUrl) {
-            console.log('handle screen record url', evaluatorResults.screenRecordUrl);
-            $(resultsPlayer).find('#screen-share-video-holder').removeClass('hidden');
-            $(resultsPlayer).find('#video-holder').css({width:'30%'});
+            var screenRecordingFileExist = true;
+            console.log('handle screen record url', evaluatorResults);
+            $(resultsPlayer).find('#screen-share-video-container').removeClass('hidden');
+            $(resultsPlayer).find('#webcam-video-container').css({marginTop: '10px'});
 
             $.get(UPLOADS + evaluatorResults.screenRecordUrl)
                     .fail(function () {
                         console.log('file does not exist: ' + UPLOADS + evaluatorResults.screenRecordUrl);
+                        screenRecordingFileExist = false;
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
-                    })
-                    .done(function () {
-                        $(resultsPlayer).find('#screen-share-video-holder').attr('src', UPLOADS + evaluatorResults.screenRecordUrl);
                     });
+
+            screenShareVideoHolder = $(resultsPlayer).find('#screen-share-video-holder');
+            if (screenRecordingFileExist) {
+                $(screenShareVideoHolder).attr('src', UPLOADS + evaluatorResults.screenRecordUrl);
+
+                $(screenShareVideoHolder).on('loadedmetadata', function () {
+                    // google chrome no-duration workaround
+                    if (screenShareVideoHolder[0].duration === Infinity) {
+                        var executionTime = getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.endScreenRecordingTime);
+                        screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.startTime), true);
+                        screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
+                        console.log(screenSharingStartGap, screenSharingEndGap);
+                        var totalRecordingTime = getSeconds(executionTime);
+                        console.log('total screen recording time:', totalRecordingTime);
+                        screenShareVideoHolder[0].currentTime = totalRecordingTime - 1;
+                        screenShareVideoHolder[0].playbackRate = 10;
+                        screenShareVideoHolder[0].muted = true;
+
+                        $(screenShareVideoHolder).on('ended', function () {
+                            console.log('on screen record ended');
+                            $(screenShareVideoHolder).unbind('ended');
+                            screenShareVideoHolder[0].playbackRate = 1;
+                            screenShareVideoHolder[0].muted = false;
+                            screenShareVideoHolder[0].currentTime = 0;
+                            showScreenPlayer();
+                        });
+
+                        setTimeout(function () {
+                            screenShareVideoHolder[0].play();
+                        }, 150);
+                    } else {
+                        showScreenPlayer();
+                    }
+                });
+            }
         }
 
 
-        var videoHolder = $(resultsPlayer).find('#video-holder');
+        var videoHolder = $(resultsPlayer).find('#tester-video-holder');
         var fileExist = true;
         console.log('load video:', UPLOADS + url);
         $.get(UPLOADS + url)
@@ -41,24 +77,22 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
 
         if (fileExist) {
             initializeTimeline(timelineData);
-            $(videoHolder).attr('src', UPLOADS + url);
 
             // Buttons
             var playButton = $(resultsPlayer).find('#btn-play-pause');
             var muteButton = $(resultsPlayer).find('#btn-mute');
             var fullScreenButton = $(resultsPlayer).find('#btn-full-screen');
-
             // Sliders
-            var seekBar = $(resultsPlayer).find('#seek-bar');
+            var seekBar = $(resultsPlayer).find('#main-seek-bar');
             var volumeBar = $(resultsPlayer).find('#volume-bar');
 
+            $(videoHolder).attr('src', UPLOADS + url);
             $(videoHolder).on('loadedmetadata', function () {
                 // google chrome no-duration workaround
                 if (videoHolder[0].duration === Infinity) {
                     console.log('duration is', videoHolder[0].duration);
                     resultsPlayer.find('#video-timeline').addClass('hidden');
                     resultsPlayer.find('#loader').removeClass('hidden');
-
                     var totalRecordingTime = getSeconds(timelineData.executionTime);
                     console.log('totalRecordingTime:', totalRecordingTime);
                     videoHolder[0].currentTime = totalRecordingTime - 1;
@@ -71,7 +105,6 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
                         videoHolder[0].playbackRate = 1;
                         videoHolder[0].muted = false;
                         videoHolder[0].currentTime = 0;
-
                         showPlayer();
                     });
 
@@ -80,13 +113,11 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
                         if (videoHolder[0].paused === true) {
                             // Play the video
                             videoHolder[0].play();
-
                             // Update the button to 'Pause'
 //                            $(playButton).find('.fa').removeClass('fa-play').addClass('fa-pause');
                         } else {
                             // Pause the video
                             videoHolder[0].pause();
-
                             // Update the button to 'Play'
 //                            $(playButton).find('.fa').removeClass('fa-pause').addClass('fa-play');
                         }
@@ -98,35 +129,29 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
                         if (videoHolder[0].muted === false) {
                             // Mute the video
                             videoHolder[0].muted = true;
-
                             // Update the button text
                             $(muteButton).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
                         } else {
                             // Unmute the video
                             videoHolder[0].muted = false;
-
                             // Update the button text
                             $(muteButton).find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
                         }
                     });
-
                     $(videoHolder).on('pause', function () {
 //                        console.log('on video pause');
                         $(playButton).find('.fa').removeClass('fa-pause').addClass('fa-play');
-
                     });
 
                     $(videoHolder).on('play', function () {
 //                        console.log('on video play');
                         $(playButton).find('.fa').removeClass('fa-play').addClass('fa-pause');
                     });
-
 //                    console.log(videoHolder[0].paused);
 //                    if(videoHolder[0].paused) {
                     setTimeout(function () {
                         videoHolder[0].play();
                     }, 150);
-
 //                    }
 
                 } else {
@@ -134,21 +159,36 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
                 }
             });
 
+            function showScreenPlayer() {
+                $(screenShareVideoHolder).on('timeupdate', function () {
+                    var percent = this.currentTime / this.duration * 100;
+                    $(resultsPlayer).find('#screen-share-video-container .progress-bar').css({width: percent + '%'});
+                });
+            }
+
             function showPlayer() {
                 resultsPlayer.find('#video-timeline').removeClass('hidden');
                 resultsPlayer.find('#loader').addClass('hidden');
 
                 $(videoHolder).on('timeupdate', function () {
                     updateTimeline(this.currentTime);
-
 //                    var value = (100 / this.duration) * this.currentTime;
                     var percent = this.currentTime / this.duration * 100;
                     $(seekBar).find('.progress-bar').css({width: percent + '%'});
                     // Update the slider value
 //                    seekBar.value = value;
 //                    console.log('timeupdate', value);
+                    if (screenShareVideoHolder !== null) {
+//                        console.log(this.currentTime, this.duration - screenSharingEndGap);
+                        if (this.currentTime > screenSharingStartGap && this.currentTime < this.duration - screenSharingEndGap) {
+                            screenShareVideoHolder[0].currentTime = this.currentTime - screenSharingStartGap;
+                        } else if (this.currentTime <= screenSharingStartGap) {
+                            screenShareVideoHolder[0].currentTime = 0;
+                        } else {
+                            screenShareVideoHolder[0].currentTime = screenShareVideoHolder[0].duration;
+                        }
+                    }
                 });
-
 //                // Pause the video when the slider handle is being dragged
 //                $(seekBar).on('mousedown', function () {
 //                    videoHolder[0].pause();
@@ -175,10 +215,8 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
                     video.pause();
                     $(window).unbind('mousemove').bind('mousemove', function (event) {
                         var positionX = Math.max(0, Math.min(Math.round(event.pageX - $(seekBar).offset().left), $(seekBar).width()));
-
                         var time = video.duration * (positionX / $(seekBar).width());
                         video.currentTime = Math.min(time, video.duration - 0.0001);
-
                         var percent = video.currentTime / video.duration * 100;
                         $(seekBar).find('.progress-bar').css({width: percent + '%'});
                     });
@@ -213,7 +251,6 @@ function initializeTimeline(timelineData) {
         timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline')[0]);
         timeline.setItems(getVisDataSet(timelineData));
         itemRange = timeline.getItemRange();
-
         var options = {
             zoomable: false,
             showCurrentTime: false,
@@ -271,7 +308,6 @@ function getGestureTrainingVisData(timelineData) {
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
     var className = 'item-primary-full';
-
     if (timelineData.phaseResults.training && timelineData.phaseResults.training.length > 0) {
         for (var i = 0; i < timelineData.phaseResults.training.length; i++) {
             var gesture = getGestureById(timelineData.phaseResults.training[i].gestureId);
@@ -299,13 +335,11 @@ function getGestureSlideshowVisData(timelineData) {
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
     var actions = timelineData.phaseResults.actions;
-
     if (actions) {
         for (var i = 0; i < actions.length; i++) {
             var className = 'item-primary-full';
             var gesture = null;
             var contentText = translation.actions[actions[i].action];
-
             if (actions[i].action === ACTION_SELECT_GESTURE) {
                 gesture = getGestureById(actions[i].selectedGestureId);
                 if (actions[i].fit === 'true') {
@@ -319,7 +353,6 @@ function getGestureSlideshowVisData(timelineData) {
                 contentText = translation.actions[actions[i].action];
             } else {
                 gesture = getGestureById(actions[i].gestureId);
-
             }
 
             if (gesture) {
@@ -339,7 +372,6 @@ function getTriggerSlideshowVisData(timelineData) {
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
-
     return array;
 }
 
@@ -351,7 +383,6 @@ function getPhysicalStressTestVisData(timelineData) {
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
     var actions = timelineData.phaseResults.actions;
-
     if (actions) {
         for (var i = 0; i < actions.length; i++) {
             var className = 'item-primary-full';
@@ -371,7 +402,6 @@ function getScenarioVisData(timelineData) {
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
     var actions = timelineData.phaseResults.actions;
-
     if (actions) {
         for (var i = 0; i < actions.length; i++) {
             var className = 'item-primary-full';
