@@ -2938,7 +2938,7 @@ function getSUSAdjective(score) {
 function getGMT(callback) {
     getServerTime(function (result) {
         // This is where you do whatever you want with the time:
-        console.log(result);
+//        console.log(result);
         if (result.time && callback) {
             callback (result.time * 1000);
         }

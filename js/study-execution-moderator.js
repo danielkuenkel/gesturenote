@@ -1242,8 +1242,6 @@ var Moderator = {
         }
     },
     getScenario: function getScenario(source, container, data) {
-//        Moderator.initScreenSharing();
-
         triggeredHelp, triggeredWoz = null;
         $(container).find('#general #task .address').text(translation.taskTitle);
         $(container).find('#general #task .text').text(data.title);
@@ -2759,40 +2757,45 @@ var Moderator = {
             localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream, record: options.moderator.recordStream},
             remoteStream: {audio: options.tester.audio, video: options.tester.video}
         };
+        
         $(callerOptions.target).prepend(callerOptions.callerElement);
+        
         peerConnection.update(callerOptions);
+        Moderator.keepStreamsPlaying(callerOptions.callerElement);
+    },
+    keepStreamsPlaying: function keepStreamsPlaying(element) {
         if (peerConnection.status !== STATUS_UNINITIALIZED) {
-            var videos = $(callerOptions.callerElement).find('video');
+            var videos = $(element).find('video');
             for (var i = 0; i < videos.length; i++) {
                 videos[i].play();
             }
         }
     },
-    initScreenSharing: function initScreenSharing(recordingNeeded) {
-        if (!peerConnectionSharing) {
-            var query = getQueryParams(document.location.search);
-            var roomId = 'screenSharingRoom';
-            if (query.roomId) {
-                roomId = query.roomId + 'sharing';
-            }
-            var callerOptions = {
-//                        target: $('#viewModerator').find('#pinnedRTC'),
-//                        callerElement: $('#video-caller'),
-                localVideoElement: '',
-                remoteVideoElement: '',
-                sharingVideoElement: '#video-embed',
-                enableWebcamStream: false,
-                enableDataChannels: false,
-                autoRequestMedia: false,
-                roomId: roomId,
-                shareScreen: true,
-                localStream: {audio: 'no', video: 'no', visualize: 'no'},
-                remoteStream: {audio: 'no', video: 'no'}
-            };
-
-            peerConnectionSharing = new PeerConnectionSharing();
-            peerConnectionSharing.initialize(callerOptions);
-        }
+//    initScreenSharing: function initScreenSharing(recordingNeeded) {
+//        if (!peerConnectionSharing) {
+//            var query = getQueryParams(document.location.search);
+//            var roomId = 'screenSharingRoom';
+//            if (query.roomId) {
+//                roomId = query.roomId + 'sharing';
+//            }
+//            var callerOptions = {
+////                        target: $('#viewModerator').find('#pinnedRTC'),
+////                        callerElement: $('#video-caller'),
+//                localVideoElement: '',
+//                remoteVideoElement: '',
+//                sharingVideoElement: '#video-embed',
+//                enableWebcamStream: false,
+//                enableDataChannels: false,
+//                autoRequestMedia: false,
+//                roomId: roomId,
+//                shareScreen: true,
+//                localStream: {audio: 'no', video: 'no', visualize: 'no'},
+//                remoteStream: {audio: 'no', video: 'no'}
+//            };
+//
+//            peerConnectionSharing = new PeerConnectionSharing();
+//            peerConnectionSharing.initialize(callerOptions);
+//        }
 
 //        if (!screenSharingModerator) {
 //            var query = getQueryParams(document.location.search);
@@ -2822,7 +2825,7 @@ var Moderator = {
 //        });
 //
 //        screenSharingModerator.start();
-    }
+//    }
 //    resetScreenSharing: function resetScreenSharing() {
 //        if (screenSharingModerator) {
 //            screenSharingModerator.stop();

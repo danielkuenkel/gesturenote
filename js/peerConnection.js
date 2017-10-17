@@ -198,7 +198,7 @@ PeerConnection.prototype.initialize = function (options) {
         });
 
         webrtc.connection.on('message', function (data) {
-            console.log('on message', data);
+//            console.log('on message', data);
             if (data.roomType === 'video') {
                 $(connection).trigger(data.type, [data.payload]);
             }
@@ -425,8 +425,9 @@ PeerConnection.prototype.update = function (options) {
             }
 
             // check if stream has to be recorded
+//            console.log('check if stream has to be recorded', options.localStream.record);
             if (options.localStream.record === 'yes') {
-                connection.startRecording();
+                connection.startRecording(true);
             }
         } else {
             console.log('no options no states update');
@@ -575,13 +576,17 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                     console.log('Warning: ' + e);
                 };
 
+                console.log('startRecording', startRecording);
                 if (startRecording === true) {
+
                     mediaRecorder.start(1000);
                 }
             }
         }
     } else {
-        if (mediaRecorder.state !== 'recording') {
+        console.log('startRecording init', startRecording);
+        if (mediaRecorder.state !== 'recording' && startRecording) {
+
             mediaRecorder.start(1000);
         }
     }
@@ -589,8 +594,8 @@ PeerConnection.prototype.initRecording = function (startRecording) {
 
 PeerConnection.prototype.startRecording = function () {
     if (isWebRTCNeededForPhaseStep(getCurrentPhase())) {
-        console.log('check start: start recording');
-        connection.initRecording();
+//        console.log('check start: start recording');
+        connection.initRecording(true);
     }
 };
 
@@ -667,7 +672,7 @@ PeerConnection.prototype.initScreenRecording = function () {
                 uploadQueue.upload(screenChunks, filename, getCurrentPhase().id, 'screenRecordUrl');
                 screenChunks = [];
             });
-        }        
+        }
 
         if (stopScreenRecordingCallback) {
             stopScreenRecordingCallback();
