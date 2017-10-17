@@ -547,15 +547,15 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                     console.log('Stopped recording, state = ' + mediaRecorder.state);
                     if (saveRecording) {
                         console.log('Save recording');
-
+                        
+                        var currentPhase = getCurrentPhase();
                         getGMT(function (timestamp) {
-                            var currentPhase = getCurrentPhase();
                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                             tempData.endRecordingTime = timestamp;
                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
                             var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
-                            uploadQueue.upload(chunks, filename, getCurrentPhase().id, 'recordUrl');
+                            uploadQueue.upload(chunks, filename, currentPhase.id, 'recordUrl');
                             chunks = [];
                         });
 
@@ -661,15 +661,15 @@ PeerConnection.prototype.initScreenRecording = function () {
     screenMediaRecorder.onstop = function () {
         console.log('Stopped screen recording, state = ' + screenMediaRecorder.state);
         if (saveScreenRecording) {
+            var currentPhase = getCurrentPhase();
             getGMT(function (timestamp) {
-                var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 tempData.endScreenRecordingTime = timestamp;
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
                 console.log('Save screen recording');
                 var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
-                uploadQueue.upload(screenChunks, filename, getCurrentPhase().id, 'screenRecordUrl');
+                uploadQueue.upload(screenChunks, filename, currentPhase.id, 'screenRecordUrl');
                 screenChunks = [];
             });
         }

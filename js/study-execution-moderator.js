@@ -390,12 +390,14 @@ var Moderator = {
                         $(button).addClass('btn-primary');
 
                         if (prototypeWindow && prototypeWindow.closed !== true) {
-                            getGMT(function (timestamp) {
-                                var currentPhase = getCurrentPhase();
-                                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                                tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene});
-                                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                            });
+                            if (currentWOZScene) {
+                                getGMT(function (timestamp) {
+                                    var currentPhase = getCurrentPhase();
+                                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                    tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene.id});
+                                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                                });
+                            }
 
                             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
                         }
@@ -435,12 +437,14 @@ var Moderator = {
         function renderFollowScene(scenesContainer) {
             $(scenesContainer).find('#follow-scene-container').find('.btn-trigger-scene').addClass('btn-primary');
             if (prototypeWindow && prototypeWindow.closed !== true) {
-                getGMT(function (timestamp) {
-                    var currentPhase = getCurrentPhase();
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                    tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene});
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                });
+                if (currentWOZScene) {
+                    getGMT(function (timestamp) {
+                        var currentPhase = getCurrentPhase();
+                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                        tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene.id});
+                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                    });
+                }
 
                 prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
             }
@@ -470,12 +474,14 @@ var Moderator = {
                             currentTransitionSceneIndex = 0;
                             renderTrainingControls(trainingData);
                             if (prototypeWindow && prototypeWindow.closed !== true) {
-                                getGMT(function (timestamp) {
-                                    var currentPhase = getCurrentPhase();
-                                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                                    tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene});
-                                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                                });
+                                if (currentWOZScene) {
+                                    getGMT(function (timestamp) {
+                                        var currentPhase = getCurrentPhase();
+                                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                        tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene.id});
+                                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                                    });
+                                }
 
                                 prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
                             }
@@ -610,12 +616,14 @@ var Moderator = {
                         triggeredFeedback = null;
                         Moderator.renderGestureTraining(source, container, data);
                         if (prototypeWindow && prototypeWindow.closed !== true) {
-                            getGMT(function (timestamp) {
-                                var currentPhase = getCurrentPhase();
-                                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                                tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene});
-                                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                            });
+                            if (currentWOZScene) {
+                                getGMT(function (timestamp) {
+                                    var currentPhase = getCurrentPhase();
+                                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                                    tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene.id});
+                                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                                });
+                            }
 
                             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
                         }
@@ -1326,7 +1334,7 @@ var Moderator = {
                 getGMT(function (timestamp) {
                     var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                     tempData.actions.push({action: ACTION_START_TASK, time: timestamp});
-                    tempData.transitions.push({scene: data.scene, time: timestamp});
+                    tempData.transitions.push({scene: data.scene.id, time: timestamp});
                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                 });
             }
@@ -1356,6 +1364,13 @@ var Moderator = {
                 Moderator.renderHelp(source, container, data);
 
                 if (prototypeWindow) {
+                    getGMT(function (timestamp) {
+                        var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                        tempData.actions.push({action: ACTION_REFRESH_SCENE, time: timestamp});
+                        tempData.transitions.push({scene: currentWOZScene.id, time: timestamp});
+                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    });
+
                     prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: currentWOZScene}, 'https://gesturenote.de');
                 }
             } else {
@@ -2757,9 +2772,9 @@ var Moderator = {
             localStream: {audio: options.moderator.audio, video: options.moderator.video, visualize: options.moderator.visualizeStream, record: options.moderator.recordStream},
             remoteStream: {audio: options.tester.audio, video: options.tester.video}
         };
-        
+
         $(callerOptions.target).prepend(callerOptions.callerElement);
-        
+
         peerConnection.update(callerOptions);
         Moderator.keepStreamsPlaying(callerOptions.callerElement);
     },
