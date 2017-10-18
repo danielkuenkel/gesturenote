@@ -354,14 +354,14 @@
                     "video": "yes",
                     "audio": "yes",
                     "visualizeStream": "yes",
-                    "recordStream": "no"
+                    "recordStream": "yes"
                 },
                 "moderator": {
                     "stream": "yes",
                     "video": "no",
                     "audio": "yes",
                     "visualizeStream": "no",
-                    "recordStream": "no"
+                    "recordStream": "yes"
                 },
                 "enableDataChannels": "yes"
             },
@@ -517,7 +517,7 @@
                     "video": "yes",
                     "audio": "yes",
                     "visualizeStream": "yes",
-                    "recordStream": "no"
+                    "recordStream": "yes"
                 },
                 "enableDataChannels": "yes"
             },
@@ -556,7 +556,7 @@
                     "video": "no",
                     "audio": "yes",
                     "visualizeStream": "no",
-                    "recordStream": "no"
+                    "recordStream": "yes"
                 },
                 "enableDataChannels": "yes"
             },
@@ -712,7 +712,7 @@
                     "video": "yes",
                     "audio": "yes",
                     "visualizeStream": "yes",
-                    "recordStream": "no"
+                    "recordStream": "yes"
                 },
                 "enableDataChannels": "yes"
             },

@@ -81,6 +81,7 @@ function getGestureTrainingFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
         data.startTrainingTime = tempData.startTrainingTime;
         data.training = tempData.training;
         data.startScreenRecordingTime = tempData.startScreenRecordingTime;
@@ -95,6 +96,7 @@ function getGestureSlideshowFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
         data.restarts = tempData.restarts;
         data.actions = tempData.actions;
 //        removeLocalItem(data.id + '.tempSaveData');
@@ -117,6 +119,7 @@ function getScenarioFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
         data.actions = tempData.actions;
         data.transitions = tempData.transitions;
         data.startScreenRecordingTime = tempData.startScreenRecordingTime;
@@ -131,6 +134,7 @@ function getPhysicalStressTestFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
         data.startStressTestTime = tempData.startStressTestTime;
         data.actions = tempData.actions;
         data.answers = tempData.answers;
@@ -143,6 +147,9 @@ function getIdentificationFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
         data.startTime = tempData.startTime;
+        data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
+        
         var phaseData = getLocalItem(data.id + '.data');
         if (phaseData.identificationFor === 'gestures') {
             data.gestures = tempData.gestures;
@@ -162,7 +169,9 @@ function getIdentificationFormData(data) {
 function getExplorationFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
-        data.startTime = tempData.startTime;        
+        data.startTime = tempData.startTime;
+        data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
         data.actions = tempData.actions;
         data.transitions = tempData.transitions;
         data.startScreenRecordingTime = tempData.startScreenRecordingTime;

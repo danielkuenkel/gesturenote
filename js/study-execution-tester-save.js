@@ -83,6 +83,7 @@ function getGestureTrainingFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
         data.startTrainingTime = tempData.startTrainingTime;
         data.training = tempData.training;
 //        removeLocalItem(data.id + '.tempSaveData');
@@ -95,6 +96,7 @@ function getGestureSlideshowFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
         data.restarts = tempData.restarts;
         data.actions = tempData.actions;
 //        removeLocalItem(data.id + '.tempSaveData');
@@ -117,6 +119,7 @@ function getScenarioFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
         data.actions = tempData.actions;
         data.transitions = tempData.transitions;
 //        removeLocalItem(data.id + '.tempSaveData');
@@ -129,6 +132,7 @@ function getPhysicalStressTestFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
         data.startStressTestTime = tempData.startStressTestTime;
         data.actions = tempData.actions;
         data.answers = tempData.answers;
@@ -142,6 +146,9 @@ function getIdentificationFormData(data) {
 
     if (tempData) {
         data.startTime = tempData.startTime;
+        data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
+
         var phaseData = getLocalItem(data.id + '.data');
         if (phaseData.identificationFor === 'gestures') {
             data.gestures = tempData.gestures;
@@ -159,6 +166,7 @@ function getExplorationFormData(data) {
     if (tempData) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
         data.actions = tempData.actions;
         data.transitions = tempData.transitions;
 //        removeLocalItem(data.id + '.tempSaveData');

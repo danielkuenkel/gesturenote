@@ -6,8 +6,14 @@
 
 var resultsPlayer = null;
 function RTCResultsPlayer(url, timelineData, evaluatorResults) {
+    getTime('GMT', function (time) {
+        // This is where you do whatever you want with the time:
+        console.log(new Date(time).getTime());
+    });
+
     if (getBrowser() !== 'Safari') {
         resultsPlayer = $('#template-study-container').find('#rtc-video-result').clone().removeAttr('id');
+        evaluatorResults.recordUrl = url;
 
         var screenShareVideoHolder = null;
         var screenSharingStartGap, screenSharingEndGap = null;
@@ -36,7 +42,7 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
                         screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
                         console.log(screenSharingStartGap, screenSharingEndGap);
                         var totalRecordingTime = getSeconds(executionTime);
-                        console.log('total screen recording time:', totalRecordingTime);
+                        console.log('total screen duration:', totalRecordingTime);
                         screenShareVideoHolder[0].currentTime = totalRecordingTime - 1;
                         screenShareVideoHolder[0].playbackRate = 10;
                         screenShareVideoHolder[0].muted = true;
@@ -57,9 +63,67 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
                         showScreenPlayer();
                     }
                 });
+
+                $(screenShareVideoHolder).unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    $(resultsPlayer).find('#btn-play-pause').click();
+                });
             }
         }
 
+        var moderatorVideoHolder = null;
+        if (evaluatorResults && evaluatorResults.recordUrl) {
+            var moderatorRecordingFileExist = true;
+            console.log('handle moderator record url', evaluatorResults.recordUrl);
+            $(resultsPlayer).find('#moderator-video-container').removeClass('hidden');
+
+            $.get(UPLOADS + evaluatorResults.recordUrl)
+                    .fail(function () {
+                        console.log('file does not exist: ' + UPLOADS + evaluatorResults.recordUrl);
+                        moderatorRecordingFileExist = false;
+                        appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
+                    });
+
+            moderatorVideoHolder = $(resultsPlayer).find('#moderator-video-holder');
+            if (moderatorRecordingFileExist) {
+                $(moderatorVideoHolder).attr('src', UPLOADS + evaluatorResults.recordUrl);
+
+                $(moderatorVideoHolder).on('loadedmetadata', function () {
+                    // google chrome no-duration workaround
+                    if (moderatorVideoHolder[0].duration === Infinity) {
+                        var executionTime = getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime);
+//                        screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.startTime), true);
+//                        screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
+//                        console.log(screenSharingStartGap, screenSharingEndGap);
+                        var totalRecordingTime = getSeconds(executionTime);
+                        console.log('total moderator duration:', totalRecordingTime);
+                        moderatorVideoHolder[0].currentTime = totalRecordingTime - 1;
+                        moderatorVideoHolder[0].playbackRate = 10;
+                        moderatorVideoHolder[0].muted = true;
+
+                        $(moderatorVideoHolder).on('ended', function () {
+                            console.log('on moderator record ended');
+                            $(moderatorVideoHolder).unbind('ended');
+                            moderatorVideoHolder[0].playbackRate = 1;
+                            moderatorVideoHolder[0].muted = false;
+                            moderatorVideoHolder[0].currentTime = 0;
+                            showModeratorPlayer();
+                        });
+
+                        setTimeout(function () {
+                            moderatorVideoHolder[0].play();
+                        }, 150);
+                    } else {
+                        showModeratorPlayer();
+                    }
+                });
+
+                $(moderatorVideoHolder).unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    $(resultsPlayer).find('#btn-play-pause').click();
+                });
+            }
+        }
 
         var videoHolder = $(resultsPlayer).find('#tester-video-holder');
         var fileExist = true;
@@ -70,21 +134,17 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
                     console.log('file does not exist: ' + UPLOADS + url);
                     appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
                 });
-//                .done(function () {
-//                    console.log('file exist: ' + UPLOADS + url);
-//                })
-
 
         if (fileExist) {
             initializeTimeline(timelineData);
 
             // Buttons
             var playButton = $(resultsPlayer).find('#btn-play-pause');
-            var muteButton = $(resultsPlayer).find('#btn-mute');
-            var fullScreenButton = $(resultsPlayer).find('#btn-full-screen');
+            var muteButton = $(resultsPlayer).find('#tester-video-container .btn-toggle-mute');
+//            var fullScreenButton = $(resultsPlayer).find('#btn-full-screen');
             // Sliders
             var seekBar = $(resultsPlayer).find('#main-seek-bar');
-            var volumeBar = $(resultsPlayer).find('#volume-bar');
+//            var volumeBar = $(resultsPlayer).find('#volume-bar');
 
             $(videoHolder).attr('src', UPLOADS + url);
             $(videoHolder).on('loadedmetadata', function () {
@@ -94,13 +154,13 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
                     resultsPlayer.find('#video-timeline').addClass('hidden');
                     resultsPlayer.find('#loader').removeClass('hidden');
                     var totalRecordingTime = getSeconds(timelineData.executionTime);
-                    console.log('totalRecordingTime:', totalRecordingTime);
+                    console.log('total tester duration:', totalRecordingTime);
                     videoHolder[0].currentTime = totalRecordingTime - 1;
                     videoHolder[0].playbackRate = 10;
                     videoHolder[0].muted = true;
 
                     $(videoHolder).on('ended', function () {
-                        console.log('on ended');
+                        console.log('on tester record ended');
                         $(videoHolder).unbind('ended');
                         videoHolder[0].playbackRate = 1;
                         videoHolder[0].muted = false;
@@ -111,73 +171,69 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
                     $(playButton).unbind('click').bind('click', function (event) {
                         event.preventDefault();
                         if (videoHolder[0].paused === true) {
-                            // Play the video
                             videoHolder[0].play();
-                            // Update the button to 'Pause'
-//                            $(playButton).find('.fa').removeClass('fa-play').addClass('fa-pause');
+                            if (moderatorVideoHolder) {
+                                moderatorVideoHolder[0].play();
+                            }
                         } else {
-                            // Pause the video
                             videoHolder[0].pause();
-                            // Update the button to 'Play'
-//                            $(playButton).find('.fa').removeClass('fa-pause').addClass('fa-play');
+                            if (moderatorVideoHolder) {
+                                moderatorVideoHolder[0].pause();
+                            }
                         }
                     });
 
-                    $(muteButton).unbind('click').bind('click', function (event) {
-                        event.preventDefault();
-                        console.log('on mute clicked');
-                        if (videoHolder[0].muted === false) {
-                            // Mute the video
-                            videoHolder[0].muted = true;
-                            // Update the button text
-                            $(muteButton).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
-                        } else {
-                            // Unmute the video
-                            videoHolder[0].muted = false;
-                            // Update the button text
-                            $(muteButton).find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
-                        }
-                    });
                     $(videoHolder).on('pause', function () {
-//                        console.log('on video pause');
                         $(playButton).find('.fa').removeClass('fa-pause').addClass('fa-play');
                     });
 
                     $(videoHolder).on('play', function () {
-//                        console.log('on video play');
                         $(playButton).find('.fa').removeClass('fa-play').addClass('fa-pause');
                     });
-//                    console.log(videoHolder[0].paused);
-//                    if(videoHolder[0].paused) {
+
                     setTimeout(function () {
                         videoHolder[0].play();
                     }, 150);
-//                    }
-
                 } else {
                     showPlayer();
                 }
             });
 
+            $(videoHolder).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(resultsPlayer).find('#btn-play-pause').click();
+            });
+
             function showScreenPlayer() {
+                $(resultsPlayer).find('#screen-share-video-container .video-time-code-duration').text(secondsToHms(screenShareVideoHolder[0].duration));
                 $(screenShareVideoHolder).on('timeupdate', function () {
                     var percent = this.currentTime / this.duration * 100;
                     $(resultsPlayer).find('#screen-share-video-container .progress-bar').css({width: percent + '%'});
+                    $(resultsPlayer).find('#screen-share-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
+                });
+            }
+
+            function showModeratorPlayer() {
+                $(resultsPlayer).find('#moderator-video-container .video-time-code-duration').text(secondsToHms(moderatorVideoHolder[0].duration));
+                $(moderatorVideoHolder).on('timeupdate', function () {
+                    var percent = this.currentTime / this.duration * 100;
+                    $(resultsPlayer).find('#moderator-video-container .progress-bar').css({width: percent + '%'});
+                    $(resultsPlayer).find('#moderator-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
                 });
             }
 
             function showPlayer() {
                 resultsPlayer.find('#video-timeline').removeClass('hidden');
                 resultsPlayer.find('#loader').addClass('hidden');
+                $(resultsPlayer).find('#tester-video-container .video-time-code-duration').text(secondsToHms(videoHolder[0].duration));
 
                 $(videoHolder).on('timeupdate', function () {
                     updateTimeline(this.currentTime);
-//                    var value = (100 / this.duration) * this.currentTime;
                     var percent = this.currentTime / this.duration * 100;
                     $(seekBar).find('.progress-bar').css({width: percent + '%'});
-                    // Update the slider value
-//                    seekBar.value = value;
-//                    console.log('timeupdate', value);
+                    $(resultsPlayer).find('#tester-video-container .progress-bar').css({width: percent + '%'});
+                    $(resultsPlayer).find('#tester-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
+
                     if (screenShareVideoHolder !== null) {
 //                        console.log(this.currentTime, this.duration - screenSharingEndGap);
                         if (this.currentTime > screenSharingStartGap && this.currentTime < this.duration - screenSharingEndGap) {
@@ -189,41 +245,36 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
                         }
                     }
                 });
-//                // Pause the video when the slider handle is being dragged
-//                $(seekBar).on('mousedown', function () {
-//                    videoHolder[0].pause();
-//                });
-//
-//                // Play the video when the slider handle is dropped
-//                $(seekBar).on('mouseup', function () {
-//                    videoHolder[0].play();
-//                });
-//
-//                $(seekBar).on('change', function () {
-//                    
-//                    var time = videoHolder[0].duration * (seekBar.value / 100);
-//                    console.log('seekbar changed', time);
-//                    // Update the video time
-//                    videoHolder[0].currentTime = time;
-//                });
-
-// seekbar operations
 
                 $(seekBar).unbind('mousedown').bind('mousedown', function (event) {
                     event.preventDefault();
                     var video = videoHolder[0];
                     video.pause();
+
+                    if (moderatorVideoHolder) {
+                        moderatorVideoHolder[0].pause();
+                    }
+
                     $(window).unbind('mousemove').bind('mousemove', function (event) {
                         var positionX = Math.max(0, Math.min(Math.round(event.pageX - $(seekBar).offset().left), $(seekBar).width()));
                         var time = video.duration * (positionX / $(seekBar).width());
                         video.currentTime = Math.min(time, video.duration - 0.0001);
                         var percent = video.currentTime / video.duration * 100;
                         $(seekBar).find('.progress-bar').css({width: percent + '%'});
+
+                        if (moderatorVideoHolder) {
+                            moderatorVideoHolder[0].currentTime = Math.min(time, moderatorVideoHolder[0].duration - 0.0001);
+                        }
                     });
+
                     $(window).on('mouseup', function () {
                         $(window).unbind('mouseup');
                         $(window).unbind('mousemove');
                         video.play();
+
+                        if (moderatorVideoHolder) {
+                            moderatorVideoHolder[0].play();
+                        }
                     });
                 });
 
@@ -233,9 +284,22 @@ function RTCResultsPlayer(url, timelineData, evaluatorResults) {
                     var video = videoHolder[0];
                     var time = video.duration * (positionX / $(this).width());
                     video.currentTime = time;
+
+                    if (moderatorVideoHolder) {
+                        moderatorVideoHolder[0].currentTime = time;
+                    }
+                });
+
+                $(muteButton).unbind('click').bind('click', function (event) {
+                    if (videoHolder[0].muted === true) {
+                        muteButton.find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
+                        videoHolder[0].muted = false;
+                    } else {
+                        muteButton.find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
+                        videoHolder[0].muted = true;
+                    }
                 });
             }
-
         }
 
         return resultsPlayer;
@@ -297,12 +361,15 @@ function getVisDataSet(timelineData) {
         case SCENARIO:
             array = getScenarioVisData(timelineData);
             break;
+        case EXPLORATION:
+            array = getExplorationVisData(timelineData);
+            break;
     }
     return new vis.DataSet(array);
 }
 
 function getGestureTrainingVisData(timelineData) {
-    console.log(timelineData);
+    console.log('getGestureTrainingVisData', timelineData);
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
@@ -329,7 +396,7 @@ function getGestureTrainingVisData(timelineData) {
 }
 
 function getGestureSlideshowVisData(timelineData) {
-//    console.log(timelineData);
+    console.log('getGestureSlideshowVisData', timelineData);
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
@@ -367,7 +434,7 @@ function getGestureSlideshowVisData(timelineData) {
 }
 
 function getTriggerSlideshowVisData(timelineData) {
-//    console.log(timelineData);
+    console.log('getTriggerSlideshowVisData', timelineData);
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
@@ -376,7 +443,7 @@ function getTriggerSlideshowVisData(timelineData) {
 }
 
 function getPhysicalStressTestVisData(timelineData) {
-//    console.log(timelineData);
+    console.log('getPhysicalStressTestVisData', timelineData);
 
     var array = new Array();
     var count = 0;
@@ -396,7 +463,26 @@ function getPhysicalStressTestVisData(timelineData) {
 }
 
 function getScenarioVisData(timelineData) {
-    console.log(timelineData);
+    console.log('getScenarioVisData', timelineData);
+    var array = new Array();
+    var count = 0;
+    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
+    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+    var actions = timelineData.phaseResults.actions;
+    if (actions) {
+        for (var i = 0; i < actions.length; i++) {
+            var className = 'item-primary-full';
+//            var gesture = getGestureById(actions[i].gestureId);
+            var contentText = translation.actions[actions[i].action];
+            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className});
+        }
+    }
+
+    return array;
+}
+
+function getExplorationVisData(timelineData) {
+    console.log('getExplorationVisData', timelineData);
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});

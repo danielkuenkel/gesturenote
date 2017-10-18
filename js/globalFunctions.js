@@ -1883,6 +1883,16 @@ function getSeconds(executionTime, getMillis) {
     return seconds;
 }
 
+function secondsToHms(d) {
+    d = Number(d);
+
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+
+    return ('0' + h).slice(-2) + ":" + ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
+}
+
 function isEmpty(obj) {
     var length = Object.getOwnPropertyNames(obj).length;
     if (length > 0) {
@@ -2923,4 +2933,18 @@ function getSUSAdjective(score) {
         }
     }
     return adjective;
+}
+
+function getTime(zone, success) {
+    var url = 'includes/get-time.php?tz=' + zone,
+        ud = 'json' + (+new Date());
+    window[ud]= function(o){
+        success && success(new Date(o.datetime));
+    };
+    document.getElementsByTagName('head')[0].appendChild((function(){
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = url + '&callback=' + ud;
+        return s;
+    })());
 }

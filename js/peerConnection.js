@@ -546,6 +546,12 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                     console.log('Stopped recording, state = ' + mediaRecorder.state + ', ' + new Date());
                     if (saveRecording) {
                         console.log('Save recording');
+
+                        var currentPhase = getCurrentPhase();
+                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                        tempData.endRecordingTime = new Date().getTime();
+                        setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+
                         var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
                         uploadQueue.upload(chunks, filename, getCurrentPhase().id, 'recordUrl');
                     }
