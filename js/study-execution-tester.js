@@ -21,8 +21,10 @@ var Tester = {
             getGMT(function (timestamp) {
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 tempData.startTime = timestamp;
+                delete tempData.endRecordingTime;
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
+
         }
 
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
@@ -209,6 +211,12 @@ var Tester = {
                 $(container).find('#btn-next-step').addClass('hidden');
                 questionnaireDone = true;
                 if (!previewModeEnabled && peerConnection) {
+                    currentQuestionnaireAnswers = {answers: getQuestionnaireAnswers(container.find('.question-container').children())};
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.answers = currentQuestionnaireAnswers.answers;
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+
                     peerConnection.sendMessage(MESSAGE_QUESTIONNAIRE_DONE);
                 }
             });
@@ -219,8 +227,13 @@ var Tester = {
             $(container).unbind('change').bind('change', function (event) {
                 event.preventDefault();
                 currentQuestionnaireAnswers = {answers: getQuestionnaireAnswers(container.find('.question-container').children())};
-                console.log('answers: ', answers, container.find('.question-container').children());
+                console.log('answers: ', currentQuestionnaireAnswers, container.find('.question-container').children());
                 if (previewModeEnabled === false && peerConnection) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.answers = currentQuestionnaireAnswers.answers;
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+
                     peerConnection.sendMessage(MESSAGE_UPDATE_QUESTIONNAIRE, currentQuestionnaireAnswers);
                 }
             });
@@ -330,7 +343,7 @@ var Tester = {
         // handle triggered help & woz
         if (previewModeEnabled && gestureTrainingStartTriggered === true) {
             checkFeedback();
-            if (trainingTriggered) {
+            if (trainingTriggered && trainingShowGesture) {
                 onTrainingTriggered();
             }
         } else {
@@ -357,6 +370,7 @@ var Tester = {
 
             $(peerConnection).unbind(MESSAGE_TRAINING_TRIGGERED).bind(MESSAGE_TRAINING_TRIGGERED, function (event, payload) {
                 trainingTriggered = true;
+                trainingShowGesture = true;
                 onTrainingTriggered();
                 currentGestureTrainingIndex = payload.currentGestureTrainingIndex;
 
@@ -399,7 +413,7 @@ var Tester = {
                 if (!previewModeEnabled && peerConnection) {
                     peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED);
                 }
-                trainingTriggered = false;
+                trainingShowGesture = false;
             });
         }
     },
@@ -500,20 +514,6 @@ var Tester = {
             $(item).find('.progress-training').addClass('hidden');
             item.find('.progress-bar').css({width: "100%"});
             if (repeatsLeft === 0) {
-                if (!previewModeEnabled) { // save end training time for a specific gesture
-                    var currentPhase = getCurrentPhase(); // save start training time for a specific gesture
-                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-//                    tempData.training.pop();
-                    for (var i = 0; i < tempData.training.length; i++) {
-                        if (parseInt(tempData.training[i].gestureId) === parseInt(gesture.id)) {
-                            getGMT(function (timestamp) {
-                                tempData.training[i].gestureTrainingEnd = timestamp;
-                            });
-                        }
-                    }
-                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                }
-
                 item.find('#training-data').addClass('hidden');
                 item.find('#start-single-training, #repeat-training').addClass('hidden');
                 if (data.length === 1 || currentGestureTrainingIndex >= data.length - 1) {
@@ -555,7 +555,7 @@ var Tester = {
 
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             slideRestarted = true;
-            
+
             if (!previewModeEnabled) {
                 var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -630,14 +630,6 @@ var Tester = {
         var slideData = data.slideshow[currentSlideIndex];
         var item = $(source).find('#gestureSlideshowItemModerated').clone().removeAttr('id');
         $(container).find('#slideshowContainer').removeClass('hidden').empty().append(item);
-
-        if (!previewModeEnabled) {
-            getGMT(function (timestamp) {
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-            });
-        }
 
         var progress = $(container).find('.progress');
         progress.removeClass('active hidden');
@@ -859,22 +851,19 @@ var Tester = {
             return false;
         }
 
-        if (!previewModeEnabled) {
-            var currentPhase = getCurrentPhase();
-            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-            if (data.identificationFor === 'gestures') {
-                tempData.gestures = [];
-            } else if (data.identificationFor === 'trigger') {
-                tempData.trigger = [];
-            }
-            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-        }
-
-//        $(container).find('.headline').text(data.title);
-//        $(container).find('.description').text(data.description);
-
         // general data
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+            if (!previewModeEnabled) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                if (data.identificationFor === 'gestures') {
+                    tempData.gestures = [];
+                } else if (data.identificationFor === 'trigger') {
+                    tempData.trigger = [];
+                }
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+            }
+
             Tester.renderUnmoderatedIdentification(source, container, data);
         } else {
             Tester.renderModeratedIdentification(source, container, data);
@@ -947,6 +936,8 @@ var Tester = {
         // handle live mode
         if (data.identificationFor === 'gestures') {
             if (!previewModeEnabled && peerConnection) {
+                peerConnection.initSeparateChunksRecording();
+
                 $(peerConnection).unbind(MESSAGE_START_RECORDING_GESTURE).bind(MESSAGE_START_RECORDING_GESTURE, function (event, payload) {
                     clearAlerts(container);
                     peerConnection.startRecordSeparateChunks();
@@ -958,17 +949,15 @@ var Tester = {
 
                 $(peerConnection).unbind(MESSAGE_STOP_RECORDING_GESTURE).bind(MESSAGE_STOP_RECORDING_GESTURE, function (event, payload) {
                     var recordedChunks = peerConnection.stopRecordSeparateChunks();
-                    getGMT(function (timestamp) {
-                        var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
-                        var file = new File(recordedChunks, filename, {type: "video/webm"});
-                        peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED);
-                        peerConnection.transferFile(file);
-                        animateLiveStream($(container).find('#fixed-rtc-preview'));
-                        appendAlert($(container), ALERT_PLEASE_WAIT);
-                        $(container).find('#fixed-rtc-preview').addClass('hidden');
-                        $(container).find('#scene-description').addClass('hidden');
-                        $(container).find('#scene-container').addClass('hidden');
-                    });
+                    var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
+                    var file = new File(recordedChunks, filename, {type: "video/webm"});
+                    peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED);
+                    peerConnection.transferFile(file);
+                    animateLiveStream($(container).find('#fixed-rtc-preview'));
+                    appendAlert($(container), ALERT_PLEASE_WAIT);
+                    $(container).find('#fixed-rtc-preview').addClass('hidden');
+                    $(container).find('#scene-description').addClass('hidden');
+                    $(container).find('#scene-container').addClass('hidden');
                 });
             } else {
                 $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
@@ -1519,17 +1508,17 @@ var Tester = {
                 if (currentStressTestIndex < data.stressTestItems.length - 1) {
                     getGMT(function (timestamp) {
                         tempData.actions.push({action: ACTION_END_QUESTIONNAIRE, gestureId: gesture.id, time: timestamp});
+                        tempData.answers.push(answers);
+                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                     });
+                } else {
+                    tempData.answers.push(answers);
+                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                 }
-//                console.log(currentStressTestCount, currentStressTestIndex);
-                tempData.answers.push(answers);
-                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             }
         }
     },
     getScenario: function getScenario(source, container, data) {
-
-
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             if (!data.scene || !data.woz) {
                 return false;
@@ -1547,22 +1536,11 @@ var Tester = {
         } else {
             Tester.renderModeratedScenario(source, container, data);
             Tester.initScreenSharing(container.find('#scene-container'));
-//            $(peerConnection).unbind('videoSharingAdded').bind('videoSharingAdded', function (event, video) {
-//                console.log('add shared screen video');
-//                container.find('#scene-container').empty().append(video);
-//            });
 
             $(peerConnection).unbind(MESSAGE_START_SCENARIO).bind(MESSAGE_START_SCENARIO, function (event, payload) {
                 event.preventDefault();
                 scenarioStartTriggered = true;
                 Tester.renderModeratedScenario(source, container, data);
-
-//                getGMT(function (timestamp) {
-//                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-//                    tempData.actions.push({action: ACTION_START_TASK, time: timestamp});
-//                    tempData.transitions.push({scene: data.scene, time: timestamp});
-//                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-//                });
             });
         }
 
@@ -1977,6 +1955,7 @@ var Tester = {
                             renderPhaseStep();
                         }, false);
                     }
+                    peerConnection.reset();
 //                    Tester.resetScreenSharing();
                 });
 
@@ -2376,17 +2355,23 @@ function renderSceneItem(source, container, sceneId) {
 
 function onAnswerTimeExpired(container, data) {
     if (!previewModeEnabled) {
-        getGMT(function (timestamp) {
-            var slideData = data.slideshow[currentSlideIndex];
-            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-            tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
-            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
 
+        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
+            getGMT(function (timestamp) {
+                var slideData = data.slideshow[currentSlideIndex];
+                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                tempData.actions.push({action: ACTION_END_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_REACTIVATE_CONTROLS);
+                }
+            });
+        } else {
             if (peerConnection) {
                 peerConnection.sendMessage(MESSAGE_REACTIVATE_CONTROLS);
             }
-        });
-
+        }
     }
     $(container).find('.gestureContainer .headline, .triggerContainer .headline').text(translation.timesUp);
     TweenMax.to(container.find('.previewGesture, .trigger-title'), .1, {opacity: 0});

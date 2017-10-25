@@ -1,10 +1,11 @@
 <?php
 include 'includes/language.php';
+session_start();
 ?>
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title"><i class="fa fa-support"></i> <?php echo $lang->introduction ?></h4>
+    <h4 class="modal-title"><i class="fa fa-support"></i> <?php echo $lang->help ?></h4>
 </div>
 <div id="modal-body" class="modal-body" style="padding: 0">
     <div id="carousel-introduction-generic" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
@@ -26,7 +27,18 @@ include 'includes/language.php';
     </div>
 </div>
 <div id="modal-footer" class="modal-footer">
-    <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal"><i class="fa fa-close"></i> Schließen</button>
+    <div class="pull-left" id="checkbox-automatic-show">
+        <button class="btn btn-default btn-checkbox" name="primary">
+            <span id="icons" style="margin-right: 6px">
+                <i class="fa fa-square-o" id="normal"></i>
+                <i class="fa fa-square hidden" id="over"></i>
+                <i class="fa fa-check-square hidden" id="checked"></i>
+            </span>
+            <span class="option-text ellipsis">Nicht mehr automatisch anzeigen</span>
+        </button>
+    </div>
+
+    <button type="button" class="btn btn-default btn-shadow" id="btn-close"><i class="fa fa-close"></i> Schließen</button>
 </div>
 
 <div class="item hidden" id="carousel-listbox-item">
@@ -56,5 +68,17 @@ include 'includes/language.php';
                 $(item).addClass('active');
             }
         }
+
+        var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyPreview'] ?>);
+        if (showTutorial === 0) {
+            $('#custom-modal').find('#checkbox-automatic-show .btn-checkbox').click();
+        }
+
+        $('#custom-modal').find('#btn-close').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            var dontShowIntroduction = $(this).parent().find('#checkbox-automatic-show .btn-checkbox').hasClass('btn-option-checked');
+            updateIntroduction({context: 'studyPreview', dontShowIntroduction: dontShowIntroduction ? 0 : 1});
+            $('#custom-modal').modal('hide');
+        });
     });
 </script>

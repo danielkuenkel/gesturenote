@@ -234,8 +234,24 @@ PeerConnection.prototype.initialize = function (options) {
                 if (options.remoteMuteElement) {
                     $(options.remoteMuteElement).removeClass('disabled');
                 }
-            }
 
+                webRTCPeer = peer;
+                peer.on('fileTransfer', function (metadata, receiver) {
+                    console.log('incoming filetransfer', metadata.name, metadata);
+                    receiver.on('progress', function (bytesReceived) {
+//                    console.log('receive progress', bytesReceived, 'out of', metadata.size);
+                        $(connection).trigger(EVENT_FILE_TRANSFER, [bytesReceived, metadata.size]);
+                    });
+
+                    // get notified when file is done
+                    receiver.on('receivedFile', function (file, metadata) {
+                        console.log('received file', file, metadata.name, metadata.size);
+                        $(connection).trigger(EVENT_RECEIVED_FILE, [file, metadata]);
+                        // close the channel
+                        receiver.channel.close();
+                    });
+                });
+            }
 
             // show the ice connection state
             if (peer && peer.pc) {
@@ -352,27 +368,15 @@ PeerConnection.prototype.initialize = function (options) {
             connection.stopRecording(null, false);
         });
 
-        // called when a peer is created
-        webrtc.on('createdPeer', function (peer) {
-            webRTCPeer = peer;
-            console.log('webrtc created peer', peer);
-
-            webRTCPeer.on('fileTransfer', function (metadata, receiver) {
-                console.log('incoming filetransfer', metadata.name, metadata);
-                receiver.on('progress', function (bytesReceived) {
-//                    console.log('receive progress', bytesReceived, 'out of', metadata.size);
-                    $(connection).trigger(EVENT_FILE_TRANSFER, [bytesReceived, metadata.size]);
-                });
-
-                // get notified when file is done
-                receiver.on('receivedFile', function (file, metadata) {
-                    console.log('received file', file, metadata.name, metadata.size);
-                    $(connection).trigger(EVENT_RECEIVED_FILE, [file, metadata]);
-                    // close the channel
-                    receiver.channel.close();
-                });
-            });
-        });
+//        // called when a peer is created
+//        webrtc.on('createdPeer', function (peer) {
+//            console.log('webrtc created peer', peer);
+//            if (!webRTCPeer) {
+//                webRTCPeer = peer;
+//
+//                
+//            }
+//        });
     } else {
         console.log('no options for webrtc');
     }
@@ -521,12 +525,11 @@ PeerConnection.prototype.initRecording = function (startRecording) {
             if (!mediaRecorder || mediaRecorder === undefined) {
                 mediaRecorder = new MediaRecorder(stream);
 
-                mediaRecorder.ondataavailable = function (e) {
+                mediaRecorder.ondataavailable = function (event) {
                     console.log('on data available');
-                    chunks.push(e.data);
 
-                    if (separateChunksRecording === true) {
-                        separateChunks.push(e.data);
+                    if (event.data && event.data.size > 0) {
+                        chunks.push(event.data);
                     }
                 };
 
@@ -534,9 +537,9 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                     console.log('Start recording ... ');
                     // save start recording time
                     if (previewModeEnabled === false) {
-                        var currentPhase = getCurrentPhase();
-                        var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                         getGMT(function (timestamp) {
+                            var currentPhase = getCurrentPhase();
+                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                             tempData.startRecordingTime = timestamp;
                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                         });
@@ -547,21 +550,15 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                     console.log('Stopped recording, state = ' + mediaRecorder.state);
                     if (saveRecording) {
                         console.log('Save recording');
-                        
+
                         var currentPhase = getCurrentPhase();
                         getGMT(function (timestamp) {
-                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                            tempData.endRecordingTime = timestamp;
-                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-
                             var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
-                            uploadQueue.upload(chunks, filename, currentPhase.id, 'recordUrl');
+                            uploadQueue.upload(chunks, filename, currentPhase.id, 'recordUrl', 'endRecordingTime', timestamp);
                             chunks = [];
                         });
 
                     }
-
-
 
                     if (stopRecordingCallback) {
                         stopRecordingCallback();
@@ -586,7 +583,6 @@ PeerConnection.prototype.initRecording = function (startRecording) {
     } else {
         console.log('startRecording init', startRecording);
         if (mediaRecorder.state !== 'recording' && startRecording) {
-
             mediaRecorder.start(1000);
         }
     }
@@ -615,21 +611,88 @@ PeerConnection.prototype.stopRecording = function (callback, save) {
     }
 };
 
+
+var separateRecordingStream = null;
+var separateMediaRecorder = null;
+PeerConnection.prototype.initSeparateRecording = function (startRecording) {
+    if (!separateRecordingStream) {
+        // check current browser for building constraints
+        if (getBrowser() == "Chrome") {
+            var constraints = {"audio": true, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
+        } else if (getBrowser() == "Firefox") {
+            var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
+        }
+
+        // set user media for specifig browsers
+        navigator.getUserMedia = (navigator.getUserMedia ||
+                navigator.mozGetUserMedia ||
+                navigator.msGetUserMedia ||
+                navigator.webkitGetUserMedia);
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia(constraints, onSuccess, onError);
+        } else {
+            console.log('Sorry! This requires Firefox 30 and up or Chrome 47 and up.');
+        }
+
+        // media recorder functions
+        function onError(error) {
+            console.log(error);
+        }
+
+        function onSuccess(stream) {
+            console.log('init recorder', separateMediaRecorder, stream);
+            separateRecordingStream = stream;
+            if (!separateMediaRecorder || separateMediaRecorder === undefined) {
+                separateMediaRecorder = new MediaRecorder(stream);
+
+                separateMediaRecorder.ondataavailable = function (event) {
+                    console.log('on separate data available');
+                    if (event.data && event.data.size > 0) {
+                        separateChunks.push(event.data);
+                    }
+                };
+
+                separateMediaRecorder.onerror = function (e) {
+                    console.log('Error: ', e);
+                };
+
+                separateMediaRecorder.onwarning = function (e) {
+                    console.log('Warning: ' + e);
+                };
+
+                console.log('startRecording', startRecording);
+                if (startRecording === true) {
+                    separateMediaRecorder.start(1000);
+                }
+            }
+        }
+    } else {
+        console.log('start separate ecording init', startRecording);
+        if (separateMediaRecorder.state !== 'recording' && startRecording) {
+            separateMediaRecorder.start(1000);
+        }
+    }
+};
+
 var separateChunks = [];
-var separateChunksRecording = false;
+PeerConnection.prototype.initSeparateChunksRecording = function () {
+    console.log('init separate chunks recording');
+    separateChunks = [];
+    connection.initSeparateRecording(false);
+};
+
 PeerConnection.prototype.startRecordSeparateChunks = function () {
     console.log('start record separate chunks');
     separateChunks = [];
-    separateChunksRecording = true;
-    connection.initRecording(true);
+    connection.initSeparateRecording(true);
 };
 
 PeerConnection.prototype.stopRecordSeparateChunks = function () {
     console.log('stop record separate chunks');
-    if (isUploadRecordingNeeded() === false) {
-        connection.stopRecording(null, false);
+    if (separateMediaRecorder && separateMediaRecorder.state !== 'inactive') {
+        separateMediaRecorder.stop();
     }
-    separateChunksRecording = false;
+//    console.log(window.URL.createObjectURL(new Blob(separateChunks, {type: 'video/webm'})));
     return separateChunks;
 };
 
@@ -649,8 +712,9 @@ PeerConnection.prototype.initScreenRecording = function () {
         console.log('Start screen recording ... ');
         // save start recording time
         if (previewModeEnabled === false) {
-            var currentPhase = getCurrentPhase();
+
             getGMT(function (timestamp) {
+                var currentPhase = getCurrentPhase();
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 tempData.startScreenRecordingTime = timestamp;
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
@@ -663,13 +727,9 @@ PeerConnection.prototype.initScreenRecording = function () {
         if (saveScreenRecording) {
             var currentPhase = getCurrentPhase();
             getGMT(function (timestamp) {
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.endScreenRecordingTime = timestamp;
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-
                 console.log('Save screen recording');
                 var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
-                uploadQueue.upload(screenChunks, filename, currentPhase.id, 'screenRecordUrl');
+                uploadQueue.upload(screenChunks, filename, currentPhase.id, 'screenRecordUrl', 'endScreenRecordingTime', timestamp);
                 screenChunks = [];
             });
         }
@@ -705,6 +765,7 @@ PeerConnection.prototype.stopScreenRecording = function (save, callback) {
 
 PeerConnection.prototype.transferFile = function (file) {
     if (webRTCPeer) {
+        console.log('transfer file:', file);
         webRTCPeer.sendFile(file);
     } else {
         console.error('no peer created yet');
@@ -740,4 +801,10 @@ PeerConnection.prototype.stopShareScreen = function (save, callback) {
         console.log('stop screen sharing');
         webrtc.stopScreenShare();
     }
+};
+
+PeerConnection.prototype.reset = function () {
+//    if(webRTCPeer) {
+//        webRTCPeer = null;
+//    }
 };

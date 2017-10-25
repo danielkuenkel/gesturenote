@@ -94,13 +94,17 @@ include '../includes/language.php';
 
     <div class="root" id="identification">
         <h3 id="headline" style="margin-top: 0"></h3>
-        <hr>
-        <span class="label label-default hidden" id="search-gestures">Es wurden Gesten ermittelt</span> 
-        <span class="label label-default hidden" id="search-trigger">Es wurden Funktionen ermittelt</span>
+        <hr id="horizontalLine">
+        <div class="alert-space alert-no-record"></div>
+        <div class="alert-space alert-webm-unsupported"></div>
+        
         <div id="item-view" style="margin-top: 30px;">
             <div class="alert-space alert-no-phase-data"></div>
             <div class="list-container row" id="gestures-list-container"></div>
         </div>
+        <h3 id="headline-observations">Beobachtungen</h3>
+        <hr>
+        <div class="question-container"  id="observations-container"></div>
     </div>
 
     <div class="row" id="trigger-identification">
@@ -228,7 +232,7 @@ include '../includes/language.php';
                 <span class="label label-default hidden" id="no">Begründung bei Auswahl <em>Nein</em></span>
                 <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
             </div>
-            <label class="question "></label>
+            <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
@@ -536,70 +540,71 @@ include '../includes/language.php';
                 <div class="row hidden" id="screen-share-video-container" >
                     <div class="col-xs-12">
                         <video id="screen-share-video-holder" preload="auto" autoplay="false" style="width: 100%; height: auto;  border-top-left-radius: 10px; border-top-right-radius: 10px; position: relative"></video>
-                        <div class="progress" style="height: 10px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
+                        <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                             <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                         </div>
-                        <div class="video-time-code" style="position: absolute; bottom: 10px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
-                            <span class="video-time-code-duration">0:00</span>
-                            <span> / </span>
+                        <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
                             <span class="video-time-code-current-time">0:00</span>
+                            <span> / </span>
+                            <span class="video-time-code-duration">0:00</span>
                         </div>
                     </div>
                 </div>
 
                 <div id="webcam-video-container">
                     <div class="row">
-                        <div class="col-xs-6 text-center" id="tester-video-container">
+                        <div class="col-xs-6 hidden" id="tester-video-container">
                             <video id="tester-video-holder" preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative"></video>
-                            <div class="progress" style="height: 10px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
+                            <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                                 <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                             </div>
                             <div class="btn-shadow btn-toggle-mute" style="position: absolute; top: 0; right:15px; border-top-right-radius: 4px; border-bottom-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; cursor: pointer">
                                 <i class="fa fa-volume-up" style="color: white"></i>
                             </div>
-                            <div class="video-time-code" style="position: absolute; bottom: 10px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
-                                <span class="video-time-code-duration">0:00</span>
-                                <span> / </span>
+                            <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
                                 <span class="video-time-code-current-time">0:00</span>
+                                <span> / </span>
+                                <span class="video-time-code-duration">0:00</span>
                             </div>
                         </div>
                         <div class="col-xs-6 hidden" id="moderator-video-container">
                             <video id="moderator-video-holder" preload="auto" autoplay="false" style="width: 100%; height: auto; border-top-left-radius: 4px; border-top-right-radius: 4px; position: relative"></video>
-                            <div class="progress" style="height: 10px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
+                            <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                                 <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                             </div>
                             <div class="btn-shadow btn-toggle-mute" style="position: absolute; top: 0; right:15px; border-top-right-radius: 4px; border-bottom-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; cursor: pointer">
                                 <i class="fa fa-volume-up" style="color: white"></i>
                             </div>
-                            <div class="video-time-code" style="position: absolute; bottom: 10px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
-                                <span class="video-time-code-duration">0:00</span>
-                                <span> / </span>
+                            <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
                                 <span class="video-time-code-current-time">0:00</span>
+                                <span> / </span>
+                                <span class="video-time-code-duration">0:00</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div id="video-controls" style="margin-top: 10px">
                 <div class="row">
-                    <div class="col-xs-2 col-lg-1">
-                        <button type="button" class="btn btn-block btn-default" id="btn-play-pause" style="display: inline-block"><i class="fa fa-play"></i></button>
+                    <div class="col-xs-3 col-sm-2 col-lg-2" id="gap-input-container">
+                        <div class="input-group">
+                            <input type="number" class="form-control text-center" id="gap-input" min="-10" max="10" step="0.01" readonly />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" id="btn-lock-unlock-gap-input" type="button" alt="Videos synchronisieren"><i class="fa fa-pencil"></i></button>
+                            </span>
+                        </div>
                     </div>
-                    <div class="col-xs-10 col-lg-11">
+                    <div class="col-xs-2 col-lg-1" id="play-pause-container">
+                        <button type="button" class="btn btn-block btn-default" id="btn-play-pause"><i class="fa fa-play"></i></button>
+                    </div>
+                    <div class="col-xs-7 col-sm-8 col-lg-9" id="seek-bar-container">
                         <div class="progress" id="main-seek-bar" style="border-radius: 4px; height:34px; margin: 0; cursor: pointer">
                             <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                         </div>
                     </div>
-                    <!--                    <div class="col-xs-2 col-lg-1">
-                                            <button type="button" class="btn btn-block btn-default" id="btn-mute" style="display: inline-block"><i class="fa fa-volume-off"></i></button>
-                                        </div>-->
                 </div>
 
-
-<!--<input type="range" id="seek-bar" value="0">-->
-
-<!--<input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">-->
-                <!--<button type="button" id="btn-full-screen">Full-Screen</button>-->
             </div>
             <div id="results-timeline" style="margin-top: 10px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;"></div>
         </div>

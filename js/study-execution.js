@@ -5,6 +5,7 @@ var gestureTrainingStartTriggered = false;
 var currentGestureTrainingIndex = 0;
 var currentTrainingIndex = 0;
 var trainingTriggered = false;
+var trainingShowGesture = false;
 var trainingPrototypeOpened = false;
 var triggeredFeedback = null;
 var slidesRestartCount = 0;
@@ -88,28 +89,34 @@ function initialize() {
         $(uploadQueue).unbind(EVENT_FILE_SAVED).bind(EVENT_FILE_SAVED, function (event, result) {
             var saveData = getLocalItem(result.phaseStepId + '.saveData');
             var tempSaveData = null;
-            if(!saveData) {
+            if (!saveData) {
                 tempSaveData = getLocalItem(result.phaseStepId + '.tempSaveData');
             }
             console.log('save current status', result, saveData, tempSaveData);
             if (saveData) {
                 saveData[result.type] = result.filename;
+                saveData[result.endRecordingKey] = result.timestamp;
                 setLocalItem(result.phaseStepId + '.saveData', saveData);
                 setLocalItem(result.phaseStepId + '.tempSaveData', saveData);
                 console.log('saved data:', saveData);
 
                 var phases = getContextualPhaseSteps();
                 if (currentPhaseStepIndex < phases.length - 1 && getCurrentPhase().format !== THANKS) {
-                    saveCurrentStatus(false);
+                    savePhaseStep(result.phaseStepId, function () {
+                        saveCurrentStatus(false);
+                    });
                 }
-            } else if(tempSaveData) {
+            } else if (tempSaveData) {
                 tempSaveData[result.type] = result.filename;
+                tempSaveData[result.endRecordingKey] = result.timestamp;
                 setLocalItem(result.phaseStepId + '.tempSaveData', tempSaveData);
                 console.log('temp saved data:', tempSaveData);
 
                 var phases = getContextualPhaseSteps();
                 if (currentPhaseStepIndex < phases.length - 1 && getCurrentPhase().format !== THANKS) {
-                    saveCurrentStatus(false);
+                    savePhaseStep(result.phaseStepId, function () {
+                        saveCurrentStatus(false);
+                    });
                 }
             }
         });
@@ -244,6 +251,7 @@ function resetConstraints() {
     gestureTrainingStartTriggered = false;
     trainingPrototypeOpened = false;
     trainingTriggered = false;
+    trainingShowGesture = false;
     currentGestureTrainingIndex = 0;
     currentTrainingIndex = 0;
 

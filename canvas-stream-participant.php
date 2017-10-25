@@ -50,7 +50,7 @@
 
         <!-- streaming -->
         <script src="https://simplewebrtc.com/latest-v2.js"></script>
-        <script src="js/peerConnectionSharing.js"></script>
+        <!--<script src="js/peerConnectionSharing.js"></script>-->
 
         <!-- gesture recorder sources -->
         <!--<script src="js/gesture-recorder.js"></script>-->

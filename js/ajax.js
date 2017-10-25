@@ -128,6 +128,35 @@ function updateUser(data, callback) {
     });
 }
 
+function updateIntroduction(data, callback) {
+    var url = null;
+    switch (data.context) {
+        case 'studyCreation':
+            url = 'includes/update-introduction-study-creation.php';
+            break;
+        case 'studyPreview':
+            url = 'includes/update-introduction-study-preview.php';
+            break;
+    }
+
+    $.ajax({
+
+        url: url,
+        type: 'post',
+        dataType: 'json',
+        data: data,
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 
 
 /*

@@ -58,7 +58,7 @@
 
         <!-- streaming -->
         <script src="andyet/simplewebrtcbundle.js"></script>
-        <script src="js/peerConnectionSharing.js"></script>
+        <!--<script src="js/peerConnectionSharing.js"></script>-->
         <!--<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>-->
 
         <!-- gesture recorder sources -->

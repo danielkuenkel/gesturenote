@@ -62,8 +62,9 @@ var recordRTC, liveStream;
 function successCallback(stream) {
     switch (recorder.options.startState) {
         case EVENT_GR_STATE_PLAYBACK:
-            $('.recorder #recorder-video').attr('src', recorder.options.videoUrl);
-            showPlayback();
+            initPlayback(recorder.options.videoUrl);
+//            $('.recorder #recorder-video').attr('src', recorder.options.videoUrl);
+//            showPlayback();
             break;
         default:
             liveStream = stream;
@@ -128,8 +129,7 @@ function showRecord() {
 
         if (recordRTC) {
             recordRTC.stopRecording(function (videoUrl) {
-                $('.recorder #recorder-video').attr('src', videoUrl);
-                showPlayback();
+                initPlayback(videoUrl);
             });
         }
     });
@@ -137,6 +137,36 @@ function showRecord() {
     $(recorder.options.recorderTarget).find('.btn-repeat-recording').unbind('click').bind('click', function (event) {
         event.preventDefault();
         initializeRecorder();
+    });
+}
+
+function initPlayback(videoUrl) {
+    var videoHolder = $(recorder.options.recorderTarget).find('#recorder-video');
+    $(videoHolder).attr('src', videoUrl);
+    $(videoHolder).on('loadedmetadata', function () {
+        // google chrome no-duration workaround
+        if (videoHolder[0].duration === Infinity) {
+//            var duration = getSeconds(getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime), true);
+            console.log('no duration!');
+//            videoHolder[0].currentTime = duration - 2;
+            videoHolder[0].playbackRate = 100;
+            videoHolder[0].muted = true;
+
+            $(videoHolder).on('ended', function () {
+                console.log('on gesture record play ended');
+                $(videoHolder).unbind('ended');
+                videoHolder[0].playbackRate = 1;
+                videoHolder[0].muted = false;
+                videoHolder[0].currentTime = 0;
+                showPlayback();
+            });
+
+            setTimeout(function () {
+                videoHolder[0].play();
+            }, 150);
+        } else {
+            showPlayback();
+        }
     });
 }
 

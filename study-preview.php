@@ -57,12 +57,12 @@ if (login_check($mysqli) == true) {
         <script src="js/study-execution-tester.js"></script>
         <script src="js/study-execution-tester-save.js"></script>
         <script src="js/study-execution-moderator.js"></script>
-        
+
         <!-- screen sharing sources -->
 <!--        <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
         <script src="muaz-khan/screen.js"></script>
         <script src="//cdn.webrtc-experiment.com/firebase.js"></script>-->
-        
+
         <!-- gesture recorder sources -->
         <script src="js/gesture-recorder.js"></script>
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
@@ -78,7 +78,7 @@ if (login_check($mysqli) == true) {
         <div id="template-gesture-recorder"></div>
 
         <div id="preview-bar-top" style="padding: 10px; position: fixed">
-                 
+
             <div class="input-group">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-default" id="btnViewModerator"><span class="hidden-sm hidden-xs">Moderator</span><span class="hidden-md hidden-lg">M</span></button>
@@ -91,6 +91,7 @@ if (login_check($mysqli) == true) {
                     </ul>
                     <button type="button" class="btn btn-default previous disabled"><span aria-hidden="true">&larr;</span></span><span class="hidden-sm hidden-xs"> <?php echo $lang->previous ?></span></button>
                     <button type="button" class="btn btn-default next disabled"><span class="hidden-sm hidden-xs"><?php echo $lang->next ?></span> <span aria-hidden="true">&rarr;</span></button>
+                    <button role="button" class="btn btn-default" id="btn-introduction"><i class="fa fa-support"></i> <span class="hidden-xs hidden-sm"><?php echo $lang->help ?></span></button>
                     <button type="button" class="btn btn-danger" id="btn-close-study-preview"><i class="glyphicon glyphicon-remove"></i><span class="hidden-sm hidden-xs"> <?php echo $lang->close ?></span></button>
                 </div>
             </div>
@@ -153,8 +154,8 @@ if (login_check($mysqli) == true) {
                     externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
                 });
-            });            
-            
+            });
+
             $(window).on('resize', function () {
                 if (!$('#pinnedRTC').hasClass('hidden') && (!$('#viewModerator #column-left').hasClass('rtc-scalable') || ($(document).scrollTop() === 0))) {
                     updateRTCHeight($('#viewModerator #column-left').width());
@@ -193,6 +194,11 @@ if (login_check($mysqli) == true) {
             }
 
             function onAllExternalsLoadedSuccessfully() {
+                var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyPreview'] ?>);
+                if (showTutorial === 1) {
+                    loadHTMLintoModal('custom-modal', 'modal-introduction-study-preview.php', 'modal-lg');
+                }
+
                 previewModeEnabled = true;
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -322,6 +328,11 @@ if (login_check($mysqli) == true) {
                     $(this).find('.glyphicon').addClass('glyphicon-pushpin');
                     dragRTC();
                 }
+            });
+
+            $('#btn-introduction').on('click', function (event) {
+                event.preventDefault();
+                loadHTMLintoModal('custom-modal', 'modal-introduction-study-preview.php', 'modal-lg');
             });
         </script>
     </body>

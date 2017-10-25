@@ -664,27 +664,9 @@ include '../includes/language.php';
         <div class="col-sm-6 col-md-7 col-lg-6 rtc-scalable" id="column-left">
             <div class="panel panel-default" id="woz-controls">
                 <div class="panel-heading">Wizard-of-Oz-Experiment <button class="btn btn-xs btn-default disabled pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button></div>
-                <!--                <div class="panel-body" style="padding-bottom: 0">
-                                    <div style="margin-bottom: 20px;">
-                                        <div style="float: left;  margin-right: 10px; ">
-                                            Aktuelle Szene: <span class="label label-default">
-                                                <i class="fa fa-link hidden" id="icon-pidoco"></i>
-                                                <i class="fa fa-link hidden" id="icon-web"></i>
-                                                <i class="fa fa-image hidden" id="icon-image"></i>
-                                                <i class="fa fa-film hidden" id="icon-videoEmbed"></i> <span class="label-text"></span></span> <span id="current-scene" class="text">
-                                            </span>
-                                        </div>
-                                        <div class="btn-group" style="float: left;margin-top: 4px">
-                                            <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text">Zustands-Vorschau</span></button>
-                                            <button type="button" class="btn btn-default btn-shadow btn-xs" id="btn-reload-scene"><i class="glyphicon glyphicon-refresh"></i> <span class="btn-text">Zustand neu laden</span></button>
-                                        </div>
-                                        <div style="clear: both;"></div>
-                                    </div>
-                                </div>-->
-                <!--<hr style="margin: 0">-->
+
                 <div class="panel-body" style="padding-bottom: 0">
                     <div id="wozExperiment" style="margin-bottom: 20px;">
-                        <!--<h4 style="margin-top: 0px; margin-bottom: 10px">Simulationselemente</h4>-->
                         <div style="margin-bottom: 10px" class="text">Welche Geste hat der Proband vorgeführt?</div>
                         <div class="alert-space alert-no-phase-data"></div>
                         <div class="row woz-container"></div>

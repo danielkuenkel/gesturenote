@@ -1,14 +1,14 @@
 var EVENT_STUDY_PHASE_SAVE_SUCCESSFULL = 'studyPhaseSaveSuccessfull';
 var EVENT_STUDY_SAVE_SUCCESSFULL = 'studySaveSuccessfull';
 
-function savePhaseStep() {
-    var currentPhase = getCurrentPhase();
-    console.log('savePhaseStep', currentPhaseStepIndex, currentPhase);
+function savePhaseStep(id, callback) {
+    var phaseStep = getPhaseById(id);
+    console.log('save phase step: ', phaseStep.format);
     var data = new Object();
-    data.id = currentPhase.id;
-    data.format = currentPhase.format;
-    console.log('save ' + currentPhase.format);
-    switch (currentPhase.format) {
+    data.id = phaseStep.id;
+    data.format = phaseStep.format;
+
+    switch (phaseStep.format) {
         case LETTER_OF_ACCEPTANCE:
             data = getLetterOfAcceptanceFormData(data);
             break;
@@ -16,20 +16,20 @@ function savePhaseStep() {
             data = getThanksFormData(data);
             break;
         case QUESTIONNAIRE:
-            var questionnaire = $('#viewTester #phase-content').find('.question-container').children();
-            data = getQuestionnaireFormData(questionnaire, data);
+//            var questionnaire = $('#viewTester #phase-content').find('.question-container').children();
+            data = getQuestionnaireFormData(data);
             break;
         case GUS_SINGLE_GESTURES:
-            var questionnaire = $('#viewTester #phase-content').find('.question-container').children();
-            data = getQuestionnaireFormData(questionnaire, data);
+//            var questionnaire = $('#viewTester #phase-content').find('.question-container').children();
+            data = getQuestionnaireFormData(data);
             break;
         case GUS_MULTIPLE_GESTURES:
-            var questionnaire = $('#viewTester #phase-content').find('.question-container').children();
-            data = getQuestionnaireFormData(questionnaire, data);
+//            var questionnaire = $('#viewTester #phase-content').find('.question-container').children();
+            data = getQuestionnaireFormData(data);
             break;
         case SUS:
-            var questionnaire = $('#viewTester #phase-content').find('.question-container').children();
-            data = getQuestionnaireFormData(questionnaire, data);
+//            var questionnaire = $('#viewTester #phase-content').find('.question-container').children();
+            data = getQuestionnaireFormData(data);
             break;
         case GESTURE_TRAINING:
             data = getGestureTrainingFormData(data);
@@ -54,8 +54,21 @@ function savePhaseStep() {
             break;
     }
 
-    data.endTime = new Date().getTime();
-    setLocalItem(data.id + '.saveData', data);
+    if (data.endTime) {
+        setLocalItem(data.id + '.saveData', data);
+        if (callback) {
+            callback();
+        }
+    } else {
+        getGMT(function (timestamp) {
+            data.endTime = timestamp;
+            setLocalItem(data.id + '.saveData', data);
+
+            if (callback) {
+                callback();
+            }
+        });
+    }
 }
 
 function getLetterOfAcceptanceFormData(data) {
@@ -84,6 +97,7 @@ function getGestureTrainingFormData(data) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
+        data.recordUrl = tempData.recordUrl;
         data.startTrainingTime = tempData.startTrainingTime;
         data.training = tempData.training;
         data.actions = tempData.actions;
@@ -98,6 +112,7 @@ function getGestureSlideshowFormData(data) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
+        data.recordUrl = tempData.recordUrl;
         data.restarts = tempData.restarts;
         data.actions = tempData.actions;
 //        removeLocalItem(data.id + '.tempSaveData');
@@ -121,6 +136,7 @@ function getScenarioFormData(data) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
+        data.recordUrl = tempData.recordUrl;
         data.actions = tempData.actions;
         data.transitions = tempData.transitions;
 //        removeLocalItem(data.id + '.tempSaveData');
@@ -134,6 +150,7 @@ function getPhysicalStressTestFormData(data) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
+        data.recordUrl = tempData.recordUrl;
         data.startStressTestTime = tempData.startStressTestTime;
         data.actions = tempData.actions;
         data.answers = tempData.answers;
@@ -149,6 +166,7 @@ function getIdentificationFormData(data) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
+        data.recordUrl = tempData.recordUrl;
 
         var phaseData = getLocalItem(data.id + '.data');
         if (phaseData.identificationFor === 'gestures') {
@@ -168,6 +186,7 @@ function getExplorationFormData(data) {
         data.startTime = tempData.startTime;
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
+        data.recordUrl = tempData.recordUrl;
         data.actions = tempData.actions;
         data.transitions = tempData.transitions;
 //        removeLocalItem(data.id + '.tempSaveData');
@@ -175,14 +194,14 @@ function getExplorationFormData(data) {
     return data;
 }
 
-function getQuestionnaireFormData(questionnaire, data) {
-    data.answers = getQuestionnaireAnswers(questionnaire);
-    console.log(data.answers);
+function getQuestionnaireFormData(data) {
+//    data.answers = getQuestionnaireAnswers(questionnaire);
+//    console.log(data.answers);
 
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
         data.startTime = tempData.startTime;
-        removeLocalItem(data.id + '.tempSaveData');
+        data.answers = tempData.answers;
     }
 
     return data;
@@ -192,34 +211,42 @@ function getQuestionnaireFormData(questionnaire, data) {
 
 function saveCurrentStatus(studyFinished, callback) {
     console.log('save current tester status');
-    var data = new Object();
-    data.studySuccessfull = studyFinished === true ? 'yes' : 'no';
-    data.phases = getFinishedStudyPhases();
-    data.aborted = getLocalItem(STUDY).aborted;
+    
+    var currentPhaseStepId = getCurrentPhase().id;
+    getGMT(function (timestamp) {
+        getFinishedStudyPhases(currentPhaseStepId, function (phases) {
+            var data = new Object();
+            data.studySuccessfull = studyFinished === true ? 'yes' : 'no';
+            data.phases = phases;
+            data.aborted = getLocalItem(STUDY).aborted;
 
-    if (studyFinished === true) {
-        data.endTime = new Date().getTime();
-    }
+            if (studyFinished === true) {
+                data.endTime = timestamp;
+            }
 
-    var study = getLocalItem(STUDY);
-    saveExecutionTester({studyId: study.id, data: data}, function (result) {
-        if (callback) {
-            callback(result);
-        }
+            var study = getLocalItem(STUDY);
+            saveExecutionTester({studyId: study.id, data: data}, function (result) {
+                console.log('saveExecutionTester', result, data);
+                if (callback) {
+                    callback(result);
+                }
+            });
+        });
     });
 }
 
-function getFinishedStudyPhases() {
-    savePhaseStep();
-
-    var phaseSteps = getContextualPhaseSteps();
-    var array = new Array();
-    for (var i = 0; i < phaseSteps.length; i++) {
-        if (isPhaseStepSaved(phaseSteps[i].id)) {
-            array.push(getLocalItem(phaseSteps[i].id + '.saveData'));
+function getFinishedStudyPhases(id, callback) {
+    savePhaseStep(id, function () {
+        var phaseSteps = getContextualPhaseSteps();
+        var array = new Array();
+        for (var i = 0; i < phaseSteps.length; i++) {
+            if (isPhaseStepSaved(phaseSteps[i].id)) {
+                array.push(getLocalItem(phaseSteps[i].id + '.saveData'));
+            }
         }
-    }
-    return array;
+
+        callback(array);
+    });
 }
 
 function isPhaseStepSaved(id) {

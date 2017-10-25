@@ -211,16 +211,17 @@ if (login_check($mysqli) == true) {
 
             function renderStudyPhaseResult(phaseId) {
                 var phaseData = getLocalItem(phaseId + '.data');
-                var phaseResults = getLocalItem(phaseId + '.results');
+                var testerResults = getLocalItem(phaseId + '.results');
                 var evaluatorResults = getLocalItem(phaseId + '.evaluator');
 //                console.log(phaseData, phaseResults);
 
-                if (phaseData && phaseResults) {
-                    var content = $('#template-study-container').find('#' + phaseResults.format).clone().removeAttr('id');
-                    $(content).find('#headline').text(translation.formats[phaseResults.format].text);
+                if (phaseData && testerResults) {
+                    var content = $('#template-study-container').find('#' + testerResults.format).clone().removeAttr('id');
+                    $(content).find('#headline').text(translation.formats[testerResults.format].text);
                     $('#phase-result').empty().append(content);
 
-                    var executionTime = getTimeBetweenTimestamps(phaseResults.startTime, phaseResults.endTime);
+                    var executionTime = getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
+
 //                    console.log(executionTime);
                     if (!isEmpty(executionTime)) {
                         var badge = document.createElement('span');
@@ -229,7 +230,7 @@ if (login_check($mysqli) == true) {
                         $(content).find('#headline').append(badge);
                     }
 
-                    if (translation.formats[phaseResults.format].notes === 'yes') {
+                    if (translation.formats[testerResults.format].notes === 'yes') {
                         var notesData = getLocalItem(phaseId + '.notes');
                         var notes = $('#template-study-container').find('#notes').clone();
                         $('#phase-result').append(notes);
@@ -246,10 +247,9 @@ if (login_check($mysqli) == true) {
                     }
 
                     // check and add recorded stream data
-                    if (isWebRTCNeededForPhaseStep(phaseResults)) {
-                        if (phaseResults && phaseResults.recordUrl && phaseResults.recordUrl !== '') {
-                            var timelineData = {phaseData: phaseData, phaseResults: phaseResults, executionTime: executionTime};
-                            var resultsPlayer = new RTCResultsPlayer(phaseResults, evaluatorResults, timelineData);
+                    if (isWebRTCNeededForPhaseStep(testerResults)) {
+                        if (testerResults && testerResults.recordUrl && testerResults.recordUrl !== '') {
+                            var resultsPlayer = new RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionTime);
                             if (getBrowser() !== 'Safari') {
                                 $(content).find('#horizontalLine').after(resultsPlayer);
                             } else {
@@ -274,46 +274,46 @@ if (login_check($mysqli) == true) {
 //                        }
 //                    }
 
-                    console.log('render phase step: ' + phaseResults.format);
-                    switch (phaseResults.format) {
+                    console.log('render phase step: ' + testerResults.format);
+                    switch (testerResults.format) {
                         case LETTER_OF_ACCEPTANCE:
-                            renderLetterOfAcceptance(content, phaseData, phaseResults);
+                            renderLetterOfAcceptance(content, phaseData, testerResults);
                             break;
                         case THANKS:
                             renderThanks(content, phaseData);
                             break;
                         case QUESTIONNAIRE:
-                            renderQuestionnaireAnswers(content, phaseData, phaseResults, true);
+                            renderQuestionnaireAnswers(content, phaseData, testerResults, true);
                             break;
                         case SUS:
-                            renderSUS(content, phaseData, phaseResults);
+                            renderSUS(content, phaseData, testerResults);
                             break;
                         case GUS_SINGLE_GESTURES:
-                            renderSingleGUS(content, phaseData, phaseResults);
+                            renderSingleGUS(content, phaseData, testerResults);
                             break;
                         case GUS_MULTIPLE_GESTURES:
-                            renderQuestionnaireAnswers(content, getAssembledItems(phaseData.gus), phaseResults, true);
+                            renderQuestionnaireAnswers(content, getAssembledItems(phaseData.gus), testerResults, true);
                             break;
                         case GESTURE_TRAINING:
-                            renderGestureTraining(content, phaseData, phaseResults);
+                            renderGestureTraining(content, phaseData, testerResults);
                             break;
                         case SLIDESHOW_GESTURES:
-                            renderGestureSlideshow(content, phaseData, phaseResults);
+                            renderGestureSlideshow(content, phaseData, testerResults);
                             break;
                         case SLIDESHOW_TRIGGER:
-                            renderTriggerSlideshow(content, phaseData, phaseResults);
+                            renderTriggerSlideshow(content, phaseData, testerResults);
                             break;
                         case PHYSICAL_STRESS_TEST:
-                            renderPhysicalStressTest(content, phaseData, phaseResults);
+                            renderPhysicalStressTest(content, phaseData, testerResults);
                             break;
                         case SCENARIO:
-                            renderScenario(content, phaseData, phaseResults);
+                            renderScenario(content, phaseData, testerResults);
                             break;
                         case IDENTIFICATION:
-                            renderIdentification(content, phaseData, phaseResults);
+                            renderIdentification(content, phaseData, testerResults);
                             break;
                         case EXPLORATION:
-                            renderExploration(content, phaseData, phaseResults);
+                            renderExploration(content, phaseData, testerResults);
                             break;
                     }
 
@@ -769,14 +769,14 @@ if (login_check($mysqli) == true) {
 //                addObservationsDropdown(container);
             }
 
-            function renderIdentification(content, phaseData, phaseResults) {
-                console.log(phaseData, phaseResults, getLocalItem(GESTURE_CATALOG));
+            function renderIdentification(container, studyData, phaseResults) {
+                console.log(studyData, phaseResults, getLocalItem(GESTURE_CATALOG));
 
 //                if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
 //
 //                } else {
-                if (phaseData.identificationFor === 'gestures') {
-                    $(content).find('#search-gestures').removeClass('hidden');
+                if (studyData.identificationFor === 'gestures') {
+                    $(container).find('#search-gestures').removeClass('hidden');
                     var elicitedGestures = getLocalItem(GESTURE_CATALOG);
                     var gestureTriggerPairs;
                     if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
@@ -790,7 +790,7 @@ if (login_check($mysqli) == true) {
                             var gesture = getGestureById(gestureTriggerPairs[i].id);
                             var column = document.createElement('div');
                             $(column).addClass('col-xs-12');
-                            $(content).find('.list-container').append(column);
+                            $(container).find('.list-container').append(column);
 
                             var row = document.createElement('div');
                             $(row).addClass('row');
@@ -815,9 +815,9 @@ if (login_check($mysqli) == true) {
                         console.log('no gestures there');
                         appendAlert(content, ALERT_NO_PHASE_DATA);
                     }
-                } else if (phaseData.identificationFor === 'trigger') {
-                    $(content).find('#search-trigger').removeClass('hidden');
-                    var gestures = phaseData.identification;
+                } else if (studyData.identificationFor === 'trigger') {
+                    $(container).find('#search-trigger').removeClass('hidden');
+                    var gestures = studyData.identification;
                     if (phaseResults.trigger && phaseResults.trigger.length > 0) {
                         for (var i = 0; i < gestures.length; i++) {
                             var gesture = getGestureById(gestures[i]);
@@ -829,7 +829,7 @@ if (login_check($mysqli) == true) {
                             $(item).find('#trigger-name .text').text(phaseResults.trigger[i].name);
                             $(item).find('#trigger-justification .address').text(translation.justification + ':');
                             $(item).find('#trigger-justification .text').text(phaseResults.trigger[i].justification);
-                            $(content).find('.list-container').append(item);
+                            $(container).find('.list-container').append(item);
 
                             if (i < gestures.length - 1) {
                                 var line = document.createElement('hr');
@@ -843,7 +843,7 @@ if (login_check($mysqli) == true) {
                     }
                 }
 //                }
-
+                renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 
             function renderExploration(content, phaseData, phaseResults) {

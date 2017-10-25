@@ -184,7 +184,7 @@ if (login_check($mysqli) == true) {
                 <li role="presentation"><a href="#generalData" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->general ?></a></li>
                 <li role="presentation" class="disabledTab" id="tab-catalogs"><a href="#catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
                 <li role="presentation" class="disabledTab" id="tab-phases"><a href="#phases" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->phases ?></a></li>
-                <li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->showIntroduction ?></a></li>
+                <li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->help ?></a></li>
             </ul>
 
             <div id="loading-indicator" class="text-center" style="margin-top: 10px; margin: 0 auto">
@@ -262,33 +262,33 @@ if (login_check($mysqli) == true) {
                             </div>
                         </div>
 
-<!--                        <div class="form-group root" id="surveyMethodSelect" style="margin-right: 20px; margin-top: 15px">
-                            <label style="margin: 0">
-                                <?php echo $lang->studySurveyMethod ?>
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
-                            </label><br>
-
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio btn-option-checked saveGeneralData" name="primary" id="singleInterview">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->surveyMethod->singleInterview ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio disabled" name="primary" id="focusGroup">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->surveyMethod->focusGroup ?></span>
-                                </button>
-                            </div>
-                        </div>-->
+                        <!--                        <div class="form-group root" id="surveyMethodSelect" style="margin-right: 20px; margin-top: 15px">
+                                                    <label style="margin: 0">
+                        <?php echo $lang->studySurveyMethod ?>
+                                                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                                                    </label><br>
+                        
+                                                    <div class="btn-group" id="radio" style="margin: 0">
+                                                        <button class="btn btn-default btn-radio btn-option-checked saveGeneralData" name="primary" id="singleInterview">
+                                                            <span id="icons" style="margin-right: 6px">
+                                                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                                <i class="fa fa-check-circle" id="checked"></i>
+                                                            </span>
+                                                            <span class="option-text"><?php echo $lang->surveyMethod->singleInterview ?></span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="btn-group" id="radio" style="margin: 0">
+                                                        <button class="btn btn-default btn-radio disabled" name="primary" id="focusGroup">
+                                                            <span id="icons" style="margin-right: 6px">
+                                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                            </span>
+                                                            <span class="option-text"><?php echo $lang->surveyMethod->focusGroup ?></span>
+                                                        </button>
+                                                    </div>
+                                                </div>-->
 
                         <div class="form-group root" id="surveyTypeSelect" style="margin-top: 15px">
                             <label style="margin: 0">
@@ -700,7 +700,11 @@ if (login_check($mysqli) == true) {
                 initTooltips();
                 initPopover();
 
-//                loadHTMLintoModal('custom-modal', 'create-gesture-catalog.php', 'modal-lg');
+                var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyCreation'] ?>);
+                if(showTutorial === 1) {
+                    loadHTMLintoModal('custom-modal', 'modal-introduction-study-create.php', 'modal-lg');
+                }
+
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -788,7 +792,7 @@ if (login_check($mysqli) == true) {
             }
 
             function addPhaseStep(id, format, title, animate, prependItem, callback) {
-                
+
                 if (title === null || title === undefined) {
                     title = translation.formats[format].text;
                 }
@@ -816,7 +820,7 @@ if (login_check($mysqli) == true) {
                             break;
                     }
                 }
-                
+
                 console.log('add phase step', prependItem, clone, $('#phaseStepList').find('.form-group').last());
                 if (prependItem && prependItem === true) {
                     setTimeout(function () {
@@ -1020,7 +1024,7 @@ if (login_check($mysqli) == true) {
 
             $('#tab-introduction a').on('click', function (event) {
                 event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'modal-study-create-introduction.php', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'modal-introduction-study-create.php', 'modal-lg');
             });
 
             $('#phaseStepSelect').on('change', function (event) {

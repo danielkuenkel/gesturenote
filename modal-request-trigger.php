@@ -39,30 +39,28 @@ include 'includes/language.php';
         renderQuestionnaire($('#custom-modal'), data);
 
         $('#custom-modal').find('.question-container').unbind('change').bind('change', function (event) {
-            saveAnswers($(this).children());
+            saveAnswers($(this).children(), false);
         });
 
         $('#custom-modal').find('#btn-done-select').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            saveAnswers($(this).parent().parent().find('.question-container').children());
+            saveAnswers($(this).parent().parent().find('.question-container').children(), true);
             $('#custom-modal').modal('hide');
         });
 
-        function saveAnswers(questionnaire) {
+        function saveAnswers(questionnaire, saveAnswers) {
             var answers = {answers: getQuestionnaireAnswers(questionnaire)};
 
             if (!previewModeEnabled) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                if (tempData && tempData.trigger) {
-                    tempData.answers.push({gestureId: gesture.id, preferredTrigger: answers});
+                if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
+                    if (peerConnection) {
+                        peerConnection.sendMessage(MESSAGE_RESPONSE_TRIGGER, {data: data, gestureId: gesture.id, answers: answers, saveAnswers: saveAnswers});
+                    }
                 } else {
-                    tempData.answers = [{gestureId: gesture.id, preferredTrigger: answers}];
-                }
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-
-                if (peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_RESPONSE_TRIGGER, {data: data, answers: answers});
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    tempData.trigger.push({gestureId: gesture.id, preferredTrigger: answers});
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
             } else {
                 currentQuestionnaireAnswers = {data: data, answers: answers};

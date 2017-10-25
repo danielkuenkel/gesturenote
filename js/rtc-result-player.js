@@ -5,37 +5,44 @@
  */
 
 var resultsPlayer = null;
-function RTCResultsPlayer(testerResults, evaluatorResults, timelineData) {
+function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionTime) {
 //    getTime('GMT', function (time) {
 //        // This is where you do whatever you want with the time:
 //        console.log(new Date(time).getTime());
 //    });
-    getGMT(function(timestamp) {
-        console.log('server time: ', timestamp);
-    });
+//    getGMT(function(timestamp) {
+//        console.log('server time: ', timestamp);
+//    });
+    console.log('tester results:', testerResults);
+    console.log('evaluator results:', evaluatorResults);
+    console.log('phase data results:', phaseData);
+    console.log('execution time:', executionTime);
 
-    var testerWebcamGap = null;
-    var moderatorWebcamGap = null;
     var screenSharingGap = null;
     var videoCount = 0;
     var videosLoadedSuccessfully = 0;
-    var mainVideo = null;
 
     if (getBrowser() !== 'Safari') {
         resultsPlayer = $('#template-study-container').find('#rtc-video-result').clone().removeAttr('id');
-        evaluatorResults.recordUrl = testerResults.recordUrl;
+        var playButton = $(resultsPlayer).find('#btn-play-pause');
+        var seekBar = $(resultsPlayer).find('#main-seek-bar');
 
         var screenShareVideoHolder = null;
+        var moderatorVideoHolder = null;
+        var testerVideoHolder = null;
+
+        resultsPlayer.find('#video-timeline').addClass('hidden');
+        resultsPlayer.find('#loader').removeClass('hidden');
 
         if (evaluatorResults) {
-            if (evaluatorResults.recordUrl) {
-                videoCount++;
-                initModeratorVideoPlayer();
-            }
-
             if (evaluatorResults.screenRecordUrl) {
                 videoCount++;
                 initScreenSharingVideoPlayer();
+            }
+
+            if (evaluatorResults.recordUrl) {
+                videoCount++;
+                initModeratorVideoPlayer();
             }
         }
 
@@ -64,11 +71,20 @@ function RTCResultsPlayer(testerResults, evaluatorResults, timelineData) {
                 $(screenShareVideoHolder).on('loadedmetadata', function () {
                     // google chrome no-duration workaround
                     if (screenShareVideoHolder[0].duration === Infinity) {
-                        var duration = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.endScreenRecordingTime));
-                        screenSharingGap = {start: getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.startTime), true), end: getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true)}
+                        var duration = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.endScreenRecordingTime), true);
+                        if (!moderatorVideoHolder && testerVideoHolder) {
+                            var participantsStartGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startTime, testerResults.startTime), true);
+                            if (evaluatorResults.startTime > testerResults.startTime) {
+                                participantsStartGap *= -1;
+                            }
+                            screenSharingGap = {start: getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, testerResults.startTime), true) + participantsStartGap, end: getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true) + participantsStartGap};
+                        } else if (moderatorVideoHolder) {
+                            screenSharingGap = {start: getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.startTime), true), end: getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true)};
+                        }
+
                         console.log(screenSharingGap);
                         console.log('total screen duration:', duration);
-                        screenShareVideoHolder[0].currentTime = duration - 1;
+                        screenShareVideoHolder[0].currentTime = duration - 2;
                         screenShareVideoHolder[0].playbackRate = 10;
                         screenShareVideoHolder[0].muted = true;
 
@@ -96,10 +112,22 @@ function RTCResultsPlayer(testerResults, evaluatorResults, timelineData) {
             }
         }
 
-        var moderatorVideoHolder = null;
+        function showScreenPlayer() {
+            $(resultsPlayer).find('#screen-share-video-container .video-time-code-duration').text(secondsToHms(screenShareVideoHolder[0].duration));
+            $(screenShareVideoHolder).on('timeupdate', function () {
+                var percent = this.currentTime / this.duration * 100;
+                $(resultsPlayer).find('#screen-share-video-container .progress-bar').css({width: percent + '%'});
+                $(resultsPlayer).find('#screen-share-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
+            });
+
+            videosLoadedSuccessfully++;
+            checkMainVideoPlayer();
+        }
+
+
+
         function initModeratorVideoPlayer() {
             var moderatorRecordingFileExist = true;
-            console.log('handle moderator record url', evaluatorResults.recordUrl);
             $(resultsPlayer).find('#moderator-video-container').removeClass('hidden');
 
             $.get(UPLOADS + evaluatorResults.recordUrl)
@@ -115,13 +143,14 @@ function RTCResultsPlayer(testerResults, evaluatorResults, timelineData) {
 
                 $(moderatorVideoHolder).on('loadedmetadata', function () {
                     // google chrome no-duration workaround
+                    console.log(moderatorVideoHolder, $(resultsPlayer).find('#moderator-video-holder'));
                     if (moderatorVideoHolder[0].duration === Infinity) {
-                        var duration = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, evaluatorResults.endRecordingTime));
+                        var duration = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, evaluatorResults.endRecordingTime), true);
 //                        screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.startTime), true);
 //                        screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
 //                        console.log(screenSharingStartGap, screenSharingEndGap);
                         console.log('total moderator duration:', duration);
-                        moderatorVideoHolder[0].currentTime = duration - 1;
+                        moderatorVideoHolder[0].currentTime = duration - 2;
                         moderatorVideoHolder[0].playbackRate = 10;
                         moderatorVideoHolder[0].muted = true;
 
@@ -141,143 +170,144 @@ function RTCResultsPlayer(testerResults, evaluatorResults, timelineData) {
                         showModeratorPlayer();
                     }
                 });
-
-                $(moderatorVideoHolder).unbind('click').bind('click', function (event) {
-                    event.preventDefault();
-                    $(resultsPlayer).find('#btn-play-pause').click();
-                });
             }
         }
 
-        var videoHolder = $(resultsPlayer).find('#tester-video-holder');
+        function showModeratorPlayer() {
+            $(resultsPlayer).find('#moderator-video-container .video-time-code-duration').text(secondsToHms(moderatorVideoHolder[0].duration));
+
+            $(moderatorVideoHolder).unbind('timeupdate').bind('timeupdate', function () {
+                var percent = this.currentTime / this.duration * 100;
+                $(resultsPlayer).find('#moderator-video-container .progress-bar').css({width: percent + '%'});
+                $(resultsPlayer).find('#moderator-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
+            });
+
+            $(moderatorVideoHolder).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(resultsPlayer).find('#btn-play-pause').click();
+            });
+
+            var muteButton = $(resultsPlayer).find('#moderator-video-container .btn-toggle-mute');
+            $(muteButton).unbind('click').bind('click', function (event) {
+                if (moderatorVideoHolder[0].muted === true) {
+                    muteButton.find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
+                    moderatorVideoHolder[0].muted = false;
+                } else {
+                    muteButton.find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
+                    moderatorVideoHolder[0].muted = true;
+                }
+            });
+
+            videosLoadedSuccessfully++;
+            checkMainVideoPlayer();
+        }
+
         function initTesterVideoPlayer() {
-            var fileExist = true;
-            console.log('load video:', UPLOADS + testerResults.recordUrl);
+            var testerRecordingFileExist = true;
+            $(resultsPlayer).find('#tester-video-container').removeClass('hidden');
+
             $.get(UPLOADS + testerResults.recordUrl)
                     .fail(function () {
-                        fileExist = false;
+                        testerRecordingFileExist = false;
                         console.log('file does not exist: ' + UPLOADS + testerResults.recordUrl);
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
                     });
 
-            if (fileExist) {
-                initializeTimeline(timelineData);
+            testerVideoHolder = $(resultsPlayer).find('#tester-video-holder');
+            if (testerRecordingFileExist) {
+//                initializeTimeline(timelineData);
 
-                // Buttons
-                var playButton = $(resultsPlayer).find('#btn-play-pause');
-                var muteButton = $(resultsPlayer).find('#tester-video-container .btn-toggle-mute');
-//            var fullScreenButton = $(resultsPlayer).find('#btn-full-screen');
-                // Sliders
-                var seekBar = $(resultsPlayer).find('#main-seek-bar');
-//            var volumeBar = $(resultsPlayer).find('#volume-bar');
-
-                $(videoHolder).attr('src', UPLOADS + testerResults.recordUrl);
-                $(videoHolder).on('loadedmetadata', function () {
+                $(testerVideoHolder).attr('src', UPLOADS + testerResults.recordUrl);
+                $(testerVideoHolder).on('loadedmetadata', function () {
                     // google chrome no-duration workaround
-                    if (videoHolder[0].duration === Infinity) {
-                        console.log('duration is', videoHolder[0].duration);
-                        resultsPlayer.find('#video-timeline').addClass('hidden');
-                        resultsPlayer.find('#loader').removeClass('hidden');
-                        var duration = getSeconds(getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime));
+                    if (testerVideoHolder[0].duration === Infinity) {
+                        var duration = getSeconds(getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime), true);
                         console.log('total tester duration:', duration);
-                        videoHolder[0].currentTime = duration - 1;
-                        videoHolder[0].playbackRate = 10;
-                        videoHolder[0].muted = true;
+                        testerVideoHolder[0].currentTime = duration - 5;
+                        testerVideoHolder[0].playbackRate = 10;
+                        testerVideoHolder[0].muted = true;
 
-                        $(videoHolder).on('ended', function () {
+                        $(testerVideoHolder).on('ended', function () {
                             console.log('on tester record ended');
-                            $(videoHolder).unbind('ended');
-                            videoHolder[0].playbackRate = 1;
-                            videoHolder[0].muted = false;
-                            videoHolder[0].currentTime = 0;
+                            $(testerVideoHolder).unbind('ended');
+                            testerVideoHolder[0].playbackRate = 1;
+                            testerVideoHolder[0].muted = false;
+                            testerVideoHolder[0].currentTime = 0;
                             showTesterPlayer();
                         });
 
-                        $(playButton).unbind('click').bind('click', function (event) {
-                            event.preventDefault();
-                            if (videoHolder[0].paused === true) {
-                                videoHolder[0].play();
-                                if (moderatorVideoHolder) {
-                                    moderatorVideoHolder[0].play();
-                                }
-                            } else {
-                                videoHolder[0].pause();
-                                if (moderatorVideoHolder) {
-                                    moderatorVideoHolder[0].pause();
-                                }
-                            }
-                        });
-
-                        $(videoHolder).on('pause', function () {
-                            $(playButton).find('.fa').removeClass('fa-pause').addClass('fa-play');
-                        });
-
-                        $(videoHolder).on('play', function () {
-                            $(playButton).find('.fa').removeClass('fa-play').addClass('fa-pause');
-                        });
-
                         setTimeout(function () {
-                            videoHolder[0].play();
+                            testerVideoHolder[0].play();
                         }, 150);
                     } else {
                         showTesterPlayer();
                     }
                 });
+            }
+        }
 
-                $(videoHolder).unbind('click').bind('click', function (event) {
-                    event.preventDefault();
-                    $(resultsPlayer).find('#btn-play-pause').click();
-                });
+        function showTesterPlayer() {
+            $(resultsPlayer).find('#tester-video-container .video-time-code-duration').text(secondsToHms(testerVideoHolder[0].duration));
 
-                function showScreenPlayer() {
-                    $(resultsPlayer).find('#screen-share-video-container .video-time-code-duration').text(secondsToHms(screenShareVideoHolder[0].duration));
-                    $(screenShareVideoHolder).on('timeupdate', function () {
-                        var percent = this.currentTime / this.duration * 100;
-                        $(resultsPlayer).find('#screen-share-video-container .progress-bar').css({width: percent + '%'});
-                        $(resultsPlayer).find('#screen-share-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
-                    });
+            $(testerVideoHolder).unbind('timeupdate').bind('timeupdate', function () {
+                var percent = this.currentTime / this.duration * 100;
+                $(resultsPlayer).find('#tester-video-container .progress-bar').css({width: percent + '%'});
+                $(resultsPlayer).find('#tester-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
+            });
 
-                    videosLoadedSuccessfully++;
-                    checkMainVideoPlayer();
+            $(testerVideoHolder).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(resultsPlayer).find('#btn-play-pause').click();
+            });
+
+            var muteButton = $(resultsPlayer).find('#tester-video-container .btn-toggle-mute');
+            $(muteButton).unbind('click').bind('click', function (event) {
+                if (testerVideoHolder[0].muted === true) {
+                    muteButton.find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
+                    testerVideoHolder[0].muted = false;
+                } else {
+                    muteButton.find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
+                    testerVideoHolder[0].muted = true;
+                }
+            });
+
+            videosLoadedSuccessfully++;
+            checkMainVideoPlayer();
+        }
+
+        function checkMainVideoPlayer() {
+            if (videosLoadedSuccessfully >= videoCount) {
+                var checkedVideos = getMainVideoPlayer();
+                var mainVideo = null;
+                var secondVideo = null;
+                var gap = null;
+
+                if (checkedVideos) {
+                    mainVideo = checkedVideos.mainVideo;
+                    secondVideo = checkedVideos.secondVideo;
+                    gap = checkedVideos.gap;
+                } else {
+                    return false;
                 }
 
-                function showModeratorPlayer() {
-                    $(resultsPlayer).find('#moderator-video-container .video-time-code-duration').text(secondsToHms(moderatorVideoHolder[0].duration));
-                    $(moderatorVideoHolder).on('timeupdate', function () {
-                        var percent = this.currentTime / this.duration * 100;
-                        $(resultsPlayer).find('#moderator-video-container .progress-bar').css({width: percent + '%'});
-                        $(resultsPlayer).find('#moderator-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
-                    });
+                if (mainVideo) {
+                    resultsPlayer.find('#video-timeline').removeClass('hidden');
+                    resultsPlayer.find('#loader').addClass('hidden');
 
-                    var muteButton = $(resultsPlayer).find('#moderator-video-container .btn-toggle-mute');
-                    $(muteButton).unbind('click').bind('click', function (event) {
-                        if (videoHolder[0].muted === true) {
-                            muteButton.find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
-                            videoHolder[0].muted = false;
-                        } else {
-                            muteButton.find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
-                            videoHolder[0].muted = true;
-                        }
-                    });
+                    var timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, executionTime: executionTime} : {phaseData: phaseData, phaseResults: testerResults, executionTime: executionTime}
+                    initializeTimeline(timelineData);
 
-                    videosLoadedSuccessfully++;
-                    checkMainVideoPlayer();
-                }
+                    $(mainVideo).on('timeupdate', function () {
+                        updateTimeline(this.currentTime + 1);
 
-                function showTesterPlayer() {
-
-                    $(resultsPlayer).find('#tester-video-container .video-time-code-duration').text(secondsToHms(videoHolder[0].duration));
-
-                    $(videoHolder).on('timeupdate', function () {
-                        updateTimeline(this.currentTime);
                         var percent = this.currentTime / this.duration * 100;
                         $(seekBar).find('.progress-bar').css({width: percent + '%'});
-                        $(resultsPlayer).find('#tester-video-container .progress-bar').css({width: percent + '%'});
-                        $(resultsPlayer).find('#tester-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
+                        $(mainVideo).parent().find('.progress-bar').css({width: percent + '%'});
+                        $(mainVideo).parent().find('.video-time-code-current-time').text(secondsToHms(this.currentTime));
 
                         if (screenShareVideoHolder !== null) {
 //                        console.log(this.currentTime, this.duration - screenSharingEndGap);
-                            if (this.currentTime > screenSharingGap.start && this.currentTime < this.duration - screenSharingGap.end) {
+                            if (this.currentTime > screenSharingGap.start && this.currentTime < screenSharingGap.start + screenShareVideoHolder[0].duration) {
                                 screenShareVideoHolder[0].currentTime = this.currentTime - screenSharingGap.start;
                             } else if (this.currentTime <= screenSharingGap.start) {
                                 screenShareVideoHolder[0].currentTime = 0;
@@ -289,11 +319,11 @@ function RTCResultsPlayer(testerResults, evaluatorResults, timelineData) {
 
                     $(seekBar).unbind('mousedown').bind('mousedown', function (event) {
                         event.preventDefault();
-                        var video = videoHolder[0];
+                        var video = mainVideo[0];
                         video.pause();
 
-                        if (moderatorVideoHolder) {
-                            moderatorVideoHolder[0].pause();
+                        if (secondVideo) {
+                            secondVideo[0].pause();
                         }
 
                         $(window).unbind('mousemove').bind('mousemove', function (event) {
@@ -302,10 +332,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, timelineData) {
                             video.currentTime = Math.min(time, video.duration - 0.0001);
                             var percent = video.currentTime / video.duration * 100;
                             $(seekBar).find('.progress-bar').css({width: percent + '%'});
-
-                            if (moderatorVideoHolder) {
-                                moderatorVideoHolder[0].currentTime = Math.min(time, moderatorVideoHolder[0].duration - 0.0001);
-                            }
+                            readGapInput();
                         });
 
                         $(window).on('mouseup', function () {
@@ -313,8 +340,13 @@ function RTCResultsPlayer(testerResults, evaluatorResults, timelineData) {
                             $(window).unbind('mousemove');
                             video.play();
 
-                            if (moderatorVideoHolder) {
-                                moderatorVideoHolder[0].play();
+                            if (secondVideo) {
+                                readGapInput();
+//                                var isPlaying = secondVideo[0].currentTime > 0 && !secondVideo[0].paused && !secondVideo[0].ended && secondVideo[0].readyState > 2;
+                                var isPlayingValid = secondVideo[0].currentTime < secondVideo[0].duration;
+                                if (isPlayingValid) {
+                                    secondVideo[0].play();
+                                }
                             }
                         });
                     });
@@ -322,44 +354,119 @@ function RTCResultsPlayer(testerResults, evaluatorResults, timelineData) {
                     $(seekBar).unbind('click').bind('click', function (event) {
                         event.preventDefault();
                         var positionX = Math.abs(event.pageX - $(this).offset().left);
-                        var video = videoHolder[0];
+                        var video = mainVideo[0];
                         var time = video.duration * (positionX / $(this).width());
                         video.currentTime = time;
-
-                        if (moderatorVideoHolder) {
-                            moderatorVideoHolder[0].currentTime = time;
-                        }
+                        readGapInput();
                     });
 
-                    $(muteButton).unbind('click').bind('click', function (event) {
-                        if (videoHolder[0].muted === true) {
-                            muteButton.find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
-                            videoHolder[0].muted = false;
+                    $(playButton).unbind('click').bind('click', function (event) {
+                        event.preventDefault();
+                        var video = mainVideo[0];
+                        if (video.paused === true) {
+                            if (secondVideo) {
+//                                var gapInput = parseFloat($(resultsPlayer).find('#video-controls #gap-input').val());
+//                                if (isFinite(gapInput) && gapInput < 0 && video.currentTime < gap * -1) {
+//                                    video.currentTime += gap * -1;
+//                                }
+
+                                readGapInput();
+                                secondVideo[0].play();
+                            }
+                            video.play();
                         } else {
-                            muteButton.find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
-                            videoHolder[0].muted = true;
+                            video.pause();
+                            if (secondVideo) {
+                                secondVideo[0].pause();
+                            }
                         }
                     });
 
-                    videosLoadedSuccessfully++;
-                    checkMainVideoPlayer();
-                }
-            }
-        }
+                    $(mainVideo).on('pause', function () {
+                        $(playButton).find('.fa').removeClass('fa-pause').addClass('fa-play');
+                    });
 
-        function checkMainVideoPlayer() {
-            if (videosLoadedSuccessfully >= videoCount) {
-                mainVideo = getMainVideoPlayer();
-                if (mainVideo) {
-                    resultsPlayer.find('#video-timeline').removeClass('hidden');
-                    resultsPlayer.find('#loader').addClass('hidden');
+                    $(mainVideo).on('play', function () {
+                        $(playButton).find('.fa').removeClass('fa-play').addClass('fa-pause');
+                    });
+
+                    if (gap) {
+                        if (secondVideo && gap.start >= 0) {
+                            secondVideo[0].currentTime = gap.start;
+                        } else if (mainVideo && secondVideo) {
+                            mainVideo[0].currentTime = gap.start * -1;
+                        }
+
+                        $(resultsPlayer).find('#video-controls #gap-input').val(gap.start);
+
+                        $(resultsPlayer).find('#btn-lock-unlock-gap-input').unbind('click').bind('click', function (event) {
+                            event.preventDefault();
+                            if ($(this).find('.fa').hasClass('fa-pencil')) {
+                                if (mainVideo[0].paused === false) {
+                                    $(playButton).click();
+                                }
+
+                                $(this).find('.fa').removeClass('fa-pencil').addClass('fa-check');
+                                $(this).addClass('btn-success');
+                                $(resultsPlayer).find('#gap-input').removeAttr('readonly');
+
+                                $(resultsPlayer).find('#gap-input').bind('change input', function (event) {
+                                    readGapInput();
+                                });
+                            } else {
+                                $(this).find('.fa').removeClass('fa-check').addClass('fa-pencil');
+                                $(this).removeClass('btn-success');
+                                $(resultsPlayer).find('#gap-input').attr('readonly', 'true');
+                                $(resultsPlayer).find('#gap-input').unbind('change input');
+                                readGapInput();
+                            }
+                        });
+                    }
                 } else {
                     console.warn('no main video player');
+                }
+
+                function readGapInput() {
+                    var gapInput = parseFloat($(resultsPlayer).find('#video-controls #gap-input').val());
+                    if (isFinite(gapInput)) {
+                        if (secondVideo) {
+                            if (gapInput < 0 && mainVideo[0].currentTime < gapInput * -1) {
+                                mainVideo[0].currentTime = mainVideo[0].currentTime + gapInput * -1;
+                            } else {
+                                secondVideo[0].currentTime = Math.max(0, Math.min(mainVideo[0].duration, mainVideo[0].currentTime + gapInput));
+                            }
+
+                        }
+                    } else {
+                        $(resultsPlayer).find('#video-controls #gap-input').val(0.00);
+                    }
                 }
             }
         }
 
         function getMainVideoPlayer() {
+            if (screenShareVideoHolder) {
+                if (moderatorVideoHolder && testerVideoHolder) {
+                    var start = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, testerResults.startRecordingTime), true);
+                    var end = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endRecordingTime, testerResults.endRecordingTime), true);
+
+                    if (evaluatorResults.startRecordingTime < testerResults.startRecordingTime) {
+                        start *= -1;
+                    }
+                    console.log('webcam gap: ', start, end);
+
+                    return {mainVideo: moderatorVideoHolder, secondVideo: testerVideoHolder, gap: {start: start, end: end}};
+                } else if (moderatorVideoHolder && !testerVideoHolder) {
+                    return {mainVideo: moderatorVideoHolder, secondVideo: null, gap: null};
+                } else if (testerVideoHolder) {
+                    return {mainVideo: testerVideoHolder, secondVideo: null, gap: null};
+                }
+            } else {
+                $(resultsPlayer).find('#gap-input-congainer').remove();
+                $(resultsPlayer).find('#seek-bar-container').removeClass('col-xs-7 col-sm-8 col-lg-9').addClass('col-xs-10 col-lg-11');
+                return {mainVideo: testerVideoHolder, secondVideo: null, gap: null};
+            }
+
             return null;
         }
 
@@ -373,34 +480,43 @@ var timeline, itemRange = null;
 function initializeTimeline(timelineData) {
     if (timelineData) {
         // Create a Timeline
-        timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline')[0]);
-        timeline.setItems(getVisDataSet(timelineData));
-        itemRange = timeline.getItemRange();
-        var options = {
-            zoomable: false,
-            showCurrentTime: false,
-            orientation: 'top',
-            min: itemRange.min,
-            max: itemRange.max,
-            showMajorLabels: false,
-            showMinorLabels: false,
-            zoomMax: 10000,
-            selectable: true
-        };
-        timeline.setOptions(options);
-        timeline.addCustomTime(itemRange.min);
-        timeline.moveTo(itemRange.min);
+        var data = getVisDataSet(timelineData);
+        if (data && data.length > 2) {
+            timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline')[0]);
+            timeline.setItems(data);
+            itemRange = timeline.getItemRange();
+            var options = {
+                zoomable: false,
+                showCurrentTime: false,
+                orientation: 'top',
+                min: itemRange.min,
+                max: itemRange.max,
+                showMajorLabels: false,
+                showMinorLabels: false,
+                zoomMax: 10000,
+                selectable: true
+            };
+            timeline.setOptions(options);
+            timeline.addCustomTime(itemRange.min);
+            timeline.moveTo(itemRange.min);
+        } else {
+            console.warn('no timeline data extracted');
+            $(resultsPlayer).find('#results-timeline').remove();
+        }
     } else {
         console.warn('no timeline data');
+        $(resultsPlayer).find('#results-timeline').remove();
     }
 }
 
 function updateTimeline(currentTime) {
-    var min = new Date(itemRange.min);
-    min.setSeconds(min.getSeconds() + Math.ceil(Math.max(0, currentTime - 1)));
-    min.setMilliseconds(min.getMilliseconds() + Math.round(currentTime % 1 * 1000) - 300); // -600 because of the recording start lack
-    timeline.setCustomTime(min);
-    timeline.moveTo(min, {animation: false});
+    if (timeline && itemRange) {
+        var min = new Date(itemRange.min);
+        min.setSeconds(min.getSeconds() + Math.ceil(Math.max(0, currentTime)));
+        min.setMilliseconds(min.getMilliseconds() + Math.round(currentTime % 1 * 1000) - 300); // -300 because of the recording start lack
+        timeline.setCustomTime(min);
+        timeline.moveTo(min, {animation: false});
+    }
 }
 
 // Create a DataSet (allows two way data-binding)
@@ -435,6 +551,7 @@ function getGestureTrainingVisData(timelineData) {
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+
     var className = 'item-primary-full';
     if (timelineData.phaseResults.training && timelineData.phaseResults.training.length > 0) {
         for (var i = 0; i < timelineData.phaseResults.training.length; i++) {
@@ -453,6 +570,15 @@ function getGestureTrainingVisData(timelineData) {
         }
     }
 
+    var actions = timelineData.phaseResults.actions;
+    if (actions) {
+        for (var i = 0; i < actions.length; i++) {
+            var className = 'item-primary-full';
+            var contentText = translation.actions[actions[i].action];
+            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className});
+        }
+    }
+
     return array;
 }
 
@@ -462,6 +588,7 @@ function getGestureSlideshowVisData(timelineData) {
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+
     var actions = timelineData.phaseResults.actions;
     if (actions) {
         for (var i = 0; i < actions.length; i++) {
@@ -494,14 +621,14 @@ function getGestureSlideshowVisData(timelineData) {
     return array;
 }
 
-function getTriggerSlideshowVisData(timelineData) {
-    console.log('getTriggerSlideshowVisData', timelineData);
-    var array = new Array();
-    var count = 0;
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
-    return array;
-}
+//function getTriggerSlideshowVisData(timelineData) {
+//    console.log('getTriggerSlideshowVisData', timelineData);
+//    var array = new Array();
+//    var count = 0;
+//    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
+//    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+//    return array;
+//}
 
 function getPhysicalStressTestVisData(timelineData) {
     console.log('getPhysicalStressTestVisData', timelineData);
@@ -510,6 +637,7 @@ function getPhysicalStressTestVisData(timelineData) {
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+
     var actions = timelineData.phaseResults.actions;
     if (actions) {
         for (var i = 0; i < actions.length; i++) {
@@ -529,6 +657,7 @@ function getScenarioVisData(timelineData) {
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+
     var actions = timelineData.phaseResults.actions;
     if (actions) {
         for (var i = 0; i < actions.length; i++) {
@@ -548,6 +677,7 @@ function getExplorationVisData(timelineData) {
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+
     var actions = timelineData.phaseResults.actions;
     if (actions) {
         for (var i = 0; i < actions.length; i++) {

@@ -1877,10 +1877,15 @@ function getSeconds(executionTime, getMillis) {
     }
 
     if (getMillis === true) {
-        seconds += executionTime.milliseconds / 1000;
+        if (executionTime.milliseconds) {
+            seconds += executionTime.milliseconds / 1000;
+        } else {
+            seconds += 0.0;
+        }
+
     }
 //    console.log(seconds, executionTime);
-    return seconds;
+    return parseFloat(seconds);
 }
 
 function secondsToHms(d) {
@@ -2859,9 +2864,9 @@ function isUploadRecordingNeededForPhaseStep(phaseStep) {
     if (phaseStep) {
         var options = getPhaseStepOptions(phaseStep.format);
 
-        if (options.tester.recordStream === 'yes' && currentView === VIEW_TESTER) {
+        if (currentView === VIEW_TESTER && options.tester.recordStream === 'yes') {
             return true;
-        } else if (options.moderator.recordStream === 'yes' && currentView === VIEW_MODERATOR) {
+        } else if (currentView === VIEW_MODERATOR && options.moderator.recordStream === 'yes') {
             return true;
         }
     }
@@ -2940,7 +2945,7 @@ function getGMT(callback) {
         // This is where you do whatever you want with the time:
 //        console.log(result);
         if (result.time && callback) {
-            callback (result.time * 1000);
+            callback(result.time * 1000);
         }
     });
 }
