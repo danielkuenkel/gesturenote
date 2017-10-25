@@ -1801,6 +1801,8 @@ var Moderator = {
         return container;
     },
     renderIdentification: function renderIdentification(source, container, data) {
+        var recorder = null;
+        
         renderIdentificationItem(source, container, data);
         function renderIdentificationItem(source, container, data) {
             $(container).find('#slides .panel-heading-text').text(translation.formats.identification.text + " " + (currentIdentificationIndex + 1) + " " + translation.of + " " + data.identification.length);
@@ -1878,7 +1880,7 @@ var Moderator = {
                     allowRerecordGesture: false,
                     allowDeletingGesture: false
                 };
-                new GestureRecorder(options);
+                recorder = new GestureRecorder(options);
                 renderBodyJoints(gestureRecorder.find('#human-body'));
 
                 $(gestureRecorder).unbind(EVENT_GR_SAVE_SUCCESS).bind(EVENT_GR_SAVE_SUCCESS, function (event, gesture) {

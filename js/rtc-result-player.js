@@ -18,7 +18,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
     console.log('phase data results:', phaseData);
     console.log('execution time:', executionTime);
 
-    var screenSharingGap = null;
+    var screenSharingStartGap = 0;
+    var screenSharingEndGap = 0;
     var videoCount = 0;
     var videosLoadedSuccessfully = 0;
 
@@ -77,12 +78,14 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                             if (evaluatorResults.startTime > testerResults.startTime) {
                                 participantsStartGap *= -1;
                             }
-                            screenSharingGap = {start: getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, testerResults.startTime), true) + participantsStartGap, end: getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true) + participantsStartGap};
+                            screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, testerResults.startTime), true) + participantsStartGap;
+                            screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true) + participantsStartGap;
                         } else if (moderatorVideoHolder) {
-                            screenSharingGap = {start: getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.startTime), true), end: getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true)};
+                            screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.startTime), true);
+                            screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
                         }
 
-                        console.log(screenSharingGap);
+                        console.log(screenSharingStartGap, screenSharingEndGap);
                         console.log('total screen duration:', duration);
                         screenShareVideoHolder[0].currentTime = duration - 2;
                         screenShareVideoHolder[0].playbackRate = 10;
@@ -114,11 +117,9 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
         function showScreenPlayer() {
             $(resultsPlayer).find('#screen-share-video-container .video-time-code-duration').text(secondsToHms(screenShareVideoHolder[0].duration));
-            $(screenShareVideoHolder).on('timeupdate', function () {
-                var percent = this.currentTime / this.duration * 100;
-                $(resultsPlayer).find('#screen-share-video-container .progress-bar').css({width: percent + '%'});
-                $(resultsPlayer).find('#screen-share-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
-            });
+//            $(screenShareVideoHolder).on('timeupdate', function () {
+//                
+//            });
 
             videosLoadedSuccessfully++;
             checkMainVideoPlayer();
@@ -176,11 +177,11 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
         function showModeratorPlayer() {
             $(resultsPlayer).find('#moderator-video-container .video-time-code-duration').text(secondsToHms(moderatorVideoHolder[0].duration));
 
-            $(moderatorVideoHolder).unbind('timeupdate').bind('timeupdate', function () {
-                var percent = this.currentTime / this.duration * 100;
-                $(resultsPlayer).find('#moderator-video-container .progress-bar').css({width: percent + '%'});
-                $(resultsPlayer).find('#moderator-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
-            });
+//            $(moderatorVideoHolder).unbind('timeupdate').bind('timeupdate', function () {
+//                var percent = this.currentTime / this.duration * 100;
+//                $(resultsPlayer).find('#moderator-video-container .progress-bar').css({width: percent + '%'});
+//                $(resultsPlayer).find('#moderator-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
+//            });
 
             $(moderatorVideoHolder).unbind('click').bind('click', function (event) {
                 event.preventDefault();
@@ -249,11 +250,11 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
         function showTesterPlayer() {
             $(resultsPlayer).find('#tester-video-container .video-time-code-duration').text(secondsToHms(testerVideoHolder[0].duration));
 
-            $(testerVideoHolder).unbind('timeupdate').bind('timeupdate', function () {
-                var percent = this.currentTime / this.duration * 100;
-                $(resultsPlayer).find('#tester-video-container .progress-bar').css({width: percent + '%'});
-                $(resultsPlayer).find('#tester-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
-            });
+//            $(testerVideoHolder).unbind('timeupdate').bind('timeupdate', function () {
+//                var percent = this.currentTime / this.duration * 100;
+//                $(resultsPlayer).find('#tester-video-container .progress-bar').css({width: percent + '%'});
+//                $(resultsPlayer).find('#tester-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
+//            });
 
             $(testerVideoHolder).unbind('click').bind('click', function (event) {
                 event.preventDefault();
@@ -297,7 +298,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     var timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, executionTime: executionTime} : {phaseData: phaseData, phaseResults: testerResults, executionTime: executionTime}
                     initializeTimeline(timelineData);
 
-                    $(mainVideo).on('timeupdate', function () {
+                    $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {
                         updateTimeline(this.currentTime + 1);
 
                         var percent = this.currentTime / this.duration * 100;
@@ -305,21 +306,22 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         $(mainVideo).parent().find('.progress-bar').css({width: percent + '%'});
                         $(mainVideo).parent().find('.video-time-code-current-time').text(secondsToHms(this.currentTime));
 
-                        if (screenShareVideoHolder !== null) {
-//                        console.log(this.currentTime, this.duration - screenSharingEndGap);
-                            if (this.currentTime > screenSharingGap.start && this.currentTime < screenSharingGap.start + screenShareVideoHolder[0].duration) {
-                                screenShareVideoHolder[0].currentTime = this.currentTime - screenSharingGap.start;
-                            } else if (this.currentTime <= screenSharingGap.start) {
-                                screenShareVideoHolder[0].currentTime = 0;
-                            } else {
-                                screenShareVideoHolder[0].currentTime = screenShareVideoHolder[0].duration;
-                            }
+                        if (secondVideo) {
+                            var secondPercent = secondVideo[0].currentTime / secondVideo[0].duration * 100;
+                            $(secondVideo).parent().find('.progress-bar').css({width: secondPercent + '%'});
+                            $(secondVideo).parent().find('.video-time-code-current-time').text(secondsToHms(secondVideo[0].currentTime));
                         }
+
+                        updateScreenRecord();
                     });
 
                     $(seekBar).unbind('mousedown').bind('mousedown', function (event) {
                         event.preventDefault();
+                        var resumePlaying = true;
                         var video = mainVideo[0];
+                        if (video.paused === true) {
+                            resumePlaying = false;
+                        }
                         video.pause();
 
                         if (secondVideo) {
@@ -332,61 +334,94 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                             video.currentTime = Math.min(time, video.duration - 0.0001);
                             var percent = video.currentTime / video.duration * 100;
                             $(seekBar).find('.progress-bar').css({width: percent + '%'});
+                            $(mainVideo).parent().find('.progress-bar').css({width: percent + '%'});
+                            $(mainVideo).parent().find('.video-time-code-current-time').text(secondsToHms(video.currentTime));
                             readGapInput();
                         });
 
-                        $(window).on('mouseup', function () {
+                        $(window).on('mouseup', function (event) {
                             $(window).unbind('mouseup');
                             $(window).unbind('mousemove');
-                            video.play();
+
+                            var positionX = Math.abs(event.pageX - $(seekBar).offset().left);
+                            var time = video.duration * (positionX / $(seekBar).width());
+                            var currentTime = Math.min(time, video.duration - 0.0001);
+                            video.currentTime = currentTime;
+
+                            var percent = currentTime / video.duration * 100;
+                            $(mainVideo).parent().find('.progress-bar').css({width: percent + '%'});
+                            $(mainVideo).parent().find('.video-time-code-current-time').text(secondsToHms(currentTime));
 
                             if (secondVideo) {
                                 readGapInput();
-//                                var isPlaying = secondVideo[0].currentTime > 0 && !secondVideo[0].paused && !secondVideo[0].ended && secondVideo[0].readyState > 2;
                                 var isPlayingValid = secondVideo[0].currentTime < secondVideo[0].duration;
-                                if (isPlayingValid) {
+                                if (isPlayingValid && resumePlaying === true) {
                                     secondVideo[0].play();
                                 }
+                            }
+
+                            if (resumePlaying === true) {
+                                console.log('resume playing');
+                                video.play();
                             }
                         });
                     });
 
                     $(seekBar).unbind('click').bind('click', function (event) {
                         event.preventDefault();
+//                        var resumeAfterClick = true;
+                        var video = mainVideo[0];
+//                        if (video.paused === true) {
+////                        video.pause();
+//                            resumeAfterClick = false;
+//                        }
+
+//                        if (secondVideo) {
+//                            secondVideo[0].pause();
+//                        }
+
                         var positionX = Math.abs(event.pageX - $(this).offset().left);
                         var video = mainVideo[0];
                         var time = video.duration * (positionX / $(this).width());
                         video.currentTime = time;
                         readGapInput();
+
+                        var percent = video.currentTime / video.duration * 100;
+                        $(seekBar).find('.progress-bar').css({width: percent + '%'});
+
+//                        if (resumeAfterClick === true && video.paused === true) {
+//                        video.play();
+////                        }
+//
+//                        if (secondVideo) {
+//                            secondVideo[0].play();
+//                        }
                     });
 
                     $(playButton).unbind('click').bind('click', function (event) {
                         event.preventDefault();
                         var video = mainVideo[0];
                         if (video.paused === true) {
-                            if (secondVideo) {
-//                                var gapInput = parseFloat($(resultsPlayer).find('#video-controls #gap-input').val());
-//                                if (isFinite(gapInput) && gapInput < 0 && video.currentTime < gap * -1) {
-//                                    video.currentTime += gap * -1;
-//                                }
-
-                                readGapInput();
-                                secondVideo[0].play();
-                            }
                             video.play();
                         } else {
                             video.pause();
-                            if (secondVideo) {
+                        }
+
+                        if (secondVideo) {
+//                            readGapInput();
+                            if (secondVideo[0].paused === true) {
+                                secondVideo[0].play();
+                            } else {
                                 secondVideo[0].pause();
                             }
                         }
                     });
 
-                    $(mainVideo).on('pause', function () {
+                    $(mainVideo).unbind('pause').bind('pause', function () {
                         $(playButton).find('.fa').removeClass('fa-pause').addClass('fa-play');
                     });
 
-                    $(mainVideo).on('play', function () {
+                    $(mainVideo).unbind('play').bind('play', function () {
                         $(playButton).find('.fa').removeClass('fa-play').addClass('fa-pause');
                     });
 
@@ -436,9 +471,33 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                                 secondVideo[0].currentTime = Math.max(0, Math.min(mainVideo[0].duration, mainVideo[0].currentTime + gapInput));
                             }
 
+                            var percent = secondVideo[0].currentTime / secondVideo[0].duration * 100;
+                            $(secondVideo).parent().find('.progress-bar').css({width: percent + '%'});
+                            $(secondVideo).parent().find('.video-time-code-current-time').text(secondsToHms(secondVideo[0].currentTime));
                         }
                     } else {
                         $(resultsPlayer).find('#video-controls #gap-input').val(0.00);
+                    }
+                }
+
+                function updateScreenRecord() {
+                    if (screenShareVideoHolder !== null) {
+                        var screenVideo = screenShareVideoHolder[0];
+//                        console.log(this.currentTime, screenShareVideoHolder[0].duration + screenSharingGap.start);
+                        if (mainVideo[0].currentTime > screenSharingStartGap && mainVideo[0].currentTime < screenSharingStartGap + screenVideo.duration) {
+                            screenVideo.currentTime = mainVideo[0].currentTime - screenSharingStartGap;
+//                            if (playScreenRecord) {
+//                                screenShareVideoHolder[0].play();
+//                            }
+                        } else if (mainVideo[0].currentTime <= screenSharingStartGap) {
+                            screenVideo.currentTime = 0;
+                        } else {
+                            screenVideo.currentTime = screenVideo.duration;
+                        }
+
+                        var percent = screenVideo.currentTime / screenVideo.duration * 100;
+                        $(resultsPlayer).find('#screen-share-video-container .progress-bar').css({width: percent + '%'});
+                        $(resultsPlayer).find('#screen-share-video-container .video-time-code-current-time').text(secondsToHms(screenVideo.currentTime));
                     }
                 }
             }

@@ -478,7 +478,7 @@ function showSave() {
 
                     for (var i = 0; i < gestureImagesData.length; i++) {
                         var blob = dataURItoBlob(gestureImagesData[i]);
-                        var filename = hex_sha512(getGMT() + "" + i) + ".jpg";
+                        var filename = hex_sha512(new Date().getTime() + "" + i) + ".jpg";
                         uploadQueue.upload([blob], filename);
                     }
                 }
