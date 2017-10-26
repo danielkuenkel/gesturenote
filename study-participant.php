@@ -245,7 +245,8 @@ if (login_check($mysqli) == true) {
                             cacheNotes();
                         });
                     }
-
+                    
+                    console.log('content', content);
                     // check and add recorded stream data
                     if (isWebRTCNeededForPhaseStep(testerResults)) {
                         if (testerResults && testerResults.recordUrl && testerResults.recordUrl !== '') {
@@ -260,19 +261,6 @@ if (login_check($mysqli) == true) {
                             appendAlert(content, ALERT_NO_RECORD);
                         }
                     }
-
-
-//                    if (evaluatorResults && evaluatorResults.screenRecordUrl) {
-////                        console.log('evaluator data:', evaluatorResults);
-//                        var screenSharePlayer = new ScreenShareResultsPlayer(evaluatorResults);
-//
-//                        if (getBrowser() !== 'Safari') {
-//                            $(content).find('#horizontalLine').after(screenSharePlayer);
-//                        } else {
-////                            console.log('webm not supported');
-//                            appendAlert(content, ALERT_WEBM_UNSUPPORTED);
-//                        }
-//                    }
 
                     console.log('render phase step: ' + testerResults.format);
                     switch (testerResults.format) {

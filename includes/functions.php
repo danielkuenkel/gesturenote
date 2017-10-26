@@ -98,7 +98,7 @@ function checkbrute($user_id, $mysqli) {
     if ($stmt = $mysqli->prepare("SELECT time 
                              FROM login_attempts 
                              WHERE user_id = ? 
-                            AND time > '$valid_attempts'")) {
+                             AND time > '$valid_attempts'")) {
         $stmt->bind_param('i', $user_id);
 
         // Execute the prepared query. 

@@ -55,14 +55,16 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
         function initScreenSharingVideoPlayer() {
             var screenRecordingFileExist = true;
             console.log('init screen sharing video player', evaluatorResults);
-            $(resultsPlayer).find('#screen-share-video-container').removeClass('hidden');
-            $(resultsPlayer).find('#webcam-video-container').css({marginTop: '10px'});
+
 
             $.get(UPLOADS + evaluatorResults.screenRecordUrl)
                     .fail(function () {
                         console.log('file does not exist: ' + UPLOADS + evaluatorResults.screenRecordUrl);
                         screenRecordingFileExist = false;
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
+
+                        resultsPlayer.find('#loader').addClass('hidden');
+                        return false;
                     });
 
             screenShareVideoHolder = $(resultsPlayer).find('#screen-share-video-holder');
@@ -116,10 +118,9 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
         }
 
         function showScreenPlayer() {
+            $(resultsPlayer).find('#screen-share-video-container').removeClass('hidden');
+            $(resultsPlayer).find('#webcam-video-container').css({marginTop: '10px'});
             $(resultsPlayer).find('#screen-share-video-container .video-time-code-duration').text(secondsToHms(screenShareVideoHolder[0].duration));
-//            $(screenShareVideoHolder).on('timeupdate', function () {
-//                
-//            });
 
             videosLoadedSuccessfully++;
             checkMainVideoPlayer();
@@ -129,14 +130,17 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
         function initModeratorVideoPlayer() {
             var moderatorRecordingFileExist = true;
-            $(resultsPlayer).find('#moderator-video-container').removeClass('hidden');
 
             $.get(UPLOADS + evaluatorResults.recordUrl)
                     .fail(function () {
                         console.log('file does not exist: ' + UPLOADS + evaluatorResults.recordUrl);
                         moderatorRecordingFileExist = false;
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
+                        
+                        resultsPlayer.find('#loader').addClass('hidden');
+                        return false;
                     });
+
 
             moderatorVideoHolder = $(resultsPlayer).find('#moderator-video-holder');
             if (moderatorRecordingFileExist) {
@@ -175,13 +179,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
         }
 
         function showModeratorPlayer() {
+            $(resultsPlayer).find('#moderator-video-container').removeClass('hidden');
             $(resultsPlayer).find('#moderator-video-container .video-time-code-duration').text(secondsToHms(moderatorVideoHolder[0].duration));
-
-//            $(moderatorVideoHolder).unbind('timeupdate').bind('timeupdate', function () {
-//                var percent = this.currentTime / this.duration * 100;
-//                $(resultsPlayer).find('#moderator-video-container .progress-bar').css({width: percent + '%'});
-//                $(resultsPlayer).find('#moderator-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
-//            });
 
             $(moderatorVideoHolder).unbind('click').bind('click', function (event) {
                 event.preventDefault();
@@ -205,14 +204,17 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
         function initTesterVideoPlayer() {
             var testerRecordingFileExist = true;
-            $(resultsPlayer).find('#tester-video-container').removeClass('hidden');
 
             $.get(UPLOADS + testerResults.recordUrl)
                     .fail(function () {
                         testerRecordingFileExist = false;
                         console.log('file does not exist: ' + UPLOADS + testerResults.recordUrl);
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
+                        
+                        resultsPlayer.find('#loader').addClass('hidden');
+                        return false;
                     });
+
 
             testerVideoHolder = $(resultsPlayer).find('#tester-video-holder');
             if (testerRecordingFileExist) {
@@ -248,13 +250,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
         }
 
         function showTesterPlayer() {
+            $(resultsPlayer).find('#tester-video-container').removeClass('hidden');
             $(resultsPlayer).find('#tester-video-container .video-time-code-duration').text(secondsToHms(testerVideoHolder[0].duration));
-
-//            $(testerVideoHolder).unbind('timeupdate').bind('timeupdate', function () {
-//                var percent = this.currentTime / this.duration * 100;
-//                $(resultsPlayer).find('#tester-video-container .progress-bar').css({width: percent + '%'});
-//                $(resultsPlayer).find('#tester-video-container .video-time-code-current-time').text(secondsToHms(this.currentTime));
-//            });
 
             $(testerVideoHolder).unbind('click').bind('click', function (event) {
                 event.preventDefault();

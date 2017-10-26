@@ -16,7 +16,7 @@ if ($h && $token && $studyId) {
         }
     } else {
         $_SESSION['usertype'] = 'guest';
-        if (!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && ($_SESSION['user_id'] == 0 || $_SESSION['user_id'] == '0'))) {
+        if (!isset($_SESSION['user_id'])) {
             $time = time();
             $_SESSION['user_id'] = hash('sha512', $time . $_SESSION['usertype']);
         }
@@ -182,6 +182,7 @@ if ($h && $token && $studyId) {
 
             function onAllExternalsLoadedSuccessfully() {
                 $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+                console.log('tester id: <?php echo $_SESSION['user_id'] ?>');
 
                 var query = getQueryParams(document.location.search);
                 if (query.studyId && query.h && query.token) {

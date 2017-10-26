@@ -318,6 +318,7 @@ if ($h && $token && $studyId) {
                         var current = convertSQLTimestampToDate(request.current);
                         var waitingTime = getTimeBetweenTimestamps(created.getTime(), current.getTime());
                         $(item).find('#waiting .text').text(getTimeString(waitingTime, true));
+                        console.log(request.testerId);
                         if (isNaN(request.testerId)) {
                             $(item).find('#user .label-text').text(translation.userTypes.guest);
                         } else {

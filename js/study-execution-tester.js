@@ -1795,25 +1795,33 @@ var Tester = {
 
         // handle states in preview mode
         if (explorationStartTriggered === true) {
-
             clearAlerts(container);
-            $(container).find('#fixed-rtc-preview').removeClass('hidden');
-            $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
-            $(container).find('#scene-description').removeClass('hidden');
+//            $(container).find('#fixed-rtc-preview').removeClass('hidden');
+            if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene]) {
+                $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
+                $(container).find('#scene-description').removeClass('hidden');
+            }
 
             if (previewModeEnabled) {
                 // render scene manually
-                renderSceneItem(source, container, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].sceneId);
+                console.log('render scene manually:', data.exploration[currentExplorationIndex]);
+                if (data.exploration[currentExplorationIndex] && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
+                    renderSceneItem(source, container, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].sceneId);
+                } else {
+                    renderSceneItem(source, container, null);
+                }
             }
         } else {
             appendAlert($(container), ALERT_PLEASE_WAIT);
-            $(container).find('#fixed-rtc-preview').addClass('hidden');
+//            $(container).find('#fixed-rtc-preview').addClass('hidden');
             $(container).find('#scene-description').addClass('hidden');
             $(container).find('#scene-container').addClass('hidden');
         }
 
-        // generic exploration live events
+        // handle live mode
         if (!previewModeEnabled && peerConnection) {
+
+            // generic exploration live events
             $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
                 clearAlerts(container);
                 explorationStartTriggered = true;
@@ -1825,16 +1833,16 @@ var Tester = {
                 currentExplorationIndex = payload.index;
                 currentExplorationScene = payload.sceneIndex;
                 console.log('render scene', payload);
-                $(container).find('#scene-description p').text(payload.description);
-                $(container).find('#scene-container').removeClass('hidden');
+
+                if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene]) {
+                    $(container).find('#scene-description p').text(payload.description);
+                    $(container).find('#scene-container').removeClass('hidden');
+                }
             });
-        }
 
-
-        // handle live mode
-        if (!previewModeEnabled && peerConnection) {
             if (data.explorationType === 'gestures') {
                 $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_GESTURES).bind(MESSAGE_REQUEST_PREFERRED_GESTURES, function (event, payload) {
+//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
                     $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                         event.preventDefault();
                         appendAlert($(container), ALERT_PLEASE_WAIT);
@@ -1845,6 +1853,7 @@ var Tester = {
                 });
             } else {
                 $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_TRIGGER).bind(MESSAGE_REQUEST_PREFERRED_TRIGGER, function (event, payload) {
+//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
                     $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                         event.preventDefault();
                         appendAlert($(container), ALERT_PLEASE_WAIT);
@@ -1856,9 +1865,14 @@ var Tester = {
             }
         } else {
             console.log('show modal');
-            $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
+
+            if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene]) {
+                $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
+            }
+
             if (data.explorationType === 'gestures') {
                 if (explorationPreferredGesturesRequest) {
+//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
                     $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                         event.preventDefault();
                         appendAlert($(container), ALERT_PLEASE_WAIT);
@@ -1870,9 +1884,11 @@ var Tester = {
                 }
             } else {
                 if (explorationPreferredGesturesRequest) {
+//                    $(container).find('#fixed-rtc-preview').addClass('hidden');
                     $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                         event.preventDefault();
                         appendAlert($(container), ALERT_PLEASE_WAIT);
+                        $(container).find('#fixed-rtc-preview').addClass('hidden');
                         $(container).find('#scene-description').addClass('hidden');
                         $(container).find('#scene-container').addClass('hidden');
                     });
@@ -2257,8 +2273,9 @@ function getJointSelectionRatings(data, selectionRating, container) {
 }
 
 function renderSceneItem(source, container, sceneId) {
+    container.find('#scene-container').empty();
     console.log('renderSceneItem', sceneId);
-    if (sceneId !== 'none' || sceneId !== null) {
+    if (sceneId && (sceneId !== 'none' || sceneId !== null)) {
         $(container).find('#btn-refresh-scene').removeClass('hidden');
         var scene = getSceneById(sceneId);
         var sceneItem = $(source).find('#' + scene.type).clone().removeAttr('id');

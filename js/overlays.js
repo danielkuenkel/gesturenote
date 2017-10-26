@@ -1897,6 +1897,7 @@ function initExplorationOverlay(id, formatClone) {
                     $(item).find('.btn-add-transition-scene').click();
                 } else {
                     renderAssembledTriggerItems(item.find('#assembled-trigger-container'));
+                    initAddTransitionSceneButton(item);
                 }
             } else {
 //                wobble($(formatClone).find('#identificationTypeSwitch'));

@@ -544,9 +544,9 @@ include '../includes/language.php';
                             <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                         </div>
                         <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
-                            <span class="video-time-code-current-time">0:00</span>
+                            <span class="video-time-code-current-time">00:00:00</span>
                             <span> / </span>
-                            <span class="video-time-code-duration">0:00</span>
+                            <span class="video-time-code-duration">00:00:00</span>
                         </div>
                     </div>
                 </div>
@@ -562,9 +562,9 @@ include '../includes/language.php';
                                 <i class="fa fa-volume-up" style="color: white"></i>
                             </div>
                             <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
-                                <span class="video-time-code-current-time">0:00</span>
+                                <span class="video-time-code-current-time">00:00:00</span>
                                 <span> / </span>
-                                <span class="video-time-code-duration">0:00</span>
+                                <span class="video-time-code-duration">00:00:00</span>
                             </div>
                         </div>
                         <div class="col-xs-6 hidden" id="moderator-video-container">
@@ -576,9 +576,9 @@ include '../includes/language.php';
                                 <i class="fa fa-volume-up" style="color: white"></i>
                             </div>
                             <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
-                                <span class="video-time-code-current-time">0:00</span>
+                                <span class="video-time-code-current-time">00:00:00</span>
                                 <span> / </span>
-                                <span class="video-time-code-duration">0:00</span>
+                                <span class="video-time-code-duration">00:00:00</span>
                             </div>
                         </div>
                     </div>
@@ -831,28 +831,21 @@ include '../includes/language.php';
         <hr>
         <div class="question-container"  id="observations-container"></div>
     </div>
-
-
-    <!--    <div id="add-observations-dropdown" style="margin-top: 20px">
-            <div class="input-group">
-                <span class="input-group-addon">Beobachtungsformat</span>
-                <input class="form-control item-input-text show-dropdown text-center readonly" type="text" value="Bitte wählen"/>
-                <div class="input-group-btn select" id="addFormatSelect" role="group">
-                    <button class="btn btn-default btn-shadow btn-dropdown" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                    <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                        <li id="counter"><a href="#"><?php echo $lang->questionFormats->counter->text ?></a></li>
-                        <li id="openQuestion"><a href="#"><?php echo $lang->questionFormats->openQuestion->text ?></a></li>
-                        <li id="dichotomousQuestion"><a href="#"><?php echo $lang->questionFormats->dichotomousQuestion->text ?></a></li>
-                        <li id="groupingQuestion"><a href="#"><?php echo $lang->questionFormats->groupingQuestion->text ?></a></li>
-                        <li id="rating"><a href="#"><?php echo $lang->questionFormats->rating->text ?></a></li>
-                        <li id="sumQuestion"><a href="#"><?php echo $lang->questionFormats->sumQuestion->text ?></a></li>
-                        <li id="ranking"><a href="#"><?php echo $lang->questionFormats->ranking->text ?></a></li>
-                    </ul>
-                    <button class="btn btn-info btn-shadow disabled dropdown-disabled" id="btn-add-observation" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                </div>
-            </div>
+    
+    <div class="root" id="exploration">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <hr id="horizontalLine">
+        <div class="alert-space alert-no-record"></div>
+        <div class="alert-space alert-webm-unsupported"></div>
+        
+<!--        <div id="item-view" style="margin-top: 30px;">
+            <div class="alert-space alert-no-phase-data"></div>
+            <div class="list-container row" id="gestures-list-container"></div>
         </div>-->
-
+        <h3 id="headline-observations">Beobachtungen</h3>
+        <hr>
+        <div class="question-container"  id="observations-container"></div>
+    </div>
 
 
 
