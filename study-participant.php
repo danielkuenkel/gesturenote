@@ -245,7 +245,7 @@ if (login_check($mysqli) == true) {
                             cacheNotes();
                         });
                     }
-                    
+
                     console.log('content', content);
                     // check and add recorded stream data
                     if (isWebRTCNeededForPhaseStep(testerResults)) {
@@ -301,7 +301,7 @@ if (login_check($mysqli) == true) {
                             renderIdentification(content, phaseData, testerResults);
                             break;
                         case EXPLORATION:
-                            renderExploration(content, phaseData, testerResults);
+                            renderExploration(content, phaseData, testerResults, evaluatorResults);
                             break;
                     }
 
@@ -834,8 +834,69 @@ if (login_check($mysqli) == true) {
                 renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 
-            function renderExploration(content, phaseData, phaseResults) {
-                console.log(phaseData, phaseResults);
+            function renderExploration(container, phaseData, testerResults, evaluatorResults) {
+                console.log(phaseData, testerResults, evaluatorResults);
+
+                console.log('exploration type: ' + phaseData.explorationType);
+                if (testerResults.answers) {
+                    $(container).find('#extraction-item-container').removeClass('hidden');
+                    $(container).find('#headline-extraction-items').text(phaseData.explorationType === 'trigger' ? translation.favoriteTrigger : translation.favoriteGestures);
+
+                    if (phaseData.explorationType === 'trigger') {
+                        for (var i = 0; i < testerResults.answers.length; i++) {
+                            var gesture = getGestureById(testerResults.answers[i].gestureId);
+                            var gestureItem = getGestureCatalogListThumbnail(gesture, null, 'col-xs-12 col-sm-6 col-md-4 col-lg-3');
+
+                            var answerItem = $('#template-study-container').find('#exploration-answer-item-for-trigger').clone().removeClass('id');
+                            $(container).find('#item-view').append(answerItem);
+                            $(answerItem).find('#gestures-list-container').prepend(gestureItem);
+
+                            if (i > 0) {
+                                $(answerItem).css({marginTop: '40px'});
+                            }
+
+                            var preferredTrigger = testerResults.answers[i].preferredTrigger[0];
+                            var answer = preferredTrigger;
+                            var questionnaire = [];
+                            var question = {id: preferredTrigger.id, dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: translation.askPreferredTriggerForGesture, parameters: {multiselect: 'yes', optionSource: 'triggers', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes'}};
+                            var triggerOptions = [];
+
+                            for (var j = 0; j < phaseData.exploration[i].trigger.length; j++) {
+                                triggerOptions.push(getTriggerById(phaseData.exploration[i].trigger[j]));
+                            }
+
+                            questionnaire.push(question);
+                            renderQuestionnaireAnswers($(answerItem), questionnaire, {answers: [answer]}, true, false);
+                        }
+                    } else {
+                        var answerItem = $('#template-study-container').find('#exploration-answer-item-for-gesture').clone().removeClass('id');
+                        $(container).find('#item-view').append(answerItem);
+                        
+                        var questionnaire = [];
+                        for (var i = 0; i < testerResults.answers.length; i++) {
+                            var trigger = getTriggerById(testerResults.answers[i].triggerId);
+
+                            var preferredGesture = testerResults.answers[i].preferredGestures[0];
+                            var answer = preferredGesture;
+                            
+                            var questionText = translation.askPreferredGesturesForTrigger;
+                            questionText = questionText.replace('{trigger}', trigger.title);
+
+                            var gestures = phaseData.exploration[i].gestures;
+                            var options = [];
+                            for (var j = 0; j < gestures.length; j++) {
+                                options.push(getGestureById(gestures[j]));
+                            }
+                            var question = {id: preferredGesture.id, dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: questionText, parameters: {multiselect: 'yes', optionSource: 'gestures', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes', options: options}};
+                            questionnaire.push(question);
+
+                        }
+
+                        renderQuestionnaireAnswers($(answerItem), questionnaire, {answers: [answer]}, true, false);
+                    }
+                }
+
+                renderObservation($(container).find('#observations'), phaseData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 
             function renderObservation(target, studyData, observationResults) {

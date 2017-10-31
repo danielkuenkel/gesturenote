@@ -34,32 +34,36 @@ include 'includes/language.php';
         renderQuestionnaire($('#custom-modal'), data);
 
         $('#custom-modal').find('.question-container').unbind('change').bind('change', function (event) {
-            saveAnswers($(this).children());
+            event.preventDefault();
+            saveAnswers($(this).children(), false);
         });
 
         $('#custom-modal').find('#btn-done-select').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            saveAnswers($(this).parent().parent().find('.question-container').children());
+            $('#custom-modal').find('.question-container').unbind('change');
+            saveAnswers($(this).parent().parent().find('.question-container').children(), true);
             $('#custom-modal').modal('hide');
         });
 
-        function saveAnswers(questionnaire) {
-            var answers = {answers: getQuestionnaireAnswers(questionnaire)};
+        function saveAnswers(questionnaire, saveAnswers) {
+            var answers = getQuestionnaireAnswers(questionnaire);
             if (!previewModeEnabled) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                if (tempData && tempData.gestures) {
-                    tempData.answers.push({triggerId: trigger.id, preferredGestures: answers});
-                } else {
-                    tempData.answers = [{triggerId: trigger.id, preferredGestures: answers}];
+                if (saveAnswers) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    if (tempData && tempData.answers) {
+                        tempData.answers.push({triggerId: trigger.id, preferredGestures: answers});
+                    } else {
+                        tempData.answers = [{triggerId: trigger.id, preferredGestures: answers}];
+                    }
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
                 if (peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_RESPONSE_PREFERRED_GESTURES, {data: data, answers: answers});
+                    peerConnection.sendMessage(MESSAGE_RESPONSE_PREFERRED_GESTURES, {data: data, answers: {answers: answers}, saveAnswers: saveAnswers || false});
                 }
             } else {
-                currentQuestionnaireAnswers = {data: data, answers: answers};
+                currentQuestionnaireAnswers = {data: data, answers: {answers: answers}};
             }
         }
     });

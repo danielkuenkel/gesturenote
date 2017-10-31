@@ -705,14 +705,14 @@
                     "stream": "yes",
                     "video": "yes",
                     "audio": "yes",
-                    "visualizeStream": "yes",
+                    "visualizeStream": "no",
                     "recordStream": "yes"
                 },
                 "moderator": {
                     "stream": "yes",
                     "video": "yes",
                     "audio": "yes",
-                    "visualizeStream": "yes",
+                    "visualizeStream": "no",
                     "recordStream": "yes"
                 },
                 "enableDataChannels": "yes"
@@ -915,6 +915,8 @@
     "requestPreferredTriggerForGesture": "Welche Funktion passt am Besten zur Geste? Bitte begründen!",
     "askPreferredTriggerForGesture": "Welche Funktion passt am Besten zur Geste? Bitte die Auswahl begründen.",
     "askPreferredGesturesForTrigger": "Welche Geste(n) passen am Besten zur Funktion: {trigger}? Bitte die Auswahl begründen.",
+    "favoriteTrigger": "Favorisierte Funktionen",
+    "favoriteGestures": "Favorisierte Gesten",
     "of": "von",
     "text": "Text",
     "sound": "Sound",

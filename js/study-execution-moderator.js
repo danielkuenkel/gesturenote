@@ -16,8 +16,8 @@ var Moderator = {
             getGMT(function (timestamp) {
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 tempData.startTime = timestamp;
-                delete tempData.endRecordingTime;
-                delete tempData.endScreenRecordingTime;
+//                delete tempData.endRecordingTime;
+//                delete tempData.endScreenRecordingTime;
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
         }
@@ -621,7 +621,6 @@ var Moderator = {
                 } else {
                     var leftFeedbackButtons = $(item).find('#transition-feedback-container .btn-trigger-feedback').not('.btn-primary');
                     var leftSceneButtons = $(item).find('#transition-scenes .btn-trigger-scene').not('.btn-primary');
-                    console.log(leftFeedbackButtons.length, leftSceneButtons.length, $(item).find('#transition-scenes .btn-trigger-scene').not('.btn-primary'));
                     if (leftFeedbackButtons.length === 0 && leftSceneButtons.length === 0) {
                         $(item).find('#btn-repeat-training').removeClass('disabled');
                     }
@@ -1802,7 +1801,7 @@ var Moderator = {
     },
     renderIdentification: function renderIdentification(source, container, data) {
         var recorder = null;
-        
+
         renderIdentificationItem(source, container, data);
         function renderIdentificationItem(source, container, data) {
             $(container).find('#slides .panel-heading-text').text(translation.formats.identification.text + " " + (currentIdentificationIndex + 1) + " " + translation.of + " " + data.identification.length);
@@ -2212,7 +2211,7 @@ var Moderator = {
                     clearAlerts($(container).find('#identified-trigger'));
                     currentQuestionnaireAnswers = payload.answers;
                     renderQuestionnaireAnswers($(container).find('#identified-trigger'), payload.data, payload.answers, false);
-
+                    console.log(MESSAGE_RESPONSE_TRIGGER, payload)
                     if (payload.saveAnswers === true) {
                         if (currentIdentificationIndex < data.identification.length - 1) {
                             $(container).find('#btn-next-trigger').removeClass('hidden disabled');
@@ -2238,6 +2237,7 @@ var Moderator = {
                 currentIdentificationScene = 0;
                 identificationTriggerRequest = false;
                 renderIdentificationItem(source, container, data);
+
                 if (peerConnection) {
                     peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION);
                 }
@@ -2401,6 +2401,8 @@ var Moderator = {
                 clearAlerts($(container).find('#identified-getures'));
                 $(container).find('#identified-gestures').removeClass('hidden');
                 $(item).find('#btn-request-gestures').addClass('hidden');
+                $(container).find('#btn-next-trigger').addClass('disabled');
+                $(container).find('#btn-done').addClass('disabled');
 
                 // render selected gestures
                 renderQuestionnaireAnswers($(container).find('#identified-gestures'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
@@ -2476,6 +2478,8 @@ var Moderator = {
                 clearAlerts($(container).find('#identified-trigger'));
                 $(container).find('#identified-trigger').removeClass('hidden');
                 $(item).find('#btn-request-trigger').addClass('hidden');
+                $(container).find('#btn-next-gesture').addClass('disabled');
+                $(container).find('#btn-done').addClass('disabled');
 
                 // render selected gestures
                 renderQuestionnaireAnswers($(container).find('#identified-trigger'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
@@ -2514,40 +2518,45 @@ var Moderator = {
 
         // scene buttons
         function renderSceneTriggerItems(item, container, data) {
-            for (var i = 0; i < data.exploration[currentExplorationIndex].transitionScenes.length; i++) {
-                var scene = getSceneById(data.exploration[currentExplorationIndex].transitionScenes[i].sceneId);
-                var transitionItem = $(source).find('#transition-scene-item').clone().attr('id', scene.id);
-                var itemData = $(source).find('#interactive-scenes-catalog-thumbnail').clone().removeAttr('id');
-                $(itemData).find('#info-' + scene.type).removeClass('hidden');
-                $(itemData).find('.btn-text').text(scene.title);
-                $(itemData).find('.scene-description').text(data.exploration[currentExplorationIndex].transitionScenes[i].description);
-                $(transitionItem).find('.scene-data').append(itemData);
-                $(item).find('#transition-scenes').append(transitionItem);
-                $(item).find('#transition-scenes').append(document.createElement('br'));
-                if ((currentExplorationScene > 0 && i === currentExplorationScene) || (currentExplorationScene === 0 && i === 0)) {
-                    $(transitionItem).find('.btn-trigger-scene').addClass('btn-primary');
-                    $(transitionItem).find('.scene-description').removeClass('hidden');
+            if (data.exploration && data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
+                for (var i = 0; i < data.exploration[currentExplorationIndex].transitionScenes.length; i++) {
+                    var scene = getSceneById(data.exploration[currentExplorationIndex].transitionScenes[i].sceneId);
+                    var transitionItem = $(source).find('#transition-scene-item').clone().attr('id', scene.id);
+                    var itemData = $(source).find('#interactive-scenes-catalog-thumbnail').clone().removeAttr('id');
+                    $(itemData).find('#info-' + scene.type).removeClass('hidden');
+                    $(itemData).find('.btn-text').text(scene.title);
+                    $(itemData).find('.scene-description').text(data.exploration[currentExplorationIndex].transitionScenes[i].description);
+                    $(transitionItem).find('.scene-data').append(itemData);
+                    $(item).find('#transition-scenes').append(transitionItem);
+                    $(item).find('#transition-scenes').append(document.createElement('br'));
+                    if ((currentExplorationScene > 0 && i === currentExplorationScene) || (currentExplorationScene === 0 && i === 0)) {
+                        $(transitionItem).find('.btn-trigger-scene').addClass('btn-primary');
+                        $(transitionItem).find('.scene-description').removeClass('hidden');
+                    }
+
+                    $(itemData).find('.btn-trigger-scene').unbind('click').bind('click', {scene: scene, index: i}, function (event) {
+                        if (!$(this).hasClass('btn-primary') && !$(this).hasClass('disabled')) {
+                            $(this).closest('.root').find('.btn-trigger-scene').removeClass('btn-primary');
+                            $(this).closest('.root').find('.scene-description').addClass('hidden');
+                            $(this).addClass('btn-primary');
+                            $(this).parent().parent().find('.scene-description').removeClass('hidden');
+                            currentExplorationScene = event.data.index;
+                            openPrototypeScene(event.data.scene, data.exploration.length === 1, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
+                        }
+
+                        if ($(this).hasClass('disabled')) {
+                            $(document).scrollTop(0);
+                            wobble(container.find('#general'));
+                        }
+                    });
                 }
 
-                $(itemData).find('.btn-trigger-scene').unbind('click').bind('click', {scene: scene, index: i}, function (event) {
-                    if (!$(this).hasClass('btn-primary') && !$(this).hasClass('disabled')) {
-                        $(this).closest('.root').find('.btn-trigger-scene').removeClass('btn-primary');
-                        $(this).closest('.root').find('.scene-description').addClass('hidden');
-                        $(this).addClass('btn-primary');
-                        $(this).parent().parent().find('.scene-description').removeClass('hidden');
-                        currentExplorationScene = event.data.index;
-                        openPrototypeScene(event.data.scene, data.exploration.length === 1, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
-                    }
-
-                    if ($(this).hasClass('disabled')) {
-                        $(document).scrollTop(0);
-                        wobble(container.find('#general'));
-                    }
-                });
-            }
-
-            if (currentExplorationIndex > 0) {
-                $(container).find('.btn-trigger-scene').removeClass('disabled');
+                if (currentExplorationIndex > 0) {
+                    $(container).find('.btn-trigger-scene').removeClass('disabled');
+                }
+            } else {
+                // no scenes available
+                openPrototypeScene(null, data.exploration.length === 1, null, currentExplorationIndex);
             }
         }
 
@@ -2586,9 +2595,11 @@ var Moderator = {
                     if (peerConnection) {
                         peerConnection.sendMessage(MESSAGE_START_EXPLORATION);
                     }
-                } else {
+                } else if (!explorationStartTriggered) {
                     wobble([container.find('#general')]);
                     $(document).scrollTop(0);
+                } else {
+                    wobble($(container).find('#identified-gestures'));
                 }
             });
 
@@ -2603,9 +2614,11 @@ var Moderator = {
                     if (peerConnection) {
                         peerConnection.sendMessage(MESSAGE_START_EXPLORATION);
                     }
-                } else {
+                } else if (!explorationStartTriggered) {
                     wobble([container.find('#general')]);
                     $(document).scrollTop(0);
+                } else {
+                    wobble($(container).find('#identified-trigger'));
                 }
             });
 
@@ -2614,6 +2627,9 @@ var Moderator = {
                 if (!$(this).hasClass('disabled')) {
                     $(this).addClass('hidden');
                     $(container).find('#identified-gestures').removeClass('hidden');
+                    $(container).find('#btn-next-trigger').addClass('disabled');
+                    $(container).find('#btn-done').addClass('disabled');
+                    $(container).find('#identified-gestures .question-container').empty();
                     appendAlert($(container).find('#identified-gestures'), ALERT_WAITING_FOR_TESTER);
                     explorationPreferredGesturesRequest = true;
                     if (peerConnection) {
@@ -2630,6 +2646,9 @@ var Moderator = {
                 if (!$(this).hasClass('disabled')) {
                     $(this).addClass('hidden');
                     $(container).find('#identified-trigger').removeClass('hidden');
+                    $(container).find('#btn-next-gesture').addClass('disabled');
+                    $(container).find('#btn-done').addClass('disabled');
+                    $(container).find('#identified-trigger .question-container').empty();
                     appendAlert($(container).find('#identified-trigger'), ALERT_WAITING_FOR_TESTER);
                     explorationPreferredGesturesRequest = true;
                     if (peerConnection) {
@@ -2658,13 +2677,22 @@ var Moderator = {
                 clearAlerts($(container).find('#identified-gestures'));
                 currentQuestionnaireAnswers = payload.answers;
 
+                if (payload.saveAnswers === true) {
+                    $(container).find('#btn-next-trigger').removeClass('disabled');
+                    $(container).find('#btn-done').removeClass('disabled');
+                } else {
+                    explorationPreferredGesturesRequest = false;
+                    $(container).find('#btn-next-trigger').addClass('disabled');
+                    $(container).find('#btn-done').addClass('disabled');
+                }
+
                 // render selected gestures
                 renderQuestionnaireAnswers($(container).find('#identified-gestures'), payload.data, payload.answers, false);
 
                 if (currentExplorationIndex < data.exploration.length - 1) {
-                    $(container).find('#btn-next-trigger').removeClass('hidden disabled');
+                    $(container).find('#btn-next-trigger').removeClass('hidden');
                 } else {
-                    $(container).find('#btn-done').removeClass('hidden disabled');
+                    $(container).find('#btn-done').removeClass('hidden');
                 }
             });
 
@@ -2672,13 +2700,22 @@ var Moderator = {
                 clearAlerts($(container).find('#identified-trigger'));
                 currentQuestionnaireAnswers = payload.answers;
 
+                if (payload.saveAnswers === true) {
+                    $(container).find('#btn-next-gesture').removeClass('disabled');
+                    $(container).find('#btn-done').removeClass('disabled');
+                } else {
+                    explorationPreferredGesturesRequest = false;
+                    $(container).find('#btn-next-gesture').addClass('disabled');
+                    $(container).find('#btn-done').addClass('disabled');
+                }
+
                 // render selected trigger
                 renderQuestionnaireAnswers($(container).find('#identified-trigger'), payload.data, payload.answers, false);
 
                 if (currentExplorationIndex < data.exploration.length - 1) {
-                    $(container).find('#btn-next-gesture').removeClass('hidden disabled');
+                    $(container).find('#btn-next-gesture').removeClass('hidden');
                 } else {
-                    $(container).find('#btn-done').removeClass('hidden disabled');
+                    $(container).find('#btn-done').removeClass('hidden');
                 }
             });
         }
@@ -2798,6 +2835,7 @@ var Moderator = {
             $(peerConnection).unbind(MESSAGE_NEXT_STEP).bind(MESSAGE_NEXT_STEP, function (event, payload) {
                 nextStep();
             });
+
             $(peerConnection).unbind(MESSAGE_CANCEL_SURVEY).bind(MESSAGE_CANCEL_SURVEY, function (event, payload) {
                 currentPhaseStepIndex = getThanksStepIndex();
                 renderPhaseStep();
@@ -2807,8 +2845,9 @@ var Moderator = {
                     prototypeWindow = null;
                 }
             });
+
             $(peerConnection).unbind(MESSAGE_REQUEST_SYNC).bind(MESSAGE_REQUEST_SYNC, function (event, payload) {
-                console.log('request sync');
+                console.log('on sync request');
                 pinRTC();
                 resetConstraints();
                 renderPhaseStep();
@@ -2823,7 +2862,8 @@ var Moderator = {
                     prototypeWindow = null;
                 }
 
-
+                $('#custom-modal').find('.modal-content').empty();
+                $('#custom-modal').modal('hide');
 //                Moderator.resetScreenSharing();
             });
 
@@ -2973,14 +3013,14 @@ function renderObservations(data, container) {
 }
 
 function checkRTCUploadStatus(container) {
-    if (!uploadQueue.allFilesUploaded()) {
+    if (!uploadQueue.allFilesUploaded() && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
         console.log('sumbmit final data with upload queue, some files where not uploaded yet!');
         submitFinalData(container, false);
-        $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED).bind(EVENT_ALL_FILES_UPLOADED, function () {
-            console.log('allVideosUploaded');
-            $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED);
-            submitFinalData(container, true);
-        });
+//        $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED).bind(EVENT_ALL_FILES_UPLOADED, function () {
+//            console.log('Moderator: all videos uploaded -> submit final data');
+//            $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED);
+//            submitFinalData(container, true);
+//        });
     } else {
         console.log('sumbmit final data without upload queue, or all files where uploaded.');
         submitFinalData(container, true);
@@ -3013,14 +3053,22 @@ function submitFinalData(container, areAllRTCsUploaded) {
 
 
 function openPrototypeScene(scene, isSingleScene, description, index) {
-    if (prototypeWindow && !prototypeWindow.closed && !isSingleScene) {
-        prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
-    } else if (!prototypeWindow && !isSingleScene) {
-        prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank");
-    } else if (!prototypeWindow && isSingleScene === true && (scene.type === SCENE_WEB || scene.type === SCENE_PIDOCO)) {
-        prototypeWindow = window.open(scene.data[0], "_blank");
+    if (scene !== null) {
+        if (prototypeWindow && !prototypeWindow.closed && !isSingleScene) {
+            prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
+        } else if (!prototypeWindow && !isSingleScene) {
+            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank");
+        } else if (!prototypeWindow && isSingleScene === true && (scene.type === SCENE_WEB || scene.type === SCENE_PIDOCO)) {
+            prototypeWindow = window.open(scene.data[0], "_blank");
+        } else {
+            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank");
+        }
     } else {
-        prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank");
+        if(prototypeWindow) {
+            prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
+        } else {
+            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank");
+        }
     }
 
     if (!previewModeEnabled && peerConnection) {

@@ -550,18 +550,26 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                     console.log('Stopped recording, state = ' + mediaRecorder.state);
                     if (saveRecording) {
                         console.log('Save recording');
+                        uploadQueue.uploadIsPending();
 
                         var currentPhase = getCurrentPhase();
                         getGMT(function (timestamp) {
                             var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
-                            uploadQueue.upload(chunks, filename, currentPhase.id, 'recordUrl', 'endRecordingTime', timestamp);
+                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                            tempData.endRecordingTime = timestamp;
+                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                            
+                            uploadQueue.upload(chunks, filename, currentPhase.id, 'recordUrl');
                             chunks = [];
+
+                            if (stopRecordingCallback) {
+                                stopRecordingCallback();
+                            }
                         });
-
-                    }
-
-                    if (stopRecordingCallback) {
-                        stopRecordingCallback();
+                    } else {
+                        if (stopRecordingCallback) {
+                            stopRecordingCallback();
+                        }
                     }
                 };
 
@@ -726,16 +734,26 @@ PeerConnection.prototype.initScreenRecording = function () {
         console.log('Stopped screen recording, state = ' + screenMediaRecorder.state);
         if (saveScreenRecording) {
             var currentPhase = getCurrentPhase();
+            uploadQueue.uploadIsPending();
+            
             getGMT(function (timestamp) {
                 console.log('Save screen recording');
                 var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
-                uploadQueue.upload(screenChunks, filename, currentPhase.id, 'screenRecordUrl', 'endScreenRecordingTime', timestamp);
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.endScreenRecordingTime = timestamp;
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                
+                uploadQueue.upload(screenChunks, filename, currentPhase.id, 'screenRecordUrl');
                 screenChunks = [];
-            });
-        }
 
-        if (stopScreenRecordingCallback) {
-            stopScreenRecordingCallback();
+                if (stopScreenRecordingCallback) {
+                    stopScreenRecordingCallback();
+                }
+            });
+        } else {
+            if (stopScreenRecordingCallback) {
+                stopScreenRecordingCallback();
+            }
         }
     };
 

@@ -103,9 +103,10 @@
             }
 
             function renderSceneItem(scene) {
+                $('#shared-scenario').find('#scene-container').empty();
                 if (scene && scene !== null) {
                     var sceneItem = $('#item-container-tester').find('#' + scene.type).clone().removeAttr('id');
-                    $('#shared-scenario').find('#scene-container').empty().append(sceneItem);
+                    $('#shared-scenario').find('#scene-container').append(sceneItem);
                     $('#shared-scenario').find('#scene-container').css({backgroundColor: "rgb(255,255,255)"});
 
                     switch (scene.type) {
@@ -164,7 +165,6 @@
 
                         sceneItem.height(height);
                     }).resize();
-                    return sceneItem;
                 }
             }
 

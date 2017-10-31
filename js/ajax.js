@@ -945,7 +945,6 @@ function saveExecutionTester(data, callback) {
  * moderator execution save
  */
 function saveExecutionModerator(data, callback) {
-    console.log('ajax saveExecutionModerator:', data);
     $.ajax({
         url: 'includes/save-execution-moderator.php',
         data: data,

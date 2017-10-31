@@ -12,6 +12,7 @@ var EVENT_FILE_SAVED = 'fileSaved';
 var EVENT_ALL_FILES_UPLOADED = 'allFilesUploaded';
 
 UploadQueue.prototype.status = STATUS_UNINITIALIZED;
+UploadQueue.prototype.hasPendingUploads = false;
 
 function UploadQueue() {
     this.status = STATUS_INITIALIZED;
@@ -34,9 +35,12 @@ function UploadQueue() {
         var returnFile = uploadQueue.setUploadStatus(file.fileName);
         $(uploadQueue).trigger(EVENT_FILE_SAVED, [returnFile]);
 
-        if (uploadQueue.allFilesUploaded()) {
+        if (uploadQueue.allFilesUploaded() && uploadQueue.hasPendingUploads === false) {
             console.log('all files uploaded');
-            $(uploadQueue).trigger(EVENT_ALL_FILES_UPLOADED);
+            uploadQueue.hasPendingUploads = false;
+            setTimeout(function () {
+                $(uploadQueue).trigger(EVENT_ALL_FILES_UPLOADED);
+            }, 1000);
         }
     });
     this.uploader.on('fileError', function (file, message) {
@@ -48,13 +52,14 @@ function UploadQueue() {
 }
 
 //var tempUploads = new Array();
-UploadQueue.prototype.upload = function (blob, filename, phaseStepId, type, endRecordingKey, timestamp) {
-    console.log('upload file:', filename, this.getStatus(), phaseStepId, type, timestamp);
+UploadQueue.prototype.upload = function (blob, filename, phaseStepId, type) {
+    console.log('upload file:', filename, this.getStatus(), phaseStepId, type);
+    hasPendingUploads = true;
     if (this.getStatus() !== STATUS_UNINITIALIZED) {
         var file = new File(blob, filename);
-        if (phaseStepId && type && endRecordingKey && timestamp) {
+        if (phaseStepId && type) {
             // uploading execution recordings
-            this.files.push({filename: filename, uploaded: false, phaseStepId: phaseStepId, type: type, endRecordingKey: endRecordingKey, timestamp: timestamp});
+            this.files.push({filename: filename, uploaded: false, phaseStepId: phaseStepId, type: type});
         } else {
             // uploading other files than execution recording, e.g. images
             this.files.push({filename: filename, uploaded: false});
@@ -95,5 +100,14 @@ UploadQueue.prototype.allFilesUploaded = function () {
             }
         }
     }
+
     return true;
+};
+
+UploadQueue.prototype.uploadPending = function () {
+    return hasPendingUploads;
+};
+
+UploadQueue.prototype.uploadIsPending = function () {
+    hasPendingUploads = true;
 };

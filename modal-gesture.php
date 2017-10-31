@@ -619,14 +619,20 @@ include 'includes/language.php';
                     });
                 }
             } else {
+                console.log('edit gesture:', gesture);
                 $(this).removeClass('gesture-previewable').addClass('gesture-editable');
                 $(this).find('.btn-text').text(translation.gesturePreviewable);
                 $('#modal-body #gesture-data-preview').addClass('hidden');
                 $('#modal-body #gesture-data-edit').removeClass('hidden');
                 $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').addClass('disabled');
                 $('#gesture-name-input').val(gesture.title);
-                $('#gesture-data-edit #gestureTypeSelect').find('#' + gesture.type).click();
-                $('#gesture-data-edit #gestureInteractionTypeSelect').find('#' + gesture.interactionType).click();
+                if (gesture.type !== "") {
+                    $('#gesture-data-edit #gestureTypeSelect').find('#' + gesture.type).click();
+                }
+                if (gesture.interactionType !== "") {
+                    $('#gesture-data-edit #gestureInteractionTypeSelect').find('#' + gesture.interactionType).click();
+                }
+
                 $('#gesture-association-input').val(gesture.association);
                 $('#gesture-context-input').val(gesture.context);
                 $('#gesture-description-input').val(gesture.description);

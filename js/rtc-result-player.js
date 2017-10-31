@@ -296,7 +296,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     initializeTimeline(timelineData);
 
                     $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {
-                        updateTimeline(this.currentTime + 1);
+                        updateTimeline(this.currentTime + 2);
 
                         var percent = this.currentTime / this.duration * 100;
                         $(seekBar).find('.progress-bar').css({width: percent + '%'});

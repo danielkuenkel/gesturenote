@@ -21,7 +21,7 @@ var Tester = {
             getGMT(function (timestamp) {
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 tempData.startTime = timestamp;
-                delete tempData.endRecordingTime;
+//                delete tempData.endRecordingTime;
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
 
@@ -1811,6 +1811,8 @@ var Tester = {
                     renderSceneItem(source, container, null);
                 }
             }
+
+            $(container).find('#scene-container').removeClass('hidden');
         } else {
             appendAlert($(container), ALERT_PLEASE_WAIT);
 //            $(container).find('#fixed-rtc-preview').addClass('hidden');
@@ -1825,8 +1827,9 @@ var Tester = {
             $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
                 clearAlerts(container);
                 explorationStartTriggered = true;
-                $(container).find('#fixed-rtc-preview').removeClass('hidden');
+//                $(container).find('#fixed-rtc-preview').removeClass('hidden');
                 $(container).find('#scene-description').removeClass('hidden');
+                $(container).find('#scene-container').removeClass('hidden');
             });
 
             $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
@@ -1834,9 +1837,11 @@ var Tester = {
                 currentExplorationScene = payload.sceneIndex;
                 console.log('render scene', payload);
 
-                if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene]) {
+                if (payload.description) {
                     $(container).find('#scene-description p').text(payload.description);
                     $(container).find('#scene-container').removeClass('hidden');
+                } else {
+                    $(container).find('#scene-container').addClass('hidden');
                 }
             });
 
@@ -1972,6 +1977,8 @@ var Tester = {
                         }, false);
                     }
                     peerConnection.reset();
+                    $('#custom-modal').find('.modal-content').empty();
+                    $('#custom-modal').modal('hide');
 //                    Tester.resetScreenSharing();
                 });
 
@@ -2188,14 +2195,15 @@ var Tester = {
 };
 
 function checkRTCUploadStatus(container) {
-    if (isUploadRecordingNeeded() && !uploadQueue.allFilesUploaded()) {
+    console.log('check RTC Upload Status', container, uploadQueue.allFilesUploaded(), uploadQueue.uploadPending());
+    if (isUploadRecordingNeeded() && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
         console.log('sumbmit final data with upload queue, some files where not uploaded yet!');
         submitFinalData(container, false);
-        $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED).bind(EVENT_ALL_FILES_UPLOADED, function () {
-            console.log('allVideosUploaded');
-            $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED);
-            submitFinalData(container, true);
-        });
+//        $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED).bind(EVENT_ALL_FILES_UPLOADED, function () {
+//            console.log('Tester: all videos uploaded -> submit final data');
+//            $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED);
+//            submitFinalData(container, true);
+//        });
     } else {
         console.log('sumbmit final data without upload queue, or all files where uploaded.');
         submitFinalData(container, true);

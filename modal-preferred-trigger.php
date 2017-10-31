@@ -47,33 +47,37 @@ include 'includes/language.php';
         renderQuestionnaire($('#custom-modal'), data);
 
         $('#custom-modal').find('.question-container').unbind('change').bind('change', function (event) {
+            event.preventDefault();
             saveAnswers($(this).children());
         });
 
         $('#custom-modal').find('#btn-done-select').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            saveAnswers($(this).parent().parent().find('.question-container').children());
+            $('#custom-modal').find('.question-container').unbind('change');
+            saveAnswers($(this).parent().parent().find('.question-container').children(), true);
             $('#custom-modal').modal('hide');
         });
 
-        function saveAnswers(questionnaire) {
-            var answers = {answers: getQuestionnaireAnswers(questionnaire)};
+        function saveAnswers(questionnaire, saveAnswers) {
+            var answers = getQuestionnaireAnswers(questionnaire);
 
             if (!previewModeEnabled) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                if (tempData && tempData.trigger) {
-                    tempData.answers.push({gestureId: gesture.id, preferredTrigger: answers});
-                } else {
-                    tempData.answers = [{gestureId: gesture.id, preferredTrigger: answers}];
+                if (saveAnswers) {
+                    var currentPhase = getCurrentPhase();
+                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                    if (tempData && tempData.answers) {
+                        tempData.answers.push({gestureId: gesture.id, preferredTrigger: answers});
+                    } else {
+                        tempData.answers = [{gestureId: gesture.id, preferredTrigger: answers}];
+                    }
+                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                 }
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
                 if (peerConnection) {
-                    peerConnection.sendMessage(MESSAGE_RESPONSE_TRIGGER, {data: data, answers: answers});
+                    peerConnection.sendMessage(MESSAGE_RESPONSE_PREFERRED_TRIGGER, {data: data, answers: {answers: answers}, saveAnswers: saveAnswers || false});
                 }
             } else {
-                currentQuestionnaireAnswers = {data: data, answers: answers};
+                currentQuestionnaireAnswers = {data: data, answers: {answers: answers}};
             }
         }
     });

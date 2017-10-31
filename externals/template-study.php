@@ -97,7 +97,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        
+
         <div id="item-view" style="margin-top: 30px;">
             <div class="alert-space alert-no-phase-data"></div>
             <div class="list-container row" id="gestures-list-container"></div>
@@ -831,20 +831,35 @@ include '../includes/language.php';
         <hr>
         <div class="question-container"  id="observations-container"></div>
     </div>
-    
+
     <div class="root" id="exploration">
         <h3 id="headline" style="margin-top: 0"></h3>
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        
-<!--        <div id="item-view" style="margin-top: 30px;">
-            <div class="alert-space alert-no-phase-data"></div>
-            <div class="list-container row" id="gestures-list-container"></div>
-        </div>-->
-        <h3 id="headline-observations">Beobachtungen</h3>
-        <hr>
-        <div class="question-container"  id="observations-container"></div>
+
+
+        <div class="hidden" id="extraction-item-container">
+            <h3 id="headline-extraction-items"></h3>
+            <hr>
+            <div id="item-view"></div>
+        </div>
+
+        <div id="observations">
+            <h3 id="headline-observations">Beobachtungen</h3>
+            <hr>
+            <div class="question-container" id="observations-container"></div>
+        </div>
+    </div>
+
+    <div id="exploration-answer-item-for-trigger">
+        <div class="list-container row" id="gestures-list-container">
+            <div class="col-xs-12 col-sm-6 col-md-8 col-lg-9 question-container"></div>
+        </div>
+    </div>
+
+    <div id="exploration-answer-item-for-gesture">
+        <div class="question-container"></div>
     </div>
 
 

@@ -53,6 +53,8 @@ function savePhaseStep(id, callback) {
             data = getExplorationFormData(data);
             break;
     }
+    
+    console.log('save phase step data:', data);
 
     if (data.endTime) {
         setLocalItem(data.id + '.saveData', data);
@@ -189,6 +191,7 @@ function getExplorationFormData(data) {
         data.recordUrl = tempData.recordUrl;
         data.actions = tempData.actions;
         data.transitions = tempData.transitions;
+        data.answers = tempData.answers;
 //        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
@@ -210,11 +213,11 @@ function getQuestionnaireFormData(data) {
 
 
 function saveCurrentStatus(studyFinished, callback) {
-    console.log('save current tester status');
-    
+//    console.log('save current tester status');
+
     var currentPhaseStepId = getCurrentPhase().id;
     getGMT(function (timestamp) {
-        getFinishedStudyPhases(currentPhaseStepId, function (phases) {
+        getFinishedStudyPhases(currentPhaseStepId, studyFinished, function (phases) {
             var data = new Object();
             data.studySuccessfull = studyFinished === true ? 'yes' : 'no';
             data.phases = phases;
@@ -235,11 +238,15 @@ function saveCurrentStatus(studyFinished, callback) {
     });
 }
 
-function getFinishedStudyPhases(id, callback) {
+function getFinishedStudyPhases(id, studyFinished, callback) {
     savePhaseStep(id, function () {
         var phaseSteps = getContextualPhaseSteps();
         var array = new Array();
         for (var i = 0; i < phaseSteps.length; i++) {
+            if (studyFinished) {
+                savePhaseStep(phaseSteps[i].id);
+            }
+            
             if (isPhaseStepSaved(phaseSteps[i].id)) {
                 array.push(getLocalItem(phaseSteps[i].id + '.saveData'));
             }

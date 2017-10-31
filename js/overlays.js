@@ -2023,10 +2023,12 @@ function initCatalogGesturesOverlay(formatClone) {
         resetRecorder();
         renderCatalogOverview();
     });
+    
     $(formatClone).find('.tab-content #tab-study-gesture-set').attr('id', 'study-gesture-set');
     $(formatClone).find('.tab-content #tab-gesture-catalog').attr('id', 'gesture-catalog');
     $(formatClone).find('.tab-content #tab-gesture-sets').attr('id', 'gesture-sets');
     $(formatClone).find('.tab-content #tab-gesture-recorder-content').attr('id', 'gesture-recorder-content');
+    
     // synchronize two navigation bars
     $(formatClone).find('.nav-pills').on('shown.bs.tab', function (event) {
         var activeTabIndex = $(event.target).closest('.nav').find('a').index($(event.target));
@@ -2051,6 +2053,7 @@ function initCatalogGesturesOverlay(formatClone) {
         }
         updateNavBadges();
     });
+    
     function getCurrentActiveTab() {
         return $(formatClone).find('#gesture-catalogs-nav-tab').find('.active a').attr('href');
     }
@@ -2142,6 +2145,7 @@ function initCatalogGesturesOverlay(formatClone) {
                 }
             };
             initPagination(data);
+            
             $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble) {
                 console.log('study gestures changed', gestureId);
                 TweenMax.to($(event.target).closest('.root'), .2, {scale: 0, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: function () {

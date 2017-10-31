@@ -1663,8 +1663,6 @@ $(document).on('keyup', '.search-input', function (event) {
             var matched = searchThroughArray(sort(), filter.trim());
             if (matched.length > 0) {
                 container.removeClass('hidden');
-//                $('#pager-top').removeClass('hidden');
-//                $('#pager-bottom').removeClass('hidden');
                 removeAlert(container.closest('#item-view'), ALERT_NO_SEARCH_RESULTS);
                 currentFilterData = matched;
                 updatePaginationItems();
@@ -1672,8 +1670,6 @@ $(document).on('keyup', '.search-input', function (event) {
 //                renderData(matched);
             } else {
                 container.addClass('hidden');
-//                $('#pager-top').addClass('hidden');
-//                $('#pager-bottom').addClass('hidden');
                 appendAlert(container.closest('#item-view'), ALERT_NO_SEARCH_RESULTS);
             }
         } else {
@@ -1681,7 +1677,6 @@ $(document).on('keyup', '.search-input', function (event) {
             removeAlert(container.closest('#item-view'), ALERT_NO_SEARCH_RESULTS);
             currentFilterData = sort();
             updatePaginationItems();
-//            renderData(currentFilterData);
             $(container).trigger('renderData', [currentFilterData]);
 
             if (event.keyCode === 27) {
@@ -1694,12 +1689,18 @@ $(document).on('keyup', '.search-input', function (event) {
 function searchThroughArray(array, filter) {
     var result = new Array();
     for (var i = 0; i < array.length; i++) {
-        if (array[i].title && array[i].title.search(new RegExp(filter, "i")) > -1) {
-            result.push(array[i]);
-        } else if (array[i].data && array[i].data.generalData && array[i].data.generalData.title && array[i].data.generalData.title.search(new RegExp(filter, "i")) > -1) {
+        var title = null;
+        if (array[i].title) {
+            title = array[i].title;
+        } else if (array[i].data && array[i].data.generalData && array[i].data.generalData.title) {
+            title = array[i].data.generalData.title;
+        }
+        
+        if (title.search(new RegExp(filter, "i")) > -1) {
             result.push(array[i]);
         }
     }
+    
     return result;
 }
 

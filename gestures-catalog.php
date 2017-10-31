@@ -437,6 +437,7 @@ if (login_check($mysqli) == true) {
         $(document).ready(function () {
             checkDomain();
             currentFilterList = $('#gestures-list-container');
+            
             checkLanguage(function () {
                 var externals = new Array();
                 externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
@@ -450,73 +451,17 @@ if (login_check($mysqli) == true) {
 
         function onAllExternalsLoadedSuccessfully() {
             renderSubPageElements();
-//            getGestureSets(function (result) {
-//                if (result.status === RESULT_SUCCESS) {
-//                    setLocalItem(GESTURE_SETS, result.gestureSets);
-//                    initGestureRating($('#gesture-rating'), 5);
             $('#gesture-catalogs-nav-tab a[href="#gesture-catalog"]').tab('show');
             getWholeGestureCatalog();
-//                }
-//            });
-//            getGestureCatalog(function (result) {
-//                if (result.status === RESULT_SUCCESS) {
-////                    currentModalId = GESTURE_CATALOG;
-//                    if (result.gestures && result.gestures.length > 0) {
-//                        originalFilterData = result.gestures;
-//
-//                        console.log($('#item-view'));
-//                        var data = {
-//                            pager: {
-//                                top: $('.mainContent #item-view #pager-top .pagination'),
-//                                bottom: $('.mainContent #item-view #pager-bottom .pagination'),
-//                                dataLength: originalFilterData.length,
-//                                maxElements: parseInt($('.mainContent #item-view').find('#resultsCountSelect .chosen').attr('id').split('_')[1])
-//                            },
-//                            filter: {
-//                                countSelect: $('.mainContent #item-view').find('#resultsCountSelect'),
-//                                filter: $('.mainContent #item-view').find('#filter'),
-//                                sort: $('.mainContent #item-view').find('#sort')
-//                            }
-//                        };
-//                        initPagination(data);
-////                        initPagination($('#custom-pager .pagination'), result.gestures.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-//                        $('#sort #newest').click();
-//                    } else {
-//                        appendAlert($('.mainContent #item-view'), ALERT_NO_GESTURES);
-//                    }
-//                }
-//            });
         }
 
-//        function renderData(data) {
-//            console.log('renderData', data);
-//            currentFilterData = data;
-//            $(currentFilterList).empty();
-//            clearAlerts($('.mainContent #item-view'));
-////            initPagination($('#gesture-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-//            var index = getCurrentPaginationIndex();
-//            var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
-//            var viewFromIndex = index * listCount;
-//            var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
-//
-//            if (currentFilterData && currentFilterData.length > 0) {
-//                var count = 0;
-//                for (var i = viewFromIndex; i < viewToIndex; i++) {
-//                    var clone = getGestureCatalogListThumbnail(currentFilterData[i]);
-//                    $(currentFilterList).append(clone);
-//                    TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-//                    count++;
-//                }
-//            } else {
-////                appendAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
-//            }
-//        }
 
         var currentFilterList;
-        function renderData(data) {
+        function renderData(data, animate) {
             var currentActiveTab = getCurrentActiveTab();
             currentFilterData = data;
             $(currentFilterList).empty();
+
             var index = getCurrentPaginationIndex();
             var listCount = parseInt($(currentPaginationData.filter.countSelect).find('.chosen').attr('id').split('_')[1]);
             var viewFromIndex = index * listCount;
@@ -529,12 +474,16 @@ if (login_check($mysqli) == true) {
                     case 'gesture-sets':
                         clone = getGestureCatalogGestureSetPanel(currentFilterData[i]);
                         $(currentFilterList).append(clone);
-                        TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, y: -10});
+                        if (animate && animate === true) {
+                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, y: -10});
+                        }
                         break;
                     case 'gesture-catalog':
                         clone = getGestureCatalogListThumbnail(currentFilterData[i]);
                         $(currentFilterList).append(clone);
-                        TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                        if (animate && animate === true) {
+                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                        }
                         break;
                 }
                 count++;
@@ -548,7 +497,7 @@ if (login_check($mysqli) == true) {
             if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
                 $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
             } else {
-                renderData(currentFilterData);
+                renderData(currentFilterData, true);
             }
         });
 
@@ -560,7 +509,7 @@ if (login_check($mysqli) == true) {
             if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
                 $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
             } else {
-                renderData(currentFilterData);
+                renderData(currentFilterData, true);
             }
         });
 
@@ -571,7 +520,7 @@ if (login_check($mysqli) == true) {
             if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
                 $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
             } else {
-                renderData(currentFilterData);
+                renderData(currentFilterData, true);
             }
         });
 
@@ -579,7 +528,7 @@ if (login_check($mysqli) == true) {
             event.preventDefault();
             if (!event.handled) {
                 event.handled = true;
-                renderData(sort());
+                renderData(sort(), true);
             }
         });
 
@@ -649,6 +598,11 @@ if (login_check($mysqli) == true) {
                 renderGestureInfoData();
                 showGestureInfo($('#gesture-catalog'));
             });
+
+            $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
+                event.preventDefault();
+                renderData(data);
+            });
         }
 
         function getWholeGestureSets() {
@@ -687,6 +641,11 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 renderGestureInfoData();
                 showGestureInfo($('#gesture-sets'));
+            });
+            
+            $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
+                event.preventDefault();
+                renderData(data);
             });
 
             $('#gesture-sets .create-gesture-set-input').unbind('gestureSetCreated').bind('gestureSetCreated', function (event) {

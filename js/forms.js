@@ -719,7 +719,12 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
     for (var i = 0; i < studyData.length; i++) {
         var listItem = $('#template-study-container').find('#' + studyData[i].format).clone();
         listItem.find('#format .format-text').text(translation.questionFormats[studyData[i].format].text);
-        $(listItem).find('.question').text((i + 1) + '. ' + studyData[i].question);
+        if (studyData.length > 1) {
+            $(listItem).find('.question').text((i + 1) + '. ' + studyData[i].question);
+        } else {
+            $(listItem).find('.question').text(studyData[i].question);
+        }
+
         $(content).find('.question-container').append(listItem);
 //        console.log(content, listItem);
 
@@ -786,7 +791,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
 }
 
 function getAnswerForId(id, data, sequentialAnswerSearch, index) {
-//    console.log(id, data, sequentialAnswerSearch);
+    console.log(id, data, sequentialAnswerSearch);
     if (sequentialAnswerSearch && sequentialAnswerSearch === true) {
         var answer = data.answers[index].answer;
         if (answer) {
@@ -1012,20 +1017,21 @@ function renderEditableGroupingQuestion(item, studyData, answer) {
 function renderGroupingQuestionGUS(item, studyData, answer) {
 //    console.log(item, studyData, answer);
     var options;
-    switch (studyData.parameters.optionSource) {
-        case 'gestures':
-            options = assembledGestures();
-            break;
-        case 'triggers':
-            options = getLocalItem(ASSEMBLED_TRIGGER);
-            break;
-        case 'feedbacks':
-            options = getLocalItem(ASSEMBLED_FEEDBACK);
-            break;
-    }
 
     if (studyData.parameters.options) {
         options = studyData.parameters.options;
+    } else {
+        switch (studyData.parameters.optionSource) {
+            case 'gestures':
+                options = assembledGestures();
+                break;
+            case 'triggers':
+                options = getLocalItem(ASSEMBLED_TRIGGER);
+                break;
+            case 'feedbacks':
+                options = getLocalItem(ASSEMBLED_FEEDBACK);
+                break;
+        }
     }
 
     if (studyData.parameters.multiselect === 'yes') {
@@ -1104,6 +1110,14 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
                     $(optionItem).find('#option-text').css({paddingLeft: "0px"});
                 }
 
+                if (studyData.parameters.optionSource === 'gestures') {
+                    var gesture = getGestureById(options[i].id);
+                    var button = $('#item-container-inputs').find('#btn-show-gesture').clone().removeClass('hidden').removeAttr('id');
+                    button.attr('name', gesture.id);
+                    $(button).insertAfter($(optionItem).find('#option-text'));
+                    $(button).css({border:'1px solid rgba(0,0,0,0.3)'});
+                    console.log(optionItem, button);
+                }
             } else {
                 $(optionItem).css({paddingLeft: "0px"});
             }

@@ -99,22 +99,22 @@ if (login_check($mysqli) == true) {
         <!-- Container (Landing Section) -->
         <!--<div class="container-fluid bg-grey wall" id="landingText">-->
 
-            <!-- Container (Breadcrump) -->
-            <div class="container" id="breadcrumb" style="margin-top: 40px">
-                <div class="row">
-                    <ol class="breadcrumb">
-                        <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
-                        <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
-                        <li class="active"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></li>
-                    </ol>
-                </div>
+        <!-- Container (Breadcrump) -->
+        <div class="container" id="breadcrumb" style="margin-top: 40px">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
+                    <li class="active"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->breadcrump->studies ?></li>
+                </ol>
             </div>
+        </div>
 
-            <!-- headline -->
-<!--            <div class="container text-center dropShadowText">
-                <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> STUDIEN</h1>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-            </div>-->
+        <!-- headline -->
+        <!--            <div class="container text-center dropShadowText">
+                        <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> STUDIEN</h1>
+                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                    </div>-->
         <!--</div>-->
 
         <!-- Container (Panel Section) -->
@@ -214,6 +214,7 @@ if (login_check($mysqli) == true) {
             $(document).ready(function () {
                 checkDomain();
                 currentFilterList = $('#list-container');
+
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
@@ -245,8 +246,6 @@ if (login_check($mysqli) == true) {
                                 }
                             };
                             initPagination(data);
-
-//                            initPagination($('#custom-pager .pagination'), originalFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
                             $('#sort #newest').click();
                         } else {
                             appendAlert($('#item-view'), ALERT_NO_STUDIES);
@@ -255,25 +254,34 @@ if (login_check($mysqli) == true) {
                 });
             }
 
-            function renderData(data) {
-                $('#list-container').empty();
+            function renderData(data, animate) {
+                $(currentFilterList).empty();
+                currentFilterData = data;
 
                 var index = getCurrentPaginationIndex();
                 var listCount = parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]);
                 var viewFromIndex = index * listCount;
-                var viewToIndex = Math.min((index + 1) * listCount, data.length);
+                var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
 
                 for (var i = viewFromIndex; i < viewToIndex; i++) {
-                    var clone = getStudiesCatalogListThumbnail(data[i]);
-                    $('#list-container').append(clone);
-                    TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                    var clone = getStudiesCatalogListThumbnail(currentFilterData[i]);
+                    $(currentFilterList).append(clone);
 
-                    $(clone).find('.panel').click({studyId: data[i].id}, function (event) {
+                    if (animate) {
+                        TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                    }
+
+                    $(clone).find('.panel').click({studyId: currentFilterData[i].id}, function (event) {
                         event.preventDefault();
                         var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
                         goto("study.php?studyId=" + event.data.studyId + "&h=" + hash);
                     });
                 }
+
+                $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
+                    event.preventDefault();
+                    renderData(data);
+                });
             }
 
             $('#filter').unbind('change').bind('change', function (event) {
@@ -283,7 +291,7 @@ if (login_check($mysqli) == true) {
                 if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
                     $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
                 } else {
-                    renderData(currentFilterData);
+                    renderData(currentFilterData, true);
                 }
             });
 
@@ -294,7 +302,7 @@ if (login_check($mysqli) == true) {
                 if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
                     $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
                 } else {
-                    renderData(currentFilterData);
+                    renderData(currentFilterData, true);
                 }
             });
 
@@ -305,7 +313,7 @@ if (login_check($mysqli) == true) {
                 if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
                     $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
                 } else {
-                    renderData(currentFilterData);
+                    renderData(currentFilterData, true);
                 }
             });
 
@@ -313,7 +321,7 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 if (!event.handled) {
                     event.handled = true;
-                    renderData(sort());
+                    renderData(sort(), true);
                 }
             });
         </script>

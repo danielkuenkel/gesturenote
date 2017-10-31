@@ -54,6 +54,8 @@ function savePhaseStep(id, callback) {
             break;
     }
     
+    console.log('save phase step data:', data);
+
     if (data.endTime) {
         setLocalItem(data.id + '.saveData', data);
         if (callback) {
@@ -75,7 +77,6 @@ function getLetterOfAcceptanceFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
         data.startTime = tempData.startTime;
-        data.accepted = tempData.accepted;
     }
 
     return data;
@@ -215,11 +216,11 @@ function getQuestionnaireFormData(questionnaire, data) {
 
 
 function saveCurrentStatus(studyFinished, callback) {
-    console.log('save current moderator status');
+//    console.log('save current moderator status');
 
     var currentPhaseStepId = getCurrentPhase().id;
     getGMT(function (timestamp) {
-        getFinishedStudyPhases(currentPhaseStepId, function (phases) {
+        getFinishedStudyPhases(currentPhaseStepId, studyFinished, function (phases) {
             var data = new Object();
             data.studySuccessfull = studyFinished === true ? 'yes' : 'no';
             data.phases = phases;
@@ -230,7 +231,6 @@ function saveCurrentStatus(studyFinished, callback) {
             }
 
             var study = getLocalItem(STUDY);
-            console.log(study);
             saveExecutionModerator({studyId: study.id, testerId: study.testerId, data: data}, function (result) {
                 console.log('saveExecutionModerator', result, data);
                 if (callback) {
@@ -241,11 +241,15 @@ function saveCurrentStatus(studyFinished, callback) {
     });
 }
 
-function getFinishedStudyPhases(id, callback) {
+function getFinishedStudyPhases(id, studyFinished, callback) {
     savePhaseStep(id, function () {
         var phaseSteps = getContextualPhaseSteps();
         var array = new Array();
         for (var i = 0; i < phaseSteps.length; i++) {
+            if (studyFinished) {
+                savePhaseStep(phaseSteps[i].id);
+            }
+            
             if (isPhaseStepSaved(phaseSteps[i].id)) {
                 array.push(getLocalItem(phaseSteps[i].id + '.saveData'));
             }

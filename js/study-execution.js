@@ -53,21 +53,20 @@ var currentGUSData = null;
 
 var syncPhaseStep = false;
 var peerConnection = null;
-//var peerConnectionSharing = null;
 
 var currentQuestionnaireAnswers = null;
 
 function checkStorage() {
     if (isLocalStorageSupported()) {
         var phaseSteps = getContextualPhaseSteps();
-        if (phaseSteps && phaseSteps.length > 0) {
+        if (phaseSteps && phaseSteps.length > 2) {
             initialize();
 
             if (previewModeEnabled) {
                 renderPhases();
             }
         } else {
-//        console.log('there are no phase steps');
+            console.log('There are only the letter of acceptance and thanks phase step');
         }
     } else {
         console.log("Sorry, your browser do not support Web Session Storage.");
@@ -87,38 +86,26 @@ function initialize() {
     } else {
         uploadQueue = new UploadQueue();
         $(uploadQueue).unbind(EVENT_FILE_SAVED).bind(EVENT_FILE_SAVED, function (event, result) {
+            var tempSaveData = getLocalItem(result.phaseStepId + '.tempSaveData');
+            tempSaveData[result.type] = result.filename;
+            setLocalItem(result.phaseStepId + '.tempSaveData', tempSaveData);
+
             var saveData = getLocalItem(result.phaseStepId + '.saveData');
-            var tempSaveData = null;
-            if (!saveData) {
-                tempSaveData = getLocalItem(result.phaseStepId + '.tempSaveData');
-            }
-            console.log('save current status', result, saveData, tempSaveData);
             if (saveData) {
                 saveData[result.type] = result.filename;
-                saveData[result.endRecordingKey] = result.timestamp;
                 setLocalItem(result.phaseStepId + '.saveData', saveData);
-                setLocalItem(result.phaseStepId + '.tempSaveData', saveData);
-                console.log('saved data:', saveData);
-
-                var phases = getContextualPhaseSteps();
-                if (currentPhaseStepIndex < phases.length - 1 && getCurrentPhase().format !== THANKS) {
-                    savePhaseStep(result.phaseStepId, function () {
-                        saveCurrentStatus(false);
-                    });
-                }
-            } else if (tempSaveData) {
-                tempSaveData[result.type] = result.filename;
-                tempSaveData[result.endRecordingKey] = result.timestamp;
-                setLocalItem(result.phaseStepId + '.tempSaveData', tempSaveData);
-                console.log('temp saved data:', tempSaveData);
-
-                var phases = getContextualPhaseSteps();
-                if (currentPhaseStepIndex < phases.length - 1 && getCurrentPhase().format !== THANKS) {
-                    savePhaseStep(result.phaseStepId, function () {
-                        saveCurrentStatus(false);
-                    });
-                }
             }
+
+            console.log('on file uploaded -> save data:', result, tempSaveData);
+
+            savePhaseStep(result.phaseStepId, function () {
+                var phases = getContextualPhaseSteps();
+                if (currentPhaseStepIndex < phases.length - 1 && getCurrentPhase().format !== THANKS) {
+                    saveCurrentStatus(false);
+                } else {
+                    checkRTCUploadStatus(getMainContent());
+                }
+            });
         });
 
         var study = getLocalItem(STUDY);
@@ -206,7 +193,6 @@ function previousStep() {
 }
 
 function nextStep() {
-    console.log('next step called');
     resetConstraints();
     if (currentView === VIEW_TESTER) {
         resetRecorder();
@@ -215,27 +201,11 @@ function nextStep() {
     var phases = getContextualPhaseSteps();
     if (previewModeEnabled === false) {
         if (currentPhaseStepIndex < phases.length - 1) {
-            saveCurrentStatus(false);
-        }
-//        return false;
-
-        if (isUploadRecordingNeededForPhaseStep(getCurrentPhase())) {
-            peerConnection.stopRecording(function () {
-                console.log('recording stopped, now decrease and render phase step');
-                currentPhaseStepIndex = Math.min(currentPhaseStepIndex + 1, phases.length - 1);
-//                currentPhaseStepIndex++;
-//                if (currentPhaseStepIndex < phases.length) {
-                renderPhaseStep();
-//                }
-                updateProgress();
-            }, true);
+            saveCurrentStatus(false, function () {
+                checkIfStopRecordingNeeded(phases);
+            });
         } else {
-            console.log('no stop recording needed, render phase step now');
-            currentPhaseStepIndex = Math.min(currentPhaseStepIndex + 1, phases.length - 1);
-//            if (currentPhaseStepIndex < phases.length) {
-            renderPhaseStep();
-//            }
-            updateProgress();
+            checkIfStopRecordingNeeded(phases);
         }
     } else {
         currentPhaseStepIndex = Math.min(currentPhaseStepIndex + 1, phases.length - 1);
@@ -243,8 +213,23 @@ function nextStep() {
     }
 }
 
+function checkIfStopRecordingNeeded(phases) {
+    if (isUploadRecordingNeededForPhaseStep(getCurrentPhase())) {
+        peerConnection.stopRecording(function () {
+            console.log('recording stopped, now decrease and render phase step');
+            currentPhaseStepIndex = Math.min(currentPhaseStepIndex + 1, phases.length - 1);
+            renderPhaseStep();
+            updateProgress();
+        }, true);
+    } else {
+        console.log('no stop recording needed, render phase step now');
+        currentPhaseStepIndex = Math.min(currentPhaseStepIndex + 1, phases.length - 1);
+        renderPhaseStep();
+        updateProgress();
+    }
+}
+
 function resetConstraints() {
-//    TweenMax.killAll();
     questionnaireDone = false;
     testerDoneTriggered = false;
 
@@ -300,12 +285,8 @@ function resetConstraints() {
 }
 
 function rescueVideoCaller() {
-//    var study = getLocalItem(STUDY);
     if (!previewModeEnabled && currentView === VIEW_TESTER) {
-//        console.log('rescue video caller', $('#video-caller-holder'));
         $('#video-caller-holder').append($('#video-caller'));
-//        console.log($('#video-caller-holder'));
-
     }
 }
 
@@ -371,6 +352,10 @@ function getCurrentPhaseData() {
 
 function getSourceContainer(selector) {
     return selector === VIEW_MODERATOR ? $('#item-container-moderator') : $('#item-container-tester');
+}
+
+function getMainContent() {
+    return currentView === VIEW_MODERATOR ? $('#viewModerator') : $('#viewTester');
 }
 
 var draggable = null;
@@ -512,7 +497,6 @@ function getItemsForSceneId(data, sceneId) {
 
 
 function areThereScenes(array) {
-    console.log('areThereScenes', array);
     if (array && array.length > 0) {
         for (var i = 0; i < array.length; i++) {
             if (array[i].transitionScenes && array[i].transitionScenes.length > 0) {
@@ -522,106 +506,3 @@ function areThereScenes(array) {
     }
     return false;
 }
-
-//function getUngroupedExplorationGestures(data) {
-//    if (data && data.length > 0) {
-//        var items = new Array();
-//        for (var i = 0; i < data.length; i++) {
-//            if (data[i].gestureId && data[i].gestureId !== '') {
-//                items.push(data[i].gestureId);
-//            }
-//        }
-//        items = unique(items);
-//        return items;
-//    }
-//
-//    return null;
-//}
-
-//function getUngroupedExplorationTrigger(data) {
-//    if (data && data.length > 0) {
-//        var items = new Array();
-//        for (var i = 0; i < data.length; i++) {
-//            if (data[i].triggerId && data[i].triggerId !== '' && data[i].triggerId !== 'none') {
-//                items.push(data[i].triggerId);
-//            }
-//        }
-//        items = unique(items);
-//        return items;
-//    }
-//
-//    return null;
-//}
-//
-//function getUngroupedExplorationScenes(data) {
-//    if (data && data.length > 0) {
-//        var items = new Array();
-//        for (var i = 0; i < data.length; i++) {
-//            if (data[i].sceneId && data[i].sceneId !== '' && data[i].sceneId !== 'none') {
-//                items.push(data[i].sceneId);
-//            }
-//        }
-//        items = unique(items);
-//        return items;
-//    }
-//
-//    return null;
-//}
-
-//function renderExplorationItems(target, data, modalId) {
-//    if (data.grouping === 'ungrouped') {
-//        var gestures = getUngroupedExplorationGestures(data.exploration);
-//        var triggers = getUngroupedExplorationTrigger(data.exploration);
-//        var scenes = getUngroupedExplorationScenes(data.exploration);
-//
-//        var itemContainer, item;
-////        console.log(data);
-//        if (scenes && scenes.length > 0) {
-////            console.log('there are scenes');
-//            itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-scene-panel').clone();
-//            $(target).find('#exploration-items-container').append(itemContainer);
-//
-//            for (var i = 0; i < scenes.length; i++) {
-//                var scene = getSceneById(scenes[i]);
-//                item = $(getSourceContainer(VIEW_MODERATOR)).find('#scenes-catalog-thumbnail').clone().removeAttr('id');
-//                item.find('.text').text(scene.title);
-//                item.find('.label-text').text(translation.sceneTypes[scene.type]);
-//                item.find('#info-' + scene.type).removeClass('hidden');
-//                itemContainer.find('#panel-container').append(item);
-//
-////                TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-//                $(item).find('#btn-preview-scene').click({sceneId: scene.id}, function (event) {
-//                    event.preventDefault();
-//                    currentSceneId = event.data.sceneId;
-//                    loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
-//                });
-//            }
-//        }
-//
-//        if (triggers && triggers.length > 0) {
-////            console.log('there are trigger', triggers);
-//            itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-trigger-panel').clone();
-//            $(target).find('#exploration-items-container').append(itemContainer);
-//            for (var i = 0; i < triggers.length; i++) {
-//                var trigger = getTriggerById(triggers[i]);
-////                console.log('trigger', trigger)
-//                item = $(getSourceContainer(VIEW_MODERATOR)).find('#trigger-catalog-thumbnail').clone().removeAttr('id');
-//                item.text(trigger.title);
-//                itemContainer.find('#panel-container').append(item);
-//            }
-//        }
-//
-//        if (gestures && gestures.length > 0) {
-//            itemContainer = $(getSourceContainer(VIEW_MODERATOR)).find('#ungrouped-exploration-gesture-panel').clone();
-//            $(target).find('#exploration-items-container').append(itemContainer);
-//
-//            for (var i = 0; i < gestures.length; i++) {
-//                var gesture = getGestureById(gestures[i]);
-//                item = getGestureCatalogListThumbnail(gesture, 'exploration-gestures-catalog-thumbnail', null, null, null, modalId);
-//                itemContainer.find('#panel-container').append(item);
-//            }
-//        }
-//    } else {
-//
-//    }
-//}
