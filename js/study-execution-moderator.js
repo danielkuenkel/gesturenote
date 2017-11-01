@@ -1858,8 +1858,7 @@ var Moderator = {
             console.log('render gesture recorder:', videoURL);
 
             $(container).find('#file-transfer-loading-indicator').css({width: '0%'});
-            $(container).find('#file-transfer-loader').removeClass('hidden');
-
+            $(container).find('#file-transfer-loader').addClass('hidden');
 
             if (!previewModeEnabled) {
                 $(container).find('#btn-done, #btn-next-trigger').addClass('disabled');
@@ -2099,10 +2098,6 @@ var Moderator = {
                         var percent = Math.round(bytesReceived * 100 / size);
                         console.log('transfer video file', bytesReceived, size, percent);
                         $(container).find('#file-transfer-loading-indicator').css({width: percent + "%"});
-                        if (percent >= 100) {
-                            $(container).find('#file-transfer-loading-indicator').css({width: "0%"});
-                            $(container).find('#file-transfer-loader').addClass('hidden');
-                        }
                     });
 
                     $(peerConnection).unbind(EVENT_RECEIVED_FILE).bind(EVENT_RECEIVED_FILE, function (event, file, metadata) {
@@ -3053,21 +3048,22 @@ function submitFinalData(container, areAllRTCsUploaded) {
 
 
 function openPrototypeScene(scene, isSingleScene, description, index) {
+    var windowSpecs = "location=no,menubar=no,status=no,toolbar=no";
     if (scene !== null) {
         if (prototypeWindow && !prototypeWindow.closed && !isSingleScene) {
             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
         } else if (!prototypeWindow && !isSingleScene) {
-            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank");
+            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
         } else if (!prototypeWindow && isSingleScene === true && (scene.type === SCENE_WEB || scene.type === SCENE_PIDOCO)) {
-            prototypeWindow = window.open(scene.data[0], "_blank");
+            prototypeWindow = window.open(scene.data[0], "_blank", windowSpecs);
         } else {
-            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank");
+            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
         }
     } else {
         if(prototypeWindow) {
             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
         } else {
-            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank");
+            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
         }
     }
 

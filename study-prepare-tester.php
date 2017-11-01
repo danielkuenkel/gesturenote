@@ -124,7 +124,7 @@ if ($h && $token && $studyId) {
                                 </div>
                                 <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; display: inline; left: 50%; transform: translate(-50%, 0); opacity: 0">
                                     <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="Mikrofon stummschalten"><i class="fa fa-microphone-slash"></i> </button>
-                                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="Übetragung pausieren"><i class="fa fa-pause"></i> </button>
+                                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="Übertragung pausieren"><i class="fa fa-pause"></i> </button>
                                     <button type="button" class="btn stream-control disabled" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="Gesprächspartner stummschalten"><i class="fa fa-volume-up"></i> </button>
                                 </div>
                                 <div id="stream-control-indicator">

@@ -329,8 +329,10 @@ function getCurrentPhaseStepIndex() {
 
 function getThanksStepIndex() {
     var phaseSteps = getContextualPhaseSteps();
+    console.log(phaseSteps.length);
     for (var i = 0; i < phaseSteps.length; i++) {
         if (phaseSteps[i].format === THANKS) {
+            console.log(i);
             return i;
         }
     }
@@ -338,7 +340,12 @@ function getThanksStepIndex() {
 }
 
 function getCurrentPhase() {
-    var phaseSteps = getContextualPhaseSteps();
+    var phaseSteps = null;
+    if(!previewModeEnabled) {
+        phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+    } else {
+        phaseSteps = getContextualPhaseSteps();
+    }
     return phaseSteps[currentPhaseStepIndex];
 }
 
