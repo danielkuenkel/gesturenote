@@ -598,6 +598,35 @@ include '../includes/language.php';
                 </div>
             </div>
         </div>
+        
+        
+<!--        <div style="display: inline;">
+            <h3 style="display:inline-block">Fehlerfälle</h3>
+            <div class="btn-group" id="useWorstCasesSwitch" style="margin-top: -9px; margin-left: 10px">
+                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-11">
+                <hr style="margin-top: 10px">
+            </div>
+        </div>
+        <div class="row hidden" id="worstCases" style="margin-bottom: 30px;">
+            <div class="col-md-7">
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="alert-space alert-no-scenes-assembled-link"></div>
+                <div class="alert-space alert-no-study-gestures-assembled-link"></div>
+                <div class="alert-space alert-no-trigger-assembled-link"></div>
+                <div class="alert-space alert-no-feedback-assembled-link"></div>
+                <div class="option-container"></div>
+            </div>
+            <div class="col-md-5">
+                <div class="toggle-dynamic-affix">
+                    <button class="btn btn-info btn-shadow font-bold btn-add-worst-cases-option" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span>Fehlerfall hinzufügen</span></button>
+                </div>
+            </div>
+        </div>-->
 
 
         <div style="display: inline;">

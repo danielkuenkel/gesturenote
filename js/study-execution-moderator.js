@@ -1479,7 +1479,7 @@ var Moderator = {
         function checkTransitionScenes(scenesContainer) {
 
             var transitionsLength = $(scenesContainer).find('.btn-trigger-scene').length;
-            var feedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback');
+//            var feedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback');
             var leftFeedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback').not('.btn-primary');
             if (leftFeedbackButtons.length === 1) {
                 var feedbackButton = $(leftFeedbackButtons).first();
@@ -1620,7 +1620,7 @@ var Moderator = {
                     if (transitionScenes.length > 1) {
                         var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
                         $(item).find('#start-scene-container').append(startItem);
-                        TweenMax.from(startItem, .3, {x: '-10px', opacity: 0});
+                        TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
 
                         $(item).find('#follow-scene-header').removeClass('hidden');
                         $(item).find('#follow-scene-container').removeClass('hidden');
@@ -1636,11 +1636,11 @@ var Moderator = {
                                 if (j < transitionScenes.length - 2) {
                                     $(item).find('#transition-scene-container').append(document.createElement('br'));
                                 }
-                                TweenMax.from(itemBetween, .3, {x: '-10px', opacity: 0, delay: (i + 1) * .1});
+                                TweenMax.from(itemBetween, .3, {y: '-10px', opacity: 0, delay: (i + 1) * .1});
                             }
-                            TweenMax.from(followItem, .3, {x: '-10px', opacity: 0, delay: (transitionScenes.length * .1) - .1});
+                            TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: (transitionScenes.length * .1) - .1});
                         } else {
-                            TweenMax.from(followItem, .3, {x: '-10px', opacity: 0, delay: .1});
+                            TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: .1});
                         }
                     } else {
                         // render only gesture item
@@ -1652,7 +1652,7 @@ var Moderator = {
                         var feedback = getFeedbackById(wozData[i].feedbackId);
                         var feedbackButton = getWOZTransitionFeedbackItem(source, feedback, wozData[i].feedbackTransitionMode, wozData[i].feedbackTransitionTime, !scenarioStartTriggered && !scenarioPrototypeOpened, false);
                         $(item).find('#transition-feedback-container').empty().append(feedbackButton);
-                        TweenMax.from(feedbackButton, .3, {x: '-10px', opacity: 0, delay: .1});
+                        TweenMax.from(feedbackButton, .3, {y: '-10px', opacity: 0, delay: .1});
                     }
 
                     var gesture = getGestureById(wozData[i].gestureId);
