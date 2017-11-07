@@ -23,20 +23,6 @@ include 'includes/language.php';
                 </div>
             </div>
         </div>
-<!--        <div class="col-md-7">
-            <h3 style="margin-top: 0"><i class="fa fa-bookmark-o"></i> Allgemeines</h3>
-            <div id="gesture-data-preview">
-                <div id="title">Titel:<span class="address"></span> <span class="text"></span></div>
-                <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
-                <div id="association">Assoziation:<span class="address"></span> <span class="text"></span></div>
-                <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
-
-                <div class="preview-joints-humand-body" id="human-body" style="width: 400px; margin: auto; margin-top: 10px">
-                    <div id="joint-container" style="position: absolute"></div>
-                    <img src="img/human_body.svg">
-                </div>
-            </div>
-        </div>-->
     </div>
 </div>
 
