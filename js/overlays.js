@@ -395,7 +395,7 @@ function initGestureTrainingOverlay(id, formatClone) {
         appendAlert($(formatClone).find('#training'), ALERT_NO_TRIGGER_ASSEMBLED);
         $(formatClone).find('#training .btn-add-gestureTrainingOption').addClass('hidden');
     }
-    
+
     renderAssembledScenes();
     renderAssembledFeedback(null, [{id: 'none', title: translation.nones}]);
 
@@ -608,12 +608,12 @@ function initGestureTrainingOverlay(id, formatClone) {
 
     function initAddTransitionSceneButton(clone) {
         var scenes = getLocalItem(ASSEMBLED_SCENES);
-        if(scenes === null) {
+        if (scenes === null) {
             $(clone).find('.btn-add-transition-scene').addClass('disabled');
             appendAlert($(clone).find('#scenes'), ALERT_NO_SCENES_ASSEMBLED_LINK);
-            
+
         }
-        
+
         $(clone).find('.btn-add-transition-scene').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (event.handled !== true && !$(this).hasClass('disabled'))
@@ -659,6 +659,7 @@ function initScenarioOverlay(id, formatClone) {
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone).find('#observations'));
     initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
     initToggleSwitch(formatClone, $(formatClone).find('#useWOZSwitch'), $(formatClone).find('#wozExperiment'));
+//    initToggleSwitch(formatClone, $(formatClone).find('#useWorstCasesSwitch'), $(formatClone).find('#worstCases'));
     initToggleSwitch(formatClone, $(formatClone).find('#useHelpSwitch'), $(formatClone).find('#help'));
 
     var scenes = getLocalItem(ASSEMBLED_SCENES);
@@ -675,7 +676,8 @@ function initScenarioOverlay(id, formatClone) {
         });
     }
 
-    renderAssembledGestures(null, [{id: 'wrongGesture', title: translation.wrongGesture}]);
+//    renderAssembledGestures(null, [{id: 'wrongGesture', title: translation.wrongGesture}]);
+    renderAssembledGestures();
     if (!assembledGestures()) {
         appendAlert($(formatClone).find('#wozExperiment'), ALERT_NO_STUDY_GESTURES_ASSEMBLED_LINK);
         $(formatClone).find('#wozExperiment .btn-add-woz-experimentOption').addClass('hidden');
@@ -709,9 +711,13 @@ function initScenarioOverlay(id, formatClone) {
     var data = getLocalItem(id + '.data');
     if (data) {
         renderData(data);
+    } else {
+        appendAlert($(formatClone).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+        appendAlert($(formatClone).find('#help'), ALERT_NO_PHASE_DATA);
     }
 
     initDynamicAffixScrolling(formatClone);
+    
     function renderData(data)
     {
         $(formatClone).find('#scenarioTitle').val(data.title);
@@ -732,6 +738,7 @@ function initScenarioOverlay(id, formatClone) {
 
         var container;
         var wozItems = data.woz;
+        console.log('check woz items', wozItems);
         if (wozItems && wozItems.length > 0) {
             $(formatClone).find('#useWOZSwitch #yes').click();
             container = $(formatClone).find('#wozExperiment .option-container');
@@ -791,7 +798,6 @@ function initScenarioOverlay(id, formatClone) {
                     }
                     checkCurrentListState($(clone).find('.transition-scenes-option-container'));
                 }
-
                 initAddTransitionSceneButton(clone);
             }
             checkCurrentListState(container);
@@ -935,6 +941,26 @@ function initScenarioOverlay(id, formatClone) {
 
     initQuestionnaireListChange(formatClone, $(formatClone).find('#wozExperiment .option-container'), $(formatClone).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
     initQuestionnaireListItemAdded($(formatClone).find('#wozExperiment .option-container'), $(formatClone).find('#wozExperiment'));
+
+//    $(formatClone).find('.btn-add-worst-cases-option').unbind('click').bind('click', function (event) {
+//        event.preventDefault();
+//        if (event.handled !== true)
+//        {
+//            event.handled = true;
+//            clearAlerts($(formatClone).find('#worstCases'));
+//            var item = $('#form-item-container').find('#worstCaseItem').clone().removeAttr('id');
+//            tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#worstCases .option-container'), null, true);
+//            initTransitionFeedbackMode(item);
+////            initAddTransitionSceneButton(item);
+////            $(item).find('.btn-add-transition-scene').click();
+//        }
+//    });
+
+//    initQuestionnaireListChange(formatClone, $(formatClone).find('#worstCases .option-container'), $(formatClone).find('#worstCases'), ALERT_NO_PHASE_DATA);
+//    initQuestionnaireListItemAdded($(formatClone).find('#worstCases .option-container'), $(formatClone).find('#worstCases'));
+
+
+
     $(formatClone).find('.btn-add-helpOption').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (event.handled !== true)
@@ -2023,12 +2049,12 @@ function initCatalogGesturesOverlay(formatClone) {
         resetRecorder();
         renderCatalogOverview();
     });
-    
+
     $(formatClone).find('.tab-content #tab-study-gesture-set').attr('id', 'study-gesture-set');
     $(formatClone).find('.tab-content #tab-gesture-catalog').attr('id', 'gesture-catalog');
     $(formatClone).find('.tab-content #tab-gesture-sets').attr('id', 'gesture-sets');
     $(formatClone).find('.tab-content #tab-gesture-recorder-content').attr('id', 'gesture-recorder-content');
-    
+
     // synchronize two navigation bars
     $(formatClone).find('.nav-pills').on('shown.bs.tab', function (event) {
         var activeTabIndex = $(event.target).closest('.nav').find('a').index($(event.target));
@@ -2053,7 +2079,7 @@ function initCatalogGesturesOverlay(formatClone) {
         }
         updateNavBadges();
     });
-    
+
     function getCurrentActiveTab() {
         return $(formatClone).find('#gesture-catalogs-nav-tab').find('.active a').attr('href');
     }
@@ -2145,7 +2171,7 @@ function initCatalogGesturesOverlay(formatClone) {
                 }
             };
             initPagination(data);
-            
+
             $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble) {
                 console.log('study gestures changed', gestureId);
                 TweenMax.to($(event.target).closest('.root'), .2, {scale: 0, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: function () {

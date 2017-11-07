@@ -76,8 +76,8 @@ include './includes/language.php';
     });
 
     function gotoThanksScreen() {
-        console.log('goto thanks screen');
         currentPhaseStepIndex = getThanksStepIndex();
+        console.log('goto thanks screen', currentPhaseStepIndex, getLocalItem(STUDY_PHASE_STEPS).length);
         resetRecorder();
         renderPhaseStep();
         updateProgress();

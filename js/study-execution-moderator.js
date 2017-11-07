@@ -1479,7 +1479,7 @@ var Moderator = {
         function checkTransitionScenes(scenesContainer) {
 
             var transitionsLength = $(scenesContainer).find('.btn-trigger-scene').length;
-            var feedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback');
+//            var feedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback');
             var leftFeedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback').not('.btn-primary');
             if (leftFeedbackButtons.length === 1) {
                 var feedbackButton = $(leftFeedbackButtons).first();
@@ -1620,7 +1620,7 @@ var Moderator = {
                     if (transitionScenes.length > 1) {
                         var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
                         $(item).find('#start-scene-container').append(startItem);
-                        TweenMax.from(startItem, .3, {x: '-10px', opacity: 0});
+                        TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
 
                         $(item).find('#follow-scene-header').removeClass('hidden');
                         $(item).find('#follow-scene-container').removeClass('hidden');
@@ -1636,11 +1636,11 @@ var Moderator = {
                                 if (j < transitionScenes.length - 2) {
                                     $(item).find('#transition-scene-container').append(document.createElement('br'));
                                 }
-                                TweenMax.from(itemBetween, .3, {x: '-10px', opacity: 0, delay: (i + 1) * .1});
+                                TweenMax.from(itemBetween, .3, {y: '-10px', opacity: 0, delay: (i + 1) * .1});
                             }
-                            TweenMax.from(followItem, .3, {x: '-10px', opacity: 0, delay: (transitionScenes.length * .1) - .1});
+                            TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: (transitionScenes.length * .1) - .1});
                         } else {
-                            TweenMax.from(followItem, .3, {x: '-10px', opacity: 0, delay: .1});
+                            TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: .1});
                         }
                     } else {
                         // render only gesture item
@@ -1652,7 +1652,7 @@ var Moderator = {
                         var feedback = getFeedbackById(wozData[i].feedbackId);
                         var feedbackButton = getWOZTransitionFeedbackItem(source, feedback, wozData[i].feedbackTransitionMode, wozData[i].feedbackTransitionTime, !scenarioStartTriggered && !scenarioPrototypeOpened, false);
                         $(item).find('#transition-feedback-container').empty().append(feedbackButton);
-                        TweenMax.from(feedbackButton, .3, {x: '-10px', opacity: 0, delay: .1});
+                        TweenMax.from(feedbackButton, .3, {y: '-10px', opacity: 0, delay: .1});
                     }
 
                     var gesture = getGestureById(wozData[i].gestureId);
@@ -1858,8 +1858,7 @@ var Moderator = {
             console.log('render gesture recorder:', videoURL);
 
             $(container).find('#file-transfer-loading-indicator').css({width: '0%'});
-            $(container).find('#file-transfer-loader').removeClass('hidden');
-
+            $(container).find('#file-transfer-loader').addClass('hidden');
 
             if (!previewModeEnabled) {
                 $(container).find('#btn-done, #btn-next-trigger').addClass('disabled');
@@ -2099,10 +2098,6 @@ var Moderator = {
                         var percent = Math.round(bytesReceived * 100 / size);
                         console.log('transfer video file', bytesReceived, size, percent);
                         $(container).find('#file-transfer-loading-indicator').css({width: percent + "%"});
-                        if (percent >= 100) {
-                            $(container).find('#file-transfer-loading-indicator').css({width: "0%"});
-                            $(container).find('#file-transfer-loader').addClass('hidden');
-                        }
                     });
 
                     $(peerConnection).unbind(EVENT_RECEIVED_FILE).bind(EVENT_RECEIVED_FILE, function (event, file, metadata) {
@@ -3053,21 +3048,22 @@ function submitFinalData(container, areAllRTCsUploaded) {
 
 
 function openPrototypeScene(scene, isSingleScene, description, index) {
+    var windowSpecs = "location=no,menubar=no,status=no,toolbar=no";
     if (scene !== null) {
         if (prototypeWindow && !prototypeWindow.closed && !isSingleScene) {
             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
         } else if (!prototypeWindow && !isSingleScene) {
-            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank");
+            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
         } else if (!prototypeWindow && isSingleScene === true && (scene.type === SCENE_WEB || scene.type === SCENE_PIDOCO)) {
-            prototypeWindow = window.open(scene.data[0], "_blank");
+            prototypeWindow = window.open(scene.data[0], "_blank", windowSpecs);
         } else {
-            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank");
+            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
         }
     } else {
         if(prototypeWindow) {
             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
         } else {
-            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank");
+            prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
         }
     }
 

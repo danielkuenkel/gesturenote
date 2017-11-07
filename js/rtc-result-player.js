@@ -56,7 +56,6 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
             var screenRecordingFileExist = true;
             console.log('init screen sharing video player', evaluatorResults);
 
-
             $.get(UPLOADS + evaluatorResults.screenRecordUrl)
                     .fail(function () {
                         console.log('file does not exist: ' + UPLOADS + evaluatorResults.screenRecordUrl);
@@ -226,7 +225,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     if (testerVideoHolder[0].duration === Infinity) {
                         var duration = getSeconds(getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime), true);
                         console.log('total tester duration:', duration);
-                        testerVideoHolder[0].currentTime = duration - 5;
+                        testerVideoHolder[0].currentTime = duration - 2;
                         testerVideoHolder[0].playbackRate = 10;
                         testerVideoHolder[0].muted = true;
 

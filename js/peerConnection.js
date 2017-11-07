@@ -491,7 +491,7 @@ PeerConnection.prototype.hideRemoteStream = function () {
 /*
  * recording
  */
-var chunks = [];
+var chunks = {};
 var recordingStream = null;
 var mediaRecorder = null;
 PeerConnection.prototype.initRecording = function (startRecording) {
@@ -529,7 +529,8 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                     console.log('on data available');
 
                     if (event.data && event.data.size > 0) {
-                        chunks.push(event.data);
+                        var currentPhase = getCurrentPhase();
+                        chunks[currentPhase.id].push(event.data);
                     }
                 };
 
@@ -542,6 +543,7 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                             tempData.startRecordingTime = timestamp;
                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                            chunks[currentPhase.id] = [];
                         });
                     }
                 };
@@ -558,9 +560,9 @@ PeerConnection.prototype.initRecording = function (startRecording) {
                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                             tempData.endRecordingTime = timestamp;
                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                            
-                            uploadQueue.upload(chunks, filename, currentPhase.id, 'recordUrl');
-                            chunks = [];
+
+                            uploadQueue.upload(chunks[currentPhase.id], filename, currentPhase.id, 'recordUrl');
+                            chunks[currentPhase.id] = [];
 
                             if (stopRecordingCallback) {
                                 stopRecordingCallback();
@@ -608,6 +610,7 @@ var saveRecording = false;
 PeerConnection.prototype.stopRecording = function (callback, save) {
     saveRecording = save;
     console.log('stop recording');
+
     if (mediaRecorder && mediaRecorder.state !== 'inactive') {
         stopRecordingCallback = null;
         if (callback) {
@@ -735,14 +738,14 @@ PeerConnection.prototype.initScreenRecording = function () {
         if (saveScreenRecording) {
             var currentPhase = getCurrentPhase();
             uploadQueue.uploadIsPending();
-            
+
             getGMT(function (timestamp) {
                 console.log('Save screen recording');
                 var filename = hex_sha512(timestamp + "" + chance.natural()) + '.webm';
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 tempData.endScreenRecordingTime = timestamp;
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                
+
                 uploadQueue.upload(screenChunks, filename, currentPhase.id, 'screenRecordUrl');
                 screenChunks = [];
 
