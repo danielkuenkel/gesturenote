@@ -2,6 +2,7 @@
     "gesturenote": "GestureNote",
     "gesturenoteSubline": "Spezialisiert auf Usability Engineering für Gesteninteraktionen",
     "alpha": "alpha",
+    "beta":"beta",
     "about": "Über",
     "services": "Service",
     "contact": "Kontakt",
@@ -2738,6 +2739,11 @@
             "id": "password-reset-success",
             "type": "success",
             "text": "Das neue Passwort wurde erfolgreich gespeichert. Sie können sich nun einloggen."
+        },
+        "contactSuccess": {
+            "id": "contact-success",
+            "type": "success",
+            "text": "Ihre Anfrage ist bei uns eingegangen. Wir kümmern uns umgehend um die Bearbeitung."
         },
         "resetPasswordError": {
             "id": "reset-password-error",

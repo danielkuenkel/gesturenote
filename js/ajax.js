@@ -93,6 +93,23 @@ function register(data, callback) {
     });
 }
 
+function requestContact(data, callback) {
+    $.ajax({
+        url: 'includes/request-contact.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function getUser(callback) {
     $.ajax({
         url: 'includes/get-user.php',

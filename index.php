@@ -65,7 +65,7 @@ if (login_check($mysqli) == true) {
         </nav>
 
         <div class="jumbotron text-center">
-            <div><h1><i class="glyphicon glyphicon-stats"></i> <?php echo $lang->gesturenote ?> <sup><span class="label label-success uppercase" style="position: relative; font-size: 8pt; top: -15px"><?php echo $lang->alpha ?></span></sup></h1></div>
+            <div><h1><i class="glyphicon glyphicon-stats"></i> <?php echo $lang->gesturenote ?> <sup><span class="label label-success uppercase" style="position: relative; font-size: 8pt; top: -15px"><?php echo $lang->beta ?></span></sup></h1></div>
             <p><?php echo $lang->gesturenoteSubline ?></p> 
         </div>
         <div class="line text-center" data-spy="affix" data-offset-top="376"></div>
@@ -221,7 +221,13 @@ if (login_check($mysqli) == true) {
                         </div>
 
                     </div>
-                    <div class="col-sm-7">
+                    <div class="col-sm-7" id="contact-form">
+                        <div class="alert-space alert-contact-success"></div>
+                        <div class="alert-space alert-general-error"></div>
+                        <div class="alert-space alert-missing-fields"></div>
+                        <div class="alert-space alert-invalid-email"></div>
+                        <div class="alert-space alert-missing-email"></div>
+
                         <div class="row">
                             <div class="col-sm-6 form-group">
                                 <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
@@ -230,10 +236,10 @@ if (login_check($mysqli) == true) {
                                 <input class="form-control" id="email" name="email" placeholder="E-Mail-Adresse" type="email" required>
                             </div>
                         </div>
-                        <textarea class="form-control" id="comments" name="comments" placeholder="Was möchten Sie uns mitteilen?" rows="5"></textarea><br>
+                        <textarea class="form-control" id="comment" name="comments" placeholder="Was möchten Sie uns mitteilen?" rows="5"></textarea><br>
                         <div class="row">
                             <div class="col-sm-12">
-                                <button type="button" class="btn btn-gn pull-right disabled" id="btn-send-feedback"><i class="fa fa-paper-plane" aria-hidden="true"></i> Senden</button>
+                                <button type="button" class="btn btn-gn pull-right" id="btn-contact-us"><i class="fa fa-paper-plane" aria-hidden="true"></i> Senden</button>
                             </div>
                         </div>	
                     </div>
@@ -281,13 +287,11 @@ if (login_check($mysqli) == true) {
             <div class="container">
                 <div class="row">
                     <div class="col-xs-5">
-                        <ul class="nav nav-pills">
-                            <li role="presentation"><a href=""><span class="glyphicon glyphicon-copyright-mark"></span> DANIEL KUENKEL</a></li>
-                        </ul>
+                        <span class="footer-copyright"><i class="glyphicon glyphicon-copyright-mark"></i> DANIEL KUENKEL</span>
                     </div>
                     <div class="col-xs-7">
                         <ul class="nav nav-pills navbar-right">
-                            <li role="presentation"><a href="imprint.php" class="no-scrolling">IMPRESSUM</a></li>
+                            <li role="presentation"><a href="imprint.php" class="no-scrolling"><?php echo $lang->imprint ?></a></li>
                         </ul>
                     </div>
                 </div>
@@ -353,6 +357,79 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 loadHTMLintoModal('custom-modal', 'modal-register.php', 'modal-md');
             });
+
+//            setInputChangeEvent($('#contact-form').find('#name'));
+//            setInputChangeEvent($('#contact-form').find('#email'));
+//            setInputChangeEvent($('#contact-form').find('#comment'));
+//
+//            $('#contact-form').on('change', function (event) {
+//                event.preventDefault();
+//                clearAlerts($(this));
+//            });
+
+            $('#contact-form').find('#btn-contact-us').on('click', function (event) {
+                event.preventDefault();
+                clearAlerts($('#contact-form'));
+                $(this).addClass('disabled');
+                $(this).find('.fa').removeClass('fa-paper-plane').addClass('fa-circle-o-notch fa-spin');
+
+                var nameInput = $('#contact-form').find('#name');
+                if ($(nameInput).val().trim() === '') {
+                    $(nameInput).focus();
+                    appendAlert($('#contact-form'), ALERT_MISSING_FIELDS);
+                    resetContactFormInput();
+                    return false;
+                }
+
+                var emailInput = $('#contact-form').find('#email');
+
+                // validate email
+                if ($(emailInput).val().trim() === '') {
+                    appendAlert($('#contact-form'), ALERT_MISSING_EMAIL);
+                    $(emailInput).focus();
+                    resetContactFormInput();
+                    return false;
+                }
+
+                if (!validateEmail($(emailInput).val().trim())) {
+                    $(emailInput).focus();
+                    appendAlert($('#contact-form'), ALERT_INVALID_EMAIL);
+                    resetContactFormInput();
+                    return false;
+                }
+
+                var commentInput = $('#contact-form').find('#comment');
+                if ($(commentInput).val().trim() === '') {
+                    $(commentInput).focus();
+                    appendAlert($('#contact-form'), ALERT_MISSING_FIELDS);
+                    resetContactFormInput();
+                    return false;
+                }
+
+                var name = nameInput.val();
+                var email = emailInput.val();
+                var comment = commentInput.val();
+                requestContact({name: name, email: email, comment: comment}, function (result) {
+                    resetContactFormInput();
+                    if (result.status === RESULT_SUCCESS) {
+                        $(nameInput).val('');
+                        $(emailInput).val('');
+                        $(commentInput).val('');
+                        appendAlert($('#contact-form'), ALERT_CONTACT_SUCCESS);
+                        
+                        setTimeout(function() {
+                            clearAlerts($('#contact-form'));
+                        }, 7000);
+                    } else {
+                        appendAlert($('#contact-form'), ALERT_GENERAL_ERROR);
+                    }
+                });
+            });
+
+            function resetContactFormInput() {f
+                $('#contact-form').find('#btn-contact-us').removeClass('disabled');
+                $('#contact-form').find('#btn-contact-us').find('.fa').removeClass('fa-circle-o-notch fa-spin').addClass('fa-paper-plane');
+            }
         </script>
 
     </body>

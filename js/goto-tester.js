@@ -5,7 +5,7 @@
  */
 
 $(document).ready(function () {
-    $('body').on('click', '#btn-dashboard', function (event) {
+    $('body').unbind('click').bind('click', '#btn-dashboard', function (event) {
         event.preventDefault();
         if (!event.handled) {
             event.handled = true;
@@ -13,7 +13,7 @@ $(document).ready(function () {
         }
     });
 
-    $('body').on('click', '#btn-studies', function (event) {
+    $('body').unbind('click').bind('click', '#btn-studies', function (event) {
         event.preventDefault();
         if (!event.handled) {
             event.handled = true;
@@ -21,7 +21,7 @@ $(document).ready(function () {
         }
     });
 
-    $('body').on('click', '#btn-profile', function (event) {
+    $('body').unbind('click').bind('click', '#btn-profile', function (event) {
         event.preventDefault();
         if (!event.handled) {
             event.handled = true;
