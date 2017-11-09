@@ -2,12 +2,13 @@
     "gesturenote": "GestureNote",
     "gesturenoteSubline": "Spezialisiert auf Usability Engineering für Gesteninteraktionen",
     "alpha": "alpha",
-    "beta":"beta",
+    "beta": "beta",
     "about": "Über",
     "services": "Service",
     "contact": "Kontakt",
     "signIn": "Einloggen",
     "signOut": "Ausloggen",
+    "send": "Senden",
     "createAccount": "Account anlegen",
     "breadcrump": {
         "home": "Home",
@@ -22,7 +23,8 @@
         "profile": "Profil",
         "publications": "Veröffentlichungen",
         "resetPassword": "Passwort zurücksetzen",
-        "imprint": "Impressum"
+        "imprint": "Impressum",
+        "informations": "Über GestureNote"
     },
     "months": {
         "january": "Januar",

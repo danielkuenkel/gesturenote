@@ -42,27 +42,27 @@ if (login_check($mysqli) == true) {
         <!-- externals -->
         <div id="alerts"></div>
 
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <!--                <div class="navbar-header">
-                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                                        <span class="icon-bar"></span>
-                                        <span class="icon-bar"></span>
-                                        <span class="icon-bar"></span>
-                                        <span class="icon-bar"></span>   
-                                    </button>
-                                    <a class="navbar-brand" href="#pageBody"><span class="glyphicon glyphicon-stats"></span> GestureNote</a>
-                                </div>-->
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#about"><span class="btn-text uppercase"><?php echo $lang->about ?></span></a></li>
-                        <li><a href="#services"><span class="btn-text uppercase"><?php echo $lang->services ?></span></a></li>
-                        <li><a href="#contact"><span class="btn-text uppercase"><?php echo $lang->contact ?></span></a></li>
-                        <li><a href="#login"><span class="glyphicon glyphicon-log-in"></span> <span class="btn-text uppercase"><?php echo $lang->signIn ?></span></a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <!--        <nav class="navbar navbar-default navbar-fixed-top">
+                    <div class="container">
+                                                        <div class="navbar-header">
+                                                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                                                <span class="icon-bar"></span>
+                                                                <span class="icon-bar"></span>
+                                                                <span class="icon-bar"></span>
+                                                                <span class="icon-bar"></span>   
+                                                            </button>
+                                                            <a class="navbar-brand" href="#pageBody"><span class="glyphicon glyphicon-stats"></span> GestureNote</a>
+                                                        </div>
+                        <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav navbar-right">
+                                <li><a href="#about"><span class="btn-text uppercase"><?php echo $lang->about ?></span></a></li>
+                            <li><a href="#services"><span class="btn-text uppercase"><?php echo $lang->services ?></span></a></li>
+                            <li><a href="#contact"><span class="btn-text uppercase"><?php echo $lang->contact ?></span></a></li>
+                            <li><a href="#login"><span class="glyphicon glyphicon-log-in"></span> <span class="btn-text uppercase"><?php echo $lang->signIn ?></span></a></li>
+                        </ul>
+                        </div>
+                    </div>
+                </nav>-->
 
         <div class="jumbotron text-center">
             <div><h1><i class="glyphicon glyphicon-stats"></i> <?php echo $lang->gesturenote ?> <sup><span class="label label-success uppercase" style="position: relative; font-size: 8pt; top: -15px"><?php echo $lang->beta ?></span></sup></h1></div>
@@ -112,9 +112,9 @@ if (login_check($mysqli) == true) {
                                     <input type="password" class="form-control" name="password" value="" id="password">
                                 </div>
                                 <div class="btn-group-vertical btn-block">
-                                    <button type="button" class="btn btn-success" id="btn-login"><i class="glyphicon glyphicon-log-in"></i> <span class="btn-text"><?php echo $lang->signIn ?></button>
-                                    <button type="button" class="btn btn-primary" id="btn-forgot-password"><i class="glyphicon glyphicon-time"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
-                                    <button type="button" class="btn btn-gn" id="btn-open-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>
+                                    <button type="button" class="btn btn-success" id="btn-login"><i class="fa fa-unlock-alt"></i> <span class="btn-text"><?php echo $lang->signIn ?></button>
+                                    <button type="button" class="btn btn-default" id="btn-forgot-password"><i class="fa fa-question"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
+                                    <button type="button" class="btn btn-default" id="btn-open-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>
                                 </div>
                             </div>
                         </div>
@@ -191,7 +191,7 @@ if (login_check($mysqli) == true) {
                 </div>
                 <br/><br/>
                 <div class="row">
-                    <button class="btn btn-gn"><i class="fa fa-info-circle" aria-hidden="true"></i> <span class="btn-text">Hier mehr erfahren</span></button>
+                    <button class="btn btn-default" id="btn-more-infos"><i class="fa fa-info-circle" aria-hidden="true"></i> <span class="btn-text">Hier mehr erfahren</span></button>
                 </div>
             </div>
         </div>
@@ -239,7 +239,7 @@ if (login_check($mysqli) == true) {
                         <textarea class="form-control" id="comment" name="comments" placeholder="Was möchten Sie uns mitteilen?" rows="5"></textarea><br>
                         <div class="row">
                             <div class="col-sm-12">
-                                <button type="button" class="btn btn-gn pull-right" id="btn-contact-us"><i class="fa fa-paper-plane" aria-hidden="true"></i> Senden</button>
+                                <button type="button" class="btn btn-default pull-right" id="btn-contact-us"><i class="fa fa-send" aria-hidden="true"></i> <?php echo $lang->send ?></button>
                             </div>
                         </div>	
                     </div>
@@ -266,7 +266,7 @@ if (login_check($mysqli) == true) {
                 var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
                 var marker = new google.maps.Marker({
-                    position: myCenter,
+                    position: myCenter
                 });
 
                 marker.setMap(map);
@@ -277,9 +277,8 @@ if (login_check($mysqli) == true) {
 
         <footer class="container-fluid text-center">
             <a href="#pageBody" title="To Top">
-                <span class="glyphicon glyphicon-chevron-up"></span>
-            </a>
-            <p><a href="#pageBody">nach oben</a></p>		
+                <div class="glyphicon glyphicon-chevron-up" id="btn-to-top"></div>
+            </a>	
         </footer>
 
         <!-- Fixed Footer -->
@@ -311,24 +310,24 @@ if (login_check($mysqli) == true) {
 
             function onAllExternalsLoadedSuccessfully() {
                 // Add smooth scrolling to all links in navbar + footer link
-                $(".navbar a, footer a[href='#pageBody']").on('click', function (event) {
-                    if (!$(this).hasClass('no-scrolling')) {
-                        event.preventDefault();
-
-                        // Store hash
-                        var hash = this.hash;
-
-                        // Using jQuery's animate() method to add smooth page scroll
-                        // The optional number (400) specifies the number of milliseconds it takes to scroll to the specified area
-                        $('html, body').animate({
-                            scrollTop: $(hash).offset().top - 50
-                        }, 400, function () {
-
-                            // Add hash (#) to URL when done scrolling (default click behavior)
-                            window.location.hash = hash;
-                        });
-                    }
-                });
+//                $(".navbar a, footer a[href='#pageBody']").on('click', function (event) {
+//                    if (!$(this).hasClass('no-scrolling')) {
+//                        event.preventDefault();
+//
+//                        // Store hash
+//                        var hash = this.hash;
+//
+//                        // Using jQuery's animate() method to add smooth page scroll
+//                        // The optional number (400) specifies the number of milliseconds it takes to scroll to the specified area
+//                        $('html, body').animate({
+//                            scrollTop: $(hash).offset().top - 50
+//                        }, 400, function () {
+//
+//                            // Add hash (#) to URL when done scrolling (default click behavior)
+//                            window.location.hash = hash;
+//                        });
+//                    }
+//                });
 
                 $('#login-form #password, #login-form #email').keypress(function (event) {
                     if (event.keyCode === 13) {
@@ -358,77 +357,77 @@ if (login_check($mysqli) == true) {
                 loadHTMLintoModal('custom-modal', 'modal-register.php', 'modal-md');
             });
 
-//            setInputChangeEvent($('#contact-form').find('#name'));
-//            setInputChangeEvent($('#contact-form').find('#email'));
-//            setInputChangeEvent($('#contact-form').find('#comment'));
-//
-//            $('#contact-form').on('change', function (event) {
-//                event.preventDefault();
-//                clearAlerts($(this));
-//            });
-
             $('#contact-form').find('#btn-contact-us').on('click', function (event) {
                 event.preventDefault();
-                clearAlerts($('#contact-form'));
-                $(this).addClass('disabled');
-                $(this).find('.fa').removeClass('fa-paper-plane').addClass('fa-circle-o-notch fa-spin');
+                if ($(this).hasClass('disabled')) {
+                    lockButton($(this), true, 'fa-send');
+                    clearAlerts($('#contact-form'));
 
-                var nameInput = $('#contact-form').find('#name');
-                if ($(nameInput).val().trim() === '') {
-                    $(nameInput).focus();
-                    appendAlert($('#contact-form'), ALERT_MISSING_FIELDS);
-                    resetContactFormInput();
-                    return false;
-                }
-
-                var emailInput = $('#contact-form').find('#email');
-
-                // validate email
-                if ($(emailInput).val().trim() === '') {
-                    appendAlert($('#contact-form'), ALERT_MISSING_EMAIL);
-                    $(emailInput).focus();
-                    resetContactFormInput();
-                    return false;
-                }
-
-                if (!validateEmail($(emailInput).val().trim())) {
-                    $(emailInput).focus();
-                    appendAlert($('#contact-form'), ALERT_INVALID_EMAIL);
-                    resetContactFormInput();
-                    return false;
-                }
-
-                var commentInput = $('#contact-form').find('#comment');
-                if ($(commentInput).val().trim() === '') {
-                    $(commentInput).focus();
-                    appendAlert($('#contact-form'), ALERT_MISSING_FIELDS);
-                    resetContactFormInput();
-                    return false;
-                }
-
-                var name = nameInput.val();
-                var email = emailInput.val();
-                var comment = commentInput.val();
-                requestContact({name: name, email: email, comment: comment}, function (result) {
-                    resetContactFormInput();
-                    if (result.status === RESULT_SUCCESS) {
-                        $(nameInput).val('');
-                        $(emailInput).val('');
-                        $(commentInput).val('');
-                        appendAlert($('#contact-form'), ALERT_CONTACT_SUCCESS);
-                        
-                        setTimeout(function() {
-                            clearAlerts($('#contact-form'));
-                        }, 7000);
-                    } else {
-                        appendAlert($('#contact-form'), ALERT_GENERAL_ERROR);
+                    // validate name
+                    var nameInput = $('#contact-form').find('#name');
+                    if ($(nameInput).val().trim() === '') {
+                        $(nameInput).focus();
+                        appendAlert($('#contact-form'), ALERT_MISSING_FIELDS);
+                        resetContactFormInput();
+                        return false;
                     }
-                });
+
+                    // validate email
+                    var emailInput = $('#contact-form').find('#email');
+                    if ($(emailInput).val().trim() === '') {
+                        appendAlert($('#contact-form'), ALERT_MISSING_EMAIL);
+                        $(emailInput).focus();
+                        resetContactFormInput();
+                        return false;
+                    }
+
+                    if (!validateEmail($(emailInput).val().trim())) {
+                        $(emailInput).focus();
+                        appendAlert($('#contact-form'), ALERT_INVALID_EMAIL);
+                        resetContactFormInput();
+                        return false;
+                    }
+
+                    // validate comment
+                    var commentInput = $('#contact-form').find('#comment');
+                    if ($(commentInput).val().trim() === '') {
+                        $(commentInput).focus();
+                        appendAlert($('#contact-form'), ALERT_MISSING_FIELDS);
+                        resetContactFormInput();
+                        return false;
+                    }
+
+                    var name = nameInput.val();
+                    var email = emailInput.val();
+                    var comment = commentInput.val();
+                    requestContact({name: name, email: email, comment: comment}, function (result) {
+                        resetContactFormInput();
+                        if (result.status === RESULT_SUCCESS) {
+                            $(nameInput).val('');
+                            $(emailInput).val('');
+                            $(commentInput).val('');
+                            appendAlert($('#contact-form'), ALERT_CONTACT_SUCCESS);
+
+                            setTimeout(function () {
+                                clearAlerts($('#contact-form'));
+                            }, 7000);
+                        } else {
+                            appendAlert($('#contact-form'), ALERT_GENERAL_ERROR);
+                        }
+                    });
+                }
             });
 
-            function resetContactFormInput() {f
-                $('#contact-form').find('#btn-contact-us').removeClass('disabled');
-                $('#contact-form').find('#btn-contact-us').find('.fa').removeClass('fa-circle-o-notch fa-spin').addClass('fa-paper-plane');
+            $('#btn-to-top').on('click', function () {
+                $("html, body").animate({scrollTop: 0}, 200);
+            });
+
+            $('#btn-more-infos').on('click', function () {
+                goto('informations.php');
+            });
+
+            function resetContactFormInput() {
+                lockButton($('#contact-form').find('#btn-contact-us'), true, 'fa-send');
             }
         </script>
 

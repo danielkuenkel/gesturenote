@@ -11,7 +11,7 @@ include '../includes/language.php';
             </div>
             <div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li id="btn-sign-out"><a href="#"><i class="glyphicon glyphicon-log-out"></i> <span class="btn-text uppercase"><?php echo $lang->signOut ?></span></a></li>
+                    <li id="btn-sign-out"><a href="#"><i class="fa fa-lock"></i> <span class="btn-text uppercase"><?php echo $lang->signOut ?></span></a></li>
                 </ul>
             </div>
         </div>
