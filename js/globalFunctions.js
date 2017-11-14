@@ -1951,8 +1951,7 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
         clone = $('#gestures-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
     }
     clone.attr('id', data.id);
-    clone.find('.title-text').text(data.title + " ");
-    clone.find('#title .text').text(data.title);
+    clone.find('.gesture-name').text(data.title);
     clone.find('#gesture-scope .label-text').text(translation.gestureScopes[data.scope]);
     clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
 
@@ -1991,21 +1990,21 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
 
     renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
 
-    $(clone).find('.panel').mouseenter(function (event) {
+    $(clone).find('.gesture-thumbnail').mouseenter(function (event) {
         event.preventDefault();
         if (gesturePreviewOpened === false) {
             playThroughThumbnails($(this).find('.previewGesture'), 0);
         }
     });
 
-    $(clone).find('.panel').mouseleave(function (event) {
+    $(clone).find('.gesture-thumbnail').mouseleave(function (event) {
         event.preventDefault();
         if (gesturePreviewOpened === false) {
             resetThumbnails($(this).find('.previewGesture'));
         }
     });
 
-    $(clone).find('#btn-show-gesture-info').click({gesture: data, clone: clone}, function (event) {
+    $(clone).find('.btn-show-gesture-info').click({gesture: data, clone: clone}, function (event) {
         event.preventDefault();
         resetThumbnails($(event.data.clone).find('.previewGesture'));
         console.log(event.data.gesture.id);
@@ -2026,21 +2025,22 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
     });
 
     if (data.isOwner) {
-        var shareButton = $(clone).find('#btn-share-gesture');
+        var shareButton = $(clone).find('.btn-share');
         if (data.scope === SCOPE_GESTURE_PRIVATE) {
-            shareButton.removeClass('unshare-gesture').addClass('share-gesture');
-            shareButton.find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-            shareButton.find('.btn-text').text(translation.share);
+//            shareButton.removeClass('unshare-gesture').addClass('share-gesture');
+//            shareButton.find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
+//            shareButton.find('.btn-text').text(translation.share);
         } else {
-            shareButton.removeClass('share-gesture').addClass('unshare-gesture');
-            shareButton.find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-            shareButton.find('.btn-text').text(translation.unshare);
+            shareButton.addClass('gesture-shared');
+//            shareButton.removeClass('share-gesture').addClass('unshare-gesture');
+//            shareButton.find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
+//            shareButton.find('.btn-text').text(translation.unshare);
         }
     } else {
-        $(clone).find('#btn-share-gesture').parent().remove();
+//        $(clone).find('.btn-share').parent().remove();
     }
 
-    $(clone).find('#btn-share-gesture').click({gestureId: data.id}, function (event) {
+    $(clone).find('.btn-share').click({gestureId: data.id}, function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
             $(this).addClass('disabled');

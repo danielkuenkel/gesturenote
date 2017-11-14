@@ -17,12 +17,8 @@ include '../includes/language.php';
     </li>
 
     <div class="root hidden deleteable" id="gestures-catalog-thumbnail">
-        <div class="panel panel-default btn-shadow">
-            <div class="panel-heading" style=" text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
-                <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
-            </div>
-
-            <div class="panel-body">
+        <div class="thumbnail gesture-thumbnail btn-shadow">
+            <div class="">
                 <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
@@ -32,22 +28,52 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
                     </div>
                 </div>
-                <div class="text-center">
-                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
-                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
-                </div>
             </div>
-            <div class="panel-footer">
-                <div class="btn-group btn-group-justified">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-info update-list-view" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text hidden-sm hidden-xs"></span></button>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default" id="btn-show-gesture-info">Mehr</button>
-                    </div>
-                </div>
+            <div class="caption text-center">
+                <p class="gesture-name ellipsis"></p>
+                <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+            </div>
+
+            <div class="thumbnail-footer">
+                <div class="btn-like update-list-view"><i class="fa fa-heart-o"></i> <span class="amount"></span></div>
+                <div class="btn-share update-list-view"><i class="fa fa-share-alt"></i></div>
+                <div class="btn-comment"><i class="fa fa-comment-o"></i> <span class="amount"></span></div>
+                <div class="btn-show-gesture-info pull-right"><i class="fa fa-ellipsis-h"></i></div>
             </div>
         </div>
+
+        <!--        <div class="panel panel-default btn-shadow">
+                    <div class="panel-heading" style=" text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
+                        <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
+                    </div>
+        
+                    <div class="panel-body">
+                        <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+                        <div class="text-center hidden gestureControls">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                                <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                                <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                            <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="btn-group btn-group-justified">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-info update-list-view" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text hidden-sm hidden-xs"></span></button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" id="btn-show-gesture-info">Mehr</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
     </div>
 
     <div class="root" id="classified-gestures-catalog-thumbnail">

@@ -105,3 +105,66 @@ and open the template in the editor.
     -ms-transform: scaleX(-1);
     transform: scaleX(-1);
 }
+
+.gesture-thumbnail .previewGesture {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.gesture-thumbnail {
+    cursor: pointer;
+}
+
+.gesture-thumbnail:hover {
+    border-color: #b3b3b3;
+}
+
+.gesture-thumbnail .caption {
+    padding-top: 9px;
+    padding-left: 9px;
+    padding-right: 9px;
+    padding-bottom: 0px;
+}
+
+.gesture-thumbnail .gesture-name {
+    margin: 0;
+}
+
+.gesture-thumbnail .thumbnail-footer {
+    display: block;
+    padding: 9px 9px 5px 9px;
+    font-size: 18pt;
+}
+
+.gesture-thumbnail .thumbnail-footer div {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.gesture-thumbnail .thumbnail-footer div .btn-like,
+.gesture-thumbnail .thumbnail-footer div .btn-share,
+.gesture-thumbnail .thumbnail-footer div .btn-comment,
+.gesture-thumbnail .thumbnail-footer div, .btn-show-gesture-info{
+    cursor: pointer;
+}
+
+.btn-like:hover,
+.btn-share:hover,
+.btn-comment:hover,
+.btn-show-gesture-info:hover {
+    color: black;
+}
+
+.gesture-liked .fa{
+    color: #D42C29;
+}
+
+.gesture-shared .fa{
+    color: #D42C29;
+}
+
+.btn-like .amount, .btn-comment .amount {
+    font-size: 10pt;
+    position: relative;
+    top:-2px;
+}
