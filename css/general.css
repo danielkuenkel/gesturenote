@@ -170,7 +170,7 @@ h4 {
     background: url('../img/footer_lodyas.jpg') repeat center;
     background-color: #303030;
     color: #fff;
-    padding: 160px 25px 110px 25px;
+    padding: 110px 25px 110px 25px;
     margin-bottom: 0;
     font-family: Montserrat, sans-serif;
     text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.3);
@@ -178,12 +178,12 @@ h4 {
 
 .line {
     height: 3px;
-    background-color: #B85B90;
+    background-color: #5cb85c;
     z-index: 9998;
 
 }
 .line.affix {
-    top: 50px;
+    top: 0px;
     width: 100%;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
     /*background-color: rgb(0,0,0);*/
@@ -245,7 +245,7 @@ h4 {
 }
 .navbar-fixed-top .navbar-nav li a:hover, .navbar-fixed-top .navbar-nav li.active a,
 .navbar-fixed-bottom .navbar-nav li a:hover, .navbar-fixed-bottom .navbar-nav li.active a {
-    color: #ca3667 !important;
+    color: #303030 !important;
     background-color: #fff !important;
 }
 .navbar-fixed-top  .navbar-toggle,
@@ -254,9 +254,8 @@ h4 {
     color: #fff !important;
 }
 footer .glyphicon {
-    font-size: 20px;
-    margin-bottom: 20px;
-    color: #ca3667;
+    font-size: 25px;
+    color: #696969;
 }
 
 .greenGrey {
@@ -317,8 +316,9 @@ footer .glyphicon {
 }
 
 .footer-copyright {
+    position: relative;
+    top:15px;
     letter-spacing: 1px;
-    margin-top: 18px;
     font-size: 10px;
     color: white;
     text-transform: uppercase;

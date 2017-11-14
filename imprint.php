@@ -1,5 +1,9 @@
 <?php
 include './includes/language.php';
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
+
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -16,10 +20,10 @@ include './includes/language.php';
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <!--<script src="js/ajax.js"></script>-->
         <script src="js/constants.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
+        <script src="js/storage.js"></script>
         <script src="js/goto-general.js"></script>
         <script src="js/goto-evaluator.js"></script>
         <script src="js/globalFunctions.js"></script>
@@ -30,26 +34,23 @@ include './includes/language.php';
         <!--<div id="alerts"></div>-->
         <div id="template-subpages"></div>
 
+
         <!-- Container (Breadcrump) -->
-        <div class="container" id="breadcrumb">
+        <div class="container" id="breadcrumb"style="margin-top: 40px">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
                     <li class="active"><?php echo $lang->breadcrump->imprint ?></li>
                 </ol>
             </div>
         </div>
 
-        <!-- Container (Landing Section) -->
-        <div class=" container-fluid text-center bg-grey" id="landingText">
-            <div class="container">
-                <h1><i class="fa fa-info-circle" style="font-size: 60pt" aria-hidden="true"></i> IMPRESSUM</h1>
-            </div>
-        </div>
 
-        <div class="container mainContent" style="margin-top: 50px">
-            <div class="info">
-                <div class="page-header">
+        <!-- Container (Landing Section) -->
+        <div class="container mainContent" style="margin-top: 0px">
+            <div class="">
+                <div class="page-header" style="margin-top: 0px">
                     <h2>Angaben gemäß § 5 TMG:</h2>
                 </div>
                 <div class="info-text">
@@ -60,7 +61,8 @@ include './includes/language.php';
                     <p>Quelle: <a href="https://www.e-recht24.de"><i class="glyphicon glyphicon-link"></i> e-recht24.de</a></p>
                 </div>
             </div>
-            <div class="info">
+
+            <div class="">
                 <div class="page-header">
                     <h2>Haftungsausschluss (Disclaimer)</h2>
                 </div>
@@ -76,7 +78,7 @@ include './includes/language.php';
                 </div>
             </div>
 
-            <div class="info">
+            <div class="">
                 <div class="page-header">
                     <h2>Datenschutzerklärung</h2>
                 </div>
@@ -124,7 +126,12 @@ include './includes/language.php';
             });
 
             function onAllExternalsLoadedSuccessfully() {
-                renderSubPageElements(false);
+
+                var loggedIn = parseInt('<?php echo login_check($mysqli) ?>') === 1;
+                renderSubPageElements(loggedIn, true);
+                if (loggedIn === false) {
+                    $('#btn-dashboard').parent().remove();
+                }
             }
         </script>
 

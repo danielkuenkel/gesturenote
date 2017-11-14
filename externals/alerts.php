@@ -22,6 +22,7 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="user-exists" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->userExists->text ?></span></div>
     <div class="alert alert-warning" id="no-user-exists" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noUserExists->text ?></span></div>
     <div class="alert alert-success" id="register-success" role="alert"><i class="glyphicon glyphicon-ok"></i> <span class="alert-text"><?php echo $lang->alerts->registerSuccess->text ?></span></div>
+    <div class="alert alert-success" id="contact-success" role="alert"><i class="glyphicon glyphicon-ok"></i> <span class="alert-text"><?php echo $lang->alerts->contactSuccess->text ?></span></div>
     <div class="alert alert-warning" id="wrong-current-password" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->wrongCurrentPassword->text ?></span></div>
     <div class="alert alert-danger"  id="no-gestures-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noGesturesAssembled->text ?></span></div>
     <div class="alert alert-warning" id="no-study-gestures-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noStudyGesturesAssembled->text ?></span></div>

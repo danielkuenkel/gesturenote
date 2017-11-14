@@ -46,26 +46,20 @@ if (login_check($mysqli) == true) {
         <div id="alerts"></div>
         <div id="template-subpages"></div>
 
+        
+        <!-- Container (Breadcrump) -->
+        <div class="container" id="breadcrumb"style="margin-top: 40px">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
+                    <li class="active"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->breadcrump->profile ?></li>
+                </ol>
+            </div>
+        </div>
 
-
+        
         <!-- Container (Landing Section) -->
-        <!--<div class=" container-fluid bg-grey wall" id="landingText">-->
-            <!-- Container (Breadcrump) -->
-            <div class="container" id="breadcrumb"style="margin-top: 40px">
-                <div class="row">
-                    <ol class="breadcrumb">
-                        <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
-                        <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
-                        <li class="active"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->breadcrump->profile ?></li>
-                    </ol>
-                </div>
-            </div>
-
-<!--            <div class="container text-center dropShadowText">
-                <h1><i class="fa fa-user" style="font-size: 60pt" aria-hidden="true"></i> BENUTZERPROFIL</h1>
-            </div>
-        </div>-->
-
         <div class="container mainContent" style="margin-top: 0px">
             <div class="row">
                 <div class="col-md-7">
@@ -135,21 +129,21 @@ if (login_check($mysqli) == true) {
                                     <input type="password" class="form-control" name="confirmPassword" id="input-confirm-new-password" placeholder="">
                                 </div>
 
-<!--                                <hr>
-
-                                <div class="alert-space alert-invalid-birthday"></div>
-
-                                <div class="form-group">
-                                    <label id="label-birthday"></label>
-                                    <div class="input-group" id="input-birthday">
-                                        <span class="input-group-addon" id="label-date"></span>
-                                        <input class="form-control" id="input-date" type="text" placeholder="z.B. 1" minlength="1" maxlength="2"/>
-                                        <span class="input-group-addon" id="label-month"></span>
-                                        <input class="form-control" id="input-month" type="text" placeholder="z.B. 12" minlength="1" maxlength="2"/>
-                                        <span class="input-group-addon" id="label-year"></span>
-                                        <input class="form-control" id="input-year" type="text" placeholder="z.B. 1980" minlength="4" maxlength="4"/>
-                                    </div>
-                                </div>-->
+                                <!--                                <hr>
+                                
+                                                                <div class="alert-space alert-invalid-birthday"></div>
+                                
+                                                                <div class="form-group">
+                                                                    <label id="label-birthday"></label>
+                                                                    <div class="input-group" id="input-birthday">
+                                                                        <span class="input-group-addon" id="label-date"></span>
+                                                                        <input class="form-control" id="input-date" type="text" placeholder="z.B. 1" minlength="1" maxlength="2"/>
+                                                                        <span class="input-group-addon" id="label-month"></span>
+                                                                        <input class="form-control" id="input-month" type="text" placeholder="z.B. 12" minlength="1" maxlength="2"/>
+                                                                        <span class="input-group-addon" id="label-year"></span>
+                                                                        <input class="form-control" id="input-year" type="text" placeholder="z.B. 1980" minlength="4" maxlength="4"/>
+                                                                    </div>
+                                                                </div>-->
                             </div>
 
                         </div>

@@ -25,6 +25,7 @@ var ALERT_USER_EXISTS = 'user-exists';
 var ALERT_NO_USER_EXISTS = 'no-user-exists';
 var ALERT_REGISTER_SUCCESS = 'register-success';
 var ALERT_WRONG_CURRENT_PASSWORD = 'wrong-current-password';
+var ALERT_CONTACT_SUCCESS = 'contact-success';
 
 // alert constant
 var ALERT_WEB_RTC_NOT_SUPPORTED = 'web-rtc-not-supported';

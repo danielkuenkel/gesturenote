@@ -2334,7 +2334,7 @@ function setInputChangeEvent(target, milliseconds) {
         changeTriggerTimer = setTimeout(function () {
             clearTimeout(changeTriggerTimer);
             $(target).trigger('change');
-        }, milliseconds);
+        }, milliseconds || 100);
     });
 }
 
