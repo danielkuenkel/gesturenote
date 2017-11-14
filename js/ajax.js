@@ -782,6 +782,47 @@ function unshareGesture(data, callback) {
 
 
 /*
+ * gesture liking
+ */
+
+function likeGesture(data, callback) {
+    $.ajax({
+        url: 'includes/like-gesture.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function unlikeGesture(data, callback) {
+    $.ajax({
+        url: 'includes/unlike-gesture.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+
+/*
  * gesture infos
  * rating & comments
  */

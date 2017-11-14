@@ -717,7 +717,7 @@ function initScenarioOverlay(id, formatClone) {
     }
 
     initDynamicAffixScrolling(formatClone);
-    
+
     function renderData(data)
     {
         $(formatClone).find('#scenarioTitle').val(data.title);
@@ -1781,7 +1781,7 @@ function initExplorationOverlay(id, formatClone) {
     function renderAssembledGesturesItems(container, gestureIds) {
         var assemGestures = assembledGestures();
         for (var i = 0; i < assemGestures.length; i++) {
-            var thumbnail = getGestureSceneListThumbnail(assemGestures[i], 'add-gesture-to-scene-thumbnail');
+            var thumbnail = getGestureSceneListThumbnail(assemGestures[i], 'add-gesture-to-scene-thumbnail', 'col-xs-6 col-sm-4 col-md-6 col-lg-4');
             $(container).append(thumbnail);
         }
         initPopover(300);
@@ -2011,9 +2011,9 @@ function initCatalogGesturesOverlay(formatClone) {
         var viewFromIndex = index * listCount;
         var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
         var count = 0;
-        var clone, isGestureAss;
-        for (var i = viewFromIndex; i < viewToIndex; i++) {
 
+        for (var i = viewFromIndex; i < viewToIndex; i++) {
+            var clone;
             switch ($(currentActiveTab).attr('id')) {
                 case 'gesture-sets':
                     clone = getGestureSetPanel(currentFilterData[i]);
@@ -2024,17 +2024,11 @@ function initCatalogGesturesOverlay(formatClone) {
                     break;
                 case 'study-gesture-set':
                 case 'gesture-catalog':
-//                    isGestureAss = isGestureAssembled(currentFilterData[i].id);
-                    clone = getCreateStudyGestureListThumbnail(currentFilterData[i], 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-3', null, null, 'custom-modal');
+                    clone = getCreateStudyGestureListThumbnail(currentFilterData[i], 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-3');
                     $(currentFilterList).append(clone);
                     if (animation && animation === true) {
                         TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                     }
-
-//                    if (isGestureAss) {
-//                        clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
-//                        clone.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
-//                    }
 
                     break;
             }

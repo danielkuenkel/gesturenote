@@ -487,20 +487,21 @@ include 'includes/language.php';
         renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
         renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
 
-        var thumbnail = $('#item-view #gestures-list-container').find('#' + currentPreviewGesture.gesture.id);
+        var thumbnail = $(currentPreviewGesture.thumbnail);
         console.log('thumbnail', thumbnail);
 
         $(container).find('#btn-share-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
-                $(this).addClass('disabled');
                 var button = $(this);
 
                 if ($(this).hasClass('share-gesture')) {
                     showCursor($('body'), CURSOR_PROGRESS);
+                    lockButton(button, true, 'fa-share-alt');
                     shareGesture({gestureId: event.data.gestureId}, function (result) {
                         showCursor($('body'), CURSOR_DEFAULT);
-                        $(button).removeClass('disabled');
+                        unlockButton(button, true, 'fa-share-alt');
+                        
                         if (result.status === RESULT_SUCCESS) {
                             $(button).removeClass('share-gesture').addClass('unshare-gesture');
                             $(button).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
@@ -509,8 +510,7 @@ include 'includes/language.php';
                             $(container).find('#gesture-scope .fa').addClass('hidden');
                             $(container).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
 
-                            $(thumbnail).find('#btn-share-gesture').removeClass('share-gesture').addClass('unshare-gesture');
-                            $(thumbnail).find('#btn-share-gesture .fa').removeClass('fa-share-alt').addClass('fa-lock');
+                            $(thumbnail).find('.btn-share').removeClass('gesture-shared');
                             $(thumbnail).find('#btn-share-gesture .btn-text').text(translation.unshare);
                             $(thumbnail).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
                             $(thumbnail).find('#gesture-scope .fa').addClass('hidden');
@@ -523,9 +523,11 @@ include 'includes/language.php';
                     });
                 } else if ($(this).hasClass('unshare-gesture')) {
                     showCursor($('body'), CURSOR_PROGRESS);
+                    lockButton(button, true, 'fa-lock');
                     unshareGesture({gestureId: event.data.gestureId}, function (result) {
                         showCursor($('body'), CURSOR_DEFAULT);
-                        $(button).removeClass('disabled');
+                        unlockButton(button, true, 'fa-lock');
+                        
                         if (result.status === RESULT_SUCCESS) {
                             $(button).removeClass('unshare-gesture').addClass('share-gesture');
                             $(button).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
@@ -534,8 +536,7 @@ include 'includes/language.php';
                             $(container).find('#gesture-scope .fa').addClass('hidden');
                             $(container).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
 
-                            $(thumbnail).find('#btn-share-gesture').removeClass('unshare-gesture').addClass('share-gesture');
-                            $(thumbnail).find('#btn-share-gesture .fa').removeClass('fa-lock').addClass('fa-share-alt');
+                            $(thumbnail).find('#btn-share-gesture').removeClass('gesture-shared');
                             $(thumbnail).find('#btn-share-gesture .btn-text').text(translation.share);
                             $(thumbnail).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
                             $(thumbnail).find('#gesture-scope .fa').addClass('hidden');

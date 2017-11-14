@@ -245,7 +245,8 @@ function renderPhaseSteps() {
 function renderCatalogOverview() {
     updateCatalogButtons();
 
-    var studyGestures = getLocalItem(ASSEMBLED_GESTURE_SET)
+    var studyGestures = getLocalItem(ASSEMBLED_GESTURE_SET);
+    $('#gestures-catalog').find('#gestures-list-container').empty();
     if (studyGestures && studyGestures.length > 0) {
         clearAlerts($('#gestures-catalog'));
         renderStudyGestures(studyGestures, true);
@@ -254,6 +255,7 @@ function renderCatalogOverview() {
     }
 
     var studyTrigger = getLocalItem(ASSEMBLED_TRIGGER);
+    $('#trigger-catalog').find('.list-container').empty();
     if (studyTrigger && studyTrigger.length > 0) {
         clearAlerts($('#trigger-catalog'));
         renderStudyTrigger(studyTrigger);
@@ -262,6 +264,7 @@ function renderCatalogOverview() {
     }
 
     var studyFeedback = getLocalItem(ASSEMBLED_FEEDBACK);
+    $('#feedback-catalog').find('.list-container').empty();
     if (studyFeedback && studyFeedback.length > 0) {
         clearAlerts($('#feedback-catalog'));
         renderStudyFeedback(studyFeedback);
@@ -270,6 +273,7 @@ function renderCatalogOverview() {
     }
 
     var studyScenes = getLocalItem(ASSEMBLED_SCENES);
+    $('#scenes-catalog').find('.list-container').empty();
     if (studyScenes && studyScenes.length > 0) {
         clearAlerts($('#scenes-catalog'));
         renderStudyScenes(studyScenes);
@@ -279,12 +283,10 @@ function renderCatalogOverview() {
 }
 
 function renderStudyGestures(gestures, animate) {
-    $('#gestures-catalog').find('#gestures-list-container').empty();
     if (gestures && gestures.length > 0) {
         for (var i = 0; i < gestures.length; i++) {
             var gesture = getGestureById(gestures[i]);
-//            var isGestureAss = isGestureAssembled(gesture.id);
-            var clone = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-3 col-lg-2', null, 'panel-default', 'custom-modal');
+            var clone = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-4 col-lg-3');
             
             $('#gestures-catalog').find('#gestures-list-container').append(clone);
             if (animate && animate === true) {
@@ -309,7 +311,6 @@ function renderStudyGestures(gestures, animate) {
 }
 
 function renderStudyTrigger(trigger) {
-    $('#trigger-catalog').find('.list-container').empty();
     for (var i = 0; i < trigger.length; i++) {
         var item = $('#template-study-container').find('#trigger-catalog-thumbnail').clone().removeAttr('id');
         item.text(trigger[i].title);
@@ -319,7 +320,6 @@ function renderStudyTrigger(trigger) {
 }
 
 function renderStudyFeedback(feedback) {
-    $('#feedback-catalog').find('.list-container').empty();
     for (var i = 0; i < feedback.length; i++) {
         var item = $('#template-study-container').find('#feedback-catalog-thumbnail').clone().removeAttr('id');
         item.find('.text').text(feedback[i].title);
@@ -333,7 +333,6 @@ function renderStudyFeedback(feedback) {
 }
 
 function renderStudyScenes(scenes) {
-    $('#scenes-catalog').find('.list-container').empty();
     for (var i = 0; i < scenes.length; i++) {
         var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id');
         item.find('.text').text(scenes[i].title);

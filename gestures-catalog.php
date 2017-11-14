@@ -488,6 +488,7 @@ if (login_check($mysqli) == true) {
                 }
                 count++;
             }
+            initPopover(300);
         }
 
         $('.filter').unbind('change').bind('change', function (event) {

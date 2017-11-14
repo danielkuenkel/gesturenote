@@ -192,8 +192,8 @@ function renderSubPageElements(hasTopNavbar, hasNoImprint) {
     if (hasTopNavbar === false) {
         header.find('.navbar-right').addClass('hidden');
     }
-    
-    if(hasNoImprint === true) {
+
+    if (hasNoImprint === true) {
         footer.find('#btn-imprint').parent().addClass('hidden');
     }
 }
@@ -1518,21 +1518,22 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
 
         var assemble = false;
         var gestureId = $(this).closest('.root').attr('id');
-        var thumbnail = $(this).closest('.panel');
+//        var thumbnail = $(this).closest('.panel');
         $(this).popover('hide');
+
         if (!$(this).hasClass('selected')) {
             $(this).attr('data-content', 'Vom Studien-Gesten-Set entfernen').data('bs.popover').setContent();
-            $(this).removeClass('btn-info').addClass('selected btn-danger');
-            $(this).find('.fa').removeClass('fa-plus').addClass('fa-minus');
-            $(thumbnail).removeClass('panel-default').addClass('panel-info');
+            $(this).addClass('selected');
+            $(this).find('.fa').removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
+//            $(thumbnail).removeClass('panel-default').addClass('panel-info');
             $(this).find('root').addClass('selected');
             assemble = true;
         } else {
             $(this).attr('data-content', 'Zum Studien-Gesten-Set hinzufügen').data('bs.popover').setContent();
-            $(this).removeClass('selected btn-danger').addClass('btn-info');
-            $(this).find('.fa').removeClass('fa-minus').addClass('fa-plus');
-            $(thumbnail).removeClass('panel-info').addClass('panel-default');
-            $(this).find('root').removeClass('selected');
+            $(this).removeClass('selected');
+            $(this).find('.fa').removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
+//            $(thumbnail).removeClass('panel-info').addClass('panel-default');
+//            $(this).find('root').removeClass('selected');
         }
 
         $(this).trigger('change', [gestureId, assemble]);
@@ -1547,21 +1548,21 @@ $(document).on('click', '.btn-add-gesture-to-scene', function (event) {
 
         var assemble = false;
         var gestureId = $(this).closest('.root').attr('id');
-        var thumbnail = $(this).closest('.panel');
+//        var thumbnail = $(this).closest('.panel');
         $(this).popover('hide');
         if (!$(this).hasClass('selected')) {
             $(this).attr('data-content', 'Von Zustand entfernen').data('bs.popover').setContent();
-            $(this).removeClass('btn-info').addClass('selected btn-danger');
-            $(this).find('.fa').removeClass('fa-plus').addClass('fa-minus');
-            $(thumbnail).removeClass('panel-default').addClass('panel-info');
-            $(this).find('root').addClass('selected');
+            $(this).addClass('selected');
+            $(this).find('.fa').removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
+//            $(thumbnail).removeClass('panel-default').addClass('panel-info');
+//            $(this).find('root').addClass('selected');
             assemble = true;
         } else {
             $(this).attr('data-content', 'Zum Zustand hinzufügen').data('bs.popover').setContent();
-            $(this).removeClass('selected btn-danger').addClass('btn-info');
-            $(this).find('.fa').removeClass('fa-minus').addClass('fa-plus');
-            $(thumbnail).removeClass('panel-info').addClass('panel-default');
-            $(this).find('root').removeClass('selected');
+            $(this).removeClass('selected');
+            $(this).find('.fa').removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
+//            $(thumbnail).removeClass('panel-info').addClass('panel-default');
+//            $(this).find('root').removeClass('selected');
         }
 
         $(this).trigger('change', [gestureId, assemble]);
@@ -1698,12 +1699,12 @@ function searchThroughArray(array, filter) {
         } else if (array[i].data && array[i].data.generalData && array[i].data.generalData.title) {
             title = array[i].data.generalData.title;
         }
-        
+
         if (title.search(new RegExp(filter, "i")) > -1) {
             result.push(array[i]);
         }
     }
-    
+
     return result;
 }
 
@@ -1947,6 +1948,17 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
         source = GESTURE_CATALOG;
     }
 
+    var clone = initGestureThumbnail(data, typeId, layout, panelStyle);
+
+    initMoreInfoGesture($(clone).find('.btn-show-gesture-info'), clone, data, source, modalId);
+    initCommentGesture($(clone).find('.btn-comment'), clone, data, source);
+    initShareGesture($(clone).find('.btn-share'), clone, source, data);
+    initLikeGesture($(clone).find('.btn-like'), source, data);
+    initRatingGesture($(clone).find('.btn-rate'), source, data);
+    return clone;
+}
+
+function initGestureThumbnail(data, typeId, layout, panelStyle) {
     var clone;
     if (typeId && typeId !== null) {
         clone = $('#' + typeId).clone().removeClass('hidden').removeAttr('id');
@@ -1957,7 +1969,6 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
     clone.find('.gesture-name').text(data.title);
     clone.find('#gesture-scope .label-text').text(translation.gestureScopes[data.scope]);
     clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
-
 
     if (panelStyle) {
         clone.find('.panel').removeClass('panel-default').addClass(panelStyle);
@@ -2006,12 +2017,15 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
             resetThumbnails($(this).find('.previewGesture'));
         }
     });
+    return clone;
+}
 
-    $(clone).find('.btn-show-gesture-info').click({gesture: data, clone: clone}, function (event) {
+function initMoreInfoGesture(button, clone, data, source, modalId) {
+    $(button).click(function (event) {
         event.preventDefault();
-        resetThumbnails($(event.data.clone).find('.previewGesture'));
-        console.log(event.data.gesture.id);
-        currentPreviewGesture = {gesture: getGestureById(event.data.gesture.id, source), source: source};
+        $(button).popover('hide');
+        resetThumbnails($(clone).find('.previewGesture'));
+        currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone};
         gesturePreviewOpened = true;
         $(clone).find('#btn-stop-gesture').click();
 
@@ -2019,89 +2033,87 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
             checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
             renderData(currentFilterData);
         });
-//        console.log('open modal', modalId);
+
         if (modalId) {
             loadHTMLintoModal('custom-modal', modalId + '.php', 'modal-lg');
         } else {
             loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
         }
     });
+}
 
-    if (data.isOwner) {
-        var shareButton = $(clone).find('.btn-share');
-        if (data.scope === SCOPE_GESTURE_PRIVATE) {
-//            shareButton.removeClass('unshare-gesture').addClass('share-gesture');
-//            shareButton.find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-//            shareButton.find('.btn-text').text(translation.share);
-        } else {
-            shareButton.addClass('gesture-shared');
-//            shareButton.removeClass('share-gesture').addClass('unshare-gesture');
-//            shareButton.find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-//            shareButton.find('.btn-text').text(translation.unshare);
-        }
-    } else {
-//        $(clone).find('.btn-share').parent().remove();
+function initCommentGesture(button, clone, data, source) {
+    $(button).find('.amount').text(parseInt(data.commentAmount) > 0 ? data.commentAmount : '');
+    if (data.hasCommented === 'true' || data.hasCommented === true) {
+        $(button).find('.fa').removeClass('fa-comment-o').addClass('fa-comments');
     }
 
-    $(clone).find('.btn-share').click({gestureId: data.id}, function (event) {
+    $(button).click(function (event) {
+        event.preventDefault();
+        resetThumbnails($(clone).find('.previewGesture'));
+        currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone};
+        gesturePreviewOpened = true;
+        $(clone).find('#btn-stop-gesture').click();
+        loadHTMLintoModal('custom-modal', 'modal-gesture-comments.php', 'modal-lg');
+    });
+}
+
+function initShareGesture(button, clone, source, data) {
+    if (data.isOwner) {
+        if (data.scope === SCOPE_GESTURE_PUBLIC) {
+            button.addClass('gesture-shared');
+        }
+    } else {
+        $(button).remove();
+    }
+
+    $(button).click(function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
-            $(this).addClass('disabled');
-            var button = $(this);
-            var updateList = false;
+            lockButton(button, true, 'fa-share-alt');
+            showCursor($('body'), CURSOR_PROGRESS);
 
-            if ($(this).hasClass('share-gesture')) {
-                showCursor($('body'), CURSOR_PROGRESS);
-
-                if ($(this).hasClass('update-list-view')) {
-                    updateList = true;
-                }
-
-                shareGesture({gestureId: event.data.gestureId}, function (result) {
+            if (!$(this).hasClass('gesture-shared')) {
+                shareGesture({gestureId: data.id}, function (result) {
                     showCursor($('body'), CURSOR_DEFAULT);
-                    $(button).removeClass('disabled');
+                    unlockButton(button, true, 'fa-share-alt');
+
                     if (result.status === RESULT_SUCCESS) {
-                        $(button).removeClass('share-gesture').addClass('unshare-gesture');
-                        $(button).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-                        $(button).find('.btn-text').text(translation.unshare);
+                        $(button).addClass('gesture-shared');
                         clone.find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
                         clone.find('#gesture-scope .fa').addClass('hidden');
                         clone.find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
 
-                        updateGestureById(source, result.id, {scope: 'public'});
+                        updateGestureById(source, data.id, {scope: 'public'});
 
-                        // check if this is needed after updateGesture() call
-                        if (updateList === true) {
+                        // check if update list needed after updateGesture() call
+                        if ($(button).hasClass('update-list-view')) {
                             getGestureCatalog(function (result) {
                                 if (result.status === RESULT_SUCCESS) {
                                     originalFilterData = result.gestures;
-//                                        currentFilterData = sort();
                                 }
                             });
                         }
                     }
                 });
-            } else if ($(this).hasClass('unshare-gesture')) {
-                showCursor($('body'), CURSOR_PROGRESS);
-                unshareGesture({gestureId: event.data.gestureId}, function (result) {
+            } else {
+                unshareGesture({gestureId: data.id}, function (result) {
                     showCursor($('body'), CURSOR_DEFAULT);
-                    $(button).removeClass('disabled');
+                    unlockButton(button, true, 'fa-share-alt');
+
                     if (result.status === RESULT_SUCCESS) {
-                        $(button).removeClass('unshare-gesture').addClass('share-gesture');
-                        $(button).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-                        $(button).find('.btn-text').text(translation.share);
+                        $(button).removeClass('gesture-shared');
                         clone.find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
                         clone.find('#gesture-scope .fa').addClass('hidden');
                         clone.find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
 
-                        updateGestureById(source, result.id, {scope: 'private'});
+                        updateGestureById(source, data.id, {scope: 'private'});
 
                         // check if this is needed after updateGesture() call
-                        if (updateList === true) {
+                        if ($(button).hasClass('update-list-view')) {
                             getGestureCatalog(function (result) {
                                 if (result.status === RESULT_SUCCESS) {
                                     originalFilterData = result.gestures;
-//                                        currentFilterData = sort();
                                 }
                             });
                         }
@@ -2110,15 +2122,77 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
             }
         }
     });
+}
 
-    $(clone).find('#btn-unshare-gesture').click(function (event) {
+function initLikeGesture(button, source, data) {
+    $(button).find('.amount').text(parseInt(data.likeAmount) === 0 ? '' : data.likeAmount);
+    if (data.hasLiked) {
+        $(button).addClass('gesture-liked');
+        $(button).find('.fa').removeClass('fa-heart-o').addClass('fa-heart');
+    }
+
+    $(button).click(function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
-            $(this).addClass('disabled');
+            showCursor($('body'), CURSOR_PROGRESS);
+
+            if (!$(this).hasClass('gesture-liked')) {
+                lockButton(button, true, 'fa-heart-o');
+                likeGesture({gestureId: data.id}, function (result) {
+                    showCursor($('body'), CURSOR_DEFAULT);
+                    unlockButton(button, true, 'fa-heart-o');
+
+                    if (result.status === RESULT_SUCCESS) {
+                        $(button).addClass('gesture-liked');
+                        $(button).find('.fa').removeClass('fa-heart-o').addClass('fa-heart');
+                        var newAmount = (parseInt($(button).find('.amount').text()) || 0) + 1;
+                        $(button).find('.amount').text(newAmount);
+                        updateGestureById(source, data.id, {hasLiked: true, likeAmount: newAmount});
+
+                        // check if this is needed after updateGesture() call
+                        if ($(button).hasClass('update-list-view')) {
+                            getGestureCatalog(function (result) {
+                                if (result.status === RESULT_SUCCESS) {
+                                    originalFilterData = result.gestures;
+                                }
+                            });
+                        }
+                    }
+                });
+            } else {
+                lockButton(button, true, 'fa-heart');
+                unlikeGesture({gestureId: data.id}, function (result) {
+                    showCursor($('body'), CURSOR_DEFAULT);
+                    unlockButton(button, true, 'fa-heart');
+
+                    if (result.status === RESULT_SUCCESS) {
+                        $(button).removeClass('gesture-liked');
+                        $(button).find('.fa').removeClass('fa-heart').addClass('fa-heart-o');
+                        var newAmount = Math.max(0, (parseInt($(button).find('.amount').text()) || 0) - 1);
+                        $(button).find('.amount').text(newAmount === 0 ? '' : newAmount);
+                        updateGestureById(source, data.id, {hasLiked: false, likeAmount: newAmount});
+
+                        // check if this is needed after updateGesture() call
+                        if ($(button).hasClass('update-list-view')) {
+                            getGestureCatalog(function (result) {
+                                if (result.status === RESULT_SUCCESS) {
+                                    originalFilterData = result.gestures;
+                                }
+                            });
+                        }
+                    }
+                });
+            }
         }
     });
+}
 
-    return clone;
+function initRatingGesture(button, source, data) {
+    $(button).find('.amount').text(parseInt(data.ratingAmount) === 0 ? '' : data.ratingAmount);
+    if (data.hasRated) {
+        $(button).addClass('gesture-rated');
+        $(button).find('.fa').removeClass('fa-star-o').addClass('fa-star');
+    }
 }
 
 function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelStyle, modalId) {
@@ -2126,28 +2200,28 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
         source = GESTURE_CATALOG;
     }
 
-    var clone;
-    if (typeId && typeId !== null) {
-        clone = $('#' + typeId).clone().removeClass('hidden').removeAttr('id');
-    } else {
-        clone = $('#gestures-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
-    }
-    clone.attr('id', data.id);
-    clone.find('.title-text').text(data.title + " ");
-    clone.find('#title .text').text(data.title);
+    var clone = initGestureThumbnail(data, typeId, layout, panelStyle);
+//    if (typeId && typeId !== null) {
+//        clone = $('#' + typeId).clone().removeClass('hidden').removeAttr('id');
+//    } else {
+//        clone = $('#gestures-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
+//    }
+//    clone.attr('id', data.id);
+//    clone.find('.title-text').text(data.title + " ");
+//    clone.find('#title .text').text(data.title);
 //    clone.find('#gesture-scope .label-text').text(translation.gestureScopes[data.scope]);
 //    clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
 
 
-    if (panelStyle) {
-        clone.find('.panel').removeClass('panel-default').addClass(panelStyle);
-    }
-
-    if (layout) {
-        clone.addClass(layout);
-    } else {
-        clone.addClass('col-xs-6 col-sm-4 col-lg-3');
-    }
+//    if (panelStyle) {
+//        clone.find('.panel').removeClass('panel-default').addClass(panelStyle);
+//    }
+//
+//    if (layout) {
+//        clone.addClass(layout);
+//    } else {
+//        clone.addClass('col-xs-6 col-sm-4 col-lg-3');
+//    }
 
 //    if (data.isOwner === true) {
 //        if (data.source === SOURCE_GESTURE_EVALUATOR) {
@@ -2167,34 +2241,34 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
 //        }
 //    }
 
-    if (!clone.hasClass('deleteable')) {
-        gesturePreviewDeleteable = false;
-    }
+//    if (!clone.hasClass('deleteable')) {
+//        gesturePreviewDeleteable = false;
+//    }
 
-    renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
+//    renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
 
-    $(clone).find('.panel').mouseenter(function (event) {
-        event.preventDefault();
-        if (gesturePreviewOpened === false) {
-            playThroughThumbnails($(this).find('.previewGesture'), 0);
-        }
-    });
+//    $(clone).find('.panel').mouseenter(function (event) {
+//        event.preventDefault();
+//        if (gesturePreviewOpened === false) {
+//            playThroughThumbnails($(this).find('.previewGesture'), 0);
+//        }
+//    });
+//
+//    $(clone).find('.panel').mouseleave(function (event) {
+//        event.preventDefault();
+//        if (gesturePreviewOpened === false) {
+//            resetThumbnails($(this).find('.previewGesture'));
+//        }
+//    });
 
-    $(clone).find('.panel').mouseleave(function (event) {
-        event.preventDefault();
-        if (gesturePreviewOpened === false) {
-            resetThumbnails($(this).find('.previewGesture'));
-        }
-    });
-
-    $(clone).find('#btn-show-gesture-info').click({gesture: data, clone: clone}, function (event) {
-        event.preventDefault();
-        resetThumbnails($(event.data.clone).find('.previewGesture'));
-        currentPreviewGesture = {gesture: event.data.gesture, source: source};
-        gesturePreviewOpened = true;
-        $(clone).find('#btn-stop-gesture').click();
-        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
-        console.log(event.data.gesture);
+//    $(clone).find('#btn-show-gesture-info').click({gesture: data, clone: clone}, function (event) {
+//        event.preventDefault();
+//        resetThumbnails($(event.data.clone).find('.previewGesture'));
+//        currentPreviewGesture = {gesture: event.data.gesture, source: source};
+//        gesturePreviewOpened = true;
+//        $(clone).find('#btn-stop-gesture').click();
+//        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
+//        console.log(event.data.gesture);
 
 
 //        var modalTarget = 'custom-modal';
@@ -2208,16 +2282,21 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
 //        });
 
 //        $(this).trigger('openGestureInfo');
-    });
+//    });
+
+    initMoreInfoGesture($(clone).find('.btn-show-gesture-info'), clone, data, source, modalId);
+//    initCommentGesture($(clone).find('.btn-comment'), clone, data, source);
+//    initShareGesture($(clone).find('.btn-share'), clone, source, data);
+//    initLikeGesture($(clone).find('.btn-like'), source, data);
 
     var isGestureAss = isGestureAssembled(data.id);
     if (isGestureAss) {
         if (!panelStyle) {
             clone.find('.panel').addClass('panel-info');
         }
-        clone.find('#btn-tag-as-favorite-gesture').attr('data-content', 'Vom Studien-Gesten-Set entfernen');
-        clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
-        clone.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
+        clone.find('.btn-tag-as-favorite-gesture').attr('data-content', 'Vom Studien-Gesten-Set entfernen');
+        clone.find('.btn-tag-as-favorite-gesture').addClass('selected');
+        clone.find('.btn-tag-as-favorite-gesture .fa').removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
     }
 
     return clone;
@@ -2270,90 +2349,21 @@ function getGestureElicitationListThumbnail(clone, data, layout, source) {
     return clone;
 }
 
-function getGestureSceneListThumbnail(gesture, typeId, layout, source, panelStyle) {
+function getGestureSceneListThumbnail(data, typeId, layout, source, panelStyle) {
     if (!source || source === null || source === undefined) {
         source = GESTURE_CATALOG;
     }
 
-    var clone = $('#' + typeId).clone().removeClass('hidden').removeAttr('id');
-    clone.attr('id', gesture.id);
-    clone.find('.title-text').text(gesture.title + " ");
-    clone.find('#title .text').text(gesture.title);
+    var clone = initGestureThumbnail(data, typeId, layout, panelStyle);
+    initMoreInfoGesture($(clone).find('.btn-show-gesture-info'), clone, data, source);
 
-    if (panelStyle) {
-        clone.find('.panel').removeClass('panel-default').addClass(panelStyle);
-    }
-
-    if (layout) {
-        clone.addClass(layout);
-    } else {
-        clone.addClass('col-xs-6 col-sm-4 col-lg-3');
-    }
-
-    if (!clone.hasClass('deleteable')) {
-        gesturePreviewDeleteable = false;
-    }
-
-    renderGestureImages(clone.find('.previewGesture'), gesture.images, gesture.previewImage, null);
-
-    $(clone).find('.panel').mouseenter(function (event) {
-        event.preventDefault();
-        if (gesturePreviewOpened === false) {
-            playThroughThumbnails($(this).find('.previewGesture'), 0);
-        }
-    });
-
-    $(clone).find('.panel').mouseleave(function (event) {
-        event.preventDefault();
-        if (gesturePreviewOpened === false) {
-            resetThumbnails($(this).find('.previewGesture'));
-        }
-    });
-
-    $(clone).find('#btn-show-gesture-info').click({gesture: gesture, clone: clone}, function (event) {
-        event.preventDefault();
-        resetThumbnails($(event.data.clone).find('.previewGesture'));
-        currentPreviewGesture = {gesture: event.data.gesture, source: source};
-        gesturePreviewOpened = true;
-        $(clone).find('#btn-stop-gesture').click();
-        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
-        console.log(event.data.gesture);
-
-
-//        var modalTarget = 'custom-modal';
-//        if (modalId) {
-//            modalTarget = modalId;
-//        }
-//        loadHTMLintoModal(modalTarget, 'modal-gesture.php', 'modal-lg');
-//        $('#' + modalTarget).on('gesture-deleted', function () {
-//            checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-//            renderData(currentFilterData);
-//        });
-
-//        $(this).trigger('openGestureInfo');
-    });
+//    var clone = $('#' + typeId).clone().removeClass('hidden').removeAttr('id');
+//    clone.attr('id', gesture.id);
+//    clone.find('.title-text').text(gesture.title + " ");
+//    clone.find('#title .text').text(gesture.title);
 //
-//    var isGestureAss = isGestureAssembled(data.id);
-//    if (isGestureAss) {
-//        if (!panelStyle) {
-//            clone.find('.panel').addClass('panel-primary');
-//        }
-//        clone.find('#btn-tag-as-favorite-gesture').attr('data-content', 'Vom Studien-Gesten-Set entfernen');
-//        clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
-//        clone.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
-//    }
-
-    return clone;
-}
-
-
-//function getGestureElicitationListThumbnail(clone, data, layout, source) {
-//    clone.attr('id', data.id);
-//    clone.find('.title-text').text(data.title + " ");
-//    clone.find('#title .text').text(data.title);
-//
-//    if (!source) {
-//        source = ASSEMBLED_GESTURE_SET;
+//    if (panelStyle) {
+//        clone.find('.panel').removeClass('panel-default').addClass(panelStyle);
 //    }
 //
 //    if (layout) {
@@ -2366,7 +2376,7 @@ function getGestureSceneListThumbnail(gesture, typeId, layout, source, panelStyl
 //        gesturePreviewDeleteable = false;
 //    }
 //
-//    renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
+//    renderGestureImages(clone.find('.previewGesture'), gesture.images, gesture.previewImage, null);
 //
 //    $(clone).find('.panel').mouseenter(function (event) {
 //        event.preventDefault();
@@ -2382,17 +2392,41 @@ function getGestureSceneListThumbnail(gesture, typeId, layout, source, panelStyl
 //        }
 //    });
 //
-//    $(clone).find('#btn-show-gesture-info').click({gesture: data, clone: clone, source: source}, function (event) {
+//    $(clone).find('#btn-show-gesture-info').click({gesture: gesture, clone: clone}, function (event) {
 //        event.preventDefault();
 //        resetThumbnails($(event.data.clone).find('.previewGesture'));
-//        currentPreviewGesture = event.data;
+//        currentPreviewGesture = {gesture: event.data.gesture, source: source};
 //        gesturePreviewOpened = true;
 //        $(clone).find('#btn-stop-gesture').click();
-//        loadHTMLintoModal('custom-modal', 'modal-gesture-rudimentary.php', 'modal-lg');
+//        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
+//        console.log(event.data.gesture);
+//
+//
+////        var modalTarget = 'custom-modal';
+////        if (modalId) {
+////            modalTarget = modalId;
+////        }
+////        loadHTMLintoModal(modalTarget, 'modal-gesture.php', 'modal-lg');
+////        $('#' + modalTarget).on('gesture-deleted', function () {
+////            checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
+////            renderData(currentFilterData);
+////        });
+//
+////        $(this).trigger('openGestureInfo');
 //    });
 //
-//    return clone;
-//}
+//    var isGestureAss = isGestureAssembled(data.id);
+//    if (isGestureAss) {
+//        if (!panelStyle) {
+//            clone.find('.panel').addClass('panel-primary');
+//        }
+//        clone.find('#btn-tag-as-favorite-gesture').attr('data-content', 'Vom Studien-Gesten-Set entfernen');
+//        clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
+//        clone.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
+//    }
+
+    return clone;
+}
 
 function getSimpleGestureListThumbnail(clone, data, layout, panelStyle) {
     clone.attr('id', data.id);
@@ -2622,16 +2656,6 @@ function getGestureSetPanel(data) {
         $(panel).find('#btn-unmark-hole-set').removeClass('hidden');
         var gesturesItems = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture:not(.selected)');
         $(gesturesItems).click();
-        console.log(gesturesItems);
-//        if (gesturesItems && gesturesItems.length > 0) {
-//            for (var i = 0; i < gesturesItems.length; i++) {
-//                var tagButton = $(gesturesItems[i]).find('.btn-tag-as-favorite-gesture');
-//                if (!$(tagButton).hasClass('btn-info')) {
-//                    assembleGesture($(gesturesItems[i]).attr('id'));
-//                    $(tagButton).click();
-//                }
-//            }
-//        }
     });
 
     $(panel).find('#btn-unmark-hole-set').unbind('click').bind('click', function (event) {
@@ -2646,15 +2670,14 @@ function getGestureSetPanel(data) {
 }
 
 function getGestureCatalogGestureSetPanel(data) {
-    var panel = $('#create-study-gesture-set-panel').clone();
+    var panel = $('#study-gesture-set-panel').clone();
     $(panel).find('.panel-heading .panel-heading-text').text(data.title);
 
     if (data.gestures !== null) {
         clearAlerts(panel);
         for (var j = 0; j < data.gestures.length; j++) {
             var gesture = getGestureById(data.gestures[j]);
-            var gestureThumbnail = getGestureCatalogListThumbnail(gesture);
-//            var gestureThumbnail = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-md-3', null, isGestureAss ? 'panel-success' : null);
+            var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-sm-6 col-lg-3');
             $(panel).find('#gestures-list-container').append(gestureThumbnail);
         }
     } else {
@@ -2673,18 +2696,6 @@ function getGestureCatalogGestureSetPanel(data) {
             }
         });
     });
-
-//    $(panel).find('#btn-mark-hole-set').unbind('click').bind('click', function (event) {
-//        event.preventDefault();
-//        var gesturesItems = $(panel).find('#gestures-list-container').children();
-//        if (gesturesItems && gesturesItems.length > 0) {
-//            for (var i = 0; i < gesturesItems.length; i++) {
-//                $(gesturesItems[i]).find('#btn-tag-as-favorite-gesture').addClass('selected btn-success');
-//                $(gesturesItems[i]).find('.panel').addClass('.panel-success');
-//                assembleGesture($(gesturesItems[i]).attr('id'));
-//            }
-//        }
-//    });
 
     return panel;
 }
@@ -2957,14 +2968,14 @@ function getGMT(callback) {
 
 function lockButton(button, showLoadingIndicator, originalIcon) {
     $(button).addClass('disabled');
-    if(showLoadingIndicator && showLoadingIndicator === true && originalIcon) {
+    if (showLoadingIndicator && showLoadingIndicator === true && originalIcon) {
         $(button).find('.fa').removeClass(originalIcon).addClass('fa-spin fa-circle-o-notch');
-    } 
+    }
 }
 
 function unlockButton(button, hideLoadingIndicator, originalIcon) {
     $(button).removeClass('disabled');
-    if(hideLoadingIndicator && hideLoadingIndicator === true && originalIcon) {
+    if (hideLoadingIndicator && hideLoadingIndicator === true && originalIcon) {
         $(button).find('.fa').removeClass('fa-spin fa-circle-o-notch').addClass(originalIcon);
-    } 
+    }
 }

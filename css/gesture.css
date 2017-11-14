@@ -109,6 +109,8 @@ and open the template in the editor.
 .gesture-thumbnail .previewGesture {
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .gesture-thumbnail {
@@ -132,8 +134,8 @@ and open the template in the editor.
 
 .gesture-thumbnail .thumbnail-footer {
     display: block;
-    padding: 9px 9px 5px 9px;
-    font-size: 18pt;
+    padding: 9px 0px 5px 0px;
+    font-size: 16pt;
 }
 
 .gesture-thumbnail .thumbnail-footer div {
@@ -141,30 +143,51 @@ and open the template in the editor.
     margin-right: 10px;
 }
 
-.gesture-thumbnail .thumbnail-footer div .btn-like,
-.gesture-thumbnail .thumbnail-footer div .btn-share,
-.gesture-thumbnail .thumbnail-footer div .btn-comment,
-.gesture-thumbnail .thumbnail-footer div, .btn-show-gesture-info{
+.gesture-thumbnail .btn-rate,
+.gesture-thumbnail .btn-like,
+.gesture-thumbnail .btn-share,
+.gesture-thumbnail .btn-comment,
+.gesture-thumbnail .btn-show-gesture-info,
+.gesture-thumbnail .btn-tag-as-favorite-gesture,
+.gesture-thumbnail .btn-add-gesture-to-scene 
+{
     cursor: pointer;
 }
 
+.btn-rate:hover,
 .btn-like:hover,
 .btn-share:hover,
 .btn-comment:hover,
-.btn-show-gesture-info:hover {
+.btn-show-gesture-info:hover,
+.btn-tag-as-favorite-gesture:hover,
+.btn-add-gesture-to-scene:hover,
+.gesture-shared>.fa:hover,
+.gesture-liked>.fa:hover,
+.gesture-rated>.fa:hover,
+.btn-tag-as-favorite-gesture>.fa:hover 
+.btn-add-gesture-to-scene>.fa:hover 
+{
     color: black;
 }
 
-.gesture-liked .fa{
+.gesture-liked .fa {
     color: #D42C29;
 }
 
-.gesture-shared .fa{
-    color: #D42C29;
+.gesture-shared .fa {
+    color: #0480be;
 }
 
-.btn-like .amount, .btn-comment .amount {
-    font-size: 10pt;
+.gesture-rated .fa {
+    color: #f0ad4e;
+}
+
+.btn-like .amount, .btn-comment .amount, .btn-rate .amount {
+    font-size: 9pt;
     position: relative;
     top:-2px;
+}
+
+.btn-show-gesture-info {
+    margin-right: 0px;
 }

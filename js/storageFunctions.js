@@ -137,7 +137,6 @@ function checkAssembledGestures(gestures, gestureCatalog) {
                 for (var key in parameters) {
                     gesture[key] = parameters[key];
                 }
-                console.log(gesture);
             }
 
             tempGestures.push(gesture);
