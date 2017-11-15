@@ -2124,14 +2124,14 @@ function initShareGesture(button, clone, source, data) {
     });
 }
 
-function initLikeGesture(button, source, data) {
+function initLikeGesture(button, source, data, callback) {
     $(button).find('.amount').text(parseInt(data.likeAmount) === 0 ? '' : data.likeAmount);
     if (data.hasLiked) {
         $(button).addClass('gesture-liked');
         $(button).find('.fa').removeClass('fa-heart-o').addClass('fa-heart');
     }
 
-    $(button).click(function (event) {
+    $(button).unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
             showCursor($('body'), CURSOR_PROGRESS);
@@ -2155,7 +2155,15 @@ function initLikeGesture(button, source, data) {
                                 if (result.status === RESULT_SUCCESS) {
                                     originalFilterData = result.gestures;
                                 }
+
+                                if (callback) {
+                                    callback();
+                                }
                             });
+                        } else {
+                            if (callback) {
+                                callback();
+                            }
                         }
                     }
                 });
@@ -2178,7 +2186,15 @@ function initLikeGesture(button, source, data) {
                                 if (result.status === RESULT_SUCCESS) {
                                     originalFilterData = result.gestures;
                                 }
+
+                                if (callback) {
+                                    callback();
+                                }
                             });
+                        } else {
+                            if (callback) {
+                                callback();
+                            }
                         }
                     }
                 });

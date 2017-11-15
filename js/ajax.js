@@ -826,9 +826,30 @@ function unlikeGesture(data, callback) {
  * gesture infos
  * rating & comments
  */
-function getGestureInfos(data, callback) {
+//function getGestureInfos(data, callback) {
+//    $.ajax({
+//        url: 'includes/get-gesture-infos.php',
+//        data: data,
+//        type: 'post',
+//        dataType: 'json',
+//        async: true,
+//        success: function (result) {
+//            if (callback) {
+//                callback(result);
+//            }
+//        },
+//        error: function (xhr, desc, err) {
+//            ajaxError(xhr, desc, err);
+//        }
+//    });
+//}
+
+/*
+ * gesture comments
+ */
+function getCommentsForGesture(data, callback) {
     $.ajax({
-        url: 'includes/get-gesture-infos.php',
+        url: 'includes/get-gesture-comments.php',
         data: data,
         type: 'post',
         dataType: 'json',
@@ -844,12 +865,27 @@ function getGestureInfos(data, callback) {
     });
 }
 
-/*
- * gesture comments
- */
-function getCommentsForGesture(data, callback) {
+function getRatingsForGesture(data, callback) {
     $.ajax({
-        url: 'includes/get-gesture-comments.php',
+        url: 'includes/get-gesture-ratings.php',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function getLikesForGesture(data, callback) {
+    $.ajax({
+        url: 'includes/get-gesture-likes.php',
         data: data,
         type: 'post',
         dataType: 'json',

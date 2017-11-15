@@ -81,9 +81,9 @@ if (login_check($mysqli) == true) {
 
         <!-- Nav tabs -->
         <ul class="nav nav-pills" id="gesture-catalogs-nav-tab" style="display: flex; justify-content: center;">
-            <li role="presentation"><a href="#gesture-catalog" aria-controls="gesture-catalog" role="tab" data-toggle="pill">Gesten-Katalog</a></li>
-            <li role="presentation"><a href="#gesture-sets" aria-controls="gesture-sets" role="tab" data-toggle="pill">Gesten-Sets</a></li>
-            <li role="presentation"><a href="#gesture-recorder-content" aria-controls="gesture-recorder-content" role="tab" data-toggle="pill">Gesten aufzeichnen</a></li>
+            <li role="presentation"><a href="#gesture-catalog" aria-controls="gesture-catalog" role="tab" data-toggle="pill"><i class="fa fa-sign-language" aria-hidden="true"></i> Gesten-Katalog</a></li>
+            <li role="presentation"><a href="#gesture-sets" aria-controls="gesture-sets" role="tab" data-toggle="pill"><i class="fa fa-paperclip" aria-hidden="true"></i> Gesten-Sets</a></li>
+            <li role="presentation"><a href="#gesture-recorder-content" aria-controls="gesture-recorder-content" role="tab" data-toggle="pill"><i class="fa fa-video-camera" aria-hidden="true"></i> Gesten aufzeichnen</a></li>
         </ul> 
 
 
