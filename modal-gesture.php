@@ -279,7 +279,34 @@ include 'includes/language.php';
             }
         });
 
-        $('#gesture-info-nav-tab a[href="#tab-gesture-general"]').tab('show');
+        if (currentPreviewGesture.startTab) {
+            switch (currentPreviewGesture.startTab) {
+                case 'general':
+                    $('#gesture-info-nav-tab a[href="#tab-gesture-general"]').tab('show');
+                    break;
+                case 'gestureSets':
+                    $('#gesture-info-nav-tab a[href="#tab-gesture-gesture-sets"]').tab('show');
+                    break;
+                case 'comments':
+                    $('#gesture-info-nav-tab a[href="#tab-gesture-comments"]').tab('show');
+                    break;
+                case 'rating':
+                    $('#gesture-info-nav-tab a[href="#tab-gesture-general"]').tab('show');
+
+//                    $('#custom-modal').scrollTop(ratingTop);
+                    setTimeout(function () {
+                        var ratingTop = $('#custom-modal').find('#gesture-rating').position().top;
+                        console.log(ratingTop, $('#custom-modal').find('.modal-content'));
+                        $('#custom-modal').animate({
+                            scrollTop: ratingTop + 180
+                        }, 300);
+                    }, 300);
+
+                    break;
+            }
+        } else {
+            $('#gesture-info-nav-tab a[href="#tab-gesture-general"]').tab('show');
+        }
 
         $('#custom-modal').bind('hidden.bs.modal', function () {
             currentPreviewGesture = null;
@@ -506,78 +533,11 @@ include 'includes/language.php';
 
         var thumbnail = $(currentPreviewGesture.thumbnail);
 
-        $(container).find('#btn-share-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
-            event.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                var button = $(this);
 
-                if ($(this).hasClass('share-gesture')) {
-                    showCursor($('body'), CURSOR_PROGRESS);
-                    lockButton(button, true, 'fa-share-alt');
-                    shareGesture({gestureId: event.data.gestureId}, function (result) {
-                        showCursor($('body'), CURSOR_DEFAULT);
-                        unlockButton(button, true, 'fa-share-alt');
 
-                        if (result.status === RESULT_SUCCESS) {
-                            $(button).removeClass('share-gesture').addClass('unshare-gesture');
-                            $(button).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-                            $(button).find('.btn-text').text(translation.unshare);
-                            $(container).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
-                            $(container).find('#gesture-scope .fa').addClass('hidden');
-                            $(container).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
-
-                            $(thumbnail).find('.btn-share').removeClass('gesture-shared');
-                            $(thumbnail).find('#btn-share-gesture .btn-text').text(translation.unshare);
-                            $(thumbnail).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
-                            $(thumbnail).find('#gesture-scope .fa').addClass('hidden');
-                            $(thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
-
-                            updateGestureById(currentPreviewGesture.source, result.id, {scope: 'public'});
-                            originalFilterData = getLocalItem(currentPreviewGesture.source);
-                            currentFilterData = sort();
-                        }
-                    });
-                } else if ($(this).hasClass('unshare-gesture')) {
-                    showCursor($('body'), CURSOR_PROGRESS);
-                    lockButton(button, true, 'fa-lock');
-                    unshareGesture({gestureId: event.data.gestureId}, function (result) {
-                        showCursor($('body'), CURSOR_DEFAULT);
-                        unlockButton(button, true, 'fa-lock');
-
-                        if (result.status === RESULT_SUCCESS) {
-                            $(button).removeClass('unshare-gesture').addClass('share-gesture');
-                            $(button).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-                            $(button).find('.btn-text').text(translation.share);
-                            $(container).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
-                            $(container).find('#gesture-scope .fa').addClass('hidden');
-                            $(container).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
-
-                            $(thumbnail).find('#btn-share-gesture').removeClass('gesture-shared');
-                            $(thumbnail).find('#btn-share-gesture .btn-text').text(translation.share);
-                            $(thumbnail).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
-                            $(thumbnail).find('#gesture-scope .fa').addClass('hidden');
-                            $(thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
-
-                            updateGestureById(currentPreviewGesture.source, result.id, {scope: 'private'});
-                            originalFilterData = getLocalItem(currentPreviewGesture.source);
-                            currentFilterData = sort();
-                        }
-                    });
-                }
-            }
-        });
-
-        getRatingsForGesture({gestureId: currentPreviewGesture.gesture.id}, function (result) {
-            if (result.status === RESULT_SUCCESS) {
-                renderGestureRating($('#gesture-rating'), result.ratings, true);
-                if (result.hasRated && (result.hasRated === true || result.hasRated === 'true')) {
-                    $(container).find('#gesture-rating #btn-rate-gesture').remove();
-                }
-            }
-        });
-
+        updateGestureSharing();
+        updateGestureRating();
         updateGestureLikes();
-
 
         $('#modal-body #btn-edit-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -667,6 +627,82 @@ include 'includes/language.php';
         } else {
             $(container).find('#btn-delete-gesture').remove();
         }
+    }
+
+    function updateGestureSharing() {
+        var modal = $('#custom-modal');
+        $(modal).find('#btn-share-gesture').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                var button = $(this);
+
+                if ($(this).hasClass('share-gesture')) {
+                    showCursor($('body'), CURSOR_PROGRESS);
+                    lockButton(button, true, 'fa-share-alt');
+                    shareGesture({gestureId: currentPreviewGesture.gesture.id}, function (result) {
+                        showCursor($('body'), CURSOR_DEFAULT);
+                        unlockButton(button, true, 'fa-share-alt');
+
+                        if (result.status === RESULT_SUCCESS) {
+                            $(button).removeClass('share-gesture').addClass('unshare-gesture');
+                            $(button).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
+                            $(button).find('.btn-text').text(translation.unshare);
+
+                            $(modal).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
+                            $(modal).find('#gesture-scope .fa').addClass('hidden');
+                            $(modal).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
+
+                            $(currentPreviewGesture.thumbnail).find('.btn-share').removeClass('gesture-shared');
+                            $(currentPreviewGesture.thumbnail).find('#btn-share-gesture .btn-text').text(translation.unshare);
+                            $(currentPreviewGesture.thumbnail).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
+                            $(currentPreviewGesture.thumbnail).find('#gesture-scope .fa').addClass('hidden');
+                            $(currentPreviewGesture.thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
+
+                            updateGestureById(currentPreviewGesture.source, result.id, {scope: 'public'});
+                            originalFilterData = getLocalItem(currentPreviewGesture.source);
+                            currentFilterData = sort();
+                        }
+                    });
+                } else if ($(this).hasClass('unshare-gesture')) {
+                    showCursor($('body'), CURSOR_PROGRESS);
+                    lockButton(button, true, 'fa-lock');
+                    unshareGesture({gestureId: currentPreviewGesture.gesture.id}, function (result) {
+                        showCursor($('body'), CURSOR_DEFAULT);
+                        unlockButton(button, true, 'fa-lock');
+
+                        if (result.status === RESULT_SUCCESS) {
+                            $(button).removeClass('unshare-gesture').addClass('share-gesture');
+                            $(button).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
+                            $(button).find('.btn-text').text(translation.share);
+                            $(modal).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
+                            $(modal).find('#gesture-scope .fa').addClass('hidden');
+                            $(modal).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
+
+                            $(currentPreviewGesture.thumbnail).find('#btn-share-gesture').removeClass('gesture-shared');
+                            $(currentPreviewGesture.thumbnail).find('#btn-share-gesture .btn-text').text(translation.share);
+                            $(currentPreviewGesture.thumbnail).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
+                            $(currentPreviewGesture.thumbnail).find('#gesture-scope .fa').addClass('hidden');
+                            $(currentPreviewGesture.thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
+
+                            updateGestureById(currentPreviewGesture.source, result.id, {scope: 'private'});
+                            originalFilterData = getLocalItem(currentPreviewGesture.source);
+                            currentFilterData = sort();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    function updateGestureRating() {
+        getRatingsForGesture({gestureId: currentPreviewGesture.gesture.id}, function (result) {
+            if (result.status === RESULT_SUCCESS) {
+                renderGestureRating($('#gesture-rating'), result.ratings, true);
+                if (result.hasRated && (result.hasRated === true || result.hasRated === 'true')) {
+                    $(container).find('#gesture-rating #btn-rate-gesture').remove();
+                }
+            }
+        });
     }
 
     function updateGestureLikes() {

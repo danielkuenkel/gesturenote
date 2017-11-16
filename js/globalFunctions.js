@@ -1954,7 +1954,7 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
     initCommentGesture($(clone).find('.btn-comment'), clone, data, source);
     initShareGesture($(clone).find('.btn-share'), clone, source, data);
     initLikeGesture($(clone).find('.btn-like'), source, data);
-    initRatingGesture($(clone).find('.btn-rate'), source, data);
+    initRatingGesture($(clone).find('.btn-rate'), clone, source, data);
     return clone;
 }
 
@@ -2051,14 +2051,14 @@ function initCommentGesture(button, clone, data, source) {
     $(button).click(function (event) {
         event.preventDefault();
         resetThumbnails($(clone).find('.previewGesture'));
-        currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone};
+        currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'comments'};
         gesturePreviewOpened = true;
         $(clone).find('#btn-stop-gesture').click();
-        loadHTMLintoModal('custom-modal', 'modal-gesture-comments.php', 'modal-lg');
+        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
     });
 }
 
-function initShareGesture(button, clone, source, data) {
+function initShareGesture(button, clone, source, data, callback) {
     if (data.isOwner) {
         if (data.scope === SCOPE_GESTURE_PUBLIC) {
             button.addClass('gesture-shared');
@@ -2080,6 +2080,7 @@ function initShareGesture(button, clone, source, data) {
 
                     if (result.status === RESULT_SUCCESS) {
                         $(button).addClass('gesture-shared');
+                        $(button).attr('data-content', translation.unshareGesture);
                         clone.find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
                         clone.find('#gesture-scope .fa').addClass('hidden');
                         clone.find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
@@ -2103,6 +2104,7 @@ function initShareGesture(button, clone, source, data) {
 
                     if (result.status === RESULT_SUCCESS) {
                         $(button).removeClass('gesture-shared');
+                        $(button).attr('data-content', translation.shareGesture);
                         clone.find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
                         clone.find('#gesture-scope .fa').addClass('hidden');
                         clone.find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
@@ -2120,6 +2122,8 @@ function initShareGesture(button, clone, source, data) {
                     }
                 });
             }
+
+            initPopover();
         }
     });
 }
@@ -2127,8 +2131,11 @@ function initShareGesture(button, clone, source, data) {
 function initLikeGesture(button, source, data, callback) {
     $(button).find('.amount').text(parseInt(data.likeAmount) === 0 ? '' : data.likeAmount);
     if (data.hasLiked) {
+        $(button).attr('data-content', translation.unlikeGesture);
         $(button).addClass('gesture-liked');
         $(button).find('.fa').removeClass('fa-heart-o').addClass('fa-heart');
+    } else {
+        $(button).attr('data-content', translation.likeGesture);
     }
 
     $(button).unbind('click').bind('click', function (event) {
@@ -2145,6 +2152,7 @@ function initLikeGesture(button, source, data, callback) {
                     if (result.status === RESULT_SUCCESS) {
                         $(button).addClass('gesture-liked');
                         $(button).find('.fa').removeClass('fa-heart-o').addClass('fa-heart');
+                        $(button).attr('data-content', translation.unlikeGesture);
                         var newAmount = (parseInt($(button).find('.amount').text()) || 0) + 1;
                         $(button).find('.amount').text(newAmount);
                         updateGestureById(source, data.id, {hasLiked: true, likeAmount: newAmount});
@@ -2176,6 +2184,7 @@ function initLikeGesture(button, source, data, callback) {
                     if (result.status === RESULT_SUCCESS) {
                         $(button).removeClass('gesture-liked');
                         $(button).find('.fa').removeClass('fa-heart').addClass('fa-heart-o');
+                        $(button).attr('data-content', translation.likeGesture);
                         var newAmount = Math.max(0, (parseInt($(button).find('.amount').text()) || 0) - 1);
                         $(button).find('.amount').text(newAmount === 0 ? '' : newAmount);
                         updateGestureById(source, data.id, {hasLiked: false, likeAmount: newAmount});
@@ -2199,16 +2208,27 @@ function initLikeGesture(button, source, data, callback) {
                     }
                 });
             }
+
+            initPopover();
         }
     });
 }
 
-function initRatingGesture(button, source, data) {
+function initRatingGesture(button, clone, source, data) {
     $(button).find('.amount').text(parseInt(data.ratingAmount) === 0 ? '' : data.ratingAmount);
     if (data.hasRated) {
         $(button).addClass('gesture-rated');
         $(button).find('.fa').removeClass('fa-star-o').addClass('fa-star');
     }
+
+    $(button).unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        resetThumbnails($(clone).find('.previewGesture'));
+        currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'rating'};
+        gesturePreviewOpened = true;
+        $(clone).find('#btn-stop-gesture').click();
+        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
+    });
 }
 
 function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelStyle, modalId) {

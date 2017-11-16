@@ -37,10 +37,10 @@ include '../includes/language.php';
 
             <div class="thumbnail-footer text-center">
                 <div class="btn-rate"><i class="fa fa-star-o"></i> <span class="amount"></span></div>
-                <div class="btn-like update-list-view"><i class="fa fa-heart-o"></i> <span class="amount"></span></div>
-                <div class="btn-share update-list-view"><i class="fa fa-share-alt"></i></div>
-                <div class="btn-comment"><i class="fa fa-comment-o"></i> <span class="amount"></span></div>
-                <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Alle Infos aufrufen"><i class="fa fa-ellipsis-h"></i></div>
+                <div class="btn-like update-list-view"><i class="fa fa-heart-o" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->likeGesture ?>"></i> <span class="amount"></span></div>
+                <div class="btn-share update-list-view"><i class="fa fa-share-alt" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->shareGesture ?>"></i></div>
+                <div class="btn-comment"><i class="fa fa-comment-o"data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->commentGesture ?>"></i> <span class="amount"></span></div>
+                <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
             </div>
         </div>
     </div>
