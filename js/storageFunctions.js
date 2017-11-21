@@ -321,6 +321,7 @@ function setStudyData(data) {
         setLocalItem(STUDY, setData.generalData);
 
         if (setData.phases && setData.phases.length > 0) {
+            setLocalItem(STUDY_PHASE_STEPS, setData.phases);
             setLocalItem(STUDY_PHASE_STEPS, getContextualPhaseSteps());
             for (var i = 0; i < setData.phases.length; i++) {
 

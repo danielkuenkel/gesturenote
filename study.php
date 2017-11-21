@@ -238,36 +238,30 @@ if (login_check($mysqli) == true) {
 
                 <div id="extraction-content" class="row">
 
-                    <div class="col-sm-4 col-md-3" id="extraction-navigation" style="margin-bottom: 20px">
-                        <h5 class="text">Vorbereitung</h5>
-                        <div class="btn-group-vertical btn-block" id="btns-general">
-                            <button class="btn btn-default btn-shadow" type="button" id="btn-all-gestures"><span class="btn-text">Alle ermittelten Gesten</span></button>
-                            <button class="btn btn-default btn-shadow" type="button" id="btn-gesture-classification"><span class="btn-text">Gesten-Klassifizierung</span></button>
-                            <button class="btn btn-default btn-shadow" type="button" id="btn-checklist"><span class="btn-text">Checkliste</span></button>
-                        </div>
+                    <div class="col-sm-4 col-md-3" style="margin-bottom: 20px">
+                        <div data-spy="affix" data-offset-top="0" id="extraction-navigation">
+                            <h5 class="text">Vorbereitung</h5>
+                            <div class="btn-group-vertical btn-block" id="btns-general">
+                                <button class="btn btn-default btn-shadow" type="button" id="btn-all-gestures"><span class="btn-text">Alle ermittelten Gesten</span></button>
+                                <button class="btn btn-default btn-shadow" type="button" id="btn-gesture-classification"><span class="btn-text">Gesten-Klassifizierung</span></button>
+                                <button class="btn btn-default btn-shadow" type="button" id="btn-checklist"><span class="btn-text">Checkliste</span></button>
+                            </div>
 
-                        <h5 class="text" style="margin-top: 20px">Extraktion</h5>
-                        <!--                        <div class="btn-group-vertical btn-block" id="btns-extraction">
-                                                    <button class="btn btn-default btn-shadow disabled" type="button" id="btn-amount"><span class="btn-text">Anzahl</span></button>
-                                                    <button class="btn btn-default btn-shadow disabled" type="button" id="btn-guessability"><span class="btn-text">Formel der Erratbarkeit</span></button>
-                                                    <button class="btn btn-default btn-shadow disabled" type="button" id="btn-cognitive-relationships"><span class="btn-text">Sinnzusammenhänge</span></button>
-                                                    <button class="btn btn-default btn-shadow disabled" type="button" id="btn-preferred-gestures"><span class="btn-text">Bevorzugte Gesten</span></button>
-                                                    <button class="btn btn-default btn-shadow disabled" type="button" id="btn-checklist"><span class="btn-text">Checkliste</span></button>
-                                                </div>-->
-                        <div class="btn-group-vertical btn-block" id="btns-arrange-gesture-sets">
-                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-potential-gestures"><span class="btn-text">Potentielle Gesten</span></button>
-                            <button class="btn btn-default btn-shadow disabled" type="button" id="btn-gesture-sets"><span class="btn-text">Gestenset(s)</span></button>
+                            <h5 class="text" style="margin-top: 20px">Extraktion</h5>
+                            <div class="btn-group-vertical btn-block" id="btns-arrange-gesture-sets">
+                                <button class="btn btn-default btn-shadow disabled" type="button" id="btn-potential-gestures"><span class="btn-text">Potentielle Gesten</span></button>
+                                <button class="btn btn-default btn-shadow disabled" type="button" id="btn-gesture-sets"><span class="btn-text">Gestenset(s)</span></button>
+                            </div>
                         </div>
-
                     </div>
 
                     <div class="col-sm-8 col-md-9" id="extraction-navigation-content" style="margin-top: 5px">
                         <div id="content-btn-all-gestures" class="hidden"></div>
 
                         <div id="content-btn-gesture-classification" class="hidden">
-                            <div><span class="text">Gesten klassifizieren</span> 
+                            <h4 style="margin-top: 0px"><span class="text">Gesten klassifizieren</span> 
                                 <button type="button" class="btn btn-xs btn-default btn-shadow disabled" id="btn-reclassify-gestures" style="margin-left:5px"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text">Neu initiieren</span></button>
-                            </div>
+                            </h4>
                             <!--                            <div class="row text-center text" style="margin-top:20px">
                                                             
                                                         </div>-->
@@ -358,8 +352,7 @@ if (login_check($mysqli) == true) {
                                 </div>
                                 <div class="col-xs-4 col-sm-4"><div class="row"><div id="gesture-right"></div></div></div>
                             </div>
-                            <div style="margin-top:30px" class="text">Klassifizierte Gesten</div>
-                            <hr>
+                            <h4 style="margin-top:30px" class="text">Klassifizierte Gesten</h4>
                             <div id="classified-gestures"></div>
                             <div class="alert-space alert-no-gestures-classified"></div>
                         </div>
@@ -367,11 +360,29 @@ if (login_check($mysqli) == true) {
                         <div id="content-btn-checklist" class="hidden">
                             <span class="text" id="checklist-info">Um eine zusätzliche Bewertung der klassifizierten Gesten durchzuführen, kann hier eine Checkliste zusammengestellt werden. Diese muss dann für jede potenzielle Geste beantwortet werden.</span>
 
-                            <div id="checklist-success-criterias" style="margin-top: 10px">
-                                <div class="btn-group" id="use-checklist-switch" style="margin-bottom: 10px; margin-right: 15px;">
-                                    <button class="btn btn-default switchButtonAddon"><?php echo $lang->useChecklist ?></button>
-                                    <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-                                    <button class="btn btn-warning btn-shadow btn-toggle-checkbox active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                            <div id="use-checklist-switch" style="margin-top: 10px">
+                                <label class="text"><?php echo $lang->useChecklist ?></label> 
+                                <div class="switch root">
+                                    <div class="btn-group" style="margin: 0">
+                                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->yes ?></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" style="margin: 0">
+                                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->no ?></span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 

@@ -121,6 +121,13 @@ and open the template in the editor.
     border-color: #b3b3b3;
 }
 
+.gesture-thumbnail.assembled {
+    border-color: #0480be;
+}
+.gesture-thumbnail.assembled:hover {
+    border-color: #385380;
+}
+
 .gesture-thumbnail .caption {
     padding-top: 9px;
     padding-left: 9px;
@@ -138,9 +145,13 @@ and open the template in the editor.
     font-size: 16pt;
 }
 
-.gesture-thumbnail .thumbnail-footer div {
+.gesture-thumbnail .thumbnail-footer div:not(.btn-show-gesture-info) {
     display: inline-block;
     margin-right: 10px;
+}
+
+.gesture-thumbnail .thumbnail-footer .btn-show-gesture-info {
+    display: inline-block;
 }
 
 .gesture-thumbnail .btn-rate,
@@ -149,7 +160,9 @@ and open the template in the editor.
 .gesture-thumbnail .btn-comment,
 .gesture-thumbnail .btn-show-gesture-info,
 .gesture-thumbnail .btn-tag-as-favorite-gesture,
-.gesture-thumbnail .btn-add-gesture-to-scene 
+.gesture-thumbnail .btn-add-gesture-to-scene,
+.gesture-thumbnail .btn-tag-as-main-gesture,
+.gesture-thumbnail .btn-edit-gesture-set
 {
     cursor: pointer;
 }
@@ -164,8 +177,10 @@ and open the template in the editor.
 .gesture-shared>.fa:hover,
 .gesture-liked>.fa:hover,
 .gesture-rated>.fa:hover,
-.btn-tag-as-favorite-gesture>.fa:hover 
-.btn-add-gesture-to-scene>.fa:hover 
+.btn-tag-as-favorite-gesture>.fa:hover, 
+.btn-add-gesture-to-scene>.fa:hover,
+.btn-tag-as-main-gesture>.fa:hover, 
+.btn-edit-gesture-set>.fa:hover 
 {
     color: black;
 }
@@ -182,12 +197,12 @@ and open the template in the editor.
     color: #f0ad4e;
 }
 
+.gesture-tagged .fa {
+    color: #0480be;
+}
+
 .btn-like .amount, .btn-comment .amount, .btn-rate .amount {
     font-size: 9pt;
     position: relative;
     top:-2px;
-}
-
-.btn-show-gesture-info {
-    margin-right: 0px;
 }

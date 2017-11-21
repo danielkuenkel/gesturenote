@@ -722,18 +722,18 @@ include '../includes/language.php';
     <div class="col-xs-12 root" id="wozItemWithScenes">
         <div class="row">
             <div class="col-xs-5 col-sm-6 col-md-4">
-                <div class="panel panel-default btn-shadow">
-                    <div class="panel-body">
-                        <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3"></div>
-                        <div class="text-center  hidden gestureControls">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                            </div>
-                        </div>
+                <div class="btn-shadow">
 
-                        <button type="button" class="btn btn-success btn-block disabled" id="btn-trigger-woz" style="margin-top: 10px;">Diese</button>
+
+                    <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 0px; border-top-left-radius: 4px; border-top-right-radius: 4px"></div>
+                    <div class="text-center  hidden gestureControls">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        </div>
                     </div>
+
+                    <button type="button" class="btn btn-success btn-block disabled" id="btn-trigger-woz" style="border-top-left-radius: 0px; border-top-right-radius: 0px">Diese</button>
                 </div>
             </div>
             <div class="col-xs-7 col-sm-6 col-md-8" id="transition-scenes">
@@ -1291,22 +1291,22 @@ include '../includes/language.php';
     </div>
 
     <!-- gesture training container -->
-<!--    <div class="root" id="gestureTraining" style="margin-top: 80px;">
-        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="row">
-        <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
-        <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <div id="general">
-                <h3 class="headline" style="margin: 0"></h3>
-                <div class="description"></div>
-                <hr>
+    <!--    <div class="root" id="gestureTraining" style="margin-top: 80px;">
+            <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+            <div class="row">
+            <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
+            <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
+                <div id="general">
+                    <h3 class="headline" style="margin: 0"></h3>
+                    <div class="description"></div>
+                    <hr>
+                </div>
+                <div class="alert-space alert-please-wait"></div>
+                <div class="row" id="trainingContainer"></div>
             </div>
-            <div class="alert-space alert-please-wait"></div>
-            <div class="row" id="trainingContainer"></div>
-        </div>
-        </div>
-    </div>-->
-    
+            </div>
+        </div>-->
+
     <div class="root" id="gestureTraining" style="width: 100%; margin-top: 54px">
 
         <div id="scene-container" class="text-center" style="position: fixed; top:-55px; width: 100%;" allowtransparency></div>
@@ -1318,25 +1318,25 @@ include '../includes/language.php';
         </div>
     </div>
 
-<!--    <div id="trainingItemModerated">
-        <div class="col-sm-6" style="margin-bottom: 10px;">
-            <div>
-            <div id="title"><span class="address"></span> <span class="text"></span></div>
-            <div id="repeats"><span class="address"></span> <span class="text"></span></div>
-            <div id="trigger"><span class="address"></span> <span class="text"></span></div>
-            <div id="feedback"><span class="address"></span> <span class="text"></span></div>
-            </div>
-        </div>
-        <div class="col-sm-6" style="margin-bottom: 20px;">
-            <div class="previewGesture autoplay embed-responsive embed-responsive-4by3"></div>
-            <div class="text-center gestureControls">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+    <!--    <div id="trainingItemModerated">
+            <div class="col-sm-6" style="margin-bottom: 10px;">
+                <div>
+                <div id="title"><span class="address"></span> <span class="text"></span></div>
+                <div id="repeats"><span class="address"></span> <span class="text"></span></div>
+                <div id="trigger"><span class="address"></span> <span class="text"></span></div>
+                <div id="feedback"><span class="address"></span> <span class="text"></span></div>
                 </div>
             </div>
-        </div>
-    </div>-->
+            <div class="col-sm-6" style="margin-bottom: 20px;">
+                <div class="previewGesture autoplay embed-responsive embed-responsive-4by3"></div>
+                <div class="text-center gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>-->
 
     <div id="trainingItemUnmoderated">
         <div class="hidden" id="training-data">

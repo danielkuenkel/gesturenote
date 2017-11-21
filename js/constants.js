@@ -104,6 +104,8 @@ var SOURCE_GESTURE_OWN = 'own';
 var SOURCE_GESTURE_EVALUATOR = 'evaluator';
 var SOURCE_GESTURE_TESTER = 'tester';
 var SOURCE_GESTURE_RECORDED = 'recorded';
+var SCOPE_GESTURE_RATED = 'rated';
+var SCOPE_GESTURE_LIKED = 'liked';
 
 // general gesture types
 var TYPE_GESTURE_DISCRETE = 'discrete';

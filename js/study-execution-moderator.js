@@ -2341,7 +2341,7 @@ var Moderator = {
             } else {
                 item = $(source).find('#explorationItem').clone().removeAttr('id');
             }
-
+            
             var searchedData = getTriggerById(data.exploration[currentExplorationIndex].triggerId);
             $(item).find('#search-for .address').text(translation.GestureForTrigger + ':');
             $(item).find('#search-for .text').text(searchedData.title);

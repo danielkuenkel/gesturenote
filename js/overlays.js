@@ -1786,8 +1786,10 @@ function initExplorationOverlay(id, formatClone) {
         }
         initPopover(300);
 
+console.log(gestureIds);
         if (gestureIds && gestureIds.length > 0) {
             for (var i = 0; i < gestureIds.length; i++) {
+                console.log($(container).find('#' + gestureIds[i] + ' .btn-add-gesture-to-scene'));
                 $(container).find('#' + gestureIds[i] + ' .btn-add-gesture-to-scene').click();
             }
         }
@@ -1854,7 +1856,7 @@ function initExplorationOverlay(id, formatClone) {
                     var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
                     var trigger = getTriggerById(triggerId);
                     var gestureIds = [];
-                    $(item).find('#assembled-gestures-container .panel-info').each(function () {
+                    $(item).find('#assembled-gestures-container .assembled').each(function () {
                         gestureIds.push($(this).closest('.root').attr("id"));
                     });
 
@@ -2230,6 +2232,7 @@ function initCatalogGesturesOverlay(formatClone) {
                 }
             }
         });
+        
         $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble) {
             event.preventDefault();
             var tweenParams = initAddGestureToStudyGestures($(event.target), formatClone);
@@ -2243,6 +2246,7 @@ function initCatalogGesturesOverlay(formatClone) {
             }
             updateCatalogButtons();
         });
+        
         $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
             renderData(data);
         });

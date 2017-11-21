@@ -701,8 +701,8 @@ if (login_check($mysqli) == true) {
                 initPopover();
 
                 var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyCreation'] ?>);
-                if(showTutorial === 1) {
-                    loadHTMLintoModal('custom-modal', 'modal-introduction-study-create.php', 'modal-lg');
+                if (showTutorial === 1) {
+                    $('#tab-introduction a').click();
                 }
 
                 renderSubPageElements();
@@ -1024,7 +1024,10 @@ if (login_check($mysqli) == true) {
 
             $('#tab-introduction a').on('click', function (event) {
                 event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'modal-introduction-study-create.php', 'modal-lg');
+                $('#custom-modal').attr('data-help-items-key', 'introductionCreateStudy');
+                $('#custom-modal').attr('data-help-context', 'studyCreation');
+                $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialStudyCreation'] ?>));
+                loadHTMLintoModal('custom-modal', 'modal-introduction.php', 'modal-lg');
             });
 
             $('#phaseStepSelect').on('change', function (event) {

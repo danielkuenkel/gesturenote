@@ -174,8 +174,6 @@
     "useChecklist": "Checkliste nutzen?",
     "option": "Option",
     "options": "Optionen",
-    "rep": "Stellvertreter",
-    "repShort": "Stellv.",
     "multipleAnswersAllowed": "Auswahl mehrerer Antworten erlaubt?",
     "multipleOptionsAllowed": "Auswahl mehrerer Optionen erlaubt?",
     "ownAnswerAllowed": "Eigene Antwort erlaubt?",
@@ -933,10 +931,16 @@
     "stopChoosePreviewImage": "Auswahl beenden",
     "share": "Teilen",
     "unshare": "Nicht Teilen",
-    "shareGesture": "Geste teilen",
-    "unshareGesture": "Geste nicht teilen",
+    "shareGesture": "Mit anderen teilen",
+    "unshareGesture": "Nicht mit anderen teilen",
+    "gestureNotShared": "Geste nicht mit anderen geteilt",
+    "gestureShared": "Geste mit anderen geteilt",
     "edit": "Bearbeiten",
     "gesturePreviewable": "Bearbeiten beenden",
+    "rateGesture":"Geste bewerten",
+    "gestureRated":"Geste bewertet",
+    "showRatings":"Bewertungen ansehen",
+    "gestureNotRated":"Noch keine Bewertung erhalten",
     "deleteGesture": "Geste löschen",
     "ratedBy": "Bewertet von",
     "ratedByUser": "Person",
@@ -946,8 +950,10 @@
     "likedBy": "Geliked von",
     "likedByUser": "Person",
     "likedByUsers": "Personen",
-    "notLikedByMyself": "Nicht geliked",
-    "likedByMyself": "Selbst geliked",
+    "notLikedByMyself": "Geste nicht als Favorit markiert",
+    "likedByMyself": "Geste als Favorit markiert",
+    "gestureTaggedAsMain": "Als Stellvertreter markiert",
+    "tagAsMainGesture":"Als Stellvertreter markieren",
     "commentGesture":"Kommentieren",
     "showAllGestureInfos":"Alle Infos aufrufen",
     "phases": "Leitfaden",
@@ -966,7 +972,7 @@
     "gestureAssociation": "Assoziation(en)",
     "gestureAssociationQuestion": "Warum wurde diese Geste gewählt?",
     "noAssociation": "Keine Assoziation(en) verfügbar",
-    "addToGestureset": "Gesten-Set-Zuweisung hinzufügen/ändern",
+    "addToGestureset": "Gesten-Set-Zuweisung ändern",
     "addToStudySet": "Hinzufügen",
     "addToStudySet": "Hinzuf.",
     "removeFromStudySet": "Entfernen",
@@ -3126,7 +3132,26 @@
         {
             "imgSrc": "img/introduction/study-create/carousel-01.png",
             "title": "Willkommen",
+            "text": "Dies ist ein Infotext …",
+            "description":"<img src='img/introduction/study-create/carousel-01.png' /> <h4>Überschrift</h4><p>dies ist ein Test</p>"
+        },
+        {
+            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "title": "Allgemeines, Kataloge & Leitfaden",
             "text": "Dies ist ein Infotext …"
+        },
+        {
+            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "title": "Allgemeines, Kataloge & Leitfaden",
+            "text": "Dies ist ein Infotext …"
+        }
+    ],
+    "introductionPreviewStudy": [
+        {
+            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "title": "Willkommen",
+            "text": "Dies ist ein Infotext …",
+            "description":"<img src='img/introduction/study-create/carousel-01.png' /> <p>dies ist ein Test</p>"
         },
         {
             "imgSrc": "img/introduction/study-create/carousel-01.png",

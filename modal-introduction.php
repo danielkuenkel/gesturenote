@@ -26,6 +26,9 @@ session_start();
         </a>
     </div>
 </div>
+<div id="help-description" class="modal-body hidden" style="padding: 20px">
+
+</div>
 <div id="modal-footer" class="modal-footer">
     <div class="pull-left" id="checkbox-automatic-show">
         <button class="btn btn-default btn-checkbox" name="primary">
@@ -41,44 +44,65 @@ session_start();
     <button type="button" class="btn btn-default btn-shadow" id="btn-close"><i class="fa fa-close"></i> Schließen</button>
 </div>
 
-<div class="item hidden" id="carousel-listbox-item">
-    <img src="">
-    <div class="carousel-caption">
-        <h4 class="carousel-caption-header"></h4>
-        <p class="carousel-caption-text"></p>
-    </div>
-</div>
-
 <script>
     $(document).ready(function () {
-        for (var i = 0; i < translation.introductionCreateStudy.length; i++) {
+        var modal = $('#custom-modal');
+        var items = $(modal).attr('data-help-items-key');
+
+console.log(items, translation[items]);
+        for (var i = 0; i < translation[items].length; i++) {
+            var helpItem = translation[items][i];
             var item = $('#carousel-listbox-item').clone().removeClass('hidden').removeAttr('id');
-            $(item).find('img').attr('src', translation.introductionCreateStudy[i].imgSrc);
-            $(item).find('.carousel-caption-header').text(translation.introductionCreateStudy[i].title);
-            $(item).find('.carousel-caption-text').text(translation.introductionCreateStudy[i].text);
-            $('#carousel-introduction-generic').find('.carousel-inner').append(item);
+            $(item).find('img').attr('src', helpItem.imgSrc);
+            $(item).find('.carousel-caption-header').text(helpItem.title);
+            $(item).find('.carousel-caption-text').text(helpItem.text);
+            $(modal).find('#carousel-introduction-generic .carousel-inner').append(item);
 
             var indicatorItem = document.createElement('li');
             $(indicatorItem).attr('data-target', '#carousel-introduction-generic');
             $(indicatorItem).attr('data-slide-to', i);
-            $('#carousel-introduction-generic').find('.carousel-indicators').append(indicatorItem);
+            $(modal).find('#carousel-introduction-generic .carousel-indicators').append(indicatorItem);
 
             if (i === 0) {
                 $(indicatorItem).addClass('active');
                 $(item).addClass('active');
+
+                if (helpItem.description) {
+                    $(modal).find('#help-description').removeClass('hidden');
+                    $(modal).find('#help-description').html(helpItem.description);
+                }
             }
         }
 
-        var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyPreview'] ?>);
+        $(modal).find('#carousel-introduction-generic').unbind('slide.bs.carousel').bind('slide.bs.carousel', function () {
+            $(modal).find('#help-description').html('');
+            $(modal).find('#help-description').addClass('hidden');
+        });
+
+        $(modal).find('#carousel-introduction-generic').unbind('slid.bs.carousel').bind('slid.bs.carousel', function () {
+            var currentIndex = parseInt($(modal).find('#carousel-introduction-generic .carousel-indicators .active').attr('data-slide-to'));
+            if (items && translation[items] && translation[items].length > 0) {
+                var helpItem = translation[items][currentIndex];
+                if (helpItem.description) {
+                    $(modal).find('#help-description').removeClass('hidden');
+                    $(modal).find('#help-description').html(helpItem.description);
+                }
+            }
+        });
+
+
+
+        var showTutorial = parseInt($(modal).attr('data-help-show-tutorial'));
         if (showTutorial === 0) {
-            $('#custom-modal').find('#checkbox-automatic-show .btn-checkbox').click();
+            $(modal).find('#checkbox-automatic-show .btn-checkbox').click();
         }
 
-        $('#custom-modal').find('#btn-close').unbind('click').bind('click', function (event) {
+        $(modal).find('#btn-close').unbind('click').bind('click', function (event) {
             event.preventDefault();
             var dontShowIntroduction = $(this).parent().find('#checkbox-automatic-show .btn-checkbox').hasClass('btn-option-checked');
-            updateIntroduction({context: 'studyPreview', dontShowIntroduction: dontShowIntroduction ? 0 : 1});
-            $('#custom-modal').modal('hide');
+            updateIntroduction({context: $(modal).attr('data-help-context'), dontShowIntroduction: dontShowIntroduction ? 0 : 1});
+            $(modal).removeAttr('data-help-items-key');
+            $(modal).modal('hide');
         });
     });
 </script>

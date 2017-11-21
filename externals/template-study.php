@@ -865,13 +865,13 @@ include '../includes/language.php';
 
 
     <div id="amount-container-appearance-trigger" style="margin-bottom: 30px">
-        <h4 id="headline" style="margin-top: 0"><span class="text"></span> <span class="badge"></span></h4> 
-        <!--<hr>-->
+        <p id="headline" style="margin-top: 0"><span class="text"></span> <span class="badge"></span></p> 
+        <hr>
         <div id="item-view"></div>
     </div>
 
     <div id="appearance-trigger-gesture" class="root" style="margin-bottom: 40px">
-        <!--<div class="panel-heading" id="headline-main-gesture"></div>-->
+        <div id="headline-trigger-gesture"></div>
 
         <!--        <div class="panel-body">
                     <div class="row">
@@ -901,6 +901,39 @@ include '../includes/language.php';
 
     </div>
 
+    <div id="appearance-trigger-gesture-potential" class="root" style="margin-bottom: 60px">
+        <div id="headline-trigger-gesture"></div>
+
+        <!--        <div class="panel-body">
+        -->                    
+        <div class="row" id="potential-parameters-container" style="margin-top: 10px">
+<!--            <div class="col-xs-12 col-md-4 root" id="main-gesture" style="margin-bottom: 15px">
+                <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                <div class="text-center hidden gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                    </div>
+                </div>
+            </div>-->
+            <div class="col-xs-12 col-md-8" id="potential-parameters"></div>
+        </div><!--
+    </div>-->
+
+        <!--<hr style="margin: 0">-->
+
+        <!--<div class="panel-body">-->
+        <div id="more-classified-gestures" class="hidden" style="margin-top: 20px">
+            <p>Weitere zugehörige Gesten</p>
+            <div class="row" style="margin-top: 10px">
+                <div id="gestures-list-container"></div>
+            </div>
+        </div>
+
+    </div>
+
     <div id="potential-gesture-parameters-appearance-trigger">
         <div id="parameters-amount">
             <div><h4 style="margin: 0"><i class="fa fa-pie-chart" aria-hidden="true"></i> Anzahl</h4></div>
@@ -921,7 +954,7 @@ include '../includes/language.php';
         <div id="parameters-cognitive-relationships" style="margin-top: 20px">
             <div>
                 <h4 style="margin: 0; float: left; "><i class="fa fa-flash" aria-hidden="true"></i> Sinnzusammenhänge</h4>
-                <button type="button" class="btn btn-sm btn-default btn-shadow" id="btn-open-cognitive-relationships"style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> Überprüfen</button>
+                <button type="button" class="btn btn-xs btn-default btn-shadow" id="btn-open-cognitive-relationships"style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> Überprüfen</button>
             </div>
             <div style="margin-top: 8px; clear: both">
                 <div>
@@ -935,7 +968,7 @@ include '../includes/language.php';
         <div id="parameters-checklist" class="hidden" style="margin-top: 20px">
             <div>
                 <h4 style="margin: 0; float: left"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Checkliste</h4>
-                <button type="button" class="btn btn-sm btn-default btn-shadow" id="btn-open-checklist" style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> Überprüfen</button>
+                <button type="button" class="btn btn-xs btn-default btn-shadow" id="btn-open-checklist" style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> Überprüfen</button>
             </div>
 
             <div style="margin-top: 8px; clear: both">
@@ -948,11 +981,11 @@ include '../includes/language.php';
             </div>
         </div>
         <div id="parameters-gesture-sets" style="margin-top: 20px">
-            <div><h4 style="margin: 0"><i class="fa fa-star" aria-hidden="true"></i> Zuweisung zu Gesten-Sets</h4></div>
+            <div><h4 style="margin: 0"><i class="fa fa-paperclip" aria-hidden="true"></i> Zuweisung zu Gesten-Sets</h4></div>
             <ul id="attached-gesture-sets-container" style="list-style-position: inside; padding-left: 0px; margin-top: 5px"></ul>
         </div>
 
-        <button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-to-gesture-set" style="margin-top: 10px"><i class="fa fa-plus"></i> <span><?php echo $lang->addToGestureset ?></span></button>
+        <!--<button type="button" class="btn btn-default btn-block btn-shadow" id="btn-add-to-gesture-set" style="margin-top: 10px"><i class="fa fa-plus"></i> <span><?php echo $lang->addToGestureset ?></span></button>-->
 
     </div>
 

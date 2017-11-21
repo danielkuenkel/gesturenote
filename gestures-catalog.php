@@ -169,13 +169,13 @@ if (login_check($mysqli) == true) {
                 </div>-->
 
 
-        <div class="container mainContent" style="margin-top: 0px;">
+        <div class="container mainContent" id="gesture-catalog-content" style="margin-top: 0px;">
 
 
             <!-- Tab panes -->
             <div class="tab-content">
 
-                <div role="tabpanel" class="tab-pane" id="study-gesture-set">
+<!--                <div role="tabpanel" class="tab-pane" id="study-gesture-set">
                     <div id="item-view">
                         <div>
                             <div class="form-group form-group-no-margin">
@@ -256,7 +256,7 @@ if (login_check($mysqli) == true) {
 
                     </div>
 
-                </div>
+                </div>-->
 
                 <div role="tabpanel" class="tab-pane" id="gesture-catalog">
                     <div id="item-view">
@@ -272,6 +272,8 @@ if (login_check($mysqli) == true) {
                                             <li id="recorded"><a href="#">Eigene Aufgezeichnete</a></li>
                                             <li id="tester"><a href="#">Tester</a></li>
                                             <li id="public"><a href="#">Öffentlich</a></li>
+                                            <li id="rated"><a href="#">Bewertet</a></li>
+                                            <li id="liked"><a href="#">Favorisiert</a></li>
                                         </ul>
                                     </div>
                                     <span class="input-group-addon">Sortierung</span>
@@ -319,7 +321,6 @@ if (login_check($mysqli) == true) {
                                 </ul>
                             </nav>
                         </div>
-
 
                         <div class="container-root row root" id="gesture-list-container" style="margin-top: 10px;"></div>
 
@@ -475,19 +476,20 @@ if (login_check($mysqli) == true) {
                         clone = getGestureCatalogGestureSetPanel(currentFilterData[i]);
                         $(currentFilterList).append(clone);
                         if (animate && animate === true) {
-                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, y: -10});
+//                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, y: -10});
                         }
                         break;
                     case 'gesture-catalog':
                         clone = getGestureCatalogListThumbnail(currentFilterData[i]);
                         $(currentFilterList).append(clone);
                         if (animate && animate === true) {
-                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+//                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                         }
                         break;
                 }
                 count++;
             }
+            
             initPopover(300);
         }
 
@@ -677,31 +679,6 @@ if (login_check($mysqli) == true) {
 
             new GestureRecorder(options);
         }
-
-//        $('#btn-record-gesture').unbind('click').bind('click', function (event) {
-//            event.preventDefault();
-//            loadHTMLintoModal('custom-modal', 'create-gesture-recorder.php', 'modal-md');
-//
-//            $('#custom-modal').unbind('saveSuccess').bind('saveSuccess', function (event, gestureId) {
-//                getGestureCatalog(function (result) {
-//                    if (result.status === RESULT_SUCCESS) {
-//                        originalFilterData = result.gestures;
-//                        $('#sort #newest').removeClass('selected');
-//                        $('#sort #newest').click();
-//                    }
-//                });
-//            });
-//
-//            $('#custom-modal').unbind('deleteSuccess').bind('deleteSuccess', function (event, gestureId) {
-//                getGestureCatalog(function (result) {
-//                    if (result.status === RESULT_SUCCESS) {
-//                        originalFilterData = result.gestures;
-//                        $('#sort #newest').removeClass('selected');
-//                        $('#sort #newest').click();
-//                    }
-//                });
-//            });
-//        });
 
         function getCurrentActiveTab() {
             return $($('#gesture-catalogs-nav-tab').find('.active a').attr('href'));

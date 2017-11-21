@@ -128,7 +128,16 @@
                 <i class="fa fa-square hidden" id="over"></i>
                 <i class="fa fa-check-square hidden" id="checked"></i>
             </span>
-            <span class="option-text ellipsis"></span></button>
+            <span class="option-text ellipsis"></span>
+        </button>
+    </div>
+
+    <div class="item hidden" id="carousel-listbox-item">
+        <img src="">
+        <div class="carousel-caption">
+            <h4 class="carousel-caption-header"></h4>
+            <p class="carousel-caption-text"></p>
+        </div>
     </div>
 
 </div>

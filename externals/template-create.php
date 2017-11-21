@@ -3010,7 +3010,7 @@ include '../includes/language.php';
         </div>
         <div class="panel-body" style="color: #303030; font-size: 10pt"></div>
         <div class="panel-footer">
-            <button class="btn btn-xs btn-danger" id="btn-delete-comment">Kommentar löschen</button>
+            <button class="btn btn-xs btn-danger" id="btn-delete-comment"><i class="fa fa-trash"></i> Kommentar löschen</button>
         </div>
 
     </div>

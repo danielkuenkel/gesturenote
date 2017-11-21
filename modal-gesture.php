@@ -80,6 +80,11 @@ include 'includes/language.php';
                         <div id="association">Assoziation:<span class="address"></span> <span class="text"></span></div>
                         <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
 
+                        <div style="display: block" id="gesture-sharing">
+                            <div class="btn-share" style="display: inline-block; margin-right: 5px; font-size: 16pt; cursor: pointer"><i class="fa fa-share-alt"></i></div>
+                            <div style="display: inline-block" class="shared-self"></div>
+                        </div>
+
                         <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
                         <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
 
@@ -180,7 +185,7 @@ include 'includes/language.php';
 
                     <div class="btn-group-vertical btn-block" style="margin-top: 20px" id="gesture-owner-controls">
                         <button type="button" class="btn btn-default gesture-previewable" id="btn-edit-gesture"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                        <button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                        <!--<button type="button" class="btn btn-info" id="btn-share-gesture"><i class="fa" aria-hidden="true"></i> <span class="btn-text"></span></button>-->
                         <button type="button" class="btn btn-danger" id="btn-delete-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text">Geste löschen</span></button>
                     </div>
 
@@ -231,7 +236,7 @@ include 'includes/language.php';
                     <div class="form-group">
                         <textarea class="form-control" id="comment" rows="4" maxlength="500" placeholder="Kommentar einfügen" required></textarea>
                     </div>
-                    <button type="button" class="btn btn-default btn-block" id="btn-comment-gesture"><i class="fa fa-commenting" aria-hidden="true"></i> <span class="btn-text">Kommentar abschicken</span></button>
+                    <button type="button" class="btn btn-default btn-block" id="btn-comment-gesture"><i class="fa fa-send" aria-hidden="true"></i> <span class="btn-text">Kommentar abschicken</span></button>
                 </div>
                 <div class="col-md-7">
                     <div class="alert-space alert-no-comments"></div>
@@ -398,6 +403,11 @@ include 'includes/language.php';
                         $(button).closest('.gesture-rating').find('.btn-gesture-rating').removeClass('btn-gesture-rating-clickable active');
                         renderGestureRating($(button).closest('.gesture-rating'), result.ratings, true);
                         appendAlert($('#gesture-rating'), ALERT_RATING_SUBMITTED);
+
+                        $(currentPreviewGesture.thumbnail).find('.btn-rate').addClass('gesture-rated');
+                        $(currentPreviewGesture.thumbnail).find('.btn-rate .fa').removeClass('fa-star-o').addClass('fa-star');
+                        $(currentPreviewGesture.thumbnail).find('.btn-rate .amount').text(parseInt(result.ratings.length) === 0 ? '' : result.ratings.length);
+                        $(currentPreviewGesture.thumbnail).find('.btn-rate').attr('data-content', translation.gestureRated);
                     }
                 });
             }
@@ -498,15 +508,13 @@ include 'includes/language.php';
         if (gesture.isOwner === true) {
             $(container).find('#gesture-rating #btn-rate-gesture').remove();
 
-            var shareButton = $(container).find('#btn-share-gesture');
+            var shareButton = $(container).find('.btn-share');
             if (gesture.scope === SCOPE_GESTURE_PRIVATE) {
-                shareButton.removeClass('unshare-gesture').addClass('share-gesture');
-                shareButton.find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-                shareButton.find('.btn-text').text(translation.share);
+                shareButton.removeClass('gesture-shared');
+                $(container).find('#gesture-data-preview .shared-self').text(translation.gestureNotShared);
             } else {
-                shareButton.removeClass('share-gesture').addClass('unshare-gesture');
-                shareButton.find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-                shareButton.find('.btn-text').text(translation.unshare);
+                shareButton.addClass('gesture-shared');
+                $(container).find('#gesture-data-preview .shared-self').text(translation.gestureShared);
             }
 
             if (gesture.source !== SOURCE_GESTURE_TESTER) {
@@ -518,6 +526,7 @@ include 'includes/language.php';
             }
         } else {
             $(container).find('#gesture-owner-controls').remove();
+            $(container).find('#gesture-sharing').remove();
 
             if (gesture.source !== SOURCE_GESTURE_TESTER) {
                 container.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
@@ -532,8 +541,6 @@ include 'includes/language.php';
         renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
 
         var thumbnail = $(currentPreviewGesture.thumbnail);
-
-
 
         updateGestureSharing();
         updateGestureRating();
@@ -631,75 +638,27 @@ include 'includes/language.php';
 
     function updateGestureSharing() {
         var modal = $('#custom-modal');
-        $(modal).find('#btn-share-gesture').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (!$(this).hasClass('disabled')) {
-                var button = $(this);
 
-                if ($(this).hasClass('share-gesture')) {
-                    showCursor($('body'), CURSOR_PROGRESS);
-                    lockButton(button, true, 'fa-share-alt');
-                    shareGesture({gestureId: currentPreviewGesture.gesture.id}, function (result) {
-                        showCursor($('body'), CURSOR_DEFAULT);
-                        unlockButton(button, true, 'fa-share-alt');
-
-                        if (result.status === RESULT_SUCCESS) {
-                            $(button).removeClass('share-gesture').addClass('unshare-gesture');
-                            $(button).find('.fa').removeClass('fa-share-alt').addClass('fa-lock');
-                            $(button).find('.btn-text').text(translation.unshare);
-
-                            $(modal).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
-                            $(modal).find('#gesture-scope .fa').addClass('hidden');
-                            $(modal).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
-
-                            $(currentPreviewGesture.thumbnail).find('.btn-share').removeClass('gesture-shared');
-                            $(currentPreviewGesture.thumbnail).find('#btn-share-gesture .btn-text').text(translation.unshare);
-                            $(currentPreviewGesture.thumbnail).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PUBLIC]);
-                            $(currentPreviewGesture.thumbnail).find('#gesture-scope .fa').addClass('hidden');
-                            $(currentPreviewGesture.thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PUBLIC).removeClass('hidden');
-
-                            updateGestureById(currentPreviewGesture.source, result.id, {scope: 'public'});
-                            originalFilterData = getLocalItem(currentPreviewGesture.source);
-                            currentFilterData = sort();
-                        }
-                    });
-                } else if ($(this).hasClass('unshare-gesture')) {
-                    showCursor($('body'), CURSOR_PROGRESS);
-                    lockButton(button, true, 'fa-lock');
-                    unshareGesture({gestureId: currentPreviewGesture.gesture.id}, function (result) {
-                        showCursor($('body'), CURSOR_DEFAULT);
-                        unlockButton(button, true, 'fa-lock');
-
-                        if (result.status === RESULT_SUCCESS) {
-                            $(button).removeClass('unshare-gesture').addClass('share-gesture');
-                            $(button).find('.fa').removeClass('fa-lock').addClass('fa-share-alt');
-                            $(button).find('.btn-text').text(translation.share);
-                            $(modal).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
-                            $(modal).find('#gesture-scope .fa').addClass('hidden');
-                            $(modal).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
-
-                            $(currentPreviewGesture.thumbnail).find('#btn-share-gesture').removeClass('gesture-shared');
-                            $(currentPreviewGesture.thumbnail).find('#btn-share-gesture .btn-text').text(translation.share);
-                            $(currentPreviewGesture.thumbnail).find('#gesture-scope .label-text').text(translation.gestureScopes[SCOPE_GESTURE_PRIVATE]);
-                            $(currentPreviewGesture.thumbnail).find('#gesture-scope .fa').addClass('hidden');
-                            $(currentPreviewGesture.thumbnail).find('#gesture-scope #' + SCOPE_GESTURE_PRIVATE).removeClass('hidden');
-
-                            updateGestureById(currentPreviewGesture.source, result.id, {scope: 'private'});
-                            originalFilterData = getLocalItem(currentPreviewGesture.source);
-                            currentFilterData = sort();
-                        }
-                    });
-                }
+        initShareGesture($(modal).find('#gesture-data-preview .btn-share'), currentPreviewGesture.thumbnail, currentPreviewGesture.source, currentPreviewGesture.gesture, function () {
+            console.log('update');
+            if ($(modal).find('#gesture-sharing .btn-share').hasClass('gesture-shared')) {
+                $(modal).find('#gesture-sharing .shared-self').text(translation.gestureShared);
+                $(currentPreviewGesture.thumbnail).find('.btn-share').addClass('gesture-shared');
+            } else {
+                $(modal).find('#gesture-sharing .shared-self').text(translation.gestureNotShared);
+                $(currentPreviewGesture.thumbnail).find('.btn-share').removeClass('gesture-shared');
             }
         });
+
     }
 
     function updateGestureRating() {
+        var modal = $('#custom-modal');
         getRatingsForGesture({gestureId: currentPreviewGesture.gesture.id}, function (result) {
             if (result.status === RESULT_SUCCESS) {
-                renderGestureRating($('#gesture-rating'), result.ratings, true);
+                renderGestureRating($(modal).find('#gesture-rating'), result.ratings, true);
                 if (result.hasRated && (result.hasRated === true || result.hasRated === 'true')) {
-                    $(container).find('#gesture-rating #btn-rate-gesture').remove();
+                    $(modal).find('#gesture-rating #btn-rate-gesture').remove();
                 }
             }
         });
@@ -729,15 +688,12 @@ include 'includes/language.php';
                 if (result.hasLiked && (result.hasLiked === true || result.hasLiked === 'true')) {
                     $('#gesture-likes').find('.liked-self').text(translation.likedByMyself);
                     $('#gesture-likes').find('.btn-like').addClass('gesture-liked');
-
                 } else {
                     $('#gesture-likes').find('.liked-self').text(translation.notLikedByMyself);
                     $('#gesture-likes').find('.btn-like').removeClass('gesture-liked');
                 }
             }
         });
-
-
     }
 
     function renderGestureComments() {
@@ -749,19 +705,25 @@ include 'includes/language.php';
 
         $('#tab-gesture-comments #btn-comment-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            var comment = $('#tab-gesture-comments #comment').val().trim();
-            if (comment !== '') {
-                var button = $(this);
-                $(button).addClass('disabled');
-                showCursor($('body'), CURSOR_PROGRESS);
-                submitCommentForGesture({gestureId: gesture.id, comment: comment}, function (result) {
-                    showCursor($('body'), CURSOR_DEFAULT);
-                    $(button).removeClass('disabled');
-                    if (result.status === RESULT_SUCCESS) {
-                        $('#tab-gesture-comments #comment').val('');
-                        renderComments(result.comments);
-                    }
-                });
+            var button = $(this);
+            if (!$(button).hasClass('disabled')) {
+                lockButton(button, true, 'fa-send');
+                var comment = $('#tab-gesture-comments #comment').val().trim();
+                if (comment !== '') {
+                    showCursor($('body'), CURSOR_PROGRESS);
+                    submitCommentForGesture({gestureId: currentPreviewGesture.gesture.id, comment: comment}, function (result) {
+                        showCursor($('body'), CURSOR_DEFAULT);
+                        unlockButton(button, true, 'fa-send');
+                        if (result.status === RESULT_SUCCESS) {
+                            $('#tab-gesture-comments #comment').val('');
+                            renderComments(result.comments);
+                            $(currentPreviewGesture.thumbnail).find('.btn-comment .fa').removeClass('fa-comment-o').addClass('fa-comments');
+                            $(currentPreviewGesture.thumbnail).find('.amount').text(result.comments.length);
+                        }
+                    });
+                } else {
+                    unlockButton(button, true, 'fa-send');
+                }
             }
         });
     }
@@ -780,14 +742,26 @@ include 'includes/language.php';
                 list.prepend(clone);
                 if (data[i].isOwner === true) {
                     clone.find('#btn-delete-comment').click({commentId: data[i].id, gestureId: data[i].gestureId}, function (event) {
-                        event.preventDefault();
-                        showCursor($('body'), CURSOR_PROGRESS);
-                        deleteComment({commentId: event.data.commentId, gestureId: event.data.gestureId}, function (result) {
-                            showCursor($('body'), CURSOR_DEFAULT);
-                            if (result.status === RESULT_SUCCESS) {
-                                renderComments(result.comments);
-                            }
-                        });
+                        var button = $(this);
+                        if (!$(button).hasClass('disabled')) {
+                            lockButton(button, true, 'fa-trash');
+                            event.preventDefault();
+                            showCursor($('body'), CURSOR_PROGRESS);
+                            deleteComment({commentId: event.data.commentId, gestureId: event.data.gestureId}, function (result) {
+                                showCursor($('body'), CURSOR_DEFAULT);
+                                unlockButton(button, true, 'fa-trash');
+                                if (result.status === RESULT_SUCCESS) {
+                                    renderComments(result.comments);
+                                    if (!result.comments) {
+                                        $(currentPreviewGesture.thumbnail).find('.amount').text('');
+                                        $(currentPreviewGesture.thumbnail).find('.btn-comment .fa').removeClass('fa-comments').addClass('fa-comment-o');
+                                    } else {
+                                        $(currentPreviewGesture.thumbnail).find('.amount').text(result.comments.length);
+                                        $(currentPreviewGesture.thumbnail).find('.btn-comment .fa').removeClass('fa-comment-o').addClass('fa-comments');
+                                    }
+                                }
+                            });
+                        }
                     });
                 } else {
                     clone.find('.panel-footer').remove();
@@ -805,17 +779,18 @@ include 'includes/language.php';
         getGestureSets(function (result) {
             if (result.status === RESULT_SUCCESS) {
                 setLocalItem(GESTURE_SETS, result.gestureSets);
-                renderGestureSets(preselect, id);
+                renderModalGestureSets(preselect, id);
             }
         });
     }
 
-    function renderGestureSets(preselect, id) {
+    function renderModalGestureSets(preselect, id) {
         var sets = getLocalItem(GESTURE_SETS);
-        console.log('render attached gesture sets', sets);
+//        console.log('render attached gesture sets', sets);
         if (sets && sets !== null && sets !== '' && sets.length > 0) {
             var container = $('#add-to-gesture-set #existing-sets-container');
             container.find('.option-container').empty();
+
             for (var i = 0; i < sets.length; i++) {
                 var option = $('#template-general-container').find('#checkbox').clone();
                 option.find('.option-text').text(sets[i].title);
@@ -841,7 +816,7 @@ include 'includes/language.php';
                 getGestureSets(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         setLocalItem(GESTURE_SETS, result.gestureSets);
-                        renderGestureSets(true, newSetId);
+                        renderModalGestureSets(true, newSetId);
                     }
                 });
             });
@@ -863,7 +838,7 @@ include 'includes/language.php';
 
                 // call ajax update gesture sets, calling php 
                 updateGestureSets({sets: getLocalItem(GESTURE_SETS)}, function (result) {
-                    $(container).trigger('gestureSetsUpdated');
+                    $(container).trigger('gestureSetsUpdated', [currentPreviewGesture.gesture.id]);
                 });
             }
         } else {

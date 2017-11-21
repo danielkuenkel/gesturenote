@@ -72,6 +72,7 @@ if (login_check($mysqli) == true) {
     <body>
 
         <div id="alerts"></div>
+        <div id="template-general"></div>
         <div id="template-gesture"></div>
         <div id="template-previews"></div>
         <div id="template-study"></div>
@@ -148,6 +149,7 @@ if (login_check($mysqli) == true) {
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
+                    externals.push(['#template-general', PATH_EXTERNALS + 'template-general.php']);
                     externals.push(['#template-gesture', PATH_EXTERNALS + 'template-gesture.php']);
                     externals.push(['#template-previews', PATH_EXTERNALS + 'template-previews.php']);
                     externals.push(['#template-study', PATH_EXTERNALS + 'template-study.php']);
@@ -196,7 +198,8 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyPreview'] ?>);
                 if (showTutorial === 1) {
-                    loadHTMLintoModal('custom-modal', 'modal-introduction-study-preview.php', 'modal-lg');
+                    $('#btn-introduction').click();
+//                    loadHTMLintoModal('custom-modal', 'modal-introduction-study-preview.php', 'modal-lg');
                 }
 
                 previewModeEnabled = true;
@@ -332,7 +335,10 @@ if (login_check($mysqli) == true) {
 
             $('#btn-introduction').on('click', function (event) {
                 event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'modal-introduction-study-preview.php', 'modal-lg');
+                $('#custom-modal').attr('data-help-items-key', 'introductionPreviewStudy');
+                $('#custom-modal').attr('data-help-context', 'studyPreview');
+                $('#custom-modal').attr('data-help-show-tutorial', <?php echo $_SESSION['tutorialStudyPreview'] ?>);
+                loadHTMLintoModal('custom-modal', 'modal-introduction.php', 'modal-lg');
             });
         </script>
     </body>

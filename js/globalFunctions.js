@@ -1449,15 +1449,6 @@ $(document).on('click', '.nav-tabs li.disabled > a[data-toggle=tab]', function (
 //    console.log('stop propagation')
     e.stopImmediatePropagation();
 });
-//$(document).on('click', '.nav-tabs li', function (event) {
-//    event.preventDefault();
-//    if (!event.handled && !$(this).hasClass('active') && !$(this).hasClass('disabled')) {
-//        event.handled = true;
-////        $(this).parent().find('.active').removeClass('active');
-////        $(this).addClass('active');
-//        $(this).trigger('change');
-//    }
-//});
 
 function getAssembledItems(source) {
     console.log(source)
@@ -1518,22 +1509,19 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
 
         var assemble = false;
         var gestureId = $(this).closest('.root').attr('id');
-//        var thumbnail = $(this).closest('.panel');
         $(this).popover('hide');
 
-        if (!$(this).hasClass('selected')) {
+        if (!$(this).hasClass('assembled')) {
             $(this).attr('data-content', 'Vom Studien-Gesten-Set entfernen').data('bs.popover').setContent();
-            $(this).addClass('selected');
+            $(this).addClass('assembled');
             $(this).find('.fa').removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
-//            $(thumbnail).removeClass('panel-default').addClass('panel-info');
-            $(this).find('root').addClass('selected');
+            $(this).closest('.gesture-thumbnail').addClass('assembled');
             assemble = true;
         } else {
             $(this).attr('data-content', 'Zum Studien-Gesten-Set hinzufügen').data('bs.popover').setContent();
-            $(this).removeClass('selected');
+            $(this).removeClass('assembled');
             $(this).find('.fa').removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
-//            $(thumbnail).removeClass('panel-info').addClass('panel-default');
-//            $(this).find('root').removeClass('selected');
+            $(this).closest('.gesture-thumbnail').removeClass('assembled');
         }
 
         $(this).trigger('change', [gestureId, assemble]);
@@ -1548,26 +1536,24 @@ $(document).on('click', '.btn-add-gesture-to-scene', function (event) {
 
         var assemble = false;
         var gestureId = $(this).closest('.root').attr('id');
-//        var thumbnail = $(this).closest('.panel');
         $(this).popover('hide');
-        if (!$(this).hasClass('selected')) {
+        if (!$(this).hasClass('assembled')) {
             $(this).attr('data-content', 'Von Zustand entfernen').data('bs.popover').setContent();
-            $(this).addClass('selected');
+            $(this).addClass('assembled');
             $(this).find('.fa').removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
-//            $(thumbnail).removeClass('panel-default').addClass('panel-info');
-//            $(this).find('root').addClass('selected');
+            $(this).closest('.gesture-thumbnail').addClass('assembled');
             assemble = true;
         } else {
             $(this).attr('data-content', 'Zum Zustand hinzufügen').data('bs.popover').setContent();
-            $(this).removeClass('selected');
+            $(this).removeClass('assembled');
             $(this).find('.fa').removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
-//            $(thumbnail).removeClass('panel-info').addClass('panel-default');
-//            $(this).find('root').removeClass('selected');
+            $(this).closest('.gesture-thumbnail').removeClass('assembled');
         }
 
         $(this).trigger('change', [gestureId, assemble]);
     }
 });
+
 
 
 /*
@@ -1624,6 +1610,10 @@ function filter(scope) {
                 if (originalFilterData[i].source === SOURCE_GESTURE_EVALUATOR) {
                     array.push(originalFilterData[i]);
                 }
+            } else if (scope === SCOPE_GESTURE_LIKED && originalFilterData[i].hasLiked === true) {
+                array.push(originalFilterData[i]);
+            } else if (scope === SCOPE_GESTURE_RATED && originalFilterData[i].hasRated === true) {
+                array.push(originalFilterData[i]);
             } else if (originalFilterData[i].scope === scope || originalFilterData[i].source === scope) {
                 array.push(originalFilterData[i]);
             } else if (originalFilterData[i].data && originalFilterData[i].data.generalData && (originalFilterData[i].data.generalData.phase === scope || originalFilterData[i].data.generalData.surveyType === scope)) {
@@ -1633,6 +1623,7 @@ function filter(scope) {
     }
     return array;
 }
+
 
 
 /*
@@ -1714,53 +1705,53 @@ function searchThroughArray(array, filter) {
 
 
 
-function getGestureListThumbnail(data) {
-    var clone = $('#form-item-container').find('#gesture-thumbnail').clone();
-    clone.attr('id', data.id);
-    clone.find('.title-text').text(data.title + " ");
-    clone.find('#title .text').text(data.title);
-    clone.find('#context .text').text(data.context);
-    clone.find('#description .text').text(data.description);
-
-    if (data.isOwner === true) {
-        if (data.source !== SOURCE_GESTURE_TESTER) {
-            clone.find('#gesture-source').text(translation.gestureSources[SOURCE_GESTURE_RECORDED]);
-        } else {
-            clone.find('#gesture-source').text(translation.gestureSources[data.source]);
-        }
-    }
-    clone.find('#gesture-scope').text(translation.gestureScopes[data.scope]);
-
-    renderBodyJointsPreview(clone.find('#human-body'), data.joints);
-
-    return clone;
-}
-
-function getGestureListThumbnailPreview(data) {
-    if (data) {
-        var clone = $('#form-item-container').find('#gesture-thumbnail-assembled').clone();
-        clone.attr('id', data.id);
-        clone.find('.title-text').text(data.title + " ");
-        clone.find('#title .text').text(data.title);
-        clone.find('#context .text').text(data.context);
-        clone.find('#description .text').text(data.description);
-
-        if (data.isOwner === true) {
-            if (data.source !== SOURCE_GESTURE_TESTER) {
-                clone.find('#gesture-source').text(translation.gestureSources[SOURCE_GESTURE_RECORDED]);
-            } else {
-                clone.find('#gesture-source').text(translation.gestureSources[data.source]);
-            }
-        }
-        clone.find('#gesture-scope').text(translation.gestureScopes[data.scope]);
-
-        renderBodyJointsPreview(clone.find('#human-body'), data.joints);
-
-        return clone;
-    }
-
-    return null;
-}
+//function getGestureListThumbnail(data) {
+//    var clone = $('#form-item-container').find('#gesture-thumbnail').clone();
+//    clone.attr('id', data.id);
+//    clone.find('.title-text').text(data.title + " ");
+//    clone.find('#title .text').text(data.title);
+//    clone.find('#context .text').text(data.context);
+//    clone.find('#description .text').text(data.description);
+//
+//    if (data.isOwner === true) {
+//        if (data.source !== SOURCE_GESTURE_TESTER) {
+//            clone.find('#gesture-source').text(translation.gestureSources[SOURCE_GESTURE_RECORDED]);
+//        } else {
+//            clone.find('#gesture-source').text(translation.gestureSources[data.source]);
+//        }
+//    }
+//    clone.find('#gesture-scope').text(translation.gestureScopes[data.scope]);
+//
+//    renderBodyJointsPreview(clone.find('#human-body'), data.joints);
+//
+//    return clone;
+//}
+//
+//function getGestureListThumbnailPreview(data) {
+//    if (data) {
+//        var clone = $('#form-item-container').find('#gesture-thumbnail-assembled').clone();
+//        clone.attr('id', data.id);
+//        clone.find('.title-text').text(data.title + " ");
+//        clone.find('#title .text').text(data.title);
+//        clone.find('#context .text').text(data.context);
+//        clone.find('#description .text').text(data.description);
+//
+//        if (data.isOwner === true) {
+//            if (data.source !== SOURCE_GESTURE_TESTER) {
+//                clone.find('#gesture-source').text(translation.gestureSources[SOURCE_GESTURE_RECORDED]);
+//            } else {
+//                clone.find('#gesture-source').text(translation.gestureSources[data.source]);
+//            }
+//        }
+//        clone.find('#gesture-scope').text(translation.gestureScopes[data.scope]);
+//
+//        renderBodyJointsPreview(clone.find('#human-body'), data.joints);
+//
+//        return clone;
+//    }
+//
+//    return null;
+//}
 
 
 /*
@@ -1951,10 +1942,12 @@ function getGestureCatalogListThumbnail(data, typeId, layout, source, panelStyle
     var clone = initGestureThumbnail(data, typeId, layout, panelStyle);
 
     initMoreInfoGesture($(clone).find('.btn-show-gesture-info'), clone, data, source, modalId);
-    initCommentGesture($(clone).find('.btn-comment'), clone, data, source);
+    initCommentGesture($(clone).find('.btn-comment'), clone, source, data);
     initShareGesture($(clone).find('.btn-share'), clone, source, data);
     initLikeGesture($(clone).find('.btn-like'), source, data);
     initRatingGesture($(clone).find('.btn-rate'), clone, source, data);
+    initGestureSet($(clone).find('.btn-edit-gesture-set'), clone, source, data);
+    initPopover(300);
     return clone;
 }
 
@@ -2042,7 +2035,7 @@ function initMoreInfoGesture(button, clone, data, source, modalId) {
     });
 }
 
-function initCommentGesture(button, clone, data, source) {
+function initCommentGesture(button, clone, source, data) {
     $(button).find('.amount').text(parseInt(data.commentAmount) > 0 ? data.commentAmount : '');
     if (data.hasCommented === 'true' || data.hasCommented === true) {
         $(button).find('.fa').removeClass('fa-comment-o').addClass('fa-comments');
@@ -2050,6 +2043,7 @@ function initCommentGesture(button, clone, data, source) {
 
     $(button).click(function (event) {
         event.preventDefault();
+        $(button).popover('hide');
         resetThumbnails($(clone).find('.previewGesture'));
         currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'comments'};
         gesturePreviewOpened = true;
@@ -2058,10 +2052,25 @@ function initCommentGesture(button, clone, data, source) {
     });
 }
 
+function initGestureSet(button, clone, source, data) {
+    if (button && button !== undefined) {
+        $(button).click(function (event) {
+            event.preventDefault();
+            $(button).popover('hide');
+            resetThumbnails($(clone).find('.previewGesture'));
+            currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'gestureSets'};
+            gesturePreviewOpened = true;
+            $(clone).find('#btn-stop-gesture').click();
+            loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
+        });
+    }
+}
+
 function initShareGesture(button, clone, source, data, callback) {
     if (data.isOwner) {
         if (data.scope === SCOPE_GESTURE_PUBLIC) {
             button.addClass('gesture-shared');
+            button.attr('data-content', translation.gestureShared);
         }
     } else {
         $(button).remove();
@@ -2070,6 +2079,7 @@ function initShareGesture(button, clone, source, data, callback) {
     $(button).click(function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
+            $(button).popover('hide');
             lockButton(button, true, 'fa-share-alt');
             showCursor($('body'), CURSOR_PROGRESS);
 
@@ -2093,7 +2103,15 @@ function initShareGesture(button, clone, source, data, callback) {
                                 if (result.status === RESULT_SUCCESS) {
                                     originalFilterData = result.gestures;
                                 }
+
+                                if (callback) {
+                                    callback();
+                                }
                             });
+                        } else {
+                            if (callback) {
+                                callback();
+                            }
                         }
                     }
                 });
@@ -2117,7 +2135,15 @@ function initShareGesture(button, clone, source, data, callback) {
                                 if (result.status === RESULT_SUCCESS) {
                                     originalFilterData = result.gestures;
                                 }
+
+                                if (callback) {
+                                    callback();
+                                }
                             });
+                        } else {
+                            if (callback) {
+                                callback();
+                            }
                         }
                     }
                 });
@@ -2141,6 +2167,7 @@ function initLikeGesture(button, source, data, callback) {
     $(button).unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
+            $(button).popover('hide');
             showCursor($('body'), CURSOR_PROGRESS);
 
             if (!$(this).hasClass('gesture-liked')) {
@@ -2216,13 +2243,27 @@ function initLikeGesture(button, source, data, callback) {
 
 function initRatingGesture(button, clone, source, data) {
     $(button).find('.amount').text(parseInt(data.ratingAmount) === 0 ? '' : data.ratingAmount);
-    if (data.hasRated) {
-        $(button).addClass('gesture-rated');
-        $(button).find('.fa').removeClass('fa-star-o').addClass('fa-star');
+
+//console.log('initRatingGesture', data);
+    if (data.isOwner === true) {
+        if (parseInt(data.ratingAmount) === 0) {
+            $(button).attr('data-content', translation.gestureNotRated);
+        } else {
+            $(button).attr('data-content', translation.showRatings);
+        }
+    } else {
+        if (data.hasRated) {
+            $(button).attr('data-content', translation.gestureRated);
+            $(button).addClass('gesture-rated');
+            $(button).find('.fa').removeClass('fa-star-o').addClass('fa-star');
+        } else {
+            $(button).attr('data-content', translation.rateGesture);
+        }
     }
 
     $(button).unbind('click').bind('click', function (event) {
         event.preventDefault();
+        $(button).popover('hide');
         resetThumbnails($(clone).find('.previewGesture'));
         currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'rating'};
         gesturePreviewOpened = true;
@@ -2327,63 +2368,61 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
 
     var isGestureAss = isGestureAssembled(data.id);
     if (isGestureAss) {
-        if (!panelStyle) {
-            clone.find('.panel').addClass('panel-info');
-        }
         clone.find('.btn-tag-as-favorite-gesture').attr('data-content', 'Vom Studien-Gesten-Set entfernen');
-        clone.find('.btn-tag-as-favorite-gesture').addClass('selected');
+        clone.find('.gesture-thumbnail').addClass('assembled');
+        clone.find('.btn-tag-as-favorite-gesture').addClass('assembled');
         clone.find('.btn-tag-as-favorite-gesture .fa').removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
     }
 
     return clone;
 }
 
-function getGestureElicitationListThumbnail(clone, data, layout, source) {
-    clone.attr('id', data.id);
-    clone.find('.title-text').text(data.title + " ");
-    clone.find('#title .text').text(data.title);
-
-    if (!source) {
-        source = ASSEMBLED_GESTURE_SET;
-    }
-
-    if (layout) {
-        clone.addClass(layout);
-    } else {
-        clone.addClass('col-xs-6 col-sm-4 col-lg-3');
-    }
-
-    if (!clone.hasClass('deleteable')) {
-        gesturePreviewDeleteable = false;
-    }
-
-    renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
-
-    $(clone).find('.panel').mouseenter(function (event) {
-        event.preventDefault();
-        if (gesturePreviewOpened === false) {
-            playThroughThumbnails($(this).find('.previewGesture'), 0);
-        }
-    });
-
-    $(clone).find('.panel').mouseleave(function (event) {
-        event.preventDefault();
-        if (gesturePreviewOpened === false) {
-            resetThumbnails($(this).find('.previewGesture'));
-        }
-    });
-
-    $(clone).find('#btn-show-gesture-info').click({gesture: data, clone: clone, source: source}, function (event) {
-        event.preventDefault();
-        resetThumbnails($(event.data.clone).find('.previewGesture'));
-        currentPreviewGesture = event.data;
-        gesturePreviewOpened = true;
-        $(clone).find('#btn-stop-gesture').click();
-        loadHTMLintoModal('custom-modal', 'modal-gesture-rudimentary.php', 'modal-lg');
-    });
-
-    return clone;
-}
+//function getGestureElicitationListThumbnail(clone, data, layout, source) {
+//    clone.attr('id', data.id);
+//    clone.find('.title-text').text(data.title + " ");
+//    clone.find('#title .text').text(data.title);
+//
+//    if (!source) {
+//        source = ASSEMBLED_GESTURE_SET;
+//    }
+//
+//    if (layout) {
+//        clone.addClass(layout);
+//    } else {
+//        clone.addClass('col-xs-6 col-sm-4 col-lg-3');
+//    }
+//
+//    if (!clone.hasClass('deleteable')) {
+//        gesturePreviewDeleteable = false;
+//    }
+//
+//    renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
+//
+//    $(clone).find('.panel').mouseenter(function (event) {
+//        event.preventDefault();
+//        if (gesturePreviewOpened === false) {
+//            playThroughThumbnails($(this).find('.previewGesture'), 0);
+//        }
+//    });
+//
+//    $(clone).find('.panel').mouseleave(function (event) {
+//        event.preventDefault();
+//        if (gesturePreviewOpened === false) {
+//            resetThumbnails($(this).find('.previewGesture'));
+//        }
+//    });
+//
+//    $(clone).find('#btn-show-gesture-info').click({gesture: data, clone: clone, source: source}, function (event) {
+//        event.preventDefault();
+//        resetThumbnails($(event.data.clone).find('.previewGesture'));
+//        currentPreviewGesture = event.data;
+//        gesturePreviewOpened = true;
+//        $(clone).find('#btn-stop-gesture').click();
+//        loadHTMLintoModal('custom-modal', 'modal-gesture-rudimentary.php', 'modal-lg');
+//    });
+//
+//    return clone;
+//}
 
 function getGestureSceneListThumbnail(data, typeId, layout, source, panelStyle) {
     if (!source || source === null || source === undefined) {
@@ -2522,6 +2561,10 @@ function getSimpleGestureListThumbnail(clone, data, layout, panelStyle) {
     return clone;
 }
 
+
+/*
+ * study catalog list items
+ */
 
 function getStudiesCatalogListThumbnail(data) {
     var clone = $('#studies-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
@@ -2676,14 +2719,19 @@ function getGestureSetPanel(data) {
 
     $(panel).find('#btn-delete-gesture-set').unbind('click').bind('click', {setId: data.id}, function (event) {
         event.preventDefault();
-        var panel = $(this);
-        deleteGestureSet({setId: event.data.setId}, function (result) {
-            if (result.status === RESULT_SUCCESS) {
-                $(panel).trigger('gestureSetDeleted');
-            } else {
-                // append alert
-            }
-        });
+        var button = $(this);
+        if (!$(button).hasClass('disabled')) {
+            lockButton(button, true, 'fa-trash');
+
+            deleteGestureSet({setId: event.data.setId}, function (result) {
+                unlockButton(button, true, 'fa-trash');
+                if (result.status === RESULT_SUCCESS) {
+                    $(button).trigger('gestureSetDeleted');
+                } else {
+                    // append alert
+                }
+            });
+        }
     });
 
     $(panel).find('#btn-mark-hole-set').unbind('click').bind('click', function (event) {
@@ -2705,7 +2753,7 @@ function getGestureSetPanel(data) {
     return panel;
 }
 
-function getGestureCatalogGestureSetPanel(data) {
+function getGestureCatalogGestureSetPanel(data, type, layout) {
     var panel = $('#study-gesture-set-panel').clone();
     $(panel).find('.panel-heading .panel-heading-text').text(data.title);
 
@@ -2713,7 +2761,7 @@ function getGestureCatalogGestureSetPanel(data) {
         clearAlerts(panel);
         for (var j = 0; j < data.gestures.length; j++) {
             var gesture = getGestureById(data.gestures[j]);
-            var gestureThumbnail = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-sm-6 col-lg-3');
+            var gestureThumbnail = getGestureCatalogListThumbnail(gesture, type ? type : null, layout ? layout : 'col-xs-6 col-sm-6 col-lg-3');
             $(panel).find('#gestures-list-container').append(gestureThumbnail);
         }
     } else {
@@ -2723,14 +2771,19 @@ function getGestureCatalogGestureSetPanel(data) {
 
     $(panel).find('#btn-delete-gesture-set').unbind('click').bind('click', {setId: data.id}, function (event) {
         event.preventDefault();
-        var panel = $(this);
-        deleteGestureSet({setId: event.data.setId}, function (result) {
-            if (result.status === RESULT_SUCCESS) {
-                $(panel).trigger('gestureSetDeleted');
-            } else {
-                // append alert
-            }
-        });
+        var button = $(this);
+        if (!$(button).hasClass('disabled')) {
+            lockButton(button, true, 'fa-trash');
+
+            deleteGestureSet({setId: event.data.setId}, function (result) {
+                unlockButton(button, true, 'fa-trash');
+                if (result.status === RESULT_SUCCESS) {
+                    $(button).trigger('gestureSetDeleted');
+                } else {
+                    // append alert
+                }
+            });
+        }
     });
 
     return panel;
@@ -2740,20 +2793,27 @@ $(document).on('click', '.btn-add-gesture-set', function (event) {
     event.preventDefault();
     var titleInput = $(this).closest('.input-group').find('#input-new-set-title');
     var title = titleInput.val();
-    if (title && title !== undefined && title.trim() !== '') {
-        if (title.trim().length > 7) {
-            clearAlerts($(this).closest('.create-gesture-set-input'));
-            saveGestureSetForStudyId({studyId: null, title: title}, function (result) {
-                if (result.status === RESULT_SUCCESS) {
-                    titleInput.val('');
-                    titleInput.trigger('gestureSetCreated', [result.id]);
-                }
-            });
+    var button = $(this);
+    if (!$(button).hasClass('disabled')) {
+        lockButton(button, true, 'fa-plus');
+        if (title && title !== undefined && title.trim() !== '') {
+            if (title.trim().length > 7) {
+                clearAlerts($(this).closest('.create-gesture-set-input'));
+                saveGestureSetForStudyId({studyId: null, title: title}, function (result) {
+                    unlockButton(button, true, 'fa-plus');
+                    if (result.status === RESULT_SUCCESS) {
+                        titleInput.val('');
+                        titleInput.trigger('gestureSetCreated', [result.id]);
+                    }
+                });
+            } else {
+                unlockButton(button, true, 'fa-plus');
+                appendAlert($(this).closest('.create-gesture-set-input'), ALERT_GESTURE_SET_TITLE_TOO_SHORT);
+            }
         } else {
-            appendAlert($(this).closest('.create-gesture-set-input'), ALERT_GESTURE_SET_TITLE_TOO_SHORT);
+            unlockButton(button, true, 'fa-plus');
+            // show errors for invalid input 
         }
-    } else {
-        // show errors for invalid input 
     }
 });
 

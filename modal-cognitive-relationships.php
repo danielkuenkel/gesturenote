@@ -15,12 +15,43 @@ include './includes/language.php';
 
 <div class="modal-body" id="objective-question">
     <h4>Eignung der Geste</h4>
-    <p class="question text"><?php echo $lang->objectiveExtractionChecklistQuestion ?></p>
-    <div class="btn-group switch">
-        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="well" name="btn-success"><?php echo $lang->yes ?></button>
-        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="less-well" name="btn-danger"><?php echo $lang->no ?></button>
-        <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="even" name="btn-warning"><?php echo $lang->dontKnow ?></button>
+    
+    <div id="switch" style="margin-top: 10px">
+        <label class="text"><<?php echo $lang->objectiveExtractionChecklistQuestion ?></label> 
+        <div class="switch root">
+            <div class="btn-group" style="margin: 0">
+                <button class="btn btn-default btn-radio" name="primary" id="well">
+                    <span id="icons" style="margin-right: 6px">
+                        <i class="fa fa-circle-thin" id="normal"></i>
+                        <i class="fa fa-circle hidden" id="over"></i>
+                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                    </span>
+                    <span class="option-text"><?php echo $lang->yes ?></span>
+                </button>
+            </div>
+            <div class="btn-group" style="margin: 0">
+                <button class="btn btn-default btn-radio" name="primary" id="less-well">
+                    <span id="icons" style="margin-right: 6px">
+                        <i class="fa fa-circle-thin hidden" id="normal"></i>
+                        <i class="fa fa-circle hidden" id="over"></i>
+                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                    </span>
+                    <span class="option-text"><?php echo $lang->no ?></span>
+                </button>
+            </div>
+            <div class="btn-group" style="margin: 0">
+                <button class="btn btn-default btn-radio" name="primary" id="even">
+                    <span id="icons" style="margin-right: 6px">
+                        <i class="fa fa-circle-thin" id="normal"></i>
+                        <i class="fa fa-circle hidden" id="over"></i>
+                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                    </span>
+                    <span class="option-text"><?php echo $lang->dontKnow ?></span>
+                </button>
+            </div>
+        </div>
     </div>
+    
 </div>
 
 <div id="modal-footer" class="modal-footer">
@@ -43,10 +74,6 @@ include './includes/language.php';
             $(gesturePreview).addClass('col-xs-5 col-md-4 col-lg-3');
             renderGestureImages($(gesturePreview).find('.previewGesture'), gesture.images, gesture.previewImage, null);
             $(row).append(gesturePreview);
-
-
-//            var involvedGesture = getSimpleGestureListThumbnail($('#simple-gesture-thumbnail').clone(), gesture, 'col-xs-5 col-md-4 col-lg-3', parseInt(currentAssignment.mainGestureId) === parseInt(gesture.id) ? 'panel-info' : 'panel-default');
-//            $(row).append(involvedGesture);
 
             var details = document.createElement('div');
             $(details).addClass('col-xs-7 col-md-8 col-lg-9');
@@ -84,19 +111,16 @@ include './includes/language.php';
             if (k > 0) {
                 $(row).css({marginTop: '16px'});
             }
-            console.log(gesture);
         }
 
-        console.log(currentAssignment.cognitiveRelationship);
-
         if (currentAssignment.cognitiveRelationship && currentAssignment.cognitiveRelationship.objectiveAnswer) {
-            $('#objective-question').find('.switch #' + currentAssignment.cognitiveRelationship.objectiveAnswer).click();
+            $('#objective-question').find('#switch #' + currentAssignment.cognitiveRelationship.objectiveAnswer).click();
         }
     }
 
     function saveData() {
         var classification = getLocalItem(CLASSIFICATION);
-        var objectiveAnswer = $('#objective-question').find('.switch .active').attr('id');
+        var objectiveAnswer = $('#objective-question').find('#switch .btn-option-checked').attr('id');
 
         for (var i = 0; i < classification.assignments.length; i++) {
             if (parseInt(classification.assignments[i].mainGestureId) === parseInt(currentAssignment.mainGestureId) &&
@@ -108,6 +132,6 @@ include './includes/language.php';
 
         setLocalItem(CLASSIFICATION, classification);
         saveClassification();
-        renderPotentialGestures();
+        updateGestureAssignmentInfos($('#content-btn-potential-gestures'), POTENTIAL_GESTURES, currentAssignment.mainGestureId, getAssignmentForGestureId(currentAssignment.mainGestureId));
     }
 </script>
