@@ -154,6 +154,9 @@ function updateIntroduction(data, callback) {
         case 'studyPreview':
             url = 'includes/update-introduction-study-preview.php';
             break;
+        case 'study':
+            url = 'includes/update-introduction-study.php';
+            break;
     }
 
     $.ajax({

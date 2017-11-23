@@ -1,7 +1,7 @@
 function loginFormhash(form, email, password) {
+    clearAlerts(form);
     if ($(email).val().trim() === '' || $(password).val().trim() === '') {
         appendAlert($('#login'), ALERT_MISSING_FIELDS);
-//        showAlert($('#login'), ALERT_MISSING_FIELDS);
         return false;
     }
 
@@ -25,6 +25,7 @@ function loginFormhash(form, email, password) {
 }
 
 function forgotFormhash(form, email) {
+    clearAlerts(form);
     if ($(email).val().trim() === '') {
         appendAlert(form, ALERT_MISSING_EMAIL);
         $(email).focus();
@@ -34,7 +35,6 @@ function forgotFormhash(form, email) {
     // validate email
     if (!validateEmail($(email).val().trim())) {
         $(email).focus();
-        appendAlert(form, ALERT_INVALID_EMAIL);
         return false;
     }
 
@@ -42,6 +42,7 @@ function forgotFormhash(form, email) {
 }
 
 function registerFormhash(form) {
+    clearAlerts(form);
     // Check each field has a value
 
     var forename = $(form).find('#forename');
@@ -54,8 +55,6 @@ function registerFormhash(form) {
     var date = $(form).find('#date');
     var month = $(form).find('#month');
     var year = $(form).find('#year');
-
-    console.log(userType, gender, date, month, year);
 
     if ($(forename).val().trim() === '' ||
             $(surname).val().trim() === '' ||
@@ -71,20 +70,10 @@ function registerFormhash(form) {
         return false;
     }
 
-    // Check the username
-
-//    re = "([a-zA-Z]{3,30}\s*)+"; 
-//    if(!re.test($(username).val())) { 
-//        alert("Username must contain only letters, numbers and underscores. Please try again"); 
-//        $(username).focus();
-//        return false; 
-//    }
-
     // validate email
     if (!validateEmail($(email).val().trim())) {
         $(email).focus();
         appendAlert(form, ALERT_INVALID_EMAIL);
-//        showAlert($('#modal-register'), ALERT_INVALID_EMAIL);
         return false;
     }
 
@@ -94,7 +83,6 @@ function registerFormhash(form) {
     if ($(password).val().length < 6) {
         $(password).focus();
         appendAlert(form, ALERT_PASSWORD_SHORT);
-//        showAlert($('#modal-register'), ALERT_PASSWORD_SHORT);
         return false;
     }
 
@@ -105,7 +93,6 @@ function registerFormhash(form) {
     if (!re.test($(password).val())) {
         $(password).focus();
         appendAlert(form, ALERT_PASSWORD_INVALID);
-//        showAlert($('#modal-register'), ALERT_PASSWORD_INVALID);
         return false;
     }
 
@@ -147,7 +134,6 @@ function registerFormhash(form) {
         {
             $(year).focus();
             appendAlert(form, ALERT_INVALID_BIRTHDAY);
-//        showAlert($('#modal-register'), ALERT_INVALID_BIRTHDAY);
             return false;
         }
     }
@@ -178,7 +164,7 @@ function resetPasswordFormhash(form) {
     var email = $(form).find('#email');
     var password = $(form).find('#password');
     var passwordconfirm = $(form).find('#confirmPassword');
-    
+
 
     if ($(email).val().trim() === '' ||
             $(password).val().trim() === '' ||
@@ -187,20 +173,10 @@ function resetPasswordFormhash(form) {
         return false;
     }
 
-    // Check the username
-
-//    re = "([a-zA-Z]{3,30}\s*)+"; 
-//    if(!re.test($(username).val())) { 
-//        alert("Username must contain only letters, numbers and underscores. Please try again"); 
-//        $(username).focus();
-//        return false; 
-//    }
-
     // validate email
     if (!validateEmail($(email).val().trim())) {
         $(email).focus();
         appendAlert(form, ALERT_INVALID_EMAIL);
-//        showAlert($('#modal-register'), ALERT_INVALID_EMAIL);
         return false;
     }
 
@@ -210,18 +186,15 @@ function resetPasswordFormhash(form) {
     if ($(password).val().length < 6) {
         $(password).focus();
         appendAlert(form, ALERT_PASSWORD_SHORT);
-//        showAlert($('#modal-register'), ALERT_PASSWORD_SHORT);
         return false;
     }
 
     // At least one number, one lowercase and one uppercase letter 
     // At least six characters 
-
     var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
     if (!re.test($(password).val())) {
         $(password).focus();
         appendAlert(form, ALERT_PASSWORD_INVALID);
-//        showAlert($('#modal-register'), ALERT_PASSWORD_INVALID);
         return false;
     }
 
@@ -252,7 +225,7 @@ function resetPasswordFormhash(form) {
     form.submit();
 }
 
-function updateFormhashEvaluator(form, alertTarget) {
+function updateFormhashEvaluator(form) {
     // Check each field has a value
 
     var forename = $(form).find('#input-forename');
@@ -260,7 +233,7 @@ function updateFormhashEvaluator(form, alertTarget) {
 
     if ($(forename).val().trim() === '' ||
             $(surname).val().trim() === '') {
-        appendAlert(alertTarget, ALERT_MISSING_FIELDS);
+        appendAlert(form, ALERT_MISSING_FIELDS);
         return false;
     }
 
@@ -270,7 +243,7 @@ function updateFormhashEvaluator(form, alertTarget) {
 
     if ($(newPassword).val().trim() !== '' || $(confirmNewPassword).val().trim() !== '') {
         if ($(currentPassword).val().trim() === '' || $(confirmNewPassword).val().trim() === '' || $(newPassword).val().trim() === '') {
-            appendAlert(alertTarget, ALERT_MISSING_FIELDS);
+            appendAlert(form, ALERT_MISSING_FIELDS);
             return false;
         } else {
             // Check that the password is sufficiently long (min 6 chars)
@@ -278,7 +251,7 @@ function updateFormhashEvaluator(form, alertTarget) {
             // specific guidance to the user
             if ($(newPassword).val().length < 6) {
                 $(newPassword).focus();
-                appendAlert(alertTarget, ALERT_PASSWORD_SHORT);
+                appendAlert(form, ALERT_PASSWORD_SHORT);
                 return false;
             }
 
@@ -287,14 +260,14 @@ function updateFormhashEvaluator(form, alertTarget) {
             var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
             if (!re.test($(newPassword).val())) {
                 $(newPassword).focus();
-                appendAlert(alertTarget, ALERT_PASSWORD_INVALID);
+                appendAlert(form, ALERT_PASSWORD_INVALID);
                 return false;
             }
 
             // Check password and confirmation are the same
             if ($(newPassword).val() !== $(confirmNewPassword).val()) {
                 $(confirmNewPassword).focus();
-                appendAlert(alertTarget, ALERT_PASSWORDS_NOT_MATCHING);
+                appendAlert(form, ALERT_PASSWORDS_NOT_MATCHING);
                 return false;
             }
 
@@ -328,32 +301,23 @@ function updateFormhashEvaluator(form, alertTarget) {
     form.submit();
 }
 
-function updateFormhash(form, alertTarget) {
+function updateFormhash(form) {
     // Check each field has a value
 
     var forename = $(form).find('#input-forename');
     var surname = $(form).find('#input-surname');
-//    var email = $(form).find('#input-email');
     var date = $(form).find('#input-date');
     var month = $(form).find('#input-month');
     var year = $(form).find('#input-year');
 
     if ($(forename).val().trim() === '' ||
             $(surname).val().trim() === '' ||
-//            $(email).val().trim() === '' ||
             $(date).val().trim() === '' ||
             $(month).val().trim() === '' ||
             $(year).val().trim() === '') {
-        appendAlert(alertTarget, ALERT_MISSING_FIELDS);
+        appendAlert(form, ALERT_MISSING_FIELDS);
         return false;
     }
-
-    // validate email
-//    if (!validateEmail($(email).val().trim())) {
-//        $(email).focus();
-//        appendAlert(alertTarget, ALERT_INVALID_EMAIL);
-//        return false;
-//    }
 
     var dateString = $(date).val().trim();
     var monthString = $(month).val().trim();
@@ -366,7 +330,7 @@ function updateFormhash(form, alertTarget) {
             (parseInt(dateString) < 1 || parseInt(dateString) > 31))
     {
         $(date).focus();
-        appendAlert(alertTarget, ALERT_INVALID_BIRTHDAY);
+        appendAlert(form, ALERT_INVALID_BIRTHDAY);
         return false;
     }
 
@@ -375,7 +339,7 @@ function updateFormhash(form, alertTarget) {
             (parseInt(monthString) < 1 || parseInt(monthString) > 12))
     {
         $(month).focus();
-        appendAlert(alertTarget, ALERT_INVALID_BIRTHDAY);
+        appendAlert(form, ALERT_INVALID_BIRTHDAY);
         return false;
     }
 
@@ -384,7 +348,7 @@ function updateFormhash(form, alertTarget) {
             (parseInt(yearString) < 1920 || parseInt(yearString) > now.getFullYear()))
     {
         $(year).focus();
-        appendAlert(alertTarget, ALERT_INVALID_BIRTHDAY);
+        appendAlert(form, ALERT_INVALID_BIRTHDAY);
         return false;
     }
 
@@ -394,7 +358,7 @@ function updateFormhash(form, alertTarget) {
 
     if ($(newPassword).val().trim() !== '' || $(confirmNewPassword).val().trim() !== '') {
         if ($(currentPassword).val().trim() === '' || $(confirmNewPassword).val().trim() === '' || $(newPassword).val().trim() === '') {
-            appendAlert(alertTarget, ALERT_MISSING_FIELDS);
+            appendAlert(form, ALERT_MISSING_FIELDS);
             return false;
         } else {
             // Check that the password is sufficiently long (min 6 chars)
@@ -402,7 +366,7 @@ function updateFormhash(form, alertTarget) {
             // specific guidance to the user
             if ($(newPassword).val().length < 6) {
                 $(newPassword).focus();
-                appendAlert(alertTarget, ALERT_PASSWORD_SHORT);
+                appendAlert(form, ALERT_PASSWORD_SHORT);
                 return false;
             }
 
@@ -411,14 +375,14 @@ function updateFormhash(form, alertTarget) {
             var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
             if (!re.test($(newPassword).val())) {
                 $(newPassword).focus();
-                appendAlert(alertTarget, ALERT_PASSWORD_INVALID);
+                appendAlert(form, ALERT_PASSWORD_INVALID);
                 return false;
             }
 
             // Check password and confirmation are the same
             if ($(newPassword).val() !== $(confirmNewPassword).val()) {
                 $(confirmNewPassword).focus();
-                appendAlert(alertTarget, ALERT_PASSWORDS_NOT_MATCHING);
+                appendAlert(form, ALERT_PASSWORDS_NOT_MATCHING);
                 return false;
             }
 
@@ -455,12 +419,4 @@ function updateFormhash(form, alertTarget) {
 function validateEmail(email) {
     var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
     return re.test(email);
-}
-
-function disableInputs() {
-    $('#btn-login, #btn-forgot-password, #btn-open-register, #btn-register, #btn-reset-password').addClass('disabled');
-}
-
-function enableInputs() {
-    $('#btn-login, #btn-forgot-password, #btn-open-register, #btn-register, #btn-reset-password').removeClass('disabled');
 }

@@ -4,9 +4,6 @@ include '../includes/language.php';
 
 <div id="template-gesture" class="hidden">
 
-    <!-- gesture image thumbnail -->
-    <img class="gestureImage" id="gestureThumbnailImage">
-
     <div class="" id="popover-gesture-preview" style="position: absolute; opacity: 0; width: 300px;">
         <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
     </div>
@@ -74,7 +71,7 @@ include '../includes/language.php';
             </div>
         </div>
     </div>
-    
+
     <div class="root" id="potential-gestures-catalog-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-shadow">
             <div class="">
@@ -95,9 +92,7 @@ include '../includes/language.php';
             </div>
 
             <div class="thumbnail-footer text-center">
-                
                 <div class="btn-edit-gesture-set" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addToGestureset ?>"><i class="fa fa-paperclip"></i></div>
-                <!--<div class="btn-tag-as-main-gesture" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsMainGesture ?>"><i class="fa fa-tag"></i></div>-->
                 <div class="btn-rate" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->rateGesture ?>"><i class="fa fa-star-o"></i> <span class="amount"></span></div>
                 <div class="btn-like update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->likeGesture ?>"><i class="fa fa-heart-o"></i> <span class="amount"></span></div>
                 <div class="btn-share update-list-view" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->shareGesture ?>"><i class="fa fa-share-alt"></i></div>
@@ -108,12 +103,8 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="simple-gesture-thumbnail">
-        <div class="panel panel-default btn-shadow">
-            <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
-                <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
-            </div>
-
-            <div class="panel-body">
+        <div class="thumbnail gesture-thumbnail btn-shadow">
+            <div class="">
                 <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
@@ -123,22 +114,31 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
                     </div>
                 </div>
-                <div class="text-center">
-                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
-                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
-                </div>
+            </div>
+            <div class="caption text-center" style="padding-bottom: 10px">
+                <p class="gesture-name ellipsis"></p>
+                <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
+                <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
             </div>
         </div>
     </div>
 
     <div class="root" id="rudimentary-gesture-thumbnail">
-        <div class="previewGesture btn-shadow mousePlayable embed-responsive embed-responsive-4by3"></div>
-        <div class="text-center hidden gestureControls">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
-                <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+        <div class="thumbnail gesture-thumbnail btn-shadow">
+            <div class="">
+                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+                <div class="text-center hidden gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="caption text-center" style="padding-bottom: 10px">
+                <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text hidden-xs"></span></span>
+                <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text hidden-xs"></span></span>
             </div>
         </div>
     </div>
@@ -259,7 +259,7 @@ include '../includes/language.php';
                 <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Alle Infos aufrufen"><i class="fa fa-ellipsis-h"></i></div>
             </div>
         </div>
- 
+
     </div>
 
     <div class="panel panel-default" id="create-study-gesture-set-panel">

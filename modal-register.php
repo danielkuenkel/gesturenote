@@ -24,24 +24,22 @@ include './includes/language.php';
                 <input type="text" class="form-control" name="surname" id="surname" placeholder="">
             </div>
 
-            <div class="alert-space alert-user-exists"></div>
-            <div class="alert-space alert-invalid-email"></div>
-
             <div class="form-group">
                 <label for="email"><?php echo $lang->email ?></label>
+                <div class="alert-space alert-user-exists"></div>
+                <div class="alert-space alert-invalid-email"></div>
                 <input type="email" class="form-control" name="email" id="email" placeholder="">
             </div>
 
-            <div class="alert-space alert-password-short"></div>
-            <div class="alert-space alert-password-invalid"></div>
-            <div class="alert-space alert-passwords-not-matching"></div>
-
             <div class="form-group">
                 <label for="password"><?php echo $lang->password ?></label>
+                <div class="alert-space alert-password-short"></div>
+                <div class="alert-space alert-password-invalid"></div>
                 <input type="password" class="form-control" name="password" id="password" placeholder="">
             </div>
             <div class="form-group">
                 <label for="confirmPassword"><?php echo $lang->passwordConfirm ?></label>
+                <div class="alert-space alert-passwords-not-matching"></div>
                 <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="">
             </div>
 
@@ -101,10 +99,9 @@ include './includes/language.php';
 
                 </div>
 
-                <div class="alert-space alert-invalid-birthday"></div>
-
                 <div class="form-group">
                     <label><?php echo $lang->birthdate ?></label>
+                    <div class="alert-space alert-invalid-birthday"></div>
                     <div class="input-group">
                         <span class="input-group-addon"><?php echo $lang->day ?></span>
                         <input class="form-control" id="date" type="text" placeholder="z.B. 1" minlength="1" maxlength="2"/>
@@ -121,7 +118,7 @@ include './includes/language.php';
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-block btn-success hidden" id="btn-close" data-dismiss="modal" aria-label="Close"><span class="btn-text"><?php echo $lang->close ?></span></button>
-    <button type="button" class="btn btn-block btn-gn" id="btn-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>
+    <button type="button" class="btn btn-block btn-default" id="btn-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>
 </div>
 
 <script>
@@ -149,7 +146,7 @@ include './includes/language.php';
     $('#register-form').on('submit', function (event) {
         event.preventDefault();
 
-        disableInputs();
+        lockButton($('#btn-register'), true, 'fa-user-plus');
         var formElement = $(this);
         clearAlerts(formElement);
 
@@ -166,7 +163,7 @@ include './includes/language.php';
 
         register({forename: forename, surname: surname, email: email, p: p, birthday: birthday, gender: gender, userType: userType}, function (result) {
             clearAlerts(formElement);
-            enableInputs();
+            unlockButton($('#btn-register'), true, 'fa-user-plus');
 
             if (result.status === 'emailExists') {
                 appendAlert($('#register-form'), ALERT_USER_EXISTS);

@@ -37,7 +37,7 @@ session_start();
                 <i class="fa fa-square hidden" id="over"></i>
                 <i class="fa fa-check-square hidden" id="checked"></i>
             </span>
-            <span class="option-text ellipsis">Nicht mehr automatisch anzeigen</span>
+            <span class="option-text ellipsis">Diese Hilfe nicht mehr automatisch anzeigen</span>
         </button>
     </div>
 
@@ -49,7 +49,7 @@ session_start();
         var modal = $('#custom-modal');
         var items = $(modal).attr('data-help-items-key');
 
-console.log(items, translation[items]);
+        console.log(items, translation[items]);
         for (var i = 0; i < translation[items].length; i++) {
             var helpItem = translation[items][i];
             var item = $('#carousel-listbox-item').clone().removeClass('hidden').removeAttr('id');

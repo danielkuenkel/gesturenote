@@ -59,7 +59,6 @@ if ($h && $token && $studyId) {
         <script type="text/JavaScript" src="js/storage.js"></script>
         <script type="text/JavaScript" src="js/storageFunctions.js"></script>
         <script type="text/JavaScript" src="js/login.js"></script>
-        <script type="text/JavaScript" src="js/register.js"></script>
         <script type="text/JavaScript" src="js/checkForms.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>

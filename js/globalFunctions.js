@@ -333,8 +333,6 @@ function moveElement(direction, which, save) {
             var offset = element.offset().top - brother.offset().top;
             var heightBrother = brother.outerHeight(true);
             var heightElement = element.outerHeight(true);
-//            var opacityElement = $(element).css('opacity');
-//            var opacityBrother = $(brother).css('opacity');
             var timeline = new TimelineMax({onComplete: onMoveUpComplete, onCompleteParams: [element, brother, save]});
             timeline.add("start", 0)
                     .to(element, .2, {y: -offset, clearProps: 'all'}, "start")
@@ -357,10 +355,6 @@ function moveElement(direction, which, save) {
 }
 
 function onMoveUpComplete(element, brother, save) {
-//    var timeline = new TimelineMax();
-//    timeline.add("start", 0)
-//            .to(element, 0, {y: 0}, "start")
-//            .to(brother, 0, {y: 0}, "start");
     $(element).insertBefore(brother);
     if (save === true) {
         savePhases();
@@ -377,10 +371,6 @@ function onMoveUpComplete(element, brother, save) {
 }
 
 function onMoveDownComplete(element, brother, save) {
-//    var timeline = new TimelineMax();
-//    timeline.add("start", 0)
-//            .to(element, 0, {y: 0}, "start")
-//            .to(brother, 0, {y: 0}, "start");
     $(element).insertAfter(brother);
     if (save === true) {
         savePhases();
@@ -402,7 +392,6 @@ $(document).on('click', '.btn-preview', function (event) {
     if (!$(this).hasClass('disabled')) {
         $(this).popover('hide');
         var formatData = getFormatData($(this).closest('.root'));
-//        console.log(formatData);
         currentPreviewData = [formatData];
         loadHTMLintoModal('custom-modal', 'modal-preview.php', 'modal-lg');
     }
@@ -410,14 +399,12 @@ $(document).on('click', '.btn-preview', function (event) {
 
 function checkCurrentListState(itemContainer) {
     var childList = $(itemContainer).children();
-//    console.log(childList);
     for (var i = 0; i < childList.length; i++) {
         var child = childList[i];
         var btnUp = $(child).find('.btn-up').first();
         var btnDown = btnUp.next();
         btnUp.removeClass('disabled');
         btnDown.removeClass('disabled');
-//        console.log(btnUp, btnDown, $(child).prev().find('.btn-down'), $(child).next().find('.btn-up'));
 
         if (i === 0) {
             btnUp.addClass('disabled');
@@ -792,14 +779,12 @@ function renderAssembledScenes(targetContainer, optionalSelections) {
     }
 
     var listItem, link;
-    console.log('renderAssembledScenes', scenes);
     if (scenes && scenes.length > 0) {
         var dropdown = target === null ? $('#form-item-container').find('.sceneSelect') : $(target).find('.sceneSelect');
         $(dropdown).find('.option').empty();
         $(dropdown).find('.dropdown-toggle').removeClass('disabled');
         $(target).find('.sceneSelect .dropdown-toggle').removeClass('disabled');
         $(target).find('.option-scene').attr('placeholder', 'Bitte wählen');
-
 
         for (var i = 0; i < scenes.length; i++) {
             listItem = document.createElement('li');
@@ -895,7 +880,6 @@ function renderAssembledFeedback(targetContainer, optionalSelections) {
             $(target).find('.option-feedback').attr('placeholder', 'Bitte wählen');
         }
 
-        console.log('renderAssembledFeedback', optionalSelections);
         if (optionalSelections && optionalSelections.length > 0) {
             listItem = document.createElement('li');
             listItem.setAttribute('class', 'divider');
@@ -1034,7 +1018,6 @@ $(document).on('slide change', '.custom-range-slider', function () {
 
 // hint handling
 function appendHint(source, target, data, surveyType) {
-//    console.log(data);
     if (data.id !== 'none') {
         removeHint($(target).find('#hint'));
         var hint = $(source).find('#feedback-hint').clone();
@@ -1050,16 +1033,11 @@ function appendHint(source, target, data, surveyType) {
 
 function renderDataForHint(data, hint, source, surveyType) {
     var feedback = getFeedbackById(data.id);
-//    console.log(feedback, data);
 
     if (data.transitionMode === 'automatically') {
         hint.find('#btn-close-hint').remove();
     } else {
-//        if (surveyType === TYPE_SURVEY_MODERATED) {
-//            hint.find('#btn-close-hint').remove();
-//        } else {
         hint.find('.progress-hint').remove();
-//        }
     }
 
     switch (feedback.type) {
@@ -1108,7 +1086,6 @@ function removeHint(hint) {
 currentPaginationData = null;
 triggerPaginationChangeEvents = true;
 function initPagination(data) {
-//    console.log('initPagination', data);
     currentPaginationData = data;
 
     var maxPages = Math.ceil(data.pager.dataLength / data.pager.maxElements);
@@ -1139,7 +1116,6 @@ function initPagination(data) {
     }
 
     var currentIndex = isNaN(getCurrentPaginationIndex()) ? 0 : getCurrentPaginationIndex();
-//    console.log(data, currentIndex);
     for (var i = 0; i < Math.min(paginationClipping, maxPages); i++) {
         var listItem;
         if (data.pager.top) {
@@ -1152,7 +1128,6 @@ function initPagination(data) {
         }
 
         if (currentIndex !== null && currentIndex === i) {
-//            $(listItem).addClass('active');
             $(listItem).click();
         }
     }
@@ -1282,10 +1257,7 @@ $(document).on('click', '.pagination li', function (event) {
                 }
             }
 
-//            if(triggerPaginationChangeEvents === true) {
             $(this).trigger('indexChanged', [newIndex]);
-//            }
-
         } else {
             var direction = $(this).attr('id');
             var currentIndex = parseInt($(this).closest('.pagination').find('.active').text());
@@ -1446,16 +1418,14 @@ function getDimensionByElement(element) {
 
 // tab navigation handling
 $(document).on('click', '.nav-tabs li.disabled > a[data-toggle=tab]', function (e) {
-//    console.log('stop propagation')
     e.stopImmediatePropagation();
 });
 
+
 function getAssembledItems(source) {
-    console.log(source)
     var array = new Array();
     if (source && source.length > 0) {
         for (var i = 0; i < source.length; i++) {
-//            console.log(source[i].dimension);
             if (source[i].dimension !== DIMENSION_ANY && source[i].parameters.used === "used") {
                 array.push(source[i]);
             } else if (source[i].dimension === DIMENSION_ANY) {
@@ -1468,7 +1438,10 @@ function getAssembledItems(source) {
 }
 
 
-// gesture thumbnail handling
+/*
+ * gesture thumbnail handling
+ */
+
 $(document).on('click', '.gesture-thumbnail, .gesture-details', function (event) {
     event.preventDefault();
     if (!event.handled) {
@@ -1662,7 +1635,6 @@ $(document).on('keyup', '.search-input', function (event) {
                 currentFilterData = matched;
                 updatePaginationItems();
                 $(container).trigger('renderData', [matched]);
-//                renderData(matched);
             } else {
                 container.addClass('hidden');
                 appendAlert(container.closest('#item-view'), ALERT_NO_SEARCH_RESULTS);
@@ -1700,58 +1672,6 @@ function searchThroughArray(array, filter) {
 }
 
 
-
-
-
-
-
-//function getGestureListThumbnail(data) {
-//    var clone = $('#form-item-container').find('#gesture-thumbnail').clone();
-//    clone.attr('id', data.id);
-//    clone.find('.title-text').text(data.title + " ");
-//    clone.find('#title .text').text(data.title);
-//    clone.find('#context .text').text(data.context);
-//    clone.find('#description .text').text(data.description);
-//
-//    if (data.isOwner === true) {
-//        if (data.source !== SOURCE_GESTURE_TESTER) {
-//            clone.find('#gesture-source').text(translation.gestureSources[SOURCE_GESTURE_RECORDED]);
-//        } else {
-//            clone.find('#gesture-source').text(translation.gestureSources[data.source]);
-//        }
-//    }
-//    clone.find('#gesture-scope').text(translation.gestureScopes[data.scope]);
-//
-//    renderBodyJointsPreview(clone.find('#human-body'), data.joints);
-//
-//    return clone;
-//}
-//
-//function getGestureListThumbnailPreview(data) {
-//    if (data) {
-//        var clone = $('#form-item-container').find('#gesture-thumbnail-assembled').clone();
-//        clone.attr('id', data.id);
-//        clone.find('.title-text').text(data.title + " ");
-//        clone.find('#title .text').text(data.title);
-//        clone.find('#context .text').text(data.context);
-//        clone.find('#description .text').text(data.description);
-//
-//        if (data.isOwner === true) {
-//            if (data.source !== SOURCE_GESTURE_TESTER) {
-//                clone.find('#gesture-source').text(translation.gestureSources[SOURCE_GESTURE_RECORDED]);
-//            } else {
-//                clone.find('#gesture-source').text(translation.gestureSources[data.source]);
-//            }
-//        }
-//        clone.find('#gesture-scope').text(translation.gestureScopes[data.scope]);
-//
-//        renderBodyJointsPreview(clone.find('#human-body'), data.joints);
-//
-//        return clone;
-//    }
-//
-//    return null;
-//}
 
 
 /*
@@ -2244,7 +2164,6 @@ function initLikeGesture(button, source, data, callback) {
 function initRatingGesture(button, clone, source, data) {
     $(button).find('.amount').text(parseInt(data.ratingAmount) === 0 ? '' : data.ratingAmount);
 
-//console.log('initRatingGesture', data);
     if (data.isOwner === true) {
         if (parseInt(data.ratingAmount) === 0) {
             $(button).attr('data-content', translation.gestureNotRated);
@@ -2278,93 +2197,7 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
     }
 
     var clone = initGestureThumbnail(data, typeId, layout, panelStyle);
-//    if (typeId && typeId !== null) {
-//        clone = $('#' + typeId).clone().removeClass('hidden').removeAttr('id');
-//    } else {
-//        clone = $('#gestures-catalog-thumbnail').clone().removeClass('hidden').removeAttr('id');
-//    }
-//    clone.attr('id', data.id);
-//    clone.find('.title-text').text(data.title + " ");
-//    clone.find('#title .text').text(data.title);
-//    clone.find('#gesture-scope .label-text').text(translation.gestureScopes[data.scope]);
-//    clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
-
-
-//    if (panelStyle) {
-//        clone.find('.panel').removeClass('panel-default').addClass(panelStyle);
-//    }
-//
-//    if (layout) {
-//        clone.addClass(layout);
-//    } else {
-//        clone.addClass('col-xs-6 col-sm-4 col-lg-3');
-//    }
-
-//    if (data.isOwner === true) {
-//        if (data.source === SOURCE_GESTURE_EVALUATOR) {
-//            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_OWN]);
-//            clone.find('#gesture-source #' + SOURCE_GESTURE_OWN).removeClass('hidden');
-//        } else {
-//            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
-//            clone.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
-//        }
-//    } else {
-//        if (data.source === SOURCE_GESTURE_EVALUATOR) {
-//            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
-//            clone.find('#gesture-source #' + SOURCE_GESTURE_EVALUATOR).removeClass('hidden');
-//        } else {
-//            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
-//            clone.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
-//        }
-//    }
-
-//    if (!clone.hasClass('deleteable')) {
-//        gesturePreviewDeleteable = false;
-//    }
-
-//    renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
-
-//    $(clone).find('.panel').mouseenter(function (event) {
-//        event.preventDefault();
-//        if (gesturePreviewOpened === false) {
-//            playThroughThumbnails($(this).find('.previewGesture'), 0);
-//        }
-//    });
-//
-//    $(clone).find('.panel').mouseleave(function (event) {
-//        event.preventDefault();
-//        if (gesturePreviewOpened === false) {
-//            resetThumbnails($(this).find('.previewGesture'));
-//        }
-//    });
-
-//    $(clone).find('#btn-show-gesture-info').click({gesture: data, clone: clone}, function (event) {
-//        event.preventDefault();
-//        resetThumbnails($(event.data.clone).find('.previewGesture'));
-//        currentPreviewGesture = {gesture: event.data.gesture, source: source};
-//        gesturePreviewOpened = true;
-//        $(clone).find('#btn-stop-gesture').click();
-//        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
-//        console.log(event.data.gesture);
-
-
-//        var modalTarget = 'custom-modal';
-//        if (modalId) {
-//            modalTarget = modalId;
-//        }
-//        loadHTMLintoModal(modalTarget, 'modal-gesture.php', 'modal-lg');
-//        $('#' + modalTarget).on('gesture-deleted', function () {
-//            checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-//            renderData(currentFilterData);
-//        });
-
-//        $(this).trigger('openGestureInfo');
-//    });
-
     initMoreInfoGesture($(clone).find('.btn-show-gesture-info'), clone, data, source, modalId);
-//    initCommentGesture($(clone).find('.btn-comment'), clone, data, source);
-//    initShareGesture($(clone).find('.btn-share'), clone, source, data);
-//    initLikeGesture($(clone).find('.btn-like'), source, data);
 
     var isGestureAss = isGestureAssembled(data.id);
     if (isGestureAss) {
@@ -2377,53 +2210,6 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
     return clone;
 }
 
-//function getGestureElicitationListThumbnail(clone, data, layout, source) {
-//    clone.attr('id', data.id);
-//    clone.find('.title-text').text(data.title + " ");
-//    clone.find('#title .text').text(data.title);
-//
-//    if (!source) {
-//        source = ASSEMBLED_GESTURE_SET;
-//    }
-//
-//    if (layout) {
-//        clone.addClass(layout);
-//    } else {
-//        clone.addClass('col-xs-6 col-sm-4 col-lg-3');
-//    }
-//
-//    if (!clone.hasClass('deleteable')) {
-//        gesturePreviewDeleteable = false;
-//    }
-//
-//    renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
-//
-//    $(clone).find('.panel').mouseenter(function (event) {
-//        event.preventDefault();
-//        if (gesturePreviewOpened === false) {
-//            playThroughThumbnails($(this).find('.previewGesture'), 0);
-//        }
-//    });
-//
-//    $(clone).find('.panel').mouseleave(function (event) {
-//        event.preventDefault();
-//        if (gesturePreviewOpened === false) {
-//            resetThumbnails($(this).find('.previewGesture'));
-//        }
-//    });
-//
-//    $(clone).find('#btn-show-gesture-info').click({gesture: data, clone: clone, source: source}, function (event) {
-//        event.preventDefault();
-//        resetThumbnails($(event.data.clone).find('.previewGesture'));
-//        currentPreviewGesture = event.data;
-//        gesturePreviewOpened = true;
-//        $(clone).find('#btn-stop-gesture').click();
-//        loadHTMLintoModal('custom-modal', 'modal-gesture-rudimentary.php', 'modal-lg');
-//    });
-//
-//    return clone;
-//}
-
 function getGestureSceneListThumbnail(data, typeId, layout, source, panelStyle) {
     if (!source || source === null || source === undefined) {
         source = GESTURE_CATALOG;
@@ -2432,132 +2218,11 @@ function getGestureSceneListThumbnail(data, typeId, layout, source, panelStyle) 
     var clone = initGestureThumbnail(data, typeId, layout, panelStyle);
     initMoreInfoGesture($(clone).find('.btn-show-gesture-info'), clone, data, source);
 
-//    var clone = $('#' + typeId).clone().removeClass('hidden').removeAttr('id');
-//    clone.attr('id', gesture.id);
-//    clone.find('.title-text').text(gesture.title + " ");
-//    clone.find('#title .text').text(gesture.title);
-//
-//    if (panelStyle) {
-//        clone.find('.panel').removeClass('panel-default').addClass(panelStyle);
-//    }
-//
-//    if (layout) {
-//        clone.addClass(layout);
-//    } else {
-//        clone.addClass('col-xs-6 col-sm-4 col-lg-3');
-//    }
-//
-//    if (!clone.hasClass('deleteable')) {
-//        gesturePreviewDeleteable = false;
-//    }
-//
-//    renderGestureImages(clone.find('.previewGesture'), gesture.images, gesture.previewImage, null);
-//
-//    $(clone).find('.panel').mouseenter(function (event) {
-//        event.preventDefault();
-//        if (gesturePreviewOpened === false) {
-//            playThroughThumbnails($(this).find('.previewGesture'), 0);
-//        }
-//    });
-//
-//    $(clone).find('.panel').mouseleave(function (event) {
-//        event.preventDefault();
-//        if (gesturePreviewOpened === false) {
-//            resetThumbnails($(this).find('.previewGesture'));
-//        }
-//    });
-//
-//    $(clone).find('#btn-show-gesture-info').click({gesture: gesture, clone: clone}, function (event) {
-//        event.preventDefault();
-//        resetThumbnails($(event.data.clone).find('.previewGesture'));
-//        currentPreviewGesture = {gesture: event.data.gesture, source: source};
-//        gesturePreviewOpened = true;
-//        $(clone).find('#btn-stop-gesture').click();
-//        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
-//        console.log(event.data.gesture);
-//
-//
-////        var modalTarget = 'custom-modal';
-////        if (modalId) {
-////            modalTarget = modalId;
-////        }
-////        loadHTMLintoModal(modalTarget, 'modal-gesture.php', 'modal-lg');
-////        $('#' + modalTarget).on('gesture-deleted', function () {
-////            checkPagination($('#custom-pager .pagination'), currentFilterData.length, parseInt($('#resultsCountSelect .chosen').attr('id').split('_')[1]));
-////            renderData(currentFilterData);
-////        });
-//
-////        $(this).trigger('openGestureInfo');
-//    });
-//
-//    var isGestureAss = isGestureAssembled(data.id);
-//    if (isGestureAss) {
-//        if (!panelStyle) {
-//            clone.find('.panel').addClass('panel-primary');
-//        }
-//        clone.find('#btn-tag-as-favorite-gesture').attr('data-content', 'Vom Studien-Gesten-Set entfernen');
-//        clone.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
-//        clone.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
-//    }
-
     return clone;
 }
 
-function getSimpleGestureListThumbnail(clone, data, layout, panelStyle) {
-    clone.attr('id', data.id);
-    clone.find('.title-text').text(data.title + " ");
-    clone.find('#title .text').text(data.title);
-    clone.find('#gesture-scope .label-text').text(translation.gestureScopes[data.scope]);
-    clone.find('#gesture-scope #' + data.scope).removeClass('hidden');
-
-    if (layout) {
-        clone.addClass(layout);
-    } else {
-        clone.addClass('col-xs-6 col-sm-4 col-lg-3');
-    }
-
-    if (panelStyle) {
-        clone.find('.panel').removeClass('panel-default').addClass(panelStyle);
-    }
-
-    if (data.isOwner === true) {
-        if (data.source === SOURCE_GESTURE_EVALUATOR) {
-            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_OWN]);
-            clone.find('#gesture-source #' + SOURCE_GESTURE_OWN).removeClass('hidden');
-        } else {
-            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
-            clone.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
-        }
-    } else {
-        if (data.source === SOURCE_GESTURE_EVALUATOR) {
-            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_EVALUATOR]);
-            clone.find('#gesture-source #' + SOURCE_GESTURE_EVALUATOR).removeClass('hidden');
-        } else {
-            clone.find('#gesture-source .label-text').text(translation.gestureSources[SOURCE_GESTURE_TESTER]);
-            clone.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
-        }
-    }
-
-    if (!clone.hasClass('deleteable')) {
-        gesturePreviewDeleteable = false;
-    }
-
-    renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
-
-    $(clone).find('.panel').mouseenter(function (event) {
-        event.preventDefault();
-        if (gesturePreviewOpened === false) {
-            playThroughThumbnails($(this).find('.previewGesture'), 0);
-        }
-    });
-
-    $(clone).find('.panel').mouseleave(function (event) {
-        event.preventDefault();
-        if (gesturePreviewOpened === false) {
-            resetThumbnails($(this).find('.previewGesture'));
-        }
-    });
-
+function getSimpleGestureListThumbnail(data, typeId, layout) {
+    var clone = initGestureThumbnail(data, typeId, layout);
     return clone;
 }
 
@@ -2633,10 +2298,6 @@ function getStudiesCatalogListTesterThumbnail(data) {
         clone.attr('id', data.id);
         clone.find('.title-text').text(data.data.generalData.title);
 
-//        if (data.data.generalData.panelSurvey === 'yes') {
-//            $(clone).find('#panel-survey').removeClass('hidden');
-//        }
-
         if ((data.data.generalData.dateFrom !== null && data.data.generalData.dateFrom !== "") &&
                 (data.data.generalData.dateTo !== null && data.data.generalData.dateTo !== "")) {
 
@@ -2701,7 +2362,6 @@ function getGestureSetPanel(data) {
             if (isGestureAss) {
                 gestureThumbnail.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
                 gestureThumbnail.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
-//                gestureThumbnail.find('#btn-tag-as-favorite-gesture').
             }
         }
         var assembledGesturesLength = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture.selected').length;
@@ -2906,6 +2566,7 @@ $(document).on('click', '.audioPlayer #play', function (event) {
         audioElement.play();
     }
 });
+
 $(document).on('click', '.audioPlayer #pause', function (event) {
     event.preventDefault();
     if (!event.handled) {
@@ -2914,6 +2575,7 @@ $(document).on('click', '.audioPlayer #pause', function (event) {
         audioElement.pause();
     }
 });
+
 $(document).on('click', '.audioPlayer #stop', function (event) {
     event.preventDefault();
     if (!event.handled) {
@@ -2925,7 +2587,11 @@ $(document).on('click', '.audioPlayer #stop', function (event) {
 });
 
 
-// webRTC specific functions
+
+/*
+ * webRTC specific functions
+ */ 
+
 function isWebRTCNeeded() {
     var phaseSteps = getContextualPhaseSteps();
     if (phaseSteps && phaseSteps.length > 0) {
@@ -2940,21 +2606,10 @@ function isWebRTCNeeded() {
 
 function isWebRTCNeededForPhaseStep(phaseStep) {
     if (phaseStep) {
-
         var options = getPhaseStepOptions(phaseStep.format);
-//        console.log(options, phaseStep);
-
-//        if (phaseStep.format === IDENTIFICATION) {
-//            var phaseData = getLocalItem(phaseStep.id + '.data');
-////            console.log(phaseData);
-//            if (phaseData.identificationFor === 'gestures') {
-//                return true;
-//            }
-//        } else {
         if (options.tester.stream === 'yes' || options.tester.visualizeStream === 'yes' || options.tester.recordStream === 'yes') {
             return true;
         }
-//        }
     }
     return false;
 }
@@ -2975,9 +2630,8 @@ function isUploadRecordingNeededForPhaseStep(phaseStep) {
     if (phaseStep) {
         var options = getPhaseStepOptions(phaseStep.format);
 
-        if (currentView === VIEW_TESTER && options.tester.recordStream === 'yes') {
-            return true;
-        } else if (currentView === VIEW_MODERATOR && options.moderator.recordStream === 'yes') {
+        if ((currentView === VIEW_TESTER && options.tester.recordStream === 'yes') ||
+                (currentView === VIEW_MODERATOR && options.moderator.recordStream === 'yes')) {
             return true;
         }
     }
@@ -3035,6 +2689,11 @@ function isRecordingNeededInFuture() {
     return false;
 }
 
+
+/*
+ * for sus score visualisation
+ */
+
 function getSUSAdjective(score) {
     var adjective = null;
     for (var i = 0; i < translation.susScores.length; i++) {
@@ -3051,16 +2710,23 @@ function getSUSAdjective(score) {
     return adjective;
 }
 
+
+/*
+ * get current server time. This is important for the study execution
+ */
+
 function getGMT(callback) {
     getServerTime(function (result) {
-        // This is where you do whatever you want with the time:
-//        console.log(result);
         if (result.time && callback) {
             callback(result.time * 1000);
         }
     });
 }
 
+
+/*
+ * (un)lock buttons, if waiting for system functionalitity (e.g. database update)
+ */
 
 function lockButton(button, showLoadingIndicator, originalIcon) {
     $(button).addClass('disabled');

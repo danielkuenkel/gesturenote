@@ -147,14 +147,14 @@ if (!$h) {
                     event.preventDefault();
                     var formElement = $(this);
                     clearAlerts(formElement);
-                    disableInputs();
+                    var button = $(this);
+                    lockButton($(button), true, 'fa-pencil');
 
                     var query = getQueryParams(document.location.search);
                     if (query && query.h) {
                         var data = {email: $(formElement).find('#email').val().trim(), p: $(formElement).find('#p').val(), hash: query.h};
                         resetPassword(data, function (result) {
-                            enableInputs();
-                            console.log(result);
+                            unlockButton($(button), true, 'fa-pencil');
                             if (result.status === RESULT_SUCCESS) {
                                 appendAlert($('#goto-login'), ALERT_PASSWORD_RESET_SUCCESS);
                                 $('#password-reset').addClass('hidden');

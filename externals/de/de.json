@@ -152,8 +152,14 @@
     "furtherDown": "Weiter nach unten",
     "yes": "Ja",
     "no": "Nein",
+    "suitable": "geeignet",
+    "notSuitable": "nicht geeignet",
     "dontKnow": "Weiß nicht",
+    "neitherNor": "weder noch",
     "always": "Immer",
+    "cognitiveRelations": "Sinnzusammenhänge",
+    "noAnswer": "Keine Antwort",
+    "noJustification": "Keine Begründung",
     "or": "oder",
     "Or": "Oder",
     "delete": "Löschen",
@@ -179,6 +185,10 @@
     "ownAnswerAllowed": "Eigene Antwort erlaubt?",
     "noAnswer": "Nicht beantwortet",
     "notChecked": "Nicht überprüft",
+    "notAssignedToGestureSet": "Nicht zu einem Gesten-Set zugewiesen",
+    "check": "Überprüfen",
+    "checklist": "Checkliste",
+    "notes": "Notizen",
     "execution": "Dauer",
     "recognitionTime": "Zeitfenster",
     "restart": "Neustart",
@@ -874,6 +884,7 @@
     "gestures": "Gesten",
     "studyGestures": "Studien-Gesten",
     "studyGestureSet": "Studien-Gesten-Set",
+    "assignmentToGestureSets": "Zuweisung zu Gesten-Sets",
     "theGesture": "die Geste",
     "theTrigger": "die Funktion",
     "theFeedback": "das Feedback",
@@ -892,6 +903,7 @@
     "scale": "Skala",
     "url": "URL",
     "title": "Titel",
+    "type": "Typ",
     "element": "Element",
     "elements": "Elemente",
     "observation": "Beobachtung",
@@ -929,6 +941,8 @@
     "questionTriggerSlideshow": "Welche Funktion wird von der gezeigten Geste ausgelöst?",
     "choosePreviewImage": "Vorschaubild wählen",
     "stopChoosePreviewImage": "Auswahl beenden",
+    "gestureSets": "Gesten-Sets",
+    "comments": "Kommentare",
     "share": "Teilen",
     "unshare": "Nicht Teilen",
     "shareGesture": "Mit anderen teilen",
@@ -936,26 +950,28 @@
     "gestureNotShared": "Geste nicht mit anderen geteilt",
     "gestureShared": "Geste mit anderen geteilt",
     "edit": "Bearbeiten",
-    "gesturePreviewable": "Bearbeiten beenden",
-    "rateGesture":"Geste bewerten",
-    "gestureRated":"Geste bewertet",
-    "showRatings":"Bewertungen ansehen",
-    "gestureNotRated":"Noch keine Bewertung erhalten",
+    "gesturePreviewable": "Bearbeitung beenden",
+    "rateGesture": "Geste bewerten",
+    "submitGestureRating": "Bewertung abgeben",
+    "gestureRated": "Geste bewertet",
+    "showRatings": "Bewertungen ansehen",
+    "gestureNotRated": "Noch keine Bewertung erhalten",
     "deleteGesture": "Geste löschen",
     "ratedBy": "Bewertet von",
     "ratedByUser": "Person",
     "ratedByUsers": "Personen",
-    "likeGesture":"Als Favorit markieren",
-    "unlikeGesture":"Als Favorit entfernen",
+    "likes": "Favorit",
+    "likeGesture": "Als Favorit markieren",
+    "unlikeGesture": "Als Favorit entfernen",
     "likedBy": "Geliked von",
     "likedByUser": "Person",
     "likedByUsers": "Personen",
     "notLikedByMyself": "Geste nicht als Favorit markiert",
     "likedByMyself": "Geste als Favorit markiert",
     "gestureTaggedAsMain": "Als Stellvertreter markiert",
-    "tagAsMainGesture":"Als Stellvertreter markieren",
-    "commentGesture":"Kommentieren",
-    "showAllGestureInfos":"Alle Infos aufrufen",
+    "tagAsMainGesture": "Als Stellvertreter markieren",
+    "commentGesture": "Kommentieren",
+    "showAllGestureInfos": "Alle Infos aufrufen",
     "phases": "Leitfaden",
     "gestureElicitation": "Gesten-Ermittlung",
     "gestureEvaluation": "Gesten-Evaluierung",
@@ -3126,6 +3142,11 @@
             "id": "no-data-gus-questionnaire",
             "type": "warning",
             "text": "Um einen GUS zu erstellen, wählen Sie den gewünschten Aspekt aus (z.B. <em>Soziale Akzeptanz</em>). Sie können anschließend die vordefinierten Fragen anpassen. Falls einmal eine Frage nicht für die Befragung übernommen werden soll, klicken Sie auf das Symbol <i class='fa fa-star'></i>. Die Einstellungen werden für diese Frage ausgeblendet und das Element zusätzlich ausgegraut."
+        },
+        "notAssignedToGestureSet": {
+            "id": "not-assigned-to-gesture-set",
+            "type": "warning",
+            "text": "Nicht zu einem Gesten-Set zugeordnet."
         }
     },
     "introductionCreateStudy": [
@@ -3133,7 +3154,7 @@
             "imgSrc": "img/introduction/study-create/carousel-01.png",
             "title": "Willkommen",
             "text": "Dies ist ein Infotext …",
-            "description":"<img src='img/introduction/study-create/carousel-01.png' /> <h4>Überschrift</h4><p>dies ist ein Test</p>"
+            "description": "<img src='img/introduction/study-create/carousel-01.png' /> <h4>Überschrift</h4><p>dies ist ein Test</p>"
         },
         {
             "imgSrc": "img/introduction/study-create/carousel-01.png",
@@ -3151,7 +3172,25 @@
             "imgSrc": "img/introduction/study-create/carousel-01.png",
             "title": "Willkommen",
             "text": "Dies ist ein Infotext …",
-            "description":"<img src='img/introduction/study-create/carousel-01.png' /> <p>dies ist ein Test</p>"
+            "description": "<img src='img/introduction/study-create/carousel-01.png' /> <p>dies ist ein Test</p>"
+        },
+        {
+            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "title": "Allgemeines, Kataloge & Leitfaden",
+            "text": "Dies ist ein Infotext …"
+        },
+        {
+            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "title": "Allgemeines, Kataloge & Leitfaden",
+            "text": "Dies ist ein Infotext …"
+        }
+    ],
+    "introductionStudy": [
+        {
+            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "title": "Willkommen",
+            "text": "Dies ist ein Infotext …",
+            "description": "<img src='img/introduction/study-create/carousel-01.png' /> <p>dies ist ein Test</p>"
         },
         {
             "imgSrc": "img/introduction/study-create/carousel-01.png",

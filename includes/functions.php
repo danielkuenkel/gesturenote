@@ -33,7 +33,7 @@ function login($email, $password, $mysqli) {
         $stmt->store_result();
 
         // get variables from result.
-        $stmt->bind_result($user_id, $forename, $surname, $email, $db_password, $birthday, $gender, $usertype, $created, $passwordReset, $tutorialStudyCreation, $tutorialStudyPreview);
+        $stmt->bind_result($user_id, $forename, $surname, $email, $db_password, $birthday, $gender, $usertype, $created, $passwordReset, $tutorialStudyCreation, $tutorialStudyPreview, $tutorialStudy);
         $stmt->fetch();
 
         if ($stmt->num_rows == 1) {
@@ -65,6 +65,7 @@ function login($email, $password, $mysqli) {
                     $_SESSION['birthday'] = $birthday;
                     $_SESSION['tutorialStudyCreation'] = $tutorialStudyCreation;
                     $_SESSION['tutorialStudyPreview'] = $tutorialStudyPreview;
+                    $_SESSION['tutorialStudy'] = $tutorialStudy;
                     echo json_encode(array('status' => 'success', 'userId' => $user_id, 'forename' => $forename, 'surname' => $surname, 'userType' => $usertype));
                     exit();
                 } else {

@@ -14,6 +14,7 @@ $(document).on('change', '.scaleSelect', function (event, result) {
         renderScaleItems(scaleItemContainer, result.split('_')[1], undefined);
     }
 });
+
 function renderScaleItems(container, count, text)
 {
     $(container).empty();
@@ -56,7 +57,6 @@ function renderFormatItem(target, data, currentPhaseFormat) {
     $(clone).find('.question').val(data.question);
     clone.attr('name', data.id || chance.natural());
     clone.addClass(data.dimension);
-//    console.log(target);
     $(target).append(clone);
 
     var parameters = data.parameters;
@@ -1452,7 +1452,7 @@ function renderAlternativeQuestion(item, studyData, answer) {
                 $(item).find('#justification-content').removeClass('hidden');
                 $(item).find('#justification-content .text').text(answer.justification);
             } else if (answer.selectedOptions && answer.selectedOptions.length > 0 && answer.justification === '') {
-                $(item).find('#no-answer').removeClass('hidden');
+                $(item).find('#no-justification-result').removeClass('hidden');
             }
         } else {
             $(item).find('#no-answer').removeClass('hidden');

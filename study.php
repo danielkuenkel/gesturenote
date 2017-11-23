@@ -109,6 +109,7 @@ if (login_check($mysqli) == true) {
                                 </li>-->
                 <li role="presentation" id="participants"><a href="#study-participants" aria-controls="study-participants" role="tab" data-toggle="tab">Teilnahmen <span class="badge"></span></a></li>
                 <li role="presentation" class="hidden" id="extraction"><a href="#gesture-extraction" aria-controls="gesture-extraction" role="tab" data-toggle="tab">Extraktion</a></li>
+                <li role="presentation" id="tab-introduction" class="pull-right"><a role="button"><i class="fa fa-support"></i> <?php echo $lang->help ?></a></li>
             </ul>
         </div>
 
@@ -433,6 +434,11 @@ if (login_check($mysqli) == true) {
             });
 
             function onAllExternalsLoadedSuccessfully() {
+                var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
+                if (showTutorial === 1) {
+                    $('#tab-introduction a').click();
+                }
+                
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -445,6 +451,14 @@ if (login_check($mysqli) == true) {
                     });
                 }
             }
+            
+            $('#tab-introduction a').on('click', function (event) {
+                event.preventDefault();
+                $('#custom-modal').attr('data-help-items-key', 'introductionStudy');
+                $('#custom-modal').attr('data-help-context', 'study');
+                $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialStudy'] ?>));
+                loadHTMLintoModal('custom-modal', 'modal-introduction.php', 'modal-lg');
+            });
         </script>
     </body>
 </html>

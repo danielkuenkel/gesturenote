@@ -70,9 +70,7 @@ include './includes/language.php';
             $('#modal-body').find('#list-container').append(row);
 
             var gesture = getGestureById(currentAssignment.gestures[k], ELICITED_GESTURES);
-            var gesturePreview = $('#rudimentary-gesture-thumbnail').clone();
-            $(gesturePreview).addClass('col-xs-5 col-md-4 col-lg-3');
-            renderGestureImages($(gesturePreview).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+            var gesturePreview = getSimpleGestureListThumbnail(gesture, 'rudimentary-gesture-thumbnail', 'col-xs-5 col-md-4 col-lg-3');
             $(row).append(gesturePreview);
 
             var details = document.createElement('div');

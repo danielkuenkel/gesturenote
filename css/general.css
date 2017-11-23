@@ -265,6 +265,10 @@ footer .glyphicon {
     color: #B85B90;
 }
 
+.label {
+    margin-right: 2px;
+}
+
 .btn-gn {
     color: white;
     border-color: #B85B90;

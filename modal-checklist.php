@@ -76,10 +76,9 @@ include './includes/language.php';
     });
 
     function renderData() {
-
         for (var k = 0; k < currentAssignment.gestures.length; k++) {
             var gesture = getGestureById(currentAssignment.gestures[k], ELICITED_GESTURES);
-            var involvedGesture = getSimpleGestureListThumbnail($('#simple-gesture-thumbnail').clone(), gesture, 'col-xs-6 col-md-4 col-lg-3', parseInt(currentAssignment.mainGestureId) === parseInt(gesture.id) ? 'panel-info' : 'panel-default');
+            var involvedGesture = getSimpleGestureListThumbnail(gesture, 'simple-gesture-thumbnail', 'col-xs-6 col-md-4 col-lg-3');
             $('#gesture-details').find('#gestures-list-container').append(involvedGesture);
         }
 
@@ -87,7 +86,7 @@ include './includes/language.php';
         var items = getAssembledItems(classification.checklist.items);
 
         if (currentAssignment && currentAssignment.checklist && currentAssignment.checklist.answers && currentAssignment.checklist.answers.length > 0) {
-            renderQuestionnaire(('#editable-checklist'), items, currentAssignment.checklist.answers);
+            renderQuestionnaire(('#editable-checklist'), items, {answers: currentAssignment.checklist.answers});
         } else {
             renderQuestionnaire(('#editable-checklist'), items, null);
         }

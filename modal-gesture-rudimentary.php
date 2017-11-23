@@ -425,7 +425,7 @@ include 'includes/language.php';
                         $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').removeClass('disabled');
                         if (result.status === RESULT_SUCCESS) {
                             updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, type: type, interactionType: interactionType, context: result.context, association: association, description: result.description, joints: result.joints});
-                            $(thumbnail).find('.title-text').text(title);
+                            $(thumbnail).find('.gesture-name').text(title);
                             $(button).removeClass('gesture-editable').addClass('gesture-previewable');
                             $(button).find('.btn-text').text(translation.edit);
                             $('#modal-body #gesture-data-preview').removeClass('hidden');

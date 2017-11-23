@@ -91,6 +91,7 @@ var ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION = 'no-more-gestures-for-classifica
 var ALERT_NO_GESTURE_SETS_FOR_STUDY = 'no-gesture-sets-for-study';
 var ALERT_GESTURE_SET_TITLE_TOO_SHORT = 'gesture-set-title-too-short';
 var ALERT_EMPTY_GESTURE_SET = 'empty-gesture-set';
+var ALERT_NOT_ASSIGNED_TO_GESTURE_SET = 'not-assigned-to-gesture-set';
 
 // create study alert modal hints
 var ALERT_NO_DATA_QUESTIONNAIRE = 'no-data-questionnaire';

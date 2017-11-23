@@ -252,7 +252,7 @@ if (login_check($mysqli) == true) {
                 if (!event.handled) {
                     event.handled = true;
                     clearAlerts($('#update-form'));
-                    updateFormhashEvaluator($('#update-form'), $('#update-form'));
+                    updateFormhashEvaluator($('#update-form'));
                 }
             });
 

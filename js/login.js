@@ -8,7 +8,6 @@ var form = null;
 $(document).on('click', '#btn-login', function (event) {
     event.preventDefault();
     if (!$(this).hasClass('disabled')) {
-        lockButton($(this), true, 'fa-unlock-alt');
         form = 'login';
         clearAlerts($('#login-form'));
         loginFormhash($('#login-form'), $('#login-form #email'), $('#login-form #password'));
@@ -18,7 +17,6 @@ $(document).on('click', '#btn-login', function (event) {
 $(document).on('click', '#btn-forgot-password', function (event) {
     event.preventDefault();
     if (!$(this).hasClass('disabled')) {
-        lockButton($(this), true, 'fa-question');
         form = 'forgot';
         clearAlerts($('#login-form'));
         forgotFormhash($('#login-form'), $('#login-form #email'));
@@ -29,10 +27,10 @@ $(document).on('submit', '#login-form', function (event) {
     event.preventDefault();
     var formElement = $(this);
     clearAlerts(formElement);
-//    disableInputs();
 
     if (form === 'login') {
         var data = {email: $('#login-form #email').val().trim(), p: $('#login-form #p').val()};
+        lockButton($(formElement).find('#btn-login'), true, 'fa-unlock-alt');
         login(data, function (result) {
             unlockButton($(formElement).find('#btn-login'), true, 'fa-unlock-alt');
             
@@ -51,7 +49,7 @@ $(document).on('submit', '#login-form', function (event) {
             }
         });
     } else if (form === 'forgot') {
-        console.log('reset password');
+        lockButton($(formElement).find('#btn-forgot-password'), true, 'fa-unlock-alt');
         requestPasswordReset({email: $('#login-form #email').val().trim()}, function (result) {
             unlockButton($(formElement).find('#btn-forgot-password'), true, 'fa-unlock-alt');
 
