@@ -848,7 +848,7 @@ li.disabledTab > a[data-toggle="tab"] {
     .btn-close-overlay {
         margin-top: -31px;
     }
-    
+
 }
 @media (min-width: 992px) {
     .btn-close-overlay {
@@ -877,4 +877,42 @@ li.disabledTab > a[data-toggle="tab"] {
     -moz-transition:opacity 300ms ease-out;
     -o-transition:opacity 300ms ease-out;
     transition:opacity 300ms ease-out;
+}
+
+.navbar-fixed-bottom .navbar-right {
+    display: flex;
+    margin-top: 9px;
+}
+
+.navbar-fixed-bottom li a {
+    letter-spacing: 1px;
+    font-size: 10px;
+    color: white;
+    text-transform: uppercase;
+}
+
+.navbar-fixed-bottom li a:active,
+.navbar-fixed-bottom li a:hover {
+    background-color: transparent;
+}
+
+.navbar-fixed-bottom .nav .open>a, 
+.navbar-fixed-bottom .nav .open>a:focus, 
+.navbar-fixed-bottom .nav .open>a:hover {
+    background-color: transparent;
+}
+
+.language-selection li a {
+    color: #303030 !important;
+    padding: 5px 14px 5px 14px;
+}
+
+.language-selection li a:focus,
+.language-selection li a:hover,
+.language-selection li a:active {
+    background-color: #cccccc !important;
+}
+
+.language-selection li a.selected {
+    background-color: #e7e7e7 !important;
 }

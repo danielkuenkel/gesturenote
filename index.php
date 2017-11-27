@@ -1,5 +1,5 @@
 <?php
-include './includes/language.php';
+include_once './includes/language.php';
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
@@ -41,28 +41,6 @@ if (login_check($mysqli) == true) {
 
         <!-- externals -->
         <div id="alerts"></div>
-
-        <!--        <nav class="navbar navbar-default navbar-fixed-top">
-                    <div class="container">
-                                                        <div class="navbar-header">
-                                                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                                                                <span class="icon-bar"></span>
-                                                                <span class="icon-bar"></span>
-                                                                <span class="icon-bar"></span>
-                                                                <span class="icon-bar"></span>   
-                                                            </button>
-                                                            <a class="navbar-brand" href="#pageBody"><span class="glyphicon glyphicon-stats"></span> GestureNote</a>
-                                                        </div>
-                        <div class="collapse navbar-collapse" id="myNavbar">
-                        <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#about"><span class="btn-text uppercase"><?php echo $lang->about ?></span></a></li>
-                            <li><a href="#services"><span class="btn-text uppercase"><?php echo $lang->services ?></span></a></li>
-                            <li><a href="#contact"><span class="btn-text uppercase"><?php echo $lang->contact ?></span></a></li>
-                            <li><a href="#login"><span class="glyphicon glyphicon-log-in"></span> <span class="btn-text uppercase"><?php echo $lang->signIn ?></span></a></li>
-                        </ul>
-                        </div>
-                    </div>
-                </nav>-->
 
         <div class="jumbotron text-center">
             <div><h1><i class="glyphicon glyphicon-stats"></i> <?php echo $lang->gesturenote ?> <sup><span class="label label-success uppercase" style="position: relative; font-size: 8pt; top: -15px"><?php echo $lang->beta ?></span></sup></h1></div>
@@ -125,7 +103,7 @@ if (login_check($mysqli) == true) {
                 <div class="col-sm-6 col-sm-pull-6 col-md-6" id="about">
                     <div class="info">
                         <div class="page-header">
-                            <h2>WAS IST GESTURENOTE?</h2>
+                            <h2 class="uppercase">WAS IST GESTURENOTE?</h2>
                         </div>
                         <div class="info-text text">
                             <p>Die Vision von GestureNote ist, unterschiedliche und typisch verwendete Vorgehensweisen, Ansätze und Methoden in einem einzigen Tool zu vereinen.</p>
@@ -142,22 +120,22 @@ if (login_check($mysqli) == true) {
         <!-- Container (Services Section) -->
         <div id="services" class="container-fluid text-center bg-grey">
             <div class="container">
-                <h2>WAS BIETET GESTURENOTE?</h2>
+                <h2 class="uppercase">Was bietet GestureNote?</h2>
                 <br>
                 <div class="row">
                     <div class="col-sm-4">
                         <i class="fa fa-users logo-small" style="font-size: 50px"></i>
-                        <h4>REMOTE USABILITY-TESTS</h4>
+                        <h4 class="uppercase">REMOTE USABILITY-TESTS</h4>
                         <p>Befragen Sie einfach und umkompliziert ihre Zielgruppe - Weltweit!</p>
                     </div>
                     <div class="col-sm-4">
                         <i class="fa fa-sign-language logo-small" style="font-size: 50px"></i>
-                        <h4>DESIGN VON GESTEN</h4>
+                        <h4 class="uppercase">DESIGN VON GESTEN</h4>
                         <p>Die Designphasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluierung</em> werden unterstützt.</p>
                     </div>
                     <div class="col-sm-4">
                         <i class="fa fa-pencil logo-small" style="font-size: 50px"></i>
-                        <h4>EINFACHE STUDIEN-ERSTELLUNG</h4>
+                        <h4 class="uppercase">EINFACHE STUDIEN-ERSTELLUNG</h4>
                         <p>Schnelle und einfache Erstellung von Leitfäden.</p>
                     </div>
                 </div>
@@ -165,24 +143,24 @@ if (login_check($mysqli) == true) {
                     <div class="col-sm-4">
                         <i class="fa fa-archive logo-small" style="font-size: 50px"></i>
 
-                        <h4>MESSINSTRUMENTE</h4>
+                        <h4 class="uppercase">MESSINSTRUMENTE</h4>
                         <p>Gesture Usability Scales, Beobachtungsleitfäden, etc. Speziell entwickelt für Gesteninteraktionen.</p>
                     </div>
                     <div class="col-sm-4">
                         <i class="fa fa-map-signs logo-small" style="font-size: 50px"></i>
-                        <h4>STYLEGUIDES</h4>
+                        <h4 class="uppercase">STYLEGUIDES</h4>
                         <p>Sie wissen nicht weiter? GestureNote bietet Styleguides für gebrauchstaugliche Gesten an.</p>
                     </div>
                     <div class="col-sm-4">
                         <i class="fa fa-wrench logo-small" style="font-size: 50px"></i>
-                        <h4>AKTUELLE TECHNOLOGIEN</h4>
+                        <h4 class="uppercase">AKTUELLE TECHNOLOGIEN</h4>
                         <p>Einsatz von AJAX, WebRTC, sowie aktuellen Frameworks und APIs.</p>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 30px;">
                     <div class="col-sm-4 col-sm-offset-4">
                         <i class="fa fa-lock logo-small" style="font-size: 50px"></i>
-                        <h4>SSL VERSCHLÜSSELUNG</h4>
+                        <h4 class="uppercase">SSL VERSCHLÜSSELUNG</h4>
                         <p>
                             <a href="https://www.positivessl.com" style="font-family: arial; font-size: 10px; color: #212121; text-decoration: none;"><img src="https://www.positivessl.com/images-new/PositiveSSL_tl_trans.png" alt="SSL Certificate" title="SSL Certificate" border="0" /></a>
                         </p>
@@ -200,7 +178,7 @@ if (login_check($mysqli) == true) {
         <!-- Container (Contact Section) -->
         <div id="contact" class="container-fluid">
             <div class="container">
-                <h2>KONTAKT</h2>
+                <h2 class="uppercase">KONTAKT</h2>
                 <div class="row">
                     <div class="col-sm-5">
                         <p>Lob, Kritik, Ideen oder Visionen. Kontaktieren Sie uns einfach, denn Ihre Meinung ist uns wichtig! Wir freuen uns auf Sie.</p>
@@ -284,16 +262,17 @@ if (login_check($mysqli) == true) {
         <!-- Fixed Footer -->
         <nav class="navbar navbar-default navbar-fixed-bottom">
             <div class="container">
-                <div class="row">
-                    <div class="col-xs-5">
-                        <span class="footer-copyright"><i class="glyphicon glyphicon-copyright-mark"></i> DANIEL KUENKEL</span>
-                    </div>
-                    <div class="col-xs-7">
-                        <ul class="nav nav-pills navbar-right">
-                            <li role="presentation"><a href="imprint.php" class="no-scrolling"><?php echo $lang->imprint ?></a></li>
+                <span class="footer-copyright uppercase"><i class="glyphicon glyphicon-copyright-mark"></i> Daniel Künkel</span>
+                <ul class="nav navbar-right">
+                    <li class="dropdown language-selection" id="language-selection">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src=""> <span class="language-indicator"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" id="de"><img src="img/flags/de.png"> <span><?php echo $lang->languages->de->language ?></span></a></li>
+                            <li><a href="#" id="en"><img src="img/flags/en.png"> <span><?php echo $lang->languages->en->language ?></span></a></li>
                         </ul>
-                    </div>
-                </div>
+                    </li>
+                    <li role="presentation"><a href="imprint.php" class="no-scrolling"><?php echo $lang->imprint ?></a></li>
+                </ul>
             </div>
         </nav>
 
@@ -302,6 +281,7 @@ if (login_check($mysqli) == true) {
             $(document).ready(function () {
                 checkDomain();
                 checkLanguage(function () {
+                    updateLanguageIndicator($('#language-selection'));
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     loadExternals(externals);
@@ -309,25 +289,27 @@ if (login_check($mysqli) == true) {
             });
 
             function onAllExternalsLoadedSuccessfully() {
+
+
                 // Add smooth scrolling to all links in navbar + footer link
-//                $(".navbar a, footer a[href='#pageBody']").on('click', function (event) {
-//                    if (!$(this).hasClass('no-scrolling')) {
-//                        event.preventDefault();
-//
-//                        // Store hash
-//                        var hash = this.hash;
-//
-//                        // Using jQuery's animate() method to add smooth page scroll
-//                        // The optional number (400) specifies the number of milliseconds it takes to scroll to the specified area
-//                        $('html, body').animate({
-//                            scrollTop: $(hash).offset().top - 50
-//                        }, 400, function () {
-//
-//                            // Add hash (#) to URL when done scrolling (default click behavior)
-//                            window.location.hash = hash;
-//                        });
-//                    }
-//                });
+    //                $(".navbar a, footer a[href='#pageBody']").on('click', function (event) {
+    //                    if (!$(this).hasClass('no-scrolling')) {
+    //                        event.preventDefault();
+    //
+    //                        // Store hash
+    //                        var hash = this.hash;
+    //
+    //                        // Using jQuery's animate() method to add smooth page scroll
+    //                        // The optional number (400) specifies the number of milliseconds it takes to scroll to the specified area
+    //                        $('html, body').animate({
+    //                            scrollTop: $(hash).offset().top - 50
+    //                        }, 400, function () {
+    //
+    //                            // Add hash (#) to URL when done scrolling (default click behavior)
+    //                            window.location.hash = hash;
+    //                        });
+    //                    }
+    //                });
 
                 $('#login-form #password, #login-form #email').keypress(function (event) {
                     if (event.keyCode === 13) {

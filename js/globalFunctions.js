@@ -91,6 +91,15 @@ function getBrowser() {
     return browserName;
 }
 
+/*
+ * language indicator
+ */
+function updateLanguageIndicator(target) {
+    $(target).find('#' + currentLanguage).addClass('selected');
+    $(target).find('.language-indicator').text(translation.languages[currentLanguage].language);
+    $(target).find('.dropdown-toggle img').attr('src', 'img/flags/' + currentLanguage + '.png');
+}
+
 function statusAddressMatchIndex(phaseStepId) {
     var phaseSteps = getContextualPhaseSteps();
     if (phaseSteps && phaseSteps.length > 0) {
@@ -194,9 +203,24 @@ function renderSubPageElements(hasTopNavbar, hasNoImprint) {
     }
 
     if (hasNoImprint === true) {
-        footer.find('#btn-imprint').parent().addClass('hidden');
+        footer.find('#btn-imprint').addClass('hidden');
     }
+
+    updateLanguageIndicator($(footer).find('#language-selection'));
 }
+
+$(document).on('click', '#language-selection li a', function (event) {
+    event.preventDefault();
+    if (!$(this).hasClass('selected')) {
+        $(this).closest('.dropdown-menu').find('a').removeClass('selected');
+        $(this).addClass('selected');
+        changeLanguage({lang: $(this).attr('id')}, function (result) {
+            if (result.status === RESULT_SUCCESS) {
+                location.reload();
+            }
+        });
+    }
+});
 
 $(document).on('click', '.select .option li', function (event) {
     event.preventDefault();
@@ -2590,7 +2614,7 @@ $(document).on('click', '.audioPlayer #stop', function (event) {
 
 /*
  * webRTC specific functions
- */ 
+ */
 
 function isWebRTCNeeded() {
     var phaseSteps = getContextualPhaseSteps();

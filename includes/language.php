@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+session_start();
 class language {
 
     public $data;
@@ -21,14 +21,16 @@ class language {
         }
         $data = file_get_contents($additionalPath . "externals/" . $language . "/" . $language . ".json");
         $this->data = json_decode($data);
+        $_SESSION['lang'] = $language;
     }
 
     function translate() {
         return $this->data;
     }
-
 }
 
+
+$sessionLanguage = $_SESSION['lang'];
 $browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-$language = new language($browserLanguage);
+$language = new language($sessionLanguage ? $sessionLanguage : $browserLanguage);
 $lang = $language->translate();

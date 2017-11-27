@@ -52,7 +52,7 @@ if (login_check($mysqli) == true) {
             <div class="container" id="breadcrumb">
                 <div class="row">
                     <ol class="breadcrumb" style="margin: 0">
-                        <li><a class="breadcrump-btn" id="btn-index"><?php echo $lang->breadcrump->home ?></a></li>
+                        <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
                         <li class="active"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></li>
                     </ol>
                 </div>

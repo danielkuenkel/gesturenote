@@ -46,7 +46,7 @@ if (login_check($mysqli) == true) {
         <div id="alerts"></div>
         <div id="template-subpages"></div>
 
-        
+
         <!-- Container (Breadcrump) -->
         <div class="container" id="breadcrumb"style="margin-top: 40px">
             <div class="row">
@@ -58,33 +58,25 @@ if (login_check($mysqli) == true) {
             </div>
         </div>
 
-        
+
         <!-- Container (Landing Section) -->
         <div class="container mainContent" style="margin-top: 0px">
             <div class="row">
                 <div class="col-md-7">
-                    <div class="panel panel-default" id="general-preview">
-                        <div class="panel-heading">
-                            <h2 class="panel-title"></h2>
-                        </div>
-                        <div class="panel-body">
+                    <h4><?php echo $lang->general ?></h4>
+                    <hr style="margin-top: 0">
+                    <div class="" id="general-preview">
+                        <div class="form-group">
                             <div id="user-forename"><span class="address"></span> <span class="text"></span></div>
                             <div id="user-surname"><span class="address"></span> <span class="text"></span></div>
                             <div id="user-email"><span class="address"></span> <span class="text"></span></div>
                             <div id="user-type"><span class="address"></span> <span class="text"></span></div>
-                            <!--<div id="user-birthday"><span class="address"></span> <span class="text"></span></div>-->
                             <div id="user-registered"><span class="address"></span> <span class="text"></span></div>
                         </div>
-                        <div class="panel-footer">
-                            <button type="button" class="btn btn-default btn-shadow pull-right disabled" id="btn-edit-profile"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                            <div class="clearfix"></div>
-                        </div>
+                        <button type="button" class="btn btn-default btn-shadow disabled" id="btn-edit-profile"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
                     </div>
-                    <div class="panel panel-default hidden" id="general-edit">
-                        <div class="panel-heading">
-                            <h2 class="panel-title"></h2>
-                        </div>
-                        <div class="panel-body">
+                    <div class=" hidden" id="general-edit">
+                        <div class="">
 
                             <div id="update-form">
                                 <div class="alert-space alert-general-error"></div>
@@ -98,14 +90,6 @@ if (login_check($mysqli) == true) {
                                     <label for="surname" id="label-surname"></label>
                                     <input type="text" class="form-control" name="surname" id="input-surname" placeholder="">
                                 </div>
-
-                                <!--                            <div class="alert-space alert-user-exists"></div>
-                                                            <div class="alert-space alert-invalid-email"></div>
-                                
-                                                            <div class="form-group">
-                                                                <label for="email" id="label-email"></label>
-                                                                <input type="email" class="form-control" name="email" id="input-email" placeholder="">
-                                                            </div>-->
 
                                 <hr>
 
@@ -129,38 +113,105 @@ if (login_check($mysqli) == true) {
                                     <input type="password" class="form-control" name="confirmPassword" id="input-confirm-new-password" placeholder="">
                                 </div>
 
-                                <!--                                <hr>
-                                
-                                                                <div class="alert-space alert-invalid-birthday"></div>
-                                
-                                                                <div class="form-group">
-                                                                    <label id="label-birthday"></label>
-                                                                    <div class="input-group" id="input-birthday">
-                                                                        <span class="input-group-addon" id="label-date"></span>
-                                                                        <input class="form-control" id="input-date" type="text" placeholder="z.B. 1" minlength="1" maxlength="2"/>
-                                                                        <span class="input-group-addon" id="label-month"></span>
-                                                                        <input class="form-control" id="input-month" type="text" placeholder="z.B. 12" minlength="1" maxlength="2"/>
-                                                                        <span class="input-group-addon" id="label-year"></span>
-                                                                        <input class="form-control" id="input-year" type="text" placeholder="z.B. 1980" minlength="4" maxlength="4"/>
-                                                                    </div>
-                                                                </div>-->
                             </div>
 
                         </div>
-                        <div class="panel-footer">
-                            <div class="btn-group pull-right">
-                                <button type="button" class="btn btn-danger btn-shadow" id="btn-cancel-edit-profile"><i class="fa fa-close" aria-hidden="true"></i> <span class="btn-text"></span></button>
-                                <button type="button" class="btn btn-default btn-shadow" id="btn-update-profile"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger btn-shadow" id="btn-cancel-edit-profile"><i class="fa fa-close" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                            <button type="button" class="btn btn-default btn-shadow" id="btn-update-profile"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"></span></button>
+                        </div>
+                    </div>
+
+
+
+                    <div id="introduction-settings" style="margin-top: 40px">
+                        <h4>Hilfe</h4>
+                        <hr style="margin-top: 0">
+                        <div class="form-group root" id="tutorialStudyCreation" data-help-context="studyCreation">
+                            <label><?php echo $lang->tutorialStudyCreationQuestion ?></label><br/>
+
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="no">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->no ?></span>
+                                </button>
                             </div>
-                            <div class="clearfix"></div>
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->yes ?></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group root" id="tutorialStudyPreview" data-help-context="studyPreview">
+                            <label><?php echo $lang->tutorialStudyPreviewQuestion ?></label><br/>
+
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="no">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->no ?></span>
+                                </button>
+                            </div>
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->yes ?></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group root" id="tutorialStudy" data-help-context="study">
+                            <label><?php echo $lang->tutorialStudyQuestion ?></label><br/>
+
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="no">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->no ?></span>
+                                </button>
+                            </div>
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->yes ?></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-5">
-                    <div class="panel panel-default" id="gestures-overview">
-                        <div class="panel-heading"></div>
+                    <div class="panel panel-default" id="statistics">
+                        <div class="panel-heading">Statistik</div>
                         <div class="panel-body">
-
+                            <div id="stats-studies"><?php echo $lang->stats->studies ?>: <span class="amount text"></span></div>
+                            <div id="stats-gestures"><?php echo $lang->stats->gestures ?>: <span class="amount text"></span></div>
+                            <div id="stats-gestures-shared"><?php echo $lang->stats->gesturesShared ?>: <span class="amount text"></span></div>
+                            <div id="stats-gestures-liked"><?php echo $lang->stats->gesturesLiked ?>: <span class="amount text"></span></div>
+                            <div id="stats-gestures-rated"><?php echo $lang->stats->gesturesRated ?>: <span class="amount text"></span></div>
                         </div>
                     </div>
                 </div>
@@ -205,7 +256,6 @@ if (login_check($mysqli) == true) {
                         $('#user-email .address').text(translation.email + ": ");
                         $('#label-email').text(translation.email);
                         $('#user-email .text').text(user.email);
-//                        $('#input-email').val(user.email);
 
                         $('#label-current-password').text(translation.currentPassword);
                         $('#label-new-password').text(translation.newPassword);
@@ -214,19 +264,19 @@ if (login_check($mysqli) == true) {
                         $('#user-type .address').text(translation.userType + ": ");
                         $('#user-type .text').text(translation.userTypes[user.userType]);
 
-//                        var birthday = new Date(user.birthday);
-//                        $('#user-birthday .address').text(translation.birthday + ": ");
-//                        $('#label-birthday').text(translation.birthday);
-//                        $('#user-birthday .text').text(birthday.toLocaleDateString());
-//                        $('#label-date').text(translation.day);
-//                        $('#input-date').val(birthday.getDate());
-//                        $('#label-month').text(translation.month);
-//                        $('#input-month').val(parseInt(birthday.getMonth()) + 1);
-//                        $('#label-year').text(translation.year);
-//                        $('#input-year').val(birthday.getFullYear());
-
                         $('#user-registered .address').text(translation.userRegistered + ": ");
                         $('#user-registered .text').text(convertSQLTimestampToDate(user.created).toLocaleDateString());
+
+                        $('#tutorialStudyCreation').find(parseInt(user.tutorialStudyCreation) === 0 ? '#no' : '#yes').click();
+                        $('#tutorialStudyPreview').find(parseInt(user.tutorialStudyPreview) === 0 ? '#no' : '#yes').click();
+                        $('#tutorialStudy').find(parseInt(user.tutorialStudy) === 0 ? '#no' : '#yes').click();
+                        
+                        // render statistics
+                        $('#stats-studies .amount').text(user.statistics.totalStudies);
+                        $('#stats-gestures .amount').text(user.statistics.totalGestures);
+                        $('#stats-gestures-shared .amount').text(user.statistics.sharedGestures);
+                        $('#stats-gestures-liked .amount').text(user.statistics.likedGestures);
+                        $('#stats-gestures-rated .amount').text(user.statistics.ratedGestures);
                     }
                 });
             }
@@ -263,7 +313,6 @@ if (login_check($mysqli) == true) {
 
                 var forename = $('#update-form #input-forename').val().trim();
                 var surname = $('#update-form #input-surname').val().trim();
-//                var email = $('#update-form #input-email').val().trim();
                 var p, pO = null;
                 if ($('#update-form #p') !== undefined && $('#update-form #p').length !== 0) {
                     p = $('#update-form #p').val().trim();
@@ -271,18 +320,12 @@ if (login_check($mysqli) == true) {
                 if ($('#update-form #pO') !== undefined && $('#update-form #pO').length !== 0) {
                     pO = $('#update-form #pO').val().trim();
                 }
-//                var date = parseInt($('#update-form #input-date').val().trim());
-//                var month = parseInt($('#update-form #input-month').val().trim());
-//                var year = parseInt($('#update-form #input-year').val().trim());
-//                var birthday = year + "-" + month + "-" + date;
 
                 if (p !== null && pO !== null) {
                     updateUser({forename: forename, surname: surname, p: p, pO: pO, birthday: null}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             $('#user-forename .text').text(forename);
                             $('#user-surname .text').text(surname);
-//                            $('#user-email .text').text(email);
-//                            $('#user-birthday .text').text(new Date(year, month - 1, date, 0, 0, 0, 0).toLocaleDateString());
                             $('#general-edit').addClass('hidden');
                             $('#general-preview').removeClass('hidden');
                             $('#input-current-password').val('');
@@ -301,8 +344,6 @@ if (login_check($mysqli) == true) {
                         if (result.status === RESULT_SUCCESS) {
                             $('#user-forename .text').text(forename);
                             $('#user-surname .text').text(surname);
-//                            $('#user-email .text').text(email);
-//                            $('#user-birthday .text').text(new Date(year, month - 1, date, 0, 0, 0, 0).toLocaleDateString());
                             $('#general-edit').addClass('hidden');
                             $('#general-preview').removeClass('hidden');
                             $('#input-current-password').val('');
@@ -315,6 +356,13 @@ if (login_check($mysqli) == true) {
                         }
                     });
                 }
+            });
+
+            $('#tutorialStudyCreation, #tutorialStudyPreview, #tutorialStudy').unbind('change').bind('change', function (event) {
+                event.preventDefault();
+                var context = $(this).attr('data-help-context');
+                var showTutorial = $(this).find('.btn-option-checked').attr('id') === 'yes' ? 1 : 0;
+                updateIntroduction({context: context, dontShowIntroduction: showTutorial});
             });
         </script>
 

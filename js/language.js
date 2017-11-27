@@ -8,20 +8,25 @@
 var LANGUAGE_EN = 'en';
 var LANGUAGE_DE = 'de';
 
-var currentLanguage = LANGUAGE_EN;
+var currentLanguage = null;
 var translation = null;
 
 function checkLanguage(callback) {
-    if (navigator.language.indexOf(LANGUAGE_EN) > -1) {
-        currentLanguage = LANGUAGE_EN;
-        console.log('language: english');
-    } else if (navigator.language.indexOf(LANGUAGE_DE) > -1) {
-        currentLanguage = LANGUAGE_DE;
-        console.log('language: deutsch');
-    }
+    getLanguage(function (result) {
 
-    $.getJSON('externals/' + currentLanguage + '/' + currentLanguage + '.json', function (data) {
-        translation = data;
-        callback();
+        if (result.lang && result.lang !== null) {
+            currentLanguage = result.lang;
+            $.getJSON('externals/' + currentLanguage + '/' + currentLanguage + '.json', function (data) {
+                translation = data;
+                console.log(translation.languages[currentLanguage]);
+                if (callback) {
+                    callback();
+                }
+            });
+        } else {
+            if (callback) {
+                callback();
+            }
+        }
     });
 }

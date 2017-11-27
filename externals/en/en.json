@@ -37,5 +37,18 @@
             "adjective": "worst imaginable",
             "score": "12.5"
         }
-    ]
+    ],
+    "languages": {
+        "de": {
+            "countryCode": "de",
+            "language": "Deutsch",
+            "short": "DE"
+        },
+        "en": {
+            "countryCode": "en",
+            "language": "English",
+            "short": "EN"
+        }
+    }
 }
+

@@ -142,6 +142,13 @@
     "userRegistered": "Registriert seit",
     "editProfile": "Daten bearbeiten",
     "updateProfile": "Profildaten aktualisieren",
+    "stats": {
+        "studies": "Studien erstellt",
+        "gestures": "Gesten erstellt",
+        "gesturesShared": "Gesten geteilt",
+        "gesturesLiked": "Gesten favorisiert",
+        "gesturesRated": "Gesten bewertet"
+    },
     "openSet": "Öffnen",
     "arrangeSet": "Set zusammenstellen",
     "close": "Schließen",
@@ -978,6 +985,9 @@
     "wrongGesture": "Falsche Geste",
     "answer": "Antwort",
     "answers": "Antworten",
+    "tutorialStudyCreationQuestion": "Hilfe bei Studien-Erstellung automatisch einblenden?",
+    "tutorialStudyPreviewQuestion": "Hilfe bei Studien-Vorschau automatisch einblenden?",
+    "tutorialStudyQuestion": "Hilfe bei Studie automatisch einblenden?",
     "gus": "GUS (Gesture Usability Scale)",
     "recordedGestures": "Aufgezeichnete Gesten",
     "gestureName": "Gesten-Name",
@@ -1040,9 +1050,9 @@
     },
     "gesturesCatalog": {
         "totalGestures": "Gesten insgesamt",
-        "publicGestures": "Von anderen veröffentlichte Gesten",
-        "userGestures": "Eigene Gesten",
-        "publicUserGestures": "Eigene veröffentlichte Gesten",
+        "publicGestures": "Von anderen geteilte Gesten",
+        "userGestures": "Erstellte Gesten",
+        "publicUserGestures": "Geteilte Gesten",
         "elicitedGestures": "Ermittelte Gesten"
     },
     "mainDimensions": {
@@ -3202,5 +3212,17 @@
             "title": "Allgemeines, Kataloge & Leitfaden",
             "text": "Dies ist ein Infotext …"
         }
-    ]
+    ],
+    "languages": {
+        "de": {
+            "countryCode": "de",
+            "language": "Deutsch",
+            "short": "DE"
+        },
+        "en": {
+            "countryCode": "en",
+            "language": "English",
+            "short": "EN"
+        }
+    }
 }

@@ -38,6 +38,7 @@ if (login_check($mysqli) == true) {
         <script src="js/goto-tester.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
+        <script src="js/storage.js"></script>
         <script src="js/sha512.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">

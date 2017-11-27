@@ -2,6 +2,7 @@
 include_once 'functions.php';
 session_start();
  
+$lang = $_SESSION['lang'];
 // Unset all session values 
 $_SESSION = array();
  
@@ -18,5 +19,6 @@ setcookie(session_name(),
  
 // Destroy session 
 session_destroy();
+$_SESSION['lang'] = $lang;
 header('Location: ../index.php');
 exit();

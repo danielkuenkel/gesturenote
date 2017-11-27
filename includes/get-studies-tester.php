@@ -27,9 +27,9 @@ if (isset($_SESSION['user_id'])) {
 
                 if (isset($decodedData->generalData, $decodedData->generalData->panelSurvey, $decodedData->generalData->ageRange, $decodedData->generalData->gender) && $decodedData->generalData->panelSurvey == "yes" && $decodedData->generalData->ageRange != "" && $decodedData->generalData->gender != "") {
                     $genderConstraint = $decodedData->generalData->gender;
-                    $ageConstraint = explode(",", $decodedData->generalData->ageRange);
-                    $ageFrom = intval($ageConstraint[0]);
-                    $ageTo = intval($ageConstraint[1]);
+//                    $ageConstraint = explode(",", $decodedData->generalData->ageRange);
+                    $ageFrom = intval($decodedData->generalData->ageRange->min);
+                    $ageTo = intval($decodedData->generalData->ageRange->max);
                     $now = time();
                     $dateFrom = intval($decodedData->generalData->dateFrom);
                     $dateTo = intval($decodedData->generalData->dateTo);

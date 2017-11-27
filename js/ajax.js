@@ -24,6 +24,39 @@ function ajaxError(xhr, desc, err) {
     console.log("Details: " + desc + "\nError:" + err);
 }
 
+function changeLanguage(data, callback) {
+    $.ajax({
+        url: 'includes/change-language.php',
+        data: data,
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
+function getLanguage(callback) {
+    $.ajax({
+        url: 'includes/get-language.php',
+        type: 'post',
+        async: true,
+        success: function (result) {
+            if (callback) {
+                callback(result);
+            }
+        },
+        error: function (xhr, desc, err) {
+            ajaxError(xhr, desc, err);
+        }
+    });
+}
+
 function login(data, callback) {
     $.ajax({
         url: 'includes/process_login.php',
