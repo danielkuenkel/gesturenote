@@ -25,7 +25,7 @@ if ($h && $token && $studyId) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -76,15 +76,6 @@ if ($h && $token && $studyId) {
             </div>
         </div>
 
-        <!-- Container (Landing Section) --> 
-        <!--        <div class="container-fluid text-center bg-grey" id="landingText">
-                    <div class="container">
-                        <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase">An Studie teilnehmen</span></h1>
-                        <p class="text">Haben Sie ein Account bei GestureNote? Dann loggen Sie sich bitte ein. </p>
-                        <p class="text">Sind Sie auf dieser Seite gelandet, weil Sie einen Link für die Teilnahme an einer Studie erhalten haben? Sie können ohne Account fortfahren indem Sie auf "Teilnahme ohne Account" klicken. Oder Sie registrieren sich bei GestureNote und können in Zukunft an weiteren interessanten Studien teilnehmen, ganz ohne Einladung.</p>
-                    </div>
-                </div>-->
-
         <!-- Container (Panel Section) -->
         <div class="container mainContent" >
 
@@ -125,7 +116,6 @@ if ($h && $token && $studyId) {
                             <div class="btn-group">
                                 <button class="btn btn-danger btn-shadow" id="btn-close-call"><i class="fa fa-close"></i> <?php echo $lang->close ?></button>
                                 <button class="btn btn-success btn-shadow disabled" id="btn-enter-study"><i class="fa fa-chevron-right"></i> <?php echo $lang->enterStudyAsModerator ?></button>
-                                <!--<button class="btn btn-success btn-shadow disabled" id="btn-start-screen-sharing">Screensharing starten</button>-->
                             </div>
                         </div>
 
@@ -135,9 +125,9 @@ if ($h && $token && $studyId) {
                                 <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
                             </div>
                             <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                                <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="Mikrofon stummschalten"><i class="fa fa-microphone-slash"></i> </button>
-                                <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="Übertragung pausieren"><i class="fa fa-pause"></i> </button>
-                                <button type="button" class="btn stream-control disabled" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="Gesprächspartner stummschalten"><i class="fa fa-volume-up"></i> </button>
+                                <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                                <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                                <button type="button" class="btn stream-control disabled" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
                             </div>
                             <div id="stream-control-indicator">
                                 <div style="position: absolute; top: 4px; display: block; left: 25px; opacity: 1; color: white">
@@ -158,13 +148,9 @@ if ($h && $token && $studyId) {
 
         <div class="root col-xs-12 col-lg-6 hidden" id="queue-thumbnail">
             <div class="panel panel-default panel-sm btn-shadow">
-                <!--<div class="panel-heading"></div>-->
-
                 <div class="panel-body">
                     <span class="label label-default" id="user"><i class="fa fa-user"></i> <span class="label-text"></span></span>
-                    <span id="waiting" style="margin-left: 6px; font-size: 9pt"><span class="address">wartet:</span> <span class="text"></span></span>
-                    <!--<span class="label label-success hidden" id="execution-success"><i class="fa fa-check"></i> <span class="label-text hidden-xs hidden-sm"></span></span>-->
-                    <!--<span class="label label-danger hidden" id="execution-fault"><i class="fa fa-bolt"></i> <span class="label-text hidden-xs hidden-sm"></span></span>-->
+                    <span id="waiting" style="margin-left: 6px; font-size: 9pt"><span class="address"><?php echo $lang->waiting ?>:</span> <span class="text"></span></span>
                 </div>
             </div>
         </div>

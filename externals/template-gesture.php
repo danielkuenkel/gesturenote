@@ -159,16 +159,9 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
                     </div>
                 </div>
-                <!--                <div class="text-center">
-                                    <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
-                                    <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
-                                </div>-->
             </div>
             <div class="panel-footer">
                 <div class="btn-group btn-group-justified">
-                    <!--                    <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default btn-tag-as-main-gesture" id="btn-tag-as-main-gesture"><i class="fa fa-tag" aria-hidden="true"></i> <span class="btn-text hidden-sm hidden-xs hidden-lg"><?php echo $lang->rep ?></span><span class="btn-text hidden-md"><?php echo $lang->repShort ?></span></button>
-                                        </div>-->
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default" id="btn-show-gesture-info"><span class="btn-text">Mehr</span></button>
                     </div>
@@ -197,8 +190,8 @@ include '../includes/language.php';
             </div>
 
             <div class="thumbnail-footer text-center">
-                <div class="btn-tag-as-favorite-gesture" data-toggle="popover"  data-trigger="hover" data-placement="auto" data-content="Zum Studien-Gesten-Set hinzufügen"><i class="fa fa-plus-square-o"></i></span></div>
-                <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Alle Infos aufrufen"><i class="fa fa-ellipsis-h"></i></div>
+                <div class="btn-tag-as-favorite-gesture" data-toggle="popover"  data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addToStudyGestureSet ?>"><i class="fa fa-plus-square-o"></i></span></div>
+                <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
             </div>
         </div>
     </div>
@@ -226,7 +219,7 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-danger btn-untag-as-favorite-gesture" id="btn-untag-as-favorite-gesture"><i class="fa fa-close" aria-hidden="true"></i></button>
                     </div>
                     <div class="btn-group" role="group">
-                        <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Alle Infos aufrufen"><i class="fa fa-ellipsis-h"></i></div>
+                        <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
                     </div>
                 </div>
             </div>
@@ -255,8 +248,8 @@ include '../includes/language.php';
 
             <div class="thumbnail-footer text-center">
 
-                <div class="btn-add-gesture-to-scene" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Zum Zustand hinzufügen"><i class="fa fa-plus-square-o"></i></span></div>
-                <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Alle Infos aufrufen"><i class="fa fa-ellipsis-h"></i></div>
+                <div class="btn-add-gesture-to-scene" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addToState ?>"><i class="fa fa-plus-square-o"></i></span></div>
+                <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>
             </div>
         </div>
 
@@ -268,8 +261,8 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow" id="btn-delete-gesture-set"><span class="fa fa-trash"></span></button>
             </div>
             <span class="panel-heading-text"></span>
-            <button class="btn btn-default btn-shadow pull-right" id="btn-mark-hole-set"><i class="fa fa-plus"></i> <span class="btn-text">Alle Gesten zum Studien-Gesten-Set hinzufügen</span></button>
-            <button class="btn btn-default btn-shadow pull-right hidden" id="btn-unmark-hole-set"><i class="fa fa-minus"></i> <span class="btn-text">Alle Gesten vom Studien-Gesten-Set entfernen</span></button>
+            <button class="btn btn-default btn-shadow pull-right" id="btn-mark-hole-set"><i class="fa fa-plus"></i> <span class="btn-text"><?php echo $lang->addAllGesturesToStudyGestureSet ?></span></button>
+            <button class="btn btn-default btn-shadow pull-right hidden" id="btn-unmark-hole-set"><i class="fa fa-minus"></i> <span class="btn-text"><?php echo $lang->removeAllGesturesFromStudyGestureSet ?></span></button>
             <div style="clear: both"></div>
         </div>
 

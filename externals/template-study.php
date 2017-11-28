@@ -32,7 +32,6 @@ include '../includes/language.php';
 
     <div id="feedback-catalog-thumbnail">
         <div id="sound" class="hidden">
-            <!--<span class="address"></span>--> 
             <span class="label label-default"><i class="fa fa-volume-up"></i> <?php echo $lang->sound ?></span>
             <span class="text"></span>
 

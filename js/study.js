@@ -79,7 +79,6 @@ function renderData(data, hash) {
 
 
     // phase view
-    $('#study-phases .address').text(translation.phases);
     if (studyData.phases && studyData.phases.length > 0) {
         for (var i = 0; i < studyData.phases.length; i++) {
             var step = document.createElement('div');
@@ -261,7 +260,6 @@ function getStudyCatalogGestures() {
 
 function renderStudyGestures(gestures) {
     $('#study-gestures-catalog').removeClass('hidden');
-    $('#study-gestures-catalog .address').text(translation.studyCatalogs.gestures);
     for (var i = 0; i < gestures.length; i++) {
         var item = getGestureCatalogListThumbnail(gestures[i]);
         $('#study-gestures-catalog .list-container').append(item);
@@ -271,7 +269,6 @@ function renderStudyGestures(gestures) {
 
 function renderStudyScenes(scenes) {
     $('#study-scenes-catalog').removeClass('hidden');
-    $('#study-scenes-catalog .address').text(translation.studyCatalogs.scenes);
     setLocalItem(ASSEMBLED_SCENES, scenes);
     for (var i = 0; i < scenes.length; i++) {
         var item = $('#template-study-container').find('#scenes-catalog-thumbnail').clone().removeAttr('id');
@@ -290,7 +287,6 @@ function renderStudyScenes(scenes) {
 
 function renderStudyTrigger(trigger) {
     $('#study-trigger-catalog').removeClass('hidden');
-    $('#study-trigger-catalog .address').text(translation.studyCatalogs.trigger);
     for (var i = 0; i < trigger.length; i++) {
         var item = $('#template-study-container').find('#trigger-catalog-thumbnail').clone().removeAttr('id');
         item.text(trigger[i].title);
@@ -301,7 +297,6 @@ function renderStudyTrigger(trigger) {
 
 function renderStudyFeedback(feedback) {
     $('#study-feedback-catalog').removeClass('hidden');
-    $('#study-feedback-catalog .address').text(translation.studyCatalogs.feedback);
     for (var i = 0; i < feedback.length; i++) {
         var item = $('#template-study-container').find('#feedback-catalog-thumbnail').clone().removeAttr('id');
         item.find('.text').text(feedback[i].title);

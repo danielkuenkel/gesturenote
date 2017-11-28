@@ -15,7 +15,7 @@ if (login_check($mysqli) == true) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -43,7 +43,7 @@ if (login_check($mysqli) == true) {
         <div id="alerts"></div>
 
         <div class="jumbotron text-center">
-            <div><h1><i class="glyphicon glyphicon-stats"></i> <?php echo $lang->gesturenote ?> <sup><span class="label label-success uppercase" style="position: relative; font-size: 8pt; top: -15px"><?php echo $lang->beta ?></span></sup></h1></div>
+            <div><h1><i class="glyphicon glyphicon-stats"></i> <?php echo $lang->gestureNote ?> <sup><span class="label label-success uppercase" style="position: relative; font-size: 8pt; top: -15px"><?php echo $lang->beta ?></span></sup></h1></div>
             <p><?php echo $lang->gesturenoteSubline ?></p> 
         </div>
         <div class="line text-center" data-spy="affix" data-offset-top="376"></div>
@@ -90,9 +90,9 @@ if (login_check($mysqli) == true) {
                                     <input type="password" class="form-control" name="password" value="" id="password">
                                 </div>
                                 <div class="btn-group-vertical btn-block">
-                                    <button type="button" class="btn btn-success" id="btn-login"><i class="fa fa-unlock-alt"></i> <span class="btn-text"><?php echo $lang->signIn ?></button>
-                                    <button type="button" class="btn btn-default" id="btn-forgot-password"><i class="fa fa-question"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
-                                    <button type="button" class="btn btn-default" id="btn-open-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>
+                                    <button type="button" class="btn btn-success btn-shadow" id="btn-login"><i class="fa fa-unlock-alt"></i> <span class="btn-text"><?php echo $lang->signIn ?></button>
+                                    <button type="button" class="btn btn-default btn-shadow" id="btn-forgot-password"><i class="fa fa-question"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
+                                    <button type="button" class="btn btn-default btn-shadow" id="btn-open-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>
                                 </div>
                             </div>
                         </div>
@@ -103,11 +103,11 @@ if (login_check($mysqli) == true) {
                 <div class="col-sm-6 col-sm-pull-6 col-md-6" id="about">
                     <div class="info">
                         <div class="page-header">
-                            <h2 class="uppercase">WAS IST GESTURENOTE?</h2>
+                            <h2 class="uppercase"><?php echo $lang->whatIsGesturenote ?></h2>
                         </div>
                         <div class="info-text text">
-                            <p>Die Vision von GestureNote ist, unterschiedliche und typisch verwendete Vorgehensweisen, Ansätze und Methoden in einem einzigen Tool zu vereinen.</p>
-                            <p><strong>Weg von ortsgebundenen Gesten-Ermittlungen und -Evaluierungen, hin zu schnellen und einfachen Remote-Gesten-Design-Studien. Die Einbettung in den Usability-Engineering-Lifecycle ist für GestureNote kein Problem.</strong></p>
+                            <p><?php echo $lang->whatIsGesturenote2 ?></p>
+                            <p><strong><?php echo $lang->whatIsGesturenote3 ?></strong></p>
                         </div>
                     </div>
                 </div>
@@ -120,56 +120,54 @@ if (login_check($mysqli) == true) {
         <!-- Container (Services Section) -->
         <div id="services" class="container-fluid text-center bg-grey">
             <div class="container">
-                <h2 class="uppercase">Was bietet GestureNote?</h2>
+                <h2 class="uppercase"><?php echo $lang->whatOffersGesturenote ?></h2>
                 <br>
                 <div class="row">
                     <div class="col-sm-4">
                         <i class="fa fa-users logo-small" style="font-size: 50px"></i>
-                        <h4 class="uppercase">REMOTE USABILITY-TESTS</h4>
-                        <p>Befragen Sie einfach und umkompliziert ihre Zielgruppe - Weltweit!</p>
+                        <h4 class="uppercase"><?php echo $lang->whatOffersGesturenote2headline ?></h4>
+                        <p><?php echo $lang->whatOffersGesturenote2text ?></p>
                     </div>
                     <div class="col-sm-4">
                         <i class="fa fa-sign-language logo-small" style="font-size: 50px"></i>
-                        <h4 class="uppercase">DESIGN VON GESTEN</h4>
-                        <p>Die Designphasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluierung</em> werden unterstützt.</p>
+                        <h4 class="uppercase"><?php echo $lang->whatOffersGesturenote3headline ?></h4>
+                        <p><?php echo $lang->whatOffersGesturenote3text ?></p>
                     </div>
                     <div class="col-sm-4">
                         <i class="fa fa-pencil logo-small" style="font-size: 50px"></i>
-                        <h4 class="uppercase">EINFACHE STUDIEN-ERSTELLUNG</h4>
-                        <p>Schnelle und einfache Erstellung von Leitfäden.</p>
+                        <h4 class="uppercase"><?php echo $lang->whatOffersGesturenote4headline ?></h4>
+                        <p><?php echo $lang->whatOffersGesturenote4text ?></p>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 30px;">
                     <div class="col-sm-4">
                         <i class="fa fa-archive logo-small" style="font-size: 50px"></i>
-
-                        <h4 class="uppercase">MESSINSTRUMENTE</h4>
-                        <p>Gesture Usability Scales, Beobachtungsleitfäden, etc. Speziell entwickelt für Gesteninteraktionen.</p>
+                        <h4 class="uppercase"><?php echo $lang->whatOffersGesturenote5headline ?></h4>
+                        <p><?php echo $lang->whatOffersGesturenote5text ?></p>
                     </div>
                     <div class="col-sm-4">
                         <i class="fa fa-map-signs logo-small" style="font-size: 50px"></i>
-                        <h4 class="uppercase">STYLEGUIDES</h4>
-                        <p>Sie wissen nicht weiter? GestureNote bietet Styleguides für gebrauchstaugliche Gesten an.</p>
+                        <h4 class="uppercase"><?php echo $lang->whatOffersGesturenote6headline ?></h4>
+                        <p><?php echo $lang->whatOffersGesturenote6text ?></p>
                     </div>
                     <div class="col-sm-4">
                         <i class="fa fa-wrench logo-small" style="font-size: 50px"></i>
-                        <h4 class="uppercase">AKTUELLE TECHNOLOGIEN</h4>
-                        <p>Einsatz von AJAX, WebRTC, sowie aktuellen Frameworks und APIs.</p>
+                        <h4 class="uppercase"><?php echo $lang->whatOffersGesturenote7headline ?></h4>
+                        <p><?php echo $lang->whatOffersGesturenote7text ?></p>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 30px;">
                     <div class="col-sm-4 col-sm-offset-4">
                         <i class="fa fa-lock logo-small" style="font-size: 50px"></i>
-                        <h4 class="uppercase">SSL VERSCHLÜSSELUNG</h4>
+                        <h4 class="uppercase"><?php echo $lang->whatOffersGesturenote8headline ?></h4>
                         <p>
                             <a href="https://www.positivessl.com" style="font-family: arial; font-size: 10px; color: #212121; text-decoration: none;"><img src="https://www.positivessl.com/images-new/PositiveSSL_tl_trans.png" alt="SSL Certificate" title="SSL Certificate" border="0" /></a>
                         </p>
                     </div>
-
                 </div>
                 <br/><br/>
                 <div class="row">
-                    <button class="btn btn-default" id="btn-more-infos"><i class="fa fa-info-circle" aria-hidden="true"></i> <span class="btn-text">Hier mehr erfahren</span></button>
+                    <button class="btn btn-default btn-shadow" id="btn-more-infos"><i class="fa fa-info-circle" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->moreInfos ?></span></button>
                 </div>
             </div>
         </div>
@@ -178,17 +176,17 @@ if (login_check($mysqli) == true) {
         <!-- Container (Contact Section) -->
         <div id="contact" class="container-fluid">
             <div class="container">
-                <h2 class="uppercase">KONTAKT</h2>
+                <h2 class="uppercase"><?php echo $lang->contact ?></h2>
                 <div class="row">
                     <div class="col-sm-5">
-                        <p>Lob, Kritik, Ideen oder Visionen. Kontaktieren Sie uns einfach, denn Ihre Meinung ist uns wichtig! Wir freuen uns auf Sie.</p>
+                        <p><?php echo $lang->contactText ?></p>
                         <div class="row">
                             <div class="col-xs-1">
                                 <i class="glyphicon glyphicon-map-marker"></i>
                             </div>
                             <div class="col-xs-11">
-                                <p> Hochschule Fulda - University of Applied Sciences<br>
-                                    Leipziger Straße 123, 36037 Fulda, Germany</p>
+                                <p><?php echo $lang->contactAdress1 ?><br>
+                                    <?php echo $lang->contactAdress2 ?></p>
                             </div>
                             <div class="col-xs-1">
                                 <i class="glyphicon glyphicon-envelope"></i>
@@ -208,16 +206,16 @@ if (login_check($mysqli) == true) {
 
                         <div class="row">
                             <div class="col-sm-6 form-group">
-                                <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+                                <input class="form-control" id="name" name="name" placeholder="<?php echo $lang->name ?>" type="text" required>
                             </div>
                             <div class="col-sm-6 form-group">
-                                <input class="form-control" id="email" name="email" placeholder="E-Mail-Adresse" type="email" required>
+                                <input class="form-control" id="email" name="email" placeholder="<?php echo $lang->email ?>" type="email" required>
                             </div>
                         </div>
-                        <textarea class="form-control" id="comment" name="comments" placeholder="Was möchten Sie uns mitteilen?" rows="5"></textarea><br>
+                        <textarea class="form-control" id="comment" name="comments" placeholder="<?php echo $lang->whatDoYouWantToTellUs ?>" rows="5"></textarea><br>
                         <div class="row">
                             <div class="col-sm-12">
-                                <button type="button" class="btn btn-default pull-right" id="btn-contact-us"><i class="fa fa-send" aria-hidden="true"></i> <?php echo $lang->send ?></button>
+                                <button type="button" class="btn btn-default pull-right btn-shadow" id="btn-contact-us"><i class="fa fa-send" aria-hidden="true"></i> <?php echo $lang->send ?></button>
                             </div>
                         </div>	
                     </div>
@@ -262,7 +260,7 @@ if (login_check($mysqli) == true) {
         <!-- Fixed Footer -->
         <nav class="navbar navbar-default navbar-fixed-bottom">
             <div class="container">
-                <span class="footer-copyright uppercase"><i class="glyphicon glyphicon-copyright-mark"></i> Daniel Künkel</span>
+                <span class="footer-copyright uppercase"><i class="glyphicon glyphicon-copyright-mark"></i> <?php echo $lang->copyrightName ?></span>
                 <ul class="nav navbar-right">
                     <li class="dropdown language-selection" id="language-selection">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src=""> <span class="language-indicator"></span></a>
@@ -292,24 +290,24 @@ if (login_check($mysqli) == true) {
 
 
                 // Add smooth scrolling to all links in navbar + footer link
-    //                $(".navbar a, footer a[href='#pageBody']").on('click', function (event) {
-    //                    if (!$(this).hasClass('no-scrolling')) {
-    //                        event.preventDefault();
-    //
-    //                        // Store hash
-    //                        var hash = this.hash;
-    //
-    //                        // Using jQuery's animate() method to add smooth page scroll
-    //                        // The optional number (400) specifies the number of milliseconds it takes to scroll to the specified area
-    //                        $('html, body').animate({
-    //                            scrollTop: $(hash).offset().top - 50
-    //                        }, 400, function () {
-    //
-    //                            // Add hash (#) to URL when done scrolling (default click behavior)
-    //                            window.location.hash = hash;
-    //                        });
-    //                    }
-    //                });
+                //                $(".navbar a, footer a[href='#pageBody']").on('click', function (event) {
+                //                    if (!$(this).hasClass('no-scrolling')) {
+                //                        event.preventDefault();
+                //
+                //                        // Store hash
+                //                        var hash = this.hash;
+                //
+                //                        // Using jQuery's animate() method to add smooth page scroll
+                //                        // The optional number (400) specifies the number of milliseconds it takes to scroll to the specified area
+                //                        $('html, body').animate({
+                //                            scrollTop: $(hash).offset().top - 50
+                //                        }, 400, function () {
+                //
+                //                            // Add hash (#) to URL when done scrolling (default click behavior)
+                //                            window.location.hash = hash;
+                //                        });
+                //                    }
+                //                });
 
                 $('#login-form #password, #login-form #email').keypress(function (event) {
                     if (event.keyCode === 13) {

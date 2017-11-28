@@ -16,7 +16,7 @@ if (login_check($mysqli) == true) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNoteGestureCatalog ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -81,92 +81,10 @@ if (login_check($mysqli) == true) {
 
         <!-- Nav tabs -->
         <ul class="nav nav-pills" id="gesture-catalogs-nav-tab" style="display: flex; justify-content: center;">
-            <li role="presentation"><a href="#gesture-catalog" aria-controls="gesture-catalog" role="tab" data-toggle="pill"><i class="fa fa-sign-language" aria-hidden="true"></i> Gesten-Katalog</a></li>
-            <li role="presentation"><a href="#gesture-sets" aria-controls="gesture-sets" role="tab" data-toggle="pill"><i class="fa fa-paperclip" aria-hidden="true"></i> Gesten-Sets</a></li>
-            <li role="presentation"><a href="#gesture-recorder-content" aria-controls="gesture-recorder-content" role="tab" data-toggle="pill"><i class="fa fa-video-camera" aria-hidden="true"></i> Gesten aufzeichnen</a></li>
+            <li role="presentation"><a href="#gesture-catalog" aria-controls="gesture-catalog" role="tab" data-toggle="pill"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->allGestures ?></a></li>
+            <li role="presentation"><a href="#gesture-sets" aria-controls="gesture-sets" role="tab" data-toggle="pill"><i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo $lang->gestureSets ?></a></li>
+            <li role="presentation"><a href="#gesture-recorder-content" aria-controls="gesture-recorder-content" role="tab" data-toggle="pill"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordGestures ?></a></li>
         </ul> 
-
-
-        <!--        <div class="container mainContent" style="margin-top: 0px;" id="item-view">
-        
-                    <button type="button" class="btn btn-success btn-block btn-lg btn-shadow" id="btn-record-gesture"><i class="fa fa-video-camera" aria-hidden="true"></i> <span class="btn-text">Neue Geste aufzeichnen</span></button>
-        
-                    <div class="form-group form-group-no-margin" style="margin-top: 20px">
-                        <div class="input-group">
-                            <span class="input-group-addon">Filter</span>
-                            <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
-                            <div class="input-group-btn select" id="filter" role="group">
-                                <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
-                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                    <li id="all" class="selected"><a href="#">Alle</a></li>
-                                    <li id="recorded"><a href="#">Eigene Aufgezeichnete</a></li>
-                                    <li id="tester"><a href="#">Tester</a></li>
-                                    <li id="public"><a href="#">Öffentlich</a></li>
-                                </ul>
-                            </div>
-                            <span class="input-group-addon">Sortierung</span>
-                            <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
-                            <div class="input-group-btn select" id="sort" role="group">
-                                <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                    <li class="dropdown-header">Datum</li>
-                                    <li id="oldest"><a href="#">Älteste zuerst</a></li>
-                                    <li id="newest"><a href="#">Neueste zuerst</a></li>
-                                    <li class="divider"></li>
-                                    <li class="dropdown-header">Titel</li>
-                                    <li id="asc"><a href="#">A bis Z</a></li>
-                                    <li id="desc"><a href="#">Z bis A</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-        
-                    <div class="form-group form-group-margin-top">
-                        <div class="input-group">
-                            <span class="input-group-addon">Suchen</span>
-                            <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
-                            <span class="input-group-addon">Einträge pro Seite</span>
-                            <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="12"/>
-                            <div class="input-group-btn select" id="resultsCountSelect" role="group">
-                                <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_12"></span><span class="caret"></span></button>
-                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                    <li id="results_6"><a href="#">6</a></li>
-                                    <li id="results_12" class="selected"><a href="#">12</a></li>
-                                    <li id="results_48"><a href="#">48</a></li>
-                                    <li id="results_96"><a href="#">96</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-        
-        
-                    <div class="text-center custom-pagination" id="pager-top">
-                        <nav>
-                            <ul class="pagination pagination-custom hidden" itemprop="clipping_5">
-                                <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-                                <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                                <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                                <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </nav>
-                    </div>
-        
-                    <div class="container-root row root" id="gestures-list-container" style="margin-top: 10px;"></div>
-        
-                    <div class="alert-space alert-no-search-results"></div>
-                    <div class="alert-space alert-no-gestures"></div>
-        
-                    <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
-                        <nav>
-                            <ul class="pagination pagination-custom" itemprop="clipping_5">
-                                <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-                                <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                                <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                                <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>-->
 
 
         <div class="container mainContent" id="gesture-catalog-content" style="margin-top: 0px;">
@@ -175,128 +93,45 @@ if (login_check($mysqli) == true) {
             <!-- Tab panes -->
             <div class="tab-content">
 
-<!--                <div role="tabpanel" class="tab-pane" id="study-gesture-set">
-                    <div id="item-view">
-                        <div>
-                            <div class="form-group form-group-no-margin">
-                                <div class="input-group">
-                                    <span class="input-group-addon">Filter</span>
-                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
-                                    <div class="input-group-btn select filter" id="filter" role="group">
-                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
-                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                            <li id="all" class="selected"><a href="#">Alle</a></li>
-                                            <li id="recorded"><a href="#">Eigene Aufgezeichnete</a></li>
-                                            <li id="tester"><a href="#">Tester</a></li>
-                                            <li id="public"><a href="#">Öffentlich</a></li>
-                                        </ul>
-                                    </div>
-                                    <span class="input-group-addon">Sortierung</span>
-                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
-                                    <div class="input-group-btn select sort" id="sort" role="group">
-                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                            <li class="dropdown-header">Datum</li>
-                                            <li id="oldest"><a href="#">Älteste zuerst</a></li>
-                                            <li id="newest"><a href="#">Neueste zuerst</a></li>
-                                            <li class="divider"></li>
-                                            <li class="dropdown-header">Gestentitel</li>
-                                            <li id="asc"><a href="#">A bis Z</a></li>
-                                            <li id="desc"><a href="#">Z bis A</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group form-group-margin-top">
-                                <div class="input-group">
-                                    <span class="input-group-addon">Suchen</span>
-                                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
-                                    <span class="input-group-addon">Einträge pro Seite</span>
-                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="16"/>
-                                    <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
-                                        <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_16"></span><span class="caret"></span></button>
-                                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                            <li id="results_8"><a href="#">8</a></li>
-                                            <li id="results_16" class="selected"><a href="#">16</a></li>
-                                            <li id="results_40"><a href="#">40</a></li>
-                                            <li id="results_100"><a href="#">100</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="text-center custom-pagination" id="pager-top">
-                            <nav>
-                                <ul class="pagination pagination-custom" itemprop="clipping_2">
-                                    <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-                                    <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                                    <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                                    <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-                                </ul>
-                            </nav>
-                        </div>
-
-
-                        <div class="container-root row root" id="gesture-list-container" style="margin-top: 10px;"></div>
-
-                        <div class="alert-space alert-no-search-results"></div>
-                        <div class="alert-space alert-no-gestures-assembled"></div>
-
-                        <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
-                            <nav>
-                                <ul class="pagination pagination-custom" itemprop="clipping_2">
-                                    <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-                                    <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                                    <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-                                    <li id="btn-last-page"><a href="#" aria-label="Last"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-                                </ul>
-                            </nav>
-                        </div>
-
-                    </div>
-
-                </div>-->
-
                 <div role="tabpanel" class="tab-pane" id="gesture-catalog">
                     <div id="item-view">
                         <div>
                             <div class="form-group form-group-no-margin">
                                 <div class="input-group">
-                                    <span class="input-group-addon">Filter</span>
-                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
+                                    <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
+                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
                                     <div class="input-group-btn select filter" id="filter" role="group">
                                         <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
                                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                            <li id="all" class="selected"><a href="#">Alle</a></li>
-                                            <li id="recorded"><a href="#">Eigene Aufgezeichnete</a></li>
-                                            <li id="tester"><a href="#">Tester</a></li>
-                                            <li id="public"><a href="#">Öffentlich</a></li>
-                                            <li id="rated"><a href="#">Bewertet</a></li>
-                                            <li id="liked"><a href="#">Favorisiert</a></li>
+                                            <li id="all" class="selected"><a href="#"><?php echo $lang->filter->all ?></a></li>
+                                            <li id="recorded"><a href="#"><?php echo $lang->filter->ownRecorded ?></a></li>
+                                            <li id="tester"><a href="#"><?php echo $lang->filter->tester ?></a></li>
+                                            <li id="public"><a href="#"><?php echo $lang->filter->shared ?></a></li>
+                                            <li id="rated"><a href="#"><?php echo $lang->filter->rated ?></a></li>
+                                            <li id="liked"><a href="#"><?php echo $lang->filter->liked ?></a></li>
                                         </ul>
                                     </div>
-                                    <span class="input-group-addon">Sortierung</span>
-                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                                    <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
+                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
                                     <div class="input-group-btn select sort" id="sort" role="group">
                                         <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                            <li class="dropdown-header">Datum</li>
-                                            <li id="oldest"><a href="#">Älteste zuerst</a></li>
-                                            <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                            <li class="dropdown-header"><?php echo $lang->sorting->dateHeadline ?></li>
+                                            <li id="oldest"><a href="#"><?php echo $lang->sorting->DESC ?></a></li>
+                                            <li id="newest"><a href="#"><?php echo $lang->sorting->ASC ?></a></li>
                                             <li class="divider"></li>
-                                            <li class="dropdown-header">Gestentitel</li>
-                                            <li id="asc"><a href="#">A bis Z</a></li>
-                                            <li id="desc"><a href="#">Z bis A</a></li>
+                                            <li class="dropdown-header"><?php echo $lang->sorting->titleHeadline ?></li>
+                                            <li id="asc"><a href="#"><?php echo $lang->sorting->AToZ ?></a></li>
+                                            <li id="desc"><a href="#"><?php echo $lang->sorting->ZToA ?></a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group form-group-margin-top">
                                 <div class="input-group">
-                                    <span class="input-group-addon">Suchen</span>
-                                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
-                                    <span class="input-group-addon">Einträge pro Seite</span>
+                                    <span class="input-group-addon"><?php echo $lang->search->name ?></span>
+                                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
+                                    <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
                                     <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="16"/>
                                     <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
                                         <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_16"></span><span class="caret"></span></button>
@@ -343,12 +178,12 @@ if (login_check($mysqli) == true) {
                 <div role="tabpanel" class="tab-pane" id="gesture-sets">
 
                     <div class="create-gesture-set-input">
-                        <label class="text">Neues Gesten-Set anlegen</label>
+                        <label class="text"><?php echo $lang->createNewGestureSet ?></label>
 
                         <div class="alert-space alert-gesture-set-title-too-short"></div>
 
                         <div class="input-group">
-                            <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
+                            <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="<?php echo $lang->createNewGestureSetPlaceholder ?>">
                             <span class="input-group-btn">
                                 <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
                             </span>
@@ -362,21 +197,21 @@ if (login_check($mysqli) == true) {
                         <div>
                             <div class="form-group form-group-no-margin">
                                 <div class="input-group">
-                                    <span class="input-group-addon">Sortierung</span>
-                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                                    <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
+                                    <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
                                     <div class="input-group-btn select sort" id="sort" role="group">
                                         <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                         <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                            <li class="dropdown-header">Datum</li>
-                                            <li id="oldest"><a href="#">Älteste zuerst</a></li>
-                                            <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                            <li class="dropdown-header"><?php echo $lang->sorting->dateHeadline ?></li>
+                                            <li id="oldest"><a href="#"><?php echo $lang->sorting->DESC ?></a></li>
+                                            <li id="newest"><a href="#"><?php echo $lang->sorting->ASC ?></a></li>
                                             <li class="divider"></li>
-                                            <li class="dropdown-header">Gestentitel</li>
-                                            <li id="asc"><a href="#">A bis Z</a></li>
-                                            <li id="desc"><a href="#">Z bis A</a></li>
+                                            <li class="dropdown-header"><?php echo $lang->sorting->titleHeadline ?></li>
+                                            <li id="asc"><a href="#"><?php echo $lang->sorting->AToZ ?></a></li>
+                                            <li id="desc"><a href="#"><?php echo $lang->sorting->ZToA ?></a></li>
                                         </ul>
                                     </div>
-                                    <span class="input-group-addon">Einträge pro Seite</span>
+                                    <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
                                     <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="4"/>
                                     <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
                                         <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_4"></span><span class="caret"></span></button>
@@ -390,8 +225,8 @@ if (login_check($mysqli) == true) {
                             </div>
                             <div class="form-group form-group-margin-top">
                                 <div class="input-group">
-                                    <span class="input-group-addon">Suchen</span>
-                                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
+                                    <span class="input-group-addon"><?php echo $lang->search->name ?></span>
+                                    <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
 
                                 </div>
                             </div>
@@ -438,7 +273,7 @@ if (login_check($mysqli) == true) {
         $(document).ready(function () {
             checkDomain();
             currentFilterList = $('#gestures-list-container');
-            
+
             checkLanguage(function () {
                 var externals = new Array();
                 externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
@@ -489,7 +324,7 @@ if (login_check($mysqli) == true) {
                 }
                 count++;
             }
-            
+
             initPopover(300);
         }
 
@@ -645,7 +480,7 @@ if (login_check($mysqli) == true) {
                 renderGestureInfoData();
                 showGestureInfo($('#gesture-sets'));
             });
-            
+
             $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
                 event.preventDefault();
                 renderData(data);

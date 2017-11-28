@@ -26,7 +26,7 @@ if ($h && $studyId) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -83,10 +83,10 @@ if ($h && $studyId) {
             <div class="row">
 
                 <div class="col-sm-6 col-md-7" id="study-details">
-                    <h2 class="address" style="margin-top: 0">An Studie teilnehmen</h2>
+                    <h2 class="address" style="margin-top: 0"><?php echo $lang->participateStudy ?></h2>
                     <hr>
-                    <p class="text">Haben Sie ein Account bei GestureNote? Dann loggen Sie sich bitte ein. </p>
-                    <p class="text">Sind Sie auf dieser Seite gelandet, weil Sie einen Link für die Teilnahme an einer Studie erhalten haben? Sie können ohne Account fortfahren indem Sie auf "Teilnahme ohne Account" klicken. Oder Sie registrieren sich bei GestureNote und können in Zukunft an weiteren interessanten Studien teilnehmen, ganz ohne Einladung.</p>
+                    <p class="text"><?php echo $lang->participateAccountQuestion ?></p>
+                    <p class="text"><?php echo $lang->participateAccountDecision ?></p>
 
                 </div>
 
@@ -155,7 +155,7 @@ if ($h && $studyId) {
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements(false);
                 var query = getQueryParams(document.location.search);
-                
+
                 $('#login-form #password, #login-form #email').keypress(function (event) {
                     if (event.keyCode === 13) {
                         $('#login-form #btn-login').click();

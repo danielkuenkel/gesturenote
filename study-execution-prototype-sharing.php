@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -18,8 +18,6 @@
         <link rel="stylesheet" href="css/study-preview.css">
         <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-        <!--<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/apdfllckaahabafndbhieahigkjlhalf">-->
-        <!--<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/ajhifddimkapgcifgcodmmfdlknahffk">-->
 
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">

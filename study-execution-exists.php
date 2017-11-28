@@ -5,7 +5,7 @@ include './includes/language.php';
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -49,15 +49,15 @@ include './includes/language.php';
         <!-- Container (Landing Section) --> 
         <div class="container-fluid text-center" id="landingText">
             <div class="container">
-                <h1><i class="fa fa-exclamation-triangle" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase">Schon wieder hier?</span></h1>
-                <p class="text">Sie haben bereits an dieser Studie teilgenommen.</p>
+                <h1><i class="fa fa-exclamation-triangle" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase"><?php echo $lang->alreadyParticipatedHeadline ?></span></h1>
+                <p class="text"><?php echo $lang->alreadyParticipated ?></p>
             </div>
         </div>
 
-        <!-- Container (Panel Section) -->
+<!--         Container (Panel Section) 
         <div class="container mainContent" style="margin-top: 35px;">
 
-        </div>
+        </div>-->
 
 
         <script>

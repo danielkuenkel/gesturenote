@@ -38,7 +38,7 @@ if ($h && $token && $studyId) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -76,19 +76,6 @@ if ($h && $token && $studyId) {
         <div id="alerts"></div>
         <div id="template-subpages"></div>
 
-        <!-- Container (Breadcrump) --> 
-        <div class="container" id="breadcrumb">
-
-        </div>
-
-        <!-- Container (Landing Section) --> 
-        <!--        <div class="container-fluid text-center bg-grey" id="landingText">
-                    <div class="container">
-                        <h1><i class="fa fa-tasks" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase">An Studie teilnehmen</span></h1>
-                        <p class="text">Haben Sie ein Account bei GestureNote? Dann loggen Sie sich bitte ein. </p>
-                        <p class="text">Sind Sie auf dieser Seite gelandet, weil Sie einen Link für die Teilnahme an einer Studie erhalten haben? Sie können ohne Account fortfahren indem Sie auf "Teilnahme ohne Account" klicken. Oder Sie registrieren sich bei GestureNote und können in Zukunft an weiteren interessanten Studien teilnehmen, ganz ohne Einladung.</p>
-                    </div>
-                </div>-->
 
         <!-- Container (Panel Section) -->
         <div class="container mainContent" style="margin-top: 85px;">
@@ -99,10 +86,7 @@ if ($h && $token && $studyId) {
                     <hr style="">
                     <div class="row">
                         <div class="col-sm-7">
-                            <!--<div class="label label-default" id="type-survey"></div>-->
-
                             <div id="study-description">
-                                <!--<h3 class="address"></h3>-->
                                 <p class="text"></p>
                             </div>
 
@@ -122,9 +106,9 @@ if ($h && $token && $studyId) {
                                     <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
                                 </div>
                                 <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; display: inline; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="Mikrofon stummschalten"><i class="fa fa-microphone-slash"></i> </button>
-                                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="Übertragung pausieren"><i class="fa fa-pause"></i> </button>
-                                    <button type="button" class="btn stream-control disabled" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="Gesprächspartner stummschalten"><i class="fa fa-volume-up"></i> </button>
+                                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                                    <button type="button" class="btn stream-control disabled" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
                                 </div>
                                 <div id="stream-control-indicator">
                                     <div style="position: absolute; top: 4px; display: block; left: 25px; opacity: 1; color: white">
@@ -145,7 +129,7 @@ if ($h && $token && $studyId) {
 
             <div class="row hidden" id="technical-check" style="margin-top: 40px">
                 <div class="col-xs-12">
-                    <h2 id="check-headline" style="margin-top: 0">Überprüfung der Webcam</h2>
+                    <h2 id="check-headline" style="margin-top: 0"><?php echo $lang->checkWebcam ?></h2>
                     <hr>
                 </div>
 
@@ -154,11 +138,11 @@ if ($h && $token && $studyId) {
                     <video autoplay id="rtc-video" class="rtc-stream hidden" style="width: 100%; height: auto; overflow: hidden; border-radius: 4px;"></video>
                 </div>
                 <div class="col-sm-6 text">
-                    <p><strong>Diese Studie benötigt Zugriff auf Ihre Webcam.</strong> Falls Ihr Browser die Technologie unterstützt, erhalten Sie einen Hinweis, dass diese Seite auf Ihre Kamera und Ihr Mikrofon zugreifen möchte. Akzeptieren Sie bitte den Zugriff auf Kamera und Mikrofon, wenn Sie an dieser Studie teilnehmen möchten. </p>
-                    <p>Danach prüfen Sie bitte, ob der Kamerastream funktioniert und Sie sich links sehen können. Beantworten Sie bitte die Frage. </p>
+                    <p><?php echo $lang->checkWebcamText1 ?></p>
+                    <p><?php echo $lang->checkWebcamText2 ?></p>
 
                     <div id="web-rtc-working">
-                        <p>Können Sie sich sehen? </p>
+                        <p><?php echo $lang->seeYourselfQuestion ?></p>
                         <div class="btn-group">
                             <button class="btn btn-danger btn-shadow" id="btn-no"><?php echo $lang->no ?></button>
                             <button class="btn btn-success btn-shadow" id="btn-yes"><?php echo $lang->yes ?></button>
@@ -166,7 +150,7 @@ if ($h && $token && $studyId) {
                     </div>
 
                     <div id="web-rtc-not-working" class="hidden">
-                        <p>Sehen Sie eine Meldung mit dem Hinweis einen anderen Browser zu nutzen? </p>
+                        <p><?php echo $lang->seeBrowserQuestion ?></p>
                         <div class="btn-group">
                             <button class="btn btn-danger btn-shadow" id="btn-no"><?php echo $lang->no ?></button>
                             <button class="btn btn-success btn-shadow" id="btn-yes"><?php echo $lang->yes ?></button>
@@ -199,8 +183,8 @@ if ($h && $token && $studyId) {
         function onAllExternalsLoadedSuccessfully() {
             $('[data-toggle="tooltip"]').tooltip({container: 'body'});
             renderSubPageElements(false);
-            
-            console.log('tester id: <?php echo $_SESSION['user_id']?>');
+
+            console.log('tester id: <?php echo $_SESSION['user_id'] ?>');
 
             var query = getQueryParams(document.location.search);
             if (query.studyId && query.h && query.token) {

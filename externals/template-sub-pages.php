@@ -7,7 +7,7 @@ include '../includes/language.php';
         <div class="container">
             <div class="navbar-header" id="logo">
                 <button class="navbar-toggle"><span class="icon-bar"></span></button>
-                <a class="navbar-brand"><i class="glyphicon glyphicon-stats"></i> <?php echo $lang->gesturenote ?> <sup><span class="label label-success uppercase" style="position: relative; font-size: 6pt; letter-spacing: normal"><?php echo $lang->beta ?></span></sup></a>
+                <a class="navbar-brand"><i class="glyphicon glyphicon-stats"></i> <?php echo $lang->gestureNote ?> <sup><span class="label label-success uppercase" style="position: relative; font-size: 6pt; letter-spacing: normal"><?php echo $lang->beta ?></span></sup></a>
             </div>
             <div>
                 <ul class="nav navbar-nav navbar-right">

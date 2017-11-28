@@ -12,7 +12,7 @@ if (!$h) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNoteResetPassword ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -24,14 +24,12 @@ if (!$h) {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-        <!--<script src="js/storage.js"></script>-->
         <script src="js/alert.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/externals.js"></script>
         <script src="js/language.js"></script>
         <script src="js/goto-general.js"></script>
-        <!--<script src="js/goto-evaluator.js"></script>-->
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/checkForms.js"></script>
@@ -45,8 +43,6 @@ if (!$h) {
 
 
         <!-- Container (Landing Section) -->
-        <!--        <div class=" container-fluid bg-grey wall" id="landingText">
-                     Container (Breadcrump) -->
         <div class="container" id="breadcrumb" style="margin-top: 50px">
             <div class="row">
                 <ol class="breadcrumb">
@@ -55,11 +51,6 @@ if (!$h) {
                 </ol>
             </div>
         </div>
-
-        <!--            <div class="container text-center dropShadowText">
-                        <h1><i class="fa fa-user" style="font-size: 60pt" aria-hidden="true"></i> BENUTZERPROFIL</h1>
-                    </div>
-                </div>-->
 
         <div class="container mainContent" style="margin-top: 0px">
             <div class="row" id="password-reset">
@@ -171,7 +162,7 @@ if (!$h) {
                     }
                 });
             }
-            
+
             $('#btn-goto-login').on('click', function (event) {
                 gotoIndex();
             });

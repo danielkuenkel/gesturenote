@@ -4,7 +4,7 @@ include 'includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title">Gesten-Vorschau</h4>
+    <h4 class="modal-title"><?php echo $lang->gesturePreview ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
 
@@ -34,18 +34,18 @@ include 'includes/language.php';
                     </div>
 
                     <div class="gesture-rating" id="gesture-rating" style="margin-top: 30px;">
-                        <h3><i class="fa fa-star-o"></i> Bewertung</h3>
+                        <h3><i class="fa fa-star-o"></i> <?php echo $lang->valuation ?></h3>
                         <div class="rating-container rating-physicalContext row" id="rating-physicalContext">
                             <div class="col-xs-5 col-sm-3 col-md-5 rating-stars-container"></div>
-                            <div class="col-xs-7 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Gestentyp für Kontext stimmig? (z.B. Ganzkörper-Geste für Arbeitsplatz stimmig?)</span></div>
+                            <div class="col-xs-7 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text"><?php echo $lang->valuationType ?></span></div>
                         </div>
                         <div class="rating-container rating-adaption row" id="rating-adaption">
                             <div class="col-xs-5 col-sm-3 col-md-5 rating-stars-container"></div>
-                            <div class="col-xs-7 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Kontext-Adaption (Könnte die Geste auch woanders eingesetzt werden?)</span></div>
+                            <div class="col-xs-7 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text"><?php echo $lang->valuationAdaption ?></span></div>
                         </div>
                         <div class="rating-container rating-fittingTask row" id="rating-fittingTask">
                             <div class="col-xs-5 col-sm-3 col-md-5 rating-stars-container"></div>
-                            <div class="col-xs-7 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text">Passt die Geste zur beschriebenen Aufgabe?</span></div>
+                            <div class="col-xs-7 col-sm-9 col-md-7 rating-headling"><span class="address"></span> <span class="text"><?php echo $lang->valuationTask ?></span></div>
                         </div>
                         <div id="rating-infos">
                             <span id="rated-by"></span> <span id="rating-users-count"></span> <span id="rated-by-users"></span>
@@ -77,13 +77,13 @@ include 'includes/language.php';
 
                 <div class="col-md-7">
                     <div id="gesture-data-preview">
-                        <div id="created"><span class="address">Erstellt:</span> <span class="text"></span></div>
-                        <div id="title">Titel:<span class="address"></span> <span class="text"></span></div>
-                        <div id="type">Gesten-Typ:<span class="address"></span> <span class="text"></span></div>
-                        <div id="interactionType">Gesten-Interaktions-Typ:<span class="address"></span> <span class="text"></span></div>
-                        <div id="context">Kontext:<span class="address"></span> <span class="text"></span></div>
-                        <div id="association">Assoziation:<span class="address"></span> <span class="text"></span></div>
-                        <div id="description">Beschreibung:<span class="address"></span> <span class="text"></span></div>
+                        <div id="created"><span class="address"><?php echo $lang->Created ?>:</span> <span class="text"></span></div>
+                        <div id="title"><?php echo $lang->title ?>:<span class="address"></span> <span class="text"></span></div>
+                        <div id="type"><?php echo $lang->gestureType ?>:<span class="address"></span> <span class="text"></span></div>
+                        <div id="interactionType"><?php echo $lang->gestureInteractionType ?>:<span class="address"></span> <span class="text"></span></div>
+                        <div id="context"><?php echo $lang->gestureContext ?>:<span class="address"></span> <span class="text"></span></div>
+                        <div id="association"><?php echo $lang->gestureAssociation ?>:<span class="address"></span> <span class="text"></span></div>
+                        <div id="description"><?php echo $lang->gestureDescription ?>:<span class="address"></span> <span class="text"></span></div>
 
                         <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
                         <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
@@ -161,7 +161,7 @@ include 'includes/language.php';
 
                         <div class="form-group">
                             <label><?php echo $lang->gestureContext ?></label>
-                            <input type="text" class="form-control" placeholder="Wo soll die Geste eingesetzt werden?" id="gesture-context-input" required>
+                            <input type="text" class="form-control" placeholder="<?php echo $lang->gestureContextQuestion ?>" id="gesture-context-input" required>
                         </div>
 
                         <div class="form-group">
@@ -194,16 +194,15 @@ include 'includes/language.php';
 
         <div role="tabpanel" class="tab-pane" id="tab-gesture-gesture-sets">
             <div id="attached-gesture-sets">
-                <!--<h3 style="margin-bottom: 20px"><i class="fa fa-paperclip" aria-hidden="true"></i> Zuweisung zu Gesten-Sets</h3>-->
 
                 <div id="add-to-gesture-set">
                     <div class="create-gesture-set-input">
-                        <label class="text">Neues Gesten-Set anlegen</label>
+                        <label class="text"><?php echo $lang->createNewGestureSet ?></label>
 
                         <div class="alert-space alert-gesture-set-title-too-short"></div>
 
                         <div class="input-group">
-                            <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
+                            <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="<?php echo $lang->createNewGestureSetPlaceholder ?>">
                             <span class="input-group-btn">
                                 <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
                             </span>
@@ -215,7 +214,7 @@ include 'includes/language.php';
                     </div>
 
                     <div style="margin-top: 10px">
-                        <label class="text">Zu vorhandenen Gesten-Sets zuweisen</label>
+                        <label class="text"><?php echo $lang->assignToGestureSet ?></label>
 
                         <div id="existing-sets-container">
                             <div class="option-container root"></div>
@@ -228,14 +227,12 @@ include 'includes/language.php';
         </div>
 
         <div role="tabpanel" class="tab-pane" id="tab-gesture-comments">
-            <!--<h3 style="margin-bottom: 20px"><i class="fa fa-comments-o" aria-hidden="true"></i> Mitreden</h3>-->
-
             <div class="row">
                 <div class="col-md-5">
                     <div class="form-group">
-                        <textarea class="form-control" id="comment" rows="4" maxlength="500" placeholder="Kommentar einfügen" required></textarea>
+                        <textarea class="form-control" id="comment" rows="4" maxlength="500" placeholder="<?php echo $lang->inputComment ?>" required></textarea>
                     </div>
-                    <button type="button" class="btn btn-default btn-block" id="btn-comment-gesture"><i class="fa fa-send" aria-hidden="true"></i> <span class="btn-text">Kommentar abschicken</span></button>
+                    <button type="button" class="btn btn-default btn-block" id="btn-comment-gesture"><i class="fa fa-send" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->submitComment ?></span></button>
                 </div>
                 <div class="col-md-7">
                     <div class="alert-space alert-no-comments"></div>
@@ -255,7 +252,7 @@ include 'includes/language.php';
     </div>
     <div class="panel-body" style="color: #303030; font-size: 10pt"></div>
     <div class="panel-footer">
-        <button class="btn btn-xs btn-danger" id="btn-delete-comment">Kommentar löschen</button>
+        <button class="btn btn-xs btn-danger" id="btn-delete-comment"><?php echo $lang->deleteComment ?></button>
     </div>
 </div>
 
@@ -549,7 +546,7 @@ include 'includes/language.php';
             var button = $(this);
             if ($(button).hasClass('gesture-editable')) {
                 if (!$(button).hasClass('disabled') && inputsValid(true)) {
-                    
+
                     lockButton(button, true, 'fa-pencil');
                     showCursor($('body'), CURSOR_PROGRESS);
                     var title = $('#gesture-name-input').val().trim();
@@ -564,7 +561,7 @@ include 'includes/language.php';
                     updateGesture({gestureId: gesture.id, title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints}, function (result) {
                         showCursor($('body'), CURSOR_DEFAULT);
                         unlockButton(button, true, 'fa-pencil');
-                        
+
                         $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').removeClass('disabled');
                         if (result.status === RESULT_SUCCESS) {
                             updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, type: type, interactionType: interactionType, context: result.context, association: association, description: result.description, joints: result.joints});
@@ -612,13 +609,13 @@ include 'includes/language.php';
                     event.handled = true;
                     lockButton(button, true, 'fa-trash');
                     showCursor($('body'), CURSOR_PROGRESS);
-                    
+
                     deleteGesture({gestureId: event.data.gestureId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             getGestureCatalog(function (result) {
                                 showCursor($('body'), CURSOR_DEFAULT);
                                 unlockButton(button, true, 'fa-trash');
-                                
+
                                 if (result.status === RESULT_SUCCESS) {
                                     originalFilterData = result.gestures;
                                     currentFilterData = sort();

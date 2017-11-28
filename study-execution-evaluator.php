@@ -26,7 +26,7 @@ if ($h && $token && $studyId) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -43,7 +43,6 @@ if ($h && $token && $studyId) {
         <script src="resumable/resumable.js"></script>
 
         <script src="js/chance.min.js"></script>
-        <!--<script src="color-thief/color-thief.js"></script>-->
         <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/forms.js"></script>
@@ -67,19 +66,9 @@ if ($h && $token && $studyId) {
         <!-- streaming -->
         <script src="andyet/simplewebrtcbundle.js"></script>
         <script src="js/peerConnection.js"></script>
-        <!--<script src="js/peerConnectionSharing.js"></script>-->
-
-        <!-- screen sharing sources -->
-        <!--<script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>-->
-        <!--<script src="muaz-khan/screen.js"></script>-->
-        <!--<script src="//cdn.webrtc-experiment.com/firebase.js"></script>-->
-
 
         <!-- gesture recorder sources -->
         <script src="js/gesture-recorder.js"></script>
-<!--        <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
-        <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
-        <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>-->
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -135,9 +124,9 @@ if ($h && $token && $studyId) {
                     <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
                 </div>
                 <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 11px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="Mikrofon stummschalten"><i class="fa fa-microphone-slash"></i> </button>
-                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="Übertragung pausieren"><i class="fa fa-pause"></i> </button>
-                    <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="Gesprächspartner stummschalten"><i class="fa fa-volume-up"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
                 </div>
                 <div id="stream-control-indicator">
                     <div style="position: absolute; top: 2px; display: block; left: 10px; opacity: 1; color: white">

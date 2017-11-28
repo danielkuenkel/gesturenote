@@ -16,7 +16,7 @@ if (login_check($mysqli) == true) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -49,7 +49,6 @@ if (login_check($mysqli) == true) {
         <script src="js/storageFunctions.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/rtc-result-player.js"></script>
-        <!--<script src="js/screen-share-result-player.js"></script>-->
 
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">

@@ -38,7 +38,7 @@ if ($h && $token && $studyId) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -79,12 +79,6 @@ if ($h && $token && $studyId) {
         <!-- streaming -->
         <script src="andyet/simplewebrtcbundle.js"></script>
         <script src="js/peerConnection.js"></script>
-        <!--<script src="js/peerConnectionSharing.js"></script>-->
-
-        <!-- screen sharing -->
-<!--        <script src="//cdn.webrtc-experiment.com/getScreenId.js"></script>
-        <script src="//cdn.webrtc-experiment.com/screen.js"></script>-->
-        <!--<script src="//cdn.webrtc-experiment.com/firebase.js"></script>-->
 
         <!-- gesture recorder sources -->
         <script src="js/gesture-recorder.js"></script>
@@ -99,8 +93,6 @@ if ($h && $token && $studyId) {
         <div id="template-gesture"></div>
         <div id="template-previews"></div>
         <div id="template-gesture-recorder"></div>
-        
-        <!--<div id="screenSharingTarget" class="hidden"></div>-->
 
         <!-- modals -->
         <div id="custom-modal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
@@ -135,11 +127,6 @@ if ($h && $token && $studyId) {
             </div>
         </div>
 
-        <!-- rtc live stream -->
-        <!--        <div id="web-rtc-live-stream" class="hidden" >
-                    <video autoplay class="rtc-stream" style="width: 100%; height: auto; overflow: hidden; border-radius: 4px;"></video>
-                </div>-->
-
         <div id="video-caller-holder" class="hidden">
             <div id="video-caller" style="width: 100%">
                 <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
@@ -147,9 +134,9 @@ if ($h && $token && $studyId) {
                     <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
                 </div>
                 <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 11px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="Mikrofon stummschalten"><i class="fa fa-microphone-slash"></i> </button>
-                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="Übertragung pausieren"><i class="fa fa-pause"></i> </button>
-                    <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="Gesprächspartner stummschalten"><i class="fa fa-volume-up"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
                 </div>
                 <div id="stream-control-indicator">
                     <div style="position: absolute; top: 2px; display: block; left: 10px; opacity: 1; color: white">

@@ -16,7 +16,7 @@ if (login_check($mysqli) == true) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNoteCreateStudy ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -81,7 +81,6 @@ if (login_check($mysqli) == true) {
         <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.nl.min.js" charset="UTF-8"></script>
         <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.nl-BE.min.js" charset="UTF-8"></script>
         <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.no.min.js" charset="UTF-8"></script>
-        <!--<script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.pl.js" charset="UTF-8"></script>-->
         <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.pt-BR.min.js" charset="UTF-8"></script>
         <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.pt.min.js" charset="UTF-8"></script>
         <script src="bootstrap-datepicker/js/locales/bootstrap-datepicker.ro.min.js" charset="UTF-8"></script>
@@ -126,7 +125,7 @@ if (login_check($mysqli) == true) {
         <script src="js/gesture-recorder.js"></script>
         <script src="js/upload-queue.js"></script>
 
-        <!-- gesture recorder sources -->
+        <!-- gesture recorder sources --> 
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
@@ -262,33 +261,6 @@ if (login_check($mysqli) == true) {
                             </div>
                         </div>
 
-                        <!--                        <div class="form-group root" id="surveyMethodSelect" style="margin-right: 20px; margin-top: 15px">
-                                                    <label style="margin: 0">
-                        <?php echo $lang->studySurveyMethod ?>
-                                                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
-                                                    </label><br>
-                        
-                                                    <div class="btn-group" id="radio" style="margin: 0">
-                                                        <button class="btn btn-default btn-radio btn-option-checked saveGeneralData" name="primary" id="singleInterview">
-                                                            <span id="icons" style="margin-right: 6px">
-                                                                <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                                                <i class="fa fa-circle hidden" id="over"></i>
-                                                                <i class="fa fa-check-circle" id="checked"></i>
-                                                            </span>
-                                                            <span class="option-text"><?php echo $lang->surveyMethod->singleInterview ?></span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="btn-group" id="radio" style="margin: 0">
-                                                        <button class="btn btn-default btn-radio disabled" name="primary" id="focusGroup">
-                                                            <span id="icons" style="margin-right: 6px">
-                                                                <i class="fa fa-circle-thin" id="normal"></i>
-                                                                <i class="fa fa-circle hidden" id="over"></i>
-                                                                <i class="fa fa-check-circle hidden" id="checked"></i>
-                                                            </span>
-                                                            <span class="option-text"><?php echo $lang->surveyMethod->focusGroup ?></span>
-                                                        </button>
-                                                    </div>
-                                                </div>-->
 
                         <div class="form-group root" id="surveyTypeSelect" style="margin-top: 15px">
                             <label style="margin: 0">

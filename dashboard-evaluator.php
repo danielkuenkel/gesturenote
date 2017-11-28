@@ -15,7 +15,7 @@ if (login_check($mysqli) == true) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNoteDashboard ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -74,16 +74,12 @@ if (login_check($mysqli) == true) {
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-studies" style="opacity: 0">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-tasks" aria-hidden="true"></i> <?php echo $lang->dashboard->studies ?></div>
                         <div class="panel-body"><?php echo $lang->dashboard->studiesPanelBody ?></div>
-                        <!--                        <div class="panel-footer">
-                                                    <button type="button" class="btn btn-success btn-block" id="btn-create-study"><i class="glyphicon glyphicon-plus"></i> <span class="btn-text"><?php echo $lang->createNewStudy ?></span></button>
-                                                </div>-->
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-gesture-styleguides" style="opacity: 0">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-map-signs" aria-hidden="true"></i> <?php echo $lang->dashboard->gesturesStyleguides ?></div>
                         <div class="panel-body"><?php echo $lang->dashboard->gesturesStyleguidesPanelBody ?></div>
-                        <!--<div class="panel-footer">Panel Footer</div>-->
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
@@ -96,7 +92,6 @@ if (login_check($mysqli) == true) {
                             <div id="user-public-gestures"><span class="address"></span> <span class="text"></span></div>
                             <div id="elicited-gestures"><span class="address"></span> <span class="text"></span></div>
                         </div>
-                        <!--<div class="panel-footer">Panel Footer</div>-->
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">

@@ -5,7 +5,7 @@ include './includes/language.php';
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>GestureNote</title>
+        <title><?php echo $lang->gestureNote ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -49,14 +49,9 @@ include './includes/language.php';
         <div class="container-fluid text-center bg-grey" id="landingText">
             <div class="container">
                 <h1><i class="fa fa-exclamation-triangle" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase">Fehler</span></h1>
-                <p class="text">Es gab einen Fehler! </p>
-                <p class="text">Bitte kontaktieren Sie das GestureNote Team.</p>
+                <p class="text"><?php echo $lang->ThereWasAnError ?></p>
+                <p class="text"><?php echo $lang->contactTeam ?></p>
             </div>
-        </div>
-
-        <!-- Container (Panel Section) -->
-        <div class="container mainContent" style="margin-top: 35px;">
-
         </div>
 
 

@@ -126,20 +126,6 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-                <!--                <div class="form-group" style="margin-top: 10px">
-                                    <label><?php echo $lang->gestureType ?></label>
-                                    <div class="input-group">
-                                        <input class="form-control item-input-text option-gesture-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                                        <div class="input-group-btn select gestureTypeSelect" role="group" id="gestureTypeSelect">
-                                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                                <li id="0"><a href="#"><?php echo $lang->gestureTypes->pose ?></a></li>
-                                                <li id="1"><a href="#"><?php echo $lang->gestureTypes->dynamic ?></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>-->
-
                 <div class="form-group root" id="gestureInteractionTypeSelect">
                     <label>
                         <?php echo $lang->gestureInteractionType ?> 
@@ -168,19 +154,6 @@ include '../includes/language.php';
                     </div>
                 </div>
 
-<!--                <div class="form-group" style="margin-top: 10px">
-                    <label><?php echo $lang->gestureInteractionType ?></label>
-                    <div class="input-group">
-                        <input class="form-control item-input-text option-gesture-interaction-type show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                        <div class="input-group-btn select gestureInteractionTypeSelect" role="group" id="gestureInteractionTypeSelect">
-                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                            <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                <li id="0"><a href="#"><?php echo $lang->gestureInteractionTypes->discrete ?></a></li>
-                                <li id="1"><a href="#"><?php echo $lang->gestureInteractionTypes->continuous ?></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>-->
 
                 <div class="form-group">
                     <label><?php echo $lang->gestureContext ?></label>
@@ -214,7 +187,6 @@ include '../includes/language.php';
             <div class="alert-space alert-gesture-save-success"></div>
             <div class="alert-space alert-general-error"></div>
 
-            <!--<div style="width: 100%" class="text-center">-->
             <div style="max-width: 600px; margin: auto">
                 <div class="previewGesture previewProgress previewProgress autoplay embed-responsive embed-responsive-4by3"></div>
                 <div class="progress gesture-progress">
@@ -227,7 +199,6 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
-            <!--</div>-->
 
             <div class="btn-group-vertical btn-block" style="margin-top: 20px">
                 <button class="btn btn-danger btn-shadow" id="btn-delete-saved-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <?php echo $lang->deleteSavedGesture ?></button>
