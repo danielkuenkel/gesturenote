@@ -188,7 +188,6 @@ include '../includes/language.php';
                 <span class="label label-default" id="gesture-source"><i class="fa fa-globe hidden" id="tester"></i><i class="fa fa-video-camera hidden" id="own"></i><i class="fa fa-globe hidden" id="evaluator"></i> <span class="label-text"></span></span>
                 <span class="label label-default" id="gesture-scope"><i class="fa fa-lock hidden" id="private"></i><i class="fa fa-share-alt hidden" id="public"></i> <span class="label-text"></span></span>
             </div>
-
             <div class="thumbnail-footer text-center">
                 <div class="btn-tag-as-favorite-gesture" data-toggle="popover"  data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->addToStudyGestureSet ?>"><i class="fa fa-plus-square-o"></i></span></div>
                 <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>

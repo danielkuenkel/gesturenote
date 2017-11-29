@@ -142,8 +142,8 @@ include '../includes/language.php';
     <div class="root" id="gus">
         <h3 id="headline" style="margin-top: 0"></h3>
         <hr>
-        <span class="label label-default hidden" id="search-gestures">Es wurden Gesten ermittelt</span> 
-        <span class="label label-default hidden" id="search-trigger">Es wurden Funktionen ermittelt</span>
+        <span class="label label-default hidden" id="search-gestures"><?php echo $lang->gesturesWhereElicited ?></span> 
+        <span class="label label-default hidden" id="search-trigger"><?php echo $lang->triggerWhereElicited ?></span>
 
         <div class="row">
             <div class="col-sm-6">
@@ -282,8 +282,6 @@ include '../includes/language.php';
             <span class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
             <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
             <span class="label label-warning" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
-<!--            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
-            <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text">Keine Begründung(en)</span></span>-->
         </div>
     </div>
 
@@ -374,7 +372,6 @@ include '../includes/language.php';
     </div>
 
     <div id="rating-item" class="text">
-        <!--<span id="rating-option" style="margin-right: 5px"></span>-->
         <div class="pull-right text" id="score-container"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
         <div id="scale-container"></div>
     </div>
@@ -778,11 +775,11 @@ include '../includes/language.php';
         <div class="col-sm-7">
             <div id="gesture"><span class="address"></span> <span class="text"></span></div>
             <div id="single-stress-answers">
-                <h4 id="headline-single-questions">Einzel-Antworten</h4>
+                <h4 id="headline-single-questions"><?php echo $lang->singleAnswers ?></h4>
                 <div class="question-container"></div>
             </div>
             <div id="sequence-stress-answers" style="margin-top: 40px">
-                <h4 id="headline-sequence-questions">Abschließende Antworten</h4>
+                <h4 id="headline-sequence-questions"><?php echo $lang->multipleAnswers ?></h4>
                 <div class="question-container"></div>
             </div>
 

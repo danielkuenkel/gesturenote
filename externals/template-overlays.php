@@ -11,7 +11,7 @@ include '../includes/language.php';
             <div class="col-md-7">
                 <div class="overlay-header">
                     <div class="overlay-header-container">
-                        <h3><span id="phase-step-title">Einverständniserklärung</span></h3>
+                        <h3><span id="phase-step-title"><?php echo $lang->formats->letterOfAcceptance->text ?></span></h3>
                     </div>
 
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
@@ -35,13 +35,13 @@ include '../includes/language.php';
             <div class="col-md-7">
                 <div class="overlay-header">
                     <div class="overlay-header-container">
-                        <h3><span id="phase-step-title">Danksagung</span></h3>
+                        <h3><span id="phase-step-title"><?php echo $lang->formats->thanks->text ?></span></h3>
                     </div>
 
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
                 </div>
 
-                <textarea class="form-control" id="declaration" rows="10" placeholder="Danksagung einfügen"></textarea>
+                <textarea class="form-control" id="declaration" rows="10" placeholder="<?php echo $lang->thanksInput ?>"></textarea>
             </div>
             <div class="col-md-5">
                 <div class="toggle-affix">
@@ -137,7 +137,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
 
             </div>
@@ -186,7 +186,7 @@ include '../includes/language.php';
 
                         <div class="input-group" id="gesture-trigger" style="margin-top: 10px">
                             <span class="input-group-addon"><?php echo $lang->trigger ?></span>
-                            <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                            <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select triggerSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -195,7 +195,7 @@ include '../includes/language.php';
 
                         <div class="input-group" id="gesture-feedback" style="margin-top: 10px">
                             <span class="input-group-addon"><?php echo $lang->feedback ?></span>
-                            <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="Bitte wählen"/>
+                            <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select feedbackSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -232,10 +232,8 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
-
-
             </div>
         </div>
 
@@ -291,7 +289,7 @@ include '../includes/language.php';
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
 
             </div>
@@ -330,7 +328,7 @@ include '../includes/language.php';
 
             <div class="col-md-5">
                 <div class="toggle-affix">
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
             </div>
 
@@ -374,11 +372,11 @@ include '../includes/language.php';
                 <div id="general" style="margin-top: 16px">
                     <div class="form-group">
                         <label for="trainingTitle"><?php echo $lang->title ?></label>
-                        <input type="text" class="form-control" id="trainingTitle" placeholder="Titel einfügen">
+                        <input type="text" class="form-control" id="trainingTitle" placeholder="<?php echo $lang->insertTitle ?>">
                     </div>
                     <div class="form-group">
-                        <label for="trainingDescription">Trainingsbeschreibung</label>
-                        <textarea class="form-control" id="trainingDescription" rows="7" placeholder="Trainingsbeschreibung einfügen" style="resize: none"></textarea>
+                        <label for="trainingDescription"><?php echo $lang->trainingDescription ?></label>
+                        <textarea class="form-control" id="trainingDescription" rows="7" placeholder="<?php echo $lang->insertTrainingDescription ?>" style="resize: none"></textarea>
                     </div>
                 </div>
 
@@ -388,7 +386,7 @@ include '../includes/language.php';
         </div>
 
 
-        <h3 style="margin-top: 20px;">Trainingselemente</h3>
+        <h3 style="margin-top: 20px;"><?php echo $lang->trainingElements ?></h3>
         <div class="row">
             <div class="col-md-11">
                 <hr style="margin-top: 10px">
@@ -407,13 +405,13 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-gestureTrainingOption" type="button" style="z-index: 3000"><span class="glyphicon glyphicon-plus"></span> <span>Trainingselement hinzufügen</span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-gestureTrainingOption" type="button" style="z-index: 3000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addTrainingElement ?></span></button>
                 </div>
             </div>
         </div>
 
         <div style="display: inline;">
-            <h3 style="display:inline-block">Beobachtungsbogen</h3>
+            <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
             <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -511,7 +509,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
 
             </div>
@@ -544,20 +542,20 @@ include '../includes/language.php';
 
                 <div id="general" style="margin-top: 16px">
                     <div class="form-group">
-                        <label for="scenarioTitle">Aufgabentitel</label>
-                        <input type="text" class="form-control" id="scenarioTitle" placeholder="Aufgabentitel einfügen">
+                        <label for="scenarioTitle"><?php echo $lang->taskTitle ?></label>
+                        <input type="text" class="form-control" id="scenarioTitle" placeholder="<?php echo $lang->insertTaskTitle ?>">
                     </div>
                     <div class="form-group">
-                        <label for="scenarioDescription">Aufgabenbeschreibung</label>
-                        <textarea class="form-control" id="scenarioDescription" rows="7" placeholder="Aufgabenbeschreibung einfügen" style="resize: none"></textarea>
+                        <label for="scenarioDescription"><?php echo $lang->taskDescription ?></label>
+                        <textarea class="form-control" id="scenarioDescription" rows="7" placeholder="<?php echo $lang->insertTaskDescription ?>" style="resize: none"></textarea>
                     </div>
 
                     <div class="alert-space alert-assembled-scene-removed"></div>
 
                     <div class="form-group" id="start-scene-select">
-                        <label for="scenarioDescription">Startzustand <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Dies ist ein Testcontent für ein Popover …"></i></label>
+                        <label for="scenarioDescription"><?php echo $lang->stateCharts->inputState ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Dies ist ein Testcontent für ein Popover …"></i></label>
                         <div class="input-group"> 
-                            <input class="form-control item-input-text show-dropdown option-scene readonly" type="text" value="" placeholder="Bitte wählen"/>
+                            <input class="form-control item-input-text show-dropdown option-scene readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select sceneSelect" role="group">
                                 <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                 <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
@@ -572,7 +570,7 @@ include '../includes/language.php';
 
 
         <div style="display: inline;">
-            <h3 style="display:inline-block">Wizard-of-Oz-Experiment</h3>
+            <h3 style="display:inline-block"><?php echo $lang->wozExperiment ?></h3>
             <div class="btn-group" id="useWOZSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -594,43 +592,13 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-woz-experimentOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span>WOZ-Element hinzufügen</span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-woz-experimentOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addWOZElement ?></span></button>
                 </div>
             </div>
         </div>
-        
-        
-<!--        <div style="display: inline;">
-            <h3 style="display:inline-block">Fehlerfälle</h3>
-            <div class="btn-group" id="useWorstCasesSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-11">
-                <hr style="margin-top: 10px">
-            </div>
-        </div>
-        <div class="row hidden" id="worstCases" style="margin-bottom: 30px;">
-            <div class="col-md-7">
-                <div class="alert-space alert-no-phase-data"></div>
-                <div class="alert-space alert-no-scenes-assembled-link"></div>
-                <div class="alert-space alert-no-study-gestures-assembled-link"></div>
-                <div class="alert-space alert-no-trigger-assembled-link"></div>
-                <div class="alert-space alert-no-feedback-assembled-link"></div>
-                <div class="option-container"></div>
-            </div>
-            <div class="col-md-5">
-                <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-worst-cases-option" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span>Fehlerfall hinzufügen</span></button>
-                </div>
-            </div>
-        </div>-->
-
 
         <div style="display: inline;">
-            <h3 style="display:inline-block">Hilfe</h3>
+            <h3 style="display:inline-block"><?php echo $lang->help ?></h3>
             <div class="btn-group" id="useHelpSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -650,14 +618,14 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button type="button" class="btn btn-info btn-shadow font-bold btn-add-helpOption" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span>Hilfe hinzufügen</span></button>
+                    <button type="button" class="btn btn-info btn-shadow font-bold btn-add-helpOption" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addHelp ?></span></button>
                 </div>
             </div>
         </div>
 
 
         <div style="display: inline;">
-            <h3 style="display:inline-block">Beobachtungsbogen</h3>
+            <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
             <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -696,7 +664,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <h4>Benutzerdefiniert</h4>
+                    <h4><?php echo $lang->userDefined ?></h4>
                     <div class="add-button-group" id="add-observation-button-group">
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
@@ -754,7 +722,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
 
             </div>
@@ -818,7 +786,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-slideshowOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span>Slideshowelement hinzufügen</span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-slideshowOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addSlideshowElement ?></span></button>
                 </div>
             </div>
         </div>
@@ -828,7 +796,7 @@ include '../includes/language.php';
 
 
         <div style="display: inline;">
-            <h3 style="display:inline-block">Beobachtungsbogen</h3>
+            <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
             <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -867,7 +835,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <h4 style="">Benutzerdefiniert</h4>
+                    <h4 style=""><?php echo $lang->userDefined ?></h4>
                     <div class="add-button-group" id="add-observation-button-group">
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
@@ -925,7 +893,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
 
             </div>
@@ -990,7 +958,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-slideshowOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span>Slideshowelement hinzufügen</span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-slideshowOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addSlideshowElement ?></span></button>
                 </div>
             </div>
         </div>
@@ -999,7 +967,7 @@ include '../includes/language.php';
 
 
         <div style="display: inline;">
-            <h3 style="display:inline-block">Beobachtungsbogen</h3>
+            <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
             <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -1074,7 +1042,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
 
             </div>
@@ -1116,17 +1084,17 @@ include '../includes/language.php';
                         <textarea class="form-control" id="stressTestDescription" rows="7" placeholder="<?php echo $lang->insertDescription ?>" style="resize: none"></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Durchläufe pro Geste</label>
+                        <label><?php echo $lang->runsPerGesture ?></label>
                         <div class="input-group simple-stepper">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="2">
-                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only">Einer weniger</span>
+                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneLess ?></span>
                                 </button>
                             </div>
                             <input type="text" class="form-control readonly text-center stepper-text" id="totalStressAmount" value="10">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="300">
-                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Einer mehr</span>
+                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneMore ?></span>
                                 </button>
                             </div>
                         </div>
@@ -1155,7 +1123,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-physicalStressTestOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span>Geste hinzufügen</span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-physicalStressTestOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addGesture ?></span></button>
                 </div>
             </div>
         </div>
@@ -1164,7 +1132,7 @@ include '../includes/language.php';
 
 
         <div style="display: inline;">
-            <h3 style="display:inline-block">Fragen nach jeder Geste</h3>
+            <h3 style="display:inline-block"><?php echo $lang->questionsAfterEveryGesture ?></h3>
             <div class="btn-group" id="useSingleStressQuestionsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -1242,7 +1210,7 @@ include '../includes/language.php';
 
                     <div class="form-group root" id="useGraphicalSingleStressSwitch">
                         <label style="margin: 0">
-                            Mit interaktiven Grafik über Anstrengung befragen 
+                            <?php echo $lang->askWithInteractiveGraphic ?> 
                             <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
                         </label><br>
 
@@ -1253,7 +1221,7 @@ include '../includes/language.php';
                                     <i class="fa fa-circle hidden" id="over"></i>
                                     <i class="fa fa-check-circle hidden" id="checked"></i>
                                 </span>
-                                <span class="option-text">Körper</span>
+                                <span class="option-text"><?php echo $lang->body ?></span>
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1263,7 +1231,7 @@ include '../includes/language.php';
                                     <i class="fa fa-circle hidden" id="over"></i>
                                     <i class="fa fa-check-circle hidden" id="checked"></i>
                                 </span>
-                                <span class="option-text">Hände</span>
+                                <span class="option-text"><?php echo $lang->hands ?></span>
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1273,7 +1241,7 @@ include '../includes/language.php';
                                     <i class="fa fa-circle hidden" id="over"></i>
                                     <i class="fa fa-check-circle hidden" id="checked"></i>
                                 </span>
-                                <span class="option-text">Körper & Hände</span>
+                                <span class="option-text"><?php echo $lang->bodyAndHands ?></span>
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1283,12 +1251,12 @@ include '../includes/language.php';
                                     <i class="fa fa-circle hidden" id="over"></i>
                                     <i class="fa fa-check-circle" id="checked"></i>
                                 </span>
-                                <span class="option-text">Keine</span>
+                                <span class="option-text"><?php echo $lang->none ?></span>
                             </button>
                         </div>
                     </div>
 
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
 
             </div>
@@ -1298,7 +1266,7 @@ include '../includes/language.php';
 
 
         <div style="display: inline;">
-            <h3 style="display:inline-block">Fragen nach einer Gesten-Sequenz</h3>
+            <h3 style="display:inline-block"><?php echo $lang->questionsAfterGestureSequence ?></h3>
             <div class="btn-group" id="useSequenceStressQuestionsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -1377,7 +1345,7 @@ include '../includes/language.php';
 
                     <div class="form-group root" id="useGraphicalSequenceStressSwitch">
                         <label style="margin: 0" >
-                            Mit interaktiven Grafik über Anstrengung befragen 
+                            <?php echo $lang->askWithInteractiveGraphic ?> 
                             <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
                         </label><br>
 
@@ -1388,7 +1356,7 @@ include '../includes/language.php';
                                     <i class="fa fa-circle hidden" id="over"></i>
                                     <i class="fa fa-check-circle hidden" id="checked"></i>
                                 </span>
-                                <span class="option-text">Körper</span>
+                                <span class="option-text"><?php echo $lang->body ?></span>
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1398,7 +1366,7 @@ include '../includes/language.php';
                                     <i class="fa fa-circle hidden" id="over"></i>
                                     <i class="fa fa-check-circle hidden" id="checked"></i>
                                 </span>
-                                <span class="option-text">Hände</span>
+                                <span class="option-text"><?php echo $lang->hands ?></span>
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1408,7 +1376,7 @@ include '../includes/language.php';
                                     <i class="fa fa-circle hidden" id="over"></i>
                                     <i class="fa fa-check-circle hidden" id="checked"></i>
                                 </span>
-                                <span class="option-text">Körper & Hände</span>
+                                <span class="option-text"><?php echo $lang->bodyAndHands ?></span>
                             </button>
                         </div>
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1418,12 +1386,12 @@ include '../includes/language.php';
                                     <i class="fa fa-circle hidden" id="over"></i>
                                     <i class="fa fa-check-circle" id="checked"></i>
                                 </span>
-                                <span class="option-text">Keine</span>
+                                <span class="option-text"><?php echo $lang->none ?></span>
                             </button>
                         </div>
                     </div>
 
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
 
             </div>
@@ -1433,7 +1401,7 @@ include '../includes/language.php';
 
 
         <div style="display: inline;">
-            <h3 style="display:inline-block">Beobachtungsbogen</h3>
+            <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
             <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -1472,7 +1440,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <h4 style="">Benutzerdefiniert</h4>
+                    <h4 style=""><?php echo $lang->userDefined ?></h4>
                     <div class="add-button-group" id="add-observation-button-group">
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
@@ -1530,7 +1498,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
 
             </div>
@@ -1579,7 +1547,7 @@ include '../includes/language.php';
 
 
 
-        <h3 style="margin-top: 20px;">Elemente</h3>
+        <h3 style="margin-top: 20px;"><?php echo $lang->elements ?></h3>
         <div class="row">
             <div class="col-md-11">
                 <hr style="margin-top: 10px">
@@ -1598,7 +1566,7 @@ include '../includes/language.php';
                 <div class="toggle-dynamic-affix">
                     <div class="form-group root" id="identificationTypeSwitch">
                         <label style="margin: 0"  >
-                            Was soll identifiziert werden? 
+                            <?php echo $lang->whatShouldBeIdentified ?> 
                             <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
                         </label><br>
 
@@ -1624,7 +1592,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-info btn-shadow btn-add-identificationOption font-bold disabled" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span>Identifikationselement hinzufügen</span></button>
+                    <button class="btn btn-info btn-shadow btn-add-identificationOption font-bold disabled" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addIdentificationElement ?></span></button>
                 </div>
             </div>
         </div>
@@ -1633,7 +1601,7 @@ include '../includes/language.php';
 
 
         <div style="display: inline;">
-            <h3 style="display:inline-block">Beobachtungsbogen</h3>
+            <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
             <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -1708,7 +1676,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
 
             </div>
@@ -1756,7 +1724,7 @@ include '../includes/language.php';
 
 
 
-        <h3 style="margin-top: 20px;">Elemente</h3>
+        <h3 style="margin-top: 20px;"><?php echo $lang->elements ?></h3>
         <div class="row">
             <div class="col-md-11">
                 <hr style="margin-top: 10px">
@@ -1775,7 +1743,7 @@ include '../includes/language.php';
                 <div class="toggle-dynamic-affix">
                     <div class="form-group root" id="explorationTypeSwitch">
                         <label style="margin: 0"  >
-                            Was soll extrahiert werden? 
+                            <?php echo $lang->whatShouldBeExtracted ?> 
                             <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
                         </label><br>
 
@@ -1800,10 +1768,10 @@ include '../includes/language.php';
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="form-group root hidden" id="askPreferredGestureSwitch">
                         <label style="margin: 0"  >
-                            Soll bevorzugte Geste direkt abgefragt werden?
+                            <?php echo $lang->queryPreferredGestureDirectly ?> 
                             <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
                         </label><br>
 
@@ -1828,10 +1796,10 @@ include '../includes/language.php';
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="form-group root hidden" id="askPreferredTriggerSwitch">
                         <label style="margin: 0"  >
-                            Soll bevorzugte Funktion direkt abgefragt werden?
+                            <?php echo $lang->queryPreferredTriggerDirectly ?> 
                             <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
                         </label><br>
 
@@ -1856,8 +1824,8 @@ include '../includes/language.php';
                             </button>
                         </div>
                     </div>
-                    
-                    <button class="btn btn-info btn-shadow btn-add-explorationOption font-bold" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span>Explorationselement hinzufügen</span></button>
+
+                    <button class="btn btn-info btn-shadow btn-add-explorationOption font-bold" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addExplorationElement ?></span></button>
                 </div>
             </div>
         </div>
@@ -1866,7 +1834,7 @@ include '../includes/language.php';
 
 
         <div style="display: inline;">
-            <h3 style="display:inline-block">Beobachtungsbogen</h3>
+            <h3 style="display:inline-block"><?php echo $lang->observationForm ?></h3>
             <div class="btn-group" id="useObservationsSwitch" style="margin-top: -9px; margin-left: 10px">
                 <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
                 <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
@@ -1941,7 +1909,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> Vorschau des gesamten Fragebogens</button>
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
 
             </div>
@@ -1971,10 +1939,10 @@ include '../includes/language.php';
                 </div>
 
                 <ul class="nav nav-pills hidden-md hidden-lg gesture-catalogs-nav-tab" id="gesture-catalogs-nav-tab-small">
-                    <li role="presentation" class="active" style="margin-right: 20px; margin-top: 10px"><a href="#study-gesture-set" role="tab" data-toggle="tab">Studien-Gesten-Set <span class="badge" id="study-gesture-set-badge"></span></a></li>
-                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-catalog" role="tab" data-toggle="tab">Gesten-Katalog <span class="badge" id="gesture-catalog-badge"></span></a></li>
-                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-sets" role="tab" data-toggle="tab">Gesten-Sets <span class="badge" id="gesture-sets-badge"></span></a></li>
-                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-recorder-content" role="tab" data-toggle="tab">Gesten-Recorder</a></li>
+                    <li role="presentation" class="active" style="margin-right: 20px; margin-top: 10px"><a href="#study-gesture-set" role="tab" data-toggle="tab"><?php echo $lang->studyGestureSet ?> <span class="badge" id="study-gesture-set-badge"></span></a></li>
+                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-catalog" role="tab" data-toggle="tab"><?php echo $lang->breadcrump->gestureCatalog ?> <span class="badge" id="gesture-catalog-badge"></span></a></li>
+                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-sets" role="tab" data-toggle="tab"><?php echo $lang->gestureSets ?> <span class="badge" id="gesture-sets-badge"></span></a></li>
+                    <li role="presentation" style="margin-top: 10px"><a href="#gesture-recorder-content" role="tab" data-toggle="tab"><?php echo $lang->gestureRecorder ?></a></li>
                 </ul>
 
                 <div class="tab-content" style="margin-top: 10px">
@@ -1985,38 +1953,38 @@ include '../includes/language.php';
                             <div id="filter-controls">
                                 <div class="form-group form-group-no-margin">
                                     <div class="input-group">
-                                        <span class="input-group-addon">Filter</span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
+                                        <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
                                         <div class="input-group-btn select filter" id="filter" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                                <li id="all" class="selected"><a href="#">Alle</a></li>
-                                                <li id="recorded"><a href="#">Eigene Aufgezeichnete</a></li>
-                                                <li id="tester"><a href="#">Tester</a></li>
-                                                <li id="public"><a href="#">Öffentlich</a></li>
+                                                <li id="all" class="selected"><a href="#"><?php echo $lang->filter->all ?></a></li>
+                                                <li id="recorded"><a href="#"><?php echo $lang->filter->ownRecorded ?></a></li>
+                                                <li id="tester"><a href="#"><?php echo $lang->filter->tester ?></a></li>
+                                                <li id="public"><a href="#"><?php echo $lang->filter->shared ?></a></li>
                                             </ul>
                                         </div>
-                                        <span class="input-group-addon">Sortierung</span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                                        <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
                                         <div class="input-group-btn select sort" id="sort" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                                <li class="dropdown-header">Datum</li>
-                                                <li id="oldest"><a href="#">Älteste zuerst</a></li>
-                                                <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                                <li class="dropdown-header"><?php echo $lang->sorting->dateHeadline ?></li>
+                                                <li id="oldest"><a href="#"><?php echo $lang->sorting->DESC ?></a></li>
+                                                <li id="newest"><a href="#"><?php echo $lang->sorting->ASC ?></a></li>
                                                 <li class="divider"></li>
-                                                <li class="dropdown-header">Gestentitel</li>
-                                                <li id="asc"><a href="#">A bis Z</a></li>
-                                                <li id="desc"><a href="#">Z bis A</a></li>
+                                                <li class="dropdown-header"><?php echo $lang->sorting->gestureTitleHeadline ?></li>
+                                                <li id="asc"><a href="#"><?php echo $lang->sorting->AtoZ ?></a></li>
+                                                <li id="desc"><a href="#"><?php echo $lang->sorting->ZtoA ?></a></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group form-group-margin-top">
                                     <div class="input-group">
-                                        <span class="input-group-addon">Suchen</span>
-                                        <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
-                                        <span class="input-group-addon">Einträge pro Seite</span>
+                                        <span class="input-group-addon"><?php echo $lang->search->name ?></span>
+                                        <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
+                                        <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
                                         <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="16"/>
                                         <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_16"></span><span class="caret"></span></button>
@@ -2066,38 +2034,38 @@ include '../includes/language.php';
                             <div>
                                 <div class="form-group form-group-no-margin">
                                     <div class="input-group">
-                                        <span class="input-group-addon">Filter</span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Alle"/>
+                                        <span class="input-group-addon"><?php echo $lang->filter->name ?></span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->filter->all ?>"/>
                                         <div class="input-group-btn select filter" id="filter" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="all"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                                <li id="all" class="selected"><a href="#">Alle</a></li>
-                                                <li id="recorded"><a href="#">Eigene Aufgezeichnete</a></li>
-                                                <li id="tester"><a href="#">Tester</a></li>
-                                                <li id="public"><a href="#">Öffentlich</a></li>
+                                                <li id="all" class="selected"><a href="#"><?php echo $lang->filter->all ?></a></li>
+                                                <li id="recorded"><a href="#"><?php echo $lang->filter->ownRecorded ?></a></li>
+                                                <li id="tester"><a href="#"><?php echo $lang->filter->tester ?></a></li>
+                                                <li id="public"><a href="#"><?php echo $lang->filter->shared ?></a></li>
                                             </ul>
                                         </div>
-                                        <span class="input-group-addon">Sortierung</span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                                        <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
                                         <div class="input-group-btn select sort" id="sort" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                                <li class="dropdown-header">Datum</li>
-                                                <li id="oldest"><a href="#">Älteste zuerst</a></li>
-                                                <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                                <li class="dropdown-header"><?php echo $lang->sorting->dateHeadline ?></li>
+                                                <li id="oldest"><a href="#"><?php echo $lang->sorting->DESC ?></a></li>
+                                                <li id="newest"><a href="#"><?php echo $lang->sorting->ASC ?></a></li>
                                                 <li class="divider"></li>
-                                                <li class="dropdown-header">Gestentitel</li>
-                                                <li id="asc"><a href="#">A bis Z</a></li>
-                                                <li id="desc"><a href="#">Z bis A</a></li>
+                                                <li class="dropdown-header"><?php echo $lang->sorting->gestureTitleHeadline ?></li>
+                                                <li id="asc"><a href="#"><?php echo $lang->sorting->AtoZ ?></a></li>
+                                                <li id="desc"><a href="#"><?php echo $lang->sorting->ZtoA ?></a></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group form-group-margin-top">
                                     <div class="input-group">
-                                        <span class="input-group-addon">Suchen</span>
-                                        <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben"/>
-                                        <span class="input-group-addon">Einträge pro Seite</span>
+                                        <span class="input-group-addon"><?php echo $lang->search->name ?></span>
+                                        <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->search->placeHolder ?>"/>
+                                        <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
                                         <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="16"/>
                                         <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_16"></span><span class="caret"></span></button>
@@ -2144,12 +2112,12 @@ include '../includes/language.php';
 
                     <div role="tabpanel" class="tab-pane" id="tab-gesture-sets">
                         <div class="create-gesture-set-input">
-                            <label class="text">Neues Gesten-Set anlegen</label>
+                            <label class="text"><?php echo $lang->createNewGestureSet ?></label>
 
                             <div class="alert-space alert-gesture-set-title-too-short"></div>
 
                             <div class="input-group">
-                                <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="Name des Gesten-Sets (mindestens 8 Zeichen)">
+                                <input type="text" class="form-control" id="input-new-set-title" minlength="8" maxlength="60" placeholder="<?php echo $lang->createNewGestureSetPlaceholder ?>">
                                 <span class="input-group-btn">
                                     <button class="btn btn-info btn-add-gesture-set" type="button" id="btn-add-gesture-set"><i class="fa fa-plus"></i></button>
                                 </span>
@@ -2163,21 +2131,21 @@ include '../includes/language.php';
                             <div>
                                 <div class="form-group form-group-no-margin">
                                     <div class="input-group">
-                                        <span class="input-group-addon">Sortierung</span>
-                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="Neueste zuerst"/>
+                                        <span class="input-group-addon"><?php echo $lang->sorting->name ?></span>
+                                        <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="<?php echo $lang->sorting->ASC ?>"/>
                                         <div class="input-group-btn select sort" id="sort" role="group">
-                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown" style="border-radius: 0px"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                            <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                                             <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                                                <li class="dropdown-header">Datum</li>
-                                                <li id="oldest"><a href="#">Älteste zuerst</a></li>
-                                                <li id="newest"><a href="#">Neueste zuerst</a></li>
+                                                <li class="dropdown-header"><?php echo $lang->sorting->dateHeadline ?></li>
+                                                <li id="oldest"><a href="#"><?php echo $lang->sorting->DESC ?></a></li>
+                                                <li id="newest"><a href="#"><?php echo $lang->sorting->ASC ?></a></li>
                                                 <li class="divider"></li>
-                                                <li class="dropdown-header">Gestentitel</li>
-                                                <li id="asc"><a href="#">A bis Z</a></li>
-                                                <li id="desc"><a href="#">Z bis A</a></li>
+                                                <li class="dropdown-header"><?php echo $lang->sorting->gestureTitleHeadline ?></li>
+                                                <li id="asc"><a href="#"><?php echo $lang->sorting->AtoZ ?></a></li>
+                                                <li id="desc"><a href="#"><?php echo $lang->sorting->ZtoA ?></a></li>
                                             </ul>
                                         </div>
-                                        <span class="input-group-addon">Einträge pro Seite</span>
+                                        <span class="input-group-addon"><?php echo $lang->filterItems->name ?></span>
                                         <input class="form-control item-input-text show-dropdown text-center readonly" tabindex="-1" type="text" value="4"/>
                                         <div class="input-group-btn select resultsCountSelect" id="resultsCountSelect" role="group">
                                             <button class="btn btn-default btn-shadow btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="results_4"></span><span class="caret"></span></button>
@@ -2191,9 +2159,8 @@ include '../includes/language.php';
                                 </div>
                                 <div class="form-group form-group-margin-top">
                                     <div class="input-group">
-                                        <span class="input-group-addon">Nach Titel suchen</span>
-                                        <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="Suchbegriff eingeben (Gesten-Set-Titel)"/>
-
+                                        <span class="input-group-addon"><?php echo $lang->titelSearch->name ?></span>
+                                        <input class="form-control item-input-text search search-input" id="searched-input" autocomplete="off" type="search" value="" placeholder="<?php echo $lang->titelSearch->placeHolder ?>"/>
                                     </div>
                                 </div>
                             </div>
@@ -2243,11 +2210,11 @@ include '../includes/language.php';
             <div class="col-md-3 hidden-xs hidden-sm">
                 <div class="toggle-affix">
                     <ul class="nav nav-pills nav-stacked gesture-catalogs-nav-tab" id="gesture-catalogs-nav-tab">
-                        <li role="presentation" class="active"><a href="#study-gesture-set" role="tab" data-toggle="tab">Studien-Gesten-Set <span class="badge" id="study-gesture-set-badge"></span></a></li>
-                        <h4 style="margin-top: 20px">Studien-Gesten wählen</h4>
-                        <li role="presentation"><a href="#gesture-catalog" role="tab" data-toggle="tab">Gesten-Katalog <span class="badge" id="gesture-catalog-badge"></span></a></li>
-                        <li role="presentation"><a href="#gesture-sets" role="tab" data-toggle="tab">Gesten-Sets <span class="badge" id="gesture-sets-badge"></span></a></li>
-                        <li role="presentation"><a href="#gesture-recorder-content" role="tab" data-toggle="tab">Gesten-Recorder</a></li>
+                        <li role="presentation" class="active"><a href="#study-gesture-set" role="tab" data-toggle="tab"><?php echo $lang->studyGestureSet ?> <span class="badge" id="study-gesture-set-badge"></span></a></li>
+                        <h4 style="margin-top: 20px"><?php echo $lang->chooseStudyGestureSet ?></h4>
+                        <li role="presentation"><a href="#gesture-catalog" role="tab" data-toggle="tab"><?php echo $lang->breadcrump->gestureCatalog ?> <span class="badge" id="gesture-catalog-badge"></span></a></li>
+                        <li role="presentation"><a href="#gesture-sets" role="tab" data-toggle="tab"><?php echo $lang->gestureSet ?> <span class="badge" id="gesture-sets-badge"></span></a></li>
+                        <li role="presentation"><a href="#gesture-recorder-content" role="tab" data-toggle="tab"><?php echo $lang->gestureRecorder ?></a></li>
                     </ul>
                 </div>
             </div>
@@ -2284,7 +2251,7 @@ include '../includes/language.php';
                 <div class="add-button-group toggle-affix" id="add-trigger-button-group" style="margin-top: 10px">
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="triggerItem">
-                            <i class="fa fa-plus"></i> Funktion hinzufügen
+                            <i class="fa fa-plus"></i> <?php echo $lang->addTrigger ?>
                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
                         </div>
                     </div>
