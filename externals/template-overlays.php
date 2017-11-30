@@ -212,13 +212,13 @@ include '../includes/language.php';
             <div class="col-md-5">
                 <div class="toggle-affix">
                     <div id="dimension-controls">
-                        <div class="dimension-container" id="container-effectiveness">
-                            <h4 style="margin-top: 0"><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                        <div class="dimension-container">
+                            <h4 style="margin-top: 0"><?php echo $lang->aspects ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-                        <div class="dimension-container" id="container-efficiency">
+<!--                        <div class="dimension-container" id="container-efficiency">
                             <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
@@ -229,7 +229,7 @@ include '../includes/language.php';
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
 
                     <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
@@ -270,13 +270,13 @@ include '../includes/language.php';
             <div class="col-md-5">
                 <div class="toggle-affix">
                     <div id="dimension-controls">
-                        <div class="dimension-container" id="container-effectiveness">
-                            <h4 style="margin-top: 0"><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                        <div class="dimension-container">
+                            <h4 style="margin-top: 0"><?php echo $lang->aspects ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-                        <div class="dimension-container" id="container-efficiency">
+<!--                        <div class="dimension-container" id="container-efficiency">
                             <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
@@ -287,7 +287,7 @@ include '../includes/language.php';
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
@@ -431,13 +431,13 @@ include '../includes/language.php';
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
                     <div id="dimension-controls">
-                        <div class="dimension-container" id="container-effectiveness">
-                            <h4 style="margin-top: 0px"><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                        <div class="dimension-container">
+                            <h4 style="margin-top: 0"><?php echo $lang->aspects ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-                        <div class="dimension-container" id="container-efficiency">
+<!--                        <div class="dimension-container" id="container-efficiency">
                             <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
@@ -448,10 +448,10 @@ include '../includes/language.php';
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
 
-                    <h4>Benutzerdefiniert</h4>
+                    <h4><?php echo $lang->userDefined ?></h4>
                     <div class="add-button-group" id="add-observation-button-group">
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
@@ -644,13 +644,13 @@ include '../includes/language.php';
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
                     <div id="dimension-controls">
-                        <div class="dimension-container" id="container-effectiveness">
-                            <h4 style="margin-top: 0"><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                        <div class="dimension-container">
+                            <h4 style="margin-top: 0"><?php echo $lang->aspects ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-                        <div class="dimension-container" id="container-efficiency">
+<!--                        <div class="dimension-container" id="container-efficiency">
                             <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
@@ -661,7 +661,7 @@ include '../includes/language.php';
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
 
                     <h4><?php echo $lang->userDefined ?></h4>
@@ -815,13 +815,13 @@ include '../includes/language.php';
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
                     <div id="dimension-controls">
-                        <div class="dimension-container" id="container-effectiveness">
-                            <h4 style="margin-top: 0"><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                        <div class="dimension-container">
+                            <h4 style="margin-top: 0"><?php echo $lang->aspects ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-                        <div class="dimension-container" id="container-efficiency">
+<!--                        <div class="dimension-container" id="container-efficiency">
                             <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
@@ -832,7 +832,7 @@ include '../includes/language.php';
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
 
                     <h4 style=""><?php echo $lang->userDefined ?></h4>
@@ -1420,13 +1420,13 @@ include '../includes/language.php';
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
                     <div id="dimension-controls">
-                        <div class="dimension-container" id="container-effectiveness">
-                            <h4 style="margin-top: 0"><?php echo $lang->mainDimensions->effectiveness ?></h4>
+                        <div class="dimension-container">
+                            <h4 style="margin-top: 0"><?php echo $lang->aspects ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-                        <div class="dimension-container" id="container-efficiency">
+<!--                        <div class="dimension-container" id="container-efficiency">
                             <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
@@ -1437,7 +1437,7 @@ include '../includes/language.php';
                             <div class="dimension-btn-group">
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
 
                     <h4 style=""><?php echo $lang->userDefined ?></h4>
@@ -2213,7 +2213,7 @@ include '../includes/language.php';
                         <li role="presentation" class="active"><a href="#study-gesture-set" role="tab" data-toggle="tab"><?php echo $lang->studyGestureSet ?> <span class="badge" id="study-gesture-set-badge"></span></a></li>
                         <h4 style="margin-top: 20px"><?php echo $lang->chooseStudyGestureSet ?></h4>
                         <li role="presentation"><a href="#gesture-catalog" role="tab" data-toggle="tab"><?php echo $lang->breadcrump->gestureCatalog ?> <span class="badge" id="gesture-catalog-badge"></span></a></li>
-                        <li role="presentation"><a href="#gesture-sets" role="tab" data-toggle="tab"><?php echo $lang->gestureSet ?> <span class="badge" id="gesture-sets-badge"></span></a></li>
+                        <li role="presentation"><a href="#gesture-sets" role="tab" data-toggle="tab"><?php echo $lang->gestureSets ?> <span class="badge" id="gesture-sets-badge"></span></a></li>
                         <li role="presentation"><a href="#gesture-recorder-content" role="tab" data-toggle="tab"><?php echo $lang->gestureRecorder ?></a></li>
                     </ul>
                 </div>

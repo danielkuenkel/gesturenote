@@ -48,20 +48,20 @@ if (login_check($mysqli) == true) {
 
         <!-- Container (Landing Section) -->
         <!--<div class="container-fluid bg-grey wall" id="landingText">-->
-            <!-- Container (Breadcrump) -->
-            <div class="container" id="breadcrumb" style="margin-top: 40px">
-                <div class="row">
-                    <ol class="breadcrumb">
-                        <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
-                        <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
-                        <li class="active"><i class="fa fa-map-signs" aria-hidden="true"></i> <?php echo $lang->breadcrump->gestureStyleguides ?></li>
-                    </ol>
-                </div>
+        <!-- Container (Breadcrump) -->
+        <div class="container" id="breadcrumb" style="margin-top: 40px">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a class="breadcrump-btn" id="btn-index"><i class="fa fa-home" aria-hidden="true"></i> <?php echo $lang->breadcrump->home ?></a></li>
+                    <li><a class="breadcrump-btn" id="btn-dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> <?php echo $lang->breadcrump->dashboard ?></a></li>
+                    <li class="active"><i class="fa fa-map-signs" aria-hidden="true"></i> <?php echo $lang->breadcrump->gestureStyleguides ?></li>
+                </ol>
             </div>
+        </div>
 
-<!--            <div class="container text-center dropShadowText">
-                <h1><i class="fa fa-map-signs" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase"><?php echo $lang->breadcrump->gestureStyleguides ?></span></h1>
-            </div>-->
+        <!--            <div class="container text-center dropShadowText">
+                        <h1><i class="fa fa-map-signs" style="font-size: 60pt" aria-hidden="true"></i> <span class="uppercase"><?php echo $lang->breadcrump->gestureStyleguides ?></span></h1>
+                    </div>-->
         <!--</div>-->
 
         <div class="container" id="general-styleguides" style="margin-top: 0px">
@@ -100,23 +100,18 @@ if (login_check($mysqli) == true) {
                     <li><?php echo $lang->generalGestureProcessStyleguides->sg16 ?></li>
                     <li><?php echo $lang->generalGestureProcessStyleguides->sg17 ?></li>
                     <li><?php echo $lang->generalGestureProcessStyleguides->sg18 ?></li>
+                    <li><?php echo $lang->generalGestureProcessStyleguides->sg19 ?></li>
+                    <li><?php echo $lang->generalGestureProcessStyleguides->sg20 ?></li>
                 </ul>
             </div>
         </div>
-        <!--        <div class="container" id="heuristics-styleguides" style="margin-top: 50px">
-                    <h2><?php echo $lang->gestureStyleguides->heuristics->headline ?></h2>
-                    <hr>
-                    <p></p>
-                    <div class="text">
-        
-                    </div>
-                </div>-->
+
         <div class="container" id="gus-styleguides" style="margin-top: 50px">
             <h2><?php echo $lang->gestureStyleguides->usabilityScale->headline ?></h2>
             <hr>
             <p><?php echo $lang->gestureStyleguides->usabilityScale->info ?></p>
             <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-single">
-                <h4 class="pull-left">GUS für einzelne Gesten</h4>
+                <h4 class="pull-left"><?php echo $lang->gusForSingleGesture ?></h4>
                 <div id="plus-sign" class="pull-right"><i class="fa fa-plus"></i></div>
             </div>
             <div style="clear: both"></div>
@@ -126,7 +121,7 @@ if (login_check($mysqli) == true) {
             </div>
 
             <div style="margin-top:40px; display: inline; cursor: pointer" class="btn-toggle-gus-items text" id="btn-toggle-multiple">
-                <h4 class="pull-left">GUS für mehrere Gesten</h4>
+                <h4 class="pull-left"><?php echo $lang->gusForMultipleGestures ?></h4>
                 <div id="plus-sign" class="pull-right"><i class="fa fa-plus"></i></div>
             </div>
             <div style="clear: both"></div>
@@ -156,9 +151,9 @@ if (login_check($mysqli) == true) {
         </div>
 
         <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors-headline">
-            <div class="label label-primary" id="factor-main"></div>
-            <img src="img/factor-transition.jpg" style="margin-left: -4px; margin-right: -4px">
-            <div class="label label-info" id="factor-primary"></div>
+            <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+            <div class="label label-primary" id="factor-primary"></div>
         </div>
 
         <script>
@@ -175,81 +170,90 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
 
-                renderDimensions($('#gus-styleguides #single-gus-list-container'));
+//                renderDimensions($('#gus-styleguides #single-gus-list-container'));
                 renderGUSStyleguides($('#single-gus-list-container'), translation.singleGUS);
 
-                renderDimensions($('#gus-styleguides #multiple-gus-list-container'));
+//                renderDimensions($('#gus-styleguides #multiple-gus-list-container'));
                 renderGUSStyleguides($('#multiple-gus-list-container'), translation.multipleGUS);
             }
 
-            function renderDimensions(target) {
-                var count, subCount = 0;
-                var dimension = null;
-                var mainDimensions = translation.mainDimensions;
-                var dimensionsForMainDimensions = translation.mainDimensionsForDimension;
-                for (var mainDimension in mainDimensions) {
-                    if (dimension !== mainDimension) {
-                        dimension = mainDimension;
-
-                        var container = document.createElement('div');
-                        $(container).attr('id', 'mainDimension_' + dimension);
-                        $(container).addClass('container');
-                        $(target).append(container);
-
-                        if (count > 0) {
-                            $(container).css({marginTop: "40px"});
-                        }
-
-                        for (var subDimension in dimensionsForMainDimensions) {
-                            var headline = $('#item-factors-headline').clone().removeClass('hidden').removeAttr('id');
-                            $(headline).find('#factor-main').text(mainDimensions[dimension]);
-                            $(headline).addClass('row');
-                            $(headline).find('#factor-primary').text(translation.dimensions[subDimension]);
-
-                            if (dimensionsForMainDimensions[subDimension] === dimension) {
-                                $(container).append(headline);
-
-                                var subContainer = document.createElement('div');
-                                $(subContainer).addClass('row');
-                                $(subContainer).attr('id', 'subDimension_' + subDimension);
-                                $(container).append(subContainer);
-
-                                if (subCount > 0) {
-                                    $(headline).css({marginTop: "40px"});
-                                }
-                            }
-                            subCount++;
-                        }
-                    }
-                    count++;
-                }
-            }
+//            function renderDimensions(target) {
+//                var count, subCount = 0;
+//                var dimension = null;
+//                var mainDimensions = translation.mainDimensions;
+//                var dimensionsForMainDimensions = translation.mainDimensionsForDimension;
+//                for (var mainDimension in mainDimensions) {
+//                    if (dimension !== mainDimension) {
+//                        dimension = mainDimension;
+//
+//                        var container = document.createElement('div');
+//                        $(container).attr('id', 'mainDimension_' + dimension);
+//                        $(container).addClass('container');
+//                        $(target).append(container);
+//
+//                        if (count > 0) {
+//                            $(container).css({marginTop: "40px"});
+//                        }
+//
+//                        for (var subDimension in dimensionsForMainDimensions) {
+//                            var headline = $('#item-factors-headline').clone().removeClass('hidden').removeAttr('id');
+////                            $(headline).find('#factor-main').text(mainDimensions[dimension]);
+//                            $(headline).addClass('row');
+//                            $(headline).find('#factor-primary').text(translation.dimensions[subDimension]);
+//
+//                            if (dimensionsForMainDimensions[subDimension] === dimension) {
+//                                $(container).append(headline);
+//
+//                                var subContainer = document.createElement('div');
+//                                $(subContainer).addClass('row');
+//                                $(subContainer).attr('id', 'subDimension_' + subDimension);
+//                                $(container).append(subContainer);
+//
+//                                if (subCount > 0) {
+//                                    $(headline).css({marginTop: "40px"});
+//                                }
+//                            }
+//                            subCount++;
+//                        }
+//                    }
+//                    count++;
+//                }
+//            }
 
             function renderGUSStyleguides(target, gus) {
-                console.log(gus.length);
                 var currentDimension = null;
-                for (var i = 0; i < gus.length; i++) {
+                if (gus && gus.length > 0) {
+                    for (var i = 0; i < gus.length; i++) {
+                        var row = document.createElement('div');
+                        $(row).addClass('row');
 
-                    var row = document.createElement('div');
-                    $(row).addClass('row');
+                        var column = document.createElement('div');
+                        $(column).addClass('col-xs-6');
+                        $(column).html(gus[i].styleguide); // html because of the html tags in the translation
+                        $(row).append(column);
 
-                    var column = document.createElement('div');
-                    $(column).addClass('col-xs-6');
-                    $(column).html(gus[i].styleguide); // html because of the html tags in the translation
-                    $(row).append(column);
+                        column = document.createElement('div');
+                        $(column).addClass('col-xs-6');
+                        $(column).text(gus[i].question);
+                        $(row).append(column);
 
-                    column = document.createElement('div');
-                    $(column).addClass('col-xs-6');
-                    $(column).text(gus[i].question);
-                    $(row).append(column);
+                        if (currentDimension !== gus[i].dimension) {
+                            currentDimension = gus[i].dimension;
+                            var headline = $('#item-factors-headline').clone().removeClass('hidden').removeAttr('id');
+//                            $(headline).find('#factor-main').text(mainDimensions[dimension]);
+//                            $(headline).addClass('row');
+                            $(headline).find('#factor-primary').text(translation.dimensions[currentDimension]);
+                            $(target).append(headline);
 
-                    if (currentDimension !== gus[i].dimension) {
-                        currentDimension = gus[i].dimension;
-                    } else {
-                        $(row).css({marginTop: "20px"});
+                            if (i > 0) {
+                                $(headline).css({marginTop: "40px"});
+                            }
+                        } else {
+                            $(row).css({marginTop: "20px"});
+                        }
+
+                        $(target).append(row);
                     }
-
-                    $(target).find('#subDimension_' + gus[i].dimension).append(row);
                 }
             }
 
@@ -266,7 +270,7 @@ if (login_check($mysqli) == true) {
                         $(this).addClass('active');
                         TweenMax.to($('.btn-toggle-gus-items').find('#plus-sign'), .3, {rotation: '0'});
                         TweenMax.to($(this).find('#plus-sign'), .3, {rotation: '45'});
-                        $("html, body").animate({scrollTop: 1360}, "slow");
+                        $("html, body").animate({scrollTop: 1490}, "slow");
 
                         if ($(this).attr('id') === 'btn-toggle-single') {
                             $('#single-gus-list').removeClass('hidden');

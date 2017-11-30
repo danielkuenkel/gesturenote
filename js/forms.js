@@ -256,7 +256,7 @@ function renderFormatItem(target, data, currentPhaseFormat) {
         var dimensions = translation.dimensions;
         var mainDimensions = translation.mainDimensions;
         $(clone).find('#factor-primary').text(dimensions[dimension]);
-        $(clone).find('#factor-main').text(mainDimensions[getMainDimensionForDimension(dimension)]);
+//        $(clone).find('#factor-main').text(mainDimensions[getMainDimensionForDimension(dimension)]);
     }
 
     TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
@@ -731,7 +731,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
         if (studyData[i].dimension !== DIMENSION_ANY) {
             $(listItem).find('#item-factors').removeClass('hidden');
             $(listItem).find('#factor-primary').text(translation.dimensions[studyData[i].dimension]);
-            $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
+//            $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
         }
 
 
@@ -2365,7 +2365,7 @@ function renderEditableObservations(target, studyData, resultData) {
             if (studyData[i].dimension !== DIMENSION_ANY) {
                 $(listItem).find('#item-factors').removeClass('hidden');
                 $(listItem).find('#factor-primary').text(translation.dimensions[studyData[i].dimension]);
-                $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
+//                $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
             }
 
             for (var j = 0; j < resultData.length; j++) {

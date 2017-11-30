@@ -18,9 +18,9 @@ include '../includes/language.php';
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+<!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
@@ -45,9 +45,9 @@ include '../includes/language.php';
         </div>
         <div class="panel-body hide-when-unused">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
@@ -72,9 +72,9 @@ include '../includes/language.php';
         <div class="panel-body">
 
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
@@ -163,9 +163,9 @@ include '../includes/language.php';
         </div>
         <div class="panel-body hide-when-unused">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
 
             <div class="alert-space alert-no-gestures-assembled"></div>
@@ -450,9 +450,9 @@ include '../includes/language.php';
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
@@ -621,9 +621,9 @@ include '../includes/language.php';
         <div class="panel-body hide-when-unused">
 
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
 
             <div class="alert-space alert-no-gestures-assembled"></div>
@@ -811,9 +811,9 @@ include '../includes/language.php';
         <div class="panel-body">
 
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
 
             <div class="alert-space alert-no-gestures-assembled"></div>
@@ -1002,9 +1002,9 @@ include '../includes/language.php';
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
@@ -1148,9 +1148,9 @@ include '../includes/language.php';
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
@@ -1182,9 +1182,9 @@ include '../includes/language.php';
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
@@ -1273,9 +1273,9 @@ include '../includes/language.php';
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">
@@ -2298,9 +2298,9 @@ include '../includes/language.php';
         <div class="panel-body hide-when-unused">
             <div>
                 <div style="width: 100%" id="item-factors">
-                    <div class="label label-primary" id="factor-main"></div>
-                    <img src="img/factor-transition.jpg" style="margin-left: -3px; margin-right: -3px">
-                    <div class="label label-info" id="factor-primary"></div>
+                    <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
                 </div>
 
                 <div class="input-group" style="margin-top: 5px;">
@@ -2334,9 +2334,9 @@ include '../includes/language.php';
         <div class="panel-body hide-when-unused">
 
             <div style="width: 100%" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
 
             <div class="form-group form-group-no-margin">

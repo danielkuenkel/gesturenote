@@ -23,7 +23,7 @@ include '../includes/language.php';
             <span class="text"></span>
         </div>
         <div style="float: left; margin-left: 10px;">
-            <button type="button" class="btn btn-default btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text">Zustands-Vorschau</span></button>
+            <button type="button" class="btn btn-default btn-xs" id="btn-preview-scene"><i class="fa fa-eye"></i> <span class="btn-text"><?php echo $lang->statePreview ?></span></button>
         </div>
         <div style="clear: both;"></div>
     </div>
@@ -66,7 +66,7 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="no-phase-results">
-        <div class="alert alert-warning" role="alert"><i class="glyphicon glyphicon-info-sign"></i> Für diesen Schritt sind keine Daten verfügbar.</div>
+        <div class="alert alert-warning" role="alert"><i class="glyphicon glyphicon-info-sign"></i> <?php echo $lang->alerts->noDataAvailable->text ?></div>
     </div>
 
     <div class="root" id="notes" style="margin-top: 30px;">
@@ -78,8 +78,8 @@ include '../includes/language.php';
     <div class="root" id="letterOfAcceptance">
         <h3 id="headline" style="margin-top: 0"></h3>
         <hr>
-        <span class="label label-success hidden" id="letter-accepted"><i class="fa fa-check"></i> <span class="label-text">Einverständniserklärung akzeptiert</span></span>
-        <span class="label label-danger hidden" id="letter-not-accepted"><i class="fa fa-bolt"></i> <span class="label-text">Einverständniserklärung abgelehnt</span></span>
+        <span class="label label-success hidden" id="letter-accepted"><i class="fa fa-check"></i> <span class="label-text"><?php echo $lang->letterOfAcceptanceAccepted ?></span></span>
+        <span class="label label-danger hidden" id="letter-not-accepted"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->letterOfAcceptanceNotAccepted ?></span></span>
         <p id="letter-text" class="text" style="margin-top: 15px"></p>
     </div>
 
@@ -223,19 +223,19 @@ include '../includes/language.php';
         <div class="panel-body">
             <div>
                 <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-default hidden" id="justification">Mit Begründung</span>
-                <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
-                <span class="label label-default hidden" id="yes">Begründung bei Auswahl <em>Ja</em></span>
-                <span class="label label-default hidden" id="no">Begründung bei Auswahl <em>Nein</em></span>
-                <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+                <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
+                <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
+                <span class="label label-default hidden" id="yes"><?php echo $lang->justificationForYes ?></span>
+                <span class="label label-default hidden" id="no"><?php echo $lang->justificationForNo ?></span>
+                <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
             </div>
             <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
-            <div id="selection"><span id="address">Auswahl:</span> <span class="text"></span></div>
-            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
+            <div id="selection"><span id="address"><?php echo $lang->selection ?>:</span> <span class="text"></span></div>
+            <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
         </div>
     </div>
@@ -244,24 +244,24 @@ include '../includes/language.php';
         <div class="panel-body">
             <div>
                 <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-default hidden" id="justification">Mit Begründung</span>
-                <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
-                <span class="label label-default hidden" id="yes">Begründung bei Auswahl <em>Ja</em></span>
-                <span class="label label-default hidden" id="no">Begründung bei Auswahl <em>Nein</em></span>
-                <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+                <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
+                <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
+                <span class="label label-default hidden" id="yes"><?php echo $lang->justificationForYes ?></span>
+                <span class="label label-default hidden" id="no"><?php echo $lang->justificationForNo ?></span>
+                <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
             </div>
             <div class="hidden" style="width: 100%" id="item-factors">
-                <span class="label label-primary" id="factor-main"></span>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <span class="label label-info" id="factor-primary"></span>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
             <label class="question"></label>
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
-            <div id="selection"><span id="address">Auswahl:</span> <span class="text"></span></div>
-            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
+            <div id="selection"><span id="address"><?php echo $lang->selection ?>:</span> <span class="text"></span></div>
+            <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
         </div>
     </div>
@@ -270,9 +270,9 @@ include '../includes/language.php';
         <div class="panel-body">
             <div>
                 <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
-                <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
-                <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+                <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
+                <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
+                <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
             </div>
             <label class="question"></label>
         </div>
@@ -280,22 +280,22 @@ include '../includes/language.php';
         <div class="panel-body">
             <div class="option-container"></div>
             <span class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
-            <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
-            <span class="label label-warning" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
+            <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address"><?php echo $lang->ownAnswers ?>:</span> <span class="text"></span></div>
+            <span class="label label-warning" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span>
         </div>
     </div>
 
     <span id="grouping-question-item">
         <div>
-            <span class="label label-default hidden" id="justification">Mit Begründung</span>
-            <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
-            <span class="label label-default hidden" id="selectOne">Begründung bei Auswahl</span>
-            <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
-            <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
+            <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
+            <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
+            <span class="label label-default hidden" id="selectOne"><?php echo $lang->justificationForSelection ?></span>
+            <span class="label label-default hidden" id="selectNothing"><?php echo $lang->justificationForNoChoice ?></span>
+            <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
         </div>
         <div id="option-text" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></div>
         <div>
-            <div class="hidden" id="justification-content"><span class="address">Begründung:</span> <span class="text"></span></div>
+            <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-answer-justification"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
         </div>
     </span>
@@ -304,14 +304,14 @@ include '../includes/language.php';
         <div class="panel-body">
             <div>
                 <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
-                <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
-                <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+                <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
+                <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
+                <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
             </div>
             <div class="hidden" style="width: 100%" id="item-factors">
-                <span class="label label-primary" id="factor-main"></span>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <span class="label label-info" id="factor-primary"></span>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
             <label class="question"></label>
         </div>
@@ -319,8 +319,8 @@ include '../includes/language.php';
         <div class="panel-body">
             <div class="option-container"></div>
             <span class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
-            <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
-            <span class="label label-warning" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
+            <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address"><?php echo $lang->ownAnswers ?></span> <span class="text"></span></div>
+            <span class="label label-warning" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span>
         </div>
     </div>
 
@@ -328,21 +328,21 @@ include '../includes/language.php';
     <div id="grouping-question-gus-feedbacks-option" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px"><span class="text"></span></div>
     <div id="grouping-question-gus-gestures-option" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px">
         <span class="text"></span>
-        <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+        <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
     </div>
 
     <div class="panel panel-default" id="groupingQuestionOptions" style="margin-bottom: 5px;">
         <div class="panel-body">
             <div>
                 <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
-                <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
-                <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+                <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
+                <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
+                <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
             </div>
             <div class="hidden" style="width: 100%" id="item-factors">
-                <span class="label label-primary" id="factor-main"></span>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <span class="label label-info" id="factor-primary"></span>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
             <label class="question"></label>
         </div>
@@ -350,8 +350,8 @@ include '../includes/language.php';
         <div class="panel-body">
             <div class="option-container"></div>
             <span class="label label-danger" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
-            <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
-            <span class="label label-warning" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
+            <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address"><?php echo $lang->ownAnswers ?>:</span> <span class="text"></span></div>
+            <span class="label label-warning" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span>
         </div>
     </div>
 
@@ -359,8 +359,8 @@ include '../includes/language.php';
         <div class="panel-body">
             <div>
                 <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
-                <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+                <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
+                <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>
             </div>
             <label class="question"></label>
         </div>
@@ -393,8 +393,8 @@ include '../includes/language.php';
 
     <div id="matrix-item" class="text">
         <span id="rating-option" style="margin-right: 5px"></span>
-        <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
-        <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+        <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
+        <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>
         <div class="pull-right text" id="score-container" style="margin-top: 9px"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
         <div id="scale-container" style="margin-top: 10px;"></div>
         <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
@@ -413,8 +413,8 @@ include '../includes/language.php';
         <div class="panel-body">
             <div class="option-container"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
-            <div class="label label-success hidden" id="distributeAllPoints"><i class="fa fa-check"></i> <span class="label-text">Alle Punkte verteilt</span></div>
-            <div class="label label-danger hidden" id="distributeNotAllPoints"><i class="fa fa-bolt"></i> <span class="label-text">Nicht alle Punkte verteilt</span></div>
+            <div class="label label-success hidden" id="distributeAllPoints"><i class="fa fa-check"></i> <span class="label-text"><?php echo $lang->allPointsDistributed ?></span></div>
+            <div class="label label-danger hidden" id="distributeNotAllPoints"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->notAllPointsDistributed ?></span></div>
         </div>
     </div>
 
@@ -440,21 +440,21 @@ include '../includes/language.php';
         <div class="panel-body">
             <div>
                 <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
-                <span class="label label-default hidden" id="justification">Mit Begründung</span>
-                <span class="label label-default hidden" id="no-justification">Ohne Begründung</span>
-                <span class="label label-default hidden" id="selectOne">Begründung bei mindestens einer Auswahl</span>
-                <span class="label label-default hidden" id="selectNothing">Begründung bei keiner Auswahl</span>
-                <span class="label label-default hidden" id="always">Begründung <em>Immer</em></span>
-                <span class="label label-default hidden" id="gesturesForGesture">Es werden alternative Gesten für die Geste gesucht</span>
-                <span class="label label-default hidden" id="triggersForGesture">Es werden alternative Funktionen für die Geste gesucht</span>
-                <span class="label label-default hidden" id="triggersForTrigger">Es werden alternative Funktionen für die Funktion gesucht</span>
-                <span class="label label-default hidden" id="gesturesForTrigger">Es werden alternative Gesten für die Funktion gesucht</span>
+                <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
+                <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
+                <span class="label label-default hidden" id="no-justification"><?php echo $lang->withoutJustification ?></span>
+                <span class="label label-default hidden" id="selectOne"><?php echo $lang->justificationForAChoice ?></span>
+                <span class="label label-default hidden" id="selectNothing"><?php echo $lang->justificationForNoChoice ?></span>
+                <span class="label label-default hidden" id="always"><?php echo $lang->justificationAlways ?></span>
+                <span class="label label-default hidden" id="gesturesForGesture"><?php echo $lang->alternativeGesturesForGesture ?></span>
+                <span class="label label-default hidden" id="triggersForGesture"><?php echo $lang->alternativeTriggerForGesture ?></span>
+                <span class="label label-default hidden" id="triggersForTrigger"><?php echo $lang->alternativeTriggerForTrigger ?></span>
+                <span class="label label-default hidden" id="gesturesForTrigger"><?php echo $lang->alternativeGesturesForTrigger ?></span>
             </div>
             <div class="hidden" style="width: 100%" id="item-factors">
-                <span class="label label-primary" id="factor-main"></span>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <span class="label label-info" id="factor-primary"></span>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
             <label class="question"></label>
         </div>
@@ -462,16 +462,16 @@ include '../includes/language.php';
         <div class="panel-body">
             <div class="option-container"></div>
             <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
-            <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address">Eigene Antwort(en):</span> <span class="text"></span></div>
-            <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text">Keine eigene Antwort(en)</span></span>
-            <div class="hidden" id="justification-content"><span class="address">Begründung(en):</span> <span class="text"></span></div>
+            <div class="hidden" id="optionalanswer-content" style="margin-top: 17px;"><span class="address"><?php echo $lang->ownAnswers ?>:</span> <span class="text"></span></div>
+            <span class="label label-warning hidden" id="no-optional-answer"><span class="label-text"><?php echo $lang->noOwnAnswers ?></span></span>
+            <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
             <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
         </div>
     </div>
 
     <div id="alternativeQuestion-gesture-item" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block; margin-bottom: 5px">
         <span class="text"></span>
-        <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+        <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview" style="margin-left: 5px"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
     </div>
 
     <div id="alternativeQuestion-trigger-item" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"><span class="text"></span></div>
@@ -480,13 +480,13 @@ include '../includes/language.php';
         <div class="panel-body">
             <div>
                 <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
-                <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+                <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
+                <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>
             </div>
             <div class="hidden" style="width: 100%" id="item-factors">
-                <span class="label label-primary" id="factor-main"></span>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <span class="label label-info" id="factor-primary"></span>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
             <label class="question"></label>
         </div>
@@ -504,8 +504,8 @@ include '../includes/language.php';
         <div class="panel-body">
             <div>
                 <span class="label label-default" id="format"><span class="format-text"></span></span>
-                <span class="label label-success hidden" id="positive"><span class="label-text">positiv</span></span>
-                <span class="label label-danger hidden" id="negative"><span class="label-text">negativ</span></span>
+                <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
+                <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>
             </div>
             <label class="question"></label>
         </div>
@@ -527,7 +527,7 @@ include '../includes/language.php';
         <div id="loader" class="hidden text-center">
             <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
             <div class="text">
-                Einen Moment bitte... Videodaten werden geladen.
+                <?php echo $lang->videoDataLoading ?>
             </div>
         </div>
         <div id="video-timeline" class="hidden">
@@ -647,18 +647,18 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <h3 id="headline-summary">Zusammenfassung</h3>
+        <h3 id="headline-summary"><?php echo $lang->summary ?></h3>
         <hr>
         <div id="summary-container">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="text text-center" id="restarts">
                         <div class="text" style="font-size: 120pt; line-height: 110pt"></div>
-                        <div class="address" style="font-size: 20pt">Neustarts</div>
+                        <div class="address" style="font-size: 20pt"><?php echo $lang->restarts ?></div>
                     </div>
                 </div>
                 <div class="col-sm-6 text-center">
-                    Je weniger Neustarts es bei einer Gesten-Slideshow gab, desto besser. Dieser Scorewert kann mit der Erinnerbarkeit und Intuitivität eines Gestensets in Verbindung gebracht werden.
+                    <?php echo $lang->gestureSlideshowScoreInfo ?>
                 </div>
             </div>
 
@@ -704,14 +704,14 @@ include '../includes/language.php';
                     <div class="text text-center" id="score">
                         <div id="error" class="hidden">
                             <p><i class="fa fa-bolt text" style="font-size: 120pt; line-height: 110pt"></i></p>
-                            <p>Der Scorewert kann nicht berechnet werden.</p>
+                            <p><?php echo $lang->noTriggerScoreCalculationPossible ?></p>
                         </div>
                         <div class="address" style="font-size: 20pt"></div>
                         <div class="text" style="font-size: 120pt; line-height: 110pt"></div>
                     </div>
                 </div>
                 <div class="col-sm-6 text-center">
-                    Je mehr korrekte Zuordnungen es bei einer Trigger-Slideshow gab, desto besser. Der Scorewert berechnet sich wie folgt: Falsche Zuordnungen / Anzahl der Gesten. Er liegt zwischen 0 (alles richtig zugeordnet) und 1 (alles falsch zugeordnet). Dieser Wert kann mit der Semantischen Verknüpfung, Genrealisierbarkeit und Intuitivität eines Gestensets in Verbindung gebracht werden.
+                    <?php echo $lang->triggerScoreInfo ?>
                 </div>
             </div>
 
@@ -750,7 +750,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <h3 id="headline-summary">Zusammenfassung</h3>
+        <h3 id="headline-summary"><?php echo $lang->summary ?></h3>
         <hr>
         <span class="label label-default hidden" id="repeats"><span class="address"></span> <span class="text"></span></span> 
         <span class="label label-default hidden" id="ask-single-questions"><span class="address"></span> <span class="text"></span></span>
@@ -788,7 +788,7 @@ include '../includes/language.php';
 
     <div id="joint-answers">
         <div id="joint-answers-body" style="margin-bottom: 20px">
-            <p class="question text">Welche Teile des Körpers wurden besonders beansprucht?</p>
+            <p class="question text"><?php echo $lang->stressOfBody ?></p>
             <div class="select-joints-humand-body" id="human-body" style="width: 350px; margin: auto">
                 <div id="joint-container" style="position: absolute"></div>
                 <img src="img/human_body.svg">
@@ -796,7 +796,7 @@ include '../includes/language.php';
         </div>
 
         <div id="joint-answers-hands" style="margin-bottom: 20px">
-            <p class="question text">Welche Teile der Hand oder Hände wurden besonders beansprucht?</p>
+            <p class="question text"><?php echo $lang->stressOfHands ?></p>
             <div class="select-joints-humand-hand" id="human-hand" style="width: 350px; margin: auto">
                 <div id="joint-container" style="position: absolute"></div>
                 <img src="img/human_hand.svg">
@@ -866,13 +866,13 @@ include '../includes/language.php';
 
     <div id="appearance-trigger-gesture-potential" class="root" style="margin-bottom: 60px">
         <div id="headline-trigger-gesture"></div>
-   
+
         <div class="row" id="potential-parameters-container" style="margin-top: 10px">
             <div class="col-xs-12 col-md-8" id="potential-parameters"></div>
         </div>
-        
+
         <div id="more-classified-gestures" class="hidden" style="margin-top: 20px">
-            <p>Weitere zugehörige Gesten</p>
+            <p><?php echo $lang->otherAssociatedGestures ?></p>
             <div class="row" style="margin-top: 10px">
                 <div id="gestures-list-container"></div>
             </div>
@@ -881,7 +881,7 @@ include '../includes/language.php';
 
     <div id="potential-gesture-parameters-appearance-trigger">
         <div id="parameters-amount">
-            <div><h4 style="margin: 0"><i class="fa fa-pie-chart" aria-hidden="true"></i> Anzahl</h4></div>
+            <div><h4 style="margin: 0"><i class="fa fa-pie-chart" aria-hidden="true"></i> <?php echo $lang->number ?></h4></div>
             <span class="text" id="justification"></span>
             <br/>
             <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->suitable ?></span></span>
@@ -889,12 +889,12 @@ include '../includes/language.php';
             <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
         </div>
         <div id="parameters-agreement-measures" style="margin-top: 20px">
-            <div><h4 style="margin: 0"><i class="fa fa-percent" aria-hidden="true"></i> Maß der Vermutung</h4></div>
-            <div id="agreement"><span id="label">Schätzbarkeit:</span> <span class="text"></span></div>
+            <div><h4 style="margin: 0"><i class="fa fa-percent" aria-hidden="true"></i> <?php echo $lang->measureOfGuess ?></h4></div>
+            <div id="agreement"><span id="label"><?php echo $lang->estimability ?>:</span> <span class="text"></span></div>
         </div>
         <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
-            <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> Maß der Zustimmung</h4></div>
-            <div id="accordance"><span id="label">Übereinstimmung:</span> <span class="text"></span></div>
+            <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> <?php echo $lang->measureOfApproval ?></h4></div>
+            <div id="accordance"><span id="label"><?php echo $lang->approval ?>:</span> <span class="text"></span></div>
         </div>
         <div id="parameters-cognitive-relationships" style="margin-top: 20px">
             <div>
@@ -982,7 +982,7 @@ include '../includes/language.php';
             <span class="hidden warning" id="not-assigned"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notAssignedToGestureSet ?></span></span>
             <ul id="attached-gesture-sets-container" style="list-style-position: inside; padding-left: 0px; margin-top: 5px"></ul>
         </div>
-        
+
     </div>
 
     <div class="panel panel-default" id="panel-gesture-set">
@@ -1052,11 +1052,11 @@ include '../includes/language.php';
     <div class="panel panel-default" id="dichotomousQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-default hidden" id="label-justification">Mit Begründung</span>
-            <span class="label label-default hidden" id="label-no-justification">Ohne Begründung</span>
-            <span class="label label-default hidden" id="label-yes">Begründung bei Auswahl <em>Ja</em></span>
-            <span class="label label-default hidden" id="label-no">Begründung bei Auswahl <em>Nein</em></span>
-            <span class="label label-default hidden" id="label-always">Begründung <em>Immer</em></span>
+            <span class="label label-default hidden" id="label-justification"><?php echo $lang->withJustification ?></span>
+            <span class="label label-default hidden" id="label-no-justification"><?php echo $lang->withoutJustification ?></span>
+            <span class="label label-default hidden" id="label-yes"><?php echo $lang->justificationForYes ?></span>
+            <span class="label label-default hidden" id="label-no"><?php echo $lang->justificationForNo ?></span>
+            <span class="label label-default hidden" id="label-always"><?php echo $lang->justificationAlways ?></span>
             <div class="question text"></div>
         </div>
         <hr style="margin: 0">
@@ -1071,9 +1071,9 @@ include '../includes/language.php';
     <div class="panel panel-default" id="groupingQuestion" style="margin-bottom: 5px;">
         <div class="panel-body">
             <span class="label label-default" id="format"><span class="format-text"></span></span>
-            <span class="label label-default hidden" id="multiselect">Auswahl mehrerer Antworten erlaubt</span>
-            <span class="label label-default hidden" id="singleselect">Auswahl einer Antwort erlaubt</span>
-            <span class="label label-default hidden" id="optionalanswer">Eigene Antwort erlaubt</span>
+            <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
+            <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
+            <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
             <div class="question text"></div>
         </div>
         <hr style="margin: 0">
@@ -1124,8 +1124,8 @@ include '../includes/language.php';
     <div id="helpItem" style="margin-bottom: 6px;">
         <div class="help-title"></div>
         <div class="btn-group" style="margin-top: 10px;">
-            <button type="button" class="btn btn-info btn-shadow disabled" id="offer-help"><i class="fa fa-life-ring"></i> Hilfe anbieten</button>
-            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text">Geste zeigen</span></button>
+            <button type="button" class="btn btn-info btn-shadow disabled" id="offer-help"><i class="fa fa-life-ring"></i> <?php echo $lang->offerHelp ?></button>
+            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview hidden"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
         </div>
     </div>
 
@@ -1133,14 +1133,14 @@ include '../includes/language.php';
         <span><?php echo $lang->title ?>: </span><span class="title"></span><br/>
         <span><?php echo $lang->type ?>: </span><div class="label label-default type"><i class="fa fa-link"></i> <span class="label-text"></span></div><br/><br/>
         <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 100%; height: 400px; pointer-events: none;"></iframe>
-        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="Link in neuem Fenster öffnen"><i class="glyphicon glyphicon-link"></i> Link in neuem Fenster öffnen</button>
+        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="<?php echo $lang->openUrlInNewWindow ?>"><i class="glyphicon glyphicon-link"></i> <?php echo $lang->openUrlInNewWindow ?></button>
     </div>
 
     <div id="pidoco">
         <span><?php echo $lang->title ?>: </span><span class="title"></span><br/>
         <span><?php echo $lang->type ?>: </span><div class="label label-default type"><i class="fa fa-link"></i> <span class="label-text"></span></div><br/><br/>
         <iframe class="web-frame" src="" frameborder="0" scrolling="no" style="width: 100%; height: 400px; pointer-events: none;"></iframe>
-        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="Link in neuem Fenster öffnen"><i class="glyphicon glyphicon-link"></i> Link in neuem Fenster öffnen</button>
+        <button type="button" class="btn btn-default btn-shadow btn-block btn-url" aria-label="<?php echo $lang->openUrlInNewWindow ?>"><i class="glyphicon glyphicon-link"></i> <?php echo $lang->openUrlInNewWindow ?></button>
     </div>
 
     <div id="image">

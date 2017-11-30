@@ -182,10 +182,11 @@ function initGUSSingleGesturesOverlay(id, formatClone) {
     var data = getLocalItem(id + '.data');
     if (data !== null) {
         renderData(data);
+    } else {
+        appendAlert(formatClone, ALERT_NO_DATA_GUS);
     }
 
     function renderData(data) {
-        console.log(data);
         if (data.gestureId) {
             if (isGestureAssembled(data.gestureId)) {
                 $(formatClone).find('#forGesture').find('#' + data.gestureId).click();
@@ -292,6 +293,12 @@ function initGUSSingleGesturesOverlay(id, formatClone) {
     }
 
     initQuestionnairePreview($(formatClone).find('.btn-preview-questionnaire'), $(formatClone).find('#list-container'), true, checkSingleGestureGeneralData(), GUS_SINGLE_GESTURES);
+    $(formatClone).find('.btn-preview-questionnaire').on('click', function (event) {
+        console.log('btn-preview-questionnaire');
+        if ($(this).hasClass('disabled')) {
+            wobble(formatClone.find('#general'));
+        }
+    });
 }
 
 function initGUSMultipleGesturesOverlay(id, formatClone) {
@@ -300,6 +307,7 @@ function initGUSMultipleGesturesOverlay(id, formatClone) {
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
     renderDimensions($(formatClone).find('#dimension-controls'), translation.multipleGUS, $(formatClone).find('#list-container'));
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone), true, true, ALERT_NO_DATA_GUS_QUESTIONNAIRE);
+
     var data = getLocalItem(id + '.data');
     if (data !== null && data.gus && data.gus.length > 0) {
         renderData(data);
@@ -1786,7 +1794,7 @@ function initExplorationOverlay(id, formatClone) {
         }
         initPopover(300);
 
-console.log(gestureIds);
+        console.log(gestureIds);
         if (gestureIds && gestureIds.length > 0) {
             for (var i = 0; i < gestureIds.length; i++) {
                 console.log($(container).find('#' + gestureIds[i] + ' .btn-add-gesture-to-scene'));
@@ -2232,7 +2240,7 @@ function initCatalogGesturesOverlay(formatClone) {
                 }
             }
         });
-        
+
         $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble) {
             event.preventDefault();
             var tweenParams = initAddGestureToStudyGestures($(event.target), formatClone);
@@ -2246,7 +2254,7 @@ function initCatalogGesturesOverlay(formatClone) {
             }
             updateCatalogButtons();
         });
-        
+
         $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
             renderData(data);
         });

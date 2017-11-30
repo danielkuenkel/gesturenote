@@ -166,7 +166,7 @@ var Moderator = {
                     if (data[i].dimension !== DIMENSION_ANY) {
                         $(item).find('#item-factors').removeClass('hidden');
                         $(item).find('#factor-primary').text(translation.dimensions[data[i].dimension]);
-                        $(item).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(data[i].dimension)]);
+//                        $(item).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(data[i].dimension)]);
                     }
 
                     var parameters = data[i].parameters;

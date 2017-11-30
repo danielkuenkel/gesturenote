@@ -14,12 +14,12 @@ function renderDimensions(target, questionnaire, container) {
     for (var key in dimensions) {
         if (dimensions.hasOwnProperty(key)) {
             var value = dimensions[key];
-            var mainDimension = getMainDimensionForDimension(key);
+//            var mainDimension = getMainDimensionForDimension(key);
             var button = document.createElement('button');
             $(button).addClass('btn btn-default btn-shadow btn-toggle btn-dimension hidden');
             $(button).attr('id', key);
             $(button).text(value);
-            $(target).find('#container-' + mainDimension + " .dimension-btn-group").prepend(button);
+            $(target).find('.dimension-btn-group').prepend(button);
         }
     }
 
@@ -49,10 +49,10 @@ $(document).on('click', '.dimension-btn-group .btn-toggle', function (event) {
     {
         event.handled = true;
         var dimensionContainer = $(this).closest('.dimension-container');
-        var mainDimension = $(this).closest('.dimension-container').attr('id').split('-')[1];
+//        var mainDimension = $(this).closest('.dimension-container').attr('id').split('-')[1];
 
         if ($(this).hasClass('active')) {
-            removeQuestionaireItems(mainDimension, $(this).attr('id'));
+            removeQuestionaireItems($(this).attr('id'));
             $(this).removeClass('active btn-info').addClass('inactive');
 
             if ($(this).attr('id') === 'all') {
@@ -75,7 +75,7 @@ $(document).on('click', '.dimension-btn-group .btn-toggle', function (event) {
             } else {
                 checkDimensionItems(dimensionContainer);
             }
-            
+
             $(this).trigger('listItemAdded');
         }
     }
@@ -130,13 +130,13 @@ function getPredefinedQuestionnaireItemsByDimension(dimension) {
     return questionnaire;
 }
 
-function removeQuestionaireItems(mainDimension, dimension) {
+function removeQuestionaireItems(dimension) {
     var itemList = $(questionsContainer).children();
     for (var i = 0; i < itemList.length; i++) {
         var item = itemList[i];
         var itemDimension = getDimensionByElement($(item));
         if (itemDimension !== DIMENSION_ANY) {
-            if ((dimension === 'all' && mainDimension === getMainDimensionForDimension(itemDimension)) || itemDimension === dimension) {
+            if (dimension === 'all' || itemDimension === dimension) {
                 var itemId = $(item).attr('id');
                 $(item).find('.btn-delete').click();
                 updateBadges(questionsContainer, itemId);
@@ -153,14 +153,14 @@ $(document).on('click', '.btn-use', function (event) {
             $(this).removeClass('used btn-success').addClass('not-used');
             $(this).closest('.root').removeClass('used');
             $(this).closest('.root').addClass('not-used');
-            if($(this).closest('.root').find('.hide-when-unused').length > 0) {
+            if ($(this).closest('.root').find('.hide-when-unused').length > 0) {
                 $(this).closest('.root').find('.hide-when-unused').addClass('hidden');
             }
         } else {
             $(this).removeClass('not-used').addClass('used btn-success');
             $(this).closest('.root').removeClass('not-used');
             $(this).closest('.root').addClass('used');
-            if($(this).closest('.root').find('.hide-when-unused').length > 0) {
+            if ($(this).closest('.root').find('.hide-when-unused').length > 0) {
                 $(this).closest('.root').find('.hide-when-unused').removeClass('hidden');
             }
         }

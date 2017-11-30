@@ -61,9 +61,9 @@ include '../includes/language.php';
         <div class="panel-body">
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
         </div>
     </div>
@@ -87,9 +87,9 @@ include '../includes/language.php';
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
             <span class="label label-default hidden" id="select-gestures"><?php echo $lang->selectOneOrMoreGestures ?></span>
             <span class="label label-default hidden" id="justification"<?php echo $lang->withJustification ?></span>
@@ -106,9 +106,9 @@ include '../includes/language.php';
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
             <span class="label label-default hidden" id="optionalanswer"><?php echo $lang->ownAnswerAllowed ?></span>
             <span class="label label-default hidden" id="justification"><?php echo $lang->withJustification ?></span>
@@ -146,9 +146,9 @@ include '../includes/language.php';
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
             <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
             <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
@@ -168,9 +168,9 @@ include '../includes/language.php';
             <span class="label label-default" id="format"><span class="format-text"></span></span>
             <div class="question text"></div>
             <div class="hidden" style="width: 100%" id="item-factors">
-                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">
-                <div class="label label-info" id="factor-primary"></div>
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
             </div>
             <span class="label label-default hidden" id="multiselect"><?php echo $lang->multipleSelectionsAllowed ?></span>
             <span class="label label-default hidden" id="singleselect"><?php echo $lang->singleSelectionsAllowed ?></span>
@@ -268,9 +268,9 @@ include '../includes/language.php';
             <div class="question text"></div>
             <div style="display: inline;">
                 <div class="hidden" id="item-factors" style="display: inline-block">
-                    <div class="label label-primary" id="factor-main"></div>
-                    <img src="img/factor-transition.jpg" class="item-factors-separator">
-                    <div class="label label-info" id="factor-primary"></div>
+                    <!--                <div class="label label-primary" id="factor-main"></div>
+                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <div class="label label-primary" id="factor-primary"></div>
                 </div>
                 <div class="label label-danger hidden" id="reversed" style="display: inline-block"><?php echo $lang->negated ?></div>
             </div>
