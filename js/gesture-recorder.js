@@ -420,7 +420,8 @@ function showSave() {
         clearAlerts(recorder.options.alertTarget);
 
         if (gestureInputsValid(true) && !$(this).hasClass('disabled')) {
-            $(button).addClass('disabled');
+            lockButton(button, true, 'fa-floppy-o');
+//            $(button).addClass('disabled');
             showCursor($('body'), CURSOR_PROGRESS);
 
             $(recorder.options.recorderTarget).find('#btn-choose-preview-image').removeClass('active');
@@ -452,7 +453,8 @@ function showSave() {
                         var ownerId = recorder.options.ownerId || null;
                         saveRecordedGesture({title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints, previewImage: previewImageIndex, gestureImages: imagesURLs, ownerId: ownerId}, function (result) {
                             showCursor($('body'), CURSOR_DEFAULT);
-                            $(button).removeClass('disabled');
+                            unlockButton(button, true, 'fa-floppy-o');
+//                            $(button).removeClass('disabled');
 
                             if (result.status === RESULT_SUCCESS) {
                                 var gesture = {
