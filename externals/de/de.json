@@ -1029,7 +1029,6 @@
     "scene": "Zustand",
     "scenes": "Zustände",
     "noScenesPresent": "Keine Zustände vorhanden",
-    "subsequentScene": "Folge-Zustand",
     "sceneTypes": {
         "image": "Bild",
         "web": "Webseite",
@@ -1120,7 +1119,10 @@
         "intermediateStates": "Zwischenzustände",
         "entryAction": "Folgezustand",
         "entryActions": "Folgezustände",
-        "transitionFeedback": "Funktionalitätsrückmeldung"
+        "transitionFeedback": "Feedback"
+    },
+    "popover": {
+
     },
     "gesture": "Geste",
     "gestures": "Gesten",
@@ -1418,7 +1420,7 @@
     "moreInfos": "Mehr Informationen",
     "createStudyInfos": {
         "general": {
-            "overview": "Hier können allgemeine Daten, die einem Probanden vor der Teilnahme an einer Studie anzeigt werden sollen, gespeichert werden. Des Weiteren kann die Design-Phase und die Durchführungsart ausgewählt werden.",
+            "overview": "Hier können allgemeine Daten, die einem Probanden vor der Teilnahme an einer Studie anzeigt werden sollen, hinterlegt werden. Des Weiteren kann die Design-Phase und die Durchführungsart ausgewählt werden.",
             "text1": "Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Jede Studie hat eine eindeutige ID, d.h. es können zwei Studien mit dem gleichen Namen angelegt werden, die jedoch einmal eine Ermittlung und einmal eine Evaluierung der zuvor ermittelten Gesten durchführen.",
             "text2": "Geben Sie den zu Befragenden - ähnlich wie bei Usability-Tests - Informationen über die Studie. Diese Informationen werden zusammen mit dem Titel immer vor einer Studien-Teilnahme angezeigt.",
             "text3": "Bei der Ermittlung sollen potenzielle Nutzer mögliche Gesten vorführen. Diese Gesten werden Funktionen zugeordnet. Es können aber auch für vorhandene Gesten Funktionen identifiziert werden. Bei der Evaluierung werden Gesten in GestureNote nutzerzentriert getestet und bewertet. Weitere Informationen finden Sie im Leitfaden. Der Leitfaden kann erst erstellt werden, wenn eine Studien-Phase ausgewählt wurde.",
@@ -3106,7 +3108,7 @@
         "noStudyGesturesAssembled": {
             "id": "no-study-gestures-assembled",
             "type": "warning",
-            "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt. Die Quellen für ein Studien-Gesten-Set können der Gesten-Katalog, die Gesten-Sets oder neu aufgezeichnete Gesten sein. Wählen Sie zunächst eine dieser drei Quellen aus und fügen Sie mit einem Klick auf den Button <i class='fa fa-plus-square-o'></i> eine Geste zum Studien-Gesten-Set hinzu. Das Entfernen ist mit einem Klick auf den Button <i class='fa fa-minus-square-o'></i> möglich."
+            "text": "Es wurde noch kein Studien-Gesten-Set zusammengestellt. Die Quellen für ein Studien-Gesten-Set können der Gesten-Katalog, die Gesten-Sets oder neu aufgezeichnete Gesten sein. Wählen Sie zunächst eine dieser drei Quellen aus und fügen Sie mit einem Klick auf den Button <i class='fa fa-plus-square'></i> eine Geste zum Studien-Gesten-Set hinzu. Das Entfernen ist mit einem Klick auf den Button <i class='fa fa-minus-square-o'></i> möglich."
         },
         "noStudyGesturesAssembledLink": {
             "id": "no-study-gestures-assembled-link",
@@ -3409,56 +3411,78 @@
     },
     "introductionCreateStudy": [
         {
-            "imgSrc": "img/introduction/study-create/carousel-01.png",
-            "title": "Willkommen",
+            "imgSrc": "img/de/introduction/study-create/carousel-01.jpg",
+            "title": "Gesten-Design-Studie erstellen",
+            "text": "Erfahren Sie hier, wie Sie eine Gesten-Design-Studie erstellen und worauf Sie achten müssen.",
+            "popover": "Gesten-Design-Studie erstellen",
+            "description": "<h4>Bereiche</h4><hr><img src='img/de/introduction/study-create/carousel-01-01.jpg' style='width:350px' /><p>Die Erstellung einer Studie ist in drei Bereiche unterteilt: Allgemeines, Kataloge und Leitfaden. Die Kataloge und der Leitfaden können erst angelegt werden, wenn die allgemeinen Daten für die Studie hinterlegt wurden.</p><h4>Info-Symbole</h4><hr><img src='img/de/introduction/study-create/carousel-01-02.jpg' style='width:458px' /><p>Hinter jedem Info-Symbol <i class='fa fa-info-circle'></i> sind weitere hilfreiche Informationen hinterlegt. Bewegen Sie die Maus über diese Symbole und die Informationen werden angezeigt.</p><h4>Speichern</h4><hr><p>Eine Studie wird erst final gespeichert und erstellt, wenn Sie den grünen Button <button type='button' class='btn btn-success btn-shadow btn-xs'><i class='fa fa-save'></i> Speichern & Schließen</button> klicken. Sie können die Seite neu laden, ohne das Ihre Daten verloren gehen. Laden Sie jedoch die Seite neu, wenn ein Dialog geöffnet ist, werden die Eignaben im Dialog nicht gespeichert. Dialogdaten werden erst gespeichert, wenn ein Dialog geschlossen wird.</p>"
+        },
+        {
+            "imgSrc": "img/de/introduction/study-create/carousel-02.jpg",
+            "title": "Allgemeines",
+            "text": "Allgemeine Daten zu einer Gesten-Design-Studie",
+            "popover": "Allgemeines",
+            "description": "<h4>Bereiche</h4><hr><img src='img/de/introduction/study-create/carousel-01-01.jpg' style='width:350px' /><p>Die Erstellung einer Studie ist in drei Bereiche unterteilt: Allgemeines, Kataloge und Leitfaden. Die Kataloge und der Leitfaden können erst angelegt werden, wenn die allgemeinen Daten für die Studie hinterlegt wurden.</p><h4>Info-Symbole</h4><hr><img src='img/de/introduction/study-create/carousel-01-02.jpg' style='width:458px' /><p>Hinter jedem Info-Symbol <i class='fa fa-info-circle'></i> sind weitere hilfreiche Informationen hinterlegt. Bewegen Sie die Maus über diese Symbole und die Informationen werden angezeigt.</p><h4>Speichern</h4><hr><p>Eine Studie wird erst final gespeichert und erstellt, wenn Sie den grünen Button <button type='button' class='btn btn-success btn-shadow btn-xs'><i class='fa fa-save'></i> Speichern & Schließen</button> klicken. Sie können die Seite neu laden, ohne das Ihre Daten verloren gehen. Laden Sie jedoch die Seite neu, wenn ein Dialog geöffnet ist, werden die Eignaben im Dialog nicht gespeichert. Dialogdaten werden erst gespeichert, wenn ein Dialog geschlossen wird.</p>"
+        },
+        {
+            "imgSrc": "img/de/introduction/study-create/carousel-03.jpg",
+            "title": "Kataloge",
             "text": "Dies ist ein Infotext …",
-            "description": "<img src='img/introduction/study-create/carousel-01.png' /> <h4>Überschrift</h4><p>dies ist ein Test</p>"
+            "popover": "Kataloge",
+            "description": "<h4>Studien-Gesten</h4><hr><img src='img/de/introduction/study-create/carousel-03-01.jpg' style='width:350px' /><p></p><h4>Funktionen</h4><hr><img src='img/de/introduction/study-create/carousel-03-02.jpg' style='width:458px' /><p></p><h4>Feedback</h4><hr><p></p><h4>Zustände</h4><hr><p></p>"
         },
         {
-            "imgSrc": "img/introduction/study-create/carousel-01.png",
-            "title": "Allgemeines, Kataloge & Leitfaden",
-            "text": "Dies ist ein Infotext …"
-        },
-        {
-            "imgSrc": "img/introduction/study-create/carousel-01.png",
-            "title": "Allgemeines, Kataloge & Leitfaden",
-            "text": "Dies ist ein Infotext …"
+            "imgSrc": "img/de/introduction/study-create/carousel-04.jpg",
+            "title": "Leitfaden",
+            "text": "Dies ist ein Infotext …",
+            "popover": "Leitfaden",
+            "description": ""
         }
     ],
     "introductionPreviewStudy": [
         {
-            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "imgSrc": "img/de/introduction/study-create/carousel-01.png",
             "title": "Willkommen",
             "text": "Dies ist ein Infotext …",
-            "description": "<img src='img/introduction/study-create/carousel-01.png' /> <p>dies ist ein Test</p>"
+            "popover": "Willkommen",
+            "description": "<img src='img/de/introduction/study-create/carousel-01.png' /> <p>dies ist ein Test</p>"
         },
         {
-            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "imgSrc": "img/de/introduction/study-create/carousel-01.png",
             "title": "Allgemeines, Kataloge & Leitfaden",
-            "text": "Dies ist ein Infotext …"
+            "text": "Dies ist ein Infotext …",
+            "popover": "Willkommen",
+            "description": ""
         },
         {
-            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "imgSrc": "img/de/introduction/study-create/carousel-01.png",
             "title": "Allgemeines, Kataloge & Leitfaden",
-            "text": "Dies ist ein Infotext …"
+            "text": "Dies ist ein Infotext …",
+            "popover": "Willkommen",
+            "description": ""
         }
     ],
     "introductionStudy": [
         {
-            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "imgSrc": "img/de/introduction/study-create/carousel-01.png",
             "title": "Willkommen",
             "text": "Dies ist ein Infotext …",
-            "description": "<img src='img/introduction/study-create/carousel-01.png' /> <p>dies ist ein Test</p>"
+            "popover": "Willkommen",
+            "description": ""
         },
         {
-            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "imgSrc": "img/de/introduction/study-create/carousel-01.png",
             "title": "Allgemeines, Kataloge & Leitfaden",
-            "text": "Dies ist ein Infotext …"
+            "text": "Dies ist ein Infotext …",
+            "popover": "Willkommen",
+            "description": ""
         },
         {
-            "imgSrc": "img/introduction/study-create/carousel-01.png",
+            "imgSrc": "img/de/introduction/study-create/carousel-01.png",
             "title": "Allgemeines, Kataloge & Leitfaden",
-            "text": "Dies ist ein Infotext …"
+            "text": "Dies ist ein Infotext …",
+            "popover": "Willkommen",
+            "description": ""
         }
     ],
     "languages": {

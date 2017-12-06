@@ -1511,13 +1511,13 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
         if (!$(this).hasClass('assembled')) {
             $(this).attr('data-content', translation.removeFromStudyGestureSet).data('bs.popover').setContent();
             $(this).addClass('assembled');
-            $(this).find('.fa').removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
+            $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
             $(this).closest('.gesture-thumbnail').addClass('assembled');
             assemble = true;
         } else {
             $(this).attr('data-content', translation.addToStudyGestureSet).data('bs.popover').setContent();
             $(this).removeClass('assembled');
-            $(this).find('.fa').removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
+            $(this).find('.fa').removeClass('fa-minus-square').addClass('fa-plus-square');
             $(this).closest('.gesture-thumbnail').removeClass('assembled');
         }
 
@@ -1537,13 +1537,13 @@ $(document).on('click', '.btn-add-gesture-to-scene', function (event) {
         if (!$(this).hasClass('assembled')) {
             $(this).attr('data-content', translation.removeFromState).data('bs.popover').setContent();
             $(this).addClass('assembled');
-            $(this).find('.fa').removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
+            $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
             $(this).closest('.gesture-thumbnail').addClass('assembled');
             assemble = true;
         } else {
             $(this).attr('data-content', translation.addToState).data('bs.popover').setContent();
             $(this).removeClass('assembled');
-            $(this).find('.fa').removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
+            $(this).find('.fa').removeClass('fa-minus-square').addClass('fa-plus-square');
             $(this).closest('.gesture-thumbnail').removeClass('assembled');
         }
 
@@ -2228,7 +2228,7 @@ function getCreateStudyGestureListThumbnail(data, typeId, layout, source, panelS
         clone.find('.btn-tag-as-favorite-gesture').attr('data-content', 'Vom Studien-Gesten-Set entfernen');
         clone.find('.gesture-thumbnail').addClass('assembled');
         clone.find('.btn-tag-as-favorite-gesture').addClass('assembled');
-        clone.find('.btn-tag-as-favorite-gesture .fa').removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
+        clone.find('.btn-tag-as-favorite-gesture .fa').removeClass('fa-plus-square').addClass('fa-minus-square');
     }
 
     return clone;

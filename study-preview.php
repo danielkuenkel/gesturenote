@@ -261,7 +261,7 @@ if (login_check($mysqli) == true) {
 
             $('#btnViewModerator').on('click', function (event) {
                 event.preventDefault();
-                if (!$(this).hasClass('btn-gn') && !$(this).hasClass('disabled')) {
+                if (!$(this).hasClass('active') && !$(this).hasClass('disabled')) {
                     showModeratorView();
                     renderPhaseStepForModerator();
                 }
@@ -269,7 +269,7 @@ if (login_check($mysqli) == true) {
 
             $('#btnViewTester').on('click', function (event) {
                 event.preventDefault();
-                if (!$(this).hasClass('btn-gn')) {
+                if (!$(this).hasClass('active')) {
                     showTesterView();
                     pinRTC();
                     renderPhaseStepForTester();
@@ -278,16 +278,16 @@ if (login_check($mysqli) == true) {
 
             function showModeratorView() {
                 currentView = VIEW_MODERATOR;
-                $('#btnViewModerator').addClass('btn-gn');
-                $('#btnViewTester').removeClass('btn-gn');
+                $('#btnViewModerator').addClass('active font-bold');
+                $('#btnViewTester').removeClass('active font-bold');
                 $('#viewTester').addClass('hidden');
                 $('#viewModerator').removeClass('hidden');
             }
 
             function showTesterView() {
                 currentView = VIEW_TESTER;
-                $('#btnViewTester').addClass('btn-gn');
-                $('#btnViewModerator').removeClass('btn-gn');
+                $('#btnViewTester').addClass('active font-bold');
+                $('#btnViewModerator').removeClass('active font-bold');
                 $('#viewTester').removeClass('hidden');
                 $('#viewModerator').addClass('hidden');
             }

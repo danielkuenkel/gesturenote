@@ -6,13 +6,13 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="openQuestion">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->openQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -32,14 +32,14 @@ include '../includes/language.php';
 
     <div class="panel panel-default root not-used" id="openQuestionGUS">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
                 <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->openQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -59,13 +59,13 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="dichotomousQuestion">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->dichotomousQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -150,14 +150,14 @@ include '../includes/language.php';
 
     <div class="panel panel-default root not-used" id="alternativeQuestion">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
                 <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->alternativeQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -381,13 +381,13 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="counter">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->counter->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -438,13 +438,13 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="groupingQuestion">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -525,7 +525,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="groupingQuestionItem" style="margin-bottom: 8px">
         <div class="panel-heading">
-            <div class="btn-group">
+            <div class="btn-group btn-group-sm">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -533,7 +533,7 @@ include '../includes/language.php';
         </div>
 
         <div class="panel-body">
-            <div class="form-group form-group-no-margin">
+            <div class="form-group btn-group-sm form-group-no-margin">
                 <label><?php echo $lang->selectionOption ?></label>
                 <input class="form-control item-input-text option" type="text" value="" placeholder="<?php echo $lang->selectionOption ?>"/>
             </div>
@@ -607,14 +607,14 @@ include '../includes/language.php';
 
     <div class="panel panel-default root not-used" id="groupingQuestionGUS">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
                 <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -798,13 +798,13 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="groupingQuestionOptions">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->groupingQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -990,13 +990,13 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="rating">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->rating->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -1012,7 +1012,7 @@ include '../includes/language.php';
                 <input class="form-control item-input-text question" type="text" value="" placeholder="<?php echo $lang->demandOrRequest ?>"/>
             </div>
 
-            <button type="button" class="btn btn-info btn-shadow pull-right btn-add-ratingOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addRatingOption ?></button>
+<!--            <button type="button" class="btn btn-info btn-shadow btn-add-ratingOption"><span class="glyphicon glyphicon-plus"></span> <?php echo $lang->addRatingOption ?></button>-->
             <form class="form-inline" style="margin-top: 10px">
                 <div class="form-group root negative" style="margin-right: 20px">
                     <label style="margin: 0"><?php echo $lang->negativeQuestionmark ?></label><br>
@@ -1072,8 +1072,6 @@ include '../includes/language.php';
                     <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                     <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                     <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-
-
                 </div>
                 <input class="form-control item-input-text optionQuestion" type="text" value="" placeholder="Option"/>
             </div>
@@ -1136,13 +1134,13 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="matrix">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->matrix->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -1170,13 +1168,13 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="sumQuestion">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->sumQuestion->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -1261,13 +1259,13 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="ranking">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
             <span><?php echo $lang->questionFormats->ranking->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
-            <div class="btn-group pull-right">
+            <div class="btn-group btn-group-sm pull-right">
                 <button class="btn btn-default btn-shadow btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
             </div>
         </div>
@@ -1306,7 +1304,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="helpItem">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -1380,7 +1378,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="wozExperimentItem">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -1485,7 +1483,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="woz-transition-scene-option">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -1552,7 +1550,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="worstCaseItem">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -1624,7 +1622,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="triggerItem">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -1641,7 +1639,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="identificationItem-gestures" style="margin-bottom: 15px">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -1684,7 +1682,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="identificationItem-trigger">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -1719,7 +1717,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="gestureTrainingItem">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -1865,7 +1863,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="slideshow-gesture-item">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -1923,7 +1921,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="slideshow-trigger-item">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -1963,7 +1961,7 @@ include '../includes/language.php';
     <!-- physical stress test -->
     <div class="panel panel-default root" id="physicalStressTestItem">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -1989,7 +1987,7 @@ include '../includes/language.php';
     <!-- exploration -->
     <div class="panel panel-default root" id="explorationItem-gestures">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -2027,7 +2025,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="explorationItem-trigger">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -2073,7 +2071,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="transition-scene-option">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -2108,7 +2106,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="web">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -2130,7 +2128,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="pidoco">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -2184,7 +2182,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="image">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -2227,7 +2225,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="videoEmbed">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -2284,7 +2282,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root not-used" id="gusSingle">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
@@ -2320,7 +2318,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root not-used" id="dichotomousQuestionGUS">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
@@ -2425,7 +2423,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="text">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
@@ -2470,7 +2468,7 @@ include '../includes/language.php';
 
     <div class="panel panel-default root" id="sound">
         <div class="panel-heading">
-            <div class="btn-group" style="margin-right: 10px">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
                 <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>

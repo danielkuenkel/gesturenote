@@ -179,7 +179,7 @@ if (login_check($mysqli) == true) {
 
             <div class="alert-space alert-no-storage-api"></div>
 
-            <ul class="nav nav-tabs" id="create-tab-navigation" style="margin-bottom: 30px">
+            <ul class="nav nav-tabs" id="create-tab-navigation" style="margin-bottom: 20px">
                 <li role="presentation"><a href="#generalData" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->general ?></a></li>
                 <li role="presentation" class="disabledTab" id="tab-catalogs"><a href="#catalogs" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->catalogs ?></a></li>
                 <li role="presentation" class="disabledTab" id="tab-phases"><a href="#phases" role="tab" data-toggle="tab"><?php echo $lang->studyCreateNav->phases ?></a></li>
@@ -194,9 +194,9 @@ if (login_check($mysqli) == true) {
 
                 <div role="tabpanel" class="tab-pane" id="generalData">
 
-                    <p id="styleguide-info" class="text">
+<!--                    <p id="styleguide-info" class="text">
                         <?php echo $lang->createStudyInfos->general->overview ?>
-                    </p>
+                    </p>-->
 
                     <!-- study name -->
                     <div class="form-group">
@@ -410,8 +410,7 @@ if (login_check($mysqli) == true) {
 
                                 <div class="form-group" id="ageSlider" style="margin-top: 15px">
                                     <label id="age-label">
-                                        <?php echo $lang->age ?> <span class="age-text"></span> 
-                                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                                        <?php echo $lang->age ?> <span class="age-text"></span> <span><i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i></span>
                                     </label><br/>
                                     <div style="padding-top: 3px; padding-bottom: 4px">
                                         <span class="slider-from text"><?php echo $lang->of ?></span>
@@ -429,9 +428,9 @@ if (login_check($mysqli) == true) {
 
 
                 <div role="tabpanel" class="tab-pane" id="catalogs">
-                    <p id="styleguide-info" class="text">
+<!--                    <p id="styleguide-info" class="text">
                         <?php echo $lang->createStudyInfos->catalogs->overview ?>
-                    </p>
+                    </p>-->
 
                     <div class="row">
                         <div class="col-md-12" id="gestures-catalog">
@@ -498,9 +497,9 @@ if (login_check($mysqli) == true) {
 
 
                 <div role="tabpanel" class="tab-pane" id="phases">
-                    <p id="styleguide-info" class="text">
+<!--                    <p id="styleguide-info" class="text">
                         <?php echo $lang->createStudyInfos->phases->overview ?>
-                    </p>
+                    </p>-->
                     <div class="row">
                         <div class="col-sm-7 col-md-6">
                             <div class="" id="phaseStepList"></div>
@@ -617,8 +616,8 @@ if (login_check($mysqli) == true) {
                 <!-- submit form button group -->
                 <div class="btn-group-vertical btn-block" role="group">
                     <!--<button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> <?php echo $lang->deleteAllData ?></button>-->
-                    <button type="button" class="btn btn-warning btn-shadow btn-md disabled" id="btn-preview-study"><i class="glyphicon glyphicon-eye-open"></i> <?php echo $lang->studyPreview ?></button>
-                    <button type="button" class="btn btn-success btn-shadow btn-lg" id="btn-save-study"><i class="fa fa-check"></i> <?php echo $lang->done ?></button>
+                    <button type="button" class="btn btn-default btn-shadow btn-md disabled" id="btn-preview-study"><i class="glyphicon glyphicon-eye-open"></i> <?php echo $lang->studyPreview ?></button>
+                    <button type="button" class="btn btn-success btn-shadow btn-lg" id="btn-save-study"><i class="fa fa-save"></i> <?php echo $lang->saveAndClose ?></button>
                 </div>
             </div>
 

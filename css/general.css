@@ -831,11 +831,17 @@ li.disabledTab > a[data-toggle="tab"] {
 #help-description img {
     width: 100%;
     border: 1px solid #e7e7e7;
-    /*border-color: #e7e7e7*/
+    display: block;
+    margin-left: auto;
+    margin-right: auto
 }
 
 #help-description {
     color: #000;
+}
+
+#help-description p:not(:last-child) {
+    margin-bottom: 30px;
 }
 
 @media (max-width: 991px) {
