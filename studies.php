@@ -152,7 +152,7 @@ if (login_check($mysqli) == true) {
 
             <div class="text-center custom-pagination" id="pager-top">
                 <nav>
-                    <ul class="pagination pagination-custom hidden" itemprop="clipping_2">
+                    <ul class="pagination pagination-custom hidden" data-clipping="7">
                         <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
                         <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
                         <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
@@ -165,7 +165,7 @@ if (login_check($mysqli) == true) {
 
             <div class="text-center custom-pagination" id="pager-bottom" style="margin: 0">
                 <nav>
-                    <ul class="pagination pagination-custom hidden" itemprop="clipping_2">
+                    <ul class="pagination pagination-custom hidden" data-clipping="7">
                         <li id="btn-first-page"><a href="#" aria-label="First"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
                         <li id="btn-previous-page"><a href="#" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
                         <li id="btn-next-page"><a href="#" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>

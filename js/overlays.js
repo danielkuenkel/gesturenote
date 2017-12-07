@@ -2034,7 +2034,7 @@ function initCatalogGesturesOverlay(formatClone) {
                     break;
                 case 'study-gesture-set':
                 case 'gesture-catalog':
-                    clone = getCreateStudyGestureListThumbnail(currentFilterData[i], 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-3');
+                    clone = getCreateStudyGestureListThumbnail(currentFilterData[i], 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-4');
                     $(currentFilterList).append(clone);
                     if (animation && animation === true) {
                         TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
@@ -2123,7 +2123,6 @@ function initCatalogGesturesOverlay(formatClone) {
 
     $(formatClone).unbind('indexChanged').bind('indexChanged', '.pagination', function (event, index) {
         event.preventDefault();
-        console.log('index changed');
         if (!event.handled) {
             event.handled = true;
             renderData(sort(), true);
@@ -2133,7 +2132,7 @@ function initCatalogGesturesOverlay(formatClone) {
     function updateNavBadges() {
         var studyGestures = getLocalItem(ASSEMBLED_GESTURE_SET);
         var studyGesturesLength = 0;
-        if (studyGestures.length > 0) {
+        if (studyGestures && studyGestures.length > 0) {
             studyGesturesLength = studyGestures.length;
         }
         $(formatClone).find('#gesture-catalogs-nav-tab-small').find('#study-gesture-set-badge').text(studyGesturesLength);

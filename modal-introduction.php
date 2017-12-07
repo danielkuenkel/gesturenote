@@ -74,18 +74,22 @@ session_start();
                 $(indicatorItem).addClass('active');
                 $(item).addClass('active');
 
-                if (helpItem.description) {
+                if (helpItem.description && helpItem.description.length > 0) {
                     $(modal).find('#help-description').removeClass('hidden');
-                    $(modal).find('#help-description').html(helpItem.description);
+                    var description = "";
+                    for (var j = 0; j < helpItem.description.length; j++) {
+                        description += helpItem.description[j];
+                    }
+                    $(modal).find('#help-description').html(description);
                 }
             }
         }
 
-        initPopover();
+        initPopover(0);
 
         $(modal).find('#carousel-introduction-generic').unbind('slide.bs.carousel').bind('slide.bs.carousel', function () {
-            $(modal).find('#help-description').html('');
-            $(modal).find('#help-description').addClass('hidden');
+//            $(modal).find('#help-description').html('');
+//            $(modal).find('#help-description').addClass('hidden');
         });
 
         $(modal).find('#carousel-introduction-generic').unbind('slid.bs.carousel').bind('slid.bs.carousel', function () {
@@ -93,7 +97,8 @@ session_start();
             if (items && translation[items] && translation[items].length > 0) {
                 var helpItem = translation[items][currentIndex];
                 if (helpItem.description) {
-                    $(modal).find('#help-description').removeClass('hidden');
+                    $(modal).find('#help-description').html('');
+//                    $(modal).find('#help-description').removeClass('hidden');
                     $(modal).find('#help-description').html(helpItem.description);
                 }
             }

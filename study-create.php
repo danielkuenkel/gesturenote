@@ -292,12 +292,12 @@ if (login_check($mysqli) == true) {
 
                     </form>
 
-                    <hr>
-                    <p id="styleguide-info" class="text">
+                    <!--<hr>-->
+<!--                    <p id="styleguide-info" class="text">
                         <?php echo $lang->createStudyInfos->panel->overview ?>
-                    </p>
+                    </p>-->
 
-                    <div id="from-To-datepicker">
+                    <div id="from-To-datepicker" style="margin-top: 15px">
                         <div class="input-daterange row" id="datepicker">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -326,7 +326,7 @@ if (login_check($mysqli) == true) {
                         </div>
                     </div>
 
-                    <div class="panel panel-default">
+<!--                    <div class="panel panel-default">
 
                         <div class="panel-body" id="panelSurveySwitch" style="padding-top: 0px;">
                             <div class="form-inline">
@@ -367,8 +367,8 @@ if (login_check($mysqli) == true) {
                                 </div>
                             </div>
 
-                        </div>
-                        <hr style="margin: 0">
+                        </div>-->
+<!--                        <hr style="margin: 0">
                         <div class="panel-body hidden" id="panel-survey-container" style="padding-top: 0px">
                             <div class="form-inline">
                                 <div class="form-group form-group-no-margin root" id="genderSwitch" style="margin-right: 20px;margin-top: 15px">
@@ -419,9 +419,9 @@ if (login_check($mysqli) == true) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
-                    </div>
+                    <!--</div>-->
                 </div>
 
 
@@ -709,23 +709,23 @@ if (login_check($mysqli) == true) {
             }
 
             function init() {
-                getAgeRange(function (result) {
-                    if (result.status === RESULT_SUCCESS) {
-                        if (result.tester && result.tester.length > 0) {
-                            var ageRange = calculateAgeRangeForGender(result.tester, 'identical');
-                            var data = {min: ageRange.min, max: ageRange.max, raw: result.tester};
-                            data.availableGender = getAvailableGender(result.tester);
-                            setLocalItem(STUDY_PANEL, data);
-                        }
-
-                        initAfterAgeRange();
-                    } else {
-                        // error handling
-                        initAfterAgeRange();
-                    }
-                });
-
-                function initAfterAgeRange() {
+//                getAgeRange(function (result) {
+//                    if (result.status === RESULT_SUCCESS) {
+//                        if (result.tester && result.tester.length > 0) {
+//                            var ageRange = calculateAgeRangeForGender(result.tester, 'identical');
+//                            var data = {min: ageRange.min, max: ageRange.max, raw: result.tester};
+//                            data.availableGender = getAvailableGender(result.tester);
+//                            setLocalItem(STUDY_PANEL, data);
+//                        }
+//
+//                        initAfterAgeRange();
+//                    } else {
+//                        // error handling
+//                        initAfterAgeRange();
+//                    }
+//                });
+//
+//                function initAfterAgeRange() {
                     checkSessionStorage();
 
                     var status = window.location.hash.substr(1);
@@ -736,7 +736,7 @@ if (login_check($mysqli) == true) {
                         $('#create-tab-navigation').children().first().find('a').click();
                     }
                     $('#loading-indicator').remove();
-                }
+//                }
             }
 
             function getStatusNavMatch(status) {

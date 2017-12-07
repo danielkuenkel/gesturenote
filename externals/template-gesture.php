@@ -215,7 +215,7 @@ include '../includes/language.php';
             <div class="panel-footer">
                 <div class="btn-group btn-group-justified">
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-danger btn-untag-as-favorite-gesture" id="btn-untag-as-favorite-gesture"><i class="fa fa-close" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-untag-as-favorite-gesture" id="btn-untag-as-favorite-gesture"><i class="fa fa-close" aria-hidden="true"></i></button>
                     </div>
                     <div class="btn-group" role="group">
                         <div class="btn-show-gesture-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->showAllGestureInfos ?>"><i class="fa fa-ellipsis-h"></i></div>

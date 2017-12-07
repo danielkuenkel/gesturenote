@@ -1116,9 +1116,9 @@ function initPagination(data) {
     var paginationClipping = null;
 
     if (data.pager.top) {
-        paginationClipping = parseInt($(data.pager.top).attr('itemprop').split('_')[1]);
+        paginationClipping = parseInt($(data.pager.top).attr('data-clipping'));
         $(data.pager.top).children('.clickable-pagination-item').remove();
-        $(data.pager.top).attr('maxPages', maxPages);
+        $(data.pager.top).attr('data-max-pages', maxPages);
 
         if (maxPages <= 1) {
             $(data.pager.top).addClass('hidden');
@@ -1128,9 +1128,9 @@ function initPagination(data) {
     }
 
     if (data.pager.bottom) {
-        paginationClipping = parseInt($(data.pager.top).attr('itemprop').split('_')[1]);
+        paginationClipping = parseInt($(data.pager.top).attr('data-clipping'));
         $(data.pager.bottom).children('.clickable-pagination-item').remove();
-        $(data.pager.bottom).attr('maxPages', maxPages);
+        $(data.pager.bottom).attr('data-max-pages', maxPages);
 
         if (maxPages <= 1) {
             $(data.pager.bottom).addClass('hidden');
@@ -1171,7 +1171,7 @@ function updatePagination() {
         mainPager = currentPaginationData.pager.bottom;
     }
 
-    var currentMaxPages = parseInt($(mainPager).attr('maxPages'));
+    var currentMaxPages = parseInt($(mainPager).attr('data-max-pages'));
     var currentIndex = parseInt($(mainPager).find('.active').text()) - 1;
 
     if (currentIndex === 0 && currentMaxPages <= 1) {
@@ -1219,7 +1219,7 @@ function updatePaginationItems() {
 }
 
 function checkPagination(pagination, dataLength, maxElements) {
-    var currentMaxPages = parseInt($(pagination).attr('maxPages'));
+    var currentMaxPages = parseInt($(pagination).attr('data-max-pages'));
     var maxPages = Math.ceil(dataLength / maxElements);
 
     if (maxPages !== currentMaxPages) {
@@ -1263,7 +1263,7 @@ $(document).on('click', '.pagination li', function (event) {
         }
         paginations.push(mainPager);
 
-        var maxPages = parseInt($(mainPager).attr('maxPages'));
+        var maxPages = parseInt($(mainPager).attr('data-max-pages'));
 
         if (!$(this).hasClass('active') && $(this).hasClass('clickable-pagination-item')) {
             var newIndex = parseInt($(this).text()) - 1;
@@ -1360,7 +1360,7 @@ function shiftPaginationBackward(mainPager, secondPager) {
 
 function shiftPaginationLastPage(mainPager, secondPager) {
     if (mainPager) {
-        var maxPages = parseInt($(mainPager).attr('maxPages'));
+        var maxPages = parseInt($(mainPager).attr('data-max-pages'));
         var paginationItems = $(mainPager).find('.clickable-pagination-item');
         paginationItems.removeClass('active');
 
@@ -1387,7 +1387,7 @@ function shiftPaginationLastPage(mainPager, secondPager) {
 }
 function shiftPaginationFirstPage(mainPager, secondPager) {
     if (mainPager) {
-        var maxPages = parseInt($(mainPager).attr('maxPages'));
+        var maxPages = parseInt($(mainPager).attr('data-max-pages'));
         var paginationItems = $(mainPager).find('.clickable-pagination-item');
         paginationItems.removeClass('active');
 

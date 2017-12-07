@@ -40,8 +40,8 @@ function createPredefinedGestureFeedback() {
 
 function renderSessionStorageData() {
     renderPhaseSteps();
-    renderGenderSwitch();
-    renderAgeRanges();
+//    renderGenderSwitch();
+//    renderAgeRanges();
 
     var study = getLocalItem(STUDY);
     if (study) {
@@ -74,16 +74,16 @@ function renderSessionStorageData() {
             $('#useFeedbackSwitch #yes').click();
         }
 
-        if (study.gender !== 'unselected') {
-            $('#genderSwitch').find('#' + study.gender).click();
-        }
+//        if (study.gender !== 'unselected') {
+//            $('#genderSwitch').find('#' + study.gender).click();
+//        }
 
-        var studyPanel = getLocalItem(STUDY_PANEL);
-        var ranges = {min: studyPanel.min, max: studyPanel.max};
-        if (study.ageRange && study.ageRange !== '' && studyPanel) {
-            ranges = study.ageRange;
-        }
-        updateSelectionText(ranges, $('#genderSwitch').find('.btn-option-checked').attr('id'));
+//        var studyPanel = getLocalItem(STUDY_PANEL);
+//        var ranges = {min: studyPanel.min, max: studyPanel.max};
+//        if (study.ageRange && study.ageRange !== '' && studyPanel) {
+//            ranges = study.ageRange;
+//        }
+//        updateSelectionText(ranges, $('#genderSwitch').find('.btn-option-checked').attr('id'));
 
 //        if (study.recordType !== 'unselected') {
 //            $('#recordSelect').find('#' + study.recordType).click();
@@ -125,6 +125,7 @@ function renderAgeRanges() {
         ranges.max = parseInt(studyPanel.max);
 //        $("#ageSlider .custom-range-slider").slider({min: studyPanel.min, max: studyPanel.max, range: true, value: [parseInt(ranges[0]), parseInt(ranges[1])], tooltip: 'hide'});
     }
+    
     var slider = new Slider('#ageSlider .custom-range-slider', {
         formatter: function (value) {
             return 'Current value: ' + value;
@@ -283,6 +284,7 @@ function renderCatalogOverview() {
 }
 
 function renderStudyGestures(gestures, animate) {
+    $('#gestures-catalog').find('#gestures-list-container').empty();
     if (gestures && gestures.length > 0) {
         for (var i = 0; i < gestures.length; i++) {
             var gesture = getGestureById(gestures[i]);
@@ -444,33 +446,33 @@ function saveGeneralData() {
 //    study.surveyMethod = $('#surveyMethodSelect .btn-option-checked').attr('id');
     study.surveyType = $('#surveyTypeSelect .btn-option-checked').attr('id');
 //    study.recordType = $('#recordSelect .chosen').attr('id');
-    study.panelSurvey = $('#panelSurveySwitch').find('.btn-option-checked').attr('id');
-    study.gender = 'unselected';
-    study.ageRange = null;
+//    study.panelSurvey = $('#panelSurveySwitch').find('.btn-option-checked').attr('id');
+//    study.gender = 'unselected';
+//    study.ageRange = null;
 
 //    console.log('save general data', study);
 
-    if (study.panelSurvey === 'yes') {
-        study.gender = $('#genderSwitch').find('.btn-option-checked').attr('id');
-        var ageRange = $('#ageSlider .custom-range-slider').attr('value');
-        study.ageRange = {min: ageRange.split(',')[0], max: ageRange.split(',')[1]};
-    }
-
-    $('#from-To-datepicker .input-daterange input').each(function () {
-        var formattedDate = $(this).datepicker('getDate');
-        var saveDate;
-        if (formattedDate !== null) {
-            saveDate = new Date(formattedDate).getTime() / 1000;
-        } else {
-            saveDate = null;
-        }
-
-        if ($(this).attr('id') === 'start') {
-            study.dateFrom = saveDate;
-        } else {
-            study.dateTo = saveDate;
-        }
-    });
+////    if (study.panelSurvey === 'yes') {
+////        study.gender = $('#genderSwitch').find('.btn-option-checked').attr('id');
+////        var ageRange = $('#ageSlider .custom-range-slider').attr('value');
+////        study.ageRange = {min: ageRange.split(',')[0], max: ageRange.split(',')[1]};
+////    }
+//
+//    $('#from-To-datepicker .input-daterange input').each(function () {
+//        var formattedDate = $(this).datepicker('getDate');
+//        var saveDate;
+//        if (formattedDate !== null) {
+//            saveDate = new Date(formattedDate).getTime() / 1000;
+//        } else {
+//            saveDate = null;
+//        }
+//
+//        if ($(this).attr('id') === 'start') {
+//            study.dateFrom = saveDate;
+//        } else {
+//            study.dateTo = saveDate;
+//        }
+//    });
 
     setLocalItem(STUDY, study);
     savePhases();
