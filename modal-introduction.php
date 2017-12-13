@@ -4,7 +4,7 @@ session_start();
 ?>
 
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <button type="button" class="close" id="btn-close-top" data-dismiss="modal">&times;</button>
     <h4 class="modal-title"><i class="fa fa-support"></i> <?php echo $lang->help ?></h4>
 </div>
 <div id="modal-body" class="modal-body" style="padding: 0">
@@ -48,6 +48,7 @@ session_start();
     $(document).ready(function () {
         var modal = $('#custom-modal');
         var items = $(modal).attr('data-help-items-key');
+        var startTabId = $(modal).attr('data-start-tab-id');
 
 //        console.log(items, translation[items]);
         for (var i = 0; i < translation[items].length; i++) {
@@ -70,27 +71,27 @@ session_start();
                 $(indicatorItem).attr('data-content', helpItem.popover);
             }
 
-            if (i === 0) {
+            if ((i === 0 && !startTabId) || (i > 0 && startTabId && helpItem.tabId === startTabId)) {
                 $(indicatorItem).addClass('active');
                 $(item).addClass('active');
 
                 if (helpItem.description && helpItem.description.length > 0) {
                     $(modal).find('#help-description').removeClass('hidden');
-                    var description = "";
-                    for (var j = 0; j < helpItem.description.length; j++) {
-                        description += helpItem.description[j];
-                    }
-                    $(modal).find('#help-description').html(description);
+//                    var description = "";
+//                    for (var j = 0; j < helpItem.description.length; j++) {
+//                        description += helpItem.description[j];
+//                    }
+                    $(modal).find('#help-description').html(helpItem.description);
                 }
             }
         }
 
         initPopover(0);
 
-        $(modal).find('#carousel-introduction-generic').unbind('slide.bs.carousel').bind('slide.bs.carousel', function () {
-//            $(modal).find('#help-description').html('');
-//            $(modal).find('#help-description').addClass('hidden');
-        });
+//        $(modal).find('#carousel-introduction-generic').unbind('slide.bs.carousel').bind('slide.bs.carousel', function () {
+////            $(modal).find('#help-description').html('');
+////            $(modal).find('#help-description').addClass('hidden');
+//        });
 
         $(modal).find('#carousel-introduction-generic').unbind('slid.bs.carousel').bind('slid.bs.carousel', function () {
             var currentIndex = parseInt($(modal).find('#carousel-introduction-generic .carousel-indicators .active').attr('data-slide-to'));
@@ -113,10 +114,23 @@ session_start();
 
         $(modal).find('#btn-close').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            var dontShowIntroduction = $(this).parent().find('#checkbox-automatic-show .btn-checkbox').hasClass('btn-option-checked');
+            closeIntroduction();
+
+        });
+
+        $(modal).find('#btn-close-top').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            closeIntroduction();
+        });
+
+        function closeIntroduction() {
+            var dontShowIntroduction = $(modal).find('#checkbox-automatic-show .btn-checkbox').hasClass('btn-option-checked');
             updateIntroduction({context: $(modal).attr('data-help-context'), dontShowIntroduction: dontShowIntroduction ? 0 : 1});
             $(modal).removeAttr('data-help-items-key');
+            $(modal).removeAttr('data-help-context');
+            $(modal).removeAttr('data-help-show-tutorial');
+            $(modal).removeAttr('data-start-tab-id');
             $(modal).modal('hide');
-        });
+        }
     });
 </script>

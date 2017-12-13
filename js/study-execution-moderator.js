@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//var screenSharingModerator = null;
+
 var prototypeWindow = null;
 var Moderator = {
     renderView: function renderView() {
@@ -16,19 +16,12 @@ var Moderator = {
             getGMT(function (timestamp) {
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 tempData.startTime = timestamp;
-//                delete tempData.endRecordingTime;
-//                delete tempData.endScreenRecordingTime;
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
         }
 
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
             Moderator.initializePeerConnection();
-//            Moderator.resetScreenSharing();
-//            if(!previewModeEnabled) {
-//                loadScreenSharingScript();
-//            }
-//        console.log('clone: ' + currentPhase.format + ', from: ' + source.attr('id'));
             var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
             $(container).find('#column-left').css('opacity', '0');
             var item = null;
@@ -303,7 +296,7 @@ var Moderator = {
     },
     renderGestureTraining: function renderGestureTraining(source, container, data) {
 //        console.log('renderGestureTraining', data);
-        $(container).find('#training .panel-heading-text').text('Geste ' + (currentGestureTrainingIndex + 1) + ' von ' + data.length);
+        $(container).find('#training .headline').text('Geste ' + (currentGestureTrainingIndex + 1) + ' von ' + data.length);
         var training = data[currentGestureTrainingIndex];
         renderTrainingControls(training);
 
@@ -561,7 +554,7 @@ var Moderator = {
                     if (transitionScenes.length > 1) {
                         var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
                         $(item).find('#start-scene-container').append(startItem);
-                        TweenMax.from(startItem, .3, {x: '-10px', opacity: 0});
+                        TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
 
                         $(item).find('#follow-scene-header').removeClass('hidden');
                         $(item).find('#follow-scene-container').removeClass('hidden');
@@ -577,16 +570,16 @@ var Moderator = {
                                 if (j < transitionScenes.length - 2) {
                                     $(item).find('#transition-scene-container').append(document.createElement('br'));
                                 }
-                                TweenMax.from(itemBetween, .3, {x: '-10px', opacity: 0, delay: (j + 1) * .1});
+                                TweenMax.from(itemBetween, .3, {y: '-10px', opacity: 0, delay: (j + 1) * .1});
                             }
-                            TweenMax.from(followItem, .3, {x: '-10px', opacity: 0, delay: (transitionScenes.length * .1) - .1});
+                            TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: (transitionScenes.length * .1) - .1});
                         } else {
-                            TweenMax.from(followItem, .3, {x: '-10px', opacity: 0, delay: .1});
+                            TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: .1});
                         }
                     } else {
                         var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
                         $(item).find('#start-scene-container').append(startItem);
-                        TweenMax.from(startItem, .3, {x: '-10px', opacity: 0});
+                        TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
                     }
                 }
 
@@ -603,7 +596,7 @@ var Moderator = {
                     var feedback = getFeedbackById(training.feedbackId);
                     var feedbackButton = getWOZTransitionFeedbackItem(source, feedback, trainingData.feedbackTransitionMode, trainingData.feedbackTransitionTime, !gestureTrainingStartTriggered && !trainingPrototypeOpened, transitionScenes && transitionScenes.length > 0 && currentTransitionSceneIndex >= 1);
                     $(item).find('#transition-feedback-container').empty().append(feedbackButton);
-                    TweenMax.from(feedbackButton, .3, {x: '-10px', opacity: 0, delay: .1});
+                    TweenMax.from(feedbackButton, .3, {y: '-10px', opacity: 0, delay: .1});
                 }
 
                 item.find('.btn-trigger-scene, .btn-trigger-feedback').unbind('click').bind('click', {data: trainingData}, function (event) {
@@ -897,7 +890,7 @@ var Moderator = {
 
         function renderSlide(index) {
             var slide = data.slideshow[index];
-            $(container).find('#slides .panel-heading-text').text('Slide ' + (index + 1) + ' von ' + data.slideshow.length);
+            $(container).find('#slides .headline').text('Slide ' + (index + 1) + ' von ' + data.slideshow.length);
             $(container).find('#slidesContainer').empty();
             var item = $(source).find('#gestureSlideshowItem').clone().removeAttr('id');
             $(container).find('#slidesContainer').append(item);
@@ -990,6 +983,7 @@ var Moderator = {
         // general data section
         $(container).find('#general .headline').text(data.title);
         $(container).find('#general #description').text(data.description);
+
         if (slideshowStartTriggered) {
             $(container).find('#btn-start-slideshow').remove();
             $(container).find('#btn-done-slideshow').removeClass('hidden');
@@ -1028,6 +1022,7 @@ var Moderator = {
                 nextStep();
             }
         });
+
         // slideshow section
         renderSlideshowItems(currentQuestionnaireAnswers);
         function renderSlideshowItems(answers) {
@@ -1041,7 +1036,7 @@ var Moderator = {
                 $(item).find('#given').text(gesture.title);
                 $(item).find('.btn-popover-gesture-preview').attr('name', gesture.id);
                 var answer = null;
-                console.log(answers);
+
                 if (answers && answers.length > 0) {
                     for (var j = 0; j < answers.length; j++) {
                         if (parseInt(answers[j].correctTriggerId) === parseInt(trigger.id)) {
@@ -1077,8 +1072,10 @@ var Moderator = {
         // general data section
         $(container).find('#general .headline').text(data.title);
         $(container).find('#general #description').text(data.description);
+
         // stress test controls section
         Moderator.renderPhysicalStressTest(source, container, data);
+
         // observation section
         renderObservations(data, container);
         if (!previewModeEnabled && peerConnection) {
@@ -1099,8 +1096,8 @@ var Moderator = {
         return container;
     },
     renderPhysicalStressTest: function renderPhysicalStressTest(source, container, data) {
-        $(container).find('#controls .panel-heading').text(translation.gesture + " " + (currentStressTestIndex + 1) + " " + translation.of + " " + data.stressTestItems.length);
-        Moderator.renderPhysicalStressTestQuestionnaire(container, data, currentQuestionnaireAnswers);
+        $(container).find('#controls .headline').text(translation.gesture + " " + (currentStressTestIndex + 1) + " " + translation.of + " " + data.stressTestItems.length);
+
         if (stressTestStartTriggered) {
             container.find('#btn-show-gesture').removeClass('disabled');
             container.find('#btn-start-stress-test').remove();
@@ -1109,8 +1106,18 @@ var Moderator = {
         if (currentStressTestCount >= data.stressAmount) {
             $(container).find('#btn-next-gesture').removeClass('disabled');
             $(container).find('#btn-show-gesture, #btn-show-question').addClass('disabled');
+
+            if (!data.sequenceStressQuestions && !data.singleStressQuestions) {
+                $(container).find('#btn-show-question').addClass('hidden');
+            } else {
+                $(container).find('#btn-show-question').removeClass('hidden');
+            }
         } else {
             $(container).find('#btn-next-gesture').addClass('disabled');
+
+            if (!data.singleStressQuestions) {
+                $(container).find('#btn-show-question').addClass('hidden');
+            }
         }
 
         if (currentStressTestIndex >= data.stressTestItems.length - 1) {
@@ -1126,10 +1133,15 @@ var Moderator = {
         } else {
             container.find('.btn-popover-gesture-preview').addClass('disabled');
         }
+
         container.find('#repeats-left .text').text((data.stressAmount - currentStressTestCount));
         if (stressTestGestureTriggered) {
-            container.find('#btn-show-gesture').addClass('disabled');
-            container.find('#btn-show-question').removeClass('disabled');
+            if ((currentStressTestCount < data.stressAmount && !data.singleStressQuestions) || (currentStressTestCount >= data.stressAmount && !data.sequenceStressQuestions)) {
+                container.find('#btn-show-gesture').removeClass('disabled');
+            } else {
+                container.find('#btn-show-gesture').addClass('disabled');
+                container.find('#btn-show-question').removeClass('disabled');
+            }
         }
 
         container.find('#btn-start-stress-test').unbind('click').bind('click', function (event) {
@@ -1141,13 +1153,25 @@ var Moderator = {
                 peerConnection.sendMessage(MESSAGE_START_STRESS_TEST);
             }
         });
+
         container.find('#btn-show-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 $(this).addClass('disabled');
+                $(container).find('#gestures-container').addClass('hidden');
                 container.find('#btn-show-question').removeClass('disabled');
                 stressTestGestureTriggered = true;
                 stressTestQuestionsTriggered = false;
+
+                if ((currentStressTestCount < data.stressAmount && !data.singleStressQuestions) || (currentStressTestCount >= data.stressAmount && !data.sequenceStressQuestions)) {
+                    $(this).removeClass('disabled');
+                    currentStressTestCount++;
+
+                    if (previewModeEnabled) {
+                        Moderator.renderPhysicalStressTest(source, container, data);
+                    }
+                }
+
                 if (peerConnection) {
                     peerConnection.sendMessage(MESSAGE_TRIGGER_STRESS_TEST_GESTURE, {count: currentStressTestCount, index: currentStressTestIndex});
                 }
@@ -1160,6 +1184,13 @@ var Moderator = {
                 }
             }
         });
+
+
+        if (stressTestQuestionsTriggered === true && stressTestGestureTriggered === false) {
+            Moderator.renderPhysicalStressTestQuestionnaire(container, data, currentQuestionnaireAnswers);
+            $(container).find('#gestures-container').removeClass('hidden');
+        }
+
         container.find('#btn-show-question').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
@@ -1168,6 +1199,11 @@ var Moderator = {
                 currentStressTestCount++;
                 stressTestQuestionsTriggered = true;
                 stressTestGestureTriggered = false;
+
+
+                Moderator.renderPhysicalStressTestQuestionnaire(container, data, currentQuestionnaireAnswers);
+                $(container).find('#gestures-container').removeClass('hidden');
+
                 if (peerConnection) {
                     peerConnection.sendMessage(MESSAGE_TRIGGER_STRESS_TEST_QUESTION, {count: currentStressTestCount, index: currentStressTestIndex});
                 }
@@ -1185,10 +1221,13 @@ var Moderator = {
 
             }
         });
+
         container.find('#btn-next-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 $(this).addClass('disabled');
+                $(container).find('#gestures-container').addClass('hidden');
+
                 if (currentStressTestIndex >= data.stressTestItems.length - 1) {
                     if (peerConnection) {
                         peerConnection.sendMessage(MESSAGE_NEXT_STEP);
@@ -1218,25 +1257,23 @@ var Moderator = {
         });
     },
     renderPhysicalStressTestQuestionnaire: function renderPhysicalStressTestQuestionnaire(container, studyData, resultsData) {
-        // check if answers are there
-//        console.log(studyData, currentStressTestIndex);
+        console.log('renderPhysicalStressTestQuestionnaire', resultsData);
         var currentStressTestData = studyData.stressTestItems[currentStressTestIndex];
-        container.find('#gestures-container').empty();
-//        for (var i = 0; i < studyData.stressTestItems.length; i++) {
         var gesture = getGestureById(currentStressTestData);
         var item = $('#item-container-moderator').find('#physicalStressTest-item').clone().removeAttr('id');
-        container.find('#gestures-container').append(item);
+        container.find('#gestures-container').empty().append(item);
         renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
         $(item).find('#gesture .address').text(translation.gesture + ': ');
         $(item).find('#gesture .text').text(gesture.title);
         $(item).find('#trigger .address').text(translation.trigger + ': ');
         $(item).find('#trigger .text').text(trigger.title);
         $(item).find('#selection .address').text(translation.trigger + ' ' + translation.answer + ': ');
+
+        console.log(studyData, currentStressTestData);
+
         // single questions joint section
-//        if (resultsData && resultsData.answers) {
-//            console.log(resultsData.answers);
         var singleStressGraphicsRating = studyData.singleStressGraphicsRating;
-        if (singleStressGraphicsRating !== 'none') {
+        if (singleStressGraphicsRating && singleStressGraphicsRating !== 'none') {
             var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
             $(jointAnswers).insertAfter($(item).find('#headline-single-questions'));
             if (singleStressGraphicsRating === 'hands') {
@@ -1253,7 +1290,7 @@ var Moderator = {
 
         // sequence questions joint section
         var sequenceStressGraphicsRating = studyData.sequenceStressGraphicsRating;
-        if (sequenceStressGraphicsRating !== 'none') {
+        if (sequenceStressGraphicsRating && sequenceStressGraphicsRating !== 'none') {
             var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
             $(jointAnswers).insertAfter($(item).find('#headline-sequence-questions'));
             if (sequenceStressGraphicsRating === 'hands') {
@@ -1267,50 +1304,64 @@ var Moderator = {
                 renderHandJointAnswers($(jointAnswers).find('#human-hand'), resultsData && resultsData.answers ? resultsData.answers : null, gesture.id, 'sequence');
             }
         }
-//        }
 
 
         // single answers section
         var singleStressQuestionnaire = studyData.singleStressQuestions;
         if (singleStressQuestionnaire && singleStressQuestionnaire.length > 0) {
-            if (resultsData && resultsData.answers && resultsData.answers.length > 0) {
-                var results = new Object();
-                results.answers = new Array();
-                var questions = new Array();
-                for (var j = 0; j < resultsData.answers.length; j++) {
-                    if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].singleAnswers) {
-                        results.answers = results.answers.concat(resultsData.answers[j].singleAnswers.answers);
-                        questions = questions.concat(singleStressQuestionnaire);
-                    }
-                }
-                if (questions.length > 0 && results.answers.length > 0) {
-                    renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions, results, false, true);
-                }
+            $(item).find('#single-stress-answers').removeClass('hidden');
+            if (resultsData && resultsData.answers && resultsData.answers[0].singleAnswers) {
+                renderQuestionnaireAnswers($(item).find('#single-stress-answers'), singleStressQuestionnaire, {answers: resultsData.answers[0].singleAnswers}, false, true);
+
+//                var results = new Object();
+//                results.answers = new Array();
+//                var questions = new Array();
+//                for (var j = 0; j < resultsData.answers.length; j++) {
+//                    if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].singleAnswers) {
+//                        results.answers = results.answers.concat(resultsData.answers[j].singleAnswers.answers);
+//                        questions = questions.concat(singleStressQuestionnaire);
+//                    }
+//                }
+//                if (questions.length > 0 && results.answers.length > 0) {
+//                    renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions, results, false, true);
+//                }
             } else {
                 renderQuestionnaireAnswers($(item).find('#single-stress-answers'), singleStressQuestionnaire, null, false);
             }
+        } else {
+            $(item).find('#single-stress-answers').addClass('hidden');
+            // append alert
         }
 
         // sequence answers section
         var sequenceStressQuestionnaire = studyData.sequenceStressQuestions;
         if (sequenceStressQuestionnaire && sequenceStressQuestionnaire.length > 0) {
-            if (resultsData && resultsData.answers && resultsData.answers.length > 0) {
-                var results = new Object();
-                results.answers = new Array();
-                var questions = new Array();
-                for (var j = 0; j < resultsData.answers.length; j++) {
-                    if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].sequenceAnswers) {
-                        results.answers = results.answers.concat(resultsData.answers[j].sequenceAnswers.answers);
-                        questions = questions.concat(sequenceStressQuestionnaire);
-                    }
-                }
-
-                if (questions.length > 0 && results.answers.length > 0) {
-                    renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), questions, results, false);
+            if (currentStressTestCount >= parseInt(studyData.stressAmount)) {
+                $(item).find('#sequence-stress-answers').removeClass('hidden');
+                if (resultsData && resultsData.answers && resultsData.answers[0].sequenceAnswers) {
+                    renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), sequenceStressQuestionnaire, {answers: resultsData.answers[0].sequenceAnswers}, false);
+//                var results = new Object();
+//                results.answers = new Array();
+//                var questions = new Array();
+//                for (var j = 0; j < resultsData.answers.length; j++) {
+//                    if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].sequenceAnswers) {
+//                        results.answers = results.answers.concat(resultsData.answers[j].sequenceAnswers.answers);
+//                        questions = questions.concat(sequenceStressQuestionnaire);
+//                    }
+//                }
+//
+//                if (questions.length > 0 && results.answers.length > 0) {
+//                    renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), questions, results, false);
+//                }
+                } else {
+                    renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), sequenceStressQuestionnaire, null, false);
                 }
             } else {
-                renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), sequenceStressQuestionnaire, null, false);
+                $(item).find('#sequence-stress-answers').addClass('hidden');
             }
+        } else {
+            $(item).find('#sequence-stress-answers').addClass('hidden');
+            // append alert
         }
     },
     getScenario: function getScenario(source, container, data) {
@@ -1593,6 +1644,7 @@ var Moderator = {
 
             Moderator.renderWOZ(source, container, data);
             Moderator.renderHelp(source, container, data);
+            console.log('renderFollowScene:', currentWOZScene, prototypeWindow);
             if (prototypeWindow && prototypeWindow.closed !== true) {
                 if (!previewModeEnabled) {
                     getGMT(function (timestamp) {
@@ -1761,7 +1813,6 @@ var Moderator = {
     enableScenarioControls: function enableScenarioControls(container) {
         $(container).find('#btn-open-prototype').remove();
         $(container).find('#btn-start-screen-sharing').removeClass('hidden');
-//    $(container).find('#btn-done-scenario').removeClass('hidden');
         var wozItems = $(container).find('.woz-container .disabled');
         wozItems.removeClass('disabled');
         var helpItems = $(container).find('.help-container .disabled');
@@ -1795,6 +1846,7 @@ var Moderator = {
 
         // slideshow section
         Moderator.renderIdentification(source, container, data);
+
         // observation section
         renderObservations(data, container);
         return container;
@@ -1804,7 +1856,7 @@ var Moderator = {
 
         renderIdentificationItem(source, container, data);
         function renderIdentificationItem(source, container, data) {
-            $(container).find('#slides .panel-heading-text').text(translation.formats.identification.text + " " + (currentIdentificationIndex + 1) + " " + translation.of + " " + data.identification.length);
+            $(container).find('#slides .headline').text(translation.formats.identification.text + " " + (currentIdentificationIndex + 1) + " " + translation.of + " " + data.identification.length);
             if (data.identification && data.identification.length > 0) {
                 var item = $(source).find('#identificationItem-' + data.identificationFor).clone().removeAttr('id');
                 $(container).find('#identificationContainer').empty().append(item);
@@ -1820,43 +1872,58 @@ var Moderator = {
                 if (!$(this).hasClass('disabled')) {
                     currentPhaseStepDone = true;
                     $(this).addClass('hidden');
-                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+
                     $(container).find('#slides').addClass('hidden');
                     $(container).find('#identified-gesture, #identified-trigger').addClass('hidden');
                     wobble([container.find('#general')]);
                     $(document).scrollTop(0);
+
+                    if (data.identification[currentIdentificationIndex].transitionScenes && data.identification[currentIdentificationIndex].transitionScenes.length > 0) {
+                        $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+                    } else {
+                        if (peerConnection) {
+                            peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                        }
+                        nextStep();
+                    }
                 } else if (!identificationStartTriggered) {
                     wobble([container.find('#slides')]);
                 }
             });
         }
 
-        if (screenSharingStopped) {
-            $(container).find('#slides').addClass('hidden');
-            $(container).find('#identified-gesture, #identified-trigger').addClass('hidden');
-            $(container).find('#btn-open-prototype').remove();
-            $(container).find('#btn-start-screen-sharing').addClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').addClass('hidden');
-            $(container).find('#btn-done-identification').removeClass('hidden');
-        } else if (currentPhaseStepDone) {
-            $(container).find('#slides').addClass('hidden');
-            $(container).find('#identified-gesture, #identified-trigger').addClass('hidden');
-            $(container).find('#btn-open-prototype').remove();
-            $(container).find('#btn-start-screen-sharing').addClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
-        } else if (identificationPrototypeOpened && !identificationStartTriggered) {
-            $(container).find('#btn-open-prototype').addClass('hidden');
-            $(container).find('#btn-start-screen-sharing').removeClass('hidden');
-        } else if (identificationPrototypeOpened && identificationStartTriggered) {
-            $(container).find('#btn-open-prototype').remove();
-            $(container).find('#btn-start-screen-sharing').addClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
-            $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
+        if (data.identification[currentIdentificationIndex].transitionScenes && data.identification[currentIdentificationIndex].transitionScenes.length > 0) {
+            if (screenSharingStopped) {
+                $(container).find('#slides').addClass('hidden');
+                $(container).find('#identified-gesture, #identified-trigger').addClass('hidden');
+                $(container).find('#btn-open-prototype').remove();
+                $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                $(container).find('#btn-stop-screen-sharing').addClass('hidden');
+                $(container).find('#btn-done-identification').removeClass('hidden');
+            } else if (currentPhaseStepDone) {
+                $(container).find('#slides').addClass('hidden');
+                $(container).find('#identified-gesture, #identified-trigger').addClass('hidden');
+                $(container).find('#btn-open-prototype').remove();
+                $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+            } else if (identificationPrototypeOpened && !identificationStartTriggered) {
+                $(container).find('#btn-open-prototype').addClass('hidden');
+                $(container).find('#btn-start-screen-sharing').removeClass('hidden');
+            } else if (identificationPrototypeOpened && identificationStartTriggered) {
+                $(container).find('#btn-open-prototype').remove();
+                $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+                $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
+            } else if (!identificationStartTriggered && !identificationPrototypeOpened) {
+                $(container).find('#btn-open-prototype').removeClass('hidden');
+            }
+        } else {
+            if (!identificationStartTriggered) {
+                $(container).find('#btn-start-elicitation').removeClass('hidden');
+            }
         }
 
         function renderGestureRecorder(videoURL) {
-            console.log('render gesture recorder:', videoURL);
-
             $(container).find('#file-transfer-loading-indicator').css({width: '0%'});
             $(container).find('#file-transfer-loader').addClass('hidden');
 
@@ -2178,19 +2245,11 @@ var Moderator = {
                 }
             });
 
-//            var questionnaireData = [{id: 123456,
-//                    format: GROUPING_QUESTION_OPTIONS,
-//                    dimension: DIMENSION_ANY,
-//                    question: translation.askPreferredTriggerForGesture,
-//                    parameters: {multiselect: 'yes', optionSource: 'triggers', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes'}
-//                }];
-
             if (identificationTriggerRequest) {
                 identificationTriggerRequest = false;
                 clearAlerts($(container).find('#identified-trigger'));
                 $(container).find('#identified-trigger').removeClass('hidden');
                 $(item).find('#btn-request-trigger').addClass('hidden');
-//                console.log(currentQuestionnaireAnswers);
                 renderQuestionnaireAnswers($(container).find('#identified-trigger'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
 
                 if (currentIdentificationIndex < data.identification.length - 1) {
@@ -2239,6 +2298,12 @@ var Moderator = {
             });
         }
 
+        $(container).find('#btn-start-elicitation').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            $(this).remove();
+            enableControls();
+        });
+
         $(container).find('#btn-open-prototype').unbind('click').bind('click', function (event) {
             event.preventDefault();
             var currentScene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId);
@@ -2278,9 +2343,13 @@ var Moderator = {
         function enableControls() {
             identificationStartTriggered = true;
             wobble([container.find('#slides')]);
-            $(container).find('#btn-start-gesture-recording, .btn-trigger-scene, .btn-reset-scene, #btn-request-trigger').removeClass('disabled');
-            $(container).find('#btn-start-screen-sharing').addClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+            $(container).find('.btn-trigger-scene, .btn-reset-scene, #btn-request-trigger').removeClass('disabled');
+            $(container).find('#btn-start-gesture-recording').removeClass('disabled');
+
+            if (data.identification[currentIdentificationIndex].transitionScenes && data.identification[currentIdentificationIndex].transitionScenes.length > 0) {
+                $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+            }
         }
 
         $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
@@ -2310,13 +2379,19 @@ var Moderator = {
 
         $(container).find('#btn-done-identification').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            if (peerConnection) {
-                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+            if (!$(this).hasClass('disabled')) {
+                if (peerConnection) {
+                    peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+                }
+                nextStep();
             }
-            nextStep();
         });
     },
     getExploration: function getExploration(source, container, data) {
+        if (!data.exploration || (data.exploration && data.exploration.length === 0)) {
+            return false;
+        }
+
         $(container).find('#general .headline').text(data.title);
         $(container).find('#general #description').text(data.description);
 
@@ -2334,14 +2409,14 @@ var Moderator = {
         }
 
         function renderExplorationForGestures() {
-            $(container).find('#slides .panel-heading-text').text(translation.userCenteredGestureExtraction + " " + (currentExplorationIndex + 1) + " " + translation.of + " " + data.exploration.length);
+            $(container).find('#slides .headline').text(translation.userCenteredGestureExtraction + " " + (currentExplorationIndex + 1) + " " + translation.of + " " + data.exploration.length);
             var item;
             if (data.askPreferredGesture === 'yes') {
                 item = $(source).find('#explorationItem-ask').clone().removeAttr('id');
             } else {
                 item = $(source).find('#explorationItem').clone().removeAttr('id');
             }
-            
+
             var searchedData = getTriggerById(data.exploration[currentExplorationIndex].triggerId);
             $(item).find('#search-for .address').text(translation.GestureForTrigger + ':');
             $(item).find('#search-for .text').text(searchedData.title);
@@ -2354,7 +2429,7 @@ var Moderator = {
                     if (data.askPreferredGesture === 'yes') {
                         $(container).find('#btn-request-gestures').removeClass('disabled');
                     } else {
-                        $(container).find('#btn-done').removeClass('disabled');
+                        $(container).find('#btn-stop-screen-sharing').removeClass('disabled');
                     }
                 } else {
                     if (data.askPreferredGesture === 'yes') {
@@ -2377,8 +2452,12 @@ var Moderator = {
                 if (data.askPreferredGesture === 'yes') {
                     $(container).find('#btn-request-gestures').removeClass('hidden');
                 } else {
-                    console.log('show btn-done button');
-                    $(container).find('#btn-done').removeClass('hidden');
+                    if (scenesUsedForExploration(data.exploration) === true) {
+                        $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+                    } else {
+                        currentPhaseStepDone = true;
+                        $(container).find('#btn-done-exploration').removeClass('hidden disabled');
+                    }
                 }
             }
 
@@ -2397,7 +2476,7 @@ var Moderator = {
                 $(container).find('#identified-gestures').removeClass('hidden');
                 $(item).find('#btn-request-gestures').addClass('hidden');
                 $(container).find('#btn-next-trigger').addClass('disabled');
-                $(container).find('#btn-done').addClass('disabled');
+                $(container).find('#btn-stop-screen-sharing').addClass('disabled');
 
                 // render selected gestures
                 renderQuestionnaireAnswers($(container).find('#identified-gestures'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
@@ -2405,13 +2484,18 @@ var Moderator = {
                 if (currentExplorationIndex < data.exploration.length - 1) {
                     $(container).find('#btn-next-trigger').removeClass('hidden disabled');
                 } else {
-                    $(container).find('#btn-done').removeClass('hidden disabled');
+                    if (scenesUsedForExploration(data.exploration) === true) {
+                        $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+                    } else {
+                        currentPhaseStepDone = true;
+                        $(container).find('#btn-done-exploration').removeClass('hidden disabled');
+                    }
                 }
             }
         }
 
         function renderExplorationForTrigger() {
-            $(container).find('#slides .panel-heading-text').text(translation.userCenteredTriggerExtraction + " " + (currentExplorationIndex + 1) + " " + translation.of + " " + data.exploration.length);
+            $(container).find('#slides .headline').text(translation.userCenteredTriggerExtraction + " " + (currentExplorationIndex + 1) + " " + translation.of + " " + data.exploration.length);
             var item;
             if (data.askPreferredTrigger === 'yes') {
                 item = $(source).find('#explorationItem-trigger-ask').clone().removeAttr('id');
@@ -2431,7 +2515,7 @@ var Moderator = {
                     if (data.askPreferredTrigger === 'yes') {
                         $(container).find('#btn-request-trigger').removeClass('disabled');
                     } else {
-                        $(container).find('#btn-done').removeClass('disabled');
+                        $(container).find('#btn-stop-screen-sharing').removeClass('disabled');
                     }
                 } else {
                     if (data.askPreferredTrigger === 'yes') {
@@ -2449,13 +2533,18 @@ var Moderator = {
                 } else {
                     $(container).find('#btn-next-gesture').removeClass('hidden');
                 }
-                $(container).find('#btn-done').addClass('hidden');
+                $(container).find('#btn-stop-screen-sharing').addClass('hidden');
             } else {
                 $(container).find('#btn-next-gesture').addClass('hidden');
                 if (data.askPreferredTrigger === 'yes') {
                     $(container).find('#btn-request-trigger').removeClass('hidden');
                 } else {
-                    $(container).find('#btn-done').removeClass('hidden disabled');
+                    if (scenesUsedForExploration(data.exploration) === true) {
+                        $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+                    } else {
+                        currentPhaseStepDone = true;
+                        $(container).find('#btn-done-exploration').removeClass('hidden disabled');
+                    }
                 }
             }
 
@@ -2474,7 +2563,7 @@ var Moderator = {
                 $(container).find('#identified-trigger').removeClass('hidden');
                 $(item).find('#btn-request-trigger').addClass('hidden');
                 $(container).find('#btn-next-gesture').addClass('disabled');
-                $(container).find('#btn-done').addClass('disabled');
+                $(container).find('#btn-stop-screen-sharing').addClass('disabled');
 
                 // render selected gestures
                 renderQuestionnaireAnswers($(container).find('#identified-trigger'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
@@ -2482,33 +2571,57 @@ var Moderator = {
                 if (currentExplorationIndex < data.exploration.length - 1) {
                     $(container).find('#btn-next-gesture').removeClass('hidden disabled');
                 } else {
-                    $(container).find('#btn-done').removeClass('hidden disabled');
+                    if (scenesUsedForExploration(data.exploration) === true) {
+                        $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+                    } else {
+                        currentPhaseStepDone = true;
+                        $(container).find('#btn-done-exploration').removeClass('hidden disabled');
+                    }
                 }
             }
         }
 
 
         // check preview buttons
-        if (screenSharingStopped) {
-            $(container).find('#slides').addClass('hidden');
-            $(container).find('#btn-open-prototype').remove();
-            $(container).find('#btn-start-screen-sharing').addClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').addClass('hidden');
-            $(container).find('#btn-done-exploration').removeClass('hidden');
-        } else if (currentPhaseStepDone) {
-            $(container).find('#slides').addClass('hidden');
-            $(container).find('#btn-open-prototype').remove();
-            $(container).find('#btn-start-screen-sharing').addClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
-        } else if (explorationPrototypeOpened && !explorationStartTriggered) {
-            $(container).find('#btn-open-prototype').addClass('hidden');
-            $(container).find('#btn-start-screen-sharing').removeClass('hidden');
-        } else if (explorationPrototypeOpened && explorationStartTriggered) {
-            $(container).find('#btn-open-prototype').remove();
-            $(container).find('#btn-start-screen-sharing').addClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
-            $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
+        if (scenesUsedForExploration(data.exploration) === true) {
+            if (screenSharingStopped) {
+                $(container).find('#slides').addClass('hidden');
+                $(container).find('#btn-open-prototype').remove();
+                $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                $(container).find('#btn-stop-screen-sharing').addClass('hidden');
+                $(container).find('#btn-done-exploration').removeClass('hidden');
+            } else if (currentPhaseStepDone) {
+                $(container).find('#slides').addClass('hidden');
+                $(container).find('#btn-open-prototype').remove();
+                $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+            } else if (explorationPrototypeOpened && !explorationStartTriggered) {
+                $(container).find('#btn-open-prototype').addClass('hidden');
+                $(container).find('#btn-start-screen-sharing').removeClass('hidden');
+            } else if (explorationPrototypeOpened && explorationStartTriggered) {
+                $(container).find('#btn-open-prototype').remove();
+                $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+                $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
+            }
+        } else {
+            if (explorationStartTriggered) {
+                $(container).find('#btn-start-exploration').remove();
+                if (currentPhaseStepDone) {
+                    $(container).find('#btn-done-exploration').removeClass('hidden');
+                    $(container).find('#identified-gestures').removeClass('hidden');
+                    $(container).find('#btn-request-gestures').addClass('hidden');
+                }
+
+                // render selected gestures
+                if (currentQuestionnaireAnswers) {
+                    renderQuestionnaireAnswers($(container).find('#identified-gestures'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
+                }
+            } else {
+                $(container).find('#btn-start-exploration').removeClass('hidden');
+            }
         }
+
 
 
         // scene buttons
@@ -2550,34 +2663,51 @@ var Moderator = {
                     $(container).find('.btn-trigger-scene').removeClass('disabled');
                 }
             } else {
-                // no scenes available
-                openPrototypeScene(null, data.exploration.length === 1, null, currentExplorationIndex);
+                if (scenesUsedForExploration(data.exploration) === true) {
+                    // no scenes available for current exploration item
+                    openPrototypeScene(null, data.exploration.length === 1, null, currentExplorationIndex);
+                } else {
+                    // no scenes used at all
+                    $(container).find('#btn-open-prototype').remove();
+                    $(container).find('#btn-start-exploration').removeClass('hidden');
+                }
             }
+        }
+
+        function scenesUsedForExploration(data) {
+            if (data && data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].transitionScenes && data[i].transitionScenes.length > 0) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
 
         // generic buttons
         function initGenericButtons() {
-            $(container).find('#btn-done').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    currentPhaseStepDone = true;
-                    $(this).addClass('hidden');
-                    $(container).find('#slides').addClass('hidden');
-                    $(container).find('#identified-gestures').addClass('hidden');
-                    $(container).find('#identified-trigger').addClass('hidden');
-                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
-                    wobble([container.find('#general')]);
-                    $(document).scrollTop(0);
-                } else {
-                    if (explorationStartTriggered) {
-                        wobble([container.find('#slides')]);
-                    } else {
-                        wobble([container.find('#general')]);
-                        $(document).scrollTop(0);
-                    }
-                }
-            });
+//            $(container).find('#btn-done').unbind('click').bind('click', function (event) {
+//                event.preventDefault();
+//                if (!$(this).hasClass('disabled')) {
+//                    currentPhaseStepDone = true;
+//                    $(this).addClass('hidden');
+//                    $(container).find('#slides').addClass('hidden');
+//                    $(container).find('#identified-gestures').addClass('hidden');
+//                    $(container).find('#identified-trigger').addClass('hidden');
+//                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden disabled');
+//                    wobble([container.find('#general')]);
+//                    $(document).scrollTop(0);
+//                } else {
+//                    if (explorationStartTriggered) {
+//                        wobble([container.find('#slides')]);
+//                    } else {
+//                        wobble([container.find('#general')]);
+//                        $(document).scrollTop(0);
+//                    }
+//                }
+//            });
 
             $(container).find('#btn-next-trigger').unbind('click').bind('click', function (event) {
                 event.preventDefault();
@@ -2623,7 +2753,7 @@ var Moderator = {
                     $(this).addClass('hidden');
                     $(container).find('#identified-gestures').removeClass('hidden');
                     $(container).find('#btn-next-trigger').addClass('disabled');
-                    $(container).find('#btn-done').addClass('disabled');
+                    $(container).find('#btn-stop-screen-sharing').addClass('disabled');
                     $(container).find('#identified-gestures .question-container').empty();
                     appendAlert($(container).find('#identified-gestures'), ALERT_WAITING_FOR_TESTER);
                     explorationPreferredGesturesRequest = true;
@@ -2642,7 +2772,7 @@ var Moderator = {
                     $(this).addClass('hidden');
                     $(container).find('#identified-trigger').removeClass('hidden');
                     $(container).find('#btn-next-gesture').addClass('disabled');
-                    $(container).find('#btn-done').addClass('disabled');
+                    $(container).find('#btn-stop-screen-sharing').addClass('disabled');
                     $(container).find('#identified-trigger .question-container').empty();
                     appendAlert($(container).find('#identified-trigger'), ALERT_WAITING_FOR_TESTER);
                     explorationPreferredGesturesRequest = true;
@@ -2660,6 +2790,7 @@ var Moderator = {
                 if (peerConnection) {
                     peerConnection.sendMessage(MESSAGE_NEXT_STEP);
                 }
+
                 nextStep();
             });
         }
@@ -2674,11 +2805,11 @@ var Moderator = {
 
                 if (payload.saveAnswers === true) {
                     $(container).find('#btn-next-trigger').removeClass('disabled');
-                    $(container).find('#btn-done').removeClass('disabled');
+                    $(container).find('#btn-stop-screen-sharing').removeClass('disabled');
                 } else {
                     explorationPreferredGesturesRequest = false;
                     $(container).find('#btn-next-trigger').addClass('disabled');
-                    $(container).find('#btn-done').addClass('disabled');
+                    $(container).find('#btn-stop-screen-sharing').addClass('disabled');
                 }
 
                 // render selected gestures
@@ -2687,7 +2818,7 @@ var Moderator = {
                 if (currentExplorationIndex < data.exploration.length - 1) {
                     $(container).find('#btn-next-trigger').removeClass('hidden');
                 } else {
-                    $(container).find('#btn-done').removeClass('hidden');
+                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
                 }
             });
 
@@ -2697,11 +2828,11 @@ var Moderator = {
 
                 if (payload.saveAnswers === true) {
                     $(container).find('#btn-next-gesture').removeClass('disabled');
-                    $(container).find('#btn-done').removeClass('disabled');
+                    $(container).find('#btn-stop-screen-sharing').removeClass('disabled');
                 } else {
                     explorationPreferredGesturesRequest = false;
                     $(container).find('#btn-next-gesture').addClass('disabled');
-                    $(container).find('#btn-done').addClass('disabled');
+                    $(container).find('#btn-stop-screen-sharing').addClass('disabled');
                 }
 
                 // render selected trigger
@@ -2710,11 +2841,17 @@ var Moderator = {
                 if (currentExplorationIndex < data.exploration.length - 1) {
                     $(container).find('#btn-next-gesture').removeClass('hidden');
                 } else {
-                    $(container).find('#btn-done').removeClass('hidden');
+                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
                 }
             });
         }
 
+        // without screen sharing
+        $(container).find('#btn-start-exploration').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            $(this).remove();
+            enableControls();
+        });
 
         // screen sharing
         var query = getQueryParams(document.location.search);
@@ -2758,13 +2895,14 @@ var Moderator = {
         function enableControls() {
             explorationStartTriggered = true;
             wobble([container.find('#slides')]);
+
             if (data.exploration.length === 1) {
                 if (data['askPreferred' + (data.explorationType === 'gestures' ? 'Gesture' : 'Trigger')] === 'yes') {
                     $(container).find('#btn-request-gestures').removeClass('disabled');
                     $(container).find('#btn-request-trigger').removeClass('disabled');
                     console.log($(container).find('#btn-request-trigger'));
                 } else {
-                    $(container).find('#btn-done').removeClass('disabled');
+                    $(container).find('#btn-stop-screen-sharing').removeClass('disabled');
                 }
             } else {
                 if (data['askPreferred' + (data.explorationType === 'gestures' ? 'Gesture' : 'Trigger')] === 'yes') {
@@ -2772,12 +2910,16 @@ var Moderator = {
                     $(container).find('#btn-request-trigger').removeClass('disabled');
                 } else {
                     $(container).find('#btn-next-trigger, #btn-next-gesture').removeClass('disabled');
-                    $(container).find('#btn-done').removeClass('disabled');
+                    $(container).find('#btn-stop-screen-sharing').removeClass('disabled');
                 }
             }
-//            $(container).find('.btn-trigger-scene, .btn-reset-scene').removeClass('disabled');
-            $(container).find('#btn-start-screen-sharing').addClass('hidden');
-            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+
+            if (scenesUsedForExploration(data.exploration) === true) {
+                $(container).find('#btn-start-screen-sharing').addClass('hidden');
+                $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+            } else {
+                $(container).find('#btn-start-exploration').addClass('hidden');
+            }
         }
 
         $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
@@ -3060,7 +3202,7 @@ function openPrototypeScene(scene, isSingleScene, description, index) {
             prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
         }
     } else {
-        if(prototypeWindow) {
+        if (prototypeWindow) {
             prototypeWindow.postMessage({message: MESSAGE_RENDER_SCENE, scene: scene}, 'https://gesturenote.de');
         } else {
             prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
@@ -3081,9 +3223,10 @@ function getWOZTransitionItem(source, transitionScene, disabled, active) {
     $(btn).find('.btn-trigger-scene').attr('data-transition-mode', transitionScene.transitionMode);
     $(btn).find('.btn-trigger-scene').attr('data-transition-type', 'scene');
     $(btn).find('.btn-trigger-scene #scene-' + scene.type).removeClass('hidden');
+
     if (transitionScene.transitionMode === 'automatically') {
-        $(btn).find('.btn-trigger-scene').attr('data-transition-time', transitionScenes[j].transitionTime);
-        $(btn).find('.btn-trigger-scene').find('.transition-time').text(transitionScenes[j].transitionTime + 's');
+        $(btn).find('.btn-trigger-scene').attr('data-transition-time', transitionScene.transitionTime);
+        $(btn).find('.btn-trigger-scene').find('.transition-time').text(transitionScene.transitionTime + 's');
     }
 
     if (disabled === false) {

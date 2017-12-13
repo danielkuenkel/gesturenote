@@ -458,21 +458,21 @@ function saveGeneralData() {
 ////        study.ageRange = {min: ageRange.split(',')[0], max: ageRange.split(',')[1]};
 ////    }
 //
-//    $('#from-To-datepicker .input-daterange input').each(function () {
-//        var formattedDate = $(this).datepicker('getDate');
-//        var saveDate;
-//        if (formattedDate !== null) {
-//            saveDate = new Date(formattedDate).getTime() / 1000;
-//        } else {
-//            saveDate = null;
-//        }
-//
-//        if ($(this).attr('id') === 'start') {
-//            study.dateFrom = saveDate;
-//        } else {
-//            study.dateTo = saveDate;
-//        }
-//    });
+    $('#from-To-datepicker .input-daterange input').each(function () {
+        var formattedDate = $(this).datepicker('getDate');
+        var saveDate;
+        if (formattedDate !== null) {
+            saveDate = new Date(formattedDate).getTime() / 1000;
+        } else {
+            saveDate = null;
+        }
+
+        if ($(this).attr('id') === 'start') {
+            study.dateFrom = saveDate;
+        } else {
+            study.dateTo = saveDate;
+        }
+    });
 
     setLocalItem(STUDY, study);
     savePhases();

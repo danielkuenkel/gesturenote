@@ -1555,9 +1555,9 @@ include '../includes/language.php';
         </div>
         <div class="row" id="identificationElements" style="margin-bottom: 30px;">
             <div class="col-md-8 col-lg-9">
-                <div class="alert-space alert-no-gestures-assembled"></div>
-                <div class="alert-space alert-no-trigger-assembled"></div>
-                <div class="alert-space alert-no-scenes-assembled"></div>
+                <div class="alert-space alert-no-study-gestures-assembled-link"></div>
+                <div class="alert-space alert-no-trigger-assembled-link"></div>
+                <div class="alert-space alert-no-scenes-assembled-link"></div>
                 <div class="alert-space alert-no-phase-data"></div>
 
                 <div class="option-container"></div>
@@ -1734,7 +1734,6 @@ include '../includes/language.php';
             <div class="col-md-7">
                 <div class="alert-space alert-no-study-gestures-assembled-link"></div>
                 <div class="alert-space alert-no-trigger-assembled-link"></div>
-                <div class="alert-space alert-no-scenes-assembled-link"></div>
                 <div class="alert-space alert-no-phase-data"></div>
 
                 <div class="option-container"></div>

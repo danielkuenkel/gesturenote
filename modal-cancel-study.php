@@ -2,10 +2,6 @@
 include './includes/language.php';
 ?>
 
-<!--<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title" id="exampleModalLabel">Befragung abbrechen</h4>
-</div>-->
 <div id="modal-body" class="modal-body">
     <div class="text-center text">
         <p>
@@ -23,11 +19,6 @@ include './includes/language.php';
 
     </div>
 </div>
-
-<!--<div id="modal-footer" class="modal-footer">
-
-
-</div>-->
 
 <script src="js/gesture-recorder.js"></script>
 <script src="js/upload-queue.js"></script>
@@ -76,10 +67,13 @@ include './includes/language.php';
     });
 
     function gotoThanksScreen() {
-        currentPhaseStepIndex = getThanksStepIndex();
-        console.log('goto thanks screen', currentPhaseStepIndex, getLocalItem(STUDY_PHASE_STEPS).length);
-        resetRecorder();
-        renderPhaseStep();
-        updateProgress();
+        if (previewModeEnabled === true) {
+            $('.phaseStepsSelect').find('li a').last().click();
+        } else {
+            currentPhaseStepIndex = getThanksStepIndex();
+            resetRecorder();
+            updateProgress();
+            renderPhaseStep();
+        }
     }
 </script>

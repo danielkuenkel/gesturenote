@@ -220,8 +220,8 @@
     "studySurveyType": "Befragungsart",
     "whatShouldBeIdentified": "Was soll identifiziert werden?",
     "whatShouldBeExtracted": "Was soll extrahiert werden?",
-    "queryPreferredGestureDirectly": "Bevorzugte Geste direkt abfragen?",
-    "queryPreferredTriggerDirectly": "Bevorzugte Funktion direkt abfragen?",
+    "queryPreferredGestureDirectly": "Favorisierte Geste(n) direkt abfragen?",
+    "queryPreferredTriggerDirectly": "Favorisierte Funktion(en) direkt abfragen?",
     "noTriggerScoreCalculationPossible": "Der Scorewert kann nicht berechnet werden.",
     "triggerScoreInfo": "Je mehr korrekte Zuordnungen es bei einer Trigger-Slideshow gab, desto besser. Der Scorewert berechnet sich wie folgt: Falsche Zuordnungen / Anzahl der Gesten. Er liegt zwischen 0 (alles richtig zugeordnet) und 1 (alles falsch zugeordnet). Dieser Wert kann mit der Semantischen Verknüpfung, Genrealisierbarkeit und Intuitivität eines Gestensets in Verbindung gebracht werden.",
     "gestureSlideshowScoreInfo": "Je weniger Neustarts es bei einer Gesten-Slideshow gab, desto besser. Dieser Scorewert kann mit der Erinnerbarkeit und Intuitivität eines Gestensets in Verbindung gebracht werden.",
@@ -1205,6 +1205,7 @@
     "multipleAnswers": "Abschließende Antworten",
     "whichGestureWasDemonstrated": "Welche Geste wurde vorgeführt?",
     "anotherGestureWasDemonstrated": "Es wurde eine ganz andere Geste vorgeführt",
+    "noGestureWasDemonstrated": "Es wurde keine Geste vorgeführt",
     "thisGesture": "Diese",
     "of": "von",
     "text": "Text",
@@ -3411,6 +3412,7 @@
     },
     "introductionCreateStudy": [
         {
+            "tabId": "generalData",
             "imgSrc": "img/de/introduction/study-create/carousel-01.jpg",
             "title": "Gesten-Design-Studie erstellen",
             "text": "Erfahren Sie hier, wie Sie eine Gesten-Design-Studie erstellen und worauf Sie achten müssen.",
@@ -3418,30 +3420,32 @@
             "description": 
                     [
                         "<h4>Bereiche</h4><hr>",
-                        "<img src='img/de/introduction/study-create/carousel-01-01.jpg' style='width:350px' />",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-01-01.jpg' style='width:350px' />",
                         "<p>Die Erstellung einer Studie ist in drei Bereiche unterteilt: Allgemeines, Kataloge und Leitfaden. Die Kataloge und der Leitfaden können erst angelegt werden, wenn die allgemeinen Daten für die Studie hinterlegt wurden.</p>",
                         "<h4>Info-Symbole</h4><hr>",
-                        "<img src='img/de/introduction/study-create/carousel-01-02.jpg' style='width:458px' />",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-01-02.jpg' style='width:458px' />",
                         "<p>Hinter jedem Info-Symbol <i class='fa fa-info-circle'></i> sind weitere hilfreiche Informationen hinterlegt. Bewegen Sie die Maus über diese Symbole und die Informationen werden angezeigt.</p>",
                         "<h4>Speichern</h4><hr>",
                         "<p>Eine Studie wird erst final gespeichert und erstellt, wenn Sie den grünen Button <button type='button' class='btn btn-success btn-shadow btn-xs'><i class='fa fa-save'></i> Speichern & Schließen</button> klicken. Sie können die Seite neu laden, ohne das Ihre Daten verloren gehen. Laden Sie jedoch die Seite neu, wenn ein Dialog geöffnet ist, werden die Eignaben im Dialog nicht gespeichert. Dialogdaten werden erst gespeichert, wenn ein Dialog geschlossen wird. <br/><br/>Wird eine Studie gespeichert, gelangt man zur Studien-Übersicht. Für die Akquirierung von Probanden stellt GestureNote eine URL bereit, die dann z.B. in sozialen Netzwerken oder per E-Mail geteilt werden kann.</p>"
                     ]
         },
         {
+            "tabId": "generalDataInput",
             "imgSrc": "img/de/introduction/study-create/carousel-02.jpg",
             "title": "Allgemeines",
             "text": "Allgemeine Daten zu einer Gesten-Design-Studie",
             "popover": "Allgemeines",
             "description": 
                     [
-                        "<img src='img/de/introduction/study-create/carousel-02-01.jpg' />",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-02-01.jpg' />",
                         "<p>Hier sind allgemeine Daten, die einem Probanden vor der Teilnahme an einer Studie anzeigt werden sollen, zu hinterlegen. Der Titel ist frei wählbar und dient einer einfachen Identifizierung in der Studien-Übersicht. Jede Studie hat eine eindeutige ID, d.h. es können zwei Studien mit dem gleichen Namen angelegt werden, die jedoch einmal eine Ermittlung und einmal eine Evaluierung der zuvor ermittelten Gesten durchführen. Diese Informationen (Studien-Titel und Studien-Beschreibung) werden immer vor einer Studien-Teilnahme angezeigt. Des Weiteren kann die Design-Phase und die Befragungssart frei gewählt werden. Hier kommt es darauf an, in welcher Design-Phase die zu erstellende Studie angesiedelt ist. Bei einer Ermittlung können Gesten oder Funktionen nutzerzentriert identifiziert werden. In einer Extraktion dienen die Daten aus der Ermittlung als Grundlage und es können damit nutzer-zentriert potentielle Gesten oder Funktionen für ein interaktives System identifiziert werden. Die Befragten geben hier z.B. an, welche Geste(n) für eine bestimmte Funktion am Besten geeignet ist/sind. Bei einer Evaluierung können potentielle Gesten auf ihre Gebrauchstauglichkeit hin überprüft werden.</p>",
                         "<p>Bei einer moderierten Befragung begibt sich der Ersteller einer Studie in die Rolle des Moderators. Dieser leitet den Probanden durch eine Befragung oder einen Test. Dazu müssen beide beteiligten (Moderator und Proband) einen aktuellen Browser mit Unterstützung für WebRTC installieren und benutzen. Bei einer unmoderierten Durchführung nimmt nur der Proband an einer Befragung oder einem Test teil. Hier gibt es jedoch Einschränkungen, welche Methoden hierfür unterstützt werden. Mehr Informationen sind dazu unter dem Punkt Leitfaden zu finden.</p>",
-                        "<img src='img/de/introduction/study-create/carousel-02-02.jpg' />",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-02-02.jpg' />",
                         "<p>Zusätzlich ist auszuwählen, über welchen Zeitraum eine Studie durchgeführt werden kann. Dazu ist ein Startdatum und ein Enddatum zu wählen. Gibt es für eine Studie keinen Zeitplan, kann die Studie auch nicht durchgeführt werden.</p>"
                     ]
         },
         {
+            "tabId": "catalogs",
             "imgSrc": "img/de/introduction/study-create/carousel-03.jpg",
             "title": "Kataloge",
             "text": "Dies ist ein Infotext …",
@@ -3452,18 +3456,22 @@
                         "<table class='table table-bordered' style='width:100%'><thead><tr><th>Methode</th><th class='text-center'>Studien-Gesten</th><th class='text-center'>Funktionen</th><th class='text-center'>Feedback</th><th class='text-center'>Zustände</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>GUS</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Ermittlung</td><td class='text-center'><i class='fa fa-check'></i> Top-Down</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up</td></tr><tr><td>Exploration</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up</td></tr><tr><td>Gesten-Training</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Szenario-basierte Aufgabe</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Gesten erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Funktionen erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr></tbody></table>",
                         "<p>Für einen besseren Überblick wurden in der Tabelle die möglichen Vorgehensweisen und den benötigten Katalogen zusammengefasst.</p>",
                         "<h4>Studien-Gesten</h4><hr>",
-                        "<img src='img/de/introduction/study-create/carousel-03-01.jpg' />",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-03-01.jpg' />",
                         "<p>Studien-Gesten sind Gesten, die in einer Studie verwendet werden (z.B. für einen GUS oder ein Gesten-Training). Diese werden in einem sog. Studien-Gesten-Set zusammengefasst. Es kann für jede Studie ein separates Studien-Gesten-Set zusammengestellt werden. Dafür bietet GestureNote Zugriff auf die von Ihnen ermittelten Gesten und freigegebene Gesten von anderen Evaluatoren. Zusätzlich können auch neue Gesten aufgezeichnet und dem Studien-Gesten-Set hinzugefügt werden.</p>",
                         "<h4>Funktionen</h4><hr>",
-                        "<img src='img/de/introduction/study-create/carousel-03-02.jpg' />",
+                        "<img class='img-image' src='img/de/introduction/study-create/carousel-03-02.jpg' />",
                         "<p>Gesten werden in GestureNote an Funktionen gekoppelt. Soll z.B. nach Ausführung einer Geste die Musik lauter gestellt werden, sollte die Funktion <em>Musik lauter stellen</em> im Funktionen-Katalog hinterlegt werden. Die hinterlegten Funktionen können dann im Leitfaden verwendet werden. Es ist z.B. möglich bei einer Ermittlung für die hinterlegten Funktionen Gesten zu suchen. Oder in einer Extraktion nach bevorzugten Funktionen für eine Geste zu fragen.</p>",
                         "<h4>Feedback</h4><hr>",
                         "<p>Um dem potenziellen Nutzer Feedback für eine Interaktion zu geben, können Text- (Hinweistext nach Geste) und Audio-Feedbacks hinterlegt werden. Diese können dann z.B. für ein WOZ-Experiemnt, ein Gesture Usability Scale oder ein Gesten-Training genutzt werden. Standardmäßig sind zwei Text-Feedbacks hinterlegt. Der Katalog für das Feedback wird nur bei der Evaluierung von Gesten benötigt.</p>",
                         "<h4>Zustände</h4><hr>",
-                        "<p>Zustände sind z.B. für ein WOZ-Experiment während einer Szenario-basierten Aufgabe von Bedeutung, um eine gewisse Immersion für potenzielle Nutzer zu gewährleisten. Mit Zuständen können explorative Gesten-Trainings, Gesten-Ermittlungen oder WOZ-Experimente erstellt werden. In GestureNote werden aktuell drei unterschiedliche Formate unterstützt, die auch miteinader kombiniert werden können:</p><strong>Bild</strong>: Es können Bilder im Format JPEG und PNG hinterlegt werden.<br/><strong>Webseite</strong>: Ähnlich wie in typischen Online-Usability-Suites können in GestureNote Webseiten hinterlegt werden.<br/><strong>Video-Embed</strong>: Embed-URLs von YouTube oder Vimeo."
+                        "<p>Zustände sind z.B. für ein WOZ-Experiment während einer Szenario-basierten Aufgabe von Bedeutung, um eine gewisse Immersion für potenzielle Nutzer zu gewährleisten. Mit Zuständen können explorative Gesten-Trainings, Gesten-Ermittlungen oder WOZ-Experimente erstellt werden. In GestureNote werden aktuell drei unterschiedliche Formate unterstützt, die auch miteinader kombiniert werden können:</p>",
+                        "<strong>Bild</strong>: Es können Bilder im Format JPEG und PNG hinterlegt werden.<br/>",
+                        "<strong>Webseite</strong>: Ähnlich wie in typischen Online-Usability-Suites können in GestureNote Webseiten hinterlegt werden. Aus Sicherheitsgründen überprüfen einige Webseiten den sog. Same-Origin. Wenn eine Webseite in der Zustands-Vorschau (z.B. bei der Katalog-Übersicht) nicht angezeigt wird, dann ist diese als Zustand für eine Befragung ungeeignet. Die Webseite kann in GestureNote nicht integriert werden.<br/>",
+                        "<strong>Video-Embed</strong>: Embed-URLs von YouTube oder Vimeo."
                     ]
         },
         {
+            "tabId": "phases",
             "imgSrc": "img/de/introduction/study-create/carousel-04.jpg",
             "title": "Leitfaden",
             "text": "Dies ist ein Infotext …",
@@ -3515,25 +3523,68 @@
     ],
     "introductionPreviewStudy": [
         {
-            "imgSrc": "img/de/introduction/study-create/carousel-01.png",
-            "title": "Willkommen",
-            "text": "Dies ist ein Infotext …",
-            "popover": "Willkommen",
-            "description": "<img src='img/de/introduction/study-create/carousel-01.png' /> <p>dies ist ein Test</p>"
+            "tabId": "general",
+            "imgSrc": "img/de/introduction/study-preview/carousel-01.jpg",
+            "title": "Allgemeines",
+            "text": "Allgemeine Informationen über die Studien-Vorschau",
+            "popover": "Allgemeines",
+            "description": 
+                    [
+                        "<p>Die Studien-Vorschau dient dazu, sich als Moderator mit dem Leitfaden und der Durchführung einer Studie vertraut zu machen. Es ist wichtig, dass vorab die Workflows der einzelnen Methoden verinnerlicht sind, damit es bei einer Befragung nicht zu Problemen oder Verzögerungen kommt. Des Weiteren kann man so sehen, wie die hinterlegten Studien-Daten für die Befragung visualisiert sind. GestureNote stellt aus diesem Grund die interaktive Vorschau zur Verfügung.</p>",
+                        "<h4>Ablauf einer Durchführung</h4><hr>",
+                        "<img class='img-svg' style='max-width:300px' src='img/de/introduction/study-preview/execution.svg' />",
+                        "<p>Bei einer moderierten Befragung wird eine Web-Echtzeitkommunikation mit Hilfe von WebRTC zwischen Moderator und Proband aufgebaut. Wie in der oberen Grafik zu sehen, gelangen die Studienteilnehmer beim Aufruf einer Studien-URL zuerst auf eine Übersichtsseite, auf der allgemeine Informationen bereitgestellt werden. Bei einer moderierten Befragung muss der Moderator aus einer Liste der wartenden Teilnehmer einen Probanden auswählen. Es wird eine erste Verbindung zwischen Moderator und Proband hergestellt und der Moderator kann den Probanden begrüßen und diesen über die Studie aufklären. Klickt der Moderator dann auf <em>Studie durchführen</em>, gelangen beide Teilnehmer zur eigentlichen Durchführungsseite. Die Verbindung wird dabei kurz unterbrochen.</p>",
+                        "<p>Die Durchführungsseite wird dabei hier von der Vorschau repräsentiert. Die Vorschau stellt also nicht den kompletten Ablauf einer Durchführung dar, sondern nur den hinterlegten Leitfaden.</p>",
+                        "<p>Bei einer unmoderierten Befragung ist der Ablauf ähnlich, jedoch wird keine Verbindung zwischen Moderator und Tester hergestellt, da kein Moderator benötigt wird. Der Tester startet die Befragung selbst und folgt den hinterlegten Anweisungen im Leitfaden.</p>",
+                        "<h4>Vorschau vs. Durchführung</h4><hr>",
+                        "<p>Die Durchführungsseite ist das Äquivalent zur Studien-Vorschau, mit dem Unterschied, dass in der Vorschau zwischen den beiden Rollen (Moderator, Tester) gewechselt werden kann (wenn moderierte Befragung gewählt wurde). </p>",
+                        "<img class='img-image' src='img/de/introduction/study-preview/carousel-01-02.jpg' />",
+                        "<p>Ein weiterer Unterschied betrifft die oberere Navigationsleiste. Mit dieser kann in der Vorschau frei zwischen den einzelnen Leitfadenschritten gewählt werden. In der eigentlichen Durchführung ist diese Leiste nicht vorhanden. Der Abbrechen-Button und die Fortschrittsanzeige sind hingegen in der Vorschau wie auch in der Durchführung vorhanden.</p>",
+                        "<img class='img-image' src='img/de/introduction/study-preview/carousel-01-03.jpg' style='width:791px'/>",
+                        "<p>In der Durchführung wird der WebRTC Platzhalter (links) durch den eigentlichen Stream (rechts) ersetzt, sodass der Moderator den Tester sieht. Bei einigen Abschnitten kann auch der Tester den Moderator sehen (z.B. beim Ausfüllen eines Fragebogens oder bei der Danksagung). Die Funktionalität gleicht einem Videoanruf, nur dass dieser in einem Browser statt findet.</p>",
+                        "<p>In der Duruchführung werden alle Daten gespeichert (außer beim Neu laden), für die Vorschau hingegen nicht.</p>",
+                        "<h4>Neu laden bei Durchführung</h4><hr>",
+                        "<p>Kommt es bei einer Befragung zu Problemen, kann derjenige mit den Problemen die Durchführung neu laden. Dabei gehen jedoch alle für den aktuellen Leitfadenschritt erhobenen Daten verloren und es muss dieser von vorne gestartet werden. Die Synchronisierung nach einem Neu laden geschieht dabei automatisch, sodass beide Teilnehmer sich immer im gleichen Leitfadenschritt befinden.</p>"
+                    ]
         },
         {
-            "imgSrc": "img/de/introduction/study-create/carousel-01.png",
-            "title": "Allgemeines, Kataloge & Leitfaden",
-            "text": "Dies ist ein Infotext …",
-            "popover": "Willkommen",
-            "description": ""
-        },
-        {
-            "imgSrc": "img/de/introduction/study-create/carousel-01.png",
-            "title": "Allgemeines, Kataloge & Leitfaden",
-            "text": "Dies ist ein Infotext …",
-            "popover": "Willkommen",
-            "description": ""
+            "tabId": "usage",
+            "imgSrc": "img/de/introduction/study-preview/carousel-02.jpg",
+            "title": "Verwendung der Vorschau",
+            "text": "Wie ist die Vorschau zu verwenden und was ist zu beachten",
+            "popover": "Verwendung",
+            "description": 
+                    [
+                        "<p>Je nachdem, welche Gesten-Design-Phase mit einer erstellten Studie abgedeckt wird, gibt es Unterschiede bei der Durchführung und den gewählten Methoden. Die einzelnen Methoden unterscheiden sich im Workflow, demnach auch in der Vorschau und Durchführung. In GestureNote wurde dennoch auf eine einheitliche Darstellung der Bedienelemente geachtet.</p>",
+                        "<p>Der WebRTC Stream und der Beobachtungsleitfaden ist immer auf der linken Seite zu finden. Die hinterlegten Texte für eine Methodeneinführung und die Steuerelemente sind immer auf der rechten Seite zu finden.</p>",
+                        "<h4>Screen Sharing</h4><hr>",
+                        "<p>Einige Methoden nutzen Screen Sharing, um hinterlegte Zustände beim Probanden anzuzeigen.</p>",
+                        "<p><ul><li>Ermittlung mit Zuständen</li><li>Exploration mit Zuständen</li><li>Gesten-Training</li><li>Szenario-basierte Aufgabe mit Wizard-of-Oz-Experiment</li></ul></p>",
+                        "<span>Abgesehen von den Methoden und deren unterschiedlichem Workflow, ist das Initiieren und Beenden eines Screensharings immer gleich. </span>",
+                        "<h4>Fragebögen</h4><hr>",
+                        "<p>Fragebogen, GUS, SUS</p>",
+                        "<h4>Ermittlung</h4><hr>",
+                        "<img class='svg-image' style='max-width:600px' src='img/de/introduction/study-preview/elicitation.svg' />",
+                        "<p></p>",
+                        "<h4>Exploration</h4><hr>",
+                        "<img class='svg-image' style='max-width:500px' src='img/de/introduction/study-preview/exploration.svg' />",
+                        "<p></p>",
+                        "<h4>Gesten-Training</h4><hr>",
+                        "<img class='svg-image' style='max-width:320px' src='img/de/introduction/study-preview/gesture-training.svg' />",
+                        "<p></p>",
+                        "<h4>Szenario-basierte Aufgabe</h4><hr>",
+                        "<img class='svg-image' style='max-width:800px' src='img/de/introduction/study-preview/scenario.svg' />",
+                        "<p></p>",
+                        "<h4>Gesten erraten</h4><hr>",
+                        "<img class='svg-image' style='max-width:300px' src='img/de/introduction/study-preview/gesture-slideshow.svg' />",
+                        "<p></p>",
+                        "<h4>Funktionen erraten</h4><hr>",
+                        "<img class='svg-image' style='max-width:130px' src='img/de/introduction/study-preview/trigger-slideshow.svg' />",
+                        "<p></p>",
+                        "<h4>Physischer Belastungstest</h4><hr>",
+                        "<img class='svg-image' style='max-width:640px' src='img/de/introduction/study-preview/physical-stress-test.svg' />",
+                        "<p></p>"
+                    ]
         }
     ],
     "introductionStudy": [

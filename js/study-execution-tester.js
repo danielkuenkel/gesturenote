@@ -878,34 +878,39 @@ var Tester = {
             $(container).find('#scene-container').css({top: '-108px'});
         }
 
+        var hasScences = data.identification[currentIdentificationIndex].transitionScenes && data.identification[currentIdentificationIndex].transitionScenes.length > 0;
+
         // handle states in preview mode
         if (identificationStartTriggered === true) {
+            if (hasScences) {
+                clearAlerts(container);
+                $(container).find('#fixed-rtc-preview').removeClass('hidden');
+                $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                $(container).find('#scene-description').removeClass('hidden');
 
-            clearAlerts(container);
-            $(container).find('#fixed-rtc-preview').removeClass('hidden');
-            $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
-            $(container).find('#scene-description').removeClass('hidden');
+                if (data.identificationFor === 'gestures') {
+                    if (identificationRecordingStartTriggered === true) {
+                        animateLiveStream($(container).find('#fixed-rtc-preview'), true);
+                        $(container).find('#scene-description').addClass('hidden');
+                        $(container).find('#scene-container').removeClass('hidden');
+                    }
 
-            if (data.identificationFor === 'gestures') {
-                if (identificationRecordingStartTriggered === true) {
-                    animateLiveStream($(container).find('#fixed-rtc-preview'), true);
-                    $(container).find('#scene-description').addClass('hidden');
-                    $(container).find('#scene-container').removeClass('hidden');
+                    if (identificationRecordingStopTriggered === true) {
+                        appendAlert($(container), ALERT_PLEASE_WAIT);
+                        $(container).find('#fixed-rtc-preview').addClass('hidden');
+                        $(container).find('#scene-description').addClass('hidden');
+                        $(container).find('#scene-container').addClass('hidden');
+                    }
+                } else {
+
                 }
 
-                if (identificationRecordingStopTriggered === true) {
-                    appendAlert($(container), ALERT_PLEASE_WAIT);
-                    $(container).find('#fixed-rtc-preview').addClass('hidden');
-                    $(container).find('#scene-description').addClass('hidden');
-                    $(container).find('#scene-container').addClass('hidden');
+                if (previewModeEnabled) {
+                    // render scene manually
+                    renderSceneItem(source, container, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId);
                 }
             } else {
-
-            }
-
-            if (previewModeEnabled) {
-                // render scene manually
-                renderSceneItem(source, container, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].sceneId);
+                $(container).find('#scene-description').addClass('hidden');
             }
         } else {
             appendAlert($(container), ALERT_PLEASE_WAIT);
@@ -914,25 +919,30 @@ var Tester = {
             $(container).find('#scene-container').addClass('hidden');
         }
 
+
+
         // generic identification live events
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_START_IDENTIFICATION).bind(MESSAGE_START_IDENTIFICATION, function (event, payload) {
                 clearAlerts(container);
                 identificationStartTriggered = true;
                 $(container).find('#fixed-rtc-preview').removeClass('hidden');
-                $(container).find('#scene-description').removeClass('hidden');
+                if (hasScences) {
+                    $(container).find('#scene-description').removeClass('hidden');
+                }
             });
 
             $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
                 currentIdentificationIndex = payload.index;
                 currentIdentificationScene = payload.sceneIndex;
-                console.log('render scene', payload);
-                $(container).find('#scene-description p').text(payload.description);
-                $(container).find('#scene-container').removeClass('hidden');
+
+                if (hasScences) {
+                    $(container).find('#scene-description p').text(payload.description);
+                    $(container).find('#scene-container').removeClass('hidden');
+                }
             });
         }
 
-        console.log(data.identificationFor);
         // handle live mode
         if (data.identificationFor === 'gestures') {
             if (!previewModeEnabled && peerConnection) {
@@ -943,8 +953,10 @@ var Tester = {
                     peerConnection.startRecordSeparateChunks();
                     animateLiveStream($(container).find('#fixed-rtc-preview'), true);
                     $(container).find('#fixed-rtc-preview').removeClass('hidden');
-                    $(container).find('#scene-description').addClass('hidden');
-                    $(container).find('#scene-container').removeClass('hidden');
+                    if (hasScences) {
+                        $(container).find('#scene-description').addClass('hidden');
+                        $(container).find('#scene-container').removeClass('hidden');
+                    }
                 });
 
                 $(peerConnection).unbind(MESSAGE_STOP_RECORDING_GESTURE).bind(MESSAGE_STOP_RECORDING_GESTURE, function (event, payload) {
@@ -960,7 +972,11 @@ var Tester = {
                     $(container).find('#scene-container').addClass('hidden');
                 });
             } else {
-                $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                if (hasScences) {
+                    $(container).find('#scene-description p').text(data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                } else {
+                    appendAlert($(container), ALERT_PLEASE_WAIT);
+                }
             }
         } else {
             if (!previewModeEnabled && peerConnection) {
@@ -976,7 +992,6 @@ var Tester = {
                     loadHTMLintoModal('custom-modal', 'modal-request-trigger.php', 'modal-md');
                 });
             } else {
-                console.log('show modal');
                 $(container).find('#scene-description').addClass('hidden');
                 if (identificationTriggerRequest) {
                     $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
@@ -1343,7 +1358,7 @@ var Tester = {
         $(container).find('#btn-done-questionnaire').unbind('click').bind('click', function (event) {
             event.preventDefault();
             $(container).find('#stressTestContainer').addClass('hidden');
-            Tester.savePhysicalStressTestAnswers(item, data, gesture, true);
+            Tester.savePhysicalStressTestAnswers(item, data, gesture);
             appendAlert($(container), ALERT_PLEASE_WAIT);
             questionContainer.addClass('hidden');
 
@@ -1449,7 +1464,7 @@ var Tester = {
 
         $(item).find('#btn-next-gesture').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            Tester.savePhysicalStressTestAnswers(item, data, gesture, true);
+            Tester.savePhysicalStressTestAnswers(item, data, gesture);
             currentStressTestCount = 0;
             currentStressTestIndex++;
             Tester.renderUnmoderatedPhysicalStressTest(source, container, data);
@@ -1457,44 +1472,53 @@ var Tester = {
 
         $(item).find('#btn-done').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            Tester.savePhysicalStressTestAnswers(item, data, gesture, true);
+            Tester.savePhysicalStressTestAnswers(item, data, gesture);
             nextStep();
         });
+
+        $(item).find('#stress-test-questionnaire').unbind('change').bind('change', function (event) {
+            console.log('stress-test-questionnaire changed');
+            Tester.savePhysicalStressTestAnswers(item, data, gesture);
+        });
     },
-    savePhysicalStressTestAnswers: function savePhysicalStressTestAnswers(target, data, gesture, saveToLocalDB) {
+    savePhysicalStressTestAnswers: function savePhysicalStressTestAnswers(target, data, gesture) {
         var answers = new Object();
         var singleQuestionnaire = $(target).find('#single-questions .question-container').children();
-        var singleQuestionAnswers = getQuestionnaireFormData(singleQuestionnaire, {});
+        var singleQuestionAnswers = getQuestionnaireAnswers(singleQuestionnaire);
         answers.gestureId = gesture.id;
-        getGMT(function (timestamp) {
-            answers.time = timestamp;
-        });
+//        getGMT(function (timestamp) {
+//            answers.time = timestamp;
+//        });
+
+        console.log('singleQuestionAnswers', singleQuestionAnswers);
 
 
         if ((getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED && currentStressTestCount < parseInt(data.stressAmount) - 1) || (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED && currentStressTestCount < parseInt(data.stressAmount))) {
-            if (singleQuestionAnswers.answers && singleQuestionAnswers.answers.length > 0) {
+            if (singleQuestionAnswers && singleQuestionAnswers.length > 0) {
                 answers.singleAnswers = singleQuestionAnswers;
             }
             getJointSelectionRatings(answers.singleAnswers, data.singleStressGraphicsRating, $(target).find('#single-joint-selection'));
         } else {
-            if (singleQuestionAnswers.answers && singleQuestionAnswers.answers.length > 0) {
+            if (singleQuestionAnswers && singleQuestionAnswers.length > 0) {
                 answers.singleAnswers = singleQuestionAnswers;
             }
             getJointSelectionRatings(answers.singleAnswers, data.singleStressGraphicsRating, $(target).find('#single-joint-selection'));
 
             var sequenceQuestionnaire = $(target).find('#sequence-questions .question-container').children();
-            var sequenceQuestionAnswers = singleQuestionAnswers = getQuestionnaireFormData(sequenceQuestionnaire, {});
-            if (sequenceQuestionAnswers.answers && sequenceQuestionAnswers.answers.length > 0) {
+            var sequenceQuestionAnswers = getQuestionnaireAnswers(sequenceQuestionnaire);
+            console.log('sequenceQuestionAnswers', sequenceQuestionAnswers);
+            if (sequenceQuestionAnswers && sequenceQuestionAnswers.length > 0) {
                 answers.sequenceAnswers = sequenceQuestionAnswers;
             }
             getJointSelectionRatings(answers.sequenceAnswers, data.sequenceStressGraphicsRating, $(target).find('#sequence-joint-selection'));
         }
 
 
-        var answerIndex = currentStressTestIndex == 0 ? currentStressTestIndex + currentStressTestCount - 1 : currentStressTestIndex + currentStressTestCount;
-        currentQuestionnaireAnswers.answers[answerIndex] = answers;
+//        var answerIndex = currentStressTestIndex == 0 ? currentStressTestIndex + currentStressTestCount - 1 : currentStressTestIndex + currentStressTestCount;
+        currentQuestionnaireAnswers = {};
+        currentQuestionnaireAnswers.answers = [answers];
 //        console.log(currentStressTestIndex, currentStressTestCount, answerIndex);
-//        console.log('currentQuestionnaireAnswers:', currentQuestionnaireAnswers);
+        console.log('current Questionnaire Answers:', currentQuestionnaireAnswers);
 
         if (!previewModeEnabled) {
 
@@ -1503,19 +1527,19 @@ var Tester = {
             }
 
             // save joints and questionnaire answers if in live mode
-            if (saveToLocalDB === true) {
-                var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                if (currentStressTestIndex < data.stressTestItems.length - 1) {
-                    getGMT(function (timestamp) {
-                        tempData.actions.push({action: ACTION_END_QUESTIONNAIRE, gestureId: gesture.id, time: timestamp});
-                        tempData.answers.push(answers);
-                        setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                    });
-                } else {
+//            if (saveToLocalDB === true) {
+            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+            if (currentStressTestIndex < data.stressTestItems.length - 1) {
+                getGMT(function (timestamp) {
+                    tempData.actions.push({action: ACTION_END_QUESTIONNAIRE, gestureId: gesture.id, time: timestamp});
                     tempData.answers.push(answers);
                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                }
+                });
+            } else {
+                tempData.answers.push(answers);
+                setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             }
+//            }
         }
     },
     getScenario: function getScenario(source, container, data) {
@@ -1774,10 +1798,6 @@ var Tester = {
         });
     },
     getExploration: function getExploration(source, container, data) {
-//        var panelContent = $(source).find('#exploration-' + getLocalItem(STUDY).surveyType).clone();
-//        container.empty().append(panelContent);
-
-
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
             Tester.renderModeratedExploration(source, container, data);
             Tester.initScreenSharing(container.find('#scene-container'));
@@ -1788,6 +1808,10 @@ var Tester = {
         return container;
     },
     renderModeratedExploration: function renderModeratedExploration(source, container, data) {
+        if (!data.exploration || (data.exploration && data.exploration.length === 0)) {
+            return false;
+        }
+
         container.empty().append($(source).find('#exploration-moderated').clone().removeAttr('id'));
         if (previewModeEnabled) {
             $(container).find('#scene-container').css({top: '-108px'});
@@ -1795,24 +1819,30 @@ var Tester = {
 
         // handle states in preview mode
         if (explorationStartTriggered === true) {
-            clearAlerts(container);
+            if (scenesUsedForExploration(data.exploration) === true) {
+                clearAlerts(container);
 //            $(container).find('#fixed-rtc-preview').removeClass('hidden');
-            if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene]) {
-                $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
-                $(container).find('#scene-description').removeClass('hidden');
-            }
-
-            if (previewModeEnabled) {
-                // render scene manually
-                console.log('render scene manually:', data.exploration[currentExplorationIndex]);
-                if (data.exploration[currentExplorationIndex] && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
-                    renderSceneItem(source, container, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].sceneId);
-                } else {
-                    renderSceneItem(source, container, null);
+                if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene] && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description !== '') {
+                    $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
+                    $(container).find('#scene-description').removeClass('hidden');
                 }
-            }
 
-            $(container).find('#scene-container').removeClass('hidden');
+                if (previewModeEnabled) {
+                    // render scene manually
+                    console.log('render scene manually:', data.exploration[currentExplorationIndex]);
+                    if (data.exploration[currentExplorationIndex] && data.exploration[currentExplorationIndex].transitionScenes.length > 0) {
+                        renderSceneItem(source, container, data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].sceneId);
+                    } else {
+                        renderSceneItem(source, container, null);
+                    }
+                }
+
+                $(container).find('#scene-container').removeClass('hidden');
+            } else {
+                appendAlert($(container), ALERT_PLEASE_WAIT);
+                $(container).find('#scene-description').addClass('hidden');
+                $(container).find('#scene-container').addClass('hidden');
+            }
         } else {
             appendAlert($(container), ALERT_PLEASE_WAIT);
 //            $(container).find('#fixed-rtc-preview').addClass('hidden');
@@ -1827,9 +1857,10 @@ var Tester = {
             $(peerConnection).unbind(MESSAGE_START_EXPLORATION).bind(MESSAGE_START_EXPLORATION, function (event, payload) {
                 clearAlerts(container);
                 explorationStartTriggered = true;
-//                $(container).find('#fixed-rtc-preview').removeClass('hidden');
-                $(container).find('#scene-description').removeClass('hidden');
-                $(container).find('#scene-container').removeClass('hidden');
+                if (scenesUsedForExploration(data.exploration) === true) {
+                    $(container).find('#scene-description').removeClass('hidden');
+                    $(container).find('#scene-container').removeClass('hidden');
+                }
             });
 
             $(peerConnection).unbind(MESSAGE_RENDER_SCENE).bind(MESSAGE_RENDER_SCENE, function (event, payload) {
@@ -1869,9 +1900,7 @@ var Tester = {
                 });
             }
         } else {
-            console.log('show modal');
-
-            if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene]) {
+            if (data.exploration[currentExplorationIndex].transitionScenes && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene] && data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description !== '') {
                 $(container).find('#scene-description p').text(data.exploration[currentExplorationIndex].transitionScenes[currentExplorationScene].description);
             }
 
@@ -1902,6 +1931,16 @@ var Tester = {
             }
         }
 
+        function scenesUsedForExploration(data) {
+            if (data && data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].transitionScenes && data[i].transitionScenes.length > 0) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     },
     renderUnmoderatedExploration: function renderUnmoderatedExploration(source, container, data) {
         // general data section
@@ -2263,7 +2302,7 @@ function getJointSelectionRatings(data, selectionRating, container) {
     if (selectionRating !== 'none') {
         switch (selectionRating) {
             case 'body':
-//                console.log($(container).find('#human-body-selection-rating'));
+                console.log($(container).find('#human-body-selection-rating'));
                 data.selectedBodyJoints = getSelectedJoints($(container).find('#human-body-selection-rating'));
                 break;
             case 'hands':

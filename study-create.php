@@ -195,7 +195,7 @@ if (login_check($mysqli) == true) {
                 <div role="tabpanel" class="tab-pane" id="generalData">
 
 <!--                    <p id="styleguide-info" class="text">
-                        <?php echo $lang->createStudyInfos->general->overview ?>
+                    <?php echo $lang->createStudyInfos->general->overview ?>
                     </p>-->
 
                     <!-- study name -->
@@ -294,7 +294,7 @@ if (login_check($mysqli) == true) {
 
                     <!--<hr>-->
 <!--                    <p id="styleguide-info" class="text">
-                        <?php echo $lang->createStudyInfos->panel->overview ?>
+                    <?php echo $lang->createStudyInfos->panel->overview ?>
                     </p>-->
 
                     <div id="from-To-datepicker" style="margin-top: 15px">
@@ -326,100 +326,100 @@ if (login_check($mysqli) == true) {
                         </div>
                     </div>
 
-<!--                    <div class="panel panel-default">
-
-                        <div class="panel-body" id="panelSurveySwitch" style="padding-top: 0px;">
-                            <div class="form-inline">
-                                <div class="form-group form-group-no-margin root" style="margin-right: 20px; margin-top: 15px;">
-                                    <label>
-                                        <?php echo $lang->panelSurvey ?> 
-                                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
-                                    </label><br/>
-
-                                    <div class="btn-group" id="radio" style="margin: 0">
-                                        <button class="btn btn-default btn-radio btn-option-checked saveGeneralData" name="primary" id="no">
-                                            <span id="icons" style="margin-right: 6px">
-                                                <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                                <i class="fa fa-circle hidden" id="over"></i>
-                                                <i class="fa fa-check-circle" id="checked"></i>
-                                            </span>
-                                            <span class="option-text"><?php echo $lang->no ?></span>
-                                        </button>
-                                    </div>
-                                    <div class="btn-group" id="radio" style="margin: 0">
-                                        <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="yes">
-                                            <span id="icons" style="margin-right: 6px">
-                                                <i class="fa fa-circle-thin" id="normal"></i>
-                                                <i class="fa fa-circle hidden" id="over"></i>
-                                                <i class="fa fa-check-circle hidden" id="checked"></i>
-                                            </span>
-                                            <span class="option-text"><?php echo $lang->yes ?></span>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="form-group form-group-no-margin hidden" id="selectedAgeRange" style="margin-top: 15px;">
-                                    <label>
-                                        <?php echo $lang->selection ?> 
-                                        <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
-                                    </label> <br/>
-                                    <div class="text" style="padding-top: 3px; padding-bottom: 4px"></div>
-                                </div>
-                            </div>
-
-                        </div>-->
-<!--                        <hr style="margin: 0">
-                        <div class="panel-body hidden" id="panel-survey-container" style="padding-top: 0px">
-                            <div class="form-inline">
-                                <div class="form-group form-group-no-margin root" id="genderSwitch" style="margin-right: 20px;margin-top: 15px">
-                                    <label>
-                                        <?php echo $lang->gender ?> 
-                                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
-                                    </label><br/>
-                                    <div class="btn-group" id="radio" style="margin: 0">
-                                        <button class="btn btn-default btn-radio btn-option-checked saveGeneralData" name="primary" id="female">
-                                            <span id="icons" style="margin-right: 6px">
-                                                <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                                <i class="fa fa-circle hidden" id="over"></i>
-                                                <i class="fa fa-check-circle" id="checked"></i>
-                                            </span>
-                                            <span class="option-text"><?php echo $lang->genderTypes->female ?></span>
-                                        </button>
-                                    </div>
-                                    <div class="btn-group" id="radio" style="margin: 0">
-                                        <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="male">
-                                            <span id="icons" style="margin-right: 6px">
-                                                <i class="fa fa-circle-thin" id="normal"></i>
-                                                <i class="fa fa-circle hidden" id="over"></i>
-                                                <i class="fa fa-check-circle hidden" id="checked"></i>
-                                            </span>
-                                            <span class="option-text"><?php echo $lang->genderTypes->male ?></span>
-                                        </button>
-                                    </div>
-                                    <div class="btn-group" id="radio" style="margin: 0">
-                                        <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="identical">
-                                            <span id="icons" style="margin-right: 6px">
-                                                <i class="fa fa-circle-thin" id="normal"></i>
-                                                <i class="fa fa-circle hidden" id="over"></i>
-                                                <i class="fa fa-check-circle hidden" id="checked"></i>
-                                            </span>
-                                            <span class="option-text"><?php echo $lang->genderTypes->identical ?></span>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="form-group" id="ageSlider" style="margin-top: 15px">
-                                    <label id="age-label">
-                                        <?php echo $lang->age ?> <span class="age-text"></span> <span><i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i></span>
-                                    </label><br/>
-                                    <div style="padding-top: 3px; padding-bottom: 4px">
-                                        <span class="slider-from text"><?php echo $lang->of ?></span>
-                                        <input class="custom-range-slider saveGeneralData" type="text" value="" data-slider-step="1"/>
-                                        <span class="slider-to text"><?php echo $lang->to ?></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
+                    <!--                    <div class="panel panel-default">
+                    
+                                            <div class="panel-body" id="panelSurveySwitch" style="padding-top: 0px;">
+                                                <div class="form-inline">
+                                                    <div class="form-group form-group-no-margin root" style="margin-right: 20px; margin-top: 15px;">
+                                                        <label>
+                    <?php echo $lang->panelSurvey ?> 
+                                                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                                                        </label><br/>
+                    
+                                                        <div class="btn-group" id="radio" style="margin: 0">
+                                                            <button class="btn btn-default btn-radio btn-option-checked saveGeneralData" name="primary" id="no">
+                                                                <span id="icons" style="margin-right: 6px">
+                                                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                                    <i class="fa fa-check-circle" id="checked"></i>
+                                                                </span>
+                                                                <span class="option-text"><?php echo $lang->no ?></span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="btn-group" id="radio" style="margin: 0">
+                                                            <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="yes">
+                                                                <span id="icons" style="margin-right: 6px">
+                                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                                </span>
+                                                                <span class="option-text"><?php echo $lang->yes ?></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                    
+                                                    <div class="form-group form-group-no-margin hidden" id="selectedAgeRange" style="margin-top: 15px;">
+                                                        <label>
+                    <?php echo $lang->selection ?> 
+                                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                                                        </label> <br/>
+                                                        <div class="text" style="padding-top: 3px; padding-bottom: 4px"></div>
+                                                    </div>
+                                                </div>
+                    
+                                            </div>-->
+                    <!--                        <hr style="margin: 0">
+                                            <div class="panel-body hidden" id="panel-survey-container" style="padding-top: 0px">
+                                                <div class="form-inline">
+                                                    <div class="form-group form-group-no-margin root" id="genderSwitch" style="margin-right: 20px;margin-top: 15px">
+                                                        <label>
+                    <?php echo $lang->gender ?> 
+                                                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                                                        </label><br/>
+                                                        <div class="btn-group" id="radio" style="margin: 0">
+                                                            <button class="btn btn-default btn-radio btn-option-checked saveGeneralData" name="primary" id="female">
+                                                                <span id="icons" style="margin-right: 6px">
+                                                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                                    <i class="fa fa-check-circle" id="checked"></i>
+                                                                </span>
+                                                                <span class="option-text"><?php echo $lang->genderTypes->female ?></span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="btn-group" id="radio" style="margin: 0">
+                                                            <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="male">
+                                                                <span id="icons" style="margin-right: 6px">
+                                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                                </span>
+                                                                <span class="option-text"><?php echo $lang->genderTypes->male ?></span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="btn-group" id="radio" style="margin: 0">
+                                                            <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="identical">
+                                                                <span id="icons" style="margin-right: 6px">
+                                                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                                                    <i class="fa fa-circle hidden" id="over"></i>
+                                                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                                                </span>
+                                                                <span class="option-text"><?php echo $lang->genderTypes->identical ?></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                    
+                                                    <div class="form-group" id="ageSlider" style="margin-top: 15px">
+                                                        <label id="age-label">
+                    <?php echo $lang->age ?> <span class="age-text"></span> <span><i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i></span>
+                                                        </label><br/>
+                                                        <div style="padding-top: 3px; padding-bottom: 4px">
+                                                            <span class="slider-from text"><?php echo $lang->of ?></span>
+                                                            <input class="custom-range-slider saveGeneralData" type="text" value="" data-slider-step="1"/>
+                                                            <span class="slider-to text"><?php echo $lang->to ?></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>-->
 
                     <!--</div>-->
                 </div>
@@ -429,7 +429,7 @@ if (login_check($mysqli) == true) {
 
                 <div role="tabpanel" class="tab-pane" id="catalogs">
 <!--                    <p id="styleguide-info" class="text">
-                        <?php echo $lang->createStudyInfos->catalogs->overview ?>
+                    <?php echo $lang->createStudyInfos->catalogs->overview ?>
                     </p>-->
 
                     <div class="row">
@@ -498,7 +498,7 @@ if (login_check($mysqli) == true) {
 
                 <div role="tabpanel" class="tab-pane" id="phases">
 <!--                    <p id="styleguide-info" class="text">
-                        <?php echo $lang->createStudyInfos->phases->overview ?>
+                    <?php echo $lang->createStudyInfos->phases->overview ?>
                     </p>-->
                     <div class="row">
                         <div class="col-sm-7 col-md-6">
@@ -645,23 +645,6 @@ if (login_check($mysqli) == true) {
                     externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     externals.push(['#template-gesture-recorder', PATH_EXTERNALS + 'template-gesture-recorder.php']);
                     loadExternals(externals);
-
-                    $('#from-To-datepicker .input-daterange').datepicker({
-                        calendarWeeks: true,
-                        todayHighlight: true,
-                        todayBtn: true,
-                        clearBtn: true,
-                        daysOfWeekHighlighted: "0,6",
-                        language: currentLanguage
-
-
-                    });
-                    $('#from-To-datepicker .input-daterange').on("changeDate", function () {
-                        saveGeneralData();
-                    });
-                    $('#from-To-datepicker .input-daterange input').on("clearDate", function () {
-                        saveGeneralData();
-                    });
                 });
             });
 
@@ -670,11 +653,6 @@ if (login_check($mysqli) == true) {
             function onAllExternalsLoadedSuccessfully() {
                 initTooltips();
                 initPopover();
-
-                var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyCreation'] ?>);
-                if (showTutorial === 1) {
-                    $('#tab-introduction a').click();
-                }
 
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);
@@ -709,6 +687,22 @@ if (login_check($mysqli) == true) {
             }
 
             function init() {
+                $('#from-To-datepicker .input-daterange').datepicker({
+                    calendarWeeks: true,
+                    todayHighlight: true,
+                    todayBtn: true,
+                    clearBtn: true,
+                    daysOfWeekHighlighted: "0,6",
+                    language: currentLanguage
+
+
+                });
+                $('#from-To-datepicker .input-daterange').on("changeDate", function () {
+                    saveGeneralData();
+                });
+                $('#from-To-datepicker .input-daterange input').on("clearDate", function () {
+                    saveGeneralData();
+                });
 //                getAgeRange(function (result) {
 //                    if (result.status === RESULT_SUCCESS) {
 //                        if (result.tester && result.tester.length > 0) {
@@ -726,16 +720,21 @@ if (login_check($mysqli) == true) {
 //                });
 //
 //                function initAfterAgeRange() {
-                    checkSessionStorage();
+                checkSessionStorage();
 
-                    var status = window.location.hash.substr(1);
-                    var statusNavMatch = getStatusNavMatch(status);
-                    if (status !== '' && statusNavMatch !== null) {
-                        $('#create-tab-navigation').find('#tab-' + statusNavMatch + ' a').click();
-                    } else {
-                        $('#create-tab-navigation').children().first().find('a').click();
-                    }
-                    $('#loading-indicator').remove();
+                var status = window.location.hash.substr(1);
+                var statusNavMatch = getStatusNavMatch(status);
+                if (status !== '' && statusNavMatch !== null) {
+                    $('#create-tab-navigation').find('#tab-' + statusNavMatch + ' a').click();
+                } else {
+                    $('#create-tab-navigation').children().first().find('a').click();
+                }
+                $('#loading-indicator').remove();
+
+                var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyCreation'] ?>);
+                if (showTutorial === 1) {
+                    $('#tab-introduction a').click();
+                }
 //                }
             }
 
@@ -792,7 +791,7 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
-                console.log('add phase step', prependItem, clone, $('#phaseStepList').find('.form-group').last());
+//                console.log('add phase step', prependItem, clone, $('#phaseStepList').find('.form-group').last());
                 if (prependItem && prependItem === true) {
                     setTimeout(function () {
                         $(clone).insertBefore($('#phaseStepList').children().last());
@@ -995,6 +994,19 @@ if (login_check($mysqli) == true) {
 
             $('#tab-introduction a').on('click', function (event) {
                 event.preventDefault();
+                var activeTab = $('#create-tab-navigation').find('.active a').attr('href');
+                if (activeTab !== '#generalData') {
+                    switch (activeTab) {
+                        case '#catalogs':
+                            $('#custom-modal').attr('data-start-tab-id', 'catalogs');
+                            break;
+                        case '#phases':
+                            $('#custom-modal').attr('data-start-tab-id', 'phases');
+                            break;
+                    }
+                }
+                console.log(activeTab);
+
                 $('#custom-modal').attr('data-help-items-key', 'introductionCreateStudy');
                 $('#custom-modal').attr('data-help-context', 'studyCreation');
                 $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialStudyCreation'] ?>));
