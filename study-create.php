@@ -37,6 +37,9 @@ if (login_check($mysqli) == true) {
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
         <script src="js/chance.min.js"></script>
+        <script src="filesaver/FileSaver.min.js"></script>
+        <script src="js/gifshot/gifshot.min.js"></script>
+        
 
         <script src="bootstrap-slider/js/bootstrap-slider.js"></script>
         <script src="bootstrap-datepicker/js/bootstrap-datepicker.js"></script>

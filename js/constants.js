@@ -242,3 +242,29 @@ var TYPE_CLASSIFICATION_GESTURE_TYPE = 'gestureType';
 var TYPE_CLASSIFICATION_GESTURE_TYPE_TRIGGER = 'gestureTypeTrigger';
 
 var POTENTIAL_GESTURES = 'potentialGestures';
+
+var APOLLO_URL = 'ws://progesture.org:61623';
+var APOLLO_LOGIN = 'admin';
+var APOLLO_PASSCODE = 'password';
+var APOLLO_DESTINATION = '/topic/gestures';
+
+var GESTURE_SET_JSON = {
+    url: APOLLO_URL,
+    login: APOLLO_LOGIN,
+    passcode: APOLLO_PASSCODE,
+    destination: APOLLO_DESTINATION
+//   "actions": [
+//       {
+//          "id": "sel_left",
+//          "name": "selection left",
+//          "description": "select an element on the left",
+//          "image": "https://www.dropbox.com/s/k5bw8ffs1uez5a2/cat1.gif?dl=1"
+//       },
+//       {
+//          "id": "sel_middle",
+//          "name": "selection middle",
+//          "description": "select an element in the middle",
+//          "image": "https://www.dropbox.com/s/c8grhz4buioz8py/cat2.gif?dl=1"
+//       }
+//   ]
+};

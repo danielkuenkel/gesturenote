@@ -1504,6 +1504,8 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
     if (!event.handled) {
         event.handled = true;
 
+        var rerender = !$(this).attr('data-rerender');
+
         var assemble = false;
         var gestureId = $(this).closest('.root').attr('id');
         $(this).popover('hide');
@@ -1521,7 +1523,7 @@ $(document).on('click', '.btn-tag-as-favorite-gesture', function (event) {
             $(this).closest('.gesture-thumbnail').removeClass('assembled');
         }
 
-        $(this).trigger('change', [gestureId, assemble]);
+        $(this).trigger('change', [gestureId, assemble, rerender]);
     }
 });
 
@@ -2383,23 +2385,26 @@ function getGestureSetPanel(data) {
             var gestureThumbnail = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-md-3', null, isGestureAss ? 'panel-info' : null);
             $(panel).find('#gestures-list-container').append(gestureThumbnail);
 
-            if (isGestureAss) {
-                gestureThumbnail.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
-                gestureThumbnail.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
-            }
+//            if (isGestureAss) {
+//                gestureThumbnail.find('#btn-tag-as-favorite-gesture').removeClass('btn-info').addClass('selected btn-danger');
+//                gestureThumbnail.find('#btn-tag-as-favorite-gesture .fa').removeClass('fa-plus').addClass('fa-minus');
+//            }
         }
-        var assembledGesturesLength = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture.selected').length;
-        if (assembledGesturesLength === $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture').length) {
+        var assembledGesturesLength = $(panel).find('#gestures-list-container .gesture-thumbnail.assembled').length;
+        if (assembledGesturesLength === $(panel).find('#gestures-list-container .gesture-thumbnail').length) {
             console.log(assembledGesturesLength);
-            $(panel).find('#btn-mark-hole-set').addClass('hidden');
-            $(panel).find('#btn-unmark-hole-set').removeClass('hidden');
+            $(panel).find('#btn-mark-hole-set').addClass('marked');
+            $(panel).find('#btn-mark-hole-set').find('.fa').removeClass('fa-plus').addClass('fa-minus');
+//            $(panel).find('#btn-unmark-hole-set').removeClass('hidden');
         }
 
     } else {
         $(panel).find('#btn-mark-hole-set').addClass('hidden');
-        $(panel).find('#btn-unmark-hole-set').removeClass('hidden');
+        $(panel).find('#btn-download-as-json').addClass('hidden');
         appendAlert(panel, ALERT_EMPTY_GESTURE_SET);
     }
+
+    initPopover();
 
     $(panel).find('#btn-delete-gesture-set').unbind('click').bind('click', {setId: data.id}, function (event) {
         event.preventDefault();
@@ -2409,6 +2414,7 @@ function getGestureSetPanel(data) {
 
             deleteGestureSet({setId: event.data.setId}, function (result) {
                 unlockButton(button, true, 'fa-trash');
+                $(this).popover('hide');
                 if (result.status === RESULT_SUCCESS) {
                     $(button).trigger('gestureSetDeleted');
                 } else {
@@ -2420,18 +2426,66 @@ function getGestureSetPanel(data) {
 
     $(panel).find('#btn-mark-hole-set').unbind('click').bind('click', function (event) {
         event.preventDefault();
-        $(this).addClass('hidden');
-        $(panel).find('#btn-unmark-hole-set').removeClass('hidden');
-        var gesturesItems = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture:not(.selected)');
-        $(gesturesItems).click();
+        $(this).popover('hide');
+        if ($(this).hasClass('marked')) {
+            $(this).removeClass('marked');
+            $(this).find('.fa').removeClass('fa-minus').addClass('fa-plus');
+            $(this).attr('data-content', translation.addAllGesturesToStudyGestureSet).data('bs.popover').setContent();
+            var assembledGestures = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture.assembled');
+            for (var i = 0; i < assembledGestures.length; i++) {
+                if (i < assembledGestures.length - 1) {
+                    $(assembledGestures[i]).attr('data-rerender', 'true');
+                }
+                $(assembledGestures[i]).click();
+            }
+        } else {
+            $(this).addClass('marked');
+            $(this).find('.fa').removeClass('fa-plus').addClass('fa-minus');
+            $(this).attr('data-content', translation.removeAllGesturesFromStudyGestureSet).data('bs.popover').setContent();
+            var unassembledGestures = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture:not(.assembled)');
+            $(unassembledGestures).click();
+        }
     });
 
-    $(panel).find('#btn-unmark-hole-set').unbind('click').bind('click', function (event) {
+    $(panel).find('#btn-download-as-json').unbind('click').bind('click', function (event) {
         event.preventDefault();
-        $(this).addClass('hidden');
-        $(panel).find('#btn-mark-hole-set').removeClass('hidden');
-        var assembledGesturesButtons = $(panel).find('#gestures-list-container .btn-tag-as-favorite-gesture.selected');
-        $(assembledGesturesButtons).click();
+        $(this).popover('hide');
+
+        var actions = [];
+        var assembledGestureThumbs = $(panel).find('.gesture-thumbnail');
+        for (var i = 0; i < assembledGestureThumbs.length; i++) {
+            var gestureId = $(assembledGestureThumbs[i]).closest('.root').attr('id');
+            var gesture = getGestureById(gestureId);
+            actions.push({id: gesture.id, name: gesture.title, description: gesture.description});
+
+            // create gif from gesture images
+            gifshot.createGIF({
+                gifWidth: 200,
+                gifHeight: 200,
+                images: gesture.images,
+                interval: 0.1,
+                numFrames: 10,
+                frameDuration: 1,
+                sampleInterval: 3,
+                numWorkers: 2
+            }, function (obj) {
+                if (!obj.error) {
+                    var image = obj.image;
+                    var animatedImage = document.createElement('img');
+//                    console.log(image);
+                    animatedImage.src = image;
+//                    document.body.appendChild(animatedImage);
+                    $(panel).find('#gestures-list-container').append(animatedImage);
+                }
+            });
+        }
+        
+        return false;
+        // create json file and download it
+        var jsonSet = GESTURE_SET_JSON;
+        jsonSet.actions = actions;
+        var blob = new Blob([JSON.stringify(jsonSet)], {type: "text/json;charset=utf-8"});
+        saveAs(blob, data.title + ".json");
     });
 
     return panel;

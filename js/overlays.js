@@ -1874,7 +1874,7 @@ function initExplorationOverlay(id, formatClone) {
             var set = new Array();
             for (var i = 0; i < explorationItem.length; i++) {
                 var item = explorationItem[i];
-                
+
                 var transitionScenes = [];
                 var transitionItems = $(item).find('.transition-scenes-option-container').children();
                 for (var j = 0; j < transitionItems.length; j++) {
@@ -1885,7 +1885,7 @@ function initExplorationOverlay(id, formatClone) {
                     var triggerId = $(item).find('.triggerSelect .chosen').attr('id');
                     var trigger = getTriggerById(triggerId);
                     var gestureIds = [];
-                    
+
                     $(item).find('#assembled-gestures-container .gesture-thumbnail.assembled').each(function () {
                         gestureIds.push($(this).closest('.root').attr("id"));
                     });
@@ -2330,31 +2330,39 @@ function initCatalogGesturesOverlay(formatClone) {
                 }
             }
         });
-        $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble) {
+
+        $(currentFilterList).unbind('change').bind('change', function (event, gestureId, assemble, rerender) {
             event.preventDefault();
             var tweenParams = initAddGestureToStudyGestures($(event.target), formatClone);
             if (assemble) {
                 assembleGesture(gestureId);
                 TweenMax.to(tweenParams.tweenElement, .4, {x: tweenParams.alphaX, y: tweenParams.alphaY, opacity: 0, scale: 0, rotation: tweenParams.rotation, transformOrigin: "left top", clearProps: 'all', ease: Quad.easeOut, onComplete: function () {
-                        renderData(originalFilterData);
+                        if (rerender) {
+                            renderData(originalFilterData);
+                        }
                         updateCatalogButtons();
                         updateNavBadges();
                     }});
             } else {
                 reassembleGesture(gestureId);
-                renderData(originalFilterData);
+                if (rerender) {
+                    renderData(originalFilterData);
+                }
                 updateCatalogButtons();
                 updateNavBadges();
             }
         });
+
         $(formatClone).find('#gesture-sets .create-gesture-set-input').unbind('gestureSetCreated').bind('gestureSetCreated', function (event) {
             console.log('gesture set created');
             getWholeGestureSets();
         });
+
         $(formatClone).find('#gesture-sets #gesture-sets-container').unbind('gestureSetDeleted').bind('gestureSetDeleted', function (event) {
             console.log('gesture set deleted');
             getWholeGestureSets();
         });
+
         $('#custom-modal').unbind('gestureSetsUpdated').bind('gestureSetsUpdated', function (event) {
             console.log('gesture set updated');
             getGestureSets(function (result) {
@@ -2365,6 +2373,7 @@ function initCatalogGesturesOverlay(formatClone) {
                 }
             });
         });
+
         $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
             renderData(data);
         });
