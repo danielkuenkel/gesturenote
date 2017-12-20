@@ -14,7 +14,7 @@ if (isset($_SESSION['user_id'])) {
 
     if ($select_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE (owner_id = '$sessionUserId' && scope = 'private') OR scope = 'public' ORDER BY created DESC")) {
         // get variables from result.
-        $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $type, $interactionType, $context, $association, $description, $joints, $previewImage, $images, $created);
+        $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $type, $interactionType, $context, $association, $description, $joints, $previewImage, $images, $gif, $created);
 
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
@@ -89,6 +89,7 @@ if (isset($_SESSION['user_id'])) {
                     'joints' => json_decode($joints),
                     'previewImage' => $previewImage,
                     'images' => json_decode($images),
+                    'gif' => $gif,
                     'created' => $created,
                     'isOwner' => $sessionUserId == $ownerId,
                     'commentAmount' => $commentCount,

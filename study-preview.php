@@ -34,7 +34,9 @@ if (login_check($mysqli) == true) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.4.4/randomColor.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
-
+        
+        <script src="js/stomp/stomp.js"></script>
+        <script src="js/websocket.js"></script>
         <script src="js/chance.min.js"></script>
         <script src="color-thief/color-thief.js"></script>
         <script src="js/sha512.js"></script>

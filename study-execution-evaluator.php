@@ -42,6 +42,9 @@ if ($h && $token && $studyId) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
         <script src="resumable/resumable.js"></script>
 
+        <script src="js/stomp/stomp.js"></script>
+        <script src="js/websocket.js"></script>
+        
         <script src="js/chance.min.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>

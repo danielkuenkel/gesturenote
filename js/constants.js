@@ -245,13 +245,13 @@ var POTENTIAL_GESTURES = 'potentialGestures';
 
 var APOLLO_URL = 'ws://progesture.org:61623';
 var APOLLO_LOGIN = 'admin';
-var APOLLO_PASSCODE = 'password';
+var APOLLO_PASSWORD = 'password';
 var APOLLO_DESTINATION = '/topic/gestures';
 
 var GESTURE_SET_JSON = {
     url: APOLLO_URL,
     login: APOLLO_LOGIN,
-    passcode: APOLLO_PASSCODE,
+    passcode: APOLLO_PASSWORD,
     destination: APOLLO_DESTINATION
 //   "actions": [
 //       {

@@ -2144,7 +2144,7 @@ include '../includes/language.php';
                     <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
                 </div>
             </div>
-            <div class="form-group">
+<!--            <div class="form-group">
                 <div class="alert-space alert-pidoco-edit-url-invalid"></div>
 
                 <div class="input-group">
@@ -2154,7 +2154,7 @@ include '../includes/language.php';
                         <button class="btn btn-default btn-shadow checkInput checkPidocoEditURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text"><?php echo $lang->check ?></span></button>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
             <div class="form-group">
                 <div class="alert-space alert-pidoco-embed-url-invalid"></div>

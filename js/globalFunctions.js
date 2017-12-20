@@ -2450,45 +2450,29 @@ function getGestureSetPanel(data) {
     $(panel).find('#btn-download-as-json').unbind('click').bind('click', function (event) {
         event.preventDefault();
         $(this).popover('hide');
-
-        var actions = [];
-        var assembledGestureThumbs = $(panel).find('.gesture-thumbnail');
-        for (var i = 0; i < assembledGestureThumbs.length; i++) {
-            var gestureId = $(assembledGestureThumbs[i]).closest('.root').attr('id');
-            var gesture = getGestureById(gestureId);
-            actions.push({id: gesture.id, name: gesture.title, description: gesture.description});
-
-            // create gif from gesture images
-            gifshot.createGIF({
-                gifWidth: 200,
-                gifHeight: 200,
-                images: gesture.images,
-                interval: 0.1,
-                numFrames: 10,
-                frameDuration: 1,
-                sampleInterval: 3,
-                numWorkers: 2
-            }, function (obj) {
-                if (!obj.error) {
-                    var image = obj.image;
-                    var animatedImage = document.createElement('img');
-//                    console.log(image);
-                    animatedImage.src = image;
-//                    document.body.appendChild(animatedImage);
-                    $(panel).find('#gestures-list-container').append(animatedImage);
-                }
-            });
-        }
-        
-        return false;
-        // create json file and download it
-        var jsonSet = GESTURE_SET_JSON;
-        jsonSet.actions = actions;
-        var blob = new Blob([JSON.stringify(jsonSet)], {type: "text/json;charset=utf-8"});
-        saveAs(blob, data.title + ".json");
+        downloadGestureSetAsJSON($(panel).find('.gesture-thumbnail'), data.title);
     });
 
     return panel;
+}
+
+function downloadGestureSetAsJSON(gestureThumbnails, title) {
+    var actions = [];
+    for (var i = 0; i < gestureThumbnails.length; i++) {
+        var gestureId = $(gestureThumbnails[i]).closest('.root').attr('id');
+        var gesture = getGestureById(gestureId);
+        if (gesture.gif && gesture.gif !== null) {
+            actions.push({id: gesture.id, name: gesture.title, description: gesture.description, image: 'https://gesturenote.de/' + gesture.gif});
+        } else {
+            actions.push({id: gesture.id, name: gesture.title, description: gesture.description});
+        }
+    }
+
+    // create json file and download it
+    var jsonSet = GESTURE_SET_JSON;
+    jsonSet.actions = actions;
+    var blob = new Blob([JSON.stringify(jsonSet)], {type: "text/json;charset=utf-8"});
+    saveAs(blob, title + ".json");
 }
 
 function getGestureCatalogGestureSetPanel(data, type, layout) {
@@ -2764,6 +2748,56 @@ function isRecordingNeededInFuture() {
         }
     }
 
+    return false;
+}
+
+/*
+ * check if pidoco prototypes are used and websockets are needed for this
+ */
+function isPidocoSocketNeeded() {
+    var phaseSteps = getContextualPhaseSteps();
+    if (phaseSteps && phaseSteps.length > 0) {
+        for (var i = 0; i < phaseSteps.length; i++) {
+            if (isPidocoSocketNeededForPhaseStep(phaseSteps[i])) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function isPidocoSocketNeededForPhaseStep(phaseStep) {
+    var socketNeeded = false;
+    if (phaseStep) {
+        var phaseStepData = getLocalItem(phaseStep.id + '.data');
+        switch (phaseStep.format) {
+            case IDENTIFICATION:
+                break;
+            case EXPLORATION:
+                break;
+            case GESTURE_TRAINING:
+                break;
+            case SCENARIO:
+                socketNeeded = isPidocoSocketNeededForScenario(phaseStepData.woz);
+                break;
+        }
+    }
+    return socketNeeded;
+}
+
+function isPidocoSocketNeededForScenario(wozData) {
+    if (wozData && wozData.length > 0) {
+        for (var i = 0; i < wozData.length; i++) {
+            if (wozData[i].transitionScenes && wozData[i].transitionScenes.length > 0) {
+                for (var j = 0; j < wozData[i].transitionScenes.length; j++) {
+                    var scene = getSceneById(wozData[i].transitionScenes[j].sceneId);
+                    if (scene.type === SCENE_PIDOCO) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
     return false;
 }
 

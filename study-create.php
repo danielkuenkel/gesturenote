@@ -39,7 +39,7 @@ if (login_check($mysqli) == true) {
         <script src="js/chance.min.js"></script>
         <script src="filesaver/FileSaver.min.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
-        
+
 
         <script src="bootstrap-slider/js/bootstrap-slider.js"></script>
         <script src="bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
@@ -441,9 +441,12 @@ if (login_check($mysqli) == true) {
                                 <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->studyGestures ?> 
                                     <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text1 ?>"></i>
                                 </h4>
-                                <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-gestures">
-                                    <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
-                                </button>
+                                <div class="btn-group">
+                                    <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-gestures">
+                                        <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
+                                    </button>
+                                    <button class="btn btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-download"></i></button>
+                                </div>
                             </div>
 
                             <div style="margin-top: 10px" class="row" id="gestures-list-container"></div>
@@ -1079,6 +1082,12 @@ if (login_check($mysqli) == true) {
                     scrollTop: 0
                 }, 200);
                 overlayTween.reverse();
+            });
+
+            $('#gestures-catalog').find('#btn-download-as-json').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(this).popover('hide');
+                downloadGestureSetAsJSON($('#gestures-catalog').find('#gestures-list-container .gesture-thumbnail'), translation.studyGestureSet);
             });
 
             var datePickerFromOpened = false;

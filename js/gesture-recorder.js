@@ -449,31 +449,53 @@ function showSave() {
                     var uploadQueue = new UploadQueue();
                     $(uploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
                         var imagesURLs = uploadQueue.getUploadURLs();
-//                        console.log('all files uploaded: save data into db', imagesURLs);
-                        var ownerId = recorder.options.ownerId || null;
-                        saveRecordedGesture({title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints, previewImage: previewImageIndex, gestureImages: imagesURLs, ownerId: ownerId}, function (result) {
-                            showCursor($('body'), CURSOR_DEFAULT);
-                            unlockButton(button, true, 'fa-floppy-o');
-//                            $(button).removeClass('disabled');
 
-                            if (result.status === RESULT_SUCCESS) {
-                                var gesture = {
-                                    id: result.gestureId,
-                                    title: title,
-                                    context: context,
-                                    association: association,
-                                    description: description,
-                                    joints: joints,
-                                    previewImage: previewImageIndex,
-                                    images: imagesURLs
-                                };
+                        var gifUploadQueue = new UploadQueue();
+                        $(gifUploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
+                            var gifUrl = gifUploadQueue.getUploadURLs();
 
-                                $(recorder.options.recorderTarget).trigger(EVENT_GR_SAVE_SUCCESS, [gesture]);
-                                $(recorder.options.recorderTarget).find('#success-controls #btn-delete-saved-gesture').attr('name', result.gestureId);
-                                renderGestureImages($(recorder.options.recorderTarget).find('#success-controls .previewGesture'), result.images, result.previewImage, null);
-                                showSaveSuccess();
-                            } else if (result.status === RESULT_ERROR) {
-                                appendAlert(recorder.options.alertTarget, ALERT_GENERAL_ERROR);
+                            var ownerId = recorder.options.ownerId || null;
+                            saveRecordedGesture({title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints, previewImage: previewImageIndex, gestureImages: imagesURLs, ownerId: ownerId, gif: gifUrl[0]}, function (result) {
+                                showCursor($('body'), CURSOR_DEFAULT);
+                                unlockButton(button, true, 'fa-floppy-o');
+
+                                if (result.status === RESULT_SUCCESS) {
+                                    var gesture = {
+                                        id: result.gestureId,
+                                        title: title,
+                                        context: context,
+                                        association: association,
+                                        description: description,
+                                        joints: joints,
+                                        previewImage: previewImageIndex,
+                                        images: imagesURLs
+                                    };
+
+                                    $(recorder.options.recorderTarget).trigger(EVENT_GR_SAVE_SUCCESS, [gesture]);
+                                    $(recorder.options.recorderTarget).find('#success-controls #btn-delete-saved-gesture').attr('name', result.gestureId);
+                                    renderGestureImages($(recorder.options.recorderTarget).find('#success-controls .previewGesture'), result.images, result.previewImage, null);
+                                    showSaveSuccess();
+                                } else if (result.status === RESULT_ERROR) {
+                                    appendAlert(recorder.options.alertTarget, ALERT_GENERAL_ERROR);
+                                }
+                            });
+                        });
+
+                        // create gif from gesture images
+                        gifshot.createGIF({
+                            gifWidth: 320,
+                            gifHeight: 240,
+                            images: imagesURLs,
+                            interval: 0.1,
+                            numFrames: 10,
+                            frameDuration: 1,
+                            sampleInterval: 3,
+                            numWorkers: 2
+                        }, function (obj) {
+                            if (!obj.error) {
+                                var blob = dataURItoBlob(obj.image);
+                                var filename = hex_sha512(new Date().getTime() + "" + i) + ".gif";
+                                gifUploadQueue.upload([blob], filename);
                             }
                         });
                     });

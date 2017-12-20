@@ -37,20 +37,20 @@ include './includes/language.php';
 
         switch (data.type) {
             case SCENE_IMAGE:
-                container.find('.imageAreaContent').attr('src', data.data);
+                container.find('.imageAreaContent').attr('src', data.parameters.url);
                 break;
             case SCENE_VIDEO_EMBED:
-                container.find('.videoContainer').addClass(data.options[0] === 'ratio_16_9' ? 'embed-responsive-16by9' : 'embed-responsive-4by3');
-                container.find('.videoContainer').html(data.data[0]);
+                container.find('.videoContainer').addClass(data.parameters.ratio === 'ratio_16_9' ? 'embed-responsive-16by9' : 'embed-responsive-4by3');
+                container.find('.videoContainer').html(data.parameters.url);
                 var video = $(container).find('.videoContainer iframe');
                 $(video).addClass('embed-responsive-item');
                 break;
             case SCENE_PIDOCO:
-                container.find('.web-frame').attr('src', data.data[1]);
+                container.find('.web-frame').attr('src', data.parameters.url);
                 container.find('.btn-url').on('click', function (event) {
                     event.preventDefault();
                     console.log(data);
-                    var win = window.open(data);
+                    var win = window.open(data.parameters.url);
                     if (win) {
                         //Browser has allowed it to be opened
                         win.focus();
@@ -61,11 +61,11 @@ include './includes/language.php';
                 });
                 break;
             case SCENE_WEB:
-                container.find('.web-frame').attr('src', data.data[0]);
+                container.find('.web-frame').attr('src', data.parameters.url);
                 container.find('.btn-url').on('click', function (event) {
                     event.preventDefault();
                     console.log(data);
-                    var win = window.open(data.data[0]);
+                    var win = window.open(data.parameters.url);
                     if (win) {
                         //Browser has allowed it to be opened
                         win.focus();

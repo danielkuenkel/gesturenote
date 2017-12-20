@@ -11,7 +11,7 @@ $target_dir = "../uploads/";
 $target_preview_dir = "uploads/";
 
 session_start();
-if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['gestureImages'])) {
+if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['gestureImages'], $_POST['gif'])) {
     $imageURLs = $_POST['gestureImages'];
 //    $imageURLs = array();
 
@@ -50,6 +50,7 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['ass
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
     $joints = json_encode($_POST['joints']);
     $previewImage = $_POST['previewImage'];
+    $gif = $_POST['gif'];
     $dbImageURLs = json_encode($imageURLs);
 
     if (isset($_POST['type'])) {
@@ -64,14 +65,14 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['ass
         $interactionType = null;
     }
 
-    if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, type, interaction_type, context, association, description, joints, preview_image, images) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$type','$interactionType','$context','$association','$description','$joints','$previewImage','$dbImageURLs')")) {
+    if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, type, interaction_type, context, association, description, joints, preview_image, images, gif) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$type','$interactionType','$context','$association','$description','$joints','$previewImage','$dbImageURLs', '$gif')")) {
         if (!$insert_stmt->execute()) {
             deleteFiles($target_dir, $imageURLs);
             echo json_encode(array('status' => 'insertError'));
             exit();
         } else {
             $insertId = $mysqli->insert_id;
-            echo json_encode(array('status' => 'success', 'gestureId' => $insertId, 'images' => $imageURLs, 'previewImage' => $previewImage));
+            echo json_encode(array('status' => 'success', 'gestureId' => $insertId, 'images' => $imageURLs, 'previewImage' => $previewImage, 'gif' => $gif));
             exit();
         }
     } else {

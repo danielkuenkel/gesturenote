@@ -436,7 +436,7 @@ function urlIsValid(url, type) {
             break;
         case TYPE_URL_PIDOCO_EMBED:
 //            https://pidoco.com/rabbit/api/prototypes/172450/pages/page648229105.xhtml?mode=plain&api_key=kzhIRzrEw4dmNbIvLfhvwL0c6tmUWL7Ek9PaiHNg
-            regEx = /https:\/\/pidoco.com\/rabbit\/api\/prototypes\/[0-9]+\/pages\/page[0-9]+/;
+            regEx = /https:\/\/(?:fulda\.)?pidoco.com\/rabbit\/api\/prototypes\/[0-9]+\/pages\/page[0-9]+/;
             break;
         case TYPE_URL_VIDEO_EMBED:
 //            console.log(url);

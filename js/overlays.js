@@ -2563,27 +2563,28 @@ function initCatalogScenesOverlay(formatClone) {
             clone.attr('name', item.id);
             $(formatClone).find('#list-container').append(clone);
             updateBadges($(formatClone).find('#list-container'), item.type);
+            
             switch (item.type) {
                 case SCENE_PIDOCO:
-                    if (item.data[0]) {
-                        $(clone).find('.pidoco-edit-url').val(item.data[0]);
-                        $(clone).find('.checkPidocoEditURL').click();
-                    }
-                    if (item.data[1]) {
-                        $(clone).find('.pidoco-embed-url').val(item.data[1]);
+//                    if (item.data[0]) {
+//                        $(clone).find('.pidoco-edit-url').val(item.data[0]);
+//                        $(clone).find('.checkPidocoEditURL').click();
+//                    }
+                    if (item.parameters.url) {
+                        $(clone).find('.pidoco-embed-url').val(item.parameters.url);
                         $(clone).find('.checkPidocoEmbedURL').click();
                     }
-                    if (item.data[2] === true) {
-                        $(clone).find('.transmit-gestures-select .switchButtonAddon').click();
-                        $(clone).find('#transmitGestures').removeClass('hidden');
-                    }
+//                    if (item.data[2] === true) {
+//                        $(clone).find('.transmit-gestures-select .switchButtonAddon').click();
+//                        $(clone).find('#transmitGestures').removeClass('hidden');
+//                    }
                     break;
                 case SCENE_WEB:
-                    $(clone).find('.website-url').val(item.data[0]);
+                    $(clone).find('.website-url').val(item.parameters.url);
                     break;
                 case SCENE_IMAGE:
-                    if (item.data) {
-                        $(clone).find('.imageAreaContent').attr("src", item.data);
+                    if (item.parameters.url) {
+                        $(clone).find('.imageAreaContent').attr("src", item.parameters.url);
                         $(clone).find('.imageArea').removeClass('hidden');
                         $(clone).find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
                         $(clone).find('.chooseSceneImage .btn-icon').removeClass('glyphicon-picture');
@@ -2591,10 +2592,10 @@ function initCatalogScenesOverlay(formatClone) {
                     }
                     break;
                 case SCENE_VIDEO_EMBED:
-                    if (item.data[0]) {
-                        $(clone).find('.video-embed-url').val(item.data[0]);
+                    if (item.parameters.url && item.parameters.ratio) {
+                        $(clone).find('.video-embed-url').val(item.parameters.url);
                         $(clone).find('.checkVideoEmbedURL').click();
-                        $(clone).find('.ratioSelect #' + item.options[0]).click();
+                        $(clone).find('.ratioSelect #' + item.parameters.ratio).click();
                     }
                     break;
             }
@@ -2611,51 +2612,57 @@ function initCatalogScenesOverlay(formatClone) {
             var type = $(item).attr('id');
             var name = $(item).attr('name');
             var title = $(item).find('.title').val();
-            var options = new Array();
-            var data = new Array();
+            var parameters = {};
+//            var data = new Array();
             if (name === undefined || name === null) {
                 name = chance.natural();
             }
 
             switch (type) {
                 case SCENE_PIDOCO:
-                    var pidocoEditUrl = $(item).find('.pidoco-edit-url').val();
-                    if (urlIsValid(pidocoEditUrl, TYPE_URL_PIDOCO_EDIT)) {
-                        data.push(pidocoEditUrl);
-                    } else {
-                        data.push(null);
-                    }
+//                    var pidocoEditUrl = $(item).find('.pidoco-edit-url').val();
+//                    if (urlIsValid(pidocoEditUrl, TYPE_URL_PIDOCO_EDIT)) {
+//                        data.push(pidocoEditUrl);
+//                    } else {
+//                        data.push(null);
+//                    }
                     var pidocoEmbedUrl = $(item).find('.pidoco-embed-url').val();
                     if (urlIsValid(pidocoEmbedUrl, TYPE_URL_PIDOCO_EMBED)) {
-                        data.push(pidocoEmbedUrl);
+                        parameters.url = pidocoEmbedUrl;
+//                        data.push(pidocoEmbedUrl);
                     } else {
-                        data.push(null);
+//                        data.push(null);
                     }
 
-                    options.push($(item).find('.transmit-gestures-select #success').hasClass('active'));
+//                    options.push($(item).find('.transmit-gestures-select #success').hasClass('active'));
                     break;
                 case SCENE_WEB:
-                    data.push($(item).find('.website-url').val());
+                    parameters.url = $(item).find('.website-url').val();
+//                    data.push($(item).find('.website-url').val());
                     break;
                 case SCENE_IMAGE:
                     if ($(item).find('.imageArea').hasClass('hidden') !== true) {
-                        data = $(item).find('.imageAreaContent').attr('src');
+                        parameters.url = $(item).find('.imageAreaContent').attr('src')
+//                        data = $(item).find('.imageAreaContent').attr('src');
                     }
                     break;
                 case SCENE_VIDEO_EMBED:
                     var videoEmbedUrl = $(item).find('.video-embed-url').val();
-                    options.push($(item).find('.ratioSelect .chosen').attr('id'));
+                    parameters.ratio = $(item).find('.ratioSelect .chosen').attr('id')
+//                    options.push($(item).find('.ratioSelect .chosen').attr('id'));
                     if (urlIsValid(videoEmbedUrl, TYPE_URL_VIDEO_EMBED)) {
-                        data.push(videoEmbedUrl);
+                        parameters.url = videoEmbedUrl;
+//                        data.push(videoEmbedUrl);
                     } else {
-                        data.push(null);
+//                        data.push(null);
                     }
                     break;
             }
 
-            if (data.length > 0) {
-                assembledData.push({id: name, type: type, title: title, options: options, data: data}); //new Scene(name, type, title, options, data));
-            }
+            console.log(parameters);
+//            if (data.length > 0) {
+                assembledData.push({id: name, type: type, title: title, parameters: parameters}); //new Scene(name, type, title, options, data));
+//            }
         }
         setLocalItem(ASSEMBLED_SCENES, assembledData);
     }

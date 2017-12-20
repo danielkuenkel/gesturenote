@@ -93,6 +93,11 @@ var Moderator = {
         }
 
         updateRTCHeight($('#phase-content #column-left').width());
+
+        if (isPidocoSocketNeeded()) {
+            console.log('pidoco socket needed');
+            initWebSocket();
+        }
     },
     checkPositioning: function checkPositioning(format) {
         if (previewModeEnabled) {
@@ -1597,7 +1602,12 @@ var Moderator = {
 
             var transitionsLength = $(scenesContainer).find('.btn-trigger-scene').length;
             if (transitionsLength === 1) {
-                // this scene has no follow scene
+                // this scene has no follow scene, maybe a pidoco prototype
+                if (currentWOZScene.type === SCENE_PIDOCO) {
+                    var gestureId = $(scenesContainer).closest('.row').find('.previewGesture').attr('id');
+                    console.log('send gesture to appollo broker', gestureId);
+//                    sendGesture()
+                }
             } else if (transitionsLength > 2) {
                 var leftSceneButtons = $(scenesContainer).find('#transition-scene-container').find('.btn-trigger-scene').not('.btn-primary');
                 console.log('transitionsLength', transitionsLength, 'leftSceneButtons', leftSceneButtons.length);
@@ -1676,7 +1686,7 @@ var Moderator = {
 
                         $(item).find('#follow-scene-header').removeClass('hidden');
                         $(item).find('#follow-scene-container').removeClass('hidden');
-                        var followItem = getWOZTransitionItem(source, transitionScenes[transitionScenes.length - 1], true, false)
+                        var followItem = getWOZTransitionItem(source, transitionScenes[transitionScenes.length - 1], true, false);
                         $(item).find('#follow-scene-container').append(followItem);
 
                         if (transitionScenes.length > 2) {
@@ -1696,6 +1706,9 @@ var Moderator = {
                         }
                     } else {
                         // render only gesture item
+                        var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
+                        $(item).find('#start-scene-container').append(startItem);
+                        TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
                     }
 
 
@@ -1710,6 +1723,7 @@ var Moderator = {
                     var gesture = getGestureById(wozData[i].gestureId);
                     if (gesture) {
                         renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+                        $(item).find('.previewGesture').attr('id', gesture.id);
                         TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
                     }
 
@@ -3197,7 +3211,7 @@ function openPrototypeScene(scene, isSingleScene, description, index) {
         } else if (!prototypeWindow && !isSingleScene) {
             prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
         } else if (!prototypeWindow && isSingleScene === true && (scene.type === SCENE_WEB || scene.type === SCENE_PIDOCO)) {
-            prototypeWindow = window.open(scene.data[0], "_blank", windowSpecs);
+            prototypeWindow = window.open(scene.parameters.url, "_blank", windowSpecs);
         } else {
             prototypeWindow = window.open("study-execution-prototype-sharing.php?phaseId=" + getCurrentPhase().id + "&type=" + getCurrentPhase().format, "_blank", windowSpecs);
         }
@@ -3217,6 +3231,7 @@ function openPrototypeScene(scene, isSingleScene, description, index) {
 
 function getWOZTransitionItem(source, transitionScene, disabled, active) {
     var scene = getSceneById(transitionScene.sceneId);
+    console.log(scene);
     var btn = $(source).find('#wozItemWithScenesButton').clone().removeAttr('id');
     $(btn).find('.btn-text').text(scene.title);
     $(btn).find('.btn-trigger-scene').attr('id', scene.id);

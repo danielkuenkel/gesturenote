@@ -2339,6 +2339,12 @@ include '../includes/language.php';
                         </div>
                     </div>
                     <div class="btn-group">
+                        <div class="btn btn-info btn-add-item font-bold" id="pidoco">
+                            <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->pidoco ?> 
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                        </div>
+                    </div>
+                    <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="image">
                             <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->image ?>
                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
