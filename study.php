@@ -127,7 +127,6 @@ if (login_check($mysqli) == true) {
                             <button class="btn btn-default btn-shadow" type="button" id="btn-prepare-study"><i class="fa fa-inbox" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->executeStudy ?></span></button>
                         </div>
                     </div>
-
                     <div class="col-sm-12" style="margin-top: 20px;" id="copy-to-clipboard">
                         <div class="input-group">
                             <div class="input-group-addon"><?php echo $lang->studyUrl ?></div>

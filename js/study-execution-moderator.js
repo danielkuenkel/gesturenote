@@ -1605,8 +1605,8 @@ var Moderator = {
                 // this scene has no follow scene, maybe a pidoco prototype
                 if (currentWOZScene.type === SCENE_PIDOCO) {
                     var gestureId = $(scenesContainer).closest('.row').find('.previewGesture').attr('id');
-                    console.log('send gesture to appollo broker', gestureId);
-//                    sendGesture()
+//                    console.log('send gesture to appollo broker', gestureId);
+                    sendGesture(gestureId, null);
                 }
             } else if (transitionsLength > 2) {
                 var leftSceneButtons = $(scenesContainer).find('#transition-scene-container').find('.btn-trigger-scene').not('.btn-primary');

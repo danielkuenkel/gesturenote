@@ -1,4 +1,4 @@
-function initWebSocket() {
+function initWebSocket(debug) {
     if (window.WebSocket) {
         var url = APOLLO_URL;
         var login = APOLLO_LOGIN;
@@ -6,29 +6,21 @@ function initWebSocket() {
 
         try {
             client = Stomp.client(url);
-//            $('#showWebsocket').removeClass('list-group-item-danger');
-//            $('#showWebsocket').removeClass('list-group-item-info');
-//            $('#showWebsocket').addClass('list-group-item-success');
         } catch (error) {
             console.log(error);
-//            $('#showWebsocket').removeClass('list-group-item-info');
-//            $('#showWebSocket').removeClass('list-group-item-success');
-//            $('#showWebsocket').addClass('list-group-item-danger');
         }
 
-//        console.log(client);
 
         if (!client.connected) {
-//            $('#showWebsocket').removeClass('list-group-item-info');
-//            $('#showWebSocket').removeClass('list-group-item-success');
-//            $('#showWebsocket').addClass('list-group-item-danger');
         }
 
-        // this allows to display debug logs directly on the web page
-        client.debug = function (str) {
-            console.log(str);
-            $("#debug").append(str + "\n");
-        };
+        if (debug && debug === true) {
+            // this allows to display debug logs directly on the web page
+            client.debug = function (str) {
+                console.log(str);
+                $("#debug").append(str + "\n");
+            };
+        }
 
         var headers = {
             login: login,
@@ -39,9 +31,6 @@ function initWebSocket() {
         // the client is notified when it is connected to the server.
         client.connect(headers, function (frame) {
             console.log('Frame: ' + frame);
-//            $('#showWebsocket').removeClass('list-group-item-danger');
-//            $('#showWebsocket').removeClass('list-group-item-info');
-//            $('#showWebsocket').addClass('list-group-item-success');
             client.debug("connected to Stomp");
             client.subscribe('/topic/model.simulation.out', function (message) {
                 handleWebsocketRequest(message);
@@ -51,16 +40,6 @@ function initWebSocket() {
     } else {
         console.warn("Your browser does not support WebSockets. This example will not work properly.<br>\
             Please use a Web Browser with WebSockets support (WebKit or Google Chrome).");
-//        appendAlert($('#alerts-body'), ALERT_NO_WEBSOCKETS);
-//        $("#connect")
-//                .html(
-//                        "\
-//            <h1>Get a new Web Browser!</h1>\
-//            <p>\
-//            Your browser does not support WebSockets. This example will not work properly.<br>\
-//            Please use a Web Browser with WebSockets support (WebKit or Google Chrome).\
-//            </p>\
-//        ");
     }
 }
 
@@ -71,8 +50,6 @@ function sendGesture(gestureId, yakindu) {
     }));
 
     client.debug("send gesture: " + gestureId);
-    var mapping = findMappingForGesture(gestureId);
-    var jsonString = '{"type":"event","name":"' + mapping + '"}';
     if (yakindu) {
         client.send('/topic/model.simulation.in', {
             "content-type": "text/plain"
