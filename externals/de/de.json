@@ -570,6 +570,45 @@
             },
             "notes": "yes"
         },
+        "interview": {
+            "text": "Interview",
+            "class": "both",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "yes"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "yes"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
+            "notes": "yes"
+        },
         "identification": {
             "text": "Ermittlung",
             "class": "elicitation",

@@ -16,17 +16,9 @@ function savePhaseStep(id, callback) {
             data = getThanksFormData(data);
             break;
         case QUESTIONNAIRE:
-            var questionnaire = $('#viewTester #phase-content').find('.question-container').children();
-            data = getQuestionnaireFormData(questionnaire, data);
-            break;
+        case INTERVIEW:
         case GUS_SINGLE_GESTURES:
-            var questionnaire = $('#viewTester #phase-content').find('.question-container').children();
-            data = getQuestionnaireFormData(questionnaire, data);
-            break;
         case GUS_MULTIPLE_GESTURES:
-            var questionnaire = $('#viewTester #phase-content').find('.question-container').children();
-            data = getQuestionnaireFormData(questionnaire, data);
-            break;
         case SUS:
             var questionnaire = $('#viewTester #phase-content').find('.question-container').children();
             data = getQuestionnaireFormData(questionnaire, data);
@@ -53,7 +45,7 @@ function savePhaseStep(id, callback) {
             data = getExplorationFormData(data);
             break;
     }
-    
+
     console.log('save phase step data:', data);
 
     if (data.endTime) {
@@ -249,7 +241,7 @@ function getFinishedStudyPhases(id, studyFinished, callback) {
             if (studyFinished) {
                 savePhaseStep(phaseSteps[i].id);
             }
-            
+
             if (isPhaseStepSaved(phaseSteps[i].id)) {
                 array.push(getLocalItem(phaseSteps[i].id + '.saveData'));
             }

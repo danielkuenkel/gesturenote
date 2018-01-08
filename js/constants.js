@@ -59,6 +59,7 @@ var TYPE_FEEDBACK_SOUND = 'sound';
 
 // phase step formats
 var QUESTIONNAIRE = 'questionnaire';
+var INTERVIEW = 'interview';
 var GUS_SINGLE_GESTURES = 'gus';
 var GUS_MULTIPLE_GESTURES = 'questionnaireGestures';
 var SUS = 'sus';

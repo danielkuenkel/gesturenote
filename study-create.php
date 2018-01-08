@@ -272,11 +272,11 @@ if (login_check($mysqli) == true) {
                             </label><br>
 
                             <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="moderated">
+                                <button class="btn btn-default btn-radio saveGeneralData btn-option-checked" name="primary" id="moderated">
                                     <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
                                         <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                        <i class="fa fa-check-circle" id="checked"></i>
                                     </span>
                                     <span class="option-text"><?php echo $lang->surveyType->moderated ?></span>
                                 </button>
@@ -519,25 +519,31 @@ if (login_check($mysqli) == true) {
                                 <h4><?php echo $lang->questionnaires ?></h4>
 
                                 <div class="add-button-group" id="add-phase-step-format-group-questionnaires">
-                                    <div class="btn-group">
+                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="all">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="questionnaire">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->questionnaire->text ?>
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->questionnaire ?>"></i>
                                         </div>
                                     </div>
-                                    <div class="btn-group evaluation">
+                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="moderated">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="interview">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->interview->text ?>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->interview ?>"></i>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="gus">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->gus->text ?>
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->gus ?>"></i>
                                         </div>
                                     </div>
-                                    <div class="btn-group evaluation">
+                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="questionnaireGestures">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->questionnaireGestures->text ?>
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->questionnaireGestures ?>"></i>
                                         </div>
                                     </div>
-                                    <div class="btn-group evaluation">
+                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sus">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->sus->text ?>
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->sus ?>"></i>
@@ -547,43 +553,43 @@ if (login_check($mysqli) == true) {
 
                                 <h4 style="margin-top: 20px"><?php echo $lang->miscellaneous ?></h4>
                                 <div class="add-button-group" id="add-phase-step-format-group-miscellaneous">
-                                    <div class="btn-group elicitation">
+                                    <div class="btn-group" data-study-phase="elicitation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="identification">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->identification->text ?>
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->identification ?>"></i>
                                         </div>
                                     </div>
-                                    <div class="btn-group evaluation">
+                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="gestureTraining">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->gestureTraining->text ?>
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->gestureTraining ?>"></i>
                                         </div>
                                     </div>
-                                    <div class="btn-group evaluation">
+                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="scenario">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->scenario->text ?>
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->scenario ?>"></i>
                                         </div>
                                     </div>
-                                    <div class="btn-group evaluation">
+                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="gestureSlideshow">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->gestureSlideshow->text ?>
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->gestureSlideshow ?>"></i>
                                         </div>
                                     </div>
-                                    <div class="btn-group evaluation">
+                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="triggerSlideshow">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->triggerSlideshow->text ?>
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->triggerSlideshow ?>"></i>
                                         </div>
                                     </div>
-                                    <div class="btn-group evaluation">
+                                    <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="physicalStressTest">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->physicalStressTest->text ?>
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->physicalStressTest ?>"></i>
                                         </div>
                                     </div>
-                                    <div class="btn-group extraction">
+                                    <div class="btn-group" data-study-phase="extraction" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="exploration">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->exploration->text ?>
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->exploration ?>"></i>
@@ -821,20 +827,20 @@ if (login_check($mysqli) == true) {
                 }
             }
 
-            $('#panelSurveySwitch').on('change', function (event, id) {
-                event.preventDefault();
-                if ($(event.target).attr('id') === 'yes') {
-                    $('#panel-survey-container').removeClass('hidden');
-                    $('#selectedAgeRange').removeClass('hidden');
-                } else {
-                    $('#panel-survey-container').addClass('hidden');
-                    $('#selectedAgeRange').addClass('hidden');
-                }
-            });
+//            $('#panelSurveySwitch').on('change', function (event, id) {
+//                event.preventDefault();
+//                if ($(event.target).attr('id') === 'yes') {
+//                    $('#panel-survey-container').removeClass('hidden');
+//                    $('#selectedAgeRange').removeClass('hidden');
+//                } else {
+//                    $('#panel-survey-container').addClass('hidden');
+//                    $('#selectedAgeRange').addClass('hidden');
+//                }
+//            });
 
             $('#phaseSelect').on('change', function (event) {
                 event.preventDefault();
-                var id = $(event.target).attr('id');
+
                 var catalogsNav = $('#create-tab-navigation #tab-catalogs');
                 var phasesNav = $('#create-tab-navigation #tab-phases');
                 if ($(phasesNav).hasClass('disabledTab') && $(catalogsNav).hasClass('disabledTab')) {
@@ -849,24 +855,41 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
-                $('#phaseStepSelect').find('.' + id).removeClass('hidden');
-                if (id === TYPE_PHASE_ELICITATION) {
-                    $('#phaseStepSelect').find('.' + TYPE_PHASE_EXTRACTION).addClass('hidden');
-                    $('#phaseStepSelect').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
-                    $('#feedback-catalog').addClass('hidden');
-                } else if (id === TYPE_PHASE_EVALUATION) {
-                    $('#phaseStepSelect').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
-                    $('#phaseStepSelect').find('.' + TYPE_PHASE_EXTRACTION).addClass('hidden');
-                    $('#feedback-catalog').removeClass('hidden');
-                } else if (id === TYPE_PHASE_EXTRACTION) {
-                    $('#phaseStepSelect').find('.' + TYPE_PHASE_EVALUATION).addClass('hidden');
-                    $('#phaseStepSelect').find('.' + TYPE_PHASE_ELICITATION).addClass('hidden');
-                    $('#feedback-catalog').addClass('hidden');
-                }
-
+                checkSelectedGeneralStudyProperties();
                 saveGeneralData();
                 renderPhaseSteps();
             });
+
+            $('#surveyTypeSelect').on('change', function (event) {
+                event.preventDefault();
+                checkSelectedGeneralStudyProperties();
+                saveGeneralData();
+                renderPhaseSteps();
+            });
+
+            function checkSelectedGeneralStudyProperties() {
+                var phaseId = $('#phaseSelect').find('.btn-option-checked').attr('id');
+                if (phaseId === TYPE_PHASE_ELICITATION || phaseId === TYPE_PHASE_EXTRACTION) {
+                    $('#surveyTypeSelect').find('#unmoderated').addClass('disabled');
+                    if ($('#surveyTypeSelect').find('.btn-option-checked').attr('id') === 'unmoderated') {
+                        $('#surveyTypeSelect').find('#moderated').click();
+                    }
+                } else {
+                    $('#surveyTypeSelect').find('#unmoderated').removeClass('disabled');
+                }
+                
+                var surveyTypeId = $('#surveyTypeSelect').find('.btn-option-checked').attr('id');
+
+                var addPhaseButtons = $('#phaseStepSelect').find('.btn-group');
+                for (var i = 0; i < addPhaseButtons.length; i++) {
+                    var button = addPhaseButtons[i];
+                    if (($(button).attr('data-study-phase') === phaseId || $(button).attr('data-study-phase') === 'all') && ($(button).attr('data-study-survey-type') === surveyTypeId || $(button).attr('data-study-survey-type') === 'all')) {
+                        $(button).removeClass('hidden');
+                    } else {
+                        $(button).addClass('hidden');
+                    }
+                }
+            }
 
             $('.breadcrumb li a').click(function (event) {
                 var button = $(this);

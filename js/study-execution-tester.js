@@ -26,6 +26,7 @@ var Tester = {
             });
 
         }
+        console.log('currentPhaseData', currentPhaseData)
 
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
             Tester.initializePeerConnection();
@@ -44,6 +45,9 @@ var Tester = {
                     break;
                 case QUESTIONNAIRE:
                     item = Tester.getQuestionnaire(container, currentPhaseData, true);
+                    break;
+                case INTERVIEW:
+                    item = Tester.getInterview(container, currentPhaseData);
                     break;
                 case IDENTIFICATION:
                     item = Tester.getIdentification(source, container, currentPhaseData);
@@ -240,6 +244,13 @@ var Tester = {
         }
 
 
+        return container;
+    },
+    getInterview: function getInterview(container, data) {
+        if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
+            var content = $(getSourceContainer(VIEW_TESTER)).find('#interview-' + getLocalItem(STUDY).surveyType).clone();
+            $(container).append(content);
+        }
         return container;
     },
     getGUS: function getGUS(container, data) {

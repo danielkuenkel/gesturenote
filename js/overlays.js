@@ -39,6 +39,9 @@ function initOverlayContentFunctionalities(format, id, formatClone) {
         case QUESTIONNAIRE:
             initQuestionnaireOverlay(id, formatClone);
             break;
+        case INTERVIEW:
+            initInterviewOverlay(id, formatClone);
+            break;
         case GUS_SINGLE_GESTURES:
             initGUSSingleGesturesOverlay(id, formatClone);
             break;
@@ -169,6 +172,42 @@ function initQuestionnairePreview(button, list, getAssembledGestures, additional
             $(button).addClass('disabled');
         }
     });
+}
+
+function initInterviewOverlay(id, formatClone) {
+    $('[data-toggle="popover"]').popover({container: 'body', delay: {"show": 300, "hide": 0}});
+    renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
+    initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-question-button-group'), $(formatClone).find('#list-container'), $(formatClone), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
+    var data = getLocalItem(id + '.data');
+    if (data !== null && data.length > 0) {
+        renderData(data);
+    } else {
+        appendAlert($(formatClone), ALERT_NO_DATA_QUESTIONNAIRE);
+    }
+
+
+
+    function renderData(data) {
+        var listContainer = $(formatClone).find('#list-container');
+        for (var i = 0; i < data.length; i++) {
+            renderFormatItem(listContainer, data[i]);
+            updateBadges(listContainer, data[i].format);
+        }
+        checkCurrentListState(listContainer);
+    }
+
+    $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        $(formatClone).find('#btn-save-phase-step-title').click();
+        var itemList = $(formatClone).find('#list-container').children();
+        var questionnaire = new Array();
+        for (var i = 0; i < itemList.length; i++) {
+            questionnaire.push(getFormatData(itemList[i]));
+        }
+        setLocalItem(id + '.data', questionnaire);
+    });
+
+    initQuestionnairePreview($(formatClone).find('.btn-preview-questionnaire'), $(formatClone).find('#list-container'));
 }
 
 function initGUSSingleGesturesOverlay(id, formatClone) {
@@ -2563,7 +2602,7 @@ function initCatalogScenesOverlay(formatClone) {
             clone.attr('name', item.id);
             $(formatClone).find('#list-container').append(clone);
             updateBadges($(formatClone).find('#list-container'), item.type);
-            
+
             switch (item.type) {
                 case SCENE_PIDOCO:
 //                    if (item.data[0]) {
@@ -2661,7 +2700,7 @@ function initCatalogScenesOverlay(formatClone) {
 
             console.log(parameters);
 //            if (data.length > 0) {
-                assembledData.push({id: name, type: type, title: title, parameters: parameters}); //new Scene(name, type, title, options, data));
+            assembledData.push({id: name, type: type, title: title, parameters: parameters}); //new Scene(name, type, title, options, data));
 //            }
         }
         setLocalItem(ASSEMBLED_SCENES, assembledData);

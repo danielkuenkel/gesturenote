@@ -31,6 +31,17 @@ include '../includes/language.php';
     </div>
 
 
+    <!-- interview container -->
+    <div class="row root" id="interview">
+        <div class="col-md-4" id="column-left"></div>
+        <div class="col-md-8" id="column-right">
+            <h3 style="margin-top: 0"><?php echo $lang->formats->interview->text ?></h3>
+            <div class="question-container"></div>
+            <button class="next-step btn btn-success btn-block pull-right" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+        </div>
+    </div>
+
+
     <!-- single question format items -->
     <span class="label label-default" id="option-item" style="margin-right: 3px; display: inline-block"></span>
 
@@ -1015,7 +1026,7 @@ include '../includes/language.php';
 
 
     <div class="container" id="letterOfAcceptance-unmoderated">
-        <h3 class="headline" style="margin: 0" >Einverständniserklärung</h3>
+        <h3 class="headline" style="margin: 0">Einverständniserklärung</h3>
         <hr>
         <div class="letter-text"></div>
         <hr>
@@ -1040,11 +1051,19 @@ include '../includes/language.php';
     </div>
 
     <div class="container" id="questionnaire-unmoderated">
-        <h3 class="headline" style="margin: 0" >Fragebogen</h3>
+        <h3 class="headline" style="margin: 0">Fragebogen</h3>
         <hr>
         <div class="question-container"></div>
         <hr>
         <button class="next-step btn btn-success pull-right" id="btn-next-step"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+    </div>
+
+
+    <!-- interview container & item -->
+    <div class="root" id="interview" style="margin-top: 80px;"></div>
+
+    <div id="interview-moderated">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4" id="column-left" style="margin-bottom: 15px;"></div>
     </div>
 
 
@@ -1076,7 +1095,7 @@ include '../includes/language.php';
     <div id="gus-moderated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
         <div class="col-md-8" id="column-right" style="margin-bottom: 80px;">
-            <h3 class="headline" style="margin: 0" >Fragebogen zur Geste</h3>
+            <h3 class="headline" style="margin: 0">Fragebogen zur Geste</h3>
             <div class="row">
                 <div class="col-sm-6 right" style="margin-bottom: 10px;">
                     <div id="gesture"><span class="address"></span> <span class="text"></span></div>

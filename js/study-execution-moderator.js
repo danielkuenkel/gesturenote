@@ -35,6 +35,9 @@ var Moderator = {
                 case QUESTIONNAIRE:
                     item = Moderator.getQuestionnaire(source, container, currentPhaseData, true);
                     break;
+                case INTERVIEW:
+                    item = Moderator.getInterview(source, container, currentPhaseData);
+                    break;
                 case GUS_SINGLE_GESTURES:
                     item = Moderator.getGUS(source, container, currentPhaseData);
                     break;
@@ -164,7 +167,6 @@ var Moderator = {
                     if (data[i].dimension !== DIMENSION_ANY) {
                         $(item).find('#item-factors').removeClass('hidden');
                         $(item).find('#factor-primary').text(translation.dimensions[data[i].dimension]);
-//                        $(item).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(data[i].dimension)]);
                     }
 
                     var parameters = data[i].parameters;
@@ -213,13 +215,8 @@ var Moderator = {
             $(container).find('#btn-next-step').removeClass('disabled');
         }
 
-        $(container).find('#btn-next-step').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            if (!previewModeEnabled && peerConnection) {
-                peerConnection.sendMessage(MESSAGE_NEXT_STEP);
-            }
-            nextStep();
-        });
+        initNextStepButton(container);
+
         if (!previewModeEnabled && peerConnection) {
             $(peerConnection).unbind(MESSAGE_QUESTIONNAIRE_DONE).bind(MESSAGE_QUESTIONNAIRE_DONE, function (event, payload) {
                 console.log('questionnaire done');
@@ -234,6 +231,11 @@ var Moderator = {
             }
         }
 
+        return container;
+    },
+    getInterview: function getInterview(source, container, data) {
+        container = renderQuestionnaire(container, data, currentQuestionnaireAnswers);
+        initNextStepButton(container);
         return container;
     },
     getSUS: function getSUS(source, container, data) {
@@ -3075,7 +3077,7 @@ var Moderator = {
                 videos[i].play();
             }
         }
-    },
+    }
 //    initScreenSharing: function initScreenSharing(recordingNeeded) {
 //        if (!peerConnectionSharing) {
 //            var query = getQueryParams(document.location.search);
@@ -3167,11 +3169,6 @@ function checkRTCUploadStatus(container) {
     if (!uploadQueue.allFilesUploaded() && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
         console.log('sumbmit final data with upload queue, some files where not uploaded yet!');
         submitFinalData(container, false);
-//        $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED).bind(EVENT_ALL_FILES_UPLOADED, function () {
-//            console.log('Moderator: all videos uploaded -> submit final data');
-//            $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED);
-//            submitFinalData(container, true);
-//        });
     } else {
         console.log('sumbmit final data without upload queue, or all files where uploaded.');
         submitFinalData(container, true);
@@ -3277,4 +3274,14 @@ function getWOZTransitionFeedbackItem(source, feedback, transitionMode, time, di
     }
 
     return btn;
+}
+
+function initNextStepButton(container) {
+    $(container).find('#btn-next-step').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        if (!previewModeEnabled && peerConnection) {
+            peerConnection.sendMessage(MESSAGE_NEXT_STEP);
+        }
+        nextStep();
+    });
 }

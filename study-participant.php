@@ -272,6 +272,9 @@ if (login_check($mysqli) == true) {
                         case QUESTIONNAIRE:
                             renderQuestionnaireAnswers(content, phaseData, testerResults, true);
                             break;
+                        case INTERVIEW:
+                             renderQuestionnaireAnswers(content, phaseData, evaluatorResults, true);
+                            break;
                         case SUS:
                             renderSUS(content, phaseData, testerResults);
                             break;
@@ -870,14 +873,14 @@ if (login_check($mysqli) == true) {
                     } else {
                         var answerItem = $('#template-study-container').find('#exploration-answer-item-for-gesture').clone().removeClass('id');
                         $(container).find('#item-view').append(answerItem);
-                        
+
                         var questionnaire = [];
                         for (var i = 0; i < testerResults.answers.length; i++) {
                             var trigger = getTriggerById(testerResults.answers[i].triggerId);
 
                             var preferredGesture = testerResults.answers[i].preferredGestures[0];
                             var answer = preferredGesture;
-                            
+
                             var questionText = translation.askPreferredGesturesForTrigger;
                             questionText = questionText.replace('{trigger}', trigger.title);
 

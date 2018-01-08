@@ -111,6 +111,19 @@ include '../includes/language.php';
         </div>
     </div>
 
+
+
+    <div class="root" id="questionnaire">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <div class="question-container" style="margin-top: 20px;"></div>
+    </div>
+
+
+    <div class="root" id="interview">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <div class="question-container" style="margin-top: 20px;"></div>
+    </div>
+
     <div class="root" id="sus">
         <h3 id="headline" style="margin-top: 0"></h3>
         <hr>
@@ -166,15 +179,12 @@ include '../includes/language.php';
         <div class="question-container" style="margin-top: 30px;"></div>
     </div>
 
+
     <div class="root" id="questionnaireGestures">
         <h3 id="headline" style="margin-top: 0"></h3>
         <div class="question-container" style="margin-top: 20px;"></div>
     </div>
 
-    <div class="root" id="questionnaire">
-        <h3 id="headline" style="margin-top: 0"></h3>
-        <div class="question-container" style="margin-top: 20px;"></div>
-    </div>
 
     <div class="panel panel-default" id="counter" style="margin-bottom: 5px;">
         <div class="panel-body">
