@@ -109,8 +109,9 @@ var SCOPE_GESTURE_RATED = 'rated';
 var SCOPE_GESTURE_LIKED = 'liked';
 
 // general gesture types
-var TYPE_GESTURE_DISCRETE = 'discrete';
 var TYPE_GESTURE_POSE = 'pose';
+var TYPE_GESTURE_DYNAMIC = 'dynamic';
+var TYPE_GESTURE_DISCRETE = 'discrete';
 var TYPE_GESTURE_CONTINUOUS = 'continuous';
 
 // gesture body types

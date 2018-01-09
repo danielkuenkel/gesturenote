@@ -69,6 +69,46 @@ include '../includes/language.php';
         <div class="alert alert-warning" role="alert"><i class="glyphicon glyphicon-info-sign"></i> <?php echo $lang->alerts->noDataAvailable->text ?></div>
     </div>
 
+    <div id="elicitation-statistics">
+        <div id="headline"><?php echo $lang->whatGesturesWhereElicited ?></div>
+
+        <div class="text" style="margin-top: 10px;"><?php echo $lang->gestureType ?></div>
+        <div class="progress" style="margin-bottom: 0px">
+            <div class="progress-bar" id="progress-type-static" role="progressbar" style="width:50%">
+                Free Space
+            </div>
+            <div class="progress-bar progress-bar-info" id="progress-type-dynamic" role="progressbar" style="width:40%">
+                Warning
+            </div>
+        </div>
+        <div class="text" style="font-size: 10pt">
+            <span id="amount-static-gestures"></span>, <span id="amount-dynamic-gestures"></span>
+        </div>
+
+        <div class="text" style="margin-top: 10px;"><?php echo $lang->gestureInteractionType ?></div>
+        <div class="progress" style="margin-bottom: 0px">
+            <div class="progress-bar" id="progress-type-discrete" role="progressbar" style="width:50%">
+                Free Space
+            </div>
+            <div class="progress-bar progress-bar-info" id="progress-type-continuous" role="progressbar" style="width:40%">
+                Warning
+            </div>
+        </div>
+        <div class="text" style="font-size: 10pt">
+            <span id="amount-discrete-gestures"></span>, <span id="amount-continuous-gestures"></span>
+        </div>
+
+<!--        <div class="text"><?php echo $lang->missingDataForGesture ?></div>
+        <div class="progress" id="missing-data">
+            <div class="progress-bar" id="progress-complete" role="progressbar" style="width:50%">
+                Free Space
+            </div>
+            <div class="progress-bar progress-bar-warning" id="progress-incomplete" role="progressbar" style="width:40%">
+                Warning
+            </div>
+        </div>-->
+    </div>
+
     <div class="root" id="notes" style="margin-top: 30px;">
         <h3 id="headline"><?php echo $lang->notes ?></h3>
         <hr>
@@ -908,7 +948,7 @@ include '../includes/language.php';
         </div>
         <div id="parameters-cognitive-relationships" style="margin-top: 20px">
             <div>
-                <h4 style="margin: 0; float: left; "><i class="fa fa-flash" aria-hidden="true"></i> <?php echo $lang->cognitiveRelations ?></h4>
+                <h4 style="margin: 0; float: left; "><i class="fa fa-puzzle-piece" aria-hidden="true"></i> <?php echo $lang->cognitiveRelations ?></h4>
                 <button type="button" class="btn btn-xs btn-default btn-shadow" id="btn-open-cognitive-relationships"style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> <?php echo $lang->check ?></button>
             </div>
             <div style="margin-top: 8px; clear: both">

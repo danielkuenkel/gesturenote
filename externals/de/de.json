@@ -278,6 +278,9 @@
         "compareQuestion": "Enspricht die Geste auf der linken Seite der auf der rechten Seite?",
         "checklistInfo": "Um eine zusätzliche Bewertung der klassifizierten Gesten durchzuführen, kann hier eine Checkliste zusammengestellt werden. Diese muss dann für jede potenzielle Geste beantwortet werden."
     },
+    "whatGesturesWhereElicited": "Welche Arten von Gesten liegen insgesamt vor?",
+    "whatGesturesWhereElicitedForTrigger": "Welche Arten von Gesten liegen für diese Funktion vor?",
+    "missingDataForGesture": "Vollständigkeit der Gesten-Daten",
     "muteMicrofone": "Mikrofon stummschalten",
     "pauseOwnWebRTC": "Übertragung pausieren",
     "pauseOtherWebRTC": "Gesprächspartner stummschalten",
@@ -1111,11 +1114,15 @@
     "bodyType": "Körperteile",
     "gestureTypes": {
         "pose": "Pose",
-        "dynamic": "Dynamische Geste"
+        "poses": "Posen",
+        "dynamic": "Dynamische Geste",
+        "dynamics": "Dynamische Gesten"
     },
     "gestureInteractionTypes": {
         "discrete": "Diskrete Gesten-Interaktion",
-        "continuous": "Kontinuierliche Gesten-Interaktion"
+        "discretes": "Diskrete Gesten-Interaktionen",
+        "continuous": "Kontinuierliche Gesten-Interaktion",
+        "continuouss": "Kontinuierliche Gesten-Interaktionen"
     },
     "bodyTypes": {
         "full": "Ganzkörper",
@@ -1297,7 +1304,7 @@
     "tagAsMainGesture": "Als Stellvertreter markieren",
     "addToStudyGestureSet": "Zum Studien-Gesten-Set hinzufügen",
     "removeFromStudyGestureSet": "Vom Studien-Gesten-Set entfernen",
-    "deleteGestureSet":"Gesten-Set löschen",
+    "deleteGestureSet": "Gesten-Set löschen",
     "addAllGesturesToStudyGestureSet": "Alle Gesten zum Studien-Gesten-Set hinzufügen",
     "removeAllGesturesFromStudyGestureSet": "Alle Gesten vom Studien-Gesten-Set entfernen",
     "downloadAsJSON": "JSON-Datei herunterladen",
