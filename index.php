@@ -316,11 +316,11 @@ if (login_check($mysqli) == true) {
                 });
 
                 $('#login-form').on('loginSuccess', function (event, result) {
-                    if (result.userType === 'evaluator') {
+//                    if (result.userType === 'evaluator') {
                         goto('dashboard-evaluator.php');
-                    } else if (result.userType === 'tester') {
-                        goto('dashboard-tester.php');
-                    }
+//                    } else if (result.userType === 'tester') {
+//                        goto('dashboard-tester.php');
+//                    }
                 });
 
                 $('#register-form').on('registerSuccess', function (event, result) {

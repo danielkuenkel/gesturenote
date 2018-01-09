@@ -3135,7 +3135,7 @@
         "registerSuccess": {
             "id": "register-success",
             "type": "success",
-            "text": "Die Registrierung war erfolgreich!"
+            "text": "Die Registrierung war erfolgreich! Sie können sich nun einloggen."
         },
         "wrongCurrentPassword": {
             "id": "wrong-current-password",

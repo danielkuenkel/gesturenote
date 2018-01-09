@@ -322,7 +322,7 @@ if (login_check($mysqli) == true) {
                 }
 
                 if (p !== null && pO !== null) {
-                    updateUser({forename: forename, surname: surname, p: p, pO: pO, birthday: null}, function (result) {
+                    updateUser({forename: forename, surname: surname, p: p, pO: pO}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             $('#user-forename .text').text(forename);
                             $('#user-surname .text').text(surname);
@@ -340,7 +340,7 @@ if (login_check($mysqli) == true) {
                         }
                     });
                 } else {
-                    updateUser({forename: forename, surname: surname, birthday: null}, function (result) {
+                    updateUser({forename: forename, surname: surname}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             $('#user-forename .text').text(forename);
                             $('#user-surname .text').text(surname);

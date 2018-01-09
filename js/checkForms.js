@@ -50,22 +50,18 @@ function registerFormhash(form) {
     var email = $(form).find('#email');
     var password = $(form).find('#password');
     var passwordconfirm = $(form).find('#confirmPassword');
-    var userType = $(form).find('#userType .btn-option-checked').attr('id');
-    var gender = $(form).find('#gender .btn-option-checked').attr('id');
-    var date = $(form).find('#date');
-    var month = $(form).find('#month');
-    var year = $(form).find('#year');
+//    var userType = $(form).find('#userType .btn-option-checked').attr('id');
+//    var gender = $(form).find('#gender .btn-option-checked').attr('id');
+//    var date = $(form).find('#date');
+//    var month = $(form).find('#month');
+//    var year = $(form).find('#year');
 
     if ($(forename).val().trim() === '' ||
             $(surname).val().trim() === '' ||
             $(email).val().trim() === '' ||
             $(password).val().trim() === '' ||
-            $(passwordconfirm).val().trim() === '' ||
-            userType === undefined || userType === 'tester' && (
-                    (gender === undefined) ||
-                    $(date).val().trim() === '' ||
-                    $(month).val().trim() === '' ||
-                    $(year).val().trim() === '')) {
+            $(passwordconfirm).val().trim() === '')
+    {
         appendAlert(form, ALERT_MISSING_FIELDS);
         return false;
     }
@@ -103,40 +99,40 @@ function registerFormhash(form) {
         return false;
     }
 
-    if (userType === 'tester') {
-        var dateString = $(date).val().trim();
-        var monthString = $(month).val().trim();
-        var yearString = $(year).val().trim();
-        var now = new Date();
-
-        // check birthday input fields
-        if ((dateString.length < 1 || dateString.length > 2) ||
-                isNaN(dateString) ||
-                (parseInt(dateString) < 1 || parseInt(dateString) > 31))
-        {
-            $(date).focus();
-            appendAlert(form, ALERT_INVALID_BIRTHDAY);
-            return false;
-        }
-
-        if ((monthString.length < 1 || monthString.length > 2) ||
-                isNaN(monthString) ||
-                (parseInt(monthString) < 1 || parseInt(monthString) > 12))
-        {
-            $(month).focus();
-            appendAlert(form, ALERT_INVALID_BIRTHDAY);
-            return false;
-        }
-
-        if (yearString.length !== 4 || isNaN(yearString) ||
-                isNaN(yearString) ||
-                (parseInt(yearString) < 1920 || parseInt(yearString) > now.getFullYear()))
-        {
-            $(year).focus();
-            appendAlert(form, ALERT_INVALID_BIRTHDAY);
-            return false;
-        }
-    }
+//    if (userType === 'tester') {
+//        var dateString = $(date).val().trim();
+//        var monthString = $(month).val().trim();
+//        var yearString = $(year).val().trim();
+//        var now = new Date();
+//
+//        // check birthday input fields
+//        if ((dateString.length < 1 || dateString.length > 2) ||
+//                isNaN(dateString) ||
+//                (parseInt(dateString) < 1 || parseInt(dateString) > 31))
+//        {
+//            $(date).focus();
+//            appendAlert(form, ALERT_INVALID_BIRTHDAY);
+//            return false;
+//        }
+//
+//        if ((monthString.length < 1 || monthString.length > 2) ||
+//                isNaN(monthString) ||
+//                (parseInt(monthString) < 1 || parseInt(monthString) > 12))
+//        {
+//            $(month).focus();
+//            appendAlert(form, ALERT_INVALID_BIRTHDAY);
+//            return false;
+//        }
+//
+//        if (yearString.length !== 4 || isNaN(yearString) ||
+//                isNaN(yearString) ||
+//                (parseInt(yearString) < 1920 || parseInt(yearString) > now.getFullYear()))
+//        {
+//            $(year).focus();
+//            appendAlert(form, ALERT_INVALID_BIRTHDAY);
+//            return false;
+//        }
+//    }
 
     // Add the new element to our form. 
     if ($(form).find('#p').length > 0) {

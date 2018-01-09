@@ -43,7 +43,7 @@ include './includes/language.php';
                 <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="">
             </div>
 
-            <div class="form-group root" id="userType">
+<!--            <div class="form-group root" id="userType">
                 <label><?php echo $lang->userType ?></label><br>
 
                 <div class="btn-group" id="radio">
@@ -111,7 +111,7 @@ include './includes/language.php';
                         <input class="form-control" id="year" type="text" placeholder="z.B. 1980" minlength="4" maxlength="4"/>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
 
     </div>
@@ -154,14 +154,14 @@ include './includes/language.php';
         var surname = $('#register-form #surname').val().trim();
         var email = $('#register-form #email').val().trim();
         var p = $('#register-form #p').val().trim();
-        var date = parseInt($('#register-form #date').val().trim());
-        var month = parseInt($('#register-form #month').val().trim());
-        var year = parseInt($('#register-form #year').val().trim());
-        var birthday = year + "-" + month + "-" + date;
-        var gender = $('#register-form #gender').find('.btn-option-checked').attr('id');
-        var userType = $('#register-form #userType').find('.btn-option-checked').attr('id');
+//        var date = parseInt($('#register-form #date').val().trim());
+//        var month = parseInt($('#register-form #month').val().trim());
+//        var year = parseInt($('#register-form #year').val().trim());
+//        var birthday = year + "-" + month + "-" + date;
+//        var gender = $('#register-form #gender').find('.btn-option-checked').attr('id');
+//        var userType = $('#register-form #userType').find('.btn-option-checked').attr('id');
 
-        register({forename: forename, surname: surname, email: email, p: p, birthday: birthday, gender: gender, userType: userType}, function (result) {
+        register({forename: forename, surname: surname, email: email, p: p}, function (result) {
             clearAlerts(formElement);
             unlockButton($('#btn-register'), true, 'fa-user-plus');
 
