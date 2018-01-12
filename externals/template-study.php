@@ -900,34 +900,17 @@ include '../includes/language.php';
 
 
     <div id="guessability-table">
-        <table class="table table-sm">
+        <div><?php echo $lang->potentialGesturesOverviewTable ?></div>
+        <table class="table table-bordered table-sm text">
             <thead>
                 <tr>
                     <th scope="col"><?php echo $lang->trigger ?></th>
                     <th scope="col"><?php echo $lang->gesture ?></th>
-                    <th scope="col">Vermutung</th>
-                    <th scope="col">Zustimmung</th>
+                    <th scope="col"><?php echo $lang->estimability ?></th>
+                    <th scope="col"><?php echo $lang->approval ?></th>
                 </tr>
             </thead>
-            <tbody class="table-body">
-<!--                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                </tr>-->
-            </tbody>
+            <tbody class="table-body"></tbody>
         </table>
     </div>
 

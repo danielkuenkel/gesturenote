@@ -743,7 +743,9 @@ function renderClassifiedGestures(target, type) {
         if (classification.assignments && classification.assignments.length > 0) {
 
             if (classification.type === TYPE_CLASSIFICATION_APPEARANCE_TRIGGER) {
-                renderGestureGuessabilityTable(target, classification.assignments);
+                if (type === POTENTIAL_GESTURES) {
+                    renderGestureGuessabilityTable(target, classification.assignments);
+                }
 
                 var trigger = getLocalItem(ASSEMBLED_TRIGGER);
                 for (var i = 0; i < trigger.length; i++) {
@@ -1146,21 +1148,21 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
         }
 
         // agreement measures
-        if (amountRange.max > 1) {
-            var agreementMeasures = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_TRIGGER);
-//            console.log('agreementMeasures', agreementMeasures);
-            if (agreementMeasures) {
-                $(target).find('#agreement .text').text(agreementMeasures + '%');
-            } else {
-                $(target).find('#agreement .text').text('Konnte nicht berechnet werden, da diese Geste nur einmal vorkommt.');
-            }
-        }
+        var agreementMeasures = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_TRIGGER);
+        $(target).find('#agreement .text').text(agreementMeasures + '%');
+//        if (amountRange.max > 1) {
+//            var agreementMeasures = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_TRIGGER);
+//            if (agreementMeasures) {
+//                $(target).find('#agreement .text').text(agreementMeasures + '%');
+//            } else {
+//                $(target).find('#agreement .text').text('Konnte nicht berechnet werden, da diese Geste nur einmal vorkommt.');
+//            }
+//        }
 
         // guessability / accordance
         var accordance = getAccordance(triggerId).toFixed(2);
         $(target).find('#parameters-guessability').removeClass('hidden');
         $(target).find('#accordance .text').text(accordance);
-//        console.log('accordance: ', accordance);
 
 
     } else if (classification.type === TYPE_CLASSIFICATION_APPEARANCE) {
@@ -1274,7 +1276,6 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
 }
 
 function renderGestureGuessabilityTable(target, assignments) {
-    console.log(target, assignments);
     var table = $('#template-study-container').find('#guessability-table').clone();
     $(target).append(table);
 
@@ -1284,39 +1285,56 @@ function renderGestureGuessabilityTable(target, assignments) {
             var assignment = assignments[j];
             if (parseInt(assignment.triggerId) === parseInt(trigger[i].id)) {
 
-                for (var k = 0; k < assignment.gestures.length; k++) {
-                    var row = document.createElement('tr');
-                    $(table).find('.table-body').append(row);
+                var gesture = getGestureById(assignment.mainGestureId);
 
-                    var mainRow = $(table).find('[data-trigger-id=' + trigger[i].id + ']');
-//                    console.log(mainRow);
-                    var mainRowExists = $(mainRow).length > 0;
-                    if (mainRowExists) {
-                        var currentRowSpan = parseInt($($(mainRow).find('td')[0]).attr('rowspan'));
-                        console.log('currentRowSpan', currentRowSpan);
-                        $($(mainRow).find('td')[0]).attr('rowspan', currentRowSpan + 1);
-                    } else {
-                        $(row).attr('data-trigger-id', trigger[i].id);
-                    }
+                var row = document.createElement('tr');
+                $(table).find('.table-body').append(row);
 
-                    var gesture = getGestureById(assignment.gestures[k]);
-                    console.log(gesture, trigger[i].id);
-
-                    if (!mainRowExists) {
-                        var col = document.createElement('td');
-                        $(col).attr('rowspan', 1);
-                        $(col).text(trigger[i].title);
-                        $(row).append(col);
-                    }
+                var mainRow = $(table).find('[data-trigger-id=' + trigger[i].id + ']');
+                var mainRowExists = $(mainRow).length > 0;
+                if (mainRowExists) {
+                    var currentRowSpan = parseInt($($(mainRow).find('td')[0]).attr('rowspan'));
+                    $($(mainRow).find('td')[0]).attr('rowspan', currentRowSpan + 1);
+                } else {
+                    $(row).attr('data-trigger-id', trigger[i].id);
 
                     var col = document.createElement('td');
-                    $(col).text(gesture.title);
+                    $(col).attr('rowspan', 1);
+                    $(col).text(trigger[i].title);
                     $(row).append(col);
+                }
+
+                var col = document.createElement('td');
+                $(col).text(assignment.gestures.length + 'x ' + gesture.title);
+                $(col).addClass('hover-cell');
+                $(col).attr('scroll-to-gesture', gesture.id);
+                $(row).append(col);
+                $(col).unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    var linkId = parseInt($(this).attr('scroll-to-gesture'));
+                    var scrollToGesture = $('#content-btn-potential-gestures').find('#item-view #' + linkId);
+                    $('html, body').animate({
+                        scrollTop: ($(scrollToGesture).offset().top - 100) + 'px'
+                    }, 'fast');
+                });
+
+                // agreement score
+                var agreementScore = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_TRIGGER);
+
+                var col = document.createElement('td');
+                $(col).text(agreementScore + '%');
+                $(row).append(col);
+
+                if (mainRowExists) {
+                    var currentRowSpan = parseInt($($(mainRow).find('td')[0]).attr('rowspan'));
+                    $($(mainRow).find('td').last()).attr('rowspan', currentRowSpan);
+                } else {
+                    // guessability / accordance
+                    var accordance = getAccordance(trigger[i].id).toFixed(2);
 
                     var col = document.createElement('td');
-                    $(row).append(col);
-
-                    var col = document.createElement('td');
+                    $(col).attr('rowspan', 1);
+                    $(col).text(accordance);
                     $(row).append(col);
                 }
             }
@@ -1399,7 +1417,7 @@ function getAgreementMeasures(assignment, type) {
                 allSameGestures += sameAssignments[i].gestures.length;
             }
         } else {
-            return null;
+            agreementMeasures = 100;
         }
 
         agreementMeasures = Math.floor(assignment.gestures.length / allSameGestures * 100);

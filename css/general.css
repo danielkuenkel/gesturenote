@@ -930,3 +930,11 @@ li.disabledTab > a[data-toggle="tab"] {
 .language-selection li a.selected {
     background-color: #e7e7e7 !important;
 }
+
+.hover-cell {
+    cursor: pointer;
+}
+
+.hover-cell:hover {
+    background-color: #f5f5f5 !important;
+}
