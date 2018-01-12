@@ -899,6 +899,39 @@ include '../includes/language.php';
     </div>
 
 
+    <div id="guessability-table">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col"><?php echo $lang->trigger ?></th>
+                    <th scope="col"><?php echo $lang->gesture ?></th>
+                    <th scope="col">Vermutung</th>
+                    <th scope="col">Zustimmung</th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+<!--                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td colspan="2">Larry the Bird</td>
+                    <td>@twitter</td>
+                </tr>-->
+            </tbody>
+        </table>
+    </div>
+
+
 
     <div id="amount-container-appearance-trigger" style="margin-bottom: 30px">
         <p id="headline" style="margin: 0"><span class="text" style="margin-right: 5px"></span> <span class="badge"></span></p> 
