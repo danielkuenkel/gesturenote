@@ -1050,6 +1050,142 @@ include '../includes/language.php';
         </div>
 
     </div>
+    
+    
+    
+    
+    
+    
+    
+    <div id="amount-container-appearance-gesture" style="margin-bottom: 30px">
+        <p id="headline" style="margin: 0"><span class="text" style="margin-right: 5px"></span> <span class="badge"></span></p> 
+        <hr>
+        <div id="item-view"></div>
+    </div>
+
+    <div id="appearance-gesture-trigger" class="root" style="margin-bottom: 40px">
+        <div id="headline-gesture-trigger"></div>
+
+        <div class="row" style="margin-top: 10px">
+            <div id="trigger-list-container"></div>
+        </div>
+    </div>
+
+    <div id="appearance-gesture-trigger-potential" class="root" style="margin-bottom: 60px">
+        <div id="headline-trigger-gesture"></div>
+
+        <div class="row" id="potential-parameters-container" style="margin-top: 10px">
+            <div class="col-xs-12 col-sm-6" id="potential-parameters"></div>
+        </div>
+
+<!--        <div id="more-classified-trigger" class="hidden" style="margin-top: 20px">
+            <p><?php echo $lang->otherAssociatedGestures ?></p>
+            <div class="row" style="margin-top: 10px">
+                <div id="gestures-list-container"></div>
+            </div>
+        </div>-->
+    </div>
+
+    <div id="potential-trigger-parameters-appearance-gesture">
+        <div id="parameters-amount">
+            <div><h4 style="margin: 0"><i class="fa fa-pie-chart" aria-hidden="true"></i> <?php echo $lang->number ?></h4></div>
+            <span class="text" id="justification"></span>
+            <br/>
+            <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->suitable ?></span></span>
+            <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->neitherNor ?></span></span>
+            <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
+        </div>
+        <div id="parameters-agreement-measures" style="margin-top: 20px">
+            <div><h4 style="margin: 0"><i class="fa fa-percent" aria-hidden="true"></i> <?php echo $lang->measureOfGuess ?></h4></div>
+            <div id="agreement"><span id="label"><?php echo $lang->estimability ?>:</span> <span class="text"></span></div>
+        </div>
+        <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
+            <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> <?php echo $lang->measureOfApproval ?></h4></div>
+            <div id="accordance"><span id="label"><?php echo $lang->approval ?>:</span> <span class="text"></span></div>
+        </div>
+        <div id="parameters-cognitive-relationships" style="margin-top: 20px">
+            <div>
+                <h4 style="margin: 0; float: left; "><i class="fa fa-puzzle-piece" aria-hidden="true"></i> <?php echo $lang->cognitiveRelations ?></h4>
+                <button type="button" class="btn btn-xs btn-default btn-shadow" id="btn-open-cognitive-relationships"style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> <?php echo $lang->check ?></button>
+            </div>
+            <div style="margin-top: 8px; clear: both">
+                <div>
+                    <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->suitable ?></span></span>
+                    <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->dontKnow ?></span></span>
+                    <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
+                    <span class="hidden warning" id="not-checked"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notChecked ?></span></span>
+                </div>
+            </div>
+        </div>
+        <div id="parameters-checklist" class="hidden" style="margin-top: 20px">
+            <div>
+                <h4 style="margin: 0; float: left"><i class="fa fa-check-circle-o" aria-hidden="true"></i> <?php echo $lang->checklist ?></h4>
+                <button type="button" class="btn btn-xs btn-default btn-shadow" id="btn-open-checklist" style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> <?php echo $lang->check ?></button>
+            </div>
+
+            <div style="margin-top: 8px; clear: both">
+                <div>
+                    <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->suitable ?></span></span>
+                    <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->dontKnow ?></span></span>
+                    <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
+                    <span class="hidden warning" id="not-checked"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notChecked ?></span></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="potential-trigger-parameters-appearance-gesture-amount-item" style="margin-top: ">
+        <span id="gesture-title-label"><?php echo $lang->trigger ?></span>: <span class="text" id="gesture-title"></span><br/>
+        <span class="text" id="justification"></span>
+        <br/>
+        <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->suitable ?></span></span>
+        <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->neitherNor ?></span></span>
+        <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
+    </div>
+
+    <div id="potential-trigger-parameters-appearance">
+        <div id="parameters-amount">
+            <div><h4 style="margin: 0"><i class="fa fa-pie-chart" aria-hidden="true"></i> Anzahl</h4></div>
+            <div id="trigger-container"></div>
+
+        </div>
+        <div id="parameters-cognitive-relationships" style="margin-top: 20px">
+            <div>
+                <h4 style="margin: 0; float: left; "><i class="fa fa-flash" aria-hidden="true"></i> <?php echo $lang->cognitiveRelations ?></h4>
+                <button type="button" class="btn btn-xs btn-default btn-shadow" id="btn-open-cognitive-relationships"style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> <?php echo $lang->check ?></button>
+            </div>
+            <div style="margin-top: 8px; clear: both">
+                <div>
+                    <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->suitable ?></span></span>
+                    <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->dontKnow ?></span></span>
+                    <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
+                    <span class="hidden warning" id="not-checked"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notChecked ?></span></span>
+                </div>
+            </div>
+        </div>
+        <div id="parameters-checklist" class="hidden" style="margin-top: 20px">
+            <div>
+                <h4 style="margin: 0; float: left"><i class="fa fa-check-circle-o" aria-hidden="true"></i> <?php echo $lang->checklist ?></h4>
+                <button type="button" class="btn btn-xs btn-default btn-shadow" id="btn-open-checklist" style="float: left; margin-left: 10px"><i class="fa fa-check-square-o"></i> <?php echo $lang->check ?></button>
+            </div>
+
+            <div style="margin-top: 8px; clear: both">
+                <div>
+                    <span class="hidden success" id="well"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->suitable ?></span></span>
+                    <span class="hidden warning" id="even"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->dontKnow ?></span></span>
+                    <span class="hidden danger" id="less-well"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->notSuitable ?></span></span>
+                    <span class="hidden warning" id="not-checked"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <span><?php echo $lang->notChecked ?></span></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    
+    
+    
+    
 
     <div class="panel panel-default" id="panel-gesture-set">
         <div class="panel-heading">

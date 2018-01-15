@@ -2053,40 +2053,42 @@ var Moderator = {
         }
 
         function renderSceneTriggerItems(item, container, data) {
-            for (var i = 0; i < data.identification[currentIdentificationIndex].transitionScenes.length; i++) {
-                var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[i].sceneId);
-                var transitionItem = $(source).find('#transition-scene-item').clone().attr('id', scene.id);
-                var itemData = $(source).find('#interactive-scenes-catalog-thumbnail').clone().removeAttr('id');
-                $(itemData).find('#info-' + scene.type).removeClass('hidden');
-                $(itemData).find('.btn-text').text(scene.title);
-                $(itemData).find('.scene-description').text(data.identification[currentIdentificationIndex].transitionScenes[i].description);
-                $(transitionItem).find('.scene-data').append(itemData);
-                $(item).find('#transition-scenes').append(transitionItem);
-                $(item).find('#transition-scenes').append(document.createElement('br'));
-                if ((currentIdentificationScene > 0 && i === currentIdentificationScene) || (currentIdentificationScene === 0 && i === 0)) {
-                    $(transitionItem).find('.btn-trigger-scene').addClass('btn-primary');
-                    $(transitionItem).find('.scene-description').removeClass('hidden');
+            if (data.identification[currentIdentificationIndex] && data.identification[currentIdentificationIndex].transitionScenes) {
+                for (var i = 0; i < data.identification[currentIdentificationIndex].transitionScenes.length; i++) {
+                    var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[i].sceneId);
+                    var transitionItem = $(source).find('#transition-scene-item').clone().attr('id', scene.id);
+                    var itemData = $(source).find('#interactive-scenes-catalog-thumbnail').clone().removeAttr('id');
+                    $(itemData).find('#info-' + scene.type).removeClass('hidden');
+                    $(itemData).find('.btn-text').text(scene.title);
+                    $(itemData).find('.scene-description').text(data.identification[currentIdentificationIndex].transitionScenes[i].description);
+                    $(transitionItem).find('.scene-data').append(itemData);
+                    $(item).find('#transition-scenes').append(transitionItem);
+                    $(item).find('#transition-scenes').append(document.createElement('br'));
+                    if ((currentIdentificationScene > 0 && i === currentIdentificationScene) || (currentIdentificationScene === 0 && i === 0)) {
+                        $(transitionItem).find('.btn-trigger-scene').addClass('btn-primary');
+                        $(transitionItem).find('.scene-description').removeClass('hidden');
+                    }
+
+                    $(itemData).find('.btn-trigger-scene').unbind('click').bind('click', {scene: scene, index: i}, function (event) {
+                        if (!$(this).hasClass('btn-primary') && !$(this).hasClass('disabled')) {
+                            $(this).closest('.root').find('.btn-trigger-scene').removeClass('btn-primary');
+                            $(this).closest('.root').find('.scene-description').addClass('hidden');
+                            $(this).addClass('btn-primary');
+                            $(this).parent().parent().find('.scene-description').removeClass('hidden');
+                            currentIdentificationScene = event.data.index;
+                            openPrototypeScene(event.data.scene, data.identification.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+                        }
+
+                        if ($(this).hasClass('disabled')) {
+                            $(document).scrollTop(0);
+                            wobble(container.find('#general'));
+                        }
+                    });
                 }
 
-                $(itemData).find('.btn-trigger-scene').unbind('click').bind('click', {scene: scene, index: i}, function (event) {
-                    if (!$(this).hasClass('btn-primary') && !$(this).hasClass('disabled')) {
-                        $(this).closest('.root').find('.btn-trigger-scene').removeClass('btn-primary');
-                        $(this).closest('.root').find('.scene-description').addClass('hidden');
-                        $(this).addClass('btn-primary');
-                        $(this).parent().parent().find('.scene-description').removeClass('hidden');
-                        currentIdentificationScene = event.data.index;
-                        openPrototypeScene(event.data.scene, data.identification.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
-                    }
-
-                    if ($(this).hasClass('disabled')) {
-                        $(document).scrollTop(0);
-                        wobble(container.find('#general'));
-                    }
-                });
-            }
-
-            if (currentIdentificationIndex > 0) {
-                $(container).find('.btn-trigger-scene').removeClass('disabled');
+                if (currentIdentificationIndex > 0) {
+                    $(container).find('.btn-trigger-scene').removeClass('disabled');
+                }
             }
         }
 
@@ -2234,6 +2236,7 @@ var Moderator = {
         }
 
         function renderIdentificationForTriggerItem(item, container, data) {
+            console.log(data);
             renderSceneTriggerItems(item, container, data);
 
             var searchedData = getGestureById(data.identification[currentIdentificationIndex].gestureId);
@@ -2252,8 +2255,9 @@ var Moderator = {
                     $(container).find('#identified-trigger').removeClass('hidden');
                     appendAlert($(container).find('#identified-trigger'), ALERT_WAITING_FOR_TESTER);
                     identificationTriggerRequest = true;
+                    console.log('request trigger', currentIdentificationIndex);
                     if (peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_REQUEST_TRIGGER);
+                        peerConnection.sendMessage(MESSAGE_REQUEST_TRIGGER, {currentIdentificationIndex: currentIdentificationIndex});
                     }
                 } else if (!identificationStartTriggered) {
                     wobble([$(container).find('#general')]);

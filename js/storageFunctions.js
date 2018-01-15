@@ -148,8 +148,12 @@ function checkAssembledGestures(gestures, gestureCatalog) {
 
 
 
-function getTriggerById(id) {
+function getTriggerById(id, source) {
     var triggers = getLocalItem(ASSEMBLED_TRIGGER);
+    if(source) {
+        triggers = getLocalItem(source);
+    }
+    
     if (triggers) {
         for (var i = 0; i < triggers.length; i++) {
             if (parseInt(triggers[i].id) === parseInt(id)) {

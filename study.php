@@ -175,10 +175,10 @@ if (login_check($mysqli) == true) {
             <div role="tabpanel" class="tab-pane" id="gesture-extraction">
                 <div class="alert-space alert-no-phase-data"></div>
 
-                <div id="extraction-content" class="row">
+                <div id="gesture-extraction-content" class="row hidden">
 
                     <div class="col-sm-4 col-md-3" style="margin-bottom: 20px">
-                        <div data-spy="affix" data-offset-top="0" id="extraction-navigation">
+                        <div data-spy="affix" data-offset-top="0" id="gesture-extraction-navigation">
                             <h5 class="text"><?php echo $lang->extractionContent->preparation ?></h5>
                             <div class="btn-group-vertical btn-block" id="btns-general">
                                 <button class="btn btn-default btn-shadow" type="button" id="btn-all-gestures"><span class="btn-text"><?php echo $lang->extractionContent->allElicitedGestures ?></span></button>
@@ -199,13 +199,13 @@ if (login_check($mysqli) == true) {
 
                         <div id="content-btn-gesture-classification" class="hidden">
                             <h4 style="margin-top: 0px"><span class="text"><?php echo $lang->extractionContent->classifyGestures ?></span> 
-                                <button type="button" class="btn btn-xs btn-default btn-shadow disabled" id="btn-reclassify-gestures" style="margin-left:5px"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->extractionContent->reclassifyGestures ?></span></button>
+                                <button type="button" class="btn btn-xs btn-default btn-shadow disabled" id="btn-reclassify-gestures" style="margin-left:5px"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->extractionContent->reclassify ?></span></button>
                             </h4>
                             <div class="alert-space alert-no-more-gestures-for-classification" style="margin-top:20px"></div>
 
                             <div id="gesture-classification-parameters" class="hidden text-center" style="margin-top:20px">
                                 <div class="form-group root text" id="classification-type">
-                                    <label><?php echo $lang->extractionContent->classifyQuestion ?></label><br>
+                                    <label><?php echo $lang->extractionContent->classifyGestureQuestion ?></label><br>
 
                                     <div class="btn-group" id="radio">
                                         <button class="btn btn-default btn-radio" id="appearance" name="primary">
@@ -240,7 +240,7 @@ if (login_check($mysqli) == true) {
                                 <div class="col-xs-4 col-sm-4"><div class="row"><div id="gesture-left"></div></div></div>
                                 <div class="col-xs-4 col-sm-4 text-center" id="match-controls">
 
-                                    <p class="text"><?php echo $lang->extractionContent->compareQuestion ?></p>
+                                    <p class="text"><?php echo $lang->extractionContent->compareGestureQuestion ?></p>
                                     <div class="btn-group btn-group-justified" role="group">
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-danger btn-shadow" id="btn-gesture-no"><i class="fa fa-thumbs-down"></i> <span class="btn-text"><?php echo $lang->no ?></span></button>
@@ -259,7 +259,7 @@ if (login_check($mysqli) == true) {
                         </div>
 
                         <div id="content-btn-checklist" class="hidden">
-                            <span class="text" id="checklist-info"><?php echo $lang->extractionContent->checklistInfo ?></span>
+                            <span class="text" id="checklist-info"><?php echo $lang->extractionContent->checklistGestureInfo ?></span>
 
                             <div id="use-checklist-switch" style="margin-top: 10px">
                                 <label class="text"><?php echo $lang->useChecklist ?></label> 
@@ -312,6 +312,127 @@ if (login_check($mysqli) == true) {
 
                 </div>
 
+                <div id="trigger-extraction-content" class="row hidden">
+
+                    <div class="col-sm-4 col-md-3" style="margin-bottom: 20px">
+                        <div data-spy="affix" data-offset-top="0" id="trigger-extraction-navigation">
+                            <h5 class="text"><?php echo $lang->extractionContent->preparation ?></h5>
+                            <div class="btn-group-vertical btn-block" id="btns-general">
+                                <button class="btn btn-default btn-shadow" type="button" id="btn-all-trigger"><span class="btn-text"><?php echo $lang->extractionContent->allElicitedTrigger ?></span></button>
+                                <button class="btn btn-default btn-shadow" type="button" id="btn-trigger-classification"><span class="btn-text"><?php echo $lang->extractionContent->triggerClassification ?></span></button>
+                                <button class="btn btn-default btn-shadow" type="button" id="btn-checklist"><span class="btn-text"><?php echo $lang->extractionContent->checklist ?></span></button>
+                            </div>
+
+                            <h5 class="text" style="margin-top: 20px"><?php echo $lang->phaseType->extraction ?></h5>
+                            <div class="btn-group-vertical btn-block" id="btns-arrange-trigger-sets">
+                                <button class="btn btn-default btn-shadow disabled" type="button" id="btn-potential-trigger"><span class="btn-text"><?php echo $lang->extractionContent->potentialTrigger ?></span></button>
+                                <!--<button class="btn btn-default btn-shadow disabled" type="button" id="btn-gesture-sets"><span class="btn-text"><?php echo $lang->gestureSets ?></span></button>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-8 col-md-9" id="extraction-navigation-content" style="margin-top: 5px">
+                        <div id="content-btn-all-trigger" class="hidden"></div>
+
+                        <div id="content-btn-trigger-classification" class="hidden">
+                            <h4 style="margin-top: 0px"><span class="text"><?php echo $lang->extractionContent->classifyTrigger ?></span> 
+                                <button type="button" class="btn btn-xs btn-default btn-shadow disabled" id="btn-reclassify-trigger" style="margin-left:5px"><i class="fa fa-refresh" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->extractionContent->reclassify ?></span></button>
+                            </h4>
+                            <div class="alert-space alert-no-more-trigger-for-classification" style="margin-top:20px"></div>
+
+                            <div id="trigger-classification-parameters" class="hidden text-center" style="margin-top:20px">
+                                <div class="form-group root text" id="trigger-classification-type">
+                                    <label><?php echo $lang->extractionContent->classifyTriggerQuestion ?></label><br>
+
+                                    <div class="btn-group" id="radio">
+                                        <button class="btn btn-default btn-radio" id="appearance" name="primary">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->classificationTypes->trigger ?></span>
+                                        </button>
+                                    </div>
+
+                                    <br/>
+                                    <div class="btn-group" id="radio">
+                                        <button class="btn btn-default btn-radio btn-option-checked" id="appearanceGesture" name="primary">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle " id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->classificationTypes->appearanceGesture ?></span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="btn-group-vertical">
+                                    <!--<button type="button" class="btn btn-default btn-shadow" id="btn-help-classification"><i class="fa fa-question-circle"></i> <span class="btn-text">Mehr Infos zur Klassifizierung</span></button>-->
+                                    <button type="button" class="btn btn-primary btn-shadow" id="btn-start-trigger-classification"><i class="fa fa-archive"></i> <span class="btn-text"><?php echo $lang->extractionContent->startClassification ?></span></button>
+                                </div>
+                            </div>
+
+                            <div id="trigger-classification" class="row hidden" style="margin-top:20px">
+                                <div class="col-xs-4 col-sm-4"><div id="trigger-left"></div></div>
+                                <div class="col-xs-4 col-sm-4 text-center" id="trigger-match-controls">
+
+                                    <p class="text"><?php echo $lang->extractionContent->compareTriggerQuestion ?></p>
+                                    <div class="btn-group btn-group-justified" role="group">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-danger btn-shadow" id="btn-trigger-no"><i class="fa fa-thumbs-down"></i> <span class="btn-text"><?php echo $lang->no ?></span></button>
+                                        </div>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-success btn-shadow" id="btn-trigger-yes"><i class="fa fa-thumbs-up"></i> <span class="btn-text"><?php echo $lang->yes ?></span></button>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-default disabled btn-block btn-shadow" id="btn-redo" style="margin-top:10px"><i class="fa fa-undo" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->redo ?></span></button>
+                                </div>
+                                <div class="col-xs-4 col-sm-4"><div id="trigger-right"></div></div>
+                            </div>
+                            <h4 style="margin-top:30px" class="text"><?php echo $lang->ClassifiedTrigger ?></h4>
+                            <div id="classified-trigger"></div>
+                            <div class="alert-space alert-no-trigger-classified"></div>
+                        </div>
+
+                        <div id="content-btn-checklist" class="hidden">
+                            <span class="text" id="checklist-info"><?php echo $lang->extractionContent->checklistTriggerInfo ?></span>
+
+                            <div id="use-checklist-switch" style="margin-top: 10px">
+                                <label class="text"><?php echo $lang->useChecklist ?></label> 
+                                <div class="switch root">
+                                    <div class="btn-group" style="margin: 0">
+                                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->yes ?></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" style="margin: 0">
+                                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                                            <span id="icons" style="margin-right: 6px">
+                                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                                <i class="fa fa-circle hidden" id="over"></i>
+                                                <i class="fa fa-check-circle" id="checked"></i>
+                                            </span>
+                                            <span class="option-text"><?php echo $lang->no ?></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="checklist-container" style="margin-top: 20px"></div>
+                        </div>
+
+                        <div id="content-btn-potential-trigger" class="hidden"></div>
+
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
@@ -334,11 +455,6 @@ if (login_check($mysqli) == true) {
             });
 
             function onAllExternalsLoadedSuccessfully() {
-                var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
-                if (showTutorial === 1) {
-                    $('#tab-introduction a').click();
-                }
-
                 renderSubPageElements();
                 var query = getQueryParams(document.location.search);
                 var hash = hex_sha512(parseInt(query.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -346,7 +462,8 @@ if (login_check($mysqli) == true) {
                     getStudyById({studyId: query.studyId}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             setStudyData(result);
-                            renderData(result, hash);
+                            var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudy'] ?>);
+                            renderData(result, hash, showTutorial);
                         }
                     });
                 }
@@ -354,6 +471,22 @@ if (login_check($mysqli) == true) {
 
             $('#tab-introduction a').on('click', function (event) {
                 event.preventDefault();
+                var activeTab = $('#tab-pane').find('.active a').attr('href');
+                if (activeTab !== '#generalData') {
+                    switch (activeTab) {
+                        case '#study-catalogs':
+                            $('#custom-modal').attr('data-start-tab-id', 'study-catalogs');
+                            break;
+                        case '#study-participants':
+                            $('#custom-modal').attr('data-start-tab-id', 'study-participants');
+                            break;
+                        case '#gesture-extraction':
+                            $('#custom-modal').attr('data-start-tab-id', 'gesture-extraction');
+                            break;
+                    }
+                }
+                console.log(activeTab);
+
                 $('#custom-modal').attr('data-help-items-key', 'introductionStudy');
                 $('#custom-modal').attr('data-help-context', 'study');
                 $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialStudy'] ?>));

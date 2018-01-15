@@ -993,6 +993,8 @@ var Tester = {
             if (!previewModeEnabled && peerConnection) {
                 $(peerConnection).unbind(MESSAGE_REQUEST_TRIGGER).bind(MESSAGE_REQUEST_TRIGGER, function (event, payload) {
                     $(container).find('#scene-description').addClass('hidden');
+                    console.log(payload);
+                    currentIdentificationIndex = payload.currentIdentificationIndex;
                     $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                         event.preventDefault();
                         appendAlert($(container), ALERT_PLEASE_WAIT);

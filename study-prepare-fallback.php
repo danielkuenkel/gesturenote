@@ -11,7 +11,7 @@ if ($h && $studyId) {
     if ($loggedIn == true) {
         if (isset($_SESSION['usertype'], $_SESSION['user_id'])) {
             $hash = hash('sha512', $studyId . $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname']);
-            if ($_SESSION['usertype'] == 'tester' || $_SESSION['usertype'] == 'guest') {
+            if ($_SESSION['usertype'] == 'guest') {
                 header('Location: study-prepare-tester.php?studyId=' . $studyId . '&token=' . $h . '&h=' . $hash);
             } else if ($_SESSION['usertype'] == 'evaluator') {
                 header('Location: study-prepare-evaluator.php?studyId=' . $studyId . '&token=' . $h . '&h=' . $hash);
@@ -87,10 +87,22 @@ if ($h && $studyId) {
                     <hr>
                     <p class="text"><?php echo $lang->participateAccountQuestion ?></p>
                     <p class="text"><?php echo $lang->participateAccountDecision ?></p>
-
                 </div>
 
+
                 <div class="col-sm-6 col-md-5" id="login">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="panel-title"><?php echo $lang->studyParticipant ?>?</h2>
+                        </div>
+                        <div class="panel-body">
+                            <div class="btn-group-vertical btn-block">
+                                <!--<button type="button" class="btn btn-primary" id="btn-open-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>-->
+                                <button type="button" class="btn btn-default" id="btn-participate-without-account"><i class="fa fa-user-times" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->participateWithoutAccount ?></span></button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h2 class="panel-title"><?php echo $lang->signIn ?></h2>
@@ -118,23 +130,12 @@ if ($h && $studyId) {
                                 </div>
                                 <div class="btn-group-vertical btn-block">
                                     <button type="button" class="btn btn-success" id="btn-login"><i class="glyphicon glyphicon-log-in"></i> <span class="btn-text"><?php echo $lang->signIn ?></button>
-                                    <button type="button" class="btn btn-primary" id="btn-forgot-password"><i class="glyphicon glyphicon-time"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
+                                    <button type="button" class="btn btn-default" id="btn-forgot-password"><i class="glyphicon glyphicon-time"></i> <span class="btn-text"><?php echo $lang->forgotPassword ?></button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h2 class="panel-title"><?php echo $lang->noAccount ?>?</h2>
-                        </div>
-                        <div class="panel-body">
-                            <div class="btn-group-vertical btn-block">
-                                <button type="button" class="btn btn-primary" id="btn-open-register"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->register ?></span></button>
-                                <button type="button" class="btn btn-default" id="btn-participate-without-account"><i class="fa fa-user-times" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->participateWithoutAccount ?></span></button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -166,20 +167,18 @@ if ($h && $studyId) {
                     var hash = hex_sha512(parseInt(query.studyId) + result.userId + result.forename + result.surname);
                     if (result.userType === 'evaluator') {
                         goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
-                    } else if (result.userType === 'tester') {
-                        goto('study-prepare-tester.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
                     }
                 });
 
-                $('#register-form').on('registerSuccess', function (event, result) {
-                    event.preventDefault();
-                    var hash = hex_sha512(parseInt(query.studyId) + result.userId + result.forename + result.surname);
-                    if (result.userType === 'evaluator') {
-                        goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
-                    } else if (result.userType === 'tester') {
-                        goto('study-prepare-tester.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
-                    }
-                });
+//                $('#register-form').on('registerSuccess', function (event, result) {
+//                    event.preventDefault();
+//                    var hash = hex_sha512(parseInt(query.studyId) + result.userId + result.forename + result.surname);
+//                    if (result.userType === 'evaluator') {
+//                        goto('study-prepare-evaluator.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
+//                    } else if (result.userType === 'tester') {
+//                        goto('study-prepare-tester.php?studyId=' + query.studyId + '&token=' + query.h + "&h=" + hash);
+//                    }
+//                });
 
                 $('#btn-participate-without-account').on('click', function (event) {
                     event.preventDefault();
@@ -188,10 +187,10 @@ if ($h && $studyId) {
                 });
             }
 
-            $('#btn-open-register').on('click', function (event) {
-                event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'modal-register.php', 'modal-md');
-            });
+//            $('#btn-open-register').on('click', function (event) {
+//                event.preventDefault();
+//                loadHTMLintoModal('custom-modal', 'modal-register.php', 'modal-md');
+//            });
         </script>
     </body>
 </html>

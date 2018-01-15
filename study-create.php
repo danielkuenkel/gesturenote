@@ -747,7 +747,6 @@ if (login_check($mysqli) == true) {
                 if (showTutorial === 1) {
                     $('#tab-introduction a').click();
                 }
-//                }
             }
 
             function getStatusNavMatch(status) {

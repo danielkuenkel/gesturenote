@@ -7,5 +7,5 @@
 function keepSessionAlive() {
     setInterval(function () {
         $.post('includes/refresh_session.php');
-    }, 240000);
+    }, 240000); // 
 }

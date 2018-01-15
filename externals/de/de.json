@@ -184,6 +184,11 @@
     "classifiednGestures": "klassifizierten Gesten",
     "classifiedGestures": "klassifizierte Gesten",
     "ClassifiedGestures": "Klassifizierte Gesten",
+    "classifiedTrigger": "klassifizierte Funktion",
+    "ClassifiedTrigger": "Klassifizierte Funktion",
+    "classifiednTrigger": "klassifizierten Funktionen",
+    "classifiedTrigger": "klassifizierte Funktionen",
+    "ClassifiedTrigger": "Klassifizierte Funktionen",
     "otherAssociatedGestures": "Weitere zugehörige Gesten",
     "still": "noch",
     "deleteAllData": "Alle Eingaben löschen",
@@ -252,7 +257,8 @@
     "confirmNewPassword": "Neues Passwort wiederholen",
     "signInOrRegister": "Einloggen oder Registrieren",
     "noAccount": "Kein Account",
-    "participateWithoutAccount": "Teilnahme ohne Account",
+    "studyParticipant": "Diesen Link bekommen oder aufgerufen?",
+    "participateWithoutAccount": "An Umfrage teilnehmen",
     "register": "Registrieren",
     "userRegistered": "Registriert seit",
     "editProfile": "Daten bearbeiten",
@@ -268,15 +274,22 @@
     "extractionContent": {
         "preparation": "Vorbereitung",
         "allElicitedGestures": "Alle ermittelten Gesten",
+        "allElicitedTrigger": "Alle ermittelten Funktionen",
         "gestureClassification": "Gesten-Klassifizierung",
+        "triggerClassification": "Funktions-Klassifizierung",
         "checklist": "Checkliste",
         "potentialGestures": "Potentielle Gesten",
+        "potentialTrigger": "Potentielle Funktionen",
         "classifyGestures": "Gesten klassifizieren",
-        "reclassifyGestures": "Neu initiieren",
-        "classifyQuestion": "Wie sollen die Gesten klassifiziert werden? Nach",
+        "classifyTrigger": "Funktionen klassifizieren",
+        "reclassify": "Neu initiieren",
+        "classifyGestureQuestion": "Wie sollen die Gesten klassifiziert werden? Nach",
+        "classifyTriggerQuestion": "Wie sollen die Funktionen klassifiziert werden? Nach",
         "startClassification": "Klassifizierung jetzt starten",
-        "compareQuestion": "Enspricht die Geste auf der linken Seite der auf der rechten Seite?",
-        "checklistInfo": "Um eine zusätzliche Bewertung der klassifizierten Gesten durchzuführen, kann hier eine Checkliste zusammengestellt werden. Diese muss dann für jede potenzielle Geste beantwortet werden."
+        "compareGestureQuestion": "Enspricht die Geste auf der linken Seite der auf der rechten Seite?",
+        "compareTriggerQuestion": "Enspricht die Funktion auf der linken Seite der auf der rechten Seite?",
+        "checklistGestureInfo": "Um eine zusätzliche Bewertung der klassifizierten Gesten durchzuführen, kann hier eine Checkliste zusammengestellt werden. Diese muss dann für jede potenzielle Geste beantwortet werden.",
+        "checklistTriggerInfo": "Um eine zusätzliche Bewertung der klassifizierten Funktionen durchzuführen, kann hier eine Checkliste zusammengestellt werden. Diese muss dann für jede potenzielle Funktionalität beantwortet werden."
     },
     "whatGesturesWhereElicited": "Welche Arten von Gesten liegen insgesamt vor?",
     "whatGesturesWhereElicitedForTrigger": "Welche Arten von Gesten liegen für diese Funktion vor?",
@@ -452,6 +465,7 @@
     "totalGestures": "Gesten insgesamt",
     "totalGesture": "Geste insgesamt",
     "gesturesForTrigger": "Gesten für Funktion",
+    "triggerForGesture": "Funktionen für Geste",
     "question": "Frage",
     "demandRequest": "Frage/Aufforderung",
     "demandOrRequest": "Frage oder Aufforderung",
@@ -1100,7 +1114,7 @@
     "deleteImage": "Bild löschen",
     "ratio": "Seitenverhältnis",
     "videoEmbedUrl": "Video-Einbettungs-URL", 
-    "potentialGesturesOverviewTable":"Tabellarischer Überblick",
+    "potentialGesturesOverviewTable": "Tabellarischer Überblick",
     "measureOfGuess": "Maß der Vermutung",
     "estimability": "Schätzbarkeit",
     "measureOfApproval": "Maß der Zustimmung",
@@ -1131,8 +1145,10 @@
         "hand": "Hand"
     },
     "classificationTypes": {
+        "trigger": "Funktion",
         "appearance": "Aussehen",
         "appearanceTrigger": "Aussehen + Funktion",
+        "appearanceGesture": "Funktion + Geste",
         "gestureType": "Gesten-Typ",
         "gestureTypeTrigger": "Gesten-Typ + Funktion"
     },
@@ -3408,10 +3424,20 @@
             "type": "warning",
             "text": "Es wurden noch keine Gesten klassifiziert."
         },
+        "noTriggerClassified": {
+            "id": "no-trigger-classified",
+            "type": "warning",
+            "text": "Es wurden noch keine Funktionen klassifiziert."
+        },
         "noMoreGesturesForClassification": {
             "id": "no-more-gestures-for-classification",
             "type": "warning",
             "text": "Es stehen keine Gesten für eine Klassifizierung zur Verfügung."
+        },
+        "noMoreTriggerForClassification": {
+            "id": "no-more-trigger-for-classification",
+            "type": "warning",
+            "text": "Es stehen keine Funktionen für eine Klassifizierung zur Verfügung."
         },
         "noPlan": {
             "id": "no-plan",
@@ -3639,25 +3665,48 @@
     ],
     "introductionStudy": [
         {
-            "imgSrc": "img/de/introduction/study-create/carousel-01.png",
-            "title": "Willkommen",
-            "text": "Dies ist ein Infotext …",
-            "popover": "Willkommen",
-            "description": ""
+            "tabId": "general-infos",
+            "imgSrc": "img/de/introduction/study/carousel-01.jpg",
+            "title": "Allgemeines",
+            "text": "Allgemeine Informationen über die Studien-Seite",
+            "popover": "Allgemeines",
+            "description": [
+                "<h4>Bereiche</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/study-create/carousel-01-01.jpg' style='width:486px' />",
+                "<p>Die Studien-Seite teilt sich in die Bereiche <em>Allgemeines</em>, <em>Kataloge</em> und <em>Teilnahmen</em> auf. Falls eine Extraktion durchgeführt, wird zusätzlich der Bereich <em>Exktraktion</em> in der Navigation eingeblendet.</p>",
+                "<h4>Info-Symbole</h4><hr>",
+                "<img class='img-image' src='img/de/introduction/study-create/carousel-01-02.jpg' style='width:625px' />",
+                "<p>Hinter jedem Info-Symbol <i class='fa fa-info-circle'></i> sind weitere hilfreiche Informationen hinterlegt. Bewegen Sie die Maus über diese Symbole und die Informationen werden angezeigt.</p>",
+                "<h4>Speichern</h4><hr>",
+                "<p>Eine Studie wird erst final gespeichert und erstellt, wenn Sie den grünen Button <button type='button' class='btn btn-success btn-shadow btn-xs'><i class='fa fa-save'></i> Speichern & Schließen</button> klicken. Sie können die Seite neu laden, ohne das Ihre Daten verloren gehen. Laden Sie jedoch die Seite neu, wenn ein Dialog geöffnet ist, werden die Eignaben im Dialog nicht gespeichert. Dialogdaten werden erst gespeichert, wenn ein Dialog geschlossen wird. <br/><br/>Wird eine Studie gespeichert, gelangt man zur Studien-Übersicht. Für die Akquirierung von Probanden stellt GestureNote eine URL bereit, die dann z.B. in sozialen Netzwerken oder per E-Mail geteilt werden kann.</p>"
+            ]
         },
         {
-            "imgSrc": "img/de/introduction/study-create/carousel-01.png",
-            "title": "Allgemeines, Kataloge & Leitfaden",
+            "tabId": "study-catalogs",
+            "imgSrc": "img/de/introduction/study/carousel-02.jpg",
+            "title": "Kataloge",
             "text": "Dies ist ein Infotext …",
-            "popover": "Willkommen",
-            "description": ""
+            "popover": "Kataloge",
+            "description": [
+            ]
         },
         {
-            "imgSrc": "img/de/introduction/study-create/carousel-01.png",
-            "title": "Allgemeines, Kataloge & Leitfaden",
+            "tabId": "study-participants",
+            "imgSrc": "img/de/introduction/study-create/carousel-01.jpg",
+            "title": "Teilnahmen",
             "text": "Dies ist ein Infotext …",
-            "popover": "Willkommen",
-            "description": ""
+            "popover": "Teilnahmen",
+            "description": [
+            ]
+        },
+        {
+            "tabId": "gesture-extraction",
+            "imgSrc": "img/de/introduction/study-create/carousel-01.jpg",
+            "title": "Extraktion",
+            "text": "Dies ist ein Infotext …",
+            "popover": "Extraktion",
+            "description": [
+            ]
         }
     ],
     "languages": {

@@ -87,7 +87,9 @@ var ALERT_PLEASE_WAIT = 'please-wait';
 
 var ALERT_NO_RECORDED_GESTURES = 'no-recorded-gestures';
 var ALERT_NO_GESTURES_CLASSIFIED = 'no-gestures-classified';
+var ALERT_NO_TRIGGER_CLASSIFIED = 'no-trigger-classified';
 var ALERT_NO_MORE_GESTURES_FOR_CLASSIFICATION = 'no-more-gestures-for-classification';
+var ALERT_NO_MORE_TRIGGER_FOR_CLASSIFICATION = 'no-more-trigger-for-classification';
 var ALERT_NO_GESTURE_SETS_FOR_STUDY = 'no-gesture-sets-for-study';
 var ALERT_GESTURE_SET_TITLE_TOO_SHORT = 'gesture-set-title-too-short';
 var ALERT_EMPTY_GESTURE_SET = 'empty-gesture-set';

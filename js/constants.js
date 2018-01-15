@@ -29,6 +29,7 @@ var STUDY_PHASE_STEPS = 'study.phaseSteps';
 //var PREDEFINED_GESTURE_SET = 'predefinedGestureSet';
 var GESTURE_CATALOG = 'gestureCatalog';
 var ELICITED_GESTURES = 'elicitedGestures';
+var ELICITED_TRIGGER = 'elicitedTrigger';
 var CLASSIFICATION = 'classification';
 var GESTURE_SETS = 'gestureSets';
 
@@ -240,10 +241,13 @@ var MESSAGE_SCREEN_SHARING_ESTABLISHED = 'screenSharingEstablished';
  */
 var TYPE_CLASSIFICATION_APPEARANCE = 'appearance';
 var TYPE_CLASSIFICATION_APPEARANCE_TRIGGER = 'appearanceTrigger';
+var TYPE_CLASSIFICATION_APPEARANCE = 'appearance';
+var TYPE_CLASSIFICATION_APPEARANCE_GESTURE = 'appearanceGesture';
 var TYPE_CLASSIFICATION_GESTURE_TYPE = 'gestureType';
 var TYPE_CLASSIFICATION_GESTURE_TYPE_TRIGGER = 'gestureTypeTrigger';
 
 var POTENTIAL_GESTURES = 'potentialGestures';
+var POTENTIAL_TRIGGER = 'potentialTrigger';
 
 var APOLLO_URL = 'ws://progesture.org:61623';
 var APOLLO_LOGIN = 'admin';
