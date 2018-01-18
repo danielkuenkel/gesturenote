@@ -142,8 +142,9 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['surveyType'])) {
                                     foreach ($triggers as $trigger) {
                                         $triggerId = $trigger->preferredTrigger->answers[0]->id;
                                         $triggerName = $trigger->preferredTrigger->answers[0]->answer->openAnswer;
+                                        $justification = $trigger->preferredTrigger->answers[0]->answer->justification;
                                         $gestureId = $trigger->gestureId;
-                                        $elicitedTrigger[] = array('id' => $triggerId, 'title' => $triggerName, 'gestureId' => $gestureId, );
+                                        $elicitedTrigger[] = array('id' => $triggerId, 'title' => $triggerName, 'justification' => $justification, 'gestureId' => $gestureId);
                                     }
                                 }
                             }

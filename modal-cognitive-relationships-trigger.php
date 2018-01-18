@@ -4,7 +4,7 @@ include './includes/language.php';
 
 <div class="modal-header">
     <button type="button" class="close" onclick="saveData()" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title"><?php echo $lang->cognitiveRelationsForGesture ?></h4>
+    <h4 class="modal-title"><?php echo $lang->cognitiveRelationsForTrigger ?></h4>
 </div>
 
 <div id="modal-body" class="modal-body">
@@ -14,8 +14,8 @@ include './includes/language.php';
 <hr style="margin: 0">
 
 <div class="modal-body" id="objective-question">
-    <h4><?php echo $lang->fitnessOfGesture ?></h4>
-    
+    <h4><?php echo $lang->fitnessOfTrigger ?></h4>
+
     <div id="switch" style="margin-top: 10px">
         <label class="text"><<?php echo $lang->objectiveExtractionChecklistQuestion ?></label> 
         <div class="switch root">
@@ -51,7 +51,7 @@ include './includes/language.php';
             </div>
         </div>
     </div>
-    
+
 </div>
 
 <div id="modal-footer" class="modal-footer">
@@ -64,24 +64,28 @@ include './includes/language.php';
     });
 
     function renderData() {
-        for (var k = 0; k < currentAssignment.gestures.length; k++) {
-            var row = document.createElement('div');
-            $(row).addClass('row');
-            $('#modal-body').find('#list-container').append(row);
+        var row = document.createElement('div');
+        $(row).addClass('row');
+        $('#modal-body').find('#list-container').append(row);
 
-            var gesture = getGestureById(currentAssignment.gestures[k], ELICITED_GESTURES);
-            var gesturePreview = getSimpleGestureListThumbnail(gesture, 'rudimentary-gesture-thumbnail', 'col-xs-5 col-md-4 col-lg-3');
-            $(row).append(gesturePreview);
+        var gesture = getGestureById(currentAssignment.gestureId);
+        var gesturePreview = getSimpleGestureListThumbnail(gesture, 'rudimentary-gesture-thumbnail', 'col-xs-12 col-sm-5 col-md-4 col-lg-3');
+        $(row).append(gesturePreview);
+        
+        var triggerCol = document.createElement('div');
+        $(triggerCol).addClass('col-xs-12 col-sm-5 col-md-8 col-lg-9');
+        $(row).append(triggerCol);
 
-            var details = document.createElement('div');
-            $(details).addClass('col-xs-7 col-md-8 col-lg-9');
-            $(row).append(details);
+        for (var k = 0; k < currentAssignment.trigger.length; k++) {
+            var trigger = getTriggerById(currentAssignment.trigger[k], ELICITED_TRIGGER);
+            var triggerColItem = document.createElement('div');
+            $(triggerCol).append(triggerColItem);
 
             var title = document.createElement('div');
-            $(details).append(title);
+            $(triggerCol).append(title);
 
             var titleLabel = document.createElement('span');
-            $(titleLabel).text(translation.title + ': ');
+            $(titleLabel).text(translation.trigger + ' ' + (k+1) + ': ');
             $(title).append(titleLabel);
 
             var titleText = document.createElement('span');
@@ -90,7 +94,7 @@ include './includes/language.php';
             $(title).append(titleText);
 
             var relationship = document.createElement('div');
-            $(details).append(relationship);
+            $(triggerCol).append(relationship);
 
             var relationshipLabel = document.createElement('span');
             $(relationshipLabel).text(translation.gestureAssociation + ': ');
@@ -100,14 +104,14 @@ include './includes/language.php';
             $(relationshipText).addClass('text');
             $(relationship).append(relationshipText);
 
-            if (gesture.association && (gesture.association !== null || gesture.association !== '')) {
-                $(relationshipText).text(gesture.association);
+            if (trigger.justification && (trigger.justification !== null || trigger.justification !== '')) {
+                $(relationshipText).text(trigger.justification);
             } else {
                 $(relationshipText).text(translation.noAssociation);
             }
 
             if (k > 0) {
-                $(row).css({marginTop: '16px'});
+                $(triggerColItem).css({marginTop: '16px'});
             }
         }
 
@@ -121,8 +125,8 @@ include './includes/language.php';
         var objectiveAnswer = $('#objective-question').find('#switch .btn-option-checked').attr('id');
 
         for (var i = 0; i < classification.assignments.length; i++) {
-            if (parseInt(classification.assignments[i].mainGestureId) === parseInt(currentAssignment.mainGestureId) &&
-                    parseInt(classification.assignments[i].triggerId) === parseInt(currentAssignment.triggerId)) {
+            if (parseInt(classification.assignments[i].mainTriggerId) === parseInt(currentAssignment.mainTriggerId) &&
+                    parseInt(classification.assignments[i].gestureId) === parseInt(currentAssignment.gestureId)) {
                 classification.assignments[i].cognitiveRelationship = {objectiveAnswer: objectiveAnswer};
                 break;
             }
@@ -130,6 +134,6 @@ include './includes/language.php';
 
         setLocalItem(CLASSIFICATION, classification);
         saveClassification();
-        updateGestureAssignmentInfos($('#content-btn-potential-gestures'), POTENTIAL_GESTURES, currentAssignment.mainGestureId, getAssignmentForGestureId(currentAssignment.mainGestureId));
+        updateTriggerAssignmentInfos($('#content-btn-potential-trigger'), POTENTIAL_TRIGGER, currentAssignment.mainTriggerId, getAssignmentForTriggerId(currentAssignment.mainTriggerId));
     }
 </script>

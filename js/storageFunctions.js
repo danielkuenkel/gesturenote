@@ -377,6 +377,10 @@ function setStudyData(data) {
         if (data.resultData.elicitedGestures && data.resultData.elicitedGestures.length > 0) {
             setLocalItem(GESTURE_CATALOG, data.resultData.elicitedGestures);
         }
+        
+        if(data.resultData.elicitedTrigger && data.resultData.elicitedTrigger.length > 0) {
+            setLocalItem(ELICITED_TRIGGER, data.resultData.elicitedTrigger);
+        }
     }
 
     if (data.evaluatorData) {
@@ -398,6 +402,10 @@ function setStudyData(data) {
 
         if (data.evaluatorData.elicitedGestures && data.evaluatorData.elicitedGestures.length > 0) {
             setLocalItem(GESTURE_CATALOG, data.evaluatorData.elicitedGestures);
+        }
+        
+        if(data.resultData.elicitedTrigger && data.resultData.elicitedTrigger.length > 0) {
+            setLocalItem(ELICITED_TRIGGER, data.resultData.elicitedTrigger);
         }
 
         var notes = data.evaluatorData.notes;

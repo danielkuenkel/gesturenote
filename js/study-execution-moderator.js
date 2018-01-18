@@ -2284,8 +2284,9 @@ var Moderator = {
                     event.preventDefault();
                     clearAlerts($(container).find('#identified-trigger'));
                     currentQuestionnaireAnswers = payload.answers;
+                    console.log(payload.answers);
                     renderQuestionnaireAnswers($(container).find('#identified-trigger'), payload.data, payload.answers, false);
-                    console.log(MESSAGE_RESPONSE_TRIGGER, payload)
+                    
                     if (payload.saveAnswers === true) {
                         if (currentIdentificationIndex < data.identification.length - 1) {
                             $(container).find('#btn-next-trigger').removeClass('hidden disabled');

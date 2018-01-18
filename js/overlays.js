@@ -2920,6 +2920,6 @@ function saveObservations(formatClone, observationItems, data) {
             questionnaire.push(getFormatData(observationItems[i]));
         }
         data.observations = questionnaire;
-        console.log(questionnaire);
+//        console.log(questionnaire);
     }
 }

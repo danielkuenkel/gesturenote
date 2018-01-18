@@ -273,7 +273,7 @@ if (login_check($mysqli) == true) {
                             renderQuestionnaireAnswers(content, phaseData, testerResults, true);
                             break;
                         case INTERVIEW:
-                             renderQuestionnaireAnswers(content, phaseData, evaluatorResults, true);
+                            renderQuestionnaireAnswers(content, phaseData, evaluatorResults, true);
                             break;
                         case SUS:
                             renderSUS(content, phaseData, testerResults);
@@ -768,11 +768,9 @@ if (login_check($mysqli) == true) {
                 if (studyData.identificationFor === 'gestures') {
                     $(container).find('#search-gestures').removeClass('hidden');
                     var elicitedGestures = getLocalItem(GESTURE_CATALOG);
-                    var gestureTriggerPairs;
+                    var gestureTriggerPairs, triggerGesturePairs;
                     if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
                         gestureTriggerPairs = getLocalItem(phaseResults.id + '.evaluator').gestures;
-                    } else {
-//                                gestureTriggerPairs = phaseResults;
                     }
 
                     if (elicitedGestures && elicitedGestures.length > 0 && gestureTriggerPairs) {
@@ -806,27 +804,42 @@ if (login_check($mysqli) == true) {
                         appendAlert(content, ALERT_NO_PHASE_DATA);
                     }
                 } else if (studyData.identificationFor === 'trigger') {
+                    var triggerGesturePairs;
+                    if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
+                        triggerGesturePairs = getLocalItem(phaseResults.id + '.evaluator').trigger;
+                    }
+
                     $(container).find('#search-trigger').removeClass('hidden');
-                    var gestures = studyData.identification;
-                    if (phaseResults.trigger && phaseResults.trigger.length > 0) {
+
+                    var gestures = getLocalItem(GESTURE_CATALOG);
+                    if (gestures && triggerGesturePairs && triggerGesturePairs.length > 0) {
                         for (var i = 0; i < gestures.length; i++) {
-                            var gesture = getGestureById(gestures[i]);
+                            var column = document.createElement('div');
+                            $(column).addClass('col-xs-12');
+                            $(container).find('.list-container').append(column);
+                            
+                            var gesture = gestures[i];
                             var gestureItem = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-lg-4');
 
-                            var item = $('#template-study-container').find('#trigger-identification').clone();
-                            $(item).prepend(gestureItem);
-                            $(item).find('#trigger-name .address').text(translation.trigger + ':');
-                            $(item).find('#trigger-name .text').text(phaseResults.trigger[i].name);
-                            $(item).find('#trigger-justification .address').text(translation.justification + ':');
-                            $(item).find('#trigger-justification .text').text(phaseResults.trigger[i].justification);
-                            $(container).find('.list-container').append(item);
+                            for (var j = 0; j < triggerGesturePairs.length; j++) {
+                                if (parseInt(triggerGesturePairs[j].gestureId) === parseInt(gesture.id)) {
+                                    var trigger = triggerGesturePairs[j].preferredTrigger.answers[0].answer;
+                                    var item = $('#template-study-container').find('#trigger-identification').clone();
+                                    $(item).prepend(gestureItem);
+                                    $(item).find('#trigger-name .address').text(translation.trigger + ':');
+                                    $(item).find('#trigger-name .text').text(trigger.openAnswer);
+                                    $(item).find('#trigger-justification .address').text(translation.justification + ':');
+                                    $(item).find('#trigger-justification .text').text(trigger.justification);
+                                    $(column).append(item);
 
-                            if (i < gestures.length - 1) {
-                                var line = document.createElement('hr');
-                                $(line).css({margin: 0, marginBottom: 20});
-                                $(content).find('.list-container').append(line);
+                                    if (i < gestures.length - 1) {
+                                        var line = document.createElement('hr');
+                                        $(line).css({margin: 0, marginBottom: 20});
+                                        $(column).append(line);
+                                    }
+                                    TweenMax.from(column, .2, {delay: i * .1, opacity: 0, y: -10});
+                                }
                             }
-                            TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
                         }
                     } else {
                         console.log('no triggers there');
@@ -937,6 +950,5 @@ if (login_check($mysqli) == true) {
             }
 
         </script>
-        <!--<script src="https://vjs.zencdn.net/5.8.8/video.js"></script>-->
     </body>
 </html>

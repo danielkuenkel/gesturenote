@@ -139,3 +139,10 @@ and open the template in the editor.
     background-color: #ec971f;
     border-color: #ec971f;
 }
+
+.btn-tag-as-main-trigger {
+    cursor: pointer;
+}
+.trigger-tagged {
+    font-weight: bold;
+}

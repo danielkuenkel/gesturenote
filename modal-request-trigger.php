@@ -35,7 +35,7 @@ include 'includes/language.php';
             });
         }
 
-        var data = [{id: chance.natural(), dimension: DIMENSION_ANY, format: OPEN_QUESTION, question: translation.requestPreferredTriggerForGesture}];
+        var data = [{id: chance.natural(), dimension: DIMENSION_ANY, format: OPEN_QUESTION, question: translation.requestPreferredTriggerForGesture, parameters: {justification: 'yes'}}];
         renderQuestionnaire($('#custom-modal'), data);
 
         $('#custom-modal').find('.question-container').unbind('change').bind('change', function (event) {

@@ -1110,39 +1110,119 @@ function saveClassification() {
 
 function renderChecklist() {
     var classification = getLocalItem(CLASSIFICATION);
-    var predefinedItems = translation.extractionChecklistItems;
-    if (classification && classification.checklist && classification.checklist.items !== '' && classification.checklist.items !== null) {
-        predefinedItems = classification.checklist.items;
+    var useChecklistSwitch = classificationType === ELICITED_TRIGGER ? $('#trigger-extraction-content').find('#use-checklist-switch') : $('#gesture-extraction-content').find('#use-checklist-switch');
+    var alertContainer = classificationType === ELICITED_TRIGGER ? $('#trigger-extraction-content').find('#content-btn-checklist') : $('#gesture-extraction-content').find('#content-btn-checklist');
 
-        $('#use-checklist-switch').find('#' + classification.checklist.used).click();
+    if (classification && classification.checklist && classification.checklist.items !== '' && classification.checklist.items !== null) {
+        $(useChecklistSwitch).find('#' + classification.checklist.used).click();
     } else {
         if (!classification) {
             classification = {};
         }
-        classification.checklist = {used: 'no', items: predefinedItems};
+        classification.checklist = {used: 'no', items: null};
         setLocalItem(CLASSIFICATION, classification);
     }
 
-    var listContainer = $('#checklist-container').empty();
-    for (var i = 0; i < predefinedItems.length; i++) {
-        renderFormatItem(listContainer, predefinedItems[i]);
-        updateBadges(listContainer, predefinedItems[i].format);
-    }
-    checkCurrentListState(listContainer);
+    var listContainer = classificationType === ELICITED_TRIGGER ? $('#trigger-extraction-content').find('#checklist-container') : $('#gesture-extraction-content').find('#checklist-container');
+    $(listContainer).empty();
 
-    $('#use-checklist-switch').unbind('change').bind('change', function (event) {
+    if (classification.checklist.items && classification.checklist.items.length > 0) {
+        for (var i = 0; i < classification.checklist.items.length; i++) {
+            renderFormatItem(listContainer, classification.checklist.items[i]);
+            updateBadges(listContainer, classification.checklist.items[i].format);
+        }
+        checkCurrentListState(listContainer);
+    } else {
+        appendAlert(alertContainer, ALERT_NO_DATA_QUESTIONNAIRE);
+    }
+
+    $(useChecklistSwitch).unbind('change').bind('change', function (event) {
         event.preventDefault();
-        var activeId = $(this).find('.btn-option-checked').attr('id')
+        var activeId = $(this).find('.btn-option-checked').attr('id');
         var classification = getLocalItem(CLASSIFICATION);
         classification.checklist.used = activeId;
         saveChecklist(classification, activeId === 'yes');
     });
 
-    $(listContainer).unbind('change').bind('change', function (event) {
-        event.preventDefault();
-        var activeId = $('#use-checklist-switch').find('.btn-option-checked').attr('id');
-        saveChecklist(getLocalItem(CLASSIFICATION), activeId === 'yes');
-    });
+//    $(listContainer).unbind('change').bind('change', function (event) {
+//        event.preventDefault();
+//        
+//    });
+
+    var buttonGroup = classificationType === ELICITED_TRIGGER ? $('#trigger-extraction-content').find('#add-question-button-group') : $('#gesture-extraction-content').find('#add-question-button-group');
+    initQuestionnaireButtonGroup(buttonGroup, listContainer, alertContainer, true, true, ALERT_NO_DATA_QUESTIONNAIRE);
+    function initQuestionnaireButtonGroup(buttonGroup, listContainer, alertContainer, initListItemAdded, initChange, alertFormat) {
+        $(buttonGroup).unbind('change').bind('change', function (event) {
+            var itemType = $(event.target).attr('id');
+            var clone = $('#form-item-container').find('#' + itemType).clone();
+            clone.attr('id', itemType);
+            clone.attr('name', chance.natural());
+            initJustificationFormElements(clone);
+            tweenAndAppend(clone, $(event.target), listContainer, itemType);
+        });
+        if (initListItemAdded === true) {
+            initQuestionnaireListItemAdded(listContainer, alertContainer);
+        }
+
+        if (initChange === true) {
+            initQuestionnaireListChange(listContainer, alertContainer, alertFormat);
+        }
+    }
+
+    function initQuestionnaireListItemAdded(listContainer, alertContainer) {
+        $(listContainer).unbind('listItemAdded').bind('listItemAdded', function (event) {
+            event.preventDefault();
+            var addedElement = $(event.target).children().last();
+            initializeItemType(addedElement);
+            clearAlerts(alertContainer);
+            var newScrollTop = Math.max(0, $(addedElement).offset().top + $(addedElement).height() - $(window).height() + 190); // 190 due to padding-top 110px + padding-bottom 80px
+            $('html,body').animate({
+                scrollTop: newScrollTop
+            }, 200);
+        });
+    }
+
+    function initQuestionnaireListChange(listContainer, alertContainer, alertFormat) {
+        $(listContainer).unbind('change').bind('change', function (event) {
+            if ($(this).children().length > 0) {
+                clearAlerts(alertContainer);
+            } else if (alertFormat) {
+                appendAlert(alertContainer, alertFormat);
+            }
+
+            var activeId = $(useChecklistSwitch).find('.btn-option-checked').attr('id');
+            saveChecklist(getLocalItem(CLASSIFICATION), activeId === 'yes');
+        });
+    }
+
+    initQuestionnairePreview($(alertContainer).find('.btn-preview-questionnaire'), listContainer);
+    function initQuestionnairePreview(button, list) {
+        $(button).unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                var itemList = $(list).children();
+                var questionnaire = new Array();
+                for (var i = 0; i < itemList.length; i++) {
+                    questionnaire.push(getFormatData(itemList[i]));
+                }
+
+                currentPreviewData = questionnaire;
+                loadHTMLintoModal('custom-modal', 'modal-preview.php', 'modal-lg');
+            }
+        });
+
+        if ($(list).children().length === 0) {
+            $(button).addClass('disabled');
+        }
+
+        $(list).bind('change listItemAdded', function (event) {
+            if ($(this).children().length > 0) {
+                $(button).removeClass('disabled');
+            } else {
+                $(button).addClass('disabled');
+            }
+        });
+    }
 
     function saveChecklist(classification, saveItems) {
         if (saveItems === true) {
@@ -1159,6 +1239,32 @@ function renderChecklist() {
 
         setLocalItem(CLASSIFICATION, classification);
         saveClassification();
+    }
+
+    /*
+     * functions cound use for all overlay formats
+     */
+
+    function tweenAndAppend(item, triggerElement, container, itemType) {
+        var tweenTarget = container.children().last();
+        var tweenTargetOffset = !tweenTarget || (tweenTarget && tweenTarget.length === 0) ? $(container).offset() : $(tweenTarget).offset();
+        var tweenElementOffset = $(triggerElement).offset();
+        var tweenOffset = {offsetY: tweenTargetOffset.top - tweenElementOffset.top + tweenTarget.height(), offsetX: tweenTargetOffset.left - tweenElementOffset.left};
+        var alphaY = tweenOffset.offsetY < 0 ? '' + tweenOffset.offsetY : '+' + tweenOffset.offsetY;
+        var alphaX = tweenOffset.offsetX < 0 ? '' + tweenOffset.offsetX : '+' + tweenOffset.offsetX;
+        TweenMax.to($(triggerElement), .3, {x: alphaX, y: alphaY, opacity: 0, clearProps: 'all', ease: Quad.easeIn, onComplete: onMoveComplete, onCompleteParams: [item, container, itemType]});
+    }
+
+    function onMoveComplete(clone, listContainer, itemType) {
+        $(listContainer).append(clone);
+        checkCurrentListState(listContainer);
+        if (itemType) {
+            updateBadges(listContainer, itemType);
+        }
+
+        TweenMax.from(clone, 1, {y: -40, opacity: 0, ease: Elastic.easeOut, clearProps: 'all'});
+        $(listContainer).trigger('listItemAdded');
+        initPopover();
     }
 }
 
@@ -1265,11 +1371,25 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
 //        }
 
         // guessability / accordance
-        var accordance = getAccordance(triggerId).toFixed(2);
+        var accordance = parseFloat(getAccordance(triggerId).toFixed(2));
         $(target).find('#parameters-guessability').removeClass('hidden');
         $(target).find('#accordance .text').text(accordance);
 
-
+        if (accordance <= 0) {
+            $(target).find('#parameters-guessability .lowAgreement').removeClass('hidden');
+        } else if (accordance >= 1) {
+            $(target).find('#parameters-guessability .veryHighAgreement').removeClass('hidden');
+        } else {
+            var agreementMargins = AGREEMENT_MARGINS;
+            for (var i = 0; i < agreementMargins.length; i++) {
+                var min = i > 0 ? agreementMargins[i - 1].max : 0;
+                var max = agreementMargins[i].max;
+                if (accordance > min && accordance <= max) {
+                    $(target).find('#parameters-guessability .' + agreementMargins[i].interpretation).removeClass('hidden');
+                    break;
+                }
+            }
+        }
     } else if (classification.type === TYPE_CLASSIFICATION_APPEARANCE) {
         $(target).find('#potential-parameters').empty().append($('#potential-gesture-parameters-appearance').clone());
 
@@ -1447,6 +1567,79 @@ function renderGestureGuessabilityTable(target, assignments) {
     }
 }
 
+function renderTriggerGuessabilityTable(target, assignments) {
+    var table = $('#template-study-container').find('#guessability-table').clone();
+    $(target).append(table);
+    console.log('renderTriggerGuessabilityTable');
+    
+    $(table).find('.table-head-row .basic').text(translation.gesture);
+    $(table).find('.table-head-row .effect').text(translation.trigger);
+
+    var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
+    for (var i = 0; i < gestures.length; i++) {
+        for (var j = 0; j < assignments.length; j++) {
+            var assignment = assignments[j];
+            if (parseInt(assignment.gestureId) === parseInt(gestures[i])) {
+
+                var trigger = getTriggerById(assignment.mainTriggerId, ELICITED_TRIGGER);
+                var gesture = getGestureById(gestures[i]);
+                console.log(trigger, gesture);
+
+                var row = document.createElement('tr');
+                $(table).find('.table-body').append(row);
+
+                var mainRow = $(table).find('[data-gesture-id=' + trigger.gestureId + ']');
+                var mainRowExists = $(mainRow).length > 0;
+                if (mainRowExists) {
+                    var currentRowSpan = parseInt($($(mainRow).find('td')[0]).attr('rowspan'));
+                    $($(mainRow).find('td')[0]).attr('rowspan', currentRowSpan + 1);
+                } else {
+                    $(row).attr('data-gesture-id', trigger.gestureId);
+
+                    var col = document.createElement('td');
+                    $(col).attr('rowspan', 1);
+                    $(col).text(trigger.title);
+                    $(row).append(col);
+                }
+
+                var col = document.createElement('td');
+                $(col).text(assignment.trigger.length + 'x ' + trigger.title);
+                $(col).addClass('hover-cell');
+                $(col).attr('scroll-to-trigger', trigger.id);
+                $(row).append(col);
+                $(col).unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    var linkId = parseInt($(this).attr('scroll-to-trigger'));
+                    var scrollToTrigger = $('#content-btn-potential-trigger').find('#item-view [data-main-trigger-id=' + linkId + ']');
+                    $('html, body').animate({
+                        scrollTop: ($(scrollToTrigger).offset().top - 70) + 'px'
+                    }, 'fast');
+                });
+
+                // agreement score
+                var agreementScore = getAgreementMeasures(assignment, TYPE_CLASSIFICATION_APPEARANCE_GESTURE);
+
+                var col = document.createElement('td');
+                $(col).text(agreementScore + '%');
+                $(row).append(col);
+
+                if (mainRowExists) {
+                    var currentRowSpan = parseInt($($(mainRow).find('td')[0]).attr('rowspan'));
+                    $($(mainRow).find('td').last()).attr('rowspan', currentRowSpan);
+                } else {
+                    // guessability / accordance
+                    var accordance = getTriggerAccordance(gesture.id).toFixed(2);
+
+                    var col = document.createElement('td');
+                    $(col).attr('rowspan', 1);
+                    $(col).text(accordance);
+                    $(row).append(col);
+                }
+            }
+        }
+    }
+}
+
 function getAssignmentByMainGestureId(mainGestureId) {
     var classification = getLocalItem(CLASSIFICATION);
     for (var i = 0; i < classification.assignments.length; i++) {
@@ -1546,7 +1739,7 @@ function getTriggerAccordance(gestureId) {
         }
     }
 
-//    console.log(effectAmount, accordance);
+    console.log(effectAmount, accordance);
     accordance = ((effectAmount / (effectAmount - 1)) * accordance) - (1 / (effectAmount - 1));
     return accordance;
 }
@@ -1593,7 +1786,7 @@ function getAgreementMeasures(assignment, type) {
             agreementMeasures = 100;
         }
 
-        agreementMeasures = Math.floor(assignment.trigger.length / allSameGestures * 100);
+        agreementMeasures = Math.floor(assignment.trigger.length / allSameTrigger * 100);
     }
 
     return agreementMeasures;
@@ -1640,6 +1833,17 @@ function getAssignmentForGestureId(gestureId) {
     var classification = getLocalItem(CLASSIFICATION);
     for (var i = 0; i < classification.assignments.length; i++) {
         if (parseInt(classification.assignments[i].mainGestureId) === parseInt(gestureId)) {
+            return classification.assignments[i];
+        }
+    }
+
+    return null;
+}
+
+function getAssignmentForTriggerId(id) {
+    var classification = getLocalItem(CLASSIFICATION);
+    for (var i = 0; i < classification.assignments.length; i++) {
+        if (parseInt(classification.assignments[i].mainTriggerId) === parseInt(id)) {
             return classification.assignments[i];
         }
     }
@@ -1897,14 +2101,32 @@ function updateTriggerMatchingView() {
         var leftTrigger = triggerLeft[triggerLeftIndex];
         var rightTrigger = getTriggerById(triggerRight[triggerRightIndex].mainTriggerId, ELICITED_TRIGGER);
 
-        var leftItem = document.createElement('div');
-        $(leftItem).text(leftTrigger.title);
-        $(leftItem).attr('id', leftTrigger.id);
-        var rightItem = document.createElement('div');
-        $(rightItem).text(rightTrigger.title);
-        $(rightItem).attr('id', rightTrigger.id);
-        $('#trigger-left').empty().append(leftItem);
-        $('#trigger-right').empty().append(rightItem);
+//        var leftItem = document.createElement('div');
+//        $(leftItem).text(leftTrigger.title);
+        $('#trigger-left').attr('data-trigger-id', leftTrigger.id);
+        $('#trigger-right').attr('data-trigger-id', rightTrigger.id);
+//        var rightItem = document.createElement('div');
+//        $(rightItem).text(rightTrigger.title);
+//        $(rightItem).attr('id', rightTrigger.id);
+        $('#trigger-left').find('#trigger-title').text(leftTrigger.title);
+        $('#trigger-right').find('#trigger-title').text(rightTrigger.title);
+
+        var leftJustification = document.createElement('div');
+        if (leftTrigger.justification && leftTrigger.justification !== null) {
+            $(leftJustification).text(leftTrigger.justification);
+        } else {
+            $(leftJustification).text(translation.noJustification);
+        }
+        $('#trigger-left').find('#justification').empty().append(leftJustification);
+
+        var rightJustification = document.createElement('div');
+        if (rightTrigger.justification && rightTrigger.justification !== null) {
+            $(rightJustification).text(rightTrigger.justification);
+        } else {
+            $(rightJustification).text(translation.noJustification);
+        }
+        $('#trigger-right').find('#justification').empty().append(rightJustification);
+
         renderClassifiedTrigger($('#classified-trigger'));
         TweenMax.from($('#trigger-match-controls'), .3, {opacity: 0, scaleX: 0.5, scaleY: 0.5, clearProps: 'all'});
     }
@@ -1920,7 +2142,7 @@ function renderClassifiedTrigger(target, type) {
 
             if (classification.type === TYPE_CLASSIFICATION_APPEARANCE_GESTURE) {
                 if (type === POTENTIAL_TRIGGER) {
-//                    renderGestureGuessabilityTable(target, classification.assignments);
+                    renderTriggerGuessabilityTable(target, classification.assignments);
                 }
 
                 var gestures = getLocalItem(ASSEMBLED_GESTURE_SET);
@@ -1995,8 +2217,7 @@ function addUpdateMainTriggerButtonEvent() {
         event.preventDefault();
         if (!$(this).hasClass('trigger-tagged')) {
             var id = $(this).attr('id');
-//            $(this).closest('.root').parent().find('.gesture-thumbnail').removeClass('assembled');
-            $(this).removeClass('gesture-tagged');
+            $(this).parent().children().removeClass('trigger-tagged');
             $(this).attr('data-content', translation.tagAsMainGesture);
             $(this).popover('hide');
 
@@ -2029,13 +2250,14 @@ function updateTriggerAssignmentInfos(container, type, updateId, assignment) {
 
         var listItem = document.createElement('li');
         $(listItem).text(trigger.title);
+        $(listItem).attr('id', trigger.id);
         $(ul).append(listItem);
 
-        if ((type === POTENTIAL_TRIGGER && parseInt(assignment.mainTriggerId) !== parseInt(trigger.id)) || type !== POTENTIAL_TRIGGER) {
+        if (type !== POTENTIAL_TRIGGER) {
+            $(listItem).addClass('btn-tag-as-main-trigger');
             if (parseInt(assignment.mainTriggerId) === parseInt(trigger.id)) {
-                $(ul).addClass('btn-tag-as-main-trigger');
-                $(ul).addClass('trigger-tagged');
-                $(ul).attr('data-content', translation.gestureTaggedAsMain);
+                $(listItem).addClass('trigger-tagged');
+                $(listItem).attr('data-content', translation.gestureTaggedAsMain);
             }
         }
     }
@@ -2066,7 +2288,7 @@ function getClassifiedTriggerIndex(trigger) {
 $(document).on('click', '#btn-trigger-yes', function (event) {
     event.preventDefault();
     event.stopImmediatePropagation();
-    var leftId = parseInt($('#trigger-left').children().attr('id'));
+    var leftId = parseInt($('#trigger-left').attr('data-trigger-id'));
     var leftTrigger = getTriggerById(leftId, ELICITED_TRIGGER);
     classifyTrigger(leftTrigger, true);
     triggerLeftIndex++;
@@ -2087,7 +2309,7 @@ $(document).on('click', '#btn-trigger-yes', function (event) {
 $(document).on('click', '#btn-trigger-no', function (event) {
     event.preventDefault();
     event.stopImmediatePropagation();
-    var leftId = parseInt($('#trigger-left').children().attr('id'));
+    var leftId = parseInt($('#trigger-left').attr('data-trigger-id'));
     var leftTrigger = getTriggerById(leftId, ELICITED_TRIGGER);
     if (triggerRightIndex < triggerRight.length - 1) {
         triggerRightIndex++;
@@ -2112,11 +2334,12 @@ function classifyTrigger(trigger, foundMatch) {
     var classification = getLocalItem(CLASSIFICATION);
     if (foundMatch) {
         if (classification && classification.assignments && classification.assignments.length > 0) {
-            var matchedSourceTrigger = getTriggerById(classification.assignments[triggerRightIndex].mainGestureId, ELICITED_TRIGGER);
+            var matchedSourceTrigger = getTriggerById(classification.assignments[triggerRightIndex].mainTriggerId, ELICITED_TRIGGER);
+            console.log(trigger);
             if (classification.type === TYPE_CLASSIFICATION_APPEARANCE ||
                     (classification.type === TYPE_CLASSIFICATION_APPEARANCE_GESTURE && parseInt(matchedSourceTrigger.gestureId) === parseInt(trigger.gestureId)))
             {
-                classification.assignments[gesturesRightIndex].gestures.push(trigger.id);
+                classification.assignments[triggerRightIndex].trigger.push(trigger.id);
             } else {
                 classification.assignments.push({mainTriggerId: trigger.id, gestureId: trigger.gestureId, sameAs: matchedSourceTrigger.id, trigger: [trigger.id]});
             }
@@ -2164,7 +2387,7 @@ function updateMainTrigger(id, target) {
     for (var i = 0; i < classification.assignments.length; i++) {
         var assignment = classification.assignments[i];
 //        console.log(assignment);
-        for (var j = 0; j < assignment.gestures.length; j++) {
+        for (var j = 0; j < assignment.trigger.length; j++) {
             if (parseInt(assignment.trigger[j]) === parseInt(id)) {
                 updateSameAsTrigger(classification, assignment.mainTriggerId, id);
                 assignment.mainTriggerId = id;
@@ -2223,9 +2446,25 @@ function renderPotentialTriggerParameters(target, assignment, mainTrigger) {
 //        }
 
         // guessability / accordance
-        var accordance = getAccordance(gestureId).toFixed(2);
+        var accordance = getTriggerAccordance(gestureId).toFixed(2);
         $(target).find('#parameters-guessability').removeClass('hidden');
         $(target).find('#accordance .text').text(accordance);
+
+        if (accordance <= 0) {
+            $(target).find('#parameters-guessability .lowAgreement').removeClass('hidden');
+        } else if (accordance >= 1) {
+            $(target).find('#parameters-guessability .veryHighAgreement').removeClass('hidden');
+        } else {
+            var agreementMargins = AGREEMENT_MARGINS;
+            for (var i = 0; i < agreementMargins.length; i++) {
+                var min = i > 0 ? agreementMargins[i - 1].max : 0;
+                var max = agreementMargins[i].max;
+                if (accordance > min && accordance <= max) {
+                    $(target).find('#parameters-guessability .' + agreementMargins[i].interpretation).removeClass('hidden');
+                    break;
+                }
+            }
+        }
 
 
     } else if (classification.type === TYPE_CLASSIFICATION_APPEARANCE) {
@@ -2274,7 +2513,7 @@ function renderPotentialTriggerParameters(target, assignment, mainTrigger) {
     $(target).find('#btn-open-cognitive-relationships').unbind('click').bind('click', function (event) {
         event.preventDefault();
         currentAssignment = getAssignmentByMainTriggerId($(this).closest('.root').attr('data-main-trigger-id'));
-        loadHTMLintoModal('custom-modal', 'modal-cognitive-relationships.php', 'modal-lg');
+        loadHTMLintoModal('custom-modal', 'modal-cognitive-relationships-trigger.php', 'modal-lg');
     });
 
     if (assignment.cognitiveRelationship && assignment.cognitiveRelationship.objectiveAnswer) {
@@ -2289,7 +2528,7 @@ function renderPotentialTriggerParameters(target, assignment, mainTrigger) {
         $(target).find('#btn-open-checklist').unbind('click').bind('click', function (event) {
             event.preventDefault();
             currentAssignment = getAssignmentByMainTriggerId($(this).closest('.root').attr('data-main-trigger-id'));
-            loadHTMLintoModal('custom-modal', 'modal-checklist.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'modal-checklist-trigger.php', 'modal-lg');
         });
 
         if (assignment.checklist && assignment.checklist.objectiveAnswer) {

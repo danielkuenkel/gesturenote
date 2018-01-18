@@ -201,10 +201,6 @@ and open the template in the editor.
     color: #0480be;
 }
 
-.trigger-tagged {
-    font-weight: bold;
-}
-
 .btn-like .amount, .btn-comment .amount, .btn-rate .amount {
     font-size: 9pt;
     position: relative;

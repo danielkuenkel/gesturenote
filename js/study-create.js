@@ -548,62 +548,6 @@ $(document).on('click', '#addFormat', function (event) {
     }
 });
 
-$(document).on('click', '.btn-add-groupingQuestionOption', function (event) {
-    event.preventDefault();
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        var item = $('#form-item-container').find('#groupingQuestionItem').clone().removeAttr('id');
-        item.attr('id', chance.natural());
-        $(this).prev().find('.option-container').append(item);
-        initJustificationFormElements(item, null);
-        checkCurrentListState($(this).prev().find('.option-container'));
-        TweenMax.from(item, .2, {y: -10, opacity: 0});
-    }
-});
-
-$(document).on('click', '.btn-add-ratingOption', function (event) {
-    console.log('btn add rating option click event');
-    event.preventDefault();
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        var item = $('#form-item-container').find('#ratingItem').clone().removeAttr('id');
-        $(this).prev().find('.option-container').append(item);
-        checkCurrentListState($(this).prev().find('.option-container'));
-        $(item).find('.chosen').attr('id', 3);
-        $(item).find('.show-dropdown').val(3);
-        $(item).find('#scale_3').addClass('selected');
-        renderScaleItems($(item).find('.ratingScaleItemContainer'), 3, translation.defaultScales);
-        TweenMax.from(item, .2, {y: -10, opacity: 0});
-    }
-});
-
-$(document).on('click', '.btn-add-sumQuestionOption', function (event) {
-    event.preventDefault();
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        var item = $('#form-item-container').find('#sumQuestionItem').clone().removeAttr('id');
-        $(this).prev().find('.option-container').append(item);
-        checkCurrentListState($(this).prev().find('.option-container'));
-        TweenMax.from(item, .2, {y: -10, opacity: 0});
-    }
-});
-
-$(document).on('click', '.btn-add-rankingOption', function (event) {
-    event.preventDefault();
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        var item = $('#form-item-container').find('#rankingItem').clone().removeAttr('id');
-        $(item).attr('id', chance.natural());
-        $(this).prev().find('.option-container').append(item);
-        checkCurrentListState($(this).prev().find('.option-container'));
-        TweenMax.from(item, .2, {y: -10, opacity: 0});
-    }
-});
-
 
 
 

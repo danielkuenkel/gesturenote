@@ -250,8 +250,10 @@ include '../includes/language.php';
         </div>
         <hr style="margin: 0">
         <div class="panel-body">
-            <span class="answer text"></span>
-            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
+            <div class="answer text"></div>
+            <div class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></div>
+            <div class="hidden" id="justification-content"><span class="address"><?php echo $lang->justification ?>:</span> <span class="text"></span></div>
+            <span class="label label-danger hidden" id="no-justification-result"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noJustification ?></span></span>
         </div>
     </div>
 
@@ -903,9 +905,9 @@ include '../includes/language.php';
         <div><?php echo $lang->potentialGesturesOverviewTable ?></div>
         <table class="table table-bordered table-sm text">
             <thead>
-                <tr>
-                    <th scope="col"><?php echo $lang->trigger ?></th>
-                    <th scope="col"><?php echo $lang->gesture ?></th>
+                <tr class="table-head-row">
+                    <th scope="col" class="basic"><?php echo $lang->trigger ?></th>
+                    <th scope="col" class="effect"><?php echo $lang->gesture ?></th>
                     <th scope="col"><?php echo $lang->estimability ?></th>
                     <th scope="col"><?php echo $lang->approval ?></th>
                 </tr>
@@ -961,6 +963,10 @@ include '../includes/language.php';
         <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
             <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> <?php echo $lang->measureOfApproval ?></h4></div>
             <div id="accordance"><span id="label"><?php echo $lang->approval ?>:</span> <span class="text"></span></div>
+            <span class="hidden success veryHighAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->veryHighAgreement ?></span></span>
+            <span class="hidden success highAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->highAgreement ?></span></span>
+            <span class="hidden warning mediumAgreement"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->mediumAgreement ?></span></span>
+            <span class="hidden danger lowAgreement"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->lowAgreement ?></span></span>
         </div>
         <div id="parameters-cognitive-relationships" style="margin-top: 20px">
             <div>
@@ -1102,6 +1108,10 @@ include '../includes/language.php';
         <div id="parameters-guessability" class="hidden" style="margin-top: 20px">
             <div><h4 style="margin: 0"><i class="fa fa-users" aria-hidden="true"></i> <?php echo $lang->measureOfApproval ?></h4></div>
             <div id="accordance"><span id="label"><?php echo $lang->approval ?>:</span> <span class="text"></span></div>
+            <span class="hidden success veryHighAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->veryHighAgreement ?></span></span>
+            <span class="hidden success highAgreement"><i class="fa fa-thumbs-up" aria-hidden="true"></i> <span><?php echo $lang->highAgreement ?></span></span>
+            <span class="hidden warning mediumAgreement"><i class="fa fa-caret-right" aria-hidden="true"></i> <span><?php echo $lang->mediumAgreement ?></span></span>
+            <span class="hidden danger lowAgreement"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <span><?php echo $lang->lowAgreement ?></span></span>
         </div>
         <div id="parameters-cognitive-relationships" style="margin-top: 20px">
             <div>

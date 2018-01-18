@@ -274,3 +274,10 @@ var GESTURE_SET_JSON = {
 //       }
 //   ]
 };
+
+var AGREEMENT_MARGINS = [
+    {max: 0.1, interpretation: 'lowAgreement'},
+    {max: 0.3, interpretation: 'mediumAgreement'},
+    {max: 0.5, interpretation: 'highAgreement'},
+    {max: 1.0, interpretation: 'veryHightAgreement'}
+];

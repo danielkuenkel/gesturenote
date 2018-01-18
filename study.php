@@ -374,9 +374,15 @@ if (login_check($mysqli) == true) {
                             </div>
 
                             <div id="trigger-classification" class="row hidden" style="margin-top:20px">
-                                <div class="col-xs-4 col-sm-4"><div id="trigger-left"></div></div>
+                                <div class="col-xs-4 col-sm-4">
+                                    <div id="trigger-left">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body text-center text font-bold" id="trigger-title" style="padding-bottom: 0px"></div>
+                                            <div class="panel-body text-center text" id="justification" style="padding-top: 5px"></div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-xs-4 col-sm-4 text-center" id="trigger-match-controls">
-
                                     <p class="text"><?php echo $lang->extractionContent->compareTriggerQuestion ?></p>
                                     <div class="btn-group btn-group-justified" role="group">
                                         <div class="btn-group" role="group">
@@ -388,7 +394,14 @@ if (login_check($mysqli) == true) {
                                     </div>
                                     <button type="button" class="btn btn-default disabled btn-block btn-shadow" id="btn-redo" style="margin-top:10px"><i class="fa fa-undo" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->redo ?></span></button>
                                 </div>
-                                <div class="col-xs-4 col-sm-4"><div id="trigger-right"></div></div>
+                                <div class="col-xs-4 col-sm-4">
+                                    <div id="trigger-right">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body text-center text font-bold" id="trigger-title" style="padding-bottom: 0px"></div>
+                                            <div class="panel-body text-center text" id="justification" style="padding-top: 5px"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <h4 style="margin-top:30px" class="text"><?php echo $lang->ClassifiedTrigger ?></h4>
                             <div id="classified-trigger"></div>
@@ -423,8 +436,73 @@ if (login_check($mysqli) == true) {
                                     </div>
                                 </div>
                             </div>
-
+                            
+                            
                             <div id="checklist-container" style="margin-top: 20px"></div>
+                            <div class="alert-space alert-no-data-questionnaire"></div>
+
+                            <div class="" style="margin-top: 10px" id="add-question-formats">
+                                <div class="add-button-group" id="add-question-button-group">
+                                    <div class="btn-group">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
+                            </div>
+
+
                         </div>
 
                         <div id="content-btn-potential-trigger" class="hidden"></div>

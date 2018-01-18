@@ -74,44 +74,55 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                         if ($select_stmt->num_rows == 1) {
                             $decodedResults = json_decode_nice($data, false);
                             $elicitedGestures = null;
+                            $elicitedTrigger = null;
 
                             if (isset($decodedResults->phases)) {
                                 $phases = $decodedResults->phases;
 
                                 foreach ($phases as $item) {
 
-                                    if ($item->format === "identification" && isset($item->gestures)) {
-                                        $gestures = $item->gestures;
+                                    if ($item->format === "identification") {
+                                        if (isset($item->gestures)) {
+                                            $gestures = $item->gestures;
 
-                                        foreach ($gestures as $gesture) {
-                                            $gestureId = $gesture->id;
-                                            $triggerId = $gesture->triggerId;
+                                            foreach ($gestures as $gesture) {
+                                                $gestureId = $gesture->id;
+                                                $triggerId = $gesture->triggerId;
 
-                                            if ($select_gesture_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE id = '$gestureId' LIMIT 1")) {
-                                                if (!$select_gesture_stmt->execute()) {
-                                                    echo json_encode(array('status' => 'selectGesturesError'));
-                                                } else {
-                                                    $select_gesture_stmt->store_result();
-                                                    $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureGIF, $gestureCreated);
-                                                    $select_gesture_stmt->fetch();
-                                                    $elicitedGestures[] = array('id' => $gestureId,
-                                                        'userId' => $gestureUserId,
-                                                        'ownerId' => $gestureOwnerId,
-                                                        'source' => $gestureSource,
-                                                        'scope' => $gestureScope,
-                                                        'title' => $gestureTitle,
-                                                        'type' => $gestureType,
-                                                        'interactionType' => $gestureInteractionType,
-                                                        'context' => $gestureContext,
-                                                        'association' => $gestureAssociation,
-                                                        'description' => $gestureDescription,
-                                                        'joints' => json_decode($gestureJoints),
-                                                        'previewImage' => $gesturePreviewImage,
-                                                        'images' => json_decode($gestureImages),
-                                                        'gif' => $gestureGIF,
-                                                        'created' => $gestureCreated,
-                                                        'isOwner' => strcmp($gestureOwnerId, $sessionUserId) == 0);
+                                                if ($select_gesture_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE id = '$gestureId' LIMIT 1")) {
+                                                    if (!$select_gesture_stmt->execute()) {
+                                                        echo json_encode(array('status' => 'selectGesturesError'));
+                                                    } else {
+                                                        $select_gesture_stmt->store_result();
+                                                        $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureGIF, $gestureCreated);
+                                                        $select_gesture_stmt->fetch();
+                                                        $elicitedGestures[] = array('id' => $gestureId,
+                                                            'userId' => $gestureUserId,
+                                                            'ownerId' => $gestureOwnerId,
+                                                            'source' => $gestureSource,
+                                                            'scope' => $gestureScope,
+                                                            'title' => $gestureTitle,
+                                                            'type' => $gestureType,
+                                                            'interactionType' => $gestureInteractionType,
+                                                            'context' => $gestureContext,
+                                                            'association' => $gestureAssociation,
+                                                            'description' => $gestureDescription,
+                                                            'joints' => json_decode($gestureJoints),
+                                                            'previewImage' => $gesturePreviewImage,
+                                                            'images' => json_decode($gestureImages),
+                                                            'gif' => $gestureGIF,
+                                                            'created' => $gestureCreated,
+                                                            'isOwner' => strcmp($gestureOwnerId, $sessionUserId) == 0);
+                                                    }
                                                 }
+                                            }
+                                        } else if (isset($item->trigger)) {
+                                            $triggers = $item->trigger;
+                                            foreach ($triggers as $trigger) {
+                                                $triggerId = $trigger->preferredTrigger->answers[0]->id;
+                                                $triggerName = $trigger->preferredTrigger->answers[0]->answer->openAnswer;
+                                                $gestureId = $trigger->gestureId;
+                                                $elicitedTrigger[] = array('id' => $triggerId, 'title' => $triggerName, 'gestureId' => $gestureId);
                                             }
                                         }
                                     }
@@ -122,6 +133,7 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                                 'userId' => $userId,
                                 'results' => json_decode_nice($data, false),
                                 'elicitedGestures' => $elicitedGestures,
+//                                'elicitedTrigger' => $elicitedTrigger,
                                 'created' => $created);
                         } else {
                             echo json_encode(array('status' => 'rowsError'));
@@ -146,44 +158,55 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                         if ($select_stmt->num_rows == 1) {
                             $decodedResults = json_decode_nice($data, false);
                             $elicitedGestures = null;
+                            $elicitedTrigger = null;
 
                             if (isset($decodedResults->phases)) {
                                 $phases = $decodedResults->phases;
 
                                 foreach ($phases as $item) {
 
-                                    if ($item->format === "identification" && isset($item->gestures)) {
-                                        $gestures = $item->gestures;
+                                    if ($item->format === "identification") {
+                                        if (isset($item->gestures)) {
+                                            $gestures = $item->gestures;
 
-                                        foreach ($gestures as $gesture) {
-                                            $gestureId = $gesture->id;
-                                            $triggerId = $gesture->triggerId;
+                                            foreach ($gestures as $gesture) {
+                                                $gestureId = $gesture->id;
+                                                $triggerId = $gesture->triggerId;
 
-                                            if ($select_gesture_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE id = '$gestureId' LIMIT 1")) {
-                                                if (!$select_gesture_stmt->execute()) {
-                                                    echo json_encode(array('status' => 'selectGesturesError'));
-                                                } else {
-                                                    $select_gesture_stmt->store_result();
-                                                    $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureGIF, $gestureCreated);
-                                                    $select_gesture_stmt->fetch();
-                                                    $elicitedGestures[] = array('id' => $gestureId,
-                                                        'userId' => $gestureUserId,
-                                                        'ownerId' => $gestureOwnerId,
-                                                        'source' => $gestureSource,
-                                                        'scope' => $gestureScope,
-                                                        'title' => $gestureTitle,
-                                                        'type' => $gestureType,
-                                                        'interactionType' => $gestureInteractionType,
-                                                        'context' => $gestureContext,
-                                                        'association' => $gestureAssociation,
-                                                        'description' => $gestureDescription,
-                                                        'joints' => json_decode($gestureJoints),
-                                                        'previewImage' => $gesturePreviewImage,
-                                                        'images' => json_decode($gestureImages),
-                                                        'gif' => $gestureGIF,
-                                                        'created' => $gestureCreated,
-                                                        'isOwner' => strcmp($gestureOwnerId, $sessionUserId) == 0);
+                                                if ($select_gesture_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE id = '$gestureId' LIMIT 1")) {
+                                                    if (!$select_gesture_stmt->execute()) {
+                                                        echo json_encode(array('status' => 'selectGesturesError'));
+                                                    } else {
+                                                        $select_gesture_stmt->store_result();
+                                                        $select_gesture_stmt->bind_result($gestureId, $gestureUserId, $gestureOwnerId, $gestureSource, $gestureScope, $gestureTitle, $gestureType, $gestureInteractionType, $gestureContext, $gestureAssociation, $gestureDescription, $gestureJoints, $gesturePreviewImage, $gestureImages, $gestureGIF, $gestureCreated);
+                                                        $select_gesture_stmt->fetch();
+                                                        $elicitedGestures[] = array('id' => $gestureId,
+                                                            'userId' => $gestureUserId,
+                                                            'ownerId' => $gestureOwnerId,
+                                                            'source' => $gestureSource,
+                                                            'scope' => $gestureScope,
+                                                            'title' => $gestureTitle,
+                                                            'type' => $gestureType,
+                                                            'interactionType' => $gestureInteractionType,
+                                                            'context' => $gestureContext,
+                                                            'association' => $gestureAssociation,
+                                                            'description' => $gestureDescription,
+                                                            'joints' => json_decode($gestureJoints),
+                                                            'previewImage' => $gesturePreviewImage,
+                                                            'images' => json_decode($gestureImages),
+                                                            'gif' => $gestureGIF,
+                                                            'created' => $gestureCreated,
+                                                            'isOwner' => strcmp($gestureOwnerId, $sessionUserId) == 0);
+                                                    }
                                                 }
+                                            }
+                                        } else if (isset($item->trigger)) {
+                                            $triggers = $item->trigger;
+                                            foreach ($triggers as $trigger) {
+                                                $triggerId = $trigger->preferredTrigger->answers[0]->id;
+                                                $triggerName = $trigger->preferredTrigger->answers[0]->answer->openAnswer;
+                                                $gestureId = $trigger->gestureId;
+                                                $elicitedTrigger[] = array('id' => $triggerId, 'title' => $triggerName, 'gestureId' => $gestureId);
                                             }
                                         }
                                     }
@@ -196,12 +219,13 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                                 'testerId' => $testerId,
                                 'results' => json_decode_nice($data, false),
                                 'elicitedGestures' => $elicitedGestures,
+//                                'elicitedTrigger' => $elicitedTrigger,
                                 'observations' => json_decode_nice($observations, false),
                                 'notes' => json_decode_nice($notes, false),
                                 'created' => $created);
                         } else {
-//                            echo json_encode(array('status' => 'rowsError', 'num_rows' => $select_stmt->num_rows, 'studyId' => $selectStudyId, "evaluatorId" => $sessionUserId, 'testerId' => $selectParticipantId));
-//                            exit();
+                            echo json_encode(array('status' => 'rowsError', 'num_rows' => $select_stmt->num_rows, 'studyId' => $selectStudyId, "evaluatorId" => $sessionUserId, 'testerId' => $selectParticipantId));
+                            exit();
                         }
                     }
                 } else {
