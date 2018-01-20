@@ -173,8 +173,22 @@ if (login_check($mysqli) == true) {
         </div>
 
 
+        <!-- Container (News Section) -->
+        <div id="news" class="container-fluid">
+            <div class="container">
+                <h2 class="uppercase"><?php echo $lang->news ?></h2>
+                <br>
+                <div id="news-list"></div>
+                <br/><br/>
+                <div class="text-center">
+                    <button class="btn btn-default btn-shadow" id="btn-more-news"><i class="fa fa-info-circle" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->moreNews ?></span></button>
+                </div>
+            </div>
+        </div>
+
+
         <!-- Container (Contact Section) -->
-        <div id="contact" class="container-fluid">
+        <div id="contact" class="container-fluid bg-grey">
             <div class="container">
                 <h2 class="uppercase"><?php echo $lang->contact ?></h2>
                 <div class="row">
@@ -317,7 +331,7 @@ if (login_check($mysqli) == true) {
 
                 $('#login-form').on('loginSuccess', function (event, result) {
 //                    if (result.userType === 'evaluator') {
-                        goto('dashboard-evaluator.php');
+                    goto('dashboard-evaluator.php');
 //                    } else if (result.userType === 'tester') {
 //                        goto('dashboard-tester.php');
 //                    }
@@ -330,6 +344,40 @@ if (login_check($mysqli) == true) {
                         goto('dashboard-tester.php');
                     }
                 });
+
+                var allNews = translation.allNews;
+                for (var i = 0; i < Math.min(allNews.length, 2); i++) {
+                    var newsItem = document.createElement('div');
+                    $(newsItem).addClass('row');
+                    $('#news-list').append(newsItem);
+
+                    var col = document.createElement('div');
+                    $(col).addClass('col-xs-12 col-sm-2 col-lg-1');
+                    $(newsItem).append(col);
+                    
+                    var date = new Date(allNews[i].date);
+                    var newsDate = document.createElement('span');
+                    $(newsDate).text(date.toLocaleDateString());
+                    $(col).append(newsDate);
+                    
+                    var col = document.createElement('div');
+                    $(col).addClass('col-xs-12 col-sm-10 col-lg-11');
+                    $(newsItem).append(col);
+
+                    var newsTitle = document.createElement('span');
+                    $(newsTitle).text(allNews[i].title);
+                    $(newsTitle).addClass('text font-bold');
+                    $(col).append(newsTitle);
+
+                    var newsContent = document.createElement('div');
+                    $(newsContent).html(allNews[i].content);
+                    $(newsContent).addClass('text');
+                    $(col).append(newsContent);
+
+                    if (i > 0) {
+                        $(newsItem).css({marginTop: '20px'});
+                    }
+                }
             }
 
             $('#btn-open-register').on('click', function (event) {
@@ -404,6 +452,10 @@ if (login_check($mysqli) == true) {
 
             $('#btn-more-infos').on('click', function () {
                 goto('informations.php');
+            });
+
+            $('#btn-more-news').on('click', function () {
+                goto('news.php');
             });
 
             function resetContactFormInput() {

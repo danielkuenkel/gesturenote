@@ -11,6 +11,7 @@
     "gestureNotePublications": "GestureNote - Veröffentlichungen",
     "gestureNoteCreateStudy": "GestureNote - Studie erstellen",
     "gestureNoteGestureCatalog": "GestureNote - Gesten-Katalog",
+    "gestureNoteGestureNews": "GestureNote - Aktuelles",
     "gesturenoteSubline": "Spezialisiert auf Usability Engineering für Gesteninteraktionen",
     "alpha": "alpha",
     "beta": "beta",
@@ -35,7 +36,8 @@
         "publications": "Veröffentlichungen",
         "resetPassword": "Passwort zurücksetzen",
         "imprint": "Impressum",
-        "informations": "Über GestureNote"
+        "informations": "Über GestureNote",
+        "news": "Aktuelles"
     },
     "months": {
         "january": "Januar",
@@ -3716,6 +3718,17 @@
             "text": "Dies ist ein Infotext …",
             "popover": "Extraktion",
             "description": [
+            ]
+        }
+    ],
+    "news": "Aktuelles",
+    "moreNews": "Alle News abrufen",
+    "allNews": [
+        {
+            "title": "Weihnachtsgrüße",
+            "date": "12/24/2017",
+            "content": [
+                "<p>GestureNote wünscht allen gesegnetes Weihnachtsfest und ruhige Feiertage.</p>"
             ]
         }
     ],
