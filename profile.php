@@ -70,7 +70,7 @@ if (login_check($mysqli) == true) {
                             <div id="user-forename"><span class="address"></span> <span class="text"></span></div>
                             <div id="user-surname"><span class="address"></span> <span class="text"></span></div>
                             <div id="user-email"><span class="address"></span> <span class="text"></span></div>
-                            <div id="user-type"><span class="address"></span> <span class="text"></span></div>
+                            <!--<div id="user-type"><span class="address"></span> <span class="text"></span></div>-->
                             <div id="user-registered"><span class="address"></span> <span class="text"></span></div>
                         </div>
                         <button type="button" class="btn btn-default btn-shadow disabled" id="btn-edit-profile"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"></span></button>
@@ -240,6 +240,7 @@ if (login_check($mysqli) == true) {
                 getUser(function (result) {
                     if (result.status === RESULT_SUCCESS) {
                         var user = result.user[0];
+                        setLocalItem(USER, user);
 
                         $('#btn-edit-profile').removeClass('disabled');
 
@@ -261,8 +262,8 @@ if (login_check($mysqli) == true) {
                         $('#label-new-password').text(translation.newPassword);
                         $('#label-confirm-new-password').text(translation.confirmNewPassword);
 
-                        $('#user-type .address').text(translation.userType + ": ");
-                        $('#user-type .text').text(translation.userTypes[user.userType]);
+//                        $('#user-type .address').text(translation.userType + ": ");
+//                        $('#user-type .text').text(translation.userTypes[user.userType]);
 
                         $('#user-registered .address').text(translation.userRegistered + ": ");
                         $('#user-registered .text').text(convertSQLTimestampToDate(user.created).toLocaleDateString());
@@ -270,7 +271,7 @@ if (login_check($mysqli) == true) {
                         $('#tutorialStudyCreation').find(parseInt(user.tutorialStudyCreation) === 0 ? '#no' : '#yes').click();
                         $('#tutorialStudyPreview').find(parseInt(user.tutorialStudyPreview) === 0 ? '#no' : '#yes').click();
                         $('#tutorialStudy').find(parseInt(user.tutorialStudy) === 0 ? '#no' : '#yes').click();
-                        
+
                         // render statistics
                         $('#stats-studies .amount').text(user.statistics.totalStudies);
                         $('#stats-gestures .amount').text(user.statistics.totalGestures);
@@ -322,6 +323,7 @@ if (login_check($mysqli) == true) {
                 }
 
                 if (p !== null && pO !== null) {
+                    console.log(p, pO);
                     updateUser({forename: forename, surname: surname, p: p, pO: pO}, function (result) {
                         if (result.status === RESULT_SUCCESS) {
                             $('#user-forename .text').text(forename);

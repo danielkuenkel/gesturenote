@@ -6,15 +6,18 @@ function loginFormhash(form, email, password) {
     }
 
     // Add the new element to our form. 
+    var passwordString = password.val() + '-' + $(email).val();
+    console.log(passwordString);
+    
     if ($(form).find('#p').length > 0) {
-        $(form).find('#p').val(hex_sha512(password.val()));
+        $(form).find('#p').val(hex_sha512(passwordString));
     } else {
         var p = document.createElement("input");
         $(form).append(p);
         $(p).attr('id', 'p');
         $(p).attr('name', 'p');
         $(p).attr('type', 'hidden');
-        $(p).val(hex_sha512(password.val()));
+        $(p).val(hex_sha512(passwordString));
     }
 
     // Make sure the plaintext password doesn't get sent. 
@@ -135,15 +138,16 @@ function registerFormhash(form) {
 //    }
 
     // Add the new element to our form. 
+    var passwordString = password.val() + '-' + $(email).val();
     if ($(form).find('#p').length > 0) {
-        $(form).find('#p').val(hex_sha512(password.val()));
+        $(form).find('#p').val(hex_sha512(passwordString));
     } else {
         var p = document.createElement("input");
         $(form).append(p);
         $(p).attr('id', 'p');
         $(p).attr('name', 'p');
         $(p).attr('type', 'hidden');
-        $(p).val(hex_sha512($(password).val()));
+        $(p).val(hex_sha512(passwordString));
     }
 
     // Make sure the plaintext password doesn't get sent. 
@@ -202,15 +206,16 @@ function resetPasswordFormhash(form) {
     }
 
     // Add the new element to our form. 
+    var passwordString = password.val() + '-' + $(email).val();
     if ($(form).find('#p').length > 0) {
-        $(form).find('#p').val(hex_sha512(password.val()));
+        $(form).find('#p').val(hex_sha512(passwordString));
     } else {
         var p = document.createElement("input");
         $(form).append(p);
         $(p).attr('id', 'p');
         $(p).attr('name', 'p');
         $(p).attr('type', 'hidden');
-        $(p).val(hex_sha512($(password).val()));
+        $(p).val(hex_sha512(passwordString));
     }
 
     // Make sure the plaintext password doesn't get sent. 
@@ -268,23 +273,27 @@ function updateFormhashEvaluator(form) {
             }
 
             // Add the new element to our form. 
+            var user = getLocalItem(USER);
+            var passwordStringNew = $(newPassword).val() + '-' + user.email;
+            var passwordStringCurrent = $(currentPassword).val() + '-' + user.email;
+            console.log(user.email, hex_sha512($(currentPassword).val() + user.email));
             if ($(form).find('#p').length > 0) {
-                $(form).find('#p').val(hex_sha512($(newPassword).val()));
-                $(form).find('#pO').val(hex_sha512($(currentPassword).val()));
+                $(form).find('#p').val(hex_sha512(passwordStringNew));
+                $(form).find('#pO').val(hex_sha512(passwordStringCurrent));
             } else {
                 var p = document.createElement("input");
                 $(form).append(p);
                 $(p).attr('id', 'p');
                 $(p).attr('name', 'p');
                 $(p).attr('type', 'hidden');
-                $(p).val(hex_sha512($(newPassword).val()));
+                $(p).val(hex_sha512(passwordStringNew));
 
                 var pO = document.createElement("input");
                 $(form).append(pO);
                 $(pO).attr('id', 'pO');
                 $(pO).attr('name', 'pO');
                 $(pO).attr('type', 'hidden');
-                $(pO).val(hex_sha512($(currentPassword).val()));
+                $(pO).val(hex_sha512(passwordStringCurrent));
             }
 
             // Make sure the plaintext password doesn't get sent. 
@@ -383,23 +392,26 @@ function updateFormhash(form) {
             }
 
             // Add the new element to our form. 
+            var user = getLocalItem(USER);
+            var passwordStringNew = $(newPassword).val() + '-' + user.email;
+            var passwordStringCurrent = $(currentPassword).val() + '-' + user.email;
             if ($(form).find('#p').length > 0) {
-                $(form).find('#p').val(hex_sha512($(newPassword).val()));
-                $(form).find('#pO').val(hex_sha512($(currentPassword).val()));
+                $(form).find('#p').val(hex_sha512(passwordStringNew));
+                $(form).find('#pO').val(hex_sha512(passwordStringCurrent));
             } else {
                 var p = document.createElement("input");
                 $(form).append(p);
                 $(p).attr('id', 'p');
                 $(p).attr('name', 'p');
                 $(p).attr('type', 'hidden');
-                $(p).val(hex_sha512($(newPassword).val()));
+                $(p).val(hex_sha512(passwordStringNew));
 
                 var pO = document.createElement("input");
                 $(form).append(pO);
                 $(pO).attr('id', 'pO');
                 $(pO).attr('name', 'pO');
                 $(pO).attr('type', 'hidden');
-                $(pO).val(hex_sha512($(currentPassword).val()));
+                $(pO).val(hex_sha512(passwordStringCurrent));
             }
 
             // Make sure the plaintext password doesn't get sent. 

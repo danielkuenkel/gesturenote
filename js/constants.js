@@ -9,7 +9,7 @@ var GESTURE_IMAGE_HOME = 'uploads/';
 var UPLOADS = 'uploads/';
 
 // user specific constants
-//var USER_ID = 'userId';
+var USER = 'user';
 
 // ajax result constants
 var RESULT_SUCCESS = 'success';

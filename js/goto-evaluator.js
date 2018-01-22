@@ -21,6 +21,14 @@ $(document).ready(function () {
         }
     });
 
+    $('body').on('click', '#btn-news', function (event) {
+        event.preventDefault();
+        if (!event.handled) {
+            event.handled = true;
+            gotoNews();
+        }
+    });
+    
     $('body').on('click', '#btn-profile', function (event) {
         event.preventDefault();
         if (!event.handled) {
@@ -64,6 +72,11 @@ function gotoDashboard() {
 function gotoStudies() {
     clearLocalItems();
     goto('studies.php');
+}
+
+function gotoNews() {
+    clearLocalItems();
+    goto('news.php');
 }
 
 function gotoProfile() {

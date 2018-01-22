@@ -464,6 +464,8 @@
         "gesturesStyleguides": "Gesten-Styleguides",
         "gesturesStyleguidesPanelBody": "Erfahren Sie, welchen Kriterien gebrauchstaugliche Gesten unterliegen",
         "gesturesCatalog": "Gesten-Katalog",
+        "news": "Aktuelles",
+        "newsPanelBody": "Neuigkeiten und Updates rund um GestureNote auf einen Blick",
         "profile": "Profil",
         "profilePanelBody": "Anzeigen und bearbeiten der Nutzerdaten",
         "publications": "Veröffentlichungen",
@@ -3725,10 +3727,25 @@
     "moreNews": "Alle News abrufen",
     "allNews": [
         {
+            "title": "Erhöhung der Sicherheit bei Passwörtern",
+            "date": "1/20/2018",
+            "content": [
+                "<p>Aufgrund eines Problems beim Verschlüsseln von Passwörtern während des Anmeldevorgangs bei GestureNote müssen alle Passwörter zurückgesetzt werden.</p>",
+                "<p>Haben Sie bereits bei GestureNote einen Account eingerichtet? Setzen Sie einfach Ihr Passwort mit der Funktion <em>Passwort vergessen</em> auf der Startseite von GestureNote zurück.</p>"
+            ]
+        },
+        {
+            "title": "Frohes neues Jahr",
+            "date": "1/1/2018",
+            "content": [
+                "<p>GestureNote wünscht allen ein erfolgreiches Jahr 2018.</p>"
+            ]
+        },
+        {
             "title": "Weihnachtsgrüße",
             "date": "12/24/2017",
             "content": [
-                "<p>GestureNote wünscht allen gesegnetes Weihnachtsfest und ruhige Feiertage.</p>"
+                "<p>GestureNote wünscht allen ein gesegnetes Weihnachtsfest und ruhige Feiertage.</p>"
             ]
         }
     ],

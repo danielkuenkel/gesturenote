@@ -95,15 +95,21 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-default btn-shadow btn-panel" id="btn-profile" style="opacity: 0">
-                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->dashboard->profile ?></div>
-                        <div class="panel-body"><?php echo $lang->dashboard->profilePanelBody ?></div>
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-news" style="opacity: 0">
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-newspaper-o" aria-hidden="true"></i> <?php echo $lang->dashboard->news ?></div>
+                        <div class="panel-body"><?php echo $lang->dashboard->newsPanelBody ?></div>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default btn-shadow btn-panel" id="btn-publications" style="opacity: 0">
                         <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php echo $lang->dashboard->publications ?></div>
                         <div class="panel-body"><?php echo $lang->dashboard->publicationsPanelBody ?></div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="panel panel-default btn-shadow btn-panel" id="btn-profile" style="opacity: 0">
+                        <div class="panel-heading ellipsis" style="font-size: 18pt"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $lang->dashboard->profile ?></div>
+                        <div class="panel-body"><?php echo $lang->dashboard->profilePanelBody ?></div>
                     </div>
                 </div>
             </div>
@@ -152,10 +158,12 @@ if (login_check($mysqli) == true) {
                 TweenMax.from($('#btn-gesture-styleguides'), .2, {delay: .05, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                 $('#btn-gesture-catalog').css({opacity: 1});
                 TweenMax.from($('#btn-gesture-catalog'), .2, {delay: .1, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-                $('#btn-profile').css({opacity: 1});
-                TweenMax.from($('#btn-profile'), .2, {delay: .15, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                $('#btn-news').css({opacity: 1});
+                TweenMax.from($('#btn-news'), .2, {delay: .15, opacity: 0, scaleX: 0.5, scaleY: 0.5});
                 $('#btn-publications').css({opacity: 1});
                 TweenMax.from($('#btn-publications'), .2, {delay: .2, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                $('#btn-profile').css({opacity: 1});
+                TweenMax.from($('#btn-profile'), .2, {delay: .25, opacity: 0, scaleX: 0.5, scaleY: 0.5});
             }
 
             $('#btn-create-study').click(function (event) {
