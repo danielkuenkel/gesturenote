@@ -93,7 +93,7 @@ session_start();
             function onAllExternalsLoadedSuccessfully() {
 
                 var loggedIn = parseInt('<?php echo login_check($mysqli) ?>') === 1;
-                renderSubPageElements(loggedIn, false);
+                renderSubPageElements(loggedIn, true);
                 if (loggedIn === false) {
                     $('#btn-dashboard').parent().remove();
                 }
