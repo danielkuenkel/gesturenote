@@ -617,10 +617,10 @@ include 'includes/language.php';
                                 unlockButton(button, true, 'fa-trash');
 
                                 if (result.status === RESULT_SUCCESS) {
+                                    $('#custom-modal').modal('hide');
                                     originalFilterData = result.gestures;
                                     currentFilterData = sort();
                                     $('#custom-modal').trigger('gesture-deleted');
-                                    $('#custom-modal').modal('hide');
                                 }
                             });
                         }

@@ -14,13 +14,13 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
     $gestureId = $_POST['gestureId'];
     $userId = $_SESSION['user_id'];
 
-    if ($select_stmt = $mysqli->prepare("SELECT `images` FROM gestures WHERE id = '$gestureId'")) {
+    if ($select_stmt = $mysqli->prepare("SELECT `images`, `gif` FROM gestures WHERE id = '$gestureId'")) {
         if (!$select_stmt->execute()) {
             echo json_encode(array('status' => 'selectError'));
             exit();
         } else {
             $select_stmt->store_result();
-            $select_stmt->bind_result($imageURLs);
+            $select_stmt->bind_result($imageURLs, $gifUrl);
             $select_stmt->fetch();
 
             if ($select_stmt->num_rows == 1) {
@@ -35,7 +35,11 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
                                 echo json_encode(array('status' => 'deleteError'));
                                 exit();
                             } else {
+
                                 deleteFiles($target_dir, json_decode($imageURLs));
+                                if ($gifUrl !== NULL) {
+                                    deleteFiles($target_dir, array(json_decode($gifUrl)));
+                                }
                                 echo json_encode(array('status' => 'success'));
                                 exit();
                             }

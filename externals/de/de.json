@@ -1555,7 +1555,8 @@
     "gestureStyleguides": {
         "process": {
             "headline": "Gesten-Designprozess",
-            "info": "Ein Gesten-Designprozess besteht typischerweise aus den 3 Schritten <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluierung</em> von Gesten. Diese Schritte können in den Usability Engineering Lifecycle eingebettet werden."
+            "info": "<p>Ein Gesten-Designprozess besteht typischerweise aus den 3 Phasen <em>Ermittlung</em>, <em>Extraktion</em> und <em>Evaluierung</em> von Gesten. Diese Phasen können in den Usability Engineering Lifecycle eingebettet werden. Einen Überblick über die einzelnen Phasen, den jeweiligen Schritten und den Zusammenhängen bietet die nachfolgende Abbildung als Flowchart.</p>",
+            "processImage": "img/de/introduction/study-create/gesture-design-process.svg"
         },
         "processStyleguides": {
             "headline": "Allgemeine Styleguides",

@@ -1230,7 +1230,10 @@ function checkPagination(pagination, dataLength, maxElements) {
                 $(paginationItems[i]).addClass('active');
             }
         }
-        initPagination(pagination, dataLength, maxElements);
+        
+        currentPaginationData.pager.dataLength = dataLength;
+        currentPaginationData.pager.maxElements = maxElements;
+        initPagination(currentPaginationData);
     }
 }
 
@@ -2264,9 +2267,9 @@ function getStudiesCatalogListThumbnail(data) {
         clone.attr('id', data.id);
         clone.find('.title-text').text(data.data.generalData.title);
 
-        if (data.data.generalData.panelSurvey === 'yes') {
-            $(clone).find('#panel-survey').removeClass('hidden');
-        }
+//        if (data.data.generalData.panelSurvey === 'yes') {
+//            $(clone).find('#panel-survey').removeClass('hidden');
+//        }
 
         if ((data.data.generalData.dateFrom !== null && data.data.generalData.dateFrom !== "") &&
                 (data.data.generalData.dateTo !== null && data.data.generalData.dateTo !== "")) {
@@ -2284,7 +2287,7 @@ function getStudiesCatalogListThumbnail(data) {
                 var daysExpired = Math.round((now - dateFrom) / (1000 * 60 * 60 * 24));
                 progress = daysExpired / totalDays * 100;
                 $(clone).find('.study-started').removeClass('hidden').find('.text').text(translation.studyStarted + ', ' + translation.still + ' ' + left.days + ' ' + (left.days + 1 === 1 ? translation.day : translation.days) + ', ' + left.hours + ' ' + (left.hours === 1 ? translation.hour : translation.hours));
-                $(clone).find('.progress-bar').addClass('progress-bar-info');
+                $(clone).find('.progress-bar').addClass('progress-bar-success');
             } else if (now < dateFrom) {
                 progress = 100;
                 var daysToStart = Math.round((dateFrom - now) / (1000 * 60 * 60 * 24));
@@ -2294,7 +2297,7 @@ function getStudiesCatalogListThumbnail(data) {
                 progress = 100;
                 $(clone).find('#study-range-days .address').text(translation.studyRuns + ": ");
                 $(clone).find('.study-ended').removeClass('hidden').find('.text').text(translation.studyEnded);
-                $(clone).find('.progress-bar').addClass('progress-bar-success');
+                $(clone).find('.progress-bar').addClass('progress-bar-info');
             }
 
             $(clone).find('.progress-bar').css({width: progress + "%"});

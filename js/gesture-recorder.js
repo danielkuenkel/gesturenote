@@ -516,6 +516,8 @@ function showSave() {
             }
         }
     });
+    
+    initPopover();
 }
 
 function hideSave() {

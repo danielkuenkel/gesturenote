@@ -198,7 +198,7 @@ function esc_url($url) {
 function deleteFiles($targetUrl, $files) {
     if ($files && count($files) > 0) {
         foreach ($files as $url) {
-            if (file_exists($targetUrl . $url)) {
+            if (file_exists($targetUrl . $url) && ($url !== '' || $url !== null)) {
                 unlink($targetUrl . $url);
             } else {
                 

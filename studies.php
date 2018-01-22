@@ -65,7 +65,7 @@ if (login_check($mysqli) == true) {
                     <div>
                         <div class="label label-default" id="type-phase"></div>
                         <div class="label label-default" id="type-survey"></div>
-                        <div class="label label-default hidden" id="panel-survey"><?php echo $lang->panelSurvey ?></div>
+                        <!--<div class="label label-default hidden" id="panel-survey"><?php echo $lang->panelSurvey ?></div>-->
                     </div>
 
                     <div>
@@ -94,7 +94,7 @@ if (login_check($mysqli) == true) {
         <!-- Container (Panel Section) -->
         <div class="container mainContent" style="margin-top: 0px;" id="item-view">
 
-            <button type="button" class="btn btn-success btn-lg btn-block btn-shadow" onclick="gotoCreateStudy()"><i class="glyphicon glyphicon-plus"></i> <?php echo $lang->createNewStudy ?></button>
+            <button type="button" class="btn btn-success btn-block btn-shadow" onclick="gotoCreateStudy()"><i class="glyphicon glyphicon-plus"></i> <?php echo $lang->createNewStudy ?></button>
 
             <div class="form-group form-group-no-margin" style="margin-top: 20px">
                 <div class="input-group">
@@ -145,8 +145,8 @@ if (login_check($mysqli) == true) {
             <div style="margin-top: 15px;" class="text-center">
                 <span class="text"><?php echo $lang->studyColors->whatDoTheColorsMean ?></span>
                 <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #EEAC57"></i> <span class="text"><?php echo $lang->studyColors->notStarted ?></span></span>
-                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5bc0de"></i> <span class="text"><?php echo $lang->studyColors->running ?></span></span>
-                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5cb85c"></i> <span class="text"><?php echo $lang->studyColors->stopped ?></span></span>
+                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5cb85c"></i> <span class="text"><?php echo $lang->studyColors->running ?></span></span>
+                <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #5bc0de"></i> <span class="text"><?php echo $lang->studyColors->stopped ?></span></span>
                 <span style="margin-left: 10px"><i class="fa fa-minus" aria-hidden="true" style="color: #d9534f"></i> <span class="text"><?php echo $lang->studyColors->noSchedule ?></span></span>
             </div>
 

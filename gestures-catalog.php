@@ -44,6 +44,7 @@ if (login_check($mysqli) == true) {
         <script src="js/joint-selection.js"></script>
         <script src="js/gesture-recorder.js"></script>
         <script src="js/upload-queue.js"></script>
+        <script src="js/gifshot/gifshot.min.js"></script>
 
         <!-- gesture recorder sources -->
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>

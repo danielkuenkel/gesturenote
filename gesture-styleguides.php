@@ -70,6 +70,7 @@ if (login_check($mysqli) == true) {
             <div class="text">
                 <?php echo $lang->gestureStyleguides->process->info ?>
             </div>
+            <img src="<?php echo $lang->gestureStyleguides->process->processImage ?>" class="img-responsive" style="display: block; margin-left: auto; margin-right: auto"/>
         </div>
 
         <div class="container" id="general-styleguides" style="margin-top: 50px">
