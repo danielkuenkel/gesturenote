@@ -3727,6 +3727,13 @@
     "moreNews": "Alle News abrufen",
     "allNews": [
         {
+            "title": "Testphase gestartet",
+            "date": "1/22/2018",
+            "content": [
+                "<p>Die Testphase für GestureNote ist gestartet. Dabei werden alle Bereiche auf Funktionstüchtigkeit überprüft.</p>"
+            ]
+        },
+        {
             "title": "Erhöhung der Sicherheit bei Passwörtern",
             "date": "1/20/2018",
             "content": [
