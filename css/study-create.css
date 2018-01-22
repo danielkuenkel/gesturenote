@@ -15,15 +15,6 @@ and open the template in the editor.
 
 .noscroll { overflow: hidden; }
 
-.input-group-addon {
-    cursor: pointer;
-    color: #818181;
-}
-
-.input-group-addon:hover {
-    color: #303030;
-}
-
 #addPhaseStepSelectAddon {
     width: 3%;
 }

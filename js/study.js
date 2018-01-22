@@ -4,21 +4,19 @@ function renderData(data, hash, showTutorial) {
     $('#study-headline').text(studyData.generalData.title);
     $('#type-survey').text(translation.surveyType[studyData.generalData.surveyType]);
     $('#type-phase').text(translation.phaseType[studyData.generalData.phase]);
-    $('#study-description .address').text(translation.description);
     $('#study-description .text').text(studyData.generalData.description);
-//    console.log(studyData);
 
-    if (studyData.generalData.panelSurvey === 'yes') {
-        $('#panel-survey, .panel-survey').removeClass('hidden');
-        $('.panel-survey .address').text(translation.panelSurvey + ":");
-        var ageFrom = studyData.generalData.ageRange.min;
-        var ageTo = studyData.generalData.ageRange.max;
-        if (studyData.generalData.gender !== undefined) {
-            $('.panel-survey .text').text(translation.genderTypes[studyData.generalData.gender] + " " + translation.of + " " + ageFrom + " " + translation.to + " " + ageTo);
-        } else {
-            $('.panel-survey .text').text(translation.incompleteData);
-        }
-    }
+//    if (studyData.generalData.panelSurvey === 'yes') {
+//        $('#panel-survey, .panel-survey').removeClass('hidden');
+//        $('.panel-survey .address').text(translation.panelSurvey + ":");
+//        var ageFrom = studyData.generalData.ageRange.min;
+//        var ageTo = studyData.generalData.ageRange.max;
+//        if (studyData.generalData.gender !== undefined) {
+//            $('.panel-survey .text').text(translation.genderTypes[studyData.generalData.gender] + " " + translation.of + " " + ageFrom + " " + translation.to + " " + ageTo);
+//        } else {
+//            $('.panel-survey .text').text(translation.incompleteData);
+//        }
+//    }
 
     // date range view
     var now = new Date().getTime();

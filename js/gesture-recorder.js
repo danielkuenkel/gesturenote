@@ -243,16 +243,18 @@ function showPlayback() {
 
         var totalWidth = $(recorder.options.recorderTarget).find('#seek-bar').width();
         var beginningWidth = $(recorder.options.recorderTarget).find('#seek-bar .progress-bar').width();
+        
         if (!gestureStartMarked) {
             gestureStartMarked = true;
             $('.recorder #btn-mark-end').removeClass('disabled');
         }
         var currentBeginningWidth = $(recorder.options.recorderTarget).find('#gesture-beginning').width();
         var currentGestureWidth = $(recorder.options.recorderTarget).find('#gesture-execution').width();
+        
         if (beginningWidth < currentBeginningWidth + currentGestureWidth) {
             var currentEndingWidth = $(recorder.options.recorderTarget).find('#gesture-ending').width();
             $(recorder.options.recorderTarget).find('#gesture-beginning').css({width: beginningWidth + 'px'});
-            $(recorder.options.recorderTarget).find('#gesture-execution').css({width: (totalWidth - currentEndingWidth - beginningWidth) + 'px'});
+            $(recorder.options.recorderTarget).find('#gesture-execution').css({width: (totalWidth - 1 - currentEndingWidth - beginningWidth) + 'px'});
         }
         clearAlerts($(recorder.options.recorderTarget).find('#playback-controls'));
     });
@@ -269,7 +271,7 @@ function showPlayback() {
 
             var totalWidth = $(recorder.options.recorderTarget).find('#seek-bar').width();
             var gestureWidth = currentSeekWidth - beginningWidth;
-            var endingWidth = totalWidth - (beginningWidth + gestureWidth);
+            var endingWidth = totalWidth - 1 - (beginningWidth + gestureWidth);
             $(recorder.options.recorderTarget).find('#gesture-execution').css({width: gestureWidth + 'px'});
             $(recorder.options.recorderTarget).find('#gesture-ending').css({width: endingWidth + 'px'});
         } else if (!gestureStartMarked) {

@@ -666,7 +666,6 @@ include 'includes/language.php';
                 $('#liked-by-users').text(parseInt(result.likeAmount) === 1 ? translation.likedByUser : translation.likedByUsers);
 
                 initLikeGesture($('#gesture-likes').find('.btn-like'), currentPreviewGesture.source, {id: currentPreviewGesture.gesture.id, hasLiked: result.hasLiked, likeAmount: result.likeAmount}, function () {
-                    console.log('update');
                     if ($('#gesture-likes').find('.btn-like').hasClass('gesture-liked')) {
                         $('#gesture-likes').find('.liked-self').text(translation.likedByMyself);
                         $(currentPreviewGesture.thumbnail).find('.btn-like .fa').removeClass('fa-heart-o').addClass('fa-heart');
@@ -712,7 +711,7 @@ include 'includes/language.php';
                             $('#tab-gesture-comments #comment').val('');
                             renderComments(result.comments);
                             $(currentPreviewGesture.thumbnail).find('.btn-comment .fa').removeClass('fa-comment-o').addClass('fa-comments');
-                            $(currentPreviewGesture.thumbnail).find('.amount').text(result.comments.length);
+                            $(currentPreviewGesture.thumbnail).find('.btn-comment .amount').text(result.comments.length);
                         }
                     });
                 } else {

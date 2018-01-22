@@ -1660,19 +1660,19 @@ $(document).on('keyup', '.search-input', function (event) {
         var container = currentFilterList;
         if (filter.trim() !== "" && event.keyCode !== 27) {
             var matched = searchThroughArray(sort(), filter.trim());
-            if (matched.length > 0) {
-                container.removeClass('hidden');
-                removeAlert(container.closest('#item-view'), ALERT_NO_SEARCH_RESULTS);
+//            if (matched.length > 0) {
+//                container.removeClass('hidden');
+//                removeAlert(container.closest('#item-view'), ALERT_NO_SEARCH_RESULTS);
                 currentFilterData = matched;
                 updatePaginationItems();
                 $(container).trigger('renderData', [matched]);
-            } else {
-                container.addClass('hidden');
-                appendAlert(container.closest('#item-view'), ALERT_NO_SEARCH_RESULTS);
-            }
+//            } else {
+//                container.addClass('hidden');
+//                appendAlert(container.closest('#item-view'), ALERT_NO_SEARCH_RESULTS);
+//            }
         } else {
-            container.removeClass('hidden');
-            removeAlert(container.closest('#item-view'), ALERT_NO_SEARCH_RESULTS);
+//            container.removeClass('hidden');
+//            removeAlert(container.closest('#item-view'), ALERT_NO_SEARCH_RESULTS);
             currentFilterData = sort();
             updatePaginationItems();
             $(container).trigger('renderData', [currentFilterData]);
@@ -2499,8 +2499,10 @@ function getGestureCatalogGestureSetPanel(data, type, layout) {
     $(panel).find('#btn-delete-gesture-set').unbind('click').bind('click', {setId: data.id}, function (event) {
         event.preventDefault();
         var button = $(this);
+        
         if (!$(button).hasClass('disabled')) {
             lockButton(button, true, 'fa-trash');
+            $(button).popover('hide');
 
             deleteGestureSet({setId: event.data.setId}, function (result) {
                 unlockButton(button, true, 'fa-trash');

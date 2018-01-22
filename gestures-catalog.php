@@ -271,6 +271,7 @@ if (login_check($mysqli) == true) {
     </div>
 
     <script>
+        var firstInit = true;
         $(document).ready(function () {
             checkDomain();
             currentFilterList = $('#gestures-list-container');
@@ -305,61 +306,80 @@ if (login_check($mysqli) == true) {
             var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
             var count = 0;
             var clone;
-            for (var i = viewFromIndex; i < viewToIndex; i++) {
 
-                switch ($(currentActiveTab).attr('id')) {
-                    case 'gesture-sets':
-                        clone = getGestureCatalogGestureSetPanel(currentFilterData[i]);
-                        $(currentFilterList).append(clone);
-                        if (animate && animate === true) {
+            if (currentFilterData.length > 0) {
+                clearAlerts($(currentActiveTab).find('#item-view'));
+                for (var i = viewFromIndex; i < viewToIndex; i++) {
+
+                    switch ($(currentActiveTab).attr('id')) {
+                        case 'gesture-sets':
+                            clone = getGestureCatalogGestureSetPanel(currentFilterData[i]);
+                            $(currentFilterList).append(clone);
+                            if (animate && animate === true) {
 //                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, y: -10});
-                        }
-                        break;
-                    case 'gesture-catalog':
-                        clone = getGestureCatalogListThumbnail(currentFilterData[i]);
-                        $(currentFilterList).append(clone);
-                        if (animate && animate === true) {
+                            }
+                            break;
+                        case 'gesture-catalog':
+                            clone = getGestureCatalogListThumbnail(currentFilterData[i]);
+                            $(currentFilterList).append(clone);
+                            if (animate && animate === true) {
 //                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-                        }
-                        break;
+                            }
+                            break;
+                    }
+                    count++;
                 }
-                count++;
+            } else {
+                appendAlert($(currentActiveTab).find('#item-view'), ALERT_NO_SEARCH_RESULTS);
+                $(currentActiveTab).find('#item-view #pager-top .pagination').addClass('hidden');
+                $(currentActiveTab).find('#item-view #pager-bottom .pagination').addClass('hidden');
             }
 
+            $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
+                event.preventDefault();
+                renderData(data);
+            });
+
             initPopover(300);
+            firstInit = false;
         }
 
         $('.filter').unbind('change').bind('change', function (event) {
             event.preventDefault();
-            currentFilterData = sort();
-            updatePaginationItems();
-            if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
-                $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
-            } else {
-                renderData(currentFilterData, true);
+            if (firstInit !== true) {
+                currentFilterData = sort();
+                updatePaginationItems();
+                if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+                    $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+                } else {
+                    renderData(currentFilterData, true);
+                }
             }
         });
 
         $('.sort').unbind('change').bind('change', function (event) {
-            console.log('sort changed', getCurrentActiveTab());
             event.preventDefault();
-            currentFilterData = sort();
-            updatePaginationItems();
-            if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
-                $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
-            } else {
-                renderData(currentFilterData, true);
+            if (firstInit !== true) {
+                currentFilterData = sort();
+                updatePaginationItems();
+                if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+                    $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+                } else {
+                    renderData(currentFilterData, true);
+                }
             }
         });
 
         $('.resultsCountSelect').unbind('change').bind('change', function (event) {
             event.preventDefault();
-            currentFilterData = sort();
-            updatePaginationItems();
-            if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
-                $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
-            } else {
-                renderData(currentFilterData, true);
+            if (firstInit !== true) {
+                currentFilterData = sort();
+                updatePaginationItems();
+                if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+                    $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+                } else {
+                    renderData(currentFilterData, true);
+                }
             }
         });
 
@@ -367,7 +387,9 @@ if (login_check($mysqli) == true) {
             event.preventDefault();
             if (!event.handled) {
                 event.handled = true;
-                renderData(sort(), true);
+                if (firstInit !== true) {
+                    renderData(sort(), true);
+                }
             }
         });
 
@@ -415,7 +437,9 @@ if (login_check($mysqli) == true) {
                         };
                         initPagination(data);
                         $('#gesture-catalog').find('#sort #newest').removeClass('selected');
-                        $('#gesture-catalog').find('#sort #newest').click();
+//                        $('#gesture-catalog').find('#sort #newest').click();
+                        currentFilterData = sort();
+                        renderData(currentFilterData);
                     } else {
                         // show alert that no data is there
                     }
@@ -436,11 +460,6 @@ if (login_check($mysqli) == true) {
                 gesturePreviewDeleteable = true;
                 renderGestureInfoData();
                 showGestureInfo($('#gesture-catalog'));
-            });
-
-            $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
-                event.preventDefault();
-                renderData(data);
             });
         }
 
@@ -481,11 +500,13 @@ if (login_check($mysqli) == true) {
                 renderGestureInfoData();
                 showGestureInfo($('#gesture-sets'));
             });
-
-            $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
-                event.preventDefault();
-                renderData(data);
-            });
+//
+//            $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
+//                event.preventDefault();
+//                if (firstInit !== true) {
+//                    renderData(data);
+//                }
+//            });
 
             $('#gesture-sets .create-gesture-set-input').unbind('gestureSetCreated').bind('gestureSetCreated', function (event) {
                 getWholeGestureSets();

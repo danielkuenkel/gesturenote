@@ -2082,28 +2082,37 @@ function initCatalogGesturesOverlay(formatClone) {
         var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
         var count = 0;
 
-        for (var i = viewFromIndex; i < viewToIndex; i++) {
-            var clone;
-            switch ($(currentActiveTab).attr('id')) {
-                case 'gesture-sets':
-                    clone = getGestureSetPanel(currentFilterData[i]);
-                    $(currentFilterList).append(clone);
-                    if (animation && animation === true) {
-                        TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, y: -10});
-                    }
-                    break;
-                case 'study-gesture-set':
-                case 'gesture-catalog':
-                    clone = getCreateStudyGestureListThumbnail(currentFilterData[i], 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-4');
-                    $(currentFilterList).append(clone);
-                    if (animation && animation === true) {
-                        TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
-                    }
+        if (currentFilterData.length > 0) {
+            clearAlerts($(currentActiveTab).find('#item-view'));
+            
+            for (var i = viewFromIndex; i < viewToIndex; i++) {
+                var clone;
+                switch ($(currentActiveTab).attr('id')) {
+                    case 'gesture-sets':
+                        clone = getGestureSetPanel(currentFilterData[i]);
+                        $(currentFilterList).append(clone);
+                        if (animation && animation === true) {
+                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, y: -10});
+                        }
+                        break;
+                    case 'study-gesture-set':
+                    case 'gesture-catalog':
+                        clone = getCreateStudyGestureListThumbnail(currentFilterData[i], 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-4');
+                        $(currentFilterList).append(clone);
+                        if (animation && animation === true) {
+                            TweenMax.from(clone, .2, {delay: count * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                        }
 
-                    break;
+                        break;
+                }
+                count++;
             }
-            count++;
+        } else {
+            appendAlert($(currentActiveTab).find('#item-view'), ALERT_NO_SEARCH_RESULTS);
+            $(currentActiveTab).find('#item-view #pager-top .pagination').addClass('hidden');
+            $(currentActiveTab).find('#item-view #pager-bottom .pagination').addClass('hidden');
         }
+
         initPopover();
         initTooltips();
         updateNavBadges();

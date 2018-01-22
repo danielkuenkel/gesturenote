@@ -78,12 +78,13 @@ if ($h && $token && $studyId) {
 
 
         <!-- Container (Panel Section) -->
-        <div class="container mainContent" style="margin-top: 85px;">
+        <div class="container mainContent" style="margin-top: 15px;">
 
             <div class="row hidden" id="study-details">
                 <div class="col-xs-12">
                     <h2 id="study-headline" style="margin-top: 0"></h2>
                     <hr style="">
+
                     <div class="row">
                         <div class="col-sm-7">
                             <div id="study-description">
@@ -94,30 +95,36 @@ if ($h && $token && $studyId) {
                             <button class="btn btn-block btn-info btn-shadow" id="btn-enter-study"><?php echo $lang->enterStudyAsTester ?></button>
                         </div>
                         <div class="col-sm-5 hidden" id="study-participation">
-                            <div id="alert-hints">
-                                <div class="alert-space alert-study-over-range"></div>
-                                <div class="alert-space alert-study-under-range"></div>
-                                <div class="alert-space alert-waiting-for-moderator"></div>
-                                <div class="alert-space alert-web-rtc-not-supported"></div>
-                            </div>
-                            <div class="hidden" id="video-caller">
-                                <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
-                                <div class="rtc-local-container">
-                                    <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
-                                </div>
-                                <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; display: inline; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
-                                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-                                    <button type="button" class="btn stream-control disabled" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
-                                </div>
-                                <div id="stream-control-indicator">
-                                    <div style="position: absolute; top: 4px; display: block; left: 25px; opacity: 1; color: white">
-                                        <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
-                                        <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div id="alert-hints">
+                                        <div class="alert-space alert-study-over-range"></div>
+                                        <div class="alert-space alert-study-under-range"></div>
+                                        <div class="alert-space alert-waiting-for-moderator"></div>
+                                        <div class="alert-space alert-web-rtc-not-supported"></div>
                                     </div>
-                                    <div style="position: absolute; top: 4px; display: block; right: 25px; opacity: 1; color: white">
-                                        <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
-                                        <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="hidden" id="video-caller">
+                                        <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
+                                        <div class="rtc-local-container">
+                                            <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
+                                        </div>
+                                        <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; display: inline; left: 50%; transform: translate(-50%, 0); opacity: 0">
+                                            <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                                            <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                                            <button type="button" class="btn stream-control disabled" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                                        </div>
+                                        <div id="stream-control-indicator">
+                                            <div style="position: absolute; top: 4px; display: block; left: 25px; opacity: 1; color: white">
+                                                <i id="mute-local-audio" class="hidden fa fa-microphone-slash" style="margin-right: 3px"></i>
+                                                <i id="pause-local-stream" class="hidden fa fa-pause"></i>
+                                            </div>
+                                            <div style="position: absolute; top: 4px; display: block; right: 25px; opacity: 1; color: white">
+                                                <i id="mute-remote-audio" class="hidden fa fa-microphone-slash"></i>
+                                                <i id="pause-remote-stream" class="hidden fa fa-pause" style="margin-left: 3px"></i>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

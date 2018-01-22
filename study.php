@@ -98,16 +98,32 @@ if (login_check($mysqli) == true) {
         <!-- Container (Panel Section) -->
         <div class="container mainContent tab-content" id="main-content">
 
+
             <div role="tabpanel" class="tab-pane" id="general-infos">
-                <h2 id="study-headline" style="margin-top: 0"></h2>
+                <h2 id="study-headline" style="margin-top: 0px; margin-bottom: 0px"></h2>
                 <div class="label label-default" id="type-phase"></div>
                 <div class="label label-default" id="type-survey"></div>
                 <div class="label label-default hidden" id="panel-survey"><?php echo $lang->panelSurvey ?></div>
 
                 <div class="row" style="margin-top: 20px">
+                    <div class="col-sm-12" id="copy-to-clipboard">
+                        <h3 class="address"><?php echo $lang->studyUrl ?></h3>
+                        <p class="text"><?php echo $lang->studyURLDescription ?></p>
+                        <div class="input-group">
+                            <!--<div class="input-group-addon"><?php echo $lang->studyUrl ?></div>-->
+                            <input type="text" class="form-control" id="static-study-url">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-shadow" type="button" id="btn-open-static-study-url"><i class="fa fa-external-link" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row" style="margin-top: 20px">
                     <div class="col-sm-6 col-lg-7">
                         <div id="study-description">
-                            <h3 class="address"></h3>
+                            <h3 class="address"><?php echo $lang->description ?></h3>
                             <p class="text"></p>
                         </div>
                         <div class="hidden study-no-plan"><i class="fa fa-calendar-times-o" aria-hidden="true"></i> <span class="address"></span> <span class="text"></span></div>
@@ -124,16 +140,7 @@ if (login_check($mysqli) == true) {
                             <button class="btn btn-default btn-shadow" type="button" id="btn-edit-study"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editStudy ?></span></button>
                             <button class="btn btn-default btn-shadow" type="button" id="btn-preview-study"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->previewStudy ?></span></button>
                             <button class="btn btn-default btn-shadow" type="button" id="btn-delete-study"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteStudy ?></span></button>
-                            <button class="btn btn-default btn-shadow" type="button" id="btn-prepare-study"><i class="fa fa-inbox" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->executeStudy ?></span></button>
-                        </div>
-                    </div>
-                    <div class="col-sm-12" style="margin-top: 20px;" id="copy-to-clipboard">
-                        <div class="input-group">
-                            <div class="input-group-addon"><?php echo $lang->studyUrl ?></div>
-                            <input type="text" class="form-control" id="static-study-url">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default btn-shadow" type="button" id="btn-open-static-study-url"><i class="fa fa-external-link" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
-                            </span>
+                            <!--<button class="btn btn-default btn-shadow" type="button" id="btn-prepare-study"><i class="fa fa-inbox" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->executeStudy ?></span></button>-->
                         </div>
                     </div>
                 </div>
@@ -436,8 +443,8 @@ if (login_check($mysqli) == true) {
                                     </div>
                                 </div>
                             </div>
-                            
-                            
+
+
                             <div id="checklist-container" style="margin-top: 20px"></div>
                             <div class="alert-space alert-no-data-questionnaire"></div>
 

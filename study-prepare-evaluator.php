@@ -79,13 +79,16 @@ if ($h && $token && $studyId) {
         <!-- Container (Panel Section) -->
         <div class="container mainContent" >
 
-            <div class="row hidden" id="study-details">
+            <div class="row">
                 <div class="col-xs-12">
-                    <h2 id="study-headline" style="margin-top: 0"></h2>
-                    <hr>
+                    <h2 id="study-headline" style="margin-top: 0; margin-bottom: 0px"></h2>
+                    <!--<hr>-->
                     <div class="label label-default" id="type-phase"></div>
                     <div class="label label-default" id="type-survey"></div>
                 </div>
+            </div>
+
+            <div class="row hidden" id="study-details">
                 <div class="col-sm-7" style="margin-bottom: 20px">
                     <div id="study-description">
                         <h3 class="address"></h3>

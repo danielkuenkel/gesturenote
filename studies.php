@@ -32,6 +32,7 @@ if (login_check($mysqli) == true) {
 
 
         <script src="js/storage.js"></script>
+        <script src="js/chance.min.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
@@ -41,6 +42,7 @@ if (login_check($mysqli) == true) {
         <script src="js/ajax.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/sha512.js"></script>
+        <script src="js/masonry/masonry.min.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -49,7 +51,7 @@ if (login_check($mysqli) == true) {
         <div id="template-subpages"></div>
 
         <!-- thumbnail -->
-        <div class="root col-xs-12 col-sm-6 col-lg-4 hidden studies-catalog-thumbnail" id="studies-catalog-thumbnail">
+        <div class="root col-xs-12 col-sm-6 col-lg-4 hidden grid-item studies-catalog-thumbnail" id="studies-catalog-thumbnail">
             <div class="panel panel-default btn-shadow">
                 <div class="panel-heading" style="text-overflow:ellipsis; white-space:nowrap; overflow: hidden;">
                     <span class="title-text ellipsis" style="position: relative; top: 1px;"></span>
@@ -179,7 +181,14 @@ if (login_check($mysqli) == true) {
 
         </div>
 
+        <div class="container">
+            <div class="row" id="masonry-grid">
+            </div>
+        </div>
+
+
         <script>
+            var firstInit = true;
             $(document).ready(function () {
                 checkDomain();
                 currentFilterList = $('#list-container');
@@ -190,6 +199,8 @@ if (login_check($mysqli) == true) {
                     externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     loadExternals(externals);
                 });
+
+//                renderMasonryTest(20);
             });
 
             function onAllExternalsLoadedSuccessfully() {
@@ -213,8 +224,11 @@ if (login_check($mysqli) == true) {
                                     sort: $('#item-view').find('#sort')
                                 }
                             };
+
                             initPagination(data);
-                            $('#sort #newest').click();
+                            currentFilterData = sort();
+                            renderData(currentFilterData, true);
+//                            $('#sort #newest').click();
                         } else {
                             appendAlert($('#item-view'), ALERT_NO_STUDIES);
                         }
@@ -223,6 +237,12 @@ if (login_check($mysqli) == true) {
             }
 
             function renderData(data, animate) {
+                var $container = $('#list-container');
+                var hasMasonry = $container.data('masonry') ? true : false;
+                if (hasMasonry === true) {
+                    $container.masonry('destroy');
+                }
+
                 $(currentFilterList).empty();
                 currentFilterData = data;
 
@@ -231,57 +251,82 @@ if (login_check($mysqli) == true) {
                 var viewFromIndex = index * listCount;
                 var viewToIndex = Math.min((index + 1) * listCount, currentFilterData.length);
 
-                for (var i = viewFromIndex; i < viewToIndex; i++) {
-                    var clone = getStudiesCatalogListThumbnail(currentFilterData[i]);
-                    $(currentFilterList).append(clone);
+                if (currentFilterData.length > 0) {
+                    clearAlerts($('#item-view'));
+                    for (var i = viewFromIndex; i < viewToIndex; i++) {
+                        var clone = getStudiesCatalogListThumbnail(currentFilterData[i]);
+//                        var height = chance.natural({min: 50, max: 300});
+//                        $(clone).find('.panel-heading').css({height: height + 'px'});
+                        $(currentFilterList).append(clone);
 
-                    if (animate) {
-                        TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                        if (animate) {
+                            TweenMax.from(clone, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});
+                        }
+
+                        $(clone).find('.panel').click({studyId: currentFilterData[i].id}, function (event) {
+                            event.preventDefault();
+                            var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
+                            goto("study.php?studyId=" + event.data.studyId + "&h=" + hash);
+                        });
                     }
-
-                    $(clone).find('.panel').click({studyId: currentFilterData[i].id}, function (event) {
-                        event.preventDefault();
-                        var hash = hex_sha512(parseInt(event.data.studyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
-                        goto("study.php?studyId=" + event.data.studyId + "&h=" + hash);
-                    });
+                } else {
+                    appendAlert($('#item-view'), ALERT_NO_SEARCH_RESULTS);
+                    $('#item-view #pager-top .pagination').addClass('hidden');
+                    $('#item-view #pager-bottom .pagination').addClass('hidden');
                 }
 
                 $(currentFilterList).unbind('renderData').bind('renderData', function (event, data) {
                     event.preventDefault();
                     renderData(data);
                 });
+
+                $container.masonry({
+                    columnWidth: '.grid-item',
+                    itemSelector: '.grid-item',
+                    horizontalOrder: true,
+                    percentPosition: true,
+                    transitionDuration: 0
+                });
+                $container.masonry('layout');
+                firstInit = false;
             }
 
             $('#filter').unbind('change').bind('change', function (event) {
                 event.preventDefault();
-                currentFilterData = sort();
-                updatePaginationItems();
-                if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
-                    $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
-                } else {
-                    renderData(currentFilterData, true);
+                if (firstInit !== true) {
+                    currentFilterData = sort();
+                    updatePaginationItems();
+                    if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+                        $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+                    } else {
+                        renderData(currentFilterData, true);
+                    }
                 }
             });
 
             $('#sort').unbind('change').bind('change', function (event) {
                 event.preventDefault();
-                currentFilterData = sort();
-                updatePaginationItems();
-                if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
-                    $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
-                } else {
-                    renderData(currentFilterData, true);
+                if (firstInit !== true) {
+                    currentFilterData = sort();
+                    updatePaginationItems();
+                    if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+                        $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+                    } else {
+                        renderData(currentFilterData, true);
+                    }
                 }
             });
 
             $('#resultsCountSelect').unbind('change').bind('change', function (event) {
                 event.preventDefault();
-                currentFilterData = sort();
-                updatePaginationItems();
-                if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
-                    $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
-                } else {
-                    renderData(currentFilterData, true);
+                if (firstInit !== true) {
+                    currentFilterData = sort();
+                    updatePaginationItems();
+                    if ($(currentFilterList).closest('#item-view').find('#searched-input').val().trim() !== "") {
+                        $(currentFilterList).closest('#item-view').find('#searched-input').trigger('keyup');
+                    } else {
+                        renderData(currentFilterData, true);
+                    }
                 }
             });
 
@@ -289,9 +334,39 @@ if (login_check($mysqli) == true) {
                 event.preventDefault();
                 if (!event.handled) {
                     event.handled = true;
-                    renderData(sort(), true);
+                    if (firstInit !== true) {
+                        renderData(sort(), true);
+                    }
                 }
             });
+
+            function renderMasonryTest(maxItems) {
+                for (var i = 0; i < maxItems; i++) {
+                    var col = document.createElement('div');
+                    $(col).addClass('col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-item');
+                    $('#masonry-grid').append(col);
+
+                    var height = chance.natural({min: 50, max: 350});
+                    var panel = document.createElement('div');
+                    $(panel).addClass('panel panel-default');
+                    $(col).append(panel);
+
+                    var panelHeading = document.createElement('div');
+                    $(panelHeading).addClass('panel-heading');
+                    $(panel).append(panelHeading);
+
+                    var panelBody = document.createElement('div');
+                    $(panelBody).addClass('panel-body');
+                    $(panelBody).css({height: height + 'px'});
+                    $(panel).append(panelBody);
+                }
+
+                var $container = $('#masonry-grid');
+                $container.masonry({
+                    columnWidth: '.grid-item',
+                    itemSelector: '.grid-item'
+                });
+            }
         </script>
     </body>
 </html>
