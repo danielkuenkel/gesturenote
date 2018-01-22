@@ -387,7 +387,7 @@ if (login_check($mysqli) == true) {
 
             $('#contact-form').find('#btn-contact-us').on('click', function (event) {
                 event.preventDefault();
-                if ($(this).hasClass('disabled')) {
+                if (!$(this).hasClass('disabled')) {
                     lockButton($(this), true, 'fa-send');
                     clearAlerts($('#contact-form'));
 
@@ -459,7 +459,7 @@ if (login_check($mysqli) == true) {
             });
 
             function resetContactFormInput() {
-                lockButton($('#contact-form').find('#btn-contact-us'), true, 'fa-send');
+                unlockButton($('#contact-form').find('#btn-contact-us'), true, 'fa-send');
             }
         </script>
 
