@@ -1321,6 +1321,7 @@ $(document).on('click', '.pagination li', function (event) {
         updatePagination();
     }
 });
+
 function shiftPaginationForward(mainPager, secondPager) {
     if (mainPager) {
         var paginationItems;
@@ -1388,6 +1389,7 @@ function shiftPaginationLastPage(mainPager, secondPager) {
         $(mainPager).find('#btn-next-page').prev().click();
     }
 }
+
 function shiftPaginationFirstPage(mainPager, secondPager) {
     if (mainPager) {
         var maxPages = parseInt($(mainPager).attr('data-max-pages'));

@@ -38,7 +38,7 @@ if (isset($_SESSION['user_id']) && isset($_POST['gestureId'])) {
 
                                 deleteFiles($target_dir, json_decode($imageURLs));
                                 if ($gifUrl !== NULL) {
-                                    deleteFiles($target_dir, array(json_decode($gifUrl)));
+                                    deleteFiles($target_dir, array($gifUrl));
                                 }
                                 echo json_encode(array('status' => 'success'));
                                 exit();
