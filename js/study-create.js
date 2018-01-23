@@ -286,6 +286,7 @@ function renderCatalogOverview() {
 function renderStudyGestures(gestures, animate) {
     $('#gestures-catalog').find('#gestures-list-container').empty();
     if (gestures && gestures.length > 0) {
+        $('#gestures-catalog').find('#btn-download-as-json').removeClass('disabled');
         for (var i = 0; i < gestures.length; i++) {
             var gesture = getGestureById(gestures[i]);
             var clone = getCreateStudyGestureListThumbnail(gesture, 'favorite-gesture-catalog-thumbnail', 'col-xs-6 col-sm-4 col-md-4 col-lg-3');
@@ -297,6 +298,7 @@ function renderStudyGestures(gestures, animate) {
         }
     } else {
         appendAlert($('#gestures-catalog'), ALERT_NO_PHASE_DATA);
+        $('#gestures-catalog').find('#btn-download-as-json').addClass('disabled');
     }
 
     $('#gestures-catalog').find('#gestures-list-container').unbind('change').bind('change', function (event, gestureId, assemble) {

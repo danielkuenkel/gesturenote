@@ -84,55 +84,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestionOptions ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rating ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->matrix ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sumQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ranking ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                             </div>
                         </div>
                     </div>
@@ -146,7 +146,7 @@ include '../includes/language.php';
         <br/>
         <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
     </div>
-    
+
     <div id="interview">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
 
@@ -178,55 +178,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestionOptions ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rating ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->matrix ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sumQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ranking ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                             </div>
                         </div>
                     </div>
@@ -312,18 +312,18 @@ include '../includes/language.php';
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-<!--                        <div class="dimension-container" id="container-efficiency">
-                            <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                            <div class="dimension-btn-group">
-                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                            </div>
-                        </div>
-                        <div class="dimension-container" id="container-satisfaction">
-                            <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                            <div class="dimension-btn-group">
-                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                            </div>
-                        </div>-->
+                        <!--                        <div class="dimension-container" id="container-efficiency">
+                                                    <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
+                                                    <div class="dimension-btn-group">
+                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                    </div>
+                                                </div>
+                                                <div class="dimension-container" id="container-satisfaction">
+                                                    <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
+                                                    <div class="dimension-btn-group">
+                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                    </div>
+                                                </div>-->
                     </div>
 
                     <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
@@ -370,18 +370,18 @@ include '../includes/language.php';
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-<!--                        <div class="dimension-container" id="container-efficiency">
-                            <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                            <div class="dimension-btn-group">
-                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                            </div>
-                        </div>
-                        <div class="dimension-container" id="container-satisfaction">
-                            <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                            <div class="dimension-btn-group">
-                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                            </div>
-                        </div>-->
+                        <!--                        <div class="dimension-container" id="container-efficiency">
+                                                    <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
+                                                    <div class="dimension-btn-group">
+                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                    </div>
+                                                </div>
+                                                <div class="dimension-container" id="container-satisfaction">
+                                                    <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
+                                                    <div class="dimension-btn-group">
+                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                    </div>
+                                                </div>-->
                     </div>
                     <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
@@ -445,7 +445,7 @@ include '../includes/language.php';
     <div id="gestureTraining">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
 
-        <div class="row" style="margin-bottom: 30px;">
+        <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
 
                 <div class="overlay-header">
@@ -462,8 +462,14 @@ include '../includes/language.php';
 
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
                 </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
 
-                <div id="general" style="margin-top: 16px">
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-md-7">
+
+                <div id="general">
                     <div class="form-group">
                         <label for="trainingTitle"><?php echo $lang->title ?></label>
                         <input type="text" class="form-control" id="trainingTitle" placeholder="<?php echo $lang->insertTitle ?>">
@@ -476,7 +482,9 @@ include '../includes/language.php';
 
             </div>
 
-            <div class="col-md-5"></div>
+            <div class="col-md-4">
+                <div style=""><?php echo $lang->tooltips->studyCreate->gestureTrainingOverlay ?></div>
+            </div>
         </div>
 
 
@@ -531,18 +539,18 @@ include '../includes/language.php';
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-<!--                        <div class="dimension-container" id="container-efficiency">
-                            <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                            <div class="dimension-btn-group">
-                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                            </div>
-                        </div>
-                        <div class="dimension-container" id="container-satisfaction">
-                            <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                            <div class="dimension-btn-group">
-                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                            </div>
-                        </div>-->
+                        <!--                        <div class="dimension-container" id="container-efficiency">
+                                                    <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
+                                                    <div class="dimension-btn-group">
+                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                    </div>
+                                                </div>
+                                                <div class="dimension-container" id="container-satisfaction">
+                                                    <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
+                                                    <div class="dimension-btn-group">
+                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                    </div>
+                                                </div>-->
                     </div>
 
                     <h4><?php echo $lang->userDefined ?></h4>
@@ -550,55 +558,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestionOptions ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rating ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->matrix ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sumQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ranking ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                             </div>
                         </div>
                     </div>
@@ -615,8 +623,8 @@ include '../includes/language.php';
 
     <div id="scenario">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
-
-        <div class="row" style="margin-bottom: 30px;">
+        
+        <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
 
                 <div class="overlay-header">
@@ -633,8 +641,14 @@ include '../includes/language.php';
 
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
                 </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-md-7">
 
-                <div id="general" style="margin-top: 16px">
+                <div id="general" style="">
                     <div class="form-group">
                         <label for="scenarioTitle"><?php echo $lang->taskTitle ?></label>
                         <input type="text" class="form-control" id="scenarioTitle" placeholder="<?php echo $lang->insertTaskTitle ?>">
@@ -647,7 +661,7 @@ include '../includes/language.php';
                     <div class="alert-space alert-assembled-scene-removed"></div>
 
                     <div class="form-group" id="start-scene-select">
-                        <label for="scenarioDescription"><?php echo $lang->stateCharts->inputState ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Dies ist ein Testcontent für ein Popover …"></i></label>
+                        <label for="scenarioDescription"><?php echo $lang->stateCharts->inputState ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i></label>
                         <div class="input-group"> 
                             <input class="form-control item-input-text show-dropdown option-scene readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select sceneSelect" role="group">
@@ -658,7 +672,9 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
+
+            <div class="col-md-4">
+                <div style=""><?php echo $lang->tooltips->studyCreate->scenarioOverlay ?></div>
             </div>
         </div>
 
@@ -744,18 +760,18 @@ include '../includes/language.php';
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-<!--                        <div class="dimension-container" id="container-efficiency">
-                            <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                            <div class="dimension-btn-group">
-                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                            </div>
-                        </div>
-                        <div class="dimension-container" id="container-satisfaction">
-                            <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                            <div class="dimension-btn-group">
-                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                            </div>
-                        </div>-->
+                        <!--                        <div class="dimension-container" id="container-efficiency">
+                                                    <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
+                                                    <div class="dimension-btn-group">
+                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                    </div>
+                                                </div>
+                                                <div class="dimension-container" id="container-satisfaction">
+                                                    <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
+                                                    <div class="dimension-btn-group">
+                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                    </div>
+                                                </div>-->
                     </div>
 
                     <h4><?php echo $lang->userDefined ?></h4>
@@ -763,55 +779,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestionOptions ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rating ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->matrix ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sumQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ranking ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                             </div>
                         </div>
                     </div>
@@ -829,8 +845,8 @@ include '../includes/language.php';
 
     <div id="gestureSlideshow">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
-
-        <div class="row" style="margin-bottom: 30px;">
+        
+        <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
 
                 <div class="overlay-header">
@@ -847,8 +863,14 @@ include '../includes/language.php';
 
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
                 </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-md-7">
 
-                <div id="general" style="margin-top: 16px">
+                <div id="general" style="">
                     <div class="form-group">
                         <label for="slideshowTitle"><?php echo $lang->title ?></label>
                         <input type="text" class="form-control" id="slideshowTitle" placeholder="<?php echo $lang->insertTitle ?>">
@@ -859,7 +881,10 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-5"></div>
+
+            <div class="col-md-4">
+                <div style=""><?php echo $lang->tooltips->studyCreate->gestureSlideshowOverlay ?></div>
+            </div>
         </div>
 
 
@@ -915,18 +940,18 @@ include '../includes/language.php';
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-<!--                        <div class="dimension-container" id="container-efficiency">
-                            <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                            <div class="dimension-btn-group">
-                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                            </div>
-                        </div>
-                        <div class="dimension-container" id="container-satisfaction">
-                            <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                            <div class="dimension-btn-group">
-                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                            </div>
-                        </div>-->
+                        <!--                        <div class="dimension-container" id="container-efficiency">
+                                                    <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
+                                                    <div class="dimension-btn-group">
+                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                    </div>
+                                                </div>
+                                                <div class="dimension-container" id="container-satisfaction">
+                                                    <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
+                                                    <div class="dimension-btn-group">
+                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                    </div>
+                                                </div>-->
                     </div>
 
                     <h4 style=""><?php echo $lang->userDefined ?></h4>
@@ -934,55 +959,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestionOptions ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rating ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->matrix ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sumQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ranking ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                             </div>
                         </div>
                     </div>
@@ -1001,7 +1026,7 @@ include '../includes/language.php';
     <div id="triggerSlideshow">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
 
-        <div class="row" style="margin-bottom: 30px;">
+        <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
 
                 <div class="overlay-header">
@@ -1018,8 +1043,16 @@ include '../includes/language.php';
 
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
                 </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-md-7">
 
-                <div id="general" style="margin-top: 16px">
+               
+
+                <div id="general" style="">
                     <div class="form-group">
                         <label for="slideshowTitle"><?php echo $lang->title ?></label>
                         <input type="text" class="form-control" id="slideshowTitle" placeholder="<?php echo $lang->insertTitle ?>">
@@ -1030,7 +1063,10 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
-            <div class="col-md-5"></div>
+
+            <div class="col-md-4">
+                <div style=""><?php echo $lang->tooltips->studyCreate->triggerSlideshowOverlay ?></div>
+            </div>
         </div>
 
 
@@ -1083,55 +1119,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestionOptions ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rating ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->matrix ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sumQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ranking ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                             </div>
                         </div>
                     </div>
@@ -1149,8 +1185,8 @@ include '../includes/language.php';
 
     <div id="physicalStressTest">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
-
-        <div class="row" style="margin-bottom: 30px;">
+        
+        <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
 
                 <div class="overlay-header">
@@ -1167,8 +1203,14 @@ include '../includes/language.php';
 
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
                 </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-md-7">
 
-                <div id="general" style="margin-top: 16px">
+                <div id="general" style="">
                     <div class="form-group">
                         <label for="stressTestTitle"><?php echo $lang->title ?></label>
                         <input type="text" class="form-control" id="stressTestTitle" placeholder="<?php echo $lang->insertTitle ?>">
@@ -1197,7 +1239,10 @@ include '../includes/language.php';
                 </div>
 
             </div>
-            <div class="col-md-5"></div>
+
+            <div class="col-md-4">
+                <div style=""><?php echo $lang->tooltips->studyCreate->physicalStressTestOverlay ?></div>
+            </div>
         </div>
 
 
@@ -1249,55 +1294,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestionOptions ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rating ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->matrix ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sumQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ranking ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                             </div>
                         </div>
                     </div>
@@ -1305,7 +1350,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="useGraphicalSingleStressSwitch">
                         <label style="margin: 0">
                             <?php echo $lang->askWithInteractiveGraphic ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1384,55 +1429,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestionOptions ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rating ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->matrix ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sumQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ranking ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                             </div>
                         </div>
                     </div>
@@ -1440,7 +1485,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="useGraphicalSequenceStressSwitch">
                         <label style="margin: 0" >
                             <?php echo $lang->askWithInteractiveGraphic ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1520,18 +1565,18 @@ include '../includes/language.php';
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-<!--                        <div class="dimension-container" id="container-efficiency">
-                            <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                            <div class="dimension-btn-group">
-                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                            </div>
-                        </div>
-                        <div class="dimension-container" id="container-satisfaction">
-                            <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                            <div class="dimension-btn-group">
-                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                            </div>
-                        </div>-->
+                        <!--                        <div class="dimension-container" id="container-efficiency">
+                                                    <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
+                                                    <div class="dimension-btn-group">
+                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                    </div>
+                                                </div>
+                                                <div class="dimension-container" id="container-satisfaction">
+                                                    <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
+                                                    <div class="dimension-btn-group">
+                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                                                    </div>
+                                                </div>-->
                     </div>
 
                     <h4 style=""><?php echo $lang->userDefined ?></h4>
@@ -1539,55 +1584,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestionOptions ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rating ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->matrix ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sumQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ranking ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                             </div>
                         </div>
                     </div>
@@ -1607,9 +1652,10 @@ include '../includes/language.php';
 
     <div id="identification">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
-
-        <div class="row">
+        
+        <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
+
                 <div class="overlay-header">
                     <div class="overlay-header-container">
                         <h3 class="overlay-title-editable" id="overlay-title"><span id="phase-step-title"></span> <i class="fa fa-pencil" id="btn-edit-phase-step-title"></i></h3>
@@ -1624,8 +1670,14 @@ include '../includes/language.php';
 
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
                 </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-7">
 
-                <div id="general" style="margin-top: 16px">
+                <div id="general" style="">
                     <div class="form-group">
                         <label for="identificationTitle"><?php echo $lang->title ?></label>
                         <input type="text" class="form-control" id="identificationTitle" placeholder="<?php echo $lang->insertTitle ?>">
@@ -1635,6 +1687,10 @@ include '../includes/language.php';
                         <textarea class="form-control" id="identificationDescription" rows="7" placeholder="<?php echo $lang->insertDescription ?>" style="resize: none"></textarea>
                     </div>
                 </div>
+            </div>
+
+            <div class="col-md-4">
+                <div style=""><?php echo $lang->tooltips->studyCreate->identificationOverlay ?></div>
             </div>
         </div>
 
@@ -1661,7 +1717,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="identificationTypeSwitch">
                         <label style="margin: 0"  >
                             <?php echo $lang->whatShouldBeIdentified ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1717,55 +1773,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestionOptions ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rating ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->matrix ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sumQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ranking ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                             </div>
                         </div>
                     </div>
@@ -1784,9 +1840,10 @@ include '../includes/language.php';
 
     <div id="exploration">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
-
-        <div class="row">
+        
+        <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
+
                 <div class="overlay-header">
                     <div class="overlay-header-container">
                         <h3 class="overlay-title-editable" id="overlay-title"><span id="phase-step-title"></span> <i class="fa fa-pencil" id="btn-edit-phase-step-title"></i></h3>
@@ -1801,8 +1858,14 @@ include '../includes/language.php';
 
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
                 </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-7">
 
-                <div id="general" style="margin-top: 16px">
+                <div id="general" style="">
                     <div class="form-group">
                         <label for="explorationTitle"><?php echo $lang->title ?></label>
                         <input type="text" class="form-control" id="explorationTitle" placeholder="<?php echo $lang->insertTitle ?>">
@@ -1813,6 +1876,10 @@ include '../includes/language.php';
                     </div>
 
                 </div>
+            </div>
+
+            <div class="col-md-4">
+                <div style=""><?php echo $lang->tooltips->studyCreate->explorationOverlay ?></div>
             </div>
         </div>
 
@@ -1837,7 +1904,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="explorationTypeSwitch">
                         <label style="margin: 0"  >
                             <?php echo $lang->whatShouldBeExtracted ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1865,7 +1932,7 @@ include '../includes/language.php';
                     <div class="form-group root hidden" id="askPreferredGestureSwitch">
                         <label style="margin: 0"  >
                             <?php echo $lang->queryPreferredGestureDirectly ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1893,7 +1960,7 @@ include '../includes/language.php';
                     <div class="form-group root hidden" id="askPreferredTriggerSwitch">
                         <label style="margin: 0"  >
                             <?php echo $lang->queryPreferredTriggerDirectly ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1918,7 +1985,7 @@ include '../includes/language.php';
                         </div>
                     </div>
 
-                    <button class="btn btn-info btn-shadow btn-add-explorationOption font-bold" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addExplorationElement ?></span></button>
+                    <button class="btn btn-info btn-shadow btn-add-explorationOption font-bold disabled" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addExplorationElement ?></span></button>
                 </div>
             </div>
         </div>
@@ -1949,55 +2016,55 @@ include '../includes/language.php';
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="openQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->openQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="dichotomousQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->dichotomousQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->dichotomousQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="groupingQuestionOptions">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->groupingQuestionOptions->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->groupingQuestionOptions ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="rating">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->rating->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->rating ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="matrix">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->matrix->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->matrix ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sumQuestion">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->sumQuestion->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sumQuestion ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ranking">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->ranking->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ranking ?>"></i>
                             </div>
                         </div>
                         <div class="btn-group">
                             <div class="btn btn-info btn-add-item btn-shadow font-bold" id="counter">
                                 <i class="fa fa-plus"></i> <?php echo $lang->questionFormats->counter->text ?> 
-                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                                <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
                             </div>
                         </div>
                     </div>
@@ -2345,7 +2412,7 @@ include '../includes/language.php';
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="triggerItem">
                             <i class="fa fa-plus"></i> <?php echo $lang->addTrigger ?>
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                         </div>
                     </div>
                 </div>
@@ -2384,13 +2451,13 @@ include '../includes/language.php';
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="text">
                             <i class="fa fa-plus"></i> <?php echo $lang->text ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="sound">
                             <i class="fa fa-plus"></i> <?php echo $lang->sound ?>
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                         </div>
                     </div>
                 </div>
@@ -2429,25 +2496,25 @@ include '../includes/language.php';
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="web">
                             <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->web ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->web ?>"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="pidoco">
                             <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->pidoco ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie URL's von Webseiten, um …"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->pidoco ?>"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="image">
                             <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->image ?>
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Hinterlegen Sie Bilder von Prototypen, die Sie testen wollen. Achten Sie auf das Format (Hochformat oder Querformat) abhängig von ihrem Anwendungsfall."></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->image ?>"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="videoEmbed">
                             <i class="fa fa-plus"></i> <?php echo $lang->sceneTypes->videoEmbed ?>
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Binden Sie jedes Video von YouTube oder Vimeo in ihre Studie ein. Hinterlegen Sie dazu die Einbettungs-URL"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->videoEmbed ?>"></i>
                         </div>
                     </div>
                 </div>

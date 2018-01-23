@@ -84,6 +84,7 @@ button:hover
 
 textarea {
     max-height: 300px;
+    min-height: 34px;
 }
 
 .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {

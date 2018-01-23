@@ -1747,7 +1747,7 @@ function initExplorationOverlay(id, formatClone) {
     renderAssembledScenes();
 //    renderAssembledScenes($('#form-item-container').find('#explorationItem #transition-scene'), [{id: 'none', title: translation.noner}]);
 //    renderAssembledScenes($(formatClone).find('#general'));
-//    var assembledScenes = getLocalItem(ASSEMBLED_SCENES);
+    var assembledScenes = getLocalItem(ASSEMBLED_SCENES);
 //    if (assembledScenes === null || (assembledScenes && assembledScenes.length === 0)) {
 //        appendAlert($(formatClone).find('#explorationElements'), ALERT_NO_SCENES_ASSEMBLED_LINK);
 //        $(formatClone).find('#explorationElements .btn-add-explorationOption').addClass('disabled');
@@ -1776,9 +1776,11 @@ function initExplorationOverlay(id, formatClone) {
 
         $(formatClone).find('#explorationTypeSwitch #' + data.explorationType).click();
         if (data.explorationType === 'gestures') {
+            $(formatClone).find('#explorationElements .btn-add-explorationOption').removeClass('disabled');
             $(formatClone).find('#askPreferredGestureSwitch').removeClass('hidden');
             $(formatClone).find('#askPreferredGestureSwitch #' + data.askPreferredGesture).click();
         } else {
+            $(formatClone).find('#explorationElements .btn-add-explorationOption').removeClass('disabled');
             $(formatClone).find('#askPreferredTriggerSwitch').removeClass('hidden');
             $(formatClone).find('#askPreferredTriggerSwitch #' + data.askPreferredTrigger).click();
         }
@@ -1805,7 +1807,6 @@ function initExplorationOverlay(id, formatClone) {
                     }
 
                     renderAssembledGesturesItems(clone.find('#assembled-gestures-container'), items[i].gestures);
-
                 } else {
                     var gesture = getGestureById(items[i].gestureId);
                     if (gesture) {
@@ -1964,6 +1965,7 @@ function initExplorationOverlay(id, formatClone) {
             $(formatClone).find('#askPreferredGestureSwitch').addClass('hidden');
         }
         $(formatClone).find('#explorationElements .option-container').trigger('change');
+        $(formatClone).find('#explorationElements .btn-add-explorationOption').removeClass('disabled');
     });
 
     $(formatClone).find('#explorationElements .btn-add-explorationOption').on('click', function (event) {
@@ -1986,7 +1988,7 @@ function initExplorationOverlay(id, formatClone) {
                     initAddTransitionSceneButton(item);
                 }
             } else {
-//                wobble($(formatClone).find('#identificationTypeSwitch'));
+                wobble($(formatClone).find('#explorationTypeSwitch'));
             }
         }
     });
@@ -1996,6 +1998,7 @@ function initExplorationOverlay(id, formatClone) {
             event.preventDefault();
             if (event.handled !== true)
             {
+                console.log('add transition scenes');
                 event.handled = true;
                 var scenes = getLocalItem(ASSEMBLED_SCENES);
                 if (scenes && scenes.length > 0) {

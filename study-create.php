@@ -197,15 +197,11 @@ if (login_check($mysqli) == true) {
 
                 <div role="tabpanel" class="tab-pane" id="generalData">
 
-<!--                    <p id="styleguide-info" class="text">
-                    <?php echo $lang->createStudyInfos->general->overview ?>
-                    </p>-->
-
-                    <!-- study name -->
+                    <!-- study title -->
                     <div class="form-group">
                         <label for="studyTitle" >
                             <?php echo $lang->studyTitle ?>
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text1 ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->title ?>"></i>
                         </label>
                         <input type="text" class="form-control" id="studyTitle" placeholder="<?php echo $lang->insertTitle ?>" required>
                     </div>
@@ -215,21 +211,20 @@ if (login_check($mysqli) == true) {
                     <div class="form-group" style="margin-bottom: 0px">
                         <label for="studyDescription">
                             <?php echo $lang->studyDescription ?>
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text2 ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->description ?>"></i>
                         </label>
                         <textarea class="form-control" id="studyDescription" rows="5" placeholder="<?php echo $lang->insertDescription ?>"></textarea>
                     </div>
 
 
-                    <!-- manner dropdowns -->
+                    <!-- manner selections -->
                     <form class="form-inline" style="margin-top: 0px">
-
 
                         <div class="form-group root" id="phaseSelect" style="margin-right: 20px; margin-top: 15px">
 
                             <label style="margin: 0">
                                 <?php echo $lang->studyPhase ?> 
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text3 ?>"></i>
+                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->phase ?>"></i>
                             </label><br>
 
                             <div class="btn-group" id="radio" style="margin: 0">
@@ -268,7 +263,7 @@ if (login_check($mysqli) == true) {
                         <div class="form-group root" id="surveyTypeSelect" style="margin-top: 15px">
                             <label style="margin: 0">
                                 <?php echo $lang->studySurveyType ?>
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->general->text4 ?>"></i>
+                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->surveyType ?>"></i>
                             </label><br>
 
                             <div class="btn-group" id="radio" style="margin: 0">
@@ -294,11 +289,6 @@ if (login_check($mysqli) == true) {
                         </div>
 
                     </form>
-
-                    <!--<hr>-->
-<!--                    <p id="styleguide-info" class="text">
-                    <?php echo $lang->createStudyInfos->panel->overview ?>
-                    </p>-->
 
                     <div id="from-To-datepicker" style="margin-top: 15px">
                         <div class="input-daterange row" id="datepicker">
@@ -431,21 +421,18 @@ if (login_check($mysqli) == true) {
 
 
                 <div role="tabpanel" class="tab-pane" id="catalogs">
-<!--                    <p id="styleguide-info" class="text">
-                    <?php echo $lang->createStudyInfos->catalogs->overview ?>
-                    </p>-->
 
                     <div class="row">
                         <div class="col-md-12" id="gestures-catalog">
                             <div style="display: inline">
                                 <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->studyGestures ?> 
-                                    <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text1 ?>"></i>
+                                    <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogGestures ?>"></i>
                                 </h4>
                                 <div class="btn-group">
                                     <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-gestures">
                                         <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
                                     </button>
-                                    <button class="btn btn-default btn-shadow" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-download"></i></button>
+                                    <button class="btn btn-default btn-shadow disabled" id="btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-download"></i></button>
                                 </div>
                             </div>
 
@@ -456,7 +443,7 @@ if (login_check($mysqli) == true) {
                         <div class="col-md-6" id="trigger-catalog" style="margin-top: 20px">
                             <div style="display: inline">
                                 <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->triggers ?> 
-                                    <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text2 ?>"></i>
+                                    <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogTrigger ?>"></i>
                                 </h4>
                                 <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-trigger">
                                     <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
@@ -470,7 +457,7 @@ if (login_check($mysqli) == true) {
                         <div class="col-md-6" id="feedback-catalog" style="margin-top: 20px">
                             <div style="display: inline">
                                 <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->feedback ?> 
-                                    <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text4 ?>"></i>
+                                    <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogFeedback ?>"></i>
                                 </h4>
                                 <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-feedback">
                                     <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
@@ -484,7 +471,7 @@ if (login_check($mysqli) == true) {
                         <div class="col-md-12" id="scenes-catalog" style="margin-top: 20px">
                             <div style="display: inline">
                                 <h4 style="display:inline-block; padding-right: 10px; position: relative; top:2px"><?php echo $lang->scenes ?> 
-                                    <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->catalogs->text3 ?>"></i>
+                                    <i class="fa fa-info-circle btn-show-info" for="studyDescription" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->catalogScenes ?>"></i>
                                 </h4>
                                 <button style="display:inline-block" class="btn btn-default btn-shadow btn-open-overlay" id="catalog-scenes">
                                     <i class="fa fa-folder-open" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->open ?></span>
@@ -503,9 +490,6 @@ if (login_check($mysqli) == true) {
 
 
                 <div role="tabpanel" class="tab-pane" id="phases">
-<!--                    <p id="styleguide-info" class="text">
-                    <?php echo $lang->createStudyInfos->phases->overview ?>
-                    </p>-->
                     <div class="row">
                         <div class="col-sm-7 col-md-6">
                             <div class="" id="phaseStepList"></div>
@@ -522,31 +506,31 @@ if (login_check($mysqli) == true) {
                                     <div class="btn-group" data-study-phase="all" data-study-survey-type="all">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="questionnaire">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->questionnaire->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->questionnaire ?>"></i>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->questionnaire ?>"></i>
                                         </div>
                                     </div>
                                     <div class="btn-group" data-study-phase="all" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="interview">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->interview->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->interview ?>"></i>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->interview ?>"></i>
                                         </div>
                                     </div>
                                     <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="gus">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->gus->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->gus ?>"></i>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gus ?>"></i>
                                         </div>
                                     </div>
                                     <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="questionnaireGestures">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->questionnaireGestures->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->questionnaireGestures ?>"></i>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->questionnaireGestures ?>"></i>
                                         </div>
                                     </div>
                                     <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="sus">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->sus->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->sus ?>"></i>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sus ?>"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -556,43 +540,43 @@ if (login_check($mysqli) == true) {
                                     <div class="btn-group" data-study-phase="elicitation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="identification">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->identification->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->identification ?>"></i>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identification ?>"></i>
                                         </div>
                                     </div>
                                     <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="gestureTraining">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->gestureTraining->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->gestureTraining ?>"></i>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureTraining ?>"></i>
                                         </div>
                                     </div>
                                     <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="scenario">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->scenario->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->scenario ?>"></i>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenario ?>"></i>
                                         </div>
                                     </div>
                                     <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="gestureSlideshow">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->gestureSlideshow->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->gestureSlideshow ?>"></i>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->gestureSlideshow ?>"></i>
                                         </div>
                                     </div>
                                     <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="triggerSlideshow">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->triggerSlideshow->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->triggerSlideshow ?>"></i>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->triggerSlideshow ?>"></i>
                                         </div>
                                     </div>
                                     <div class="btn-group" data-study-phase="evaluation" data-study-survey-type="all">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="physicalStressTest">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->physicalStressTest->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->physicalStressTest ?>"></i>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->physicalStressTest ?>"></i>
                                         </div>
                                     </div>
                                     <div class="btn-group" data-study-phase="extraction" data-study-survey-type="moderated">
                                         <div class="btn btn-info btn-add-item btn-shadow font-bold" id="exploration">
                                             <i class="fa fa-plus"></i> <?php echo $lang->formats->exploration->text ?>
-                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->createStudyInfos->phases->exploration ?>"></i>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->exploration ?>"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -612,8 +596,6 @@ if (login_check($mysqli) == true) {
                                 <i class="glyphicon glyphicon-trash"></i>
                             </button>
                             <button class="btn btn-default btn-shadow btn-text-button btn-open-overlay">
-                                <!--<span class="glyphicon glyphicon-tag"></span>-->
-                                <!--<i class="glyphicon glyphicon-cog btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->generalEdit ?>"></i>--> 
                                 <span class="phase-step-format"></span>
                             </button>
                         </div>
@@ -627,7 +609,6 @@ if (login_check($mysqli) == true) {
 
                 <!-- submit form button group -->
                 <div class="btn-group-vertical btn-block" role="group">
-                    <!--<button type="button" class="btn btn-danger btn-shadow btn-md" id="btn-clear-data"><i class="glyphicon glyphicon-trash"></i> <?php echo $lang->deleteAllData ?></button>-->
                     <button type="button" class="btn btn-default btn-shadow disabled" id="btn-preview-study"><i class="glyphicon glyphicon-eye-open"></i> <?php echo $lang->studyPreview ?></button>
                     <button type="button" class="btn btn-success btn-shadow" id="btn-save-study"><i class="fa fa-save"></i> <?php echo $lang->saveAndClose ?></button>
                 </div>
@@ -876,7 +857,7 @@ if (login_check($mysqli) == true) {
                 } else {
                     $('#surveyTypeSelect').find('#unmoderated').removeClass('disabled');
                 }
-                
+
                 var surveyTypeId = $('#surveyTypeSelect').find('.btn-option-checked').attr('id');
 
                 var addPhaseButtons = $('#phaseStepSelect').find('.btn-group');
@@ -1088,7 +1069,7 @@ if (login_check($mysqli) == true) {
                 }
                 overlayTween.play();
                 setTimeout(function () {
-                    $('body').animate({
+                    $('html,body').animate({
                         scrollTop: 0
                     }, 200);
                 }, 300);
@@ -1100,7 +1081,7 @@ if (login_check($mysqli) == true) {
 
             $(document).on('click', '.btn-close-overlay', function (event) {
                 event.preventDefault();
-                $('body').animate({
+                $('html,body').animate({
                     scrollTop: 0
                 }, 200);
                 overlayTween.reverse();
@@ -1108,8 +1089,10 @@ if (login_check($mysqli) == true) {
 
             $('#gestures-catalog').find('#btn-download-as-json').unbind('click').bind('click', function (event) {
                 event.preventDefault();
-                $(this).popover('hide');
-                downloadGestureSetAsJSON($('#gestures-catalog').find('#gestures-list-container .gesture-thumbnail'), translation.studyGestureSet);
+                if (!$(this).hasClass('disabled')) {
+                    $(this).popover('hide');
+                    downloadGestureSetAsJSON($('#gestures-catalog').find('#gestures-list-container .gesture-thumbnail'), translation.studyGestureSet);
+                }
             });
 
             var datePickerFromOpened = false;

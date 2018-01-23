@@ -2053,6 +2053,7 @@ include '../includes/language.php';
             <div class="form-group" id="scenes">
                 <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
                 <div class="alert-space alert-no-phase-data"></div>
+                <div class="alert-space alert-no-scenes-assembled-link"></div>
                 <div class="">
                     <div class="transition-scenes-option-container">
                     </div>
