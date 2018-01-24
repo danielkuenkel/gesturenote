@@ -7,8 +7,9 @@ include '../includes/language.php';
     <div id="letterOfAcceptance">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
 
-        <div class="row">
+        <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
+
                 <div class="overlay-header">
                     <div class="overlay-header-container">
                         <h3><span id="phase-step-title"><?php echo $lang->formats->letterOfAcceptance->text ?></span></h3>
@@ -17,11 +18,18 @@ include '../includes/language.php';
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
                 </div>
 
-                <textarea class="form-control" id="declaration" rows="10" placeholder="Erklärung einfügen"></textarea>
             </div>
-            <div class="col-md-5">
-                <div class="toggle-affix">
-                </div>
+            <div class="col-md-4"></div>
+        </div>
+
+        <div class="row" style="margin-bottom: 30px;">
+
+            <div class="col-md-7">
+                <textarea class="form-control" id="declaration" rows="10" placeholder="Erklärung einfügen" style="margin-top: 6px"></textarea>
+            </div>
+
+            <div class="col-md-4">
+                <div style=""><?php echo $lang->tooltips->studyCreate->letterOfAcceptanceOverlay ?></div>
             </div>
         </div>
 
@@ -31,21 +39,28 @@ include '../includes/language.php';
     <div id="thanks">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
 
-        <div class="row">
+        <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
+
                 <div class="overlay-header">
                     <div class="overlay-header-container">
-                        <h3><span id="phase-step-title"><?php echo $lang->formats->thanks->text ?></span></h3>
+                        <h3><span id="phase-step-title"><?php echo $lang->formats->letterOfAcceptance->text ?></span></h3>
                     </div>
 
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
                 </div>
 
-                <textarea class="form-control" id="declaration" rows="10" placeholder="<?php echo $lang->thanksInput ?>"></textarea>
             </div>
-            <div class="col-md-5">
-                <div class="toggle-affix">
-                </div>
+            <div class="col-md-4"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7">
+                <textarea class="form-control" id="declaration" rows="10" placeholder="<?php echo $lang->thanksInput ?>" style="margin-top: 6px"></textarea>
+            </div>
+
+            <div class="col-md-4">
+                <div style=""><?php echo $lang->tooltips->studyCreate->thanksOverlay ?></div>
             </div>
         </div>
 
@@ -623,7 +638,7 @@ include '../includes/language.php';
 
     <div id="scenario">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
-        
+
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
 
@@ -644,7 +659,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-4"></div>
         </div>
-        
+
         <div class="row" style="margin-bottom: 30px;">
             <div class="col-md-7">
 
@@ -845,7 +860,7 @@ include '../includes/language.php';
 
     <div id="gestureSlideshow">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
-        
+
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
 
@@ -866,7 +881,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-4"></div>
         </div>
-        
+
         <div class="row" style="margin-bottom: 30px;">
             <div class="col-md-7">
 
@@ -1046,11 +1061,11 @@ include '../includes/language.php';
             </div>
             <div class="col-md-4"></div>
         </div>
-        
+
         <div class="row" style="margin-bottom: 30px;">
             <div class="col-md-7">
 
-               
+
 
                 <div id="general" style="">
                     <div class="form-group">
@@ -1185,7 +1200,7 @@ include '../includes/language.php';
 
     <div id="physicalStressTest">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
-        
+
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
 
@@ -1206,7 +1221,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-4"></div>
         </div>
-        
+
         <div class="row" style="margin-bottom: 30px;">
             <div class="col-md-7">
 
@@ -1652,7 +1667,7 @@ include '../includes/language.php';
 
     <div id="identification">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
-        
+
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
 
@@ -1673,7 +1688,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-4"></div>
         </div>
-        
+
         <div class="row">
             <div class="col-md-7">
 
@@ -1840,7 +1855,7 @@ include '../includes/language.php';
 
     <div id="exploration">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
-        
+
         <div class="row" style="margin-bottom: 16px">
             <div class="col-md-7">
 
@@ -1861,7 +1876,7 @@ include '../includes/language.php';
             </div>
             <div class="col-md-4"></div>
         </div>
-        
+
         <div class="row">
             <div class="col-md-7">
 

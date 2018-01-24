@@ -1963,6 +1963,7 @@ var Moderator = {
                 };
                 recorder = new GestureRecorder(options);
                 renderBodyJoints(gestureRecorder.find('#human-body'));
+                initPopover();
 
                 $(gestureRecorder).unbind(EVENT_GR_SAVE_SUCCESS).bind(EVENT_GR_SAVE_SUCCESS, function (event, gesture) {
                     $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
@@ -1981,7 +1982,12 @@ var Moderator = {
             } else {
                 $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
                 initRerecordingButton();
-                // append alert in identified gesture container
+
+                var gestureRecorder = $('#item-container-gesture-recorder').find('#gesture-recorder').clone().removeAttr('id');
+                container.find('#gesture-recorder-container').empty().append(gestureRecorder).removeClass('hidden');
+                container.find('#gesture-recorder-container #save-controls').removeClass('hidden');
+                container.find('#gesture-recorder-container .recorder').addClass('hidden');
+                renderBodyJoints(gestureRecorder.find('#human-body'));
             }
         }
 
@@ -2286,7 +2292,7 @@ var Moderator = {
                     currentQuestionnaireAnswers = payload.answers;
                     console.log(payload.answers);
                     renderQuestionnaireAnswers($(container).find('#identified-trigger'), payload.data, payload.answers, false);
-                    
+
                     if (payload.saveAnswers === true) {
                         if (currentIdentificationIndex < data.identification.length - 1) {
                             $(container).find('#btn-next-trigger').removeClass('hidden disabled');
