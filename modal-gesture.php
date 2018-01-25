@@ -30,7 +30,8 @@ include 'includes/language.php';
                             <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
                             <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
                             <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
-                        </div>
+                        </div><br/>
+                        <button type="button" class="btn btn-default hidden" id="btn-choose-preview-image" style="margin-top: 6px"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
                     </div>
 
                     <div class="gesture-rating" id="gesture-rating" style="margin-top: 30px;">
@@ -363,7 +364,6 @@ include 'includes/language.php';
             $(this).closest('.gesture-rating').find('#rating-submit-buttons').addClass('hidden');
             $(this).closest('.gesture-rating').find('#btn-rate-gesture').removeClass('hidden');
             $(this).closest('.gesture-rating').find('.btn-gesture-rating').removeClass('btn-gesture-rating-clickable active');
-            console.log(currentRatings);
             renderGestureRating($(this).closest('.gesture-rating'), currentRatings, false);
         }
     });
@@ -482,7 +482,7 @@ include 'includes/language.php';
 
     function renderGeneralGestureInfo() {
         var gesture = currentPreviewGesture.gesture;
-        console.log('renderModalData', currentPreviewGesture);
+//        console.log('renderModalData', currentPreviewGesture);
         if (gesture === null) {
             return false;
         }
@@ -546,9 +546,10 @@ include 'includes/language.php';
             var button = $(this);
             if ($(button).hasClass('gesture-editable')) {
                 if (!$(button).hasClass('disabled') && inputsValid(true)) {
-
+                    
                     lockButton(button, true, 'fa-pencil');
                     showCursor($('body'), CURSOR_PROGRESS);
+                    var previewImageIndex = getGesturePreviewIndex($('#modal-body').find('.previewGesture'));
                     var title = $('#gesture-name-input').val().trim();
                     var type = $(container).find('#gestureTypeSelect .btn-option-checked').attr('id');
                     var interactionType = $(container).find('#gestureInteractionTypeSelect .btn-option-checked').attr('id');
@@ -557,15 +558,19 @@ include 'includes/language.php';
                     var description = $('#gesture-description-input').val().trim();
                     var joints = getSelectedJoints($('#select-joints-human-body #joint-container'));
 
-
-                    updateGesture({gestureId: gesture.id, title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints}, function (result) {
+                    updateGesture({gestureId: gesture.id, title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints, previewImageIndex:previewImageIndex}, function (result) {
                         showCursor($('body'), CURSOR_DEFAULT);
                         unlockButton(button, true, 'fa-pencil');
 
                         $('#modal-body #btn-delete-gesture, #modal-body #btn-share-gesture').removeClass('disabled');
                         if (result.status === RESULT_SUCCESS) {
-                            updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, type: type, interactionType: interactionType, context: result.context, association: association, description: result.description, joints: result.joints});
+                            updateGestureById(currentPreviewGesture.source, result.id, {title: result.title, type: type, interactionType: interactionType, context: result.context, association: association, description: result.description, joints: result.joints, previewImage: result.previewImage});
                             $(thumbnail).find('.gesture-name').text(title);
+                            $('#modal-body #btn-choose-preview-image').addClass('hidden');
+                            $(thumbnail).find('.previewGesture .gestureImage').removeClass('previewImage active ');
+                            $(thumbnail).find('.previewGesture .gestureImage').addClass('hidden');
+                            $($(thumbnail).find('.previewGesture .gestureImage')[previewImageIndex]).addClass('previewImage active');
+                            $($(thumbnail).find('.previewGesture .gestureImage')[previewImageIndex]).removeClass('hidden');
                             $(button).removeClass('gesture-editable').addClass('gesture-previewable');
                             $(button).find('.btn-text').text(translation.edit);
                             $('#modal-body #gesture-data-preview').removeClass('hidden');
@@ -586,6 +591,7 @@ include 'includes/language.php';
                 $('#modal-body #gesture-data-preview').addClass('hidden');
                 $('#modal-body #gesture-data-edit').removeClass('hidden');
                 $('#modal-body #btn-delete-gesture, #modal-body .btn-share').addClass('disabled');
+                $('#modal-body #btn-choose-preview-image').removeClass('hidden');
                 $('#gesture-name-input').val(gesture.title);
                 if (gesture.type !== "") {
                     $('#gesture-data-edit #gestureTypeSelect').find('#' + gesture.type).click();
@@ -599,6 +605,16 @@ include 'includes/language.php';
                 $('#gesture-description-input').val(gesture.description);
                 renderBodyJoints($('#select-joints-human-body'), gesture.joints);
             }
+        });
+
+        $('#modal-body #btn-choose-preview-image').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            
+            var previewImage = $(this).closest('.root').find('.previewImage');
+            previewImage.removeClass('previewImage');
+            var visibleImage = $(this).closest('.root').find('.active');
+            visibleImage.addClass('previewImage');
+            console.log('tag as preview image', previewImage, visibleImage);
         });
 
         if (gesturePreviewDeleteable === true) {

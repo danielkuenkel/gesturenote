@@ -759,8 +759,10 @@ include '../includes/language.php';
                 <h3 class="headline"><?php echo $lang->saveRecordedGesture ?></h3>
                 <div id="file-transfer-loader">
                     <p class="text"><i class="fa fa-circle-o-notch fa-spin"></i> <?php echo $lang->transmitGesture ?></p>
-                    <div id="file-transfer-loading-indicator" style="height: 10px; width:100%; background-color: #3379b7; border-radius: 4px"></div>
+                    <div id="file-transfer-loading-indicator" style="height: 10px; width:0%; background-color: #3379b7; border-radius: 4px">
+                    </div>
                 </div>
+                <div class="alert-space alert-preview-dummy"></div>
                 <div class="hidden" id="gesture-recorder-container"></div>
             </div>
 

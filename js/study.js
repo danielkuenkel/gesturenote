@@ -59,8 +59,7 @@ function renderData(data, hash, showTutorial) {
         });
 
         // prepare study
-        if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED &&
-                now > dateFrom && now < dateTo) {
+        if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED && now > dateFrom && now < dateTo) {
             $('#btn-prepare-study, #btn-open-static-study-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
@@ -69,11 +68,14 @@ function renderData(data, hash, showTutorial) {
             });
         } else {
             $('#btn-prepare-study').remove();
-            $('#btn-open-static-study-url').parent().remove();
+            $('#btn-open-static-study-url').addClass('disabled');
+            $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLCheck);
         }
     } else {
-        $('#copy-to-clipboard').remove();
-        $('#btn-prepare-study').remove();
+//        $('#copy-to-clipboard').remove();
+//        $('#btn-prepare-study').remove();
+        $('#btn-open-static-study-url').addClass('disabled');
+        $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLCheck);
     }
 
 
@@ -1569,7 +1571,7 @@ function renderTriggerGuessabilityTable(target, assignments) {
     var table = $('#template-study-container').find('#guessability-table').clone();
     $(target).append(table);
     console.log('renderTriggerGuessabilityTable');
-    
+
     $(table).find('.table-head-row .basic').text(translation.gesture);
     $(table).find('.table-head-row .effect').text(translation.trigger);
 

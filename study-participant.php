@@ -245,7 +245,7 @@ if (login_check($mysqli) == true) {
                         });
                     }
 
-                    console.log('content', content);
+//                    console.log('content', content);
                     // check and add recorded stream data
                     if (isWebRTCNeededForPhaseStep(testerResults)) {
                         if (testerResults && testerResults.recordUrl && testerResults.recordUrl !== '') {

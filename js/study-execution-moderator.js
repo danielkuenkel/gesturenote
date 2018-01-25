@@ -1940,7 +1940,7 @@ var Moderator = {
         }
 
         function renderGestureRecorder(videoURL) {
-            $(container).find('#file-transfer-loading-indicator').css({width: '0%'});
+//            $(container).find('#file-transfer-loading-indicator').css({width: '0%'});
             $(container).find('#file-transfer-loader').addClass('hidden');
 
             if (!previewModeEnabled) {
@@ -1988,6 +1988,8 @@ var Moderator = {
                 container.find('#gesture-recorder-container #save-controls').removeClass('hidden');
                 container.find('#gesture-recorder-container .recorder').addClass('hidden');
                 renderBodyJoints(gestureRecorder.find('#human-body'));
+                
+                appendAlert(container, ALERT_PREVIEW_DUMMY);
             }
         }
 
@@ -2038,6 +2040,7 @@ var Moderator = {
                             }
                         }
                     } else {
+                        removeAlert(container, ALERT_PREVIEW_DUMMY);
                         $(container).find('#btn-done, #btn-next-trigger').removeClass('disabled');
                         $(container).find('#file-transfer-loader').addClass('hidden');
                         $(container).find('#identified-gesture').addClass('hidden');
@@ -2117,7 +2120,7 @@ var Moderator = {
                 }
             }
 
-            if (data.identification[currentIdentificationIndex].transitionScenes.length > 1) {
+            if (data.identification[currentIdentificationIndex].transitionScenes && data.identification[currentIdentificationIndex].transitionScenes.length > 1) {
                 $(item).find('#transition-scenes-controls').removeClass('hidden');
             }
 
@@ -2173,27 +2176,36 @@ var Moderator = {
                 initRerecordingButton(null);
 
                 if (!previewModeEnabled && peerConnection) {
-                    $(peerConnection).unbind(MESSAGE_GESTURE_IDENTIFIED).bind(MESSAGE_GESTURE_IDENTIFIED, function (event, payload) {
+//                    $(peerConnection).unbind(MESSAGE_GESTURE_IDENTIFIED).bind(MESSAGE_GESTURE_IDENTIFIED, function (event, payload) {
+//                        console.log('gesture identified');
+//                        
+////                        $(container).find('#file-transfer-loader').removeClass('hidden');
+////                        $(container).find('#btn-start-gesture-rerecording').removeClass('hidden');
+////                        if (currentIdentificationIndex < data.identification.length - 1) {
+////                            $(container).find('#btn-next-trigger').removeClass('hidden');
+////                        } else {
+////                            $(container).find('#btn-done').removeClass('hidden');
+////                        }
+//                    });
+
+                    $(peerConnection).unbind(EVENT_FILE_TRANSFER).bind(EVENT_FILE_TRANSFER, function (event, bytesReceived, size) {
                         $(container).find('#identified-gesture').removeClass('hidden');
+                        
+                        var percent = Math.round(bytesReceived * 100 / size);
+                        console.log('transfer video file', bytesReceived, size, percent);
+                        $(container).find('#file-transfer-loading-indicator').css({width: percent + "%"});
                         $(container).find('#file-transfer-loader').removeClass('hidden');
-                        $(container).find('#file-transfer-loading-indicator').css({width: '0%'});
+                    });
+
+                    $(peerConnection).unbind(EVENT_RECEIVED_FILE).bind(EVENT_RECEIVED_FILE, function (event, file, metadata) {
+                        console.log('received video file', file, metadata);
                         $(container).find('#btn-start-gesture-rerecording').removeClass('hidden');
                         if (currentIdentificationIndex < data.identification.length - 1) {
                             $(container).find('#btn-next-trigger').removeClass('hidden');
                         } else {
                             $(container).find('#btn-done').removeClass('hidden');
                         }
-                    });
-
-                    $(peerConnection).unbind(EVENT_FILE_TRANSFER).bind(EVENT_FILE_TRANSFER, function (event, bytesReceived, size) {
-                        var percent = Math.round(bytesReceived * 100 / size);
-                        console.log('transfer video file', bytesReceived, size, percent);
-                        $(container).find('#file-transfer-loading-indicator').css({width: percent + "%"});
-                    });
-
-                    $(peerConnection).unbind(EVENT_RECEIVED_FILE).bind(EVENT_RECEIVED_FILE, function (event, file, metadata) {
-                        console.log('received video file', file, metadata);
-                        $(container).find('#file-transfer-loading-indicator').css({width: "0%"});
+//                        $(container).find('#file-transfer-loading-indicator').css({width: "100%"});
                         $(container).find('#file-transfer-loader').addClass('hidden');
 
                         if (metadata.size > 0) {
@@ -2203,12 +2215,16 @@ var Moderator = {
                             // error handling
                         }
                     });
-
+                    
+                    $(container).find('#file-transfer-loading-indicator').css({width: "0%"});
+                    $(container).find('#identified-gesture').removeClass('hidden');
+                    $(container).find('#file-transfer-loader').removeClass('hidden');
                     peerConnection.sendMessage(MESSAGE_STOP_RECORDING_GESTURE);
                 } else {
                     $(container).find('#file-transfer-loader').removeClass('hidden');
                     $(container).find('#identified-gesture').removeClass('hidden');
-                    TweenMax.from($(container).find('#file-transfer-loading-indicator'), 2, {width: "0%", ease: Linear.easeNone, onComplete: function () {
+                    $(container).find('#file-transfer-loading-indicator').css({width: "0%"});
+                    TweenMax.to($(container).find('#file-transfer-loading-indicator'), 2, {width: "100%", ease: Linear.easeNone, onComplete: function () {
                             renderGestureRecorder();
                             initRerecordingButton(null);
                             $(container).find('#file-transfer-loader').addClass('hidden');
@@ -2226,6 +2242,7 @@ var Moderator = {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
                     $(this).addClass('hidden');
+                    removeAlert(container, ALERT_PREVIEW_DUMMY);
                     $(container).find('#identified-gesture').addClass('hidden');
                     identificationRecordingStopTriggered = false;
                     currentIdentificationIndex++;

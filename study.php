@@ -113,7 +113,7 @@ if (login_check($mysqli) == true) {
                             <!--<div class="input-group-addon"><?php echo $lang->studyUrl ?></div>-->
                             <input type="text" class="form-control" id="static-study-url">
                             <span class="input-group-btn">
-                                <button class="btn btn-default btn-shadow" type="button" id="btn-open-static-study-url"><i class="fa fa-external-link" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
+                                <button class="btn btn-default btn-shadow" type="button" id="btn-open-static-study-url" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->staticStudyURLExecute ?>"><i class="fa fa-external-link" aria-hidden="true"></i> <span><?php echo $lang->openStudyUrl ?></span></button>
                             </span>
                         </div>
                     </div>

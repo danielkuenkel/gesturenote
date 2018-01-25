@@ -296,12 +296,3 @@ function getGestureImagesData(source) {
 
     return srcArray;
 }
-
-function getGesturePreviewIndex(source) {
-    var gestureImages = $(source).find('.gestureImage');
-    for (var i = 0; i < gestureImages.length; i++) {
-        if ($(gestureImages[i]).hasClass('previewImage')) {
-            return i;
-        }
-    }
-}

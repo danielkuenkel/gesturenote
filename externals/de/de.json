@@ -265,6 +265,8 @@
     "userRegistered": "Registriert seit",
     "editProfile": "Daten bearbeiten",
     "updateProfile": "Profildaten aktualisieren",
+    "staticStudyURLCheck":"Bitte die Studienlaufzeit überprüfen. Eine Studie kann nur durchgeführt werden, wenn die aktuelle Zeit innerhalb der Laufzeit liegt.",
+    "staticStudyURLExecute":"Befragung durchführen",
     "statistic": "Statistik",
     "stats": {
         "studies": "Studien erstellt",
@@ -475,7 +477,7 @@
     "copy": "Kopieren",
     "studyUrl": "Studien-URL",
     "openStudyUrl": "Studien-URL aufrufen",
-    "studyURLDescription": "Um eine Studie aufzurufen, klicken Sie auf den Button rechts neben der Studien-URL. Oder kopieren Sie die Studien-URL in das Adressfeld Ihres Browsers. Teilen Sie die Studien-URL z.B. über E-Mails oder soziale Netzwerke, um Probanden zu akquirieren.",
+    "studyURLDescription": "Um eine Studie aufzurufen, klicken Sie auf den Button rechts neben der Studien-URL. Oder kopieren Sie die Studien-URL in das Adressfeld Ihres Browsers. Um Probanden zu akquirieren, teilen Sie die Studien-URL z.B. über E-Mails oder soziale Netzwerke.",
     "totalGestures": "Gesten insgesamt",
     "totalGesture": "Geste insgesamt",
     "gesturesForTrigger": "Gesten für Funktion",
@@ -3499,6 +3501,11 @@
             "id": "not-assigned-to-gesture-set",
             "type": "warning",
             "text": "Nicht zu einem Gesten-Set zugeordnet."
+        },
+        "previewDummy": {
+            "id": "preview-dummy",
+            "type": "warning",
+            "text": "Es handelt sich hierbei um eine Dummy-Vorschau. Der Workflow entspricht dem gleichen wie bei der Aufzeichnung von Gesten, mit dem Unterschied, dass die Gesten hier beim Proband aufgezeichnet und dann zum Moderator übertragen werden. Sie müssen die Geste schneiden und danach die Eigenschaften der Geste im Formular angeben."
         }
     },
     "introductionCreateStudy": [

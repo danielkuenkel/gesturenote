@@ -41,6 +41,7 @@ if ($h && $token && $studyId) {
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
         <script src="resumable/resumable.js"></script>
+        <script src="js/gifshot/gifshot.min.js"></script>
 
         <script src="js/stomp/stomp.js"></script>
         <script src="js/websocket.js"></script>

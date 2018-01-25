@@ -135,7 +135,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         console.log('file does not exist: ' + UPLOADS + evaluatorResults.recordUrl);
                         moderatorRecordingFileExist = false;
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
-                        
+
                         resultsPlayer.find('#loader').addClass('hidden');
                         return false;
                     });
@@ -209,7 +209,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         testerRecordingFileExist = false;
                         console.log('file does not exist: ' + UPLOADS + testerResults.recordUrl);
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
-                        
+
                         resultsPlayer.find('#loader').addClass('hidden');
                         return false;
                     });
@@ -516,8 +516,18 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                 } else if (testerVideoHolder) {
                     return {mainVideo: testerVideoHolder, secondVideo: null, gap: null};
                 }
+            } else if (!screenShareVideoHolder && moderatorVideoHolder && testerVideoHolder) {
+                var start = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, testerResults.startRecordingTime), true);
+                var end = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endRecordingTime, testerResults.endRecordingTime), true);
+
+                if (evaluatorResults.startRecordingTime < testerResults.startRecordingTime) {
+                    start *= -1;
+                }
+                console.log('webcam gap: ', start, end);
+
+                return {mainVideo: moderatorVideoHolder, secondVideo: testerVideoHolder, gap: {start: start, end: end}};
             } else {
-                $(resultsPlayer).find('#gap-input-congainer').remove();
+                $(resultsPlayer).find('#gap-input-container').remove();
                 $(resultsPlayer).find('#seek-bar-container').removeClass('col-xs-7 col-sm-8 col-lg-9').addClass('col-xs-10 col-lg-11');
                 return {mainVideo: testerVideoHolder, secondVideo: null, gap: null};
             }

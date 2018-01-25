@@ -2860,3 +2860,16 @@ function unlockButton(button, hideLoadingIndicator, originalIcon) {
         $(button).find('.fa').removeClass('fa-spin fa-circle-o-notch').addClass(originalIcon);
     }
 }
+
+
+/*
+ * 
+ */
+function getGesturePreviewIndex(source) {
+    var gestureImages = $(source).find('.gestureImage');
+    for (var i = 0; i < gestureImages.length; i++) {
+        if ($(gestureImages[i]).hasClass('previewImage')) {
+            return i;
+        }
+    }
+}

@@ -974,7 +974,7 @@ var Tester = {
                     var recordedChunks = peerConnection.stopRecordSeparateChunks();
                     var filename = hex_sha512(new Date().getTime() + "" + chance.natural()) + '.webm';
                     var file = new File(recordedChunks, filename, {type: "video/webm"});
-                    peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED);
+//                    peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED);
                     peerConnection.transferFile(file);
                     animateLiveStream($(container).find('#fixed-rtc-preview'));
                     appendAlert($(container), ALERT_PLEASE_WAIT);
@@ -1125,9 +1125,9 @@ var Tester = {
                     console.log('after update', tempData);
                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
 
-                    if (peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED, {gesture: gesture, index: currentIdentificationIndex});
-                    }
+//                    if (peerConnection) {
+//                        peerConnection.sendMessage(MESSAGE_GESTURE_IDENTIFIED, {gesture: gesture, index: currentIdentificationIndex});
+//                    }
                 }
             });
 
