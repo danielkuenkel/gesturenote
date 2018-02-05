@@ -38,6 +38,7 @@ include '../includes/language.php';
     <div class="alert alert-danger"  id="no-scenes-assembled" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noScenesAssembled->text ?></span></div>
     <div class="alert alert-danger"  id="no-scenes-assembled-link" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noScenesAssembledLink->text ?></span></div>
     <div class="alert alert-warning" id="assembled-scene-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> <span class="alert-text"><?php echo $lang->alerts->assembledSceneRemoved->text ?></span></div>
+    <div class="alert alert-warning" id="assembled-task-removed" role="alert"><i class="glyphicon glyphicon-trash"></i> <span class="alert-text"><?php echo $lang->alerts->assembledTaskRemoved->text ?></span></div>
     <div class="alert alert-warning" id="pidoco-embed-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->pidocoEmbedUrlInvalid->text ?></span></div>
     <div class="alert alert-warning" id="pidoco-edit-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->pidocoEditUrlInvalid->text ?></span></div>
     <div class="alert alert-warning" id="video-embed-url-invalid" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->videoEmbedUrlInvalid->text ?></span></div>
@@ -86,4 +87,5 @@ include '../includes/language.php';
     <div class="alert alert-warning" id="no-data-gus-questionnaire" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noDataGUSQuestionnaire->text ?></span></div>
     <div class="alert alert-warning" id="not-assigned-to-gesture-set" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->notAssignedToGestureSet->text ?></span></div>
     <div class="alert alert-warning" id="preview-dummy" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->previewDummy->text ?></span></div>
+    <div class="alert alert-warning" id="no-more-tasks" role="alert"><i class="glyphicon glyphicon-alert"></i> <span class="alert-text"><?php echo $lang->alerts->noMoreTasks->text ?></span></div>
 </div>

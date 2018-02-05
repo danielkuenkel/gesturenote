@@ -665,18 +665,18 @@ include '../includes/language.php';
 
                 <div id="general" style="">
                     <div class="form-group">
-                        <label for="scenarioTitle"><?php echo $lang->taskTitle ?></label>
-                        <input type="text" class="form-control" id="scenarioTitle" placeholder="<?php echo $lang->insertTaskTitle ?>">
+                        <label for="scenarioTitle"><?php echo $lang->scenarioTitle ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                        <input type="text" class="form-control" id="scenarioTitle" placeholder="<?php echo $lang->insertScenarioTitle ?>">
                     </div>
                     <div class="form-group">
-                        <label for="scenarioDescription"><?php echo $lang->taskDescription ?></label>
-                        <textarea class="form-control" id="scenarioDescription" rows="7" placeholder="<?php echo $lang->insertTaskDescription ?>" style="resize: none"></textarea>
+                        <label for="scenarioDescription"><?php echo $lang->scenarioDescription ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                        <textarea class="form-control" id="scenarioDescription" rows="7" placeholder="<?php echo $lang->insertScenarioDescription ?>" style="resize: none"></textarea>
                     </div>
 
                     <div class="alert-space alert-assembled-scene-removed"></div>
 
                     <div class="form-group" id="start-scene-select">
-                        <label for="scenarioDescription"><?php echo $lang->stateCharts->inputState ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i></label>
+                        <label><?php echo $lang->stateCharts->inputState ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i></label>
                         <div class="input-group"> 
                             <input class="form-control item-input-text show-dropdown option-scene readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select sceneSelect" role="group">
@@ -695,29 +695,46 @@ include '../includes/language.php';
 
 
         <div style="display: inline;">
-            <h3 style="display:inline-block"><?php echo $lang->wozExperiment ?></h3>
-            <div class="btn-group" id="useWOZSwitch" style="margin-top: -9px; margin-left: 10px">
-                <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
-                <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
-            </div>
+            <h3 style="display:inline-block"><?php echo $lang->tasks ?></h3>
+            <!--            <div class="btn-group" id="useWOZSwitch" style="margin-top: -9px; margin-left: 10px">
+                            <button class="btn btn-warning btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel active" id="no" name="btn-warning"><?php echo $lang->no ?></button>
+                            <button class="btn btn-default btn-sm btn-shadow btn-toggle-checkbox btn-toggle-checkbox-panel inactive" id="yes" name="btn-success"><?php echo $lang->yes ?></button>
+                        </div>-->
         </div>
         <div class="row">
             <div class="col-md-11">
                 <hr style="margin-top: 10px">
             </div>
         </div>
-        <div class="row hidden" id="wozExperiment" style="margin-bottom: 30px;">
+        <div class="row" id="tasks-container" style="margin-bottom: 30px;">
             <div class="col-md-7">
                 <div class="alert-space alert-no-phase-data"></div>
-                <div class="alert-space alert-no-scenes-assembled-link"></div>
-                <div class="alert-space alert-no-study-gestures-assembled-link"></div>
-                <div class="alert-space alert-no-trigger-assembled-link"></div>
-                <div class="alert-space alert-no-feedback-assembled-link"></div>
+                <div class="task-option-container"></div>
+            </div>
+            <div class="col-md-5">
+                <div class="toggle-dynamic-affix">
+                    <button class="btn btn-info btn-shadow font-bold btn-add-taskOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addTaskElement ?></span></button>
+                    <!--<button class="btn btn-info btn-shadow font-bold btn-add-woz-experimentOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addWOZElement ?></span></button>-->
+                </div>
+            </div>
+        </div>
+
+        <div style="display: inline;">
+            <h3 style="display:inline-block"><?php echo $lang->taskAssessment ?></h3>
+        </div>
+        <div class="row">
+            <div class="col-md-11">
+                <hr style="margin-top: 10px">
+            </div>
+        </div>
+        <div class="row" id="task-assessment-container" style="margin-bottom: 30px;">
+            <div class="col-md-7">
+                <div class="alert-space alert-no-phase-data"></div>
                 <div class="option-container"></div>
             </div>
             <div class="col-md-5">
                 <div class="toggle-dynamic-affix">
-                    <button class="btn btn-info btn-shadow font-bold btn-add-woz-experimentOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addWOZElement ?></span></button>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-taskAssessmentOption" type="button" style="z-index: 1000"><span class="glyphicon glyphicon-plus"></span> <span><?php echo $lang->addTaskAssessmentElement ?></span></button>
                 </div>
             </div>
         </div>

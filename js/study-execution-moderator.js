@@ -74,7 +74,6 @@ var Moderator = {
                 if (!syncPhaseStep) {
                     $('#viewModerator #phase-content').empty().append(item);
                 }
-                Moderator.initializeRTC();
             } else {
                 Moderator.renderNoDataView();
             }
@@ -87,6 +86,7 @@ var Moderator = {
         } else {
             Moderator.renderNoDataView();
         }
+        Moderator.initializeRTC();
 
         $('#viewModerator #column-right').css({y: 0, opacity: 1});
         Moderator.checkPositioning(currentPhase.format);
@@ -1373,12 +1373,13 @@ var Moderator = {
     },
     getScenario: function getScenario(source, container, data) {
         triggeredHelp, triggeredWoz = null;
-        $(container).find('#general #task .address').text(translation.taskTitle);
-        $(container).find('#general #task .text').text(data.title);
-        $(container).find('#general #description .address').text(translation.task);
+//        $(container).find('#general #task .address').text(translation.scenarioTitle);
+//        $(container).find('#general #task .text').text(data.title);
+        $(container).find('#general #description .address').text(translation.scenarioDescription);
         $(container).find('#general #description .text').text(data.description);
         if (!currentWOZScene) {
             currentWOZScene = getSceneById(data.scene);
+            currentScenarioTask = data.tasks[0];
         }
 
         if (!previewModeEnabled) {
@@ -1386,11 +1387,15 @@ var Moderator = {
             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
             tempData.actions = new Array();
             tempData.transitions = new Array();
+            tempData.assessments = new Array();
             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
         }
 
         //woz section
         Moderator.renderWOZ(source, container, data);
+
+        // task assessment section
+        Moderator.renderTaskAssessment(source, container, data);
 
         // help section
         Moderator.renderHelp(source, container, data);
@@ -1413,8 +1418,22 @@ var Moderator = {
             $(container).find('#btn-reset-scenes').removeClass('disabled');
             $(container).find('.btn-feedback-scene').removeClass('disabled');
 
-            openPrototypeScene(currentWOZScene, data.woz && data.woz.length === 1);
+            openPrototypeScene(currentWOZScene, checkSingleScene(data.tasks));
         });
+
+        function checkSingleScene(tasks) {
+            var sceneCount = 0;
+            for (var i = 0; i < tasks.length; i++) {
+                if (tasks[i].woz && tasks[i].woz.length > 0) {
+                    sceneCount += tasks[i].woz.length;
+                }
+            }
+
+            if (sceneCount <= 1) {
+                return true;
+            }
+            return false;
+        }
 
         $(container).find('#btn-start-screen-sharing').unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -1450,11 +1469,13 @@ var Moderator = {
             $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
             $(container).find('.btn-feedback-scene').removeClass('disabled');
             $(container).find('.help-container .disabled').removeClass('disabled');
+            $(container).find('#assessment-controls-container .disabled').removeClass('disabled');
+            $(container).find('#general #description').addClass('hidden');
 
             if (!previewModeEnabled && peerConnection) {
                 getGMT(function (timestamp) {
                     var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                    tempData.actions.push({action: ACTION_START_TASK, time: timestamp});
+                    tempData.actions.push({action: ACTION_START_TASK, id: currentScenarioTask.id, time: timestamp});
                     tempData.transitions.push({scene: currentWOZScene.id, time: timestamp});
                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                 });
@@ -1469,6 +1490,7 @@ var Moderator = {
             }
             $(this).addClass('hidden');
             $(container).find('#btn-done-scenario').removeClass('hidden');
+            clearAlerts($(container).find('#general'));
             scenarioPrototypeOpened = false;
             scenarioStartTriggered = false;
             if (prototypeWindow) {
@@ -1481,6 +1503,8 @@ var Moderator = {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
                 currentWOZScene = getSceneById(data.scene);
+                currentScenarioTask = data.tasks[0];
+                currentScenarioTaskIndex = 0;
                 Moderator.renderWOZ(source, container, data);
                 Moderator.renderHelp(source, container, data);
 
@@ -1490,6 +1514,7 @@ var Moderator = {
                             var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
                             tempData.actions.push({action: ACTION_REFRESH_SCENE, time: timestamp});
                             tempData.transitions.push({scene: currentWOZScene.id, time: timestamp});
+                            tempData.actions.push({action: ACTION_START_TASK, id: currentScenarioTask.id, time: timestamp});
                             setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                         });
                     }
@@ -1501,7 +1526,22 @@ var Moderator = {
             }
         });
 
-        if (scenarioPrototypeOpened && !scenarioStartTriggered) {
+        if (screenSharingStopped === true) {
+            $(container).find('#assessment-controls').addClass('hidden');
+            $(container).find('#woz-controls').addClass('hidden');
+            $(container).find('#help-controls').addClass('hidden');
+            $(container).find('#general #description').addClass('hidden');
+            $(container).find('#btn-open-prototype').addClass('hidden');
+            $(container).find('#btn-done-scenario').removeClass('hidden');
+        } else if (scenarioDone === true) {
+            $(container).find('#assessment-controls').addClass('hidden');
+            $(container).find('#woz-controls').addClass('hidden');
+            $(container).find('#help-controls').addClass('hidden');
+            $(container).find('#general #description').addClass('hidden');
+            $(container).find('#btn-start-screen-sharing').addClass('hidden');
+            $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+            appendAlert($(container).find('#general'), ALERT_NO_MORE_TASKS);
+        } else if (scenarioPrototypeOpened && !scenarioStartTriggered) {
             $(container).find('#btn-reset-scenes').removeClass('disabled');
             $(container).find('#btn-open-prototype').addClass('hidden');
             $(container).find('#btn-stop-screen-sharing').addClass('hidden');
@@ -1510,11 +1550,8 @@ var Moderator = {
             $(container).find('#btn-reset-scenes').removeClass('disabled');
             $(container).find('#btn-start-screen-sharing').addClass('hidden');
             $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
-        } else if (!scenarioPrototypeOpened && !scenarioStartTriggered) {
-//            $(container).find('#btn-start-screen-sharing').addClass('hidden');
-//            $(container).find('#btn-stop-screen-sharing').addClass('hidden');
-//            $(container).find('#btn-open-prototype').addClass('hidden');
-//            $(container).find('#btn-done-scenario').removeClass('hidden');
+            $(container).find('#assessment-controls-container .disabled').removeClass('disabled');
+            $(container).find('#general #description').addClass('hidden');
         }
 
         $(container).find('#btn-done-scenario').unbind('click').bind('click', function (event) {
@@ -1537,7 +1574,6 @@ var Moderator = {
         function checkTransitionScenes(scenesContainer) {
 
             var transitionsLength = $(scenesContainer).find('.btn-trigger-scene').length;
-//            var feedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback');
             var leftFeedbackButtons = $(scenesContainer).find('#transition-feedback-container').find('.btn-trigger-feedback').not('.btn-primary');
             if (leftFeedbackButtons.length === 1) {
                 var feedbackButton = $(leftFeedbackButtons).first();
@@ -1607,8 +1643,12 @@ var Moderator = {
                 // this scene has no follow scene, maybe a pidoco prototype
                 if (currentWOZScene.type === SCENE_PIDOCO) {
                     var gestureId = $(scenesContainer).closest('.row').find('.previewGesture').attr('id');
-//                    console.log('send gesture to appollo broker', gestureId);
                     sendGesture(gestureId, null);
+                } else {
+                    // if scene has no follow scene and is not a pidoco prototype: delete items
+                    $(container).find('.woz-container').empty();
+                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+                    Moderator.renderHelp(source, container, data);
                 }
             } else if (transitionsLength > 2) {
                 var leftSceneButtons = $(scenesContainer).find('#transition-scene-container').find('.btn-trigger-scene').not('.btn-primary');
@@ -1670,118 +1710,109 @@ var Moderator = {
             }
         }
 
-        if (data.woz) {
-            var wozData = getWOZItemsForSceneId(data.woz, currentWOZScene.id);
-            removeAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
-            $(container).find('.woz-container').empty();
-            if (data.woz.length > 0 && wozData && wozData.length > 0) {
+        if (data.tasks && data.tasks.length > 0) {
+            $(container).find('#assessment-controls #task .text').text(currentScenarioTask.task);
+            $(container).find('#assessment-controls .headline').text(translation.task + ' ' + (currentScenarioTaskIndex + 1) + ' ' + translation.of + ' ' + data.tasks.length)
 
-                for (var i = 0; i < wozData.length; i++) {
-                    var transitionScenes = wozData[i].transitionScenes;
-                    var item = $(source).find('#wozItemWithScenes').clone().removeAttr('id');
-                    $(container).find('.woz-container').append(item);
+            if (currentScenarioTask.woz) {
+                var wozData = getWOZItemsForSceneId(currentScenarioTask.woz, currentWOZScene.id);
+                removeAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
+                $(container).find('.woz-container').empty();
+                if (wozData && wozData.length > 0) {
 
-                    if (transitionScenes.length > 1) {
-                        var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
-                        $(item).find('#start-scene-container').append(startItem);
-                        TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
+                    for (var i = 0; i < wozData.length; i++) {
+                        var transitionScenes = wozData[i].transitionScenes;
+                        var item = $(source).find('#wozItemWithScenes').clone().removeAttr('id');
+                        $(container).find('.woz-container').append(item);
 
-                        $(item).find('#follow-scene-header').removeClass('hidden');
-                        $(item).find('#follow-scene-container').removeClass('hidden');
-                        var followItem = getWOZTransitionItem(source, transitionScenes[transitionScenes.length - 1], true, false);
-                        $(item).find('#follow-scene-container').append(followItem);
+                        if (transitionScenes.length > 1) {
+                            var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
+                            $(item).find('#start-scene-container').append(startItem);
+                            TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
 
-                        if (transitionScenes.length > 2) {
-                            $(item).find('#transition-scene-header').removeClass('hidden');
-                            $(item).find('#transition-scene-container').removeClass('hidden');
-                            for (var j = 1; j < transitionScenes.length - 1; j++) {
-                                var itemBetween = getWOZTransitionItem(source, transitionScenes[j], true, false);
-                                $(item).find('#transition-scene-container').append(itemBetween);
-                                if (j < transitionScenes.length - 2) {
-                                    $(item).find('#transition-scene-container').append(document.createElement('br'));
+                            $(item).find('#follow-scene-header').removeClass('hidden');
+                            $(item).find('#follow-scene-container').removeClass('hidden');
+                            var followItem = getWOZTransitionItem(source, transitionScenes[transitionScenes.length - 1], true, false);
+                            $(item).find('#follow-scene-container').append(followItem);
+
+                            if (transitionScenes.length > 2) {
+                                $(item).find('#transition-scene-header').removeClass('hidden');
+                                $(item).find('#transition-scene-container').removeClass('hidden');
+                                for (var j = 1; j < transitionScenes.length - 1; j++) {
+                                    var itemBetween = getWOZTransitionItem(source, transitionScenes[j], true, false);
+                                    $(item).find('#transition-scene-container').append(itemBetween);
+                                    if (j < transitionScenes.length - 2) {
+                                        $(item).find('#transition-scene-container').append(document.createElement('br'));
+                                    }
+                                    TweenMax.from(itemBetween, .3, {y: '-10px', opacity: 0, delay: (i + 1) * .1});
                                 }
-                                TweenMax.from(itemBetween, .3, {y: '-10px', opacity: 0, delay: (i + 1) * .1});
+                                TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: (transitionScenes.length * .1) - .1});
+                            } else {
+                                TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: .1});
                             }
-                            TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: (transitionScenes.length * .1) - .1});
                         } else {
-                            TweenMax.from(followItem, .3, {y: '-10px', opacity: 0, delay: .1});
+                            // render only gesture item
+                            var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
+                            $(item).find('#start-scene-container').append(startItem);
+                            TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
                         }
-                    } else {
-                        // render only gesture item
-                        var startItem = getWOZTransitionItem(source, transitionScenes[0], false, true);
-                        $(item).find('#start-scene-container').append(startItem);
-                        TweenMax.from(startItem, .3, {y: '-10px', opacity: 0});
-                    }
 
 
-                    if (wozData[i].feedbackId !== 'none') {
-                        $(item).find('#transition-feedback-header, #transition-feedback-container').removeClass('hidden');
-                        var feedback = getFeedbackById(wozData[i].feedbackId);
-                        var feedbackButton = getWOZTransitionFeedbackItem(source, feedback, wozData[i].feedbackTransitionMode, wozData[i].feedbackTransitionTime, !scenarioStartTriggered && !scenarioPrototypeOpened, false);
-                        $(item).find('#transition-feedback-container').empty().append(feedbackButton);
-                        TweenMax.from(feedbackButton, .3, {y: '-10px', opacity: 0, delay: .1});
-                    }
-
-                    var gesture = getGestureById(wozData[i].gestureId);
-                    if (gesture) {
-                        renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
-                        $(item).find('.previewGesture').attr('id', gesture.id);
-                        TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
-                    }
-
-                    item.find('#btn-trigger-woz').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
-                        event.preventDefault();
-                        var button = $(this);
-                        if (!$(button).hasClass('disabled')) {
-                            $(button).addClass('disabled');
-                            checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
-                        } else {
-                            if (!scenarioStartTriggered) {
-                                $(document).scrollTop(0);
-                                wobble(container.find('#general'));
-                            }
+                        if (wozData[i].feedbackId !== 'none') {
+                            $(item).find('#transition-feedback-header, #transition-feedback-container').removeClass('hidden');
+                            var feedback = getFeedbackById(wozData[i].feedbackId);
+                            var feedbackButton = getWOZTransitionFeedbackItem(source, feedback, wozData[i].feedbackTransitionMode, wozData[i].feedbackTransitionTime, !scenarioStartTriggered && !scenarioPrototypeOpened, false);
+                            $(item).find('#transition-feedback-container').empty().append(feedbackButton);
+                            TweenMax.from(feedbackButton, .3, {y: '-10px', opacity: 0, delay: .1});
                         }
-                    });
 
-                    item.find('.btn-trigger-scene, .btn-trigger-feedback').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
-                        event.preventDefault();
-                        if (!$(this).hasClass('disabled') && !$(this).hasClass('btn-primary')) {
+                        var gesture = getGestureById(wozData[i].gestureId);
+                        if (gesture) {
+                            renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+                            $(item).find('.previewGesture').attr('id', gesture.id);
+                            TweenMax.from($(item).find('.previewGesture').closest('.panel'), .3, {scaleX: 0, scaleY: 0, opacity: 0});
+                        }
+
+                        item.find('#btn-trigger-woz, .btn-trigger-woz').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
+                            event.preventDefault();
                             var button = $(this);
-                            $(button).closest('.root').find('#btn-trigger-woz').addClass('disabled');
-                            checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
-                        }
-                    });
-
-                    $(container).find('#no-gesture-fit-found').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
-                        event.preventDefault();
-                        if (!$(this).hasClass('disabled')) {
-                            if (!previewModeEnabled) {
-                                getGMT(function (timestamp) {
-                                    var currentPhase = getCurrentPhase();
-                                    var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                                    tempData.actions.push({action: ACTION_NO_GESTURE_FIT_FOUND, time: timestamp, scene: currentWOZScene.id});
-                                    setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-                                });
+                            if (!$(button).hasClass('disabled')) {
+                                $(button).addClass('disabled');
+                                checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+                            } else {
+                                if (!scenarioStartTriggered) {
+                                    $(document).scrollTop(0);
+                                    wobble(container.find('#general'));
+                                }
                             }
-                        }
-                    });
+                        });
 
-                    if (scenarioPrototypeOpened) {
-                        item.find('#btn-trigger-woz, .btn-trigger-scene, .btn-trigger-feedback').removeClass('disabled');
+                        item.find('.btn-trigger-scene, .btn-trigger-feedback').unbind('click').bind('click', {wozData: wozData[i]}, function (event) {
+                            event.preventDefault();
+                            if (!$(this).hasClass('disabled') && !$(this).hasClass('btn-primary')) {
+                                var button = $(this);
+                                $(button).closest('.root').find('#btn-trigger-woz').addClass('disabled');
+                                checkTransitionScenes($(button).closest('.root').find('#transition-scenes'));
+                            }
+                        });
+
+                        if (scenarioPrototypeOpened) {
+                            item.find('#btn-trigger-woz, .btn-trigger-scene, .btn-trigger-feedback').removeClass('disabled');
+                        }
                     }
+                } else {
+                    appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
                 }
-            } else {
-                appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
-                $(container).find('#no-gesture-fit-found').addClass('hidden');
             }
         } else {
             appendAlert($(container).find('#wozExperiment'), ALERT_NO_PHASE_DATA);
         }
     },
     renderHelp: function renderHelp(source, container, data) {
-        var helpData = getItemsForSceneId(data.help, currentWOZScene.id);
+        var helpData = filterHelpDataForCurrentTask(data.help, currentScenarioTask.id, currentWOZScene.id);
         $(container).find('.help-container').empty();
         removeAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);
+
         if (helpData && helpData.length > 0) {
 
             for (var i = 0; i < helpData.length; i++) {
@@ -1824,6 +1855,78 @@ var Moderator = {
             }
         } else {
             appendAlert($(container).find('#help-controls'), ALERT_NO_PHASE_DATA);
+        }
+    },
+    renderTaskAssessment: function renderTaskAssessment(source, container, data) {
+        if (!$.isEmptyObject(data.taskAssessments)) {
+            for (var assessment in data.taskAssessments) {
+                var assessmentButton = document.createElement('button');
+                $(assessmentButton).attr('data-trigger', data.taskAssessments[assessment].trigger);
+                $(assessmentButton).attr('data-assessment-id', assessment);
+                $(assessmentButton).html("<span style='color: " + data.taskAssessments[assessment].annotationColor + "'>&#9679;</span> " + data.taskAssessments[assessment].title);
+                $(assessmentButton).addClass('btn btn-default btn-shadow disabled btn-assessment');
+                $(assessmentButton).css({marginRight: '6px', marginBottom: '6px'});
+                $(container).find('#assessment-controls-container').append(assessmentButton);
+            }
+
+            function checkAssessment(trigger) {
+                switch (trigger) {
+                    case 'nextTask':
+                        if (currentScenarioTaskIndex < data.tasks.length - 1) {
+                            currentScenarioTaskIndex++;
+                            currentScenarioTask = data.tasks[currentScenarioTaskIndex];
+//                            console.log(currentScenarioTask);
+                            currentWOZScene = getSceneById(currentScenarioTask.woz[0].transitionScenes[0].sceneId);
+                            console.log(currentWOZScene);
+                            Moderator.renderWOZ(source, container, data);
+                            Moderator.renderHelp(source, container, data);
+                        } else {
+                            $(container).find('#assessment-controls').addClass('hidden');
+                            $(container).find('#woz-controls').addClass('hidden');
+                            $(container).find('#help-controls').addClass('hidden');
+                            appendAlert($(container).find('#general'), ALERT_NO_MORE_TASKS);
+                            $(document).scrollTop(0);
+                            scenarioDone = true;
+                        }
+                        break;
+                    case 'nextStep':
+                        $(container).find('#assessment-controls').addClass('hidden');
+                        $(container).find('#woz-controls').addClass('hidden');
+                        $(container).find('#help-controls').addClass('hidden');
+                        appendAlert($(container).find('#general'), ALERT_NO_MORE_TASKS);
+                        $(document).scrollTop(0);
+                        scenarioDone = true;
+                        break;
+                }
+            }
+
+            $(container).find('#assessment-controls-container .btn-assessment').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    var trigger = $(this).attr('data-trigger');
+                    var assessmentId = $(this).attr('data-assessment-id');
+
+                    if (!previewModeEnabled) {
+                        getGMT(function (timestamp) {
+                            checkAssessment(trigger);
+
+                            var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                            tempData.assessments.push({id: assessmentId, time: timestamp});
+                            if (scenarioDone === false) {
+                                tempData.actions.push({action: ACTION_START_TASK, id: currentScenarioTask.id, time: timestamp});
+                            }
+                            setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                        });
+                    } else {
+                        checkAssessment(trigger);
+                    }
+                } else {
+                    $(document).scrollTop(0);
+                    wobble(container.find('#general'));
+                }
+            });
+        } else {
+            appendAlert($(container).find('#assessment-controls'), ALERT_NO_PHASE_DATA);
         }
     },
     enableScenarioControls: function enableScenarioControls(container) {
@@ -1988,7 +2091,7 @@ var Moderator = {
                 container.find('#gesture-recorder-container #save-controls').removeClass('hidden');
                 container.find('#gesture-recorder-container .recorder').addClass('hidden');
                 renderBodyJoints(gestureRecorder.find('#human-body'));
-                
+
                 appendAlert(container, ALERT_PREVIEW_DUMMY);
             }
         }
@@ -2190,7 +2293,7 @@ var Moderator = {
 
                     $(peerConnection).unbind(EVENT_FILE_TRANSFER).bind(EVENT_FILE_TRANSFER, function (event, bytesReceived, size) {
                         $(container).find('#identified-gesture').removeClass('hidden');
-                        
+
                         var percent = Math.round(bytesReceived * 100 / size);
                         console.log('transfer video file', bytesReceived, size, percent);
                         $(container).find('#file-transfer-loading-indicator').css({width: percent + "%"});
@@ -2215,7 +2318,7 @@ var Moderator = {
                             // error handling
                         }
                     });
-                    
+
                     $(container).find('#file-transfer-loading-indicator').css({width: "0%"});
                     $(container).find('#identified-gesture').removeClass('hidden');
                     $(container).find('#file-transfer-loader').removeClass('hidden');

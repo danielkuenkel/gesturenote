@@ -45,6 +45,7 @@ var ALERT_NO_FEEDBACK_ASSEMBLED = 'no-feedback-assembled';
 var ALERT_NO_FEEDBACK_ASSEMBLED_LINK = 'no-feedback-assembled-link';
 var ALERT_ASSEMBLED_FEEDBACK_REMOVED = 'assembled-feedback-removed';
 var ALERT_ASSEMBLED_SCENE_REMOVED = 'assembled-scene-removed';
+var ALERT_ASSEMBLED_TASK_REMOVED = 'assembled-task-removed';
 var ALERT_NO_TITLE = 'no-title';
 var ALERT_PIDOCO_EDIT_URL_INVALID = 'pidoco-edit-url-invalid';
 var ALERT_PIDOCO_EMBED_URL_INVALID = 'pidoco-embed-url-invalid';
@@ -65,6 +66,7 @@ var ALERT_NO_GESTURES = 'no-gestures';
 var ALERT_NO_STUDIES = 'no-studies';
 var ALERT_STUDY_UNMODERATED = 'study-unmoderated';
 var ALERT_NO_PLAN = 'no-plan';
+var ALERT_NO_MORE_TASKS = 'no-more-tasks';
 
 var ALERT_RATING_SUBMITTED = 'rating-submitted';
 

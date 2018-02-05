@@ -19,7 +19,7 @@ include './includes/language.php';
     $(document).ready(function () {
         var scene = getSceneById(currentSceneId);
         
-        console.log(scene);
+//        console.log(scene);
         if (scene) {
             renderData(scene);
         }
@@ -34,7 +34,8 @@ include './includes/language.php';
         container.find('.type .label-text').text(translation.sceneTypes[data.type]);
         container.find('.title').text(data.title);
         $('#modal-body').find('#list-container').append(container);
-
+        
+//        console.log(data);
         switch (data.type) {
             case SCENE_IMAGE:
                 container.find('.imageAreaContent').attr('src', data.parameters.url);

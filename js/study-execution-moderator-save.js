@@ -131,6 +131,7 @@ function getScenarioFormData(data) {
         data.endRecordingTime = tempData.endRecordingTime;
         data.recordUrl = tempData.recordUrl;
         data.actions = tempData.actions;
+        data.assessments = tempData.assessments;
         data.transitions = tempData.transitions;
         data.startScreenRecordingTime = tempData.startScreenRecordingTime;
         data.endScreenRecordingTime = tempData.endScreenRecordingTime;

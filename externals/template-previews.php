@@ -609,23 +609,31 @@ include '../includes/language.php';
             <div class="" id="general">
                 <h3 class="headline" style="margin-top: 0px"><?php echo $lang->general ?></h3>
                 <div class="">
-                    <div id="task"><span class="address"></span>: <span class="text"></span></div>
-                    <div id="description"><span class="address"></span>: <span class="text"></span></div>
+                    <div class="alert-space alert-no-more-tasks"></div>
+                    <!--<div id="task"><span class="address"></span>: <span class="text"></span></div>-->
+                    <div id="description"><span class="address"></span>: <span class="text font-bold"></span></div>
                     <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;"><?php echo $lang->stopScreensharing ?></button>
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 </div>
             </div>
+            <div class="" id="assessment-controls">
+                <h3 class="headline"><?php echo $lang->task ?> </h3>
+                <div class="" style="padding-bottom: 0">
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div id="task"><span class="text font-bold"></span></div>
+                    <div id="assessment-controls-container" style="margin-bottom: 20px; margin-top: 10px"></div>
+                </div>
+            </div>
             <div class="" id="woz-controls">
-                <h3><?php echo $lang->wozExperiment ?> <button class="btn btn-xs btn-default disabled pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button></h3>
-
+                <h3><?php echo $lang->wozControlElements ?> <button class="btn btn-xs btn-default disabled pull-right" id="btn-reset-scenes"><i class="fa fa-refresh"></i> <?php echo $lang->reset ?></button></h3>
                 <div class="" style="padding-bottom: 0">
                     <div id="wozExperiment" style="margin-bottom: 20px;">
                         <div style="margin-bottom: 10px" class="text"><?php echo $lang->whichGestureWasDemonstrated ?></div>
                         <div class="alert-space alert-no-phase-data"></div>
                         <div class="row woz-container"></div>
-                        <button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found" style="margin-top: 20px"><?php echo $lang->anotherGestureWasDemonstrated ?></button>
+                        <!--<button type="button" class="btn btn-default btn-block btn-other-gesture-fit" id="no-gesture-fit-found" style="margin-top: 20px"><?php echo $lang->anotherGestureWasDemonstrated ?></button>-->
                     </div>
                 </div>
             </div>
@@ -663,8 +671,8 @@ include '../includes/language.php';
     <div class="col-xs-12 root" id="wozItemWithScenes">
         <div class="row">
             <div class="col-xs-5 col-sm-6 col-md-4">
-                <div class="btn-shadow">
-                    <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 0px; border-top-left-radius: 4px; border-top-right-radius: 4px"></div>
+                <div class="btn-shadow ">
+                    <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 0px; border-top-left-radius: 4px; border-top-right-radius: 4px;"></div>
                     <div class="text-center hidden gestureControls">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>

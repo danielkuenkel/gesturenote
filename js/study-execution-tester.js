@@ -1589,7 +1589,11 @@ var Tester = {
         }
 
         // handle states in preview mode
-        if (scenarioStartTriggered === true) {
+        if (scenarioDone === true) {
+            appendAlert($(container), ALERT_PLEASE_WAIT);
+            $(container).find('#fixed-rtc-preview').addClass('hidden');
+            $(container).find('#scene-container').addClass('hidden');
+        } else if (scenarioStartTriggered === true) {
             clearAlerts(container);
             $(container).find('#fixed-rtc-preview').removeClass('hidden');
             $(container).find('#scene-container').removeClass('hidden');
@@ -2341,7 +2345,7 @@ function renderSceneItem(source, container, sceneId) {
         var sceneItem = $(source).find('#' + scene.type).clone().removeAttr('id');
         container.find('#scene-container').empty().append(sceneItem);
         var currentPhaseData = getCurrentPhaseData();
-        var helpData = getItemsForSceneId(currentPhaseData.help, scene.id);
+        var helpData = getItemsForSceneId(currentPhaseData, currentScenarioTask.id, scene.id);
         if (helpData && helpData.length > 0) {
             $(container).find('#btn-getting-help').removeClass('hidden');
         } else {
@@ -2360,7 +2364,7 @@ function renderSceneItem(source, container, sceneId) {
         container.find('#scene-container').css({backgroundColor: "rgb(255,255,255)"});
         switch (scene.type) {
             case SCENE_WEB:
-                sceneItem.attr('src', scene.data[0]);
+                sceneItem.attr('src', scene.parameters.url);
                 break;
             case SCENE_IMAGE:
                 sceneItem[0].onload = function () {
@@ -2369,14 +2373,14 @@ function renderSceneItem(source, container, sceneId) {
                     var dominantColor = colorThief.getColor(image);
                     container.find('#scene-container').css("backgroundColor", "rgb(" + dominantColor[0] + "," + dominantColor[1] + "," + dominantColor[2] + ")");
                 };
-                sceneItem[0].src = scene.data;
+                sceneItem[0].src = scene.parameters.url;
                 break;
             case SCENE_PIDOCO:
-                sceneItem[0].src = scene.data;
+                sceneItem[0].src = scene.parameters.url;
                 break;
             case SCENE_VIDEO_EMBED:
                 sceneItem.find('.videoContainer').addClass(scene.options[0] === 'ratio_16_9' ? 'embed-responsive-16by9' : 'embed-responsive-4by3');
-                sceneItem.find('.videoContainer').html(scene.data);
+                sceneItem.find('.videoContainer').html(scene.parameters.url);
                 var video = $(sceneItem).find('iframe');
                 var src = video.attr('src');
                 video.attr('src', src + "?autoplay=1");

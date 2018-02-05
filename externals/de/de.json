@@ -265,8 +265,8 @@
     "userRegistered": "Registriert seit",
     "editProfile": "Daten bearbeiten",
     "updateProfile": "Profildaten aktualisieren",
-    "staticStudyURLCheck":"Bitte die Studienlaufzeit überprüfen. Eine Studie kann nur durchgeführt werden, wenn die aktuelle Zeit innerhalb der Laufzeit liegt.",
-    "staticStudyURLExecute":"Befragung durchführen",
+    "staticStudyURLCheck": "Bitte die Studienlaufzeit überprüfen. Eine Studie kann nur durchgeführt werden, wenn die aktuelle Zeit innerhalb der Laufzeit liegt.",
+    "staticStudyURLExecute": "Befragung durchführen",
     "statistic": "Statistik",
     "stats": {
         "studies": "Studien erstellt",
@@ -838,7 +838,7 @@
             "notes": "yes"
         },
         "scenario": {
-            "text": "Szenario-basierte Aufgabe",
+            "text": "Szenario",
             "class": "evaluation",
             "moderated": {
                 "tester": {
@@ -1108,6 +1108,7 @@
         "pidoco": "Pidoco",
         "video": "Video"
     },
+    "wozControlElements":"Steuerelemente",
     "wozExperiment": "Wizard-of-Oz-Experiment",
     "previewHoleQuestionnaire": "Vorschau des gesamten Fragebogens",
     "thanksInput": "Danksagung einfügen",
@@ -1121,6 +1122,7 @@
     "leaveExecution": "Befragung verlassen",
     "noTriggerPresent": "Keine Funktionen vorhanden",
     "noGestureSetPresent": "Kein Studien-Gesten-Set vorhanden",
+    "noTasksPresent": "Keine Aufgaben vorhanden",
     "websiteUrl": "Webseiten-URL",
     "pidocoEditUrl": "Pidoco Bearbeitungs-URL",
     "pidocoSimulationUrl": "Pidoco Simulations-URL",
@@ -1198,7 +1200,8 @@
         "intermediateStates": "Zwischenzustände",
         "entryAction": "Folgezustand",
         "entryActions": "Folgezustände",
-        "transitionFeedback": "Feedback"
+        "transitionFeedback": "Feedback",
+        "wozElements": "WOZ-Elemente"
     },
     "popover": {
 
@@ -1229,7 +1232,64 @@
     "inputTaskTitle": "Aufgabentitel einfügen",
     "taskDescription": "Aufgabenbeschreibung",
     "insertTaskDescription": "Aufgabenbeschreibung einfügen",
+    "scenarioTitle": "Szenario-Titel",
+    "insertScenarioTitle": "Titel einfügen",
+    "scenarioDescription": "Eingangsszenario",
+    "insertScenarioDescription": "Eingangsszenario einfügen",
+    "expand": "Ausklappen",
     "task": "Aufgabe",
+    "insertTask": "Aufgabe einfügen",
+    "tasks": "Aufgaben",
+    "taskTitle": "Aufgaben-Titel",
+    "insertTaskTitle": "Aufgaben-Titel einfügen",
+    "taskAssessment": "Aufgaben-Beurteilung",
+    "taskAssessments": {
+        "success": {
+            "title": "Erfolg",
+            "trigger": "nextTask",
+            "annotationColor":"green"
+        },
+        "failure": {
+            "title": "Misserfolg",
+            "trigger": "nextTask",
+            "annotationColor":"red"
+        },
+        "cancelTask": {
+            "title": "Aufgabe abbrechen",
+            "trigger": "nextTask",
+            "annotationColor":"red"
+        },
+        "cancelScenario": {
+            "title": "Szenario abbrechen",
+            "trigger": "nextStep",
+            "annotationColor":"red"
+        }
+    },
+    "annotationColor": "Annotations-Farbe",
+    "annotationColors": {
+        "green": {
+            "title": "grün",
+            "hex": "#5cb85c"
+        },
+        "yellow": {
+            "title": "gelb",
+            "hex": "#f0ad4e"
+        },
+        "red": {
+            "title": "rot",
+            "hex": "#d9534f"
+        },
+        "blue": {
+            "title": "blau",
+            "hex": "#5bc0de"
+        },
+        "darkblue": {
+            "title": "dunkelblau",
+            "hex": "#337ab7"
+        }
+    },
+    "nextTask": "nächste Aufgabe",
+    "nextStep": "nächster Leitfadenschritt",
     "description": "Beschreibung",
     "scale": "Skala",
     "url": "URL",
@@ -1392,6 +1452,11 @@
     "addIdentificationElement": "Identifikationselement hinzufügen",
     "addExplorationElement": "Explorationselement hinzufügen",
     "addWOZElement": "WOZ-Element hinzufügen",
+    "addTaskElement": "Aufgabe hinzufügen",
+    "assessment": "Beurteilung",
+    "insertAssessment": "Beurteilung einfügen",
+    "addTaskAssessmentElement": "Beurteilungs-Element hinzufügen",
+    "afterAssessment": "Was soll nach Beurteilung geschehen?",
     "addGesture": "Geste hinzufügen",
     "addTrigger": "Funktion hinzufügen",
     "addToState": "Zum Zustand hinzufügen",
@@ -1537,7 +1602,7 @@
             "gestureTraining": "Bevor Gesten (z.B. in einem Szenario-basierten WOZ-Experiment) zum Einsatz kommen, können diese vorab explorativ trainiert werden. Dem Proband wird ein Prototyp mit dazugehöriger Funktionalität (Gesten, Feedback, Zustandsübergänge) gezeigt.",
             "gestureTrainingOverlay": "Bevor Gesten (z.B. in einem Szenario-basierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich muss das Gesten-Training mit einem vorhandenen Prototypen durch unterschiedlich hinterlegt Zustände bereichert werden.",
             "scenario": "Mit Szenario-baiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten.",
-            "scenarioOverlay": "Gesteninteraktionen werden typischerweise mit Szenario-basierten Aufgaben in Verbindung mit WOZ-Experimenten evaluiert. Der Fokus wurde dabei auf die Erstellung explorativer WOZ-Experimente gelegt. Mit Szenario-baiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe (moderiert) anzubieten oder (unmoderiert) abzurufen.",
+            "scenarioOverlay": "Gesteninteraktionen werden typischerweise mit Szenario-basierten Aufgaben in Verbindung mit WOZ-Experimenten evaluiert. D.h. es müssen in GestureNote entsprechende Daten und Strukturen hinterlegt werden, um solch einen Test durchführen zu können. Ein Szenario besteht dabei aus einer oder mehreren Aufgaben. An die jeweiligen Aufgaben sind Zustände gekoppelt (Bild, Video, Webseite, Pidoco). Des Weiteren können auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten, die dann abhängig von der jeweiligen Aufgabe und deren Zustände angezeigt werden können.",
             "gestureSlideshow": "Die Erinnerbarkeit und Intuitivität von Gesten kann hiermit abgefragt werden. Der Proband erhält eine Funktion und muss dann die korrekte Geste innerhalb eines bestimmten Zeitfensters (z.B. 2 Sekunden) demonstrieren. Bei einem Fehler beginnt die Slideshow erneut.",
             "gestureSlideshowOverlay": "Die Erinnerbarkeit und Intuitivität von Gesten kann mit einer Gesten-Slideshow abgefragt werden. Es werden die hinterlegten Funktionen angezeigt. Der Proband muss dann die korrekte Geste innerhalb eines bestimmten Zeitfensters (z.B. 2 Sekunden) demonstrieren. Konnte der Proband der Funktion nicht die korrekte Geste zuordnen, beginnt die Slideshow erneut. Der Benutzer bekommt bei einem Neustart alle Gesten nochmals eingeblendet. GestureNote bietet, neben der Erstellung von Gesten-Funktions-Paaren, die Möglichkeit das Zeitfenster für jedes Paar zu definieren.",
             "triggerSlideshow": "Hier werden dem Probanden nacheinander Gesten und eine Liste von Funktionen gezeigt. Der Proband soll die dazugehörige Funktion auswählen.",
@@ -3219,6 +3284,11 @@
             "type": "warning",
             "text": "Die verknüpfte Funktion ist nicht mehr verfügbar!"
         },
+        "assembledTaskRemoved": {
+            "id": "assembled-task-removed",
+            "type": "warning",
+            "text": "Die verknüpfte Aufgabe ist nicht mehr verfügbar! Überprüfen Sie die hinterlegten Aufgaben."
+        },
         "noFeedbackAssembled": {
             "id": "no-feedback-assembled",
             "type": "danger",
@@ -3506,6 +3576,11 @@
             "id": "preview-dummy",
             "type": "warning",
             "text": "Es handelt sich hierbei um eine Dummy-Vorschau. Der Workflow entspricht dem gleichen wie bei der Aufzeichnung von Gesten, mit dem Unterschied, dass die Gesten hier beim Proband aufgezeichnet und dann zum Moderator übertragen werden. Sie müssen die Geste schneiden und danach die Eigenschaften der Geste im Formular angeben."
+        },
+        "noMoreTasks": {
+            "id": "no-more-tasks",
+            "type": "warning",
+            "text": "Für dieses Szenario gibt es keine weiteren Aufgaben. Beenden Sie bitte das Screensharing. Falls vorhanden, können sie danach noch letzte Eingaben in ihrem Beobachtungsbogen tätigen."
         }
     },
     "introductionCreateStudy": [
@@ -3550,8 +3625,8 @@
             "popover": "Kataloge",
             "description": 
                     [
-                        "<p>Kataloge dienen als Grundlage für die Erstellung eines Leitfadens. Hierbei kommt es auch darauf an, in welcher Gesten-Design-Phase man sich befindet (Ermittlung, Extraktion, Evaluierung) und welche Methoden/Vorgehensweisen (Fragebogen, GUS, Szenario-basierte Aufgabe, Physischer Belastungstest, etc.) genutzt werden sollen. Sollen z.B. Gesten für vorhandene Funktionen ermittelt werden (Bottom-Up), genügt es für die Durchführung einen Funktionen- und einen Zustands-Katalog anzulegen. Ein Studien-Gesten-Set wird in diesem Fall nicht benötigt.<p/><p> Sollen dagegen in einer Ermittlung Funktionen für vorhandene Gesten ermittelt werden (Top-Down), reicht das Anlegen eines Studien-Gesten-Sets.<p/>",
-                        "<table class='table table-bordered' style='width:100%'><thead><tr><th>Methode</th><th class='text-center'>Studien-Gesten</th><th class='text-center'>Funktionen</th><th class='text-center'>Feedback</th><th class='text-center'>Zustände</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>GUS</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Ermittlung</td><td class='text-center'><i class='fa fa-check'></i> Top-Down</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (opt.)</td></tr><tr><td>Exploration</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (opt.)</td></tr><tr><td>Gesten-Training</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Szenario-basierte Aufgabe</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Gesten erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Funktionen erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr></tbody></table>",
+                        "<p>Kataloge dienen als Grundlage für die Erstellung eines Leitfadens. Hierbei kommt es auch darauf an, in welcher Gesten-Design-Phase man sich befindet (Ermittlung, Extraktion, Evaluierung) und welche Methoden/Vorgehensweisen (Fragebogen, GUS, Szenario, Physischer Belastungstest, etc.) genutzt werden sollen. Sollen z.B. Gesten für vorhandene Funktionen ermittelt werden (Bottom-Up), genügt es für die Durchführung einen Funktionen- und einen Zustands-Katalog anzulegen. Ein Studien-Gesten-Set wird in diesem Fall nicht benötigt.<p/><p> Sollen dagegen in einer Ermittlung Funktionen für vorhandene Gesten ermittelt werden (Top-Down), reicht das Anlegen eines Studien-Gesten-Sets.<p/>",
+                        "<table class='table table-bordered' style='width:100%'><thead><tr><th>Methode</th><th class='text-center'>Studien-Gesten</th><th class='text-center'>Funktionen</th><th class='text-center'>Feedback</th><th class='text-center'>Zustände</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>GUS</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Ermittlung</td><td class='text-center'><i class='fa fa-check'></i> Top-Down</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up</td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (opt.)</td></tr><tr><td>Exploration</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'><i class='fa fa-check'></i> Bottom-Up (opt.)</td></tr><tr><td>Gesten-Training</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Szenario</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td></tr><tr><td>Gesten erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Funktionen erraten</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'><i class='fa fa-check'></i></td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td></tr></tbody></table>",
                         "<p>Für einen besseren Überblick wurden in der Tabelle die möglichen Vorgehensweisen und den benötigten Katalogen zusammengefasst. Optionale Kataloge sind mit <em>opt.</em> gekennzeichnet.</p>",
                         "<h4>Studien-Gesten</h4><hr>",
                         "<img class='img-image' src='img/de/introduction/study-create/carousel-03-01.jpg' />",
@@ -3578,7 +3653,7 @@
             "description": 
                     [
                         "<p>Der Leitfaden ist das Kernstück einer nutzerzentrierten Befragung. In GestureNote beinhaltet ein Leitfaden immer eine Einverständniserklärung und eine Danksagung. Diese Schritte sind vorausgewählt und können nicht gelöscht werden. Um weitere Abschnitte hinzuzufügen, klicken Sie einfach auf das entsprechende Format wie z.B. Fragebogen. Um die Abschnitte zu bearbeiten, klicken Sie in der Leitfadenliste auf den Titel des jeweiligen Abschnitts.</p>",
-                        "<table class='table table-bordered' style='width:100%'><thead><tr><th>Methode</th><th class='text-center'>Ermittlung</th><th class='text-center'>Extraktion</th><th class='text-center'>Evaluierung</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td></tr><tr><td>GUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>Ermittlung</td><td class='text-center'>M<td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Exploration</td><td class='text-center'>-</td><td class='text-center'>M</td><td class='text-center'>-</td></tr><tr><td>Gesten-Training</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Szenario-basierte Aufgabe</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Gesten erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Funktionen erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr></tbody></table>",
+                        "<table class='table table-bordered' style='width:100%'><thead><tr><th>Methode</th><th class='text-center'>Ermittlung</th><th class='text-center'>Extraktion</th><th class='text-center'>Evaluierung</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td></tr><tr><td>GUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>Ermittlung</td><td class='text-center'>M<td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Exploration</td><td class='text-center'>-</td><td class='text-center'>M</td><td class='text-center'>-</td></tr><tr><td>Gesten-Training</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Szenario</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Gesten erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Funktionen erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr></tbody></table>",
                         "<div class='text-center' style='font-size:10pt'>M = Moderierte Durchführung, UM = Unmoderierte Durchführung</div>",
                         "<p style='margin-top:10px'>In der oberen Tabelle sind für eine bessere Übersicht alle Design-Phasen und die Methoden, welche mit GestureNote dort unterstützt werden dargestellt. Zusätzlich ist die unterstützte Befragungsart (moderiert oder unmoderiert) hinterlegt.</p>",
                         "<h4>Einverständniserklärung</h4><hr>",
@@ -3611,7 +3686,7 @@
                         "<p>Ziel dieser Methode ist es, den Probanden einen Überblick über die ermittelten Gesten oder Funktionen zu geben. In der Befragung können dann entweder die favorisierten Funktionen für eine Gesten oder die favorisierten Gesten für eine Funktion identifiziert werden.</p>",
                         "<h4>Gesten-Training</h4><hr>",
                         "<p>Bevor Gesten (z.B. in einem Szenario-basierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich muss das Gesten-Training mit einem vorhandenen Prototypen durch unterschiedlich hinterlegt Zustände bereichert werden.</p>",
-                        "<h4>Szenario-basierte Aufgabe</h4><hr>",
+                        "<h4>Szenario</h4><hr>",
                         "<p>Gesteninteraktionen werden typischerweise mit Szenario-basierten Aufgaben in Verbindung mit WOZ-Experimenten evaluiert. Der Fokus wurde dabei auf die Erstellung explorativer WOZ-Experimente gelegt. Mit Szenario-baiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe (moderiert) anzubieten oder (unmoderiert) abzurufen.</p>",
                         "<h4>Gesten erraten</h4><hr>",
                         "<p>Die Erinnerbarkeit und Intuitivität von Gesten kann mit einer Gesten-Slideshow abgefragt werden. Es werden die hinterlegten Funktionen angezeigt. Der Proband muss dann die korrekte Geste innerhalb eines bestimmten Zeitfensters (z.B. 2 Sekunden) demonstrieren. Konnte der Proband der Funktion nicht die korrekte Geste zuordnen, beginnt die Slideshow erneut. Der Benutzer bekommt bei einem Neustart alle Gesten nochmals eingeblendet. GestureNote bietet, neben der Erstellung von Gesten-Funktions-Paaren, die Möglichkeit das Zeitfenster für jedes Paar zu definieren.</p>",
@@ -3660,7 +3735,7 @@
                         "<p>Der WebRTC Stream und der Beobachtungsleitfaden ist immer auf der linken Seite zu finden. Die hinterlegten Texte für eine Methodeneinführung und die Steuerelemente sind immer auf der rechten Seite zu finden.</p>",
                         "<h4>Screen Sharing</h4><hr>",
                         "<p>Einige Methoden nutzen Screen Sharing, um hinterlegte Zustände beim Probanden anzuzeigen.</p>",
-                        "<p><ul><li>Ermittlung mit Zuständen</li><li>Exploration mit Zuständen</li><li>Gesten-Training</li><li>Szenario-basierte Aufgabe mit Wizard-of-Oz-Experiment</li></ul></p>",
+                        "<p><ul><li>Ermittlung mit Zuständen</li><li>Exploration mit Zuständen</li><li>Gesten-Training</li><li>Szenario mit Wizard-of-Oz-Experiment</li></ul></p>",
                         "<span>Abgesehen von den Methoden und deren unterschiedlichem Workflow, ist das Initiieren und Beenden eines Screensharings immer gleich. </span>",
                         "<h4>Fragebögen</h4><hr>",
                         "<p>Fragebogen, GUS, SUS</p>",
@@ -3673,7 +3748,7 @@
                         "<h4>Gesten-Training</h4><hr>",
                         "<img class='svg-image' style='max-width:320px' src='img/de/introduction/study-preview/gesture-training.svg' />",
                         "<p></p>",
-                        "<h4>Szenario-basierte Aufgabe</h4><hr>",
+                        "<h4>Szenario</h4><hr>",
                         "<img class='svg-image' style='max-width:800px' src='img/de/introduction/study-preview/scenario.svg' />",
                         "<p></p>",
                         "<h4>Gesten erraten</h4><hr>",

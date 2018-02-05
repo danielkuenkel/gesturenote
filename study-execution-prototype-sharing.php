@@ -96,7 +96,7 @@
                         break;
                 }
 
-//                console.log(query.phaseId, phaseStepData, startScene);
+                console.log(query.phaseId, phaseStepData, startScene);
                 renderSceneItem(startScene);
             }
 
@@ -109,7 +109,7 @@
 
                     switch (scene.type) {
                         case SCENE_WEB:
-                            sceneItem[0].src = scene.data;
+                            sceneItem[0].src = scene.parameters.url;
                             break;
                         case SCENE_IMAGE:
                             sceneItem[0].onload = function () {
@@ -118,14 +118,14 @@
                                 var dominantColor = colorThief.getColor(image);
                                 $('#shared-scenario').find('#scene-container').css("backgroundColor", "rgb(" + dominantColor[0] + "," + dominantColor[1] + "," + dominantColor[2] + ")");
                             };
-                            sceneItem[0].src = scene.data;
+                            sceneItem[0].src = scene.parameters.url;
                             break;
 //                        case SCENE_PIDOCO:
-//                            sceneItem[0].src = scene.data;
+//                            sceneItem[0].src = scene.parameters.url;
 //                            break;
                         case SCENE_VIDEO_EMBED:
                             sceneItem.find('.videoContainer').addClass(scene.options[0] === 'ratio_16_9' ? 'embed-responsive-16by9' : 'embed-responsive-4by3');
-                            sceneItem.find('.videoContainer').html(scene.data);
+                            sceneItem.find('.videoContainer').html(scene.parameters.url);
                             var video = $(sceneItem).find('iframe');
                             var src = video.attr('src');
                             video.attr('src', src + "?autoplay=1");

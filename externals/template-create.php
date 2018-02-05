@@ -18,8 +18,8 @@ include '../includes/language.php';
         </div>
         <div class="panel-body">
             <div class="hidden" style="width: 100%; margin-bottom: 10px;" id="item-factors">
-<!--                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
+                <!--                <div class="label label-primary" id="factor-main"></div>
+                                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
                 <div class="label label-primary" id="factor-primary"></div>
             </div>
 
@@ -1312,11 +1312,25 @@ include '../includes/language.php';
         </div>
         <div class="panel-body">
 
+            <div class="alert-space alert-no-tasks-assembled"></div>
             <div class="alert-space alert-no-scenes-assembled"></div>
-            <div class="alert-space alert-assembled-scene-removed"></div>
+            
+
+            <div class="form-group">
+                <label><?php echo $lang->task ?></label>
+                <div class="alert-space alert-assembled-task-removed"></div>
+                <div class="input-group">
+                    <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <div class="input-group-btn select taskSelect" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                    </div>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label><?php echo $lang->scene ?></label>
+                <div class="alert-space alert-assembled-scene-removed"></div>
                 <div class="input-group">
                     <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select sceneSelect" role="group">
@@ -1325,6 +1339,7 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <label><?php echo $lang->helpText ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
                 <input class="form-control option-text" type="text" value="" placeholder=""/>
@@ -1376,7 +1391,47 @@ include '../includes/language.php';
 
     </div>
 
-    <div class="panel panel-default root" id="wozExperimentItem">
+    <div class="panel panel-default root" id="taskItem">
+        <div class="panel-heading">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+            <span><?php echo $lang->task ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group btn-group-sm pull-right">
+                <button class="btn btn-default btn-shadow btn-expand hidden" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->expand ?>"><i class="fa fa-chevron-down"></i></button>
+            </div>
+        </div>
+        <div class="panel-body" style="margin-bottom: 0px">
+
+            <div class="form-group">
+                <label for="taskTitle"><?php echo $lang->taskTitle ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <input type="text" class="form-control" id="taskTitle" placeholder="<?php echo $lang->insertTaskTitle ?>">
+            </div>
+            <div class="form-group">
+                <label for="task"><?php echo $lang->task ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <textarea class="form-control" id="task" rows="7" placeholder="<?php echo $lang->insertTask ?>" style="resize: none"></textarea>
+            </div>
+
+            <div class="form-group" id="woz-item-container" style="margin-top: 10px">
+                <label><?php echo $lang->stateCharts->wozElements ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <div class="alert-space alert-no-phase-data"></div>
+                <div class="">
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="alert-space alert-no-scenes-assembled-link"></div>
+                    <div class="alert-space alert-no-study-gestures-assembled-link"></div>
+                    <div class="alert-space alert-no-trigger-assembled-link"></div>
+                    <div class="alert-space alert-no-feedback-assembled-link"></div>
+                    <div class="option-container row"></div>
+                </div>
+                <button class="btn btn-info btn-shadow font-bold btn-add-woz-experimentOption" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addWOZElement ?></span></button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="panel panel-default root" id="task-assessment-item">
         <div class="panel-heading">
             <div class="btn-group btn-group-sm" style="margin-right: 10px">
                 <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
@@ -1384,100 +1439,146 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
             </div>
         </div>
-        <div class="panel-body" style="margin-bottom: 0px">
+        <div class="panel-body">
+
             <div class="form-group">
-                <label><?php echo $lang->stateCharts->transition ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                <div class="alert-space alert-assembled-trigger-removed"></div>
-                <div class="input-group trigger">
-                    <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                    <div class="input-group-btn select triggerSelect wozTriggerSelect" role="group">
-                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                <label><?php echo $lang->assessment ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <input class="form-control item-input-text input-title" type="text" value="" placeholder="<?php echo $lang->insertAssessment ?>"/>
+            </div>
+
+            <div class="form-group">
+                <label><?php echo $lang->afterAssessment ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <div class="input-group">
+                    <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                    <div class="input-group-btn select assessmentTriggerSelect" role="group">
+                        <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                            <li id="nextTask"><a href="#"><?php echo $lang->nextTask ?></a></li>
+                            <li id="nextStep"><a href="#"><?php echo $lang->nextStep ?></a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
-                <label><?php echo $lang->stateCharts->transitionCondition ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                <div class="alert-space alert-assembled-gesture-removed"></div>
-                <div class="input-group evaluation">
-                    <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                    <div class="input-group-btn select gestureSelect" role="group">
-                        <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
-                    </div>
+                <label><?php echo $lang->annotationColor ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <div class="color-selector">
+                    <div class="btn-color-selector darkblue" data-id='darkblue'></div>
+                    <div class="btn-color-selector green" data-id='green'></div>
+                    <div class="btn-color-selector blue" data-id='blue'></div>
+                    <div class="btn-color-selector yellow" data-id='yellow'></div>
+                    <div class="btn-color-selector red" data-id='red'></div>
                 </div>
             </div>
-            <div class="form-group">
-                <label><?php echo $lang->stateCharts->transitionFeedback ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                <div class="alert-space alert-assembled-feedback-removed"></div>
-                <div class="feedback-input">
-                    <div class="input-group">
-                        <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                        <div class="input-group-btn select feedbackSelect" role="group">
-                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-11 root" id="wozExperimentItem">
+        <div class="panel panel-default ">
+            <div class="panel-heading">
+                <div class="btn-group btn-group-sm" style="margin-right: 10px">
+                    <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                    <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+            </div>
+            <div class="panel-body" style="margin-bottom: 0px">
+                <div class="form-group">
+                    <label><?php echo $lang->stateCharts->transition ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                    <div class="alert-space alert-assembled-trigger-removed"></div>
+                    <div class="input-group trigger">
+                        <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                        <div class="input-group-btn select triggerSelect wozTriggerSelect" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
                             <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="form-inline">
-                <div class="form-group transitionFeedback-mode hidden" style="margin-right: 20px">
-                    <label><?php echo $lang->displayOf ?> <?php echo $lang->stateCharts->transitionFeedback ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                    <div class="root">
-                        <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="manually">
-                                <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                    <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle" id="checked"></i>
-                                </span>
-                                <span class="option-text"><?php echo $lang->manually ?></span>
-                            </button>
+                <div class="form-group">
+                    <label><?php echo $lang->stateCharts->transitionCondition ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                    <div class="alert-space alert-assembled-gesture-removed"></div>
+                    <div class="input-group evaluation">
+                        <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                        <div class="input-group-btn select gestureSelect" role="group">
+                            <button class="btn btn-default btn-shadow dropdown-toggle disabled" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
                         </div>
-                        <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio" name="primary" id="automatically">
-                                <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin" id="normal"></i>
-                                    <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle hidden" id="checked"></i>
-                                </span>
-                                <span class="option-text"><?php echo $lang->automatically ?></span>
-                            </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><?php echo $lang->stateCharts->transitionFeedback ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                    <div class="alert-space alert-assembled-feedback-removed"></div>
+                    <div class="feedback-input">
+                        <div class="input-group">
+                            <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <div class="input-group-btn select feedbackSelect" role="group">
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group hidden transitionFeedback-time-stepper">
-                    <label><?php echo $lang->transitionalPeriod ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                    <br/>
-                    <div class="input-group simple-stepper" style="max-width: 130px">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
-                            </button>
+                <div class="form-inline">
+                    <div class="form-group transitionFeedback-mode hidden" style="margin-right: 20px">
+                        <label><?php echo $lang->displayOf ?> <?php echo $lang->stateCharts->transitionFeedback ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                        <div class="root">
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="manually">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->manually ?></span>
+                                </button>
+                            </div>
+                            <div class="btn-group" id="radio" style="margin: 0">
+                                <button class="btn btn-default btn-radio" name="primary" id="automatically">
+                                    <span id="icons" style="margin-right: 6px">
+                                        <i class="fa fa-circle-thin" id="normal"></i>
+                                        <i class="fa fa-circle hidden" id="over"></i>
+                                        <i class="fa fa-check-circle hidden" id="checked"></i>
+                                    </span>
+                                    <span class="option-text"><?php echo $lang->automatically ?></span>
+                                </button>
+                            </div>
                         </div>
-                        <input type="text" class="form-control readonly text-center stepper-text" value="1">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
-                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
-                            </button>
+                    </div>
+
+                    <div class="form-group hidden transitionFeedback-time-stepper">
+                        <label><?php echo $lang->transitionalPeriod ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                        <br/>
+                        <div class="input-group simple-stepper" style="max-width: 130px">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
+                                    <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
+                                </button>
+                            </div>
+                            <input type="text" class="form-control readonly text-center stepper-text" value="1">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
+                                    <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
 
-            <div class="form-group" id="scenes" style="margin-top: 10px">
-                <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                <div class="alert-space alert-no-phase-data"></div>
-                <div class="">
-                    <div class="transition-scenes-option-container"></div>
+                <div class="form-group" id="scenes" style="margin-top: 10px">
+                    <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="">
+                        <div class="transition-scenes-option-container"></div>
+                    </div>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
                 </div>
-                <button class="btn btn-info btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
-            </div>
 
+            </div>
         </div>
     </div>
 
@@ -2145,17 +2246,17 @@ include '../includes/language.php';
                     <input class="form-control item-input-text title" type="text" value="" placeholder="<?php echo $lang->title ?>"/>
                 </div>
             </div>
-<!--            <div class="form-group">
-                <div class="alert-space alert-pidoco-edit-url-invalid"></div>
-
-                <div class="input-group">
-                    <span class="input-group-addon"><?php echo $lang->pidocoEditUrl ?></span>
-                    <input class="form-control item-input-text pidoco-edit-url enter-key" type="text" value="" placeholder="<?php echo $lang->pidocoEditUrl ?>"/>
-                    <div class="input-group-btn">
-                        <button class="btn btn-default btn-shadow checkInput checkPidocoEditURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text"><?php echo $lang->check ?></span></button>
-                    </div>
-                </div>
-            </div>-->
+            <!--            <div class="form-group">
+                            <div class="alert-space alert-pidoco-edit-url-invalid"></div>
+            
+                            <div class="input-group">
+                                <span class="input-group-addon"><?php echo $lang->pidocoEditUrl ?></span>
+                                <input class="form-control item-input-text pidoco-edit-url enter-key" type="text" value="" placeholder="<?php echo $lang->pidocoEditUrl ?>"/>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default btn-shadow checkInput checkPidocoEditURL"><i class="btn-icon glyphicon glyphicon-check"></i> <span class="btn-text"><?php echo $lang->check ?></span></button>
+                                </div>
+                            </div>
+                        </div>-->
 
             <div class="form-group">
                 <div class="alert-space alert-pidoco-embed-url-invalid"></div>
@@ -2300,7 +2401,7 @@ include '../includes/language.php';
                 <div style="width: 100%" id="item-factors">
                     <!--                <div class="label label-primary" id="factor-main"></div>
                 <img src="img/factor-transition.jpg" class="item-factors-separator">-->
-                <div class="label label-primary" id="factor-primary"></div>
+                    <div class="label label-primary" id="factor-primary"></div>
                 </div>
 
                 <div class="input-group" style="margin-top: 5px;">

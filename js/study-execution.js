@@ -15,11 +15,14 @@ var triggerSlideshowDone = false;
 var currentSlideIndex = 0;
 var slideTriggered = false;
 var currentWOZScene = null;
+var currentScenarioTask = null;
+var currentScenarioTaskIndex = 0;
 var currentSceneId;
 var scenarioStartTriggered = false;
 var scenarioPrototypeOpened = false;
 var triggeredWoz = null;
 var triggeredHelp = null;
+var scenarioDone = false;
 var currentTriggeredSceneId = null;
 var currentIdentificationIndex = 0;
 var currentIdentificationScene = 0;
@@ -252,6 +255,10 @@ function resetConstraints() {
     triggeredHelp = null;
     triggeredFeedback = null;
     triggeredWoz = null;
+    currentWOZScene = null;
+    currentScenarioTask = null;
+    currentScenarioTaskIndex = 0;
+    scenarioDone = false;
 
     currentStressTestCount = 0;
     currentStressTestIndex = 0;
@@ -341,7 +348,7 @@ function getThanksStepIndex() {
 
 function getCurrentPhase() {
     var phaseSteps = null;
-    if(!previewModeEnabled) {
+    if (!previewModeEnabled) {
         phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
     } else {
         phaseSteps = getContextualPhaseSteps();
@@ -494,6 +501,19 @@ function getItemsForSceneId(data, sceneId) {
         var array = new Array();
         for (var i = 0; i < data.length; i++) {
             if (parseInt(data[i].sceneId) === parseInt(sceneId)) {
+                array.push(data[i]);
+            }
+        }
+        return array;
+    }
+    return null;
+}
+
+function filterHelpDataForCurrentTask(data, taskId, sceneId) {
+    if (data && data.length > 0) {
+        var array = new Array();
+        for (var i = 0; i < data.length; i++) {
+            if (parseInt(taskId) === parseInt(data[i].taskId) && parseInt(data[i].sceneId) === parseInt(sceneId)) {
                 array.push(data[i]);
             }
         }
