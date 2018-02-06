@@ -2,7 +2,7 @@
 include '../includes/language.php';
 ?>
 
-<script src="resumable/resumable.js"></script>
+<script src="js/resumable/resumable.js"></script>
 <script src="js/sha512.js"></script>
 <div id="item-container-gesture-recorder" class="hidden">
 

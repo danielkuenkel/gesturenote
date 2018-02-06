@@ -68,7 +68,7 @@ if ($h && $token && $studyId) {
         <script src="js/upload-queue.js"></script>
 
         <!-- streaming -->
-        <script src="andyet/simplewebrtcbundle.js"></script>
+        <script src="js/andyet/simplewebrtcbundle.js"></script>
         <script src="js/peerConnection.js"></script>
 
         <!-- gesture recorder sources -->

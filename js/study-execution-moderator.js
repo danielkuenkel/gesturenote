@@ -1472,14 +1472,15 @@ var Moderator = {
             $(container).find('#assessment-controls-container .disabled').removeClass('disabled');
             $(container).find('#general #description').addClass('hidden');
 
-            if (!previewModeEnabled && peerConnection) {
-                getGMT(function (timestamp) {
-                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                    tempData.actions.push({action: ACTION_START_TASK, id: currentScenarioTask.id, time: timestamp});
-                    tempData.transitions.push({scene: currentWOZScene.id, time: timestamp});
-                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                });
-            }
+//            if (!previewModeEnabled && peerConnection) {
+//                getGMT(function (timestamp) {
+//                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+//                    
+////                    tempData.actions.push({action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
+////                    tempData.transitions.push({scene: currentWOZScene.id, time: timestamp});
+//                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//                });
+//            }
         }
 
         $(container).find('#btn-stop-screen-sharing').unbind('click').bind('click', function (event) {
@@ -1512,8 +1513,8 @@ var Moderator = {
                     if (!previewModeEnabled) {
                         getGMT(function (timestamp) {
                             var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                            tempData.actions.push({action: ACTION_REFRESH_SCENE, time: timestamp});
-                            tempData.transitions.push({scene: currentWOZScene.id, time: timestamp});
+//                            tempData.actions.push({action: ACTION_REFRESH_SCENE, time: timestamp});
+                            tempData.actions.push({action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
                             tempData.actions.push({action: ACTION_START_TASK, id: currentScenarioTask.id, time: timestamp});
                             setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                         });
@@ -1664,7 +1665,7 @@ var Moderator = {
                                 getGMT(function (timestamp) {
                                     var currentPhase = getCurrentPhase();
                                     var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                                    tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene.id});
+                                    tempData.actions.push({action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
                                     setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                                 });
                             }
@@ -1702,7 +1703,7 @@ var Moderator = {
                     getGMT(function (timestamp) {
                         var currentPhase = getCurrentPhase();
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                        tempData.actions.push({action: ACTION_RENDER_SCENE, time: timestamp, scene: currentWOZScene.id});
+                        tempData.actions.push({action: ACTION_RENDER_SCENE, scene: currentWOZScene.id, time: timestamp});
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                     });
                 }
@@ -1877,7 +1878,6 @@ var Moderator = {
                             currentScenarioTask = data.tasks[currentScenarioTaskIndex];
 //                            console.log(currentScenarioTask);
                             currentWOZScene = getSceneById(currentScenarioTask.woz[0].transitionScenes[0].sceneId);
-                            console.log(currentWOZScene);
                             Moderator.renderWOZ(source, container, data);
                             Moderator.renderHelp(source, container, data);
                         } else {
@@ -1908,10 +1908,9 @@ var Moderator = {
 
                     if (!previewModeEnabled) {
                         getGMT(function (timestamp) {
-                            checkAssessment(trigger);
-
                             var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                            tempData.assessments.push({id: assessmentId, time: timestamp});
+                            tempData.assessments.push({id: assessmentId, taskId:currentScenarioTask.id, time: timestamp});
+                            checkAssessment(trigger);
                             if (scenarioDone === false) {
                                 tempData.actions.push({action: ACTION_START_TASK, id: currentScenarioTask.id, time: timestamp});
                             }
@@ -3359,7 +3358,6 @@ function openPrototypeScene(scene, isSingleScene, description, index) {
 
 function getWOZTransitionItem(source, transitionScene, disabled, active) {
     var scene = getSceneById(transitionScene.sceneId);
-    console.log(scene);
     var btn = $(source).find('#wozItemWithScenesButton').clone().removeAttr('id');
     $(btn).find('.btn-text').text(scene.title);
     $(btn).find('.btn-trigger-scene').attr('id', scene.id);

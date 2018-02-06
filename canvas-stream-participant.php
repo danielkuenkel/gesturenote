@@ -24,10 +24,10 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
-        <script src="resumable/resumable.js"></script>
+        <script src="js/resumable/resumable.js"></script>
 
         <script src="js/chance.min.js"></script>
-        <script src="color-thief/color-thief.js"></script>
+        <script src="js/color-thief/color-thief.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>

@@ -649,11 +649,12 @@ include '../includes/language.php';
                         <div class="progress" id="main-seek-bar" style="border-radius: 4px; height:34px; margin: 0; cursor: pointer">
                             <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                         </div>
+                        <div id="seek-bar-meta-info-container" class="col-xs-12"></div>
                     </div>
                 </div>
 
             </div>
-            <div id="results-timeline" style="margin-top: 10px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;"></div>
+            <div id="results-timeline" style="margin-top: 20px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;"></div>
         </div>
 
     </div>

@@ -55,7 +55,7 @@ if ($h && $token && $studyId) {
         <script src="resumable/resumable.js"></script>
 
         <script src="js/chance.min.js"></script>
-        <script src="color-thief/color-thief.js"></script>
+        <script src="js/color-thief/color-thief.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
@@ -77,7 +77,7 @@ if ($h && $token && $studyId) {
         <script src="js/upload-queue.js"></script>
 
         <!-- streaming -->
-        <script src="andyet/simplewebrtcbundle.js"></script>
+        <script src="js/andyet/simplewebrtcbundle.js"></script>
         <script src="js/peerConnection.js"></script>
 
         <!-- gesture recorder sources -->

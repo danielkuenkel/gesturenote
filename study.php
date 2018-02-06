@@ -32,6 +32,7 @@ if (login_check($mysqli) == true) {
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
 
+        <script src="js/refreshSession.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/alert.js"></script>
         <script src="js/externals.js"></script>
@@ -526,6 +527,7 @@ if (login_check($mysqli) == true) {
         <script>
             $(document).ready(function () {
                 checkDomain();
+                keepSessionAlive();
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);

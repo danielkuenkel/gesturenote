@@ -31,9 +31,10 @@ if (login_check($mysqli) == true) {
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.5/TweenMax.min.js"></script>
 
-        <link href="vis/vis.css" rel="stylesheet">
-        <script src="vis/vis.min.js"></script>
-
+        <link href="js/vis/vis.min.css" rel="stylesheet">
+        <script src="js/vis/vis.min.js"></script>
+        
+        <script src="js/refreshSession.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/constants.js"></script>
         <script src="js/alert.js"></script>
@@ -110,6 +111,7 @@ if (login_check($mysqli) == true) {
         <script>
             $(document).ready(function () {
                 checkDomain();
+                keepSessionAlive();
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
@@ -220,7 +222,6 @@ if (login_check($mysqli) == true) {
                     $('#phase-result').empty().append(content);
 
                     var executionTime = getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED ? getTimeBetweenTimestamps(evaluatorResults.startTime, evaluatorResults.endTime) : getTimeBetweenTimestamps(testerResults.startTime, testerResults.endTime);
-
 //                    console.log(executionTime);
                     if (!isEmpty(executionTime)) {
                         var badge = document.createElement('span');
@@ -249,7 +250,7 @@ if (login_check($mysqli) == true) {
                     // check and add recorded stream data
                     if (isWebRTCNeededForPhaseStep(testerResults)) {
                         if (testerResults && testerResults.recordUrl && testerResults.recordUrl !== '') {
-                            var resultsPlayer = new RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionTime);
+                            var resultsPlayer = new RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionTime, content);
                             if (getBrowser() !== 'Safari') {
                                 $(content).find('#horizontalLine').after(resultsPlayer);
                             } else {
@@ -261,7 +262,7 @@ if (login_check($mysqli) == true) {
                         }
                     }
 
-                    console.log('render phase step: ' + testerResults.format);
+//                    console.log('render phase step: ' + testerResults.format);
                     switch (testerResults.format) {
                         case LETTER_OF_ACCEPTANCE:
                             renderLetterOfAcceptance(content, phaseData, testerResults);
@@ -754,13 +755,13 @@ if (login_check($mysqli) == true) {
             }
 
             function renderScenario(container, studyData, resultsData) {
-                console.log($('#phase-results-nav').find('.active').attr('id'));
+//                console.log($('#phase-results-nav').find('.active').attr('id'));
                 renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
 //                addObservationsDropdown(container);
             }
 
             function renderIdentification(container, studyData, phaseResults) {
-                console.log(studyData, phaseResults, getLocalItem(GESTURE_CATALOG));
+//                console.log(studyData, phaseResults, getLocalItem(GESTURE_CATALOG));
 
 //                if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
 //
@@ -915,9 +916,9 @@ if (login_check($mysqli) == true) {
             }
 
             function renderObservation(target, studyData, observationResults) {
-                console.log('observationResults', studyData.observations);
+//                console.log('observationResults', studyData.observations);
                 if (observationResults && observationResults.length > 0) {
-                    console.log(observationResults);
+//                    console.log(observationResults);
                     renderQuestionnaire(target, studyData.observations, {answers: observationResults});
 //                    renderEditableObservations(target, studyData.observations, {answers:observationResults});
                 } else {

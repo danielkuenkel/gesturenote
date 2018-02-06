@@ -5,7 +5,7 @@
  */
 
 var resultsPlayer = null;
-function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionTime) {
+function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionTime, content) {
 //    getTime('GMT', function (time) {
 //        // This is where you do whatever you want with the time:
 //        console.log(new Date(time).getTime());
@@ -13,10 +13,10 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 //    getGMT(function(timestamp) {
 //        console.log('server time: ', timestamp);
 //    });
-    console.log('tester results:', testerResults);
-    console.log('evaluator results:', evaluatorResults);
-    console.log('phase data results:', phaseData);
-    console.log('execution time:', executionTime);
+//    console.log('tester results:', testerResults);
+//    console.log('evaluator results:', evaluatorResults);
+//    console.log('phase data results:', phaseData);
+//    console.log('execution time:', executionTime);
 
     var screenSharingStartGap = 0;
     var screenSharingEndGap = 0;
@@ -54,11 +54,11 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
         function initScreenSharingVideoPlayer() {
             var screenRecordingFileExist = true;
-            console.log('init screen sharing video player', evaluatorResults);
+//            console.log('init screen sharing video player', evaluatorResults);
 
             $.get(UPLOADS + evaluatorResults.screenRecordUrl)
                     .fail(function () {
-                        console.log('file does not exist: ' + UPLOADS + evaluatorResults.screenRecordUrl);
+                        console.warn('file does not exist: ' + UPLOADS + evaluatorResults.screenRecordUrl);
                         screenRecordingFileExist = false;
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
 
@@ -86,14 +86,14 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                             screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
                         }
 
-                        console.log(screenSharingStartGap, screenSharingEndGap);
-                        console.log('total screen duration:', duration);
+//                        console.log(screenSharingStartGap, screenSharingEndGap);
+//                        console.log('total screen duration:', duration);
                         screenShareVideoHolder[0].currentTime = duration - 2;
                         screenShareVideoHolder[0].playbackRate = 10;
                         screenShareVideoHolder[0].muted = true;
 
                         $(screenShareVideoHolder).on('ended', function () {
-                            console.log('on screen record ended');
+//                            console.log('on screen record ended');
                             $(screenShareVideoHolder).unbind('ended');
                             screenShareVideoHolder[0].playbackRate = 1;
                             screenShareVideoHolder[0].muted = false;
@@ -132,7 +132,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
             $.get(UPLOADS + evaluatorResults.recordUrl)
                     .fail(function () {
-                        console.log('file does not exist: ' + UPLOADS + evaluatorResults.recordUrl);
+                        console.warn('file does not exist: ' + UPLOADS + evaluatorResults.recordUrl);
                         moderatorRecordingFileExist = false;
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
 
@@ -147,19 +147,19 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
                 $(moderatorVideoHolder).on('loadedmetadata', function () {
                     // google chrome no-duration workaround
-                    console.log(moderatorVideoHolder, $(resultsPlayer).find('#moderator-video-holder'));
+//                    console.log(moderatorVideoHolder, $(resultsPlayer).find('#moderator-video-holder'));
                     if (moderatorVideoHolder[0].duration === Infinity) {
                         var duration = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, evaluatorResults.endRecordingTime), true);
 //                        screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.startTime), true);
 //                        screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
 //                        console.log(screenSharingStartGap, screenSharingEndGap);
-                        console.log('total moderator duration:', duration);
+//                        console.log('total moderator duration:', duration);
                         moderatorVideoHolder[0].currentTime = duration - 2;
                         moderatorVideoHolder[0].playbackRate = 10;
                         moderatorVideoHolder[0].muted = true;
 
                         $(moderatorVideoHolder).on('ended', function () {
-                            console.log('on moderator record ended');
+//                            console.log('on moderator record ended');
                             $(moderatorVideoHolder).unbind('ended');
                             moderatorVideoHolder[0].playbackRate = 1;
                             moderatorVideoHolder[0].muted = false;
@@ -207,7 +207,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
             $.get(UPLOADS + testerResults.recordUrl)
                     .fail(function () {
                         testerRecordingFileExist = false;
-                        console.log('file does not exist: ' + UPLOADS + testerResults.recordUrl);
+                        console.warn('file does not exist: ' + UPLOADS + testerResults.recordUrl);
                         appendAlert(resultsPlayer, ALERT_RECORD_URL_INVALID);
 
                         resultsPlayer.find('#loader').addClass('hidden');
@@ -224,13 +224,13 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     // google chrome no-duration workaround
                     if (testerVideoHolder[0].duration === Infinity) {
                         var duration = getSeconds(getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime), true);
-                        console.log('total tester duration:', duration);
+//                        console.log('total tester duration:', duration);
                         testerVideoHolder[0].currentTime = duration - 2;
                         testerVideoHolder[0].playbackRate = 10;
                         testerVideoHolder[0].muted = true;
 
                         $(testerVideoHolder).on('ended', function () {
-                            console.log('on tester record ended');
+//                            console.log('on tester record ended');
                             $(testerVideoHolder).unbind('ended');
                             testerVideoHolder[0].playbackRate = 1;
                             testerVideoHolder[0].muted = false;
@@ -292,7 +292,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     resultsPlayer.find('#loader').addClass('hidden');
 
                     var timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, executionTime: executionTime} : {phaseData: phaseData, phaseResults: testerResults, executionTime: executionTime}
-                    initializeTimeline(timelineData);
+                    initializeTimeline(timelineData, executionTime, content);
 
                     $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {
                         updateTimeline(this.currentTime + 2);
@@ -357,7 +357,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                             }
 
                             if (resumePlaying === true) {
-                                console.log('resume playing');
+//                                console.log('resume playing');
                                 video.play();
                             }
                         });
@@ -508,7 +508,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     if (evaluatorResults.startRecordingTime < testerResults.startRecordingTime) {
                         start *= -1;
                     }
-                    console.log('webcam gap: ', start, end);
+//                    console.log('webcam gap: ', start, end);
 
                     return {mainVideo: moderatorVideoHolder, secondVideo: testerVideoHolder, gap: {start: start, end: end}};
                 } else if (moderatorVideoHolder && !testerVideoHolder) {
@@ -523,7 +523,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                 if (evaluatorResults.startRecordingTime < testerResults.startRecordingTime) {
                     start *= -1;
                 }
-                console.log('webcam gap: ', start, end);
+//                console.log('webcam gap: ', start, end);
 
                 return {mainVideo: moderatorVideoHolder, secondVideo: testerVideoHolder, gap: {start: start, end: end}};
             } else {
@@ -542,13 +542,13 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 }
 
 var timeline, itemRange = null;
-function initializeTimeline(timelineData) {
+function initializeTimeline(timelineData, executionTime, content) {
     if (timelineData) {
         // Create a Timeline
         var data = getVisDataSet(timelineData);
         if (data && data.length > 2) {
             timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline')[0]);
-            timeline.setItems(data);
+            timeline.setItems(new vis.DataSet(data));
             itemRange = timeline.getItemRange();
             var options = {
                 zoomable: false,
@@ -564,6 +564,8 @@ function initializeTimeline(timelineData) {
             timeline.setOptions(options);
             timeline.addCustomTime(itemRange.min);
             timeline.moveTo(itemRange.min);
+
+            renderSeekbarData(data, timelineData.phaseResults, executionTime, content);
         } else {
             console.warn('no timeline data extracted');
             $(resultsPlayer).find('#results-timeline').remove();
@@ -607,11 +609,46 @@ function getVisDataSet(timelineData) {
             array = getExplorationVisData(timelineData);
             break;
     }
-    return new vis.DataSet(array);
+
+    return array;
+}
+
+function renderSeekbarData(timelineData, phaseResults, executionTime, content) {
+    var startTime = phaseResults.startTime;
+    executionTime = getSeconds(executionTime, true);
+    timelineData = sortByKey(timelineData, 'start');
+
+//    console.log('startTime', startTime);
+    var seekbar = $(content).find('#seek-bar-meta-info-container');
+    if (timelineData && timelineData.length > 0) {
+        var lastTime = 0;
+        for (var i = 0; i < timelineData.length; i++) {
+            if (timelineData[i].className !== 'invisible') {
+                var gap = getSeconds(getTimeBetweenTimestamps(startTime, timelineData[i].start.getTime()), true);
+                var xPercentage = gap / executionTime * 100;
+                var infoDataItem = document.createElement('div');
+                $(infoDataItem).addClass('seekbarInfoData');
+                $(infoDataItem).addClass(timelineData[i].className);
+                $(infoDataItem).css({left: xPercentage + '%'});
+
+                var currentTime = timelineData[i].start.getTime();
+                if (currentTime - lastTime === 0) {
+                    $(seekbar).children().last().css({opacity: '0.5'});
+                    $(infoDataItem).css({height: '15px'});
+                } else {
+                    lastTime = currentTime;
+                    $(infoDataItem).css({opacity: '1.0'});
+                }
+
+                $(seekbar).append(infoDataItem);
+//                console.log(gap, xPercentage, executionTime);
+            }
+        }
+    }
 }
 
 function getGestureTrainingVisData(timelineData) {
-    console.log('getGestureTrainingVisData', timelineData);
+//    console.log('getGestureTrainingVisData', timelineData);
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
@@ -648,7 +685,7 @@ function getGestureTrainingVisData(timelineData) {
 }
 
 function getGestureSlideshowVisData(timelineData) {
-    console.log('getGestureSlideshowVisData', timelineData);
+//    console.log('getGestureSlideshowVisData', timelineData);
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
@@ -696,7 +733,7 @@ function getGestureSlideshowVisData(timelineData) {
 //}
 
 function getPhysicalStressTestVisData(timelineData) {
-    console.log('getPhysicalStressTestVisData', timelineData);
+//    console.log('getPhysicalStressTestVisData', timelineData);
 
     var array = new Array();
     var count = 0;
@@ -717,19 +754,62 @@ function getPhysicalStressTestVisData(timelineData) {
 }
 
 function getScenarioVisData(timelineData) {
-    console.log('getScenarioVisData', timelineData);
+//    console.log('getScenarioVisData', timelineData);
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
-
+    var contentText = "";
+    
     var actions = timelineData.phaseResults.actions;
-    if (actions) {
+    if (actions && actions.length > 0) {
         for (var i = 0; i < actions.length; i++) {
             var className = 'item-primary-full';
 //            var gesture = getGestureById(actions[i].gestureId);
-            var contentText = translation.actions[actions[i].action];
+
+            contentText = translation.actions[actions[i].action];
+            if (actions[i].action === ACTION_START_TASK) {
+                var task = getTaskById(actions[i].id);
+                var contentText = translation.task + ': ' + task.title;
+            } else if (actions[i].action === ACTION_RENDER_SCENE) {
+                var scene = getSceneById(actions[i].scene);
+                var contentText = translation.scene + ': ' + scene.title;
+            }
+
             array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className});
+        }
+    }
+
+    function getTaskById(id) {
+        for (var i = 0; i < timelineData.phaseData.tasks.length; i++) {
+            if (parseInt(timelineData.phaseData.tasks[i].id) === parseInt(id)) {
+                return timelineData.phaseData.tasks[i];
+            }
+        }
+        return null;
+    }
+
+    var assessments = timelineData.phaseResults.assessments;
+    if (assessments && assessments.length > 0) {
+        for (var i = 0; i < assessments.length; i++) {
+            contentText = timelineData.phaseData.taskAssessments[assessments[i].id].title + ': ' + getTaskById(assessments[i].taskId).title;
+            var color = timelineData.phaseData.taskAssessments[assessments[i].id].annotationColor;
+            var className = 'item-primary-full';
+            switch (color) {
+                case ASSESSMENT_COLOR_GREEN:
+                    className = 'item-success-full';
+                    break;
+                case ASSESSMENT_COLOR_BLUE:
+                    className = 'item-info-full';
+                    break;
+                case ASSESSMENT_COLOR_RED:
+                    className = 'item-danger-full';
+                    break;
+                case ASSESSMENT_COLOR_YELLOW:
+                    className = 'item-warning-full';
+                    break;
+            }
+            array.push({id: count++, content: contentText, start: new Date(parseInt(assessments[i].time)), className: className});
         }
     }
 
@@ -737,7 +817,7 @@ function getScenarioVisData(timelineData) {
 }
 
 function getExplorationVisData(timelineData) {
-    console.log('getExplorationVisData', timelineData);
+//    console.log('getExplorationVisData', timelineData);
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});

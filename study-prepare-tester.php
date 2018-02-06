@@ -67,7 +67,7 @@ if ($h && $token && $studyId) {
 
         <!-- streaming -->
                 <!--<script src="https://simplewebrtc.com/latest-v2.js"></script>-->
-        <script src="andyet/simplewebrtcbundle.js"></script>
+        <script src="js/andyet/simplewebrtcbundle.js"></script>
         <script src="js/peerConnection.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">

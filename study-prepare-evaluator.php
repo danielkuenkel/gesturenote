@@ -54,7 +54,7 @@ if ($h && $token && $studyId) {
         <script src="js/sha512.js"></script>
 
         <!-- streaming -->
-        <script src="andyet/simplewebrtcbundle.js"></script>
+        <script src="js/andyet/simplewebrtcbundle.js"></script>
         <script src="js/peerConnection.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">

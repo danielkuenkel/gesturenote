@@ -17,6 +17,7 @@ include './includes/language.php';
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
+        <script src="js/refreshSession.js"></script>
         <script src="js/storage.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/constants.js"></script>
@@ -51,8 +52,9 @@ include './includes/language.php';
                 <div class="col-xs-12">
                     <div><span><?php echo $lang->title ?>:</span> <span class="text">Definition of Gesture Interactions based on Temporal Relations</span></div>
                     <div><span><?php echo $lang->authors ?>:</span> <span class="text">Dominik Rupprecht, Daniel Künkel, Rainer Blum, Birgit Bomsdorf</span></div>
-                    <div><span><?php echo $lang->In ?>:</span> <span class="text">2nd International Conference on Human Computer Interaction Theory and Applications, Januar 2018, Funchal, Portugal (angenommen)</span></div>
-                    <a target="blank" href="http://www.hucapp.visigrapp.org"><i class="fa fa-external-link" aria-hidden="true"></i> <?php echo $lang->moreInfos ?></a>
+                    <div><span><?php echo $lang->In ?>:</span> <span class="text">2nd International Conference on Human Computer Interaction Theory and Applications, Januar 2018, Funchal, Portugal</span></div>
+                    <a target="blank" href="http://www.hucapp.visigrapp.org"><i class="fa fa-external-link" aria-hidden="true"></i> <?php echo $lang->moreInfos ?></a><br/>
+                    <a target="blank" href="http://www.scitepress.org/PublicationsDetail.aspx?ID=YVkD8vaYNwM=&t=1"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF</a>
                 </div>
             </div>
             <h3 style="margin-top:50px">2016</h3>
@@ -80,6 +82,8 @@ include './includes/language.php';
         <script>
             $(document).ready(function () {
                 checkDomain();
+                keepSessionAlive();
+                
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);

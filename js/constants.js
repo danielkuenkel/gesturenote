@@ -236,6 +236,17 @@ var MESSAGE_REQUEST_PREFERRED_TRIGGER = 'requestPreferredTrigger';
 var MESSAGE_RESPONSE_PREFERRED_TRIGGER = 'responsePreferredTrigger';
 
 var MESSAGE_SCREEN_SHARING_ESTABLISHED = 'screenSharingEstablished';
+
+/*
+ * assessment color constants
+ */
+
+var ASSESSMENT_COLOR_GREEN = 'green';
+var ASSESSMENT_COLOR_BLUE = 'blue';
+var ASSESSMENT_COLOR_YELLOW = 'yellow';
+var ASSESSMENT_COLOR_RED = 'red';
+var ASSESSMENT_COLOR_DARKBLUE = 'darkblue';
+
 /*
  * gesture classifcation
  */

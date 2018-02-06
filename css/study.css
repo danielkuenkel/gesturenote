@@ -104,6 +104,17 @@ and open the template in the editor.
     border-color: #428bca;
 }
 
+.vis-item.item-info {
+    color: #5bc0de;
+    background-color: #D4EFF6;
+    border-color: #5bc0de;
+}
+.vis-item.item-info-full {
+    color: white;
+    background-color: #5bc0de;
+    border-color: #5bc0de;
+}
+
 
 .vis-item.item-success {
     color: #5cb85c;
@@ -145,4 +156,27 @@ and open the template in the editor.
 }
 .trigger-tagged {
     font-weight: bold;
+}
+
+
+.seekbarInfoData {
+    width: 2px;
+    height: 10px;
+    opacity: 0.3;
+    position: absolute;
+}
+.seekbarInfoData.item-primary-full {
+    background-color: #428bca;
+}
+.seekbarInfoData.item-info-full {
+    background-color: #5bc0de;
+}
+.seekbarInfoData.item-success-full {
+    background-color: #5cb85c;
+}
+.seekbarInfoData.item-warning-full {
+    background-color: #ec971f;
+}
+.seekbarInfoData.item-danger-full {
+    background-color: #d9534f;
 }

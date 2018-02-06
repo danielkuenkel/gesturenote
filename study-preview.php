@@ -38,7 +38,7 @@ if (login_check($mysqli) == true) {
         <script src="js/stomp/stomp.js"></script>
         <script src="js/websocket.js"></script>
         <script src="js/chance.min.js"></script>
-        <script src="color-thief/color-thief.js"></script>
+        <script src="js/color-thief/color-thief.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/globalFunctions.js"></script>
         <script src="js/constants.js"></script>
