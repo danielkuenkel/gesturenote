@@ -1073,7 +1073,7 @@ include '../includes/language.php';
     <div class="root" id="interview" style="margin-top: 80px;"></div>
 
     <div id="interview-moderated">
-        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4" id="column-left" style="margin-bottom: 15px;"></div>
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4" id="fixed-rtc-preview" style="margin-bottom: 15px;"></div>
     </div>
 
 

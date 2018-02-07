@@ -1902,6 +1902,7 @@ var Tester = {
                         $(container).find('#scene-description').addClass('hidden');
                         $(container).find('#scene-container').addClass('hidden');
                     });
+                    currentExplorationIndex = payload.currentExplorationIndex;
                     loadHTMLintoModal('custom-modal', 'modal-preferred-gestures.php', 'modal-md');
                 });
             } else {
@@ -1913,6 +1914,7 @@ var Tester = {
                         $(container).find('#scene-description').addClass('hidden');
                         $(container).find('#scene-container').addClass('hidden');
                     });
+                    currentExplorationIndex = payload.currentExplorationIndex;
                     loadHTMLintoModal('custom-modal', 'modal-preferred-trigger.php', 'modal-md');
                 });
             }
@@ -2064,6 +2066,7 @@ var Tester = {
             case IDENTIFICATION:
             case EXPLORATION:
             case GESTURE_TRAINING:
+            case INTERVIEW:
                 target = $('#viewTester').find('#fixed-rtc-preview');
                 break;
         }
@@ -2095,6 +2098,8 @@ var Tester = {
         }
 
         peerConnection.update(callerOptions);
+//        var source = getSourceContainer(currentView);
+//        $(target).empty().append(callerOptions.callerElement);
         Tester.keepStreamsPlaying(callerOptions.callerElement);
 
     },

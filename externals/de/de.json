@@ -445,6 +445,7 @@
     "selection": "Auswahl",
     "sampleSize": "Stichprobengröße",
     "pleaseSelect": "Bitte wählen",
+    "questions": "Fragen",
     "questionnaire": "Fragebogen",
     "questionnaires": "Fragebögen",
     "miscellaneous": "Sonstiges",
@@ -1108,7 +1109,7 @@
         "pidoco": "Pidoco",
         "video": "Video"
     },
-    "wozControlElements":"Steuerelemente",
+    "wozControlElements": "Steuerelemente",
     "wozExperiment": "Wizard-of-Oz-Experiment",
     "previewHoleQuestionnaire": "Vorschau des gesamten Fragebogens",
     "thanksInput": "Danksagung einfügen",
@@ -1247,22 +1248,22 @@
         "success": {
             "title": "Erfolg",
             "trigger": "nextTask",
-            "annotationColor":"green"
+            "annotationColor": "green"
         },
         "failure": {
             "title": "Misserfolg",
             "trigger": "nextTask",
-            "annotationColor":"red"
+            "annotationColor": "red"
         },
         "cancelTask": {
             "title": "Aufgabe abbrechen",
             "trigger": "nextTask",
-            "annotationColor":"red"
+            "annotationColor": "red"
         },
         "cancelScenario": {
             "title": "Szenario abbrechen",
             "trigger": "nextStep",
-            "annotationColor":"red"
+            "annotationColor": "red"
         }
     },
     "annotationColor": "Annotations-Farbe",

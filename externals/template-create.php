@@ -1314,7 +1314,7 @@ include '../includes/language.php';
 
             <div class="alert-space alert-no-tasks-assembled"></div>
             <div class="alert-space alert-no-scenes-assembled"></div>
-            
+
 
             <div class="form-group">
                 <label><?php echo $lang->task ?></label>
@@ -2111,16 +2111,19 @@ include '../includes/language.php';
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="row" id="assembled-gestures-container"></div>
             </div>
-            <div class="form-group" id="scenes">
-                <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                <div class="alert-space alert-no-phase-data"></div>
-                <div class="alert-space alert-no-scenes-assembled-link"></div>
-                <div class="">
-                    <div class="transition-scenes-option-container">
+            <div class="row">
+                <div class="form-group col-sm-11" id="scenes">
+                    <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                    <div class="alert-space alert-no-phase-data"></div>
+                    <div class="alert-space alert-no-scenes-assembled-link"></div>
+                    <div class="">
+                        <div class="transition-scenes-option-container">
+                        </div>
                     </div>
+                    <button class="btn btn-info btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
                 </div>
-                <button class="btn btn-info btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
             </div>
+
 
         </div>
     </div>
@@ -2151,17 +2154,21 @@ include '../includes/language.php';
                 <div id="assembled-trigger-container"></div>
             </div>
 
-            <div class="form-group" id="scenes">
-                <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                <div class="alert-space alert-no-phase-data"></div>
-                <div class="alert-space alert-no-scenes-assembled-link"></div>
-                <div class="">
-                    <div class="transition-scenes-option-container">
+            <div class="row">
+                <div class="form-group col-sm-11" id="scenes">
+                    <div class="form-group" id="scenes">
+                        <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                        <div class="alert-space alert-no-phase-data"></div>
+                        <div class="alert-space alert-no-scenes-assembled-link"></div>
+                        <div class="">
+                            <div class="transition-scenes-option-container">
+                            </div>
+                        </div>
+                        <button class="btn btn-info btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
                     </div>
                 </div>
-                <button class="btn btn-info btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
-            </div>
 
+            </div>
         </div>
     </div>
 

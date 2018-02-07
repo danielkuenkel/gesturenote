@@ -33,7 +33,7 @@ if (login_check($mysqli) == true) {
 
         <link href="js/vis/vis.min.css" rel="stylesheet">
         <script src="js/vis/vis.min.js"></script>
-        
+
         <script src="js/refreshSession.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/constants.js"></script>
@@ -818,7 +818,7 @@ if (login_check($mysqli) == true) {
                             var column = document.createElement('div');
                             $(column).addClass('col-xs-12');
                             $(container).find('.list-container').append(column);
-                            
+
                             var gesture = gestures[i];
                             var gestureItem = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-lg-4');
 
@@ -889,11 +889,12 @@ if (login_check($mysqli) == true) {
                         $(container).find('#item-view').append(answerItem);
 
                         var questionnaire = [];
+                        var answers = [];
                         for (var i = 0; i < testerResults.answers.length; i++) {
                             var trigger = getTriggerById(testerResults.answers[i].triggerId);
 
                             var preferredGesture = testerResults.answers[i].preferredGestures[0];
-                            var answer = preferredGesture;
+                            answers.push(preferredGesture);
 
                             var questionText = translation.askPreferredGesturesForTrigger;
                             questionText = questionText.replace('{trigger}', trigger.title);
@@ -905,10 +906,9 @@ if (login_check($mysqli) == true) {
                             }
                             var question = {id: preferredGesture.id, dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: questionText, parameters: {multiselect: 'yes', optionSource: 'gestures', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes', options: options}};
                             questionnaire.push(question);
-
                         }
 
-                        renderQuestionnaireAnswers($(answerItem), questionnaire, {answers: [answer]}, true, false);
+                        renderQuestionnaireAnswers($(answerItem), questionnaire, {answers: answers}, true, false);
                     }
                 }
 

@@ -217,6 +217,9 @@ function getInterviewFormData(data) {
     var tempData = getLocalItem(data.id + '.tempSaveData');
     if (tempData) {
         data.startTime = tempData.startTime;
+        data.startRecordingTime = tempData.startRecordingTime;
+        data.endRecordingTime = tempData.endRecordingTime;
+        data.recordUrl = tempData.recordUrl;
     }
 
     return data;

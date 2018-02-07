@@ -161,6 +161,11 @@ include '../includes/language.php';
 
     <div class="root" id="interview">
         <h3 id="headline" style="margin-top: 0"></h3>
+        <hr id="horizontalLine">
+        <div class="alert-space alert-no-record"></div>
+        <div class="alert-space alert-webm-unsupported"></div>
+        <h3 id="headline-observations"><?php echo $lang->questions ?></h3>
+        <hr>
         <div class="question-container" style="margin-top: 20px;"></div>
     </div>
 
@@ -1057,13 +1062,13 @@ include '../includes/language.php';
         </div>
 
     </div>
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     <div id="amount-container-appearance-gesture" style="margin-bottom: 30px">
         <p id="headline" style="margin: 0"><span class="text" style="margin-right: 5px"></span> <span class="badge"></span></p> 
         <hr>
@@ -1085,12 +1090,12 @@ include '../includes/language.php';
             <div class="col-xs-12 col-sm-6" id="potential-parameters"></div>
         </div>
 
-<!--        <div id="more-classified-trigger" class="hidden" style="margin-top: 20px">
-            <p><?php echo $lang->otherAssociatedGestures ?></p>
-            <div class="row" style="margin-top: 10px">
-                <div id="gestures-list-container"></div>
-            </div>
-        </div>-->
+        <!--        <div id="more-classified-trigger" class="hidden" style="margin-top: 20px">
+                    <p><?php echo $lang->otherAssociatedGestures ?></p>
+                    <div class="row" style="margin-top: 10px">
+                        <div id="gestures-list-container"></div>
+                    </div>
+                </div>-->
     </div>
 
     <div id="potential-trigger-parameters-appearance-gesture">
@@ -1192,11 +1197,11 @@ include '../includes/language.php';
         </div>
 
     </div>
-    
-    
-    
-    
-    
+
+
+
+
+
 
     <div class="panel panel-default" id="panel-gesture-set">
         <div class="panel-heading">

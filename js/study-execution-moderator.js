@@ -236,6 +236,20 @@ var Moderator = {
     getInterview: function getInterview(source, container, data) {
         container = renderQuestionnaire(container, data, currentQuestionnaireAnswers);
         initNextStepButton(container);
+        $(container).find('#btn-next-step').on('click', function (event) {
+            event.preventDefault();
+            
+            var answers = getQuestionnaireAnswers($(container).find('.question-container').children());
+            if (!previewModeEnabled) {
+                var currentPhase = getCurrentPhase();
+                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                tempData.answers = answers;
+                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+                console.log('on next step clicked', tempData);
+            }
+
+            
+        });
         return container;
     },
     getSUS: function getSUS(source, container, data) {
@@ -1909,7 +1923,7 @@ var Moderator = {
                     if (!previewModeEnabled) {
                         getGMT(function (timestamp) {
                             var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                            tempData.assessments.push({id: assessmentId, taskId:currentScenarioTask.id, time: timestamp});
+                            tempData.assessments.push({id: assessmentId, taskId: currentScenarioTask.id, time: timestamp});
                             checkAssessment(trigger);
                             if (scenarioDone === false) {
                                 tempData.actions.push({action: ACTION_START_TASK, id: currentScenarioTask.id, time: timestamp});
@@ -2759,10 +2773,10 @@ var Moderator = {
                     $(container).find('#btn-request-gestures').addClass('hidden');
                 }
 
-                // render selected gestures
-                if (currentQuestionnaireAnswers) {
-                    renderQuestionnaireAnswers($(container).find('#identified-gestures'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
-                }
+//                // render selected gestures
+//                if (currentQuestionnaireAnswers) {
+//                    renderQuestionnaireAnswers($(container).find('#identified-gestures'), currentQuestionnaireAnswers.data, currentQuestionnaireAnswers.answers, false);
+//                }
             } else {
                 $(container).find('#btn-start-exploration').removeClass('hidden');
             }
@@ -2904,7 +2918,7 @@ var Moderator = {
                     appendAlert($(container).find('#identified-gestures'), ALERT_WAITING_FOR_TESTER);
                     explorationPreferredGesturesRequest = true;
                     if (peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_REQUEST_PREFERRED_GESTURES);
+                        peerConnection.sendMessage(MESSAGE_REQUEST_PREFERRED_GESTURES, {currentExplorationIndex: currentExplorationIndex});
                     }
                 } else {
                     wobble([$(container).find('#general')]);
@@ -2923,7 +2937,7 @@ var Moderator = {
                     appendAlert($(container).find('#identified-trigger'), ALERT_WAITING_FOR_TESTER);
                     explorationPreferredGesturesRequest = true;
                     if (peerConnection) {
-                        peerConnection.sendMessage(MESSAGE_REQUEST_PREFERRED_TRIGGER);
+                        peerConnection.sendMessage(MESSAGE_REQUEST_PREFERRED_TRIGGER, {currentExplorationIndex: currentExplorationIndex});
                     }
                 } else {
                     wobble([$(container).find('#general')]);
@@ -2952,10 +2966,12 @@ var Moderator = {
                 if (payload.saveAnswers === true) {
                     $(container).find('#btn-next-trigger').removeClass('disabled');
                     $(container).find('#btn-stop-screen-sharing').removeClass('disabled');
+                    $(container).find('#btn-done-exploration').removeClass('disabled');
                 } else {
                     explorationPreferredGesturesRequest = false;
                     $(container).find('#btn-next-trigger').addClass('disabled');
                     $(container).find('#btn-stop-screen-sharing').addClass('disabled');
+                    $(container).find('#btn-done-exploration').addClass('disabled');
                 }
 
                 // render selected gestures
@@ -2964,7 +2980,11 @@ var Moderator = {
                 if (currentExplorationIndex < data.exploration.length - 1) {
                     $(container).find('#btn-next-trigger').removeClass('hidden');
                 } else {
-                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+                    if (scenesUsedForExploration(data.exploration) === true) {
+                        $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+                    } else {
+                        $(container).find('#btn-done-exploration').removeClass('hidden');
+                    }
                 }
             });
 
@@ -2975,10 +2995,12 @@ var Moderator = {
                 if (payload.saveAnswers === true) {
                     $(container).find('#btn-next-gesture').removeClass('disabled');
                     $(container).find('#btn-stop-screen-sharing').removeClass('disabled');
+                    $(container).find('#btn-done-exploration').removeClass('disabled');
                 } else {
                     explorationPreferredGesturesRequest = false;
                     $(container).find('#btn-next-gesture').addClass('disabled');
                     $(container).find('#btn-stop-screen-sharing').addClass('disabled');
+                    $(container).find('#btn-done-exploration').addClass('disabled');
                 }
 
                 // render selected trigger
@@ -2987,7 +3009,11 @@ var Moderator = {
                 if (currentExplorationIndex < data.exploration.length - 1) {
                     $(container).find('#btn-next-gesture').removeClass('hidden');
                 } else {
-                    $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+                    if (scenesUsedForExploration(data.exploration) === true) {
+                        $(container).find('#btn-stop-screen-sharing').removeClass('hidden');
+                    } else {
+                        $(container).find('#btn-done-exploration').removeClass('hidden');
+                    }
                 }
             });
         }

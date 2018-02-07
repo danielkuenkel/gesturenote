@@ -87,7 +87,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         }
 
 //                        console.log(screenSharingStartGap, screenSharingEndGap);
-//                        console.log('total screen duration:', duration);
+                        console.log('total screen duration:', duration);
                         screenShareVideoHolder[0].currentTime = duration - 2;
                         screenShareVideoHolder[0].playbackRate = 10;
                         screenShareVideoHolder[0].muted = true;
@@ -153,7 +153,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 //                        screenSharingStartGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.startScreenRecordingTime, evaluatorResults.startTime), true);
 //                        screenSharingEndGap = getSeconds(getTimeBetweenTimestamps(evaluatorResults.endScreenRecordingTime, evaluatorResults.endTime), true);
 //                        console.log(screenSharingStartGap, screenSharingEndGap);
-//                        console.log('total moderator duration:', duration);
+                        console.log('total moderator duration:', duration);
                         moderatorVideoHolder[0].currentTime = duration - 2;
                         moderatorVideoHolder[0].playbackRate = 10;
                         moderatorVideoHolder[0].muted = true;
@@ -224,7 +224,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     // google chrome no-duration workaround
                     if (testerVideoHolder[0].duration === Infinity) {
                         var duration = getSeconds(getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime), true);
-//                        console.log('total tester duration:', duration);
+                        console.log('total tester duration:', duration);
                         testerVideoHolder[0].currentTime = duration - 2;
                         testerVideoHolder[0].playbackRate = 10;
                         testerVideoHolder[0].muted = true;
