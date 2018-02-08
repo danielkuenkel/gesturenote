@@ -763,9 +763,6 @@ if (login_check($mysqli) == true) {
             function renderIdentification(container, studyData, phaseResults) {
 //                console.log(studyData, phaseResults, getLocalItem(GESTURE_CATALOG));
 
-//                if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED) {
-//
-//                } else {
                 if (studyData.identificationFor === 'gestures') {
                     $(container).find('#search-gestures').removeClass('hidden');
                     var elicitedGestures = getLocalItem(GESTURE_CATALOG);
@@ -786,11 +783,12 @@ if (login_check($mysqli) == true) {
                             $(column).append(row);
 
                             var item = getGestureCatalogListThumbnail(gesture, null, 'col-xs-6 col-lg-4');
+                            $(item).removeClass('deleteable');
                             $(row).append(item);
 
                             var triggerText = document.createElement('div');
                             $(triggerText).addClass('col-xs-6 col-lg-8');
-                            $(triggerText).html('<span class=text>' + translation.trigger + ':</span> <span>' + getTriggerById(gestureTriggerPairs[i].triggerId).title + '</span>');
+                            $(triggerText).html('<span>' + translation.trigger + ':</span> <span class=text>' + getTriggerById(gestureTriggerPairs[i].triggerId).title + '</span>');
                             $(row).append(triggerText);
 
                             if (i < gestureTriggerPairs.length - 1) {
@@ -801,7 +799,6 @@ if (login_check($mysqli) == true) {
                             TweenMax.from(item, .2, {delay: i * .1, opacity: 0, y: -10});
                         }
                     } else {
-                        console.log('no gestures there');
                         appendAlert(content, ALERT_NO_PHASE_DATA);
                     }
                 } else if (studyData.identificationFor === 'trigger') {
@@ -846,7 +843,7 @@ if (login_check($mysqli) == true) {
                         console.log('no triggers there');
                     }
                 }
-//                }
+                
                 renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 

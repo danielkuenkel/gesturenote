@@ -532,8 +532,6 @@ include '../includes/language.php';
                 <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-start-stress-test" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
             </div>
 
-            <div id="gestures-container" style="margin-top: 30px" class="hidden"></div>
-
             <div class=" " id="controls">
                 <h3 class="headline"></h3>
                 <div class="">
@@ -554,6 +552,10 @@ include '../includes/language.php';
                     </div>   
                 </div>
             </div>
+
+            <div id="gestures-container" style="margin-top: 30px" class="hidden"></div>
+
+
 
             <!--            <div class="" id="observations">
                             <h3><?php echo $lang->observations ?></h3>

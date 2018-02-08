@@ -76,6 +76,7 @@ include './includes/language.php';
         for (var i = 0; i < items.length; i++) {
             var clone = $('#tester-check-item').clone().removeClass('hidden').removeAttr('id');
             $('#list-container').append(clone);
+            $(clone).css({marginBottom:'20px'});
             var gesture = getGestureById(items[i].gestureId);
             renderGestureImages(clone.find('.previewGesture'), gesture.images, gesture.previewImage, null);
 

@@ -465,7 +465,7 @@ include 'includes/language.php';
             }
         });
 
-        if (gesturePreviewDeleteable === true) {
+        if ($(thumbnail).hasClass('deleteable')) {
             $(container).find('#btn-delete-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
                 event.preventDefault();
 

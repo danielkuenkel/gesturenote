@@ -629,6 +629,7 @@ var Tester = {
 
         for (var i = 0; i < data.slideshow.length; i++) {
             var item = $(source).find('#gestureSlideshowOverviewItemModerated').clone().removeAttr('id');
+            $(item).css({marginBottom: '20px'});
             $(container).find('#slideshowContainer').append(item);
             var gesture = getGestureById(data.slideshow[i].gestureId);
             renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage, null);
@@ -1507,22 +1508,20 @@ var Tester = {
 
 
         if ((getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED && currentStressTestCount < parseInt(data.stressAmount) - 1) || (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED && currentStressTestCount < parseInt(data.stressAmount))) {
-            if (singleQuestionAnswers && singleQuestionAnswers.length > 0) {
-                answers.singleAnswers = singleQuestionAnswers;
-            }
+            answers.singleAnswers = singleQuestionAnswers;
             getJointSelectionRatings(answers.singleAnswers, data.singleStressGraphicsRating, $(target).find('#single-joint-selection'));
         } else {
-            if (singleQuestionAnswers && singleQuestionAnswers.length > 0) {
-                answers.singleAnswers = singleQuestionAnswers;
-            }
+//            if (singleQuestionAnswers && singleQuestionAnswers.length > 0) {
+            answers.singleAnswers = singleQuestionAnswers;
+//            }
             getJointSelectionRatings(answers.singleAnswers, data.singleStressGraphicsRating, $(target).find('#single-joint-selection'));
 
             var sequenceQuestionnaire = $(target).find('#sequence-questions .question-container').children();
             var sequenceQuestionAnswers = getQuestionnaireAnswers(sequenceQuestionnaire);
             console.log('sequenceQuestionAnswers', sequenceQuestionAnswers);
-            if (sequenceQuestionAnswers && sequenceQuestionAnswers.length > 0) {
-                answers.sequenceAnswers = sequenceQuestionAnswers;
-            }
+//            if (sequenceQuestionAnswers && sequenceQuestionAnswers.length > 0) {
+            answers.sequenceAnswers = sequenceQuestionAnswers;
+//            }
             getJointSelectionRatings(answers.sequenceAnswers, data.sequenceStressGraphicsRating, $(target).find('#sequence-joint-selection'));
         }
 
@@ -2319,26 +2318,31 @@ function renderSelectionRatingGraphics(item, selectionRating) {
     }
 }
 
-function getJointSelectionRatings(data, selectionRating, container) {
-//    console.log(container);
+function getJointSelectionRatings(answers, selectionRating, container) {
     if (selectionRating !== 'none') {
+        var selectedBodyJoints = null;
+        var selectedHandJoints = null;
+
         switch (selectionRating) {
             case 'body':
-                console.log($(container).find('#human-body-selection-rating'));
-                data.selectedBodyJoints = getSelectedJoints($(container).find('#human-body-selection-rating'));
+                selectedBodyJoints = getSelectedJoints($(container).find('#human-body-selection-rating'));
+                answers.selectedBodyJoints = selectedBodyJoints;
                 break;
             case 'hands':
-                data.selectedHandJoints = getSelectedJoints($(container).find('#hand-selection-rating'));
+                selectedHandJoints = getSelectedJoints($(container).find('#hand-selection-rating'));
+                answers.selectedHandJoints = selectedHandJoints;
                 break;
             case 'bodyHands':
-                data.selectedBodyJoints = getSelectedJoints($(container).find('#human-body-selection-rating'));
-                data.selectedHandJoints = getSelectedJoints($(container).find('#hand-selection-rating'));
+                selectedBodyJoints = getSelectedJoints($(container).find('#human-body-selection-rating'));
+                selectedHandJoints = getSelectedJoints($(container).find('#hand-selection-rating'));
+                answers.selectedBodyJoints = selectedBodyJoints;
+                answers.selectedHandJoints = selectedHandJoints;
                 break;
         }
-    }
 
-//    console.log(data);
-    return data;
+        console.log('getJointSelectionRatings', answers);
+    }
+    return answers;
 }
 
 function renderSceneItem(source, container, sceneId) {
@@ -2350,7 +2354,7 @@ function renderSceneItem(source, container, sceneId) {
         var sceneItem = $(source).find('#' + scene.type).clone().removeAttr('id');
         container.find('#scene-container').empty().append(sceneItem);
         var currentPhaseData = getCurrentPhaseData();
-        var helpData = getItemsForSceneId(currentPhaseData, currentScenarioTask.id, scene.id);
+        var helpData = getItemsForSceneId(currentPhaseData, scene.id);
         if (helpData && helpData.length > 0) {
             $(container).find('#btn-getting-help').removeClass('hidden');
         } else {

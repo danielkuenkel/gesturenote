@@ -2002,11 +2002,11 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
             clone.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
         }
     }
-
-    if (!clone.hasClass('deleteable')) {
-        gesturePreviewDeleteable = false;
-    }
-
+    
+//    if (!clone.hasClass('deleteable')) {
+//        gesturePreviewDeleteable = false;
+//    }
+    
     renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
 
     $(clone).find('.gesture-thumbnail').mouseenter(function (event) {

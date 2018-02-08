@@ -44,7 +44,7 @@ include '../includes/language.php';
 
                 <div class="overlay-header">
                     <div class="overlay-header-container">
-                        <h3><span id="phase-step-title"><?php echo $lang->formats->letterOfAcceptance->text ?></span></h3>
+                        <h3><span id="phase-step-title"><?php echo $lang->formats->thanks->text ?></span></h3>
                     </div>
 
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>

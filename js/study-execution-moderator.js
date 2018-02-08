@@ -238,7 +238,7 @@ var Moderator = {
         initNextStepButton(container);
         $(container).find('#btn-next-step').on('click', function (event) {
             event.preventDefault();
-            
+
             var answers = getQuestionnaireAnswers($(container).find('.question-container').children());
             if (!previewModeEnabled) {
                 var currentPhase = getCurrentPhase();
@@ -248,7 +248,7 @@ var Moderator = {
                 console.log('on next step clicked', tempData);
             }
 
-            
+
         });
         return container;
     },
@@ -1128,7 +1128,7 @@ var Moderator = {
             $(container).find('#btn-next-gesture').removeClass('disabled');
             $(container).find('#btn-show-gesture, #btn-show-question').addClass('disabled');
 
-            if (!data.sequenceStressQuestions && !data.singleStressQuestions) {
+            if (!data.sequenceStressQuestions && !data.singleStressQuestions && data.singleStressGraphicsRating === 'none' && data.sequenceStressGraphicsRating === 'none') {
                 $(container).find('#btn-show-question').addClass('hidden');
             } else {
                 $(container).find('#btn-show-question').removeClass('hidden');
@@ -1136,7 +1136,7 @@ var Moderator = {
         } else {
             $(container).find('#btn-next-gesture').addClass('disabled');
 
-            if (!data.singleStressQuestions) {
+            if (!data.singleStressQuestions && data.singleStressGraphicsRating === 'none') {
                 $(container).find('#btn-show-question').addClass('hidden');
             }
         }
@@ -1157,7 +1157,7 @@ var Moderator = {
 
         container.find('#repeats-left .text').text((data.stressAmount - currentStressTestCount));
         if (stressTestGestureTriggered) {
-            if ((currentStressTestCount < data.stressAmount && !data.singleStressQuestions) || (currentStressTestCount >= data.stressAmount && !data.sequenceStressQuestions)) {
+            if ((currentStressTestCount < data.stressAmount && !data.singleStressQuestions && data.singleStressGraphicsRating === 'none') || (currentStressTestCount >= data.stressAmount && !data.sequenceStressQuestions && data.sequenceStressGraphicsRating === 'none')) {
                 container.find('#btn-show-gesture').removeClass('disabled');
             } else {
                 container.find('#btn-show-gesture').addClass('disabled');
@@ -1184,7 +1184,7 @@ var Moderator = {
                 stressTestGestureTriggered = true;
                 stressTestQuestionsTriggered = false;
 
-                if ((currentStressTestCount < data.stressAmount && !data.singleStressQuestions) || (currentStressTestCount >= data.stressAmount && !data.sequenceStressQuestions)) {
+                if ((currentStressTestCount < data.stressAmount && !data.singleStressQuestions && data.singleStressGraphicsRating === 'none') || (currentStressTestCount >= data.stressAmount && !data.sequenceStressQuestions && data.sequenceStressGraphicsRating === 'none')) {
                     $(this).removeClass('disabled');
                     currentStressTestCount++;
 
@@ -1220,7 +1220,7 @@ var Moderator = {
                 currentStressTestCount++;
                 stressTestQuestionsTriggered = true;
                 stressTestGestureTriggered = false;
-
+                currentQuestionnaireAnswers = null;
 
                 Moderator.renderPhysicalStressTestQuestionnaire(container, data, currentQuestionnaireAnswers);
                 $(container).find('#gestures-container').removeClass('hidden');
@@ -1311,6 +1311,7 @@ var Moderator = {
 
         // sequence questions joint section
         var sequenceStressGraphicsRating = studyData.sequenceStressGraphicsRating;
+        console.log('sequence graphic', sequenceStressGraphicsRating);
         if (sequenceStressGraphicsRating && sequenceStressGraphicsRating !== 'none') {
             var jointAnswers = $('#template-study-container').find('#joint-answers').clone().removeAttr('id');
             $(jointAnswers).insertAfter($(item).find('#headline-sequence-questions'));
@@ -1331,27 +1332,17 @@ var Moderator = {
         var singleStressQuestionnaire = studyData.singleStressQuestions;
         if (singleStressQuestionnaire && singleStressQuestionnaire.length > 0) {
             $(item).find('#single-stress-answers').removeClass('hidden');
-            if (resultsData && resultsData.answers && resultsData.answers[0].singleAnswers) {
+            if (resultsData && resultsData.answers && resultsData.answers[0] && resultsData.answers[0].singleAnswers) {
                 renderQuestionnaireAnswers($(item).find('#single-stress-answers'), singleStressQuestionnaire, {answers: resultsData.answers[0].singleAnswers}, false, true);
-
-//                var results = new Object();
-//                results.answers = new Array();
-//                var questions = new Array();
-//                for (var j = 0; j < resultsData.answers.length; j++) {
-//                    if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].singleAnswers) {
-//                        results.answers = results.answers.concat(resultsData.answers[j].singleAnswers.answers);
-//                        questions = questions.concat(singleStressQuestionnaire);
-//                    }
-//                }
-//                if (questions.length > 0 && results.answers.length > 0) {
-//                    renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions, results, false, true);
-//                }
             } else {
                 renderQuestionnaireAnswers($(item).find('#single-stress-answers'), singleStressQuestionnaire, null, false);
             }
         } else {
-            $(item).find('#single-stress-answers').addClass('hidden');
-            // append alert
+//            if (singleStressGraphicsRating && singleStressGraphicsRating !== 'none') {
+//                $(item).find('#single-stress-answers').removeClass('hidden');
+//            } else {
+//                $(item).find('#single-stress-answers').addClass('hidden');
+//            }
         }
 
         // sequence answers section
@@ -1359,21 +1350,8 @@ var Moderator = {
         if (sequenceStressQuestionnaire && sequenceStressQuestionnaire.length > 0) {
             if (currentStressTestCount >= parseInt(studyData.stressAmount)) {
                 $(item).find('#sequence-stress-answers').removeClass('hidden');
-                if (resultsData && resultsData.answers && resultsData.answers[0].sequenceAnswers) {
+                if (resultsData && resultsData.answers && resultsData.answers[0] && resultsData.answers[0].sequenceAnswers) {
                     renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), sequenceStressQuestionnaire, {answers: resultsData.answers[0].sequenceAnswers}, false);
-//                var results = new Object();
-//                results.answers = new Array();
-//                var questions = new Array();
-//                for (var j = 0; j < resultsData.answers.length; j++) {
-//                    if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].sequenceAnswers) {
-//                        results.answers = results.answers.concat(resultsData.answers[j].sequenceAnswers.answers);
-//                        questions = questions.concat(sequenceStressQuestionnaire);
-//                    }
-//                }
-//
-//                if (questions.length > 0 && results.answers.length > 0) {
-//                    renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), questions, results, false);
-//                }
                 } else {
                     renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), sequenceStressQuestionnaire, null, false);
                 }
@@ -1382,7 +1360,10 @@ var Moderator = {
             }
         } else {
             $(item).find('#sequence-stress-answers').addClass('hidden');
-            // append alert
+        }
+
+        if (currentStressTestCount >= parseInt(studyData.stressAmount) && sequenceStressGraphicsRating && sequenceStressGraphicsRating !== 'none') {
+            $(item).find('#sequence-stress-answers').removeClass('hidden');
         }
     },
     getScenario: function getScenario(source, container, data) {

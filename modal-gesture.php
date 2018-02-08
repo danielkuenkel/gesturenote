@@ -617,7 +617,7 @@ include 'includes/language.php';
             console.log('tag as preview image', previewImage, visibleImage);
         });
 
-        if (gesturePreviewDeleteable === true) {
+        if ($(thumbnail).hasClass('deleteable')) {
             $(container).find('#btn-delete-gesture').unbind('click').bind('click', {gestureId: gesture.id}, function (event) {
                 event.preventDefault();
                 var button = $(this);

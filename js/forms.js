@@ -847,7 +847,7 @@ function renderOpenQuestion(item, studyData, answer) {
         $(item).find('#no-answer').removeClass('hidden');
     }
 
-    if (studyData.parameters.justification === 'yes') {
+    if (studyData.parameters && studyData.parameters.justification && studyData.parameters.justification === 'yes') {
         $(item).find('#justification').removeClass('hidden');
 
         if (answer) {

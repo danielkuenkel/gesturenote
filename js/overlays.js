@@ -925,12 +925,17 @@ function initScenarioOverlay(id, formatClone) {
 
     function renderTaskAssessments(data) {
         var container = $(formatClone).find('#wozExperiment .option-container');
-        var taskAssessments = data.taskAssessments;
-        if (!taskAssessments) {
-            taskAssessments = translation.taskAssessments;
-        } else if (taskAssessments) {
-            if ($.isEmptyObject(taskAssessments)) {
-                appendAlert($(formatClone).find('#task-assessment-container'), ALERT_NO_PHASE_DATA);
+
+        var taskAssessments = translation.taskAssessments;
+        if (data) {
+            taskAssessments = data.taskAssessments;
+
+            if (!taskAssessments) {
+                taskAssessments = translation.taskAssessments;
+            } else if (taskAssessments) {
+                if ($.isEmptyObject(taskAssessments)) {
+                    appendAlert($(formatClone).find('#task-assessment-container'), ALERT_NO_PHASE_DATA);
+                }
             }
         }
 
@@ -942,9 +947,9 @@ function initScenarioOverlay(id, formatClone) {
                 $(clone).find('.input-title').val(taskAssessments[assessment].title);
                 $(clone).find('.assessmentTriggerSelect #' + taskAssessments[assessment].trigger).click();
                 $(clone).attr('data-assessment-id', assessment);
-                console.log($(clone).find('.color-selector .' + taskAssessments[assessment].annotationColor));
                 $(clone).find('.color-selector .' + taskAssessments[assessment].annotationColor).click();
             }
+            checkCurrentListState(container);
         }
     }
 
@@ -1026,7 +1031,11 @@ function initScenarioOverlay(id, formatClone) {
         var assessments = new Object();
         for (var i = 0; i < assessmentItems.length; i++) {
             var item = $(assessmentItems[i]);
-            assessments[$(item).attr('data-assessment-id')] = {title: $(item).find('.input-title').val(), trigger: $(item).find('.assessmentTriggerSelect .chosen').attr('id'), annotationColor: $(item).find('.color-selector .selected').attr('data-id')};
+            var title = $(item).find('.input-title').val().trim();
+            var selected = $(item).find('.assessmentTriggerSelect .chosen').attr('id');
+            if (title !== '' && selected !== 'unselected') {
+                assessments[$(item).attr('data-assessment-id')] = {title: title, trigger: selected, annotationColor: $(item).find('.color-selector .selected').attr('data-id')};
+            }
         }
 
         scenario.taskAssessments = assessments;
