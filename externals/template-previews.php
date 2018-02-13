@@ -369,7 +369,7 @@ include '../includes/language.php';
         </div>
         <div class="col-md-6 col-lg-7" id="column-right">
             <div class="" id="general">
-                <h3 id="heading" style="margin-top: 0"></h3>
+                <h3 class="headline" style="margin-top: 0"></h3>
                 <div id="description"></div>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-training" style="margin-top: 6px;"><?php echo $lang->startNow ?></button>
                 <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
@@ -616,7 +616,7 @@ include '../includes/language.php';
                     <div id="description"><span class="address"></span>: <span class="text font-bold"></span></div>
                     <button type="button" class="btn btn-success btn-block btn-shadow" id="btn-open-prototype" style="margin-top: 6px;"><?php echo $lang->openPrototype ?></button>
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-start-screen-sharing" style="margin-top: 6px;"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <?php echo $lang->startScreensharing ?></button>
-                    <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-stop-screen-sharing" style="margin-top: 6px;"><?php echo $lang->stopScreensharing ?></button>
+                    <button type="button" class="btn btn-success btn-block btn-shadow hidden disabled" id="btn-stop-screen-sharing" style="margin-top: 6px;"><?php echo $lang->stopScreensharing ?></button>
                     <button type="button" class="btn btn-success btn-block btn-shadow hidden" id="btn-done-scenario" style="margin-top: 6px;"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
                 </div>
             </div>

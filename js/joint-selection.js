@@ -287,21 +287,21 @@ function getSelectedJoints(target) {
 
 
 function renderBodyJointAnswers(target, answers, gestureId, renderType) {
-    if (answers && answers.length > 0) {
+    if (answers) {
         var jointScores = getBodyJointScores();
-        if (renderType === 'single') {
-            for (var i = 0; i < answers.length; i++) {
-                if (parseInt(gestureId) === parseInt(answers[i].gestureId) && answers[i].singleAnswers && answers[i].singleAnswers.selectedBodyJoints) {
-                    for (var j = 0; j < answers[i].singleAnswers.selectedBodyJoints.length; j++) {
-                        jointScores[answers[i].singleAnswers.selectedBodyJoints[j]]++;
+        if (renderType === 'single' && answers.singleAnswers && answers.singleAnswers.length > 0) {
+            for (var i = 0; i < answers.singleAnswers.length; i++) {
+                if (parseInt(gestureId) === parseInt(answers.singleAnswers[i].gestureId) && answers.singleAnswers[i].selectedBodyJoints) {
+                    for (var j = 0; j < answers.singleAnswers[i].selectedBodyJoints.length; j++) {
+                        jointScores[answers.singleAnswers[i].selectedBodyJoints[j]]++;
                     }
                 }
             }
-        } else {
-            for (var i = 0; i < answers.length; i++) {
-                if (parseInt(gestureId) === parseInt(answers[i].gestureId) && answers[i].sequenceAnswers && answers[i].sequenceAnswers.selectedBodyJoints) {
-                    for (var j = 0; j < answers[i].sequenceAnswers.selectedBodyJoints.length; j++) {
-                        jointScores[answers[i].sequenceAnswers.selectedBodyJoints[j]]++;
+        } else if (renderType === 'sequence' && answers.sequenceAnswers && answers.sequenceAnswers.length > 0) {
+            for (var i = 0; i < answers.sequenceAnswers.length; i++) {
+                if (parseInt(gestureId) === parseInt(answers.sequenceAnswers[i].gestureId) && answers.sequenceAnswers[i].selectedBodyJoints) {
+                    for (var j = 0; j < answers.sequenceAnswers[i].selectedBodyJoints.length; j++) {
+                        jointScores[answers.sequenceAnswers[i].selectedBodyJoints[j]]++;
                     }
                 }
             }
@@ -376,21 +376,21 @@ function getBodyJointScores() {
 }
 
 function renderHandJointAnswers(target, answers, gestureId, renderType) {
-    if (answers && answers.length > 0) {
+    if (answers) {
         var jointScores = getHandJointScores();
-        if (renderType === 'single') {
-            for (var i = 0; i < answers.length; i++) {
-                if (parseInt(gestureId) === parseInt(answers[i].gestureId) && answers[i].singleAnswers && answers[i].singleAnswers.selectedHandJoints) {
-                    for (var j = 0; j < answers[i].singleAnswers.selectedHandJoints.length; j++) {
-                        jointScores[answers[i].singleAnswers.selectedHandJoints[j]]++;
+        if (renderType === 'single' && answers.singleAnswers && answers.singleAnswers.length > 0) {
+            for (var i = 0; i < answers.singleAnswers.length; i++) {
+                if (parseInt(gestureId) === parseInt(answers.singleAnswers[i].gestureId) && answers.singleAnswers[i].selectedHandJoints) {
+                    for (var j = 0; j < answers.singleAnswers[i].selectedHandJoints.length; j++) {
+                        jointScores[answers.singleAnswers[i].selectedHandJoints[j]]++;
                     }
                 }
             }
-        } else {
-            for (var i = 0; i < answers.length; i++) {
-                if (parseInt(gestureId) === parseInt(answers[i].gestureId) && answers[i].sequenceAnswers && answers[i].sequenceAnswers.selectedHandJoints) {
-                    for (var j = 0; j < answers[i].sequenceAnswers.selectedHandJoints.length; j++) {
-                        jointScores[answers[i].sequenceAnswers.selectedHandJoints[j]]++;
+        } else if (renderType === 'sequence' && answers.sequenceAnswers && answers.sequenceAnswers.length > 0) {
+            for (var i = 0; i < answers.sequenceAnswers.length; i++) {
+                if (parseInt(gestureId) === parseInt(answers.sequenceAnswers[i].gestureId) && answers.sequenceAnswers[i].selectedHandJoints) {
+                    for (var j = 0; j < answers.sequenceAnswers[i].selectedHandJoints.length; j++) {
+                        jointScores[answers.sequenceAnswers[i].selectedHandJoints[j]]++;
                     }
                 }
             }

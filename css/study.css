@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 .study-phase-step {
-    margin-top: -4px;
+    /*margin-top: -4px;*/
 }
 
 .study-phase-step .study-phase-icon-container {
@@ -60,9 +60,9 @@ and open the template in the editor.
 }
 
 .study-phase-step .text {
-    position: relative; 
+/*    position: relative; 
     top: 10px; 
-    margin-left: 50px;
+    margin-left: 50px;*/
 }
 
 /*#phase-results-nav > .nav-pills > li > a {

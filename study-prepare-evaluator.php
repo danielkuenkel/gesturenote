@@ -123,14 +123,15 @@ if ($h && $token && $studyId) {
                         </div>
 
                         <div class="col-xs-12" id="video-caller" style="margin-top: 10px;">
+                            <i class="fa fa-circle-o-notch fa-spin" style="position: absolute; left:50%; top: 50% "></i>
                             <div id="remote-stream" class="rtc-remote-container rtc-stream" style="border-radius: 4px;"></div>
                             <div class="rtc-local-container">
                                 <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
                             </div>
                             <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 6px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                                <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
-                                <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-                                <button type="button" class="btn stream-control disabled" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                                <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                                <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                                <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
                             </div>
                             <div id="stream-control-indicator">
                                 <div style="position: absolute; top: 4px; display: block; left: 25px; opacity: 1; color: white">
@@ -173,7 +174,7 @@ if ($h && $token && $studyId) {
                 });
             });
             function onAllExternalsLoadedSuccessfully() {
-                $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+                initPopover();
                 renderSubPageElements(false);
 
                 var query = getQueryParams(document.location.search);

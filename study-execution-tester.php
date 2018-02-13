@@ -120,10 +120,11 @@ if ($h && $token && $studyId) {
 
 
         <!-- Container (Panel Section) -->
-        <div class="mainContent" id="mainContent">
+        <div class="mainContent" id="mainContent" style="margin-top:60px">
             <div id="viewTester">
-                <div id="pinnedRTC" style="position: fixed; left: 18px"></div>
-                <div id="phase-content"></div>
+                <div class="alert-space alert-please-wait" style="padding-left:10px; padding-right: 10px;"></div>
+                <div id="pinnedRTC" style="position: fixed; left: 18px; opacity: 0"></div>
+                <div id="phase-content" class="hidden"></div>
             </div>
         </div>
 
@@ -134,9 +135,9 @@ if ($h && $token && $studyId) {
                     <video autoplay id="local-stream" class="rtc-stream" style="display:block"></video>
                 </div>
                 <div class="btn-group" id="stream-controls" style="position: absolute; bottom: 11px; display: block; left: 50%; transform: translate(-50%, 0); opacity: 0">
-                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
-                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
-                    <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="tooltip" data-placement="top" title="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-stream-local-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->muteMicrofone ?>"><i class="fa fa-microphone-slash"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-pause-stream" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOwnWebRTC ?>"><i class="fa fa-pause"></i> </button>
+                    <button type="button" class="btn stream-control" id="btn-stream-remote-mute" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<?php echo $lang->pauseOtherWebRTC ?>"><i class="fa fa-volume-up"></i> </button>
                 </div>
                 <div id="stream-control-indicator">
                     <div style="position: absolute; top: 2px; display: block; left: 10px; opacity: 1; color: white">
@@ -168,8 +169,8 @@ if ($h && $token && $studyId) {
             });
 
             function onAllExternalsLoadedSuccessfully() {
-                $('[data-toggle="tooltip"]').tooltip({container: 'body'});
-                console.log('tester id: <?php echo $_SESSION['user_id'] ?>');
+                appendAlert($('#viewTester'), ALERT_PLEASE_WAIT);
+                initPopover();
 
                 var query = getQueryParams(document.location.search);
                 if (query.studyId && query.h && query.token) {

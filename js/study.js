@@ -81,40 +81,41 @@ function renderData(data, hash, showTutorial) {
 
     // phase view
     if (studyData.phases && studyData.phases.length > 0) {
-        for (var i = 0; i < studyData.phases.length; i++) {
-            var step = document.createElement('div');
+        var step = document.createElement('ol');
             $(step).addClass('study-phase-step');
             $('#phase-steps-container').append(step);
+        for (var i = 0; i < studyData.phases.length; i++) {
+            
 
-            var iconContainer = document.createElement('div');
-            $(iconContainer).addClass('study-phase-icon-container');
-            $(step).append(iconContainer);
+//            var iconContainer = document.createElement('ul');
+//            $(iconContainer).addClass('study-phase-icon-container');
+//            $(step).append(iconContainer);
 
-            var colorIcon = document.createElement('i');
-            $(colorIcon).addClass('study-phase-step-color-icon fa fa-circle');
-            $(colorIcon).css({color: '#337ab7'}); // studyData.phases[i].color // #5bb85c
-            $(iconContainer).append(colorIcon);
+//            var colorIcon = document.createElement('i');
+//            $(colorIcon).addClass('study-phase-step-color-icon fa fa-circle');
+//            $(colorIcon).css({color: '#337ab7'}); // studyData.phases[i].color // #5bb85c
+//            $(iconContainer).append(colorIcon);
 
-            var icon = document.createElement('i');
-            $(icon).addClass('study-phase-step-icon fa fa-circle-thin');
-            $(iconContainer).append(icon);
+//            var icon = document.createElement('i');
+//            $(icon).addClass('study-phase-step-icon fa fa-circle-thin');
+//            $(iconContainer).append(icon);
 
-            var iconMiddle = document.createElement('span');
-            $(iconMiddle).addClass((i > 8) ? 'study-phase-step-middle-icon-small' : 'study-phase-step-middle-icon');
-            $(iconMiddle).text(i + 1);
-            $(iconContainer).append(iconMiddle);
+//            var iconMiddle = document.createElement('span');
+//            $(iconMiddle).addClass((i > 8) ? 'study-phase-step-middle-icon-small' : 'study-phase-step-middle-icon');
+//            $(iconMiddle).text(i + 1);
+//            $(iconContainer).append(iconMiddle);
 
-            var text = document.createElement('span');
+            var text = document.createElement('li');
             $(text).addClass('text');
             $(text).text(studyData.phases[i].title);
             $(step).append(text);
-            if (i < studyData.phases.length - 1) {
-                var transition = document.createElement('i');
-                $(transition).addClass('study-phase-step-transition fa fa-long-arrow-down');
-                $('#phase-steps-container').append(transition);
-                TweenMax.from($(transition), .2, {delay: (i * .05), y: -10, opacity: 0.0, clearProps: 'all'});
-            }
-            TweenMax.from($(step), .3, {delay: 0.2 + (i * .05), y: -10, opacity: 0, clearProps: 'all'});
+//            if (i < studyData.phases.length - 1) {
+//                var transition = document.createElement('i');
+//                $(transition).addClass('study-phase-step-transition fa fa-long-arrow-down');
+//                $('#phase-steps-container').append(transition);
+//                TweenMax.from($(transition), .2, {delay: (i * .05), y: -10, opacity: 0.0, clearProps: 'all'});
+//            }
+//            TweenMax.from($(step), .3, {delay: 0.2 + (i * .05), y: -10, opacity: 0});
         }
     } else {
         appendAlert($('#main-content'), ALERT_NO_PHASE_DATA);

@@ -76,7 +76,7 @@ include './includes/language.php';
         for (var i = 0; i < items.length; i++) {
             var clone = $('#tester-check-item').clone().removeClass('hidden').removeAttr('id');
             $('#list-container').append(clone);
-            $(clone).css({marginBottom:'20px'});
+            $(clone).css({marginBottom: '20px'});
             var gesture = getGestureById(items[i].gestureId);
             renderGestureImages(clone.find('.previewGesture'), gesture.images, gesture.previewImage, null);
 
@@ -97,13 +97,13 @@ include './includes/language.php';
 
                     if (!previewModeEnabled) {
                         getGMT(function (timestamp) {
+                            var currentPhase = getCurrentPhase();
+                            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+                            tempData.restarts = slidesRestartCount;
                             if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED || (peerConnection && getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED)) {
-                                var currentPhase = getCurrentPhase();
-                                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                                tempData.restarts = slidesRestartCount;
                                 tempData.actions.push({action: ACTION_SELECT_GESTURE, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: event.data.gesture.id, fit: gestureFit, time: timestamp});
-                                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                             }
+                            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                         });
                     }
 

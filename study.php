@@ -135,9 +135,9 @@ if (login_check($mysqli) == true) {
                         <div id="study-phases">
                             <h3 class="address"><?php echo $lang->phases ?></h3>
                             <div class="alert-space alert-no-phase-data"></div>
-                            <div id="phase-steps-container" style="margin-top: 15px"></div>
+                            <div id="phase-steps-container" style="margin-top: 10px"></div>
                         </div>
-                        <div class="btn-group-vertical btn-block" style="margin-top: 50px">
+                        <div class="btn-group-vertical btn-block" style="margin-top: 20px">
                             <button class="btn btn-default btn-shadow" type="button" id="btn-edit-study"><i class="fa fa-pencil" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->editStudy ?></span></button>
                             <button class="btn btn-default btn-shadow" type="button" id="btn-preview-study"><i class="fa fa-eye" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->previewStudy ?></span></button>
                             <button class="btn btn-default btn-shadow" type="button" id="btn-delete-study"><i class="fa fa-trash" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->deleteStudy ?></span></button>

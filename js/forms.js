@@ -1132,7 +1132,7 @@ function renderGroupingQuestionGUS(item, studyData, answer) {
                     button.attr('name', gesture.id);
                     $(button).insertAfter($(optionItem).find('#option-text'));
                     $(button).css({border: '1px solid rgba(0,0,0,0.3)'});
-                    console.log(optionItem, button);
+//                    console.log(optionItem, button);
                 }
             } else {
                 $(optionItem).css({paddingLeft: "0px"});
@@ -1176,9 +1176,11 @@ function renderRating(item, studyData, answer) {
         $(item).find('#positive').removeClass('hidden');
     }
 
+    var optionItem = $('#template-study-container').find('#rating-item').clone();
+    $(item).find('.option-container').append(optionItem);
+
     if (answer) {
-        var optionItem = $('#template-study-container').find('#rating-item').clone();
-        $(item).find('.option-container').append(optionItem);
+
 
         var score = 0;
         var maxScore = studyData.options.length;
@@ -1197,25 +1199,27 @@ function renderRating(item, studyData, answer) {
             $(item).find('#no-answer').remove();
         }
 
-        for (var j = 0; j < studyData.options.length; j++) {
-            var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
-            $(optionItem).find('#scale-container').append(scaleItem);
-            $(scaleItem).text((j + 1) + '. ' + studyData.options[j]);
-            if (j === selectedScale) {
-                $(scaleItem).addClass('bordered-scale-item');
-            } else {
-                $(scaleItem).css({paddingLeft: "0px"});
-            }
 
-            if (j < studyData.options.length - 1) {
-                var breakItem = document.createElement('br');
-                $(optionItem).find('#scale-container').append(breakItem);
-            }
-        }
     } else {
-        $(item).find('#scale-container').remove();
+//        $(item).find('#scale-container').remove();
         $(item).find('#score-container').remove();
         $(item).find('#no-answer').removeClass('hidden');
+    }
+
+    for (var j = 0; j < studyData.options.length; j++) {
+        var scaleItem = $('#template-study-container').find('#rating-scale-item').clone();
+        $(optionItem).find('#scale-container').append(scaleItem);
+        $(scaleItem).text((j + 1) + '. ' + studyData.options[j]);
+        if (answer && j === selectedScale) {
+            $(scaleItem).addClass('bordered-scale-item');
+        } else {
+            $(scaleItem).css({paddingLeft: "0px"});
+        }
+
+        if (j < studyData.options.length - 1) {
+            var breakItem = document.createElement('br');
+            $(optionItem).find('#scale-container').append(breakItem);
+        }
     }
 }
 
@@ -1469,7 +1473,7 @@ function renderEditableAlternativeQuestion(item, studyData, answer) {
         $(item).find('#singleselect').removeClass('hidden');
     }
 
-    if (answer) {       
+    if (answer) {
         for (var id in answer) {
             if (answer.hasOwnProperty(id) && answer[id].selected === 'yes') {
                 var optionButton = $(item).find('#' + id);
@@ -1689,7 +1693,7 @@ function renderDichotomousQuestionGUSInput(item, parameters) {
  */
 
 function renderGroupingQuestionInput(item, parameters, options) {
-    console.log(item, parameters, options);
+//    console.log(item, parameters, options);
     var optionType = parameters.multiselect === 'yes' ? 'checkbox' : 'radio';
     for (var i = 0; i < options.length; i++) {
         var formGroup = document.createElement('div');
@@ -2151,7 +2155,7 @@ function saveObservationAnwers(target, studyId, testerId, currentPhaseId) {
         observations = new Array();
         observations.push({id: currentPhaseId, answers: answers});
     }
-    
+
     setLocalItem(STUDY_EVALUATOR_OBSERVATIONS, observations);
     saveObservations({studyId: studyId, testerId: testerId, observations: observations});
 }
@@ -2207,7 +2211,7 @@ $(document).on('click', '.btn-add-groupingQuestionOption', function (event) {
 });
 
 $(document).on('click', '.btn-add-ratingOption', function (event) {
-    console.log('btn add rating option click event');
+//    console.log('btn add rating option click event');
     event.preventDefault();
     if (event.handled !== true)
     {

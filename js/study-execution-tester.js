@@ -10,7 +10,7 @@ var Tester = {
     renderView: function renderView() {
 
         console.log('render view');
-        $('.alert-space').empty();
+//        $('.alert-space').empty();
         var source = getSourceContainer(currentView);
         var item = null;
         var currentPhase = getCurrentPhase();
@@ -382,8 +382,8 @@ var Tester = {
             $(peerConnection).unbind(MESSAGE_TRAINING_TRIGGERED).bind(MESSAGE_TRAINING_TRIGGERED, function (event, payload) {
                 trainingTriggered = true;
                 trainingShowGesture = true;
-                onTrainingTriggered();
                 currentGestureTrainingIndex = payload.currentGestureTrainingIndex;
+                onTrainingTriggered();
 
 //                var currentPhase = getCurrentPhase();
 //                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
@@ -564,16 +564,15 @@ var Tester = {
             $(container).find('#general').remove();
         }
 
+        if (!previewModeEnabled) {
+            var currentPhase = getCurrentPhase();
+            var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
+            tempData.actions = new Array();
+            setLocalItem(currentPhase.id + '.tempSaveData', tempData);
+        }
+
         if (getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED) {
             slideRestarted = true;
-
-            if (!previewModeEnabled) {
-                var currentPhase = getCurrentPhase();
-                var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                tempData.actions = new Array();
-                setLocalItem(currentPhase.id + '.tempSaveData', tempData);
-            }
-
             Tester.renderUnmoderatedGestureSlideshow(source, container, data);
         } else {
             $(peerConnection).unbind(MESSAGE_START_GESTURE_SLIDESHOW).bind(MESSAGE_START_GESTURE_SLIDESHOW, function (event, payload) {
@@ -585,7 +584,15 @@ var Tester = {
                 slideRestarted = false;
                 slideTriggered = true;
                 currentSlideIndex = parseInt(payload.currentSlideIndex);
-                Tester.renderModeratedGestureSlideshow(source, container, data);
+
+                getGMT(function (timestamp) {
+                    var slideData = data.slideshow[currentSlideIndex];
+                    var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
+                    tempData.actions.push({action: ACTION_START_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
+                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+                    Tester.renderModeratedGestureSlideshow(source, container, data);
+                });
+
             });
 
 //            $(peerConnection).unbind(MESSAGE_GESTURE_PERFORMED).bind(MESSAGE_GESTURE_PERFORMED, function (event, payload) {
@@ -1243,7 +1250,7 @@ var Tester = {
                 var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
                 tempData.startStressTestTime = timestamp;
                 tempData.actions = new Array();
-                tempData.answers = new Array();
+                tempData.answers = {singleAnswers: [], sequenceAnswers: []};
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
         }
@@ -1335,12 +1342,9 @@ var Tester = {
             }
 
             // single questions section
-//            console.log('currentStressTestCount', currentStressTestCount, data.stressAmount)
-
-            if (currentStressTestCount <= parseInt(data.stressAmount)) {
-//                console.log('render single stress test questions', data.singleStressQuestions, data.singleStressGraphicsRating);
+            if (currentStressTestCount <= parseInt(data.stressAmount) - 1) {
                 if (data.singleStressQuestions && data.singleStressQuestions.length > 0 || data.singleStressGraphicsRating !== 'none') {
-                    $(questionContainer).removeClass('hidden');
+//                    $(questionContainer).removeClass('hidden');
                     $(item).find('#btn-questionnaire-done, #questionnaire-heading, #single-questions').removeClass('hidden');
                     $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
                     $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
@@ -1348,14 +1352,17 @@ var Tester = {
                         Tester.getQuestionnaire(questionContainer.find('#single-questions'), data.singleStressQuestions, false);
                     }
                 }
-                renderSelectionRatingGraphics($(item).find('#single-joint-selection'), data.singleStressGraphicsRating);
+
+                if (data.singleStressGraphicsRating && data.singleStressGraphicsRating !== 'none') {
+                    renderSelectionRatingGraphics($(item).find('#single-joint-selection'), data.singleStressGraphicsRating);
+                }
             }
 
-            // sequence questions section, only if last currenStressTestCount were reached
-            if (currentStressTestCount >= parseInt(data.stressAmount)) {
-//                console.log('render multiple stress test questions');
+            // sequence questions section, only if last currentStressTestCount were reached
+            if (currentStressTestCount >= parseInt(data.stressAmount) - 1) {
+                console.log('sequenceStressGraphicsRating', data.sequenceStressGraphicsRating);
                 if (data.sequenceStressQuestions && data.sequenceStressQuestions.length > 0 || data.sequenceStressGraphicsRating !== 'none') {
-                    $(questionContainer).removeClass('hidden');
+//                    $(questionContainer).removeClass('hidden');
                     $(item).find('#btn-questionnaire-done, #questionnaire-heading, #sequence-questions').removeClass('hidden');
                     $(item).find('#general-repeats, #btn-gesture-done').addClass('hidden');
                     $(item).find('#gesturePreview').removeClass('col-sm-12').addClass('col-sm-5');
@@ -1363,7 +1370,10 @@ var Tester = {
                         Tester.getQuestionnaire(questionContainer.find('#sequence-questions'), data.sequenceStressQuestions, false);
                     }
                 }
-                renderSelectionRatingGraphics($(item).find('#sequence-joint-selection'), data.sequenceStressGraphicsRating);
+
+                if (data.sequenceStressGraphicsRating && data.sequenceStressGraphicsRating !== 'none') {
+                    renderSelectionRatingGraphics($(item).find('#sequence-joint-selection'), data.sequenceStressGraphicsRating);
+                }
             }
         } else {
             questionContainer.addClass('hidden');
@@ -1426,8 +1436,8 @@ var Tester = {
                     if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
                         Tester.getQuestionnaire(questionContainer.find('#single-questions'), data.singleStressQuestions);
                     }
+                    renderSelectionRatingGraphics($(item).find('#single-joint-selection'), data.singleStressGraphicsRating);
                 }
-                renderSelectionRatingGraphics($(item).find('#single-joint-selection'), data.singleStressGraphicsRating);
             }
 
             // sequence questions section, only if last currenStressTestCount were reached
@@ -1440,8 +1450,8 @@ var Tester = {
                     if (data.sequenceStressQuestions && data.sequenceStressQuestions.length > 0) {
                         Tester.getQuestionnaire(questionContainer.find('#sequence-questions'), data.sequenceStressQuestions);
                     }
+                    renderSelectionRatingGraphics($(item).find('#sequence-joint-selection'), data.sequenceStressGraphicsRating);
                 }
-                renderSelectionRatingGraphics($(item).find('#sequence-joint-selection'), data.sequenceStressGraphicsRating);
             }
 
             // check current state
@@ -1496,39 +1506,42 @@ var Tester = {
         });
     },
     savePhysicalStressTestAnswers: function savePhysicalStressTestAnswers(target, data, gesture) {
-        var answers = new Object();
-        var singleQuestionnaire = $(target).find('#single-questions .question-container').children();
-        var singleQuestionAnswers = getQuestionnaireAnswers(singleQuestionnaire);
-        answers.gestureId = gesture.id;
-//        getGMT(function (timestamp) {
-//            answers.time = timestamp;
-//        });
+        console.log(data, currentStressTestCount, data.stressAmount);
 
-        console.log('singleQuestionAnswers', singleQuestionAnswers);
-
-
-        if ((getLocalItem(STUDY).surveyType === TYPE_SURVEY_UNMODERATED && currentStressTestCount < parseInt(data.stressAmount) - 1) || (getLocalItem(STUDY).surveyType === TYPE_SURVEY_MODERATED && currentStressTestCount < parseInt(data.stressAmount))) {
-            answers.singleAnswers = singleQuestionAnswers;
-            getJointSelectionRatings(answers.singleAnswers, data.singleStressGraphicsRating, $(target).find('#single-joint-selection'));
-        } else {
-//            if (singleQuestionAnswers && singleQuestionAnswers.length > 0) {
-            answers.singleAnswers = singleQuestionAnswers;
-//            }
-            getJointSelectionRatings(answers.singleAnswers, data.singleStressGraphicsRating, $(target).find('#single-joint-selection'));
-
-            var sequenceQuestionnaire = $(target).find('#sequence-questions .question-container').children();
-            var sequenceQuestionAnswers = getQuestionnaireAnswers(sequenceQuestionnaire);
-            console.log('sequenceQuestionAnswers', sequenceQuestionAnswers);
-//            if (sequenceQuestionAnswers && sequenceQuestionAnswers.length > 0) {
-            answers.sequenceAnswers = sequenceQuestionAnswers;
-//            }
-            getJointSelectionRatings(answers.sequenceAnswers, data.sequenceStressGraphicsRating, $(target).find('#sequence-joint-selection'));
+        var singleAnswer = {};
+        if (data.singleStressQuestions && data.singleStressQuestions.length > 0) {
+            var singleQuestionnaire = $(target).find('#single-questions .question-container').children();
+            var singleQuestionAnswers = getQuestionnaireAnswers(singleQuestionnaire);
+            singleAnswer.gestureId = gesture.id;
+            singleAnswer.answers = singleQuestionAnswers;
+            getJointSelectionRatings(singleAnswer, data.singleStressGraphicsRating, $(target).find('#single-joint-selection'));
+            console.log('singleQuestionAnswers', singleQuestionAnswers);
+        } else if (data.singleStressGraphicsRating) {
+            console.log('graphics rating');
+            singleAnswer.gestureId = gesture.id;
+            getJointSelectionRatings(singleAnswer, data.singleStressGraphicsRating, $(target).find('#single-joint-selection'));
         }
+
+        var sequenceAnswer = {};
+        if (currentStressTestCount >= parseInt(data.stressAmount) - 1) {
+            if (data.sequenceStressQuestions && data.sequenceStressQuestions.length > 0) {
+                var sequenceQuestionnaire = $(target).find('#sequence-questions .question-container').children();
+                var sequenceQuestionAnswers = getQuestionnaireAnswers(sequenceQuestionnaire);
+                console.log('sequenceQuestionAnswers', sequenceQuestionAnswers);
+                sequenceAnswer.gestureId = gesture.id;
+                sequenceAnswer.answers = sequenceQuestionAnswers;
+                getJointSelectionRatings(sequenceAnswer, data.sequenceStressGraphicsRating, $(target).find('#sequence-joint-selection'));
+            } else if (data.sequenceStressGraphicsRating) {
+                sequenceAnswer.gestureId = gesture.id;
+                getJointSelectionRatings(sequenceAnswer, data.sequenceStressGraphicsRating, $(target).find('#sequence-joint-selection'));
+            }
+        }
+
 
 
 //        var answerIndex = currentStressTestIndex == 0 ? currentStressTestIndex + currentStressTestCount - 1 : currentStressTestIndex + currentStressTestCount;
         currentQuestionnaireAnswers = {};
-        currentQuestionnaireAnswers.answers = [answers];
+        currentQuestionnaireAnswers.answers = {singleAnswers: $.isEmptyObject(singleAnswer) ? null : [singleAnswer], sequenceAnswers: $.isEmptyObject(sequenceAnswer) ? null : [sequenceAnswer]};
 //        console.log(currentStressTestIndex, currentStressTestCount, answerIndex);
         console.log('current Questionnaire Answers:', currentQuestionnaireAnswers);
 
@@ -1540,15 +1553,19 @@ var Tester = {
 
             // save joints and questionnaire answers if in live mode
 //            if (saveToLocalDB === true) {
+            console.log(currentStressTestIndex, currentStressTestCount);
+            var answerIndex = currentStressTestIndex === 0 ? currentStressTestCount : currentStressTestIndex + 1 + currentStressTestCount;
             var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
             if (currentStressTestIndex < data.stressTestItems.length - 1) {
                 getGMT(function (timestamp) {
                     tempData.actions.push({action: ACTION_END_QUESTIONNAIRE, gestureId: gesture.id, time: timestamp});
-                    tempData.answers.push(answers);
+                    tempData.answers.singleAnswers[answerIndex] = singleAnswer;
+                    tempData.answers.sequenceAnswers[currentStressTestIndex] = sequenceAnswer;
                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                 });
             } else {
-                tempData.answers.push(answers);
+                tempData.answers.singleAnswers[answerIndex] = singleAnswer;
+                tempData.answers.sequenceAnswers[currentStressTestIndex] = sequenceAnswer;
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
             }
 //            }
@@ -2053,6 +2070,27 @@ var Tester = {
                     if (syncPhaseStep) {
                         peerConnection.sendMessage(MESSAGE_REQUEST_SYNC, {index: currentPhaseStepIndex});
                     }
+                });
+
+                $(peerConnection).unbind(CONNECTION_STATE_CONNECTED).bind(CONNECTION_STATE_CONNECTED, function () {
+                    clearAlerts($('#viewTester'));
+                    $('#viewTester').find('#phase-content').removeClass('hidden');
+                    $('#viewTester').find('#pinnedRTC').css({opacity: 1});
+                    updateRTCHeight($('#viewTester #column-left').width());
+                });
+
+                $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
+                    console.log(CONNECTION_STATE_DISCONNECTED)
+                    appendAlert($('#viewTester'), ALERT_PLEASE_WAIT);
+                    $('#viewTester').find('#phase-content').addClass('hidden');
+                    $('#viewTester').find('#pinnedRTC').css({opacity: 0});
+                });
+
+                $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function () {
+                    console.log('videoRemoved');
+                    appendAlert($('#viewTester'), ALERT_PLEASE_WAIT);
+                    $('#viewTester').find('#phase-content').addClass('hidden');
+                    $('#viewTester').find('#pinnedRTC').css({opacity: 0});
                 });
             }
         }

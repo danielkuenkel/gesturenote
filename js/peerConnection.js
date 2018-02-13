@@ -16,6 +16,13 @@ var EVENT_RECEIVED_FILE = 'receivedFile';
 var TYPE_PEER_SCREEN = 'screen';
 var TYPE_PEER_VIDEO = 'video';
 
+var CONNECTION_STATE_CONNECTED = 'connected';
+var CONNECTION_STATE_COMPLETED = 'completed';
+var CONNECTION_STATE_DISCONNECTED = 'disconnected';
+var CONNECTION_STATE_CHECKING = 'checking';
+var CONNECTION_STATE_FAILED = 'failed';
+var CONNECTION_STATE_CLOSED = 'closed';
+
 PeerConnection.prototype.status = STATUS_UNINITIALIZED;
 PeerConnection.prototype.options = null;
 
@@ -84,14 +91,18 @@ PeerConnection.prototype.initialize = function (options) {
             $(options.localMuteElement).on('click', function (event) {
                 event.preventDefault();
                 console.log('mute local');
+                $(this).popover('hide');
+
                 if (!$(this).hasClass('muted')) {
                     $(this).addClass('muted');
                     $(this).find('.fa').removeClass('fa fa-microphone-slash').addClass('fa fa-microphone');
                     $('#' + options.localVideoElement).attr('volume', 0);
-                    $(this).attr('title', 'Mikrofon anschalten')
-                            .tooltip('fixTitle')
-                            .tooltip('setContent')
-                            .tooltip('show');
+
+                    $(this).attr('data-content', translation.unmuteMicrofone).data('bs.popover').setContent();
+//                    $(this).attr('data', 'Mikrofon anschalten')
+//                            .tooltip('fixTitle')
+//                            .tooltip('setContent')
+//                            .tooltip('show');
                     webrtc.mute();
                     if (options.indicator) {
                         $(options.indicator).find('#mute-local-audio').removeClass('hidden');
@@ -100,10 +111,11 @@ PeerConnection.prototype.initialize = function (options) {
                     $(this).removeClass('muted');
                     $(this).find('.fa').removeClass('fa fa-microphone').addClass('fa fa-microphone-slash');
                     $('#' + options.localVideoElement).attr('volume', 1);
-                    $(this).attr('title', 'Mikrofon stummschalten')
-                            .tooltip('fixTitle')
-                            .tooltip('setContent')
-                            .tooltip('show');
+                    $(this).attr('data-content', translation.muteMicrofone).data('bs.popover').setContent();
+//                    $(this).attr('title', 'Mikrofon stummschalten')
+//                            .tooltip('fixTitle')
+//                            .tooltip('setContent')
+//                            .tooltip('show');
                     webrtc.unmute();
                     if (options.indicator) {
                         $(options.indicator).find('#mute-local-audio').addClass('hidden');
@@ -114,14 +126,16 @@ PeerConnection.prototype.initialize = function (options) {
 
             $(options.pauseStreamElement).on('click', function (event) {
                 event.preventDefault();
-                console.log('pause/resume stream');
+//                console.log('pause/resume stream');
+                $(this).popover('hide');
                 if (!$(this).hasClass('paused')) {
                     $(this).addClass('paused');
                     $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
-                    $(this).attr('title', 'Übertragung fortsetzen')
-                            .tooltip('fixTitle')
-                            .tooltip('setContent')
-                            .tooltip('show');
+                    $(this).attr('data-content', translation.resumeOwnWebRTC).data('bs.popover').setContent();
+//                    $(this).attr('title', 'Übertragung fortsetzen')
+//                            .tooltip('fixTitle')
+//                            .tooltip('setContent')
+//                            .tooltip('show');
                     webrtc.pause();
 
                     if (options.localMuteElement) {
@@ -129,17 +143,19 @@ PeerConnection.prototype.initialize = function (options) {
                         $(options.indicator).find('#pause-local-stream').removeClass('hidden');
                         $(options.localMuteElement).removeClass('muted');
                         $(options.localMuteElement).find('.fa').removeClass('fa fa-microphone').addClass('fa fa-microphone-slash');
-                        $(options.localMuteElement).attr('title', 'Mikrofon stummschalten')
-                                .tooltip('fixTitle')
-                                .tooltip('setContent');
+                        $(options.localMuteElement).attr('data-content', translation.muteMicrofone).data('bs.popover').setContent();
+//                        $(options.localMuteElement).attr('title', 'Mikrofon stummschalten')
+//                                .tooltip('fixTitle')
+//                                .tooltip('setContent');
                     }
                 } else {
                     $(this).removeClass('paused');
                     $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
-                    $(this).attr('title', 'Übertragung pausieren')
-                            .tooltip('fixTitle')
-                            .tooltip('setContent')
-                            .tooltip('show');
+                    $(this).attr('data-content', translation.pauseOwnWebRTC).data('bs.popover').setContent();
+//                    $(this).attr('title', 'Übertragung pausieren')
+//                            .tooltip('fixTitle')
+//                            .tooltip('setContent')
+//                            .tooltip('show');
                     webrtc.resume();
 
                     if (options.localMuteElement) {
@@ -153,22 +169,25 @@ PeerConnection.prototype.initialize = function (options) {
             $(options.remoteMuteElement).on('click', function (event) {
                 event.preventDefault();
                 if (!$(this).hasClass('disabled')) {
+                    $(this).popover('hide');
                     if (!$(this).hasClass('muted')) {
                         $(this).addClass('muted');
                         $(this).find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
                         $('#' + options.remoteVideoElement).find('video').attr('volume', 0);
-                        $(this).attr('title', 'Gesprächspartner anschalten')
-                                .tooltip('fixTitle')
-                                .tooltip('setContent')
-                                .tooltip('show');
+                        $(this).attr('data-content', translation.resumeOtherWebRTC).data('bs.popover').setContent();
+//                        $(this).attr('title', 'Gesprächspartner anschalten')
+//                                .tooltip('fixTitle')
+//                                .tooltip('setContent')
+//                                .tooltip('show');
                     } else {
                         $(this).removeClass('muted');
                         $(this).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
                         $('#' + options.remoteVideoElement).find('video').attr('volume', 1);
-                        $(this).attr('title', 'Gesprächspartner stummschalten')
-                                .tooltip('fixTitle')
-                                .tooltip('setContent')
-                                .tooltip('show');
+                        $(this).attr('data-content', translation.pauseOtherWebRTC).data('bs.popover').setContent();
+//                        $(this).attr('title', 'Gesprächspartner stummschalten')
+//                                .tooltip('fixTitle')
+//                                .tooltip('setContent')
+//                                .tooltip('show');
                     }
                 }
                 $(this).blur();
@@ -206,7 +225,7 @@ PeerConnection.prototype.initialize = function (options) {
 
         // local screen obtained
         webrtc.on('localScreenAdded', function (video) {
-            console.log('local screen added');
+            console.log('local screen added', video);
 //            video.onclick = function () {
 //                video.style.width = video.videoWidth + 'px';
 //                video.style.height = video.videoHeight + 'px';
@@ -254,31 +273,33 @@ PeerConnection.prototype.initialize = function (options) {
             }
 
             // show the ice connection state
-            if (peer && peer.pc) {
+            if (peer && peer.pc && peer.type === TYPE_PEER_VIDEO) {
                 var connstate = document.createElement('div');
                 connstate.className = 'connectionstate';
 //                container.appendChild(connstate);
                 peer.pc.on('iceConnectionStateChange', function (event) {
                     var state = null;
                     switch (peer.pc.iceConnectionState) {
-                        case 'checking':
+                        case CONNECTION_STATE_CHECKING:
                             state = 'Connecting to peer ...';
                             break;
-                        case 'connected':
-                        case 'completed': // on caller side
+                        case CONNECTION_STATE_CONNECTED:
+                        case CONNECTION_STATE_COMPLETED: // on caller side
 //                            $(vol).show();
                             state = 'Connection established.';
                             break;
-                        case 'disconnected':
+                        case CONNECTION_STATE_DISCONNECTED:
                             state = 'Disconnected.';
                             break;
-                        case 'failed':
+                        case CONNECTION_STATE_FAILED:
                             state = 'Connection failed.';
                             break;
-                        case 'closed':
+                        case CONNECTION_STATE_CLOSED:
                             state = 'Connection closed.';
                             break;
                     }
+
+                    $(connection).trigger(peer.pc.iceConnectionState);
                     console.log('peer connection state', state);
                 });
 
@@ -303,9 +324,10 @@ PeerConnection.prototype.initialize = function (options) {
                     $(options.remoteMuteElement).removeClass('muted');
                     $(options.remoteMuteElement).find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
                     $(options.remoteMuteElement).find('video').attr('volume', 1);
-                    $(options.remoteMuteElement).attr('title', 'Gesprächspartner stummschalten')
-                            .tooltip('fixTitle')
-                            .tooltip('setContent');
+                    $(options.remoteMuteElement).attr('data-content', translation.pauseOtherWebRTC).data('bs.popover').setContent();
+//                    $(options.remoteMuteElement).attr('title', 'Gesprächspartner stummschalten')
+//                            .tooltip('fixTitle')
+//                            .tooltip('setContent');
                 }
 
                 connection.hideRemoteStream();
@@ -634,13 +656,19 @@ PeerConnection.prototype.initSeparateRecording = function (startRecording) {
             var constraints = {audio: true, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
         }
 
-        // set user media for specifig browsers
-        navigator.getUserMedia = (navigator.getUserMedia ||
-                navigator.mozGetUserMedia ||
-                navigator.msGetUserMedia ||
-                navigator.webkitGetUserMedia);
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia(constraints, onSuccess, onError);
+        // set user media for specific browsers
+//        navigator.getUserMedia = (navigator.getUserMedia ||
+//                navigator.mozGetUserMedia ||
+//                navigator.msGetUserMedia ||
+//                navigator.webkitGetUserMedia);
+        if (MediaDevices.getUserMedia) {
+            MediaDevices.getUserMedia(constraints)
+                    .then(function (stream) {
+                        onSuccess(stream);
+                    })
+                    .catch(function (err) {
+                        onError(err);
+                    });
         } else {
             console.log('Sorry! This requires Firefox 30 and up or Chrome 47 and up.');
         }
@@ -711,8 +739,11 @@ PeerConnection.prototype.stopRecordSeparateChunks = function () {
 var screenChunks = [];
 var screenMediaRecorder = null;
 PeerConnection.prototype.initScreenRecording = function () {
+    
     var localScreenStream = webrtc.getLocalScreen();
+    console.log('initScreenRecording', localScreenStream, webrtc.webrtc.localScreens);
     screenMediaRecorder = new MediaRecorder(localScreenStream);
+    console.log(webrtc, screenMediaRecorder);
 
     screenMediaRecorder.ondataavailable = function (e) {
         console.log('on screen sharing data available');
@@ -752,6 +783,8 @@ PeerConnection.prototype.initScreenRecording = function () {
                 if (stopScreenRecordingCallback) {
                     stopScreenRecordingCallback();
                 }
+                
+                webrtc.webrtc.localScreens = [];
             });
         } else {
             if (stopScreenRecordingCallback) {

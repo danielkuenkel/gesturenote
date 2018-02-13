@@ -773,6 +773,7 @@ if (login_check($mysqli) == true) {
                         removeLocalItem(event.data.id + ".data");
                         checkPreviewAvailability();
                     });
+                    
                     switch (format) {
                         case SUS:
                             setLocalItem(id + ".data", translation.sus);

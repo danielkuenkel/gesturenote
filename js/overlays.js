@@ -459,7 +459,7 @@ function initGestureTrainingOverlay(id, formatClone) {
     function renderData(data)
     {
         var trainingItems = data.training;
-        $(formatClone).find('#trainingTitle').val(data.title);
+//        $(formatClone).find('#trainingTitle').val(data.title);
         $(formatClone).find('#trainingDescription').val(data.description);
         var container;
         if (trainingItems !== undefined && trainingItems.length > 0) {
@@ -546,7 +546,7 @@ function initGestureTrainingOverlay(id, formatClone) {
         $(formatClone).find('#btn-save-phase-step-title').click();
         var traningItems = $(formatClone).find('#trainingContainer .option-container').children();
         var training = new Object();
-        training.title = $(formatClone).find('#trainingTitle').val();
+//        training.title = $(formatClone).find('#trainingTitle').val();
         training.description = $(formatClone).find('#trainingDescription').val();
         if (traningItems) {
             var set = new Array();
@@ -767,7 +767,7 @@ function initScenarioOverlay(id, formatClone) {
 
     function renderData(data)
     {
-        $(formatClone).find('#scenarioTitle').val(data.title);
+//        $(formatClone).find('#scenarioTitle').val(data.title);
         $(formatClone).find('#scenarioDescription').val(data.description);
         if (data.scene) {
 
@@ -966,7 +966,7 @@ function initScenarioOverlay(id, formatClone) {
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
         $(formatClone).find('#btn-save-phase-step-title').click();
         var scenario = new Object();
-        scenario.title = $(formatClone).find('#scenarioTitle').val();
+//        scenario.title = $(formatClone).find('#scenarioTitle').val();
         scenario.description = $(formatClone).find('#scenarioDescription').val();
         if ($(formatClone).find('#general .sceneSelect .chosen').attr('id') !== 'unselected') {
             scenario.scene = $(formatClone).find('#general .sceneSelect .chosen').attr('id');
@@ -1321,7 +1321,7 @@ function initGestureSlideshowOverlay(id, formatClone) {
     initDynamicAffixScrolling(formatClone);
     function renderData(data) {
         var slideshowItems = data.slideshow;
-        $(formatClone).find('#slideshowTitle').val(data.title);
+//        $(formatClone).find('#slideshowTitle').val(data.title);
         $(formatClone).find('#slideshowDescription').val(data.description);
         $(formatClone).find('#answerTime').val(data.answerTime);
         var container = $(formatClone).find('#slideshow .option-container');
@@ -1359,7 +1359,7 @@ function initGestureSlideshowOverlay(id, formatClone) {
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
         $(formatClone).find('#btn-save-phase-step-title').click();
         var slideshow = new Object();
-        slideshow.title = $(formatClone).find('#slideshowTitle').val();
+//        slideshow.title = $(formatClone).find('#slideshowTitle').val();
         slideshow.description = $(formatClone).find('#slideshowDescription').val();
         var slideshowItems = $(formatClone).find('#slideshow .option-container').children();
         if (slideshowItems) {
@@ -1439,7 +1439,7 @@ function initTriggerSlideshowOverlay(id, formatClone) {
     initDynamicAffixScrolling(formatClone);
     function renderData(data) {
         var slideshowItems = data.slideshow;
-        $(formatClone).find('#slideshowTitle').val(data.title);
+//        $(formatClone).find('#slideshowTitle').val(data.title);
         $(formatClone).find('#slideshowDescription').val(data.description);
         var container = $(formatClone).find('#slideshow .option-container');
         if (slideshowItems !== undefined && slideshowItems.length > 0) {
@@ -1473,7 +1473,7 @@ function initTriggerSlideshowOverlay(id, formatClone) {
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
         $(formatClone).find('#btn-save-phase-step-title').click();
         var slideshow = new Object();
-        slideshow.title = $(formatClone).find('#slideshowTitle').val();
+//        slideshow.title = $(formatClone).find('#slideshowTitle').val();
         slideshow.description = $(formatClone).find('#slideshowDescription').val();
         var slideshowItems = $(formatClone).find('#slideshow .option-container').children();
         if (slideshowItems) {
@@ -1544,7 +1544,7 @@ function initPhysicalStressTestOverlay(id, formatClone) {
     function renderData(data)
     {
         var items = data.stressTestItems;
-        $(formatClone).find('#stressTestTitle').val(data.title);
+//        $(formatClone).find('#stressTestTitle').val(data.title);
         $(formatClone).find('#stressTestDescription').val(data.description);
         $(formatClone).find('#randomizeSwitch #' + (data.randomized === true ? 'yes' : 'no')).click();
         $(formatClone).find('#totalStressAmount').val(data.stressAmount);
@@ -1735,7 +1735,7 @@ function initElicitationOverlay(id, formatClone) {
 
     initDynamicAffixScrolling(formatClone);
     function renderData(data) {
-        $(formatClone).find('#identificationTitle').val(data.title);
+//        $(formatClone).find('#identificationTitle').val(data.title);
         $(formatClone).find('#identificationDescription').val(data.description);
         $(formatClone).find('#identificationTypeSwitch #' + data.identificationFor).click();
         var identificationItems = data.identification;
@@ -1795,7 +1795,7 @@ function initElicitationOverlay(id, formatClone) {
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
         $(formatClone).find('#btn-save-phase-step-title').click();
         var identification = new Object();
-        identification.title = $(formatClone).find('#identificationTitle').val();
+//        identification.title = $(formatClone).find('#identificationTitle').val();
         identification.description = $(formatClone).find('#identificationDescription').val();
         identification.identificationFor = $(formatClone).find('#identificationTypeSwitch .btn-option-checked').attr('id');
         var identificationItems = $(formatClone).find('#identificationElements .option-container').children();
@@ -1933,7 +1933,7 @@ function initExplorationOverlay(id, formatClone) {
 
     initDynamicAffixScrolling(formatClone);
     function renderData(data) {
-        $(formatClone).find('#explorationTitle').val(data.title);
+//        $(formatClone).find('#explorationTitle').val(data.title);
         $(formatClone).find('#explorationDescription').val(data.description);
         $(formatClone).find('#explorationTypeSwitch #' + data.explorationType).click();
         if (data.explorationType === 'gestures') {
@@ -2051,7 +2051,7 @@ function initExplorationOverlay(id, formatClone) {
     $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
         $(formatClone).find('#btn-save-phase-step-title').click();
         var data = new Object();
-        data.title = $(formatClone).find('#explorationTitle').val();
+//        data.title = $(formatClone).find('#explorationTitle').val();
         data.description = $(formatClone).find('#explorationDescription').val();
         data.explorationType = $(formatClone).find('#explorationTypeSwitch .btn-option-checked').attr('id');
         if (data.explorationType === 'gestures') {
