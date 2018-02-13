@@ -292,7 +292,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     resultsPlayer.find('#loader').addClass('hidden');
 
                     var timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, executionTime: executionTime} : {phaseData: phaseData, phaseResults: testerResults, executionTime: executionTime}
-                    initializeTimeline(timelineData, executionTime, content);
+                    initializeTimeline(timelineData, content);
 
                     $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {
                         updateTimeline(this.currentTime + 2);
@@ -542,7 +542,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 }
 
 var timeline, itemRange = null;
-function initializeTimeline(timelineData, executionTime, content) {
+function initializeTimeline(timelineData, content) {
     if (timelineData) {
         // Create a Timeline
         var data = getVisDataSet(timelineData);
@@ -565,7 +565,7 @@ function initializeTimeline(timelineData, executionTime, content) {
             timeline.addCustomTime(itemRange.min);
             timeline.moveTo(itemRange.min);
 
-            renderSeekbarData(data, timelineData.phaseResults, executionTime, content);
+            renderSeekbarData(data, timelineData.phaseResults, timelineData.executionTime, content);
         } else {
             console.warn('no timeline data extracted');
             $(resultsPlayer).find('#results-timeline').remove();
@@ -614,7 +614,6 @@ function getVisDataSet(timelineData) {
 }
 
 function renderSeekbarData(timelineData, phaseResults, executionTime, content) {
-    var startTime = phaseResults.startTime;
     executionTime = getSeconds(executionTime, true);
     timelineData = sortByKey(timelineData, 'start');
 
@@ -624,7 +623,7 @@ function renderSeekbarData(timelineData, phaseResults, executionTime, content) {
         var lastTime = 0;
         for (var i = 0; i < timelineData.length; i++) {
             if (timelineData[i].className !== 'invisible') {
-                var gap = getSeconds(getTimeBetweenTimestamps(startTime, timelineData[i].start.getTime()), true);
+                var gap = getSeconds(getTimeBetweenTimestamps(phaseResults.startRecordingTime, timelineData[i].start.getTime()), true);
                 var xPercentage = gap / executionTime * 100;
                 var infoDataItem = document.createElement('div');
                 $(infoDataItem).addClass('seekbarInfoData');

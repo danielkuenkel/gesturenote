@@ -719,7 +719,7 @@ function getSingleUSAnswers(source) {
  */
 
 function renderQuestionnaireAnswers(content, studyData, resultsData, enableTweening, sequentialAnswerSearch) {
-//    console.log($(content), $(content).find('.question-container'));
+    console.log(studyData);
 
     $(content).find('.question-container').empty();
     for (var i = 0; i < studyData.length; i++) {
@@ -732,7 +732,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
         }
 
         $(content).find('.question-container').append(listItem);
-//        console.log(content, listItem);
+//        console.log($(content).find('.question-container'), listItem);
 
         if (studyData[i].dimension !== DIMENSION_ANY) {
             $(listItem).find('#item-factors').removeClass('hidden');
@@ -740,14 +740,10 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
 //            $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
         }
 
-
-//        for (var j = 0; j < resultsData.answers.length; j++) {
-//            if (parseInt(studyData[i].id) === parseInt(resultsData.answers[j].id)) {
-//                var answer = resultsData.answers[j].answer;
+console.log(studyData[i].format, getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
         switch (studyData[i].format) {
             case COUNTER:
                 renderCounter(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
-//                        renderCounter(listItem, studyData[i], answer);
                 break;
             case OPEN_QUESTION:
             case OPEN_QUESTION_GUS:

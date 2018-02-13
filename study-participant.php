@@ -385,9 +385,9 @@ if (login_check($mysqli) == true) {
                     if (parseInt(resultsData.answers[i].selectedOption) !== -1) {
                         var negative = studyData[i].parameters.negative === 'yes';
                         if (negative) {
-                            count += translation.susOptions.length - (parseInt(resultsData.answers[i].selectedOption) + 1);
+                            count += translation.susOptions.length - (parseInt(resultsData.answers[i].answer.scales) + 1);
                         } else {
-                            count += parseInt(resultsData.answers[i].selectedOption);
+                            count += parseInt(parseInt(resultsData.answers[i].answer.scales));
                         }
                     } else {
                         susResultsValid = false;
@@ -546,7 +546,7 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
-                renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
+                renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
 //                addObservationsDropdown(container);
             }
 
@@ -595,8 +595,7 @@ if (login_check($mysqli) == true) {
                     }
                 }
 
-                console.log($('#phase-results-nav').find('.active').attr('id'));
-                renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
+                renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 
             function renderTriggerSlideshow(container, studyData, resultsData) {
@@ -674,7 +673,7 @@ if (login_check($mysqli) == true) {
 
 
                     // check if answers are there
-                    if (resultsData && resultsData.answers && resultsData.answers.length > 0) {
+                    if (resultsData && resultsData.answers && !$.isEmptyObject(resultsData.answers)) {
 
                         // single questions joint section
                         var singleStressGraphicsRating = studyData.singleStressGraphicsRating;
@@ -718,15 +717,16 @@ if (login_check($mysqli) == true) {
                             results.answers = new Array();
                             var questions = new Array();
 
-                            for (var j = 0; j < resultsData.answers.length; j++) {
-                                if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].singleAnswers) {
-                                    results.answers = results.answers.concat(resultsData.answers[j].singleAnswers.answers);
+                            for (var j = 0; j < resultsData.answers.singleAnswers.length; j++) {
+                                if (parseInt(resultsData.answers.singleAnswers[j].gestureId) === parseInt(gesture.id)) {
+                                    results.answers = results.answers.concat(resultsData.answers.singleAnswers[j].answers);
                                     questions = questions.concat(singleStressQuestionnaire);
                                 }
                             }
 
                             if (questions.length > 0 && results.answers.length > 0) {
-                                renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions, results, true, true);
+                                console.log(results, questions);
+                                renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions, results, false, true);
                             }
                         }
 
@@ -737,26 +737,26 @@ if (login_check($mysqli) == true) {
                             results.answers = new Array();
                             var questions = new Array();
 
-                            for (var j = 0; j < resultsData.answers.length; j++) {
-                                if (parseInt(resultsData.answers[j].gestureId) === parseInt(gesture.id) && resultsData.answers[j].sequenceAnswers) {
-                                    results.answers = results.answers.concat(resultsData.answers[j].sequenceAnswers.answers);
+                            for (var j = 0; j < resultsData.answers.sequenceAnswers.length; j++) {
+                                if (parseInt(resultsData.answers.sequenceAnswers[j].gestureId) === parseInt(gesture.id)) {
+                                    results.answers = results.answers.concat(resultsData.answers.sequenceAnswers[j].answers);
                                     questions = questions.concat(sequenceStressQuestionnaire);
                                 }
                             }
 
                             if (questions.length > 0 && results.answers.length > 0) {
-                                renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), questions, results, true, true);
+                                renderQuestionnaireAnswers($(item).find('#sequence-stress-answers'), questions, results, false, true);
                             }
                         }
                     }
                 }
-
-                renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
+                
+                renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 
             function renderScenario(container, studyData, resultsData) {
 //                console.log($('#phase-results-nav').find('.active').attr('id'));
-                renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
+                renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
 //                addObservationsDropdown(container);
             }
 
@@ -843,8 +843,8 @@ if (login_check($mysqli) == true) {
                         console.log('no triggers there');
                     }
                 }
-                
-                renderObservation($(container), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
+
+                renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 
             function renderExploration(container, phaseData, testerResults, evaluatorResults) {
@@ -913,18 +913,8 @@ if (login_check($mysqli) == true) {
             }
 
             function renderObservation(target, studyData, observationResults) {
-//                console.log('observationResults', studyData.observations);
-                if (observationResults && observationResults.length > 0) {
-//                    console.log(observationResults);
-                    renderQuestionnaire(target, studyData.observations, {answers: observationResults});
-//                    renderEditableObservations(target, studyData.observations, {answers:observationResults});
-                } else {
-                    renderQuestionnaire(target, studyData.observations, null);
-                }
-
-
-                $(target).find('#observations-container').on('change', function (event) {
-                    console.log('change observations');
+                renderQuestionnaire(target, studyData.observations, observationResults && observationResults.length > 0 ? {answers: observationResults} : null);
+                $(target).find('#observations-container').on('change', function () {
                     saveObservationAnwers($(target).find('#observations-container'), getLocalItem(STUDY).id, getLocalItem(STUDY_RESULTS).userId, $('#phase-results-nav').find('.active').attr('id'));
                 });
             }

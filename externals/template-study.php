@@ -139,9 +139,11 @@ include '../includes/language.php';
             <div class="alert-space alert-no-phase-data"></div>
             <div class="list-container row" id="gestures-list-container"></div>
         </div>
-        <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
-        <hr>
-        <div class="question-container"  id="observations-container"></div>
+        <div id="observations">
+            <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
+            <hr>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
     </div>
 
     <div class="row" id="trigger-identification">
@@ -672,9 +674,11 @@ include '../includes/language.php';
         <h3 id="headline-gestures"><?php echo $lang->gestures ?></h3>
         <hr>
         <div id="gestures-container"></div>
-        <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
-        <hr>
-        <div class="question-container" id="observations-container"></div>
+        <div id="observations">
+            <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
+            <hr>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
     </div>
 
     <div class="row" id="training-gesture-item" style="margin-bottom: 30px">
@@ -722,9 +726,11 @@ include '../includes/language.php';
 
             <div id="gestures-container" style="margin-top: 40px"></div>
         </div>
-        <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
-        <hr>
-        <div class="question-container"  id="observations-container"></div>
+        <div id="observations">
+            <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
+            <hr>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
     </div>
 
     <div class="row" id="slideshow-gesture-item" style="margin-bottom: 30px">
@@ -814,9 +820,11 @@ include '../includes/language.php';
         <span class="label label-default hidden" id="ask-single-questions"><span class="address"></span> <span class="text"></span></span>
         <span class="label label-default hidden" id="ask-sequence-questions"><span class="address"></span> <span class="text"></span></span>
         <div id="gestures-container"></div>
-        <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
-        <hr>
-        <div class="question-container"  id="observations-container"></div>
+        <div id="observations">
+            <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
+            <hr>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
     </div>
 
     <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
@@ -871,9 +879,11 @@ include '../includes/language.php';
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
         <div class="list-container" style="margin-top: 30px;"></div>
-        <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
-        <hr>
-        <div class="question-container"  id="observations-container"></div>
+        <div id="observations">
+            <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
+            <hr>
+            <div class="question-container"  id="observations-container"></div>
+        </div>
     </div>
 
     <div class="root" id="exploration">
