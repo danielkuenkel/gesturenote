@@ -529,13 +529,19 @@ if (login_check($mysqli) == true) {
                     $(item).find('#recognition-time .text').text(recognitionSeconds + ' ' + (recognitionSeconds === 1 ? translation.timesSingular.seconds : translation.times.seconds));
 
                     $(item).find('#feedback .address').text(translation.feedback + ': ');
-                    var feedbackItem = $('#template-study-container').find('#feedback-catalog-thumbnail').clone().removeAttr('id');
-                    feedbackItem.find('.text').text(feedback.title);
-                    feedbackItem.find('#' + feedback.type).removeClass('hidden');
-                    if (feedback.type === TYPE_FEEDBACK_SOUND) {
-                        feedbackItem.find('.audio-holder').attr('src', feedback.data);
+
+                    if (feedback) {
+                        var feedbackItem = $('#template-study-container').find('#feedback-catalog-thumbnail').clone().removeAttr('id');
+                        feedbackItem.find('.text').text(feedback.title);
+                        feedbackItem.find('#' + feedback.type).removeClass('hidden');
+                        if (feedback.type === TYPE_FEEDBACK_SOUND) {
+                            feedbackItem.find('.audio-holder').attr('src', feedback.data);
+                        }
+                        $(item).find('#feedback .content').append(feedbackItem);
+                    } else {
+                        $(item).find('#feedback .content').text(translation.nones);
                     }
-                    $(item).find('#feedback .content').append(feedbackItem);
+
 
                     $(item).find('#training-time .address').text(translation.execution + ': ');
                     if (resultsData && resultsData.training && resultsData.training[i].gestureTrainingStart && resultsData.training[i].gestureTrainingEnd) {
@@ -659,7 +665,7 @@ if (login_check($mysqli) == true) {
 
 
             function renderPhysicalStressTest(container, studyData, resultsData) {
-                console.log(studyData, resultsData);
+//                console.log(studyData, resultsData);
                 for (var i = 0; i < studyData.stressTestItems.length; i++) {
                     var gesture = getGestureById(studyData.stressTestItems[i]);
                     var item = $('#template-study-container').find('#physicalStressTest-item').clone().removeAttr('id');
@@ -725,7 +731,7 @@ if (login_check($mysqli) == true) {
                             }
 
                             if (questions.length > 0 && results.answers.length > 0) {
-                                console.log(results, questions);
+//                                console.log(results, questions);
                                 renderQuestionnaireAnswers($(item).find('#single-stress-answers'), questions, results, false, true);
                             }
                         }
@@ -750,7 +756,7 @@ if (login_check($mysqli) == true) {
                         }
                     }
                 }
-                
+
                 renderObservation($(container).find('#observations'), studyData, getObservationResults($('#phase-results-nav').find('.active').attr('id')));
             }
 

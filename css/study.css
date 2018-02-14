@@ -180,3 +180,19 @@ and open the template in the editor.
 .seekbarInfoData.item-danger-full {
     background-color: #d9534f;
 }
+
+.link-list-item {
+    cursor: pointer;
+}
+.link-list-item:hover {
+    text-decoration: underline;
+}
+.link-list-item .link-list-item-title.item-success-full {
+    color: #5cb85c;
+}
+.link-list-item .link-list-item-title.item-danger-full {
+    color: #d9534f;
+}
+.link-list-item .link-list-item-title.item-warning-full {
+    color: #ec971f;
+}

@@ -134,6 +134,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
+        <div id="link-list-container" style="margin-top: 20px"></div>
 
         <div id="item-view" style="margin-top: 30px;">
             <div class="alert-space alert-no-phase-data"></div>
@@ -656,7 +657,7 @@ include '../includes/language.php';
                         <div class="progress" id="main-seek-bar" style="border-radius: 4px; height:34px; margin: 0; cursor: pointer">
                             <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                         </div>
-                        <div id="seek-bar-meta-info-container" class="col-xs-12"></div>
+                        <div id="seek-bar-meta-info-container" class="col-xs-12" style="padding: 0"></div>
                     </div>
                 </div>
 
@@ -671,6 +672,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
+        <div id="link-list-container" style="margin-top: 20px"></div>
         <h3 id="headline-gestures"><?php echo $lang->gestures ?></h3>
         <hr>
         <div id="gestures-container"></div>
@@ -709,6 +711,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
+        <div id="link-list-container" style="margin-top: 20px"></div>
         <h3 id="headline-summary"><?php echo $lang->summary ?></h3>
         <hr>
         <div id="summary-container">
@@ -762,6 +765,7 @@ include '../includes/language.php';
         <h3 id="headline" style="margin-top: 0"></h3>
         <hr id="horizontalLine">
         <div class="alert-space alert-webm-unsupported"></div>
+        <div id="link-list-container" style="margin-top: 20px"></div>
         <div id="summary-container">
             <div class="row">
                 <div class="col-sm-6">
@@ -814,6 +818,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
+        <div id="link-list-container" style="margin-top: 20px"></div>
         <h3 id="headline-summary"><?php echo $lang->summary ?></h3>
         <hr>
         <span class="label label-default hidden" id="repeats"><span class="address"></span> <span class="text"></span></span> 
@@ -826,6 +831,8 @@ include '../includes/language.php';
             <div class="question-container"  id="observations-container"></div>
         </div>
     </div>
+
+    <div id="link-list-item" class="link-list-item" style="font-size: 10pt"><span class="link-list-item-time"></span> - <span class="text link-list-item-title"></span></div>
 
     <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
         <div class="col-sm-5 root">
@@ -878,7 +885,8 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <div class="list-container" style="margin-top: 30px;"></div>
+        <div id="link-list-container" style="margin-top: 20px"></div>
+        <!--<div class="list-container" style="margin-top: 30px;"></div>-->
         <div id="observations">
             <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
             <hr>
@@ -891,7 +899,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-
+        <div id="link-list-container" style="margin-top: 20px"></div>
 
         <div class="hidden" id="extraction-item-container">
             <h3 id="headline-extraction-items"></h3>

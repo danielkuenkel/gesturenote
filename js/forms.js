@@ -719,7 +719,7 @@ function getSingleUSAnswers(source) {
  */
 
 function renderQuestionnaireAnswers(content, studyData, resultsData, enableTweening, sequentialAnswerSearch) {
-    console.log(studyData);
+//    console.log(studyData);
 
     $(content).find('.question-container').empty();
     for (var i = 0; i < studyData.length; i++) {
@@ -740,7 +740,7 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
 //            $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
         }
 
-console.log(studyData[i].format, getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
+//console.log(studyData[i].format, getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
         switch (studyData[i].format) {
             case COUNTER:
                 renderCounter(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));

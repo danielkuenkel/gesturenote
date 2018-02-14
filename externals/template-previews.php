@@ -449,18 +449,28 @@ include '../includes/language.php';
     </div>
 
     <div id="gestureSlideshowItem" class="row" style="padding-left: 15px; padding-right: 15px;">
-        <div class="col-xs-6 left" style="margin-bottom: 10px;">
+        <div class="col-xs-6 col-lg-8 left" style="margin-bottom: 10px;">
             <div class="triggerContainer">
                 <div><?php echo $lang->gestureInquired ?>: <span id="searched" style="color: #303030"></span></div>
                 <div><?php echo $lang->triggerShown ?>: <span id="given" style="color: #303030"></span></div>
                 <div><?php echo $lang->answerPeriod ?>: <span id="responseTime" style="color: #303030"></span></div>
             </div>
-            <div class="btn-group-vertical btn-block" style="margin-top: 10px">
-                <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
-            </div>
+            <!--            <div class="btn-group-vertical btn-block" style="margin-top: 10px">
+                            <button type="button" class="btn btn-default btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+                        </div>-->
         </div>
-        <div class="col-xs-6 right">
-            <div class="btn-group-vertical btn-block">
+        <div class="col-xs-6 col-lg-4 right">
+            <div style="margin: 0 auto">
+                <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                <div class="text-center gestureControls hidden">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group-vertical btn-block" style="margin-top: 10px">
                 <button type="button" class="btn btn-info btn-shadow" id="trigger-slide"><span class="btn-text"><?php echo $lang->request ?></span></button>
                 <button type="button" class="btn btn-success btn-shadow disabled" id="btn-done"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
             </div>
@@ -536,14 +546,24 @@ include '../includes/language.php';
                 <h3 class="headline"></h3>
                 <div class="">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-xs-6 col-lg-8">
                             <div id="repeats-left"><span class="address"><?php echo $lang->repeatsLeft ?>:</span> <span class="text"></span></div>
                             <div id="stress-for"><span class="address"><?php echo $lang->gestureShow ?>:</span> <span class="text"></span></div>
-                            <button type="button" class="btn btn-default btn-block btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+                            <!--<button type="button" class="btn btn-default btn-block btn-shadow btn-popover-gesture-preview"><i class="glyphicon glyphicon-eye-open"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>-->
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="btn-group-vertical btn-block">
+                        <div class="col-xs-6 col-lg-4">
+                            <div style="margin: 0 auto">
+                                <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                                <div class="text-center gestureControls hidden">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="btn-group-vertical btn-block" style="margin-top: 10px">
                                 <button type="button" class="btn btn-info btn-shadow disabled" id="btn-show-gesture"><?php echo $lang->request ?></button>
                                 <button type="button" class="btn btn-info btn-shadow disabled" id="btn-show-question"><?php echo $lang->showQuestions ?></button>
                                 <button type="button" class="btn btn-success btn-shadow disabled" id="btn-next-gesture"><i class="fa fa-check hidden"></i> <span class="btn-text"><?php echo $lang->nextGesture ?></span> <span id="next-arrow" aria-hidden="true">&rarr;</span></button>
@@ -566,17 +586,17 @@ include '../includes/language.php';
     </div>
 
     <div class="" id="physicalStressTest-item" style="margin-bottom: 40px">
-        <div class="root">
-            <div style="max-width: 300px; margin: 0 auto">
-                <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-                <div class="text-center gestureControls">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+        <!--        <div class="root">
+                    <div style="max-width: 300px; margin: 0 auto">
+                        <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
+                        <div class="text-center gestureControls">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
+                                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </div>-->
 
         <div id="stress-test-questionnaire">
             <div id="single-stress-answers">
@@ -1613,7 +1633,7 @@ include '../includes/language.php';
     </div>
 
     <div class="root" id="physicalStressTestUnmoderated">
-        <div class="col-sm-12">
+        <div class="col-xs-12">
             <div id="general-repeats">
                 <h3 class="headline" style="margin: 0">Bitte die Geste ausführen</h3>
                 <hr>
@@ -1624,9 +1644,9 @@ include '../includes/language.php';
             </div>
         </div>
 
-        <div class="col-sm-12 text-center" style="margin-bottom: 15px;">
-            <div class="previewGesture previewProgress autoplay embed-responsive embed-responsive-4by3" style="max-width: 400px"></div>
-            <div class="progress gesture-progress" style="max-width: 400px; margin: auto">
+        <div class="col-xs-12 col-sm-4 col-sm-offset-4 col-md-6 col-md-offset-3 text-center" style="margin-bottom: 15px;">
+            <div class="previewGesture previewProgress autoplay embed-responsive embed-responsive-4by3"></div>
+            <div class="progress gesture-progress">
                 <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
             </div>
             <div class="gestureControls">

@@ -291,11 +291,13 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     resultsPlayer.find('#video-timeline').removeClass('hidden');
                     resultsPlayer.find('#loader').addClass('hidden');
 
-                    var timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, executionTime: executionTime} : {phaseData: phaseData, phaseResults: testerResults, executionTime: executionTime}
-                    initializeTimeline(timelineData, content);
+                    var timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, executionTime: executionTime, duration: getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, evaluatorResults.endRecordingTime)} : {phaseData: phaseData, phaseResults: testerResults, executionTime: executionTime, duration: getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime)};
+                    initializeTimeline(timelineData, content, checkedVideos);
 
                     $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {
-                        updateTimeline(this.currentTime + 2);
+//                        console.log('timeupdate', secondVideo);
+                        updateTimeline(this.currentTime);
+                        updateLinkList(this.currentTime, content);
 
                         var percent = this.currentTime / this.duration * 100;
                         $(seekBar).find('.progress-bar').css({width: percent + '%'});
@@ -309,6 +311,13 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         }
 
                         updateScreenRecord();
+                    });
+
+                    $(mainVideo).unbind('jumpTo').bind('jumpTo', function (event, jumpTo) {
+                        event.preventDefault();
+                        var video = mainVideo[0];
+                        video.currentTime = Math.min(jumpTo, video.duration - 0.0001);
+                        readGapInput();
                     });
 
                     $(seekBar).unbind('mousedown').bind('mousedown', function (event) {
@@ -357,45 +366,28 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                             }
 
                             if (resumePlaying === true) {
-//                                console.log('resume playing');
                                 video.play();
                             }
                         });
                     });
 
-                    $(seekBar).unbind('click').bind('click', function (event) {
-                        event.preventDefault();
-//                        var resumeAfterClick = true;
-                        var video = mainVideo[0];
-//                        if (video.paused === true) {
-////                        video.pause();
-//                            resumeAfterClick = false;
-//                        }
-
-//                        if (secondVideo) {
-//                            secondVideo[0].pause();
-//                        }
-
-                        var positionX = Math.abs(event.pageX - $(this).offset().left);
-                        var video = mainVideo[0];
-                        var time = video.duration * (positionX / $(this).width());
-                        video.currentTime = time;
-                        readGapInput();
-
-                        var percent = video.currentTime / video.duration * 100;
-                        $(seekBar).find('.progress-bar').css({width: percent + '%'});
-
-//                        if (resumeAfterClick === true && video.paused === true) {
-//                        video.play();
-////                        }
+//                    $(seekBar).unbind('click').bind('click', function (event) {
+//                        event.preventDefault();
+//                        var video = mainVideo[0];
 //
-//                        if (secondVideo) {
-//                            secondVideo[0].play();
-//                        }
-                    });
+//                        var positionX = Math.abs(event.pageX - $(this).offset().left);
+//                        var video = mainVideo[0];
+//                        var time = video.duration * (positionX / $(this).width());
+//                        video.currentTime = time;
+//                        readGapInput();
+//
+//                        var percent = video.currentTime / video.duration * 100;
+//                        $(seekBar).find('.progress-bar').css({width: percent + '%'});
+//                    });
 
                     $(playButton).unbind('click').bind('click', function (event) {
                         event.preventDefault();
+                        
                         var video = mainVideo[0];
                         if (video.paused === true) {
                             video.play();
@@ -404,13 +396,13 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         }
 
                         if (secondVideo) {
-//                            readGapInput();
                             if (secondVideo[0].paused === true) {
                                 secondVideo[0].play();
                             } else {
                                 secondVideo[0].pause();
                             }
                         }
+                        readGapInput();
                     });
 
                     $(mainVideo).unbind('pause').bind('pause', function () {
@@ -479,12 +471,8 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                 function updateScreenRecord() {
                     if (screenShareVideoHolder !== null) {
                         var screenVideo = screenShareVideoHolder[0];
-//                        console.log(this.currentTime, screenShareVideoHolder[0].duration + screenSharingGap.start);
                         if (mainVideo[0].currentTime > screenSharingStartGap && mainVideo[0].currentTime < screenSharingStartGap + screenVideo.duration) {
                             screenVideo.currentTime = mainVideo[0].currentTime - screenSharingStartGap;
-//                            if (playScreenRecord) {
-//                                screenShareVideoHolder[0].play();
-//                            }
                         } else if (mainVideo[0].currentTime <= screenSharingStartGap) {
                             screenVideo.currentTime = 0;
                         } else {
@@ -523,7 +511,6 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                 if (evaluatorResults.startRecordingTime < testerResults.startRecordingTime) {
                     start *= -1;
                 }
-//                console.log('webcam gap: ', start, end);
 
                 return {mainVideo: moderatorVideoHolder, secondVideo: testerVideoHolder, gap: {start: start, end: end}};
             } else {
@@ -542,14 +529,15 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 }
 
 var timeline, itemRange = null;
-function initializeTimeline(timelineData, content) {
+function initializeTimeline(timelineData, content, checkedVideos) {
     if (timelineData) {
         // Create a Timeline
         var data = getVisDataSet(timelineData);
         if (data && data.length > 2) {
             timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline')[0]);
             timeline.setItems(new vis.DataSet(data));
-            itemRange = timeline.getItemRange();
+            itemRange = {min: data[0].start, max: new Date(timelineData.phaseResults.endTime)};//timeline.getItemRange();
+            console.log('itemRange', itemRange);
             var options = {
                 zoomable: false,
                 showCurrentTime: false,
@@ -565,7 +553,10 @@ function initializeTimeline(timelineData, content) {
             timeline.addCustomTime(itemRange.min);
             timeline.moveTo(itemRange.min);
 
-            renderSeekbarData(data, timelineData.phaseResults, timelineData.executionTime, content);
+            renderSeekbarData(data, timelineData, content);
+            renderListData(data, timelineData, content, checkedVideos);
+            // for removing unused timeline
+//            $(resultsPlayer).find('#results-timeline').remove();
         } else {
             console.warn('no timeline data extracted');
             $(resultsPlayer).find('#results-timeline').remove();
@@ -580,7 +571,7 @@ function updateTimeline(currentTime) {
     if (timeline && itemRange) {
         var min = new Date(itemRange.min);
         min.setSeconds(min.getSeconds() + Math.ceil(Math.max(0, currentTime)));
-        min.setMilliseconds(min.getMilliseconds() + Math.round(currentTime % 1 * 1000) - 300); // -300 because of the recording start lack
+        min.setMilliseconds(min.getMilliseconds() + Math.round(currentTime % 1 * 1000) - 1000); // -300 because of the recording start lack
         timeline.setCustomTime(min);
         timeline.moveTo(min, {animation: false});
     }
@@ -613,24 +604,25 @@ function getVisDataSet(timelineData) {
     return array;
 }
 
-function renderSeekbarData(timelineData, phaseResults, executionTime, content) {
-    executionTime = getSeconds(executionTime, true);
-    timelineData = sortByKey(timelineData, 'start');
+function renderSeekbarData(visData, timelineData, content) {
+    var duration = getSeconds(timelineData.duration, true);
+    visData = sortByKey(visData, 'start');
+    console.log(duration);
 
 //    console.log('startTime', startTime);
     var seekbar = $(content).find('#seek-bar-meta-info-container');
-    if (timelineData && timelineData.length > 0) {
+    if (visData && visData.length > 0) {
         var lastTime = 0;
-        for (var i = 0; i < timelineData.length; i++) {
-            if (timelineData[i].className !== 'invisible') {
-                var gap = getSeconds(getTimeBetweenTimestamps(phaseResults.startRecordingTime, timelineData[i].start.getTime()), true);
-                var xPercentage = gap / executionTime * 100;
+        for (var i = 0; i < visData.length; i++) {
+            if (visData[i].className !== 'invisible' && visData[i].timestamp) {
+                var gap = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime, visData[i].timestamp), true);
+                var xPercentage = gap / duration * 100;
                 var infoDataItem = document.createElement('div');
                 $(infoDataItem).addClass('seekbarInfoData');
-                $(infoDataItem).addClass(timelineData[i].className);
+                $(infoDataItem).addClass(visData[i].className);
                 $(infoDataItem).css({left: xPercentage + '%'});
 
-                var currentTime = timelineData[i].start.getTime();
+                var currentTime = visData[i].start.getTime();
                 if (currentTime - lastTime === 0) {
                     $(seekbar).children().last().css({opacity: '0.5'});
                     $(infoDataItem).css({height: '15px'});
@@ -640,8 +632,47 @@ function renderSeekbarData(timelineData, phaseResults, executionTime, content) {
                 }
 
                 $(seekbar).append(infoDataItem);
-//                console.log(gap, xPercentage, executionTime);
+//                console.log(gap, xPercentage, duration);
             }
+        }
+    }
+}
+
+function renderListData(visData, timelineData, content, checkedVideos) {
+    console.log(visData, timelineData, content);
+    visData = sortByKey(visData, 'start');
+    var container = $(content).find('#link-list-container');
+    $(container).empty();
+    if (visData && visData.length > 0) {
+
+        for (var i = 0; i < visData.length; i++) {
+            if (visData[i].className !== 'invisible' && visData[i].timestamp) {
+                var seconds = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime, visData[i].timestamp), true);
+                var linkListItem = $('#template-study-container').find('#link-list-item').clone().removeAttr('id');
+                $(linkListItem).attr('data-jumpto', seconds);
+                $(linkListItem).find('.link-list-item-time').text(seconds);
+                $(linkListItem).find('.link-list-item-title').text(visData[i].content);
+                $(linkListItem).find('.link-list-item-title').addClass(visData[i].className);
+
+                $(container).append(linkListItem);
+                $(linkListItem).on('click', function (event) {
+                    event.preventDefault();
+                    var jumpTo = parseFloat($(this).attr('data-jumpto'));
+                    var video = checkedVideos.mainVideo[0];
+                    $(video).trigger('jumpTo', [jumpTo]);
+                });
+            }
+        }
+    }
+}
+
+function updateLinkList(currentTime, content) {
+    var linkItems = $(content).find('#link-list-container').children();
+    linkItems.find('.link-list-item-title').removeClass('font-bold');
+    for (var i = 0; i < linkItems.length; i++) {
+        var jumpTo = parseFloat($(linkItems[i]).attr('data-jumpto'));
+        if (currentTime >= jumpTo) {
+            $(linkItems[i]).find('.link-list-item-title').addClass('font-bold');
         }
     }
 }
@@ -651,7 +682,7 @@ function getGestureTrainingVisData(timelineData) {
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible'});
 
     var className = 'item-primary-full';
     if (timelineData.phaseResults.training && timelineData.phaseResults.training.length > 0) {
@@ -661,11 +692,15 @@ function getGestureTrainingVisData(timelineData) {
                 var startTime = timelineData.phaseResults.training[i].gestureTrainingStart;
                 var endTime = timelineData.phaseResults.training[i].gestureTrainingEnd;
                 var trainingExecution = getTimeBetweenTimestamps(startTime, endTime);
-                var contentText = translation.visLabels.training + ': ' + gesture.title + ' (' + getTimeString(trainingExecution) + ')';
+                var contentText = translation.visLabels.training + ': ' + gesture.title;
+                if (trainingExecution > 0) {
+                    contentText += ' (' + getTimeString(trainingExecution) + ')';
+                }
+
                 if (startTime && endTime) {
-                    array.push({id: count++, content: contentText, start: new Date(parseInt(startTime)), end: new Date(parseInt(endTime)), className: className});
+                    array.push({id: count++, content: contentText, start: new Date(parseInt(startTime)), end: new Date(parseInt(endTime)), className: className, timestamp: parseInt(startTime)});
                 } else {
-                    array.push({id: count++, content: contentText, start: new Date(parseInt(startTime)), className: className});
+                    array.push({id: count++, content: contentText, start: new Date(parseInt(startTime)), className: className, timestamp: parseInt(startTime)});
                 }
             }
         }
@@ -676,7 +711,12 @@ function getGestureTrainingVisData(timelineData) {
         for (var i = 0; i < actions.length; i++) {
             var className = 'item-primary-full';
             var contentText = translation.actions[actions[i].action];
-            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className});
+            if (actions[i].action === ACTION_RENDER_SCENE) {
+                var scene = getSceneById(actions[i].scene);
+                var contentText = translation.scene + ': ' + scene.title;
+            }
+
+            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className, timestamp: parseInt(actions[i].time)});
         }
     }
 
@@ -688,7 +728,7 @@ function getGestureSlideshowVisData(timelineData) {
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible'});
 
     var actions = timelineData.phaseResults.actions;
     if (actions) {
@@ -702,7 +742,7 @@ function getGestureSlideshowVisData(timelineData) {
                     className = 'item-success-full';
                 } else {
                     className = 'item-danger-full';
-                    array.push({id: count++, content: translation.restart, start: new Date(parseInt(actions[i].time)), className: className});
+                    array.push({id: count++, content: translation.restart, start: new Date(parseInt(actions[i].time)), className: className, timestamp: parseInt(actions[i].time)});
                 }
             } else if (actions[i].action === ACTION_NO_GESTURE_DEMONSTRATED || actions[i].action === ACTION_NO_GESTURE_FIT_FOUND) {
                 className = 'item-warning-full';
@@ -715,7 +755,7 @@ function getGestureSlideshowVisData(timelineData) {
                 contentText += ': ' + gesture.title;
             }
 
-            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className});
+            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className, timestamp: parseInt(actions[i].time)});
         }
     }
 
@@ -732,12 +772,10 @@ function getGestureSlideshowVisData(timelineData) {
 //}
 
 function getPhysicalStressTestVisData(timelineData) {
-//    console.log('getPhysicalStressTestVisData', timelineData);
-
     var array = new Array();
     var count = 0;
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible', timestamp: parseInt(timelineData.phaseResults.startRecordingTime)});
+    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible', timestamp: parseInt(timelineData.phaseResults.endRecordingTime)});
 
     var actions = timelineData.phaseResults.actions;
     if (actions) {
@@ -745,10 +783,11 @@ function getPhysicalStressTestVisData(timelineData) {
             var className = 'item-primary-full';
             var gesture = getGestureById(actions[i].gestureId);
             var contentText = translation.actions[actions[i].action] + ': ' + gesture.title;
-            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className});
+            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className, timestamp: parseInt(actions[i].time)});
         }
     }
 
+    console.log('getPhysicalStressTestVisData', array);
     return array;
 }
 
@@ -757,9 +796,9 @@ function getScenarioVisData(timelineData) {
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible'});
     var contentText = "";
-    
+
     var actions = timelineData.phaseResults.actions;
     if (actions && actions.length > 0) {
         for (var i = 0; i < actions.length; i++) {
@@ -775,7 +814,7 @@ function getScenarioVisData(timelineData) {
                 var contentText = translation.scene + ': ' + scene.title;
             }
 
-            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className});
+            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className, timestamp: parseInt(actions[i].time)});
         }
     }
 
@@ -808,7 +847,7 @@ function getScenarioVisData(timelineData) {
                     className = 'item-warning-full';
                     break;
             }
-            array.push({id: count++, content: contentText, start: new Date(parseInt(assessments[i].time)), className: className});
+            array.push({id: count++, content: contentText, start: new Date(parseInt(assessments[i].time)), className: className, timestamp: parseInt(assessments[i].time)});
         }
     }
 
@@ -820,7 +859,7 @@ function getExplorationVisData(timelineData) {
     var array = new Array();
     var count = 0;
     array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
+    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible'});
 
     var actions = timelineData.phaseResults.actions;
     if (actions) {
@@ -828,7 +867,7 @@ function getExplorationVisData(timelineData) {
             var className = 'item-primary-full';
 //            var gesture = getGestureById(actions[i].gestureId);
             var contentText = translation.actions[actions[i].action];
-            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className});
+            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className, timestamp: parseInt(actions[i].time)});
         }
     }
 

@@ -20,8 +20,9 @@ var Moderator = {
             });
         }
 
+        Moderator.initializePeerConnection();
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
-            Moderator.initializePeerConnection();
+
             var container = $(source).find('#' + currentPhase.format).clone(false).removeAttr('id');
             $(container).find('#column-left').css('opacity', '0');
             var item = null;
@@ -922,7 +923,8 @@ var Moderator = {
             $(container).find('#slidesContainer').append(item);
             var gesture = getGestureById(slide.gestureId);
             var trigger = getTriggerById(slide.triggerId);
-            item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+            renderGestureImages($(item).find('.previewGesture'), gesture.images, gesture.previewImage);
+//            item.find('.btn-popover-gesture-preview').attr('name', gesture.id);
             $(item).find('#responseTime').text(slide.recognitionTime + ' Sekunden');
             var imageContainer;
             $(item).find('#searched').text(gesture.title);
@@ -934,8 +936,6 @@ var Moderator = {
             } else {
                 $(item).find('#trigger-slide').addClass('disabled');
             }
-
-
         }
 
         $(container).find('#btn-start-slideshow').unbind('click').bind('click', function (event) {
@@ -1149,7 +1149,8 @@ var Moderator = {
 
         var gesture = getGestureById(data.stressTestItems[currentStressTestIndex]);
         if (gesture) {
-            container.find('.btn-popover-gesture-preview').attr('name', gesture.id);
+            renderGestureImages($(container).find('.previewGesture'), gesture.images, gesture.previewImage);
+//            container.find('.btn-popover-gesture-preview').attr('name', gesture.id);
             container.find('#stress-for .text').text(gesture.title);
         } else {
             container.find('.btn-popover-gesture-preview').addClass('disabled');
@@ -1217,11 +1218,11 @@ var Moderator = {
             if (!$(this).hasClass('disabled')) {
                 $(this).addClass('disabled');
                 $(container).find('#btn-show-gesture').addClass('disabled');
-//                currentStressTestCount++;
                 stressTestQuestionsTriggered = true;
                 stressTestGestureTriggered = false;
                 currentQuestionnaireAnswers = null;
 
+                currentStressTestCount++;
                 Moderator.renderPhysicalStressTestQuestionnaire(container, data, currentQuestionnaireAnswers);
                 $(container).find('#gestures-container').removeClass('hidden');
 
@@ -1229,11 +1230,9 @@ var Moderator = {
                     peerConnection.sendMessage(MESSAGE_TRIGGER_STRESS_TEST_QUESTION, {count: currentStressTestCount, index: currentStressTestIndex});
                 }
 
-                currentStressTestCount++;
                 if (previewModeEnabled) {
                     Moderator.renderPhysicalStressTest(source, container, data);
                 }
-
             } else {
                 if (!stressTestStartTriggered) {
                     $(document).scrollTop(0);
@@ -1241,7 +1240,6 @@ var Moderator = {
                 } else {
                     wobble(container.find('#btn-show-gesture'));
                 }
-
             }
         });
 
@@ -1258,14 +1256,15 @@ var Moderator = {
 
                     nextStep();
                 } else {
+                    currentStressTestIndex++;
+                    currentStressTestCount = 0;
+
                     if (peerConnection) {
                         peerConnection.sendMessage(MESSAGE_TRIGGER_NEXT_STRESS_TEST_GESTURE, {count: currentStressTestCount, index: currentStressTestIndex});
                     }
 
                     stressTestQuestionsTriggered = false;
                     stressTestGestureTriggered = false;
-                    currentStressTestCount = 0;
-                    currentStressTestIndex++;
                     Moderator.renderPhysicalStressTest(source, container, data);
                 }
             } else {
@@ -1275,7 +1274,6 @@ var Moderator = {
                 } else {
                     wobble(container.find('#btn-show-gesture, #btn-show-question'));
                 }
-
             }
         });
     },
@@ -1310,9 +1308,6 @@ var Moderator = {
                 renderBodyJointAnswers($(jointAnswers).find('#human-body'), resultsData && resultsData.answers ? resultsData.answers : null, gesture.id, 'single');
             }
         }
-
-
-
 
         // single answers section
         var singleStressQuestionnaire = studyData.singleStressQuestions;
@@ -3192,17 +3187,21 @@ var Moderator = {
             });
 
             $(peerConnection).unbind(CONNECTION_STATE_DISCONNECTED).bind(CONNECTION_STATE_DISCONNECTED, function () {
-                console.log(CONNECTION_STATE_DISCONNECTED)
-                appendAlert($('#viewModerator'), ALERT_PLEASE_WAIT);
-                $('#viewModerator').find('#phase-content').addClass('hidden');
-                $('#viewModerator').find('#pinnedRTC').css({opacity: 0});
+                console.log(CONNECTION_STATE_DISCONNECTED);
+                if (getCurrentPhase().format !== THANKS) {
+                    appendAlert($('#viewModerator'), ALERT_PLEASE_WAIT);
+                    $('#viewModerator').find('#phase-content').addClass('hidden');
+                    $('#viewModerator').find('#pinnedRTC').css({opacity: 0});
+                }
             });
 
             $(peerConnection).unbind('videoRemoved').bind('videoRemoved', function () {
                 console.log('videoRemoved');
-                appendAlert($('#viewModerator'), ALERT_PLEASE_WAIT);
-                $('#viewModerator').find('#phase-content').addClass('hidden');
-                $('#viewModerator').find('#pinnedRTC').css({opacity: 0});
+                if (getCurrentPhase().format !== THANKS) {
+                    appendAlert($('#viewModerator'), ALERT_PLEASE_WAIT);
+                    $('#viewModerator').find('#phase-content').addClass('hidden');
+                    $('#viewModerator').find('#pinnedRTC').css({opacity: 0});
+                }
             });
         }
     },
