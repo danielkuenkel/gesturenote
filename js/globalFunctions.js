@@ -1775,7 +1775,7 @@ function addDays(date, amount) {
 }
 
 function rangeDays(dateFrom, dateTo) {
-    return Math.round((dateTo - dateFrom) / (1000 * 60 * 60 * 24)) + 1;
+    return Math.round((dateTo - dateFrom) / (1000 * 60 * 60 * 24));
 }
 
 function convertSQLTimestampToDate(sqlTimestamp) {

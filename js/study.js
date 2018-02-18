@@ -26,7 +26,7 @@ function renderData(data, hash, showTutorial) {
     if ((studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
             (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
         $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
-        $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
+        $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + (totalDays === 1 ? new Date(dateFrom).toLocaleDateString() : new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString()));
         $('.study-plan').removeClass('hidden');
 
         getStudyResults({studyId: data.id}, function (result) {
@@ -82,10 +82,10 @@ function renderData(data, hash, showTutorial) {
     // phase view
     if (studyData.phases && studyData.phases.length > 0) {
         var step = document.createElement('ol');
-            $(step).addClass('study-phase-step');
-            $('#phase-steps-container').append(step);
+        $(step).addClass('study-phase-step');
+        $('#phase-steps-container').append(step);
         for (var i = 0; i < studyData.phases.length; i++) {
-            
+
 
 //            var iconContainer = document.createElement('ul');
 //            $(iconContainer).addClass('study-phase-icon-container');
@@ -137,15 +137,26 @@ function renderData(data, hash, showTutorial) {
     $('#btn-delete-study').on('click', {studyId: data.id}, function (event) {
         event.preventDefault();
         var button = $(this);
+        var deleteStudyId = event.data.studyId;
+        lockButton($('#btn-preview-study, #btn-edit-study'));
+
         if (!$(button).hasClass('disabled')) {
             lockButton(button, true, 'fa-trash');
-            deleteStudy({studyId: event.data.studyId}, function (result) {
+            loadHTMLintoModal('custom-modal', 'modal-delete-study-data.php', 'modal-md');
+            $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
+                deleteStudy({studyId: deleteStudyId}, function (result) {
+                    if (result.status === RESULT_SUCCESS) {
+                        gotoStudies();
+                    } else {
+                        unlockButton(button, true, 'fa-trash');
+                        unlockButton($('#btn-preview-study, #btn-edit-study'));
+                        // append error alert
+                    }
+                });
+            });
+            $('#custom-modal').unbind('cancel').bind('cancel', function () {
+                unlockButton($('#btn-preview-study, #btn-edit-study'));
                 unlockButton(button, true, 'fa-trash');
-                if (result.status === RESULT_SUCCESS) {
-                    gotoStudies();
-                } else {
-
-                }
             });
         }
     });

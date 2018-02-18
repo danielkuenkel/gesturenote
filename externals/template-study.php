@@ -134,7 +134,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <div id="link-list-container" style="margin-top: 20px"></div>
+        <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
 
         <div id="item-view" style="margin-top: 30px;">
             <div class="alert-space alert-no-phase-data"></div>
@@ -603,6 +603,9 @@ include '../includes/language.php';
                             <span> / </span>
                             <span class="video-time-code-duration">00:00:00</span>
                         </div>
+                        <div class="btn-shadow" id="toggle-shrink-videos" style="position: absolute; bottom: 6px; right: 15px; border-top-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; color: white">
+                            <i class="fa fa-window-maximize" style="color: white"></i>
+                        </div>
                     </div>
                 </div>
 
@@ -644,26 +647,39 @@ include '../includes/language.php';
                 <div class="row">
                     <div class="col-xs-3 col-sm-2 col-lg-2" id="gap-input-container">
                         <div class="input-group">
-                            <input type="number" class="form-control text-center" id="gap-input" min="-10" max="10" step="0.01" readonly />
+                            <input type="number" class="input-sm form-control text-center" id="gap-input" min="-10" max="10" step="0.01" readonly />
                             <span class="input-group-btn">
-                                <button class="btn btn-default" id="btn-lock-unlock-gap-input" type="button" alt="Videos synchronisieren"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-sm btn-default" id="btn-lock-unlock-gap-input" type="button" alt="Videos synchronisieren"><i class="fa fa-pencil"></i></button>
                             </span>
                         </div>
                     </div>
                     <div class="col-xs-2 col-lg-1" id="play-pause-container">
-                        <button type="button" class="btn btn-block btn-default" id="btn-play-pause"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-sm btn-block btn-default" id="btn-play-pause"><i class="fa fa-play"></i></button>
                     </div>
                     <div class="col-xs-7 col-sm-8 col-lg-9" id="seek-bar-container">
-                        <div class="progress" id="main-seek-bar" style="border-radius: 4px; height:34px; margin: 0; cursor: pointer">
+                        <div class="progress" id="main-seek-bar" style="border-radius: 4px; height:30px; margin: 0; cursor: pointer">
                             <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                         </div>
                         <div id="seek-bar-meta-info-container" class="col-xs-12" style="padding: 0"></div>
                     </div>
                 </div>
-
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-xs-12">
+                        <button type="button" id="btn-toggle-timeline" class="btn btn-default btn-xs btn-shadow present"><?php echo $lang->hideTimeline ?></button>
+                        <div id="results-timeline" style="margin-top: 5px"></div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-xs-12">
+                        <button type="button" id="btn-toggle-link-list" class="btn btn-default btn-xs btn-shadow present"><?php echo $lang->hideLinklist ?></button>
+                        <div id="link-list-container" style="margin-top: 5px"></div>
+                    </div>
+                </div>
             </div>
-            <div id="results-timeline" style="margin-top: 20px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;"></div>
+
+
         </div>
+
 
     </div>
 
@@ -672,7 +688,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <div id="link-list-container" style="margin-top: 20px"></div>
+
         <h3 id="headline-gestures"><?php echo $lang->gestures ?></h3>
         <hr>
         <div id="gestures-container"></div>
@@ -686,7 +702,7 @@ include '../includes/language.php';
     <div class="row" id="training-gesture-item" style="margin-bottom: 30px">
         <div class="col-sm-6 root">
             <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-            <div class="text-center gestureControls">
+            <div class="text-center gestureControls hidden">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
                     <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
@@ -711,7 +727,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <div id="link-list-container" style="margin-top: 20px"></div>
+        <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
         <h3 id="headline-summary"><?php echo $lang->summary ?></h3>
         <hr>
         <div id="summary-container">
@@ -765,7 +781,7 @@ include '../includes/language.php';
         <h3 id="headline" style="margin-top: 0"></h3>
         <hr id="horizontalLine">
         <div class="alert-space alert-webm-unsupported"></div>
-        <div id="link-list-container" style="margin-top: 20px"></div>
+        <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
         <div id="summary-container">
             <div class="row">
                 <div class="col-sm-6">
@@ -818,7 +834,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <div id="link-list-container" style="margin-top: 20px"></div>
+        <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
         <h3 id="headline-summary"><?php echo $lang->summary ?></h3>
         <hr>
         <span class="label label-default hidden" id="repeats"><span class="address"></span> <span class="text"></span></span> 
@@ -832,7 +848,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="link-list-item" class="link-list-item" style="font-size: 10pt"><span class="link-list-item-time"></span> - <span class="text link-list-item-title"></span></div>
+    <div id="link-list-item" class="link-list-item"><span class="link-list-item-time"></span> - <span class="text link-list-item-title"></span></div>
 
     <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
         <div class="col-sm-5 root">
@@ -885,7 +901,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <div id="link-list-container" style="margin-top: 20px"></div>
+        <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
         <!--<div class="list-container" style="margin-top: 30px;"></div>-->
         <div id="observations">
             <h3 id="headline-observations"><?php echo $lang->observations ?></h3>
@@ -899,7 +915,7 @@ include '../includes/language.php';
         <hr id="horizontalLine">
         <div class="alert-space alert-no-record"></div>
         <div class="alert-space alert-webm-unsupported"></div>
-        <div id="link-list-container" style="margin-top: 20px"></div>
+        <!--<div id="link-list-container" style="margin-top: 20px"></div>-->
 
         <div class="hidden" id="extraction-item-container">
             <h3 id="headline-extraction-items"></h3>

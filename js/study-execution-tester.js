@@ -1557,20 +1557,20 @@ var Tester = {
             console.log(currentStressTestIndex, currentStressTestCount);
             var answerIndex = currentStressTestIndex === 0 ? currentStressTestCount : currentStressTestIndex + 1 + currentStressTestCount;
             var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-            if (currentStressTestIndex < data.stressTestItems.length - 1) {
-                getGMT(function (timestamp) {
-                    if (saveDoneState && saveDoneState === true) {
-                        tempData.actions.push({action: ACTION_END_QUESTIONNAIRE, gestureId: gesture.id, time: timestamp});
-                    }
-                    tempData.answers.singleAnswers[answerIndex] = singleAnswer;
-                    tempData.answers.sequenceAnswers[currentStressTestIndex] = sequenceAnswer;
-                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-                });
-            } else {
+//            if (currentStressTestIndex < data.stressTestItems.length - 1) {
+//                getGMT(function (timestamp) {
+//                    if (saveDoneState && saveDoneState === true) {
+//                        tempData.actions.push({action: ACTION_END_QUESTIONNAIRE, gestureId: gesture.id, time: timestamp});
+//                    }
+//                    tempData.answers.singleAnswers[answerIndex] = singleAnswer;
+//                    tempData.answers.sequenceAnswers[currentStressTestIndex] = sequenceAnswer;
+//                    setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
+//                });
+//            } else {
                 tempData.answers.singleAnswers[answerIndex] = singleAnswer;
                 tempData.answers.sequenceAnswers[currentStressTestIndex] = sequenceAnswer;
                 setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
-            }
+//            }
 //            }
         }
     },

@@ -4,7 +4,7 @@ include './includes/language.php';
 <div id="modal-body" class="modal-body">
     <div class="text-center text">
         <p>
-            <?php echo $lang->deleteCreateModal ?>
+            <?php echo $lang->deleteStudyModal ?>
         </p>
     </div>
 
@@ -15,6 +15,7 @@ include './includes/language.php';
         <div class="btn-group" role="group">
             <button type="button" class="btn  btn-default btn-shadow" id="btn-no" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo $lang->no ?></button>
         </div>
+
     </div>
 </div>
 
@@ -28,6 +29,7 @@ include './includes/language.php';
 
         $('#btn-no').click(function (event) {
             event.preventDefault();
+            $('#custom-modal').trigger('cancel');
             $('#custom-modal').modal('hide');
         });
     });

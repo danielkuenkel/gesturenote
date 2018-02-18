@@ -100,7 +100,9 @@ if ($h && $token && $studyId) {
 
                 <div class="col-sm-5">
 
-                    <div id="alert-hints" class="hidden">
+                    <div id="alert-hints" class="">
+                        <div class="alert-space alert-study-over-range"></div>
+                        <div class="alert-space alert-study-under-range"></div>
                         <div class="alert-space alert-study-unmoderated"></div>
                         <div class="alert-space alert-web-rtc-not-supported"></div>
                         <div class="alert-space alert-another-browser-needed-for-web-rtc"></div>
@@ -204,41 +206,47 @@ if ($h && $token && $studyId) {
                 var totalDays = rangeDays(dateFrom, dateTo);
 
                 $('.study-plan').find('.address').text(now > dateTo ? translation.studyRuns : translation.studyRun + " " + translation.from + ":");
-                $('.study-plan').find('.text').text(new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString() + ", " + totalDays + " " + (totalDays === 1 ? translation.day : translation.days));
+                $('.study-plan').find('.text').text(totalDays + " " + (totalDays === 1 ? translation.day : translation.days) + ", " + (totalDays === 1 ? new Date(dateFrom).toLocaleDateString() : new Date(dateFrom).toLocaleDateString() + " " + translation.to + " " + new Date(dateTo).toLocaleDateString()));
                 $('.study-plan').removeClass('hidden');
 
                 if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
-
                     $('#study-details').removeClass('hidden');
+                    if (now > dateFrom && now < dateTo) {
 
-                    // check rtc is needed
-                    if (isWebRTCSupported()) {
-                        $('#participation-queue').removeClass('hidden');
-                        appendAlert($('#participation-queue'), ALERT_SEARCH_PARTICIPATION_REQUESTS);
 
-                        getParticipationRequests({studyId: studyData.generalData.id}, function (result) {
-                            if (result.status === RESULT_SUCCESS) {
-                                currentRequests = result.requests;
-                                requestParticipations();
-                            }
-                        });
+                        // check rtc is needed
+                        if (isWebRTCSupported()) {
+                            $('#participation-queue').removeClass('hidden');
+                            appendAlert($('#participation-queue'), ALERT_SEARCH_PARTICIPATION_REQUESTS);
 
-                        $('#btn-enter-study').on('click', function (event) {
-                            event.preventDefault();
-                            if (!$(this).hasClass('disabled')) {
-                                var name = $('#call-screen').attr('name').split('_');
-                                var rtcToken = name[1];
-                                var testerId = name[2];
+                            getParticipationRequests({studyId: studyData.generalData.id}, function (result) {
+                                if (result.status === RESULT_SUCCESS) {
+                                    currentRequests = result.requests;
+                                    requestParticipations();
+                                }
+                            });
+
+                            $('#btn-enter-study').on('click', function (event) {
+                                event.preventDefault();
+                                if (!$(this).hasClass('disabled')) {
+                                    var name = $('#call-screen').attr('name').split('_');
+                                    var rtcToken = name[1];
+                                    var testerId = name[2];
 //                                console.log(rtcToken);
-                                peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken});
-                                var query = getQueryParams(document.location.search);
-                                goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId);
+                                    peerConnection.sendMessage(MESSAGE_ENTER_SURVEY, {rtcToken: rtcToken});
+                                    var query = getQueryParams(document.location.search);
+                                    goto('study-execution-evaluator.php?studyId=' + query.studyId + '&token=' + query.token + '&h=' + query.h + '&roomId=' + rtcToken + '&testerId=' + testerId);
 
-                            }
-                        });
+                                }
+                            });
+                        } else {
+                            console.log('no webRTC supported in this browser');
+                            appendAlert($('#study-details'), ALERT_WEB_RTC_NOT_SUPPORTED);
+                        }
+                    } else if (now > dateFrom) {
+                        appendAlert($('#alert-hints'), ALERT_STUDY_OVER_RANGE);
                     } else {
-                        console.log('no webRTC supported in this browser');
-                        appendAlert($('#study-details'), ALERT_WEB_RTC_NOT_SUPPORTED);
+                        appendAlert($('#alert-hints'), ALERT_STUDY_UNDER_RANGE);
                     }
                 } else {
                     $('#study-details').removeClass('hidden');

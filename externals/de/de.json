@@ -206,6 +206,8 @@
     "editStudy": "Studie bearbeiten",
     "previewStudy": "Vorschau der Studie",
     "deleteStudy": "Studie löschen",
+    "deleteStudyModal": "Wollen Sie diese Studie wirklich löschen? Alle Studien-Daten werden werden dabei gelöscht. Bei einer Gesten-Ermittlung bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.",
+    "deleteCreateModal": "Die Erstellung dieser Studie wirklich beenden? Es werden alle Daten gelöscht!",
     "executeStudy": "Studie durchführen",
     "showIntroduction": "Zeige Einführung",
     "introduction": "Einführung",
@@ -435,6 +437,10 @@
     "notes": "Notizen",
     "execution": "Dauer",
     "recognitionTime": "Zeitfenster",
+    "hideTimeline": "Zeitleiste ausblenden",
+    "showTimeline": "Zeitleiste einblenden",
+    "hideLinklist": "Zeitlinks ausblenden",
+    "showLinklist": "Zeitlinks einblenden",
     "restart": "Neustart",
     "restarts": "Neustarts",
     "fitsFalse": "Falsche Übereinstimmungen",
@@ -1716,7 +1722,7 @@
     ],
     "sus": [
         {
-            "id":"41595",
+            "id": "41595",
             "format": "rating",
             "dimension": "any",
             "question": "Ich denke, dass ich dieses System gerne regelmäßig nutzen würde.",
@@ -1726,7 +1732,7 @@
             "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "id":"89573",
+            "id": "89573",
             "format": "rating",
             "dimension": "any",
             "question": "Ich fand das System unnötig komplex.",
@@ -1736,7 +1742,7 @@
             "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "id":"28263",
+            "id": "28263",
             "format": "rating",
             "dimension": "any",
             "question": "Ich denke, das System war leicht zu benutzen.",
@@ -1746,7 +1752,7 @@
             "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "id":"94429",
+            "id": "94429",
             "format": "rating",
             "dimension": "any",
             "question": "Ich denke, ich würde die  Unterstützung einer fachkundigen Person benötigen, um das System benutzen zu können.",
@@ -1756,7 +1762,7 @@
             "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "id":"37143",
+            "id": "37143",
             "format": "rating",
             "dimension": "any",
             "question": "Ich fand, die verschiedenen Funktionen des Systems waren gut integriert.",
@@ -1766,7 +1772,7 @@
             "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "id":"28732",
+            "id": "28732",
             "format": "rating",
             "dimension": "any",
             "question": "Ich halte das System für zu inkonsistent.",
@@ -1776,7 +1782,7 @@
             "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "id":"53457",
+            "id": "53457",
             "format": "rating",
             "dimension": "any",
             "question": "Ich glaube, dass die meisten Menschen sehr schnell lernen würden, mit dem System umzugehen.",
@@ -1786,7 +1792,7 @@
             "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "id":"97896",
+            "id": "97896",
             "format": "rating",
             "dimension": "any",
             "question": "Ich fand das System sehr umständlich zu benutzen.",
@@ -1796,7 +1802,7 @@
             "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "id":"97528",
+            "id": "97528",
             "format": "rating",
             "dimension": "any",
             "question": "Ich fühlte mich bei der Nutzung des Systems sehr sicher.",
@@ -1806,7 +1812,7 @@
             "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         },
         {
-            "id":"52525",
+            "id": "52525",
             "format": "rating",
             "dimension": "any",
             "question": "Ich musste viele Dinge lernen, bevor ich  mit dem System arbeiten konnte.",

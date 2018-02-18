@@ -60,9 +60,9 @@ and open the template in the editor.
 }
 
 .study-phase-step .text {
-/*    position: relative; 
-    top: 10px; 
-    margin-left: 50px;*/
+    /*    position: relative; 
+        top: 10px; 
+        margin-left: 50px;*/
 }
 
 /*#phase-results-nav > .nav-pills > li > a {
@@ -183,6 +183,8 @@ and open the template in the editor.
 
 .link-list-item {
     cursor: pointer;
+    display: table;
+    font-size: 10pt;
 }
 .link-list-item:hover {
     text-decoration: underline;
@@ -195,4 +197,26 @@ and open the template in the editor.
 }
 .link-list-item .link-list-item-title.item-warning-full {
     color: #ec971f;
+}
+/*.link-list-item .link-list-item-time {
+    color: #428bca;
+}*/
+
+#webcam-video-container.shrinked {
+    position: absolute;
+    top: 60px;
+}
+#tester-video-container.shrinked {
+    cursor: pointer;
+    opacity: .4;
+}
+#tester-video-container:hover {
+    opacity: 1;
+}
+#moderator-video-container.shrinked {
+    cursor: pointer;
+    opacity: .4;
+}
+#moderator-video-container:hover {
+    opacity: 1;
 }

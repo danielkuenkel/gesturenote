@@ -45,13 +45,82 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                     }
                 }
 
+                if ($tester_results_select_stmt = $mysqli->prepare("SELECT data FROM study_results_tester WHERE study_id = '$deleteStudyId'")) {
+                    if (!$tester_results_select_stmt->execute()) {
+                        echo json_encode(array('status' => 'testerResultsSelectError'));
+                        exit();
+                    } else {
+                        $tester_results_select_stmt->store_result();
+                        $tester_results_select_stmt->bind_result($testerResults);
+
+                        while ($tester_results_select_stmt->fetch()) {
+                            $decodedTesterResultData = json_decode_nice($testerResults, false);
+                            if (isset($decodedTesterResultData->phases)) {
+                                $phases = $decodedTesterResultData->phases;
+                                foreach ($phases as $item) {
+                                    if (isset($item->recordUrl)) {
+                                        $recordUrl = 'uploads/' . $item->recordUrl;
+                                        array_push($deleteFiles, $recordUrl);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if ($evaluator_results_select_stmt = $mysqli->prepare("SELECT data FROM study_results_evaluator WHERE study_id = '$deleteStudyId'")) {
+                    if (!$evaluator_results_select_stmt->execute()) {
+                        echo json_encode(array('status' => 'testerResultsSelectError'));
+                        exit();
+                    } else {
+                        $evaluator_results_select_stmt->store_result();
+                        $evaluator_results_select_stmt->bind_result($evaluatorResults);
+
+                        while ($evaluator_results_select_stmt->fetch()) {
+                            $decodedEvaluatorResultData = json_decode_nice($evaluatorResults, false);
+                            if (isset($decodedEvaluatorResultData->phases)) {
+                                $phases = $decodedEvaluatorResultData->phases;
+                                foreach ($phases as $item) {
+                                    if (isset($item->recordUrl)) {
+                                        $recordUrl = 'uploads/' . $item->recordUrl;
+                                        array_push($deleteFiles, $recordUrl);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+//                echo json_encode(array('status' => 'error', 'deletedFiles' => $deleteFiles));
+//                exit();
+
+                if ($delete_stmt = $mysqli->prepare("DELETE FROM study_results_tester WHERE study_id = '$deleteStudyId'")) {
+                    if (!$delete_stmt->execute()) {
+                        echo json_encode(array('status' => 'deleteTesterResultsError'));
+                        exit();
+                    }
+                } else {
+                    echo json_encode(array('status' => 'deleteTesterResultsStatemantError'));
+                    exit();
+                }
+
+                if ($delete_stmt = $mysqli->prepare("DELETE FROM study_results_evaluator WHERE study_id = '$deleteStudyId' && evaluator_id = '$sessionUserId'")) {
+                    if (!$delete_stmt->execute()) {
+                        echo json_encode(array('status' => 'deleteEvaluatorResultsError'));
+                        exit();
+                    }
+                } else {
+                    echo json_encode(array('status' => 'deleteEvaluatorResultsStatemantError'));
+                    exit();
+                }
+
                 if ($delete_stmt = $mysqli->prepare("DELETE FROM studies WHERE id = '$deleteStudyId' && user_id = '$sessionUserId'")) {
                     if (!$delete_stmt->execute()) {
                         echo json_encode(array('status' => 'deleteError'));
                         exit();
                     } else {
                         deleteFiles($target_dir, $deleteFiles);
-                        echo json_encode(array('status' => 'success'));
+                        echo json_encode(array('status' => 'success', 'deletedFiles' => $deleteFiles));
                         exit();
                     }
                 } else {

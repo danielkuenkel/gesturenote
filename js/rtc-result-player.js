@@ -113,6 +113,23 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     event.preventDefault();
                     $(resultsPlayer).find('#btn-play-pause').click();
                 });
+
+                $(screenShareVideoHolder).parent().find('#toggle-shrink-videos').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    if ($(this).hasClass('shrinked')) {
+                        $(this).removeClass('shrinked');
+                        $(this).find('.fa').removeClass('fa-window-close-o').addClass('fa-window-maximize');
+                        $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('shrinked');
+                        $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('shrinked');
+                        $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('shrinked');
+                    } else {
+                        $(this).addClass('shrinked');
+                        $(this).find('.fa').removeClass('fa-window-maximize').addClass('fa-window-close-o');
+                        $(this).closest('#video-timeline').find('#webcam-video-container').addClass('shrinked');
+                        $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').addClass('shrinked');
+                        $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').addClass('shrinked');
+                    }
+                });
             }
         }
 
@@ -296,7 +313,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
                     $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {
 //                        console.log('timeupdate', secondVideo);
-                        updateTimeline(this.currentTime);
+                        updateTimeline(this.currentTime, content);
                         updateLinkList(this.currentTime, content);
 
                         var percent = this.currentTime / this.duration * 100;
@@ -387,22 +404,21 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
                     $(playButton).unbind('click').bind('click', function (event) {
                         event.preventDefault();
-                        
-                        var video = mainVideo[0];
-                        if (video.paused === true) {
-                            video.play();
-                        } else {
-                            video.pause();
-                        }
 
-                        if (secondVideo) {
-                            if (secondVideo[0].paused === true) {
-                                secondVideo[0].play();
-                            } else {
+                        var video = mainVideo[0];
+                        if (video.ended === true) {
+                            video.currentTime = 0;
+                            if (secondVideo && secondVideo[0].paused === false) {
                                 secondVideo[0].pause();
                             }
+                            readGapInput();
                         }
-                        readGapInput();
+
+                        video.paused === true ? video.play() : video.pause();
+
+                        if (secondVideo) {
+                            secondVideo[0].paused === true ? secondVideo[0].play() : secondVideo[0].pause();
+                        }
                     });
 
                     $(mainVideo).unbind('pause').bind('pause', function () {
@@ -455,9 +471,9 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                         if (secondVideo) {
                             if (gapInput < 0 && mainVideo[0].currentTime < gapInput * -1) {
                                 mainVideo[0].currentTime = mainVideo[0].currentTime + gapInput * -1;
-                            } else {
-                                secondVideo[0].currentTime = Math.max(0, Math.min(mainVideo[0].duration, mainVideo[0].currentTime + gapInput));
                             }
+
+                            secondVideo[0].currentTime = Math.max(0, Math.min(mainVideo[0].duration, mainVideo[0].currentTime + gapInput));
 
                             var percent = secondVideo[0].currentTime / secondVideo[0].duration * 100;
                             $(secondVideo).parent().find('.progress-bar').css({width: percent + '%'});
@@ -536,8 +552,7 @@ function initializeTimeline(timelineData, content, checkedVideos) {
         if (data && data.length > 2) {
             timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline')[0]);
             timeline.setItems(new vis.DataSet(data));
-            itemRange = {min: data[0].start, max: new Date(timelineData.phaseResults.endTime)};//timeline.getItemRange();
-            console.log('itemRange', itemRange);
+            itemRange = {min: data[0].start, max: new Date(parseInt(timelineData.phaseResults.endTime))};//timeline.getItemRange();
             var options = {
                 zoomable: false,
                 showCurrentTime: false,
@@ -557,6 +572,20 @@ function initializeTimeline(timelineData, content, checkedVideos) {
             renderListData(data, timelineData, content, checkedVideos);
             // for removing unused timeline
 //            $(resultsPlayer).find('#results-timeline').remove();
+
+            $(content).find('#btn-toggle-timeline').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                if ($(this).hasClass('present')) {
+                    $(this).removeClass('present');
+                    $(content).find('#results-timeline').addClass('hidden');
+                    $(this).text(translation.showTimeline);
+                } else {
+                    $(this).addClass('present');
+                    $(content).find('#results-timeline').removeClass('hidden');
+                    $(this).text(translation.hideTimeline);
+                    updateTimeline(checkedVideos.mainVideo[0].currentTime, content);
+                }
+            });
         } else {
             console.warn('no timeline data extracted');
             $(resultsPlayer).find('#results-timeline').remove();
@@ -567,8 +596,8 @@ function initializeTimeline(timelineData, content, checkedVideos) {
     }
 }
 
-function updateTimeline(currentTime) {
-    if (timeline && itemRange) {
+function updateTimeline(currentTime, content) {
+    if (timeline && itemRange && $(content).find('#btn-toggle-timeline').hasClass('present')) {
         var min = new Date(itemRange.min);
         min.setSeconds(min.getSeconds() + Math.ceil(Math.max(0, currentTime)));
         min.setMilliseconds(min.getMilliseconds() + Math.round(currentTime % 1 * 1000) - 1000); // -300 because of the recording start lack
@@ -607,9 +636,7 @@ function getVisDataSet(timelineData) {
 function renderSeekbarData(visData, timelineData, content) {
     var duration = getSeconds(timelineData.duration, true);
     visData = sortByKey(visData, 'start');
-    console.log(duration);
 
-//    console.log('startTime', startTime);
     var seekbar = $(content).find('#seek-bar-meta-info-container');
     if (visData && visData.length > 0) {
         var lastTime = 0;
@@ -632,14 +659,13 @@ function renderSeekbarData(visData, timelineData, content) {
                 }
 
                 $(seekbar).append(infoDataItem);
-//                console.log(gap, xPercentage, duration);
             }
         }
     }
 }
 
 function renderListData(visData, timelineData, content, checkedVideos) {
-    console.log(visData, timelineData, content);
+//    console.log(visData, timelineData, content);
     visData = sortByKey(visData, 'start');
     var container = $(content).find('#link-list-container');
     $(container).empty();
@@ -663,16 +689,32 @@ function renderListData(visData, timelineData, content, checkedVideos) {
                 });
             }
         }
+
+        $(content).find('#btn-toggle-link-list').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if ($(this).hasClass('present')) {
+                $(this).removeClass('present');
+                $(content).find('#link-list-container').addClass('hidden');
+                $(this).text(translation.showLinklist);
+            } else {
+                $(this).addClass('present');
+                $(content).find('#link-list-container').removeClass('hidden');
+                $(this).text(translation.hideLinklist);
+                updateLinkList(checkedVideos.mainVideo[0].currentTime, content);
+            }
+        });
     }
 }
 
 function updateLinkList(currentTime, content) {
-    var linkItems = $(content).find('#link-list-container').children();
-    linkItems.find('.link-list-item-title').removeClass('font-bold');
-    for (var i = 0; i < linkItems.length; i++) {
-        var jumpTo = parseFloat($(linkItems[i]).attr('data-jumpto'));
-        if (currentTime >= jumpTo) {
-            $(linkItems[i]).find('.link-list-item-title').addClass('font-bold');
+    if ($(content).find('#btn-toggle-link-list').hasClass('present')) {
+        var linkItems = $(content).find('#link-list-container').children();
+        linkItems.removeClass('font-bold');
+        for (var i = 0; i < linkItems.length; i++) {
+            var jumpTo = parseFloat($(linkItems[i]).attr('data-jumpto'));
+            if (currentTime >= jumpTo) {
+                $(linkItems[i]).addClass('font-bold');
+            }
         }
     }
 }
