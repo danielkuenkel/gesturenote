@@ -34,6 +34,7 @@ if (login_check($mysqli) == true) {
         <link href="js/vis/vis.min.css" rel="stylesheet">
         <script src="js/vis/vis.min.js"></script>
 
+        <script src="js/chance.min.js"></script>
         <script src="js/refreshSession.js"></script>
         <script src="js/sha512.js"></script>
         <script src="js/constants.js"></script>
@@ -289,7 +290,7 @@ if (login_check($mysqli) == true) {
                             renderGestureTraining(content, phaseData, testerResults);
                             break;
                         case SLIDESHOW_GESTURES:
-                            renderGestureSlideshow(content, phaseData, testerResults);
+                            renderGestureSlideshow(content, phaseData, testerResults, evaluatorResults);
                             break;
                         case SLIDESHOW_TRIGGER:
                             renderTriggerSlideshow(content, phaseData, testerResults);
@@ -310,6 +311,7 @@ if (login_check($mysqli) == true) {
 
                     $(content).css({y: 0, opacity: 1});
                     TweenMax.from(content, .2, {opacity: 0, y: -60});
+                    initPopover();
                 } else {
 //                    console.log('no results');
                     var noResultsContent = $('#template-study-container').find('#no-phase-results').clone().removeAttr('id');
@@ -557,8 +559,8 @@ if (login_check($mysqli) == true) {
             }
 
 
-            function renderGestureSlideshow(container, studyData, resultsData) {
-                console.log(studyData, resultsData);
+            function renderGestureSlideshow(container, studyData, resultsData, evaluatorResults) {
+                console.log(studyData, resultsData, evaluatorResults);
 
                 $(container).find('#restarts .address').text(parseInt(resultsData.restarts) === 1 ? translation.restart : translation.restarts);
                 $(container).find('#restarts .text').text(resultsData.restarts);
@@ -581,10 +583,11 @@ if (login_check($mysqli) == true) {
                     var recognitionSeconds = parseInt(studyData.slideshow[i].recognitionTime);
                     $(item).find('#recognition-time .text').text(recognitionSeconds + ' ' + (recognitionSeconds === 1 ? translation.timesSingular.seconds : translation.times.seconds));
 
-                    if (resultsData.actions && resultsData.actions.length > 0) {
+                    if (resultsData.annotations && resultsData.annotations.length > 0) {
                         var count = 0;
-                        for (var j = 0; j < resultsData.actions.length; j++) {
-                            if (resultsData.actions[j].action === ACTION_SELECT_GESTURE && parseInt(resultsData.actions[j].gestureId) === parseInt(gesture.id) && resultsData.actions[j].fit === 'false') {
+                        for (var j = 0; j < resultsData.annotations.length; j++) {
+                            console.log(resultsData.annotations[j]);
+                            if (resultsData.annotations[j].action === ACTION_NO_GESTURE_FIT_FOUND && parseInt(resultsData.annotations[j].gestureId) === parseInt(gesture.id)) {
                                 count++;
                             }
                         }

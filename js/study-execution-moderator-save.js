@@ -109,12 +109,10 @@ function getGestureTrainingFormData(data) {
         data.endRecordingTime = tempData.endRecordingTime;
         data.recordUrl = tempData.recordUrl;
         data.startTrainingTime = tempData.startTrainingTime;
-        data.training = tempData.training;
         data.startScreenRecordingTime = tempData.startScreenRecordingTime;
         data.endScreenRecordingTime = tempData.endScreenRecordingTime;
         data.screenRecordUrl = tempData.screenRecordUrl;
-        data.training = tempData.training;
-        data.actions = tempData.actions;
+        data.annotations = tempData.annotations;
     }
     return data;
 }
@@ -126,7 +124,7 @@ function getGestureSlideshowFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
         data.restarts = tempData.restarts;
-        data.actions = tempData.actions;
+//        data.annotations = tempData.annotations;
 //        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
@@ -149,9 +147,9 @@ function getScenarioFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
         data.recordUrl = tempData.recordUrl;
-        data.actions = tempData.actions;
-        data.assessments = tempData.assessments;
-        data.transitions = tempData.transitions;
+        data.annotations = tempData.annotations;
+//        data.assessments = tempData.assessments;
+//        data.transitions = tempData.transitions;
         data.startScreenRecordingTime = tempData.startScreenRecordingTime;
         data.endScreenRecordingTime = tempData.endScreenRecordingTime;
         data.screenRecordUrl = tempData.screenRecordUrl;
@@ -166,7 +164,7 @@ function getPhysicalStressTestFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
         data.startStressTestTime = tempData.startStressTestTime;
-        data.actions = tempData.actions;
+        data.annotations = tempData.annotations;
         data.answers = tempData.answers;
 //        removeLocalItem(data.id + '.tempSaveData');
     }
@@ -204,8 +202,8 @@ function getExplorationFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
         data.recordUrl = tempData.recordUrl;
-        data.actions = tempData.actions;
-        data.transitions = tempData.transitions;
+        data.annotations = tempData.annotations;
+//        data.transitions = tempData.transitions;
         data.startScreenRecordingTime = tempData.startScreenRecordingTime;
         data.endScreenRecordingTime = tempData.endScreenRecordingTime;
         data.screenRecordUrl = tempData.screenRecordUrl;

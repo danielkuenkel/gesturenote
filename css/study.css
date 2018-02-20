@@ -181,26 +181,38 @@ and open the template in the editor.
     background-color: #d9534f;
 }
 
-.link-list-item {
+.link-list-item-url {
     cursor: pointer;
-    display: table;
+    display: inline;
     font-size: 10pt;
+    margin-right: 5px;
 }
-.link-list-item:hover {
+.link-list-item-url:hover {
     text-decoration: underline;
 }
-.link-list-item .link-list-item-title.item-success-full {
+.link-list-item-url .link-list-item-title.item-success-full {
     color: #5cb85c;
 }
-.link-list-item .link-list-item-title.item-danger-full {
+.link-list-item-url .link-list-item-title.item-danger-full {
     color: #d9534f;
 }
-.link-list-item .link-list-item-title.item-warning-full {
+.link-list-item-url .link-list-item-title.item-warning-full {
     color: #ec971f;
 }
-/*.link-list-item .link-list-item-time {
+/*.link-list-item-url .link-list-item-time {
     color: #428bca;
 }*/
+
+.btn-delete-annotation {
+    cursor: pointer;
+/*    display: table;*/
+    font-size: 10pt;
+}
+
+.btn-delete-annotation:hover {
+    color: #d9534f
+}
+
 
 #webcam-video-container.shrinked {
     position: absolute;

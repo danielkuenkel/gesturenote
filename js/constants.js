@@ -162,11 +162,13 @@ var ALTERNATIVE_FOR_TRIGGER = 'trigger';
 var ALTERNATIVE_FOR_FEEDBACK = 'feedback';
 
 // scenario actions
+var ACTION_START_GESTURE_TRAINING = 'startGestureTraning';
 var ACTION_SHOW_INFO = 'showInfo';
 var ACTION_HIDE_INFO = 'hideInfo';
 var ACTION_START_TASK = 'startTask';
 var ACTION_REQUEST_HELP = 'requestHelp';
 var ACTION_START_PERFORM_GESTURE = 'startPerformGesture';
+var ACTION_START_PERFORM_GESTURE_STRESS_TEST = 'startPerformGestureStressTest';
 var ACTION_END_PERFORM_GESTURE = 'endPerformGesture';
 var ACTION_REFRESH_SCENE = 'refreshScene';
 var ACTION_SELECT_GESTURE = 'selectGesture';
@@ -177,6 +179,7 @@ var ACTION_END_QUESTIONNAIRE = 'endQuestionnaire';
 var ACTION_RENDER_SCENE = 'renderScene';
 var ACTION_SHOW_FEEDBACK = 'showFeedback';
 var ACTION_HIDE_FEEDBACK = 'hideFeedback';
+var ACTION_ASSESSMENT = 'assessment';
 
 // cursors
 var CURSOR_AUTO = 'auto';
@@ -218,10 +221,14 @@ var MESSAGE_TRIGGER_GESTURE_SLIDE = 'triggerGestureSlide';
 var MESSAGE_REACTIVATE_CONTROLS = 'reactivateControls';
 var MESSAGE_GESTURE_PERFORMED = 'gesturePerformed';
 var MESSAGE_TRIGGER_SLIDESHOW_DONE = 'triggerSlideshowDone';
+var MESSAGE_NO_GESTURE_FIT_FOUND = 'noGestureFitFound';
+var MESSAGE_GESTURE_FIT_FOUND = 'gestureFitFound';
 
 var MESSAGE_START_GESTURE_TRAINING = 'startGestureTraining';
 var MESSAGE_TRAINING_TRIGGERED = 'trainingTriggered';
 var MESSAGE_FEEDBACK_TRIGGERED = 'feedbackTriggered';
+var MESSAGE_GESTURE_INFO_PRESENT = 'gestureInfoPresent';
+var MESSAGE_CLOSE_GESTURE_INFO = 'closeGestureInfo';
 var MESSAGE_GESTURE_INFO_CLOSED = 'gestureInfoClosed';
 
 var MESSAGE_START_STRESS_TEST = 'startStressTest';

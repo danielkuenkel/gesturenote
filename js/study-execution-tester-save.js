@@ -104,8 +104,7 @@ function getGestureTrainingFormData(data) {
         data.endRecordingTime = tempData.endRecordingTime;
         data.recordUrl = tempData.recordUrl;
         data.startTrainingTime = tempData.startTrainingTime;
-        data.training = tempData.training;
-        data.actions = tempData.actions;
+        data.annotations = tempData.annotations;
 //        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
@@ -119,7 +118,7 @@ function getGestureSlideshowFormData(data) {
         data.endRecordingTime = tempData.endRecordingTime;
         data.recordUrl = tempData.recordUrl;
         data.restarts = tempData.restarts;
-        data.actions = tempData.actions;
+        data.annotations = tempData.annotations;
 //        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
@@ -142,8 +141,8 @@ function getScenarioFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
         data.recordUrl = tempData.recordUrl;
-        data.actions = tempData.actions;
-        data.transitions = tempData.transitions;
+        data.annotations = tempData.annotations;
+//        data.transitions = tempData.transitions;
 //        removeLocalItem(data.id + '.tempSaveData');
     }
     return data;
@@ -157,7 +156,7 @@ function getPhysicalStressTestFormData(data) {
         data.endRecordingTime = tempData.endRecordingTime;
         data.recordUrl = tempData.recordUrl;
         data.startStressTestTime = tempData.startStressTestTime;
-        data.actions = tempData.actions;
+        data.annotations = tempData.annotations;
         data.answers = tempData.answers;
 //        removeLocalItem(data.id + '.tempSaveData');
     }
@@ -192,8 +191,8 @@ function getExplorationFormData(data) {
         data.startRecordingTime = tempData.startRecordingTime;
         data.endRecordingTime = tempData.endRecordingTime;
         data.recordUrl = tempData.recordUrl;
-        data.actions = tempData.actions;
-        data.transitions = tempData.transitions;
+        data.annotations = tempData.annotations;
+//        data.transitions = tempData.transitions;
         data.answers = tempData.answers;
 //        removeLocalItem(data.id + '.tempSaveData');
     }

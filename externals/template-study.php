@@ -215,7 +215,7 @@ include '../includes/language.php';
 
             <div class="col-sm-6">
                 <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-                <div class="text-center gestureControls">
+                <div class="text-center gestureControls hidden">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
                         <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
@@ -603,7 +603,7 @@ include '../includes/language.php';
                             <span> / </span>
                             <span class="video-time-code-duration">00:00:00</span>
                         </div>
-                        <div class="btn-shadow" id="toggle-shrink-videos" style="position: absolute; bottom: 6px; right: 15px; border-top-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; color: white">
+                        <div class="btn-shadow" id="toggle-shrink-videos" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->overlapVideos ?>" style="position: absolute; bottom: 6px; right: 15px; border-top-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; color: white">
                             <i class="fa fa-window-maximize" style="color: white"></i>
                         </div>
                     </div>
@@ -616,7 +616,7 @@ include '../includes/language.php';
                             <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                                 <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                             </div>
-                            <div class="btn-shadow btn-toggle-mute" style="position: absolute; top: 0; right:15px; border-top-right-radius: 4px; border-bottom-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; cursor: pointer">
+                            <div class="btn-shadow btn-toggle-mute" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->turnOffAudio ?>" style="position: absolute; top: 0; right:15px; border-top-right-radius: 4px; border-bottom-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; cursor: pointer">
                                 <i class="fa fa-volume-up" style="color: white"></i>
                             </div>
                             <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
@@ -630,7 +630,7 @@ include '../includes/language.php';
                             <div class="progress" style="height: 6px; border-radius: 0; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin: 0; width: 100%; margin-top: -8px">
                                 <div class="progress-bar progress-bar-primary" id="seek-bar-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%"></div>
                             </div>
-                            <div class="btn-shadow btn-toggle-mute" style="position: absolute; top: 0; right:15px; border-top-right-radius: 4px; border-bottom-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; cursor: pointer">
+                            <div class="btn-shadow btn-toggle-mute" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->turnOffAudio ?>" style="position: absolute; top: 0; right:15px; border-top-right-radius: 4px; border-bottom-left-radius: 10px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; cursor: pointer">
                                 <i class="fa fa-volume-up" style="color: white"></i>
                             </div>
                             <div class="video-time-code" style="position: absolute; bottom: 6px; left: 15px; border-top-right-radius: 4px; background-color: rgba(0,0,0,0.8); padding-left: 10px; padding-right: 10px; font-size: 8pt; color: white">
@@ -649,7 +649,7 @@ include '../includes/language.php';
                         <div class="input-group">
                             <input type="number" class="input-sm form-control text-center" id="gap-input" min="-10" max="10" step="0.01" readonly />
                             <span class="input-group-btn">
-                                <button class="btn btn-sm btn-default" id="btn-lock-unlock-gap-input" type="button" alt="Videos synchronisieren"><i class="fa fa-pencil"></i></button>
+                                <button type="button" class="btn btn-sm btn-default" id="btn-lock-unlock-gap-input"><i class="fa fa-pencil"></i></button>
                             </span>
                         </div>
                     </div>
@@ -663,16 +663,52 @@ include '../includes/language.php';
                         <div id="seek-bar-meta-info-container" class="col-xs-12" style="padding: 0"></div>
                     </div>
                 </div>
-                <div class="row" style="margin-top: 20px;">
+                <div class="row" style="margin-top: 20px;" id="timeline-content">
                     <div class="col-xs-12">
-                        <button type="button" id="btn-toggle-timeline" class="btn btn-default btn-xs btn-shadow present"><?php echo $lang->hideTimeline ?></button>
+                        <button type="button" id="btn-toggle-timeline" class="btn btn-default btn-xs btn-shadow present"><i class="fa fa-eye-slash"></i> <span class="text"><?php echo $lang->hideTimeline ?></span></button>
                         <div id="results-timeline" style="margin-top: 5px"></div>
                     </div>
                 </div>
-                <div class="row" style="margin-top: 20px;">
+                <div class="row" style="margin-top: 20px;" id="link-list-content">
                     <div class="col-xs-12">
-                        <button type="button" id="btn-toggle-link-list" class="btn btn-default btn-xs btn-shadow present"><?php echo $lang->hideLinklist ?></button>
+                        <button type="button" id="btn-toggle-link-list" class="btn btn-default btn-xs btn-shadow present"><i class="fa fa-eye-slash"></i> <span class="text"><?php echo $lang->hideLinklist ?></span></button>
                         <div id="link-list-container" style="margin-top: 5px"></div>
+                    </div>
+                    <div class="col-xs-12" id="add-annotation-container">
+                        <div class="bs-example">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label><?php echo $lang->annotationLabel ?></label>
+                                        <input type="text" class="form-control annotation-title-input" placeholder="Annotations-Label einfügen" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label><?php echo $lang->annotationColor ?></label>
+                                        <div class="color-selector">
+                                            <div class="btn-color-selector darkblue selected" data-id='darkblue'></div>
+                                            <div class="btn-color-selector green" data-id='green'></div>
+                                            <div class="btn-color-selector blue" data-id='blue'></div>
+                                            <div class="btn-color-selector yellow" data-id='yellow'></div>
+                                            <div class="btn-color-selector red" data-id='red'></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--<div class="form-group form-group-margin-top">-->
+                                <button type="button" class="btn btn-info btn-default btn-shadow" id="btn-add-annotation-input"><i class="fa fa-plus"></i> <?php echo $lang->addAnnotation ?></button>
+                            <!--</div>-->
+                            <!--                        <div class="input-group">
+                                                        <input type="text" class="form-control annotation-title-input" placeholder="Annotations-Label einfügen" />
+                                                        <span class="input-group-btn">
+                                                            
+                                                        </span>
+                                                    </div>-->
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -755,7 +791,7 @@ include '../includes/language.php';
     <div class="row" id="slideshow-gesture-item" style="margin-bottom: 30px">
         <div class="col-sm-6 root">
             <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-            <div class="text-center gestureControls">
+            <div class="text-center gestureControls hidden">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
                     <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
@@ -806,7 +842,7 @@ include '../includes/language.php';
     <div class="row" id="slideshow-trigger-item" style="margin-bottom: 30px">
         <div class="col-sm-6 root">
             <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-            <div class="text-center gestureControls">
+            <div class="text-center gestureControls hidden">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
                     <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
@@ -848,12 +884,12 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="link-list-item" class="link-list-item"><span class="link-list-item-time"></span> - <span class="text link-list-item-title"></span></div>
+    <div id="link-list-item" class="link-list-item"><span class="link-list-item-url"><span class="link-list-item-time" style="margin-right: 5px"></span> <span class="text link-list-item-title"></span></span> <span class="btn-delete-annotation"><i class="fa fa-trash"></i> <?php echo $lang->delete ?></span></div>
 
     <div class="row" id="physicalStressTest-item" style="margin-bottom: 30px">
         <div class="col-sm-5 root">
             <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
-            <div class="text-center gestureControls">
+            <div class="text-center gestureControls hidden">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
                     <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>

@@ -56,5 +56,12 @@ include 'includes/language.php';
 
         renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
 //        renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
+
+        if (peerConnection) {
+            peerConnection.sendMessage(MESSAGE_GESTURE_INFO_PRESENT);
+            $(peerConnection).unbind(MESSAGE_CLOSE_GESTURE_INFO).bind(MESSAGE_CLOSE_GESTURE_INFO, function (event, payload) {
+                $('#custom-modal').modal('hide');
+            });
+        }
     }
 </script>

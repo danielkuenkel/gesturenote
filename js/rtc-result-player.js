@@ -116,18 +116,21 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
                 $(screenShareVideoHolder).parent().find('#toggle-shrink-videos').unbind('click').bind('click', function (event) {
                     event.preventDefault();
+                    $(this).popover('hide');
                     if ($(this).hasClass('shrinked')) {
                         $(this).removeClass('shrinked');
                         $(this).find('.fa').removeClass('fa-window-close-o').addClass('fa-window-maximize');
                         $(this).closest('#video-timeline').find('#webcam-video-container').removeClass('shrinked');
                         $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').removeClass('shrinked');
                         $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').removeClass('shrinked');
+                        $(this).attr('data-content', translation.overlapVideos);
                     } else {
                         $(this).addClass('shrinked');
                         $(this).find('.fa').removeClass('fa-window-maximize').addClass('fa-window-close-o');
                         $(this).closest('#video-timeline').find('#webcam-video-container').addClass('shrinked');
                         $(this).closest('#video-timeline').find('#webcam-video-container #tester-video-container').addClass('shrinked');
                         $(this).closest('#video-timeline').find('#webcam-video-container #moderator-video-container').addClass('shrinked');
+                        $(this).attr('data-content', translation.singleVideos);
                     }
                 });
             }
@@ -205,12 +208,16 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
             var muteButton = $(resultsPlayer).find('#moderator-video-container .btn-toggle-mute');
             $(muteButton).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(muteButton).popover('hide');
                 if (moderatorVideoHolder[0].muted === true) {
                     muteButton.find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
                     moderatorVideoHolder[0].muted = false;
+                    $(muteButton).attr('data-content', translation.turnOffAudio);
                 } else {
                     muteButton.find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
                     moderatorVideoHolder[0].muted = true;
+                    $(muteButton).attr('data-content', translation.turnOnAudio);
                 }
             });
 
@@ -276,12 +283,16 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 
             var muteButton = $(resultsPlayer).find('#tester-video-container .btn-toggle-mute');
             $(muteButton).unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                $(muteButton).popover('hide');
                 if (testerVideoHolder[0].muted === true) {
                     muteButton.find('.fa').removeClass('fa-volume-off').addClass('fa-volume-up');
                     testerVideoHolder[0].muted = false;
+                    $(muteButton).attr('data-content', translation.turnOffAudio);
                 } else {
                     muteButton.find('.fa').removeClass('fa-volume-up').addClass('fa-volume-off');
                     testerVideoHolder[0].muted = true;
+                    $(muteButton).attr('data-content', translation.turnOnAudio);
                 }
             });
 
@@ -308,8 +319,9 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     resultsPlayer.find('#video-timeline').removeClass('hidden');
                     resultsPlayer.find('#loader').addClass('hidden');
 
-                    var timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, executionTime: executionTime, duration: getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, evaluatorResults.endRecordingTime)} : {phaseData: phaseData, phaseResults: testerResults, executionTime: executionTime, duration: getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime)};
-                    initializeTimeline(timelineData, content, checkedVideos);
+                    var timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, executionTime: executionTime, duration: getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, evaluatorResults.endRecordingTime), checkedVideos: checkedVideos} : {phaseData: phaseData, phaseResults: testerResults, executionTime: executionTime, duration: getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime), checkedVideos: checkedVideos};
+                    initializeTimeline(timelineData, content);
+                    initializeAnnotationHandling(content);
 
                     $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {
 //                        console.log('timeupdate', secondVideo);
@@ -545,7 +557,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
 }
 
 var timeline, itemRange = null;
-function initializeTimeline(timelineData, content, checkedVideos) {
+function initializeTimeline(timelineData, content) {
     if (timelineData) {
         // Create a Timeline
         var data = getVisDataSet(timelineData);
@@ -569,30 +581,32 @@ function initializeTimeline(timelineData, content, checkedVideos) {
             timeline.moveTo(itemRange.min);
 
             renderSeekbarData(data, timelineData, content);
-            renderListData(data, timelineData, content, checkedVideos);
-            // for removing unused timeline
-//            $(resultsPlayer).find('#results-timeline').remove();
+            renderListData(data, timelineData, content);
 
+            // for removing unused timeline
             $(content).find('#btn-toggle-timeline').unbind('click').bind('click', function (event) {
                 event.preventDefault();
                 if ($(this).hasClass('present')) {
                     $(this).removeClass('present');
                     $(content).find('#results-timeline').addClass('hidden');
-                    $(this).text(translation.showTimeline);
+                    $(this).find('.text').text(translation.showTimeline);
+                    $(this).find('.fa').removeClass('fa-eye-slash').addClass('fa-eye');
                 } else {
                     $(this).addClass('present');
                     $(content).find('#results-timeline').removeClass('hidden');
-                    $(this).text(translation.hideTimeline);
-                    updateTimeline(checkedVideos.mainVideo[0].currentTime, content);
+                    $(this).find('.text').text(translation.hideTimeline);
+                    $(this).find('.fa').removeClass('fa-eye').addClass('fa-eye-slash');
+                    updateTimeline(timelineData.checkedVideos.mainVideo[0].currentTime, content);
                 }
             });
         } else {
             console.warn('no timeline data extracted');
-            $(resultsPlayer).find('#results-timeline').remove();
+//            $(resultsPlayer).find('#timeline-content').remove();
+//            $(resultsPlayer).find('#timeline-content').remove();
         }
     } else {
         console.warn('no timeline data');
-        $(resultsPlayer).find('#results-timeline').remove();
+//        $(resultsPlayer).find('#timeline-content').remove();
     }
 }
 
@@ -600,7 +614,7 @@ function updateTimeline(currentTime, content) {
     if (timeline && itemRange && $(content).find('#btn-toggle-timeline').hasClass('present')) {
         var min = new Date(itemRange.min);
         min.setSeconds(min.getSeconds() + Math.ceil(Math.max(0, currentTime)));
-        min.setMilliseconds(min.getMilliseconds() + Math.round(currentTime % 1 * 1000) - 1000); // -300 because of the recording start lack
+        min.setMilliseconds(min.getMilliseconds() + Math.round(currentTime % 1 * 1000) - 1000); // -1000 because of the recording start lack
         timeline.setCustomTime(min);
         timeline.moveTo(min, {animation: false});
     }
@@ -608,26 +622,84 @@ function updateTimeline(currentTime, content) {
 
 // Create a DataSet (allows two way data-binding)
 function getVisDataSet(timelineData) {
-    var array = {};
-    switch (timelineData.phaseResults.format) {
-        case GESTURE_TRAINING:
-            array = getGestureTrainingVisData(timelineData);
-            break;
-        case SLIDESHOW_GESTURES:
-            array = getGestureSlideshowVisData(timelineData);
-            break;
-//        case SLIDESHOW_TRIGGER:
-//            array = getTriggerSlideshowVisData(timelineData);
-//            break;
-        case PHYSICAL_STRESS_TEST:
-            array = getPhysicalStressTestVisData(timelineData);
-            break;
-        case SCENARIO:
-            array = getScenarioVisData(timelineData);
-            break;
-        case EXPLORATION:
-            array = getExplorationVisData(timelineData);
-            break;
+    var array = [];
+    array.push({id: chance.natural(), start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
+    array.push({id: chance.natural(), start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible'});
+
+    var className = 'item-primary-full';
+    var annotations = timelineData.phaseResults.annotations;
+    var tempData = getLocalItem(timelineData.phaseResults.id + (timelineData.checkedVideos.secondVideo ? '.evaluator' : '.results'));
+    if (annotations) {
+        for (var i = 0; i < annotations.length; i++) {
+            var className = 'item-primary-full';
+            var contentText = translation.annotations[annotations[i].action];
+            switch (annotations[i].action) {
+                case ACTION_RENDER_SCENE:
+                    var scene = getSceneById(annotations[i].scene);
+                    contentText = translation.scene + ': ' + scene.title;
+                    break;
+                case ACTION_START_GESTURE_TRAINING:
+                    var gesture = getGestureById(annotations[i].gestureId);
+                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+                    break;
+                case ACTION_START_PERFORM_GESTURE:
+                    var gesture = getGestureById(annotations[i].gestureId);
+                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+                    break;
+                case ACTION_SELECT_GESTURE:
+                    var gesture = getGestureById(annotations[i].selectedGestureId);
+                    className = 'item-success-full';
+                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+                    break;
+                case ACTION_NO_GESTURE_DEMONSTRATED:
+                case ACTION_NO_GESTURE_FIT_FOUND:
+                    className = 'item-warning-full';
+                    break;
+                case ACTION_START_PERFORM_GESTURE_STRESS_TEST:
+                    var gesture = getGestureById(annotations[i].gestureId);
+                    contentText = translation.annotations[annotations[i].action] + ': ' + gesture.title;
+                    break;
+                case ACTION_START_TASK:
+                    var task = getTaskById(annotations[i].taskId);
+                    contentText = translation.task + ': ' + task.title;
+                    break;
+                case ACTION_ASSESSMENT:
+                    contentText = timelineData.phaseData.taskAssessments[annotations[i].assessmentId].title + ': ' + getTaskById(annotations[i].taskId).title;
+                    var color = timelineData.phaseData.taskAssessments[annotations[i].assessmentId].annotationColor;
+                    switch (color) {
+                        case ASSESSMENT_COLOR_GREEN:
+                            className = 'item-success-full';
+                            break;
+                        case ASSESSMENT_COLOR_BLUE:
+                            className = 'item-info-full';
+                            break;
+                        case ASSESSMENT_COLOR_RED:
+                            className = 'item-danger-full';
+                            break;
+                        case ASSESSMENT_COLOR_YELLOW:
+                            className = 'item-warning-full';
+                            break;
+                    }
+                    break;
+            }
+
+            var originalId = annotations[i].id;
+            if (!annotations[i].id) {
+                originalId = chance.natural();
+                tempData.annotations[i].id = originalId;
+            }
+            array.push({id: originalId, content: contentText, start: new Date(parseInt(annotations[i].time)), className: className, timestamp: parseInt(annotations[i].time)});
+        }
+        setLocalItem(timelineData.phaseResults.id + (timelineData.checkedVideos.secondVideo ? '.evaluator' : '.results'), tempData);
+    }
+
+    function getTaskById(id) {
+        for (var i = 0; i < timelineData.phaseData.tasks.length; i++) {
+            if (parseInt(timelineData.phaseData.tasks[i].id) === parseInt(id)) {
+                return timelineData.phaseData.tasks[i];
+            }
+        }
+        return null;
     }
 
     return array;
@@ -661,31 +733,40 @@ function renderSeekbarData(visData, timelineData, content) {
                 $(seekbar).append(infoDataItem);
             }
         }
+    } else {
+        $(content).find('#timeline-content').addClass('hidden');
     }
 }
 
-function renderListData(visData, timelineData, content, checkedVideos) {
-//    console.log(visData, timelineData, content);
+function renderListData(visData, timelineData, content) {
     visData = sortByKey(visData, 'start');
     var container = $(content).find('#link-list-container');
     $(container).empty();
     if (visData && visData.length > 0) {
+        console.log(visData);
 
         for (var i = 0; i < visData.length; i++) {
             if (visData[i].className !== 'invisible' && visData[i].timestamp) {
                 var seconds = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime, visData[i].timestamp), true);
                 var linkListItem = $('#template-study-container').find('#link-list-item').clone().removeAttr('id');
-                $(linkListItem).attr('data-jumpto', seconds);
-                $(linkListItem).find('.link-list-item-time').text(seconds);
+                $(linkListItem).find('.link-list-item-url').attr('data-jumpto', seconds);
+                $(linkListItem).find('.btn-delete-annotation').attr('data-id', visData[i].id);
+                $(linkListItem).find('.link-list-item-time').text(secondsToHms(parseInt(seconds)));
                 $(linkListItem).find('.link-list-item-title').text(visData[i].content);
                 $(linkListItem).find('.link-list-item-title').addClass(visData[i].className);
 
                 $(container).append(linkListItem);
-                $(linkListItem).on('click', function (event) {
+                $(linkListItem).find('.link-list-item-url').on('click', function (event) {
                     event.preventDefault();
                     var jumpTo = parseFloat($(this).attr('data-jumpto'));
-                    var video = checkedVideos.mainVideo[0];
+                    var video = timelineData.checkedVideos.mainVideo[0];
                     $(video).trigger('jumpTo', [jumpTo]);
+                });
+
+                $(linkListItem).find('.btn-delete-annotation').on('click', function (event) {
+                    event.preventDefault();
+//                    console.log('delete annotation', $(this).attr('data-id'), checkedVideos.secondVideo);
+                    deleteAnnotation($(this).attr('data-id'), timelineData, content);
                 });
             }
         }
@@ -695,223 +776,64 @@ function renderListData(visData, timelineData, content, checkedVideos) {
             if ($(this).hasClass('present')) {
                 $(this).removeClass('present');
                 $(content).find('#link-list-container').addClass('hidden');
-                $(this).text(translation.showLinklist);
+                $(this).find('.fa').removeClass('fa-eye-slash').addClass('fa-eye');
+                $(this).find('.text').text(translation.showLinklist);
             } else {
                 $(this).addClass('present');
                 $(content).find('#link-list-container').removeClass('hidden');
-                $(this).text(translation.hideLinklist);
-                updateLinkList(checkedVideos.mainVideo[0].currentTime, content);
+                $(this).find('.fa').removeClass('fa-eye').addClass('fa-eye-slash');
+                $(this).find('.text').text(translation.hideLinklist);
+                updateLinkList(timelineData.checkedVideos.mainVideo[0].currentTime, content);
             }
         });
+    } else {
+        $(content).find('#link-list-content').addClass('hidden');
     }
 }
 
 function updateLinkList(currentTime, content) {
     if ($(content).find('#btn-toggle-link-list').hasClass('present')) {
         var linkItems = $(content).find('#link-list-container').children();
-        linkItems.removeClass('font-bold');
+        linkItems.find('.link-list-item-url').removeClass('font-bold');
         for (var i = 0; i < linkItems.length; i++) {
-            var jumpTo = parseFloat($(linkItems[i]).attr('data-jumpto'));
+            var linkListItem = $(linkItems[i]);
+            var jumpTo = parseFloat($(linkListItem).find('.link-list-item-url').attr('data-jumpto'));
             if (currentTime >= jumpTo) {
-                $(linkItems[i]).addClass('font-bold');
+                $(linkListItem).find('.link-list-item-url').addClass('font-bold');
             }
         }
     }
 }
 
-function getGestureTrainingVisData(timelineData) {
-//    console.log('getGestureTrainingVisData', timelineData);
-    var array = new Array();
-    var count = 0;
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible'});
-
-    var className = 'item-primary-full';
-    if (timelineData.phaseResults.training && timelineData.phaseResults.training.length > 0) {
-        for (var i = 0; i < timelineData.phaseResults.training.length; i++) {
-            var gesture = getGestureById(timelineData.phaseResults.training[i].gestureId);
-            if (gesture) {
-                var startTime = timelineData.phaseResults.training[i].gestureTrainingStart;
-                var endTime = timelineData.phaseResults.training[i].gestureTrainingEnd;
-                var trainingExecution = getTimeBetweenTimestamps(startTime, endTime);
-                var contentText = translation.visLabels.training + ': ' + gesture.title;
-                if (trainingExecution > 0) {
-                    contentText += ' (' + getTimeString(trainingExecution) + ')';
-                }
-
-                if (startTime && endTime) {
-                    array.push({id: count++, content: contentText, start: new Date(parseInt(startTime)), end: new Date(parseInt(endTime)), className: className, timestamp: parseInt(startTime)});
-                } else {
-                    array.push({id: count++, content: contentText, start: new Date(parseInt(startTime)), className: className, timestamp: parseInt(startTime)});
-                }
-            }
-        }
+function deleteAnnotation(annotationId, timelineData, content) {
+    console.log(annotationId, timelineData);
+    if (timelineData.phaseResults) {
     }
 
-    var actions = timelineData.phaseResults.actions;
-    if (actions) {
-        for (var i = 0; i < actions.length; i++) {
-            var className = 'item-primary-full';
-            var contentText = translation.actions[actions[i].action];
-            if (actions[i].action === ACTION_RENDER_SCENE) {
-                var scene = getSceneById(actions[i].scene);
-                var contentText = translation.scene + ': ' + scene.title;
-            }
-
-            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className, timestamp: parseInt(actions[i].time)});
-        }
+    if (timelineData.checkedVideos.secondVideo) {
+        // update evaluator results
+    } else {
+        // update tester results
     }
-
-    return array;
 }
 
-function getGestureSlideshowVisData(timelineData) {
-//    console.log('getGestureSlideshowVisData', timelineData);
-    var array = new Array();
-    var count = 0;
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible'});
+function initializeAnnotationHandling(content) {
+    $(content).find('#btn-add-annotation-input').unbind('click').bind('click', function (event) {
+        event.preventDefault();
+        if (!$(this).hasClass('disabled')) {
 
-    var actions = timelineData.phaseResults.actions;
-    if (actions) {
-        for (var i = 0; i < actions.length; i++) {
-            var className = 'item-primary-full';
-            var gesture = null;
-            var contentText = translation.actions[actions[i].action];
-            if (actions[i].action === ACTION_SELECT_GESTURE) {
-                gesture = getGestureById(actions[i].selectedGestureId);
-                if (actions[i].fit === 'true') {
-                    className = 'item-success-full';
-                } else {
-                    className = 'item-danger-full';
-                    array.push({id: count++, content: translation.restart, start: new Date(parseInt(actions[i].time)), className: className, timestamp: parseInt(actions[i].time)});
-                }
-            } else if (actions[i].action === ACTION_NO_GESTURE_DEMONSTRATED || actions[i].action === ACTION_NO_GESTURE_FIT_FOUND) {
-                className = 'item-warning-full';
-                contentText = translation.actions[actions[i].action];
+            var annotationLabel = $(content).find('.annotation-title-input').val().trim();
+            if (annotationLabel !== '') {
+
             } else {
-                gesture = getGestureById(actions[i].gestureId);
-            }
-
-            if (gesture) {
-                contentText += ': ' + gesture.title;
-            }
-
-            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className, timestamp: parseInt(actions[i].time)});
-        }
-    }
-
-    return array;
-}
-
-//function getTriggerSlideshowVisData(timelineData) {
-//    console.log('getTriggerSlideshowVisData', timelineData);
-//    var array = new Array();
-//    var count = 0;
-//    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
-//    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endTime)), className: 'invisible'});
-//    return array;
-//}
-
-function getPhysicalStressTestVisData(timelineData) {
-    var array = new Array();
-    var count = 0;
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible', timestamp: parseInt(timelineData.phaseResults.startRecordingTime)});
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible', timestamp: parseInt(timelineData.phaseResults.endRecordingTime)});
-
-    var actions = timelineData.phaseResults.actions;
-    if (actions) {
-        for (var i = 0; i < actions.length; i++) {
-            var className = 'item-primary-full';
-            var gesture = getGestureById(actions[i].gestureId);
-            var contentText = translation.actions[actions[i].action] + ': ' + gesture.title;
-            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className, timestamp: parseInt(actions[i].time)});
-        }
-    }
-
-    console.log('getPhysicalStressTestVisData', array);
-    return array;
-}
-
-function getScenarioVisData(timelineData) {
-//    console.log('getScenarioVisData', timelineData);
-    var array = new Array();
-    var count = 0;
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible'});
-    var contentText = "";
-
-    var actions = timelineData.phaseResults.actions;
-    if (actions && actions.length > 0) {
-        for (var i = 0; i < actions.length; i++) {
-            var className = 'item-primary-full';
-//            var gesture = getGestureById(actions[i].gestureId);
-
-            contentText = translation.actions[actions[i].action];
-            if (actions[i].action === ACTION_START_TASK) {
-                var task = getTaskById(actions[i].id);
-                var contentText = translation.task + ': ' + task.title;
-            } else if (actions[i].action === ACTION_RENDER_SCENE) {
-                var scene = getSceneById(actions[i].scene);
-                var contentText = translation.scene + ': ' + scene.title;
-            }
-
-            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className, timestamp: parseInt(actions[i].time)});
-        }
-    }
-
-    function getTaskById(id) {
-        for (var i = 0; i < timelineData.phaseData.tasks.length; i++) {
-            if (parseInt(timelineData.phaseData.tasks[i].id) === parseInt(id)) {
-                return timelineData.phaseData.tasks[i];
+                $(content).find('.annotation-title-input').parent().addClass('has-error');
             }
         }
-        return null;
-    }
-
-    var assessments = timelineData.phaseResults.assessments;
-    if (assessments && assessments.length > 0) {
-        for (var i = 0; i < assessments.length; i++) {
-            contentText = timelineData.phaseData.taskAssessments[assessments[i].id].title + ': ' + getTaskById(assessments[i].taskId).title;
-            var color = timelineData.phaseData.taskAssessments[assessments[i].id].annotationColor;
-            var className = 'item-primary-full';
-            switch (color) {
-                case ASSESSMENT_COLOR_GREEN:
-                    className = 'item-success-full';
-                    break;
-                case ASSESSMENT_COLOR_BLUE:
-                    className = 'item-info-full';
-                    break;
-                case ASSESSMENT_COLOR_RED:
-                    className = 'item-danger-full';
-                    break;
-                case ASSESSMENT_COLOR_YELLOW:
-                    className = 'item-warning-full';
-                    break;
-            }
-            array.push({id: count++, content: contentText, start: new Date(parseInt(assessments[i].time)), className: className, timestamp: parseInt(assessments[i].time)});
-        }
-    }
-
-    return array;
-}
-
-function getExplorationVisData(timelineData) {
-//    console.log('getExplorationVisData', timelineData);
-    var array = new Array();
-    var count = 0;
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
-    array.push({id: count++, start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible'});
-
-    var actions = timelineData.phaseResults.actions;
-    if (actions) {
-        for (var i = 0; i < actions.length; i++) {
-            var className = 'item-primary-full';
-//            var gesture = getGestureById(actions[i].gestureId);
-            var contentText = translation.actions[actions[i].action];
-            array.push({id: count++, content: contentText, start: new Date(parseInt(actions[i].time)), className: className, timestamp: parseInt(actions[i].time)});
-        }
-    }
-
-    return array;
+        
+        setInputChangeEvent($(content).find('.annotation-title-input'));
+        $(content).find('.annotation-title-input').unbind('change').bind('change', function (event) {
+            event.preventDefault();
+            $(content).find('.annotation-title-input').parent().removeClass('has-error');
+        });
+    });
 }

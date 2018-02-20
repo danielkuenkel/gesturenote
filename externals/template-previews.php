@@ -231,7 +231,7 @@ include '../includes/language.php';
     <div class="row root" id="sus">
         <div class="col-md-4" id="column-left"></div>
         <div class="col-md-8" id="column-right">
-            <h3 style="margin-top: 0"><?php echo $lang->sus ?></h3>
+            <h3 class="headline" style="margin-top: 0"></h3>
             <div class="question-container"></div>
             <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
         </div>
@@ -399,7 +399,11 @@ include '../includes/language.php';
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-show-gesture" style="margin-top: 10px"><i class="fa fa-circle-o-notch fa-spin hidden"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+            <div class="btn-group-vertical btn-block" style="margin-top: 10px">
+                <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-show-gesture" style=""><i class="fa fa-circle-o-notch fa-spin hidden"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
+                <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-quit-gesture-preview" style=""><i class="fa fa-circle-o-notch fa-spin hidden"></i> <span class="btn-text"><?php echo $lang->quitGesturePreview ?></span></button>
+            </div>
+            
         </div>
         <div class="col-xs-7 col-sm-6 col-md-8" id="transition-scenes">
             <h4 id="start-scene-header" class="hidden" style="margin:0"><?php echo $lang->stateCharts->state ?></h4>
@@ -408,7 +412,7 @@ include '../includes/language.php';
             <div class="hidden" id="transition-feedback-container" style="margin-bottom: 10px"></div>
             <h4 style="margin: 0" id="transition-scene-header" class="hidden"><?php echo $lang->stateCharts->intermediateStates ?></h4>
             <div class="hidden" id="transition-scene-container" style="margin-bottom: 10px"></div>
-            <h4 style="margin: 0" id="follow-scene-header" class="hidden"><?php echo $lang->stateCharts->entryState ?></h4>
+            <h4 style="margin: 0" id="follow-scene-header" class="hidden"><?php echo $lang->stateCharts->entryAction ?></h4>
             <div id="follow-scene-container" class="hidden"></div>
             <button type="button" class="btn btn-default btn-shadow btn-block disabled hidden" id="btn-repeat-training"  style="margin-top: 10px"><span class="btn-text"><?php echo $lang->repeatTraining ?></span></button>
         </div>

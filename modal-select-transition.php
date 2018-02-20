@@ -50,7 +50,7 @@
                 if (!previewModeEnabled) {
                     getGMT(function (timestamp) {
                         var tempData = getLocalItem(getCurrentPhase().id + '.tempSaveData');
-                        tempData.actions.push({action: action, time: timestamp});
+                        tempData.annotations.push({id: tempData.annotations.length, action: action, time: timestamp});
                         setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                     });
                 }
@@ -91,8 +91,8 @@
                     getGMT(function (timestamp) {
                         var currentPhase = getCurrentPhase();
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                        tempData.actions.push({action: ACTION_SELECT_GESTURE, selectedGestureId: wozData.gestureId, time: timestamp});
-                        tempData.transitions.push({scene: currentWOZScene.id || null, time: timestamp});
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SELECT_GESTURE, selectedGestureId: wozData.gestureId, time: timestamp});
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_RENDER_SCENE, scene: currentWOZScene.id || null, time: timestamp});
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                     });
                 }

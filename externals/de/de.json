@@ -441,6 +441,10 @@
     "showTimeline": "Zeitleiste einblenden",
     "hideLinklist": "Zeitlinks ausblenden",
     "showLinklist": "Zeitlinks einblenden",
+    "turnOnAudio": "Audio anschalten",
+    "turnOffAudio": "Audio ausschalten",
+    "overlapVideos": "Videos überlappen",
+    "singleVideos": "Videos nicht überlappen",
     "restart": "Neustart",
     "restarts": "Neustarts",
     "fitsFalse": "Falsche Übereinstimmungen",
@@ -1275,7 +1279,9 @@
             "annotationColor": "red"
         }
     },
+    "addAnnotation": "Annotation hinzufügen",
     "annotationColor": "Annotations-Farbe",
+    "annotationLabel": "Annotations-Label",
     "annotationColors": {
         "green": {
             "title": "grün",
@@ -1348,6 +1354,7 @@
     "triggerShown": "Gezeigt wird Funktion",
     "gestureShow": "Gezeigt wird Geste",
     "showGesture": "Geste zeigen",
+    "quitGesturePreview": "Vorschau beenden",
     "answerPeriod": "Antwortzeit",
     "repeatsLeft": "Wiederholungen übrig",
     "nextGesture": "Nächste Geste",
@@ -1560,15 +1567,17 @@
         "comfortErgonomics": "Körperliche Belastung",
         "socialAcceptance": "Soziale Akzeptanz"
     },
-    "actions": {
+    "annotations": {
+        "startGestureTraning": "Start Training",
         "showInfo": "Infos anzeigen",
         "hideInfo": "Infos ausblenden",
         "startTask": "Aufgabe starten",
         "requestHelp": "Hilfe anfordern",
         "startPerformGesture": "Start Geste",
+        "startPerformGestureStressTest": "Start Geste",
         "endPerformGesture": "Ende Geste",
         "refreshScene": "Szene neu laden",
-        "selectGesture": "Auswahl",
+        "selectGesture": "Richtige Geste demonstriert",
         "startQuestionnaire": "Start Fragebogen",
         "endQuestionnaire": "Ende Fragebogen",
         "noGestureDemonstrated": "Keine Geste demonstriert",
@@ -1651,9 +1660,6 @@
         "references": {
             "headline": "Literatur & Quellen"
         }
-    },
-    "visLabels": {
-        "training": "Training"
     },
     "systemIs": "Das System wurde mit",
     "rated": "bewertet",
