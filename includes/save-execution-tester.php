@@ -12,6 +12,10 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['data'])) {
     // Serialisieren der Daten
     $studyId = $_POST['studyId'];
     $userId = $_SESSION['user_id'];
+    if(isset($_POST['testerId'])) {
+        $userId = $_POST['testerId'] ;
+    }
+    
     $executionData = mysqli_real_escape_string($mysqli, json_encode($_POST['data']));
 
     if ($select_stmt = $mysqli->prepare("SELECT id FROM study_results_tester WHERE user_id = '$userId' && study_id = $studyId LIMIT 1")) {

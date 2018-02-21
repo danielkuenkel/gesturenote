@@ -104,6 +104,17 @@ and open the template in the editor.
     border-color: #428bca;
 }
 
+.vis-item.item-advanced-primary {
+    color: #428bca;
+    background-color: #c9e6fe;
+    border-color: #428bca;
+}
+.vis-item.item-advanced-primary-full {
+    color: white;
+    background-color: #428bca;
+    border-color: #428bca;
+}
+
 .vis-item.item-info {
     color: #5bc0de;
     background-color: #D4EFF6;
@@ -168,6 +179,9 @@ and open the template in the editor.
 .seekbarInfoData.item-primary-full {
     background-color: #428bca;
 }
+.seekbarInfoData.item-advanced-primary-full {
+    background-color: #428bca;
+}
 .seekbarInfoData.item-info-full {
     background-color: #5bc0de;
 }
@@ -190,8 +204,14 @@ and open the template in the editor.
 .link-list-item-url:hover {
     text-decoration: underline;
 }
+.link-list-item-url .link-list-item-title.item-advanced-primary-full {
+    color: #428bca;
+}
 .link-list-item-url .link-list-item-title.item-success-full {
     color: #5cb85c;
+}
+.link-list-item-url .link-list-item-title.item-info-full {
+    color: #5bc0de;
 }
 .link-list-item-url .link-list-item-title.item-danger-full {
     color: #d9534f;

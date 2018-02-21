@@ -319,9 +319,7 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                     resultsPlayer.find('#video-timeline').removeClass('hidden');
                     resultsPlayer.find('#loader').addClass('hidden');
 
-                    var timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, executionTime: executionTime, duration: getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, evaluatorResults.endRecordingTime), checkedVideos: checkedVideos} : {phaseData: phaseData, phaseResults: testerResults, executionTime: executionTime, duration: getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime), checkedVideos: checkedVideos};
-                    initializeTimeline(timelineData, content);
-                    initializeAnnotationHandling(content);
+
 
                     $(mainVideo).unbind('timeupdate').bind('timeupdate', function () {
 //                        console.log('timeupdate', secondVideo);
@@ -473,6 +471,10 @@ function RTCResultsPlayer(testerResults, evaluatorResults, phaseData, executionT
                             }
                         });
                     }
+
+                    var timelineData = secondVideo ? {phaseData: phaseData, phaseResults: evaluatorResults, resultSource: 'evaluator', executionTime: executionTime, duration: getTimeBetweenTimestamps(evaluatorResults.startRecordingTime, evaluatorResults.endRecordingTime), checkedVideos: checkedVideos} : {phaseData: phaseData, phaseResults: testerResults, resultSource: 'results', executionTime: executionTime, duration: getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime), checkedVideos: checkedVideos};
+                    initializeTimeline(timelineData, content);
+                    initializeAnnotationHandling(timelineData, content);
                 } else {
                     console.warn('no main video player');
                 }
@@ -562,9 +564,7 @@ function initializeTimeline(timelineData, content) {
         // Create a Timeline
         var data = getVisDataSet(timelineData);
         if (data && data.length > 2) {
-            timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline')[0]);
-            timeline.setItems(new vis.DataSet(data));
-            itemRange = {min: data[0].start, max: new Date(parseInt(timelineData.phaseResults.endTime))};//timeline.getItemRange();
+            itemRange = {min: new Date(parseInt(timelineData.phaseResults.startTime)), max: new Date(parseInt(timelineData.phaseResults.endTime)), gap: getTimeBetweenTimestamps(parseInt(timelineData.phaseResults.startTime), parseInt(timelineData.phaseResults.startRecordingTime)), startRecording: data[0].timestamp, endRecording: data[1].timestamp};//timeline.getItemRange();
             var options = {
                 zoomable: false,
                 showCurrentTime: false,
@@ -574,18 +574,21 @@ function initializeTimeline(timelineData, content) {
                 showMajorLabels: false,
                 showMinorLabels: false,
                 zoomMax: 10000,
-                selectable: true
+                selectable: true,
+                autoResize: true
             };
+            timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline')[0]);
             timeline.setOptions(options);
+            timeline.setItems(new vis.DataSet(data));
             timeline.addCustomTime(itemRange.min);
             timeline.moveTo(itemRange.min);
-
             renderSeekbarData(data, timelineData, content);
             renderListData(data, timelineData, content);
 
             // for removing unused timeline
             $(content).find('#btn-toggle-timeline').unbind('click').bind('click', function (event) {
                 event.preventDefault();
+                console.log('toggle timeline');
                 if ($(this).hasClass('present')) {
                     $(this).removeClass('present');
                     $(content).find('#results-timeline').addClass('hidden');
@@ -612,19 +615,22 @@ function initializeTimeline(timelineData, content) {
 
 function updateTimeline(currentTime, content) {
     if (timeline && itemRange && $(content).find('#btn-toggle-timeline').hasClass('present')) {
-        var min = new Date(itemRange.min);
-        min.setSeconds(min.getSeconds() + Math.ceil(Math.max(0, currentTime)));
-        min.setMilliseconds(min.getMilliseconds() + Math.round(currentTime % 1 * 1000) - 1000); // -1000 because of the recording start lack
-        timeline.setCustomTime(min);
-        timeline.moveTo(min, {animation: false});
+        var customTime = new Date(itemRange.startRecording + Math.round(currentTime * 1000));
+//        console.log(customTime);
+
+//        var min = new Date(itemRange.min);
+//        min.setSeconds(min.getSeconds() + Math.ceil(Math.max(0, currentTime)));
+//        min.setMilliseconds(min.getMilliseconds() + Math.round(currentTime % 1 * 1000) - 1000); // -1000 because of the recording start lack
+        timeline.setCustomTime(customTime);
+        timeline.moveTo(customTime, {animation: false});
     }
 }
 
 // Create a DataSet (allows two way data-binding)
 function getVisDataSet(timelineData) {
     var array = [];
-    array.push({id: chance.natural(), start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible'});
-    array.push({id: chance.natural(), start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible'});
+    array.push({id: chance.natural(), start: new Date(parseInt(timelineData.phaseResults.startRecordingTime)), className: 'invisible', timestamp: parseInt(timelineData.phaseResults.startRecordingTime)});
+    array.push({id: chance.natural(), start: new Date(parseInt(timelineData.phaseResults.endRecordingTime)), className: 'invisible', timestamp: parseInt(timelineData.phaseResults.endRecordingTime)});
 
     var className = 'item-primary-full';
     var annotations = timelineData.phaseResults.annotations;
@@ -634,6 +640,10 @@ function getVisDataSet(timelineData) {
             var className = 'item-primary-full';
             var contentText = translation.annotations[annotations[i].action];
             switch (annotations[i].action) {
+                case ACTION_CUSTOM:
+                    contentText = annotations[i].content;
+                    className = annotations[i].annotationColor;
+                    break;
                 case ACTION_RENDER_SCENE:
                     var scene = getSceneById(annotations[i].scene);
                     contentText = translation.scene + ': ' + scene.title;
@@ -710,8 +720,11 @@ function renderSeekbarData(visData, timelineData, content) {
     visData = sortByKey(visData, 'start');
 
     var seekbar = $(content).find('#seek-bar-meta-info-container');
+    $(seekbar).empty();
+
     if (visData && visData.length > 0) {
         var lastTime = 0;
+        console.log('render seekbar data', visData, seekbar);
         for (var i = 0; i < visData.length; i++) {
             if (visData[i].className !== 'invisible' && visData[i].timestamp) {
                 var gap = getSeconds(getTimeBetweenTimestamps(timelineData.phaseResults.startRecordingTime, visData[i].timestamp), true);
@@ -810,30 +823,95 @@ function deleteAnnotation(annotationId, timelineData, content) {
     if (timelineData.phaseResults) {
     }
 
-    if (timelineData.checkedVideos.secondVideo) {
-        // update evaluator results
-    } else {
-        // update tester results
+    var tempData = null;
+    tempData = getLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource);
+    if (tempData.annotations && tempData.annotations.length > 0) {
+        for (var i = 0; i < tempData.annotations.length; i++) {
+            if (parseInt(annotationId) === parseInt(tempData.annotations[i].id)) {
+                tempData.annotations.splice(i, 1);
+            }
+        }
+        console.log(tempData.annotations);
+        timelineData.phaseResults = tempData;
+        setLocalItem(tempData.id + '.' + timelineData.resultSource, tempData);
+        saveUpdatedPhaseResults(timelineData);
+
+        // render timeline and other elements
+        var visData = getVisDataSet(timelineData);
+        timeline.setItems(new vis.DataSet(visData));
+        renderSeekbarData(visData, timelineData, content);
+        renderListData(visData, timelineData, content);
+        updateLinkList(timelineData.checkedVideos.mainVideo[0].currentTime, content);
     }
 }
 
-function initializeAnnotationHandling(content) {
+function initializeAnnotationHandling(timelineData, content) {
     $(content).find('#btn-add-annotation-input').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
-
+            var mainVideo = timelineData.checkedVideos.mainVideo[0];
+            if (mainVideo.paused === false) {
+                $(content).find('#btn-play-pause').click();
+            }
             var annotationLabel = $(content).find('.annotation-title-input').val().trim();
             if (annotationLabel !== '') {
+                var annotationTime = parseInt(timelineData.phaseResults.startRecordingTime) + Math.floor(mainVideo.currentTime * 1000);
+                var annotation = {id: chance.natural(), action: ACTION_CUSTOM, content: annotationLabel, annotationColor: $(content).find('.color-selector .selected').attr('data-id'), time: annotationTime};
+                var firstInitializeTimeline = false;
 
+                if (timelineData.phaseResults.annotations && timelineData.phaseResults.annotations.length > 0) {
+                    timelineData.phaseResults.annotations.push(annotation);
+                } else {
+                    firstInitializeTimeline = true;
+                    timelineData.phaseResults.annotations = [annotation];
+                }
+
+                var visData = getVisDataSet(timelineData);
+                if (firstInitializeTimeline) {
+                    initializeTimeline(timelineData, content);
+                } else {
+                    timeline.setItems(new vis.DataSet(visData));
+                    timeline.redraw();
+                    renderSeekbarData(visData, timelineData, content);
+                    renderListData(visData, timelineData, content);
+                }
+                updateLinkList(mainVideo.currentTime, content);
+
+                setLocalItem(timelineData.phaseResults.id + '.' + timelineData.resultSource, timelineData.phaseResults);
+                saveUpdatedPhaseResults(timelineData);
+
+                $(content).find('.annotation-title-input').val('');
             } else {
                 $(content).find('.annotation-title-input').parent().addClass('has-error');
             }
         }
-        
+
         setInputChangeEvent($(content).find('.annotation-title-input'));
         $(content).find('.annotation-title-input').unbind('change').bind('change', function (event) {
             event.preventDefault();
             $(content).find('.annotation-title-input').parent().removeClass('has-error');
         });
     });
+}
+
+function saveUpdatedPhaseResults(timelineData) {
+    var phaseSteps = getLocalItem(STUDY_PHASE_STEPS);
+    var generalStudyResults = getLocalItem(STUDY_RESULTS);
+    var saveData = {studySuccessfull: generalStudyResults.executionSuccess, aborted: generalStudyResults.executionAborted, phases: []};
+
+    for (var i = 0; i < phaseSteps.length; i++) {
+        saveData.phases.push(getLocalItem(phaseSteps[i].id + '.' + timelineData.resultSource));
+    }
+
+    if (timelineData.resultSource === 'evaluator') {
+        saveExecutionModerator({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData}, function (result) {
+            console.log('saveExecutionModerator', result);
+        });
+    } else {
+        saveExecutionTester({studyId: getLocalItem(STUDY).id, testerId: generalStudyResults.userId, data: saveData}, function (result) {
+            console.log('saveExecutionTester', result);
+        });
+    }
+
+    console.log('saveData', saveData);
 }

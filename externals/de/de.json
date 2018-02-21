@@ -1282,6 +1282,7 @@
     "addAnnotation": "Annotation hinzufügen",
     "annotationColor": "Annotations-Farbe",
     "annotationLabel": "Annotations-Label",
+    "addAnnotationLabelInput": "Annotations-Label einfügen (max. 40 Zeichen)",
     "annotationColors": {
         "green": {
             "title": "grün",

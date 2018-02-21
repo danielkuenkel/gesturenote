@@ -670,43 +670,36 @@ include '../includes/language.php';
                     </div>
                 </div>
                 <div class="row" style="margin-top: 20px;" id="link-list-content">
-                    <div class="col-xs-12">
+                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-8" style="margin-bottom: 20px">
                         <button type="button" id="btn-toggle-link-list" class="btn btn-default btn-xs btn-shadow present"><i class="fa fa-eye-slash"></i> <span class="text"><?php echo $lang->hideLinklist ?></span></button>
                         <div id="link-list-container" style="margin-top: 5px"></div>
                     </div>
-                    <div class="col-xs-12" id="add-annotation-container">
+                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-4" id="add-annotation-container" style="">
                         <div class="bs-example">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6">
-                                    <div class="form-group">
-                                        <label><?php echo $lang->annotationLabel ?></label>
-                                        <input type="text" class="form-control annotation-title-input" placeholder="Annotations-Label einfügen" />
+                            <div class="bs-example-headline"><?php echo $lang->addAnnotation ?></div>
+                            <div class="bs-example-body">
+                                <div class="row">
+                                    <div class="col-xs-12 ">
+                                        <div class="form-group">
+                                            <label><?php echo $lang->annotationLabel ?></label>
+                                            <input type="text" class="form-control annotation-title-input" maxlength="40" placeholder="<?php echo $lang->addAnnotationLabelInput ?>" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-6">
-                                    <div class="form-group">
-                                        <label><?php echo $lang->annotationColor ?></label>
-                                        <div class="color-selector">
-                                            <div class="btn-color-selector darkblue selected" data-id='darkblue'></div>
-                                            <div class="btn-color-selector green" data-id='green'></div>
-                                            <div class="btn-color-selector blue" data-id='blue'></div>
-                                            <div class="btn-color-selector yellow" data-id='yellow'></div>
-                                            <div class="btn-color-selector red" data-id='red'></div>
+                                    <div class="col-xs-12 ">
+                                        <div class="form-group">
+                                            <label><?php echo $lang->annotationColor ?></label>
+                                            <div class="color-selector">
+                                                <div class="btn-color-selector darkblue selected" data-id='item-advanced-primary-full'></div>
+                                                <div class="btn-color-selector green" data-id='item-success-full'></div>
+                                                <div class="btn-color-selector blue" data-id='item-info-full'></div>
+                                                <div class="btn-color-selector yellow" data-id='item-warning-full'></div>
+                                                <div class="btn-color-selector red" data-id='item-danger-full'></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-
-                            <!--<div class="form-group form-group-margin-top">-->
                                 <button type="button" class="btn btn-info btn-default btn-shadow" id="btn-add-annotation-input"><i class="fa fa-plus"></i> <?php echo $lang->addAnnotation ?></button>
-                            <!--</div>-->
-                            <!--                        <div class="input-group">
-                                                        <input type="text" class="form-control annotation-title-input" placeholder="Annotations-Label einfügen" />
-                                                        <span class="input-group-btn">
-                                                            
-                                                        </span>
-                                                    </div>-->
+                            </div>
                         </div>
 
                     </div>
