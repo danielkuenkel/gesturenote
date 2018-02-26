@@ -19,7 +19,7 @@ var Moderator = {
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
         }
-
+        
         Moderator.initializePeerConnection();
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
 
@@ -47,6 +47,9 @@ var Moderator = {
                     break;
                 case SUS:
                     item = Moderator.getSUS(source, container, currentPhaseData);
+                    break;
+                case UEQ:
+                    item = Moderator.getQuestionnaire(source, container, currentPhaseData, true);
                     break;
                 case GESTURE_TRAINING:
                     item = Moderator.getGestureTraining(source, container, currentPhaseData);
@@ -153,7 +156,6 @@ var Moderator = {
         data = getAssembledItems(data);
         if (data && data.length > 0) {
             if (isPreview) {
-                console.log(data);
                 renderQuestionnaireAnswers(container, data, currentQuestionnaireAnswers, true);
             } else {
                 for (var i = 0; i < data.length; i++) {
@@ -3459,7 +3461,7 @@ function renderObservations(data, container) {
 }
 
 function checkRTCUploadStatus(container) {
-    if (!uploadQueue.allFilesUploaded() && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
+    if (uploadQueue && !uploadQueue.allFilesUploaded() && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
         console.log('sumbmit final data with upload queue, some files where not uploaded yet!');
         submitFinalData(container, false);
     } else {

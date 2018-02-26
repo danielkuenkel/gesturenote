@@ -269,6 +269,7 @@
     "updateProfile": "Profildaten aktualisieren",
     "staticStudyURLCheck": "Bitte die Studienlaufzeit überprüfen. Eine Studie kann nur durchgeführt werden, wenn die aktuelle Zeit innerhalb der Laufzeit liegt.",
     "staticStudyURLExecute": "Befragung durchführen",
+    "staticStudyURLOnlyModerated": "Diese Studie wird unmoderiert durchgeführt",
     "statistic": "Statistik",
     "stats": {
         "studies": "Studien erstellt",
@@ -358,6 +359,8 @@
     "forExample100": "z.B. 100",
     "item": "Item",
     "negated": "negiert",
+    "placeholderLetterOfAcceptance": "Sie erklären sich damit einverstanden, dass …",
+    "placeholderThanks": "Vielen Dank, dass Sie an dieser Befragung teilgenommen haben!",
     "letterOfAcceptanceAccepted": "Einverständniserklärung akzeptiert",
     "letterOfAcceptanceNotAccepted": "Einverständniserklärung abgelehnt",
     "selectOneOrMoreGestures": "Auswahl einer oder mehrerer Gesten",
@@ -812,6 +815,45 @@
             },
             "notes": "yes"
         },
+        "ueq": {
+            "text": "UEQ",
+            "class": "both",
+            "moderated": {
+                "tester": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "yes",
+                    "video": "yes",
+                    "audio": "yes",
+                    "visualizeStream": "yes",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "yes"
+            },
+            "unmoderated": {
+                "tester": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "moderator": {
+                    "stream": "no",
+                    "video": "no",
+                    "audio": "no",
+                    "visualizeStream": "no",
+                    "recordStream": "no"
+                },
+                "enableDataChannels": "no"
+            },
+            "notes": "yes"
+        },
         "gestureTraining": {
             "text": "Gesten-Training",
             "class": "evaluation",
@@ -1092,6 +1134,9 @@
         },
         "susItem": {
             "text": "SUS-Item"
+        },
+        "ueqItem": {
+            "text": "UEQ-Item"
         }
     },
     "scaleTypes": {
@@ -1546,7 +1591,6 @@
         "advantage": "effectiveness",
         "meaningfulness": "effectiveness",
         "accuracy": "effectiveness",
-        "physicalFatigue": "efficiency",
         "cognitiveLoadMentalModel": "efficiency",
         "learnabilityMemorability": "efficiency",
         "physicalContext": "efficiency",
@@ -1561,7 +1605,6 @@
         "taskAppropriateness": "Aufgabenangemessenheit",
         "advantage": "Vorteilhaftigkeit",
         "accuracy": "Genauigkeit & Fehlerrate",
-        "physicalFatigue": "Körperliche Ermüdung",
         "cognitiveLoadMentalModel": "Mentales Modell",
         "learnabilityMemorability": "Erlern- & Erinnerbarkeit",
         "physicalContext": "Phyischer Kontext",
@@ -1619,6 +1662,7 @@
             "gus": "Dieser Variante des GUS hat den Vorteil, dass Probanden sich die Geste nochmals ansehen können und wissen, welche Funktion und welches Feedback daran gekoppelt ist. Der Proband bewertet nur diese eine Geste.",
             "questionnaireGestures": "Diese Variante des GUS fragt - im Gegensatz zur Variante 'einzelne Geste' - mehrere Gesten zeitgleich ab.",
             "sus": "Dies ist ein einfacher und technologieunabhängiger Fragebogen, mit dem die Gebrauchstauglichkeit eines Systems bewertet werden kann. Der errechnete Scorewert (zwischen 0 und 100) kann zur quantitativen Analyse der Gebrauchstauglichkeit herangezogen werden. Sie müssen deshalb nichts weiter tun als diesen Fragebogen dem Leitfaden hinzuzufügen.",
+            "ueq": "Der User Experience Questionnaire (UEQ) ermöglicht eine schnelle Beurteilung der Benutzererfahrung mit interaktiven Produkten. Das Format des Fragebogens unterstützt Benutzer sich über Gefühle, Eindrücke und Einstellungen auszudrücken, die entstehen, wenn sie ein Produkt verwenden.",
             "gestureTraining": "Bevor Gesten (z.B. in einem Szenario) zum Einsatz kommen, können diese vorab explorativ trainiert werden. Dem Proband wird ein Prototyp mit dazugehöriger Funktionalität (Gesten, Feedback, Zustandsübergänge) gezeigt. Alternativ können nur die Gesten mit dazugehöriger Funktionalität trainiert werden.",
             "gestureTrainingOverlay": "Bevor Gesten (z.B. in einem Szenario-basierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich muss das Gesten-Training mit einem vorhandenen Prototypen durch unterschiedlich hinterlegt Zustände bereichert werden.",
             "scenario": "Mit Szenario-baiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten.",
@@ -1829,6 +1873,448 @@
             "options": ["Stimme gar nicht zu", "Stimme eher nicht zu", "Teils-teils", "Stimme eher zu", "Stimme voll und ganz zu"]
         }
     ],
+    "opposites": "Gegensatzpaar",
+    "ueqOpposites": {
+        "annoying": "unerfreulich",
+        "enjoyable": "erfreulich",
+        "notUnderstandable": "unverständlich",
+        "understandable": "verständlich",
+        "creative": "kreativ",
+        "dull": "phantasielos",
+        "easyToLearn": "leicht zu lernen",
+        "difficultToLearn": "schwer zu lernen",
+        "valuable": "wertvoll",
+        "inferior": "minderwertig",
+        "boring": "langweilig",
+        "exiting": "spannend",
+        "notInteresting": "uninteressant",
+        "interesting": "interessant",
+        "unpredictable": "unberechenbar",
+        "predictable": "voraussagbar",
+        "fast": "schnell",
+        "slow": "langsam",
+        "inventive": "originell",
+        "conventional": "konventionell",
+        "obstructive": "behindernd",
+        "supportive": "unterstützend",
+        "good": "gut",
+        "bad": "schlecht",
+        "complicated": "kompliziert",
+        "easy": "einfach",
+        "unlikable": "abstoßend",
+        "pleasing": "anziehend",
+        "usual": "herkömmlich",
+        "leadingEdge": "neuartig",
+        "unpleasant": "unangenehm",
+        "pleasant": "angenehm",
+        "secure": "sicher",
+        "notSecure": "unsicher",
+        "motivating": "aktivierend",
+        "demotivating": "einschläfernd",
+        "meetsExpectations": "erwartungskonform",
+        "doesNotMeetExpectations": "nicht erwartungskonform",
+        "inefficient": "ineffizient",
+        "efficient": "effizient",
+        "clear": "übersichtlich",
+        "confusing": "verwirrend",
+        "impractical": "unpragmatisch",
+        "practical": "pragmatisch",
+        "organized": "aufgeräumt",
+        "cluttered": "überladen",
+        "attractive": "attraktiv",
+        "unattractive": "unattraktiv",
+        "friendly": "sympathisch",
+        "unfriendly": "unsympathisch",
+        "conservative": "konservativ",
+        "innovative": "innovativ"
+    },
+    "ueqMainDimensions": {
+        "attractiveness": "Attraktivität",
+        "pragmaticQuality": "Designqualität",
+        "hedonicQuality": "Benutzungsqualität"
+    },
+    "ueqMainDimensionsForDimension": {
+        "attractiveness": "attractiveness",
+        "efficiency": "pragmaticQuality",
+        "perspicuity": "pragmaticQuality",
+        "dependability": "pragmaticQuality",
+        "hedonicQuality": "Stimulation",
+        "hedonicQuality": "Originalität"
+    },
+    "ueqDimensions": {
+        "attractiveness": "Attraktivität",
+        "efficiency": "Effizienz",
+        "perspicuity": "Durchschaubarkeit",
+        "dependability": "Verlässligkeit",
+        "stimulation": "Stimulation",
+        "novelty": "Originalität"
+    },
+    "ueqItems": [
+        {
+            "id":"1",
+            "format": "ueqItem",
+            "dimension": "attractiveness",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "annoying",
+                    "right": "enjoyable"
+                }
+            }
+        },
+        {
+            "id":"2",
+            "format": "ueqItem",
+            "dimension": "perspicuity",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "notUnderstandable",
+                    "right": "understandable"
+                }
+            }
+        },
+        {
+            "id":"3",
+            "format": "ueqItem",
+            "dimension": "novelty",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "creative",
+                    "right": "dull"
+                }
+            }
+        },
+        {
+            "id":"4",
+            "format": "ueqItem",
+            "dimension": "perspicuity",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "easyToLearn",
+                    "right": "difficultToLearn"
+                }
+            }
+        },
+        {
+            "id":"5",
+            "format": "ueqItem",
+            "dimension": "stimulation",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "valuable",
+                    "right": "inferior"
+                }
+            }
+        },
+        {
+            "id":"6",
+            "format": "ueqItem",
+            "dimension": "stimulation",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "boring",
+                    "right": "exiting"
+                }
+            }
+        },
+        {
+            "id":"7",
+            "format": "ueqItem",
+            "dimension": "stimulation",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "notInteresting",
+                    "right": "interesting"
+                }
+            }
+        },
+        {
+            "id":"8",
+            "format": "ueqItem",
+            "dimension": "dependability",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "unpredictable",
+                    "right": "predictable"
+                }
+            }
+        },
+        {
+            "id":"9",
+            "format": "ueqItem",
+            "dimension": "efficiency",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "fast",
+                    "right": "slow"
+                }
+            }
+        },
+        {
+            "id":"10",
+            "format": "ueqItem",
+            "dimension": "novelty",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "inventive",
+                    "right": "conventional"
+                }
+            }
+        },
+        {
+            "id":"11",
+            "format": "ueqItem",
+            "dimension": "dependability",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "obstructive",
+                    "right": "supportive"
+                }
+            }
+        },
+        {
+            "id":"12",
+            "format": "ueqItem",
+            "dimension": "attractiveness",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "good",
+                    "right": "bad"
+                }
+            }
+        },
+        {
+            "id":"13",
+            "format": "ueqItem",
+            "dimension": "perspicuity",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "complicated",
+                    "right": "easy"
+                }
+            }
+        },
+        {
+            "id":"14",
+            "format": "ueqItem",
+            "dimension": "attractiveness",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "unlikable",
+                    "right": "pleasing"
+                }
+            }
+        },
+        {
+            "id":"15",
+            "format": "ueqItem",
+            "dimension": "novelty",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "usual",
+                    "right": "leadingEdge"
+                }
+            }
+        },
+        {
+            "id":"16",
+            "format": "ueqItem",
+            "dimension": "attractiveness",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "unpleasant",
+                    "right": "pleasant"
+                }
+            }
+        },
+        {
+            "id":"17",
+            "format": "ueqItem",
+            "dimension": "dependability",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "secure",
+                    "right": "notSecure"
+                }
+            }
+        },
+        {
+            "id":"18",
+            "format": "ueqItem",
+            "dimension": "stimulation",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "motivating",
+                    "right": "demotivating"
+                }
+            }
+        },
+        {
+            "id":"19",
+            "format": "ueqItem",
+            "dimension": "dependability",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "meetsExpectations",
+                    "right": "doesNotMeetExpectations"
+                }
+            }
+        },
+        {
+            "id":"20",
+            "format": "ueqItem",
+            "dimension": "efficiency",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "inefficient",
+                    "right": "efficient"
+                }
+            }
+        },
+        {
+            "id":"21",
+            "format": "ueqItem",
+            "dimension": "perspicuity",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "clear",
+                    "right": "confusing"
+                }
+            }
+        },
+        {
+            "id":"22",
+            "format": "ueqItem",
+            "dimension": "efficiency",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "impractical",
+                    "right": "practical"
+                }
+            }
+        },
+        {
+            "id":"23",
+            "format": "ueqItem",
+            "dimension": "efficiency",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "organized",
+                    "right": "cluttered"
+                }
+            }
+        },
+        {
+            "id":"24",
+            "format": "ueqItem",
+            "dimension": "attractiveness",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "attractive",
+                    "right": "unattractive"
+                }
+            }
+        },
+        {
+            "id":"25",
+            "format": "ueqItem",
+            "dimension": "attractiveness",
+            "parameters": {
+                "used": "used",
+                "negative": "yes",
+                "scales": "7",
+                "opposites": {
+                    "left": "friendly",
+                    "right": "unfriendly"
+                }
+            }
+        },
+        {
+            "id":"26",
+            "format": "ueqItem",
+            "dimension": "novelty",
+            "parameters": {
+                "used": "used",
+                "negative": "no",
+                "scales": "7",
+                "opposites": {
+                    "left": "conservative",
+                    "right": "innovative"
+                }
+            }
+        }
+    ],
     "favoriteGesturesQuestionnaire": [
         {
             "format": "groupingQuestionGUS",
@@ -1912,17 +2398,6 @@
                 "justificationFor": "always"
             },
             "styleguide": "Aus praktischen Gründen sollte ein Gesteninterface Daten in Echtzeit verarbeiten können. (Wachs et al., 2011) Aktionen sollten unmittelbares Feedback liefern. (Leap Motion, n.d.-a) Eine Gesteninteraktion sollte schnell sein. (Microsoft, 2013)"
-        },
-        {
-            "format": "dichotomousQuestionGUS",
-            "dimension": "physicalFatigue",
-            "question": "Ich denke, dass die Geste ermüdend ist und mich körperlich zu sehr fordert.",
-            "parameters": {
-                "used": "used",
-                "justification": "yes",
-                "justificationFor": "yes"
-            },
-            "styleguide": "Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011) Ermüdung vorbeugen, indem Gesten (für Intel) so designt werden, dass sie mit einem Ellbogen auf dem Tisch ausgeführt werden können Kurze Gesten, die kleine Pausen zulassen und keine präzisen Eingaben erfordern wirken Ermüdung entgegen. (Intel, 2012) Bei häufiger Verwendung sollen Gesten nicht ermüdend sein. (Microsoft, 2013; Nielsen et al., 2004)"
         },
         {
             "format": "dichotomousQuestionGUS",
@@ -2121,7 +2596,7 @@
             "parameters": {
                 "used": "used",
                 "justification": "yes",
-                "justificationFor": "no"
+                "justificationFor": "yes"
             },
             "styleguide": "Gesten sollten bequem sein. (Wachs et al., 2011) Intensive und lang andauernde Muskelanspannungen sind zu vermeiden (Gorilla Arm Syndrom). (Wachs et al., 2011) Ermüdung vorbeugen, indem Gesten (für Intel) so designt werden, dass sie mit einem Ellbogen auf dem Tisch ausgeführt werden können Kurze Gesten, die kleine Pausen zulassen und keine präzisen Eingaben erfordern wirken Ermüdung entgegen. (Intel, 2012) Bei häufiger Verwendung sollen Gesten nicht ermüdend sein. (Microsoft, 2013; Nielsen et al., 2004) Horizontale Gesten sind komfortabler als vertikale. (Intel, 2012) Eine Geste sollte einfach auszuführen sein. (Ashbrook & Starner, 2010; Nielsen et al., 2004) Eine Geste sollte von der Bewegung her nicht komisch sein. (Eigene Erfahrungen) Beachtung der genauen Körperhaltung eines Nutzers. (Intel, 2012; Microsoft, 2013)"
         },
@@ -2628,7 +3103,7 @@
     "observationsGestureTraining": [
         {
             "format": "groupingQuestionGUS",
-            "dimension": "physicalFatigue",
+            "dimension": "comfortErgonomics",
             "question": "Welche Gesten haben den Nutzer körperlich stark gefordert?",
             "parameters": {
                 "used": "used",
@@ -2840,7 +3315,7 @@
         },
         {
             "format": "groupingQuestionGUS",
-            "dimension": "physicalFatigue",
+            "dimension": "comfortErgonomics",
             "question": "Welche Gesten haben den Nutzer körperlich stark gefordert?",
             "parameters": {
                 "used": "used",
@@ -3054,7 +3529,7 @@
     "observationsPhysicalStressTest": [
         {
             "format": "groupingQuestionGUS",
-            "dimension": "physicalFatigue",
+            "dimension": "comfortErgonomics",
             "question": "Welche Gesten haben den Nutzer körperlich stark gefordert?",
             "parameters": {
                 "used": "used",
@@ -3593,6 +4068,11 @@
             "id": "no-data-gus-questionnaire",
             "type": "warning",
             "text": "Um einen GUS zu erstellen, wählen Sie den gewünschten Aspekt aus (z.B. <em>Soziale Akzeptanz</em>). Sie können anschließend die vordefinierten Fragen anpassen. Falls einmal eine Frage nicht für die Befragung übernommen werden soll, klicken Sie auf das Symbol <i class='fa fa-star'></i>. Die Einstellungen werden für diese Frage ausgeblendet und das Element zusätzlich ausgegraut."
+        },
+        "noDataUEQQuestionnaire": {
+            "id": "no-data-ueq-questionnaire",
+            "type": "warning",
+            "text": "Um einen UEQ zu erstellen, wählen Sie den gewünschten Aspekt aus (z.B. <em>Soziale Akzeptanz</em>). Sie können anschließend die vordefinierten Fragen anpassen. Falls einmal eine Frage nicht für die Befragung übernommen werden soll, klicken Sie auf das Symbol <i class='fa fa-star'></i>. Die Einstellungen werden für diese Frage ausgeblendet und das Element zusätzlich ausgegraut."
         },
         "notAssignedToGestureSet": {
             "id": "not-assigned-to-gesture-set",

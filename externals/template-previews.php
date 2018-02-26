@@ -243,6 +243,22 @@ include '../includes/language.php';
             <span class="label label-danger hidden" id="reversed" style="margin-left: 4px"><?php echo $lang->negated ?></span>
         </div>
     </div>
+    
+    <div class="row root" id="ueq">
+        <div class="col-md-4" id="column-left"></div>
+        <div class="col-md-8" id="column-right">
+            <h3 class="headline" style="margin-top: 0"></h3>
+            <div class="question-container" ></div>
+            <button class="next-step btn btn-success btn-block pull-right disabled" id="btn-next-step" style="margin-top: 10px"><i class="fa fa-check" aria-hidden="true"></i> <span class="btn-text"><?php echo $lang->done ?></span></button>
+        </div>
+    </div>
+
+<!--    <div class="panel panel-default root" id="ueqItem" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <span class="question text"></span> 
+            <span class="label label-danger hidden" id="reversed" style="margin-left: 4px"><?php echo $lang->negated ?></span>
+        </div>
+    </div>-->
 
 
     <!-- GUS container & item -->
@@ -403,7 +419,7 @@ include '../includes/language.php';
                 <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-show-gesture" style=""><i class="fa fa-circle-o-notch fa-spin hidden"></i> <span class="btn-text"><?php echo $lang->showGesture ?></span></button>
                 <button type="button" class="btn btn-default btn-block btn-shadow disabled" id="btn-quit-gesture-preview" style=""><i class="fa fa-circle-o-notch fa-spin hidden"></i> <span class="btn-text"><?php echo $lang->quitGesturePreview ?></span></button>
             </div>
-            
+
         </div>
         <div class="col-xs-7 col-sm-6 col-md-8" id="transition-scenes">
             <h4 id="start-scene-header" class="hidden" style="margin:0"><?php echo $lang->stateCharts->state ?></h4>
@@ -1074,6 +1090,7 @@ include '../includes/language.php';
 
 
     <div class="root" id="questionnaire" style="margin-top: 80px;"></div>
+    <div class="root" id="ueq" style="margin-top: 80px;"></div>
 
     <div id="questionnaire-moderated">
         <div class="col-md-4" id="column-left" style="margin-bottom: 15px;"></div>
@@ -2118,6 +2135,18 @@ include '../includes/language.php';
             <button class="btn btn-default btn-shadow btn-down"><i class="glyphicon glyphicon-arrow-down"></i></button> 
         </div>
         <span class="option-text text" style="margin-left: 8px; margin-top: 10px"></span>
+    </div>
+
+
+
+    <div class="root" id="ueqItem" style="margin-bottom: 15px; display: table-row">       
+        <!--<div class="row">-->
+            <!--<div class="col-sm-3 col-md-4 opposite-left text" style="text-align: right; margin-top: 0px"></div>-->
+            <div class=" opposite-left text" style="text-align: right; margin-top: 0px; display: table-cell"></div>
+            <div class=" text-center" style="display: table-cell; padding: 0px 10px"><div class="option-container root"></div></div>
+            <div class=" opposite-right text" style="margin-top: 0px; display: table-cell"></div>
+        <!--</div>-->
+        
     </div>
 
     <div class="panel panel-default root" id="alternativeQuestion" style="margin-bottom: 5px;">

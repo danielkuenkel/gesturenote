@@ -224,8 +224,8 @@ if (isset($_SESSION['user_id'], $_POST['studyId'], $_POST['participantId'])) {
                                 'notes' => json_decode_nice($notes, false),
                                 'created' => $created);
                         } else {
-                            echo json_encode(array('status' => 'rowsError', 'num_rows' => $select_stmt->num_rows, 'studyId' => $selectStudyId, "evaluatorId" => $sessionUserId, 'testerId' => $selectParticipantId));
-                            exit();
+//                            echo json_encode(array('status' => 'rowsError', 'num_rows' => $select_stmt->num_rows, 'studyId' => $selectStudyId, "evaluatorId" => $sessionUserId, 'testerId' => $selectParticipantId));
+//                            exit();
                         }
                     }
                 } else {

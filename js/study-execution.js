@@ -337,10 +337,8 @@ function getCurrentPhaseStepIndex() {
 
 function getThanksStepIndex() {
     var phaseSteps = getContextualPhaseSteps();
-    console.log(phaseSteps.length);
     for (var i = 0; i < phaseSteps.length; i++) {
         if (phaseSteps[i].format === THANKS) {
-            console.log(i);
             return i;
         }
     }

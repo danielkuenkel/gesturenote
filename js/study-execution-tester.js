@@ -26,7 +26,6 @@ var Tester = {
             });
 
         }
-        console.log('currentPhaseData', currentPhaseData)
 
         Tester.initializePeerConnection();
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
@@ -46,6 +45,10 @@ var Tester = {
                     break;
                 case QUESTIONNAIRE:
                     item = Tester.getQuestionnaire(container, currentPhaseData, true);
+                    break;
+                case UEQ:
+                    item = Tester.getQuestionnaire(container, currentPhaseData, true);
+                    $(item).find('.question-container').css({display: 'table', margin: '0 auto'});
                     break;
                 case INTERVIEW:
                     item = Tester.getInterview(container, currentPhaseData);
@@ -152,6 +155,7 @@ var Tester = {
 
             nextStep();
         });
+
         $(container).find('#letter-decline').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!previewModeEnabled) {
@@ -270,9 +274,11 @@ var Tester = {
             $(container).find('#gesture .text').text(gesture.title);
             $(container).find('#trigger .address').text(translation.trigger + ':');
             $(container).find('#trigger .text').text(trigger.title);
-            $(container).find('#feedback .address').text(translation.feedback + ':');
-            $(container).find('#feedback .text').text(feedback.title);
+
             if (feedback) {
+                $(container).find('#feedback .address').text(translation.feedback + ':');
+                $(container).find('#feedback .text').text(feedback.title);
+
                 var icon = document.createElement('i');
                 var label = document.createElement('div');
                 $(label).addClass('label label-default');
@@ -2144,6 +2150,11 @@ var Tester = {
                         $('#viewTester').find('#pinnedRTC').css({opacity: 0});
                     }
                 });
+            } else {
+                clearAlerts($('#viewTester'));
+                $('#viewTester').find('#phase-content').removeClass('hidden');
+                $('#viewTester').find('#pinnedRTC').css({opacity: 1});
+                updateRTCHeight($('#viewTester #column-left').width());
             }
         }
     },
@@ -2230,8 +2241,7 @@ var Tester = {
 };
 
 function checkRTCUploadStatus(container) {
-    console.log('check RTC Upload Status', container, uploadQueue.allFilesUploaded(), uploadQueue.uploadPending());
-    if (isUploadRecordingNeeded() && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
+    if (isUploadRecordingNeeded() && uploadQueue && !uploadQueue.allFilesUploaded() && uploadQueue.uploadPending() === true) {
         console.log('sumbmit final data with upload queue, some files where not uploaded yet!');
         submitFinalData(container, false);
 //        $(uploadQueue).unbind(EVENT_ALL_FILES_UPLOADED).bind(EVENT_ALL_FILES_UPLOADED, function () {

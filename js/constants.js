@@ -64,6 +64,7 @@ var INTERVIEW = 'interview';
 var GUS_SINGLE_GESTURES = 'gus';
 var GUS_MULTIPLE_GESTURES = 'questionnaireGestures';
 var SUS = 'sus';
+var UEQ = 'ueq';
 var LETTER_OF_ACCEPTANCE = 'letterOfAcceptance';
 var GESTURE_TRAINING = 'gestureTraining';
 var SCENARIO = 'scenario';
@@ -91,6 +92,7 @@ var RANKING = 'ranking';
 var COUNTER = 'counter';
 var GUS_SINGLE = 'gusSingle';
 var SUS_ITEM = 'susItem';
+var UEQ_ITEM = 'ueqItem';
 
 // scene formats
 var SCENE_PIDOCO = 'pidoco';

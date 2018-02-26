@@ -26,6 +26,9 @@ function createOriginPhases() {
         phases.push({id: chance.natural(), format: LETTER_OF_ACCEPTANCE});//new PhaseItem(chance.natural(), LETTER_OF_ACCEPTANCE, colors.pop()));
         phases.push({id: chance.natural(), format: THANKS});//new PhaseItem(chance.natural(), THANKS, colors.pop()));
         setLocalItem(STUDY_PHASE_STEPS, phases);
+        
+        setLocalItem(phases[0].id + '.data', translation.placeholderLetterOfAcceptance);
+        setLocalItem(phases[1].id + '.data', translation.placeholderThanks);
     }
 }
 

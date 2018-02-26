@@ -56,9 +56,10 @@ function renderFormatItem(target, data, currentPhaseFormat) {
     var clone = $('#form-item-container').find('#' + data.format).clone();
     $(clone).find('.question').val(data.question);
     clone.attr('name', data.id || chance.natural());
-    clone.addClass(data.dimension);
+    clone.attr('data-dimension', data.dimension);
     $(target).append(clone);
 
+    var dimensions = translation.dimensions;
     var parameters = data.parameters;
     var options = data.options;
     switch (data.format) {
@@ -77,8 +78,6 @@ function renderFormatItem(target, data, currentPhaseFormat) {
             }
             break;
         case DICHOTOMOUS_QUESTION:
-//            $(clone).find('.justification #' + parameters.justification).click();
-//            $(clone).find('.justification-for #' + parameters.justificationFor).click();
             initJustificationFormElements(clone, parameters);
             break;
         case DICHOTOMOUS_QUESTION_GUS:
@@ -88,16 +87,25 @@ function renderFormatItem(target, data, currentPhaseFormat) {
             } else {
                 $(clone).find('.hide-when-unused').addClass('hidden');
             }
-//            $(clone).find('.justification #' + parameters.justification).click();
-//            $(clone).find('.justification-for #' + parameters.justificationFor).click();
+            break;
+        case UEQ_ITEM:
+//            $(clone).attr('data-ueq-id', data.id);
+            dimensions = translation.ueqDimensions;
+            if (parameters.used === 'used') {
+                $(clone).find('.btn-use').click();
+            } else {
+                $(clone).find('.hide-when-unused').addClass('hidden');
+            }
+
+            $(clone).find('.opposites .left').text(translation.ueqOpposites[parameters.opposites.left]);
+            $(clone).find('.opposites .left').attr('data-opposite-id', parameters.opposites.left);
+            $(clone).find('.opposites .right').text(translation.ueqOpposites[parameters.opposites.right]);
+            $(clone).find('.opposites .right').attr('data-opposite-id', parameters.opposites.right);
+            $(clone).find('.negative #' + parameters.negative).click();
             break;
         case GROUPING_QUESTION:
-//            console.log(parameters);
             $(clone).find('.multiselect #' + parameters.multiselect).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
-//            $(clone).find('.justification #' + parameters.justification).click();
-//            $(clone).find('.justification-for #' + parameters.justificationFor).click();
-
 
             if (options) {
                 for (var j = 0; j < options.length; j++) {
@@ -119,8 +127,6 @@ function renderFormatItem(target, data, currentPhaseFormat) {
             }
             $(clone).find('.multiselect #' + parameters.multiselect).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
-//            $(clone).find('.justification #' + parameters.justification).click();
-//            $(clone).find('.justification-for #' + parameters.justificationFor).click();
             $(clone).find('.optionselect #' + parameters.optionSource).click();
             initJustificationFormElements(clone, parameters);
             break;
@@ -132,18 +138,6 @@ function renderFormatItem(target, data, currentPhaseFormat) {
                 $(clone).find('#scale_' + (options.length)).addClass('selected');
                 $(clone).find('.chosen').attr('id', (options.length));
                 $(clone).find('.show-dropdown').val(options.length);
-//                for (var j = 0; j < options.length; j++) {
-//                    var option = $('#ratingItem').clone().removeClass('hidden');
-//                    $(option).find('.option').val(options[j]);
-//                    $(clone).find('.option-container').append(option);
-//                    $(option).find('.optionQuestion').val(options[j].option);
-//                    $(option).find('.chosen').attr('id', (options.length));
-//                    $(option).find('.show-dropdown').val(options[j].scales.length);
-//                    $(option).find('#scale_' + (options.length)).addClass('selected');
-//                    checkCurrentListState($(clone).find('.option-container'));
-//                    
-//                    
-//                }
             }
             break;
         case MATRIX:
@@ -191,8 +185,6 @@ function renderFormatItem(target, data, currentPhaseFormat) {
             } else {
                 $(clone).find('.hide-when-unused').addClass('hidden');
             }
-//            $(clone).find('.justification #' + parameters.justification).click();
-//            $(clone).find('.justification-for #' + parameters.justificationFor).click();
             $(clone).find('.optionalanswer #' + parameters.optionalanswer).click();
             $(clone).find('.alternative #' + parameters.alternative).click();
             initJustificationFormElements(clone, parameters);
@@ -253,10 +245,8 @@ function renderFormatItem(target, data, currentPhaseFormat) {
             $(dimensionButton).addClass('btn-info');
             $(dimensionButton).removeClass('inactive');
         }
-        var dimensions = translation.dimensions;
-        var mainDimensions = translation.mainDimensions;
+
         $(clone).find('#factor-primary').text(dimensions[dimension]);
-//        $(clone).find('#factor-main').text(mainDimensions[getMainDimensionForDimension(dimension)]);
     }
 
     TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
@@ -264,7 +254,6 @@ function renderFormatItem(target, data, currentPhaseFormat) {
 
 function initJustificationFormElements(clone, parameters) {
     $(clone).find('.justification').unbind('change').bind('change', function (event) {
-//        console.log('justification changed');
         event.preventDefault();
         if ($(event.target).attr('id') === 'yes') {
             $(clone).find('.justification-for').removeClass('hidden');
@@ -275,7 +264,6 @@ function initJustificationFormElements(clone, parameters) {
 
     if (parameters && parameters.justification === 'yes') {
         $(clone).find('.justification #yes').click();
-//        $(clone).find('.justification-for').removeClass('hidden');
 
         if (parameters.justificationFor) {
             $(clone).find('.justification-for #' + parameters.justificationFor).click();
@@ -297,7 +285,7 @@ function getFormatData(element, currentPhaseFormat) {
 
     switch (format) {
         case SUS_ITEM:
-            parameters = {negative: $(element).find('.negative .active').attr('id')};
+            parameters = {negative: $(element).find('.negative .btn-option-checked').attr('id')};
             break;
         case COUNTER:
             var countFrom = parseInt($(element).find('#counter-from .stepper-text').val());
@@ -318,8 +306,6 @@ function getFormatData(element, currentPhaseFormat) {
             break;
         case GROUPING_QUESTION:
             parameters = {multiselect: $(element).find('.multiselect .btn-option-checked').attr('id'),
-//                justification: $(element).find('.justification .btn-option-checked').attr('id'),
-//                justificationFor: $(element).find('.justification-for .btn-option-checked').attr('id'),
                 optionalanswer: $(element).find('.optionalanswer .btn-option-checked').attr('id')};
             options = new Array();
             var groupingOptions = $(element).find('.option-container').children();
@@ -391,7 +377,6 @@ function getFormatData(element, currentPhaseFormat) {
                 alternative: $(element).find('.alternative .btn-option-checked').attr('id')};
             var aGestures = assembledGestures();
             var aTriggers = getLocalItem(ASSEMBLED_TRIGGER);
-//            var currentPhase = getPhaseById(currentIdForModal);
             if (currentPhaseFormat === GUS_SINGLE_GESTURES) {
                 parameters.alternativeFor = 'alternativeGesture';
                 break;
@@ -419,7 +404,12 @@ function getFormatData(element, currentPhaseFormat) {
             break;
         case GUS_SINGLE:
             parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
-                negative: $(element).find('.negative .active').attr('id')};
+                negative: $(element).find('.negative .btn-option-checked').attr('id')};
+            break;
+        case UEQ_ITEM:
+            parameters = {used: $(element).find('.btn-use').hasClass('used') ? 'used' : 'not-used',
+                negative: $(element).find('.negative .btn-option-checked').attr('id'),
+                opposites: {left: $(element).find('.opposites .left').attr('data-opposite-id'), right: $(element).find('.opposites .right').attr('data-opposite-id')}};
             break;
     }
     return {id: id, format: format, dimension: dimension, question: question, parameters: parameters, options: options};
@@ -489,9 +479,9 @@ function renderQuestionnaire(target, questionnaire, answers) {
                     case ALTERNATIVE_QUESTION:
                         renderEditableAlternativeQuestion(item, questionnaire[i], answer);
                         break;
-//                    case SUS_ITEM:
-//                        renderEditableSUSQuestion();
-//                        break;
+                    case UEQ_ITEM:
+                        renderEditableUEQ(item, questionnaire[i], answer);
+                        break;
                 }
             } else {
                 switch (questionnaire[i].format) {
@@ -535,6 +525,9 @@ function renderQuestionnaire(target, questionnaire, answers) {
 
                     case SUS_ITEM:
                         renderSusInput(item);
+                        break;
+                    case UEQ_ITEM:
+                        renderUEQInput(item, parameters);
                         break;
                 }
             }
@@ -587,10 +580,13 @@ function getQuestionnaireAnswers(questionnaire) {
                 questionnaireAnswers.push({id: id, answer: getGroupingQuestionAnswers($(questionnaire[i]))});
                 break;
             case GUS_SINGLE:
-                questionnaireAnswers.push({id: id, answer: getSingleUSAnswers($(questionnaire[i]))});
+                questionnaireAnswers.push({id: id, answer: getSingleSUSAnswers($(questionnaire[i]))});
                 break;
             case SUS_ITEM:
-                questionnaireAnswers.push({id: id, answer: getSingleUSAnswers($(questionnaire[i]))});
+                questionnaireAnswers.push({id: id, answer: getSingleSUSAnswers($(questionnaire[i]))});
+                break;
+            case UEQ_ITEM:
+                questionnaireAnswers.push({id: id, answer: getUEQAnswers($(questionnaire[i]))});
                 break;
         }
     }
@@ -660,6 +656,13 @@ function getRatingAnswers(source) {
     return data;
 }
 
+function getUEQAnswers(source) {
+    var data = new Object();
+    var selectedIndex = $(source).find('.option-container').find('.btn-option-checked').closest('.btn-group').index();
+    data.selectedOption = selectedIndex;
+    return data;
+}
+
 function getMatrixAnswers(source) {
     var data = new Object();
     var array = new Array();
@@ -708,7 +711,7 @@ function getRankingAnswers(source) {
 //    return data;
 //}
 
-function getSingleUSAnswers(source) {
+function getSingleSUSAnswers(source) {
     return {selectedOption: $(source).find('.option-container .btn-option-checked').closest('.btn-group').index() >> 1};
 }
 
@@ -725,11 +728,10 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
     for (var i = 0; i < studyData.length; i++) {
         var listItem = $('#template-study-container').find('#' + studyData[i].format).clone();
         listItem.find('#format .format-text').text(translation.questionFormats[studyData[i].format].text);
-        if (studyData.length > 1) {
-            $(listItem).find('.question').text((i + 1) + '. ' + studyData[i].question);
-        } else {
-            $(listItem).find('.question').text(studyData[i].question);
-        }
+        $(listItem).find('.question').text(studyData.length > 1 ? (i + 1) + '. ' + studyData[i].question : studyData[i].question);
+
+
+//        console.log(studyData[i], listItem)
 
         $(content).find('.question-container').append(listItem);
 //        console.log($(content).find('.question-container'), listItem);
@@ -782,6 +784,10 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
                 break;
             case SUS_ITEM:
                 renderSUSItem(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
+                break;
+            case UEQ_ITEM:
+                $(listItem).find('.question').text((i + 1) + '. ' + translation.ueqOpposites[studyData[i].parameters.opposites.left] + ' - ' + translation.ueqOpposites[studyData[i].parameters.opposites.right]);
+                renderUEQItem(listItem, studyData[i], getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
                 break;
         }
 
@@ -1566,9 +1572,53 @@ function renderSUSItem(item, studyData, answer) {
     }
 }
 
-function renderRatingSigns(container, score, maxScore) {
+function renderUEQItem(item, studyData, answer) {
+    var score = 0;
+    console.log(answer);
+    if (studyData.parameters.negative === 'yes') {
+        $(item).find('#negative').removeClass('hidden');
+        if (answer) {
+            score = 7 - (parseInt(answer.selectedOption) + 1) - 3;
+        }
+    } else {
+        $(item).find('#positive').removeClass('hidden');
+        if (answer) {
+            score = parseInt(answer.selectedOption) - 3;
+        }
+    }
+
+//    console.log(score);
+
+    if (answer) {
+        var selectedOption = parseInt(answer.selectedOption);
+        if (selectedOption === -1) {
+            $(item).find('#score-container').remove();
+            $(item).find('#no-answer').removeClass('hidden');
+        } else {
+            renderRatingSigns($(item).find('#score-container'), score, 7, -4);
+        }
+    } else {
+        $(item).find('#no-answer').removeClass('hidden');
+    }
+}
+
+function renderEditableUEQ(item, studyData, answer) {
+    renderUEQInput(item, studyData.parameters);
+    if (answer && parseInt(answer.selectedOption) > -1) {
+        var btn = $($(item).find('.option-container').children()[parseInt(answer.selectedOption)]).find('.btn');
+        $(btn).addClass('btn-option-checked');
+        $(btn).find('#normal').addClass('hidden');
+        $(btn).find('#checked').removeClass('hidden');
+    }
+}
+
+function renderRatingSigns(container, score, maxScore, shifting) {
     $(container).find('.score-text').text(score);
     var balance = 0;
+
+    if (!shifting) {
+        shifting = 0;
+    }
 
     if (maxScore % 2 === 0) {
         balance = (maxScore / 2) + .5;
@@ -1580,7 +1630,7 @@ function renderRatingSigns(container, score, maxScore) {
             $(container).find('.fa').addClass('fa-caret-left');
         }
     } else {
-        balance = Math.floor(maxScore / 2) + (maxScore % 2);
+        balance = Math.floor(maxScore / 2) + (maxScore % 2) + shifting;
         if (score > balance) {
             $(container).find('.fa').addClass('fa-thumbs-up');
         } else if (score < balance) {
@@ -1932,6 +1982,31 @@ function renderRankingInput(item, options) {
             rankingItem.attr('id', options[i].id);
             item.find('.option-container').append(rankingItem);
             checkCurrentListState(item.find('.option-container'));
+        }
+    }
+}
+
+
+/*
+ * ueq
+ */
+
+function renderUEQInput(item, parameters) {
+    if (parameters) {
+        $(item).find('.opposite-left').text(translation.ueqOpposites[parameters.opposites.left]);
+        $(item).find('.opposite-right').text(translation.ueqOpposites[parameters.opposites.right]);
+        for (var i = 0; i < 7; i++) {
+            var radioButton = $('#item-container-inputs').find('#radio').clone();
+//            radioButton.find('.option-text').html(options[i]);
+            $(radioButton).css({marginTop: 0, marginRight: '1px'});
+            $(radioButton).find('.btn').css({height: '26px', paddingLeft: '7px', paddingRight: '7px'});
+            $(radioButton).find('.option-text').remove();
+            $(radioButton).find('#icons').css({marginRight: 0, fontSize: '11pt'});
+            item.find('.option-container').append(radioButton);
+//            var rankingItem = $('#item-container-inputs').find('#ueq-item').clone().removeAttr('id');
+//            rankingItem.find('.option-text').html(options[i].text);
+//            rankingItem.attr('id', options[i].id);
+//            item.find('.scales-container').append(rankingItem);
         }
     }
 }

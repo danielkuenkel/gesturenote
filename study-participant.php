@@ -280,6 +280,9 @@ if (login_check($mysqli) == true) {
                         case SUS:
                             renderSUS(content, phaseData, testerResults);
                             break;
+                        case UEQ:
+                            renderQuestionnaireAnswers(content, phaseData, testerResults, true);
+                            break;
                         case GUS_SINGLE_GESTURES:
                             renderSingleGUS(content, phaseData, testerResults);
                             break;
@@ -468,16 +471,19 @@ if (login_check($mysqli) == true) {
                 if (gesture && isGestureAssembled(studyData.gestureId)) {
                     content.find('#title').text(gesture.title);
                     renderGestureImages(content.find('.previewGesture'), gesture.images, gesture.previewImage, null);
-                    var trigger = getTriggerById(studyData.triggerId);
-                    var feedback = getFeedbackById(studyData.feedbackId);
                     $(content).find('#gesture .address').text(translation.gesture + ':');
                     $(content).find('#gesture .text').text(gesture.title);
+
+                    var trigger = getTriggerById(studyData.triggerId);
                     $(content).find('#trigger .address').text(translation.trigger + ':');
                     $(content).find('#trigger .text').text(trigger.title);
-                    $(content).find('#feedback .address').text(translation.feedback + ':');
-                    $(content).find('#feedback .text').text(feedback.title);
 
+
+                    var feedback = getFeedbackById(studyData.feedbackId);
                     if (feedback) {
+                        $(content).find('#feedback .address').text(translation.feedback + ':');
+                        $(content).find('#feedback .text').text(feedback.title);
+
                         var icon = document.createElement('i');
                         var label = document.createElement('div');
                         $(label).addClass('label label-default');

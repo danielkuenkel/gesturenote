@@ -1956,7 +1956,7 @@ include '../includes/language.php';
                     <button class="btn btn-info btn-shadow font-bold btn-add-transition-scene" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addState ?></span></button>
                 </div>
             </div>
-            
+
         </div>
     </div>
 
@@ -2444,8 +2444,6 @@ include '../includes/language.php';
         <div class="panel-body hide-when-unused">
 
             <div style="width: 100%" id="item-factors">
-                <!--                <div class="label label-primary" id="factor-main"></div>
-                <img src="img/factor-transition.jpg" class="item-factors-separator">-->
                 <div class="label label-primary" id="factor-primary"></div>
             </div>
 
@@ -2530,6 +2528,62 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow btn-toggle-checkbox inactive" id="yes" name="btn-danger"><?php echo $lang->yes ?></button>
                 <button class="btn btn-success btn-shadow btn-toggle-checkbox active" id="no" name="btn-success"><?php echo $lang->no ?></button>
             </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default not-used root" id="ueqItem" style="margin-bottom: 10px;">
+        <div class="panel-heading">
+            <div class="btn-group btn-group-sm" style="margin-right: 10px">
+                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                <button class="btn btn-default btn-shadow btn-delete hidden"><span class="glyphicon glyphicon-trash"></span></button>
+                <button class="btn btn-default btn-shadow btn-use not-used"><span class="glyphicon glyphicon-star"></span></button>
+            </div>
+            <span><?php echo $lang->questionFormats->ueqItem->text ?> <span class="badgeId">0</span> <?php echo $lang->of ?> <span class="badgeQuantity">0</span></span>
+            <div class="btn-group pull-right">
+                <button class="btn btn-default btn-shadow btn-sm btn-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->preview ?>"><i class="fa fa-eye"></i></button>
+            </div>
+        </div>
+        <div class="panel-body hide-when-unused">
+
+            <div style="width: 100%" id="item-factors">
+                <div class="label label-primary" id="factor-primary"></div>
+            </div>
+
+            <form class="form-inline" style="margin-top: 10px">
+                <div class="form-group form-group-no-margin opposites" style="margin-right: 20px; margin-bottom: 10px">
+                    <label style="margin: 0"><?php echo $lang->opposites ?></label>
+                    <div><span class="left"></span> - <span class="right"></span></div>
+                </div>
+
+                <div class="form-group root negative" style="margin-bottom: 10px">
+                    <label style="margin: 0"><?php echo $lang->negativeQuestionmark ?></label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="no">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->no ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="yes">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->yes ?></span>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="ratingScaleItemContainer"></div>
         </div>
     </div>
 

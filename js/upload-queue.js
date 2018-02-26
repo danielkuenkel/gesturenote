@@ -105,7 +105,7 @@ UploadQueue.prototype.allFilesUploaded = function () {
 };
 
 UploadQueue.prototype.uploadPending = function () {
-    return hasPendingUploads;
+    return hasPendingUploads || false;
 };
 
 UploadQueue.prototype.uploadIsPending = function () {

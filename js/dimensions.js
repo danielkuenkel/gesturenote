@@ -5,12 +5,11 @@
 var predefinedQuestionnaire = null;
 var questionsContainer = null;
 var dimensionList = null;
-function renderDimensions(target, questionnaire, container) {
+function renderDimensions(target, questionnaire, container, dimensions) {
     dimensionList = target;
     predefinedQuestionnaire = questionnaire;
     questionsContainer = container;
-
-    var dimensions = translation.dimensions;
+    
     for (var key in dimensions) {
         if (dimensions.hasOwnProperty(key)) {
             var value = dimensions[key];
@@ -111,10 +110,11 @@ function addQuestionnaireItems(container, dimension) {
 }
 
 function renderQuesitonnaireItemsForDimension(dimension) {
-    var obeservationItems = getPredefinedQuestionnaireItemsByDimension(dimension);
-    for (var i = 0; i < obeservationItems.length; i++) {
-        renderFormatItem(questionsContainer, obeservationItems[i]);
-        updateBadges(questionsContainer, obeservationItems[i].format);
+    var items = getPredefinedQuestionnaireItemsByDimension(dimension);
+    console.log(items);
+    for (var i = 0; i < items.length; i++) {
+        renderFormatItem(questionsContainer, items[i]);
+        updateBadges(questionsContainer, items[i].format);
     }
     checkCurrentListState(questionsContainer);
     checkDimensionItems($(dimensionList).find('.dimension-container'));
@@ -172,7 +172,7 @@ $(document).on('click', '.btn-use', function (event) {
 function checkUsedItems(element) {
     var dimension = getDimensionByElement(element);
 //    var mainDimension = getMainDimensionForDimension(dimension);
-    var usedDimensionElements = element.parent().children('.' + dimension).find('.used');
+    var usedDimensionElements = element.parent().children('[data-dimension=' + dimension + ']').find('.used');
     if (usedDimensionElements.length === 0) {
         $('#dimension-controls #' + dimension).click();
     }

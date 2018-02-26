@@ -327,18 +327,6 @@ include '../includes/language.php';
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-                        <!--                        <div class="dimension-container" id="container-efficiency">
-                                                    <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                                                    <div class="dimension-btn-group">
-                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                                    </div>
-                                                </div>
-                                                <div class="dimension-container" id="container-satisfaction">
-                                                    <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                                                    <div class="dimension-btn-group">
-                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                                    </div>
-                                                </div>-->
                     </div>
 
                     <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
@@ -385,18 +373,6 @@ include '../includes/language.php';
                                 <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
                             </div>
                         </div>
-                        <!--                        <div class="dimension-container" id="container-efficiency">
-                                                    <h4 style=""><?php echo $lang->mainDimensions->efficiency ?></h4>
-                                                    <div class="dimension-btn-group">
-                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                                    </div>
-                                                </div>
-                                                <div class="dimension-container" id="container-satisfaction">
-                                                    <h4 style=""><?php echo $lang->mainDimensions->satisfaction ?></h4>
-                                                    <div class="dimension-btn-group">
-                                                        <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
-                                                    </div>
-                                                </div>-->
                     </div>
                     <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
                 </div>
@@ -441,6 +417,52 @@ include '../includes/language.php';
                 </div>
             </div>
 
+        </div>
+
+        <br/>
+        <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+    </div>
+    
+    <div id="ueq">
+        <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+
+        <div class="row">
+            <div class="col-md-7">
+
+                <div class="overlay-header">
+                    <div class="overlay-header-container">
+                        <h3 class="overlay-title-editable" id="overlay-title"><span id="phase-step-title"></span> <i class="fa fa-pencil" id="btn-edit-phase-step-title"></i></h3>
+
+                        <div class="input-group hidden" id="phase-step-title-input-container">
+                            <input class="form-control item-input-text" id="phase-step-title-input" type="text" value="" maxlength="30"/>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default btn-success btn-shadow" id="btn-save-phase-step-title" data-toggle="tooltip"><i class="fa fa-check"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
+                </div>
+
+                <div style="margin-top: 16px">
+                    <div class="alert-space alert-no-data-ueq-questionnaire"></div>
+                    <div class="container-root" id="list-container"></div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="toggle-affix">
+                    <div id="dimension-controls">
+                        <div class="dimension-container">
+                            <h4 style="margin-top: 0"><?php echo $lang->aspects ?></h4>
+                            <div class="dimension-btn-group">
+                                <button type="button" class="btn btn-default btn-shadow btn-toggle" id="all"><?php echo $lang->all ?></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-default btn-shadow btn-preview-questionnaire" style="margin-top: 10px"><i class="fa fa-eye"></i> <?php echo $lang->previewHoleQuestionnaire ?></button>
+                </div>
+            </div>
         </div>
 
         <br/>

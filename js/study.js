@@ -21,7 +21,7 @@ function renderData(data, hash, showTutorial) {
     // date range view
     var now = new Date().getTime();
     var dateFrom = studyData.generalData.dateFrom * 1000;
-    var dateTo = addDays(studyData.generalData.dateTo * 1000, 1);
+    var dateTo = addDays(studyData.generalData.dateTo * 1000, 1).getTime();
     var totalDays = rangeDays(dateFrom, dateTo);
     if ((studyData.generalData.dateFrom !== null && studyData.generalData.dateFrom !== "") &&
             (studyData.generalData.dateTo !== null && studyData.generalData.dateTo !== "")) {
@@ -59,13 +59,19 @@ function renderData(data, hash, showTutorial) {
         });
 
         // prepare study
-        if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED && now > dateFrom && now < dateTo) {
-            $('#btn-prepare-study, #btn-open-static-study-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
-                event.preventDefault();
-                if (!$(this).hasClass('disabled')) {
-                    goto(event.data.url);
-                }
-            });
+        console.log(now, dateFrom, dateTo, now > dateFrom && now < dateTo);
+        if (now > dateFrom && now < dateTo) {
+            if (studyData.generalData.surveyType === TYPE_SURVEY_MODERATED) {
+                $('#btn-prepare-study, #btn-open-static-study-url').on('click', {url: relativeStaticStudyUrl}, function (event) {
+                    event.preventDefault();
+                    if (!$(this).hasClass('disabled')) {
+                        goto(event.data.url);
+                    }
+                });
+            } else {
+                $('#btn-open-static-study-url').addClass('disabled');
+                $('#btn-open-static-study-url').attr('data-content', translation.staticStudyURLOnlyModerated);
+            }
         } else {
             $('#btn-prepare-study').remove();
             $('#btn-open-static-study-url').addClass('disabled');

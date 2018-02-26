@@ -232,6 +232,26 @@ include '../includes/language.php';
         <h3 id="headline" style="margin-top: 0"></h3>
         <div class="question-container" style="margin-top: 20px;"></div>
     </div>
+    
+    <div class="root" id="ueq">
+        <h3 id="headline" style="margin-top: 0"></h3>
+        <!--<hr>-->
+<!--        <div class="range-container" style="margin-top: 20px">
+            <div class="alert-space alert-sus-invalid"></div>
+            <div id="sus-score-results">
+                <div class="text-center">
+                    <div style="font-size: 100pt; line-height: 100pt; margin-top: 0" id="average-score"></div>
+                    <div id="score-adjective" style="margin-top: 0"><span class="address"></span> <span class="text"></span> <span class="tail"></span></div>
+                </div>
+                <i class="fa fa-chevron-down text" id="sus-score-pointer" aria-hidden="true" style="position: relative;"></i>
+                <div class="progress" id="sus-score-progress" style="margin: 0; margin-top: -4px"></div>
+
+                <div id="sus-marker-container" style="margin-top: 3px; margin-bottom: 100px"></div>
+            </div>
+        </div>-->
+        <hr>
+        <div class="question-container"></div>
+    </div>
 
 
     <div class="panel panel-default" id="counter" style="margin-bottom: 5px;">
@@ -578,7 +598,21 @@ include '../includes/language.php';
     </div>
 
     <span id="sus-item-option" class="text" style="padding: 7px; border-radius: 4px; margin-right: 6px; display: inline-block"></span>
-
+    
+    
+    
+    <div class="panel panel-default" id="ueqItem" style="margin-bottom: 5px;">
+        <div class="panel-body">
+            <div>
+                <span class="label label-default" id="format"><span class="format-text"></span></span>
+                <span class="label label-success hidden" id="positive"><span class="label-text"><?php echo $lang->positive ?></span></span>
+                <span class="label label-danger hidden" id="negative"><span class="label-text"><?php echo $lang->negative ?></span></span>
+            </div>
+            <label class="question"></label><br/>
+            <div class="pull-right text" id="score-container" style="position: absolute; right: 15px; top: 43px;"><span class="score-text"></span> <i class="fa" aria-hidden="true"></i></div>
+            <span class="label label-danger hidden" id="no-answer"><i class="fa fa-bolt"></i> <span class="label-text"><?php echo $lang->noAnswer ?></span></span>
+        </div>
+    </div>
 
 
 

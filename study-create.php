@@ -533,6 +533,12 @@ if (login_check($mysqli) == true) {
                                             <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sus ?>"></i>
                                         </div>
                                     </div>
+                                    <div class="btn-group" data-study-phase="all" data-study-survey-type="all">
+                                        <div class="btn btn-info btn-add-item btn-shadow font-bold" id="ueq">
+                                            <i class="fa fa-plus"></i> <?php echo $lang->formats->ueq->text ?>
+                                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->ueq ?>"></i>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <h4 style="margin-top: 20px"><?php echo $lang->miscellaneous ?></h4>

@@ -1000,8 +1000,8 @@ function renderAssembledTasks(tasks, targetContainer, addNoneItem) {
             $(target).find('.item-input-text').attr('placeholder', translation.noTasksPresent);
         }
     }
-    
-    if(selectedItem) {
+
+    if (selectedItem) {
         $(dropdown).find('#' + selectedItem).addClass('selected');
         $(dropdown).parent().find('.item-input-text').val($(target).find('#' + selectedItem + ' a').text());
     }
@@ -1495,12 +1495,9 @@ function getMainDimensionForDimension(dimension) {
 }
 
 function getDimensionByElement(element) {
-    var dimensions = translation.dimensions;
-
-    for (var dimension in dimensions) {
-        if ($(element).hasClass(dimension) === true) {
-            return dimension;
-        }
+    var dimension = $(element).attr('data-dimension');
+    if (dimension) {
+        return dimension;
     }
 
     return DIMENSION_ANY;
@@ -2002,11 +1999,11 @@ function initGestureThumbnail(data, typeId, layout, panelStyle) {
             clone.find('#gesture-source #' + SOURCE_GESTURE_TESTER).removeClass('hidden');
         }
     }
-    
+
 //    if (!clone.hasClass('deleteable')) {
 //        gesturePreviewDeleteable = false;
 //    }
-    
+
     renderGestureImages(clone.find('.previewGesture'), data.images, data.previewImage, null);
 
     $(clone).find('.gesture-thumbnail').mouseenter(function (event) {
@@ -2912,7 +2909,7 @@ function lockButton(button, showLoadingIndicator, originalIcon) {
     $(button).addClass('disabled');
     if (showLoadingIndicator && showLoadingIndicator === true && originalIcon) {
         $(button).find('.fa').removeClass(originalIcon).addClass('fa-spin fa-circle-o-notch');
-    } else if(showLoadingIndicator && showLoadingIndicator) {
+    } else if (showLoadingIndicator && showLoadingIndicator) {
         $(button).find('.fa').addClass('fa-spin fa-circle-o-notch');
     }
 }
@@ -2921,7 +2918,7 @@ function unlockButton(button, hideLoadingIndicator, originalIcon) {
     $(button).removeClass('disabled');
     if (hideLoadingIndicator && hideLoadingIndicator === true && originalIcon) {
         $(button).find('.fa').removeClass('fa-spin fa-circle-o-notch').addClass(originalIcon);
-    } else if(hideLoadingIndicator && hideLoadingIndicator === true) {
+    } else if (hideLoadingIndicator && hideLoadingIndicator === true) {
         $(button).find('.fa').removeClass('fa-spin fa-circle-o-notch');
     }
 }

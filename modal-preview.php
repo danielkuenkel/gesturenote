@@ -8,7 +8,9 @@ include 'includes/language.php';
     <h4 class="modal-title"><?php echo $lang->preview ?></h4>
 </div>
 <div id="modal-body" class="modal-body">
-    <div class="question-container container-root"></div>
+    <!--<div class="">-->
+        <div class="question-container container-root" style="display: table; margin: 0 auto"></div>
+    <!--</div>-->
 </div>
 <div id="modal-footer" class="modal-footer">
     <button type="button" class="btn btn-default btn-shadow" data-dismiss="modal"><i class="fa fa-close"></i> Schließen</button>

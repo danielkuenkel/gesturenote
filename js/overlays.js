@@ -51,6 +51,9 @@ function initOverlayContentFunctionalities(format, id, formatClone) {
         case SUS:
             initSUSOvlerlay(id, formatClone);
             break;
+        case UEQ:
+            initUEQOvlerlay(id, formatClone);
+            break;
         case GESTURE_TRAINING:
             initGestureTrainingOverlay(id, formatClone);
             break;
@@ -215,7 +218,7 @@ function initGUSSingleGesturesOverlay(id, formatClone) {
     renderAssembledTriggers($(formatClone).find('#gesture-trigger'));
     renderAssembledFeedback($(formatClone).find('#gesture-feedback'), [{id: 'none', title: translation.nones}]);
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
-    renderDimensions($(formatClone).find('#dimension-controls'), translation.singleGUS, $(formatClone).find('#list-container'));
+    renderDimensions($(formatClone).find('#dimension-controls'), translation.singleGUS, $(formatClone).find('#list-container'), translation.dimensions);
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone), true, true, ALERT_NO_DATA_GUS);
 
     var data = getLocalItem(id + '.data');
@@ -344,7 +347,7 @@ function initGUSMultipleGesturesOverlay(id, formatClone) {
     renderAssembledGestures($(formatClone).find('#forGesture'));
     renderAssembledTriggers($(formatClone).find('#gesture-trigger'));
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
-    renderDimensions($(formatClone).find('#dimension-controls'), translation.multipleGUS, $(formatClone).find('#list-container'));
+    renderDimensions($(formatClone).find('#dimension-controls'), translation.multipleGUS, $(formatClone).find('#list-container'), translation.dimensions);
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone), true, true, ALERT_NO_DATA_GUS_QUESTIONNAIRE);
 
     var data = getLocalItem(id + '.data');
@@ -414,6 +417,40 @@ function initSUSOvlerlay(id, formatClone) {
     initQuestionnairePreview($(formatClone).find('.btn-preview-questionnaire'), $(formatClone).find('#list-container'));
 }
 
+function initUEQOvlerlay(id, formatClone) {
+    renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
+    renderDimensions($(formatClone).find('#dimension-controls'), translation.ueqItems, $(formatClone).find('#list-container'), translation.ueqDimensions);
+    initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone), true, true, ALERT_NO_DATA_UEQ_QUESTIONNAIRE);
+
+    var data = getLocalItem(id + '.data');
+    if (data !== null) {
+        renderData(data);
+    } else {
+        appendAlert(formatClone, ALERT_NO_DATA_UEQ_QUESTIONNAIRE);
+    }
+
+    function renderData(data) {
+        var listContainer = $(formatClone).find('#list-container');
+        for (var i = 0; i < data.length; i++) {
+            renderFormatItem(listContainer, data[i]);
+            updateBadges(listContainer, data[i].format);
+        }
+        checkCurrentListState(listContainer);
+    }
+
+    $(formatClone).find('.btn-close-overlay').unbind('click').bind('click', function (event) {
+        $(formatClone).find('#btn-save-phase-step-title').click();
+        var itemList = $(formatClone).find('#list-container').children();
+        var questionnaire = new Array();
+        for (var i = 0; i < itemList.length; i++) {
+            questionnaire.push(getFormatData(itemList[i]));
+        }
+
+        setLocalItem(id + '.data', questionnaire);
+    });
+
+    initQuestionnairePreview($(formatClone).find('.btn-preview-questionnaire'), $(formatClone).find('#list-container'));
+}
 
 
 
@@ -424,7 +461,7 @@ function initSUSOvlerlay(id, formatClone) {
 
 function initGestureTrainingOverlay(id, formatClone) {
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
-    renderDimensions($(formatClone).find('#dimension-controls'), translation.observationsGestureTraining, $(formatClone).find('#observations #list-container'));
+    renderDimensions($(formatClone).find('#dimension-controls'), translation.observationsGestureTraining, $(formatClone).find('#observations #list-container'), translation.dimensions);
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-observation-button-group'), $(formatClone).find('#observations #list-container'), $(formatClone).find('#observations'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone).find('#observations'));
     initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
@@ -701,7 +738,7 @@ function initGestureTrainingOverlay(id, formatClone) {
 
 function initScenarioOverlay(id, formatClone) {
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
-    renderDimensions($(formatClone).find('#dimension-controls'), translation.observationsScenario, $(formatClone).find('#observations #list-container'));
+    renderDimensions($(formatClone).find('#dimension-controls'), translation.observationsScenario, $(formatClone).find('#observations #list-container'), translation.dimensions);
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-observation-button-group'), $(formatClone).find('#observations #list-container'), $(formatClone).find('#observations'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone).find('#observations'));
 //    initToggleSwitch(formatClone, $(formatClone).find('#useWOZSwitch'), $(formatClone).find('#wozExperiment'));
@@ -1290,7 +1327,7 @@ function initScenarioOverlay(id, formatClone) {
 
 function initGestureSlideshowOverlay(id, formatClone) {
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
-    renderDimensions($(formatClone).find('#dimension-controls'), translation.observationsGestureSlideshow, $(formatClone).find('#observations #list-container'));
+    renderDimensions($(formatClone).find('#dimension-controls'), translation.observationsGestureSlideshow, $(formatClone).find('#observations #list-container'), translation.dimensions);
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-observation-button-group'), $(formatClone).find('#observations #list-container'), $(formatClone).find('#observations'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone).find('#observations'));
     initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
@@ -1518,7 +1555,7 @@ function initTriggerSlideshowOverlay(id, formatClone) {
 
 function initPhysicalStressTestOverlay(id, formatClone) {
     renderOverlayTitle(id, $(formatClone).find('#overlay-title'), $(formatClone).find('#phase-step-title-input-container'));
-    renderDimensions($(formatClone).find('#observations #dimension-controls'), translation.observationsPhysicalStressTest, $(formatClone).find('#observations #list-container'));
+    renderDimensions($(formatClone).find('#observations #dimension-controls'), translation.observationsPhysicalStressTest, $(formatClone).find('#observations #list-container'), translation.dimensions);
     initQuestionnaireButtonGroup(formatClone, $(formatClone).find('#add-observation-button-group'), $(formatClone).find('#observations #list-container'), $(formatClone).find('#observations'), true, true, ALERT_NO_DATA_QUESTIONNAIRE);
     initQuestionnaireDimensionControl(formatClone, $(formatClone).find('#dimension-controls'), $(formatClone).find('#list-container'), $(formatClone).find('#observations'));
     initToggleSwitch(formatClone, $(formatClone).find('#useObservationsSwitch'), $(formatClone).find('#observations'));
@@ -1537,6 +1574,9 @@ function initPhysicalStressTestOverlay(id, formatClone) {
     if (data) {
         renderData(data, false);
     } else {
+        appendAlert($(formatClone).find('#stressTest'), ALERT_NO_PHASE_DATA);
+        appendAlert($(formatClone).find('#singleStressQuestions'), ALERT_NO_DATA_QUESTIONNAIRE);
+        appendAlert($(formatClone).find('#sequenceStressQuestions'), ALERT_NO_DATA_QUESTIONNAIRE);
         appendAlert($(formatClone).find('#observations'), ALERT_NO_DATA_QUESTIONNAIRE);
     }
 
@@ -1562,6 +1602,8 @@ function initPhysicalStressTestOverlay(id, formatClone) {
                 }
             }
             checkCurrentListState(container);
+        } else {
+            appendAlert($(formatClone).find('#stressTest'), ALERT_NO_PHASE_DATA);
         }
 
         var singleStressQuestions = data.singleStressQuestions;
@@ -1576,6 +1618,8 @@ function initPhysicalStressTestOverlay(id, formatClone) {
                 }
                 checkCurrentListState(container);
             }
+        } else {
+            appendAlert($(formatClone).find('#singleStressQuestions'), ALERT_NO_DATA_QUESTIONNAIRE);
         }
 
         var sequenceStressQuestions = data.sequenceStressQuestions;
@@ -1590,6 +1634,8 @@ function initPhysicalStressTestOverlay(id, formatClone) {
                 }
                 checkCurrentListState(container);
             }
+        } else {
+            appendAlert($(formatClone).find('#sequenceStressQuestions'), ALERT_NO_DATA_QUESTIONNAIRE);
         }
 
         renderObservations(formatClone, data.observations);
@@ -2997,6 +3043,7 @@ function initQuestionnaireDimensionControl(formatClone, dimensionControls, listC
             scrollTop: newScrollTop
         }, 200);
     });
+
     if (initListItemAdded === true) {
         initQuestionnaireListItemAdded(listContainer, alertContainer);
     }
