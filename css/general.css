@@ -997,3 +997,14 @@ li.disabledTab > a[data-toggle="tab"] {
 .bs-example-body {
     padding: 15px 15px 15px 15px;
 }
+
+
+/*
+* rigged hand canvas
+*/
+canvas {
+    /*margin-top: 100px;*/
+    pointer-events: none;
+    height: 200%;
+    top: 400px;
+}

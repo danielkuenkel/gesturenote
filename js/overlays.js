@@ -2748,7 +2748,7 @@ function initCatalogScenesOverlay(formatClone) {
 //                        $(clone).find('.pidoco-edit-url').val(item.data[0]);
 //                        $(clone).find('.checkPidocoEditURL').click();
 //                    }
-                    if (item.parameters.url) {
+                    if (item.parameters && item.parameters.url) {
                         $(clone).find('.pidoco-embed-url').val(item.parameters.url);
                         $(clone).find('.checkPidocoEmbedURL').click();
                     }
@@ -2758,10 +2758,12 @@ function initCatalogScenesOverlay(formatClone) {
 //                    }
                     break;
                 case SCENE_WEB:
-                    $(clone).find('.website-url').val(item.parameters.url);
+                    if (item.parameters && item.parameters.url) {
+                        $(clone).find('.website-url').val(item.parameters.url);
+                    }
                     break;
                 case SCENE_IMAGE:
-                    if (item.parameters.url) {
+                    if (item.parameters && item.parameters.url) {
                         $(clone).find('.imageAreaContent').attr("src", item.parameters.url);
                         $(clone).find('.imageArea').removeClass('hidden');
                         $(clone).find('.chooseSceneImage .btn-text').text('Anderes Bild auswählen');
@@ -2770,7 +2772,7 @@ function initCatalogScenesOverlay(formatClone) {
                     }
                     break;
                 case SCENE_VIDEO_EMBED:
-                    if (item.parameters.url && item.parameters.ratio) {
+                    if (item.parameters && item.parameters.url && item.parameters.ratio) {
                         $(clone).find('.video-embed-url').val(item.parameters.url);
                         $(clone).find('.checkVideoEmbedURL').click();
                         $(clone).find('.ratioSelect #' + item.parameters.ratio).click();

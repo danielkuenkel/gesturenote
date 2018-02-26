@@ -2485,6 +2485,15 @@ var Moderator = {
             $(item).find('#search-for .address').text(translation.TriggerForGesture + ':');
             $(item).find('#search-for .text').text(searchedData.title);
             item.find('.btn-popover-gesture-preview').attr('name', searchedData.id);
+            
+            if (!screenSharingStopped && identificationPrototypeOpened && currentIdentificationIndex > 0) {
+                var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[0].sceneId);
+                openPrototypeScene(scene, data.identification.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);
+
+                if (currentIdentificationIndex >= data.identification.length - 1) {
+                    $(container).find('#btn-next-trigger').remove();
+                }
+            }
 
             if (identificationStartTriggered) {
                 $(container).find('.btn-trigger-scene, .btn-reset-scene, #btn-request-trigger').removeClass('disabled');
@@ -2581,18 +2590,18 @@ var Moderator = {
         $(container).find('#btn-start-screen-sharing').unbind('click').bind('click', function (event) {
             event.preventDefault();
             if (!$(this).hasClass('disabled')) {
-                $(this).addClass('disabled');
+                var button = $(this);
+                lockButton(button, true);
                 if (!previewModeEnabled) {
                     $(container).find('#btn-start-screen-sharing').find('.fa-spin').removeClass('hidden');
                     peerConnection.shareScreen(function (error) {
-                        $(button).removeClass('disabled');
-                        $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
-                        console.error(error);
+                        unlockButton(button, true);
+                        console.error('Maybe check installed extension, ERROR:' + error);
                     }, function () {
                         peerConnection.startScreenRecording();
                         $(peerConnection).unbind(MESSAGE_SCREEN_SHARING_ESTABLISHED).bind(MESSAGE_SCREEN_SHARING_ESTABLISHED, function (event) {
                             event.preventDefault();
-                            $(container).find('#btn-start-screen-sharing').find('.fa-spin').addClass('hidden');
+                            unlockButton(button, true);
                             enableControls();
                         });
                         peerConnection.sendMessage(MESSAGE_START_IDENTIFICATION);

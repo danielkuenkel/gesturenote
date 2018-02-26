@@ -827,7 +827,6 @@ PeerConnection.prototype.transferFile = function (file) {
 };
 
 PeerConnection.prototype.shareScreen = function (errorCallback, successCallback) {
-
     if (webrtc && webrtc.capabilities.supportScreenSharing) {
         try {
             webrtc.shareScreen(function (error) {
@@ -858,7 +857,7 @@ PeerConnection.prototype.stopShareScreen = function (save, callback) {
 };
 
 PeerConnection.prototype.reset = function () {
-//    if(webRTCPeer) {
-//        webRTCPeer = null;
-//    }
+    if(screenMediaRecorder) {
+        screenMediaRecorder = null;
+    }
 };

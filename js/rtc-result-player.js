@@ -577,7 +577,8 @@ function initializeTimeline(timelineData, content) {
                 selectable: true,
                 autoResize: true
             };
-            timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline')[0]);
+            
+            timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline').empty()[0]);
             timeline.setOptions(options);
             timeline.setItems(new vis.DataSet(data));
             timeline.addCustomTime(itemRange.min);
@@ -615,7 +616,7 @@ function initializeTimeline(timelineData, content) {
 
 function updateTimeline(currentTime, content) {
     if (timeline && itemRange && $(content).find('#btn-toggle-timeline').hasClass('present')) {
-        var customTime = new Date(itemRange.startRecording + Math.round(currentTime * 1000));
+        var customTime = new Date(itemRange.startRecording + Math.round(parseFloat(currentTime) * 1000));
 //        console.log(customTime);
 
 //        var min = new Date(itemRange.min);
@@ -819,7 +820,7 @@ function updateLinkList(currentTime, content) {
 }
 
 function deleteAnnotation(annotationId, timelineData, content) {
-    console.log(annotationId, timelineData);
+//    console.log(annotationId, timelineData);
     if (timelineData.phaseResults) {
     }
 
@@ -835,6 +836,10 @@ function deleteAnnotation(annotationId, timelineData, content) {
         timelineData.phaseResults = tempData;
         setLocalItem(tempData.id + '.' + timelineData.resultSource, tempData);
         saveUpdatedPhaseResults(timelineData);
+        
+        if(tempData.annotations.length === 0 && $(content).find('#btn-toggle-timeline').hasClass('present')) {
+            $(content).find('#btn-toggle-timeline').click();
+        }
 
         // render timeline and other elements
         var visData = getVisDataSet(timelineData);
@@ -869,6 +874,7 @@ function initializeAnnotationHandling(timelineData, content) {
                 var visData = getVisDataSet(timelineData);
                 if (firstInitializeTimeline) {
                     initializeTimeline(timelineData, content);
+                    updateTimeline(timelineData.checkedVideos.mainVideo[0].currentTime, content);
                 } else {
                     timeline.setItems(new vis.DataSet(visData));
                     timeline.redraw();

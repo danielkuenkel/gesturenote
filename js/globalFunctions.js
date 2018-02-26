@@ -2912,6 +2912,8 @@ function lockButton(button, showLoadingIndicator, originalIcon) {
     $(button).addClass('disabled');
     if (showLoadingIndicator && showLoadingIndicator === true && originalIcon) {
         $(button).find('.fa').removeClass(originalIcon).addClass('fa-spin fa-circle-o-notch');
+    } else if(showLoadingIndicator && showLoadingIndicator) {
+        $(button).find('.fa').addClass('fa-spin fa-circle-o-notch');
     }
 }
 
@@ -2919,6 +2921,8 @@ function unlockButton(button, hideLoadingIndicator, originalIcon) {
     $(button).removeClass('disabled');
     if (hideLoadingIndicator && hideLoadingIndicator === true && originalIcon) {
         $(button).find('.fa').removeClass('fa-spin fa-circle-o-notch').addClass(originalIcon);
+    } else if(hideLoadingIndicator && hideLoadingIndicator === true) {
+        $(button).find('.fa').removeClass('fa-spin fa-circle-o-notch');
     }
 }
 

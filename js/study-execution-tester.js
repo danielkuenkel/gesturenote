@@ -613,7 +613,7 @@ var Tester = {
                     setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
                 });
             });
-            
+
             $(peerConnection).unbind(MESSAGE_NO_GESTURE_FIT_FOUND).bind(MESSAGE_NO_GESTURE_FIT_FOUND, function (event, payload) {
                 slideRestarted = true;
                 slideTriggered = false;
@@ -985,6 +985,7 @@ var Tester = {
                 $(container).find('#fixed-rtc-preview').removeClass('hidden');
                 if (hasScences) {
                     $(container).find('#scene-description').removeClass('hidden');
+                    $(container).find('#scene-container').removeClass('hidden');
                 }
             });
 
@@ -1042,10 +1043,14 @@ var Tester = {
                     currentIdentificationIndex = payload.currentIdentificationIndex;
                     $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                         event.preventDefault();
-                        appendAlert($(container), ALERT_PLEASE_WAIT);
-                        $(container).find('#fixed-rtc-preview').addClass('hidden');
-                        $(container).find('#scene-description').addClass('hidden');
-                        $(container).find('#scene-container').addClass('hidden');
+                        if (currentIdentificationIndex >= data.identification.length - 1) {
+                            appendAlert($(container), ALERT_PLEASE_WAIT);
+                            $(container).find('#fixed-rtc-preview').addClass('hidden');
+                            $(container).find('#scene-description').addClass('hidden');
+                            $(container).find('#scene-container').addClass('hidden');
+                        } else {
+                            console.log('there is more to identify');
+                        }
                     });
                     loadHTMLintoModal('custom-modal', 'modal-request-trigger.php', 'modal-md');
                 });
@@ -1054,10 +1059,14 @@ var Tester = {
                 if (identificationTriggerRequest) {
                     $('#custom-modal').unbind('hidden.bs.modal').bind('hidden.bs.modal', function (event) {
                         event.preventDefault();
-                        appendAlert($(container), ALERT_PLEASE_WAIT);
-                        $(container).find('#fixed-rtc-preview').addClass('hidden');
-                        $(container).find('#scene-description').addClass('hidden');
-                        $(container).find('#scene-container').addClass('hidden');
+                        if (currentIdentificationIndex >= data.identification.length - 1) {
+                            appendAlert($(container), ALERT_PLEASE_WAIT);
+                            $(container).find('#fixed-rtc-preview').addClass('hidden');
+                            $(container).find('#scene-description').addClass('hidden');
+                            $(container).find('#scene-container').addClass('hidden');
+                        } else {
+                            console.log('there is more to identify');
+                        }
                     });
                     loadHTMLintoModal('custom-modal', 'modal-request-trigger.php', 'modal-md');
                 }

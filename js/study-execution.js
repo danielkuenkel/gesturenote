@@ -273,6 +273,7 @@ function resetConstraints() {
     identificationPrototypeOpened = false;
     identificationRecordingStartTriggered = false;
     identificationRecordingStopTriggered = false;
+    identificationTriggerRequest = false;
     currentIdentificationIndex = 0;
     currentIdentificationScene = 0;
 
