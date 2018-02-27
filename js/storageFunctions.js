@@ -217,8 +217,8 @@ function clearSceneImages() {
     if (scenes && scenes.length > 0) {
         var imageUrls = new Array();
         for (var i = 0; i < scenes.length; i++) {
-            if (scenes[i].type === SCENE_IMAGE) {
-                imageUrls.push("../" + scenes[i].data);
+            if (scenes[i].type === SCENE_IMAGE && scenes[i].parameters && scenes[i].parameters.url) {
+                imageUrls.push("../" + scenes[i].parameters.url);
             }
         }
         deleteSceneImage({image: imageUrls});
@@ -247,8 +247,8 @@ function clearSounds() {
     if (feedback && feedback.length > 0) {
         var urls = new Array();
         for (var i = 0; i < feedback.length; i++) {
-            if (feedback[i].type === TYPE_FEEDBACK_SOUND) {
-                urls.push("../" + feedback[i].data);
+            if (feedback[i].type === TYPE_FEEDBACK_SOUND && feedback[i].parameters && feedback[i].parameters.url) {
+                urls.push("../" + feedback[i].parameters.url);
             }
         }
         deleteSound({sound: urls});

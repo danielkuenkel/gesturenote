@@ -119,7 +119,10 @@ if (isset($_SESSION['user_id'], $_POST['studyId'])) {
                         echo json_encode(array('status' => 'deleteError'));
                         exit();
                     } else {
-                        deleteFiles($target_dir, $deleteFiles);
+                        $deleteFiles = array_filter($deleteFiles);
+                        if (!empty($deleteFiles)) {
+                            deleteFiles($target_dir, $deleteFiles);
+                        }
                         echo json_encode(array('status' => 'success', 'deletedFiles' => $deleteFiles));
                         exit();
                     }

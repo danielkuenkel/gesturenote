@@ -8,7 +8,6 @@ var currentIdForModal;
 var colors;
 function checkSessionStorage() {
     if (typeof (Storage) !== "undefined") {
-
         checkAssembledGestures(getLocalItem(ASSEMBLED_GESTURE_SET), getLocalItem(GESTURE_CATALOG));
         createOriginPhases();
         createPredefinedGestureFeedback();
@@ -331,8 +330,8 @@ function renderStudyFeedback(feedback) {
         var item = $('#template-study-container').find('#feedback-catalog-thumbnail').clone().removeAttr('id');
         item.find('.text').text(feedback[i].title);
         item.find('#' + feedback[i].type).removeClass('hidden');
-        if (feedback[i].type === TYPE_FEEDBACK_SOUND) {
-            item.find('.audio-holder').attr('src', feedback[i].data);
+        if (feedback[i].type === TYPE_FEEDBACK_SOUND && feedback[i].parameters && feedback[i].parameters.url) {
+            item.find('.audio-holder').attr('src', feedback[i].parameters.url);
         }
         $('#feedback-catalog').find('.list-container').append(item);
         TweenMax.from(item, .2, {delay: i * .03, opacity: 0, scaleX: 0.5, scaleY: 0.5});

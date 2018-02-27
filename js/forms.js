@@ -246,7 +246,7 @@ function renderFormatItem(target, data, currentPhaseFormat) {
             $(dimensionButton).removeClass('inactive');
         }
 
-        $(clone).find('#factor-primary').text(dimensions[dimension]);
+        $(clone).find('#factor-primary').text(dimensions[dimension].title);
     }
 
     TweenMax.from(clone, .3, {y: -20, opacity: 0, clearProps: 'all'});
@@ -737,9 +737,15 @@ function renderQuestionnaireAnswers(content, studyData, resultsData, enableTween
 //        console.log($(content).find('.question-container'), listItem);
 
         if (studyData[i].dimension !== DIMENSION_ANY) {
+            var dimensions = translation.dimensions;
+            if (studyData[i].format === UEQ_ITEM) {
+                dimensions = translation.ueqDimensions;
+                $(listItem).find('#factor-main').text(translation.ueqMainDimensions[getMainDimensionForDimension(studyData[i].dimension, translation.ueqMainDimensionsForDimension)]);
+                $(listItem).find('#factor-primary').removeClass('label-primary').addClass('label-info');
+            }
             $(listItem).find('#item-factors').removeClass('hidden');
-            $(listItem).find('#factor-primary').text(translation.dimensions[studyData[i].dimension]);
-//            $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
+            $(listItem).find('#factor-primary').text(dimensions[studyData[i].dimension].title);
+
         }
 
 //console.log(studyData[i].format, getAnswerForId(studyData[i].id, resultsData, sequentialAnswerSearch, i));
@@ -2162,7 +2168,7 @@ function renderEditableObservations(target, studyData, resultData) {
 
             if (studyData[i].dimension !== DIMENSION_ANY) {
                 $(listItem).find('#item-factors').removeClass('hidden');
-                $(listItem).find('#factor-primary').text(translation.dimensions[studyData[i].dimension]);
+                $(listItem).find('#factor-primary').text(translation.dimensions[studyData[i].dimension].title);
 //                $(listItem).find('#factor-main').text(translation.mainDimensions[getMainDimensionForDimension(studyData[i].dimension)]);
             }
 

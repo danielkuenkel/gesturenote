@@ -577,7 +577,7 @@ function initializeTimeline(timelineData, content) {
                 selectable: true,
                 autoResize: true
             };
-            
+
             timeline = new vis.Timeline($(resultsPlayer).find('#results-timeline').empty()[0]);
             timeline.setOptions(options);
             timeline.setItems(new vis.DataSet(data));
@@ -691,6 +691,13 @@ function getVisDataSet(timelineData) {
                             className = 'item-warning-full';
                             break;
                     }
+                    break;
+                case ACTION_SHOW_FEEDBACK:
+                    if (annotations[i].feedback.parameters.negative === 'yes') {
+                        className = 'item-danger-full';
+                    }
+                    break;
+                case ACTION_HIDE_FEEDBACK:
                     break;
             }
 
@@ -836,8 +843,8 @@ function deleteAnnotation(annotationId, timelineData, content) {
         timelineData.phaseResults = tempData;
         setLocalItem(tempData.id + '.' + timelineData.resultSource, tempData);
         saveUpdatedPhaseResults(timelineData);
-        
-        if(tempData.annotations.length === 0 && $(content).find('#btn-toggle-timeline').hasClass('present')) {
+
+        if (tempData.annotations.length === 0 && $(content).find('#btn-toggle-timeline').hasClass('present')) {
             $(content).find('#btn-toggle-timeline').click();
         }
 

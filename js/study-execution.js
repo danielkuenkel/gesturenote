@@ -62,17 +62,17 @@ var currentQuestionnaireAnswers = null;
 function checkStorage() {
     if (isLocalStorageSupported()) {
         var phaseSteps = getContextualPhaseSteps();
-        if (phaseSteps && phaseSteps.length > 2) {
+        if (phaseSteps && phaseSteps.length > 0) {
             initialize();
 
             if (previewModeEnabled) {
                 renderPhases();
             }
         } else {
-            console.log('There are only the letter of acceptance and thanks phase step');
+            console.warn('There are no phase steps');
         }
     } else {
-        console.log("Sorry, your browser do not support Web Session Storage.");
+        console.error("Sorry, your browser did not support Web Session Storage.");
     }
 }
 

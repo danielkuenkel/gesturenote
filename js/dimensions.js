@@ -9,7 +9,7 @@ function renderDimensions(target, questionnaire, container, dimensions) {
     dimensionList = target;
     predefinedQuestionnaire = questionnaire;
     questionsContainer = container;
-    
+
     for (var key in dimensions) {
         if (dimensions.hasOwnProperty(key)) {
             var value = dimensions[key];
@@ -17,10 +17,23 @@ function renderDimensions(target, questionnaire, container, dimensions) {
             var button = document.createElement('button');
             $(button).addClass('btn btn-default btn-shadow btn-toggle btn-dimension hidden');
             $(button).attr('id', key);
-            $(button).text(value);
+            var btnText = document.createElement('span');
+            $(btnText).text(value.title);
+            $(button).append(btnText);
+            if (value.popover) {
+                var popover = document.createElement('i');
+                $(popover).addClass('fa fa-info-circle btn-show-info');
+                $(popover).attr('data-toggle', 'popover');
+                $(popover).attr('data-trigger', 'hover');
+                $(popover).attr('data-placement', 'auto');
+                $(popover).attr('data-content', value.popover);
+                $(popover).css({marginLeft: '3px'});
+                $(button).append(popover);
+            }
             $(target).find('.dimension-btn-group').prepend(button);
         }
     }
+    initPopover();
 
     var dimensionContainer = $(target).find('.dimension-container');
     for (var i = 0; i < dimensionContainer.length; i++) {
@@ -57,7 +70,7 @@ $(document).on('click', '.dimension-btn-group .btn-toggle', function (event) {
             if ($(this).attr('id') === 'all') {
                 var children = $(dimensionContainer).find('.btn-toggle').not('.hidden');
                 $(children).removeClass('btn-info active').addClass('inactive');
-                $(this).text('Alle');
+                $(this).text(translation.all);
             } else {
                 $(this).parent().find('#all').removeClass('active btn-info');
                 $(this).parent().find('#all').text('Alle');
@@ -70,7 +83,7 @@ $(document).on('click', '.dimension-btn-group .btn-toggle', function (event) {
             if ($(this).attr('id') === 'all') {
                 var children = $(this).parent().children('.btn-toggle').not('.hidden');
                 $(children).removeClass('inactive').addClass('btn-info active');
-                $(this).text('Keine');
+                $(this).text(translation.none);
             } else {
                 checkDimensionItems(dimensionContainer);
             }
@@ -90,7 +103,7 @@ function checkDimensionItems(dimensionContainer) {
         if (hiddenDimensions.length === dimensions.length) {
             $(container).closest('.dimension-container').addClass('hidden');
         } else if (hiddenDimensions.length < dimensions.length && inactiveDimensions.length === 0) {
-            $(container).find('#all').removeClass('inactive').addClass('active btn-info').text('Keine');
+            $(container).find('#all').removeClass('inactive').addClass('active btn-info').text(translation.none);
         }
     }
 }

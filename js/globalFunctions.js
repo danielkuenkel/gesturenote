@@ -1139,7 +1139,7 @@ function renderDataForHint(data, hint, source, surveyType) {
             hint.find('.hint-content').prepend($(source).find('#feedback-hint-sound-content').clone().removeAttr('id'));
             var audioHolder = hint.find('.audio-holder')[0];
             hint.find('#feedback-title').text(feedback.title);
-            $(audioHolder).attr('src', feedback.data);
+            $(audioHolder).attr('src', feedback.parameters.url);
             audioHolder.addEventListener("loadedmetadata", function () {
                 audioHolder.play();
                 if (surveyType === TYPE_SURVEY_MODERATED) {
@@ -1489,8 +1489,11 @@ function getPaginationItem(text) {
     return listItem;
 }
 
-function getMainDimensionForDimension(dimension) {
+function getMainDimensionForDimension(dimension, mDimensions) {
     var mainDimensions = translation.mainDimensionsForDimension;
+    if (mDimensions) {
+        mainDimensions = mDimensions;
+    }
     return mainDimensions[dimension];
 }
 

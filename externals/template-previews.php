@@ -2129,12 +2129,12 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div class="root" id="ranking-item" style="margin-bottom: 5px;">
-        <div class="btn-group">
+    <div class="root" id="ranking-item" style="">
+        <div class="btn-group form-group-margin-top">
             <button class="btn btn-default btn-shadow btn-up"><i class="glyphicon glyphicon-arrow-up"></i></button>
             <button class="btn btn-default btn-shadow btn-down"><i class="glyphicon glyphicon-arrow-down"></i></button> 
         </div>
-        <span class="option-text text" style="margin-left: 8px; margin-top: 10px"></span>
+        <span class="option-text text" style="margin-left: 8px; position: relative; top: 7px"></span>
     </div>
 
 

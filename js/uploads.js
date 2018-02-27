@@ -154,7 +154,6 @@ $(document).on('change', '.soundUpload', function (event) {
             });
         }
 
-//        console.log(form, uploadFiles);
         readFile(this.files[0], function () {
             showCursor($('body'), CURSOR_PROGRESS);
             $(element).find('#sound-loading-indicator').removeClass('hidden');
@@ -225,58 +224,7 @@ $(document).on('click', '.choosePrototypeVideo', function (event) {
         var newWidth = video.parent().width();
         video.width(newWidth);
         video.height(newWidth * video.data('aspectRatio'));
-//        updateVideoRatios();
-//        $(this).closest('.root').find('.videoUpload').click();
     }
-});
-
-$(document).on('change', '.videoUpload', function (event) {
-    event.preventDefault();
-    var file = this.files[0];
-    var videoAreaContent = $(this).parent().find('.videoAreaContent');
-    var videoArea = $(this).parent().find('.videoArea');
-    var control = $(this);
-    var reader = new FileReader();
-    reader.onloadstart = function (event) {
-//        console.log('on load start');
-        $(videoArea).addClass('hidden');
-    };
-//    reader.onprogress = function(event) {
-////        console.log('on progress');
-//    };
-
-    reader.onload = function (event) {
-//        console.log('on load');
-        the_url = event.target.result;
-        //of course using a template library like handlebars.js is a better solution than just inserting a string
-        $(videoAreaContent).html("<source id='videoSource' src='" + the_url + "' type='video/mp4'>");
-//        $('#name-vid').html(file.name)
-//        $('#size-vid').html(humanFileSize(file.size, "MB"))
-//        $('#type-vid').html(file.type)
-        $(videoArea).removeClass('hidden');
-        $(videoArea).parent().find('.choosePrototypeVideo .btn-text').text('Anderes Bild auswählen');
-        $(videoArea).parent().find('.choosePrototypeVideo .btn-icon').removeClass('glyphicon-picture');
-        $(videoArea).parent().find('.choosePrototypeVideo .btn-icon').addClass('glyphicon-refresh');
-        control.replaceWith(control = control.clone(true));
-    };
-    //when the file is read it triggers the onload event above.
-    reader.readAsDataURL(file);
-//    fileReader = new FileReader();
-//    fileReader.onload = function (event) {
-//        $(videoAreaContent).find('#videoSource').attr("src", event.target.result);
-
-//        console.log($(videoAreaContent).find('#videoSource'));
-//    };
-//    fileReader.readAsDataURL(file);
-//    readFile(file, function (event) {
-//        console.log($(videoAreaContent).find('#videoSource'));
-//        $(videoAreaContent).find('#videoSource').attr("src", event.target.result);
-//        $(videoArea).removeClass('hidden');
-////        $(videoArea).parent().find('.choosePrototypeVideo .btn-text').text('Anderes Bild auswählen');
-////        $(videoArea).parent().find('.choosePrototypeVideo .btn-icon').removeClass('glyphicon-picture');
-////        $(videoArea).parent().find('.choosePrototypeVideo .btn-icon').addClass('glyphicon-refresh');
-//        control.replaceWith(control = control.clone(true));
-//    });
 });
 
 function readFile(file, onLoadCallback) {
@@ -284,23 +232,6 @@ function readFile(file, onLoadCallback) {
     reader.onload = onLoadCallback;
     reader.readAsDataURL(file);
 }
-
-//function renderVideo(file) {
-//    var reader = new FileReader();
-//    reader.onload = function (event) {
-//        the_url = event.target.result;
-//        //of course using a template library like handlebars.js is a better solution than just inserting a string
-//        $('.videoAreaContent').html("<source id='vid-source' src='" + the_url + "' type='video/mp4'>");
-////        $('#name-vid').html(file.name)
-////        $('#size-vid').html(humanFileSize(file.size, "MB"))
-////        $('#type-vid').html(file.type)
-//
-//    };
-//
-//    //when the file is read it triggers the onload event above.
-//    reader.readAsDataURL(file);
-//}
-
 
 $(document).on('click', '.checkVideoEmbedURL', function (event) {
     event.preventDefault();
@@ -360,41 +291,6 @@ $(document).on('click', '.checkVideoEmbedURL', function (event) {
     }
 });
 
-$(document).on('click', '.checkPidocoEditURL', function (event) {
-    event.preventDefault();
-    if (event.handled !== true)
-    {
-        event.handled = true;
-        var url = $(this).closest('.root').find('.pidoco-edit-url').val();
-        if (url && url.trim() !== "") {
-            var container = $(this).closest('.form-group');
-            var button = $(this);
-            var inputField = $(this).closest('.root').find('.pidoco-edit-url');
-            $(this).closest('.root').find('.alert-' + ALERT_PIDOCO_EDIT_URL_INVALID).empty();
-            // check the URL if they is valid.
-            if (urlIsValid(url, TYPE_URL_PIDOCO_EDIT))
-            {
-                $(this).closest('.root').find('.transmit-gestures-select').removeClass('hidden');
-                container.removeClass('has-error');
-                container.addClass('has-success');
-                button.removeClass('btn-danger');
-                button.addClass('btn-success');
-                inputField.blur();
-            } else {
-                $(this).closest('.root').find('.pidocoUseGestures').addClass('hidden');
-                container.removeClass('has-success');
-                container.addClass('has-error');
-                button.removeClass('btn-success');
-                button.addClass('btn-danger');
-                inputField.focus();
-                appendAlert($(this).closest('.root'), ALERT_PIDOCO_EDIT_URL_INVALID);
-//                var alert = $('#form-item-container').find('#' + ALERT_PIDOCO_EDIT_URL_INVALID).clone();
-//                $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
-            }
-        }
-    }
-});
-
 $(document).on('click', '.checkPidocoEmbedURL', function (event) {
     event.preventDefault();
     if (event.handled !== true)
@@ -406,10 +302,10 @@ $(document).on('click', '.checkPidocoEmbedURL', function (event) {
             var button = $(this);
             var inputField = $(this).closest('.root').find('.pidoco-embed-url');
             $(this).closest('.root').find('.alert-' + ALERT_PIDOCO_EMBED_URL_INVALID).empty();
+
             // check the URL if they is valid.
             // example: https://pidoco.com/rabbit/prototype/result/172450/page781496647/plain
-            if (urlIsValid(url, TYPE_URL_PIDOCO_EMBED))
-            {
+            if (urlIsValid(url, TYPE_URL_PIDOCO_EMBED)) {
                 container.removeClass('has-error');
                 container.addClass('has-success');
                 button.removeClass('btn-danger');
@@ -422,8 +318,6 @@ $(document).on('click', '.checkPidocoEmbedURL', function (event) {
                 button.addClass('btn-danger');
                 inputField.focus();
                 appendAlert($(this).closest('.root'), ALERT_PIDOCO_EMBED_URL_INVALID);
-//                var alert = $('#form-item-container').find('#' + ALERT_PIDOCO_EMBED_URL_INVALID).clone();
-//                $(this).closest('.root').find('.alert-' + alert.attr('id')).append(alert);
             }
         }
     }
@@ -439,9 +333,7 @@ function urlIsValid(url, type) {
             regEx = /https:\/\/(?:fulda\.)?pidoco.com\/rabbit\/api\/prototypes\/[0-9]+\/pages\/page[0-9]+/;
             break;
         case TYPE_URL_VIDEO_EMBED:
-//            console.log(url);
-            if (
-                    url.toLowerCase().indexOf("<iframe") >= 0
+            if (url.toLowerCase().indexOf("<iframe") >= 0
                     && url.toLowerCase().indexOf("width=") >= 0
                     && url.toLowerCase().indexOf("height=") >= 0
                     && url.toLowerCase().indexOf("src=") >= 0

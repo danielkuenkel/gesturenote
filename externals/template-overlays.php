@@ -1404,7 +1404,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="useGraphicalSingleStressSwitch">
                         <label style="margin: 0">
                             <?php echo $lang->askWithInteractiveGraphic ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->physicalStressTestSingleGraphic ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1539,7 +1539,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="useGraphicalSequenceStressSwitch">
                         <label style="margin: 0" >
                             <?php echo $lang->askWithInteractiveGraphic ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->physicalStressTestSingleGraphic ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -2505,13 +2505,13 @@ include '../includes/language.php';
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="text">
                             <i class="fa fa-plus"></i> <?php echo $lang->text ?> 
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->text ?>"></i>
                         </div>
                     </div>
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="sound">
                             <i class="fa fa-plus"></i> <?php echo $lang->sound ?>
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
+                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->sound ?>"></i>
                         </div>
                     </div>
                 </div>

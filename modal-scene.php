@@ -50,14 +50,13 @@ include './includes/language.php';
                 container.find('.web-frame').attr('src', data.parameters.url);
                 container.find('.btn-url').on('click', function (event) {
                     event.preventDefault();
-                    console.log(data);
                     var win = window.open(data.parameters.url);
                     if (win) {
                         //Browser has allowed it to be opened
                         win.focus();
                     } else {
                         //Broswer has blocked it
-                        console.log('Please allow popups for this site');
+                        alert(translation.pleaseAllowPopups);
                     }
                 });
                 break;
@@ -65,14 +64,13 @@ include './includes/language.php';
                 container.find('.web-frame').attr('src', data.parameters.url);
                 container.find('.btn-url').on('click', function (event) {
                     event.preventDefault();
-                    console.log(data);
                     var win = window.open(data.parameters.url);
                     if (win) {
                         //Browser has allowed it to be opened
                         win.focus();
                     } else {
                         //Broswer has blocked it
-                        console.log('Please allow popups for this site');
+                        alert(translation.pleaseAllowPopups);
                     }
                 });
                 break;

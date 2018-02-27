@@ -19,7 +19,7 @@ var Moderator = {
                 setLocalItem(currentPhase.id + '.tempSaveData', tempData);
             });
         }
-        
+        console.log('render view', currentPhase);
         Moderator.initializePeerConnection();
         if (currentPhaseData || (currentPhaseData && $.isArray(currentPhaseData) && currentPhaseData.length > 0)) {
 
@@ -272,9 +272,11 @@ var Moderator = {
             $(container).find('#gesture .text').text(gesture.title);
             $(container).find('#trigger .address').text(translation.trigger + ':');
             $(container).find('#trigger .text').text(trigger.title);
-            $(container).find('#feedback .address').text(translation.feedback + ':');
-            $(container).find('#feedback .text').text(feedback.title);
+
+
             if (feedback) {
+                $(container).find('#feedback .address').text(translation.feedback + ':');
+                $(container).find('#feedback .text').text(feedback.title);
                 var icon = document.createElement('i');
                 var label = document.createElement('div');
                 $(label).addClass('label label-default');
@@ -1728,7 +1730,7 @@ var Moderator = {
                         getGMT(function (timestamp) {
                             var currentPhase = getCurrentPhase();
                             var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_HIDE_FEEDBACK, time: timestamp});
+                            tempData.annotations.push({id: tempData.annotations.length, action: ACTION_HIDE_FEEDBACK, feeback: feedback, time: timestamp});
                             setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                         });
                     });
@@ -1736,7 +1738,7 @@ var Moderator = {
                     getGMT(function (timestamp) {
                         var currentPhase = getCurrentPhase();
                         var tempData = getLocalItem(currentPhase.id + '.tempSaveData');
-                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SHOW_FEEDBACK, time: timestamp});
+                        tempData.annotations.push({id: tempData.annotations.length, action: ACTION_SHOW_FEEDBACK, feeback: feedback, time: timestamp});
                         setLocalItem(currentPhase.id + '.tempSaveData', tempData);
                     });
 
@@ -2487,7 +2489,7 @@ var Moderator = {
             $(item).find('#search-for .address').text(translation.TriggerForGesture + ':');
             $(item).find('#search-for .text').text(searchedData.title);
             item.find('.btn-popover-gesture-preview').attr('name', searchedData.id);
-            
+
             if (!screenSharingStopped && identificationPrototypeOpened && currentIdentificationIndex > 0) {
                 var scene = getSceneById(data.identification[currentIdentificationIndex].transitionScenes[0].sceneId);
                 openPrototypeScene(scene, data.identification.length === 1, data.identification[currentIdentificationIndex].transitionScenes[currentIdentificationScene].description);

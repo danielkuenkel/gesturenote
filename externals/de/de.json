@@ -217,6 +217,8 @@
     "userDefined": "Benutzerdefiniert",
     "studyTitle": "Studien-Titel",
     "insertTitle": "Titel einfügen",
+    "rowTitle": "Zeilen-Titel",
+    "insertRowTitle": "Zeilen-Titel einfügen",
     "trainingDescription": "Trainingsbeschreibung",
     "insertTrainingDescription": "Trainingsbeschreibung einfügen",
     "trainingElements": "Trainingselemente",
@@ -421,7 +423,8 @@
     "distributionIn": "Verteilung in",
     "helpText": "Hilfetext",
     "displayOf": "Anzeige der",
-    "displayOfTransitionState": "Anzeige des Folgezustsands",
+    "displayOfFeedback": "Anzeige des Feedbacks",
+    "displayOfTransitionState": "Anzeige des Zwischenzustandes",
     "transitionalPeriod": "Übergangszeit (in Sekunden)",
     "reactionPeriod": "Reaktionszeit (in Sekunden)",
     "showGestureAgainQuestion": "Geste bei Bedarf nochmals anzeigen?",
@@ -431,6 +434,7 @@
     "sceneDescriptionPlaceholder": "Beschreibung einfügen. Was ist zu sehen? Was soll der Nutzer tun? Gibt es Besonderheite?",
     "counterFrom": "Zähler von",
     "counterTo": "Zähler bis",
+    "repeats": "Wiederholungen",
     "repeatsOfGestures": "Wiederholungen der Gesten",
     "noAnswer": "Nicht beantwortet",
     "notChecked": "Nicht überprüft",
@@ -461,6 +465,7 @@
     "selection": "Auswahl",
     "sampleSize": "Stichprobengröße",
     "pleaseSelect": "Bitte wählen",
+    "pleaseAllowPopups": "Bitte erlauben Sie Popups für diese Seite.",
     "questions": "Fragen",
     "questionnaire": "Fragebogen",
     "questionnaires": "Fragebögen",
@@ -817,7 +822,7 @@
         },
         "ueq": {
             "text": "UEQ",
-            "class": "both",
+            "class": "evaluation",
             "moderated": {
                 "tester": {
                     "stream": "yes",
@@ -1254,7 +1259,7 @@
         "states": "Zustände",
         "currentState": "Aktueller Zustand",
         "inputState": "Ausgangszustand",
-        "transition": "Funktionalität",
+        "transition": "Funktion",
         "transitionCondition": "Geste",
         "intermediateStates": "Zwischenzustände",
         "entryAction": "Folgezustand",
@@ -1278,7 +1283,7 @@
     "theTrigger": "die Funktion",
     "theFeedback": "das Feedback",
     "noFeedbackPresent": "Kein Feedback vorhanden",
-    "repeats": "Wiederholungen",
+    "all": "Alle",
     "none": "Keine",
     "noner": "Keiner",
     "nones": "Keines",
@@ -1602,14 +1607,38 @@
         "discrimination": "satisfaction"
     },
     "dimensions": {
-        "taskAppropriateness": "Aufgabenangemessenheit",
-        "advantage": "Vorteilhaftigkeit",
-        "accuracy": "Genauigkeit & Fehlerrate",
-        "cognitiveLoadMentalModel": "Mentales Modell",
-        "learnabilityMemorability": "Erlern- & Erinnerbarkeit",
-        "physicalContext": "Phyischer Kontext",
-        "comfortErgonomics": "Körperliche Belastung",
-        "socialAcceptance": "Soziale Akzeptanz"
+        "taskAppropriateness": {
+            "title": "Aufgabenangemessenheit",
+            "popover": "Ein Benutzer wird nicht vom eigentlichen Aufgabenziel durch die Systembenutzung [und den Gesten] abgelenkt. Er kann seine Aufgabe mit weniger oder gleichem Aufwand und außerdem vollständiger oder zumindest genauso erledigen wie zuvor."
+        },
+        "advantage": {
+            "title": "Vorteilhaftigkeit",
+            "popover": "Die Geste bringt dem Benutzer einen oder mehrere Vorteil(e). Z.B. einen Vorteil bei der Zeit (es ist schneller als mit Maus und Tastatur), oder einen Vorteil bei der Hygiene (man muss nicht mehr mit seinen Händen Flächen wie Touchscreens berühren)."
+        },
+        "accuracy": {
+            "title": "Genauigkeit & Fehlerrate",
+            "popover": "Betrachtung technischer Fragen. Ist dann wichtig, wenn das System final implementiert wird/ist."
+        },
+        "cognitiveLoadMentalModel": {
+            "title": "Mentales Modell",
+            "popover": "Kennt der Nutzer die Geste bereits? Vielleicht sogar von einem anderen Gerät, von einer anderen Anwendung? Kann er sich die Geste ggf. von woanders herleiten? Passen Funktion und Feedback zur jeweiligen Geste?"
+        },
+        "learnabilityMemorability": {
+            "title": "Erlern- & Erinnerbarkeit",
+            "popover": "Wie ist die kognitive Belastung: Sind es zu viele Gesten? Kann man sich die Geste überhaupt merken?"
+        },
+        "physicalContext": {
+            "title": "Phyischer Kontext",
+            "popover": "Hat der Benutzer genügend Platz für die Ausführung der Gesten? Bei Gesten-Interaktionen sind die verfügbaren Interaktions-Räume zu beachten."
+        },
+        "comfortErgonomics": {
+            "title": "Körperliche Belastung",
+            "popover": "Wie fühlt sich eine Geste für den Benutzer an? Wirkt sie ermüdend oder gar komisch bei der Ausführung? Führt eine intensive Nutzung der Geste zu diesen Problemen? Ausnahme: Körper soll belastet werden wie z.B. bei Spielen"
+        },
+        "socialAcceptance": {
+            "title": "Soziale Akzeptanz",
+            "popover": "Können andere vorbeilaufende Personen irritiert werden? Wie fühlt sich der Benutzer beim Ausführen der Gesten vor anderen?"
+        }
     },
     "annotations": {
         "startGestureTraning": "Start Training",
@@ -1641,7 +1670,7 @@
             "catalogGestures": "Studien-Gesten dienen als Grundlage für alle Studien-Design-Phasen. Ein Studien-Gesten-Set kann aus dem gesamten Gesten-Katalog zusammengestellt werden. Zusätzlich können neue Gesten erstellt werden.",
             "catalogTrigger": "Funktionen können im Leitfaden an Gesten gekoppelt werden und umgekehrt. Sie werden z.B. benötigt, um Gesten zu ermitteln oder bei Funktionen erraten die korrekte Zuordnung zu Gesten zu überprüfen.",
             "catalogFeedback": "Um dem Probanden Feedback für eine Interaktion zu geben, können Text- (Hinweistext nach Geste) und Audio-Feedbacks (Abspielen einer mp3-Datei) angelegt werden. Diese können dann z.B. für ein Szenario genutzt werden.",
-            "catalogScenes": "Zustände sind von Bedeutung, wenn dem Nutzer ein grafisches User Interface gezeigt werden soll. Mit Zuständen können z.B. explorative WOZ-Experimente erstellt werden.",
+            "catalogScenes": "Zustände sind von Bedeutung, wenn dem Nutzer ein grafisches User Interface gezeigt werden soll. Mit Zuständen können z.B. explorative Szenarios erstellt werden.",
             "letterOfAcceptance": "Die Einverständniserklärung sollte in GestureNote immer die Einwilligung des Probanden für die Aufzeichnung personenpesogener Daten einholen, d.h. bei einer Ermittlung Gesten in Bildform und bei einer Evalierung Videoaufnahmen. GestureNote bietet aktuell keine Funktion für eine Anonymisierung an. Die Aufnahmen könenn für Auswertungen jedoch nachträglich händisch anonymisiert werden.",
             "letterOfAcceptanceOverlay": "Die Einverständniserklärung sollte in GestureNote immer die Einwilligung des Probanden für die Aufzeichnung personenpesogener Daten einholen. Bei einer Gesten-Ermittlung oder einer Evalierung werden z.B. Videoaufnahmen vom Probanden gespeichert. GestureNote bietet aktuell keine Funktion für eine Anonymisierung. Die Aufnahmen können für Auswertungen jedoch nachträglich händisch anonymisiert werden.",
             "thanks": "Hier haben Sie die Möglichkeit den Probanden für die Teilnahme an Ihrer Studie zu danken. Des Weiteren umfasst dieser Schritt den finalen Upload der erhobenen Daten und Videoaufzeichnung, sowie eine Info-Anzeige, wann der Proband den Tab oder Browser schließen kann. Die Danksagung sollte im Leitfaden immer unten, d.h. am Ende des Leitfadens stehen.",
@@ -1652,33 +1681,60 @@
             "openQuestion": "Der Proband beantwortet die Frage mit einem Wort oder einem längeren Text, z.B. mit der Frage 'Woher kommen Sie?'",
             "dichotomousQuestion": "Ja/nein-Fragen lassen nur zwei Antwortmöglichkeiten zu. Es können Begründungen angefordert werden, z.B. wenn 'Nein' ausgewählt wurde.",
             "groupingQuestion": "Bei Eingruppierungsfragen werden bestimmte Wertebereiche festgelegt, in die sich der Befragte einordnen soll. Wertebereiche z.B. für 'Wie alt sind Sie?': unter 20 | 21 - 30 | über 30. Mit diesem Format können auch Fragen wie 'Welche Gesten-Erkenner sind Ihnen bekannt?' abgedeckt werden. Eine Ein- oder Mehrfachauswahl von Antworten ist möglich und eigene Antworten können ebenfalls angegeben werden.",
+            "groupingOptions": "Fügen Sie mehrere Auswahl-Optionen ein, aus denen ein Proband wählen kann.",
             "groupingQuestionOptions": "Dies ist eine Sonderform einer normalen Eingruppierungs-Frage. Hier müssen die Antwortmöglichkeiten nicht einzeln eingetragen werden, sondern werden automatisch angezeigt. Je nach Auswahl (Gesten, Feedback oder Funktionen) werden die entsprechend hinterlegten Katalogdaten übernommen.",
+            "groupingQuestionOptionsOptions": "Die Auswahl-Optionen basieren auf der gewählten Quelle. Wählen Sie z.B. Gesten, um alle hinterlegten Studien-Gesten als Auswahl-Optionen zu übernehmen. Stellen Sie sicher, dass der jeweilige Katalog vorliegt.",
             "sumQuestion": "Hier kann ein Maximum und mehrere Antwortoptionen definiert werden. Der Proband soll dann z.B. 100 Punkte oder Prozent auf die jeweiligen Optionen verteilen.",
             "ranking": "Beim Ranking sind Optionen anzugeben, die der Proband dann mit Pfeil-Buttons sortieren soll, z.B. nach Wichtigkeit.",
+            "rankingOptions": "Optionen, die dem Probanden zum Sortieren zur Verfügung stehen.",
             "rating": "Hiermit können Fragen erstellt werden, die Häufigkeiten, Zutreffensgrade oder Intensitäten graduell abstufen. Z.B. mit der Frage: 'Wie anstrengend fanden Sie die Geste?' und deren Skalen von 'überhaupt nicht anstrengend' bis 'sehr anstrengend'.",
+            "ratingNegative": "Ist die Skala negativ besetzt? D.h. stehen positive Eigenschaften an erster Stelle der Skala? Steht z.B. ‘trifft zu' oder 'gut' an erster Stelle?",
             "matrix": "Dieses Fragenformat stellt eine Erweiterung zum Rating dar. Es lassen sich damit z.B. Fragen wie: 'Wie häufig arbeiten Sie mit den jeweiligen Gesten-Sensoren?' und deren Optionen: 'Kinect', 'Leap Motion Controller', 'Nintendo Wii', sowie deren Skalen von 'überhaupt nicht' bis 'täglich' erstellen.",
+            "matrixRows": "Fügen Sie mehrere Zeilen ein, die ein Proband bewerten soll.",
             "identification": "Wählen Sie aus, ob Sie Gesten oder Funktionen ermittelt wollen. Legen Sie eine Liste von Elementen an für die Sie Gesten bzw. Funktionen ermitteln möchten.",
             "identificationOverlay": "<p>Wählen Sie aus, ob Sie Gesten oder Funktionen ermitteln wollen. Wenn z.B. Gesten ermittelt werden sollen, muss ein Funktionen- und Zustands-Katalog vorliegen.</p><p><strong>Gesten <em>(Bottom-Up)</em></strong>: Bei Bottom-Up werden für vorhandene Funktionen geeignete Gesten gesucht. Des Weiteren kann die Ermittlung von Gesten zum einen nutzer-basiert und zum anderen experten-basiert erfolgen. In GestureNote ist es möglich, dass Sie eigene Gesten ad-hoc für eine Studie aufzeichnen, oder mit Hilfe von potentiellen Endanwendern identifizieren. <br/><strong>Funktionen <em>(Top-Down)</em></strong>: Bei Top-Down werden logische Verknüpfungen von Funktionen zu vorhandenen Gesten hergestellt. Wichtig ist dabei, dass eine Quelle für die Gesten angeboten wird. In GestureNote können Funktionen für bereits vorhandene Gesten (ermittelte oder freigegebene Gesten anderer Evaluatoren) oder für von ihnen ad-hoc aufgezeichnete Gesten gesucht werden.</p>",
             "gus": "Dieser Variante des GUS hat den Vorteil, dass Probanden sich die Geste nochmals ansehen können und wissen, welche Funktion und welches Feedback daran gekoppelt ist. Der Proband bewertet nur diese eine Geste.",
             "questionnaireGestures": "Diese Variante des GUS fragt - im Gegensatz zur Variante 'einzelne Geste' - mehrere Gesten zeitgleich ab.",
             "sus": "Dies ist ein einfacher und technologieunabhängiger Fragebogen, mit dem die Gebrauchstauglichkeit eines Systems bewertet werden kann. Der errechnete Scorewert (zwischen 0 und 100) kann zur quantitativen Analyse der Gebrauchstauglichkeit herangezogen werden. Sie müssen deshalb nichts weiter tun als diesen Fragebogen dem Leitfaden hinzuzufügen.",
             "ueq": "Der User Experience Questionnaire (UEQ) ermöglicht eine schnelle Beurteilung der Benutzererfahrung mit interaktiven Produkten. Das Format des Fragebogens unterstützt Benutzer sich über Gefühle, Eindrücke und Einstellungen auszudrücken, die entstehen, wenn sie ein Produkt verwenden.",
-            "gestureTraining": "Bevor Gesten (z.B. in einem Szenario) zum Einsatz kommen, können diese vorab explorativ trainiert werden. Dem Proband wird ein Prototyp mit dazugehöriger Funktionalität (Gesten, Feedback, Zustandsübergänge) gezeigt. Alternativ können nur die Gesten mit dazugehöriger Funktionalität trainiert werden.",
-            "gestureTrainingOverlay": "Bevor Gesten (z.B. in einem Szenario-basierten WOZ-Experiment) zum Einsatz kommen, sollten diese vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich muss das Gesten-Training mit einem vorhandenen Prototypen durch unterschiedlich hinterlegt Zustände bereichert werden.",
+            "gestureTraining": "Bevor Gesten (z.B. in einem Szenario) zum Einsatz kommen, können diese unter Umständen vorab explorativ trainiert werden. Dem Probanden kann dabei ein Prototyp mit dazugehöriger Funktionalität (Gesten, Feedback, Zustandsübergänge) gezeigt werden. Alternativ können nur die Gesten mit dazugehöriger Funktion trainiert werden.",
+            "gestureTrainingOverlay": "Bevor Gesten (z.B. in einem Szenario-basierten WOZ-Experiment) zum Einsatz kommen, sollten diese unter Umständen vorab trainiert werden. GestureNote bietet die Möglichkeit Gesten dem Nutzer mit dazugehörigen Funktionen und Feedback nacheinander anzuzeigen, mit der Bitte diese X-Mal zu wiederholen. Zusätzlich kann ein Gesten-Training durch einen vorhandenen Prototypen (Zustände) bereichert werden.",
+            "gestureTrainingTrigger": "Welche Funktion soll der Benutzer erlernen?",
+            "gestureTrainingGesture": "Welche Geste soll ein Benutzer vorführen, damit die Funktion ausgelöst werden kann?",
+            "gestureTrainingFeedback": "Soll dem Benutzer ein Feedback angezeigt werden? Oder genügt ein Zustandsübergang als Rückmeldung (falls Zustände verwendet werden)?",
+            "gestureTrainingFeedbackMode": "Automatisch bedeudet, dass dieses Feedback automatisch nach einer Geste angezeigt wird?",
+            "gestureTrainingFeedbackTime": "Wie lange soll dieses Feedback angezeigt werden, bevor der nächste Zustand aufgerufen wird (falls Zustände verwendet werden)?",
+            "gestureTrainingRepeats": "Wie oft soll das Training für die gewählte Funktion, Geste und Feedback vom Probanden wiederholt werden?",
+            "gestureTrainingScenes": "Soll dem Probanden nicht nur die Geste mit dazugehöriger Funktion und Feedback trainiert werden, sondern auch eine visuelle Verknüpfung bereitgestellt werden?",
+            "gestureTrainingScene": "Greifen Sie auf den Zustands-Katalog zurück. Wird mehr als 1 Zustand hinterlegt, dann ist der erste der Ausgangszustand und der letzte der Folgezustand. Zwischenzustände sind ab 3 Zuständen möglich.",
+            "gestureTrainingSceneTransitionMode": "Automatisch bedeudet, dass dieser Zustand z.B. automatisch nach einer Geste oder nach einem anderen Zwischenzustand angezeigt wird.",
+            "gestureTrainingSceneTransitionTime": "Wie lange soll dieser Zwischenzustand angezeigt werden?",
             "scenario": "Mit Szenario-baiserten Aufgaben können nicht nur verschiedene Szenenformate (Bild, Video, Webseite, Pidoco) kombiniert, sondern auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten.",
             "scenarioOverlay": "Gesten-Interaktionen werden typischerweise mit Szenario-basierten Aufgaben in Verbindung mit einem WOZ-Experiment evaluiert. D.h. es müssen in GestureNote entsprechende Daten und Strukturen hinterlegt werden, um solch einen Test durchführen zu können. Ein Szenario besteht dabei aus einer oder mehreren Aufgaben. An die jeweiligen Aufgaben sind Zustände gekoppelt (Bild, Video, Webseite, Pidoco). Des Weiteren können auch Zustandsübergänge für Szenen definiert werden. Daran gekoppelt sind einzelnen Gesten und deren Feedback. Zusätzlich gibt es die Möglichkeit, vordefinierte Hilfe anzubieten, die dann abhängig von der jeweiligen Aufgabe und deren Zustände angezeigt werden können.",
+            "scenarioTaskTitle": "Der Aufgaben-Titel dient analytischen Zwecken und wird bei den Ergebnissen einer Durchführung angezeigt.",
+            "scenarioTaskDescription": "Welche Aufgabe soll ein Proband bewältigen? Formulieren Sie diese Aufgabe in der Sprache des Benutzers.",
+            "scenarioWOZElements": "Hinterlegen Sie die für diese Aufgabe wichtigen Daten.",
+            "scenarioTrigger": "Welche Funktion kann der Benutzer während der Aufgabenbewältigung auslösen?",
+            "scenarioGesture": "Welche Geste soll ein Benutzer vorführen, damit die Funktion genutzt werden kann?",
+            "scenarioFeedback": "Soll dem Benutzer ein Feedback angezeigt werden? Oder genügt ein Zustandsübergang als Rückmeldung?",
+            "scenarioFeedbackTime": "Wie lange soll dieses Feedback angezeigt werden, bevor der nächste Zustand aufgerufen wird?",
+            "scenarioScenes": "Hinterlegen Sie Zustände, die für diese Funktion und Geste benötigt werden, um dem Benutzer ein funktionierendes System vorzutäuschen.",
             "gestureSlideshow": "Die Erinnerbarkeit und Intuitivität von Gesten kann hiermit abgefragt werden. Der Proband erhält eine Funktion und muss dann die korrekte Geste innerhalb eines bestimmten Zeitfensters (z.B. 2 Sekunden) demonstrieren. Bei einem Fehler beginnt die Slideshow erneut.",
             "gestureSlideshowOverlay": "Die Erinnerbarkeit und Intuitivität von Gesten kann mit einer Gesten-Slideshow abgefragt werden. Es werden die hinterlegten Funktionen angezeigt. Der Proband muss dann die korrekte Geste innerhalb eines bestimmten Zeitfensters (z.B. 2 Sekunden) demonstrieren. Konnte der Proband der Funktion nicht die korrekte Geste zuordnen, beginnt die Slideshow erneut. Der Benutzer bekommt bei einem Neustart alle Gesten nochmals eingeblendet. GestureNote bietet, neben der Erstellung von Gesten-Funktions-Paaren, die Möglichkeit das Zeitfenster für jedes Paar zu definieren.",
             "triggerSlideshow": "Hier werden dem Probanden nacheinander Gesten und eine Liste von Funktionen gezeigt. Der Proband soll die dazugehörige Funktion auswählen.",
             "triggerSlideshowOverlay": "Hier werden dem Probanden nacheinander die Gesten eines Vokabulars und eine Liste von Funktionen gezeigt. Der Proband soll die dazugehörige Funktion auswählen. In GestureNote wurde dies mit Hilfe von Eingruppierungsfragen (für die Funktionsliste) und der Vorschau jeder einzelnen Geste realisiert. Legen Sie dazu eine Liste mit Funktions-Gesten-Paaren an.",
             "physicalStressTest": "Hiermit kann die physische Belastung von Gesten bei der Benutzung getestet werden. Der Proband muss jede Geste X-Mal vorführen, um Rückschlüsse auf eine besondere Beanspruchung der ausführenden Körperteile zu schließen.",
             "physicalStressTestOverlay": "Ziel dieser Methode ist es, die physische Belastung von Gesten bei der Benutzung herauszufinden. Dies geschieht mit einem Test, bei dem der Proband jede Geste aus einem Vokabular X-Mal vorführt. Es wird eine Durchführung von 200 Durchgängen in Summe vorgeschlagen. Wird ein Wert pro Geste von 10 Wiederholungen angegeben, dann entspricht die Gesamtsumme der Widerholungen für 3 unterschiedliche Gesten 30 Durchläufen. Nach jedem Vorführen einer Geste haben Sie die Möglichkeit, die Beanspruchung bewerten zu lassen. Zusätzlich sollte nach jeder Gesten-Sequenz die Beanspruchung insgesamt bewertet werden. Dafür stehen die bekannten Fragenformate (z.B. offene Fragen, Ja-/Nein-Frage, Summenfrage, etc.) zur Verfügung. Darüber hinaus gibt es auch die Möglichkeit, den Probanden mit Hilfe einer Grafik über besondere Beanspruchungen zu befragen. Der Proband kann einfach die jeweiligen Bereiche auswählen. Es können Körper, Handgesten oder beide Gestenarten abgefragt werden.",
+            "physicalStressTestSingleGraphic": "Lassen Sie den Probanden auf einer interaktiven Grafik die Belastung anzeigen.",
             "exploration": "Ziel dieser Methode ist es, den Probanden einen Überblick über die ermittelten Gesten zu geben. Anschließend kann z.B. eine Befragung über bevorzugte Gesten oder Funktionen durchgeführt werden.",
             "explorationOverlay": "Ziel dieser Methode ist es, den Probanden einen Überblick über die ermittelten Gesten oder Funktionen zu geben. In der Befragung können dann entweder die favorisierten Funktionen für eine Gesten oder die favorisierten Gesten für eine Funktion identifiziert werden.",
             "web": "Aus Sicherheitsgründen überprüfen einige Webseiten den sog. Same-Origin. Wenn eine Webseite in der Zustands-Vorschau nicht angezeigt wird, dann ist diese als Zustand ungeeignet. ",
             "pidoco": "Hinterlegen Sie einen fertigen Pidoco Prototypen. Exportieren Sie das Studien-Gesten-Set und nutzen Sie es in Pidoco.",
             "image": "Hinterlegen Sie ein Bild im Format JPEG oder PNG mit maximal 8MB.",
-            "videoEmbed": "Hinterlegen Sie eine Embed-URL von YouTube oder Vimeo. Die URL kann dem Teilen-Dialog der jeweiligen Plattform entnommen werden."
+            "videoEmbed": "Hinterlegen Sie eine Embed-URL von YouTube oder Vimeo. Die URL kann dem Teilen-Dialog der jeweiligen Plattform entnommen werden.",
+            "embedURL": "Die Einbettungs-URL finden Sie bei YouTube und Vimeo im Teilen-Dialog. Gehen Sie dort auf Einbetten und kopieren Sie den kompletten Text.",
+            "text": "Erstellen Sie ein Text-Feedback, der beim Probanden angezeigt werden kann, z.B. während eines Szenarios.",
+            "sound": "Laden Sie eine MP3-Datei hoch, um dem Probanden Rückmeldung über Töne zu geben. Dies ist z.B. wichtig, wenn es kein grafisches User Interface gibt. Die Datei darf bis zu 8 MB groß sein."
         },
         "gestures": {
 
@@ -1938,20 +1994,38 @@
         "efficiency": "pragmaticQuality",
         "perspicuity": "pragmaticQuality",
         "dependability": "pragmaticQuality",
-        "hedonicQuality": "Stimulation",
-        "hedonicQuality": "Originalität"
+        "stimulation": "hedonicQuality",
+        "novelty": "hedonicQuality"
     },
     "ueqDimensions": {
-        "attractiveness": "Attraktivität",
-        "efficiency": "Effizienz",
-        "perspicuity": "Durchschaubarkeit",
-        "dependability": "Verlässligkeit",
-        "stimulation": "Stimulation",
-        "novelty": "Originalität"
+        "attractiveness": {
+            "title": "Attraktivität",
+            "popover": "Gesamteindruck des Produkts. Mögen die Nutzer das Produkt?"
+        },
+        "efficiency": {
+            "title": "Effizienz",
+            "popover": "Können Benutzer ihre Aufgaben ohne unnötigen Aufwand lösen?"
+        },
+        "perspicuity": {
+            "title": "Durchschaubarkeit",
+            "popover": "Ist es einfach, sich mit dem Produkt vertraut zu machen? Ist die Nutzung leicht zu erlernen?"
+        },
+        "dependability": {
+            "title": "Verlässligkeit",
+            "popover": "Hat der Benutzer die Kontrolle über die Interaktion?"
+        },
+        "stimulation": {
+            "title": "Stimulation",
+            "popover": "Ist es aufregend und motivierend, das Produkt zu verwenden?"
+        },
+        "novelty": {
+            "title": "Originalität",
+            "popover": "Ist das Produkt innovativ und kreativ? Beeinflusst das Produkt das Interesse der Nutzer?"
+        }
     },
     "ueqItems": [
         {
-            "id":"1",
+            "id": "1",
             "format": "ueqItem",
             "dimension": "attractiveness",
             "parameters": {
@@ -1965,7 +2039,7 @@
             }
         },
         {
-            "id":"2",
+            "id": "2",
             "format": "ueqItem",
             "dimension": "perspicuity",
             "parameters": {
@@ -1979,7 +2053,7 @@
             }
         },
         {
-            "id":"3",
+            "id": "3",
             "format": "ueqItem",
             "dimension": "novelty",
             "parameters": {
@@ -1993,7 +2067,7 @@
             }
         },
         {
-            "id":"4",
+            "id": "4",
             "format": "ueqItem",
             "dimension": "perspicuity",
             "parameters": {
@@ -2007,7 +2081,7 @@
             }
         },
         {
-            "id":"5",
+            "id": "5",
             "format": "ueqItem",
             "dimension": "stimulation",
             "parameters": {
@@ -2021,7 +2095,7 @@
             }
         },
         {
-            "id":"6",
+            "id": "6",
             "format": "ueqItem",
             "dimension": "stimulation",
             "parameters": {
@@ -2035,7 +2109,7 @@
             }
         },
         {
-            "id":"7",
+            "id": "7",
             "format": "ueqItem",
             "dimension": "stimulation",
             "parameters": {
@@ -2049,7 +2123,7 @@
             }
         },
         {
-            "id":"8",
+            "id": "8",
             "format": "ueqItem",
             "dimension": "dependability",
             "parameters": {
@@ -2063,7 +2137,7 @@
             }
         },
         {
-            "id":"9",
+            "id": "9",
             "format": "ueqItem",
             "dimension": "efficiency",
             "parameters": {
@@ -2077,7 +2151,7 @@
             }
         },
         {
-            "id":"10",
+            "id": "10",
             "format": "ueqItem",
             "dimension": "novelty",
             "parameters": {
@@ -2091,7 +2165,7 @@
             }
         },
         {
-            "id":"11",
+            "id": "11",
             "format": "ueqItem",
             "dimension": "dependability",
             "parameters": {
@@ -2105,7 +2179,7 @@
             }
         },
         {
-            "id":"12",
+            "id": "12",
             "format": "ueqItem",
             "dimension": "attractiveness",
             "parameters": {
@@ -2119,7 +2193,7 @@
             }
         },
         {
-            "id":"13",
+            "id": "13",
             "format": "ueqItem",
             "dimension": "perspicuity",
             "parameters": {
@@ -2133,7 +2207,7 @@
             }
         },
         {
-            "id":"14",
+            "id": "14",
             "format": "ueqItem",
             "dimension": "attractiveness",
             "parameters": {
@@ -2147,7 +2221,7 @@
             }
         },
         {
-            "id":"15",
+            "id": "15",
             "format": "ueqItem",
             "dimension": "novelty",
             "parameters": {
@@ -2161,7 +2235,7 @@
             }
         },
         {
-            "id":"16",
+            "id": "16",
             "format": "ueqItem",
             "dimension": "attractiveness",
             "parameters": {
@@ -2175,7 +2249,7 @@
             }
         },
         {
-            "id":"17",
+            "id": "17",
             "format": "ueqItem",
             "dimension": "dependability",
             "parameters": {
@@ -2189,7 +2263,7 @@
             }
         },
         {
-            "id":"18",
+            "id": "18",
             "format": "ueqItem",
             "dimension": "stimulation",
             "parameters": {
@@ -2203,7 +2277,7 @@
             }
         },
         {
-            "id":"19",
+            "id": "19",
             "format": "ueqItem",
             "dimension": "dependability",
             "parameters": {
@@ -2217,7 +2291,7 @@
             }
         },
         {
-            "id":"20",
+            "id": "20",
             "format": "ueqItem",
             "dimension": "efficiency",
             "parameters": {
@@ -2231,7 +2305,7 @@
             }
         },
         {
-            "id":"21",
+            "id": "21",
             "format": "ueqItem",
             "dimension": "perspicuity",
             "parameters": {
@@ -2245,7 +2319,7 @@
             }
         },
         {
-            "id":"22",
+            "id": "22",
             "format": "ueqItem",
             "dimension": "efficiency",
             "parameters": {
@@ -2259,7 +2333,7 @@
             }
         },
         {
-            "id":"23",
+            "id": "23",
             "format": "ueqItem",
             "dimension": "efficiency",
             "parameters": {
@@ -2273,7 +2347,7 @@
             }
         },
         {
-            "id":"24",
+            "id": "24",
             "format": "ueqItem",
             "dimension": "attractiveness",
             "parameters": {
@@ -2287,7 +2361,7 @@
             }
         },
         {
-            "id":"25",
+            "id": "25",
             "format": "ueqItem",
             "dimension": "attractiveness",
             "parameters": {
@@ -2301,7 +2375,7 @@
             }
         },
         {
-            "id":"26",
+            "id": "26",
             "format": "ueqItem",
             "dimension": "novelty",
             "parameters": {
@@ -4160,7 +4234,7 @@
             "description": 
                     [
                         "<p>Der Leitfaden ist das Kernstück einer nutzerzentrierten Befragung. In GestureNote beinhaltet ein Leitfaden immer eine Einverständniserklärung und eine Danksagung. Diese Schritte sind vorausgewählt und können nicht gelöscht werden. Um weitere Abschnitte hinzuzufügen, klicken Sie einfach auf das entsprechende Format wie z.B. Fragebogen. Um die Abschnitte zu bearbeiten, klicken Sie in der Leitfadenliste auf den Titel des jeweiligen Abschnitts.</p>",
-                        "<table class='table table-bordered' style='width:100%'><thead><tr><th>Methode</th><th class='text-center'>Ermittlung</th><th class='text-center'>Extraktion</th><th class='text-center'>Evaluierung</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td></tr><tr><td>GUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>Ermittlung</td><td class='text-center'>M<td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Exploration</td><td class='text-center'>-</td><td class='text-center'>M</td><td class='text-center'>-</td></tr><tr><td>Gesten-Training</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Szenario</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Gesten erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Funktionen erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr></tbody></table>",
+                        "<table class='table table-bordered' style='width:100%'><thead><tr><th>Methode</th><th class='text-center'>Ermittlung</th><th class='text-center'>Extraktion</th><th class='text-center'>Evaluierung</th></tr></thead><tbody><tr><td>Fragebogen</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td><td class='text-center'>M & UN</td></tr><tr><td>Interview</td><td class='text-center'>M</td><td class='text-center'>M</td><td class='text-center'>M</td></tr><tr><td>GUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>SUS</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>UEQ</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UN</td></tr><tr><td>Ermittlung</td><td class='text-center'>M<td class='text-center'>-</td><td class='text-center'>-</td></tr><tr><td>Exploration</td><td class='text-center'>-</td><td class='text-center'>M</td><td class='text-center'>-</td></tr><tr><td>Gesten-Training</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Szenario</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Gesten erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Funktionen erraten</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M</td></tr><tr><td>Physischer Belastungstest</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>M & UM</td></tr></tbody></table>",
                         "<div class='text-center' style='font-size:10pt'>M = Moderierte Durchführung, UM = Unmoderierte Durchführung</div>",
                         "<p style='margin-top:10px'>In der oberen Tabelle sind für eine bessere Übersicht alle Design-Phasen und die Methoden, welche mit GestureNote dort unterstützt werden dargestellt. Zusätzlich ist die unterstützte Befragungsart (moderiert oder unmoderiert) hinterlegt.</p>",
                         "<h4>Einverständniserklärung</h4><hr>",
@@ -4185,6 +4259,8 @@
                         "<p>Der Gesture Usability Scale liegt in GestureNote in zwei Varianten vor. Zum einen können Gesten einzeln, zum anderen gebündelt abgefragt werden. Diese Fragebögen können mit Hilfe eines Baukastens durch die Auswahl abzufragender Faktoren (z.B. Körperliche Ermüdung, Soziale Akzeptanz oder Physischer Kontext) zusammengestellt werden. Im Unterschied zu normalen Labor- und Feldtests sehen die beiden Varianten des GUS eine Kopplung der Gesten, Funktionen als auch Feedback vor. Ein Vorteil gegenüber eines normalen Fragebogens ist, dass Probanden sich die Gesten (in beiden Varianten des GUS) nochmals ansehen können und wissen, welche Funktion und welches Feedback daran gekoppelt ist (in der Variante der Einzelgestenbewertung).</p>",
                         "<h4>System Usability Scale (SUS)</h4><hr>",
                         "<p>Der System Usability Scale ist ein einfacher und technologieunabhängiger Fragebogen, mit dem die Gebrauchstauglichkeit eines Systems bewertet werden kann. Es handelt sich um eine etablierte Methode zur quantitativen Analyse der Gebrauchstauglichkeit. Der Scorewert (zwischen 0 und 100) wird in GestureNote automatisch berechnet. Sie müssen deshalb nichts weiter tun als diesen Fragebogen in den Leitfaden hinzuzufügen.</p>",
+                        "<h4>User Experience Questionnaire (UEQ)</h4><hr>",
+                        "<p>Der User Experience Questionnaire (UEQ) ermöglicht eine schnelle Beurteilung der Benutzererfahrung mit interaktiven Produkten. Das Format des Fragebogens unterstützt Benutzer ihre Gefühle, Eindrücke und Einstellungen, die entstehen, wenn sie ein Produkt verwenden, sofort auszudrücken. Die Skalen des Fragebogens decken einen umfassenden Eindruck der Benutzererfahrung ab, d.h. messen sowohl klassische Usability-Aspekte (Effizienz, Übersichtlichkeit, Zuverlässigkeit) als auch Aspekte der Benutzererfahrung (Originalität, Stimulation).</p>",
                         "<h4>Ermittlung</h4><hr>",
                         "<p>Wählen Sie aus, ob Sie Gesten oder Funktionen ermitteln wollen. Wenn z.B. Gesten ermittelt werden sollen, muss ein Funktionen- und Zustands-Katalog vorliegen.</p>",
                         "<p><strong>Gesten <em>(Bottom-Up)</em></strong>: Bei Bottom-Up werden für vorhandene Funktionen geeignete Gesten gesucht. Des Weiteren kann die Ermittlung von Gesten zum einen nutzer-basiert und zum anderen experten-basiert erfolgen. In GestureNote ist es möglich, dass Sie eigene Gesten ad-hoc für eine Studie aufzeichnen, oder mit Hilfe von potentiellen Endanwendern identifizieren. <br/>",
