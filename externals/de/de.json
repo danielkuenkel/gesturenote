@@ -4398,7 +4398,7 @@
         },
         {
             "tabId": "study-participants",
-            "imgSrc": "img/de/introduction/study-create/carousel-01.jpg",
+            "imgSrc": "img/de/introduction/study/carousel-03.jpg",
             "title": "Teilnahmen",
             "text": "Dies ist ein Infotext …",
             "popover": "Teilnahmen",
@@ -4407,7 +4407,7 @@
         },
         {
             "tabId": "gesture-extraction",
-            "imgSrc": "img/de/introduction/study-create/carousel-01.jpg",
+            "imgSrc": "img/de/introduction/study/carousel-04.jpg",
             "title": "Extraktion",
             "text": "Dies ist ein Infotext …",
             "popover": "Extraktion",
