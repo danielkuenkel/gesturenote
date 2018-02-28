@@ -422,7 +422,7 @@ include '../includes/language.php';
         <br/>
         <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
     </div>
-    
+
     <div id="ueq">
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
 
@@ -507,10 +507,10 @@ include '../includes/language.php';
             <div class="col-md-7">
 
                 <div id="general">
-<!--                    <div class="form-group">
-                        <label for="trainingTitle"><?php echo $lang->title ?></label>
-                        <input type="text" class="form-control" id="trainingTitle" placeholder="<?php echo $lang->insertTitle ?>">
-                    </div>-->
+                    <!--                    <div class="form-group">
+                                            <label for="trainingTitle"><?php echo $lang->title ?></label>
+                                            <input type="text" class="form-control" id="trainingTitle" placeholder="<?php echo $lang->insertTitle ?>">
+                                        </div>-->
                     <div class="form-group">
                         <label for="trainingDescription"><?php echo $lang->trainingDescription ?></label>
                         <textarea class="form-control" id="trainingDescription" rows="7" placeholder="<?php echo $lang->insertTrainingDescription ?>" style="resize: none"></textarea>
@@ -662,7 +662,7 @@ include '../includes/language.php';
         <div class="btn-close-overlay hidden-xs hidden-sm pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
 
         <div class="row" style="margin-bottom: 16px">
-            <div class="col-md-7">
+            <div class="col-md-6">
 
                 <div class="overlay-header">
                     <div class="overlay-header-container">
@@ -679,26 +679,22 @@ include '../includes/language.php';
                     <div class="btn-close-overlay hidden-md hidden-lg pull-right"><?php echo $lang->close ?> <i class="fa fa-close"></i></div>
                 </div>
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-5"></div>
         </div>
 
         <div class="row" style="margin-bottom: 30px;">
-            <div class="col-md-7">
+            <div class="col-md-6">
 
                 <div id="general" style="">
-<!--                    <div class="form-group">
-                        <label for="scenarioTitle"><?php echo $lang->scenarioTitle ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                        <input type="text" class="form-control" id="scenarioTitle" placeholder="<?php echo $lang->insertScenarioTitle ?>">
-                    </div>-->
                     <div class="form-group">
-                        <label for="scenarioDescription"><?php echo $lang->scenarioDescription ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                        <label for="scenarioDescription"><?php echo $lang->scenarioDescription ?></label>
                         <textarea class="form-control" id="scenarioDescription" rows="7" placeholder="<?php echo $lang->insertScenarioDescription ?>" style="resize: none"></textarea>
                     </div>
 
                     <div class="alert-space alert-assembled-scene-removed"></div>
 
                     <div class="form-group" id="start-scene-select">
-                        <label><?php echo $lang->stateCharts->inputState ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i></label>
+                        <label><?php echo $lang->stateCharts->inputState ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioStartScene ?>"></i></label>
                         <div class="input-group"> 
                             <input class="form-control item-input-text show-dropdown option-scene readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                             <div class="input-group-btn select sceneSelect" role="group">
@@ -710,7 +706,7 @@ include '../includes/language.php';
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div style=""><?php echo $lang->tooltips->studyCreate->scenarioOverlay ?></div>
             </div>
         </div>
@@ -925,10 +921,10 @@ include '../includes/language.php';
             <div class="col-md-7">
 
                 <div id="general" style="">
-<!--                    <div class="form-group">
-                        <label for="slideshowTitle"><?php echo $lang->title ?></label>
-                        <input type="text" class="form-control" id="slideshowTitle" placeholder="<?php echo $lang->insertTitle ?>">
-                    </div>-->
+                    <!--                    <div class="form-group">
+                                            <label for="slideshowTitle"><?php echo $lang->title ?></label>
+                                            <input type="text" class="form-control" id="slideshowTitle" placeholder="<?php echo $lang->insertTitle ?>">
+                                        </div>-->
                     <div class="form-group">
                         <label for="slideshowDescription"><?php echo $lang->description ?></label>
                         <textarea class="form-control" id="slideshowDescription" rows="7" placeholder="<?php echo $lang->insertDescription ?>" style="resize: none"></textarea>
@@ -1107,10 +1103,10 @@ include '../includes/language.php';
 
 
                 <div id="general" style="">
-<!--                    <div class="form-group">
-                        <label for="slideshowTitle"><?php echo $lang->title ?></label>
-                        <input type="text" class="form-control" id="slideshowTitle" placeholder="<?php echo $lang->insertTitle ?>">
-                    </div>-->
+                    <!--                    <div class="form-group">
+                                            <label for="slideshowTitle"><?php echo $lang->title ?></label>
+                                            <input type="text" class="form-control" id="slideshowTitle" placeholder="<?php echo $lang->insertTitle ?>">
+                                        </div>-->
                     <div class="form-group">
                         <label for="slideshowDescription"><?php echo $lang->description ?></label>
                         <textarea class="form-control" id="slideshowDescription" rows="7" placeholder="<?php echo $lang->insertDescription ?>" style="resize: none"></textarea>
@@ -1265,10 +1261,10 @@ include '../includes/language.php';
             <div class="col-md-7">
 
                 <div id="general" style="">
-<!--                    <div class="form-group">
-                        <label for="stressTestTitle"><?php echo $lang->title ?></label>
-                        <input type="text" class="form-control" id="stressTestTitle" placeholder="<?php echo $lang->insertTitle ?>">
-                    </div>-->
+                    <!--                    <div class="form-group">
+                                            <label for="stressTestTitle"><?php echo $lang->title ?></label>
+                                            <input type="text" class="form-control" id="stressTestTitle" placeholder="<?php echo $lang->insertTitle ?>">
+                                        </div>-->
                     <div class="form-group">
                         <label for="stressTestDescription"><?php echo $lang->description ?></label>
                         <textarea class="form-control" id="stressTestDescription" rows="7" placeholder="<?php echo $lang->insertDescription ?>" style="resize: none"></textarea>
@@ -1732,10 +1728,10 @@ include '../includes/language.php';
             <div class="col-md-7">
 
                 <div id="general" style="">
-<!--                    <div class="form-group">
-                        <label for="identificationTitle"><?php echo $lang->title ?></label>
-                        <input type="text" class="form-control" id="identificationTitle" placeholder="<?php echo $lang->insertTitle ?>">
-                    </div>-->
+                    <!--                    <div class="form-group">
+                                            <label for="identificationTitle"><?php echo $lang->title ?></label>
+                                            <input type="text" class="form-control" id="identificationTitle" placeholder="<?php echo $lang->insertTitle ?>">
+                                        </div>-->
                     <div class="form-group">
                         <label for="identificationDescription"><?php echo $lang->description ?></label>
                         <textarea class="form-control" id="identificationDescription" rows="7" placeholder="<?php echo $lang->insertDescription ?>" style="resize: none"></textarea>
@@ -1771,7 +1767,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="identificationTypeSwitch">
                         <label style="margin: 0"  >
                             <?php echo $lang->whatShouldBeIdentified ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationFor ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1920,10 +1916,6 @@ include '../includes/language.php';
             <div class="col-md-7">
 
                 <div id="general" style="">
-<!--                    <div class="form-group">
-                        <label for="explorationTitle"><?php echo $lang->title ?></label>
-                        <input type="text" class="form-control" id="explorationTitle" placeholder="<?php echo $lang->insertTitle ?>">
-                    </div>-->
                     <div class="form-group">
                         <label for="explorationDescription"><?php echo $lang->description ?></label>
                         <textarea class="form-control" id="explorationDescription" rows="7" placeholder="<?php echo $lang->insertDescription ?>" style="resize: none"></textarea>
@@ -1958,7 +1950,7 @@ include '../includes/language.php';
                     <div class="form-group root" id="explorationTypeSwitch">
                         <label style="margin: 0"  >
                             <?php echo $lang->whatShouldBeExtracted ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationFor ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1986,7 +1978,7 @@ include '../includes/language.php';
                     <div class="form-group root hidden" id="askPreferredGestureSwitch">
                         <label style="margin: 0"  >
                             <?php echo $lang->queryPreferredGestureDirectly ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationQuestionnaireGestures ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -2014,7 +2006,7 @@ include '../includes/language.php';
                     <div class="form-group root hidden" id="askPreferredTriggerSwitch">
                         <label style="margin: 0"  >
                             <?php echo $lang->queryPreferredTriggerDirectly ?> 
-                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->counter ?>"></i>
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationQuestionnaireTrigger ?>"></i>
                         </label><br>
 
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -2466,7 +2458,6 @@ include '../includes/language.php';
                     <div class="btn-group">
                         <div class="btn btn-info btn-add-item font-bold" id="triggerItem">
                             <i class="fa fa-plus"></i> <?php echo $lang->addTrigger ?>
-                            <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->openQuestion ?>"></i>
                         </div>
                     </div>
                 </div>

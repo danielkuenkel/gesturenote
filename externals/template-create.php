@@ -1325,40 +1325,44 @@ include '../includes/language.php';
             <div class="alert-space alert-no-tasks-assembled"></div>
             <div class="alert-space alert-no-scenes-assembled"></div>
 
-
-            <div class="form-group">
-                <label><?php echo $lang->task ?></label>
-                <div class="alert-space alert-assembled-task-removed"></div>
-                <div class="input-group">
-                    <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                    <div class="input-group-btn select taskSelect" role="group">
-                        <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label><?php echo $lang->task ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioHelpTask ?>"></i></label>
+                        <div class="alert-space alert-assembled-task-removed"></div>
+                        <div class="input-group">
+                            <input class="form-control item-input-text option-task show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <div class="input-group-btn select taskSelect" role="group">
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label><?php echo $lang->scene ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioHelpScene ?>"></i></label>
+                        <div class="alert-space alert-assembled-scene-removed"></div>
+                        <div class="input-group">
+                            <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <div class="input-group-btn select sceneSelect" role="group">
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label><?php echo $lang->scene ?></label>
-                <div class="alert-space alert-assembled-scene-removed"></div>
-                <div class="input-group">
-                    <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                    <div class="input-group-btn select sceneSelect" role="group">
-                        <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label><?php echo $lang->helpText ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <label><?php echo $lang->helpText ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioHelpText ?>"></i></label>
                 <input class="form-control option-text" type="text" value="" placeholder=""/>
             </div>
 
 
             <div class="col-md-6 evaluation" style="padding: 0;">
                 <div class="form-group useGestureHelpSwitch">
-                    <label><?php echo $lang->showGestureAgainQuestion ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                    <label><?php echo $lang->showGestureAgainQuestion ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioHelpShowGesture ?>"></i></label>
 
                     <div class="root">
                         <div class="btn-group" id="radio" style="margin: 0">
@@ -1451,27 +1455,32 @@ include '../includes/language.php';
         </div>
         <div class="panel-body">
 
-            <div class="form-group">
-                <label><?php echo $lang->assessment ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                <input class="form-control input-title" type="text" value="" placeholder="<?php echo $lang->insertAssessment ?>"/>
-            </div>
-
-            <div class="form-group">
-                <label><?php echo $lang->afterAssessment ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                <div class="input-group">
-                    <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                    <div class="input-group-btn select assessmentTriggerSelect" role="group">
-                        <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                        <ul class="dropdown-menu option dropdown-menu-right" role="menu">
-                            <li id="nextTask"><a href="#"><?php echo $lang->nextTask ?></a></li>
-                            <li id="nextStep"><a href="#"><?php echo $lang->nextStep ?></a></li>
-                        </ul>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label><?php echo $lang->assessment ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioTaskAssessment ?>"></i></label>
+                        <input class="form-control input-title" type="text" value="" placeholder="<?php echo $lang->insertAssessment ?>"/>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="form-group">
+                        <label><?php echo $lang->afterAssessment ?></label>
+                        <div class="input-group">
+                            <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
+                            <div class="input-group-btn select assessmentTriggerSelect" role="group">
+                                <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
+                                <ul class="dropdown-menu option dropdown-menu-right" role="menu">
+                                    <li id="nextTask"><a href="#"><?php echo $lang->nextTask ?></a></li>
+                                    <li id="nextStep"><a href="#"><?php echo $lang->nextStep ?></a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label><?php echo $lang->annotationColor ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+            <div class="form-group form-group-no-margin">
+                <label><?php echo $lang->annotationColor ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->scenarioTaskAssessmentColor ?>"></i></label>
                 <div class="color-selector">
                     <div class="btn-color-selector darkblue" data-id='darkblue'></div>
                     <div class="btn-color-selector green" data-id='green'></div>
@@ -1670,82 +1679,9 @@ include '../includes/language.php';
                 </div>
             </div>
 
-
-
         </div>
     </div>
 
-    <div class="panel panel-default root" id="worstCaseItem">
-        <div class="panel-heading">
-            <div class="btn-group btn-group-sm" style="margin-right: 10px">
-                <button class="btn btn-default btn-shadow btn-up"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                <button class="btn btn-default btn-shadow btn-down"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                <button class="btn btn-default btn-shadow btn-delete"><span class="glyphicon glyphicon-trash"></span></button>
-            </div>
-        </div>
-        <div class="panel-body" style="margin-bottom: 0px">
-            <div class="form-group">
-                <label><?php echo $lang->stateCharts->transitionFeedback ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                <div class="alert-space alert-assembled-feedback-removed"></div>
-                <div class="feedback-input">
-                    <div class="input-group">
-                        <input class="form-control item-input-text option-feedback show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
-                        <div class="input-group-btn select feedbackSelect" role="group">
-                            <button class="btn btn-default btn-shadow dropdown-toggle" type="button" data-toggle="dropdown"><span class="chosen hidden" id="unselected"></span><span class="caret"></span></button>
-                            <ul class="dropdown-menu option dropdown-menu-right" role="menu"></ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-inline">
-                <div class="form-group transitionFeedback-mode hidden" style="margin-right: 20px">
-                    <label><?php echo $lang->displayOf ?> <?php echo $lang->stateCharts->transitionFeedback ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                    <div class="root">
-                        <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="manually">
-                                <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                    <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle" id="checked"></i>
-                                </span>
-                                <span class="option-text"><?php echo $lang->manually ?></span>
-                            </button>
-                        </div>
-                        <div class="btn-group" id="radio" style="margin: 0">
-                            <button class="btn btn-default btn-radio" name="primary" id="automatically">
-                                <span id="icons" style="margin-right: 6px">
-                                    <i class="fa fa-circle-thin" id="normal"></i>
-                                    <i class="fa fa-circle hidden" id="over"></i>
-                                    <i class="fa fa-check-circle hidden" id="checked"></i>
-                                </span>
-                                <span class="option-text"><?php echo $lang->automatically ?></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group hidden transitionFeedback-time-stepper">
-                    <label><?php echo $lang->transitionalPeriod ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
-                    <br/>
-                    <div class="input-group simple-stepper" style="max-width: 130px">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-shadow btn-stepper-decrease" value="1">
-                                <span class="glyphicon glyphicon-minus"></span><span class="sr-only"><?php echo $lang->oneSecondLess ?></span>
-                            </button>
-                        </div>
-                        <input type="text" class="form-control readonly text-center stepper-text" value="1">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-shadow btn-stepper-increase" value="20">
-                                <span class="glyphicon glyphicon-plus"></span><span class="sr-only"><?php echo $lang->oneSecondMore ?></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
 
     <div class="panel panel-default root" id="triggerItem">
         <div class="panel-heading">
@@ -1791,9 +1727,8 @@ include '../includes/language.php';
                 <input class="form-control" id="context-input" placeholder="<?php echo $lang->gestureContextQuestion ?>" />
             </div>
 
-
             <div class="form-group" id="scenes">
-                <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationScenesForGestures ?>"></i></label>
                 <div class="alert-space alert-no-scenes-assembled-link"></div>
                 <div class="">
                     <div class="transition-scenes-option-container">
@@ -1817,7 +1752,7 @@ include '../includes/language.php';
         </div>
         <div class="panel-body" style="padding-bottom: 0px">
             <div class="form-group">
-                <label><?php echo $lang->gesture ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <label><?php echo $lang->gesture ?> </label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="input-group">
                     <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
@@ -1829,7 +1764,7 @@ include '../includes/language.php';
             </div>
 
             <div class="form-group" id="scenes">
-                <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationScenesForTrigger ?>"></i></label>
                 <div class="alert-space alert-no-scenes-assembled-link"></div>
                 <div class="">
                     <div class="transition-scenes-option-container">
@@ -2122,7 +2057,7 @@ include '../includes/language.php';
         </div>
         <div class="panel-body" style="padding-bottom: 0px">
             <div class="form-group">
-                <label><?php echo $lang->stateCharts->transition ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <label><?php echo $lang->stateCharts->transition ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationTrigger ?>"></i></label>
                 <div class="alert-space alert-assembled-trigger-removed"></div>
                 <div class="input-group trigger">
                     <input class="form-control item-input-text option-trigger show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
@@ -2133,13 +2068,13 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="form-group">
-                <label><?php echo $lang->stateCharts->transitionCondition ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <label><?php echo $lang->gestures ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationGestures ?>"></i></label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="row" id="assembled-gestures-container"></div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-11" id="scenes">
-                    <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                    <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationScenesForGestures ?>"></i></label>
                     <div class="alert-space alert-no-phase-data"></div>
                     <div class="alert-space alert-no-scenes-assembled-link"></div>
                     <div class="">
@@ -2164,7 +2099,7 @@ include '../includes/language.php';
         </div>
         <div class="panel-body" style="padding-bottom: 0px">
             <div class="form-group">
-                <label><?php echo $lang->gesture ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <label><?php echo $lang->gesture ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationGesture ?>"></i></label>
                 <div class="alert-space alert-assembled-gesture-removed"></div>
                 <div class="input-group gesture">
                     <input class="form-control item-input-text option-gesture show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
@@ -2175,7 +2110,7 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="form-group">
-                <label><?php echo $lang->triggers ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <label><?php echo $lang->triggers ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationTriggers ?>"></i></label>
                 <div class="alert-space alert-assembled-trigger-removed"></div>
                 <div id="assembled-trigger-container"></div>
             </div>
@@ -2183,7 +2118,7 @@ include '../includes/language.php';
             <div class="row">
                 <div class="form-group col-sm-11" id="scenes">
                     <div class="form-group" id="scenes">
-                        <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                        <label><?php echo $lang->stateCharts->states ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->explorationScenesForTrigger ?>"></i></label>
                         <div class="alert-space alert-no-phase-data"></div>
                         <div class="alert-space alert-no-scenes-assembled-link"></div>
                         <div class="">
@@ -2216,7 +2151,7 @@ include '../includes/language.php';
         <div class="panel-body" style="margin-bottom: 0px">
             <div class="form-group form-group-no-margin scene-input">
                 <div class="alert-space alert-assembled-scene-removed"></div>
-                <label><?php echo $lang->stateCharts->state ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <label><?php echo $lang->stateCharts->state ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationScene ?>"></i></label>
                 <div class="input-group">
                     <input class="form-control item-input-text show-dropdown readonly" type="text" value="" placeholder="<?php echo $lang->pleaseSelect ?>"/>
                     <div class="input-group-btn select sceneSelect"  role="group">
@@ -2226,7 +2161,7 @@ include '../includes/language.php';
                 </div>
             </div>
             <div class="form-group form-group-margin-top description">
-                <label><?php echo $lang->description ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="Popover für …"></i></label>
+                <label><?php echo $lang->description ?> <i class="fa fa-info-circle btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationSceneDescription ?>"></i></label>
                 <textarea class="form-control" id="scene-description" rows="5" placeholder="<?php echo $lang->sceneDescriptionPlaceholder ?>" style="resize: none"></textarea>
             </div>
         </div>

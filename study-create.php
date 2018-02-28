@@ -197,6 +197,80 @@ if (login_check($mysqli) == true) {
 
                 <div role="tabpanel" class="tab-pane" id="generalData">
 
+                    <!-- manner selections -->
+                    <form class="row" style="">
+                        <div class="col-sm-7 col-md-6 col-lg-5">
+                            <div class="form-group root" id="phaseSelect">
+
+                                <label style="margin: 0">
+                                    <?php echo $lang->studyPhase ?> 
+                                    <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->phase ?>"></i>
+                                </label><br>
+
+                                <div class="btn-group" id="radio" style="margin: 0">
+                                    <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="elicitation">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->phaseType->elicitation ?></span>
+                                    </button>
+                                </div>
+                                <div class="btn-group" id="radio" style="margin: 0">
+                                    <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="extraction">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->phaseType->extraction ?></span>
+                                    </button>
+                                </div>
+                                <div class="btn-group" id="radio" style="margin: 0">
+                                    <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="evaluation">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->phaseType->evaluation ?></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5 col-md-6 col-lg-7">
+                            <div class="form-group root" id="surveyTypeSelect">
+                                <label style="margin: 0">
+                                    <?php echo $lang->studySurveyType ?>
+                                    <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->surveyType ?>"></i>
+                                </label><br>
+
+                                <div class="btn-group" id="radio" style="margin: 0">
+                                    <button class="btn btn-default btn-radio saveGeneralData btn-option-checked" name="primary" id="moderated">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->surveyType->moderated ?></span>
+                                    </button>
+                                </div>
+                                <div class="btn-group" id="radio" style="margin: 0">
+                                    <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="unmoderated">
+                                        <span id="icons" style="margin-right: 6px">
+                                            <i class="fa fa-circle-thin" id="normal"></i>
+                                            <i class="fa fa-circle hidden" id="over"></i>
+                                            <i class="fa fa-check-circle hidden" id="checked"></i>
+                                        </span>
+                                        <span class="option-text"><?php echo $lang->surveyType->unmoderated ?></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
                     <!-- study title -->
                     <div class="form-group">
                         <label for="studyTitle" >
@@ -215,80 +289,6 @@ if (login_check($mysqli) == true) {
                         </label>
                         <textarea class="form-control" id="studyDescription" rows="5" placeholder="<?php echo $lang->insertDescription ?>"></textarea>
                     </div>
-
-
-                    <!-- manner selections -->
-                    <form class="form-inline" style="margin-top: 0px">
-
-                        <div class="form-group root" id="phaseSelect" style="margin-right: 20px; margin-top: 15px">
-
-                            <label style="margin: 0">
-                                <?php echo $lang->studyPhase ?> 
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->phase ?>"></i>
-                            </label><br>
-
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="elicitation">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->phaseType->elicitation ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="extraction">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->phaseType->extraction ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="evaluation">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->phaseType->evaluation ?></span>
-                                </button>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group root" id="surveyTypeSelect" style="margin-top: 15px">
-                            <label style="margin: 0">
-                                <?php echo $lang->studySurveyType ?>
-                                <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->surveyType ?>"></i>
-                            </label><br>
-
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio saveGeneralData btn-option-checked" name="primary" id="moderated">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin hidden" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->surveyType->moderated ?></span>
-                                </button>
-                            </div>
-                            <div class="btn-group" id="radio" style="margin: 0">
-                                <button class="btn btn-default btn-radio saveGeneralData" name="primary" id="unmoderated">
-                                    <span id="icons" style="margin-right: 6px">
-                                        <i class="fa fa-circle-thin" id="normal"></i>
-                                        <i class="fa fa-circle hidden" id="over"></i>
-                                        <i class="fa fa-check-circle hidden" id="checked"></i>
-                                    </span>
-                                    <span class="option-text"><?php echo $lang->surveyType->unmoderated ?></span>
-                                </button>
-                            </div>
-                        </div>
-
-                    </form>
 
                     <div id="from-To-datepicker" style="margin-top: 15px">
                         <div class="input-daterange row" id="datepicker">
@@ -779,7 +779,7 @@ if (login_check($mysqli) == true) {
                         removeLocalItem(event.data.id + ".data");
                         checkPreviewAvailability();
                     });
-                    
+
                     switch (format) {
                         case SUS:
                             setLocalItem(id + ".data", translation.sus);

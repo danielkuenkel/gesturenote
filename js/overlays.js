@@ -1209,24 +1209,6 @@ function initScenarioOverlay(id, formatClone) {
         initAddTransitionSceneButton(taskItem);
     }
 
-//    $(formatClone).find('.btn-add-worst-cases-option').unbind('click').bind('click', function (event) {
-//        event.preventDefault();
-//        if (event.handled !== true)
-//        {
-//            event.handled = true;
-//            clearAlerts($(formatClone).find('#worstCases'));
-//            var item = $('#form-item-container').find('#worstCaseItem').clone().removeAttr('id');
-//            tweenAndAppend(item, $(this), $(formatClone), $(formatClone).find('#worstCases .option-container'), null, true);
-//            initTransitionFeedbackMode(item);
-////            initAddTransitionSceneButton(item);
-////            $(item).find('.btn-add-transition-scene').click();
-//        }
-//    });
-
-//    initQuestionnaireListChange(formatClone, $(formatClone).find('#worstCases .option-container'), $(formatClone).find('#worstCases'), ALERT_NO_PHASE_DATA);
-//    initQuestionnaireListItemAdded($(formatClone).find('#worstCases .option-container'), $(formatClone).find('#worstCases'));
-
-
     $(formatClone).find('.btn-add-helpOption').unbind('click').bind('click', function (event) {
         event.preventDefault();
         if (event.handled !== true)
@@ -2070,8 +2052,8 @@ function initExplorationOverlay(id, formatClone) {
             var thumbnail = getGestureSceneListThumbnail(assemGestures[i], 'add-gesture-to-scene-thumbnail', 'col-xs-6 col-sm-4 col-md-6 col-lg-4');
             $(container).append(thumbnail);
         }
+        
         initPopover(300);
-        console.log(gestureIds);
         if (gestureIds && gestureIds.length > 0) {
             for (var i = 0; i < gestureIds.length; i++) {
                 console.log($(container).find('#' + gestureIds[i] + ' .btn-add-gesture-to-scene'));

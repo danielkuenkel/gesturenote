@@ -962,7 +962,7 @@ function renderAssembledTasks(tasks, targetContainer, addNoneItem) {
     if (tasks && tasks.length > 0) {
         $(dropdown).find('.dropdown-toggle').removeClass('disabled');
         $(target).find('.taskSelect .dropdown-toggle').removeClass('disabled');
-        $(target).find('.item-input-text').attr('placeholder', translation.pleaseSelect);
+        $(target).find('.option-task').attr('placeholder', translation.pleaseSelect);
 
         for (var i = 0; i < tasks.length; i++) {
             listItem = document.createElement('li');
@@ -986,7 +986,7 @@ function renderAssembledTasks(tasks, targetContainer, addNoneItem) {
     } else {
         if (addNoneItem === true) {
             $(target).find('.taskSelect .dropdown-toggle').removeClass('disabled');
-            $(target).find('.item-input-text').attr('placeholder', translation.pleaseSelect);
+            $(target).find('.option-task').attr('placeholder', translation.pleaseSelect);
 
             link = document.createElement('a');
             listItem = document.createElement('li');
@@ -997,7 +997,7 @@ function renderAssembledTasks(tasks, targetContainer, addNoneItem) {
             $(dropdown).find('.option').append(listItem);
         } else {
             $(target).find('.taskSelect .dropdown-toggle').addClass('disabled');
-            $(target).find('.item-input-text').attr('placeholder', translation.noTasksPresent);
+            $(target).find('.option-task').attr('placeholder', translation.noTasksPresent);
         }
     }
 
@@ -1603,13 +1603,13 @@ $(document).on('click', '.btn-add-gesture-to-scene', function (event) {
         var gestureId = $(this).closest('.root').attr('id');
         $(this).popover('hide');
         if (!$(this).hasClass('assembled')) {
-            $(this).attr('data-content', translation.removeFromState).data('bs.popover').setContent();
+            $(this).attr('data-content', translation.removeFromTrigger).data('bs.popover').setContent();
             $(this).addClass('assembled');
             $(this).find('.fa').removeClass('fa-plus-square').addClass('fa-minus-square');
             $(this).closest('.gesture-thumbnail').addClass('assembled');
             assemble = true;
         } else {
-            $(this).attr('data-content', translation.addToState).data('bs.popover').setContent();
+            $(this).attr('data-content', translation.addToTrigger).data('bs.popover').setContent();
             $(this).removeClass('assembled');
             $(this).find('.fa').removeClass('fa-minus-square').addClass('fa-plus-square');
             $(this).closest('.gesture-thumbnail').removeClass('assembled');
