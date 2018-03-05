@@ -1003,8 +1003,5 @@ li.disabledTab > a[data-toggle="tab"] {
 * rigged hand canvas
 */
 canvas {
-    /*margin-top: 100px;*/
     pointer-events: none;
-    height: 200%;
-    top: 400px;
 }

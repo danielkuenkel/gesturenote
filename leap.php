@@ -26,16 +26,40 @@ session_start();
         <script src="js/language.js"></script>
         <script src="js/goto-general.js"></script>
         <script src="js/globalFunctions.js"></script>
+        <script src="js/filesaver/FileSaver.min.js"></script>
 
         <!-- leap -->
-        <script src="js/leapjs/leap-0.6.4.min.js"></script>
+        <script src="//js.leapmotion.com/leap-0.6.3.js"></script>
+        <!--<script src="js/leapjs-playback/recorder/javascripts/lib/leap-0.6.0-beta2-master.js"></script>-->
         <script src="js/three/three.min.js"></script>
-<!--        <script src="js/leapjs-playback/recording.js"></script>
-        <script src="js/leapjs-playback/player.js"></script>-->
-        <script src="//js.leapmotion.com/leap-plugins-0.1.12.min.js"></script>
-        <script src="//js.leapmotion.com/leap.rigged-hand-0.1.7.min.js"></script>
+        <script src="//js.leapmotion.com/leap-plugins-0.1.8.js"></script>
+        <!--<script src="//js.leapmotion.com/leap.rigged-hand-0.1.5.js"></script>-->
+        <script src="js/riggedHand/build/leap.rigged-hand-0.1.7.js"></script>
+        <!--<script src="js/riggedHand/build/leapmotionPlayer.js"></script>-->
+
+
+        <!--        <link rel="stylesheet" href="js/leapjs-playback/stylesheets/controls.css">
+                <link rel="stylesheet" href="js/leapjs-playback/stylesheets/data-collection.css">
+                <link rel="stylesheet" href="js/leapjs-playback/stylesheets/main.css">
+                <link rel="stylesheet" href="js/leapjs-playback/stylesheets/lib/angular.rangeSlider.css">
+                <link rel="stylesheet" href="js/leapjs-playback/stylesheets/lib/xeditable.css">-->
+
+<!--        <script src="js/leapjs-playback/javascripts/lib/angular.js"></script>
+        <script src="js/leapjs-playback/javascripts/lib/angular.rangeSlider.js"></script>
+        <script src="js/leapjs-playback/javascripts/lib/angular-spinner.min.js"></script>
+        <script src="js/leapjs-playback/javascripts/lib/xeditable.min.js"></script>-->
+
+        <!--<script src="js/leapjs-playback/javascripts/data-collection.js"></script>-->
+        <script src="js/leapjs-playback/build/leap.playback-0.2.1.js"></script>
+<!--        <script src="js/leapjs-playback/javascripts/controls.js"></script>
+        <script src="js/leapjs-playback/javascripts/metadata.js"></script>
+        <script src="js/leapjs-playback/javascripts/recorder.js"></script>-->
+<!--        <script src="js/leapjs-playback/src/player.js"></script>
+        <script src="js/leapjs-playback/src/recording.js"></script>-->
+        <script src="js/leapjs-playback/src/lib/lz-string-1.3.3.js"></script>
     </head>
-    <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+    <body id="pageBody" data-offset="60">
 
         <!-- externals -->
         <div id="alerts"></div>
@@ -64,84 +88,170 @@ session_start();
 
         <div class="container mainContent" style="margin-top: 0px">
             <div class="alert-space alert-please-wait"></div>
+            <div class="btn-group">
+                <button class="btn btn-default" id="btn-start-recording">RECORD</button>
+                <!--<button class="btn btn-default disabled" id="btn-stop-recording">STOP RECORD</button>-->
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-default" id="btn-download-recording-as-json">DOWNLOAD JSON</button>
+                <button class="btn btn-default" id="btn-download-recording-as-compressed">DOWNLOAD COMPRESSED</button>
+                <button class="btn btn-default" id="btn-load-recording">LOAD FILE</button>
+            </div>
+            <form enctype="multipart/form-data" id="upload-leap-recording" class="hidden">
+                <input class="fileUpload hidden" name="image" type="file" accept="text/json, text/lz" />
+            </form>
         </div>
+
+
+
+        <canvas id="renderArea" style="width: 400px; height: 300px"></canvas>
 
         <script>
             $(document).ready(function () {
                 initializeLeapMotion();
-
                 checkLanguage(function () {
                     var externals = new Array();
                     externals.push(['#alerts', PATH_EXTERNALS + 'alerts.php']);
                     externals.push(['#template-subpages', PATH_EXTERNALS + 'template-sub-pages.php']);
                     loadExternals(externals);
                 });
-
-
             });
-
             function onAllExternalsLoadedSuccessfully() {
                 renderSubPageElements();
             }
 
             function initializeLeapMotion() {
                 appendAlert($('.mainContent'), ALERT_PLEASE_WAIT);
+                var controller = new Leap.Controller({enableGestures: false});
+                controller.use('playback', {
+                    recording: 'js/leapjs-playback/recorder/recordings/leap-playback-recording-55fps_1.json',
+                    requiredProtocolVersion: 6,
+                    pauseOnHand: true
+                });
+//                controller.use('handHold');
+                controller.use('transform', {
+                    position: new THREE.Vector3(0, -150, 0)
+                });
+                controller.use('riggedHand', {
+                    checkWebGL: true
+//                    parent: document.getElementById('renderArea')
+                });
 
-                (window.controller = new Leap.Controller)
-                        .use('riggedHand')
-                        .connect();
 
-                $('#pageBody').find('canvas').css({top: '400px'});
-
-                window.controller.on('connect', onConnect);
+                controller.connect();
+                controller.on('connect', onConnect);
                 function onConnect()
                 {
-                    clearAlerts($('.mainContent'));
                     console.log("controller connected ");
+                    clearAlerts($('.mainContent'));
                 }
 
-                window.controller.on('frame', onFrame);
-                function onFrame(frame)
-                {
-                    var hand = frame.hands[0];
-                    if (hand) {
-//                        var handMesh = frame.hands[0].data('riggedHand.mesh');
-//                        handMesh.scenePosition(hand.indexFinger.tipPosition, sphere.position);
-//                        var screenPosition = handMesh.screenPosition(hand.fingers[1].tipPosition);
-                        console.log(hand);
-//                        cursor.style.left = screenPosition.x
-//                        cursor.style.bottom = screenPosition.y
-//                    console.log("Frame event for frame ");
-                    }
-                }
-
-                window.controller.on('deviceAttached', onAttached);
+                controller.on('deviceAttached', onAttached);
                 function onAttached()
                 {
+                    console.log("device attached");
                     clearAlerts($('.mainContent'));
-                    console.log("Device attached");
                 }
 
-                window.controller.on('deviceRemoved', onDeviceRemoved);
+                controller.on('deviceRemoved', onDeviceRemoved);
                 function onDeviceRemoved()
                 {
-                    appendAlert($('.mainContent'), ALERT_PLEASE_WAIT);
                     console.log("device removed ");
+                    appendAlert($('.mainContent'), ALERT_PLEASE_WAIT);
                 }
 
-                window.controller.on('deviceStopped', onDeviceStopped);
+                controller.on('deviceStopped', onDeviceStopped);
                 function onDeviceStopped()
                 {
-                    appendAlert($('.mainContent'), ALERT_PLEASE_WAIT);
                     console.log("device stopped ");
+                    appendAlert($('.mainContent'), ALERT_PLEASE_WAIT);
                 }
 
-                window.controller.on('deviceStreaming', onDeviceStreaming);
+                controller.on('deviceStreaming', onDeviceStreaming);
                 function onDeviceStreaming()
                 {
-                    clearAlerts($('.mainContent'));
+//                    var riggedHand = controller.plugins.riggedHand;
+//                    console.log(riggedHand);
                     console.log("device streaming ");
+//                    controller.plugins.playback.player.play()
+                    clearAlerts($('.mainContent'));
                 }
+
+                controller.on('blur', onBlur);
+                function onBlur()
+                {
+                    console.log("controller blur event");
+                }
+
+                $('#btn-start-recording').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    var button = $(this);
+                    if (!$(button).hasClass('disabled')) {
+                        $(button).addClass('disabled');
+                        $('#btn-stop-recording').removeClass('disabled');
+                        controller.plugins.playback.player.record();
+                    }
+                });
+
+//                $('#btn-stop-recording').unbind('click').bind('click', function (event) {
+//                    event.preventDefault();
+//                    var button = $(this);
+//                    if (!$(button).hasClass('disabled')) {
+//                        $(button).addClass('disabled');
+//                        $('#btn-start-recording').removeClass('disabled');
+//                        recording = false;
+//
+////                        console.log(recordings.framesData);
+////                        setMetaData(recordings.framesData);
+////                        console.log(packedFrameData(recordings.framesData));
+////                        controller.plugins.riggedHand.renderRecordedFrames(packedFrameData(recordings.framesData), metadata.framerate);
+////
+////                        if (!riggedHandPlayer) {
+////                            var options = {renderArea: $('#renderArea'), recording: recordings.framesData};
+////                            riggedHandPlayer = new LeapMotionPlayer(options);
+////                        }
+//
+////                        saveFrames('json', recordings.framesData);
+////                        recordings.framesData = [];
+//                    }
+//                });
+
+                $('#btn-download-recording-as-json').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    if (controller && controller.plugins && controller.plugins.playback.player) {
+                        controller.plugins.playback.player.recording.save('json');
+                    }
+                });
+
+                $('#btn-download-recording-as-compressed').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    if (controller && controller.plugins && controller.plugins.playback.player) {
+                        controller.plugins.playback.player.recording.save('lz');
+                    }
+                });
+
+                $('#btn-load-recording').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    $('#upload-leap-recording').find('.fileUpload').click();
+                });
+
+                $('#upload-leap-recording').find('.fileUpload').on('change', function (event) {
+                    event.preventDefault();
+                    if (event.handled !== true)
+                    {
+                        event.handled = true;
+                        var uploadFiles = $(this)[0].files[0];
+                        if (uploadFiles) {
+                            var fr = new FileReader();
+                            fr.onload = function (evt) {
+                                controller.plugins.playback.player.recording.readFileData(evt.target.result, uploadFiles, function (frames) {
+                                    console.log('file loaded successfully ');
+                                });
+                            };
+                            fr.readAsText($(this)[0].files[0]);
+                        }
+                    }
+                });
             }
         </script>
 
