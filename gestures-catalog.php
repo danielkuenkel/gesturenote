@@ -43,7 +43,7 @@ if (login_check($mysqli) == true) {
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/gesture-recorder.js"></script>
+        <script src="js/gestureRecorder/webcam.js"></script>
         <script src="js/upload-queue.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
 

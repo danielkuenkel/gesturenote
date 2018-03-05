@@ -11,35 +11,11 @@ $target_dir = "../uploads/";
 $target_preview_dir = "uploads/";
 
 session_start();
-if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['gestureImages'], $_POST['gif'])) {
-    $imageURLs = $_POST['gestureImages'];
-//    $imageURLs = array();
-
+if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['gestureImages'], $_POST['gif'], $_POST['sensorData'])) {
     $ownerId = $_SESSION['user_id'];
     if (isset($_POST['ownerId']) && $_POST['ownerId'] != null) {
         $ownerId = $_POST['ownerId'];
     }
-
-//    foreach ($images as $image) {
-//
-//        $file_name = md5(microtime());
-//        $imageData = substr($image, 23);
-//
-//        $im = imagecreatefromstring(base64_decode($imageData)); // php function to create image from string
-//        // condition check if valid conversion
-//        if ($im !== false) {
-//            // saves an image to specific location
-//            $resp = imagejpeg($im, $target_dir . $file_name . '.jpg');
-//            array_push($imageURLs, $target_preview_dir . $file_name . '.jpg');
-//            // frees image from memory
-//            imagedestroy($im);
-//        } else {
-//            // show if any error in bytes data for image
-//            echo json_encode(array('status' => 'error'));
-//            exit();
-//        }
-//    }
-
 
     $userId = $_SESSION['user_id'];
     $source = $_SESSION['usertype'];
@@ -50,7 +26,9 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['ass
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
     $joints = json_encode($_POST['joints']);
     $previewImage = $_POST['previewImage'];
+    $imageURLs = $_POST['gestureImages'];
     $gif = $_POST['gif'];
+    $sensorData = json_encode($_POST['sensorData']);
     $dbImageURLs = json_encode($imageURLs);
 
     if (isset($_POST['type'])) {
@@ -65,7 +43,7 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['ass
         $interactionType = null;
     }
 
-    if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, type, interaction_type, context, association, description, joints, preview_image, images, gif) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$type','$interactionType','$context','$association','$description','$joints','$previewImage','$dbImageURLs', '$gif')")) {
+    if ($insert_stmt = $mysqli->prepare("INSERT INTO gestures (user_id, owner_id, source, scope, title, type, interaction_type, context, association, description, joints, preview_image, images, gif, sensor_data) VALUES ('$userId', '$ownerId', '$source','$scope','$title','$type','$interactionType','$context','$association','$description','$joints','$previewImage','$dbImageURLs', '$gif', '$sensorData')")) {
         if (!$insert_stmt->execute()) {
             deleteFiles($target_dir, $imageURLs);
             echo json_encode(array('status' => 'insertError'));

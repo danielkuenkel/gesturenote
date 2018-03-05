@@ -165,7 +165,7 @@ function initQuestionnairePreview(button, list, getAssembledGestures, additional
                 }
             });
 
-            loadHTMLintoModal('custom-modal', 'modal-preview.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'externals/modal-preview.php', 'modal-lg');
 
 
         }

@@ -350,7 +350,7 @@ function renderStudyScenes(scenes) {
         $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
             event.preventDefault();
             currentSceneId = event.data.sceneId;
-            loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'externals/modal-scene.php', 'modal-lg');
         });
     }
 }

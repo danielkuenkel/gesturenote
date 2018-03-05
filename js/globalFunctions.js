@@ -417,7 +417,7 @@ $(document).on('click', '.btn-preview', function (event) {
         $(this).popover('hide');
         var formatData = getFormatData($(this).closest('.root'));
         currentPreviewData = [formatData];
-        loadHTMLintoModal('custom-modal', 'modal-preview.php', 'modal-lg');
+        loadHTMLintoModal('custom-modal', 'externals/modal-preview.php', 'modal-lg');
     }
 });
 
@@ -2040,9 +2040,9 @@ function initMoreInfoGesture(button, clone, data, source, modalId) {
         });
 
         if (modalId) {
-            loadHTMLintoModal('custom-modal', modalId + '.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'externals/' + modalId + '.php', 'modal-lg');
         } else {
-            loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'externals/modal-gesture.php', 'modal-lg');
         }
     });
 }
@@ -2060,7 +2060,7 @@ function initCommentGesture(button, clone, source, data) {
         currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'comments'};
         gesturePreviewOpened = true;
         $(clone).find('#btn-stop-gesture').click();
-        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
+        loadHTMLintoModal('custom-modal', 'externals/modal-gesture.php', 'modal-lg');
     });
 }
 
@@ -2073,7 +2073,7 @@ function initGestureSet(button, clone, source, data) {
             currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'gestureSets'};
             gesturePreviewOpened = true;
             $(clone).find('#btn-stop-gesture').click();
-            loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'externals/modal-gesture.php', 'modal-lg');
         });
     }
 }
@@ -2279,7 +2279,7 @@ function initRatingGesture(button, clone, source, data) {
         currentPreviewGesture = {gesture: getGestureById(data.id, source), source: source, thumbnail: clone, startTab: 'rating'};
         gesturePreviewOpened = true;
         $(clone).find('#btn-stop-gesture').click();
-        loadHTMLintoModal('custom-modal', 'modal-gesture.php', 'modal-lg');
+        loadHTMLintoModal('custom-modal', 'externals/modal-gesture.php', 'modal-lg');
     });
 }
 

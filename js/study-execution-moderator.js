@@ -1015,7 +1015,7 @@ var Moderator = {
         Moderator.renderGestureSlide(source, container, data);
         if (peerConnection) {
             $(peerConnection).unbind(MESSAGE_REACTIVATE_CONTROLS).bind(MESSAGE_REACTIVATE_CONTROLS, function (event, payload) {
-                loadHTMLintoModal('custom-modal', 'modal-check-gesture.php', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'externals/modal-check-gesture.php', 'modal-lg');
             });
         }
 
@@ -1117,7 +1117,7 @@ var Moderator = {
 
         if (previewModeEnabled && slideTriggered) {
             slideTriggered = false;
-            loadHTMLintoModal('custom-modal', 'modal-check-gesture.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'externals/modal-check-gesture.php', 'modal-lg');
         }
     },
     getTriggerSlideshow: function getTriggerSlideshow(source, container, data) {

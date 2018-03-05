@@ -426,7 +426,7 @@ var Tester = {
 
         function onTrainingTriggered() {
             currentPreviewGesture = {gesture: getGestureById(data[currentGestureTrainingIndex].gestureId)};
-            loadHTMLintoModal('custom-modal', 'modal-gesture-info.php', 'modal-md');
+            loadHTMLintoModal('custom-modal', 'externals/modal-gesture-info.php', 'modal-md');
             $('#custom-modal').on('hide.bs.modal', function (event) {
                 if (!previewModeEnabled && peerConnection) {
                     peerConnection.sendMessage(MESSAGE_GESTURE_INFO_CLOSED);
@@ -1058,7 +1058,7 @@ var Tester = {
                             console.log('there is more to identify');
                         }
                     });
-                    loadHTMLintoModal('custom-modal', 'modal-request-trigger.php', 'modal-md');
+                    loadHTMLintoModal('custom-modal', 'externals/modal-request-trigger.php', 'modal-md');
                 });
             } else {
                 $(container).find('#scene-description').addClass('hidden');
@@ -1074,7 +1074,7 @@ var Tester = {
                             console.log('there is more to identify');
                         }
                     });
-                    loadHTMLintoModal('custom-modal', 'modal-request-trigger.php', 'modal-md');
+                    loadHTMLintoModal('custom-modal', 'externals/modal-request-trigger.php', 'modal-md');
                 }
             }
         }
@@ -1710,7 +1710,7 @@ var Tester = {
 
         function checkHelp() {
             if (triggeredHelp) {
-                loadHTMLintoModal('custom-modal', 'modal-help.php', 'modal-md');
+                loadHTMLintoModal('custom-modal', 'externals/modal-help.php', 'modal-md');
             }
         }
 
@@ -1863,7 +1863,7 @@ var Tester = {
             }
 
             $(panelContent).find('#btn-perform-gesture').removeClass('hidden');
-            loadHTMLintoModal('custom-modal', 'modal-select-transition.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'externals/modal-select-transition.php', 'modal-lg');
         });
 
         $(panelContent).find('#btn-getting-help').unbind('click').bind('click', function (event) {
@@ -1876,7 +1876,7 @@ var Tester = {
                 });
             }
 
-            loadHTMLintoModal('custom-modal', 'modal-help.php', 'modal-md');
+            loadHTMLintoModal('custom-modal', 'externals/modal-help.php', 'modal-md');
         });
 
         $(panelContent).find('#btn-done').unbind('click').bind('click', function (event) {
@@ -1973,7 +1973,7 @@ var Tester = {
                         $(container).find('#scene-container').addClass('hidden');
                     });
                     currentExplorationIndex = payload.currentExplorationIndex;
-                    loadHTMLintoModal('custom-modal', 'modal-preferred-gestures.php', 'modal-md');
+                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
                 });
             } else {
                 $(peerConnection).unbind(MESSAGE_REQUEST_PREFERRED_TRIGGER).bind(MESSAGE_REQUEST_PREFERRED_TRIGGER, function (event, payload) {
@@ -1985,7 +1985,7 @@ var Tester = {
                         $(container).find('#scene-container').addClass('hidden');
                     });
                     currentExplorationIndex = payload.currentExplorationIndex;
-                    loadHTMLintoModal('custom-modal', 'modal-preferred-trigger.php', 'modal-md');
+                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-trigger.php', 'modal-md');
                 });
             }
         } else {
@@ -2003,7 +2003,7 @@ var Tester = {
                         $(container).find('#scene-description').addClass('hidden');
                         $(container).find('#scene-container').addClass('hidden');
                     });
-                    loadHTMLintoModal('custom-modal', 'modal-preferred-gestures.php', 'modal-md');
+                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-gestures.php', 'modal-md');
                 }
             } else {
                 if (explorationPreferredGesturesRequest) {
@@ -2015,7 +2015,7 @@ var Tester = {
                         $(container).find('#scene-description').addClass('hidden');
                         $(container).find('#scene-container').addClass('hidden');
                     });
-                    loadHTMLintoModal('custom-modal', 'modal-preferred-trigger.php', 'modal-md');
+                    loadHTMLintoModal('custom-modal', 'externals/modal-preferred-trigger.php', 'modal-md');
                 }
             }
         }
@@ -2468,7 +2468,7 @@ function onUnmoderatedAnswerTimeExpired(source, container, data) {
             tempData.annotations.push({id: tempData.annotations.length, action: ACTION_END_PERFORM_GESTURE, gestureId: slideData.gestureId, triggerId: slideData.triggerId, time: timestamp});
             setLocalItem(getCurrentPhase().id + '.tempSaveData', tempData);
 
-            loadHTMLintoModal('custom-modal', 'modal-check-gesture.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'externals/modal-check-gesture.php', 'modal-lg');
         });
 
     }

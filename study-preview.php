@@ -66,7 +66,7 @@ if (login_check($mysqli) == true) {
         <script src="//cdn.webrtc-experiment.com/firebase.js"></script>-->
 
         <!-- gesture recorder sources -->
-        <script src="js/gesture-recorder.js"></script>
+        <script src="js/gestureRecorder/webcam.js"></script>
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
@@ -201,7 +201,7 @@ if (login_check($mysqli) == true) {
                 var showTutorial = parseInt(<?php echo $_SESSION['tutorialStudyPreview'] ?>);
                 if (showTutorial === 1) {
                     $('#btn-introduction').click();
-//                    loadHTMLintoModal('custom-modal', 'modal-introduction-study-preview.php', 'modal-lg');
+//                    loadHTMLintoModal('custom-modal', 'externals/modal-introduction-study-preview.php', 'modal-lg');
                 }
 
                 previewModeEnabled = true;
@@ -340,7 +340,7 @@ if (login_check($mysqli) == true) {
                 $('#custom-modal').attr('data-help-items-key', 'introductionPreviewStudy');
                 $('#custom-modal').attr('data-help-context', 'studyPreview');
                 $('#custom-modal').attr('data-help-show-tutorial', <?php echo $_SESSION['tutorialStudyPreview'] ?>);
-                loadHTMLintoModal('custom-modal', 'modal-introduction.php', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
             });
         </script>
     </body>

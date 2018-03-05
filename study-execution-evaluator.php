@@ -72,7 +72,7 @@ if ($h && $token && $studyId) {
         <script src="js/peerConnection.js"></script>
 
         <!-- gesture recorder sources -->
-        <script src="js/gesture-recorder.js"></script>
+        <script src="js/gestureRecorder/webcam.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 

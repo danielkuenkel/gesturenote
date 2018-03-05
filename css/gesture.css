@@ -213,6 +213,8 @@ and open the template in the editor.
 }
 
 #leap-playback-crop-slider-container .slider-selection {
+    background: #0480BE;
+    opacity: .2;
 }
 
 .leap-playback-slider-container .slider-handle {
@@ -220,9 +222,7 @@ and open the template in the editor.
     background-image: none;
 }
 
-#sliderLeap .slider-rangeHighlight {
-    background: #f70616;
-}
 #sliderLeap .slider-rangeHighlight.category1 {
-    background: #FF9900;
+    background: #0480BE;
+    opacity: .2;
 }

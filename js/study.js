@@ -148,7 +148,7 @@ function renderData(data, hash, showTutorial) {
 
         if (!$(button).hasClass('disabled')) {
             lockButton(button, true, 'fa-trash');
-            loadHTMLintoModal('custom-modal', 'modal-delete-study-data.php', 'modal-md');
+            loadHTMLintoModal('custom-modal', 'externals/modal-delete-study-data.php', 'modal-md');
             $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
                 deleteStudy({studyId: deleteStudyId}, function (result) {
                     if (result.status === RESULT_SUCCESS) {
@@ -313,7 +313,7 @@ function renderStudyScenes(scenes) {
         $(item).find('#btn-preview-scene').click({sceneId: scenes[i].id}, function (event) {
             event.preventDefault();
             currentSceneId = event.data.sceneId;
-            loadHTMLintoModal('custom-modal', 'modal-scene.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'externals/modal-scene.php', 'modal-lg');
         });
     }
 }
@@ -703,7 +703,7 @@ function renderGestureClassification() {
 
             $('#btn-help-classification').on('click', function (event) {
                 event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'modal-classification.php', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'externals/modal-classification.php', 'modal-lg');
             });
 
             $('#btn-start-classification').on('click', function (event) {
@@ -1225,7 +1225,7 @@ function renderChecklist() {
                 }
 
                 currentPreviewData = questionnaire;
-                loadHTMLintoModal('custom-modal', 'modal-preview.php', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'externals/modal-preview.php', 'modal-lg');
             }
         });
 
@@ -1454,7 +1454,7 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
     $(target).find('#btn-open-cognitive-relationships').unbind('click').bind('click', function (event) {
         event.preventDefault();
         currentAssignment = getAssignmentByMainGestureId($(this).closest('.root').attr('data-main-gesture-id'));
-        loadHTMLintoModal('custom-modal', 'modal-cognitive-relationships.php', 'modal-lg');
+        loadHTMLintoModal('custom-modal', 'externals/modal-cognitive-relationships.php', 'modal-lg');
     });
 
     if (assignment.cognitiveRelationship && assignment.cognitiveRelationship.objectiveAnswer) {
@@ -1469,7 +1469,7 @@ function renderPotentialGesturesParameters(target, assignment, mainGesture) {
         $(target).find('#btn-open-checklist').unbind('click').bind('click', function (event) {
             event.preventDefault();
             currentAssignment = getAssignmentByMainGestureId($(this).closest('.root').attr('data-main-gesture-id'));
-            loadHTMLintoModal('custom-modal', 'modal-checklist.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'externals/modal-checklist.php', 'modal-lg');
         });
 
         if (assignment.checklist && assignment.checklist.objectiveAnswer) {
@@ -2055,7 +2055,7 @@ function renderTriggerClassification() {
 
             $('#btn-help-classification').on('click', function (event) {
                 event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'modal-classification.php', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'externals/modal-classification.php', 'modal-lg');
             });
 
             $('#btn-start-trigger-classification').on('click', function (event) {
@@ -2531,7 +2531,7 @@ function renderPotentialTriggerParameters(target, assignment, mainTrigger) {
     $(target).find('#btn-open-cognitive-relationships').unbind('click').bind('click', function (event) {
         event.preventDefault();
         currentAssignment = getAssignmentByMainTriggerId($(this).closest('.root').attr('data-main-trigger-id'));
-        loadHTMLintoModal('custom-modal', 'modal-cognitive-relationships-trigger.php', 'modal-lg');
+        loadHTMLintoModal('custom-modal', 'externals/modal-cognitive-relationships-trigger.php', 'modal-lg');
     });
 
     if (assignment.cognitiveRelationship && assignment.cognitiveRelationship.objectiveAnswer) {
@@ -2546,7 +2546,7 @@ function renderPotentialTriggerParameters(target, assignment, mainTrigger) {
         $(target).find('#btn-open-checklist').unbind('click').bind('click', function (event) {
             event.preventDefault();
             currentAssignment = getAssignmentByMainTriggerId($(this).closest('.root').attr('data-main-trigger-id'));
-            loadHTMLintoModal('custom-modal', 'modal-checklist-trigger.php', 'modal-lg');
+            loadHTMLintoModal('custom-modal', 'externals/modal-checklist-trigger.php', 'modal-lg');
         });
 
         if (assignment.checklist && assignment.checklist.objectiveAnswer) {

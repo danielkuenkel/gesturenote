@@ -123,7 +123,7 @@ function initialize() {
     $('.btn-cancel').click(function (event) {
         event.preventDefault();
         if (!$(this).hasClass('disabled')) {
-            loadHTMLintoModal('custom-modal', 'modal-cancel-study.php', 'modal-sm');
+            loadHTMLintoModal('custom-modal', 'externals/modal-cancel-study.php', 'modal-sm');
         }
     });
 

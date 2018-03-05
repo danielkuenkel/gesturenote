@@ -577,7 +577,7 @@ if (login_check($mysqli) == true) {
                 $('#custom-modal').attr('data-help-items-key', 'introductionStudy');
                 $('#custom-modal').attr('data-help-context', 'study');
                 $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialStudy'] ?>));
-                loadHTMLintoModal('custom-modal', 'modal-introduction.php', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
             });
         </script>
     </body>

@@ -382,7 +382,7 @@ if (login_check($mysqli) == true) {
 
             $('#btn-open-register').on('click', function (event) {
                 event.preventDefault();
-                loadHTMLintoModal('custom-modal', 'modal-register.php', 'modal-md');
+                loadHTMLintoModal('custom-modal', 'externals/modal-register.php', 'modal-md');
             });
 
             $('#contact-form').find('#btn-contact-us').on('click', function (event) {

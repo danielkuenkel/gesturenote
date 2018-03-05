@@ -26,36 +26,6 @@ if (isset($_SESSION['user_id'], $_POST['gestureId'], $_POST['title'], $_POST['ty
         } else {
             echo json_encode(array('status' => 'success', 'id' => $gestureId, 'title' => $title, 'type' => $type, 'interactionType' => $interactionType, 'context' => $context, 'association' => $association, 'description' => $description, 'joints' => json_decode($joints), 'previewImage' => $previewImage));
             exit();
-
-//            if ($select_stmt = $mysqli->prepare("SELECT * FROM gestures WHERE owner_id = '$sessionUserId' && scope = 'private' OR scope = 'public'")) {
-//                // get variables from result.
-//                $select_stmt->bind_result($id, $userId, $ownerId, $source, $scope, $title, $context, $description, $joints, $previewImage, $images, $created);
-//
-//                if (!$select_stmt->execute()) {
-//                    echo json_encode(array('status' => 'selectError'));
-//                    exit();
-//                } else {
-//                    while ($select_stmt->fetch()) {
-//                        $gestures[] = array('id' => $id,
-//                            'userId' => $userId,
-//                            'source' => $source,
-//                            'scope' => $scope,
-//                            'title' => $title,
-//                            'context' => $context,
-//                            'description' => $description,
-//                            'joints' => json_decode($joints),
-//                            'previewImage' => $previewImage,
-//                            'images' => json_decode($images),
-//                            'created' => $created,
-//                            'isOwner' => $sessionUserId == $ownerId);
-//                    }
-//                    echo json_encode(array('status' => 'success', 'gestures' => $gestures));
-//                    exit();
-//                }
-//            } else {
-//                echo json_encode(array('status' => 'statementError'));
-//                exit();
-//            }
         }
     } else {
         echo json_encode(array('status' => 'statemantError'));

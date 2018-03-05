@@ -81,7 +81,7 @@ if ($h && $token && $studyId) {
         <script src="js/peerConnection.js"></script>
 
         <!-- gesture recorder sources -->
-        <script src="js/gesture-recorder.js"></script>
+        <script src="js/gestureRecorder/webcam.js"></script>
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>

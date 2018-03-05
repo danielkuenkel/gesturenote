@@ -125,7 +125,7 @@ if (login_check($mysqli) == true) {
         <script src="js/overlays.js"></script>
         <script src="js/study-create.js"></script>
 
-        <script src="js/gesture-recorder.js"></script>
+        <script src="js/gestureRecorder/webcam.js"></script>
         <script src="js/upload-queue.js"></script>
 
         <!-- gesture recorder sources --> 
@@ -881,7 +881,7 @@ if (login_check($mysqli) == true) {
             $('.breadcrumb li a').click(function (event) {
                 var button = $(this);
                 event.stopImmediatePropagation();
-                loadHTMLintoModal('custom-modal', 'modal-delete-data.php', 'modal-sm');
+                loadHTMLintoModal('custom-modal', 'externals/modal-delete-data.php', 'modal-sm');
                 $('#custom-modal').unbind('deleteData').bind('deleteData', function () {
                     if ($(button).attr('id') === 'btn-study') {
                         var hash = hex_sha512(parseInt(editableStudyId) + '<?php echo $_SESSION['user_id'] . $_SESSION['forename'] . $_SESSION['surname'] ?>');
@@ -1026,7 +1026,7 @@ if (login_check($mysqli) == true) {
                 $('#custom-modal').attr('data-help-items-key', 'introductionCreateStudy');
                 $('#custom-modal').attr('data-help-context', 'studyCreation');
                 $('#custom-modal').attr('data-help-show-tutorial', parseInt(<?php echo $_SESSION['tutorialStudyCreation'] ?>));
-                loadHTMLintoModal('custom-modal', 'modal-introduction.php', 'modal-lg');
+                loadHTMLintoModal('custom-modal', 'externals/modal-introduction.php', 'modal-lg');
             });
 
             $('#phaseStepSelect').on('change', function (event) {
