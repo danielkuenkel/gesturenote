@@ -972,7 +972,7 @@
 
             var newMetaData = {
                 formatVersion: 2,
-                generatedBy: 'LeapJS Playback 0.2.1',
+                generatedBy: 'GestureNote',
                 frames: this.rightCropPosition - this.leftCropPosition,
                 protocolVersion: this.options.requestProtocolVersion,
                 serviceVersion: this.options.serviceVersion,

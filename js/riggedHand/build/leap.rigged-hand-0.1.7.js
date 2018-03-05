@@ -372,7 +372,7 @@ console.log('parent', parent);
             };
         }
 
-        initScene = function (element) {
+        initScene = function () {
             var pointLight, scope;
             scope = this;
             this.scene = new THREE.Scene();
@@ -382,7 +382,12 @@ console.log('parent', parent);
             this.scene.add(pointLight);
             this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
             this.camera.position.fromArray([0, 160, 400]);
+            
+            if(scope.offset) {
+            this.camera.lookAt(new THREE.Vector3(scope.offset.x, scope.offset.y, scope.offset.z));
+        } else {
             this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+        }
             if (!this.renderer) {
                 this.renderer = new THREE.WebGLRenderer({
                     alpha: true

@@ -12,6 +12,7 @@ session_start();
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/generalSubPages.css">
+        <link rel="stylesheet" href="css/gesture.css">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
@@ -29,8 +30,7 @@ session_start();
         <script src="js/filesaver/FileSaver.min.js"></script>
 
         <!-- leap -->
-        <script src="//js.leapmotion.com/leap-0.6.3.js"></script>
-        <!--<script src="js/leapjs-playback/recorder/javascripts/lib/leap-0.6.0-beta2-master.js"></script>-->
+        <script src="//js.leapmotion.com/leap-0.6.4.js"></script>
         <script src="js/three/three.min.js"></script>
         <script src="//js.leapmotion.com/leap-plugins-0.1.8.js"></script>
         <!--<script src="//js.leapmotion.com/leap.rigged-hand-0.1.5.js"></script>-->
@@ -57,6 +57,10 @@ session_start();
 <!--        <script src="js/leapjs-playback/src/player.js"></script>
         <script src="js/leapjs-playback/src/recording.js"></script>-->
         <script src="js/leapjs-playback/src/lib/lz-string-1.3.3.js"></script>
+
+        <!-- bootstrap slider -->
+        <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
+        <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
     </head>
 
     <body id="pageBody" data-offset="60">
@@ -90,6 +94,8 @@ session_start();
             <div class="alert-space alert-please-wait"></div>
             <div class="btn-group">
                 <button class="btn btn-default" id="btn-start-recording">RECORD</button>
+                <button class="btn btn-default disabled" id="btn-crop-recording">CROP</button>
+                <button class="btn btn-default" id="btn-toggle-playback"><i class="fa fa-play"></i></button>
                 <!--<button class="btn btn-default disabled" id="btn-stop-recording">STOP RECORD</button>-->
             </div>
             <div class="btn-group">
@@ -100,6 +106,19 @@ session_start();
             <form enctype="multipart/form-data" id="upload-leap-recording" class="hidden">
                 <input class="fileUpload hidden" name="image" type="file" accept="text/json, text/lz" />
             </form>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div id="playback-controls">
+                        <div id="leap-playback-slider-container" class="leap-playback-slider-container" style="width: 100%">
+                            <input id="leap-playback-slider" data-slider-id="sliderLeap" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                        </div>
+                        <div id="leap-playback-crop-slider-container" class="leap-playback-slider-container hidden" style="width: 100%">
+                            <input id="leap-playback-crop-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[0,100]" data-slider-tooltip="hide" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
 
@@ -124,20 +143,25 @@ session_start();
                 appendAlert($('.mainContent'), ALERT_PLEASE_WAIT);
                 var controller = new Leap.Controller({enableGestures: false});
                 controller.use('playback', {
+                    recordEmptyHands: true,
                     recording: 'js/leapjs-playback/recorder/recordings/leap-playback-recording-55fps_1.json',
                     requiredProtocolVersion: 6,
-                    pauseOnHand: true
+                    pauseOnHand: false
                 });
-//                controller.use('handHold');
-                controller.use('transform', {
-                    position: new THREE.Vector3(0, -150, 0)
-                });
+//                controller.use('handHold', {
+//                    materialOptions: {
+//                        wireframe: true,
+//                        color: new THREE.Color(0xff0000)
+//                    }
+//                });
+//                controller.use('transform', {
+//                    position: new THREE.Vector3(0, -150, 0)
+//                });
                 controller.use('riggedHand', {
-                    checkWebGL: true
+                    checkWebGL: false,
+                    offset: {x: 0, y: 150, z: 0}
 //                    parent: document.getElementById('renderArea')
                 });
-
-
                 controller.connect();
                 controller.on('connect', onConnect);
                 function onConnect()
@@ -185,34 +209,15 @@ session_start();
 
                 $('#btn-start-recording').unbind('click').bind('click', function (event) {
                     event.preventDefault();
-                    var button = $(this);
-                    if (!$(button).hasClass('disabled')) {
-                        $(button).addClass('disabled');
-                        $('#btn-stop-recording').removeClass('disabled');
+                    if (!$(this).hasClass('disabled')) {
                         controller.plugins.playback.player.record();
                     }
                 });
-
 //                $('#btn-stop-recording').unbind('click').bind('click', function (event) {
 //                    event.preventDefault();
 //                    var button = $(this);
 //                    if (!$(button).hasClass('disabled')) {
 //                        $(button).addClass('disabled');
-//                        $('#btn-start-recording').removeClass('disabled');
-//                        recording = false;
-//
-////                        console.log(recordings.framesData);
-////                        setMetaData(recordings.framesData);
-////                        console.log(packedFrameData(recordings.framesData));
-////                        controller.plugins.riggedHand.renderRecordedFrames(packedFrameData(recordings.framesData), metadata.framerate);
-////
-////                        if (!riggedHandPlayer) {
-////                            var options = {renderArea: $('#renderArea'), recording: recordings.framesData};
-////                            riggedHandPlayer = new LeapMotionPlayer(options);
-////                        }
-//
-////                        saveFrames('json', recordings.framesData);
-////                        recordings.framesData = [];
 //                    }
 //                });
 
@@ -246,9 +251,134 @@ session_start();
                             fr.onload = function (evt) {
                                 controller.plugins.playback.player.recording.readFileData(evt.target.result, uploadFiles, function (frames) {
                                     console.log('file loaded successfully ');
+                                    initializeControls(controller);
                                 });
                             };
                             fr.readAsText($(this)[0].files[0]);
+                        }
+                    }
+                });
+
+                if (controller) {
+                    controller.on('playback.ajax:complete', function () {
+                        initializeControls(controller);
+
+                        controller.on('playback.beforeSendFrame', function () {
+                            $('#leap-playback-slider').slider('setValue', controller.plugins.playback.player.recording.frameIndex);
+                        });
+                    });
+                }
+            }
+
+            function initializeControls(controller) {
+                var autoPlay = controller.plugins.playback.player.autoPlay;
+
+                function initPlaybackSlider() {
+                    var frameLength = Math.max(controller.plugins.playback.player.recording.frameData.length - 1, 0);
+                    var crops = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition - 1, 0)};
+                    $('#leap-playback-slider').slider({
+                        min: 0,
+                        max: frameLength,
+                        step: 1,
+                        value: crops.left,
+                        rangeHighlights: [{start: crops.left, end: crops.right, class: "category1"}]
+                    });
+
+                    $('#leap-playback-slider').unbind('slide').bind('slide', function (event) {
+                        if (controller.plugins.playback.player.state === 'playing') {
+                            controller.plugins.playback.player.pause();
+                        } else {
+                            controller.plugins.playback.player.setFrameIndex(parseInt(event.value, 10));
+                        }
+                    });
+                    controller.plugins.playback.player.setFrameIndex(parseInt(crops.left, 10));
+                }
+                initPlaybackSlider();
+
+                $('#btn-crop-recording').removeClass('disabled');
+                controller.on('playback.record', function () {
+                    $('#btn-start-recording').addClass('disabled');
+                    $('#btn-crop-recording').addClass('disabled');
+                });
+
+                controller.on('playback.recordingFinished', function () {
+                    $('#btn-start-recording').removeClass('disabled');
+                    $('#btn-crop-recording').removeClass('disabled');
+                    initializeControls(controller, controller.plugins.playback.player.recording.frameData.length - 1);
+                });
+
+                if (autoPlay) {
+                    controller.plugins.playback.player.setFrameIndex(0);
+                    $('#btn-toggle-playback').find('.fa').removeClass('fa-play').addClass('fa-pause');
+                    controller.plugins.playback.player.play();
+                }
+                $('#btn-toggle-playback').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    if ($('#btn-crop-recording').hasClass('cropping')) {
+                        $('#btn-crop-recording').click();
+                    }
+
+                    console.log(controller.plugins.playback.player.state);
+                    if (controller.plugins.playback.player.state === 'playing') {
+                        $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
+                        controller.plugins.playback.player.pause();
+                    } else if (controller.plugins.playback.player.state === 'idle') {
+                        $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
+                        controller.plugins.playback.player.play();
+
+                        $('#btn-crop-recording').removeClass('cropping');
+                        $('#leap-playback-slider-container').removeClass('hidden');
+                        $('#leap-playback-crop-slider-container').addClass('hidden');
+                    }
+                });
+
+                $('#btn-crop-recording').unbind('click').bind('click', function (event) {
+                    event.preventDefault();
+                    if (!$(this).hasClass('disabled')) {
+                        if (controller.plugins.playback.player.state === 'playing') {
+                            $('#btn-toggle-playback').click();
+                        }
+
+                        if ($(this).hasClass('cropping')) {
+                            $('#leap-playback-slider').slider('destroy');
+//                            var crops = {left: controller.plugins.playback.player.recording.leftCropPosition, right: controller.plugins.playback.player.recording.rightCropPosition};
+//                            console.log(crops);
+                            initPlaybackSlider();
+
+                            $(this).removeClass('cropping');
+                            $('#leap-playback-slider-container').removeClass('hidden');
+                            $('#leap-playback-crop-slider-container').addClass('hidden');
+                        } else {
+                            $(this).addClass('cropping');
+                            $('#leap-playback-slider-container').addClass('hidden');
+                            $('#leap-playback-crop-slider-container').removeClass('hidden');
+
+//                            var frameLength = Math.max(controller.plugins.playback.player.recording.frameData.length - 1, 0);
+//                            console.log(controller.plugins.playback.player.recording.leftCropPosition, controller.plugins.playback.player.recording.rightCropPosition);
+
+                            var currentCropValues;
+                            $('#leap-playback-crop-slider').slider({
+                                min: 0,
+                                max: controller.plugins.playback.player.recording.rightCropPosition,
+                                value: [0, controller.plugins.playback.player.recording.rightCropPosition]
+                            });
+
+                            $('#leap-playback-crop-slider').unbind('slide').bind('slide', function (event) {
+//                                console.log(event.value);
+                                var cropPositions = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition, 0)};
+                                if (!currentCropValues) {
+                                    currentCropValues = cropPositions;
+                                } else {
+                                    if (parseInt(currentCropValues.left) !== parseInt(cropPositions.left)) {
+                                        controller.plugins.playback.player.setFrameIndex(parseInt(event.value[0], 10));
+                                        controller.plugins.playback.player.recording.leftCrop();
+                                    } else if (parseInt(currentCropValues.right) !== parseInt(cropPositions.right)) {
+                                        controller.plugins.playback.player.setFrameIndex(parseInt(event.value[1], 10));
+                                        controller.plugins.playback.player.recording.rightCrop();
+                                    }
+                                    currentCropValues = {left: event.value[0], right: event.value[1]};
+                                }
+                            });
                         }
                     }
                 });

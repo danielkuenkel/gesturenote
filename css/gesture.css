@@ -22,8 +22,8 @@ and open the template in the editor.
 }
 
 .previewGesture {
-/*    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;*/
+    /*    -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;*/
     border-radius: 4px;
     overflow: hidden; 
     width: 100%; 
@@ -52,7 +52,7 @@ and open the template in the editor.
     max-width: 100%;
     max-height: 100%;
     width: 100%;
-    
+
     /*border-radius: 4px;*/
 
     user-drag: none; 
@@ -205,4 +205,24 @@ and open the template in the editor.
     font-size: 9pt;
     position: relative;
     top:-2px;
+}
+
+#leap-playback-slider-container .slider-selection {
+    background: none;
+    box-shadow: none;
+}
+
+#leap-playback-crop-slider-container .slider-selection {
+}
+
+.leap-playback-slider-container .slider-handle {
+    background-color: #0480be;
+    background-image: none;
+}
+
+#sliderLeap .slider-rangeHighlight {
+    background: #f70616;
+}
+#sliderLeap .slider-rangeHighlight.category1 {
+    background: #FF9900;
 }
