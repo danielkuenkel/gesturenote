@@ -392,17 +392,31 @@ console.log('parent', parent);
                 this.renderer = new THREE.WebGLRenderer({
                     alpha: true
                 });
+                
+                var renderWidth = window.innerWidth;
+                var renderHeight = window.innerHeight;
+                if(scope.renderTarget) {
+                    renderWidth = $(scope.renderTarget).width();
+                    renderHeight = $(scope.renderTarget).height();
+                }
+                
                 this.renderer.setClearColor(0x000000, 0);
-                this.renderer.setSize(window.innerWidth, window.innerHeight);
-                this.renderer.domElement.style.position = 'fixed';
+                this.renderer.setSize(renderWidth, renderHeight);
+                this.renderer.domElement.style.position = scope.renderTarget ? 'relative' : 'fixed';
                 this.renderer.domElement.style.top = 0;
                 this.renderer.domElement.style.left = 0;
                 this.renderer.domElement.style.width = '100%';
                 this.renderer.domElement.style.height = '100%';
                 window.addEventListener('resize', function () {
-                    scope.camera.aspect = window.innerWidth / window.innerHeight;
+                    var renderWidth = window.innerWidth;
+                    var renderHeight = window.innerHeight;
+                    if(scope.renderTarget) {
+                        renderWidth = $(scope.renderTarget).width();
+                        renderHeight = $(scope.renderTarget).height();
+                    }
+                    scope.camera.aspect = renderWidth / renderHeight;
                     scope.camera.updateProjectionMatrix();
-                    scope.renderer.setSize(window.innerWidth, window.innerHeight);
+                    scope.renderer.setSize(renderWidth, renderHeight);
                     return scope.renderer.render(scope.scene, scope.camera);
                 }, false);
             }
@@ -438,9 +452,17 @@ console.log('parent', parent);
             if (!scope.parent) {
                 scope.initScene();
                 scope.parent = scope.scene;
-                onReady(function () {
-                    return document.body.appendChild(scope.renderer.domElement);
-                });
+//                console.log(scope.renderer.domElement);
+//                onReady(function () {
+//                    console.log('on ready', scope.renderer.domElement);
+                    if(scope.renderTarget) {
+                        $(scope.renderTarget).append(scope.renderer.domElement);
+                    } else {
+                        document.body.appendChild(scope.renderer.domElement);
+                    }
+                    
+                    
+//                });
             }
             if (scope.renderFn === void 0) {
                 scope.renderFn = function () {
@@ -500,7 +522,6 @@ console.log('parent', parent);
                     console.assert(camera instanceof THREE.Camera, "screenPosition expects camera, got", camera);
                     width = parseInt(window.getComputedStyle(scope.renderer.domElement).width, 10);
                     height = parseInt(window.getComputedStyle(scope.renderer.domElement).height, 10);
-                    console.assert(width && height);
                     screenPosition = new THREE.Vector3();
                     if (position instanceof THREE.Vector3) {
                         screenPosition.fromArray(position.toArray());
@@ -644,97 +665,6 @@ console.log('parent', parent);
             if(scope.inPlaybackMode) {
                 inPlaybackMode = scope.inPlaybackMode;
             }
-            scope.renderRecordedFrames = function (frames, framerate) {
-                inPlaybackMode = true;
-//                addMesh(frames[0].hands[0]);
-                scope.renderRecordedFrame(frames, 0, 1000 / framerate, controller);
-            };
-            scope.renderRecordedFrame = function(frames, index, updateTime) {
-//                console.log(index, frames.length);
-                if(index < frames.length - 1) {
-                        var lerpFrameData = scope.createLerpFrameData(frames, index);
-                        var frame = new Leap.Frame(lerpFrameData);
-//                        console.log(frame);
-//                        controller.emit('playback.beforeSendFrame', lerpFrameData, frame);
-//                        controller.processFrame(frame);
-                        scope.renderFrame(frame);     
-//                        scope.renderFrame(frames[index]);     
-                    }
-                    
-                    setTimeout(function() {
-                        index = index+1;
-                                    scope.renderRecordedFrame(frames, index, updateTime, controller);
-                                }, updateTime);
-                
-                }
-                scope.cloneCurrentFrame = function(frame){
-    return JSON.parse(JSON.stringify(frame));
-  }
-            scope.createLerpFrameData = function(frames, index){
-        var currentFrame = frames[index],
-        nextFrame = frames[Math.min(index+1, frames.length-1)],
-        handProps   = ['palmPosition', 'stabilizedPalmPosition', 'sphereCenter', 'direction', 'palmNormal', 'palmVelocity'],
-        fingerProps = ['mcpPosition', 'pipPosition', 'dipPosition', 'tipPosition', 'direction'],
-        frameData = scope.cloneCurrentFrame(currentFrame),
-        numHands = frameData.hands.length,
-        numPointables = frameData.pointables.length,
-        len1 = handProps.length,
-        len2 = fingerProps.length,
-        prop, hand, pointable;
-
-    for (var i = 0; i < numHands; i++){
-      hand = frameData.hands[i];
-
-      for (var j = 0; j < len1; j++){
-        prop = handProps[j];
-
-        if (!currentFrame.hands[i][prop]){
-          continue;
-        }
-
-        if (!nextFrame.hands[i]){
-          continue;
-        }
-
-        Leap.vec3.lerp(
-          hand[prop],
-          currentFrame.hands[i][prop],
-          nextFrame.hands[i][prop]
-        );
-
-//        console.assert(hand[prop]);
-      }
-
-    }
-
-    for ( i = 0; i < numPointables; i++){
-      pointable = frameData.pointables[i];
-
-      for ( j = 0; j < len2; j++){
-        prop = fingerProps[j];
-
-        if (!currentFrame.pointables[i][prop]){
-          continue;
-        }
-
-        if (!nextFrame.hands[i]){
-          continue;
-        }
-
-        Leap.vec3.lerp(
-          pointable[prop],
-          currentFrame.pointables[i][prop],
-          nextFrame.pointables[i][prop]
-        );
-//          console.assert(t >= 0 && t <= 1);
-//          if (t > 0) debugger;
-
-      }
-
-    }
-
-    return frameData;
-  }
             scope.renderFrame = function (frame) {
                 var boneColors, face, faceIndices, geometry, handMesh, hue, i, j, leapHand, lightness, mcp, palm, saturation, weights, xBoneHSL, yBoneHSL, _base, _i, _j, _k, _l, _len, _len1, _len2, _len3, _name, _name1, _ref, _ref1, _ref2, _ref3;
                 if (scope.stats) {
@@ -844,7 +774,6 @@ console.log('parent', parent);
             this.on('handLost', removeMesh);
             return {
                 frame: function (frame) {
-//                    console.log(inPlaybackMode);
                     if (!inPlaybackMode) {
                         scope.renderFrame(frame);
                     }

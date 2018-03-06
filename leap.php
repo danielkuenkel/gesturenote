@@ -38,7 +38,6 @@ session_start();
         <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
         <script src="js/gestureRecorder/leap.js"></script>
         <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
-        <script src="js/leapjs-playback/lz-string-1.3.3.js"></script>
 
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
@@ -79,6 +78,7 @@ session_start();
 
             <div class="btn-group">
                 <button class="btn btn-default" id="btn-start-recording">RECORD</button>
+                <button class="btn btn-default disabled" id="btn-stop-recording">STOP RECORD</button>
                 <button class="btn btn-default disabled" id="btn-crop-recording">CROP</button>
                 <button class="btn btn-default" id="btn-toggle-playback"><i class="fa fa-play"></i></button>
             </div>
@@ -106,8 +106,23 @@ session_start();
         </div>
 
 
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6 col-md-4 col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">test</div>
+                        <div class="panel-body">
+                            <div class="embed-responsive embed-responsive-4by3">
+                                <div id="renderArea" class="embed-responsive-item" ></div>
+                            </div>
 
-        <canvas id="renderArea" style="width: 400px; height: 300px"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
 
         <script>
             $(document).ready(function () {
@@ -125,11 +140,16 @@ session_start();
 
             function initializeLeapMotion() {
                 var options = {
-                    previewOnly: true,
+                    offset: {x: 0, y: 200, z: 0},
+                    previewOnly: false,
+                    pauseOnHand: true,
+                    autoplay:true,
+//                    recordEmptyHands: true,
                     recording: 'uploads/0d594090ce033136c4d7e359738ffbe56628ba80ee463fa3328644c851ee8c53be5877c75bb94b49e87b30a630343688fc1239bcebff293b1bf76f579d5ac78f.json.lz',
                     overlays: $('#alert-hints'),
                     renderTarget: $('#renderArea'),
                     recordElement: $('#btn-start-recording'),
+                    stopRecordElement: $('#btn-stop-recording'),
                     playbackElement: $('#btn-toggle-playback'),
                     downloadJsonElement: $('#btn-download-recording-as-json'),
                     downloadCompressedElement: $('#btn-download-recording-as-compressed'),

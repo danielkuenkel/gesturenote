@@ -2950,3 +2950,30 @@ $(document).on('click', '.btn-color-selector', function (event) {
         $(this).addClass('selected');
     }
 });
+
+$(document).on('click', '.btn-toggle-sensor-source', function (event) {
+    event.preventDefault();
+    if (!$(this).hasClass('disabled') && !$(this).hasClass('active')) {
+        $(this).parent().children().removeClass('active');
+        $(this).addClass('active');
+        var showSensor = $(this).attr('data-toggle-sensor');
+        $(this).closest('.root').find('.sensor-content').children().addClass('hidden');
+        $(this).closest('.root').find('.sensor-content [data-sensor-source=' + showSensor + ']').removeClass('hidden');
+
+        setTimeout(function () {
+            window.dispatchEvent(new Event('resize'));
+        }, 100);
+    }
+});
+
+$(document).on('mouseenter', '.hidden-controls', function (event) {
+    event.preventDefault();
+    var container = $(this).find('.controls-container');
+    TweenMax.to(container, .3, {opacity: 1});
+});
+
+$(document).on('mouseleave', '.hidden-controls', function (event) {
+    event.preventDefault();
+    var container = $(this).find('.controls-container');
+    TweenMax.to(container, .3, {opacity: 0});
+});

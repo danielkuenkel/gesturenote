@@ -1005,3 +1005,22 @@ li.disabledTab > a[data-toggle="tab"] {
 canvas {
     pointer-events: none;
 }
+
+.slider-handle {
+    cursor: pointer;
+}
+
+
+/*
+* control for sensor playback
+*/
+.controls-container {
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%, -50%); 
+    opacity: 0
+}
+.hidden-control {
+    cursor: pointer;
+}

@@ -31,9 +31,9 @@ include '../includes/language.php';
                     </div>
                     <div class="form-group">
                         <div class="btn-group">
-                            <button class="btn btn-default btn-shadow" id="btn-play"><i class="glyphicon glyphicon-play" aria-hidden="true"></i></button>
-                            <button class="btn btn-default btn-shadow" id="btn-pause"><i class="glyphicon glyphicon-pause" aria-hidden="true"></i></button>
-                            <button class="btn btn-default btn-shadow" id="btn-stop"><i class="glyphicon glyphicon-stop" aria-hidden="true"></i></button>
+                            <button class="btn btn-default btn-shadow" id="btn-play"><i class="fa fa-play" aria-hidden="true"></i></button>
+                            <button class="btn btn-default btn-shadow" id="btn-pause"><i class="fa fa-pause" aria-hidden="true"></i></button>
+                            <button class="btn btn-default btn-shadow" id="btn-stop"><i class="fa fa-stop" aria-hidden="true"></i></button>
                             <button class="btn btn-success btn-shadow" id="btn-mark-start"><i class="fa fa-chevron-circle-up" aria-hidden="true"></i> <?php echo $lang->start ?></button>
                             <button class="btn btn-danger btn-shadow disabled" id="btn-mark-end"><?php echo $lang->end ?> <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></button>
                         </div>
@@ -73,8 +73,8 @@ include '../includes/language.php';
                     </div>
                     <div class="text-center gestureControls">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                            <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
                             <button type="button" class="btn btn-default btn-shadow" id="btn-choose-preview-image"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
                         </div>
                     </div>
@@ -194,8 +194,8 @@ include '../includes/language.php';
                 </div>
                 <div class="text-center gestureControls">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                        <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
                     </div>
                 </div>
             </div>
@@ -241,9 +241,9 @@ include '../includes/language.php';
                     </div>
                     <div class="form-group">
                         <div class="btn-group">
-                            <button class="btn btn-default btn-shadow" id="btn-play"><i class="glyphicon glyphicon-play" aria-hidden="true"></i></button>
-                            <button class="btn btn-default btn-shadow" id="btn-pause"><i class="glyphicon glyphicon-pause" aria-hidden="true"></i></button>
-                            <button class="btn btn-default btn-shadow" id="btn-stop"><i class="glyphicon glyphicon-stop" aria-hidden="true"></i></button>
+                            <button class="btn btn-default btn-shadow" id="btn-play"><i class="fa fa-play" aria-hidden="true"></i></button>
+                            <button class="btn btn-default btn-shadow" id="btn-pause"><i class="fa fa-pause" aria-hidden="true"></i></button>
+                            <button class="btn btn-default btn-shadow" id="btn-stop"><i class="fa fa-stop" aria-hidden="true"></i></button>
                             <button class="btn btn-success btn-shadow" id="btn-mark-start"><i class="fa fa-chevron-circle-up" aria-hidden="true"></i> <?php echo $lang->start ?></button>
                             <button class="btn btn-danger disabled" id="btn-mark-end"><?php echo $lang->end ?> <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></button>
                         </div>
@@ -285,8 +285,8 @@ include '../includes/language.php';
                     </div>
                     <div class="text-center gestureControls">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                            <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
                             <button type="button" class="btn btn-default btn-shadow" id="btn-choose-preview-image"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
 
                         </div>
@@ -350,8 +350,8 @@ include '../includes/language.php';
                 </div>
                 <div class="text-center gestureControls">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-shadow" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                        <button type="button" class="btn btn-default btn-shadow" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
                     </div>
                 </div>
             </div>

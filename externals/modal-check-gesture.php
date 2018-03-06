@@ -18,8 +18,8 @@ include '../includes/language.php';
             <div class="previewGesture mousePlayable embed-responsive embed-responsive-4by3" style="border-radius: 0px; border-top-left-radius: 4px; border-top-right-radius: 4px"></div>
             <div class="text-center hidden gestureControls">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
                 </div>
             </div>
 
@@ -109,7 +109,7 @@ include '../includes/language.php';
                             Tester.renderUnmoderatedGestureSlideshow(getSourceContainer(VIEW_TESTER), $('#viewTester #phase-content'), currentPhaseData, false);
                         }
                     } else {
-                        if(peerConnection) {
+                        if (peerConnection) {
                             peerConnection.sendMessage(MESSAGE_GESTURE_FIT_FOUND, {annotationData: {action: ACTION_SELECT_GESTURE, gestureId: correctGesture.id, triggerId: triggerId, selectedGestureId: event.data.gesture.id, fit: gestureFit}});
                         }
                         Moderator.renderGestureSlide(getSourceContainer(VIEW_MODERATOR), $('#viewModerator #phase-content'), currentPhaseData);

@@ -2596,9 +2596,9 @@ include '../includes/language.php';
                 <div class="alert-space alert-sound-to-large" style="margin-top: 10px"></div>
                 <div class="audioPlayer hidden" style="margin-top: 10px">
                     <div class="btn-group">
-                        <button class="btn btn-default btn-shadow" id="play"><i class="glyphicon glyphicon-play"></i></button>
-                        <button class="btn btn-default btn-shadow" id="pause"><i class="glyphicon glyphicon-pause"></i></button>
-                        <button class="btn btn-default btn-shadow" id="stop"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button class="btn btn-default btn-shadow" id="play"><i class="fa fa-play"></i></button>
+                        <button class="btn btn-default btn-shadow" id="pause"><i class="fa fa-pause"></i></button>
+                        <button class="btn btn-default btn-shadow" id="stop"><i class="fa fa-stop"></i></button>
                         <button class="btn btn-danger btn-shadow btn-delete-sound"><i class="fa fa-trash"></i> <?php echo $lang->deleteSound ?></button>
                     </div>
 

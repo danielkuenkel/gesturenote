@@ -37,9 +37,9 @@ include '../includes/language.php';
 
             <div class="audioPlayer" style="display: inline; margin-left: 10px">
                 <div class="btn-group btn-group-xs">
-                    <button class="btn btn-default btn-shadow" id="play"><i class="glyphicon glyphicon-play"></i></button>
-                    <button class="btn btn-default btn-shadow" id="pause"><i class="glyphicon glyphicon-pause"></i></button>
-                    <button class="btn btn-default btn-shadow" id="stop"><i class="glyphicon glyphicon-stop"></i></button>
+                    <button class="btn btn-default btn-shadow" id="play"><i class="fa fa-play"></i></button>
+                    <button class="btn btn-default btn-shadow" id="pause"><i class="fa fa-pause"></i></button>
+                    <button class="btn btn-default btn-shadow" id="stop"><i class="fa fa-stop"></i></button>
                 </div>
 
                 <audio class="audio-holder" src="" preload="auto"></audio>
@@ -217,8 +217,8 @@ include '../includes/language.php';
                 <div class="previewGesture autoplay mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
                 <div class="text-center gestureControls hidden">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
                     </div>
                 </div>
             </div>
@@ -772,8 +772,8 @@ include '../includes/language.php';
             <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls hidden">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
                 </div>
             </div>
         </div>
@@ -825,8 +825,8 @@ include '../includes/language.php';
             <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls hidden">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
                 </div>
             </div>
         </div>
@@ -876,8 +876,8 @@ include '../includes/language.php';
             <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls hidden">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
                 </div>
             </div>
         </div>
@@ -923,8 +923,8 @@ include '../includes/language.php';
             <div class="previewGesture mousePlayable btn-shadow embed-responsive embed-responsive-4by3"></div>
             <div class="text-center gestureControls hidden">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
                 </div>
             </div>
         </div>

@@ -1394,7 +1394,7 @@
                         }
 
                         // prevent the actual frame from getting through
-                        return {type: 'playback'}
+                        return {type: 'playback'};
                     } else {
                         return eventOrFrame;
                     }
@@ -1552,7 +1552,12 @@
                 // If already showing connect, setGraphic will have no effect.
                 this.showOverlay();
 
-                this.controller.emit('playback.record', this)
+                this.controller.emit('playback.record', this);
+            },
+            
+            // handle stop recording. For example, if empty frame data is recorded
+            stopRecord: function() {
+                this.finishRecording();
             },
 
             // if there is existing frame data, sends a frame with nothing in it
@@ -1616,7 +1621,7 @@
                 this.controller.connection.on('frame', function (frame) {
 
                     // resume play when hands are removed:
-                    if (player.pauseOnHand && player.autoPlay && player.state == 'idle' && frame.hands.length == 0) {
+                    if (player.pauseOnHand && player.autoPlay && player.state === 'idle' && frame.hands.length === 0) {
                         player.controller.emit('playback.userReleaseControl');
                         player.play();
                     }
@@ -1638,7 +1643,7 @@
             recordFrameHandler: function (frameData) {
                 // Would be better to check controller.streaming() in showOverlay, but that method doesn't exist, yet.
                 this.setGraphic('wave');
-                if (frameData.hands.length > 0) {
+                if (frameData.hands.length > 0 || this.recordEmptyHands) {
                     this.recording.addFrame(frameData);
                     this.hideOverlay();
                 } else if (!this.recording.blank()) {
@@ -1770,7 +1775,11 @@
             var autoPlay = scope.autoPlay;
             if (autoPlay === undefined)
                 autoPlay = true;
-
+            
+            var recordEmptyHands = scope.recordEmptyHands;
+            if(recordEmptyHands === undefined)
+                recordEmptyHands = false;
+            
             var pauseOnHand = scope.pauseOnHand;
             if (pauseOnHand === undefined)
                 pauseOnHand = true;
@@ -1832,6 +1841,7 @@
             scope.player.pauseOnHand = pauseOnHand;
             scope.player.requiredProtocolVersion = requiredProtocolVersion;
             scope.player.autoPlay = autoPlay;
+            scope.player.recordEmptyHands = recordEmptyHands;
 
             var setupStreamingEvents = function () {
                 if (scope.player.pauseOnHand && controller.connection.opts.requestProtocolVersion < scope.requiredProtocolVersion) {

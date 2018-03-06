@@ -20,19 +20,61 @@ include '../includes/language.php';
         <div role="tabpanel" class="tab-pane" id="tab-gesture-general">
             <div class="row">
                 <div class="col-md-5 root">
-                    <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
-                    <div class="progress gesture-progress">
-                        <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                    <div class="sensor-content">
+                        <div data-sensor-source="webcam" id="webcam-preview" class="autoplay">
+                            <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
+                                <div id="" class="webcam-image-container"></div>
+                                <div class="controls-container">
+                                    <div class="hidden-control" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                </div>
+                            </div>
+
+                            <div id="webcam-playback-slider-controls" class="hidden" style="margin-top: -10px" data-visible="true">
+                                <div id="webcam-playback-slider-container" class="webcam-playback-slider-container" style="width: 100%;">
+                                    <input id="webcam-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                                </div>
+                            </div>
+                            <!--<div class="previewGesture mouseScrollable btn-shadow autoplay"></div>-->
+                            <!--                            <div class="progress gesture-progress">
+                                                            <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                                                        </div>
+                                                        <div class="text-center">
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                                                                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+                                                                <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
+                                                                <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
+                                                            </div><br/>
+                                                            <button type="button" class="btn btn-default hidden" id="btn-choose-preview-image" style="margin-top: 6px"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
+                                                        </div>-->
+                        </div>
+
+                        <div id="leap-recording-container" class="hidden" data-sensor-source="leap">
+
+                            <div class="embed-responsive embed-responsive-4by3 hidden-controls">
+                                <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
+                                <div class="controls-container">
+                                    <div class="hidden-control" id="btn-toggle-playback"><i class="fa fa-play fa-2x"></i></div>
+                                </div>
+                            </div>
+
+                            <div id="playback-controls" style="margin-top: -10px">
+                                <div id="leap-playback-slider-container" class="leap-playback-slider-container hidden" style="width: 100%;">
+                                    <input id="leap-playback-slider" data-slider-id="sliderLeap" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="text-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="glyphicon glyphicon-play"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="glyphicon glyphicon-stop"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="glyphicon glyphicon-step-backward"></i></button>
-                            <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="glyphicon glyphicon-step-forward"></i></button>
-                        </div><br/>
-                        <button type="button" class="btn btn-default hidden" id="btn-choose-preview-image" style="margin-top: 6px"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
+
+                    <div id="toggle-gesture-recording-source" class="hidden text-center" style="margin-top: 10px">
+                        <div class="btn-group btn-group-xs">
+                            <button type="button" class="btn btn-default btn-toggle-sensor-source active" data-toggle-sensor="webcam" id="btn-webcam"><?php echo $lang->sensors->webcam->title ?></button>
+                            <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="leap" id="btn-leap"><?php echo $lang->sensors->leap->title ?></button>
+                            <button type="button" class="btn btn-default btn-toggle-sensor-source hidden" data-toggle-sensor="kinect" id="btn-kinect"><?php echo $lang->sensors->kinect->title ?></button>
+                        </div>
                     </div>
+
 
                     <div class="gesture-rating" id="gesture-rating" style="margin-top: 30px;">
                         <h3><i class="fa fa-star-o"></i> <?php echo $lang->valuation ?></h3>
@@ -265,6 +307,7 @@ include '../includes/language.php';
     var testRatings = [{physicalContext: 1, adaption: 0, fittingTask: 3}, {physicalContext: 0, adaption: 3, fittingTask: 4}, {physicalContext: 2, adaption: 0, fittingTask: 3}, {physicalContext: 2, adaption: 2, fittingTask: 3}, {physicalContext: 2, adaption: 1, fittingTask: 1}];
     var currentRatings = [{physicalContext: 0, adaption: 0, fittingTask: 0}];
     $(document).ready(function () {
+        renderSensorData();
         initGestureRating($('#gesture-rating'), 5);
 
         $('#gesture-info-nav-tab').unbind('shown.bs.tab').bind('shown.bs.tab', function (event) {
@@ -532,7 +575,8 @@ include '../includes/language.php';
             }
         }
 
-        renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
+        renderGesturePreview(container.find('#webcam-preview'), gesture);
+//        renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
         renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
 
         var thumbnail = $(currentPreviewGesture.thumbnail);
@@ -546,7 +590,7 @@ include '../includes/language.php';
             var button = $(this);
             if ($(button).hasClass('gesture-editable')) {
                 if (!$(button).hasClass('disabled') && inputsValid(true)) {
-                    
+
                     lockButton(button, true, 'fa-pencil');
                     showCursor($('body'), CURSOR_PROGRESS);
                     var previewImageIndex = getGesturePreviewIndex($('#modal-body').find('.previewGesture'));
@@ -558,7 +602,7 @@ include '../includes/language.php';
                     var description = $('#gesture-description-input').val().trim();
                     var joints = getSelectedJoints($('#select-joints-human-body #joint-container'));
 
-                    updateGesture({gestureId: gesture.id, title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints, previewImageIndex:previewImageIndex}, function (result) {
+                    updateGesture({gestureId: gesture.id, title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints, previewImageIndex: previewImageIndex}, function (result) {
                         showCursor($('body'), CURSOR_DEFAULT);
                         unlockButton(button, true, 'fa-pencil');
 
@@ -609,7 +653,7 @@ include '../includes/language.php';
 
         $('#modal-body #btn-choose-preview-image').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            
+
             var previewImage = $(this).closest('.root').find('.previewImage');
             previewImage.removeClass('previewImage');
             var visibleImage = $(this).closest('.root').find('.active');
@@ -953,4 +997,44 @@ include '../includes/language.php';
             $('#btn-edit-gesture').addClass('disabled');
         }
     });
+
+    function renderSensorData() {
+        if (currentPreviewGesture.gesture.sensorData !== null) {
+            switch (currentPreviewGesture.gesture.sensorData.sensor) {
+                case 'leap':
+                    initializeLeapMotion();
+                    break;
+            }
+
+            $('#custom-modal').find('#toggle-gesture-recording-source').removeClass('hidden');
+        }
+    }
+
+    function initializeLeapMotion() {
+        $('#custom-modal').find('#toggle-gesture-recording-source #btn-leap').removeClass('hidden');
+        $('#custom-modal').find('#toggle-gesture-recording-source #btn-kinect').remove();
+
+        var container = $('#custom-modal').find('#leap-recording-container');
+        var options = {
+            offset: {x: 0, y: 200, z: 0},
+            previewOnly: true,
+            pauseOnHands: false,
+            autoplay: true,
+//            recordEmptyHands: true,
+            recording: currentPreviewGesture.gesture.sensorData.url,
+//            overlays: $('#alert-hints'),
+            renderTarget: $(container).find('#renderArea'),
+//            recordElement: $(container).find('#btn-start-recording'),
+//            stopRecordElement: $(container).find('#btn-stop-recording'),
+            playbackElement: $(container).find('#btn-toggle-playback'),
+//            downloadJsonElement: $(container).find('#btn-download-recording-as-json'),
+//            downloadCompressedElement: $(container).find('#btn-download-recording-as-compressed'),
+//            loadRecordingElement: $(container).find('#btn-load-recording'),
+//            loadInputElement: $(container).find('#upload-leap-recording'),
+//            cropRecordElement: $(container).find('#btn-crop-recording'),
+            playbackSliderElement: $(container).find('#leap-playback-slider')
+//            cropSliderElement: $(container).find('#leap-playback-crop-slider')
+        };
+        new LeapMotionRecorder(options);
+    }
 </script>

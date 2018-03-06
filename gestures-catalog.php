@@ -51,6 +51,19 @@ if (login_check($mysqli) == true) {
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
+
+        <!-- leap and plugins -->
+        <script src="//js.leapmotion.com/leap-0.6.4.js"></script>
+        <script src="js/three/three.min.js"></script>
+        <script src="//js.leapmotion.com/leap-plugins-0.1.8.js"></script>
+        <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
+        <script src="js/gestureRecorder/leap.js"></script>
+        <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
+        <!--<script src="js/leapjs-playback/lz-string-1.3.3.js"></script>-->
+
+        <!-- bootstrap slider -->
+        <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
+        <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
     </head>
     <body id="pageBody" data-spy="scroll" data-target=".navbar" data-offset="60">
 

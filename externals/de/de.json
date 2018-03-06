@@ -4448,6 +4448,17 @@
             ]
         }
     ],
+    "sensors": {
+        "webcam": {
+            "title": "Webcam"
+        },
+        "leap": {
+            "title": "Leap Motion Controller"
+        },
+        "kinect": {
+            "title": "Kinect"
+        }
+    },
     "languages": {
         "de": {
             "countryCode": "de",

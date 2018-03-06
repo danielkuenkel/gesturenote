@@ -63,17 +63,14 @@ and open the template in the editor.
     -ms-user-select: none;
 }
 
-/*.gesture-modal-preview .progress, .gesture-thumbnail .progress {
-    height: 8px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;    
+.gestureImage.roundedTop {
+    border-radius: 5px 5px 0px 0px;
 }
 
-.gesture-modal-preview .progress-bar, .gesture-thumbnail .progress-bar {
-    transition-duration: 0.1s;
-        -webkit-transition: none !important;
-        transition: none !important;
-}*/
+.gestureImage.rounded {
+    border-radius: 5px;
+}
+
 
 .gestureControls {
     margin-top: 10px;
@@ -207,9 +204,17 @@ and open the template in the editor.
     top:-2px;
 }
 
-#leap-playback-slider-container .slider-selection {
-    background: none;
-    box-shadow: none;
+
+
+#leap-playback-slider-container .slider-handle, #webcam-playback-slider-container .slider-handle {
+    opacity: 0;
+}
+#leap-playback-slider-container .slider-track, #webcam-playback-slider-container .slider-track {
+    border-radius: 0px 0px 5px 5px;
+}
+#leap-playback-slider-container .slider-selection, #webcam-playback-slider-container .slider-selection {
+    background: #0480BE;
+    border-radius: 0px 0px 5px 5px;
 }
 
 #leap-playback-crop-slider-container .slider-selection {
@@ -225,4 +230,10 @@ and open the template in the editor.
 #sliderLeap .slider-rangeHighlight.category1 {
     background: #0480BE;
     opacity: .2;
+}
+
+.sensor-canvas {
+    background-color: #eeeeee;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
