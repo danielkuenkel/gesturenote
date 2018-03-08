@@ -32,12 +32,12 @@ session_start();
         <script src="js/chance.min.js"></script>
 
         <!-- leap and plugins -->
-        <script src="//js.leapmotion.com/leap-0.6.4.js"></script>
+        <script src="js/leapjs/leap-0.6.4.min.js"></script>
+        <script src="js/leapjs/leap-plugins-0.1.12.min.js"></script>
         <script src="js/three/three.min.js"></script>
-        <script src="//js.leapmotion.com/leap-plugins-0.1.8.js"></script>
         <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
-        <script src="js/gestureRecorder/leap.js"></script>
         <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
+        <script src="js/gestureRecorder/leap.js"></script>
 
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
@@ -88,15 +88,15 @@ session_start();
                 <button class="btn btn-default" id="btn-load-recording">LOAD FILE</button>
             </div>
             <form enctype="multipart/form-data" id="upload-leap-recording" class="hidden">
-                <input class="fileUpload hidden" name="image" type="file" accept="text/json, text/lz" />
+                <input class="fileUpload hidden" name="image" type="file" accept="application/json, .lz" />
             </form>
             <div class="row">
                 <div class="col-xs-12">
                     <div id="playback-controls">
-                        <div id="leap-playback-slider-container" class="leap-playback-slider-container hidden" style="width: 100%">
+                        <div id="dev-leap-playback-slider-container" class="leap-playback-slider-container hidden" style="width: 100%">
                             <input id="leap-playback-slider" data-slider-id="sliderLeap" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                         </div>
-                        <div id="leap-playback-crop-slider-container" class="leap-playback-slider-container hidden" style="width: 100%">
+                        <div id="dev-leap-playback-crop-slider-container" class="leap-playback-slider-container hidden" style="width: 100%">
                             <input id="leap-playback-crop-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[0,100]" data-slider-tooltip="hide" />
                         </div>
                     </div>
@@ -106,7 +106,7 @@ session_start();
         </div>
 
 
-        <div class="container">
+<!--        <div class="container">
             <div class="row">
                 <div class="col-xs-6 col-md-4 col-md-3">
                     <div class="panel panel-default">
@@ -121,7 +121,7 @@ session_start();
 
                 </div>
             </div>
-        </div>
+        </div>-->
 
 
         <script>
@@ -143,11 +143,11 @@ session_start();
                     offset: {x: 0, y: 200, z: 0},
                     previewOnly: false,
                     pauseOnHand: true,
-                    autoplay:true,
+                    autoplay: true,
 //                    recordEmptyHands: true,
-                    recording: 'uploads/0d594090ce033136c4d7e359738ffbe56628ba80ee463fa3328644c851ee8c53be5877c75bb94b49e87b30a630343688fc1239bcebff293b1bf76f579d5ac78f.json.lz',
+//                    recording: 'uploads/c2b0952990889e8d3b41d070e3ffa519f29a8187a31c9f80b06069d605f084d853964161295c414197997a41577908dc1cedda5ddf04d624ac36fe400ecc10f9.json.lz',
                     overlays: $('#alert-hints'),
-                    renderTarget: $('#renderArea'),
+//                    renderTarget: $('#renderArea'),
                     recordElement: $('#btn-start-recording'),
                     stopRecordElement: $('#btn-stop-recording'),
                     playbackElement: $('#btn-toggle-playback'),
@@ -159,111 +159,8 @@ session_start();
                     playbackSliderElement: $('#leap-playback-slider'),
                     cropSliderElement: $('#leap-playback-crop-slider')
                 };
-                new LeapMotionRecorder(options);
+                new LeapMotionRecorder(options); // destroy leap motion recorder instance via variable, e.g. lmr = new LeapMotionRecorder(options); lmr.destroy(); lmr = null;
             }
-
-//            function initializeControls(controller) {
-//                var autoPlay = controller.plugins.playback.player.autoPlay;
-//                function initPlaybackSlider(highlightRange) {
-//                    var frameLength = Math.max(controller.plugins.playback.player.recording.frameData.length - 1, 0);
-//                    var crops = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition - 1, 0)};
-//                    var options = {
-//                        min: 0,
-//                        max: frameLength,
-//                        step: 1,
-//                        value: crops.left
-//                    };
-//                    if (highlightRange === true && (crops.left > 0 || crops.right < frameLength)) {
-//                        options.rangeHighlights = [{start: crops.left, end: crops.right, class: "category1"}];
-//                    }
-//                    $('#leap-playback-slider').slider(options);
-//                    $('#leap-playback-slider').unbind('slide').bind('slide', function (event) {
-//                        if (controller.plugins.playback.player.state === 'playing') {
-//                            $('#btn-toggle-playback').click();
-//                        } else {
-//                            controller.plugins.playback.player.setFrameIndex(parseInt(event.value, 10));
-//                        }
-//                    });
-//                    controller.plugins.playback.player.setFrameIndex(parseInt(crops.left, 10));
-//                }
-//                initPlaybackSlider();
-//                $('#btn-crop-recording').removeClass('disabled');
-//
-//                
-//
-//                controller.on('playback.recordingFinished', function () {
-//                    $('#btn-start-recording').removeClass('disabled');
-//                    $('#btn-crop-recording').removeClass('disabled');
-//                    initPlaybackSlider();
-//                });
-//                
-//                if (autoPlay) {
-//                    controller.plugins.playback.player.setFrameIndex(0);
-//                    $('#btn-toggle-playback').find('.fa').removeClass('fa-play').addClass('fa-pause');
-//                    controller.plugins.playback.player.play();
-//                }
-//
-//                $('#btn-toggle-playback').unbind('click').bind('click', function (event) {
-//                    event.preventDefault();
-//                    if ($('#btn-crop-recording').hasClass('cropping')) {
-//                        $('#btn-crop-recording').click();
-//                    }
-//
-//                    if (controller.plugins.playback.player.state === 'playing') {
-//                        $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
-//                        controller.plugins.playback.player.pause();
-//                    } else if (controller.plugins.playback.player.state === 'idle') {
-//                        $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
-//                        controller.plugins.playback.player.play();
-//                        $('#btn-crop-recording').removeClass('cropping');
-//                        $('#leap-playback-slider-container').removeClass('hidden');
-//                        $('#leap-playback-crop-slider-container').addClass('hidden');
-//                    }
-//                });
-//
-//                $('#btn-crop-recording').unbind('click').bind('click', function (event) {
-//                    event.preventDefault();
-//                    if (!$(this).hasClass('disabled')) {
-//                        if (controller.plugins.playback.player.state === 'playing') {
-//                            $('#btn-toggle-playback').click();
-//                        }
-//
-//                        if ($(this).hasClass('cropping')) {
-//                            $('#leap-playback-slider').slider('destroy');
-//                            initPlaybackSlider(true);
-//                            $(this).removeClass('cropping');
-//                            $('#leap-playback-slider-container').removeClass('hidden');
-//                            $('#leap-playback-crop-slider-container').addClass('hidden');
-//                        } else {
-//                            $(this).addClass('cropping');
-//                            $('#leap-playback-slider-container').addClass('hidden');
-//                            $('#leap-playback-crop-slider-container').removeClass('hidden');
-//                            var currentCropValues;
-//                            $('#leap-playback-crop-slider').slider({
-//                                min: 0,
-//                                max: controller.plugins.playback.player.recording.rightCropPosition,
-//                                value: [0, controller.plugins.playback.player.recording.rightCropPosition]
-//                            });
-//                            $('#leap-playback-crop-slider').unbind('slide').bind('slide', function (event) {
-////                                console.log(event.value);
-//                                var cropPositions = {left: controller.plugins.playback.player.recording.leftCropPosition, right: Math.max(controller.plugins.playback.player.recording.rightCropPosition, 0)};
-//                                if (!currentCropValues) {
-//                                    currentCropValues = cropPositions;
-//                                } else {
-//                                    if (parseInt(currentCropValues.left) !== parseInt(cropPositions.left)) {
-//                                        controller.plugins.playback.player.setFrameIndex(parseInt(event.value[0], 10));
-//                                        controller.plugins.playback.player.recording.leftCrop();
-//                                    } else if (parseInt(currentCropValues.right) !== parseInt(cropPositions.right)) {
-//                                        controller.plugins.playback.player.setFrameIndex(parseInt(event.value[1], 10));
-//                                        controller.plugins.playback.player.recording.rightCrop();
-//                                    }
-//                                    currentCropValues = {left: event.value[0], right: event.value[1]};
-//                                }
-//                            });
-//                        }
-//                    }
-//                });
-//            }
         </script>
 
     </body>

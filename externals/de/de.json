@@ -206,7 +206,7 @@
     "editStudy": "Studie bearbeiten",
     "previewStudy": "Vorschau der Studie",
     "deleteStudy": "Studie löschen",
-    "deleteStudyModal": "Wollen Sie diese Studie wirklich löschen? Alle Studien-Daten werden werden dabei gelöscht. Bei einer Gesten-Ermittlung bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.",
+    "deleteStudyModal": "Wollen Sie diese Studie wirklich löschen? Alle Studien-Daten werden dabei gelöscht. Wurde eine Gesten-Ermittlung durchgeführt, bleiben die Gesten erhalten und können über den Gesten-Katalog abgerufen werden.",
     "deleteCreateModal": "Die Erstellung dieser Studie wirklich beenden? Es werden alle Daten gelöscht!",
     "executeStudy": "Studie durchführen",
     "showIntroduction": "Zeige Einführung",
@@ -230,6 +230,7 @@
     "studySurveyMethod": "Befragungs-Methode",
     "studySurveyType": "Befragungsart",
     "whatShouldBeIdentified": "Was soll identifiziert werden?",
+    "whatSensorShouldBeUsed": "Welcher Sensor soll genutzt werden?",
     "whatShouldBeExtracted": "Was soll extrahiert werden?",
     "queryPreferredGestureDirectly": "Favorisierte Geste(n) direkt abfragen?",
     "queryPreferredTriggerDirectly": "Favorisierte Funktion(en) direkt abfragen?",
@@ -1472,7 +1473,9 @@
     "deleteGestureSet": "Gesten-Set löschen",
     "addAllGesturesToStudyGestureSet": "Alle Gesten zum Studien-Gesten-Set hinzufügen",
     "removeAllGesturesFromStudyGestureSet": "Alle Gesten vom Studien-Gesten-Set entfernen",
+    "downloadAsGIF": "Als GIF herunterladen",
     "downloadAsJSON": "Als JSON-Datei herunterladen",
+    "downloadAsCompressed": "Als komprimierte Datei herunterladen",
     "runsPerGesture": "Durchläufe pro Geste",
     "oneMore": "Einer mehr",
     "oneLess": "Einer weniger",
@@ -1696,6 +1699,7 @@
             "identification": "Wählen Sie aus, ob Sie Gesten oder Funktionen ermittelt wollen. Legen Sie eine Liste von Elementen an für die Sie Gesten bzw. Funktionen ermitteln möchten.",
             "identificationOverlay": "<p>Wählen Sie aus, ob Sie Gesten oder Funktionen ermitteln wollen. Wenn z.B. Gesten ermittelt werden sollen, muss ein Funktionen- und Zustands-Katalog vorliegen.</p><p><strong>Gesten <em>(Bottom-Up)</em></strong>: Bei Bottom-Up werden für vorhandene Funktionen geeignete Gesten gesucht. Des Weiteren kann die Ermittlung von Gesten zum einen nutzer-basiert und zum anderen experten-basiert erfolgen. In GestureNote ist es möglich, dass Sie eigene Gesten ad-hoc für eine Studie aufzeichnen, oder mit Hilfe von potentiellen Endanwendern identifizieren. <br/><strong>Funktionen <em>(Top-Down)</em></strong>: Bei Top-Down werden logische Verknüpfungen von Funktionen zu vorhandenen Gesten hergestellt. Wichtig ist dabei, dass eine Quelle für die Gesten angeboten wird. In GestureNote können Funktionen für bereits vorhandene Gesten (ermittelte oder freigegebene Gesten anderer Evaluatoren) oder für von ihnen ad-hoc aufgezeichnete Gesten gesucht werden.</p>",
             "identificationFor": "Wenn Gesten identifiziert werden sollen, ist ein Funktionen-Katalog anzulegen. Für zu identifizierende Funktionen wird ein Studien-Gesten-Set benötigt.",
+            "identificationSensor": "Sollen - zusätzlich zur Webcam - Daten von einem angeschlossenen Sensor aufgezeichnet werden?",
             "identificationScenesForGestures": "Soll dem Probanden nicht nur die Funktion mitgeteilt werden, sondern auch eine visuelle Verknüpfung bereitgestellt werden? Es kann für den Probanden einfacher sein geeignete Gesten zu demonstrieren, wenn dieser weiß wie das User Interface aussehen wird.",
             "identificationScenesForTrigger": "Soll dem Probanden nicht nur die Geste gezeigt werden, sondern auch eine visuelle Verknüpfung bereitgestellt werden? Es kann für den Probanden einfacher sein geeignete Funktionen zu finden, wenn dieser weiß, wie das User Interface aussehen wird.",
             "identificationScene": "Greifen Sie auf den Zustands-Katalog zurück. Wird mehr als 1 Zustand hinterlegt, dann ist der erste der Ausgangszustand und der letzte der Folgezustand. Zwischenzustände sind ab 3 Zuständen möglich.",
@@ -4179,7 +4183,7 @@
         "previewDummy": {
             "id": "preview-dummy",
             "type": "warning",
-            "text": "Es handelt sich hierbei um eine Dummy-Vorschau. Der Workflow entspricht dem gleichen wie bei der Aufzeichnung von Gesten, mit dem Unterschied, dass die Gesten hier beim Proband aufgezeichnet und dann zum Moderator übertragen werden. Sie müssen die Geste schneiden und danach die Eigenschaften der Geste im Formular angeben."
+            "text": "Es handelt sich hierbei um eine Dummy-Vorschau. Der Workflow entspricht dem gleichen wie bei der Aufzeichnung von Gesten (z.B. im Gesten-Katalog), mit dem Unterschied, dass die Gesten hier beim Proband aufgezeichnet und dann zum Moderator übertragen werden. Sie müssen die Geste schneiden und danach die Eigenschaften der Geste im Formular angeben. Werden zusätzlich Sensor-Daten aufgezeichnet, können diese ebenfalls geschnitten werden."
         },
         "noMoreTasks": {
             "id": "no-more-tasks",

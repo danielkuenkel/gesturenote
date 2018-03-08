@@ -2977,3 +2977,33 @@ $(document).on('mouseleave', '.hidden-controls', function (event) {
     var container = $(this).find('.controls-container');
     TweenMax.to(container, .3, {opacity: 0});
 });
+
+$(document).on('click', '.btn-download-as-gif', function (event) {
+    event.preventDefault();
+
+    if (!$(this).hasClass('disabled')) {
+        var button = $(this);
+        var gesture = getGestureById($(this).attr('data-gesture-id'));
+        if (gesture) {
+            lockButton(button, true, 'fa-file-image-o');
+            // create gif from gesture images
+            gifshot.createGIF({
+                gifWidth: 320,
+                gifHeight: 240,
+                images: gesture.images,
+                interval: 0.1,
+                numFrames: 10,
+                frameDuration: 1,
+                sampleInterval: 3,
+                numWorkers: 2
+            }, function (obj) {
+                if (!obj.error) {
+                    var blob = dataURItoBlob(obj.image);
+                    saveAs(blob, gesture.title + ".gif");
+                    
+                }
+                unlockButton(button, true, 'fa-file-image-o');
+            });
+        }
+    }
+});

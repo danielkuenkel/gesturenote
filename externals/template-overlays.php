@@ -1791,6 +1791,34 @@ include '../includes/language.php';
                             </button>
                         </div>
                     </div>
+                    
+                    <div class="form-group root hidden" id="useSensorSwitch">
+                        <label style="margin: 0"  >
+                            <?php echo $lang->whatSensorShouldBeUsed ?> 
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationSensor ?>"></i>
+                        </label><br>
+
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="none">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->noner ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="leap">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->sensors->leap->title ?></span>
+                            </button>
+                        </div>
+                    </div>
 
                     <button class="btn btn-info btn-shadow btn-add-identificationOption font-bold disabled" type="button"><span class="glyphicon glyphicon-plus" style="z-index: 1000"></span> <span><?php echo $lang->addIdentificationElement ?></span></button>
                 </div>

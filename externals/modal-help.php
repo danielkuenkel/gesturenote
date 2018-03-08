@@ -11,12 +11,17 @@ include '../includes/language.php';
 
     <div class="root hidden" id="tester-help-item">
         <div class="text" id="text"></div>
-        <div class="hidden" id="gesture-preview-container" style="margin-top: 15px">
-            <div class="previewGesture autoplay"></div>
-            <div class="text-center gestureControls">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+        <div data-sensor-source="webcam" id="webcam-preview" class="autoplay hidden" style="margin-top: 15px">
+            <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
+                <div id="" class="webcam-image-container"></div>
+                <div class="controls-container embed-responsive-item">
+                    <div class="hidden-control text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                </div>
+            </div>
+
+            <div id="webcam-playback-slider-controls" class="hidden" style="margin-top: -10px" data-visible="true">
+                <div id="webcam-playback-slider-container" class="webcam-playback-slider-container" style="width: 100%;">
+                    <input id="webcam-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
                 </div>
             </div>
         </div>
@@ -73,10 +78,11 @@ include '../includes/language.php';
             var clone = $('#tester-help-item').clone().removeClass('hidden').removeAttr('id');
             clone.find('#text').text(data.option);
             $('#list-container').append(clone);
+            
             if (data.useGestureHelp === true || data.useGestureHelp === 'true') {
-                $(clone).find('#gesture-preview-container').removeClass('hidden');
+                $(clone).find('#webcam-preview').removeClass('hidden');
                 var gesture = getGestureById(data.gestureId);
-                renderGestureImages($(clone).find('.previewGesture'), gesture.images, gesture.previewImage, null);
+                renderGesturePreview($(clone).find('#webcam-preview'), gesture);
             }
         }
     }

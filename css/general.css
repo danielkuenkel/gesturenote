@@ -1016,11 +1016,52 @@ canvas {
 */
 .controls-container {
     position: absolute;
-    left: 50%;
-    top:50%;
-    transform: translate(-50%, -50%); 
-    opacity: 0
+    opacity: 0;
 }
 .hidden-control {
     cursor: pointer;
+
+}
+
+.controls-container #btn-toggle-playback {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    background-color: #333333;
+    border-radius: 100%;
+    opacity: .7;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); 
+}
+
+.controls-container #btn-toggle-playback i {
+    color: white;
+    position: relative;
+    top: 12px;
+}
+
+.controls-container .application-btn {
+    color: white;
+    position: relative;
+    background-color: rgba(0,0,0,.6);
+    padding: 0px 10px 0px 10px;
+    display: inline-block;
+    margin-right: -3px;
+}
+
+.controls-container .application-btn:hover {
+    background-color: rgba(0,0,0,.8);
+}
+
+.controls-container .application-btn-left {
+    border-radius: 5px 0px 10px 0px;
+}
+
+.controls-container .application-btn-left-clear {
+    border-radius: 5px 0px 0px 0px;
+}
+
+.controls-container .application-btn-right {
+    border-radius: 0px 0px 10px 0px;
 }

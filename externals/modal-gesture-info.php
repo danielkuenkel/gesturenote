@@ -6,16 +6,18 @@ include '../includes/language.php';
 
     <div class="row">
         <div class="col-xs-12 root">
-            <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
-            <div class="progress gesture-progress">
-                <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-            </div>
-            <div class="text-center">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
+            <div data-sensor-source="webcam" id="webcam-preview" class="autoplay">
+                <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
+                    <div id="" class="webcam-image-container"></div>
+                    <div class="controls-container embed-responsive-item">
+                        <div class="hidden-control text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                    </div>
+                </div>
+
+                <div id="webcam-playback-slider-controls" class="hidden" style="margin-top: -10px" data-visible="true">
+                    <div id="webcam-playback-slider-container" class="webcam-playback-slider-container" style="width: 100%;">
+                        <input id="webcam-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -38,7 +40,6 @@ include '../includes/language.php';
     });
 
     function renderModalData() {
-//        console.log(currentPreviewGesture);
         var gesture = currentPreviewGesture.gesture;
         if (gesture === null) {
             return false;
@@ -49,9 +50,8 @@ include '../includes/language.php';
         container.find('#association .text').text(gesture.association === null ? '-' : gesture.association);
         container.find('#context .text').text(gesture.context);
         container.find('#description .text').text(gesture.description);
-
-        renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
-//        renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
+        
+        renderGesturePreview(container.find('#webcam-preview'), gesture);
 
         if (peerConnection) {
             peerConnection.sendMessage(MESSAGE_GESTURE_INFO_PRESENT);

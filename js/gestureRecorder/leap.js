@@ -31,6 +31,7 @@ function LeapMotionRecorder(options) {
         renderTarget: options.renderTarget || null
     });
     controller.connect();
+    this.options.controller = controller;
 
     if ((!options.previewOnly || options.previewOnly === false) && options.overlays) {
         controller.on('connect', onConnect);
@@ -66,6 +67,7 @@ function LeapMotionRecorder(options) {
         {
             console.log("device streaming ");
             clearAlerts(options.overlays);
+            $(leapMotionRecorder).trigger('deviceStreaming');
         }
 
         controller.on('blur', onBlur);
@@ -114,17 +116,17 @@ function LeapMotionRecorder(options) {
                 $(options.playbackSliderElement).parent().addClass('hidden');
             }
         });
-
-        controller.on('playback.recordingFinished', function () {
-            if (options.recordElement) {
-                $(options.recordElement).removeClass('disabled');
-            }
-            if (options.stopRecordElement) {
-                $(options.stopRecordElement).addClass('disabled');
-            }
-            initializeControls(controller, options);
-        });
     }
+
+    controller.on('playback.recordingFinished', function () {
+        if (options.recordElement) {
+            $(options.recordElement).removeClass('disabled');
+        }
+        if (options.stopRecordElement) {
+            $(options.stopRecordElement).addClass('disabled');
+        }
+        initializeControls(controller, options);
+    });
 
     if (options.stopRecordElement) {
         $(options.stopRecordElement).unbind('click').bind('click', function (event) {
@@ -176,7 +178,7 @@ function LeapMotionRecorder(options) {
                 if (uploadFiles) {
                     var fr = new FileReader();
                     fr.onload = function (evt) {
-                        controller.plugins.playback.player.recording.readFileData(evt.target.result, uploadFiles, function (frames) {
+                        controller.plugins.playback.player.recording.readFileData(evt.target.result, uploadFiles, function () {
                             console.log('file loaded successfully ');
                             initializeControls(controller, options);
                         });
@@ -184,6 +186,13 @@ function LeapMotionRecorder(options) {
                     fr.readAsText($(this)[0].files[0]);
                 }
             }
+        });
+    }
+
+    if (options.rawData && controller && controller.plugins && controller.plugins.playback.player) {
+        controller.plugins.playback.player.importFrameData(options.rawData, 'json', function () {
+            console.log('raw data imported successfully ');
+            initializeControls(controller, options);
         });
     }
 }
@@ -334,3 +343,68 @@ function initializeControls(controller, options) {
         }
     }
 }
+
+LeapMotionRecorder.prototype.record = function () {
+    var options = this.options;
+    if (options.controller && options.controller.plugins.playback) {
+        if (options.recordElement) {
+            $(options.recordElement).click();
+        } else {
+            options.controller.plugins.playback.player.record();
+        }
+    }
+};
+
+LeapMotionRecorder.prototype.stopRecord = function () {
+    var options = this.options;
+    if (options.controller && options.controller.plugins.playback) {
+        if (options.stopRecordElement) {
+            $(options.stopRecordElement).click();
+        } else {
+            options.controller.plugins.playback.player.stopRecord();
+        }
+    }
+};
+
+LeapMotionRecorder.prototype.recording = function (format) {
+    var options = this.options;
+    if (options.controller && options.controller.plugins.playback) {
+        return options.controller.plugins.playback.player.recording.export(format);
+        if (format === 'lz') {
+            return new File([frameData], "tempframedata.json.lz", {type: "application/x-gzip;charset=utf-8"});
+        }
+        return new File([frameData], "tempframedata.json", {type: "text/JSON;charset=utf-8"});
+    }
+};
+
+LeapMotionRecorder.prototype.updateRenderTarget = function (target) {
+    var options = this.options;
+    if (options.controller && options.controller.plugins.riggedHand) {
+        options.controller.plugins.riggedHand.updateRenderTarget(target);
+        console.log(options.controller.plugins.riggedHand);
+    }
+};
+
+LeapMotionRecorder.prototype.destroy = function () {
+    var options = this.options;
+    if (options.playbackSliderElement) {
+        $(options.playbackSliderElement).slider('destroy');
+    }
+
+    if (options.cropSliderElement) {
+        $(options.cropSliderElement).slider('destroy');
+    }
+
+    if (options.controller) {
+        options.controller.removeAllListeners('playback.beforeSendFrame');
+        options.controller.stopUsing('playback');
+        options.controller.stopUsing('riggedHand');
+        options.controller = null;
+    }
+    
+    if(options.renderTarget) {
+        $(options.renderTarget).find('canvas').remove();
+    }else {
+        $('body').find('canvas').remove();
+    }
+};

@@ -46,6 +46,7 @@ if (login_check($mysqli) == true) {
         <script src="js/gestureRecorder/webcam.js"></script>
         <script src="js/upload-queue.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
+        <script src="js/filesaver/FileSaver.min.js"></script>
 
         <!-- gesture recorder sources -->
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
@@ -53,13 +54,12 @@ if (login_check($mysqli) == true) {
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
 
         <!-- leap and plugins -->
-        <script src="//js.leapmotion.com/leap-0.6.4.js"></script>
+        <script src="js/leapjs/leap-0.6.4.min.js"></script>
+        <script src="js/leapjs/leap-plugins-0.1.12.min.js"></script>
         <script src="js/three/three.min.js"></script>
-        <script src="//js.leapmotion.com/leap-plugins-0.1.8.js"></script>
         <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
-        <script src="js/gestureRecorder/leap.js"></script>
         <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
-        <!--<script src="js/leapjs-playback/lz-string-1.3.3.js"></script>-->
+        <script src="js/gestureRecorder/leap.js"></script>
 
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
@@ -546,7 +546,8 @@ if (login_check($mysqli) == true) {
                 recorderTarget: recorder,
                 saveGestures: true,
                 checkType: true,
-                checkInteractionType: true
+                checkInteractionType: true,
+                sensorRecording: true
             };
 
             new GestureRecorder(options);

@@ -371,6 +371,18 @@ console.log('parent', parent);
                 return this;
             };
         }
+        
+        updateRenderTarget = function(target) {
+            this.renderTarget = target;
+
+            this.initScene();
+            this.parent = this.scene;
+                if(this.renderTarget) {
+                    $(this.renderTarget).append(this.renderer.domElement);
+                } else {
+                    document.body.appendChild(this.renderer.domElement);
+                }
+        }
 
         initScene = function () {
             var pointLight, scope;
@@ -384,10 +396,11 @@ console.log('parent', parent);
             this.camera.position.fromArray([0, 160, 400]);
             
             if(scope.offset) {
-            this.camera.lookAt(new THREE.Vector3(scope.offset.x, scope.offset.y, scope.offset.z));
-        } else {
-            this.camera.lookAt(new THREE.Vector3(0, 0, 0));
-        }
+                this.camera.lookAt(new THREE.Vector3(scope.offset.x, scope.offset.y, scope.offset.z));
+            } else {
+                this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+            }
+        
             if (!this.renderer) {
                 this.renderer = new THREE.WebGLRenderer({
                     alpha: true
@@ -438,6 +451,7 @@ console.log('parent', parent);
             });
             scope.positionScale || (scope.positionScale = 1);
             scope.initScene = initScene;
+            scope.updateRenderTarget = updateRenderTarget;
             controller = this;
             scope.Detector = Detector;
             if (scope['checkWebGL'] === void 0) {

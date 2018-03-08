@@ -15,10 +15,56 @@ include '../includes/language.php';
                 <div class="progress-bar progress-bar-info" id="record-timer-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%; width: 100%"></div>
             </div>
 
+            <div id="leap-preview-container" class="hidden" data-sensor-source="leap">
+
+                <div class="embed-responsive embed-responsive-4by3 hidden-controls">
+                    <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
+                </div>
+
+                <div id="playback-controls" style="margin-top: -10px">
+                    <div id="leap-playback-slider-container" class="leap-playback-slider-container hidden" style="width: 100%;">
+                        <input id="leap-playback-slider" data-slider-id="sliderLeap" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                    </div>
+                </div>
+
+            </div>
+
             <div class="gesture-recorder-controls">
                 <div class="hidden" id="record-controls" style="margin-top: -20px">
                     <button class="btn btn-success btn-block btn-shadow hidden" id="btn-record" style="border-top-left-radius: 0px; border-top-right-radius: 0px;"><i class="glyphicon glyphicon-record" aria-hidden="true"></i> <?php echo $lang->startRecording ?></button>
                     <button class="btn btn-danger btn-block btn-shadow hidden" id="btn-record-stop" style="border-top-left-radius: 0px; border-top-right-radius: 0px; margin-top: -8px"><i class="glyphicon glyphicon-stop" aria-hidden="true"></i> <?php echo $lang->stopRecording ?></button>
+
+                    <div class="form-group root hidden" id="useSensorSwitch" style="margin-top: 10px">
+                        <label style="margin: 0">
+                            <?php echo $lang->whatSensorShouldBeUsed ?> 
+                            <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationSensor ?>"></i>
+                        </label><br>
+
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="none">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->noner ?></span>
+                            </button>
+                        </div>
+                        <div class="btn-group" id="radio" style="margin: 0">
+                            <button class="btn btn-default btn-radio" name="primary" id="leap">
+                                <span id="icons" style="margin-right: 6px">
+                                    <i class="fa fa-circle-thin" id="normal"></i>
+                                    <i class="fa fa-circle hidden" id="over"></i>
+                                    <i class="fa fa-check-circle hidden" id="checked"></i>
+                                </span>
+                                <span class="option-text"><?php echo $lang->sensors->leap->title ?></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="leap-alert-space">
+                        <div class="alert-space alert-please-wait"></div>
+                    </div>
                 </div>
                 <div class="hidden" id="playback-controls" style="margin-top: -8px">
                     <div class="progress" id="seek-bar" style="height: 8px; border-top-left-radius: 0px; border-radius: 0px">

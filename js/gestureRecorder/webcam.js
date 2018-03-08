@@ -15,6 +15,7 @@ var EVENT_GR_DELETE_SUCCESS = 'deleteSuccess';
 GestureRecorder.prototype.options = null;
 
 var recorder = null;
+var sensorRecorder, sensorPreview, sensorRecorderData = null;
 function GestureRecorder(options) {
     this.options = options;
     recorder = this;
@@ -72,6 +73,7 @@ function successCallback(stream) {
             showRecord();
             break;
     }
+    initPopover();
 }
 
 var timerTween = null;
@@ -92,25 +94,66 @@ function showRecord() {
     hideSave();
     resetTrimControls();
 
+    if (recorder.options.sensorRecording && recorder.options.sensorRecording === true) {
+        if (sensorPreview) {
+            sensorPreview.destroy();
+            sensorPreview = null;
+        }
+
+        $(recorder.options.recorderTarget).find('#useSensorSwitch').removeClass('hidden');
+        $(recorder.options.recorderTarget).find('#useSensorSwitch').unbind('change').bind('change', function () {
+            var sensor = $(this).find('.btn-option-checked').attr('id');
+            switch (sensor) {
+                case 'leap':
+                    initControllerEvents();
+                    $(recorder.options.recorderTarget).find('.recorder #btn-record').addClass('disabled');
+                    recorder.options.recordSensor = sensor;
+                    initializeLeapmotionRecorder();
+                    break;
+                default:
+                    $(recorder.options.recorderTarget).find('.recorder #btn-record').removeClass('disabled');
+                    if (sensorRecorder) {
+                        sensorRecorder.destroy();
+                        sensorRecorder = null;
+                    }
+                    break;
+            }
+        });
+
+
+        function initControllerEvents() {
+            $(sensorRecorder).on('deviceStreaming', function () {
+                console.log('deviceStreaming');
+                $(recorder.options.recorderTarget).find('.recorder #btn-record').removeClass('disabled');
+            });
+        }
+    }
+
     $(recorder.options.recorderTarget).find('#btn-record').unbind('click').bind('click', function (event) {
         event.preventDefault();
-        $(this).addClass('hidden');
-        $(recorder.options.recorderTarget).find('#btn-record-stop').removeClass('hidden');
+        if (!$(this).hasClass('disabled')) {
+            $(this).addClass('hidden');
+            $(recorder.options.recorderTarget).find('#btn-record-stop').removeClass('hidden');
 
-        var options = {
-            type: 'video',
-            mimeType: 'video/webm', // or video/mp4 or audio/ogg
-            video: {
-                width: 320,
-                height: 240
-            },
-            recorderType: RecordRTC.WhammyRecorder,
-            frameInterval: 40   // setTimeout interval, quality strength
-        };
-        recordRTC = RecordRTC(liveStream, options);
-        recordRTC.startRecording();
+            var options = {
+                type: 'video',
+                mimeType: 'video/webm', // or video/mp4 or audio/ogg
+                video: {
+                    width: 320,
+                    height: 240
+                },
+                recorderType: RecordRTC.WhammyRecorder,
+                frameInterval: 40   // setTimeout interval, quality strength
+            };
+            recordRTC = RecordRTC(liveStream, options);
+            recordRTC.startRecording();
 
-        timerTween = TweenMax.to($(recorder.options.recorderTarget).find('#record-timer-progress-bar'), 20, {width: '0%', ease: Linear.easeNone, onComplete: onRecordingTimesUp});
+            if (sensorRecorder) {
+                sensorRecorder.record();
+            }
+
+            timerTween = TweenMax.to($(recorder.options.recorderTarget).find('#record-timer-progress-bar'), 20, {width: '0%', ease: Linear.easeNone, onComplete: onRecordingTimesUp});
+        }
     });
 
     function onRecordingTimesUp() {
@@ -129,6 +172,12 @@ function showRecord() {
 
         if (recordRTC) {
             recordRTC.stopRecording(function (videoUrl) {
+                if (sensorRecorder) {
+                    sensorRecorder.stopRecord();
+                    sensorRecorderData = sensorRecorder.recording('json');
+                    sensorRecorder.destroy();
+                    sensorRecorder = null;
+                }
                 initPlayback(videoUrl);
             });
         }
@@ -180,6 +229,18 @@ function showPlayback() {
     $(recorder.options.recorderTarget).find('.recorder #playback-controls, .recorder .gesture-recorder-controls, .recorder #recorder-video').removeClass('hidden');
     $(recorder.options.recorderTarget).find('#record-timer-progress').addClass('hidden');
     hideSave();
+
+    if (sensorRecorderData && recorder.options.recordSensor) {
+        switch (recorder.options.recordSensor) {
+            case 'leap':
+                $(recorder.options.recorderTarget).find('#leap-preview-container').removeClass('hidden');
+                initializeLeapmotionPreview(sensorRecorderData);
+                break;
+        }
+
+//        var renderTarget = $(recorder.options.recorderTarget).find('#leap-recording-container #renderArea');
+//        sensorRecorder.updateRenderTarget(renderTarget);
+    }
 
     $(recorder.options.recorderTarget).find('.recorder #recorder-video').unbind('timeupdate').bind('timeupdate', function () {
         var percent = $(this)[0].currentTime / $(this)[0].duration * 100;
@@ -692,17 +753,57 @@ function showDeleteSuccess() {
     });
 }
 
-//function download() {
-//    var blob = new Blob(recordedBlobs, {type: 'video/webm'});
-//    var url = window.URL.createObjectURL(blob);
-//    var a = document.createElement('a');
-//    a.style.display = 'none';
-//    a.href = url;
-//    a.download = 'test.webm';
-//    document.body.appendChild(a);
-//    a.click();
-//    setTimeout(function () {
-//        document.body.removeChild(a);
-//        window.URL.revokeObjectURL(url);
-//    }, 100);
-//}
+function initializeLeapmotionRecorder() {
+    var container = $(recorder.options.recorderTarget).find('#leap-recording-container');
+    var options = {
+        offset: {x: 0, y: 200, z: 0},
+        previewOnly: false,
+        pauseOnHands: false,
+        autoplay: true,
+        recordEmptyHands: true,
+//            recording: currentPreviewGesture.gesture.sensorData.url,
+        overlays: $(container).find('#leap-alert-space')
+//            renderTarget: $(container).find('#renderArea'),
+//            recordElement: $(container).find('#btn-start-recording'),
+//            stopRecordElement: $(container).find('#btn-stop-recording'),
+//        playbackElement: $(container).find('#btn-toggle-playback'),
+//            downloadJsonElement: $(container).find('.btn-download-as-json'),
+//            downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
+//            loadRecordingElement: $(container).find('#btn-load-recording'),
+//            loadInputElement: $(container).find('#upload-leap-recording'),
+//        playbackSliderElement: $(container).find('#leap-playback-slider'),
+//        cropRecordElement: $(container).find('#btn-crop-recording'),
+//        cropSliderElement: $(container).find('#leap-playback-crop-slider')
+    };
+    sensorRecorder = new LeapMotionRecorder(options);
+}
+
+function initializeLeapmotionPreview(recordedFrameData) {
+    var container = $(recorder.options.recorderTarget).find('#leap-preview-container');
+//    console.log(recordedFrameData);
+    setTimeout(function () {
+        var options = {
+            offset: {x: 0, y: 200, z: 0},
+            previewOnly: true,
+            pauseOnHands: false,
+            autoplay: true,
+            rawData: recordedFrameData,
+//        recordEmptyHands: true,
+//            recording: currentPreviewGesture.gesture.sensorData.url,
+//        overlays: $(container).find('#leap-alert-space'),
+            renderTarget: $(container).find('#renderArea'),
+//            recordElement: $(container).find('#btn-start-recording'),
+//            stopRecordElement: $(container).find('#btn-stop-recording'),
+            playbackElement: $(container).find('#btn-toggle-playback'),
+//            downloadJsonElement: $(container).find('.btn-download-as-json'),
+//            downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
+//            loadRecordingElement: $(container).find('#btn-load-recording'),
+//            loadInputElement: $(container).find('#upload-leap-recording'),
+            playbackSliderElement: $(container).find('#leap-playback-slider'),
+            cropRecordElement: $(container).find('#btn-crop-recording'),
+            cropSliderElement: $(container).find('#leap-playback-crop-slider')
+        };
+        sensorPreview = new LeapMotionRecorder(options);
+    }, 1000);
+
+}

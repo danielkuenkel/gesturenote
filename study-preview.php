@@ -70,6 +70,10 @@ if (login_check($mysqli) == true) {
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
+        
+        <!-- bootstrap slider -->
+        <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
+        <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
     </head>
     <body>
 

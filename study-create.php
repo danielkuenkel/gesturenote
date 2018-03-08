@@ -40,7 +40,6 @@ if (login_check($mysqli) == true) {
         <script src="js/filesaver/FileSaver.min.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
 
-
         <script src="js/bootstrap-slider/js/bootstrap-slider.js"></script>
         <script src="js/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
         <script src="js/bootstrap-datepicker/js/locales/bootstrap-datepicker.ar.min.js" charset="UTF-8"></script>
@@ -132,6 +131,14 @@ if (login_check($mysqli) == true) {
         <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
         <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
         <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
+        
+        <!-- leap and plugins -->
+        <script src="js/leapjs/leap-0.6.4.min.js"></script>
+        <script src="js/leapjs/leap-plugins-0.1.12.min.js"></script>
+        <script src="js/three/three.min.js"></script>
+        <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
+        <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
+        <script src="js/gestureRecorder/leap.js"></script>
     </head>
     <body>
 

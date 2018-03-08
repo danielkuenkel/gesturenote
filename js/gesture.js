@@ -197,17 +197,18 @@ function renderGestureImages(container, images, preview, callback) {
 }
 
 function renderGesturePreview(container, gesture, callback) {
-    var numImagesLoaded = 0;
-//    $(container).find('.webcam-image-container').empty().addClass('hidden');
-
-//    addLoadingIcon($(container).parent());    
+    var numImagesLoaded = 0;   
     var imageContainer = $(container).find('.webcam-image-container');
     $(imageContainer).empty();
+
+    // control elements
+    var togglePlaybackButton = $(container).find('#btn-toggle-playback');
+    var slider = $(container).find('#webcam-playback-slider');
 
     if (gesture.images && gesture.images.length > 0) {
         for (var i = 0; i < gesture.images.length; i++) {
             var image = document.createElement('img');
-            $(image).addClass('gestureImage mirroredHorizontally embed-responsive-item roundedTop');
+            $(image).addClass(slider && slider.length ? 'gestureImage mirroredHorizontally embed-responsive-item roundedTop' : 'gestureImage mirroredHorizontally embed-responsive-item rounded');
             $(image).attr('data-index', i);
             $(imageContainer).append(image);
             $(image).addClass(i === parseInt(gesture.previewImage) ? 'previewImage active' : 'hidden');
@@ -235,7 +236,6 @@ function renderGesturePreview(container, gesture, callback) {
         }
     }
 
-    var togglePlaybackButton = $(container).find('#btn-toggle-playback');
     if (togglePlaybackButton) {
         $(togglePlaybackButton).unbind('click').bind('click', function (event) {
             event.preventDefault();
@@ -262,7 +262,6 @@ function renderGesturePreview(container, gesture, callback) {
         }
     }
 
-    var slider = $(container).find('#webcam-playback-slider');
     if (slider && $(container).find('#webcam-playback-slider-controls').attr('data-visible') === 'true') {
         $(container).find('#webcam-playback-slider-controls').removeClass('hidden');
         var sliderOptions = {

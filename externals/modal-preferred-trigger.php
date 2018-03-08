@@ -6,17 +6,31 @@ include '../includes/language.php';
     <h4 class="modal-title">Funktionsauswahl</h4>
 </div>
 <div id="modal-body" class="modal-body">
-    <div class="text-center root" style="margin-bottom: 15px; max-width: 400px; margin: 0 auto; margin-bottom: 20px" id="gesturePreview">
-        <div class="previewGesture mouseScrollable btn-shadow autoplay embed-responsive embed-responsive-4by3"></div>
-        <div class="progress gesture-progress">
-            <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-        </div>
-        <div class="text-center gestureControls">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+    <div class="text-center root" style="max-width: 400px; margin: 0 auto; margin-bottom: 20px" id="gesturePreview">
+        <div data-sensor-source="webcam" id="webcam-preview" class="autoplay">
+            <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
+                <div id="" class="webcam-image-container"></div>
+                <div class="controls-container embed-responsive-item">
+                    <div class="hidden-control text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                </div>
+            </div>
+
+            <div id="webcam-playback-slider-controls" class="hidden" style="margin-top: -10px" data-visible="true">
+                <div id="webcam-playback-slider-container" class="webcam-playback-slider-container" style="width: 100%;">
+                    <input id="webcam-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                </div>
             </div>
         </div>
+        <!--        <div class="previewGesture mouseScrollable btn-shadow autoplay embed-responsive embed-responsive-4by3"></div>
+                <div class="progress gesture-progress">
+                    <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                </div>
+                <div class="text-center gestureControls">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                        <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+                    </div>
+                </div>-->
     </div>
 
     <div class="question-container"></div>
@@ -28,11 +42,13 @@ include '../includes/language.php';
 
 <script>
     $(document).ready(function () {
+        var container = $('#custom-modal');
         var currentPhaseData = getCurrentPhaseData();
         var gesture = getGestureById(currentPhaseData.exploration[currentExplorationIndex].gestureId);
         if (gesture) {
-            renderGestureImages($('#custom-modal').find('.previewGesture'), gesture.images, gesture.previewImage, function () {
-            });
+            renderGesturePreview(container.find('#webcam-preview'), gesture);
+//            renderGestureImages($(container.find('.previewGesture'), gesture.images, gesture.previewImage, function () {
+//            });
         }
 
         var data = [{id: chance.natural(), dimension: DIMENSION_ANY, format: GROUPING_QUESTION_OPTIONS, question: translation.askPreferredTriggerForGesture, parameters: {multiselect: 'yes', optionSource: 'triggers', justification: 'yes', justificationFor: 'selectOne', optionalanswer: 'yes'}}];
@@ -44,18 +60,18 @@ include '../includes/language.php';
             data.options = triggerOptions;
         }
 
-        renderQuestionnaire($('#custom-modal'), data);
+        renderQuestionnaire($(container), data);
 
-        $('#custom-modal').find('.question-container').unbind('change').bind('change', function (event) {
+        $(container).find('.question-container').unbind('change').bind('change', function (event) {
             event.preventDefault();
             saveAnswers($(this).children());
         });
 
-        $('#custom-modal').find('#btn-done-select').unbind('click').bind('click', function (event) {
+        $(container).find('#btn-done-select').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            $('#custom-modal').find('.question-container').unbind('change');
+            $(container).find('.question-container').unbind('change');
             saveAnswers($(this).parent().parent().find('.question-container').children(), true);
-            $('#custom-modal').modal('hide');
+            $(container).modal('hide');
         });
 
         function saveAnswers(questionnaire, saveAnswers) {

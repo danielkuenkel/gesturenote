@@ -10,19 +10,34 @@ include '../includes/language.php';
 
     <div class="row">
         <div class="col-md-5 root">
-            <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
-            <div class="progress gesture-progress">
-                <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+
+            <div data-sensor-source="webcam" id="webcam-preview" class="autoplay">
+                <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
+                    <div id="" class="webcam-image-container"></div>
+                    <div class="controls-container embed-responsive-item">
+                        <div class="hidden-control text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                    </div>
+                </div>
+
+                <div id="webcam-playback-slider-controls" class="hidden" style="margin-top: -10px" data-visible="true">
+                    <div id="webcam-playback-slider-container" class="webcam-playback-slider-container" style="width: 100%;">
+                        <input id="webcam-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                    </div>
+                </div>
             </div>
-            <div class="text-center">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
-                    <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
-                </div><br/>
-                <button type="button" class="btn btn-default hidden" id="btn-choose-preview-image" style="margin-top: 6px"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
-            </div>
+            <!--            <div class="previewGesture mouseScrollable btn-shadow autoplay"></div>
+                        <div class="progress gesture-progress">
+                            <div class="progress-bar gesture-progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
+                                <button type="button" class="btn btn-default" id="btn-stop-gesture"><i class="fa fa-stop"></i></button>
+                                <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
+                                <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
+                            </div><br/>
+                            <button type="button" class="btn btn-default hidden" id="btn-choose-preview-image" style="margin-top: 6px"><i class="fa fa-bookmark" aria-hidden="true"></i> <span class="text"><?php echo $lang->selectPreviewImage ?></span></button>
+                        </div>-->
             <!--<hr>-->
             <!--            <div class="gesture-rating" id="gesture-rating" style="margin-top: 20px; margin-bottom: 30px">
                             <h3><i class="fa fa-star-o"></i> Bewertung</h3>
@@ -207,8 +222,7 @@ include '../includes/language.php';
     var currentRatings = [{physicalContext: 0, adaption: 0, fittingTask: 0}];
     $(document).ready(function () {
 //        initGestureRating($('#gesture-rating'), 5);
-        renderModalData();
-//        renderGestureRating($('#gesture-rating'), testRatings, true); //result.ratings);
+        renderModalData();´
 
         $('#custom-modal').bind('hidden.bs.modal', function () {
             currentPreviewGesture = null;
@@ -217,166 +231,7 @@ include '../includes/language.php';
         });
     });
 
-
-//    $(document).on('mouseleave', '.rating-stars-container', function (event) {
-//        event.preventDefault();
-//        if ($(this).find('.active').length === 0) {
-//            $(this).find('.btn-gesture-rating-clickable .fa').removeClass('fa-star').addClass('fa-star-o');
-//        } else {
-//            $(this).find('.active').find('.fa').removeClass('fa-star-o').addClass('fa-star');
-//            $(this).find('.active').prevAll().find('.fa').removeClass('fa-star-o').addClass('fa-star');
-//            $(this).find('.active').nextAll().find('.fa').removeClass('fa-star').addClass('fa-star-o');
-//        }
-//    });
-//
-//    $(document).on('mouseenter', '.btn-gesture-rating-clickable', function (event) {
-//        event.preventDefault();
-//        $(this).prevAll().find('.fa').removeClass('fa-star-o').addClass('fa-star');
-//        $(this).find('.fa').removeClass('fa-star-o').addClass('fa-star');
-//        $(this).nextAll().find('.fa').removeClass('fa-star').addClass('fa-star-o');
-//    });
-//
-//    $(document).on('click', '.btn-gesture-rating-clickable', function (event) {
-//        event.preventDefault();
-//        if (!event.handled) {
-//            event.handled = true;
-//            $(this).addClass('active');
-//            $(this).prevAll().removeClass('active');
-//            $(this).prevAll().find('.fa').removeClass('fa-star-o').addClass('fa-star');
-//            $(this).find('.fa').removeClass('fa-star-o').addClass('fa-star');
-//            $(this).nextAll().removeClass('active');
-//            $(this).nextAll().find('.fa').removeClass('fa-star').addClass('fa-star-o');
-//        }
-//    });
-//
-//    $('#btn-rate-gesture').on('click', function (event) {
-//        event.preventDefault();
-//        if (!event.handled && !$(this).hasClass('disabled')) {
-//            $(this).addClass('hidden');
-//            $(this).closest('.gesture-rating').find('#rating-submit-buttons').removeClass('hidden');
-//            $(this).closest('.gesture-rating').find('.btn-gesture-rating .fa').removeClass('fa-star-half-full fa-star').addClass('fa-star-o');
-//            $(this).closest('.gesture-rating').find('.btn-gesture-rating').addClass('btn-gesture-rating-clickable');
-//        }
-//    });
-//
-//    $('#btn-cancel-gesture-rating').on('click', function (event) {
-//        event.preventDefault();
-//        if (!event.handled && !$(this).hasClass('disabled')) {
-//            $(this).closest('.gesture-rating').find('#rating-submit-buttons').addClass('hidden');
-//            $(this).closest('.gesture-rating').find('#btn-rate-gesture').removeClass('hidden');
-//            $(this).closest('.gesture-rating').find('.btn-gesture-rating').removeClass('btn-gesture-rating-clickable active');
-//            renderGestureRating($(this).closest('.gesture-rating'), currentRatings, false);
-//        }
-//    });
-//
-//    $('#btn-submit-gesture-rating').on('click', function (event) {
-//        event.preventDefault();
-//        if (!event.handled && !$(this).hasClass('disabled')) {
-//            event.handled = true;
-//            var activeStars = $(this).closest('.gesture-rating').find('.active');
-//            var container = $(this).closest('.gesture-rating').find('.rating-container');
-//            var button = $(this);
-//
-//            if (activeStars.length === container.length) {
-//                $(button).addClass('disabled');
-//                $(this).closest('.gesture-rating').find('#btn-cancel-gesture-rating').addClass('disabled');
-//                $(this).closest('.gesture-rating').find('.btn-gesture-rating').removeClass('btn-gesture-rating-clickable');
-//                var ratings = {};
-//
-//                for (var i = 0; i < container.length; i++) {
-//                    var id = $(container[i]).attr('id').split('-')[1];
-//                    var rating = $(container[i]).find('.active').index();
-//                    ratings[id] = rating;
-//                }
-//
-//                submitRatingForGesture({gestureId: currentPreviewGesture.id, ratings: ratings}, function (result) {
-//                    $(button).removeClass('disabled');
-//                    $(button).closest('.gesture-rating').find('#btn-cancel-gesture-rating').removeClass('disabled');
-//
-//                    if (result.status === RESULT_SUCCESS) {
-//                        $(button).closest('.gesture-rating').find('#btn-rate-gesture').remove();
-//                        $(button).closest('.gesture-rating').find('#rating-submit-buttons').addClass('hidden');
-//                        $(button).closest('.gesture-rating').find('.btn-gesture-rating').removeClass('btn-gesture-rating-clickable active');
-//                        renderGestureRating($(button).closest('.gesture-rating'), result.ratings, true);
-//                        appendAlert($('#gesture-rating'), ALERT_RATING_SUBMITTED);
-//                    }
-//                });
-//            }
-//        }
-//    });
-//
-//    function initGestureRating(target, totalStars) {
-//        for (var i = 0; i < totalStars; i++) {
-//            var ratingButton = document.createElement('div');
-//            $(ratingButton).addClass('btn-gesture-rating');
-//            var emptyStar = document.createElement('i');
-//            $(emptyStar).addClass('fa fa-star-o');
-//            $(ratingButton).append(emptyStar);
-//            $(target).find('.rating-stars-container').append(ratingButton);
-//        }
-//
-//        $('#rated-by').text(translation.ratedBy);
-//    }
-//
-//    function renderGestureRating(target, ratings, newData) {
-//        if (newData) {
-//            $('#rating-users-count').text(ratings !== null ? ratings.length : 0);
-//            if (ratings === null) {
-//                $('#rated-by-users').text(translation.ratedByUsers);
-//            } else {
-//                $('#rated-by-users').text(ratings.length === 1 ? translation.ratedByUser : translation.ratedByUsers);
-//            }
-//
-//            ratings = calculateRatings(ratings);
-//        }
-//
-//        currentRatings = ratings;
-////        console.log()
-//
-//        if (ratings) {
-//            for (var key in ratings) {
-//                var value = parseFloat(ratings[key]) + 1;
-//                var viewValue;
-//                if (value % .5 === 0) {
-//                    viewValue = value;
-//                } else if ((value % 1 >= .25 && value % 1 < .5) || (value % 1 <= .75 && value % 1 > .5)) {
-//                    viewValue = Math.floor(value) + .5;
-//                } else {
-//                    viewValue = Math.round(value);
-//                }
-//
-//                var container = $(target).find('.rating-' + key + ' .rating-stars-container');
-//                var fullStars = parseInt(Math.abs(viewValue));
-//                var hasHalfStar = viewValue % 1 === .5;
-//                var nthStar = container.find(".btn-gesture-rating:nth-child(" + fullStars + ")");
-//                $(nthStar).prevAll().find('.fa').removeClass('fa-star-o').addClass('fa-star');
-//                $(nthStar).find('.fa').removeClass('fa-star-o').addClass('fa-star');
-//                $(nthStar).nextAll().find('.fa').removeClass('fa-star').addClass('fa-star-o');
-//
-//                if (hasHalfStar) {
-//                    $(nthStar).next().find('.fa').removeClass('fa-star-o').addClass('fa-star-half-full');
-//                }
-//            }
-//        }
-//    }
-//
-//    function calculateRatings(ratingsArray) {
-//        var ratings = {physicalContext: 0, adaption: 0, fittingTask: 0};
-//        if (ratingsArray && ratingsArray.length > 0) {
-//            for (var key in ratings) {
-//                for (var i = 0; i < ratingsArray.length; i++) {
-//                    var currentRating = ratings[key];
-//                    ratings[key] = currentRating + parseInt(ratingsArray[i].ratings[key]);
-//                }
-//                ratings[key] = ratings[key] / ratingsArray.length;
-//            }
-//            return ratings;
-//        }
-//        return null;
-//    }
-
     function renderModalData() {
-//        console.log(currentPreviewGesture);
         var gesture = currentPreviewGesture.gesture;
         if (gesture === null) {
             return false;
@@ -398,7 +253,8 @@ include '../includes/language.php';
         container.find('#btn-edit-gesture .btn-text').text(translation.edit);
         container.find('#btn-delete-gesture .btn-text').text(translation.deleteGesture);
 
-        renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
+        renderGesturePreview(container.find('#webcam-preview'), gesture);
+//        renderGestureImages(container.find('.previewGesture'), gesture.images, gesture.previewImage, null);
         renderBodyJointsPreview(container.find('#human-body'), gesture.joints);
 
         var thumbnail = $('#item-view #gestures-list-container').find('#' + gesture.id);

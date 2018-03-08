@@ -974,8 +974,8 @@
                 formatVersion: 2,
                 generatedBy: 'GestureNote',
                 frames: this.rightCropPosition - this.leftCropPosition,
-                protocolVersion: this.options.requestProtocolVersion,
-                serviceVersion: this.options.serviceVersion,
+                protocolVersion: this.options && this.options.requestProtocolVersion ? this.options.requestProtocolVersion : 6,
+                serviceVersion: this.options && this.options.serviceVersion ? this.options.serviceVersion : 3,
                 frameRate: this.frameRate().toPrecision(2),
                 modified: (new Date).toString()
             };
@@ -1170,7 +1170,7 @@
             return {
                 metadata: this.metadata,
                 frames: this.packedFrameData()
-            }
+            };
         },
 
         // Returns the cropped data as JSON or compressed
@@ -1178,7 +1178,7 @@
         export: function (format) {
             var json = JSON.stringify(this.toHash());
 
-            if (format == 'json')
+            if (format === 'json')
                 return json;
 
             return LZString.compressToBase64(json);
@@ -1204,6 +1204,27 @@
 
         decompress: function (data) {
             return LZString.decompressFromBase64(data);
+        },
+
+        import: function (data, format, callback) {
+            var responseData = data;
+            if (format === 'lz') {
+                responseData = this.decompress(data);
+            }
+            if (typeof responseData === 'string' || responseData instanceof String) {
+                responseData = JSON.parse(responseData);
+            }
+
+            if (responseData.metadata.formatVersion == 2) {
+                responseData.frames = this.unPackFrameData(responseData.frames);
+            }
+            console.log(responseData);
+            this.metadata = responseData.metadata;
+            this.setFrames(responseData.frames);
+
+            if (callback) {
+                callback.call(this);
+            }
         },
 
         loaded: function () {
@@ -1309,10 +1330,10 @@
 
             if (options.recording) {
                 // string check via underscore.js
-                if (toString.call(options.recording) == '[object String]') {
+                if (toString.call(options.recording) === '[object String]') {
                     options.recording = {
                         url: options.recording
-                    }
+                    };
                 }
                 this.setRecording(options.recording);
             }
@@ -1554,9 +1575,9 @@
 
                 this.controller.emit('playback.record', this);
             },
-            
+
             // handle stop recording. For example, if empty frame data is recorded
-            stopRecord: function() {
+            stopRecord: function () {
                 this.finishRecording();
             },
 
@@ -1570,6 +1591,61 @@
                 finalFrame.pointables = [];
                 finalFrame.tools = [];
                 this.sendImmediateFrame(finalFrame);
+            },
+
+            importFrameData: function (data, format, callback) {
+                this.idle();
+                delete this.recording;
+                console.log(this.controller.connection);
+                this.recording = new Recording({
+                    timeBetweenLoops: this.options.timeBetweenLoops,
+                    loop: this.options.loop,
+                    requestProtocolVersion: this.controller.connection.opts.requestProtocolVersion
+//                    serviceVersion: this.controller.connection.protocol.serviceVersion
+                });
+                
+//                console.log('import', data);
+                this.recording.import(data, format, callback);
+                
+
+                
+
+                
+
+//                this.recording = new Recording({
+//                    timeBetweenLoops: this.options.timeBetweenLoops,
+//                    loop: this.options.loop,
+//                    requestProtocolVersion: this.controller.connection.opts.requestProtocolVersion,
+//                    serviceVersion: this.controller.connection.protocol.serviceVersion
+//                });
+//
+//                this.controller.emit('playback.stop', this);
+//
+//                var player = this;
+//                var loadComplete = function (frames) {
+//
+//                    if (player.recording != this) {
+//                        return
+//                    }
+//
+//                    if (player.autoPlay) {
+//                        player.play();
+//                        if (player.pauseOnHand && !player.controller.streaming()) {
+//                            player.setGraphic('connect');
+//                        }
+//                    }
+//
+//                    player.controller.emit('playback.recordingSet', this);
+//                };
+//
+//
+//                this.controller.emit('playback.ajax:begin', this, this.recording);
+//
+//                // called in the context of the recording
+//                this.recording.loadFrameData(function (frames) {
+//                    loadComplete.call(this, frames);
+//                    player.controller.emit('playback.ajax:complete', player, this);
+//                });
             },
 
             recordPending: function () {
@@ -1771,15 +1847,14 @@
         // speed of the original recording.
         var playback = function (scope) {
             var controller = this;
-            console.log('controller', controller);
             var autoPlay = scope.autoPlay;
             if (autoPlay === undefined)
                 autoPlay = true;
-            
+
             var recordEmptyHands = scope.recordEmptyHands;
-            if(recordEmptyHands === undefined)
+            if (recordEmptyHands === undefined)
                 recordEmptyHands = false;
-            
+
             var pauseOnHand = scope.pauseOnHand;
             if (pauseOnHand === undefined)
                 pauseOnHand = true;
