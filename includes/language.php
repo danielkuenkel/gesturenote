@@ -29,8 +29,6 @@ class language {
     }
 }
 
-
-$sessionLanguage = $_SESSION['lang'];
 $browserLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-$language = new language($sessionLanguage ? $sessionLanguage : $browserLanguage);
+$language = new language(isset($_SESSION['lang']) ? $_SESSION['lang'] : $browserLanguage);
 $lang = $language->translate();

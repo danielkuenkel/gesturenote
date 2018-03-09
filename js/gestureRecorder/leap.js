@@ -67,7 +67,7 @@ function LeapMotionRecorder(options) {
         {
             console.log("device streaming ");
             clearAlerts(options.overlays);
-            $(leapMotionRecorder).trigger('deviceStreaming');
+            $(document).trigger('recorderStateChanged', ['leap', 'deviceStreaming']);
         }
 
         controller.on('blur', onBlur);
@@ -178,10 +178,21 @@ function LeapMotionRecorder(options) {
                 if (uploadFiles) {
                     var fr = new FileReader();
                     fr.onload = function (evt) {
-                        controller.plugins.playback.player.recording.readFileData(evt.target.result, uploadFiles, function () {
-                            console.log('file loaded successfully ');
-                            initializeControls(controller, options);
-                        });
+                        if (controller.plugins.playback.player.recording) {
+                            controller.plugins.playback.player.recording.readFileData(evt.target.result, uploadFiles, function () {
+                                console.log('file loaded successfully ');
+                                initializeControls(controller, options);
+                            });
+                        } else {
+                            var format = 'json';
+                            if (uploadFiles.name && uploadFiles.name.split('.')[uploadFiles.name.split('.').length - 1] === 'lz') {
+                                format = 'lz';
+                            }
+                            controller.plugins.playback.player.importFrameData(evt.target.result, format, function () {
+                                console.log('raw data imported successfully ');
+                                initializeControls(controller, options);
+                            });
+                        }
                     };
                     fr.readAsText($(this)[0].files[0]);
                 }
@@ -401,10 +412,10 @@ LeapMotionRecorder.prototype.destroy = function () {
         options.controller.stopUsing('riggedHand');
         options.controller = null;
     }
-    
-    if(options.renderTarget) {
+
+    if (options.renderTarget) {
         $(options.renderTarget).find('canvas').remove();
-    }else {
+    } else {
         $('body').find('canvas').remove();
     }
 };

@@ -6,6 +6,72 @@ include '../includes/language.php';
 <script src="js/sha512.js"></script>
 <div id="item-container-gesture-recorder" class="hidden">
 
+    <div id="gesture-recorder-with-introductions" class="row">
+        <div class="col-sm-5 introductions-content">
+            introductions
+        </div>
+        <div class="col-sm-7 recorder-contents">
+            <div class="recorder-content gr-record">
+                <div data-sensor-source="webcam" id="webcam-preview" class="autoplay">
+                    <div class="root embed-responsive embed-responsive-4by3">
+                        <div class="embed-responsive-item">
+                            <video class="recorder-webcam-video mirroredHorizontally" autoplay style=" border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress hidden" id="record-timer-progress" style="height: 8px; border-top-left-radius: 0px; border-radius: 0px">
+                    <div class="progress-bar progress-bar-primary" id="record-timer-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%; width: 100%"></div>
+                </div>
+
+                <button class="btn btn-success btn-block btn-shadow disabled" id="btn-record" style="border-top-left-radius: 0px; border-top-right-radius: 0px;"><i class="glyphicon glyphicon-record" aria-hidden="true"></i> <?php echo $lang->startRecording ?></button>
+                <button class="btn btn-danger btn-block btn-shadow hidden" id="btn-record-stop" style="border-top-left-radius: 0px; border-top-right-radius: 0px; margin-top: -20px"><i class="glyphicon glyphicon-stop" aria-hidden="true"></i> <?php echo $lang->stopRecording ?></button>
+
+                <div class="form-group root hidden useSensorSwitch" style="margin-top: 10px">
+                    <label style="margin: 0">
+                        <?php echo $lang->whatSensorShouldBeUsed ?> 
+                        <i class="fa fa-info-circle text btn-show-info" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tooltips->studyCreate->identificationSensor ?>"></i>
+                    </label><br>
+
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio btn-option-checked" name="primary" id="none">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin hidden" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->noner ?></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" id="radio" style="margin: 0">
+                        <button class="btn btn-default btn-radio" name="primary" id="leap">
+                            <span id="icons" style="margin-right: 6px">
+                                <i class="fa fa-circle-thin" id="normal"></i>
+                                <i class="fa fa-circle hidden" id="over"></i>
+                                <i class="fa fa-check-circle hidden" id="checked"></i>
+                            </span>
+                            <span class="option-text"><?php echo $lang->sensors->leap->title ?></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="recorder-content gr-playback">
+
+            </div>
+            <div class="recorder-content gr-save">
+
+            </div>
+            <div class="recorder-content gr-save-success">
+
+            </div>
+            <div class="recorder-content gr-delete">
+
+            </div>
+            <div class="recorder-content gr-delete-success">
+
+            </div>
+        </div>
+    </div>
+
     <div id="gesture-recorder">
         <div class="alert-space alert-web-rtc-not-supported"></div>
 
@@ -13,20 +79,6 @@ include '../includes/language.php';
             <video autoplay id="recorder-video" style="width: 100%; height: auto; overflow: hidden; border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
             <div class="progress hidden" id="record-timer-progress" style="margin-top: -8px; height: 8px; border-top-left-radius: 0px; border-radius: 0px">
                 <div class="progress-bar progress-bar-info" id="record-timer-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 100%; width: 100%"></div>
-            </div>
-
-            <div id="leap-preview-container" class="hidden" data-sensor-source="leap">
-
-                <div class="embed-responsive embed-responsive-4by3 hidden-controls">
-                    <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
-                </div>
-
-                <div id="playback-controls" style="margin-top: -10px">
-                    <div id="leap-playback-slider-container" class="leap-playback-slider-container hidden" style="width: 100%;">
-                        <input id="leap-playback-slider" data-slider-id="sliderLeap" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
-                    </div>
-                </div>
-
             </div>
 
             <div class="gesture-recorder-controls">
@@ -130,6 +182,23 @@ include '../includes/language.php';
                     <button type="button" class="btn btn-default btn-shadow" id="btn-repeat-trimming"><i class="glyphicon glyphicon-scissors"></i> <?php echo $lang->recut ?></button>
                     <button type="button" class="btn btn-default btn-repeat-recording btn-shadow"><i class="fa fa-refresh" aria-hidden="true"></i> <?php echo $lang->reRecord ?></button>
                 </div>
+            </div>
+
+            <div id="leap-preview-container" class="hidden" data-sensor-source="leap">
+
+                <div class="embed-responsive embed-responsive-4by3 hidden-controls">
+                    <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
+                    <div class="controls-container embed-responsive-item">
+                        <div class="hidden-control text-center" id="btn-toggle-playback"><i class="fa fa-play fa-2x"></i></div>
+                    </div>
+                </div>
+
+                <div id="playback-controls" style="margin-top: -10px">
+                    <div id="leap-playback-slider-container" class="leap-playback-slider-container hidden" style="width: 100%;">
+                        <input id="leap-playback-slider" style="width: 100%" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" data-slider-tooltip="hide" />
+                    </div>
+                </div>
+
             </div>
 
         </div>

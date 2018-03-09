@@ -607,7 +607,6 @@ PeerConnection.prototype.initRecording = function (startRecording) {
 
                 console.log('startRecording', startRecording);
                 if (startRecording === true) {
-
                     mediaRecorder.start(1000);
                 }
             }

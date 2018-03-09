@@ -43,15 +43,15 @@ if (login_check($mysqli) == true) {
         <script src="js/ajax.js"></script> 
         <script src="js/gesture.js"></script>
         <script src="js/joint-selection.js"></script>
-        <script src="js/gestureRecorder/webcam.js"></script>
+
         <script src="js/upload-queue.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
         <script src="js/filesaver/FileSaver.min.js"></script>
 
-        <!-- gesture recorder sources -->
-        <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
-        <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
-        <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>
+        <!--         gesture recorder sources 
+                <script src="https://cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
+                <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
+                <script src="https://cdn.webrtc-experiment.com/RecordRTC/Whammy.js"></script>-->
 
         <!-- leap and plugins -->
         <script src="js/leapjs/leap-0.6.4.min.js"></script>
@@ -59,6 +59,11 @@ if (login_check($mysqli) == true) {
         <script src="js/three/three.min.js"></script>
         <script src="js/riggedHand/leap.rigged-hand-0.1.7.js"></script>
         <script src="js/leapjs-playback/leap.playback-0.2.1.js"></script>
+
+        <!-- gesture recorder -->
+        <script src="js/andyet/simplewebrtcbundle.js"></script>
+        <script src="js/gestureRecorder/gestureRecorder.js"></script>
+        <script src="js/gestureRecorder/webcam.js"></script>
         <script src="js/gestureRecorder/leap.js"></script>
 
         <!-- bootstrap slider -->
@@ -410,7 +415,11 @@ if (login_check($mysqli) == true) {
 
         $('#gesture-catalogs-nav-tab').on('shown.bs.tab', function (event) {
             $($(event.target).attr('href')).find('#sort .achtive').removeClass('selected');
-            resetRecorder();
+            if (gestureRecorder) {
+                gestureRecorder.destroy();
+                gestureRecorder = null;
+            }
+
             switch ($(event.target).attr('href')) {
                 case '#gesture-catalog':
                     getWholeGestureCatalog();
@@ -536,21 +545,26 @@ if (login_check($mysqli) == true) {
             });
         }
 
+        var gestureRecorder = null;
         function getWholeGestureRecorder() {
-            var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder').clone().removeAttr('id');
+            var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-with-introductions').clone().removeAttr('id');
             $('#gesture-recorder-content').empty().append(recorder);
             renderBodyJoints($(recorder).find('#human-body'));
 
             var options = {
-                alertTarget: $('#gesture-recorder-content'),
                 recorderTarget: recorder,
+                alertTarget: $('#gesture-recorder-content'),
                 saveGestures: true,
                 checkType: true,
                 checkInteractionType: true,
-                sensorRecording: true
+                showIntroduction:true,
+                record: [
+                    {type: 'webcam'} 
+//                    {type: 'leap'}
+                ]
             };
 
-            new GestureRecorder(options);
+            gestureRecorder = new GestureRecorder(options);
         }
 
         function getCurrentActiveTab() {

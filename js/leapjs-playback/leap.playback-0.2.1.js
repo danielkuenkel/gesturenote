@@ -1596,7 +1596,6 @@
             importFrameData: function (data, format, callback) {
                 this.idle();
                 delete this.recording;
-                console.log(this.controller.connection);
                 this.recording = new Recording({
                     timeBetweenLoops: this.options.timeBetweenLoops,
                     loop: this.options.loop,

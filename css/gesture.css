@@ -247,3 +247,7 @@ and open the template in the editor.
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 }
+
+.controls-container {
+    opacity: 0;
+}

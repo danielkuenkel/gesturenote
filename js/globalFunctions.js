@@ -2846,21 +2846,26 @@ function isPidocoSocketNeededForPhaseStep(phaseStep) {
             case GESTURE_TRAINING:
                 break;
             case SCENARIO:
-                socketNeeded = isPidocoSocketNeededForScenario(phaseStepData.woz);
+                socketNeeded = isPidocoSocketNeededForScenario(phaseStepData.tasks);
+                console.log('socketNeeded', socketNeeded);
                 break;
         }
     }
+
     return socketNeeded;
 }
 
-function isPidocoSocketNeededForScenario(wozData) {
-    if (wozData && wozData.length > 0) {
-        for (var i = 0; i < wozData.length; i++) {
-            if (wozData[i].transitionScenes && wozData[i].transitionScenes.length > 0) {
-                for (var j = 0; j < wozData[i].transitionScenes.length; j++) {
-                    var scene = getSceneById(wozData[i].transitionScenes[j].sceneId);
-                    if (scene.type === SCENE_PIDOCO) {
-                        return true;
+function isPidocoSocketNeededForScenario(tasks) {
+    if (tasks && tasks.length > 0) {
+        for (var k = 0; k < tasks.length; k++) {
+            var wozData = tasks[k].woz;
+            for (var i = 0; i < wozData.length; i++) {
+                if (wozData[i].transitionScenes && wozData[i].transitionScenes.length > 0) {
+                    for (var j = 0; j < wozData[i].transitionScenes.length; j++) {
+                        var scene = getSceneById(wozData[i].transitionScenes[j].sceneId);
+                        if (scene.type === SCENE_PIDOCO) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -3000,7 +3005,7 @@ $(document).on('click', '.btn-download-as-gif', function (event) {
                 if (!obj.error) {
                     var blob = dataURItoBlob(obj.image);
                     saveAs(blob, gesture.title + ".gif");
-                    
+
                 }
                 unlockButton(button, true, 'fa-file-image-o');
             });
