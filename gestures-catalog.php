@@ -46,6 +46,7 @@ if (login_check($mysqli) == true) {
 
         <script src="js/upload-queue.js"></script>
         <script src="js/gifshot/gifshot.min.js"></script>
+        <script src="js/color-thief/color-thief.js"></script> 
         <script src="js/filesaver/FileSaver.min.js"></script>
 
         <!--         gesture recorder sources 
@@ -554,7 +555,8 @@ if (login_check($mysqli) == true) {
             var options = {
                 recorderTarget: recorder,
                 alertTarget: $('#gesture-recorder-content'),
-                saveGestures: true,
+                autoplayRecording: true,
+                saveGesture: true,
                 checkType: true,
                 checkInteractionType: true,
                 showIntroduction:true,

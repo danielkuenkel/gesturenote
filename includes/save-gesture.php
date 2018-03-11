@@ -11,13 +11,13 @@ $target_dir = "../uploads/";
 $target_preview_dir = "uploads/";
 
 session_start();
-if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['gestureImages'], $_POST['gif'], $_POST['sensorData'])) {
+if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['association'], $_POST['description'], $_POST['joints'], $_POST['previewImage'], $_POST['images'], $_POST['gif'], $_POST['sensorData'])) {
+    $userId = $_SESSION['user_id'];
     $ownerId = $_SESSION['user_id'];
     if (isset($_POST['ownerId']) && $_POST['ownerId'] != null) {
         $ownerId = $_POST['ownerId'];
     }
-
-    $userId = $_SESSION['user_id'];
+    
     $source = $_SESSION['usertype'];
     $scope = 'private';
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
@@ -25,10 +25,11 @@ if (isset($_SESSION['usertype'], $_POST['title'], $_POST['context'], $_POST['ass
     $association = filter_input(INPUT_POST, 'association', FILTER_SANITIZE_STRING);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
     $joints = json_encode($_POST['joints']);
+    $imageURLs = $_POST['images'];
     $previewImage = $_POST['previewImage'];
-    $imageURLs = $_POST['gestureImages'];
     $gif = $_POST['gif'];
-    $sensorData = json_encode($_POST['sensorData']);
+    $encodedSensorData = json_encode($_POST['sensorData']);
+    $sensorData = $encodedSensorData === '' ? NULL : $encodedSensorData;
     $dbImageURLs = json_encode($imageURLs);
 
     if (isset($_POST['type'])) {

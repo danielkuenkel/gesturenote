@@ -1002,7 +1002,7 @@ include '../includes/language.php';
     });
 
     function renderSensorData() {
-        if (currentPreviewGesture.gesture.sensorData !== null) {
+        if (currentPreviewGesture.gesture.sensorData !== null && currentPreviewGesture.gesture.sensorData !== '') {
             switch (currentPreviewGesture.gesture.sensorData.sensor) {
                 case 'leap':
                     initializeLeapmotionPlayer();

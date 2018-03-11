@@ -15,8 +15,8 @@ include '../includes/language.php';
 
     <div class="root deleteable" id="gestures-catalog-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-shadow">
-            <div class="">
-                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+            <div class="embed-responsive embed-responsive-4by3">
+                <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
@@ -44,8 +44,8 @@ include '../includes/language.php';
 
     <div class="root" id="classified-gestures-catalog-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-shadow">
-            <div class="">
-                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+            <div class="embed-responsive embed-responsive-4by3">
+                <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
@@ -74,8 +74,8 @@ include '../includes/language.php';
 
     <div class="root" id="potential-gestures-catalog-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-shadow">
-            <div class="">
-                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+            <div class="embed-responsive embed-responsive-4by3">
+                <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
@@ -104,8 +104,8 @@ include '../includes/language.php';
 
     <div class="root" id="simple-gesture-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-shadow">
-            <div class="">
-                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+            <div class="embed-responsive embed-responsive-4by3">
+                <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
@@ -125,8 +125,8 @@ include '../includes/language.php';
 
     <div class="root" id="rudimentary-gesture-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-shadow">
-            <div class="">
-                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+            <div class="embed-responsive embed-responsive-4by3">
+                <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
@@ -150,7 +150,8 @@ include '../includes/language.php';
             </div>
 
             <div class="panel-body">
-                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+                <div class="embed-responsive embed-responsive-4by3">
+                    <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
@@ -158,6 +159,7 @@ include '../includes/language.php';
                         <button type="button" class="btn btn-default" id="btn-step-backward-gesture"><i class="fa fa-backward"></i></button>
                         <button type="button" class="btn btn-default" id="btn-step-forward-gesture"><i class="fa fa-forward"></i></button>
                     </div>
+                </div>
                 </div>
             </div>
             <div class="panel-footer">
@@ -172,8 +174,8 @@ include '../includes/language.php';
 
     <div class="root" id="favorite-gesture-catalog-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-shadow">
-            <div class="">
-                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+            <div class="embed-responsive embed-responsive-4by3">
+                <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>
@@ -228,8 +230,8 @@ include '../includes/language.php';
 
     <div class="root" id="add-gesture-to-scene-thumbnail">
         <div class="thumbnail gesture-thumbnail btn-shadow">
-            <div class="">
-                <div class="previewGesture embed-responsive embed-responsive-4by3"></div>
+            <div class="embed-responsive embed-responsive-4by3">
+                <div class="previewGesture"></div>
                 <div class="text-center hidden gestureControls">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" id="btn-play-gesture"><i class="fa fa-play"></i></button>

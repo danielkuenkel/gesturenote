@@ -237,6 +237,27 @@ and open the template in the editor.
     background-image: none;
 }
 
+/*
+* gesture recorder slider
+*/
+#recorder-webcam-slider-controls .slider-track {
+    border-radius: 0px 0px 4px 4px;
+}
+#recorder-webcam-slider-controls .slider-selection {
+    background: none;
+    box-shadow: none;
+}
+#recorder-webcam-playback-crop-slider-container .slider-selection {
+    background: #0480BE;
+    opacity: .2;
+}
+#recorder-webcam-slider-controls .slider-rangeHighlight.isGesture {
+    background: #0480BE;
+    opacity: .2;
+}
+
+
+
 #sliderLeap .slider-rangeHighlight.category1 {
     background: #0480BE;
     opacity: .2;
@@ -250,4 +271,9 @@ and open the template in the editor.
 
 .controls-container {
     opacity: 0;
+}
+
+.btn-gesture-recorder-nav {
+    font-size: 10pt;
+    padding: 4px 9px !important;
 }

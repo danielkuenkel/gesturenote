@@ -58,7 +58,8 @@
         "hours": "Stunden",
         "minutes": "Minuten",
         "seconds": "Sekunden",
-        "milliseconds": "Millisekunden"
+        "milliseconds": "Millisekunden",
+        "millisecondsShort": "ms"
     },
     "timesSingular": {
         "days": "Tag",
@@ -1217,10 +1218,10 @@
         "dynamics": "Dynamische Gesten"
     },
     "gestureInteractionTypes": {
-        "discrete": "Diskrete Gesten-Interaktion",
-        "discretes": "Diskrete Gesten-Interaktionen",
-        "continuous": "Kontinuierliche Gesten-Interaktion",
-        "continuouss": "Kontinuierliche Gesten-Interaktionen"
+        "discrete": "Diskret",
+        "discretes": "Diskrete",
+        "continuous": "Kontinuierlich",
+        "continuouss": "Kontinuierliche"
     },
     "bodyTypes": {
         "full": "Ganzkörper",
@@ -1431,8 +1432,6 @@
     "userCenteredGestureExtraction": "Nutzer-zentrierte Gesten-Extraktion",
     "userCenteredTriggerExtraction": "Nutzer-zentrierte Funktionen-Extraktion",
     "questionTriggerSlideshow": "Welche Funktion wird von der gezeigten Geste ausgelöst?",
-    "choosePreviewImage": "Vorschaubild wählen",
-    "stopChoosePreviewImage": "Auswahl beenden",
     "allGestures": "Alle Gesten",
     "gestureSets": "Gesten-Sets",
     "gestureRecorder": "Gesten-Recorder",
@@ -1476,6 +1475,7 @@
     "downloadAsGIF": "Als GIF herunterladen",
     "downloadAsJSON": "Als JSON-Datei herunterladen",
     "downloadAsCompressed": "Als komprimierte Datei herunterladen",
+    "tagAsPreviewImage": "Vorschaubild festlegen",
     "runsPerGesture": "Durchläufe pro Geste",
     "oneMore": "Einer mehr",
     "oneLess": "Einer weniger",
@@ -1543,7 +1543,6 @@
     "startRecording": "Aufzeichnung starten",
     "stopRecording": "Aufzeichnung beenden",
     "videoDataLoading": "Einen Moment bitte... Videodaten werden geladen.",
-    "selectPreviewImage": "Vorschaubild auswählen",
     "preview": "Vorschau",
     "recut": "Neu schneiden",
     "reRecord": "Neue Aufzeichnung",
@@ -1557,6 +1556,11 @@
     "deleteSavedGesture": "Gespeicherte Geste löschen",
     "recordMoreGestures": "Weitere Geste aufzeichnen",
     "imageExportEvery": "Bild-Export alle",
+    "gestureRecorderNavigation": {
+        "record": "Aufzeichnen",
+        "cut": "Schneiden",
+        "save": "Speichern"
+    },
     "gestureRecorderManual": {
         "recordGesture": {
             "headline": "Geste aufzeichnen",

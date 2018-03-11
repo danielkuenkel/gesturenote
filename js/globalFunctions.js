@@ -2991,24 +2991,68 @@ $(document).on('click', '.btn-download-as-gif', function (event) {
         var gesture = getGestureById($(this).attr('data-gesture-id'));
         if (gesture) {
             lockButton(button, true, 'fa-file-image-o');
-            // create gif from gesture images
-            gifshot.createGIF({
-                gifWidth: 320,
-                gifHeight: 240,
-                images: gesture.images,
-                interval: 0.1,
-                numFrames: 10,
-                frameDuration: 1,
-                sampleInterval: 3,
-                numWorkers: 2
-            }, function (obj) {
-                if (!obj.error) {
-                    var blob = dataURItoBlob(obj.image);
-                    saveAs(blob, gesture.title + ".gif");
-
-                }
+            createGIF(gesture.images, gesture.title, true, function () {
+                unlockButton(button, true, 'fa-file-image-o');
+            });
+        } else {
+            lockButton(button, true, 'fa-file-image-o');
+            var gestureImages = $(this).closest('.root').find('.gestureImage');
+            var imageArray = [];
+            for (var i = 0; i < gestureImages.length; i++) {
+                imageArray.push($(gestureImages[i]).attr('src'));
+            }
+            var title = hex_sha512(new Date().toDateString());
+            createGIF(imageArray, title, true, function () {
                 unlockButton(button, true, 'fa-file-image-o');
             });
         }
+    }
+});
+
+
+// create gif from gesture images
+function createGIF(images, title, downloadGIF, callback) {
+    gifshot.createGIF({
+        gifWidth: 320,
+        gifHeight: 240,
+        images: images,
+        interval: 0.1,
+        numFrames: 10,
+        frameDuration: 1,
+        sampleInterval: 3,
+        numWorkers: 2
+    }, function (obj) {
+        if (!obj.error) {
+            var blob = dataURItoBlob(obj.image);
+            if (downloadGIF && downloadGIF === true && title) {
+                saveAs(blob, title + ".gif");
+            }
+
+            if (callback) {
+                callback(blob);
+            }
+        }
+    });
+}
+
+
+$(document).on('click', '.btn-tag-as-preview', function (event) {
+    event.preventDefault();
+
+    if (!$(this).hasClass('disabled')) {
+        var button = $(this);
+        lockButton(button, true, 'fa-bookmark-o');
+        var gestureImages = $(this).closest('.root').find('.gestureImage');
+        $(gestureImages).removeClass('previewImage');
+        $(this).closest('.root').find('.webcam-image-container .active').addClass('previewImage');
+
+        var gesture = getGestureById($(this).attr('data-gesture-id'));
+        if (gesture) {
+
+        } else {
+
+        }
+
+        unlockButton(button, true, 'fa-bookmark-o');
     }
 });

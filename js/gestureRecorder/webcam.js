@@ -1,18 +1,16 @@
 /*
- * constants
+ * create WebcamRecorder instance with new WebcamRecorder(options).
+ * Use the GestureRecorder class for controlling this recorder.
  */
-var EVENT_GR_UPDATE_STATE = 'updateState';
-var EVENT_GR_STATE_RECORD = 'stateRecord';
-var EVENT_GR_STATE_PLAYBACK = 'statePlayback';
-var EVENT_GR_STATE_PREVIEW = 'statePreview';
-var EVENT_GR_STATE_SAVE = 'stateSave';
-var EVENT_GR_STATE_SAVE_SUCCESS = 'stateSaveSuccess';
-var EVENT_GR_STATE_DELETE_SUCCESS = 'stateDeleteSuccess';
-var EVENT_GR_SAVE_SUCCESS = 'saveSuccess';
-var EVENT_GR_DELETE_SUCCESS = 'deleteSuccess';
 
-WebcamRecorder.prototype.options = null;
 var webcamRecorder;
+WebcamRecorder.prototype.options = null;
+WebcamRecorder.prototype.mediaStream = null;
+WebcamRecorder.prototype.mediaRecorder = null;
+WebcamRecorder.prototype.recordingChunks = [];
+WebcamRecorder.prototype.startRecordingTime = null;
+WebcamRecorder.prototype.endRecordingTime = null;
+
 function WebcamRecorder(options) {
     this.options = options;
     webcamRecorder = this;
@@ -35,14 +33,9 @@ function WebcamRecorder(options) {
     }
 }
 
-// media recorder functions
 function onError(error) {
     console.log(error);
 }
-
-WebcamRecorder.prototype.mediaStream = null;
-WebcamRecorder.prototype.mediaRecorder = null;
-WebcamRecorder.prototype.recordingChunks = [];
 
 function onSuccess(stream) {
     webcamRecorder.mediaStream = stream;
@@ -50,29 +43,40 @@ function onSuccess(stream) {
     $(video)[0].onloadedmetadata = function () {
         $(webcamRecorder).trigger('ready', [TYPE_RECORD_WEBCAM]);
     };
-    var vendorURL = window.URL || window.webkitURL;
-    $(video).attr('src', vendorURL.createObjectURL(stream));
+
+    try {
+        video[0].srcObject = stream;
+    } catch (error) {
+        video[0].src = URL.createObjectURL(stream);
+    }
 
     if (!webcamRecorder.mediaRecorder || webcamRecorder.mediaRecorder === undefined) {
         webcamRecorder.mediaRecorder = new MediaRecorder(stream);
+
+        webcamRecorder.mediaRecorder.onstart = function () {
+            console.log('start recording webcam ... ');
+            webcamRecorder.startRecordingTime = new Date().getTime();
+            webcamRecorder.recordingChunks = [];
+            $(webcamRecorder).trigger('recordingStarted', [TYPE_RECORD_WEBCAM]);
+        };
 
         webcamRecorder.mediaRecorder.ondataavailable = function (event) {
             console.log('on data available');
 
             if (event.data && event.data.size > 0) {
+                var chunks = getLocalItem('recordingChunks');
                 webcamRecorder.recordingChunks.push(event.data);
             }
         };
 
-        webcamRecorder.mediaRecorder.onstart = function () {
-            console.log('Start recording ... ');
-            webcamRecorder.recordingChunks = [];
-        };
-
         webcamRecorder.mediaRecorder.onstop = function () {
             console.log('Stopped recording, state = ' + webcamRecorder.mediaRecorder.state);
-            webcamRecorder.recordingChunks = [];
-
+            webcamRecorder.endRecordingTime = new Date().getTime();
+            try {
+                video[0].srcObject = null;
+            } catch (error) {
+                video[0].src = null;
+            }
             $(webcamRecorder).trigger('recordingStopped', [TYPE_RECORD_WEBCAM]);
         };
 
@@ -87,23 +91,355 @@ function onSuccess(stream) {
 }
 
 WebcamRecorder.prototype.record = function () {
-    console.log('record webcam');
+    var playbackVideo = $(webcamRecorder.options.parent).find('#webcam-preview .playback-webcam-video');
+    $(playbackVideo).attr('src', '');
+    $(playbackVideo).unbind('timeupdate');
+
     if (webcamRecorder.mediaRecorder) {
-        webcamRecorder.mediaRecorder.start(500);
+        webcamRecorder.mediaRecorder.start(1000);
     }
 };
 
 var stopRecordingCallback = null;
 WebcamRecorder.prototype.stopRecord = function (callback) {
-    console.log('stop record webcam');
-
     if (webcamRecorder.mediaRecorder) {
         webcamRecorder.mediaRecorder.stop();
 
         if (webcamRecorder.mediaStream) {
-            webcamRecorder.mediaStream.getVideoTracks()[0].stop();
+            if (webcamRecorder.mediaStream.getAudioTracks()[0])
+                webcamRecorder.mediaStream.getAudioTracks()[0].stop();
+            if (webcamRecorder.mediaStream.getVideoTracks()[0])
+                webcamRecorder.mediaStream.getVideoTracks()[0].stop();
         }
     }
+};
+
+WebcamRecorder.prototype.playback = function () {
+    var video = $(webcamRecorder.options.parent).find('.gr-playback .playback-webcam-video');
+
+    var file = new File(webcamRecorder.recordingChunks, 'webcam', {type: "video/webm"});
+    var obj_url = window.URL.createObjectURL(file);
+    $(video).attr('src', obj_url);
+    var duration = getSeconds(getTimeBetweenTimestamps(webcamRecorder.startRecordingTime, webcamRecorder.endRecordingTime), true);
+
+    $(video)[0].onloadedmetadata = function () {
+        if (video[0].duration === Infinity) {
+            $(video).removeAttr('loop');
+            video[0].playbackRate = 2;
+            video[0].currentTime = duration - 2;
+
+            $(video).bind('ended', function () {
+                console.log('video ended -> duration: ', this.duration);
+                $(video).unbind('ended');
+                $(video).attr('loop', 'loop');
+                video[0].playbackRate = 1;
+                video[0].currentTime = 0;
+                initializePlaybackControls();
+                if (video[0].duration !== Infinity) {
+                    $(webcamRecorder).trigger('playbackReady', [TYPE_RECORD_WEBCAM]);
+                    window.URL.revokeObjectURL(obj_url);
+                }
+            });
+
+            setTimeout(function () {
+                video[0].play();
+            }, 150);
+        } else {
+            initializePlaybackControls();
+            $(webcamRecorder).trigger('playbackReady', [TYPE_RECORD_WEBCAM]);
+        }
+    };
+};
+
+WebcamRecorder.prototype.play = function () {
+    if (!$(webcamRecorder.options.parent).find('#btn-toggle-playback').hasClass('playing')) {
+        $(webcamRecorder.options.parent).find('#btn-toggle-playback').click();
+    }
+};
+
+WebcamRecorder.prototype.stop = function () {
+    if ($(webcamRecorder.options.parent).find('#btn-toggle-playback').hasClass('playing')) {
+        $(webcamRecorder.options.parent).find('#btn-toggle-playback').click();
+    }
+};
+
+var crops = {};
+function initializePlaybackControls() {
+    resetPlaybackControls();
+    var togglePlaybackButton = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #btn-toggle-playback');
+    var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');
+    var playbackSlider = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #webcam-playback-slider');
+    var toggleCroppingButton = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #btn-toggle-cropping');
+    var cropSlider = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #webcam-crop-slider');
+    crops = {left: 0, right: playbackVideo[0].duration};
+
+    function initPlaybackSlider(highlightRange) {
+        var sliderOptions = {
+            min: 0,
+            max: playbackVideo[0].duration,
+            step: 0.001,
+            precision: 3,
+            value: 0
+        };
+
+        if (highlightRange === true && (crops.left > 0 || crops.right < sliderOptions.max)) {
+            sliderOptions.rangeHighlights = [{start: crops.left, end: crops.right, class: "isGesture"}];
+        }
+
+        $(playbackVideo).unbind('timeupdate');
+        $(playbackSlider).unbind('change');
+        $(playbackSlider).slider(sliderOptions);
+        $(playbackSlider).slider('destroy');
+        $(playbackSlider).slider(sliderOptions);
+
+        $(playbackSlider).unbind('change').bind('change', function (event) {
+            $(playbackSlider).addClass('sliding');
+            event.preventDefault();
+            $(playbackSlider).addClass('sliding');
+            if ($(togglePlaybackButton).hasClass('playing')) {
+                $(togglePlaybackButton).click();
+            }
+            $(playbackVideo)[0].currentTime = event.value.newValue;
+        });
+
+        $(playbackVideo).unbind('timeupdate').bind('timeupdate', function () {
+            if (!$(playbackSlider).hasClass('sliding')) {
+                if (playbackVideo[0].currentTime < crops.left || playbackVideo[0].currentTime > crops.right) {
+                    playbackVideo[0].currentTime = crops.left;
+                }
+                $(playbackSlider).slider('setValue', $(playbackVideo)[0].currentTime);
+            }
+        });
+    }
+
+    initPlaybackSlider();
+
+    $(togglePlaybackButton).unbind('click').bind('click', function (event) {
+        event.preventDefault();
+
+        if ($(toggleCroppingButton).hasClass('cropping')) {
+            $(toggleCroppingButton).click();
+            $(playbackSlider).slider('setValue', crops.left);
+        }
+
+        if ($(togglePlaybackButton).hasClass('playing')) {
+
+            $(togglePlaybackButton).removeClass('playing');
+            $(this).find('.fa').removeClass('fa-pause').addClass('fa-play');
+            playbackVideo[0].pause();
+        } else {
+            $(togglePlaybackButton).addClass('playing');
+            $(this).find('.fa').removeClass('fa-play').addClass('fa-pause');
+
+            if (playbackVideo[0].currentTime < crops.left || playbackVideo[0].currentTime > crops.right) {
+                playbackVideo[0].currentTime = crops.left;
+            }
+            $(playbackSlider).removeClass('sliding');
+            playbackVideo[0].play();
+        }
+    });
+
+    if (toggleCroppingButton) {
+
+        $(toggleCroppingButton).unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            if (!$(this).hasClass('disabled')) {
+                if ($(togglePlaybackButton).hasClass('playing')) {
+                    $(togglePlaybackButton).click();
+                }
+
+                if ($(this).hasClass('cropping')) {
+                    $(this).removeClass('cropping');
+
+                    $(playbackSlider).slider('destroy');
+                    $(playbackSlider).parent().removeClass('hidden');
+
+                    $(cropSlider).slider('destroy');
+                    $(cropSlider).parent().addClass('hidden');
+
+                    initPlaybackSlider(true);
+                    $(playbackSlider).slider('setValue', crops.left);
+                } else {
+                    $(this).addClass('cropping');
+                    $(playbackSlider).parent().addClass('hidden');
+                    $(cropSlider).parent().removeClass('hidden disabled');
+
+                    $(cropSlider).slider({
+                        min: 0,
+                        max: playbackVideo[0].duration,
+                        step: 0.001,
+                        precision: 3,
+                        value: [crops.left, crops.right]
+                    });
+
+                    $(cropSlider).unbind('change').bind('change', function (event) {
+                        updateCropping(event.value.newValue);
+                    });
+                }
+            }
+        });
+    }
+
+    function updateCropping(newValues) {
+        if (crops.left !== newValues[0]) {
+            crops.left = newValues[0];
+            $(playbackVideo)[0].currentTime = crops.left;
+        } else if (crops.right !== newValues[1]) {
+            crops.right = newValues[1];
+            $(playbackVideo)[0].currentTime = crops.right;
+        }
+    }
+}
+
+function resetPlaybackControls() {
+    var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');
+    $(playbackVideo).attr('loop', 'loop');
+    $(playbackVideo).css({borderBottomLeftRadius: "0px", borderBottomRightRadius: "0px"});
+
+    var preview = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview');
+    $(preview).find('.gr-playback .controls-container').removeClass('hidden');
+    $(preview).find('.gr-playback #recorder-webcam-slider-controls').removeClass('hidden');
+    $(preview).find('.gr-playback #keyframeSelect').removeClass('hidden');
+}
+
+var draw_interval = null;
+var saveGestureData = null;
+var reachTimeout = null;
+WebcamRecorder.prototype.extract = function () {
+    extractionStopped = false;
+
+    var togglePlaybackButton = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview #btn-toggle-playback');
+    var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');
+
+    $(playbackVideo).removeAttr('loop');
+    $(playbackVideo).css({borderRadius: "4px"});
+
+    if ($(togglePlaybackButton).hasClass('playing')) {
+        $(togglePlaybackButton).click();
+    }
+    $(playbackVideo)[0].currentTime = crops.left;
+
+    var preview = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview');
+    $(preview).find('.controls-container').addClass('hidden');
+    $(preview).find('#recorder-webcam-slider-controls').addClass('hidden');
+    $(preview).find('#keyframeSelect').addClass('hidden');
+    var keyframes = Math.min(Math.max(parseInt($(preview).find('#keyframeSelect .stepper-text').val()), 80), 500);
+    var shotsArray = [], blobsArray = [];
+
+    $(playbackVideo)[0].addEventListener('play', handleKeyframeExtraction(keyframes, shotsArray, blobsArray), false);
+
+    $(togglePlaybackButton).click();
+    reachTimeout = setTimeout(offsetReached, (crops.right - crops.left) * 1000);
+
+    function offsetReached() {
+        clearInterval(draw_interval);
+        if ($(togglePlaybackButton).hasClass('playing')) {
+            $(togglePlaybackButton).click();
+        }
+        if (shotsArray.length > 0) {
+            if (!extractionStopped) {
+                saveGestureData = {images: shotsArray, blobs: blobsArray, previewImage: 0};
+                $(webcamRecorder).trigger('dataExtracted', [TYPE_RECORD_WEBCAM]);
+            }
+        } else {
+            $(webcamRecorder).trigger(GR_EVENT_GESTURE_TOO_SHORT, [TYPE_RECORD_WEBCAM]);
+            resetPlaybackControls();
+        }
+    }
+};
+
+var handleKeyframeExtraction = function (keyframes, shotsArray, blobsArray) {
+    var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');
+
+    var canvas = document.createElement('canvas');
+    canvas.width = $(playbackVideo).width();
+    canvas.height = $(playbackVideo).height();
+    var ctx_draw = canvas.getContext('2d');
+    draw_interval = setInterval(function () {
+        ctx_draw.drawImage($(playbackVideo)[0], 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(function (blob) {
+            var url = URL.createObjectURL(blob);
+            var colorThief = new ColorThief();
+            var dominantColor = colorThief.getColor(canvas);
+            
+            // black frame detection
+            if (dominantColor && (dominantColor[0] + dominantColor[1] + dominantColor[2]) > 0) {
+                shotsArray.push(url);
+                blobsArray.push(blob);
+            } else {
+                console.log('black frame ignored');
+            }
+        }, 'image/jpeg', 0.8);
+    }, keyframes);
+};
+
+var extractionStopped = false;
+WebcamRecorder.prototype.stopExtraction = function () {
+    extractionStopped = true;
+    var playbackVideo = $(webcamRecorder.options.parent).find('#webcam-preview .playback-webcam-video');
+    $(playbackVideo)[0].removeEventListener('play', handleKeyframeExtraction);
+    if (reachTimeout) {
+        clearTimeout(reachTimeout);
+    }
+};
+
+WebcamRecorder.prototype.showSave = function () {
+    var preview = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview');
+    $(preview).find('.controls-container').removeClass('hidden');
+    $(preview).find('#recorder-webcam-slider-controls').removeClass('hidden');
+    $(preview).find('#keyframeSelect').removeClass('hidden');
+
+    var playbackVideo = $(preview).find('.playback-webcam-video');
+    $(playbackVideo).attr('loop', 'loop');
+    $(playbackVideo).css({borderRadius: "4px 4px 0px 0px"});
+
+    renderGesturePreview($(webcamRecorder.options.parent).find('.gr-save #webcam-save-preview'), saveGestureData);
+    if (webcamRecorder.options.context) {
+        $(webcamRecorder.options.parent).find('.gr-save #gestureContext').val(webcamRecorder.options.context);
+    }
+};
+
+WebcamRecorder.prototype.attachSaveData = function (uploadFiles) {
+    var saveData = {};
+    saveData.previewImage = $(webcamRecorder.options.parent).find('.gr-save #webcam-save-preview .webcam-image-container .previewImage').attr('data-index');
+
+    if (uploadFiles && uploadFiles === true) {
+        var uploadQueue = new UploadQueue();
+        $(uploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
+            saveData.images = uploadQueue.getUploadURLs();
+            var gifUploadQueue = new UploadQueue();
+            $(gifUploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
+                saveData.gif = gifUploadQueue.getUploadURLs()[0];
+                $(webcamRecorder).trigger('saveDataAttached', [TYPE_RECORD_WEBCAM, saveData]);
+            });
+
+            // create gif from gesture images and upload it
+            var filename = hex_sha512(new Date().getTime() + "" + i) + ".gif";
+            createGIF(saveGestureData.images, filename, false, function (blob) {
+                gifUploadQueue.upload([blob], filename);
+            });
+
+        });
+
+        // upload gesture images
+        for (var i = 0; i < saveGestureData.blobs.length; i++) {
+            var filename = hex_sha512(new Date().getTime() + "" + i) + ".jpg";
+            console.log(saveGestureData.blobs[i]);
+            uploadQueue.upload([saveGestureData.blobs[i]], filename);
+        }
+    } else {
+        saveData.images = saveGestureData.images;
+        createGIF(saveGestureData.images, null, false, function (blob) {
+            saveData.gif = blob;
+            $(webcamRecorder).trigger('saveDataAttached', [TYPE_RECORD_WEBCAM, saveData]);
+        });
+    }
+};
+
+
+WebcamRecorder.prototype.showSaveSuccess = function (saveData) {
+    var preview = $(webcamRecorder.options.parent).find('#webcam-save-success-preview');
+    renderGesturePreview(preview, saveData);
 };
 
 WebcamRecorder.prototype.destroy = function () {
@@ -113,670 +449,17 @@ WebcamRecorder.prototype.destroy = function () {
         if (webcamRecorder.mediaStream.getVideoTracks()[0])
             webcamRecorder.mediaStream.getVideoTracks()[0].stop();
     }
+
+    var playbackVideo = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview .playback-webcam-video');
+    if (playbackVideo) {
+        $(playbackVideo).stop();
+        $(playbackVideo).removeAttr('src');
+    }
+
+    webcamRecorder.stop();
 };
 function resetRecorder() {
     webcamRecorder.destroy();
-}
-
-//function initializeRecorder() {
-//    clearAlerts(webcamRecorder.options.alertTarget);
-//    resetRecorder();
-//    if (webcamRecorder.options.initMediaStream === false) {
-//        successCallback(null);
-//    } else {
-//        var mediaConstraints = {video: true, audio: false};
-//        navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
-//    }
-//}
-
-//function errorCallback(error) {
-//    alert(error);
-//    // maybe another application is using the device
-//}
-
-//var recordRTC, liveStream;
-//function successCallback(stream) {
-//    switch (webcamRecorder.options.startState) {
-//        case EVENT_GR_STATE_PLAYBACK:
-//            initPlayback(webcamRecorder.options.videoUrl);
-////            $('.recorder #recorder-video').attr('src', recorder.options.videoUrl);
-////            showPlayback();
-//            break;
-//        default:
-//            liveStream = stream;
-//            $(webcamRecorder.options.recorderTarget).find('#recorder-video').attr('src', URL.createObjectURL(stream));
-//            showRecord();
-//            break;
-//    }
-//    initPopover();
-//}
-
-var timerTween = null;
-function showRecord() {
-    $(webcamRecorder.options.recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_RECORD]);
-    $(webcamRecorder.options.recorderTarget).find('.recorder #btn-record').removeClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('.recorder #btn-record-stop').addClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('.recorder #recorder-video').removeClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('.recorder .gesture-recorder-controls').removeClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('.recorder #recorder-video').removeAttr('loop');
-    $(webcamRecorder.options.recorderTarget).find('#recorder-video').css({borderRadius: "4px", borderBottomLeftRadius: "0px", borderBottomRightRadius: "0px"});
-    $(webcamRecorder.options.recorderTarget).find('.recorder #record-controls').removeClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('.recorder #playback-controls').addClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('.recorder #preview-controls').addClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('.recorder #trim-controls').addClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('#record-timer-progress').removeClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('#record-timer-progress-bar').css({width: '100%'});
-    hideSave();
-    resetTrimControls();
-    if (webcamRecorder.options.sensorRecording && recorder.options.sensorRecording === true) {
-        if (sensorPreview) {
-            sensorPreview.destroy();
-            sensorPreview = null;
-        }
-
-        $(webcamRecorder.options.recorderTarget).find('#useSensorSwitch').removeClass('hidden');
-        $(webcamRecorder.options.recorderTarget).find('#useSensorSwitch').unbind('change').bind('change', function () {
-            var sensor = $(this).find('.btn-option-checked').attr('id');
-            switch (sensor) {
-                case 'leap':
-                    initControllerEvents();
-                    $(webcamRecorder.options.recorderTarget).find('.recorder #btn-record').addClass('disabled');
-                    webcamRecorder.options.recordSensor = sensor;
-                    initializeLeapmotionRecorder();
-                    break;
-                default:
-                    $(webcamRecorder.options.recorderTarget).find('.recorder #btn-record').removeClass('disabled');
-                    if (sensorRecorder) {
-                        sensorRecorder.destroy();
-                        sensorRecorder = null;
-                    }
-                    break;
-            }
-        });
-        function initControllerEvents() {
-            $(document).on('recorderStateChanged', function (event, sensor, state) {
-                if (state === 'deviceStreaming') {
-                    console.log('stateChanged', event, state);
-                    $(webcamRecorder.options.recorderTarget).find('.recorder #btn-record').removeClass('disabled');
-                }
-            });
-        }
-    }
-
-    $(webcamRecorder.options.recorderTarget).find('#btn-record').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        if (!$(this).hasClass('disabled')) {
-            $(this).addClass('hidden');
-            $(webcamRecorder.options.recorderTarget).find('#btn-record-stop').removeClass('hidden');
-            var options = {
-                type: 'video',
-                mimeType: 'video/webm', // or video/mp4 or audio/ogg
-                video: {
-                    width: 320,
-                    height: 240
-                },
-                recorderType: RecordRTC.WhammyRecorder,
-                frameInterval: 40   // setTimeout interval, quality strength
-            };
-            recordRTC = RecordRTC(liveStream, options);
-            recordRTC.startRecording();
-            if (sensorRecorder) {
-                sensorRecorder.record();
-            }
-
-            timerTween = TweenMax.to($(webcamRecorder.options.recorderTarget).find('#record-timer-progress-bar'), 20, {width: '0%', ease: Linear.easeNone, onComplete: onRecordingTimesUp});
-        }
-    });
-    function onRecordingTimesUp() {
-        $(webcamRecorder.options.recorderTarget).find('#btn-record-stop').click();
-    }
-
-    $(webcamRecorder.options.recorderTarget).find('#btn-record-stop').unbind('click').bind('click', function (event) {
-        if (timerTween) {
-            timerTween.kill();
-        }
-
-        event.preventDefault();
-        if (liveStream) {
-            liveStream.getVideoTracks()[0].stop();
-        }
-
-        if (recordRTC) {
-            recordRTC.stopRecording(function (videoUrl) {
-                if (sensorRecorder) {
-                    sensorRecorder.stopRecord();
-                    sensorRecorderData = sensorRecorder.recording('json');
-                    sensorRecorder.destroy();
-                    sensorRecorder = null;
-                }
-                initPlayback(videoUrl);
-            });
-        }
-    });
-    $(webcamRecorder.options.recorderTarget).find('.btn-repeat-recording').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        initializeRecorder();
-    });
-}
-
-function initPlayback(videoUrl) {
-    var videoHolder = $(webcamRecorder.options.recorderTarget).find('#recorder-video');
-    $(videoHolder).attr('src', videoUrl);
-    $(videoHolder).on('loadedmetadata', function () {
-// google chrome no-duration workaround
-        if (videoHolder[0].duration === Infinity) {
-//            var duration = getSeconds(getTimeBetweenTimestamps(testerResults.startRecordingTime, testerResults.endRecordingTime), true);
-            console.log('no duration!');
-//            videoHolder[0].currentTime = duration - 2;
-            videoHolder[0].playbackRate = 100;
-            videoHolder[0].muted = true;
-            $(videoHolder).on('ended', function () {
-                console.log('on gesture record play ended');
-                $(videoHolder).unbind('ended');
-                videoHolder[0].playbackRate = 1;
-                videoHolder[0].muted = false;
-                videoHolder[0].currentTime = 0;
-                showPlayback();
-            });
-            setTimeout(function () {
-                videoHolder[0].play();
-            }, 150);
-        } else {
-            showPlayback();
-        }
-    });
-}
-
-var gestureStartMarked = false;
-function showPlayback() {
-    $(webcamRecorder.options.recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_PLAYBACK]);
-    $(webcamRecorder.options.recorderTarget).find('.recorder #recorder-video').attr('loop', 'loop');
-    $(webcamRecorder.options.recorderTarget).find('#recorder-video').css({borderRadius: "4px", borderBottomLeftRadius: "0px", borderBottomRightRadius: "0px"});
-    $(webcamRecorder.options.recorderTarget).find('.recorder #record-controls').addClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('.recorder #preview-controls').addClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('.recorder #playback-controls, .recorder .gesture-recorder-controls, .recorder #recorder-video').removeClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('#record-timer-progress').addClass('hidden');
-    hideSave();
-    if (sensorRecorderData && webcamRecorder.options.recordSensor) {
-        switch (webcamRecorder.options.recordSensor) {
-            case 'leap':
-                $(webcamRecorder.options.recorderTarget).find('#leap-preview-container').removeClass('hidden');
-                initializeLeapmotionPreview(sensorRecorderData);
-                break;
-        }
-
-//        var renderTarget = $(webcamRecorder.options.recorderTarget).find('#leap-recording-container #renderArea');
-//        sensorRecorder.updateRenderTarget(renderTarget);
-    }
-
-    $(webcamRecorder.options.recorderTarget).find('.recorder #recorder-video').unbind('timeupdate').bind('timeupdate', function () {
-        var percent = $(this)[0].currentTime / $(this)[0].duration * 100;
-        $(webcamRecorder.options.recorderTarget).find('.recorder #seek-bar .progress-bar').css({width: percent + '%'});
-    });
-    if (webcamRecorder.options.allowRerecordGesture === false) {
-        $(webcamRecorder.options.recorderTarget).find('.btn-repeat-recording').remove();
-    }
-    $(webcamRecorder.options.recorderTarget).find('.recorder #btn-play').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        $(webcamRecorder.options.recorderTarget).find('.recorder #recorder-video')[0].play();
-    });
-    $(webcamRecorder.options.recorderTarget).find('.recorder #btn-pause').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        $(webcamRecorder.options.recorderTarget).find('.recorder #recorder-video')[0].pause();
-    });
-    $(webcamRecorder.options.recorderTarget).find('.recorder #btn-stop').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        $(webcamRecorder.options.recorderTarget).find('.recorder #recorder-video')[0].pause();
-        $(webcamRecorder.options.recorderTarget).find('.recorder #recorder-video')[0].currentTime = 0;
-    });
-    $(webcamRecorder.options.recorderTarget).find('#btn-repeat-trimming').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        showPlayback();
-    });
-    // seekbar operations
-    $(webcamRecorder.options.recorderTarget).find('.recorder #seek-bar, .recorder #trim-bar').unbind('mousedown').bind('mousedown', function (event) {
-        event.preventDefault();
-        var video = $(webcamRecorder.options.recorderTarget).find('#recorder-video')[0];
-        var seekbar = $(webcamRecorder.options.recorderTarget).find('#seek-bar');
-        video.pause();
-        $(window).unbind('mousemove').bind('mousemove', function (event) {
-            var positionX = Math.max(0, Math.min(Math.round(event.pageX - $(seekbar).offset().left), $(seekbar).width()));
-            var time = video.duration * (positionX / $(seekbar).width());
-            video.currentTime = Math.min(time, video.duration - 0.0001);
-        });
-        $(window).on('mouseup', function () {
-            $(window).unbind('mousemove');
-        });
-        clearAlerts($(webcamRecorder.options.recorderTarget).find('#playback-controls'));
-    });
-    $(webcamRecorder.options.recorderTarget).find('#seek-bar, .recorder #trim-bar').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        var positionX = Math.abs(event.pageX - $(this).offset().left);
-        var video = $(webcamRecorder.options.recorderTarget).find('#recorder-video')[0];
-        var time = video.duration * (positionX / $(this).width());
-        video.currentTime = time;
-        clearAlerts($(webcamRecorder.options.recorderTarget).find('#playback-controls'));
-    });
-    // trim operations
-    $(webcamRecorder.options.recorderTarget).find('.recorder #btn-mark-start').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        var video = $(webcamRecorder.options.recorderTarget).find('#recorder-video')[0];
-        video.pause();
-        var totalWidth = $(webcamRecorder.options.recorderTarget).find('#seek-bar').width();
-        var beginningWidth = $(webcamRecorder.options.recorderTarget).find('#seek-bar .progress-bar').width();
-        if (!gestureStartMarked) {
-            gestureStartMarked = true;
-            $('.recorder #btn-mark-end').removeClass('disabled');
-        }
-        var currentBeginningWidth = $(webcamRecorder.options.recorderTarget).find('#gesture-beginning').width();
-        var currentGestureWidth = $(webcamRecorder.options.recorderTarget).find('#gesture-execution').width();
-        if (beginningWidth < currentBeginningWidth + currentGestureWidth) {
-            var currentEndingWidth = $(webcamRecorder.options.recorderTarget).find('#gesture-ending').width();
-            $(webcamRecorder.options.recorderTarget).find('#gesture-beginning').css({width: beginningWidth + 'px'});
-            $(webcamRecorder.options.recorderTarget).find('#gesture-execution').css({width: (totalWidth - 1 - currentEndingWidth - beginningWidth) + 'px'});
-        }
-        clearAlerts($(webcamRecorder.options.recorderTarget).find('#playback-controls'));
-    });
-    $(webcamRecorder.options.recorderTarget).find('.recorder #btn-mark-end').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        var video = $(webcamRecorder.options.recorderTarget).find('#recorder-video')[0];
-        video.pause();
-        var currentSeekWidth = $(webcamRecorder.options.recorderTarget).find('#seek-bar .progress-bar').width();
-        var beginningWidth = $(webcamRecorder.options.recorderTarget).find('#gesture-beginning').width();
-        if (gestureStartMarked && currentSeekWidth > beginningWidth) {
-            $(webcamRecorder.options.recorderTarget).find('#btn-extract-gesture').removeClass('disabled');
-            var totalWidth = $(webcamRecorder.options.recorderTarget).find('#seek-bar').width();
-            var gestureWidth = currentSeekWidth - beginningWidth;
-            var endingWidth = totalWidth - 1 - (beginningWidth + gestureWidth);
-            $(webcamRecorder.options.recorderTarget).find('#gesture-execution').css({width: gestureWidth + 'px'});
-            $(webcamRecorder.options.recorderTarget).find('#gesture-ending').css({width: endingWidth + 'px'});
-        } else if (!gestureStartMarked) {
-            wobble($(webcamRecorder.options.recorderTarget).find('#btn-mark-start'));
-        }
-        clearAlerts($(webcamRecorder.options.recorderTarget).find('#playback-controls'));
-    });
-    // trim operations, take screenshots and render the gesture preview based on the images (screenshots)
-    $('.recorder #btn-extract-gesture').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        if (!$(this).hasClass('disabled')) {
-            var video = $(webcamRecorder.options.recorderTarget).find('#recorder-video')[0];
-            $(webcamRecorder.options.recorderTarget).find('#recorder-video').removeAttr('loop');
-            $(webcamRecorder.options.recorderTarget).find('#recorder-video').css({borderRadius: "4px"});
-            $(webcamRecorder.options.recorderTarget).find('#btn-stop').click();
-            var totalWidth = $(webcamRecorder.options.recorderTarget).find('#seek-bar').width();
-            var startTimeOffset = ($(webcamRecorder.options.recorderTarget).find('#gesture-beginning').width() / totalWidth) * video.duration;
-            var endTimeOffset = (($(webcamRecorder.options.recorderTarget).find('#gesture-beginning').width() + $(recorder.options.recorderTarget).find('#gesture-execution').width()) / totalWidth) * video.duration;
-            $(webcamRecorder.options.recorderTarget).find('#playback-controls').addClass('hidden');
-            // take screenshots every x milliseconds (based on the chosen milliseconds)
-            var keyframes = $(webcamRecorder.options.recorderTarget).find('#keyframeSelect .chosen').attr('id').split('_')[1];
-            var shotsArray = new Array();
-            video.currentTime = startTimeOffset;
-            video.addEventListener('play', function () {
-                var canvas = document.createElement('canvas');
-                canvas.width = $(webcamRecorder.options.recorderTarget).find('#recorder-video').width();
-                canvas.height = $(webcamRecorder.options.recorderTarget).find('#recorder-video').height();
-                var ctx_draw = canvas.getContext('2d');
-                draw_interval = setInterval(function () {
-                    ctx_draw.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    shotsArray.push(canvas.toDataURL('image/jpeg'));
-                }, keyframes);
-            }, false);
-            $(webcamRecorder.options.recorderTarget).find('#btn-play').click();
-            setTimeout(offsetReached, (endTimeOffset - startTimeOffset) * 1000);
-            function offsetReached() {
-                clearInterval(draw_interval);
-                video.pause();
-                if (shotsArray.length > 0) {
-                    console.log(shotsArray.length, shotsArray);
-                    renderGestureImages($(webcamRecorder.options.recorderTarget).find('#preview-controls .previewGesture'), shotsArray, 0, function () {
-                        showPreview();
-                        showSave();
-                    });
-                } else {
-                    console.log('gesture too short');
-                    appendAlert($(webcamRecorder.options.recorderTarget).find('#playback-controls'), ALERT_GESTURE_TOO_SHORT);
-                    showPlayback();
-                }
-            }
-        } else {
-            wobble($(webcamRecorder.options.recorderTarget).find('#btn-mark-start,#btn-mark-end'));
-        }
-    });
-}
-
-function resetTrimControls() {
-    gestureStartMarked = false;
-    $(webcamRecorder.options.recorderTarget).find('#gesture-beginning').css({width: '100%'});
-    $(webcamRecorder.options.recorderTarget).find('#gesture-execution').css({width: '0%'});
-    $(webcamRecorder.options.recorderTarget).find('#gesture-ending').css({width: '0%'});
-    $(webcamRecorder.options.recorderTarget).find('#btn-mark-end, #btn-extract-gesture').addClass('disabled');
-}
-
-function showPreview() {
-    $(webcamRecorder.options.recorderTarget).find('#preview-controls').removeClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('#preview-controls #gesturePreview').addClass('previewProgress');
-    $(webcamRecorder.options.recorderTarget).find('#recorder-video').addClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('.gesture-recorder-controls').addClass('hidden');
-}
-
-function showSave() {
-    $(webcamRecorder.options.recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_SAVE]);
-    $(webcamRecorder.options.recorderTarget).find('#save-controls').removeClass('hidden');
-    if (webcamRecorder.options.context) {
-        $(webcamRecorder.options.recorderTarget).find('#gestureContext').val(recorder.options.context);
-    }
-
-    $('#gestureName, #gestureContext, #gestureAssociation, #gestureDescription').unbind('input').bind('input', function () {
-        if (gestureInputsValid()) {
-            $(webcamRecorder.options.recorderTarget).find('#btn-save-gesture').removeClass('disabled');
-        } else {
-            $(webcamRecorder.options.recorderTarget).find('#btn-save-gesture').addClass('disabled');
-        }
-    });
-    $('#gestureTypeSelect, #gestureInteractionTypeSelect').unbind('change').bind('change', function () {
-//        console.log('on change');
-        if (gestureInputsValid()) {
-            $(webcamRecorder.options.recorderTarget).find('#btn-save-gesture').removeClass('disabled');
-        } else {
-            $(webcamRecorder.options.recorderTarget).find('#btn-save-gesture').addClass('disabled');
-        }
-    });
-    $('#save-controls #human-body').unbind('change').bind('change', function () {
-        if (gestureInputsValid()) {
-            $(webcamRecorder.options.recorderTarget).find('#btn-save-gesture').removeClass('disabled');
-        } else {
-            $(webcamRecorder.options.recorderTarget).find('#btn-save-gesture').addClass('disabled');
-        }
-    });
-    if ($(webcamRecorder.options.recorderTarget).find('#btn-choose-preview-image').hasClass('active')) {
-        $(webcamRecorder.options.recorderTarget).find('#btn-choose-preview-image').removeClass('active');
-        $(webcamRecorder.options.recorderTarget).find('#btn-choose-preview-image').find('.text').text(translation.choosePreviewImage);
-        $(webcamRecorder.options.recorderTarget).find('#btn-choose-preview-image').find('.fa').removeClass('fa-check').addClass('fa-bookmark');
-    }
-
-    $(webcamRecorder.options.recorderTarget).find('#btn-choose-preview-image').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        if ($(this).hasClass('active')) {
-            $('.recorder #preview-controls').find('#btn-stop-gesture').click();
-            $(this).removeClass('active');
-            $(this).find('.text').text(translation.choosePreviewImage);
-            $(this).find('.fa').removeClass('fa-check').addClass('fa-bookmark');
-            $('.recorder #gesturePreview').removeClass('mouseScrollable');
-            $('.recorder #gesturePreview').unbind('click');
-        } else {
-            $('.recorder #preview-controls').find('#btn-stop-gesture').click();
-            $(this).addClass('active');
-            $(this).find('.text').text(translation.stopChoosePreviewImage);
-            $(this).find('.fa').removeClass('fa-bookmark').addClass('fa-check');
-            $('.recorder #gesturePreview').addClass('mouseScrollable');
-            $('.recorder #gesturePreview').unbind('click').bind('click', function (event) {
-                event.preventDefault();
-                var previewImage = $(this).children('.previewImage');
-                previewImage.removeClass('previewImage');
-                var visibleImage = $(this).children('.active');
-                visibleImage.addClass('previewImage');
-            });
-        }
-    });
-    $(webcamRecorder.options.recorderTarget).find('#btn-save-gesture').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        var button = $(this);
-        clearAlerts(webcamRecorder.options.alertTarget);
-        if (gestureInputsValid(true) && !$(this).hasClass('disabled')) {
-            lockButton(button, true, 'fa-floppy-o');
-//            $(button).addClass('disabled');
-            showCursor($('body'), CURSOR_PROGRESS);
-            $(webcamRecorder.options.recorderTarget).find('#btn-choose-preview-image').removeClass('active');
-            var gestureImagesData = getGestureImagesData($(webcamRecorder.options.recorderTarget).find('#gesturePreview'));
-            var previewImageIndex = getGesturePreviewIndex($(webcamRecorder.options.recorderTarget).find('#gesturePreview'));
-            var title = $(webcamRecorder.options.recorderTarget).find('#gestureName').val().trim();
-            var type = null;
-            var interactionType = null;
-            var context = $(webcamRecorder.options.recorderTarget).find('#gestureContext').val().trim();
-            var association = $(webcamRecorder.options.recorderTarget).find('#gestureAssociation').val().trim();
-            var description = $(webcamRecorder.options.recorderTarget).find('#gestureDescription').val().trim();
-            var joints = getSelectedJoints($(webcamRecorder.options.recorderTarget).find('#human-body #joint-container'));
-            if (webcamRecorder.options.checkType && recorder.options.checkType === true) {
-                type = $(webcamRecorder.options.recorderTarget).find('#gestureTypeSelect .btn-option-checked').attr('id');
-            }
-
-            if (webcamRecorder.options.checkInteractionType && recorder.options.checkInteractionType === true) {
-                interactionType = $(webcamRecorder.options.recorderTarget).find('#gestureInteractionTypeSelect .btn-option-checked').attr('id');
-            }
-
-            if (webcamRecorder.options.saveGestures && webcamRecorder.options.saveGestures === true) {
-                if (gestureImagesData && gestureImagesData.length > 0) {
-                    var uploadQueue = new UploadQueue();
-                    $(uploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
-                        var imagesURLs = uploadQueue.getUploadURLs();
-                        var gifUploadQueue = new UploadQueue();
-                        $(gifUploadQueue).bind(EVENT_ALL_FILES_UPLOADED, function () {
-                            var gifUrl = gifUploadQueue.getUploadURLs();
-                            var ownerId = webcamRecorder.options.ownerId || null;
-                            saveRecordedGesture({title: title, type: type, interactionType: interactionType, context: context, association: association, description: description, joints: joints, previewImage: previewImageIndex, gestureImages: imagesURLs, ownerId: ownerId, gif: gifUrl[0], sensorData: null}, function (result) {
-                                showCursor($('body'), CURSOR_DEFAULT);
-                                unlockButton(button, true, 'fa-floppy-o');
-                                if (result.status === RESULT_SUCCESS) {
-                                    var gesture = {
-                                        id: result.gestureId,
-                                        title: title,
-                                        context: context,
-                                        association: association,
-                                        description: description,
-                                        joints: joints,
-                                        previewImage: previewImageIndex,
-                                        images: imagesURLs
-                                    };
-                                    $(webcamRecorder.options.recorderTarget).trigger(EVENT_GR_SAVE_SUCCESS, [gesture]);
-                                    $(webcamRecorder.options.recorderTarget).find('#success-controls #btn-delete-saved-gesture').attr('name', result.gestureId);
-                                    renderGestureImages($(webcamRecorder.options.recorderTarget).find('#success-controls .previewGesture'), result.images, result.previewImage, null);
-                                    showSaveSuccess();
-                                } else if (result.status === RESULT_ERROR) {
-                                    appendAlert(webcamRecorder.options.alertTarget, ALERT_GENERAL_ERROR);
-                                }
-                            });
-                        });
-                        // create gif from gesture images
-                        gifshot.createGIF({
-                            gifWidth: 320,
-                            gifHeight: 240,
-                            images: imagesURLs,
-                            interval: 0.1,
-                            numFrames: 10,
-                            frameDuration: 1,
-                            sampleInterval: 3,
-                            numWorkers: 2
-                        }, function (obj) {
-                            if (!obj.error) {
-                                var blob = dataURItoBlob(obj.image);
-                                var filename = hex_sha512(new Date().getTime() + "" + i) + ".gif";
-                                gifUploadQueue.upload([blob], filename);
-                            }
-                        });
-                    });
-                    for (var i = 0; i < gestureImagesData.length; i++) {
-                        var blob = dataURItoBlob(gestureImagesData[i]);
-                        var filename = hex_sha512(new Date().getTime() + "" + i) + ".jpg";
-                        uploadQueue.upload([blob], filename);
-                    }
-                }
-            } else {
-                showCursor($('body'), CURSOR_DEFAULT);
-                $(button).removeClass('disabled');
-                $(webcamRecorder.options.recorderTarget).find('#success-controls #btn-delete-saved-gesture').addClass('disabled');
-                renderGestureImages($(webcamRecorder.options.recorderTarget).find('#success-controls .previewGesture'), gestureImagesData, previewImageIndex, null);
-                $(webcamRecorder.options.recorderTarget).trigger(EVENT_GR_SAVE_SUCCESS);
-                showSaveSuccess();
-            }
-        }
-    });
-    initPopover();
-}
-
-function hideSave() {
-    $(webcamRecorder.options.recorderTarget).find('#save-controls').addClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('#btn-save-gesture').unbind('click');
-}
-
-function resetInputs() {
-    $(webcamRecorder.options.recorderTarget).find('#gestureName').val('');
-    $(webcamRecorder.options.recorderTarget).find('#gestureContext').val('');
-    $(webcamRecorder.options.recorderTarget).find('#gestureAssociation').val('');
-    $(webcamRecorder.options.recorderTarget).find('#gestureTypeSelect .chosen').attr('id', 'unselected');
-    $(webcamRecorder.options.recorderTarget).find('#gestureTypeSelect .selected').removeClass('selected');
-    $(webcamRecorder.options.recorderTarget).find('.option-gesture-type').val('');
-    $(webcamRecorder.options.recorderTarget).find('#gestureInteractionTypeSelect .chosen').attr('id', 'unselected');
-    $(webcamRecorder.options.recorderTarget).find('#gestureInteractionTypeSelect .selected').removeClass('selected');
-    $(webcamRecorder.options.recorderTarget).find('.option-gesture-interaction-type').val('');
-    $(webcamRecorder.options.recorderTarget).find('#gestureDescription').val('');
-    $(webcamRecorder.options.recorderTarget).find('#save-controls #human-body #joint-container').children('.active').click();
-    $(webcamRecorder.options.recorderTarget).find('#save-controls #btn-save-gesture').addClass('disabled');
-}
-
-function gestureInputsValid(showErrors) {
-    var title = $(webcamRecorder.options.recorderTarget).find('#gestureName').val();
-    if (title !== undefined && title.trim() === '') {
-        if (showErrors) {
-            appendAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-        } else {
-            removeAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-        }
-        return false;
-    }
-
-    if (webcamRecorder.options.checkType && webcamRecorder.options.checkType === true) {
-        var type = $(webcamRecorder.options.recorderTarget).find('#gestureTypeSelect .btn-option-checked').attr('id');
-        if (type === undefined) {
-            if (showErrors) {
-                appendAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-            } else {
-                removeAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-            }
-            return false;
-        }
-    }
-
-    if (webcamRecorder.options.checkInteractionType && recorder.options.checkInteractionType === true) {
-        var interactionType = $(webcamRecorder.options.recorderTarget).find('#gestureInteractionTypeSelect .btn-option-checked').attr('id');
-        if (interactionType === undefined) {
-            if (showErrors) {
-                appendAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-            } else {
-                removeAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-            }
-            return false;
-        }
-    }
-
-    var context = $(webcamRecorder.options.recorderTarget).find('#gestureContext').val();
-    if (context !== undefined && context.trim() === '') {
-        if (showErrors) {
-            appendAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-        } else {
-            removeAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-        }
-        return false;
-    }
-
-    var association = $(webcamRecorder.options.recorderTarget).find('#gestureAssociation').val();
-    if (association !== undefined && association.trim() === '') {
-        if (showErrors) {
-            appendAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-        } else {
-            removeAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-        }
-        return false;
-    }
-
-    var description = $(webcamRecorder.options.recorderTarget).find('#gestureDescription').val();
-    if (description !== undefined && description.trim() === "") {
-        if (showErrors) {
-            appendAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-        } else {
-            removeAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-        }
-        return false;
-    }
-
-    var selectedJoints = getSelectedJoints($(webcamRecorder.options.recorderTarget).find('#save-controls #human-body #joint-container'));
-    if (selectedJoints.length === 0) {
-        if (showErrors) {
-            appendAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-        } else {
-            removeAlert($(webcamRecorder.options.recorderTarget).find('#save-controls'), ALERT_MISSING_FIELDS);
-        }
-        return false;
-    }
-
-//    var gestureImagesData = getGestureImagesData($(webcamRecorder.options.recorderTarget).find('.recorder #gesturePreview'));
-//    if (gestureImagesData.length === 0) {
-//        if (showErrors) {
-//            appendAlert($(webcamRecorder.options.recorderTarget).find('#preview-controls'), ALERT_GESTURE_TOO_SHORT);
-//        } else {
-//            removeAlert($(webcamRecorder.options.recorderTarget).find('#preview-controls'), ALERT_GESTURE_TOO_SHORT);
-//        }
-//        return false;
-//    }
-    return true;
-}
-
-function showSaveSuccess() {
-    $(webcamRecorder.options.recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_SAVE_SUCCESS]);
-    resetInputs();
-    appendAlert($(webcamRecorder.options.recorderTarget).find('#success-controls'), ALERT_GESTURE_SAVE_SUCCESS);
-    $(webcamRecorder.options.recorderTarget).find('#success-controls').removeClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('.recorder').addClass('hidden');
-    hideSave();
-    if (webcamRecorder.options.allowDeletingGesture === false) {
-        $(webcamRecorder.options.recorderTarget).find('#success-controls #btn-delete-saved-gesture').addClass('hidden');
-    }
-    $(webcamRecorder.options.recorderTarget).find('#success-controls #btn-delete-saved-gesture').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        if (!$(this).hasClass('disabled')) {
-            var button = $(this);
-            $(button).addClass('disabled');
-            var gestureId = $(this).attr('name');
-            deleteLastRecordedGesture(gestureId, button);
-        } else {
-//            $(this).removeClass('disabled');
-        }
-    });
-    if (webcamRecorder.options.allowRerecordGesture === false) {
-        $(webcamRecorder.options.recorderTarget).find('#success-controls #btn-record-new-gesture').remove();
-    }
-    $(webcamRecorder.options.recorderTarget).find('#success-controls #btn-record-new-gesture').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        $(webcamRecorder.options.recorderTarget).find('.recorder').removeClass('hidden');
-        $(webcamRecorder.options.recorderTarget).find('#success-controls').addClass('hidden');
-        initializeRecorder();
-    });
-}
-
-function deleteLastRecordedGesture(gestureId, deleteButton) {
-    showCursor($('body'), CURSOR_PROGRESS);
-    deleteGesture({gestureId: gestureId}, function (result) {
-        showCursor($('body'), CURSOR_DEFAULT);
-        $(deleteButton).removeClass('disabled');
-        if (result.status === RESULT_SUCCESS) {
-            $(webcamRecorder.options.recorderTarget).trigger(EVENT_GR_DELETE_SUCCESS, [gestureId]);
-            $(webcamRecorder.options.recorderTarget).find('#success-controls').addClass('hidden');
-            showDeleteSuccess();
-        } else {
-            appendAlert(webcamRecorder.options.alertTarget, ALERT_GENERAL_ERROR);
-        }
-    });
-}
-
-function showDeleteSuccess() {
-    $(webcamRecorder.options.recorderTarget).trigger(EVENT_GR_UPDATE_STATE, [EVENT_GR_STATE_DELETE_SUCCESS]);
-    appendAlert($(webcamRecorder.options.recorderTarget).find('#delete-success-controls'), ALERT_GESTURE_DELETE_SUCCESS);
-    $(webcamRecorder.options.recorderTarget).find('#delete-success-controls').removeClass('hidden');
-    $(webcamRecorder.options.recorderTarget).find('#delete-success-controls #btn-record-new-gesture').unbind('click').bind('click', function (event) {
-        event.preventDefault();
-        $(webcamRecorder.options.recorderTarget).find('.recorder').removeClass('hidden');
-        $(webcamRecorder.options.recorderTarget).find('#delete-success-controls').addClass('hidden');
-        initializeRecorder();
-    });
 }
 
 function initializeLeapmotionRecorder() {
