@@ -555,13 +555,12 @@ if (login_check($mysqli) == true) {
             var options = {
                 recorderTarget: recorder,
                 alertTarget: $('#gesture-recorder-content'),
-                autoplayRecording: true,
                 saveGesture: true,
                 checkType: true,
                 checkInteractionType: true,
-                showIntroduction:true,
+                showIntroduction: true,
                 record: [
-                    {type: 'webcam'} 
+                    {type: 'webcam'}
 //                    {type: 'leap'}
                 ]
             };

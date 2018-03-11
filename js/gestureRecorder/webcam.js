@@ -238,6 +238,10 @@ function initializePlaybackControls() {
             playbackVideo[0].play();
         }
     });
+    
+    if(webcamRecorder.options.autoplayPlayback && webcamRecorder.options.autoplayPlayback === true && $(togglePlaybackButton).attr('data-state') === 'paused') {
+        $(togglePlaybackButton).click();
+    }
 
     if (toggleCroppingButton) {
 
@@ -384,18 +388,24 @@ WebcamRecorder.prototype.stopExtraction = function () {
 };
 
 WebcamRecorder.prototype.showSave = function () {
-    var preview = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview');
-    $(preview).find('.controls-container').removeClass('hidden');
-    $(preview).find('#recorder-webcam-slider-controls').removeClass('hidden');
-    $(preview).find('#keyframeSelect').removeClass('hidden');
+    var playbackPreview = $(webcamRecorder.options.parent).find('.gr-playback #webcam-preview');
+    $(playbackPreview).find('.controls-container').removeClass('hidden');
+    $(playbackPreview).find('#recorder-webcam-slider-controls').removeClass('hidden');
+    $(playbackPreview).find('#keyframeSelect').removeClass('hidden');
 
-    var playbackVideo = $(preview).find('.playback-webcam-video');
+    var playbackVideo = $(playbackPreview).find('.playback-webcam-video');
     $(playbackVideo).attr('loop', 'loop');
     $(playbackVideo).css({borderRadius: "4px 4px 0px 0px"});
 
     renderGesturePreview($(webcamRecorder.options.parent).find('.gr-save #webcam-save-preview'), saveGestureData);
     if (webcamRecorder.options.context) {
         $(webcamRecorder.options.parent).find('.gr-save #gestureContext').val(webcamRecorder.options.context);
+    }
+    
+    var savePreview = $(webcamRecorder.options.parent).find('.gr-save #webcam-save-preview');
+    var togglePlaybackButton = $(savePreview).find('#btn-toggle-playback');
+    if(webcamRecorder.options.autoplaySave && webcamRecorder.options.autoplaySave === true && $(togglePlaybackButton).attr('data-state') === 'paused') {
+        $(togglePlaybackButton).click();
     }
 };
 
@@ -440,6 +450,11 @@ WebcamRecorder.prototype.attachSaveData = function (uploadFiles) {
 WebcamRecorder.prototype.showSaveSuccess = function (saveData) {
     var preview = $(webcamRecorder.options.parent).find('#webcam-save-success-preview');
     renderGesturePreview(preview, saveData);
+    
+    var togglePlaybackButton = $(preview).find('#btn-toggle-playback');
+    if(webcamRecorder.options.autoplaySaveSuccess && webcamRecorder.options.autoplaySaveSuccess === true && $(togglePlaybackButton).attr('data-state') === 'paused') {
+        $(togglePlaybackButton).click();
+    }
 };
 
 WebcamRecorder.prototype.destroy = function () {

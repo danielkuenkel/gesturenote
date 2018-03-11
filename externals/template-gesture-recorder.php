@@ -161,7 +161,7 @@ include '../includes/language.php';
                 </div>
 
                 <div class="sensor-content">
-                    <div data-sensor-source="webcam" id="webcam-save-preview" class="sensor-source-save hidden autoplay">
+                    <div data-sensor-source="webcam" id="webcam-save-preview" class="sensor-source-save hidden">
                         <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
                             <div class="webcam-image-container"></div>
                             <div class="controls-container embed-responsive-item">
@@ -306,7 +306,7 @@ include '../includes/language.php';
                 </div>
 
                 <div class="sensor-content">
-                    <div data-sensor-source="webcam" id="webcam-save-success-preview" class="sensor-source-save-success hidden autoplay">
+                    <div data-sensor-source="webcam" id="webcam-save-success-preview" class="sensor-source-save-success hidden">
                         <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
                             <div class="webcam-image-container"></div>
                             <div class="controls-container embed-responsive-item">

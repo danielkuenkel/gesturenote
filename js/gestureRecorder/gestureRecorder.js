@@ -114,7 +114,7 @@ function renderStateInitialize() {
             var recordType = recorder.options.record[i].type;
             switch (recordType) {
                 case TYPE_RECORD_WEBCAM:
-                    initWebcamRecorder();
+                    initWebcamRecorder(recorder.options.record[i]);
                     break;
                 case TYPE_RECORD_LEAP:
                     initSensorSwitch();
@@ -178,10 +178,13 @@ function initInstanceEvents() {
     });
 }
 
-function initWebcamRecorder() {
+function initWebcamRecorder(recorderOptions) {
     var recorderObject = {type: TYPE_RECORD_WEBCAM, state: 'uninitialized'};
     var options = {
-        parent: recorder.options.recorderTarget
+        parent: recorder.options.recorderTarget,
+        autoplayPlayback: recorderOptions.autoplayPlayback || false,
+        autoplaySave: recorderOptions.autoplaySave || false,
+        autoplaySaveSuccess: recorderOptions.autoplaySaveSuccess || false
     };
     var instance = new WebcamRecorder(options);
     recorderObject.instance = instance;
@@ -310,9 +313,9 @@ function onRecorderInstancePlaybackReady(event, type) {
             if (i === 0) {
                 $(recorder.options.recorderTarget).find('#toggle-gesture-recording-preview-source [data-toggle-sensor=' + type + ']').click();
             }
-            if (recorder.options.autoplayRecording && recorder.options.autoplayRecording === true) {
-                recorders[i].instance.play();
-            }
+//            if (recorder.options.autoplayRecording && recorder.options.autoplayRecording === true) {
+//                recorders[i].instance.play();
+//            }
             recorders[i].state = 'playback';
 
             instanceCount++;
