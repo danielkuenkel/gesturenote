@@ -20,16 +20,43 @@ function WebcamRecorder(options) {
             navigator.mozGetUserMedia;
 
     if (navigator.getUserMedia) {
-        if (getBrowser() === "Chrome") {
-            var constraints = {"audio": false, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
-        } else if (getBrowser() === "Firefox") {
-            var constraints = {audio: false, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
+        navigator.mediaDevices.enumerateDevices()
+                .then(gotDevices)
+                .catch(errorCallback);
+
+//        console.log('init video stream,');
+//            var constraints = {deviceId: videoSource, video: true, audio: false};
+
+    } else {
+        console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
+    }
+
+    function gotDevices(deviceInfos) {
+        var videoSource = null;
+        for (var i = 0; i < deviceInfos.length; i++) {
+            if (deviceInfos[i].kind === 'videoinput') {
+                videoSource = deviceInfos[i].deviceId;
+                break;
+            }
         }
 
-        navigator.getUserMedia(constraints, onSuccess, onError);
-    } else {
-        appendAlert(options.alertTarget, ALERT_WEB_RTC_NOT_SUPPORTED);
-        console.warn('Native device media streaming (getUserMedia) not supported in this browser.');
+        console.log('got devices', deviceInfos, videoSource);
+
+        var constraints = {video: {
+                deviceId: {exact: videoSource}
+            },
+            audio: false};
+//        if (getBrowser() === "Chrome") {
+//            var constraints = {deviceId: videoSource, "audio": false, "video": {"mandatory": {"minWidth": 320, "maxWidth": 320, "minHeight": 240, "maxHeight": 240}, "optional": []}};
+//        } else if (getBrowser() === "Firefox") {
+//            var constraints = {deviceId: videoSource, audio: false, video: {width: {min: 320, ideal: 320, max: 320}, height: {min: 240, ideal: 240, max: 240}}};
+//        }
+
+        navigator.mediaDevices.getUserMedia(constraints).then(onSuccess).catch(onError);
+    }
+
+    function errorCallback(deviceInfos) {
+        console.error('error', deviceInfos);
     }
 }
 
@@ -38,6 +65,10 @@ function onError(error) {
 }
 
 function onSuccess(stream) {
+//    console.log(stream);
+    var videoTracks = stream.getVideoTracks();
+    console.log(videoTracks);
+
     webcamRecorder.mediaStream = stream;
     var video = $(webcamRecorder.options.parent).find('.recorder-webcam-video');
     $(video)[0].onloadedmetadata = function () {
@@ -238,8 +269,8 @@ function initializePlaybackControls() {
             playbackVideo[0].play();
         }
     });
-    
-    if(webcamRecorder.options.autoplayPlayback && webcamRecorder.options.autoplayPlayback === true && $(togglePlaybackButton).attr('data-state') === 'paused') {
+
+    if (webcamRecorder.options.autoplayPlayback && webcamRecorder.options.autoplayPlayback === true && $(togglePlaybackButton).attr('data-state') === 'paused') {
         $(togglePlaybackButton).click();
     }
 
@@ -365,7 +396,7 @@ var handleKeyframeExtraction = function (keyframes, shotsArray, blobsArray) {
             var url = URL.createObjectURL(blob);
             var colorThief = new ColorThief();
             var dominantColor = colorThief.getColor(canvas);
-            
+
             // black frame detection
             if (dominantColor && (dominantColor[0] + dominantColor[1] + dominantColor[2]) > 0) {
                 shotsArray.push(url);
@@ -401,10 +432,10 @@ WebcamRecorder.prototype.showSave = function () {
     if (webcamRecorder.options.context) {
         $(webcamRecorder.options.parent).find('.gr-save #gestureContext').val(webcamRecorder.options.context);
     }
-    
+
     var savePreview = $(webcamRecorder.options.parent).find('.gr-save #webcam-save-preview');
     var togglePlaybackButton = $(savePreview).find('#btn-toggle-playback');
-    if(webcamRecorder.options.autoplaySave && webcamRecorder.options.autoplaySave === true && $(togglePlaybackButton).attr('data-state') === 'paused') {
+    if (webcamRecorder.options.autoplaySave && webcamRecorder.options.autoplaySave === true && $(togglePlaybackButton).attr('data-state') === 'paused') {
         $(togglePlaybackButton).click();
     }
 };
@@ -450,9 +481,9 @@ WebcamRecorder.prototype.attachSaveData = function (uploadFiles) {
 WebcamRecorder.prototype.showSaveSuccess = function (saveData) {
     var preview = $(webcamRecorder.options.parent).find('#webcam-save-success-preview');
     renderGesturePreview(preview, saveData);
-    
+
     var togglePlaybackButton = $(preview).find('#btn-toggle-playback');
-    if(webcamRecorder.options.autoplaySaveSuccess && webcamRecorder.options.autoplaySaveSuccess === true && $(togglePlaybackButton).attr('data-state') === 'paused') {
+    if (webcamRecorder.options.autoplaySaveSuccess && webcamRecorder.options.autoplaySaveSuccess === true && $(togglePlaybackButton).attr('data-state') === 'paused') {
         $(togglePlaybackButton).click();
     }
 };
@@ -477,56 +508,56 @@ function resetRecorder() {
     webcamRecorder.destroy();
 }
 
-function initializeLeapmotionRecorder() {
-    var container = $(webcamRecorder.options.recorderTarget).find('#leap-recording-container');
-    var options = {
-        offset: {x: 0, y: 200, z: 0},
-        previewOnly: false,
-        pauseOnHands: false,
-        autoplay: true,
-        recordEmptyHands: true,
-//            recording: currentPreviewGesture.gesture.sensorData.url,
-        overlays: $(container).find('#leap-alert-space')
-//            renderTarget: $(container).find('#renderArea'),
-//            recordElement: $(container).find('#btn-start-recording'),
-//            stopRecordElement: $(container).find('#btn-stop-recording'),
-//        playbackElement: $(container).find('#btn-toggle-playback'),
-//            downloadJsonElement: $(container).find('.btn-download-as-json'),
-//            downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
-//            loadRecordingElement: $(container).find('#btn-load-recording'),
-//            loadInputElement: $(container).find('#upload-leap-recording'),
-//        playbackSliderElement: $(container).find('#leap-playback-slider'),
-//        cropRecordElement: $(container).find('#btn-crop-recording'),
-//        cropSliderElement: $(container).find('#leap-playback-crop-slider')
-    };
-    sensorRecorder = new LeapMotionRecorder(options);
-}
-
-function initializeLeapmotionPreview(recordedFrameData) {
-    var container = $(webcamRecorder.options.recorderTarget).find('#leap-preview-container');
-//    console.log(recordedFrameData);
-    setTimeout(function () {
-        var options = {
-            offset: {x: 0, y: 200, z: 0},
-            previewOnly: true,
-            pauseOnHands: false,
-            autoplay: true,
-            rawData: recordedFrameData,
+//function initializeLeapmotionRecorder() {
+//    var container = $(webcamRecorder.options.recorderTarget).find('#leap-recording-container');
+//    var options = {
+//        offset: {x: 0, y: 200, z: 0},
+//        previewOnly: false,
+//        pauseOnHands: false,
+//        autoplay: true,
 //        recordEmptyHands: true,
-//            recording: currentPreviewGesture.gesture.sensorData.url,
-//        overlays: $(container).find('#leap-alert-space'),
-            renderTarget: $(container).find('#renderArea'),
-//            recordElement: $(container).find('#btn-start-recording'),
-//            stopRecordElement: $(container).find('#btn-stop-recording'),
-            playbackElement: $(container).find('#btn-toggle-playback'),
-//            downloadJsonElement: $(container).find('.btn-download-as-json'),
-//            downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
-//            loadRecordingElement: $(container).find('#btn-load-recording'),
-//            loadInputElement: $(container).find('#upload-leap-recording'),
-            playbackSliderElement: $(container).find('#leap-playback-slider'),
-            cropRecordElement: $(container).find('#btn-crop-recording'),
-            cropSliderElement: $(container).find('#leap-playback-crop-slider')
-        };
-        sensorPreview = new LeapMotionRecorder(options);
-    }, 1000);
-}
+////            recording: currentPreviewGesture.gesture.sensorData.url,
+//        overlays: $(container).find('#leap-alert-space')
+////            renderTarget: $(container).find('#renderArea'),
+////            recordElement: $(container).find('#btn-start-recording'),
+////            stopRecordElement: $(container).find('#btn-stop-recording'),
+////        playbackElement: $(container).find('#btn-toggle-playback'),
+////            downloadJsonElement: $(container).find('.btn-download-as-json'),
+////            downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
+////            loadRecordingElement: $(container).find('#btn-load-recording'),
+////            loadInputElement: $(container).find('#upload-leap-recording'),
+////        playbackSliderElement: $(container).find('#leap-playback-slider'),
+////        cropRecordElement: $(container).find('#btn-crop-recording'),
+////        cropSliderElement: $(container).find('#leap-playback-crop-slider')
+//    };
+//    sensorRecorder = new LeapMotionRecorder(options);
+//}
+//
+//function initializeLeapmotionPreview(recordedFrameData) {
+//    var container = $(webcamRecorder.options.recorderTarget).find('#leap-preview-container');
+////    console.log(recordedFrameData);
+//    setTimeout(function () {
+//        var options = {
+//            offset: {x: 0, y: 200, z: 0},
+//            previewOnly: true,
+//            pauseOnHands: false,
+//            autoplay: true,
+//            rawData: recordedFrameData,
+////        recordEmptyHands: true,
+////            recording: currentPreviewGesture.gesture.sensorData.url,
+////        overlays: $(container).find('#leap-alert-space'),
+//            renderTarget: $(container).find('#renderArea'),
+////            recordElement: $(container).find('#btn-start-recording'),
+////            stopRecordElement: $(container).find('#btn-stop-recording'),
+//            playbackElement: $(container).find('#btn-toggle-playback'),
+////            downloadJsonElement: $(container).find('.btn-download-as-json'),
+////            downloadCompressedElement: $(container).find('.btn-download-as-compressed'),
+////            loadRecordingElement: $(container).find('#btn-load-recording'),
+////            loadInputElement: $(container).find('#upload-leap-recording'),
+//            playbackSliderElement: $(container).find('#leap-playback-slider'),
+//            cropRecordElement: $(container).find('#btn-crop-recording'),
+//            cropSliderElement: $(container).find('#leap-playback-crop-slider')
+//        };
+//        sensorPreview = new LeapMotionRecorder(options);
+//    }, 1000);
+//}

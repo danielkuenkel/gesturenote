@@ -231,7 +231,8 @@
     "studySurveyMethod": "Befragungs-Methode",
     "studySurveyType": "Befragungsart",
     "whatShouldBeIdentified": "Was soll identifiziert werden?",
-    "whatSensorShouldBeUsed": "Welcher Sensor soll genutzt werden?",
+    "shouldUseWebcam": "Soll eine Webcam aufgezeichnet werden?",
+    "whatSensorShouldBeUsed": "Welche Sensordaten sollen aufgezeichnet werden?",
     "whatShouldBeExtracted": "Was soll extrahiert werden?",
     "queryPreferredGestureDirectly": "Favorisierte Geste(n) direkt abfragen?",
     "queryPreferredTriggerDirectly": "Favorisierte Funktion(en) direkt abfragen?",
@@ -1558,11 +1559,16 @@
     "recordMoreGestures": "Weitere Geste aufzeichnen",
     "imageExportEvery": "Bild-Export alle",
     "gestureRecorderNavigation": {
+        "preInitialize": "Auswahl",
         "record": "Aufzeichnen",
         "cut": "Schneiden",
         "save": "Speichern"
     },
     "gestureRecorderManual": {
+        "preInitialize": {
+            "headline": "Quellen wählen",
+            "description": "Um eine"
+        },
         "recordGesture": {
             "headline": "Geste aufzeichnen",
             "description": "Um eine Geste aufzuzeichnen, klicken Sie auf <button class='btn btn-xs btn-success btn-shadow'><i class='glyphicon glyphicon-record'></i> Aufzeichung starten</button>. Die Aufzeichnung startet und Sie haben nun 20 Sekunden Zeit, um eine Geste vorzuführen. Die Aufzeichnung wird nach Ablauf der 20 Sekunden automatisch gestoppt. Die Aufzeichnung kann auch manuell beendet werden, indem Sie auf <button class='btn btn-xs btn-danger btn-shadow'><i class='glyphicon glyphicon-stop'></i> Aufzeichung beenden</button> klicken."
