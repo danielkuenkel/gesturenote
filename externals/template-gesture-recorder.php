@@ -9,15 +9,70 @@ include '../includes/language.php';
     <div id="gesture-recorder-with-introductions" class="row">
 
         <!-- introduction contents -->
-        <div class="col-sm-5 introductions-content">
+        <div class="col-sm-5 instruction-contents">
             <div class="instruction-content hidden gr-record">
-
+                <h3 style="margin: 0" id="headline"><?php echo $lang->gestureRecorderManual->recordGesture->headline ?></h3>
+                <hr>
+                <p class="text">
+                    <?php echo $lang->gestureRecorderManual->recordGesture->description ?>
+                </p>
+            </div>
+            <div class="instruction-content hidden gr-playback">
+                <h3 style="margin: 0" id="headline"><?php echo $lang->gestureRecorderManual->previewTrimmingGesture->headline ?></h3>
+                <hr>
+                <div class="text">
+                    <p>
+                        <?php echo $lang->gestureRecorderManual->previewTrimmingGesture->descriptionPreview ?>
+                    </p>
+                    <p>
+                        <?php echo $lang->gestureRecorderManual->previewTrimmingGesture->descriptionTrimming ?>
+                    </p>
+                </div>
+            </div>
+            <div class="instruction-content hidden gr-save">
+                <h3 style="margin: 0" id="headline"><?php echo $lang->gestureRecorderManual->describeAndSave->headline ?></h3>
+                <hr>
+                <div class="text">
+                    <p>
+                        <?php echo $lang->gestureRecorderManual->describeAndSave->previewImage ?>
+                    </p>
+                    <p>
+                        <?php echo $lang->gestureRecorderManual->describeAndSave->gestureDescription ?>
+                    </p>
+                    <p>
+                        <?php echo $lang->gestureRecorderManual->describeAndSave->graphicsDescription ?>
+                    </p>
+                    <p>
+                        <?php echo $lang->gestureRecorderManual->describeAndSave->saveDescription ?>
+                    </p>
+                    <p>
+                        <?php echo $lang->gestureRecorderManual->describeAndSave->worstResultDescription ?>
+                    </p>
+                </div>
+            </div>
+            <div class="instruction-content hidden gr-save-success">
+                <h3 style="margin: 0" id="headline"><?php echo $lang->gestureRecorderManual->savedGesture->headline ?></h3>
+                <hr>
+                <div class="text">
+                    <p>
+                        <?php echo $lang->gestureRecorderManual->savedGesture->description ?>
+                    </p>
+                </div>
+            </div>
+            <div class="instruction-content hidden gr-delete-success">
+                <h3 style="margin: 0" id="headline"><?php echo $lang->gestureRecorderManual->deletedGesture->headline ?></h3>
+                <hr>
+                <div class="text">
+                    <p>
+                        <?php echo $lang->gestureRecorderManual->deletedGesture->description ?>
+                    </p>
+                </div>
             </div>
         </div>
 
         <!-- recorder contents -->
         <div class="col-sm-7 recorder-contents">
-            <div id="gesture-recorder-nav" class="text-center" style="margin-bottom: 20px; ">
+            <div id="gesture-recorder-nav" class="text-center" style="margin-bottom: 10px; ">
                 <div style="display: inline-block">
                     <ul class="nav nav-pills">
                         <!--<li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="previous"><i class="fa fa-arrow-left"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $lang->previous ?></span></a></li>-->
@@ -96,12 +151,12 @@ include '../includes/language.php';
 
                 <div class="sensor-content" style="margin-top: 10px">
                     <div data-sensor-source="webcam" id="webcam-preview" class="sensor-source-preview hidden">
-                        <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
+                        <div class="root embed-responsive embed-responsive-4by3">
                             <video class="playback-webcam-video mirroredHorizontally" preload="metadata" style=" border-top-left-radius: 4px; border-top-right-radius: 4px"></video>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-control text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
-                                <div class="hidden-control application-btn application-btn-left" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>
-                            </div>
+                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single" id="btn-toggle-cropping"><i class="fa fa-crop"></i> <?php echo $lang->cutGesture ?></div>
+                            </div>                            
                         </div>
 
                         <div id="recorder-webcam-slider-controls" style="margin-top: -10px">
@@ -162,12 +217,12 @@ include '../includes/language.php';
 
                 <div class="sensor-content">
                     <div data-sensor-source="webcam" id="webcam-save-preview" class="sensor-source-save hidden">
-                        <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
+                        <div class="root embed-responsive embed-responsive-4by3">
                             <div class="webcam-image-container"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-control text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
-                                <div class="hidden-control application-btn application-btn-left-clear btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
-                                <div class="hidden-control application-btn application-btn-right btn-tag-as-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i></div>
+                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
+                                <div class="controls-container-btn application-btn application-btn-bottom-left application-btn-bottom-left-single btn-tag-as-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i> <?php echo $lang->previewImage ?>: <span class="preview-image-index">1</span></div>
                             </div>
                         </div>
 
@@ -180,12 +235,12 @@ include '../includes/language.php';
 
                     <div data-sensor-source="leap" id="leap-recording-container" class="sensor-source-save hidden">
 
-                        <div class="embed-responsive embed-responsive-4by3 hidden-controls">
+                        <div class="embed-responsive embed-responsive-4by3">
                             <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-control text-center" id="btn-toggle-playback"><i class="fa fa-play fa-2x"></i></div>
-                                <div class="hidden-control application-btn application-btn-left-clear btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
-                                <div class="hidden-control application-btn application-btn-right btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
+                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
+                                <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
                             </div>
                         </div>
 
@@ -307,12 +362,12 @@ include '../includes/language.php';
 
                 <div class="sensor-content">
                     <div data-sensor-source="webcam" id="webcam-save-success-preview" class="sensor-source-save-success hidden">
-                        <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
+                        <div class="root embed-responsive embed-responsive-4by3">
                             <div class="webcam-image-container"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-control text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
-                                <div class="hidden-control application-btn application-btn-left-clear btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
-                                <!--<div class="hidden-control application-btn application-btn-right btn-tag-as-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i></div>-->
+                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
+                                <!--<div class="controls-container-btn application-btn application-btn-right btn-tag-as-preview" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->tagAsPreviewImage ?>"><i class="fa fa-bookmark-o"></i></div>-->
                             </div>
                         </div>
 
@@ -325,12 +380,12 @@ include '../includes/language.php';
 
                     <div data-sensor-source="leap" id="leap-save-success-preview" class="sensor-source-save-success hidden">
 
-                        <div class="embed-responsive embed-responsive-4by3 hidden-controls">
+                        <div class="embed-responsive embed-responsive-4by3">
                             <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
                             <div class="controls-container embed-responsive-item">
-                                <div class="hidden-control text-center" id="btn-toggle-playback"><i class="fa fa-play fa-2x"></i></div>
-                                <div class="hidden-control application-btn application-btn-left-clear btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
-                                <div class="hidden-control application-btn application-btn-right btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
+                                <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
+                                <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
                             </div>
                         </div>
 
@@ -347,11 +402,6 @@ include '../includes/language.php';
                     <button class="btn btn-danger btn-shadow" id="btn-delete-saved-gesture"><i class="fa fa-trash" aria-hidden="true"></i> <?php echo $lang->deleteSavedGesture ?></button>
                     <button class="btn btn-default btn-shadow btn-repeat-recording"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordMoreGestures ?></button>
                 </div>
-            </div>
-
-            <!-- delete saved gesture screen -->
-            <div class="recorder-content hidden gr-delete">
-
             </div>
 
             <!-- delete success screen -->
@@ -480,10 +530,10 @@ include '../includes/language.php';
 
             <div id="leap-preview-container" class="hidden" data-sensor-source="leap">
 
-                <div class="embed-responsive embed-responsive-4by3 hidden-controls">
+                <div class="embed-responsive embed-responsive-4by3s">
                     <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
                     <div class="controls-container embed-responsive-item">
-                        <div class="hidden-control text-center" id="btn-toggle-playback"><i class="fa fa-play fa-2x"></i></div>
+                        <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
                     </div>
                 </div>
 

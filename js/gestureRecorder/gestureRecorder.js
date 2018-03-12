@@ -12,7 +12,6 @@ var GR_STATE_RECORD = 'gr-record';
 var GR_STATE_PLAYBACK = 'gr-playback';
 var GR_STATE_SAVE = 'gr-save';
 var GR_STATE_SAVE_SUCCESS = 'gr-save-success';
-var GR_STATE_DELETE = 'gr.delete';
 var GR_STATE_DELETE_SUCCESS = 'gr-delete-success';
 
 var GR_EVENT_SAVE_SUCCESS = 'gr-save-success';
@@ -41,10 +40,15 @@ GestureRecorder.prototype.destroy = function () {
     }
 };
 
+GestureRecorder.prototype.currentRecorderContent = null;
+GestureRecorder.prototype.currentInstructionContent = null;
 function setState(state) {
     $(recorder.options.recorderTarget).find('.recorder-contents .recorder-content').addClass('hidden');
+    $(recorder.options.recorderTarget).find('.instruction-contents .instruction-content').addClass('hidden');
 
     recorder.state = state;
+    recorder.currentRecorderContent = $(recorder.options.recorderTarget).find('.recorder-contents .' + state);
+    recorder.currentInstructionContent = $(recorder.options.recorderTarget).find('.instruction-contents .' + state);
     switch (state) {
         case GR_STATE_INITIALIZE:
             renderStateInitialize();
@@ -67,6 +71,7 @@ function setState(state) {
     }
 
     $(recorder.options.recorderTarget).find('.recorder-contents .' + state).removeClass('hidden');
+    $(recorder.options.recorderTarget).find('.instruction-contents .' + state).removeClass('hidden');
     updateRecorderNavigation();
 }
 
@@ -91,7 +96,6 @@ function updateRecorderNavigation() {
             $(navigation).find('[data-toggle-id="gr-save"]').parent().addClass('active');
             break;
         case GR_STATE_SAVE_SUCCESS:
-        case GR_STATE_DELETE:
         case GR_STATE_DELETE_SUCCESS:
             $(navigation).find('[data-toggle-id="gr-record"]').parent().removeClass('disabled');
             break;
@@ -126,12 +130,12 @@ function renderStateInitialize() {
         console.warn('There are no recorder options for this GestureRecorder. Try option like: record:[{type:"webcam"}]');
     }
 
-    $(recorder.options.recorderTarget).find('#btn-record').addClass('disabled');
+    $(recorder.currentRecorderContent).find('#btn-record').addClass('disabled');
 }
 
 function initSensorSwitch() {
-    $(recorder.options.recorderTarget).find('.useSensorSwitch').removeClass('hidden');
-    $(recorder.options.recorderTarget).find('.useSensorSwitch').unbind('change').bind('change', function () {
+    $(recorder.currentRecorderContent).find('.useSensorSwitch').removeClass('hidden');
+    $(recorder.currentRecorderContent).find('.useSensorSwitch').unbind('change').bind('change', function () {
         var sensor = $(this).find('.btn-option-checked').attr('id');
         switch (sensor) {
             case TYPE_RECORD_LEAP:
@@ -230,10 +234,10 @@ function onRecorderInstanceReady(event, type) {
 var recordDurationTween = null;
 function renderStateRecord() {
     resetInputs(true);
-    var recordButton = $(recorder.options.recorderTarget).find('.gr-record #btn-record');
-    var stopRecordButton = $(recorder.options.recorderTarget).find('.gr-record #btn-record-stop');
-    var timerProgress = $(recorder.options.recorderTarget).find('.gr-record #record-timer-progress');
-    var progressBar = $(recorder.options.recorderTarget).find('.gr-record #record-timer-progress-bar');
+    var recordButton = $(recorder.currentRecorderContent).find('#btn-record');
+    var stopRecordButton = $(recorder.currentRecorderContent).find('#btn-record-stop');
+    var timerProgress = $(recorder.options.recorderTarget).find('#record-timer-progress');
+    var progressBar = $(recorder.currentRecorderContent).find('#record-timer-progress-bar');
 
 
     $(recordButton).unbind('click').bind('click', function (event) {
@@ -308,10 +312,11 @@ function onRecorderInstancePlaybackReady(event, type) {
     var instanceCount = 0;
     for (var i = 0; i < recorders.length; i++) {
         if (recorders[i].type === type && recorders[i].state === 'recordingStopped') {
+            console.log(recorder.currentRecorderContent, $(recorder.options.recorderTarget).find('.gr-playback [data-sensor-source=' + type + ']'));
             $(recorder.options.recorderTarget).find('.gr-playback [data-sensor-source=' + type + ']').removeClass('hidden');
-            $(recorder.options.recorderTarget).find('#toggle-gesture-recording-preview-source [data-toggle-sensor=' + type + ']').removeClass('hidden');
+            $(recorder.options.recorderTarget).find('.gr-playback [data-toggle-sensor=' + type + ']').removeClass('hidden');
             if (i === 0) {
-                $(recorder.options.recorderTarget).find('#toggle-gesture-recording-preview-source [data-toggle-sensor=' + type + ']').click();
+                $(recorder.options.recorderTarget).find('.gr-playback [data-toggle-sensor=' + type + ']').click();
             }
 //            if (recorder.options.autoplayRecording && recorder.options.autoplayRecording === true) {
 //                recorders[i].instance.play();
@@ -328,7 +333,7 @@ function onRecorderInstancePlaybackReady(event, type) {
     }
 
     if (recorders.length > 1) {
-        $(recorder.options.recorderTarget).find('#toggle-gesture-recording-preview-source').removeClass('hidden');
+        $(recorder.options.recorderTarget).find('.gr-playback #toggle-gesture-recording-preview-source').removeClass('hidden');
     }
 }
 
@@ -343,7 +348,7 @@ function onRecorderInstancePlaybackReady(event, type) {
 
 function renderStatePlayback() {
     resetInputs();
-    var extractButton = $(recorder.options.recorderTarget).find('.gr-playback #btn-extract-gesture');
+    var extractButton = $(recorder.currentRecorderContent).find('#btn-extract-gesture');
 
     $(extractButton).unbind('click').bind('click', function (event) {
         event.preventDefault();
@@ -372,19 +377,20 @@ function onRecorderInstanceGestureTooShort(event, type) {
     }
 
     setState(GR_STATE_PLAYBACK);
-    appendAlert($(recorder.options.recorderTarget).find('.gr-playback'), ALERT_GESTURE_TOO_SHORT);
+    appendAlert($(recorder.currentRecorderContent), ALERT_GESTURE_TOO_SHORT);
 }
 
 function onRecorderInstanceDataExtracted(event, type) {
     event.preventDefault();
     $(recorder.options.recorderTarget).find('.gr-save .sensor-source-save').addClass('hidden');
+    
     var instanceCount = 0;
     for (var i = 0; i < recorders.length; i++) {
         if (recorders[i].type === type && recorders[i].state === 'extracting') {
             $(recorder.options.recorderTarget).find('.gr-save [data-sensor-source=' + type + ']').removeClass('hidden');
-            $(recorder.options.recorderTarget).find('#toggle-gesture-recording-preview-source [data-toggle-sensor=' + type + ']').removeClass('hidden');
+            $(recorder.options.recorderTarget).find('.gr-save [data-toggle-sensor=' + type + ']').removeClass('hidden');
             if (i === 0) {
-                $(recorder.options.recorderTarget).find('#toggle-gesture-recording-preview-source [data-toggle-sensor=' + type + ']').click();
+                $(recorder.options.recorderTarget).find('.gr-save [data-toggle-sensor=' + type + ']').click();
             }
             recorders[i].state = 'saving';
             recorders[i].instance.showSave();
@@ -411,14 +417,14 @@ function onRecorderInstanceDataExtracted(event, type) {
 var gestureSaveData = null;
 function renderStateSave() {
     resetInputs(true);
-    var saveButton = $(recorder.options.recorderTarget).find('.gr-save #btn-save-gesture');
-    var titleInput = $(recorder.options.recorderTarget).find('.gr-save #gestureName');
-    var typeInput = $(recorder.options.recorderTarget).find('.gr-save #gestureTypeSelect');
-    var interactionTypeInput = $(recorder.options.recorderTarget).find('.gr-save #gestureInteractionTypeSelect');
-    var contextInput = $(recorder.options.recorderTarget).find('.gr-save #gestureContext');
-    var associationInput = $(recorder.options.recorderTarget).find('.gr-save #gestureAssociation');
-    var descriptionInput = $(recorder.options.recorderTarget).find('.gr-save #gestureDescription');
-    var jointsInput = $(recorder.options.recorderTarget).find('.gr-save #gesture-save-form #human-body #joint-container');
+    var saveButton = $(recorder.currentRecorderContent).find('#btn-save-gesture');
+    var titleInput = $(recorder.currentRecorderContent).find('#gestureName');
+    var typeInput = $(recorder.currentRecorderContent).find('#gestureTypeSelect');
+    var interactionTypeInput = $(recorder.currentRecorderContent).find('#gestureInteractionTypeSelect');
+    var contextInput = $(recorder.currentRecorderContent).find('#gestureContext');
+    var associationInput = $(recorder.currentRecorderContent).find('#gestureAssociation');
+    var descriptionInput = $(recorder.currentRecorderContent).find('#gestureDescription');
+    var jointsInput = $(recorder.currentRecorderContent).find('#gesture-save-form #human-body #joint-container');
 
 //    $('#gestureName, #gestureContext, #gestureAssociation, #gestureDescription').unbind('input').bind('input', function () {
 //        if (gestureInputsValid()) {
@@ -428,17 +434,17 @@ function renderStateSave() {
 //        }
 //    });
 
-    $(recorder.options.recorderTarget).find('.gr-save #gesture-save-form').unbind('change').bind('change', function () {
+    $(recorder.currentRecorderContent).find('#gesture-save-form').unbind('change').bind('change', function () {
         if (gestureInputsValid()) {
-            $(recorder.options.recorderTarget).find('.gr-save #btn-save-gesture').removeClass('disabled');
+            $(saveButton).removeClass('disabled');
         } else {
-            $(recorder.options.recorderTarget).find('.gr-save #btn-save-gesture').addClass('disabled');
+            $(saveButton).addClass('disabled');
         }
     });
 
-    $(recorder.options.recorderTarget).find('.gr-save #btn-save-gesture').unbind('click').bind('click', function (event) {
+    $(saveButton).unbind('click').bind('click', function (event) {
         event.preventDefault();
-        clearAlerts(recorder.options.recorderTarget);
+        clearAlerts(recorder.currentRecorderContent);
 
         if (gestureInputsValid(true) && !$(this).hasClass('disabled')) {
             lockButton(saveButton, true, 'fa-floppy-o');
@@ -479,9 +485,9 @@ function renderStateSave() {
         var title = $(titleInput).val();
         if (title !== undefined && title.trim() === '') {
             if (showErrors) {
-                appendAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
             } else {
-                removeAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
             }
             return false;
         }
@@ -490,9 +496,9 @@ function renderStateSave() {
             var type = $(typeInput).find('.btn-option-checked').attr('id');
             if (type === undefined) {
                 if (showErrors) {
-                    appendAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                    appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
                 } else {
-                    removeAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                    removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
                 }
                 return false;
             }
@@ -502,9 +508,9 @@ function renderStateSave() {
             var interactionType = $(interactionTypeInput).find('.btn-option-checked').attr('id');
             if (interactionType === undefined) {
                 if (showErrors) {
-                    appendAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                    appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
                 } else {
-                    removeAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                    removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
                 }
                 return false;
             }
@@ -513,9 +519,9 @@ function renderStateSave() {
         var context = $(contextInput).val();
         if (context !== undefined && context.trim() === '') {
             if (showErrors) {
-                appendAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
             } else {
-                removeAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
             }
             return false;
         }
@@ -523,9 +529,9 @@ function renderStateSave() {
         var association = $(associationInput).val();
         if (association !== undefined && association.trim() === '') {
             if (showErrors) {
-                appendAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
             } else {
-                removeAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
             }
             return false;
         }
@@ -533,9 +539,9 @@ function renderStateSave() {
         var description = $(descriptionInput).val();
         if (description !== undefined && description.trim() === "") {
             if (showErrors) {
-                appendAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
             } else {
-                removeAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
             }
             return false;
         }
@@ -543,9 +549,9 @@ function renderStateSave() {
         var selectedJoints = getSelectedJoints(jointsInput);
         if (selectedJoints.length === 0) {
             if (showErrors) {
-                appendAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                appendAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
             } else {
-                removeAlert($(recorder.options.recorderTarget).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
+                removeAlert($(recorder.currentRecorderContent).find('#gesture-save-form'), ALERT_MISSING_FIELDS);
             }
             return false;
         }
@@ -615,7 +621,7 @@ function onRecorderInstanceSaveDataAttached(event, type, updateSaveData) {
     }
 
     if (instanceCount === recorders.length) {
-        console.log('all recorders has save data attached successfully');
+        console.log('all recorders has data attached successfully');
         if (recorder.options.saveGesture && recorder.options.saveGesture === true) {
             saveGesture(saveGestureData);
         } else {
@@ -633,7 +639,7 @@ function saveGesture() {
             setState(GR_STATE_SAVE_SUCCESS);
         } else {
             resetInputs();
-            appendAlert($(recorder.options.recorderTarget).find('.gr-save'), ALERT_GENERAL_ERROR);
+            appendAlert($(recorder.currentRecorderContent).find('.gr-save'), ALERT_GENERAL_ERROR);
         }
     });
 }
@@ -650,21 +656,21 @@ function saveGesture() {
 
 function renderStateSaveSuccess() {
     resetInputs();
-    appendAlert($(recorder.options.recorderTarget).find('.gr-save-success'), ALERT_GESTURE_SAVE_SUCCESS);
+    appendAlert($(recorder.currentRecorderContent), ALERT_GESTURE_SAVE_SUCCESS);
 
     for (var i = 0; i < recorders.length; i++) {
         if (recorders[i].state === 'saveDataAttached') {
-            $(recorder.options.recorderTarget).find('.gr-save-success [data-sensor-source=' + recorders[i].type + ']').removeClass('hidden');
-            $(recorder.options.recorderTarget).find('#toggle-gesture-save-success-source [data-toggle-sensor=' + recorders[i].type + ']').removeClass('hidden');
+            $(recorder.currentRecorderContent).find('[data-sensor-source=' + recorders[i].type + ']').removeClass('hidden');
+            $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').removeClass('hidden');
             if (i === 0) {
-                $(recorder.options.recorderTarget).find('#toggle-gesture-save-success-source [data-toggle-sensor=' + recorders[i].type + ']').click();
+                $(recorder.currentRecorderContent).find('[data-toggle-sensor=' + recorders[i].type + ']').click();
             }
             recorders[i].state = 'saveSuccess';
             recorders[i].instance.showSaveSuccess(gestureSaveData);
         }
     }
 
-    var deleteButton = $(recorder.options.recorderTarget).find('.gr-save-success #btn-delete-saved-gesture');
+    var deleteButton = $(recorder.currentRecorderContent).find('#btn-delete-saved-gesture');
     if (recorder.options.allowDeletingGesture === false) {
         $(deleteButton).addClass('hidden');
     } else {
@@ -678,7 +684,7 @@ function renderStateSaveSuccess() {
                     if (result.status === RESULT_SUCCESS) {
                         setState(GR_STATE_DELETE_SUCCESS);
                     } else {
-                        appendAlert($(recorder.options.recorderTarget).find('.gr-save-success'), ALERT_GENERAL_ERROR);
+                        appendAlert($(recorder.currentRecorderContent), ALERT_GENERAL_ERROR);
                     }
                 });
             }
@@ -688,5 +694,5 @@ function renderStateSaveSuccess() {
 
 function renderStateDeleteSuccess() {
     resetInputs();
-    appendAlert($(recorder.options.recorderTarget).find('.gr-delete-success'), ALERT_GESTURE_DELETE_SUCCESS);
+    appendAlert($(recorder.currentRecorderContent), ALERT_GESTURE_DELETE_SUCCESS);
 }

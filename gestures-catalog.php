@@ -560,7 +560,7 @@ if (login_check($mysqli) == true) {
                 checkInteractionType: true,
                 showIntroduction: true,
                 record: [
-                    {type: 'webcam'}
+                    {type: 'webcam', autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true}
 //                    {type: 'leap'}
                 ]
             };

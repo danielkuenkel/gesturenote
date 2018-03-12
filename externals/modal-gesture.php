@@ -22,11 +22,11 @@ include '../includes/language.php';
                 <div class="col-md-5 root">
                     <div class="sensor-content">
                         <div data-sensor-source="webcam" id="webcam-preview" class="autoplay">
-                            <div class="root embed-responsive embed-responsive-4by3 hidden-controls">
+                            <div class="root embed-responsive embed-responsive-4by3">
                                 <div id="" class="webcam-image-container"></div>
                                 <div class="controls-container embed-responsive-item">
-                                    <div class="hidden-control text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
-                                    <div class="hidden-control application-btn application-btn-left btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
+                                    <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                    <div class="controls-container-btn application-btn application-btn-top-left-single btn-download-as-gif" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsGIF ?>"><i class="fa fa-file-image-o"></i></div>
                                 </div>
                             </div>
 
@@ -39,12 +39,12 @@ include '../includes/language.php';
 
                         <div id="leap-recording-container" class="hidden" data-sensor-source="leap">
 
-                            <div class="embed-responsive embed-responsive-4by3 hidden-controls">
+                            <div class="embed-responsive embed-responsive-4by3">
                                 <div id="renderArea" class="embed-responsive-item sensor-canvas"></div>
-                                <div class="controls-container embed-responsive-item">
-                                    <div class="hidden-control text-center" id="btn-toggle-playback"><i class="fa fa-play fa-2x"></i></div>
-                                    <div class="hidden-control application-btn application-btn-left-clear btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
-                                    <div class="hidden-control application-btn application-btn-right btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
+                                <div class="hidden-controls-container embed-responsive-item">
+                                    <div class="hidden-controls-container-btn text-center" id="btn-toggle-playback" data-state="paused"><i class="fa fa-play fa-2x"></i></div>
+                                    <div class="controls-container-btn application-btn application-btn-top-left-first btn-download-as-json" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsJSON ?>"><i class="fa fa-file-code-o"></i></div>
+                                    <div class="controls-container-btn application-btn application-btn-top-left-last btn-download-as-compressed" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="<?php echo $lang->downloadAsCompressed ?>"><i class="fa fa-file-zip-o"></i></div>
                                 </div>
                             </div>
 

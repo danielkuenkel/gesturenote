@@ -269,11 +269,15 @@ and open the template in the editor.
     border-top-right-radius: 4px;
 }
 
-.controls-container {
+.hidden-controls-container {
     opacity: 0;
 }
 
 .btn-gesture-recorder-nav {
     font-size: 10pt;
     padding: 4px 9px !important;
+}
+
+#btn-toggle-cropping.cropping {
+    color: #5bc0de;
 }

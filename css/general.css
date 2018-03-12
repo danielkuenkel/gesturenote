@@ -1016,11 +1016,17 @@ canvas {
 */
 .controls-container {
     position: absolute;
+}
+.controls-container .hidden-controls-container-btn {
     opacity: 0;
 }
-.hidden-control {
-    cursor: pointer;
 
+.controls-container-btn, .hidden-controls-container-btn {
+    cursor: pointer;
+}
+
+.controls-container-btn, .hidden-controls-container-btn:hover {
+    opacity: .9 !important;
 }
 
 .controls-container #btn-toggle-playback {
@@ -1029,13 +1035,12 @@ canvas {
     height: 56px;
     background-color: #333333;
     border-radius: 100%;
-    opacity: .7;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%); 
 }
 
-.controls-container #btn-toggle-playback i {
+.controls-container #btn-toggle-playback i{
     color: white;
     position: relative;
     top: 12px;
@@ -1049,19 +1054,66 @@ canvas {
     display: inline-block;
     margin-right: -3px;
 }
+.application-btn-top-right {
+    left:100%;
+    transform: translateX(-100%);
+}
+.application-btn-bottom-left {
+    position: absolute !important;
+    left: 0px;
+    bottom: 0px;
+}
+.application-btn-bottom-right {
+    left:100%;
+    transform: translateX(-100%);
+    top: 100%;
+    transform: translateY(-100%);
+}
 
 .controls-container .application-btn:hover {
     background-color: rgba(0,0,0,.8);
 }
 
-.controls-container .application-btn-left {
+
+.controls-container .application-btn-top-left-single {
     border-radius: 5px 0px 10px 0px;
 }
-
-.controls-container .application-btn-left-clear {
+.controls-container .application-btn-top-left-first {
     border-radius: 5px 0px 0px 0px;
 }
-
-.controls-container .application-btn-right {
+.controls-container .application-btn-top-left-last {
     border-radius: 0px 0px 10px 0px;
+}
+
+
+.controls-container .application-btn-bottom-left-single {
+    border-radius: 0px 10px 0px 0px;
+}
+.controls-container .application-btn-bottom-left-first {
+    border-radius: 0px 0px 0px 0px;
+}
+.controls-container .application-btn-bottom-left-last {
+    border-radius: 0px 10px 0px 0px;
+}
+
+
+.controls-container .application-btn-top-right-single {
+    border-radius: 0px 10px 0px 5px;
+}
+.controls-container .application-btn-top-right-first {
+    border-radius: 0px 0px 0px 5px;
+}
+.controls-container .application-btn-top-right-last {
+    border-radius: 0px 10px 0px 0px;
+}
+
+
+.controls-container .application-btn-bottom-right-single {
+    border-radius: 0px 5px 0px 10px;
+}
+.controls-container .application-btn-bottom-right-first {
+    border-radius: 0px 0px 0px 10px;
+}
+.controls-container .application-btn-bottom-right-last {
+    border-radius: 0px 5px 0px 0px;
 }

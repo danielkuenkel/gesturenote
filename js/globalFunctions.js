@@ -2971,17 +2971,16 @@ $(document).on('click', '.btn-toggle-sensor-source', function (event) {
     }
 });
 
-$(document).on('mouseenter', '.hidden-controls', function (event) {
+$(document).on('mouseenter', '.controls-container', function (event) {
     event.preventDefault();
-    var container = $(this).find('.controls-container');
-    TweenMax.to(container, .3, {opacity: 1});
+    TweenMax.to($(this).find('.hidden-controls-container-btn'), .2, {opacity: .7});
 });
 
-$(document).on('mouseleave', '.hidden-controls', function (event) {
+$(document).on('mouseleave', '.controls-container', function (event) {
     event.preventDefault();
-    var container = $(this).find('.controls-container');
-    TweenMax.to(container, .3, {opacity: 0});
+    TweenMax.to($(this).find('.hidden-controls-container-btn'), .2, {opacity: 0});
 });
+
 
 $(document).on('click', '.btn-download-as-gif', function (event) {
     event.preventDefault();
@@ -3045,6 +3044,8 @@ $(document).on('click', '.btn-tag-as-preview', function (event) {
         var gestureImages = $(this).closest('.root').find('.gestureImage');
         $(gestureImages).removeClass('previewImage');
         $(this).closest('.root').find('.webcam-image-container .active').addClass('previewImage');
+        var previewImageIndex = parseInt($(this).closest('.root').find('.previewImage').attr('data-index')) + 1;
+        $(this).find('.preview-image-index').text(previewImageIndex);
 
         var gesture = getGestureById($(this).attr('data-gesture-id'));
         if (gesture) {
