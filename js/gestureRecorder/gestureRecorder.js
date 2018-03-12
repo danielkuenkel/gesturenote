@@ -121,7 +121,7 @@ function renderStateInitialize() {
                     initWebcamRecorder(recorder.options.record[i]);
                     break;
                 case TYPE_RECORD_LEAP:
-                    initSensorSwitch();
+                    initSensorSwitch(recorder.options.record[i]);
                     break;
             }
             initInstanceEvents();
@@ -130,20 +130,33 @@ function renderStateInitialize() {
         console.warn('There are no recorder options for this GestureRecorder. Try option like: record:[{type:"webcam"}]');
     }
 
-    $(recorder.currentRecorderContent).find('#btn-record').addClass('disabled');
+    $(recorder.options.recorderTarget).find('.gr-record #btn-record').addClass('disabled');
 }
 
-function initSensorSwitch() {
-    $(recorder.currentRecorderContent).find('.useSensorSwitch').removeClass('hidden');
-    $(recorder.currentRecorderContent).find('.useSensorSwitch').unbind('change').bind('change', function () {
+function initSensorSwitch(recorderOptions) {
+    $(recorder.options.recorderTarget).find('.gr-record .useSensorSwitch').removeClass('hidden');
+    $(recorder.options.recorderTarget).find('.gr-record .useSensorSwitch').unbind('change').bind('change', function () {
+        $(recorder.options.recorderTarget).find('.gr-record #btn-record').addClass('disabled');
         var sensor = $(this).find('.btn-option-checked').attr('id');
+        reinitialize();
         switch (sensor) {
             case TYPE_RECORD_LEAP:
-                initLeapRecorder();
-                initInstanceEvents();
+                initLeapRecorder(recorderOptions);
+                break;
+            default:
+                $(recorder.options.recorderTarget).find('.gr-record #btn-record').removeClass('disabled');
                 break;
         }
     });
+}
+
+function reinitialize() {
+    var instanceCount = 0;
+    for (var i = 0; i < recorders.length; i++) {
+        recorders[i].instance.destroy();
+        recorders[i].state = 'uninitialized';
+        instanceCount++;
+    }
 }
 
 
@@ -195,12 +208,20 @@ function initWebcamRecorder(recorderOptions) {
     recorders.push(recorderObject);
 }
 
-function initLeapRecorder() {
+function initLeapRecorder(recorderOptions) {
     var recorderObject = {type: TYPE_RECORD_LEAP, state: 'uninitialized'};
     var options = {
-        parent: recorder.options.recorderTarget
+        offset: {x: 0, y: 200, z: 0},
+        previewOnly: false,
+        pauseOnHands: false,
+        autoplay: true,
+        recordEmptyHands: true,
+        parent: recorder.options.recorderTarget,
+        autoplayPlayback: recorderOptions.autoplayPlayback || false,
+        autoplaySave: recorderOptions.autoplaySave || false,
+        autoplaySaveSuccess: recorderOptions.autoplaySaveSuccess || false
     };
-    var instance = new WebcamRecorder(options);
+    var instance = new LeapRecorder(options);
     recorderObject.instance = instance;
     recorders.push(recorderObject);
 }
@@ -383,7 +404,7 @@ function onRecorderInstanceGestureTooShort(event, type) {
 function onRecorderInstanceDataExtracted(event, type) {
     event.preventDefault();
     $(recorder.options.recorderTarget).find('.gr-save .sensor-source-save').addClass('hidden');
-    
+
     var instanceCount = 0;
     for (var i = 0; i < recorders.length; i++) {
         if (recorders[i].type === type && recorders[i].state === 'extracting') {

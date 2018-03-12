@@ -64,8 +64,8 @@ if (login_check($mysqli) == true) {
         <!-- gesture recorder -->
         <script src="js/andyet/simplewebrtcbundle.js"></script>
         <script src="js/gestureRecorder/gestureRecorder.js"></script>
-        <script src="js/gestureRecorder/webcam.js"></script>
-        <script src="js/gestureRecorder/leap.js"></script>
+        <script src="js/gestureRecorder/webcamRecorder.js"></script>
+        <script src="js/gestureRecorder/leapRecorder.js"></script>
 
         <!-- bootstrap slider -->
         <link rel="stylesheet" href="js/bootstrap-slider/css/bootstrap-slider.css">
@@ -102,9 +102,9 @@ if (login_check($mysqli) == true) {
 
         <!-- Nav tabs -->
         <ul class="nav nav-pills" id="gesture-catalogs-nav-tab" style="display: flex; justify-content: center;">
-            <li role="presentation"><a href="#gesture-catalog" aria-controls="gesture-catalog" role="tab" data-toggle="pill"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->allGestures ?></a></li>
-            <li role="presentation"><a href="#gesture-sets" aria-controls="gesture-sets" role="tab" data-toggle="pill"><i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo $lang->gestureSets ?></a></li>
-            <li role="presentation"><a href="#gesture-recorder-content" aria-controls="gesture-recorder-content" role="tab" data-toggle="pill"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordGestures ?></a></li>
+            <li role="presentation" id="tab-catalog"><a href="#gesture-catalog" aria-controls="gesture-catalog" role="tab" data-toggle="pill"><i class="fa fa-sign-language" aria-hidden="true"></i> <?php echo $lang->allGestures ?></a></li>
+            <li role="presentation" id="tab-sets"><a href="#gesture-sets" aria-controls="gesture-sets" role="tab" data-toggle="pill"><i class="fa fa-paperclip" aria-hidden="true"></i> <?php echo $lang->gestureSets ?></a></li>
+            <li role="presentation" id="tab-recorder"><a href="#gesture-recorder" aria-controls="gesture-recorder" role="tab" data-toggle="pill"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordGestures ?></a></li>
         </ul> 
 
 
@@ -282,7 +282,7 @@ if (login_check($mysqli) == true) {
                     </div>
                 </div>
 
-                <div role="tabpanel" class="tab-pane" id="gesture-recorder-content"></div>
+                <div role="tabpanel" class="tab-pane" id="gesture-recorder"></div>
 
             </div>
 
@@ -310,8 +310,27 @@ if (login_check($mysqli) == true) {
 
         function onAllExternalsLoadedSuccessfully() {
             renderSubPageElements();
-            $('#gesture-catalogs-nav-tab a[href="#gesture-catalog"]').tab('show');
+
+            var status = window.location.hash.substr(1);
+            var statusNavMatch = getStatusNavMatch(status);
+            if (status !== '' && statusNavMatch !== null) {
+                $('#gesture-catalogs-nav-tab').find('#tab-' + statusNavMatch + ' a').click();
+            } else {
+                $('#gesture-catalogs-nav-tab').children().first().find('a').click();
+            }
+
+//            $('#gesture-catalogs-nav-tab a[href="#gesture-catalog"]').tab('show');
             getWholeGestureCatalog();
+        }
+
+        function getStatusNavMatch(status) {
+            var tabs = $('#gesture-catalogs-nav-tab').children();
+            for (var i = 0; i < tabs.length; i++) {
+                if ($(tabs[i]).attr('id') === 'tab-' + status) {
+                    return status;
+                }
+            }
+            return null;
         }
 
 
@@ -428,10 +447,13 @@ if (login_check($mysqli) == true) {
                 case '#gesture-sets':
                     getWholeGestureSets();
                     break;
-                case '#gesture-recorder-content':
+                case '#gesture-recorder':
                     getWholeGestureRecorder();
                     break;
             }
+            
+            var activeTabId = $(event.target).parent().attr('id').split('-')[1];
+            window.location.hash = activeTabId;
         });
 
         $('#gesture-catalogs-nav-tab').on('hide.bs.tab', function (event) {
@@ -549,19 +571,19 @@ if (login_check($mysqli) == true) {
         var gestureRecorder = null;
         function getWholeGestureRecorder() {
             var recorder = $('#item-container-gesture-recorder').find('#gesture-recorder-with-introductions').clone().removeAttr('id');
-            $('#gesture-recorder-content').empty().append(recorder);
+            $('#gesture-recorder').empty().append(recorder);
             renderBodyJoints($(recorder).find('#human-body'));
 
             var options = {
                 recorderTarget: recorder,
-                alertTarget: $('#gesture-recorder-content'),
+                alertTarget: $('#recorder-content'),
                 saveGesture: true,
                 checkType: true,
                 checkInteractionType: true,
                 showIntroduction: true,
                 record: [
-                    {type: 'webcam', autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true}
-//                    {type: 'leap'}
+                    {type: 'webcam', autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true},
+                    {type: 'leap', autoplayPlayback: true, autoplaySave: true, autoplaySaveSuccess: true}
                 ]
             };
 

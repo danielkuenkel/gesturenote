@@ -75,11 +75,9 @@ include '../includes/language.php';
             <div id="gesture-recorder-nav" class="text-center" style="margin-bottom: 10px; ">
                 <div style="display: inline-block">
                     <ul class="nav nav-pills">
-                        <!--<li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="previous"><i class="fa fa-arrow-left"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $lang->previous ?></span></a></li>-->
                         <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-record"><i class="fa fa-dot-circle-o"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $lang->gestureRecorderNavigation->record ?></span></a></li>
                         <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-crop"><i class="fa fa-crop"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $lang->gestureRecorderNavigation->cut ?></span></a></li>
                         <li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="gr-save"><i class="fa fa-floppy-o"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $lang->gestureRecorderNavigation->save ?></span></a></li>
-                        <!--<li role="presentation" class="disabled"><a href="#" class="btn-gesture-recorder-nav" data-toggle-id="previous"><i class="fa fa-arrow-right"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $lang->next ?></span></a></li>-->
                     </ul>
                 </div>
             </div>
@@ -416,7 +414,7 @@ include '../includes/language.php';
         </div>
     </div>
 
-    <div id="gesture-recorder">
+<!--    <div id="gesture-recorder">
         <div class="alert-space alert-web-rtc-not-supported"></div>
 
         <div class="recorder text-center" style="border-radius: 4px; max-width: 600px; margin: auto">
@@ -672,7 +670,7 @@ include '../includes/language.php';
                 <button class="btn btn-default btn-shadow" id="btn-record-new-gesture"><i class="fa fa-video-camera" aria-hidden="true"></i> <?php echo $lang->recordGesture ?></button>
             </div>
         </div>
-    </div>
+    </div>-->
 
 
     <div id="gesture-recorder-tester">

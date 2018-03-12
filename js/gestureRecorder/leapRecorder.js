@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 
-LeapMotionRecorder.prototype.options = null;
+var leapRecorder;
+LeapRecorder.prototype.options = null;
 
-function LeapMotionRecorder(options) {
-    var leapMotionRecorder = this;
+function LeapRecorder(options) {
+    leapRecorder = this;
     if (options) {
-        leapMotionRecorder.options = options;
+        leapRecorder.options = options;
     }
 
     if (options.overlays) {
@@ -33,7 +34,7 @@ function LeapMotionRecorder(options) {
     controller.connect();
     this.options.controller = controller;
 
-    if ((!options.previewOnly || options.previewOnly === false) && options.overlays) {
+    if ((!options.previewOnly || options.previewOnly === false)) {
         controller.on('connect', onConnect);
         function onConnect()
         {
@@ -67,7 +68,7 @@ function LeapMotionRecorder(options) {
         {
             console.log("device streaming ");
             clearAlerts(options.overlays);
-            $(document).trigger('recorderStateChanged', ['leap', 'deviceStreaming']);
+            $(leapRecorder).trigger('ready', [TYPE_RECORD_LEAP]);
         }
 
         controller.on('blur', onBlur);
@@ -355,7 +356,7 @@ function initializeControls(controller, options) {
     }
 }
 
-LeapMotionRecorder.prototype.record = function () {
+LeapRecorder.prototype.record = function () {
     var options = this.options;
     if (options.controller && options.controller.plugins.playback) {
         if (options.recordElement) {
@@ -366,7 +367,7 @@ LeapMotionRecorder.prototype.record = function () {
     }
 };
 
-LeapMotionRecorder.prototype.stopRecord = function () {
+LeapRecorder.prototype.stopRecord = function () {
     var options = this.options;
     if (options.controller && options.controller.plugins.playback) {
         if (options.stopRecordElement) {
@@ -377,7 +378,7 @@ LeapMotionRecorder.prototype.stopRecord = function () {
     }
 };
 
-LeapMotionRecorder.prototype.recording = function (format) {
+LeapRecorder.prototype.recording = function (format) {
     var options = this.options;
     if (options.controller && options.controller.plugins.playback) {
         return options.controller.plugins.playback.player.recording.export(format);
@@ -388,7 +389,7 @@ LeapMotionRecorder.prototype.recording = function (format) {
     }
 };
 
-LeapMotionRecorder.prototype.updateRenderTarget = function (target) {
+LeapRecorder.prototype.updateRenderTarget = function (target) {
     var options = this.options;
     if (options.controller && options.controller.plugins.riggedHand) {
         options.controller.plugins.riggedHand.updateRenderTarget(target);
@@ -396,7 +397,7 @@ LeapMotionRecorder.prototype.updateRenderTarget = function (target) {
     }
 };
 
-LeapMotionRecorder.prototype.destroy = function () {
+LeapRecorder.prototype.destroy = function () {
     var options = this.options;
     if (options.playbackSliderElement) {
         $(options.playbackSliderElement).slider('destroy');
